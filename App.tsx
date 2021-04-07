@@ -70,7 +70,7 @@
        <ScrollView
          contentInsetAdjustmentBehavior="automatic"
          style={backgroundStyle}>
-         <Box bg="red"><Text>Ta de sacanagem que era só isso</Text></Box>
+         <Box bg="green"><Text>Ta de sacanagem que era só isso</Text></Box>
        </ScrollView>
      </SafeAreaView>
    );
