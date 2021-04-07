@@ -27,6 +27,8 @@
    ReloadInstructions,
  } from 'react-native/Libraries/NewAppScreen';
 
+ import { Box } from 'reserva-ui';
+
  const Section: React.FC<{
    title: string;
  }> = ({children, title}) => {
@@ -68,26 +70,7 @@
        <ScrollView
          contentInsetAdjustmentBehavior="automatic"
          style={backgroundStyle}>
-         <Header />
-         <View
-           style={{
-             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-           }}>
-           <Section title="Step One">
-             Edit <Text style={styles.highlight}>App.js</Text> to change this
-             screen and then come back to see your edits.
-           </Section>
-           <Section title="See Your Changes">
-             <ReloadInstructions />
-           </Section>
-           <Section title="Debug">
-             <DebugInstructions />
-           </Section>
-           <Section title="Learn More">
-             Read the docs to discover what to do next:
-           </Section>
-           <LearnMoreLinks />
-         </View>
+         <Box bg="red"><Text>Ta de sacanagem que era só isso</Text></Box>
        </ScrollView>
      </SafeAreaView>
    );

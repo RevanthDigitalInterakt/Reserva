@@ -10,10 +10,17 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@emotion/native": "11.0.0",
+    "@emotion/react": "11.1.5",
+    "@emotion/styled": "11.1.5",
+    "styled-system": "5.1.5",
     "react": "17.0.1",
-    "react-native": "0.64.0"
+    "react-dom": "17.0.1",
+    "react-native": "0.64.0",
+    "reserva-ui": "../reserva-ui"
   },
   "devDependencies": {
+    "@types/styled-system": "5.1.10",
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
