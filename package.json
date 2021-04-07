@@ -17,7 +17,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.0",
-    "reserva-ui": "../reserva-ui"
+    "reserva-ui": "0.0.3"
   },
   "devDependencies": {
     "@types/styled-system": "5.1.10",

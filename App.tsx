@@ -8,7 +8,8 @@
  * @format
  */
 
- import React from 'react';
+ import { ThemeProvider } from '@emotion/react';
+import React from 'react';
  import {
    SafeAreaView,
    ScrollView,
@@ -27,7 +28,7 @@
    ReloadInstructions,
  } from 'react-native/Libraries/NewAppScreen';
 
- import { Box } from 'reserva-ui';
+ import { Box, Button, theme, Typography } from 'reserva-ui';
 
  const Section: React.FC<{
    title: string;
@@ -65,14 +66,19 @@
    };
 
    return (
-     <SafeAreaView style={backgroundStyle}>
-       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-       <ScrollView
-         contentInsetAdjustmentBehavior="automatic"
-         style={backgroundStyle}>
-         <Box bg="green"><Text>Ta de sacanagem que era só isso</Text></Box>
-       </ScrollView>
-     </SafeAreaView>
+    <ThemeProvider theme={theme}>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}>
+          <Box p="xxxs" bg="verdeSucesso">
+            <Typography color="white">
+              Teste
+            </Typography></Box>
+        </ScrollView>
+      </SafeAreaView>
+     </ThemeProvider>
    );
  };
 
