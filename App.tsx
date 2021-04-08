@@ -72,14 +72,12 @@ import React from 'react';
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={backgroundStyle}>
-          <Box flex={1} flexDirection="row" flexWrap="wrap" p="xxxs" bg="verdeSucesso">
-            <Typography color="white">
-              Teste
+          <Box flex={1} flexDirection="row" flexWrap="wrap" p="xxxs" bg="vermelhoRSV">
+            <Typography textAlign="center" color="white">
+              Seja bem vindo ao projeto Reserva
             </Typography>
-              <Icon name="Search" bg="neutroFrio1" color="amareloAtencao"  size={40}></Icon>
-              <Typography fontSize={12} fontWeight="black"> Teste </Typography>
             </Box>
-         
+
         </ScrollView>
       </SafeAreaView>
      </ThemeProvider>
