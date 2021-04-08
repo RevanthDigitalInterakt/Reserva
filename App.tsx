@@ -8,99 +8,34 @@
  * @format
  */
 
- import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@emotion/react';
 import React from 'react';
- import {
-   SafeAreaView,
-   ScrollView,
-   StatusBar,
-   StyleSheet,
-   Text,
-   useColorScheme,
-   View,
- } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, useColorScheme } from 'react-native';
 
- import {
-   Colors,
-   DebugInstructions,
-   Header,
-   LearnMoreLinks,
-   ReloadInstructions,
- } from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
 
- import { Box, Button, Icon, theme, Typography } from 'reserva-ui';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
- const Section: React.FC<{
-   title: string;
- }> = ({children, title}) => {
-   const isDarkMode = useColorScheme() === 'dark';
-   return (
-     <View style={styles.sectionContainer}>
-       <Text
-         style={[
-           styles.sectionTitle,
-           {
-             color: isDarkMode ? Colors.white : Colors.black,
-           },
-         ]}>
-         {title}
-       </Text>
-       <Text
-         style={[
-           styles.sectionDescription,
-           {
-             color: isDarkMode ? Colors.light : Colors.dark,
-           },
-         ]}>
-         {children}
-       </Text>
-     </View>
-   );
- };
+import { Box, theme, Typography } from 'reserva-ui';
 
- const App = () => {
-   const isDarkMode = useColorScheme() === 'dark';
+import 'react-native-gesture-handler';
 
-   const backgroundStyle = {
-     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-   };
+import AppRouting from './src/routes/StackNavigator';
 
-   return (
-    <ThemeProvider theme={theme}>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <Box flex={1} flexDirection="row" flexWrap="wrap" p="xxxs" bg="vermelhoRSV">
-            <Typography textAlign="center" color="white">
-              Seja bem vindo ao projeto Reserva
-            </Typography>
-            </Box>
+const App = () => {
+	const isDarkMode = useColorScheme() === 'dark';
 
-        </ScrollView>
-      </SafeAreaView>
-     </ThemeProvider>
-   );
- };
+	const backgroundStyle = {
+		backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
+	};
 
- const styles = StyleSheet.create({
-   sectionContainer: {
-     marginTop: 32,
-     paddingHorizontal: 24,
-   },
-   sectionTitle: {
-     fontSize: 24,
-     fontWeight: '600',
-   },
-   sectionDescription: {
-     marginTop: 8,
-     fontSize: 18,
-     fontWeight: '400',
-   },
-   highlight: {
-     fontWeight: '700',
-   },
- });
+	return (
+		<NavigationContainer>
+			<ThemeProvider theme={theme}>
+				<AppRouting />
+			</ThemeProvider>
+		</NavigationContainer>
+	);
+};
 
- export default App;
+export default App;
