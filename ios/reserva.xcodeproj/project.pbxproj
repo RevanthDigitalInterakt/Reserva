@@ -14,6 +14,33 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C6D2C2BC831EFD3B4911A97B /* libPods-reserva.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E764B1FF4904AEBEB6FAA413 /* libPods-reserva.a */; };
 		D84CB7A520E99B21E9713761 /* libPods-reserva-reservaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A121EFC71AE7D743F9EEBAD2 /* libPods-reserva-reservaTests.a */; };
+		EDBAB143AD3744EA99A21116 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */; };
+		765E408E445141CA97366000 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */; };
+		9111C34D4528484ABDB84EAF /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */; };
+		FC9203ADD6C142CB8CE3F139 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */; };
+		7F89DA7DE1904133832A1841 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */; };
+		59B3E92030BA4908B413E8C4 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */; };
+		B88A872A062C4CA98F02E135 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB590B2777EE4E49BD3CE209 /* Nunito-ExtraLight.ttf */; };
+		D3DF78B7D9834E8087CBCD0E /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */; };
+		A5F3AAB191844FEAA3501BEB /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB84B74FCBB84C119C2C6DF0 /* Nunito-Italic.ttf */; };
+		3474CE20D02A498C8C5F2D4A /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */; };
+		C1F5238E0DCE41168D09886D /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C1430FA33B44B329FDF040D /* Nunito-LightItalic.ttf */; };
+		1056EBCFE2824805B90CA548 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D12BD5D2C5B446D0903607C1 /* Nunito-Regular.ttf */; };
+		90BF5183ECB44CAAA66BA3F5 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89205536C4E4486F8E82D9BE /* Nunito-SemiBold.ttf */; };
+		7301E4D7CA284B718DF410FB /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */; };
+		D5B902B6CEDB49F5B5C8BDA7 /* ReservaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */; };
+		D02274BCD6244F20B5A44775 /* ReservaSerif-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */; };
+		7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */; };
+		23C4D0F8A6994DD59DC32BBE /* ReservaSerif-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A4503C6B7CC54DF88ECB7E90 /* ReservaSerif-Bold.otf */; };
+		AD4D07B738B240E7868DC046 /* ReservaSerif-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3503ED5CBCD8472FB58615A0 /* ReservaSerif-BoldItalic.otf */; };
+		2DE40EEFE0B94E0D8D408FF4 /* ReservaSerif-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */; };
+		566ACDC8859A4A58B615C21C /* ReservaSerif-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F532457949E4248830466C4 /* ReservaSerif-Light.otf */; };
+		1FC317736DC5429C87E08D68 /* ReservaSerif-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = ADA1D6FC0E9941A186DF9C6D /* ReservaSerif-LightItalic.otf */; };
+		856BB43823F047A6AF66F70B /* ReservaSerif-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */; };
+		32CE94F85EEC4CA8AFEE5B05 /* ReservaSerif-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */; };
+		5D2D02C9278446D69B17BE6D /* ReservaSerif-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 291EAA4AEC5D48D792C9DF75 /* ReservaSerif-Regular.otf */; };
+		EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */; };
+		4F22604933F54DB880365BB4 /* ReservaSerif-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +71,33 @@
 		A121EFC71AE7D743F9EEBAD2 /* libPods-reserva-reservaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva-reservaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E764B1FF4904AEBEB6FAA413 /* libPods-reserva.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */ = {isa = PBXFileReference; name = "Nunito-Black.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-BlackItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */ = {isa = PBXFileReference; name = "Nunito-Bold.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-BoldItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Nunito-ExtraBold.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-ExtraBoldItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CB590B2777EE4E49BD3CE209 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Nunito-ExtraLight.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-ExtraLightItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CB84B74FCBB84C119C2C6DF0 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; name = "Nunito-Italic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */ = {isa = PBXFileReference; name = "Nunito-Light.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8C1430FA33B44B329FDF040D /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-LightItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D12BD5D2C5B446D0903607C1 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; name = "Nunito-Regular.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		89205536C4E4486F8E82D9BE /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; name = "Nunito-SemiBold.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-SemiBoldItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */ = {isa = PBXFileReference; name = "ReservaDisplay-Regular.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaDisplay-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */ = {isa = PBXFileReference; name = "ReservaSerif-Black.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */ = {isa = PBXFileReference; name = "ReservaSerif-BlackItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-BlackItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A4503C6B7CC54DF88ECB7E90 /* ReservaSerif-Bold.otf */ = {isa = PBXFileReference; name = "ReservaSerif-Bold.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3503ED5CBCD8472FB58615A0 /* ReservaSerif-BoldItalic.otf */ = {isa = PBXFileReference; name = "ReservaSerif-BoldItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */ = {isa = PBXFileReference; name = "ReservaSerif-Italic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Italic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5F532457949E4248830466C4 /* ReservaSerif-Light.otf */ = {isa = PBXFileReference; name = "ReservaSerif-Light.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ADA1D6FC0E9941A186DF9C6D /* ReservaSerif-LightItalic.otf */ = {isa = PBXFileReference; name = "ReservaSerif-LightItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-LightItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */ = {isa = PBXFileReference; name = "ReservaSerif-Medium.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */ = {isa = PBXFileReference; name = "ReservaSerif-MediumItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-MediumItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		291EAA4AEC5D48D792C9DF75 /* ReservaSerif-Regular.otf */ = {isa = PBXFileReference; name = "ReservaSerif-Regular.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */ = {isa = PBXFileReference; name = "ReservaSerif-Thin.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */ = {isa = PBXFileReference; name = "ReservaSerif-ThinItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-ThinItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +188,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				70A1DDA707B9D4A2A392C23C /* Pods */,
+				8FC2122B3C194F47BC14364F /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -148,6 +203,41 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		8FC2122B3C194F47BC14364F /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */,
+				9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */,
+				7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */,
+				13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */,
+				3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */,
+				7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */,
+				CB590B2777EE4E49BD3CE209 /* Nunito-ExtraLight.ttf */,
+				599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */,
+				CB84B74FCBB84C119C2C6DF0 /* Nunito-Italic.ttf */,
+				6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */,
+				8C1430FA33B44B329FDF040D /* Nunito-LightItalic.ttf */,
+				D12BD5D2C5B446D0903607C1 /* Nunito-Regular.ttf */,
+				89205536C4E4486F8E82D9BE /* Nunito-SemiBold.ttf */,
+				2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */,
+				2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */,
+				03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */,
+				88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */,
+				A4503C6B7CC54DF88ECB7E90 /* ReservaSerif-Bold.otf */,
+				3503ED5CBCD8472FB58615A0 /* ReservaSerif-BoldItalic.otf */,
+				F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */,
+				5F532457949E4248830466C4 /* ReservaSerif-Light.otf */,
+				ADA1D6FC0E9941A186DF9C6D /* ReservaSerif-LightItalic.otf */,
+				EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */,
+				6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */,
+				291EAA4AEC5D48D792C9DF75 /* ReservaSerif-Regular.otf */,
+				D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */,
+				B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -245,6 +335,33 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				EDBAB143AD3744EA99A21116 /* Nunito-Black.ttf in Resources */,
+				765E408E445141CA97366000 /* Nunito-BlackItalic.ttf in Resources */,
+				9111C34D4528484ABDB84EAF /* Nunito-Bold.ttf in Resources */,
+				FC9203ADD6C142CB8CE3F139 /* Nunito-BoldItalic.ttf in Resources */,
+				7F89DA7DE1904133832A1841 /* Nunito-ExtraBold.ttf in Resources */,
+				59B3E92030BA4908B413E8C4 /* Nunito-ExtraBoldItalic.ttf in Resources */,
+				B88A872A062C4CA98F02E135 /* Nunito-ExtraLight.ttf in Resources */,
+				D3DF78B7D9834E8087CBCD0E /* Nunito-ExtraLightItalic.ttf in Resources */,
+				A5F3AAB191844FEAA3501BEB /* Nunito-Italic.ttf in Resources */,
+				3474CE20D02A498C8C5F2D4A /* Nunito-Light.ttf in Resources */,
+				C1F5238E0DCE41168D09886D /* Nunito-LightItalic.ttf in Resources */,
+				1056EBCFE2824805B90CA548 /* Nunito-Regular.ttf in Resources */,
+				90BF5183ECB44CAAA66BA3F5 /* Nunito-SemiBold.ttf in Resources */,
+				7301E4D7CA284B718DF410FB /* Nunito-SemiBoldItalic.ttf in Resources */,
+				D5B902B6CEDB49F5B5C8BDA7 /* ReservaDisplay-Regular.otf in Resources */,
+				D02274BCD6244F20B5A44775 /* ReservaSerif-Black.otf in Resources */,
+				7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */,
+				23C4D0F8A6994DD59DC32BBE /* ReservaSerif-Bold.otf in Resources */,
+				AD4D07B738B240E7868DC046 /* ReservaSerif-BoldItalic.otf in Resources */,
+				2DE40EEFE0B94E0D8D408FF4 /* ReservaSerif-Italic.otf in Resources */,
+				566ACDC8859A4A58B615C21C /* ReservaSerif-Light.otf in Resources */,
+				1FC317736DC5429C87E08D68 /* ReservaSerif-LightItalic.otf in Resources */,
+				856BB43823F047A6AF66F70B /* ReservaSerif-Medium.otf in Resources */,
+				32CE94F85EEC4CA8AFEE5B05 /* ReservaSerif-MediumItalic.otf in Resources */,
+				5D2D02C9278446D69B17BE6D /* ReservaSerif-Regular.otf in Resources */,
+				EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */,
+				4F22604933F54DB880365BB4 /* ReservaSerif-ThinItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

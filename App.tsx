@@ -28,7 +28,7 @@ import React from 'react';
    ReloadInstructions,
  } from 'react-native/Libraries/NewAppScreen';
 
- import { Box, Button, theme, Typography } from 'reserva-ui';
+ import { Box, Button, Icon, theme, Typography } from 'reserva-ui';
 
  const Section: React.FC<{
    title: string;
@@ -72,10 +72,14 @@ import React from 'react';
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={backgroundStyle}>
-          <Box p="xxxs" bg="verdeSucesso">
+          <Box flex={1} flexDirection="row" flexWrap="wrap" p="xxxs" bg="verdeSucesso">
             <Typography color="white">
               Teste
-            </Typography></Box>
+            </Typography>
+              <Icon name="Search" bg="neutroFrio1" color="amareloAtencao"  size={40}></Icon>
+              <Typography fontSize={12} fontWeight="black"> Teste </Typography>
+            </Box>
+         
         </ScrollView>
       </SafeAreaView>
      </ThemeProvider>
