@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, Store } from 'redux';
 import { RepositoriesState } from './ducks/repositories/types';
 
 import rootReducer from './ducks/rootReducer';
+import rootSaga from './ducks/rootSaga';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -18,4 +19,4 @@ const store: Store<ApplicationState> = createStore(rootReducer, composeWithDevTo
 
 export default store;
 
-// sagaMiddleware.run();
+sagaMiddleware.run(rootSaga);
