@@ -6,7 +6,7 @@ import { useColorScheme } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import { theme } from 'reserva-ui';
+import { theme, platformHelper } from 'reserva-ui';
 
 import 'react-native-gesture-handler';
 
@@ -20,7 +20,7 @@ const App = () => {
 	const isDarkMode = useColorScheme() === 'dark';
 
 	return (
-		<ThemeProvider theme={theme}>
+		<ThemeProvider theme={platformHelper(theme)}>
 			<NavigationContainer>
 				<Provider store={store}>
 					<AppRouting />
