@@ -16,6 +16,14 @@ import { Provider } from 'react-redux';
 
 import store from './store/index';
 
+import * as Sentry from '@sentry/react-native';
+
+import { env } from './config/env';
+
+Sentry.init({
+	dsn: env.SENTRY_KEY
+});
+
 const App = () => {
 	const isDarkMode = useColorScheme() === 'dark';
 
