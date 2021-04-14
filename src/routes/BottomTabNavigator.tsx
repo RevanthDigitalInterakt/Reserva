@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from '../modules/Home/pages/Home';
 
 import * as React from 'react';
-import { BottomBar, Box } from 'reserva-ui';
+import { BottomBar, BottomBarButton, Box } from 'reserva-ui';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,13 +46,12 @@ export const MyTabBar = ({ state, descriptors, navigation }) => {
 
 	return (
 		<Box>
-			<BottomBar
-				onPressHomeIcon={() => Alert.alert('Home Icons pressed!!!')}
-				onPressShearchIcon={() => Alert.alert('Search Icon pressed!!!')}
-				onPressQrIcon={() => Alert.alert('Qr Icon pressed!!!')}
-				onPressOffersIcon={() => Alert.alert('Offers Icon pressed!!!')}
-				onPressProfileIcon={() => Alert.alert('Profile Icon pressed!!!')}
-			/>
+			<BottomBar>
+				<BottomBarButton iconName="Home" isSlected={true} onPress={() => {}} />
+				<BottomBarButton iconName="SearchMenu" onPress={() => {}} />
+				<BottomBarButton iconName="Offers" onPress={() => {}} />
+				<BottomBarButton iconName="Profile" onPress={() => {}} />
+			</BottomBar>
 		</Box>
 		// <View style={{ flexDirection: 'row' }}>
 		// 			{/* <TouchableOpacity
