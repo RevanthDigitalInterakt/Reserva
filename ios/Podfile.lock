@@ -356,22 +356,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
-<<<<<<< Updated upstream
-    - CocoaAsyncSocket
-    - Flipper
-    - Flipper-DoubleConversion
-    - Flipper-Folly
-    - Flipper-Glog
-    - Flipper-PeerTalk
-    - Flipper-RSocket
-    - FlipperKit
-    - libevent
-    - OpenSSL-Universal
     - Sentry
-    - YogaKit
-=======
-    - Sentry
->>>>>>> Stashed changes
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -484,6 +469,6 @@ SPEC CHECKSUMS:
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: 2c7abee4b334c13080e881c9edba03581798ce20
+PODFILE CHECKSUM: 6ada2e90e468d8e8a957ef749ce0bcf81d52ed7c
 
 COCOAPODS: 1.10.1

@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from 'styled-components';
 
 import React from 'react';
 
@@ -28,7 +28,7 @@ const App = () => {
 	const isDarkMode = useColorScheme() === 'dark';
 
 	return (
-		<ThemeProvider theme={platformHelper(theme)}>
+		<ThemeProvider theme={theme}>
 			<NavigationContainer>
 				<Provider store={store}>
 					<AppRouting />

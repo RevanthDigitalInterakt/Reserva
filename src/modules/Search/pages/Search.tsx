@@ -7,7 +7,7 @@ import { Typography, Box, HomeCard, BottomBar } from 'reserva-ui';
 import { ApplicationState } from '../../../store';
 import { loadRequest } from '../../../store/ducks/repositories/actions';
 
-export const HomeScreen: React.FC<{
+export const SearchScreen: React.FC<{
 	title: string;
 }> = ({ children, title }) => {
 	const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export const HomeScreen: React.FC<{
 					<Typography>Loading</Typography>
 				) : (
 					repositories.data.map((repository) => {
-						return <Typography>{repository.name}</Typography>;
+						return <Typography>{repository.id}</Typography>;
 					})
 				)}
 			</Box>
