@@ -17,14 +17,14 @@ const Tab = createBottomTabNavigator();
 export const DefaultRoutes = ({ state, descriptors, navigation }: BottomTabBarProps<{}>) => {
 	console.log(state);
 
-	const onPress = ({ key, name }: OnPressType) => {
+	const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
 		const event = navigation.emit({
 			type: 'tabPress',
 			target: key,
 			canPreventDefault: true
 		});
 
-		if (!event.defaultPrevented) {
+		if (!isFocused && !event.defaultPrevented) {
 			navigation.navigate(name);
 		}
 	};
@@ -38,7 +38,7 @@ export const DefaultRoutes = ({ state, descriptors, navigation }: BottomTabBarPr
 						<BottomBarButton
 							key={route.key}
 							isSlected={isFocused}
-							onPress={() => onPress(route)}
+							onPress={() => onPress(route, isFocused)}
 							iconName={route.name}
 						/>
 					);
