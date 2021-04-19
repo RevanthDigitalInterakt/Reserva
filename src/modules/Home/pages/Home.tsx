@@ -1,16 +1,20 @@
+import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Typography, Box, HomeCard, BottomBar, TopBar } from 'reserva-ui';
+import { Typography, Box, HomeCard, BottomBar, TopBar, Button } from 'reserva-ui';
 import { ApplicationState } from '../../../store';
 import { loadRequest } from '../../../store/ducks/repositories/actions';
 import { RepositoriesState } from '../../../store/ducks/repositories/types';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 
 export const HomeScreen: React.FC<{
 	title: string;
 }> = ({ children, title }) => {
+	const navigation = useNavigation();
+
 	const dispatch = useDispatch();
 	// const repositories = useSelector((state: ApplicationState) => state.repositories);
 
@@ -22,38 +26,10 @@ export const HomeScreen: React.FC<{
 
 	return (
 		<Box flex={1}>
-			<Box>
-				<TopBar
-					paddingX="xxxs"
-					bg="white"
-					boxShadow="topBarShadow"
-					leftButton={{
-						name: 'SideMenu',
-						size: 24,
-						onPress: () => {
-							Alert.alert('button left');
-						}
-					}}
-					rightButton1={{
-						name: 'Heart',
-						size: 24,
-						onPress: () => {
-							Alert.alert('button right 1');
-						}
-					}}
-					rightButton2={{
-						name: 'Handbag',
-						size: 24,
-						onPress: () => {
-							Alert.alert('button right 2');
-						}
-					}}
-					height={50}
-				/>
-			</Box>
-
+			<TopBarDefault />
 			<Box variant="container" alignItems="flex-start" justifyContent="center">
 				<Typography variant="descontoTag1">Lista de Repositórios</Typography>
+				<Button onPress={() => navigation.navigate('MyModal')} title="Open Modal" />
 				{repositories.loading ? (
 					<Typography>Loading</Typography>
 				) : (
