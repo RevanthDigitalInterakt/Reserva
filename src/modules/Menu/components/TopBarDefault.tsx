@@ -3,14 +3,16 @@ import * as React from 'react';
 import { Alert } from 'react-native';
 import { Box, TopBar } from 'reserva-ui';
 
-export const TopBarDefault: React.FC<{}> = () => {
+export const TopBarDefault: React.FC<{
+	showShadow?: Boolean;
+}> = ({ showShadow = true }) => {
 	const navigation = useNavigation();
 
 	return (
 		<TopBar
 			paddingX="xxxs"
 			bg="white"
-			boxShadow="topBarShadow"
+			boxShadow={showShadow ? 'topBarShadow' : null}
 			leftButton={{
 				name: 'SideMenu',
 				size: 24,

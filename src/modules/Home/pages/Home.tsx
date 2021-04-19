@@ -16,7 +16,6 @@ export const HomeScreen: React.FC<{
 	const navigation = useNavigation();
 
 	const dispatch = useDispatch();
-	// const repositories = useSelector((state: ApplicationState) => state.repositories);
 
 	const { repositories } = useSelector((state: ApplicationState) => state);
 
