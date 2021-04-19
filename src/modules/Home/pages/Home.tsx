@@ -1,13 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
-import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Typography, Box, HomeCard, BottomBar, TopBar, Button } from 'reserva-ui';
+import { Typography, Box, Button } from 'reserva-ui';
 import { ApplicationState } from '../../../store';
 import { loadRequest } from '../../../store/ducks/repositories/actions';
-import { RepositoriesState } from '../../../store/ducks/repositories/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 
 export const HomeScreen: React.FC<{

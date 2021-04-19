@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../modules/Home/pages/Home';
 import { SearchScreen } from '../modules/Search/pages/Search';
 import { Tabs } from './BottomTabNavigator';
-import { Button, Text, View } from 'react-native';
 import { Menu } from '../modules/Menu/modals/Menu';
 
 import { horizontalAnimationBackwards } from './utils/utils';

@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Alert } from 'react-native';
-import { Box, TopBar } from 'reserva-ui';
+import { TopBar } from 'reserva-ui';
 
 export const TopBarMenu: React.FC<{}> = () => {
 	const navigation = useNavigation();
