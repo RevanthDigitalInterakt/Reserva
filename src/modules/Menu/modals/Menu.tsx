@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Divider, theme, Typography } from 'reserva-ui';
+import { Box, Divider, Icon, TextField, theme, Typography } from 'reserva-ui';
 import { TopBarMenu } from '../components/TopBarMenu';
 
 export const Menu: React.FC<{}> = () => {
@@ -9,19 +9,29 @@ export const Menu: React.FC<{}> = () => {
 
 	return (
 		<SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
-			<Box flex={1} bg="white">
+			<Box flex={1} backgroundColor="backgroundMenu">
 				<TopBarMenu />
+				<Box padding="nano">
+					<TextField label="Buscar" error="Something went wrong" />
+				</Box>
 				<Divider variant="fullWidth" marginY="xxxs" />
-				<Box marginY="xxxs" marginX="xxs">
-					<Typography variant="tituloSessao">ROUPAS</Typography>
+				<Box justifyContent="space-between" marginY="nano" flexDirection="row" marginX="xxs">
+					<Typography fontSize={13} fontFamily="nunito" fontWeight="bold">
+						NOVIDADES
+					</Typography>
+					<Box>
+						<Icon name="RightArrow" color="preto" size={24} />
+					</Box>
 				</Box>
-				<Box marginY="quarck" marginX="xxs">
-					<Typography variant="tituloSessao">Camisetas</Typography>
+				<Box justifyContent="space-between" marginY="nano" flexDirection="row" marginX="xxs">
+					<Typography fontSize={13} fontFamily="nunito" fontWeight="bold">
+						MASCULINO
+					</Typography>
+					<Box>
+						<Icon name="RightArrow" color="preto" size={24} />
+					</Box>
 				</Box>
-				<Box marginY="quarck" marginX="xxs">
-					<Typography variant="tituloSessao">Camisas</Typography>
-				</Box>
-				{/* <Divider variant="fullWidth" marginX="xxs" marginY="quarck" /> */}
+				<Divider variant="fullWidth" marginY="xxxs" />
 			</Box>
 		</SafeAreaView>
 	);
