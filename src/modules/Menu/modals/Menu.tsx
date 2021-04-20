@@ -11,7 +11,7 @@ export const Menu: React.FC<{}> = () => {
 		<SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
 			<Box flex={1} backgroundColor="backgroundMenu">
 				<TopBarMenu />
-				<Box padding="nano">
+				<Box paddingX="nano" paddingY="nano">
 					<TextField label="Buscar" error="Something went wrong" />
 				</Box>
 				<Divider variant="fullWidth" marginY="xxxs" />

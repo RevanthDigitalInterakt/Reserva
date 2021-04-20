@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* reservaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* reservaTests.m */; };
+		08A693B1906D7FED598F27DA /* libPods-reserva.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 653F9B8DAEF2DB359AE64049 /* libPods-reserva.a */; };
 		1056EBCFE2824805B90CA548 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D12BD5D2C5B446D0903607C1 /* Nunito-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -17,6 +18,7 @@
 		2DE40EEFE0B94E0D8D408FF4 /* ReservaSerif-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */; };
 		32CE94F85EEC4CA8AFEE5B05 /* ReservaSerif-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */; };
 		3474CE20D02A498C8C5F2D4A /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */; };
+		35CDEDA69247B3CAB867ADCF /* libPods-reserva-reservaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F258B0BD3D11989C549555E /* libPods-reserva-reservaTests.a */; };
 		4F22604933F54DB880365BB4 /* ReservaSerif-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */; };
 		566ACDC8859A4A58B615C21C /* ReservaSerif-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F532457949E4248830466C4 /* ReservaSerif-Light.otf */; };
 		59B3E92030BA4908B413E8C4 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */; };
@@ -24,7 +26,6 @@
 		7301E4D7CA284B718DF410FB /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */; };
 		765E408E445141CA97366000 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */; };
 		7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */; };
-		7CFF21128B61BF009D8F0314 /* libPods-reserva.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8AD608CBCBE07326B7C4ED9 /* libPods-reserva.a */; };
 		7F89DA7DE1904133832A1841 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		856BB43823F047A6AF66F70B /* ReservaSerif-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */; };
@@ -32,7 +33,6 @@
 		9111C34D4528484ABDB84EAF /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */; };
 		A5F3AAB191844FEAA3501BEB /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB84B74FCBB84C119C2C6DF0 /* Nunito-Italic.ttf */; };
 		AD4D07B738B240E7868DC046 /* ReservaSerif-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3503ED5CBCD8472FB58615A0 /* ReservaSerif-BoldItalic.otf */; };
-		B13CE4B8E01341CA5A14F4BC /* libPods-reserva-reservaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6535E494FC7DEDBF40A4E2F /* libPods-reserva-reservaTests.a */; };
 		B88A872A062C4CA98F02E135 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB590B2777EE4E49BD3CE209 /* Nunito-ExtraLight.ttf */; };
 		C1F5238E0DCE41168D09886D /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C1430FA33B44B329FDF040D /* Nunito-LightItalic.ttf */; };
 		D02274BCD6244F20B5A44775 /* ReservaSerif-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */; };
@@ -58,6 +58,8 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* reservaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = reservaTests.m; sourceTree = "<group>"; };
 		03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Black.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Black.otf"; sourceTree = "<group>"; };
+		0E384F42DEB5C2B32B0C44CC /* Pods-reserva-reservaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.release.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.release.xcconfig"; sourceTree = "<group>"; };
+		0EFA38C5F9604601B61E7380 /* Pods-reserva.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.debug.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.debug.xcconfig"; sourceTree = "<group>"; };
 		13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* reserva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reserva.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = reserva/AppDelegate.h; sourceTree = "<group>"; };
@@ -67,34 +69,32 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = reserva/main.m; sourceTree = "<group>"; };
 		1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; };
 		291EAA4AEC5D48D792C9DF75 /* ReservaSerif-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Regular.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Regular.otf"; sourceTree = "<group>"; };
-		2CCFD8D02D36FF046B260AF8 /* Pods-reserva.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.debug.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.debug.xcconfig"; sourceTree = "<group>"; };
 		2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaDisplay-Regular.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaDisplay-Regular.otf"; sourceTree = "<group>"; };
 		2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		3503ED5CBCD8472FB58615A0 /* ReservaSerif-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-BoldItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-BoldItalic.otf"; sourceTree = "<group>"; };
-		391CAA52468CA09388704D2C /* Pods-reserva-reservaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.release.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.release.xcconfig"; sourceTree = "<group>"; };
 		3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
+		3AF78B9DDB6804F042E39221 /* Pods-reserva-reservaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.debug.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		5F532457949E4248830466C4 /* ReservaSerif-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Light.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Light.otf"; sourceTree = "<group>"; };
+		653F9B8DAEF2DB359AE64049 /* libPods-reserva.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AAE2AA337703DC6AFA77F6C /* Pods-reserva.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.release.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.release.xcconfig"; sourceTree = "<group>"; };
 		6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-MediumItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-MediumItalic.otf"; sourceTree = "<group>"; };
 		7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		7F258B0BD3D11989C549555E /* libPods-reserva-reservaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva-reservaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = reserva/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-BlackItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-BlackItalic.otf"; sourceTree = "<group>"; };
 		89205536C4E4486F8E82D9BE /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		8C1430FA33B44B329FDF040D /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
-		968DAA4E3B3CA8F7AB2A7005 /* Pods-reserva-reservaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.debug.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
 		A4503C6B7CC54DF88ECB7E90 /* ReservaSerif-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Bold.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Bold.otf"; sourceTree = "<group>"; };
 		ADA1D6FC0E9941A186DF9C6D /* ReservaSerif-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-LightItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-LightItalic.otf"; sourceTree = "<group>"; };
 		B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-ThinItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-ThinItalic.otf"; sourceTree = "<group>"; };
 		CB590B2777EE4E49BD3CE209 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
 		CB84B74FCBB84C119C2C6DF0 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; };
-		D05BC9547D27E4C4EC4EF460 /* Pods-reserva.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.release.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.release.xcconfig"; sourceTree = "<group>"; };
 		D12BD5D2C5B446D0903607C1 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
-		D8AD608CBCBE07326B7C4ED9 /* libPods-reserva.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Thin.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Thin.otf"; sourceTree = "<group>"; };
-		E6535E494FC7DEDBF40A4E2F /* libPods-reserva-reservaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva-reservaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Medium.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Medium.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Italic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Italic.otf"; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B13CE4B8E01341CA5A14F4BC /* libPods-reserva-reservaTests.a in Frameworks */,
+				35CDEDA69247B3CAB867ADCF /* libPods-reserva-reservaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CFF21128B61BF009D8F0314 /* libPods-reserva.a in Frameworks */,
+				08A693B1906D7FED598F27DA /* libPods-reserva.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,8 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				D8AD608CBCBE07326B7C4ED9 /* libPods-reserva.a */,
-				E6535E494FC7DEDBF40A4E2F /* libPods-reserva-reservaTests.a */,
+				653F9B8DAEF2DB359AE64049 /* libPods-reserva.a */,
+				7F258B0BD3D11989C549555E /* libPods-reserva-reservaTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -163,10 +163,10 @@
 		70A1DDA707B9D4A2A392C23C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2CCFD8D02D36FF046B260AF8 /* Pods-reserva.debug.xcconfig */,
-				D05BC9547D27E4C4EC4EF460 /* Pods-reserva.release.xcconfig */,
-				968DAA4E3B3CA8F7AB2A7005 /* Pods-reserva-reservaTests.debug.xcconfig */,
-				391CAA52468CA09388704D2C /* Pods-reserva-reservaTests.release.xcconfig */,
+				0EFA38C5F9604601B61E7380 /* Pods-reserva.debug.xcconfig */,
+				6AAE2AA337703DC6AFA77F6C /* Pods-reserva.release.xcconfig */,
+				3AF78B9DDB6804F042E39221 /* Pods-reserva-reservaTests.debug.xcconfig */,
+				0E384F42DEB5C2B32B0C44CC /* Pods-reserva-reservaTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -244,11 +244,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "reservaTests" */;
 			buildPhases = (
-				0AD2653506C9247A1B5A7DB3 /* [CP] Check Pods Manifest.lock */,
+				7B88589F5F1D3F50835C50D1 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C52FDC198FAAC7869ED38C0F /* [CP] Copy Pods Resources */,
+				6C1032DDAA87D40F9425124A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -264,13 +264,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "reserva" */;
 			buildPhases = (
-				7538C9580CB7F9E156129EEF /* [CP] Check Pods Manifest.lock */,
+				EDF7D691AA8C802DF53AA448 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				8D018BDCC2B604B4F077BBB1 /* [CP] Copy Pods Resources */,
+				29590256C38ACBA540728D05 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -378,7 +378,41 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0AD2653506C9247A1B5A7DB3 /* [CP] Check Pods Manifest.lock */ = {
+		29590256C38ACBA540728D05 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6C1032DDAA87D40F9425124A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7B88589F5F1D3F50835C50D1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -400,7 +434,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7538C9580CB7F9E156129EEF /* [CP] Check Pods Manifest.lock */ = {
+		EDF7D691AA8C802DF53AA448 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -420,40 +454,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8D018BDCC2B604B4F077BBB1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C52FDC198FAAC7869ED38C0F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -508,7 +508,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 968DAA4E3B3CA8F7AB2A7005 /* Pods-reserva-reservaTests.debug.xcconfig */;
+			baseConfigurationReference = 3AF78B9DDB6804F042E39221 /* Pods-reserva-reservaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -535,7 +535,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 391CAA52468CA09388704D2C /* Pods-reserva-reservaTests.release.xcconfig */;
+			baseConfigurationReference = 0E384F42DEB5C2B32B0C44CC /* Pods-reserva-reservaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -559,7 +559,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2CCFD8D02D36FF046B260AF8 /* Pods-reserva.debug.xcconfig */;
+			baseConfigurationReference = 0EFA38C5F9604601B61E7380 /* Pods-reserva.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -585,7 +585,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D05BC9547D27E4C4EC4EF460 /* Pods-reserva.release.xcconfig */;
+			baseConfigurationReference = 6AAE2AA337703DC6AFA77F6C /* Pods-reserva.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
