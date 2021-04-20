@@ -9,6 +9,7 @@ import { Tabs } from './BottomTabNavigator';
 import { Menu } from '../modules/Menu/modals/Menu';
 
 import { horizontalAnimationBackwards } from './utils/utils';
+import { ExampleScreen } from '../modules/Example/screens/Example';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -17,8 +18,8 @@ const MainStackScreen = () => {
 	// Here you put normal navigation
 	return (
 		<MainStack.Navigator screenOptions={{ headerShown: false }}>
-			<MainStack.Screen name="Home2" component={Tabs} />
-			<MainStack.Screen name="Home" component={HomeScreen} />
+			<MainStack.Screen name="HomeTabs" component={Tabs} />
+			<MainStack.Screen name="Example" component={ExampleScreen} />
 			<MainStack.Screen name="SearchMenu" component={SearchScreen} />
 		</MainStack.Navigator>
 	);
