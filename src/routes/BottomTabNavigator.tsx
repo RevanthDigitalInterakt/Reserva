@@ -6,6 +6,7 @@ import { HomeScreen } from '../modules/Home/pages/Home';
 import * as React from 'react';
 import { BottomBar, BottomBarButton, Box } from 'reserva-ui';
 import { SearchScreen } from '../modules/Search/pages/Search';
+import { LoginScreen } from '../modules/Login/pages/Login';
 
 type OnPressType = {
 	key: string;
@@ -55,7 +56,7 @@ export const Tabs = () => {
 				<Tab.Screen name="Home" component={HomeScreen} />
 				<Tab.Screen name="SearchMenu" component={SearchScreen} />
 				<Tab.Screen name="Offers" component={HomeScreen} />
-				<Tab.Screen name="Profile" component={HomeScreen} />
+				<Tab.Screen name="Profile" component={LoginScreen} />
 			</Tab.Navigator>
 		</SafeAreaView>
 	);
