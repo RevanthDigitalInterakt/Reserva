@@ -10,7 +10,7 @@ export const TopBarDefault: React.FC<{
 
 	return (
 		<TopBar
-			paddingX="xxxs"
+			paddingX="quarck"
 			bg="white"
 			boxShadow={showShadow ? 'topBarShadow' : null}
 			leftButton={{
