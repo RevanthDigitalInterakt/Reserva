@@ -3,18 +3,26 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Typography, Box, TextField, Toggle, Button, SocialButton, Icon } from 'reserva-ui';
+import { 
+  Typography, 
+  Box, 
+  TextField, 
+  Toggle, 
+  Button, 
+  SocialButton, 
+  Icon, 
+  Image 
+} from 'reserva-ui';
 import { ApplicationState } from '../../../store';
 import { loadRequest } from '../../../store/ducks/repositories/actions';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+
+import logo from '../../../assets/img/logo.png';
 
 export const LoginScreen: React.FC<{
 	title: string;
 }> = ({ children, title }) => {
 	const navigation = useNavigation();
-
 	const dispatch = useDispatch();
-
 	const { repositories } = useSelector((state: ApplicationState) => state);
 
 	useEffect(() => {
@@ -23,13 +31,20 @@ export const LoginScreen: React.FC<{
 
 	return (
 		<SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+      <Box alignItems="center" marginTop="xxl" marginBottom="sm">
+        <Image source={logo} />
+      </Box>
       <Box flex={1} marginLeft="xxs" marginRight="xxs">
         <Box marginTop="sm" marginBottom="nano">
-          <TextField height={52} placeholder="Digite seu e-mail ou CPF ou CNPJ" />
+          <TextField 
+            height={52} 
+            placeholder="Digite seu e-mail ou CPF ou CNPJ"
+          />
         </Box>
-        <Typography>Esqueci meu e-mail</Typography>
+        <Typography fontFamily="nunitoRegular">Esqueci meu e-mail</Typography>
         <Box marginTop="md" marginBottom="nano">
           <TextField 
+            secureTextEntry
             height={52} 
             placeholder="Digite sua senha" 
             iconRight={
@@ -39,20 +54,40 @@ export const LoginScreen: React.FC<{
             } 
           />
         </Box>
-        <Typography>Esqueci minha senha</Typography>
+        <Typography fontFamily="nunitoRegular">Esqueci minha senha</Typography>
         <Box marginTop="xs" alignItems="center">
-          <Toggle thumbColor="neutroFrio1" color="neutroFrio2" label="Lembrar meu acesso"/>
+          <Toggle
+            thumbColor="neutroFrio1" 
+            color="neutroFrio2" 
+            label="Lembrar meu acesso"
+          />
         </Box>
         <Box marginTop="xs" alignItems="center">
-          <Button title='ENTRAR' variant='primarioEstreito' mb='nano' />
+          <Button 
+            fontFamily="nunitoRegular"
+            title='ENTRAR' 
+            variant='primarioEstreito' 
+            mb='nano' 
+          />
         </Box>
         <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
             <SocialButton variant="Facebook" onPress={() => {}} />
             <SocialButton variant="Google" onPress={() => {}} />
         </Box>
         <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
-          <Typography>Ainda não possui uma conta? </Typography>
-          <Typography>Clique para se cadastrar</Typography>
+          <Typography 
+            fontSize={13}
+            fontFamily="nunitoRegular"
+          >
+            Ainda não possui uma conta? 
+          </Typography>
+          <Typography 
+            fontSize={13}
+            fontFamily="nunitoRegular" 
+            onPress={() => navigation.navigate('MyModal')}
+          >
+            Clique para se cadastrar
+          </Typography>
         </Box>
       </Box>
     </SafeAreaView>

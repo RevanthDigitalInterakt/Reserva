@@ -34,7 +34,7 @@ export const TopBarDefault: React.FC<{
 				color: 'preto',
 				size: 24,
 				onPress: () => {
-					Alert.alert('button right 2');
+					navigation.navigate('RegisterStep1')
 				}
 			}}
 			height={50}
