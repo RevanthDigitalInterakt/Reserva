@@ -30,7 +30,7 @@ export const RegisterStep1: React.FC<{
 
 	return (
 		<SafeAreaView style={{ backgroundColor: 'white', padding: 20 }} flex={1}>
-      <TopBarBackButton message="Aqui entra variante da \Topbar" />
+      <TopBarBackButton backButtonPress={() => navigation.navigate('Login')} />
       <Box alignItems="center" marginTop="xxl" marginBottom="sm">
         <Box justifyContent="center" marginTop="xxxs">
           <Typography 
@@ -44,7 +44,7 @@ export const RegisterStep1: React.FC<{
       <Box flex={1}>
         <Box marginTop="sm" marginBottom="nano">
           <TextField 
-            height={52} 
+            height={55} 
             placeholder="Digite seu e-mail ou CPF ou CNPJ"
           />
         </Box>

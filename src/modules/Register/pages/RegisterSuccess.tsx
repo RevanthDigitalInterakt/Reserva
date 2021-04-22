@@ -37,7 +37,7 @@ export const RegisterSuccess: React.FC<{
       padding: 20
     }} 
     flex={1}>
-      <TopBarBackButton message="Aqui entra variante da \Topbar" />
+      <TopBarBackButton backButtonPress={() => navigation.navigate('Login')} />
       <Box alignItems="center" justifyContent="center" marginTop="xxl" flex={1}>
         <Box marginTop="xxxs">
           <Typography 

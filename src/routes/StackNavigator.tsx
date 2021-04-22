@@ -16,6 +16,7 @@ import { RegisterStep3 } from '../modules/Register/pages/Step3';
 import { RegisterStep4 } from '../modules/Register/pages/Step4';
 import { RegisterStep5 } from '../modules/Register/pages/Step5';
 import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
+import { LoginScreen } from '../modules/Login/pages/Login';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -27,6 +28,7 @@ const MainStackScreen = () => {
 			<MainStack.Screen name="HomeTabs" component={Tabs} />
 			<MainStack.Screen name="Example" component={ExampleScreen} />
 			<MainStack.Screen name="SearchMenu" component={SearchScreen} />
+			<MainStack.Screen name="Login" component={LoginScreen} />
 			<MainStack.Screen name="RegisterStep1" component={RegisterStep1} />
 			<MainStack.Screen name="RegisterStep2" component={RegisterStep2} />
 			<MainStack.Screen name="RegisterStep3" component={RegisterStep3} />

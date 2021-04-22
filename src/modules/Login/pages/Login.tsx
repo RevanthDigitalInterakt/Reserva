@@ -37,7 +37,7 @@ export const LoginScreen: React.FC<{
       <Box flex={1} marginLeft="xxs" marginRight="xxs">
         <Box marginTop="sm" marginBottom="nano">
           <TextField 
-            height={52} 
+            height={55} 
             placeholder="Digite seu e-mail ou CPF ou CNPJ"
           />
         </Box>
@@ -45,7 +45,7 @@ export const LoginScreen: React.FC<{
         <Box marginTop="md" marginBottom="nano">
           <TextField 
             secureTextEntry
-            height={52} 
+            height={55} 
             placeholder="Digite sua senha" 
             iconRight={
               <Box ml="nano">
@@ -84,7 +84,7 @@ export const LoginScreen: React.FC<{
           <Typography 
             fontSize={13}
             fontFamily="nunitoRegular" 
-            onPress={() => navigation.navigate('MyModal')}
+            onPress={() => navigation.navigate('RegisterStep1')}
           >
             Clique para se cadastrar
           </Typography>

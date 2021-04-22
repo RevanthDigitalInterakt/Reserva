@@ -31,8 +31,7 @@ export const RegisterStep5: React.FC<{
 
 	return (
 		<SafeAreaView style={{ backgroundColor: 'white', padding: 20 }} flex={1}>
-      <TopBarBackButton message="Aqui Registration Step" />
-      <TopBarBackButton message="Aqui entra variante da \Topbar" />
+      <TopBarBackButton backButtonPress={() => navigation.navigate('RegisterStep4')} />
       <Box marginTop="xxl">
         <Box marginTop="xxxs">
           <Typography 
@@ -47,7 +46,7 @@ export const RegisterStep5: React.FC<{
         <Box marginTop="sm" marginBottom="nano">
           <TextField 
             secureTextEntry
-            height={52} 
+            height={55} 
             placeholder="Digite sua senha" secureTextEntry
             iconRight={
               <Box ml="nano">
