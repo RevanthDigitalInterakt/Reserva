@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
-import { Alert } from "react-native";
+import { Alert, TouchableOpacity } from "react-native";
 import { TopBar, Icon, Box } from "reserva-ui";
 
 export const TopBarComum: React.FC<{}> = () => {
@@ -17,7 +17,13 @@ export const TopBarComum: React.FC<{}> = () => {
       flexDirection="row"
       paddingHorizontal={20}
     >
-      <Icon name="ArrowBack" color="preto" size={24} />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
+        <Icon name="ArrowBack" color="preto" size={24} />
+      </TouchableOpacity>
       <Icon name="Logo" size={24} />
       <Icon name="" color="preto" size={24} />
     </Box>
