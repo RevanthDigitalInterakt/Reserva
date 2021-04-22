@@ -36,7 +36,7 @@ const AddressSelector = ({
         >
           {/* //TODO:  change trash to check */}
           <Box width={24} marginRight={10}>
-            {selected && <Icon name="Trash" color="preto" size={24} />}
+            {selected && <Icon name="Check" color="preto" size={24} />}
           </Box>
           <Box>
             <Typography fontFamily="reservaSerifRegular" fontSize={16}>
