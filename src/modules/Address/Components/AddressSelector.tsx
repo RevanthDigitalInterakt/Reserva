@@ -23,7 +23,6 @@ const AddressSelector = ({
   address,
   zipcode,
 }: IAdressSelector) => {
-  //TODO: check icon before title
   return (
     <>
       <TouchableOpacity onPress={select}>
@@ -35,20 +34,21 @@ const AddressSelector = ({
           flexDirection="row"
           marginTop={18}
         >
+          {/* //TODO:  change trash to check */}
           <Box width={24} marginRight={10}>
             {selected && <Icon name="Trash" color="preto" size={24} />}
           </Box>
           <Box>
-            <Typography fontWeight="SemiBold" fontFamily="nunito" fontSize={16}>
+            <Typography fontFamily="reservaSerifRegular" fontSize={16}>
               {title}
             </Typography>
             <Box marginTop={7} marginBottom={6}>
-              <Typography variant="tituloSessao" fontSize={13}>
+              <Typography fontFamily="nunitoRegular" fontSize={13}>
                 {address}
               </Typography>
             </Box>
 
-            <Typography variant="tituloSessao" fontSize={13}>
+            <Typography fontFamily="nunitoRegular" fontSize={13}>
               {zipcode}
             </Typography>
 
@@ -58,7 +58,11 @@ const AddressSelector = ({
               justifyContent="flex-end"
               alignItems="flex-end"
             >
-              <Button underline title="editar" color="preto" />
+              <Button paddingBottom={2}>
+                <Typography style={{ textDecorationLine: "underline" }}>
+                  editar
+                </Typography>
+              </Button>
               <TouchableOpacity onPress={deleteAddress}>
                 <Icon marginLeft={24.7} name="Trash" color="preto" size={24} />
               </TouchableOpacity>
