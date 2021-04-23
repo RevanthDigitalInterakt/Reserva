@@ -40,11 +40,11 @@ const MyAddress = () => {
         }}
       />
       <SafeAreaView flex={1} backgroundColor={"white"}>
-        <TopBarBackButton />
+        <TopBarBackButton showShadow />
 
         <Box
           overflow={"hidden"}
-          height={"75%"}
+          height={"80%"}
           paddingHorizontal={20}
           justifyContent="flex-start"
           paddingTop={49}
@@ -73,6 +73,36 @@ const MyAddress = () => {
                 console.log("editar endereço");
               }}
               selected={true}
+            />
+
+            <AddressSelector
+              address={
+                "R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES"
+              }
+              title={"Escritório"}
+              zipcode={"29.123-456"}
+              deleteAddress={() => {
+                setDeleteModal(true);
+              }}
+              edit={() => {
+                console.log("editar endereço");
+              }}
+              selected={false}
+            />
+
+            <AddressSelector
+              address={
+                "R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES"
+              }
+              title={"Trabalho"}
+              zipcode={"29.123-456"}
+              deleteAddress={() => {
+                setDeleteModal(true);
+              }}
+              edit={() => {
+                console.log("editar endereço");
+              }}
+              selected={false}
             />
           </ScrollView>
         </Box>
