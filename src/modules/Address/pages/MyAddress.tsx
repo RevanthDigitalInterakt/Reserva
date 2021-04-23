@@ -40,7 +40,7 @@ const MyAddress = () => {
         }}
       />
       <SafeAreaView flex={1} backgroundColor={"white"}>
-        <TopBarBackButton />
+        <TopBarBackButton showShadow />
 
         <Box
           overflow={"hidden"}
