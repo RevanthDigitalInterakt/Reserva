@@ -8,7 +8,7 @@ export const TopBarMenu: React.FC<{}> = () => {
 
 	return (
 		<TopBar
-			paddingX="xxxs"
+			paddingX="quarck"
 			bg="white"
 			leftButton={{
 				name: 'SideMenu',
