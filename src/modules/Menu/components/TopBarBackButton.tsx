@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { TopBar } from 'reserva-ui';
 
 export const TopBarBackButton: React.FC<{
@@ -12,7 +12,8 @@ export const TopBarBackButton: React.FC<{
 		<TopBar
 			paddingX="xxxs"
 			bg="white"
-			boxShadow={showShadow ? 'topBarShadow' : null}
+			style={{ elevation: 10 }}
+			boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
 			leftButton={{
 				name: 'ArrowBack',
 				size: 24,
