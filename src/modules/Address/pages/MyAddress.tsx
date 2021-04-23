@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView } from "react-native";
 
 import { Typography, Box, Button, Alert } from "reserva-ui";
 import AddressSelector from "../Components/AddressSelector";
-import { TopBarComum } from "../../Menu/components/TopBarComum";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 const MyAddress = () => {
   //TODO : change the first icon from trash to Check.
   const [deleteModal, setDeleteModal] = React.useState(false);
@@ -40,7 +40,7 @@ const MyAddress = () => {
         }}
       />
       <SafeAreaView flex={1} backgroundColor={"white"}>
-        <TopBarComum />
+        <TopBarBackButton />
 
         <Box
           overflow={"hidden"}
