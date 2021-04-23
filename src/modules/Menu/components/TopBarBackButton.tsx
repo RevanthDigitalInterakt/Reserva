@@ -10,7 +10,7 @@ export const TopBarBackButton: React.FC<{
 
 	return (
 		<TopBar
-			paddingX="xxxs"
+			paddingX="quarck"
 			bg="white"
 			style={{ elevation: 10 }}
 			boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
