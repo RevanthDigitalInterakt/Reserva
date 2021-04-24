@@ -41,7 +41,7 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
 const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
 	return (
 		<Box
-			bg="backgroundMenuOpened"
+			bg="backgroundAppOpened"
 			justifyContent="space-between"
 			paddingY="micro"
 			flexDirection="row"
@@ -174,7 +174,7 @@ export const Menu: React.FC<{}> = () => {
 
 	return (
 		<SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
-			<Box flex={1} backgroundColor="backgroundMenu">
+			<Box flex={1} backgroundColor="backgroundApp">
 				<TopBarMenu />
 				<ScrollView>
 					<Box paddingX="nano" paddingTop="micro">
