@@ -41,7 +41,7 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
 const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
 	return (
 		<Box
-			bg="backgroundAppOpened"
+			bg="backgroundMenuOpened"
 			justifyContent="space-between"
 			paddingY="micro"
 			flexDirection="row"
