@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Alert, Platform } from 'react-native';
 import { TopBar } from 'reserva-ui';
 
-export const TopBarDefault: React.FC<{
+export const TopBarBackButton: React.FC<{
 	showShadow?: Boolean;
 }> = ({ showShadow = true }) => {
 	const navigation = useNavigation();
@@ -15,25 +15,10 @@ export const TopBarDefault: React.FC<{
 			style={{ elevation: 10 }}
 			boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
 			leftButton={{
-				name: 'SideMenu',
+				name: 'ArrowBack',
 				size: 24,
 				onPress: () => {
-					navigation.navigate('Menu');
-				}
-			}}
-			rightButton1={{
-				name: 'Heart',
-				size: 24,
-				onPress: () => {
-					Alert.alert('button right 1');
-				}
-			}}
-			rightButton2={{
-				name: 'Handbag',
-				size: 24,
-				onPress: () => {
-					// Alert.alert('button right 2');
-					navigation.navigate('MyAddress');
+					navigation.goBack();
 				}
 			}}
 			height={50}

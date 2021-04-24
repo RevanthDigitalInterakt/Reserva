@@ -24,7 +24,9 @@ export const ExampleScreen: React.FC<{
 		<Box flex={1}>
 			<TopBarDefault />
 			<Box variant="container" alignItems="flex-start" justifyContent="center">
-				<Typography variant="descontoTag1">Lista de Repositórios</Typography>
+				<Typography fontFamily="ReservaSerif-Bold" fontSize={24}>
+					Lista de Repositórios
+				</Typography>
 				<Button onPress={() => navigation.navigate('MyModal')} title="Open Modal" />
 				{repositories.loading ? (
 					<Typography>Loading</Typography>
