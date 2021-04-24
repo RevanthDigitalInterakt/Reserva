@@ -4,6 +4,8 @@ import { Alert, TouchableOpacity } from "react-native";
 import { TopBar } from "reserva-ui";
 import { Typography, Box, Button, Icon } from "reserva-ui";
 
+// TODO: REFACTOR THIS MARGINS, DONT'T USE NUMBERS, USE TOKENS NAMES
+
 interface IAdressSelector {
   select?: () => void;
   edit?: () => void;
