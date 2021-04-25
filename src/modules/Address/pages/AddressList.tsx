@@ -4,7 +4,7 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Alert } from "reserva-ui";
 import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-const MyAddress = () => {
+const AddressList = () => {
   //TODO : change the first icon from trash to Check.
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [sucessModal, setSucessModal] = React.useState(false);
@@ -115,4 +115,4 @@ const MyAddress = () => {
   );
 };
 
-export default MyAddress;
+export default AddressList;

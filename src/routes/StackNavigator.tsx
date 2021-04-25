@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { HomeScreen } from "../modules/Home/pages/Home";
 import { SearchScreen } from "../modules/Search/pages/Search";
-import MyAddress from "../modules/Address/pages/MyAddress";
+import AddressList from "../modules/Address/pages/AddressList";
 import { Tabs } from "./BottomTabNavigator";
 import { Menu } from "../modules/Menu/modals/Menu";
 
@@ -22,7 +22,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name="HomeTabs" component={Tabs} />
       <MainStack.Screen name="Example" component={ExampleScreen} />
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-      <MainStack.Screen name="MyAddress" component={MyAddress} />
+      <MainStack.Screen name="AddressList" component={AddressList} />
     </MainStack.Navigator>
   );
 };
