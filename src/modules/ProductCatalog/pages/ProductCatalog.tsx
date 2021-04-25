@@ -4,7 +4,15 @@ import { useEffect } from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, theme, Image, ProductListCard } from "reserva-ui";
+import {
+  Box,
+  theme,
+  Image,
+  ProductListCard,
+  Button,
+  Typography,
+  Icon,
+} from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { ApplicationState } from "../../../store";
@@ -45,6 +53,23 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               source={safeArea ? images.bannerCatalog : images.bannerOffer}
               width={1 / 1}
             />
+            <Box bg="dropDownBorderColor">
+              <Button p="nano">
+                <Box flexDirection="row">
+                  <Icon name="Message" size={16} color="preto"></Icon>
+                  <Box marginX="nano">
+                    <Typography
+                      color="preto"
+                      fontFamily="nunitoSemiBold"
+                      fontSize={11}
+                    >
+                      Chama no Whats! Seja atendido sem sair de casa. Clique
+                      aqui!
+                    </Typography>
+                  </Box>
+                </Box>
+              </Button>
+            </Box>
             <Box
               p="micro"
               flexDirection="row"
@@ -54,7 +79,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               <ProductListCard
                 currency="R$"
                 discountTag={18}
-                imageSource="https://via.placeholder.com/163x248"
+                imageSource={images.shirt3}
                 productTitle="CAMISETA BÁSICA RESERVA"
                 installmentsNumber={3}
                 installmentsPrice={99.9}
@@ -64,7 +89,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               />
               <ProductListCard
                 currency="R$"
-                imageSource="https://via.placeholder.com/163x248"
+                imageSource={images.shirt1}
                 productTitle="CAMISETA BÁSICA RESERVA"
                 installmentsNumber={3}
                 installmentsPrice={99.9}
@@ -81,7 +106,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               <ProductListCard
                 currency="R$"
                 discountTag={18}
-                imageSource="https://via.placeholder.com/163x248"
+                imageSource={images.shirt4}
                 productTitle="CAMISETA BÁSICA RESERVA"
                 installmentsNumber={3}
                 installmentsPrice={99.9}
@@ -91,7 +116,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               />
               <ProductListCard
                 currency="R$"
-                imageSource="https://via.placeholder.com/163x248"
+                imageSource={images.shirt2}
                 productTitle="CAMISETA BÁSICA RESERVA"
                 installmentsNumber={3}
                 installmentsPrice={99.9}

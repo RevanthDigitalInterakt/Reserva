@@ -6,4 +6,8 @@ export const images = {
   homeMock4: require("./img/homeMock4.png"),
   bannerOffer: require("./img/bannerOffer.png"),
   bannerCatalog: require("./img/bannerCatalog.png"),
+  shirt1: require("./img/shirt1.png"),
+  shirt2: require("./img/shirt2.png"),
+  shirt3: require("./img/shirt3.png"),
+  shirt4: require("./img/shirt4.png"),
 };
