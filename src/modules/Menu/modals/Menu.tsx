@@ -62,22 +62,30 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
 };
 
 const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
+  const navigation = useNavigation();
+
   return (
-    <Box
-      bg="backgroundMenuOpened"
-      justifyContent="space-between"
-      paddingY="micro"
-      flexDirection="row"
-      paddingX="xxs"
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("ProductCatalog");
+      }}
     >
-      <Typography
-        fontSize={13}
-        fontFamily="nunitoRegular"
-        fontWeight={highlight ? "bold" : "normal"}
+      <Box
+        bg="backgroundMenuOpened"
+        justifyContent="space-between"
+        paddingY="micro"
+        flexDirection="row"
+        paddingX="xxs"
       >
-        {title}
-      </Typography>
-    </Box>
+        <Typography
+          fontSize={13}
+          fontFamily="nunitoRegular"
+          fontWeight={highlight ? "bold" : "normal"}
+        >
+          {title}
+        </Typography>
+      </Box>
+    </TouchableOpacity>
   );
 };
 
