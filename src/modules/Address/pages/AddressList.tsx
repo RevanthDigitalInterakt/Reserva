@@ -39,7 +39,7 @@ const AddressList = () => {
           setDeleteModal(false);
         }}
       />
-      <SafeAreaView flex={1} backgroundColor={"white"}>
+      <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton showShadow />
 
         <Box
@@ -47,14 +47,10 @@ const AddressList = () => {
           height={"80%"}
           paddingHorizontal={20}
           justifyContent="flex-start"
-          paddingTop={49}
+          pt={"md"}
         >
-          <Box alignSelf={"flex-start"} marginBottom={18}>
-            <Typography
-              fontSize={20}
-              fontFamily="reservaSerifRegular"
-              fontSize={20}
-            >
+          <Box alignSelf={"flex-start"} mb={"xxxs"}>
+            <Typography fontSize={20} fontFamily="reservaSerifRegular">
               Meus endereços
             </Typography>
           </Box>
