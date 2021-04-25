@@ -4,8 +4,9 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Alert } from "reserva-ui";
 import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-const MyAddress = () => {
-  //TODO : change the first icon from trash to Check.
+import { useNavigation } from "@react-navigation/core";
+const AddressList = () => {
+  const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [sucessModal, setSucessModal] = React.useState(false);
   return (
@@ -39,7 +40,7 @@ const MyAddress = () => {
           setDeleteModal(false);
         }}
       />
-      <SafeAreaView flex={1} backgroundColor={"white"}>
+      <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton showShadow />
 
         <Box
@@ -47,14 +48,10 @@ const MyAddress = () => {
           height={"80%"}
           paddingHorizontal={20}
           justifyContent="flex-start"
-          paddingTop={49}
+          pt={"md"}
         >
-          <Box alignSelf={"flex-start"} marginBottom={18}>
-            <Typography
-              fontSize={20}
-              fontFamily="reservaSerifRegular"
-              fontSize={20}
-            >
+          <Box alignSelf={"flex-start"} mb={"xxxs"}>
+            <Typography fontSize={20} fontFamily="reservaSerifRegular">
               Meus endereços
             </Typography>
           </Box>
@@ -70,43 +67,16 @@ const MyAddress = () => {
                 setDeleteModal(true);
               }}
               edit={() => {
-                console.log("editar endereço");
+                navigation.navigate("NewAddress", { id: 1 });
               }}
               selected={true}
-            />
-
-            <AddressSelector
-              address={
-                "R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES"
-              }
-              title={"Escritório"}
-              zipcode={"29.123-456"}
-              deleteAddress={() => {
-                setDeleteModal(true);
-              }}
-              edit={() => {
-                console.log("editar endereço");
-              }}
-              selected={false}
-            />
-
-            <AddressSelector
-              address={
-                "R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES"
-              }
-              title={"Trabalho"}
-              zipcode={"29.123-456"}
-              deleteAddress={() => {
-                setDeleteModal(true);
-              }}
-              edit={() => {
-                console.log("editar endereço");
-              }}
-              selected={false}
             />
           </ScrollView>
         </Box>
         <Button
+          onPress={() => {
+            navigation.navigate("NewAddress");
+          }}
           title={"ADICIONAR ENDEREÇO"}
           variant="primarioEstreitoOutline"
         />
@@ -115,4 +85,4 @@ const MyAddress = () => {
   );
 };
 
-export default MyAddress;
+export default AddressList;
