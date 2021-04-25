@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "../modules/Home/pages/Home";
 import { SearchScreen } from "../modules/Search/pages/Search";
 import AddressList from "../modules/Address/pages/AddressList";
+import NewAddress from "../modules/Address/pages/NewAddress";
 import { Tabs } from "./BottomTabNavigator";
 import { Menu } from "../modules/Menu/modals/Menu";
 
@@ -30,6 +31,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name="Example" component={ExampleScreen} />
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
       <MainStack.Screen name="AddressList" component={AddressList} />
+      <MainStack.Screen name="NewAddress" component={NewAddress} />
       <MainStack.Screen
         name="ProductCatalog"
         initialParams={{ safeArea: true }}

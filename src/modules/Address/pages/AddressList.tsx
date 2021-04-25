@@ -4,8 +4,9 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Alert } from "reserva-ui";
 import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { useNavigation } from "@react-navigation/core";
 const AddressList = () => {
-  //TODO : change the first icon from trash to Check.
+  const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [sucessModal, setSucessModal] = React.useState(false);
   return (
@@ -103,6 +104,9 @@ const AddressList = () => {
           </ScrollView>
         </Box>
         <Button
+          onPress={() => {
+            navigation.navigate("NewAddress");
+          }}
           title={"ADICIONAR ENDEREÇO"}
           variant="primarioEstreitoOutline"
         />
