@@ -1,24 +1,14 @@
-import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
-import { Component, useEffect } from "react";
+import { useEffect } from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Typography,
-  Box,
-  Button,
-  theme,
-  Image,
-  ProductListCard,
-} from "reserva-ui";
-import { backgroundColor } from "styled-system";
+import { Box, theme, Image, ProductListCard } from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { ApplicationState } from "../../../store";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 
