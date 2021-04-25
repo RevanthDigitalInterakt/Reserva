@@ -24,12 +24,20 @@ Sentry.init({
 	dsn: env.SENTRY_KEY
 });
 
+
+// SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
+const DefaultTheme = {
+	colors: {
+	  background: theme.colors.backgroundApp
+	},
+  };
+
 const App = () => {
 	const isDarkMode = useColorScheme() === 'dark';
 
 	return (
 		<ThemeProvider theme={theme}>
-			<NavigationContainer>
+			<NavigationContainer theme={DefaultTheme}>
 				<Provider store={store}>
 					<AppRouting />
 				</Provider>
