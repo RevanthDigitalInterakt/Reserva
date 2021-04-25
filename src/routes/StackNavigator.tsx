@@ -14,6 +14,7 @@ import { ExampleScreen } from "../modules/Example/pages/Example";
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 import { StackScreenProps } from "@react-navigation/stack";
+import OrderList from "../modules/Order/pages/OrderList";
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
@@ -35,6 +36,7 @@ const MainStackScreen = () => {
         component={ProductCatalog}
       />
       <MainStack.Screen name="MyAddress" component={MyAddress} />
+      <MainStack.Screen name="OrderList" component={OrderList} />
     </MainStack.Navigator>
   );
 };
