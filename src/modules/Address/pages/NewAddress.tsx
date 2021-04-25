@@ -1,12 +1,19 @@
 import * as React from "react";
 import { SafeAreaView, ScrollView } from "react-native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
 import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
 import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-const AddressList = () => {
-  const [zipcode, setZipcode] = React.useState("");
+import { useRoute } from "@react-navigation/core";
 
+type Props = StackScreenProps<RootStackParamList, "NewAddress">;
+
+export const NewAddress: React.FC<Props> = ({ route }) => {
+  const id = route?.params;
+
+  const [zipcode, setZipcode] = React.useState("");
   return (
     <>
       <SafeAreaView
@@ -19,9 +26,15 @@ const AddressList = () => {
             <TopBarBackButton showShadow />
             <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"md"}>
               <Box alignSelf={"flex-start"} mb={"xxxs"}>
-                <Typography fontSize={20} fontFamily="reservaSerifRegular">
-                  Adicionar endereço
-                </Typography>
+                {id ? (
+                  <Typography fontSize={20} fontFamily="reservaSerifRegular">
+                    Editar endereço
+                  </Typography>
+                ) : (
+                  <Typography fontSize={20} fontFamily="reservaSerifRegular">
+                    Adicionar endereço
+                  </Typography>
+                )}
               </Box>
 
               <Box mt={"xxxs"}>
@@ -58,13 +71,24 @@ const AddressList = () => {
                   thumbColor="vermelhoAlerta"
                 />
               </Box>
+
+              {id && (
+                <Button
+                  mt={"xs"}
+                  onPress={() => {}}
+                  title={"SALVAR ALTERAÇÕES"}
+                  variant="primarioEstreitoOutline"
+                />
+              )}
             </Box>
           </Box>
         </ScrollView>
-        <Button title="INCLUIR ENDEREÇO" variant="primarioEstreito" inline />
+        {!id && (
+          <Button title="INCLUIR ENDEREÇO" variant="primarioEstreito" inline />
+        )}
       </SafeAreaView>
     </>
   );
 };
 
-export default AddressList;
+export default NewAddress;

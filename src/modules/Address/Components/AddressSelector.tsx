@@ -64,7 +64,7 @@ const AddressSelector = ({
               justifyContent="flex-end"
               alignItems="flex-end"
             >
-              <Button pb={"quarck"}>
+              <Button onPress={edit} pb={"quarck"}>
                 <Typography style={{ textDecorationLine: "underline" }}>
                   editar
                 </Typography>

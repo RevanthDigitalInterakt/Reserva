@@ -67,39 +67,9 @@ const AddressList = () => {
                 setDeleteModal(true);
               }}
               edit={() => {
-                console.log("editar endereço");
+                navigation.navigate("NewAddress", { id: 1 });
               }}
               selected={true}
-            />
-
-            <AddressSelector
-              address={
-                "R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES"
-              }
-              title={"Escritório"}
-              zipcode={"29.123-456"}
-              deleteAddress={() => {
-                setDeleteModal(true);
-              }}
-              edit={() => {
-                console.log("editar endereço");
-              }}
-              selected={false}
-            />
-
-            <AddressSelector
-              address={
-                "R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES"
-              }
-              title={"Trabalho"}
-              zipcode={"29.123-456"}
-              deleteAddress={() => {
-                setDeleteModal(true);
-              }}
-              edit={() => {
-                console.log("editar endereço");
-              }}
-              selected={false}
             />
           </ScrollView>
         </Box>

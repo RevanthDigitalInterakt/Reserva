@@ -18,6 +18,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
+  NewAddress: { id?: number };
 };
 
 const MainStack = createStackNavigator();
