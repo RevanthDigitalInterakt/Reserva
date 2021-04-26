@@ -1,38 +1,25 @@
-import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { 
   Typography, 
   Box, 
-  TextField, 
-  Toggle, 
-  Button, 
-  SocialButton, 
-  Icon, 
-  Image 
+  TextField,
+  Button
 } from 'reserva-ui';
-import { ApplicationState } from '../../../store';
-import { loadRequest } from '../../../store/ducks/repositories/actions';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { IUserData } from '../Wizard';
 
 export const RegisterStep4: React.FC<{
-	title: string;
-}> = ({ children, title }) => {
-  const [date, setDate] = useState('');
-	const navigation = useNavigation();
-	const dispatch = useDispatch();
-	const { repositories } = useSelector((state: ApplicationState) => state);
-
-	useEffect(() => {
-		dispatch(loadRequest());
-	}, []);
+  nextStep: () => void,
+  setUserData: React.Dispatch<React.SetStateAction<IUserData>>
+  userData: IUserData
+}> = ({
+  nextStep,
+  setUserData,
+  userData
+}) => {
 
 	return (
 		<SafeAreaView style={{ backgroundColor: 'white', padding: 20 }} flex={1}>
-      <TopBarBackButton backButtonPress={() => navigation.navigate('RegisterStep3')} />
       <Box marginTop="xxl" marginBottom="sm">
         <Box marginTop="xxxs">
           <Typography 
@@ -51,8 +38,8 @@ export const RegisterStep4: React.FC<{
             maskOptions={{
               mask: '99/99/9999'
             }}
-            value={date}
-            onChangeText={(text) => setDate(text)}
+            value={userData.birth_date}
+            onChangeText={(text) => setUserData({ ...userData, birth_date: text})}
             placeholder="Digite sua data de nascimento"
           />
         </Box>
@@ -60,7 +47,7 @@ export const RegisterStep4: React.FC<{
           <Button 
             fontFamily="nunitoRegular"
             title='CONTINUAR' 
-            onPress={() => navigation.navigate('RegisterStep5')}
+            onPress={() => nextStep()}
             width={258}
             variant='primarioEstreitoOutline' 
             mb='nano' 

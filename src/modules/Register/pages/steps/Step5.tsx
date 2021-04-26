@@ -1,37 +1,26 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { 
   Typography, 
   Box, 
-  TextField, 
-  Toggle, 
-  Button, 
-  SocialButton, 
-  Icon, 
-  Image 
+  TextField,
+  Button,
+  Icon
 } from 'reserva-ui';
-import { ApplicationState } from '../../../store';
-import { loadRequest } from '../../../store/ducks/repositories/actions';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { IUserData } from '../Wizard';
 
 export const RegisterStep5: React.FC<{
-	title: string;
-}> = ({ children, title }) => {
-	const navigation = useNavigation();
-	const dispatch = useDispatch();
-	const { repositories } = useSelector((state: ApplicationState) => state);
-
-	useEffect(() => {
-		dispatch(loadRequest());
-	}, []);
+  setUserData: React.Dispatch<React.SetStateAction<IUserData>>
+  userData: IUserData
+}> = ({
+  setUserData,
+  userData
+}) => {
+  const navigation = useNavigation();
 
 	return (
 		<SafeAreaView style={{ backgroundColor: 'white', padding: 20 }} flex={1}>
-      <TopBarBackButton backButtonPress={() => navigation.navigate('RegisterStep4')} />
       <Box marginTop="xxl">
         <Box marginTop="xxxs">
           <Typography 
@@ -47,7 +36,9 @@ export const RegisterStep5: React.FC<{
           <TextField 
             secureTextEntry
             height={55} 
-            placeholder="Digite sua senha" secureTextEntry
+            placeholder="Digite sua senha"
+            value={userData.password}
+            onChangeText={(text) => setUserData({ ...userData, password: text})}
             iconRight={
               <Box ml="nano">
                 <Icon color="neutroFrio2" name="EyeOpen" size={25} />
@@ -65,6 +56,8 @@ export const RegisterStep5: React.FC<{
             secureTextEntry
             height={52} 
             placeholder="Repita a senha" 
+            value={userData.confirm_password}
+            onChangeText={(text) => setUserData({ ...userData, confirm_password: text})}
             iconRight={
               <Box ml="nano">
                 <Icon color="neutroFrio2" name="EyeOpen" size={25} />
