@@ -8,7 +8,7 @@ import {
   Box,
   theme,
   Image,
-  ProductListCard,
+  ProductVerticalListCard,
   Button,
   Typography,
   Icon,
@@ -76,7 +76,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               flex={1}
               justifyContent="space-between"
             >
-              <ProductListCard
+              <ProductVerticalListCard
                 currency="R$"
                 discountTag={18}
                 imageSource={images.shirt3}
@@ -87,7 +87,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 priceWithDiscount={297.0}
                 isFavorited={true}
               />
-              <ProductListCard
+              <ProductVerticalListCard
                 currency="R$"
                 imageSource={images.shirt1}
                 productTitle="CAMISETA BÁSICA RESERVA"
@@ -103,7 +103,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               flex={1}
               justifyContent="space-between"
             >
-              <ProductListCard
+              <ProductVerticalListCard
                 currency="R$"
                 discountTag={18}
                 imageSource={images.shirt4}
@@ -114,7 +114,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 priceWithDiscount={297.0}
                 isFavorited={true}
               />
-              <ProductListCard
+              <ProductVerticalListCard
                 currency="R$"
                 imageSource={images.shirt2}
                 productTitle="CAMISETA BÁSICA RESERVA"
