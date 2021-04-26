@@ -4,7 +4,11 @@ import {
     Typography,
     Box,
     ProgressBar,
-    ProductWishlistCard
+    ProductWishlistCard,
+    Divider,
+    Button,
+    Icon,
+    Toggle
 } from 'reserva-ui';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -49,7 +53,7 @@ export const BagScreen = () => {
                     </Box>
 
                     <Box bg="blue">
-                        <ProductWishlistCard
+                        {/* <ProductWishlistCard
                             discountTag={18}
                             itemColor='Branca'
                             // ItemSize="41"
@@ -63,8 +67,19 @@ export const BagScreen = () => {
                             onClickSubCount={count => { console.log('teste') }}
                             onClickClose={() => { }}
                             imageSource='https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png'
-                        />
+                        /> */}
                     </Box>
+                    <Divider variant={"fullWidth"} />
+                    <Box
+                        flexDirection="row"
+                        marginY="xxs"
+                    >
+                        <Icon name={"Presente"} size={20} />
+                        <Typography variant="subtituloSessoes">Embalagem para presente</Typography>
+                        <Toggle value={false} color={"neutroFrio2"} label="teste" thumbColor={"#ccc"}></Toggle>
+                    </Box>
+                    <Divider variant={"fullWidth"} />
+
                 </Box>
 
             </ScrollView>
@@ -73,3 +88,4 @@ export const BagScreen = () => {
 
     );
 };
+
