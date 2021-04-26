@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native';
-import { ProgressBar } from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useEffect } from 'react';
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native";
+import { ProgressBar } from "reserva-ui";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { useEffect } from "react";
 
-export interface IUserData{
+export interface IUserData {
   cpf: string;
   name: string;
   mail: string;
@@ -15,50 +15,49 @@ export interface IUserData{
 }
 
 export const Wizard: React.FC<{
-  children: React.ReactElement[]
+  children: React.ReactElement[];
 }> = ({ children }) => {
-	const navigation = useNavigation();
+  const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(0);
   const [percentStep, setPercentStep] = useState(0);
   const [userData, setUserData] = useState<IUserData>({
-    cpf: '',
-    name: '',
-    mail: '',
-    birth_date: '',
-    password: '',
-    confirm_password: ''
+    cpf: "",
+    name: "",
+    mail: "",
+    birth_date: "",
+    password: "",
+    confirm_password: "",
   });
 
   useEffect(() => {
     setPercentStep(children.length);
-  }, [])
+  }, []);
 
   useEffect(() => {
     console.log(userData);
-  }, [userData])
+  }, [userData]);
 
   const handleNextStep = () => {
     if (currentStep !== children.length - 1) {
       setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const handleCompleteRegistration = () => {
     setCurrentStep(percentStep);
-  }
+  };
 
   const handlePrevStep = () => {
     if (currentStep !== 0) {
       setCurrentStep(currentStep - 1);
-    }else{
-      navigation.navigate('Login');
+    } else {
+      navigation.navigate("Login");
     }
-  }
+  };
 
   return (
-		<SafeAreaView style={{ backgroundColor: 'white'}} flex={1}>
-    {
-      currentStep !== 0 && 
+    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
+      {currentStep !== 0 && (
         <ProgressBar
           colorBar="neutroFrio1"
           colorProgress="neutroFrio2"
@@ -70,21 +69,23 @@ export const Wizard: React.FC<{
           colorLabel="neutroFrio2"
           showPercent
         />
-    }
-    <TopBarBackButton backButtonPress={() => handlePrevStep()} />
-    {
-      React.Children.map(children, (el, index) => {
-        if(currentStep === index) {
+      )}
+      <TopBarBackButton
+        showLogo={false}
+        showShadow={false}
+        backButtonPress={() => handlePrevStep()}
+      />
+      {React.Children.map(children, (el, index) => {
+        if (currentStep === index) {
           return React.cloneElement(el, {
-              nextStep: handleNextStep,
-              setUserData,
-              userData,
-              handleCompleteRegistration
+            nextStep: handleNextStep,
+            setUserData,
+            userData,
+            handleCompleteRegistration,
           });
         }
         return null;
-      })
-    }
+      })}
     </SafeAreaView>
-  )
-}
+  );
+};
