@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import * as React from "react";
+import { SafeAreaView, ScrollView } from "react-native";
 import {
     Typography,
     Box,
@@ -11,7 +11,7 @@ import {
     Toggle
 } from 'reserva-ui';
 
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const BagScreen = () => {
     // const navigation = useNavigation();
@@ -28,8 +28,7 @@ export const BagScreen = () => {
                     paddingX="micro"
                     paddingTop="xxs"
                 >
-
-                    <Box variant={"container"} >
+                    <Box variant={"container"}>
                         <Box>
                             <ProgressBar
                                 label={"Faltam apenas R$29,90 para ganhar frete grátis"}
@@ -42,6 +41,10 @@ export const BagScreen = () => {
                                 barHeight={5}
                             />
                         </Box>
+                    </Box>
+
+                    <Box bg="pink" marginTop="xxs" marginBottom="xxxs">
+                        <Typography variant={"tituloSessoes"}>Sacola (2)</Typography>
                     </Box>
 
                     <Box
