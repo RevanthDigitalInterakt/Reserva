@@ -42,7 +42,12 @@ export const LoginScreen: React.FC<{
               placeholder="Digite seu e-mail ou CPF ou CNPJ"
             />
           </Box>
-          <Typography fontFamily="nunitoRegular">Esqueci meu e-mail</Typography>
+          <Typography 
+            fontFamily="nunitoRegular"            
+            style={{ textDecorationLine: "underline" }}
+          >
+            Esqueci meu e-mail
+          </Typography>
           <Box marginTop="md" marginBottom="nano">
             <TextField 
               secureTextEntry
@@ -55,7 +60,12 @@ export const LoginScreen: React.FC<{
               } 
             />
           </Box>
-          <Typography fontFamily="nunitoRegular">Esqueci minha senha</Typography>
+          <Typography 
+            fontFamily="nunitoRegular"            
+            style={{ textDecorationLine: "underline" }}
+          >
+            Esqueci minha senha
+          </Typography>
           <Box marginTop="xs" alignItems="center">
             <Toggle
               thumbColor="neutroFrio1" 
@@ -82,13 +92,16 @@ export const LoginScreen: React.FC<{
             >
               Ainda não possui uma conta? 
             </Typography>
-            <Typography 
-              fontSize={13}
-              fontFamily="nunitoRegular" 
-              onPress={() => navigation.navigate('Register')}
-            >
-              Clique para se cadastrar
-            </Typography>
+            <Box marginLeft="micro">
+              <Typography 
+                fontSize={13}
+                style={{ textDecorationLine: "underline" }}
+                fontFamily="nunitoRegular" 
+                onPress={() => navigation.navigate('Register')}
+              >
+                Clique para se cadastrar
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </ScrollView>
