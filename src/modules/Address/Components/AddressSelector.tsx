@@ -1,8 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Alert, TouchableOpacity } from "react-native";
-import { TopBar } from "reserva-ui";
+import { theme, TopBar } from "reserva-ui";
 import { Typography, Box, Button, Icon } from "reserva-ui";
+
+// TODO: REFACTOR THIS MARGINS, DONT'T USE NUMBERS, USE TOKENS NAMES
 
 interface IAdressSelector {
   select?: () => void;
@@ -23,48 +25,59 @@ const AddressSelector = ({
   address,
   zipcode,
 }: IAdressSelector) => {
+  const navigation = useNavigation();
+
   return (
     <>
       <TouchableOpacity onPress={select}>
         <Box
           borderBottomWidth={"hairline"}
-          borderColor={"#D8D9DA"}
+          borderColor={"divider"}
           width="100%"
           backgroundColor="white"
           flexDirection="row"
-          marginTop={18}
+          mt={"xxxs"}
         >
           {/* //TODO:  change trash to check */}
-          <Box width={24} marginRight={10}>
+          <Box width={24} mr={"micro"}>
             {selected && <Icon name="Check" color="preto" size={24} />}
           </Box>
-          <Box>
+          <Box paddingX="micro">
             <Typography fontFamily="reservaSerifRegular" fontSize={16}>
               {title}
             </Typography>
-            <Box marginTop={7} marginBottom={6}>
-              <Typography fontFamily="nunitoRegular" fontSize={13}>
+            <Box mt="nano" mb="quarck">
+              <Typography
+                style={{ flexWrap: "wrap" }}
+                fontFamily="nunitoRegular"
+                fontSize={12}
+              >
                 {address}
               </Typography>
             </Box>
 
-            <Typography fontFamily="nunitoRegular" fontSize={13}>
+            <Typography fontFamily="nunitoRegular" fontSize={12}>
               {zipcode}
             </Typography>
 
             <Box
               flexDirection="row"
-              marginBottom={18.1}
+              mb={"xxxs"}
               justifyContent="flex-end"
               alignItems="flex-end"
             >
-              <Button paddingBottom={2}>
+              <Button
+                onPress={() => {
+                  navigation.navigate("NewAddress", { id: 1 });
+                }}
+                pb={"quarck"}
+              >
                 <Typography style={{ textDecorationLine: "underline" }}>
                   editar
                 </Typography>
               </Button>
               <TouchableOpacity onPress={deleteAddress}>
-                <Icon marginLeft={24.7} name="Trash" color="preto" size={24} />
+                <Icon ml={"xxs"} name="Trash" color="preto" size={24} />
               </TouchableOpacity>
             </Box>
           </Box>
