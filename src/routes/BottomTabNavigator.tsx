@@ -18,6 +18,9 @@ import { SearchScreen } from "../modules/Search/pages/Search";
 import { ExampleScreen } from "../modules/Example/pages/Example";
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
+
+import { EditProfile } from "../modules/Profile/pages/EditProfile";
+
 type OnPressType = {
   key: string;
   name: string;
@@ -74,7 +77,7 @@ export const Tabs = () => {
           component={ProductCatalog}
           initialParams={{ safeArea: false }}
         />
-        <Tab.Screen name="Profile" component={ExampleScreen} />
+        <Tab.Screen name="Profile" component={EditProfile} />
       </Tab.Navigator>
     </SafeAreaView>
   );
