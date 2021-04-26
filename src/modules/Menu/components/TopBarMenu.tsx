@@ -11,9 +11,10 @@ export const TopBarMenu: React.FC<{}> = () => {
 			paddingX="quarck"
 			bg="white"
 			leftButton={{
-				name: 'SideMenu',
+				marginTop: 'nano',
 				color: 'preto',
-				size: 24,
+				name: 'Close',
+				size: 18,
 				onPress: () => {
 					navigation.goBack();
 				}
