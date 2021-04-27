@@ -1177,9 +1177,14 @@
   integrity sha1-5Csb7xLSQVQRUZ/VKOZLWTsTY9w=
 
 "@react-native-community/masked-view@^0.1.10":
-  version "0.1.11"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
-  integrity sha1-L0xuEL7geGq/9GBOOaN97W85gM4=
+  version "0.1.10"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
+  integrity sha1-XdpkPhnlh3k7wgNN2b9zmK1D1AE=
+
+"@react-native-community/picker@^1.8.1":
+  version "1.8.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
+  integrity sha1-lPFPCq2Y+nWSlnuUG+l97slcOAU=
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -1345,9 +1350,9 @@
     tslib "^1.9.3"
 
 "@sentry/react-native@^2.4.0":
-  version "2.4.2"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@sentry/react-native/-/react-native-2.4.2.tgz#82095e33a2dcd7720c2f71f35f02329ab7351547"
-  integrity sha1-ggleM6Lc13IML3HzXwIymrc1FUc=
+  version "2.4.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@sentry/react-native/-/react-native-2.4.1.tgz#02dc53848b77c61b312100b413f9dfbcf2ac975e"
+  integrity sha1-AtxThIt3xhsxIQC0E/nfvPKsl14=
   dependencies:
     "@sentry/browser" "6.2.1"
     "@sentry/core" "6.2.1"
@@ -1610,9 +1615,9 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/jest@^26.0.20":
-  version "26.0.23"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/jest/-/jest-26.0.23.tgz#a1b7eab3c503b80451d019efb588ec63522ee4e7"
-  integrity sha1-obfqs8UDuARR0BnvtYjsY1Iu5Oc=
+  version "26.0.22"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/jest/-/jest-26.0.22.tgz#8308a1debdf1b807aa47be2838acdcd91e88fbe6"
+  integrity sha1-gwih3r3xuAeqR74oOKzc2R6I++Y=
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
@@ -1672,9 +1677,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^17":
-  version "17.0.4"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/react/-/react-17.0.4.tgz#a67c6f7a460d2660e950d9ccc1c2f18525c28220"
-  integrity sha1-pnxvekYNJmDpUNnMwcLxhSXCgiA=
+  version "17.0.3"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/react/-/react-17.0.3.tgz#ba6e215368501ac3826951eef2904574c262cc79"
+  integrity sha1-um4hU2hQGsOCaVHu8pBFdMJizHk=
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -2205,9 +2210,9 @@ aws4@^1.8.0:
   integrity sha1-1h9G2DslGSUOJ4Ta9bCUeai0HFk=
 
 axe-core@^4.0.2:
-  version "4.2.0"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/axe-core/-/axe-core-4.2.0.tgz#6594db4ee62f78be79e32a7295d21b099b60668d"
-  integrity sha1-ZZTbTuYveL554ypyldIbCZtgZo0=
+  version "4.1.4"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/axe-core/-/axe-core-4.1.4.tgz#f19cd99a84ee32a318b9c5b5bb8ed373ad94f143"
+  integrity sha1-8ZzZmoTuMqMYucW1u47Tc62U8UM=
 
 axios@^0.21.1:
   version "0.21.1"
@@ -2569,9 +2574,9 @@ camelize@^1.0.0:
   integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
 
 caniuse-lite@^1.0.30001214:
-  version "1.0.30001216"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30001216.tgz#47418a082a4f952d14d8964ae739e25efb2060a9"
-  integrity sha1-R0GKCCpPlS0U2JZK5zniXvsgYKk=
+  version "1.0.30001214"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30001214.tgz#70f153c78223515c6d37a9fde6cd69250da9d872"
+  integrity sha1-cPFTx4IjUVxtN6n95s1pJQ2p2HI=
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -3898,9 +3903,9 @@ flow-parser@^0.121.0:
   integrity sha1-n5iY6uyRqffDI+npktgatcWOYY8=
 
 follow-redirects@^1.10.0:
-  version "1.14.0"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/follow-redirects/-/follow-redirects-1.14.0.tgz#f5d260f95c5f8c105894491feee5dc8993b402fe"
-  integrity sha1-9dJg+VxfjBBYlEkf7uXciZO0Av4=
+  version "1.13.3"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/follow-redirects/-/follow-redirects-1.13.3.tgz#e5598ad50174c1bc4e872301e82ac2cd97f90267"
+  integrity sha1-5VmK1QF0wbxOhyMB6CrCzZf5Amc=
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -7042,10 +7047,10 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@0.0.89:
-  version "0.0.89"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.89.tgz#57789bb56caee3d766adba75a5beca5c89542e25"
-  integrity sha1-V3ibtWyu49dmrbp1pb7KXIlULiU=
+reserva-ui@0.0.87:
+  version "0.0.87"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.87.tgz#815119706a226e62c1661342125233df8d1f81ec"
+  integrity sha1-gVEZcGoibmLBZhNCElIz340fgew=
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
