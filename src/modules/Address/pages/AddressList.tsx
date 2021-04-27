@@ -41,7 +41,7 @@ const AddressList = () => {
         }}
       />
       <SafeAreaView flex={1} backgroundColor="white">
-        <TopBarBackButton showShadow />
+        <TopBarBackButton showShadow backButtonPress={() => navigation.navigate('HomeTabs')} />
 
         <Box
           overflow={"hidden"}

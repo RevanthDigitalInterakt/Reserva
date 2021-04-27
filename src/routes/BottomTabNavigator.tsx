@@ -16,6 +16,7 @@ import * as React from "react";
 import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
 import { SearchScreen } from "../modules/Search/pages/Search";
 import { ExampleScreen } from "../modules/Example/pages/Example";
+import { LoginScreen } from '../modules/Login/pages/Login';
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 type OnPressType = {
@@ -74,7 +75,7 @@ export const Tabs = () => {
           component={ProductCatalog}
           initialParams={{ safeArea: false }}
         />
-        <Tab.Screen name="Profile" component={ExampleScreen} />
+				<Tab.Screen name="Profile" component={LoginScreen} />
       </Tab.Navigator>
     </SafeAreaView>
   );
