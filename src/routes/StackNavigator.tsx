@@ -97,6 +97,7 @@ const AppRouting = () => {
         options={horizontalAnimationBackwards}
         component={Menu}
       />
+      <RootStack.Screen name="Login" component={LoginScreen} />
     </RootStack.Navigator>
   );
 };
