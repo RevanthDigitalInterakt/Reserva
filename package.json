@@ -36,7 +36,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.1.3",
-    "reserva-ui": "0.0.83",
+    "reserva-ui": "0.0.87",
     "styled-components": "^5.2.3",
     "styled-system": "5.1.5",
     "typesafe-actions": "^5.1.0"
@@ -46,6 +46,7 @@
     "@babel/runtime": "^7.12.5",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@react-native-community/picker": "^1.8.1",
     "@types/jest": "^26.0.20",
     "@types/react-native": "^0.64.0",
     "@types/react-redux": "^7.1.16",
