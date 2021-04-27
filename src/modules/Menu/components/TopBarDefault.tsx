@@ -12,7 +12,7 @@ export const TopBarDefault: React.FC<{
     <TopBar
       paddingX="quarck"
       bg="white"
-      style={{ elevation: showShadow ? 10 : 0 }}
+      style={{ elevation: 10 }}
       boxShadow={showShadow && Platform.OS === "ios" ? "topBarShadow" : null}
       leftButton={{
         name: "SideMenu",
@@ -33,7 +33,7 @@ export const TopBarDefault: React.FC<{
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
-          navigation.navigate("AddressList");
+          navigation.navigate("OrderList");
         },
       }}
       height={50}

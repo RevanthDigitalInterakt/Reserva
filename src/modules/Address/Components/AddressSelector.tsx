@@ -4,8 +4,6 @@ import { Alert, TouchableOpacity } from "react-native";
 import { theme, TopBar } from "reserva-ui";
 import { Typography, Box, Button, Icon } from "reserva-ui";
 
-// TODO: REFACTOR THIS MARGINS, DONT'T USE NUMBERS, USE TOKENS NAMES
-
 interface IAdressSelector {
   select?: () => void;
   edit?: () => void;
@@ -38,7 +36,6 @@ const AddressSelector = ({
           flexDirection="row"
           mt={"xxxs"}
         >
-          {/* //TODO:  change trash to check */}
           <Box width={24} mr={"micro"}>
             {selected && <Icon name="Check" color="preto" size={24} />}
           </Box>

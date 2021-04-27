@@ -17,6 +17,9 @@ import { RegisterSuccess } from "../modules/Register/pages/RegisterSuccess";
 import { LoginScreen } from "../modules/Login/pages/Login";
 
 import { StackScreenProps } from "@react-navigation/stack";
+import OrderList from "../modules/Order/pages/OrderList";
+import OrderDetail from "../modules/Order/pages/OrderDetail";
+import OrderCancel from "../modules/Order/pages/OrderCancel";
 import { Register } from "../modules/Register/pages/Register";
 import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
 import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
@@ -68,6 +71,10 @@ const MainStackScreen = () => {
         initialParams={{ safeArea: true, search: false }}
         component={ProductCatalog}
       />
+
+      <MainStack.Screen name="OrderList" component={OrderList} />
+      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
+      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
 
       <MainStack.Screen name="EditProfile" component={EditProfile} />
       <MainStack.Screen name="EditPassword" component={EditPassword} />
