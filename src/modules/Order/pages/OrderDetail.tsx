@@ -20,28 +20,24 @@ const OrderList = () => {
     <>
       <SafeAreaView flex={1} backgroundColor={"white"}>
         <TopBarBackButton showShadow />
-
-        <Box
-          mb="xxxs"
-          paddingHorizontal={20}
-          justifyContent="flex-start"
-          paddingTop={"md"}
-        >
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
-            Rastreamento de entrega
-          </Typography>
-        </Box>
         <ScrollView
           contentContainerStyle={{ paddingHorizontal: 20 }}
           showsVerticalScrollIndicator={false}
         >
-          <Stepper
-            steps={["Pedido feito", "Confirmação", "Envio", "Entrega"]}
-            actualStepIndex={2}
-          />
+          <Box mb="xxxs" justifyContent="flex-start" paddingTop={"md"}>
+            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+              Rastreamento de entrega
+            </Typography>
+          </Box>
+          <Box paddingX="xxs" paddingY="xs">
+            <Stepper
+              steps={["Pedido feito", "Confirmação", "Envio", "Entrega"]}
+              actualStepIndex={2}
+            />
+          </Box>
 
           <Box
-            mt="md"
+            marginY="micro"
             borderBottomWidth={"hairline"}
             borderBottomColor={"divider"}
           >
