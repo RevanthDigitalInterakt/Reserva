@@ -16,9 +16,8 @@ import * as React from "react";
 import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
 import { SearchScreen } from "../modules/Search/pages/Search";
 import { ExampleScreen } from "../modules/Example/pages/Example";
-import { LoginScreen } from '../modules/Login/pages/Login';
+import { LoginScreen } from "../modules/Login/pages/Login";
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
-
 
 import { MenuProfile } from "../modules/Profile/pages/MenuProfile";
 
@@ -72,7 +71,11 @@ export const Tabs = () => {
     <SafeAreaView style={{ backgroundColor: theme.colors.white }} flex={1}>
       <Tab.Navigator tabBar={(props) => <DefaultRoutes {...props} />}>
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="SearchMenu" component={ExampleScreen} />
+        <Tab.Screen
+          name="SearchMenu"
+          initialParams={{ safeArea: false, search: true }}
+          component={ProductCatalog}
+        />
         <Tab.Screen
           name="Offers"
           component={ProductCatalog}
