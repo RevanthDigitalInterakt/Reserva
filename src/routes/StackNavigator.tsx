@@ -71,7 +71,7 @@ const MainStackScreen = () => {
         initialParams={{ safeArea: true, search: false }}
         component={ProductCatalog}
       />
-      {/* <MainStack.Screen name="MyAddress" component={MyAddress} /> */}
+
       <MainStack.Screen name="OrderList" component={OrderList} />
       <MainStack.Screen name="OrderDetail" component={OrderDetail} />
       <MainStack.Screen name="OrderCancel" component={OrderCancel} />
