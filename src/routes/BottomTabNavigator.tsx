@@ -16,6 +16,7 @@ import * as React from "react";
 import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
 import { SearchScreen } from "../modules/Search/pages/Search";
 import { ExampleScreen } from "../modules/Example/pages/Example";
+import { LoginScreen } from '../modules/Login/pages/Login';
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 
@@ -78,6 +79,7 @@ export const Tabs = () => {
           initialParams={{ safeArea: false }}
         />
         <Tab.Screen name="Profile" component={MenuProfile} />
+		<Tab.Screen name="Profile" component={LoginScreen} />
       </Tab.Navigator>
     </SafeAreaView>
   );

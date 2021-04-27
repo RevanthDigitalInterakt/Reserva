@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button, Avatar, TextField, Icon, Checkbox } from "reserva-ui";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
@@ -27,10 +27,14 @@ export const EditProfile: React.FC<{
   }, []);
 
   return (
-    <Box flex={1}>
+    <SafeAreaView
+      flex={1}
+      style={{ justifyContent: "space-between" }}
+      backgroundColor="white"
+    >
       <TopBarBackButton />
-
-      <ScrollView>
+      
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box alignItems={"center"}>
             <Avatar
@@ -136,6 +140,6 @@ export const EditProfile: React.FC<{
           </Box>
         </Box>
       </ScrollView>
-    </Box>
+    </SafeAreaView>
   );
 };

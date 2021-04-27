@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button, Avatar, TextField, Icon, Checkbox } from "reserva-ui";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
@@ -22,7 +22,11 @@ export const EditPassword: React.FC<{
   }, []);
 
   return (
-    <Box flex={1} bg={'vermelhoAlerta'}>
+    <SafeAreaView
+      flex={1}
+      style={{ justifyContent: "space-between" }}
+      backgroundColor="white"
+    >
       <TopBarBackButton />
 
       <ScrollView>
@@ -58,13 +62,13 @@ export const EditPassword: React.FC<{
             </Box>
 
 
-            <Box justifyContent={'flex-end'}>
+            <Box bottom={0} justifyContent={'flex-end'}>
               <Button title='CONFIRMAR' variant={"primarioMaior"}></Button>
             </Box>
             
           </Box>
         </Box>
       </ScrollView>
-    </Box>
+    </SafeAreaView>
   );
 };
