@@ -3,14 +3,11 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Box, Button } from 'reserva-ui';
-import { ApplicationState } from '../../../store';
 import { loadRequest } from '../../../store/ducks/repositories/actions';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ItemList from '../Components/ItemList';
 
-export const MenuProfile: React.FC<{
-	title: string;
-}> = ({ children, title }) => {
+export const MenuProfile: React.FC<{}> = () => {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
 
@@ -76,7 +73,17 @@ export const MenuProfile: React.FC<{
 						title={"Notificações"}
 						descr={"Mantenha-se informado sobre as novidades"}
 						icon={"Bell"}
+						onPress={() => {
+							navigation.navigate("NotificationProfile");
+						}}
 					/>
+
+					<Box mt={"xs"} justifyContent={'flex-end'}>
+            <Button 
+              title='LOGOUT' 
+              variant={"primarioEstreitoOutline"}
+              ></Button>
+          </Box>
 				</Box>
 			</Box>		
 		</Box>

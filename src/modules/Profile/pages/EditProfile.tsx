@@ -43,6 +43,15 @@ export const EditProfile: React.FC<{
                 console.log("okx");
               }}
             ></Avatar>
+            
+            <Button 
+              title={'Alterar senha'} 
+              fontFamily={'nunitoRegular'} 
+              fontSize={13} 
+              mt={'nano'} 
+              onPress={() => {
+                navigation.navigate('EditPassword');
+              }} />
           </Box>
 
           <Box mt={"xxxs"}>

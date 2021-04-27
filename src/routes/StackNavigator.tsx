@@ -16,17 +16,19 @@ import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
 import { LoginScreen } from "../modules/Login/pages/Login";
 
-//profile
-import { EditProfile } from "../modules/Profile/pages/EditProfile";
-import { EditPassword } from "../modules/Profile/pages/EditPassword";
-//--
-
 import { StackScreenProps } from "@react-navigation/stack";
 import { Register } from "../modules/Register/pages/Register";
 import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
 import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
 import { ForgotPassword } from "../modules/Forgot/pages/ForgotPassword";
 import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
+
+//profile
+import { EditProfile } from "../modules/Profile/pages/EditProfile";
+import { EditPassword } from "../modules/Profile/pages/EditPassword";
+import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
+//--
+
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
@@ -60,6 +62,7 @@ const MainStackScreen = () => {
 
       <MainStack.Screen name="EditProfile" component={EditProfile} />
       <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen name="NotificationProfile" component={NotificationProfile} />
     </MainStack.Navigator>
   );
 };

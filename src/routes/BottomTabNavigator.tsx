@@ -79,7 +79,6 @@ export const Tabs = () => {
           initialParams={{ safeArea: false }}
         />
         <Tab.Screen name="Profile" component={MenuProfile} />
-		<Tab.Screen name="Profile" component={LoginScreen} />
       </Tab.Navigator>
     </SafeAreaView>
   );

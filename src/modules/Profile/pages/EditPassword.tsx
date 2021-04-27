@@ -2,14 +2,12 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { Typography, Box, Button, Avatar, TextField, Icon, Checkbox } from "reserva-ui";
+import { useDispatch } from "react-redux";
+import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
-export const EditPassword: React.FC<{
-  title: string;
-}> = ({ children, title }) => {
+export const EditPassword: React.FC<{}> = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [data, setData] = useState({
@@ -36,7 +34,7 @@ export const EditPassword: React.FC<{
           </Box>
 
           <Box mt={"xxxs"}>        
-            <Box mb={"nano"}>
+            <Box mb={"micro"}>
               <TextField
                 label={"Digite sua nova senha"}
                 value={data.password}
@@ -48,6 +46,8 @@ export const EditPassword: React.FC<{
                     <Icon color="neutroFrio2" name="EyeOff" size={25} />
                   </Box>
                 }
+                touched={true}
+                error={'Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números.'}
               />
             </Box>
 
@@ -58,17 +58,19 @@ export const EditPassword: React.FC<{
                 onChangeText={(text) => {
                   setData({ ...data, ...{ email: text } });
                 }}
+                touched={true}
+                error={'As senhas não correspondem.'}
               />
             </Box>
 
-
-            <Box bottom={0} justifyContent={'flex-end'}>
-              <Button title='CONFIRMAR' variant={"primarioMaior"}></Button>
-            </Box>
             
           </Box>
         </Box>
       </ScrollView>
+
+      <Box bottom={0} justifyContent={'flex-end'}>
+        <Button title='CONFIRMAR' variant={"primarioMaior"}></Button>
+      </Box>
     </SafeAreaView>
   );
 };
