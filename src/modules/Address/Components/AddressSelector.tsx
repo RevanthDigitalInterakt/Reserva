@@ -23,6 +23,8 @@ const AddressSelector = ({
   address,
   zipcode,
 }: IAdressSelector) => {
+  const navigation = useNavigation();
+
   return (
     <>
       <TouchableOpacity onPress={select}>
@@ -61,7 +63,12 @@ const AddressSelector = ({
               justifyContent="flex-end"
               alignItems="flex-end"
             >
-              <Button onPress={edit} pb={"quarck"}>
+              <Button
+                onPress={() => {
+                  navigation.navigate("NewAddress", { id: 1 });
+                }}
+                pb={"quarck"}
+              >
                 <Typography style={{ textDecorationLine: "underline" }}>
                   editar
                 </Typography>

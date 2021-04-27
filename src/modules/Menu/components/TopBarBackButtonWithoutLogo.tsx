@@ -1,30 +1,24 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Alert, Platform } from "react-native";
 import { TopBar } from "reserva-ui";
 
-export const TopBarBackButton: React.FC<{
+export const TopBarBackButtonWithoutLogo: React.FC<{
   showShadow?: Boolean;
-  backButtonPress?: () => void;
+  backButtonPress: () => void;
 }> = ({ showShadow = true, backButtonPress }) => {
-  const navigation = useNavigation();
   return (
     <TopBar
       paddingX="quarck"
       bg="white"
-      showLogo
+      showLogo={false}
       style={{ elevation: showShadow ? 10 : 0 }}
       boxShadow={showShadow && Platform.OS === "ios" ? "topBarShadow" : null}
       leftButton={{
         name: "ArrowBack",
         size: 24,
         onPress: () => {
-          if (backButtonPress) {
-            backButtonPress();
-            return;
-          }
-
-          navigation.goBack();
+          backButtonPress();
         },
       }}
       height={50}

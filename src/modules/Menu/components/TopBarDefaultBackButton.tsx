@@ -12,7 +12,7 @@ export const TopBarDefaultBackButton: React.FC<{
     <TopBar
       paddingX="quarck"
       bg="white"
-      style={{ elevation: 10 }}
+      style={{ elevation: showShadow ? 10 : 0 }}
       boxShadow={showShadow && Platform.OS === "ios" ? "topBarShadow" : null}
       leftButton={{
         name: "ArrowBack",
