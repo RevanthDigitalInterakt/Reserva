@@ -45,6 +45,7 @@ export const LoginScreen: React.FC<{
           <Typography 
             fontFamily="nunitoRegular"            
             style={{ textDecorationLine: "underline" }}
+            onPress={() => navigation.navigate('ForgotEmail')}
           >
             Esqueci meu e-mail
           </Typography>

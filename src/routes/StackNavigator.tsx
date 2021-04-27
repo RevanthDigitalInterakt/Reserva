@@ -17,6 +17,8 @@ import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
 import { LoginScreen } from "../modules/Login/pages/Login";
 
 import { Register } from "../modules/Register/pages/Register";
+import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
+import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
@@ -38,6 +40,8 @@ const MainStackScreen = () => {
 			<MainStack.Screen name="Login" component={LoginScreen} />
 			<MainStack.Screen name="Register" component={Register} />
 			<MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
+			<MainStack.Screen name="ForgotEmail" component={ForgotEmail} />
+			<MainStack.Screen name="ForgotEmailSuccess" component={ForgotEmailSuccess} />
       <MainStack.Screen
         name="ProductCatalog"
         initialParams={{ safeArea: true }}
