@@ -1,9 +1,9 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
 import { useEffect } from "react";
-import { Dimensions, ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Box,
   theme,
@@ -13,21 +13,20 @@ import {
   Typography,
   Icon,
   Picker,
+  SearchBar,
 } from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 import { FilterModal } from "../modals/FilterModal";
 
-const windowWidth = Dimensions.get("window").width;
-
 type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { safeArea } = route.params;
+  const { search } = route.params;
 
   const dispatch = useDispatch();
 
@@ -86,6 +85,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         title="Ordenar Por"
       />
       <ScrollView>
+        {search && (
+          <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
+            <SearchBar height={36} placeholder="Buscar" />
+          </Box>
+        )}
         <Box
           bg="white"
           variant="container"
@@ -94,7 +98,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         >
           <Box width={1 / 1}>
             <Image
-              source={safeArea ? images.bannerCatalog : images.bannerOffer}
+              source={
+                safeArea || search ? images.bannerCatalog : images.bannerOffer
+              }
               width={1 / 1}
             />
             <Box bg="dropDownBorderColor">
