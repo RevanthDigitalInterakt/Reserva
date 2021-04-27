@@ -1,6 +1,6 @@
 {
   "name": "reserva",
-  "version": "0.0.1",
+  "version": "0.0.80",
   "private": true,
   "scripts": {
     "pod-m1": "cd ios && arch -x86_64 pod install",
