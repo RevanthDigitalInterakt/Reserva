@@ -14,6 +14,11 @@ import { horizontalAnimationBackwards } from "./utils/utils";
 import { ExampleScreen } from "../modules/Example/pages/Example";
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
+//profile
+import { EditProfile } from "../modules/Profile/pages/EditProfile";
+import { EditPassword } from "../modules/Profile/pages/EditPassword";
+//--
+
 import { StackScreenProps } from "@react-navigation/stack";
 
 export type RootStackParamList = {
@@ -38,6 +43,9 @@ const MainStackScreen = () => {
         initialParams={{ safeArea: true }}
         component={ProductCatalog}
       />
+
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
     </MainStack.Navigator>
   );
 };

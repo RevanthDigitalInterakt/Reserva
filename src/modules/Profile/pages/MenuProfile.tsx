@@ -24,7 +24,7 @@ export const MenuProfile: React.FC<{
 			<TopBarBackButton />
 
 			<Box alignContent={"flex-start"} pt={'xs'} paddingX={'xxxs'}>
-				<Box mb={'micro'} alignSelf={"flex-start"}>
+				<Box mb={'micro'}>
 					<Typography fontFamily="reservaSerifRegular" fontSize={20}>Perfil</Typography>
 				</Box>
 				<Typography fontFamily="reservaSerifRegular" fontSize={16}>Bem-vindo, João.</Typography>
@@ -46,11 +46,15 @@ export const MenuProfile: React.FC<{
 						title={"Meus dados"}
 						descr={"Visualize e edite suas informações"}
 						icon={"Profile"} 
+						onPress={() => {
+							navigation.navigate("EditProfile");
+						}}
 					/>
 
 					<ItemList 
 						title={"Meus cartões"}
 						descr={"Consulte e adicione cartões de crédito"}
+						icon={"Card"}
 					/>
 
 					<ItemList 
@@ -62,11 +66,16 @@ export const MenuProfile: React.FC<{
 					<ItemList 
 						title={"Alterar senha"}
 						descr={"Altere a senha da sua conta"}
+						icon={"Lock"}
+						onPress={() => {
+							navigation.navigate("EditPassword");
+						}}
 					/>
 
 					<ItemList 
 						title={"Notificações"}
 						descr={"Mantenha-se informado sobre as novidades"}
+						icon={"Bell"}
 					/>
 				</Box>
 			</Box>		

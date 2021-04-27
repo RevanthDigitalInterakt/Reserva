@@ -21,8 +21,8 @@ const ItemList = ({
   return (
     <>
       <TouchableOpacity onPress={onPress}>
-       <Box mb={15} mt={15} flexDirection={"row"}>
-         <Box pr={10} justifyContent="flex-start">
+       <Box mb={'micro'} mt={'micro'} flexDirection={"row"}>
+         <Box pr={'micro'} justifyContent="flex-start">
            {icon != undefined && (
              <Icon name={icon} size={20}></Icon>
            )}
