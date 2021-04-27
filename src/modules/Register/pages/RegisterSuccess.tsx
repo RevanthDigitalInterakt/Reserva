@@ -19,6 +19,7 @@ import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 import okImage from "../../../assets/img/ok.png";
+import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
 
 export const RegisterSuccess: React.FC<{
   title: string;
@@ -38,7 +39,7 @@ export const RegisterSuccess: React.FC<{
       }}
       flex={1}
     >
-      <TopBarBackButton backButtonPress={() => navigation.navigate("Login")} />
+      <TopBarBackButtonWithoutLogo showShadow={false} backButtonPress={() => navigation.navigate("Login")} />
       <Box alignItems="center" justifyContent="center" marginTop="xxl" flex={1}>
         <Box marginTop="xxxs">
           <Typography fontSize={20} fontFamily="reservaSerifRegular">

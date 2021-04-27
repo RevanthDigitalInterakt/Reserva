@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native";
 import { ProgressBar } from "reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useEffect } from "react";
+import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
 
 export interface IUserData {
   cpf: string;
@@ -70,8 +70,7 @@ export const Wizard: React.FC<{
           showPercent
         />
       )}
-      <TopBarBackButton
-        showLogo={false}
+      <TopBarBackButtonWithoutLogo
         showShadow={false}
         backButtonPress={() => handlePrevStep()}
       />
