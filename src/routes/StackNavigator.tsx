@@ -24,7 +24,7 @@ import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword';
 import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword';
 
 export type RootStackParamList = {
-  ProductCatalog: { safeArea: boolean; search: boolean };
+  ProductCatalog: { safeArea: boolean };
   NewAddress: { id?: number };
 };
 
@@ -57,27 +57,9 @@ const MainStackScreen = () => {
         component={ForgotNewPassword}
       />
       <MainStack.Screen name='ProductDetail' component={ProductDetail} />
-      <MainStack.Screen name='HomeTabs' component={Tabs} />
-      <MainStack.Screen name='Example' component={ExampleScreen} />
-      <MainStack.Screen name='SearchMenu' component={SearchScreen} />
-      <MainStack.Screen name='AddressList' component={AddressList} />
-      <MainStack.Screen name='NewAddress' component={NewAddress} />
-      <MainStack.Screen name='Login' component={LoginScreen} />
-      <MainStack.Screen name='Register' component={Register} />
-      <MainStack.Screen name='RegisterSuccess' component={RegisterSuccess} />
-      <MainStack.Screen name='ForgotEmail' component={ForgotEmail} />
-      <MainStack.Screen
-        name='ForgotEmailSuccess'
-        component={ForgotEmailSuccess}
-      />
-      <MainStack.Screen name='ForgotPassword' component={ForgotPassword} />
-      <MainStack.Screen
-        name='ForgotNewPassword'
-        component={ForgotNewPassword}
-      />
       <MainStack.Screen
         name='ProductCatalog'
-        initialParams={{ safeArea: true, search: false }}
+        initialParams={{ safeArea: true }}
         component={ProductCatalog}
       />
     </MainStack.Navigator>

@@ -46,7 +46,6 @@
     "@babel/runtime": "^7.12.5",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@react-native-community/picker": "^1.8.1",
     "@types/jest": "^26.0.20",
     "@types/react-native": "^0.64.0",
     "@types/react-redux": "^7.1.16",
