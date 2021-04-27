@@ -64,6 +64,7 @@ export const LoginScreen: React.FC<{
           <Typography 
             fontFamily="nunitoRegular"            
             style={{ textDecorationLine: "underline" }}
+            onPress={() => navigation.navigate('ForgotPassword')}
           >
             Esqueci minha senha
           </Typography>
