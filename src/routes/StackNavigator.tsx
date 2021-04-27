@@ -1,26 +1,27 @@
 // In App.js in a new project
-import * as React from "react";
+import * as React from 'react';
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { HomeScreen } from "../modules/Home/pages/Home";
-import { SearchScreen } from "../modules/Search/pages/Search";
-import AddressList from "../modules/Address/pages/AddressList";
-import NewAddress from "../modules/Address/pages/NewAddress";
-import { Tabs } from "./BottomTabNavigator";
-import { Menu } from "../modules/Menu/modals/Menu";
+import { HomeScreen } from '../modules/Home/pages/Home';
+import { SearchScreen } from '../modules/Search/pages/Search';
+import AddressList from '../modules/Address/pages/AddressList';
+import NewAddress from '../modules/Address/pages/NewAddress';
+import { Tabs } from './BottomTabNavigator';
+import { Menu } from '../modules/Menu/modals/Menu';
 
-import { horizontalAnimationBackwards } from "./utils/utils";
-import { ExampleScreen } from "../modules/Example/pages/Example";
-import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
+import { horizontalAnimationBackwards } from './utils/utils';
+import { ExampleScreen } from '../modules/Example/pages/Example';
+import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
 import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
-import { LoginScreen } from "../modules/Login/pages/Login";
+import { LoginScreen } from '../modules/Login/pages/Login';
 
-import { Register } from "../modules/Register/pages/Register";
-import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
-import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
-import { ForgotPassword } from "../modules/Forgot/pages/ForgotPassword";
-import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
+import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail';
+import { Register } from '../modules/Register/pages/Register';
+import { ForgotEmail } from '../modules/Forgot/pages/ForgotEmail';
+import { ForgotEmailSuccess } from '../modules/Forgot/pages/ForgotEmailSuccess';
+import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword';
+import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword';
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
@@ -33,21 +34,31 @@ const RootStack = createStackNavigator();
 const MainStackScreen = () => {
   // Here you put normal navigation
   return (
-    <MainStack.Navigator detachInactiveScreens screenOptions={{ headerShown: false }}>
-      <MainStack.Screen name="HomeTabs" component={Tabs} />
-      <MainStack.Screen name="Example" component={ExampleScreen} />
-      <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-      <MainStack.Screen name="AddressList" component={AddressList} />
-      <MainStack.Screen name="NewAddress" component={NewAddress} />
-			<MainStack.Screen name="Login" component={LoginScreen} />
-			<MainStack.Screen name="Register" component={Register} />
-			<MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
-			<MainStack.Screen name="ForgotEmail" component={ForgotEmail} />
-			<MainStack.Screen name="ForgotEmailSuccess" component={ForgotEmailSuccess} />
-			<MainStack.Screen name="ForgotPassword" component={ForgotPassword} />
-			<MainStack.Screen name="ForgotNewPassword" component={ForgotNewPassword} />
+    <MainStack.Navigator
+      detachInactiveScreens
+      screenOptions={{ headerShown: false }}
+    >
+      <MainStack.Screen name='HomeTabs' component={Tabs} />
+      <MainStack.Screen name='Example' component={ExampleScreen} />
+      <MainStack.Screen name='SearchMenu' component={SearchScreen} />
+      <MainStack.Screen name='AddressList' component={AddressList} />
+      <MainStack.Screen name='NewAddress' component={NewAddress} />
+      <MainStack.Screen name='Login' component={LoginScreen} />
+      <MainStack.Screen name='Register' component={Register} />
+      <MainStack.Screen name='RegisterSuccess' component={RegisterSuccess} />
+      <MainStack.Screen name='ForgotEmail' component={ForgotEmail} />
       <MainStack.Screen
-        name="ProductCatalog"
+        name='ForgotEmailSuccess'
+        component={ForgotEmailSuccess}
+      />
+      <MainStack.Screen name='ForgotPassword' component={ForgotPassword} />
+      <MainStack.Screen
+        name='ForgotNewPassword'
+        component={ForgotNewPassword}
+      />
+      <MainStack.Screen name='ProductDetail' component={ProductDetail} />
+      <MainStack.Screen
+        name='ProductCatalog'
         initialParams={{ safeArea: true }}
         component={ProductCatalog}
       />
@@ -58,18 +69,18 @@ const MainStackScreen = () => {
 const AppRouting = () => {
   return (
     <RootStack.Navigator
-      mode="modal"
-      initialRouteName="Home"
+      mode='modal'
+      initialRouteName='Home'
       screenOptions={{ headerShown: false }}
     >
       <RootStack.Screen
-        name="Main"
+        name='Main'
         component={MainStackScreen}
         options={{ headerShown: false }}
       />
       {/* After that you put modal Screens */}
       <RootStack.Screen
-        name="Menu"
+        name='Menu'
         options={horizontalAnimationBackwards}
         component={Menu}
       />
