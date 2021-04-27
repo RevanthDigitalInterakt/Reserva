@@ -13,6 +13,7 @@ import {
   Typography,
   Icon,
   Picker,
+  SearchBar,
 } from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
@@ -28,6 +29,7 @@ type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { safeArea } = route.params;
+  const { search } = route.params;
 
   const dispatch = useDispatch();
 
@@ -46,6 +48,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       flex={1}
     >
       {safeArea ? <TopBarDefaultBackButton /> : <TopBarDefault />}
+      {search && (
+        <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
+          <SearchBar height={36} placeholder="Buscar" />
+        </Box>
+      )}
       <FilterModal
         isVisible={filterVisible}
         onConfirm={() => {}}
@@ -94,7 +101,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         >
           <Box width={1 / 1}>
             <Image
-              source={safeArea ? images.bannerCatalog : images.bannerOffer}
+              source={
+                safeArea || search ? images.bannerCatalog : images.bannerOffer
+              }
               width={1 / 1}
             />
             <Box bg="dropDownBorderColor">
