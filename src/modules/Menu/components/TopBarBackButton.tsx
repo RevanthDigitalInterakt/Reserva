@@ -1,12 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Alert, Platform } from "react-native";
 import { TopBar } from "reserva-ui";
 
 export const TopBarBackButton: React.FC<{
   showShadow?: Boolean;
-  backButtonPress: () => void;
+  backButtonPress?: () => void;
 }> = ({ showShadow = true, backButtonPress }) => {
+  const navigation = useNavigation();
   return (
     <TopBar
       paddingX="quarck"
@@ -18,7 +19,12 @@ export const TopBarBackButton: React.FC<{
         name: "ArrowBack",
         size: 24,
         onPress: () => {
-          backButtonPress();
+          if (backButtonPress) {
+            backButtonPress();
+            return;
+          }
+
+          navigation.goBack();
         },
       }}
       height={50}
