@@ -7042,10 +7042,10 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@0.0.83:
-  version "0.0.83"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.83.tgz#c1056686e97f2d49794533a009ef9692a362f6c7"
-  integrity sha1-wQVmhul/LUl5RTOgCe+WkqNi9sc=
+reserva-ui@0.0.89:
+  version "0.0.89"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.89.tgz#57789bb56caee3d766adba75a5beca5c89542e25"
+  integrity sha1-V3ibtWyu49dmrbp1pb7KXIlULiU=
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
