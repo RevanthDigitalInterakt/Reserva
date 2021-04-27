@@ -15,7 +15,8 @@ import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import OrderList from "../modules/Order/pages/OrderList";
-
+import OrderDetail from "../modules/Order/pages/OrderDetail";
+import OrderCancel from "../modules/Order/pages/OrderCancel";
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
 };
@@ -37,6 +38,8 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name="MyAddress" component={MyAddress} />
       <MainStack.Screen name="OrderList" component={OrderList} />
+      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
+      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
     </MainStack.Navigator>
   );
 };
