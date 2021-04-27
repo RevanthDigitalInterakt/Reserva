@@ -16,12 +16,20 @@ import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
 import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
 import { LoginScreen } from '../modules/Login/pages/Login';
 
+import { StackScreenProps } from "@react-navigation/stack";
+import { Register } from "../modules/Register/pages/Register";
+import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
+import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
+import { ForgotPassword } from "../modules/Forgot/pages/ForgotPassword";
+import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
 import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail';
-import { Register } from '../modules/Register/pages/Register';
-import { ForgotEmail } from '../modules/Forgot/pages/ForgotEmail';
-import { ForgotEmailSuccess } from '../modules/Forgot/pages/ForgotEmailSuccess';
-import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword';
-import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword';
+
+//profile
+import { EditProfile } from "../modules/Profile/pages/EditProfile";
+import { EditPassword } from "../modules/Profile/pages/EditPassword";
+import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
+//--
+
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
@@ -47,21 +55,21 @@ const MainStackScreen = () => {
       <MainStack.Screen name='Register' component={Register} />
       <MainStack.Screen name='RegisterSuccess' component={RegisterSuccess} />
       <MainStack.Screen name='ForgotEmail' component={ForgotEmail} />
-      <MainStack.Screen
-        name='ForgotEmailSuccess'
-        component={ForgotEmailSuccess}
-      />
+      <MainStack.Screen name='ForgotEmailSuccess' component={ForgotEmailSuccess} />
       <MainStack.Screen name='ForgotPassword' component={ForgotPassword} />
-      <MainStack.Screen
-        name='ForgotNewPassword'
-        component={ForgotNewPassword}
-      />
+      <MainStack.Screen name='ForgotNewPassword' component={ForgotNewPassword} />
+
       <MainStack.Screen name='ProductDetail' component={ProductDetail} />
+
       <MainStack.Screen
         name='ProductCatalog'
         initialParams={{ safeArea: true }}
         component={ProductCatalog}
       />
+
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen name="NotificationProfile" component={NotificationProfile} />
     </MainStack.Navigator>
   );
 };
