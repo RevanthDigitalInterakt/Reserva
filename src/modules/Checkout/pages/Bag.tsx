@@ -12,10 +12,11 @@ import {
     TextField
 } from 'reserva-ui';
 import { PriceCustom } from "../../Home/components/PriceCustom";
-
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { useNavigation } from "@react-navigation/native";
 
-export const BagScreen = ({ navigation }) => {
+export const BagScreen = () => {
+    const navigation = useNavigation();
     const [quantity, setQuantity] = useState(1)
     const [lisProduct, setLisProduct] = useState([
         {
