@@ -16,3 +16,7 @@ export const images = {
   elo: require('./img/elo.png'),
   cardImage: require('./img/cardImage.png'),
 };
+
+export const animations = {
+  splash: require("./animations/splash.json"),
+};
