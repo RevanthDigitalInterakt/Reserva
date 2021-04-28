@@ -4,13 +4,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-} from "react-native";
+} from 'react-native';
 
 import {
   BottomTabBarProps,
   createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
-import { HomeScreen } from "../modules/Home/pages/Home";
+} from '@react-navigation/bottom-tabs';
+import { HomeScreen } from '../modules/Home/pages/Home';
 
 import * as React from "react";
 import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
@@ -33,7 +33,7 @@ export const DefaultRoutes = ({
 }: BottomTabBarProps<{}>) => {
   const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
     const event = navigation.emit({
-      type: "tabPress",
+      type: 'tabPress',
       target: key,
       canPreventDefault: true,
     });
