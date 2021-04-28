@@ -269,7 +269,7 @@ PODS:
     - React-cxxreact (= 0.64.0)
     - React-jsi (= 0.64.0)
     - React-perflogger (= 0.64.0)
-  - RNCMaskedView (0.1.11):
+  - RNCMaskedView (0.1.10):
     - React
   - RNCPicker (1.8.1):
     - React-Core
@@ -306,7 +306,7 @@ PODS:
     - Yoga
   - RNScreens (3.1.1):
     - React-Core
-  - RNSentry (2.4.2):
+  - RNSentry (2.4.1):
     - React-Core
     - Sentry (= 6.1.4)
   - RNSVG (12.1.1):
@@ -439,7 +439,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 7e29609e582f42c3b3a89ba67f0967b8366cad57
+  FBReactNativeSpec: 128888d3e5a524c706b2720deb9ba6558f2f6072
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
@@ -470,7 +470,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: b8c8004b43446e3c2709fe64b2b41072f87428ad
   RNScreens: bd1523c3bde7069b8e958e5a16e1fc7722ad0bdd
-  RNSentry: e86fb2e2fec0365644f4b582938bf66be515acce
+  RNSentry: 824a6a0ec885428163fe6827aa08014f9962f223
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
