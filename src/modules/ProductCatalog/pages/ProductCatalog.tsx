@@ -43,10 +43,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const DynamicComponent = safeArea ? SafeAreaView : Box;
 
   return (
-    <DynamicComponent
-      style={{ backgroundColor: safeArea ? theme.colors.white : null }}
-      flex={1}
-    >
+    <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? <TopBarDefaultBackButton /> : <TopBarDefault />}
       {search && (
         <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
@@ -94,7 +91,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       />
       <ScrollView>
         <Box
-          bg="white"
           variant="container"
           alignItems="flex-start"
           justifyContent="center"
