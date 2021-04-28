@@ -14,7 +14,12 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
 
   useEffect(() => {
     animation?.play();
+    console.log(animation?.props.progress);
   }, [animation]);
+
+  useEffect(() => {
+    console.log(animation?.props.progress);
+  }, [animation?.props.progress]);
 
   return (
     <>
@@ -26,6 +31,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
           ref={(animation) => {
             setAnimation(animation);
           }}
+          autoPlay
           source={animations.splash}
         />
       ) : (
