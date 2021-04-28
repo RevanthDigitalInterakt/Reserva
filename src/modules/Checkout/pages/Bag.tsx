@@ -11,7 +11,7 @@ import {
     Toggle,
     TextField
 } from 'reserva-ui';
-import { PriceCustom } from "../../Home/components/PriceCustom";
+import { PriceCustom } from "../components/PriceCustom";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 
@@ -58,11 +58,12 @@ export const BagScreen = () => {
         <SafeAreaView
             style={{ justifyContent: "space-between", flex: 1, backgroundColor: "#FFF" }}
         >
+            <TopBarBackButton showShadow />
             <ScrollView>
-                <TopBarBackButton showShadow />
+
                 <Box
                     bg={"white"}
-                    paddingX={"micro"}
+                    paddingX={"xxxs"}
                     paddingY={"xxs"}
                 >
                     <Box variant={"container"}>
@@ -230,7 +231,12 @@ export const BagScreen = () => {
 
             </ScrollView>
 
-            <Button onPress={() => navigation.navigate('DeliveryScreen')} title='IR PARA ENTREGA' variant='primarioEstreito' inline />
+            <Button
+                onPress={() => navigation.navigate('DeliveryScreen')}
+                title='IR PARA ENTREGA'
+                variant='primarioEstreito'
+                inline
+            />
         </SafeAreaView >
     );
 };
