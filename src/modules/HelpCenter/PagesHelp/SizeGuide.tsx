@@ -31,71 +31,77 @@ export const SizeGuide: React.FC<{}> = () => {
               Guia de tamanhos
             </Typography>
           </Box>
+          
+          <Box>
+            <Image
+              source={images.helpSizeGuide1}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
 
-          <Box mt={"xxxs"}>
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide1}
-                height={291}
-                resizeMode={"contain"}
-                width={Dimensions.get("screen").width}
-              />
-            </Box>
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide2}
-                height={291}
-                resizeMode={"contain"}
-                width={Dimensions.get("screen").width}
-              />
-            </Box>
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide3}
-                height={291}
-                resizeMode={"contain"}
-              />
-            </Box>
-            
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide4}
-                height={291}
-                resizeMode={"contain"}
-              />
-            </Box>
+          <Box>
+            <Image
+              source={images.helpSizeGuide2}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
 
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide5}
-                height={291}
-                resizeMode={"contain"}
-              />
-            </Box>
-            
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide6}
-                height={291}
-                resizeMode={"contain"}
-              />
-            </Box>
-            
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide7}
-                height={291}
-                resizeMode={"contain"}
-              />
-            </Box>
-            
-            <Box width={1 / 1}>
-              <Image
-                source={images.helpSizeGuide8}
-                height={291}
-                resizeMode={"contain"}
-              />
-            </Box>
+          <Box>
+            <Image
+              source={images.helpSizeGuide2}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
+          
+          <Box>
+            <Image
+              source={images.helpSizeGuide3}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
+
+          <Box>
+            <Image
+              source={images.helpSizeGuide4}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
+
+          <Box>
+            <Image
+              source={images.helpSizeGuide5}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
+       
+          <Box>
+            <Image
+              source={images.helpSizeGuide6}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
+
+          <Box>
+            <Image
+              source={images.helpSizeGuide7}
+              height={291}
+              resizeMode={"contain"}
+            />
+          </Box>
+
+          <Box>
+            <Image
+              source={images.helpSizeGuide8}
+              height={291}
+              resizeMode={"contain"}
+            />
           </Box>
         </Box>
       </ScrollView>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
-import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
+import { Typography, Box, Button, TextField, Icon, SearchBar } from "reserva-ui";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import ItemListHelp from "../Components/ItemListHelp";
@@ -17,7 +17,7 @@ export const HelpCenter: React.FC<{}> = () => {
     {
       title: 'Guia de Tamanhos', navigate: 'SizeGuide'
     },
-    { title: 'Cuidados com a roupa' },
+    { title: 'Cuidados com a roupa', navigate: 'ClothingCare' },
     { title: 'Trocas e devoluções' },
     { title: 'Pedidos e entregas' },
     { title: 'Formas de pagamento' },
@@ -48,23 +48,15 @@ export const HelpCenter: React.FC<{}> = () => {
           </Box>
 
           <Box mb={"micro"} mt={"xxxs"}>
-            <TextField
-              label={"Buscar"}
-              value={search}
-              onChangeText={(text) => {
+            <SearchBar
+              height={36} placeholder="Buscar"  
+              onValueChange={(text) => {
                 setSearch(text);
                 const newFilter = data.filter((item) => {
                   return item.title.indexOf(text) > -1;
                 });
                 setFilter(newFilter);
-              }}
-              iconRight={
-                <Box ml="nano">
-                  <Icon color="neutroFrio2" name="Search" size={25} />
-                </Box>
-              }
-              placeholder={"Buscar" }
-            />
+              }} />
           </Box>
 
           <ScrollView>

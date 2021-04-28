@@ -23,4 +23,9 @@ export const images = {
   americanExpress: require('./img/americanExpress.png'),
   elo: require('./img/elo.png'),
   cardImage: require('./img/cardImage.png'),
+  clothingCare1: require('./img/clothing-care1.png'),
+  clothingCare2: require('./img/clothing-care2.png'),
+  clothingCare3: require('./img/clothing-care3.png'),
+  clothingCare4: require('./img/clothing-care4.png'),
+  clothingCare5: require('./img/clothing-care5.png'),
 };

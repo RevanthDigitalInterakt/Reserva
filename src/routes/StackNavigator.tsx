@@ -37,6 +37,8 @@ import { NotificationProfile } from "../modules/Profile/pages/NotificationProfil
 
 import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
+import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
+
 import { MyCards } from '../modules/Profile/pages/MyCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 
@@ -91,6 +93,8 @@ const MainStackScreen = () => {
 
       <MainStack.Screen name="HelpCenter" component={HelpCenter} />
       <MainStack.Screen name="SizeGuide" component={SizeGuide} />
+      <MainStack.Screen name="ClothingCare" component={ClothingCare} />
+
       <MainStack.Screen name="MyCards" component={MyCards} />
       <MainStack.Screen name="NewCard" component={NewCard} />
     </MainStack.Navigator>
