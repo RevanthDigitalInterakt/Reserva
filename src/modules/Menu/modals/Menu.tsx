@@ -150,7 +150,7 @@ export const FixedMenuItem: React.FC<{
   onPress: Function;
 }> = ({ iconName, title, onPress }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => onPress()}>
       <Box
         justifyContent="flex-start"
         alignItems="flex-end"
@@ -284,7 +284,9 @@ export const Menu: React.FC<{}> = () => {
           <FixedMenuItem
             iconName="Profile"
             title="Acessar Conta ou Cadastre-se"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Heart"

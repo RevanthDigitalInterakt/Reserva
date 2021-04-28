@@ -10,16 +10,31 @@ import NewAddress from '../modules/Address/pages/NewAddress';
 import { Tabs } from './BottomTabNavigator';
 import { Menu } from '../modules/Menu/modals/Menu';
 
-import { horizontalAnimationBackwards } from './utils/utils';
-import { ExampleScreen } from '../modules/Example/pages/Example';
-import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
+import { horizontalAnimationBackwards } from "./utils/utils";
+import { ExampleScreen } from "../modules/Example/pages/Example";
+import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
+import { RegisterSuccess } from "../modules/Register/pages/RegisterSuccess";
+import { LoginScreen } from "../modules/Login/pages/Login";
 
-import { StackScreenProps } from '@react-navigation/stack';
-import { MyCardsScreen } from '../modules/RegisterCard/pages/MyCards';
-import NewCard from '../modules/RegisterCard/pages/NewCard';
+import { StackScreenProps } from "@react-navigation/stack";
+import OrderList from "../modules/Order/pages/OrderList";
+import OrderDetail from "../modules/Order/pages/OrderDetail";
+import OrderCancel from "../modules/Order/pages/OrderCancel";
+import { Register } from "../modules/Register/pages/Register";
+import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
+import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
+import { ForgotPassword } from "../modules/Forgot/pages/ForgotPassword";
+import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
+import { ProductDetail } from "../modules/ProductDetail/pages/ProductDetail";
+
+//profile
+import { EditProfile } from "../modules/Profile/pages/EditProfile";
+import { EditPassword } from "../modules/Profile/pages/EditPassword";
+import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
+//--
 
 export type RootStackParamList = {
-  ProductCatalog: { safeArea: boolean };
+  ProductCatalog: { safeArea: boolean; search: boolean };
   NewAddress: { id?: number };
 };
 
@@ -29,18 +44,43 @@ const RootStack = createStackNavigator();
 const MainStackScreen = () => {
   // Here you put normal navigation
   return (
-    <MainStack.Navigator screenOptions={{ headerShown: false }}>
+    <MainStack.Navigator
+      detachInactiveScreens
+      screenOptions={{ headerShown: false }}
+    >
       <MainStack.Screen name="HomeTabs" component={Tabs} />
       <MainStack.Screen name="Example" component={ExampleScreen} />
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
       <MainStack.Screen name="AddressList" component={AddressList} />
       <MainStack.Screen name="NewAddress" component={NewAddress} />
-      <MainStack.Screen name="CardsList" component={MyCardsScreen} />
-      <MainStack.Screen name="NewCard" component={NewCard} />
+      <MainStack.Screen name="Login" component={LoginScreen} />
+      <MainStack.Screen name="Register" component={Register} />
+      <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
+      <MainStack.Screen name="ForgotEmail" component={ForgotEmail} />
+      <MainStack.Screen
+        name="ForgotEmailSuccess"
+        component={ForgotEmailSuccess}
+      />
+      <MainStack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <MainStack.Screen
+        name="ForgotNewPassword"
+        component={ForgotNewPassword}
+      />
       <MainStack.Screen
         name="ProductCatalog"
-        initialParams={{ safeArea: true }}
+        initialParams={{ safeArea: true, search: false }}
         component={ProductCatalog}
+      />
+
+      <MainStack.Screen name="OrderList" component={OrderList} />
+      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
+      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
+
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen
+        name="NotificationProfile"
+        component={NotificationProfile}
       />
     </MainStack.Navigator>
   );
@@ -64,6 +104,7 @@ const AppRouting = () => {
         options={horizontalAnimationBackwards}
         component={Menu}
       />
+      <RootStack.Screen name="Login" component={LoginScreen} />
     </RootStack.Navigator>
   );
 };

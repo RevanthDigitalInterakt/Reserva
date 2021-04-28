@@ -33,7 +33,7 @@ export const TopBarDefault: React.FC<{
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
-          navigation.navigate("AddressList");
+          navigation.navigate("OrderList");
         },
       }}
       height={50}
