@@ -3,6 +3,9 @@ import { SafeAreaView, ScrollView } from "react-native";
 import {
     Typography,
     Box,
+    Button,
+    Icon,
+    Divider
 } from 'reserva-ui';
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
@@ -11,32 +14,76 @@ export const DeliveryScreen = () => {
     const navigation = useNavigation();
     return (
         <SafeAreaView
-            style={{ justifyContent: "space-between", flex: 1, backgroundColor: "#FFF" }}
+            flex={1}
+            backgroundColor={"white"}
         >
+            <TopBarBackButton showShadow />
             <ScrollView>
-                <TopBarBackButton showShadow />
                 <Box
-                    bg={"white"}
                     paddingX={"xxxs"}
-                    paddingY={"xxs"}
+                    paddingY={"sm"}
                 >
-                    <Box variant={"container"}>
-                        <Box flexDirection="row">
-                            <Typography
-                                fontFamily={"nunitoSemiBold"}
-                                fontSize={13}
-                            >
-                                Faltam apenas R$29,90 para ganharss
-                            </Typography>
-                            <Typography> </Typography>
-                            <Typography
-                                variant={"precoPromocional2"}
-                                color={"vermelhoFechadoRSV"}
-                            >
-                                frete grátis
-                            </Typography>
-                        </Box>
+                    <Box>
+                        <Typography variant={"tituloSessoes"}>
+                            Entrega
+                        </Typography>
                     </Box>
+
+                    <Box marginTop={"xs"} marginBottom={"xxxs"}>
+                        <Typography variant={"subtituloSessoes"}>
+                            Escolha a forma de envio
+                        </Typography>
+                    </Box>
+
+                    <Button flexDirection={"row"}>
+                        <Box
+                            flexDirection={"row"}
+                            alignItems={"center"}
+                            flex={1}
+                            justifyContent={"space-between"}
+                        >
+                            <Box>
+                                <Typography variant={"tituloSessao"}>Retirar na loja</Typography>
+                                <Typography
+                                    fontFamily={"nunitoSemiBold"}
+                                    fontSize={13}
+                                    color={"verdeSucesso"}
+                                >
+                                    Segunda-feira, 05 de abril de 2021
+                                </Typography>
+                            </Box>
+                            <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
+                        </Box>
+                    </Button>
+
+                    <Divider
+                        variant={"fullWidth"}
+                        marginY={"micro"}
+                    />
+
+                    <Button
+                        flexDirection={"row"}
+                        onPress={() => navigation.navigate('GiftVoucherScreen')}
+                    >
+                        <Box
+                            flexDirection={"row"}
+                            alignItems={"center"}
+                            flex={1}
+                            justifyContent={"space-between"}
+                        >
+                            <Box>
+                                <Typography variant={"tituloSessao"}>Receber em casa</Typography>
+                                <Typography
+                                    fontFamily={"nunitoSemiBold"}
+                                    fontSize={13}
+                                    color={"verdeSucesso"}
+                                >
+                                    Segunda-feira, 15 de abril de 2021
+                                </Typography>
+                            </Box>
+                            <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
+                        </Box>
+                    </Button>
 
                 </Box>
 

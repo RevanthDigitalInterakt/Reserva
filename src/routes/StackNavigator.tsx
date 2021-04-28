@@ -12,6 +12,7 @@ import { Menu } from "../modules/Menu/modals/Menu";
 
 import { BagScreen } from "../modules/Checkout/pages/Bag";
 import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
+import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
 
 import { horizontalAnimationBackwards } from "./utils/utils";
 import { ExampleScreen } from "../modules/Example/pages/Example";
@@ -58,6 +59,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name="NewAddress" component={NewAddress} />
       <MainStack.Screen name="BagScreen" component={BagScreen} />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name="GiftVoucherScreen" component={GiftVoucherScreen} />
       <MainStack.Screen name="Login" component={LoginScreen} />
       <MainStack.Screen name="Register" component={Register} />
       <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
