@@ -284,7 +284,9 @@ export const Menu: React.FC<{}> = () => {
           <FixedMenuItem
             iconName="Profile"
             title="Acessar Conta ou Cadastre-se"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Heart"

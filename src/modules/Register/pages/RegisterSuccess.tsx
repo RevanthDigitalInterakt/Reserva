@@ -39,7 +39,10 @@ export const RegisterSuccess: React.FC<{
       }}
       flex={1}
     >
-      <TopBarBackButtonWithoutLogo showShadow={false} backButtonPress={() => navigation.navigate("Login")} />
+      <TopBarBackButtonWithoutLogo
+        showShadow={false}
+        backButtonPress={() => navigation.navigate("Login")}
+      />
       <Box alignItems="center" justifyContent="center" marginTop="xxl" flex={1}>
         <Box marginTop="xxxs">
           <Typography fontSize={20} fontFamily="reservaSerifRegular">
@@ -51,6 +54,9 @@ export const RegisterSuccess: React.FC<{
         </Box>
         <Box marginTop="md" alignItems="center">
           <Button
+            onPress={() => {
+              navigation.navigate("Home");
+            }}
             fontFamily="nunitoRegular"
             title="ENTRAR"
             width={167}

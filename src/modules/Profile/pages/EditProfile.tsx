@@ -3,7 +3,15 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography, Box, Button, Avatar, TextField, Icon, Checkbox } from "reserva-ui";
+import {
+  Typography,
+  Box,
+  Button,
+  Avatar,
+  TextField,
+  Icon,
+  Checkbox,
+} from "reserva-ui";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
@@ -33,7 +41,7 @@ export const EditProfile: React.FC<{
       backgroundColor="white"
     >
       <TopBarBackButton />
-      
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box alignItems={"center"}>
@@ -43,15 +51,16 @@ export const EditProfile: React.FC<{
                 console.log("okx");
               }}
             ></Avatar>
-            
-            <Button 
-              title={'Alterar senha'} 
-              fontFamily={'nunitoRegular'} 
-              fontSize={13} 
-              mt={'nano'} 
+
+            <Button
+              title={"Alterar senha"}
+              fontFamily={"nunitoRegular"}
+              fontSize={13}
+              mt={"nano"}
               onPress={() => {
-                navigation.navigate('EditPassword');
-              }} />
+                navigation.navigate("EditPassword");
+              }}
+            />
           </Box>
 
           <Box mt={"xxxs"}>
@@ -69,7 +78,7 @@ export const EditProfile: React.FC<{
                 }
               />
             </Box>
-            
+
             <Box mb={"nano"}>
               <TextField
                 label={"Digite seu e-mail"}
@@ -136,15 +145,40 @@ export const EditProfile: React.FC<{
             </Box>
 
             <Box mb={"xs"} mt={"micro"} flexDirection="row">
-              <Checkbox width={"100%"} checked={data.sendNotification} onCheck={() => {
-                  setData({ ...data, ...{ sendNotification: (!data.sendNotification) } });
-              }} optionName={"Desejo receber e-mails com promoções das marcas Reserva."} />
+              <Checkbox
+                width={"100%"}
+                checked={data.sendNotification}
+                onCheck={() => {
+                  setData({
+                    ...data,
+                    ...{ sendNotification: !data.sendNotification },
+                  });
+                }}
+                optionName={
+                  "Desejo receber e-mails com promoções das marcas Reserva."
+                }
+              />
             </Box>
 
-            <Box mb={"nano"} justifyContent={'space-between'} flexDirection='row'>
-              <Button title='CANCELAR' variant={"primarioEstreitoOutline"}></Button>
-
-              <Button title='SALVAR' variant={"primarioEstreito"}></Button>
+            <Box
+              mb={"nano"}
+              justifyContent={"space-between"}
+              flexDirection="row"
+            >
+              <Box width={1 / 2} paddingRight="nano">
+                <Button
+                  title="CANCELAR"
+                  variant={"primarioEstreitoOutline"}
+                  inline={true}
+                ></Button>
+              </Box>
+              <Box paddingLeft="nano" width={1 / 2}>
+                <Button
+                  title="SALVAR"
+                  variant={"primarioEstreito"}
+                  inline={true}
+                ></Button>
+              </Box>
             </Box>
           </Box>
         </Box>

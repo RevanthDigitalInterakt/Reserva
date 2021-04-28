@@ -18,4 +18,9 @@ export const images = {
   helpSizeGuide6: require("./img/help-size-guide6.png"),
   helpSizeGuide7: require("./img/help-size-guide7.png"),
   helpSizeGuide8: require("./img/help-size-guide8.png"),
+  visa: require('./img/visa.png'),
+  mastercard: require('./img/mastercard.png'),
+  americanExpress: require('./img/americanExpress.png'),
+  elo: require('./img/elo.png'),
+  cardImage: require('./img/cardImage.png'),
 };

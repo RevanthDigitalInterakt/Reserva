@@ -20,20 +20,17 @@ export const EditPassword: React.FC<{}> = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      flex={1}
-      style={{ justifyContent: "space-between" }}
-      backgroundColor="white"
-    >
+    <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton />
-
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={'micro'} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>Alterar senha</Typography>
+          <Box mb={"micro"} alignSelf={"flex-start"}>
+            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+              Alterar senha
+            </Typography>
           </Box>
 
-          <Box mt={"xxxs"}>        
+          <Box mt={"xxxs"}>
             <Box mb={"micro"}>
               <TextField
                 label={"Digite sua nova senha"}
@@ -47,7 +44,9 @@ export const EditPassword: React.FC<{}> = () => {
                   </Box>
                 }
                 touched={true}
-                error={'Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números.'}
+                error={
+                  "Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números."
+                }
               />
             </Box>
 
@@ -59,18 +58,13 @@ export const EditPassword: React.FC<{}> = () => {
                   setData({ ...data, ...{ email: text } });
                 }}
                 touched={true}
-                error={'As senhas não correspondem.'}
+                error={"As senhas não correspondem."}
               />
             </Box>
-
-            
           </Box>
         </Box>
       </ScrollView>
-
-      <Box bottom={0} justifyContent={'flex-end'}>
-        <Button title='CONFIRMAR' variant={"primarioMaior"}></Button>
-      </Box>
+      <Button title="CONFIRMAR" variant="primarioEstreito" inline />
     </SafeAreaView>
   );
 };
