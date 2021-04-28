@@ -10,4 +10,12 @@ export const images = {
   shirt2: require("./img/shirt2.png"),
   shirt3: require("./img/shirt3.png"),
   shirt4: require("./img/shirt4.png"),
+  helpSizeGuide1: require("./img/help-size-guide1.png"),
+  helpSizeGuide2: require("./img/help-size-guide2.png"),
+  helpSizeGuide3: require("./img/help-size-guide3.png"),
+  helpSizeGuide4: require("./img/help-size-guide4.png"),
+  helpSizeGuide5: require("./img/help-size-guide5.png"),
+  helpSizeGuide6: require("./img/help-size-guide6.png"),
+  helpSizeGuide7: require("./img/help-size-guide7.png"),
+  helpSizeGuide8: require("./img/help-size-guide8.png"),
 };

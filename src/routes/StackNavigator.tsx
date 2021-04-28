@@ -28,6 +28,8 @@ import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail';
 import { EditProfile } from "../modules/Profile/pages/EditProfile";
 import { EditPassword } from "../modules/Profile/pages/EditPassword";
 import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
+import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter';
+import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 //--
 
 
@@ -70,6 +72,9 @@ const MainStackScreen = () => {
       <MainStack.Screen name="EditProfile" component={EditProfile} />
       <MainStack.Screen name="EditPassword" component={EditPassword} />
       <MainStack.Screen name="NotificationProfile" component={NotificationProfile} />
+
+      <MainStack.Screen name="HelpCenter" component={HelpCenter} />
+      <MainStack.Screen name="SizeGuide" component={SizeGuide} />
     </MainStack.Navigator>
   );
 };
