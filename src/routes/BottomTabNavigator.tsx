@@ -31,8 +31,6 @@ export const DefaultRoutes = ({
   descriptors,
   navigation,
 }: BottomTabBarProps<{}>) => {
-  console.log(state);
-
   const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
     const event = navigation.emit({
       type: "tabPress",

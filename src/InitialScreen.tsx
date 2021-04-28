@@ -13,11 +13,13 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
 
   useEffect(() => {
+    console.log("");
     animation?.play();
-    console.log(animation?.props.progress);
+    console.log(animation);
   }, [animation]);
 
   useEffect(() => {
+    console.log("Progress");
     console.log(animation?.props.progress);
   }, [animation?.props.progress]);
 
@@ -25,6 +27,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     <>
       {!loaded ? (
         <LottieView
+          style={{ flex: 1 }}
           onAnimationFinish={() => {
             setLoaded(true);
           }}
@@ -32,6 +35,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
             setAnimation(animation);
           }}
           autoPlay
+          loop={false}
           source={animations.splash}
         />
       ) : (
