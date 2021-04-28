@@ -175,7 +175,7 @@ export const NewCard = ({}: NewCardProps) => {
                       borderWidth: 1,
                       borderColor: 'red',
                       borderRadius: 6,
-                      width: '60%',
+                      width: '42%',
                       alignItems: 'center',
                       paddingVertical: 4,
                     }

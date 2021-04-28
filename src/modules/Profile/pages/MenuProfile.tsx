@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Box, Button } from 'reserva-ui';
 import { loadRequest } from '../../../store/ducks/repositories/actions';
@@ -19,16 +19,10 @@ export const MenuProfile: React.FC<{}> = () => {
   }, []);
 
   return (
-    <Box flex={1}>
-      <TopBarDefault />
-      <ScrollView>
-        <Box
-          bg="white"
-          flex={1}
-          alignContent={'flex-start'}
-          pt={'xs'}
-          paddingX={'xxxs'}
-        >
+    <Box flex={1} backgroundColor="white">
+      <TopBarBackButton />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Box alignContent={'flex-start'} pt={'xs'} paddingX={'xxxs'}>
           <Box mb={'micro'}>
             <Typography fontFamily="reservaSerifRegular" fontSize={20}>
               Perfil
@@ -43,6 +37,9 @@ export const MenuProfile: React.FC<{}> = () => {
               title={'Meus pedidos'}
               descr={'Acompanhe seus pedidos'}
               icon={'Handbag'}
+              onPress={() => {
+                navigation.navigate('OrderList');
+              }}
             />
 
             <ItemList

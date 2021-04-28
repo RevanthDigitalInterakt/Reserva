@@ -15,6 +15,8 @@ import { ExampleScreen } from '../modules/Example/pages/Example';
 import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
 import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
 import { LoginScreen } from '../modules/Login/pages/Login';
+import { BagScreen } from '../modules/Checkout/pages/Bag';
+import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import OrderList from '../modules/Order/pages/OrderList';
@@ -55,6 +57,8 @@ const MainStackScreen = () => {
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
       <MainStack.Screen name="AddressList" component={AddressList} />
       <MainStack.Screen name="NewAddress" component={NewAddress} />
+      <MainStack.Screen name="BagScreen" component={BagScreen} />
+      <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
       <MainStack.Screen name="Login" component={LoginScreen} />
       <MainStack.Screen name="Register" component={Register} />
       <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />

@@ -2574,9 +2574,9 @@ camelize@^1.0.0:
   integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
 
 caniuse-lite@^1.0.30001214:
-  version "1.0.30001219"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30001219.tgz#5bfa5d0519f41f993618bd318f606a4c4c16156b"
-  integrity sha1-W/pdBRn0H5k2GL0xj2BqTEwWFWs=
+  version "1.0.30001216"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30001216.tgz#47418a082a4f952d14d8964ae739e25efb2060a9"
+  integrity sha1-R0GKCCpPlS0U2JZK5zniXvsgYKk=
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -7129,10 +7129,10 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@^0.0.93:
-  version "0.0.93"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.93.tgz#bf6893dfe90d3b04d76c37f88115195f77a3d16e"
-  integrity sha1-v2iT3+kNOwTXbDf4gRUZX3ej0W4=
+reserva-ui@0.0.94:
+  version "0.0.94"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.94.tgz#e42616584ef4fcebe970af1d0f1096a037bd2838"
+  integrity sha1-5CYWWE70/OvpcK8dDxCWoDe9KDg=
 
 resolve-cwd@^3.0.0:
   version "3.0.0"

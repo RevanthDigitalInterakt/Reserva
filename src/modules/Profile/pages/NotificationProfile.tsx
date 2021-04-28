@@ -29,41 +29,58 @@ export const NotificationProfile: React.FC<{}> = () => {
 
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={'micro'} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>Notificações</Typography>
-          </Box>
-
-          <Box mb={'micro'} alignSelf={"flex-start"}>
-            <Typography fontFamily="nunitoRegular" fontSize={15}>
-              Qual é o tipo de conteúdo que você quer receber? Marque abaixo as opções de contato:
+          <Box mb={"micro"} alignSelf={"flex-start"}>
+            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+              Notificações
             </Typography>
           </Box>
 
-          <Box mt={"xxxs"}>        
+          <Box mb={"micro"} alignSelf={"flex-start"}>
+            <Typography fontFamily="nunitoRegular" fontSize={15}>
+              Qual é o tipo de conteúdo que você quer receber? Marque abaixo as
+              opções de contato:
+            </Typography>
+          </Box>
+
+          <Box mt={"xxxs"}>
             <Box mb={"xxs"} flexDirection="row">
-              <Checkbox width={"100%"} checked={data.whatsapp} onCheck={() => {
-                  setData({ ...data, ...{ whatsapp: (!data.whatsapp) } });
-              }} optionName={"Whatsapp"} />
+              <Checkbox
+                width={"100%"}
+                checked={data.whatsapp}
+                onCheck={() => {
+                  setData({ ...data, ...{ whatsapp: !data.whatsapp } });
+                }}
+                optionName={"Whatsapp"}
+              />
             </Box>
 
             <Box mb={"xxs"} flexDirection="row">
-              <Checkbox width={"100%"} checked={data.email} onCheck={() => {
-                  setData({ ...data, ...{ email: (!data.email) } });
-              }} optionName={"E-mail"} />
+              <Checkbox
+                width={"100%"}
+                checked={data.email}
+                onCheck={() => {
+                  setData({ ...data, ...{ email: !data.email } });
+                }}
+                optionName={"E-mail"}
+              />
             </Box>
 
             <Box mb={"xxs"} flexDirection="row">
-              <Checkbox width={"100%"} checked={data.phone} onCheck={() => {
-                  setData({ ...data, ...{ phone: (!data.phone) } });
-              }} optionName={"Notificações do celular"} />
+              <Checkbox
+                width={"100%"}
+                checked={data.phone}
+                onCheck={() => {
+                  setData({ ...data, ...{ phone: !data.phone } });
+                }}
+                optionName={"Notificações do celular"}
+              />
             </Box>
-            
           </Box>
         </Box>
       </ScrollView>
 
-      <Box bottom={0} justifyContent={'flex-end'}>
-        <Button title='CONFIRMAR' variant={"primarioMaior"}></Button>
+      <Box bottom={0} justifyContent={"flex-end"}>
+        <Button title="CONFIRMAR" variant={"primarioMaior"}></Button>
       </Box>
     </SafeAreaView>
   );
