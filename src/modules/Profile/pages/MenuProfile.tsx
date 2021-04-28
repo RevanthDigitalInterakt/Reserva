@@ -37,6 +37,9 @@ export const MenuProfile: React.FC<{}> = () => {
               title={"Meus pedidos"}
               descr={"Acompanhe seus pedidos"}
               icon={"Handbag"}
+              onPress={() => {
+                navigation.navigate("OrderList");
+              }}
             />
 
             <ItemList
