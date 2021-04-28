@@ -15,7 +15,7 @@ import { PriceCustom } from "../../Home/components/PriceCustom";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
-export const BagScreen = () => {
+export const BagScreen = ({ navigation }) => {
     const [quantity, setQuantity] = useState(1)
     const [lisProduct, setLisProduct] = useState([
         {
@@ -229,7 +229,7 @@ export const BagScreen = () => {
 
             </ScrollView>
 
-            <Button title='IR PARA ENTREGA' variant='primarioEstreito' inline />
+            <Button onPress={() => navigation.navigate('DeliveryScreen')} title='IR PARA ENTREGA' variant='primarioEstreito' inline />
         </SafeAreaView >
     );
 };
