@@ -11,3 +11,7 @@ export const images = {
   shirt3: require("./img/shirt3.png"),
   shirt4: require("./img/shirt4.png"),
 };
+
+export const animations = {
+  splash: require("./animations/splash.json"),
+};
