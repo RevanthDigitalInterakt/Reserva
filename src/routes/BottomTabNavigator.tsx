@@ -4,19 +4,20 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-} from "react-native";
+} from 'react-native';
 
 import {
   BottomTabBarProps,
   createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
-import { HomeScreen } from "../modules/Home/pages/Home";
+} from '@react-navigation/bottom-tabs';
+import { HomeScreen } from '../modules/Home/pages/Home';
 
-import * as React from "react";
-import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
-import { SearchScreen } from "../modules/Search/pages/Search";
-import { ExampleScreen } from "../modules/Example/pages/Example";
-import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
+import * as React from 'react';
+import { BottomBar, BottomBarButton, Box, theme } from 'reserva-ui';
+import { SearchScreen } from '../modules/Search/pages/Search';
+import { ExampleScreen } from '../modules/Example/pages/Example';
+import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
+import { MyCardsScreen } from '../modules/RegisterCard/pages/MyCards';
 
 type OnPressType = {
   key: string;
@@ -34,7 +35,7 @@ export const DefaultRoutes = ({
 
   const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
     const event = navigation.emit({
-      type: "tabPress",
+      type: 'tabPress',
       target: key,
       canPreventDefault: true,
     });
@@ -74,7 +75,7 @@ export const Tabs = () => {
           component={ProductCatalog}
           initialParams={{ safeArea: false }}
         />
-        <Tab.Screen name="Profile" component={ExampleScreen} />
+        <Tab.Screen name="Profile" component={MyCardsScreen} />
       </Tab.Navigator>
     </SafeAreaView>
   );

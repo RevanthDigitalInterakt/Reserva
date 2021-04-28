@@ -2884,6 +2884,11 @@ cosmiconfig@^5.0.5, cosmiconfig@^5.1.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
+creditcardutils@^1.0.0:
+  version "1.0.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/creditcardutils/-/creditcardutils-1.0.0.tgz#c94ad8e6f5ef249b0463e0e5ea8d7a7c4e9ce425"
+  integrity sha1-yUrY5vXvJJsEY+Dl6o16fE6c5CU=
+
 cross-fetch@^3.0.4:
   version "3.1.4"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/cross-fetch/-/cross-fetch-3.1.4.tgz#9723f3a3a247bf8b89039f3a380a9244e8fa2f39"
@@ -6547,7 +6552,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -6647,6 +6652,11 @@ react-native-animatable@1.3.3, react-native-animatable@^1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-cardscan@^1.1.30:
+  version "1.1.30"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-cardscan/-/react-native-cardscan-1.1.30.tgz#34bff02a93815d07f784ebe86fc2fdc4412ca5ae"
+  integrity sha1-NL/wKpOBXQf3hOvob8L9xEEspa4=
+
 react-native-codegen@^0.0.6:
   version "0.0.6"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-codegen/-/react-native-codegen-0.0.6.tgz#b3173faa879cf71bfade8d030f9c4698388f6909"
@@ -6655,6 +6665,21 @@ react-native-codegen@^0.0.6:
     flow-parser "^0.121.0"
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
+
+react-native-credit-card-display@^0.3.6:
+  version "0.3.6"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-credit-card-display/-/react-native-credit-card-display-0.3.6.tgz#d01f580b5c169b2b55c7d54a157973faee31291d"
+  integrity sha1-0B9YC1wWmytVx9VKFXlz+u4xKR0=
+  dependencies:
+    creditcardutils "^1.0.0"
+    react-native-flip-card "^3.5.6"
+
+react-native-flip-card@^3.5.6:
+  version "3.5.6"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-flip-card/-/react-native-flip-card-3.5.6.tgz#de26f0285aa6f8ee10bb4b696c60c6fb43bb580f"
+  integrity sha1-3ibwKFqm+O4Qu0tpbGDG+0O7WA8=
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-gesture-handler@^1.10.3:
   version "1.10.3"
@@ -7042,10 +7067,10 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@0.0.81:
-  version "0.0.81"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.81.tgz#3f7d0807d55de1402eabe66246c35952f33d9131"
-  integrity sha1-P30IB9Vd4UAuq+ZiRsNZUvM9kTE=
+reserva-ui@0.0.83:
+  version "0.0.83"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.83.tgz#c1056686e97f2d49794533a009ef9692a362f6c7"
+  integrity sha1-wQVmhul/LUl5RTOgCe+WkqNi9sc=
 
 resolve-cwd@^3.0.0:
   version "3.0.0"

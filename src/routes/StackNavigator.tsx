@@ -1,20 +1,22 @@
 // In App.js in a new project
-import * as React from "react";
+import * as React from 'react';
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { HomeScreen } from "../modules/Home/pages/Home";
-import { SearchScreen } from "../modules/Search/pages/Search";
-import AddressList from "../modules/Address/pages/AddressList";
-import NewAddress from "../modules/Address/pages/NewAddress";
-import { Tabs } from "./BottomTabNavigator";
-import { Menu } from "../modules/Menu/modals/Menu";
+import { HomeScreen } from '../modules/Home/pages/Home';
+import { SearchScreen } from '../modules/Search/pages/Search';
+import AddressList from '../modules/Address/pages/AddressList';
+import NewAddress from '../modules/Address/pages/NewAddress';
+import { Tabs } from './BottomTabNavigator';
+import { Menu } from '../modules/Menu/modals/Menu';
 
-import { horizontalAnimationBackwards } from "./utils/utils";
-import { ExampleScreen } from "../modules/Example/pages/Example";
-import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
+import { horizontalAnimationBackwards } from './utils/utils';
+import { ExampleScreen } from '../modules/Example/pages/Example';
+import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
 
-import { StackScreenProps } from "@react-navigation/stack";
+import { StackScreenProps } from '@react-navigation/stack';
+import { MyCardsScreen } from '../modules/RegisterCard/pages/MyCards';
+import NewCard from '../modules/RegisterCard/pages/NewCard';
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
@@ -33,6 +35,8 @@ const MainStackScreen = () => {
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
       <MainStack.Screen name="AddressList" component={AddressList} />
       <MainStack.Screen name="NewAddress" component={NewAddress} />
+      <MainStack.Screen name="CardsList" component={MyCardsScreen} />
+      <MainStack.Screen name="NewCard" component={NewCard} />
       <MainStack.Screen
         name="ProductCatalog"
         initialParams={{ safeArea: true }}
