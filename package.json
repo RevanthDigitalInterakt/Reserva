@@ -1,8 +1,9 @@
 {
   "name": "reserva",
-  "version": "0.0.1",
+  "version": "0.0.80",
   "private": true,
   "scripts": {
+    "pod-m1-deintegrate": "cd ios && arch -x86_64 pod deintegrate",
     "pod-m1": "cd ios && arch -x86_64 pod install",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -46,6 +47,7 @@
     "@babel/runtime": "^7.12.5",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@react-native-community/picker": "^1.8.1",
     "@types/jest": "^26.0.20",
     "@types/react-native": "^0.64.0",
     "@types/react-redux": "^7.1.16",

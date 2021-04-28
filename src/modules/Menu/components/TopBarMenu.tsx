@@ -21,6 +21,7 @@ export const TopBarMenu: React.FC<{}> = () => {
 			}}
 			rightButton1={{
 				name: 'Heart',
+				color: 'preto',
 				size: 24,
 				onPress: () => {
 					Alert.alert('button right 1');
@@ -28,6 +29,7 @@ export const TopBarMenu: React.FC<{}> = () => {
 			}}
 			rightButton2={{
 				name: 'Handbag',
+				color: 'preto',
 				size: 24,
 				onPress: () => {
 					Alert.alert('button right 2');
