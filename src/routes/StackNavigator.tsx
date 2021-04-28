@@ -7,11 +7,9 @@ import { HomeScreen } from "../modules/Home/pages/Home";
 import { SearchScreen } from "../modules/Search/pages/Search";
 import AddressList from "../modules/Address/pages/AddressList";
 import NewAddress from "../modules/Address/pages/NewAddress";
+import { BagScreen } from "../modules/Checkout/pages/Bag";
 import { Tabs } from "./BottomTabNavigator";
 import { Menu } from "../modules/Menu/modals/Menu";
-
-import { BagScreen } from "../modules/Checkout/pages/Bag";
-import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
 
 import { horizontalAnimationBackwards } from "./utils/utils";
 import { ExampleScreen } from "../modules/Example/pages/Example";
@@ -57,7 +55,6 @@ const MainStackScreen = () => {
       <MainStack.Screen name="AddressList" component={AddressList} />
       <MainStack.Screen name="NewAddress" component={NewAddress} />
       <MainStack.Screen name="BagScreen" component={BagScreen} />
-      <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
       <MainStack.Screen name="Login" component={LoginScreen} />
       <MainStack.Screen name="Register" component={Register} />
       <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
