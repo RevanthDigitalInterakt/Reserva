@@ -34,7 +34,7 @@ const Card = ({
           {isMain && <Icon name="Check" color="preto" size={12} />}
 
           <Box mr="xxxs" ml={isMain && 'nano'}>
-            <Image source={images[flag]} />
+            <Icon name="Card" size={20} />
           </Box>
           <Typography variant="precoAntigo3">
             ****{cardNumbers.substring(-1, 4)}

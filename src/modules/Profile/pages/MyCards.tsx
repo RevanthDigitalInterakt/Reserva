@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Button, Icon, Typography, Alert } from 'reserva-ui';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import Card, { FlagTypes } from '../components/Card';
+import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
 
 interface MyCardsScreenProps {}
@@ -13,7 +13,7 @@ interface CardProps {
   main: boolean;
   id: string;
 }
-export const MyCardsScreen = ({}: MyCardsScreenProps) => {
+export const MyCards = ({}: MyCardsScreenProps) => {
   const [cards, setCards] = React.useState<CardProps[]>([
     {
       cardNumber: '3000400050006000',
@@ -43,7 +43,9 @@ export const MyCardsScreen = ({}: MyCardsScreenProps) => {
   const [isVisibleSuccessTrash, setIsVisibleSuccessTrash] = React.useState(
     false
   );
+
   const navigation = useNavigation();
+
   const handleDeleteCard = (id: string) => {
     const restCards = cards.filter((card) => card.id !== id);
     setCards(restCards);
@@ -108,6 +110,7 @@ export const MyCardsScreen = ({}: MyCardsScreenProps) => {
           onPress={() => navigation.navigate('NewCard')}
           title={'ADICIONAR CARTÃO'}
           variant="primarioEstreitoOutline"
+          padding="xl"
         />
       </SafeAreaView>
       <Alert

@@ -10,27 +10,29 @@ import NewAddress from '../modules/Address/pages/NewAddress';
 import { Tabs } from './BottomTabNavigator';
 import { Menu } from '../modules/Menu/modals/Menu';
 
-import { horizontalAnimationBackwards } from "./utils/utils";
-import { ExampleScreen } from "../modules/Example/pages/Example";
-import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
-import { RegisterSuccess } from "../modules/Register/pages/RegisterSuccess";
-import { LoginScreen } from "../modules/Login/pages/Login";
+import { horizontalAnimationBackwards } from './utils/utils';
+import { ExampleScreen } from '../modules/Example/pages/Example';
+import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
+import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
+import { LoginScreen } from '../modules/Login/pages/Login';
 
-import { StackScreenProps } from "@react-navigation/stack";
-import OrderList from "../modules/Order/pages/OrderList";
-import OrderDetail from "../modules/Order/pages/OrderDetail";
-import OrderCancel from "../modules/Order/pages/OrderCancel";
-import { Register } from "../modules/Register/pages/Register";
-import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
-import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
-import { ForgotPassword } from "../modules/Forgot/pages/ForgotPassword";
-import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
-import { ProductDetail } from "../modules/ProductDetail/pages/ProductDetail";
+import { StackScreenProps } from '@react-navigation/stack';
+import OrderList from '../modules/Order/pages/OrderList';
+import OrderDetail from '../modules/Order/pages/OrderDetail';
+import OrderCancel from '../modules/Order/pages/OrderCancel';
+import { Register } from '../modules/Register/pages/Register';
+import { ForgotEmail } from '../modules/Forgot/pages/ForgotEmail';
+import { ForgotEmailSuccess } from '../modules/Forgot/pages/ForgotEmailSuccess';
+import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword';
+import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword';
+import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail';
 
 //profile
-import { EditProfile } from "../modules/Profile/pages/EditProfile";
-import { EditPassword } from "../modules/Profile/pages/EditPassword";
-import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
+import { EditProfile } from '../modules/Profile/pages/EditProfile';
+import { EditPassword } from '../modules/Profile/pages/EditPassword';
+import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
+import { MyCards } from '../modules/Profile/pages/MyCards';
+import { NewCard } from '../modules/Profile/pages/NewCard';
 //--
 
 export type RootStackParamList = {
@@ -82,6 +84,9 @@ const MainStackScreen = () => {
         name="NotificationProfile"
         component={NotificationProfile}
       />
+
+      <MainStack.Screen name="MyCards" component={MyCards} />
+      <MainStack.Screen name="NewCard" component={NewCard} />
     </MainStack.Navigator>
   );
 };
