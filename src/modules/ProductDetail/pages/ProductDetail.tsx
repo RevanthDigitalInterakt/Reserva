@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Dimensions, PickerItemProps } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
   Button,
@@ -12,31 +13,219 @@ import {
   SelectColor,
   Typography,
   OutlineInput,
+  RadioButtons,
+  ProductVerticalListCard,
+  ProductVerticalListCardProps,
 } from 'reserva-ui';
 import { Input } from 'reserva-ui/src/components/TextField/TextField.styles';
 
 const screenWidth = Dimensions.get('window').width;
 
-interface ProductDetailProps {}
+interface ProductDetailProps {
+  recomendedProducts?: ProductVerticalListCardProps[];
+}
 
-export const ProductDetail: React.FC<ProductDetailProps> = ({}) => {
+export const ProductDetail: React.FC<ProductDetailProps> = ({
+  recomendedProducts,
+}) => {
   const [isFavorited, setIsFavorited] = useState(false);
-  const [sizeSelectorIsVisible, setSizeSelectorIsVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<PickerItem>();
   const colors = [
     '#F9F9ED',
     '#7494A5',
     '#2D4452',
     '#484C51',
     '#070707',
-    '#484C51',
+    '#484C50',
     '#BE6ED5',
     '#4A56A7',
     '#1ECB58',
   ];
   const [selectedColor, setSelectedColor] = useState('#F9F9ED');
+  recomendedProducts = [
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+    {
+      currency: 'R$',
+      discountTag: 18,
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      isFavorited: true,
+    },
+    {
+      currency: 'R$',
+      imageSource: 'https://via.placeholder.com/100x160',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      isFavorited: false,
+    },
+  ];
   return (
-    <>
+    <SafeAreaView>
       <ScrollView>
         <ProductDetailCard
           installmentsNumber={3}
@@ -60,107 +249,68 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({}) => {
             Alert.alert('compartilhar!!');
           }}
         />
-        <Box px='xs'>
-          <Box flexDirection='row'>
-            <Button
-              title='selecionar tamanho'
-              mt='xxxs'
-              variant='modal'
-              onPress={(color: any) => {
-                setSizeSelectorIsVisible(true);
-              }}
-              rightIcon={<Icon name='ChevronRight' size={16} color='preto' />}
-            />
-            <Picker
-              onAndroidBackButtonPress={() => setSizeSelectorIsVisible(false)}
-              onSelect={(pickerItem: any) => {
-                setSelectedItem(pickerItem);
-              }}
-              isVisible={sizeSelectorIsVisible}
-              items={[
-                {
-                  text: '35',
-                  subText: '(últimas peças)',
-                },
-                {
-                  text: '36',
-                },
-                {
-                  text: '37',
-                },
-                {
-                  text: '38',
-                  subText: '(últimas peças)',
-                },
-                {
-                  text: '39',
-                },
-                {
-                  text: '40',
-                },
-                {
-                  text: '41',
-                },
-                {
-                  text: '42',
-                  subText: '(últimas peças)',
-                },
-                {
-                  text: '43',
-                },
-                {
-                  text: '44',
-                },
-                {
-                  text: '45',
-                  subText: '(últimas peças)',
-                },
-                {
-                  text: '46',
-                },
-              ]}
-              onClose={() => setSizeSelectorIsVisible(false)}
-              title='Escolha o seu tamanho'
-            />
-          </Box>
-          <Box pt='nano' flexDirection='row'>
-            <Button
-              title='Guia de medidas'
-              fontFamily='nunitoRegular'
-              fontSize={11}
-              py='nano'
-              fontWeight='normal'
-              leftIcon={<Icon name='Ruler' size={28} />}
-            />
-          </Box>
-          <Box mt='micro'>
+        <Box px='xxxs'>
+          <Box mt='xxs'>
             <Typography
               fontFamily='reservaSerifRegular'
               fontWeight='normal'
               fontSize={22}
             >
-              Cor: Branco
+              Cores:
             </Typography>
             <ScrollView horizontal>
               <SelectColor
                 onPress={(color: any) => setSelectedColor(color)}
-                size={39}
+                size={40}
                 listColors={colors}
                 selectedColor={selectedColor}
               />
             </ScrollView>
           </Box>
+          <Box mt='xxs'>
+            <Box
+              flexDirection='row'
+              justifyContent='space-between'
+              alignItems='center'
+            >
+              <Typography variant='tituloSessoes'>Tamanhos:</Typography>
+              <Button
+                title='Guia de medidas'
+                fontFamily='nunitoRegular'
+                fontSize={'10px'}
+                py='nano'
+                fontWeight='normal'
+                leftIcon={<Icon name='Ruler' size={26} />}
+              />
+            </Box>
+            <Box alignItems='center'>
+              <RadioButtons
+                size={44}
+                fontSize={14}
+                onSelectedChange={() => {}}
+                optionsList={['PP', 'P', 'M', 'G', 'GG', '3G']}
+                defaultSelectedItem={'G'}
+              />
+            </Box>
+          </Box>
+
+          <Button
+            mt='xxs'
+            title='ADICIONAR À SACOLA'
+            variant='primarioEstreito'
+            onPress={() => {
+              Alert.alert('produto adicionado a sacola!');
+            }}
+            inline
+          />
+
+          <Box mt='nano' flexDirection='row'></Box>
           <Divider variant='fullWidth' my='xs' />
           <Typography variant='subtituloSessoes'>
             Consultar prazo e valor do frete
           </Typography>
-          <Box flexDirection='row'>
-            <Button
-              title='Inserir seu CEP'
-              mt='xxxs'
-              variant='modal'
-              rightIcon={<Icon name='Search' size={16} color='preto' />}
-            />
+          <Box flexDirection='row' mt='nano'>
+            <OutlineInput placeholder='Digite seu CEP' iconName='Search' />
           </Box>
           <Divider variant='fullWidth' my='xs' />
           <Typography>
@@ -177,17 +327,32 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({}) => {
           <Typography variant='subtituloSessoes'>
             Receba novidades e promoções
           </Typography>
-          <Box flexDirection='column' mb='xl'>
+          <Box flexDirection='column' mt='nano'>
             <OutlineInput
               placeholder='Digite seu e-mail'
               iconName='ChevronRight'
             />
           </Box>
+          <Box mt='xs' mb='sm'>
+            <Box mb='micro'>
+              <Typography
+                fontFamily='nunitoBold'
+                fontSize={14}
+                fontWeight='bold'
+              >
+                Seu produto combina com
+              </Typography>
+            </Box>
+            <ScrollView horizontal>
+              {recomendedProducts.map((product, index) => (
+                <Box mx='micro' key={index}>
+                  <ProductVerticalListCard {...product} />
+                </Box>
+              ))}
+            </ScrollView>
+          </Box>
         </Box>
       </ScrollView>
-      <Box>
-        <Button title='ADICIONAR À SACOLA' inline variant='primarioEstreito' />
-      </Box>
-    </>
+    </SafeAreaView>
   );
 };
