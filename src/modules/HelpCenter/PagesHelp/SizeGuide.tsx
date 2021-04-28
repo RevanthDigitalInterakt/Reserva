@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { Dimensions, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { Typography, Box, Button, TextField, Icon, Image } from "reserva-ui";
 import { images } from "../../../assets";
@@ -38,11 +38,60 @@ export const SizeGuide: React.FC<{}> = () => {
                 source={images.helpSizeGuide1}
                 height={291}
                 resizeMode={"contain"}
+                width={Dimensions.get("screen").width}
               />
             </Box>
             <Box width={1 / 1}>
               <Image
                 source={images.helpSizeGuide2}
+                height={291}
+                resizeMode={"contain"}
+                width={Dimensions.get("screen").width}
+              />
+            </Box>
+            <Box width={1 / 1}>
+              <Image
+                source={images.helpSizeGuide3}
+                height={291}
+                resizeMode={"contain"}
+              />
+            </Box>
+            
+            <Box width={1 / 1}>
+              <Image
+                source={images.helpSizeGuide4}
+                height={291}
+                resizeMode={"contain"}
+              />
+            </Box>
+
+            <Box width={1 / 1}>
+              <Image
+                source={images.helpSizeGuide5}
+                height={291}
+                resizeMode={"contain"}
+              />
+            </Box>
+            
+            <Box width={1 / 1}>
+              <Image
+                source={images.helpSizeGuide6}
+                height={291}
+                resizeMode={"contain"}
+              />
+            </Box>
+            
+            <Box width={1 / 1}>
+              <Image
+                source={images.helpSizeGuide7}
+                height={291}
+                resizeMode={"contain"}
+              />
+            </Box>
+            
+            <Box width={1 / 1}>
+              <Image
+                source={images.helpSizeGuide8}
                 height={291}
                 resizeMode={"contain"}
               />
