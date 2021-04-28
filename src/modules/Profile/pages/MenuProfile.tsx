@@ -19,11 +19,7 @@ export const MenuProfile: React.FC<{}> = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      flex={1}
-      style={{ justifyContent: "space-between" }}
-      backgroundColor="white"
-    >
+    <Box flex={1} backgroundColor="white">
       <TopBarBackButton />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
@@ -97,6 +93,6 @@ export const MenuProfile: React.FC<{}> = () => {
           </Box>
         </Box>
       </ScrollView>
-    </SafeAreaView>
+    </Box>
   );
 };
