@@ -149,7 +149,7 @@ export const BagScreen = () => {
                         alignItems={"center"}
                     >
                         <Box marginRight="micro">
-                            <Icon name={"Presente"} size={20} />
+                            <Icon name={"Tag"} size={20} color="preto" />
                         </Box>
                         <Box flex={1}>
                             <Typography variant={"subtituloSessoes"}>Código promocional </Typography>
@@ -165,12 +165,12 @@ export const BagScreen = () => {
                         flexDirection={"row"}
                     >
                         <Box
-                            flex={2}
+                            flex={1}
                             marginRight={"micro"}
                         >
                             <TextField placeholder={"Insira o código"} />
                         </Box>
-                        <Box flex={1}>
+                        <Box >
                             <Button
                                 width={"100%"}
                                 title={"APLICAR"}
