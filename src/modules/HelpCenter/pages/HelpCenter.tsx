@@ -14,18 +14,16 @@ export const HelpCenter: React.FC<{}> = () => {
 
   const [search, setSearch] = useState('');
   const data = [
-    {
-      title: 'Guia de Tamanhos', navigate: 'SizeGuide'
-    },
+    { title: 'Guia de Tamanhos', navigate: 'SizeGuide' },
     { title: 'Cuidados com a roupa', navigate: 'ClothingCare' },
-    { title: 'Trocas e devoluções' },
+    { title: 'Trocas e devoluções', navigate: 'Exchanges' },
     { title: 'Pedidos e entregas' },
     { title: 'Formas de pagamento' },
     { title: 'Dúvidas Frequentes' },
     { title: 'Política de privacidade' },
     { title: 'Termos de Uso' },
     { title: 'Meu Cartão Presente' },
-    { title: 'Fale Conosco' },
+    { title: 'Fale Conosco', navigate: 'ContactUs' },
   ];
 
   const [filter, setFilter] = useState(data);

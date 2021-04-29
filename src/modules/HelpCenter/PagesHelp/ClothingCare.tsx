@@ -25,7 +25,7 @@ export const ClothingCare: React.FC<{}> = () => {
       <TopBarBackButton />
 
       <ScrollView>
-        <Box bg="red" variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
+        <Box variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"micro"} alignSelf={"flex-start"}>
             <Typography fontFamily="reservaSerifRegular" fontSize={20}>
               Cuidados com a roupa
@@ -43,12 +43,7 @@ export const ClothingCare: React.FC<{}> = () => {
           <Image
             source={images.clothingCare1}
             resizeMode={"contain"}
-          />
-
-          <Image
-            source={images.clothingCare2}
-            height={450}
-            resizeMode={"contain"}
+            height={430}
           />
 
 
