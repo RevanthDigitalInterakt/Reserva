@@ -49,11 +49,7 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
         size={22}
       />
       <Box paddingX="micro">
-        <Typography
-          fontSize={12}
-          fontFamily="nunitoRegular"
-          fontWeight="normal"
-        >
+        <Typography fontSize={12} fontFamily="nunitoRegular">
           Pagina Inicial
         </Typography>
       </Box>
@@ -79,8 +75,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
       >
         <Typography
           fontSize={13}
-          fontFamily="nunitoRegular"
-          fontWeight={highlight ? "bold" : "normal"}
+          fontFamily={highlight ? "nunitoBold" : "nunitoRegular"}
         >
           {title}
         </Typography>
@@ -110,7 +105,6 @@ const MenuItem: React.FC<IMenuItem> = ({
             color={highlight ? "vermelhoAlerta" : "preto"}
             fontSize={13}
             fontFamily="nunitoBold"
-            fontWeight="bold"
           >
             {title.toUpperCase()}
           </Typography>
@@ -165,7 +159,6 @@ export const FixedMenuItem: React.FC<{
             color="preto"
             fontSize={15}
             fontFamily="nunitoBold"
-            fontWeight="bold"
           >
             {title}
           </Typography>
@@ -297,8 +290,8 @@ export const Menu: React.FC<{}> = () => {
             iconName="Message"
             title="Central de Ajuda"
             onPress={() => {
-              console.log('ok')
-              navigation.navigate('HelpCenter')
+              console.log("ok");
+              navigation.navigate("HelpCenter");
             }}
           ></FixedMenuItem>
           <FixedMenuItem

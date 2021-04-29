@@ -262,11 +262,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         />
         <Box px="xxxs">
           <Box mt="xxs">
-            <Typography
-              fontFamily="reservaSerifRegular"
-              fontWeight="normal"
-              fontSize={22}
-            >
+            <Typography fontFamily="reservaSerifRegular" fontSize={22}>
               Cores:
             </Typography>
             <ScrollView horizontal>
@@ -290,7 +286,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 fontFamily="nunitoRegular"
                 fontSize={"10px"}
                 py="nano"
-                fontWeight="normal"
                 leftIcon={<Icon name="Ruler" size={26} />}
               />
             </Box>
@@ -346,11 +341,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           </Box>
           <Box mt="xs" mb="sm">
             <Box mb="micro">
-              <Typography
-                fontFamily="nunitoBold"
-                fontSize={14}
-                fontWeight="bold"
-              >
+              <Typography fontFamily="nunitoBold" fontSize={14}>
                 Seu produto combina com
               </Typography>
             </Box>
