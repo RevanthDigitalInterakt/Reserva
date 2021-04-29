@@ -94,10 +94,11 @@ const MainStackScreen = () => {
         initialParams={{ safeArea: true, search: false }}
         component={ProductCatalog}
       />
-      <MainStack.Screen name="ProductDetail" component={ProductDetail} />
-      <MainStack.Screen name="OrderList" component={OrderList} />
-      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
-      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
+
+      <MainStack.Screen name='ProductDetail' component={ProductDetail} />
+      <MainStack.Screen name='OrderList' component={OrderList} />
+      <MainStack.Screen name='OrderDetail' component={OrderDetail} />
+      <MainStack.Screen name='OrderCancel' component={OrderCancel} />
 
       <MainStack.Screen name="EditProfile" component={EditProfile} />
       <MainStack.Screen name="EditPassword" component={EditPassword} />
@@ -108,10 +109,9 @@ const MainStackScreen = () => {
       <MainStack.Screen name="ContactUs" component={ContactUs} />
       <MainStack.Screen name="Exchanges" component={Exchanges} />
       <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
-      <MainStack.Screen
-        name="NotificationProfile"
-        component={NotificationProfile}
-      />
+      <MainStack.Screen name='EditProfile' component={EditProfile} />
+      <MainStack.Screen name='EditPassword' component={EditPassword} />
+      <MainStack.Screen name='NotificationProfile' component={NotificationProfile} />
 
       <MainStack.Screen name="MyCards" component={MyCards} />
       <MainStack.Screen name="NewCard" component={NewCard} />
