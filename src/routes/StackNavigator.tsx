@@ -17,7 +17,7 @@ import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
 import { LoginScreen } from '../modules/Login/pages/Login';
 import { BagScreen } from '../modules/Checkout/pages/Bag';
 import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
-
+import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher';
 import { StackScreenProps } from '@react-navigation/stack';
 import OrderList from '../modules/Order/pages/OrderList';
 import OrderDetail from '../modules/Order/pages/OrderDetail';
@@ -59,6 +59,10 @@ const MainStackScreen = () => {
       <MainStack.Screen name='NewAddress' component={NewAddress} />
       <MainStack.Screen name='BagScreen' component={BagScreen} />
       <MainStack.Screen name='DeliveryScreen' component={DeliveryScreen} />
+      <MainStack.Screen
+        name='GiftVoucherScreen'
+        component={GiftVoucherScreen}
+      />
       <MainStack.Screen name='Login' component={LoginScreen} />
       <MainStack.Screen name='Register' component={Register} />
       <MainStack.Screen name='RegisterSuccess' component={RegisterSuccess} />
