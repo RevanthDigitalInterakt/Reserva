@@ -150,7 +150,7 @@ export const FixedMenuItem: React.FC<{
   onPress: Function;
 }> = ({ iconName, title, onPress }) => {
   return (
-    <TouchableOpacity onPress={() => onPress()}>
+    <TouchableOpacity onPress={onPress}>
       <Box
         justifyContent="flex-start"
         alignItems="flex-end"
@@ -296,7 +296,10 @@ export const Menu: React.FC<{}> = () => {
           <FixedMenuItem
             iconName="Message"
             title="Central de Ajuda"
-            onPress={() => {}}
+            onPress={() => {
+              console.log('ok')
+              navigation.navigate('HelpCenter')
+            }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Pin"

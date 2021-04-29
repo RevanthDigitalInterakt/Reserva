@@ -38,6 +38,14 @@ import { MyCards } from '../modules/Profile/pages/MyCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 //--
 
+import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter';
+import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
+import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
+
+import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
+import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
+import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
+
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
   NewAddress: { id?: number };
@@ -88,6 +96,20 @@ const MainStackScreen = () => {
       <MainStack.Screen name='OrderDetail' component={OrderDetail} />
       <MainStack.Screen name='OrderCancel' component={OrderCancel} />
 
+      <MainStack.Screen name="OrderList" component={OrderList} />
+      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
+      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
+
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen name="NotificationProfile" component={NotificationProfile} />
+
+      <MainStack.Screen name="HelpCenter" component={HelpCenter} />
+      <MainStack.Screen name="SizeGuide" component={SizeGuide} />
+      <MainStack.Screen name="ClothingCare" component={ClothingCare} />
+      <MainStack.Screen name="ContactUs" component={ContactUs} />
+      <MainStack.Screen name="Exchanges" component={Exchanges} />
+      <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
       <MainStack.Screen name='EditProfile' component={EditProfile} />
       <MainStack.Screen name='EditPassword' component={EditPassword} />
       <MainStack.Screen
