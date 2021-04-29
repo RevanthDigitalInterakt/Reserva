@@ -60,7 +60,7 @@ export const PaymentMethodScreen = () => {
                     <SelectPayment
                         iconLeft={"Caixa"}
                         title={"Cartão de Débito Virtual Caixa"}
-                        onPress={() => Alert.alert("Caixa")}
+                        onPress={() => navigation.navigate("VirtualDebitCardCaixaScreen")}
                     />
                 </Box>
             </ScrollView>
