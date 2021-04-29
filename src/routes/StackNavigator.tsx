@@ -15,6 +15,8 @@ import { ExampleScreen } from "../modules/Example/pages/Example";
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 import { StackScreenProps } from "@react-navigation/stack";
+import { WishList } from "../modules/WishList/pages/WishList";
+import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean };
@@ -33,6 +35,8 @@ const MainStackScreen = () => {
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
       <MainStack.Screen name="AddressList" component={AddressList} />
       <MainStack.Screen name="NewAddress" component={NewAddress} />
+      <MainStack.Screen name="WishList" component={WishList} />
+      <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen
         name="ProductCatalog"
         initialParams={{ safeArea: true }}

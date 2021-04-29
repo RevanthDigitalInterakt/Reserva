@@ -25,7 +25,7 @@ export const TopBarDefault: React.FC<{
         name: "Heart",
         size: 24,
         onPress: () => {
-          Alert.alert("button right 1");
+          navigation.navigate("WishList");
         },
       }}
       rightButton2={{
