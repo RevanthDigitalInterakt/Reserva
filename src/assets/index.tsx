@@ -26,3 +26,7 @@ export const images = {
   clothingCare1: require('./img/clothing-care1.png'),
   localReserva: require('./img/local-reserva.png'),
 };
+
+export const animations = {
+  splash: require("./animations/splash.json"),
+};
