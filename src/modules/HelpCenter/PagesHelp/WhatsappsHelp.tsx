@@ -29,10 +29,11 @@ export const WhatsappsHelp: React.FC<{}> = () => {
         width={"100%"}
         height={171}
         backgroundColor={"white"}
+        style={{ elevation: 5 }}
+        mt={'xxs'}
       >
         <Box
           height={160}
-          borderBottomWidth="hairline"
           borderColor={"backgroundMenuOpened"}
           paddingY={"xxxs"}
           paddingX={"xxxs"}
@@ -43,7 +44,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
             </Box>
             <Box>
               <Box mb={'quarck'}>
-                <Typography fontFamily="reservaSerifBold" fontSize={14}>{local}</Typography>
+                <Typography fontFamily="reservaSerifRegular" fontSize={16}>{local}</Typography>
               </Box>
               <Typography fontFamily="nunitoRegular" fontSize={14}>
                 {address}
