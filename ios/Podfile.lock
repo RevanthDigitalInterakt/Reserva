@@ -459,7 +459,7 @@ SPEC CHECKSUMS:
   CardScan: 2f7a3b39a37c0e2c67a9502b3a61a59f007c0710
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 128888d3e5a524c706b2720deb9ba6558f2f6072
+  FBReactNativeSpec: f8f68478b8f9abf92cfaa4e989c64133cb7f7a7f
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 4dff8fe8d10ddef9e7880e770080f4a56121397e
