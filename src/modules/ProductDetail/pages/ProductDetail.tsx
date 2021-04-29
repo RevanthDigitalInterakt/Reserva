@@ -16,8 +16,11 @@ import {
   RadioButtons,
   ProductVerticalListCard,
   ProductVerticalListCardProps,
+  TopBar,
 } from 'reserva-ui';
 import { Input } from 'reserva-ui/src/components/TextField/TextField.styles';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { ModalBag } from '../components/ModalBag';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -224,8 +227,16 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: false,
     },
   ];
+  const [isVisible, setIsVisible] = useState(false);
   return (
     <SafeAreaView>
+      <ModalBag
+        isVisible={isVisible}
+        onBackdropPress={() => {
+          setIsVisible(false);
+        }}
+      />
+      <TopBarDefaultBackButton />
       <ScrollView>
         <ProductDetailCard
           installmentsNumber={3}
@@ -299,7 +310,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             title='ADICIONAR À SACOLA'
             variant='primarioEstreito'
             onPress={() => {
-              Alert.alert('produto adicionado a sacola!');
+              setIsVisible(true);
             }}
             inline
           />

@@ -52,45 +52,45 @@ const MainStackScreen = () => {
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
     >
-      <MainStack.Screen name="HomeTabs" component={Tabs} />
-      <MainStack.Screen name="Example" component={ExampleScreen} />
-      <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-      <MainStack.Screen name="AddressList" component={AddressList} />
-      <MainStack.Screen name="NewAddress" component={NewAddress} />
-      <MainStack.Screen name="BagScreen" component={BagScreen} />
-      <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
-      <MainStack.Screen name="Login" component={LoginScreen} />
-      <MainStack.Screen name="Register" component={Register} />
-      <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
-      <MainStack.Screen name="ForgotEmail" component={ForgotEmail} />
+      <MainStack.Screen name='HomeTabs' component={Tabs} />
+      <MainStack.Screen name='Example' component={ExampleScreen} />
+      <MainStack.Screen name='SearchMenu' component={SearchScreen} />
+      <MainStack.Screen name='AddressList' component={AddressList} />
+      <MainStack.Screen name='NewAddress' component={NewAddress} />
+      <MainStack.Screen name='BagScreen' component={BagScreen} />
+      <MainStack.Screen name='DeliveryScreen' component={DeliveryScreen} />
+      <MainStack.Screen name='Login' component={LoginScreen} />
+      <MainStack.Screen name='Register' component={Register} />
+      <MainStack.Screen name='RegisterSuccess' component={RegisterSuccess} />
+      <MainStack.Screen name='ForgotEmail' component={ForgotEmail} />
       <MainStack.Screen
-        name="ForgotEmailSuccess"
+        name='ForgotEmailSuccess'
         component={ForgotEmailSuccess}
       />
-      <MainStack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <MainStack.Screen name='ForgotPassword' component={ForgotPassword} />
       <MainStack.Screen
-        name="ForgotNewPassword"
+        name='ForgotNewPassword'
         component={ForgotNewPassword}
       />
       <MainStack.Screen
-        name="ProductCatalog"
+        name='ProductCatalog'
         initialParams={{ safeArea: true, search: false }}
         component={ProductCatalog}
       />
+      <MainStack.Screen name='ProductDetail' component={ProductDetail} />
+      <MainStack.Screen name='OrderList' component={OrderList} />
+      <MainStack.Screen name='OrderDetail' component={OrderDetail} />
+      <MainStack.Screen name='OrderCancel' component={OrderCancel} />
 
-      <MainStack.Screen name="OrderList" component={OrderList} />
-      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
-      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
-
-      <MainStack.Screen name="EditProfile" component={EditProfile} />
-      <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen name='EditProfile' component={EditProfile} />
+      <MainStack.Screen name='EditPassword' component={EditPassword} />
       <MainStack.Screen
-        name="NotificationProfile"
+        name='NotificationProfile'
         component={NotificationProfile}
       />
 
-      <MainStack.Screen name="MyCards" component={MyCards} />
-      <MainStack.Screen name="NewCard" component={NewCard} />
+      <MainStack.Screen name='MyCards' component={MyCards} />
+      <MainStack.Screen name='NewCard' component={NewCard} />
     </MainStack.Navigator>
   );
 };
@@ -98,22 +98,22 @@ const MainStackScreen = () => {
 const AppRouting = () => {
   return (
     <RootStack.Navigator
-      mode="modal"
-      initialRouteName="Home"
+      mode='modal'
+      initialRouteName='Home'
       screenOptions={{ headerShown: false }}
     >
       <RootStack.Screen
-        name="Main"
+        name='Main'
         component={MainStackScreen}
         options={{ headerShown: false }}
       />
       {/* After that you put modal Screens */}
       <RootStack.Screen
-        name="Menu"
+        name='Menu'
         options={horizontalAnimationBackwards}
         component={Menu}
       />
-      <RootStack.Screen name="Login" component={LoginScreen} />
+      <RootStack.Screen name='Login' component={LoginScreen} />
     </RootStack.Navigator>
   );
 };
