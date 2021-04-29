@@ -51,6 +51,7 @@ export const WishList: React.FC<{}> = () => {
               price={345.0} 
               priceWithDiscount={297.0} 
               onClickFavorite={() => {}} 
+              onClickBagButton={() => {}}
               imageSource={images.shirt3} 
             />
           </Box>
@@ -64,6 +65,7 @@ export const WishList: React.FC<{}> = () => {
               installmentsPrice={79.66} 
               price={345.0} 
               onClickFavorite={() => {}} 
+              onClickBagButton={() => {}}
               imageSource={images.shirt4} 
             />
           </Box>
@@ -79,6 +81,7 @@ export const WishList: React.FC<{}> = () => {
               price={345.0} 
               priceWithDiscount={297.0} 
               onClickFavorite={() => {}} 
+              onClickBagButton={() => {}}
               imageSource={images.shirt1} 
             />
           </Box>
