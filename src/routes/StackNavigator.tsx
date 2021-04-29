@@ -18,6 +18,7 @@ import { LoginScreen } from '../modules/Login/pages/Login';
 import { BagScreen } from '../modules/Checkout/pages/Bag';
 import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
 import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher';
+import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod';
 import { StackScreenProps } from '@react-navigation/stack';
 import OrderList from '../modules/Order/pages/OrderList';
 import OrderDetail from '../modules/Order/pages/OrderDetail';
@@ -36,6 +37,14 @@ import { NotificationProfile } from '../modules/Profile/pages/NotificationProfil
 import { MyCards } from '../modules/Profile/pages/MyCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 //--
+
+import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter';
+import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
+import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
+
+import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
+import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
+import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
@@ -59,6 +68,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name='NewAddress' component={NewAddress} />
       <MainStack.Screen name='BagScreen' component={BagScreen} />
       <MainStack.Screen name='DeliveryScreen' component={DeliveryScreen} />
+      <MainStack.Screen name='PaymentMethodScreen' component={PaymentMethodScreen} />
       <MainStack.Screen
         name='GiftVoucherScreen'
         component={GiftVoucherScreen}
@@ -86,6 +96,20 @@ const MainStackScreen = () => {
       <MainStack.Screen name='OrderDetail' component={OrderDetail} />
       <MainStack.Screen name='OrderCancel' component={OrderCancel} />
 
+      <MainStack.Screen name="OrderList" component={OrderList} />
+      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
+      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
+
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen name="NotificationProfile" component={NotificationProfile} />
+
+      <MainStack.Screen name="HelpCenter" component={HelpCenter} />
+      <MainStack.Screen name="SizeGuide" component={SizeGuide} />
+      <MainStack.Screen name="ClothingCare" component={ClothingCare} />
+      <MainStack.Screen name="ContactUs" component={ContactUs} />
+      <MainStack.Screen name="Exchanges" component={Exchanges} />
+      <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
       <MainStack.Screen name='EditProfile' component={EditProfile} />
       <MainStack.Screen name='EditPassword' component={EditPassword} />
       <MainStack.Screen
