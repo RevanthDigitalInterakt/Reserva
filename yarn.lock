@@ -1918,9 +1918,9 @@ acorn@^7.1.1, acorn@^7.4.0:
   integrity sha1-/q7SVZc9LndVW4PbwIhRpsY1IPo=
 
 acorn@^8.1.0:
-  version "8.2.1"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/acorn/-/acorn-8.2.1.tgz#0d36af126fb6755095879c1dc6fd7edf7d60a5fb"
-  integrity sha1-DTavEm+2dVCVh5wdxv1+331gpfs=
+  version "8.2.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/acorn/-/acorn-8.2.2.tgz#c4574e4fea298d6e6ed4b85ab844b06dd59f26d6"
+  integrity sha1-xFdOT+opjW5u1LhauESwbdWfJtY=
 
 add@^2.0.6:
   version "2.0.6"
@@ -2483,7 +2483,7 @@ browser-process-hrtime@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/browser-process-hrtime/-/browser-process-hrtime-1.0.0.tgz#3c9b4b7d782c8121e56f10106d84c0d0ffc94626"
   integrity sha1-PJtLfXgsgSHlbxAQbYTA0P/JRiY=
 
-browserslist@^4.14.5, browserslist@^4.16.4:
+browserslist@^4.14.5, browserslist@^4.16.5:
   version "4.16.5"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/browserslist/-/browserslist-4.16.5.tgz#952825440bca8913c62d0021334cbe928ef062ae"
   integrity sha1-lSglRAvKiRPGLQAhM0y+ko7wYq4=
@@ -2874,11 +2874,11 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.9.1:
-  version "3.11.0"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/core-js-compat/-/core-js-compat-3.11.0.tgz#635683f43480a0b41e3f6be3b1c648dadb8b4390"
-  integrity sha1-Y1aD9DSAoLQeP2vjscZI2tuLQ5A=
+  version "3.11.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/core-js-compat/-/core-js-compat-3.11.1.tgz#57a91e9b02d3bb8cf37f82eceaf44a3d646fa614"
+  integrity sha1-V6kemwLTu4zzf4Ls6vRKPWRvphQ=
   dependencies:
-    browserslist "^4.16.4"
+    browserslist "^4.16.5"
     semver "7.0.0"
 
 core-js-pure@^3.0.0:
@@ -3920,9 +3920,9 @@ flatted@^3.1.0:
   integrity sha1-xLSJ6ACW2d8d/JfHmHGup8YXxGk=
 
 flow-parser@0.*:
-  version "0.149.0"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/flow-parser/-/flow-parser-0.149.0.tgz#6e5749ad832ba211968429accdb6a3858706e4f8"
-  integrity sha1-bldJrYMrohGWhCmszbajhYcG5Pg=
+  version "0.150.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/flow-parser/-/flow-parser-0.150.0.tgz#69ba3e90b0d127bc2f0d7025854805eeb09fd2c1"
+  integrity sha1-abo+kLDRJ7wvDXAlhUgF7rCf0sE=
 
 flow-parser@^0.121.0:
   version "0.121.0"
@@ -6680,9 +6680,9 @@ range-parser@~1.2.1:
   integrity sha1-PPNwI9GZ4cJNGlW4SADC8+ZGgDE=
 
 react-devtools-core@^4.6.0:
-  version "4.12.4"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-devtools-core/-/react-devtools-core-4.12.4.tgz#50ed121d467f44b051d1f7d19694849db0365d52"
-  integrity sha1-UO0SHUZ/RLBR0ffRlpSEnbA2XVI=
+  version "4.13.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-devtools-core/-/react-devtools-core-4.13.0.tgz#fa80ee03b1a975c1d9898e24de841e45a4b22d30"
+  integrity sha1-+oDuA7GpdcHZiY4k3oQeRaSyLTA=
   dependencies:
     shell-quote "^1.6.1"
     ws "^7"
@@ -6746,6 +6746,11 @@ react-native-credit-card-input-view@^0.0.7:
     lodash.values "^4.3.0"
     prop-types "^15.7.2"
     react-native-flip-card-plus "^1.0.4"
+
+react-native-device-info@^8.1.2:
+  version "8.1.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-device-info/-/react-native-device-info-8.1.2.tgz#142f2f05e27689858d5aa73dae36f0c37c965031"
+  integrity sha1-FC8vBeJ2iYWNWqc9rjbww3yWUDE=
 
 react-native-flip-card-plus@^1.0.4:
   version "1.0.4"

@@ -34,60 +34,64 @@ export const DeliveryScreen = () => {
                             Escolha a forma de envio
                         </Typography>
                     </Box>
-
-                    <Button flexDirection={"row"}>
-                        <Box
-                            flexDirection={"row"}
-                            alignItems={"center"}
-                            flex={1}
-                            justifyContent={"space-between"}
-                        >
-                            <Box>
-                                <Typography variant={"tituloSessao"}>Retirar na loja</Typography>
-                                <Typography
-                                    fontFamily={"nunitoSemiBold"}
-                                    fontSize={13}
-                                    color={"verdeSucesso"}
-                                >
-                                    Segunda-feira, 05 de abril de 2021
-                                </Typography>
-                            </Box>
-                            <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
-                        </Box>
-                    </Button>
-
-                    <Divider
-                        variant={"fullWidth"}
-                        marginY={"micro"}
+                    <SelectOption
+                        title={"Retirar na loja"}
+                        subtitle={"Segunda-feira, 05 de abril de 2021"}
+                        onPress={() => navigation.navigate('PaymentMethodScreen')}
+                        divider
                     />
-
-                    <Button
-                        flexDirection={"row"}
-                        onPress={() => navigation.navigate('GiftVoucherScreen')}
-                    >
-                        <Box
-                            flexDirection={"row"}
-                            alignItems={"center"}
-                            flex={1}
-                            justifyContent={"space-between"}
-                        >
-                            <Box>
-                                <Typography variant={"tituloSessao"}>Receber em casa</Typography>
-                                <Typography
-                                    fontFamily={"nunitoSemiBold"}
-                                    fontSize={13}
-                                    color={"verdeSucesso"}
-                                >
-                                    Segunda-feira, 15 de abril de 2021
-                                </Typography>
-                            </Box>
-                            <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
-                        </Box>
-                    </Button>
-
+                    <SelectOption
+                        title={"Receber em casa"}
+                        subtitle={"Segunda-feira, 15 de abril de 2021"}
+                        onPress={() => navigation.navigate('PaymentMethodScreen')}
+                    />
                 </Box>
 
             </ScrollView>
         </SafeAreaView >
     );
 };
+
+interface ISelectOption {
+    title: string;
+    subtitle: string;
+    divider?: boolean;
+    onPress?: () => void;
+}
+const SelectOption = ({
+    title,
+    subtitle,
+    divider,
+    onPress
+}: ISelectOption) => {
+    return (
+        <>
+            <Button flexDirection={"row"} onPress={onPress}>
+                <Box
+                    flexDirection={"row"}
+                    alignItems={"center"}
+                    flex={1}
+                    justifyContent={"space-between"}
+                >
+                    <Box>
+                        <Typography variant={"tituloSessao"}>{title}</Typography>
+                        <Typography
+                            fontFamily={"nunitoSemiBold"}
+                            fontSize={13}
+                            color={"verdeSucesso"}
+                        >
+                            {subtitle}
+                        </Typography>
+                    </Box>
+                    <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
+                </Box>
+            </Button>
+            {divider &&
+                <Divider
+                    variant={"fullWidth"}
+                    marginY={"micro"}
+                />
+            }
+        </>
+    );
+}
