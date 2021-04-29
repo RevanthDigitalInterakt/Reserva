@@ -111,7 +111,7 @@ export const BagScreen = () => {
                 count={quantity}
                 onClickAddCount={(count) => AddProduct(count)}
                 onClickSubCount={(count) => RemoveProduct(count)}
-                onClickClose={() => {}}
+                onClickClose={() => { }}
                 imageSource={item.imageSource}
               />
             </Box>
@@ -158,6 +158,33 @@ export const BagScreen = () => {
               Insira aqui o código do vendedor(a) e/ou cupom de desconto.
             </Typography>
           </Box>
+
+          <Box
+            bg={"backgoundInput"}
+            flexDirection={"row"}
+            alignItems="center"
+            px={"micro"}
+            height={34}
+            alignSelf={"flex-start"}
+            borderRadius={"pico"}
+            marginTop="nano"
+          >
+            <Typography
+              fontFamily={"nunitoRegular"}
+              fontSize={13}
+            >RSV1234</Typography>
+            <Button
+              onPress={() => { }}
+              marginLeft={"micro"}
+              variant={"icone"}
+              icon={
+                <Icon
+                  name='Close'
+                  size={10}
+                />}
+            />
+          </Box>
+
           <Box marginTop={"nano"} flexDirection={"row"}>
             <Box flex={1} marginRight={"micro"}>
               <TextField placeholder={"Insira o código"} />
