@@ -10,6 +10,11 @@ export const images = {
   shirt2: require("./img/shirt2.png"),
   shirt3: require("./img/shirt3.png"),
   shirt4: require("./img/shirt4.png"),
+  visa: require("./img/visa.png"),
+  mastercard: require("./img/mastercard.png"),
+  americanExpress: require("./img/americanExpress.png"),
+  elo: require("./img/elo.png"),
+  cardImage: require("./img/cardImage.png"),
   helpSizeGuide1: require("./img/help-size-guide1.png"),
   helpSizeGuide2: require("./img/help-size-guide2.png"),
   helpSizeGuide3: require("./img/help-size-guide3.png"),
@@ -18,15 +23,12 @@ export const images = {
   helpSizeGuide6: require("./img/help-size-guide6.png"),
   helpSizeGuide7: require("./img/help-size-guide7.png"),
   helpSizeGuide8: require("./img/help-size-guide8.png"),
-  visa: require('./img/visa.png'),
-  mastercard: require('./img/mastercard.png'),
-  americanExpress: require('./img/americanExpress.png'),
-  elo: require('./img/elo.png'),
-  cardImage: require('./img/cardImage.png'),
-  clothingCare1: require('./img/clothing-care1.png'),
-  localReserva: require('./img/local-reserva.png'),
+  clothingCare1: require("./img/clothing-care1.png"),
+  localReserva: require("./img/local-reserva.png"),
 };
 
 export const animations = {
   splash: require("./animations/splash.json"),
+  bag: require("./animations/bag.json"),
+  confirmation: require("./animations/confirmation.json"),
 };
