@@ -96,14 +96,6 @@ const MainStackScreen = () => {
       <MainStack.Screen name='OrderDetail' component={OrderDetail} />
       <MainStack.Screen name='OrderCancel' component={OrderCancel} />
 
-      <MainStack.Screen name="OrderList" component={OrderList} />
-      <MainStack.Screen name="OrderDetail" component={OrderDetail} />
-      <MainStack.Screen name="OrderCancel" component={OrderCancel} />
-
-      <MainStack.Screen name="EditProfile" component={EditProfile} />
-      <MainStack.Screen name="EditPassword" component={EditPassword} />
-      <MainStack.Screen name="NotificationProfile" component={NotificationProfile} />
-
       <MainStack.Screen name="HelpCenter" component={HelpCenter} />
       <MainStack.Screen name="SizeGuide" component={SizeGuide} />
       <MainStack.Screen name="ClothingCare" component={ClothingCare} />
@@ -112,9 +104,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
       <MainStack.Screen name='EditProfile' component={EditProfile} />
       <MainStack.Screen name='EditPassword' component={EditPassword} />
-      <MainStack.Screen
-        name='NotificationProfile'
-        component={NotificationProfile}
+      <MainStack.Screen name='NotificationProfile' component={NotificationProfile}
       />
 
       <MainStack.Screen name='MyCards' component={MyCards} />
