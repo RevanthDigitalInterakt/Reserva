@@ -17,7 +17,11 @@ import { RegisterSuccess } from "../modules/Register/pages/RegisterSuccess";
 import { LoginScreen } from "../modules/Login/pages/Login";
 import { BagScreen } from "../modules/Checkout/pages/Bag";
 import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
+import { PaymentMethodScreen } from "../modules/Checkout/pages/PaymentMethod";
 import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
+import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
+import { PixScreen } from '../modules/Checkout/pages/Pix';
+
 import { StackScreenProps } from "@react-navigation/stack";
 import { WishList } from "../modules/WishList/pages/WishList";
 import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
@@ -73,6 +77,9 @@ const MainStackScreen = () => {
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen name="BagScreen" component={BagScreen} />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name='PaymentMethodScreen' component={PaymentMethodScreen} />
+      <MainStack.Screen name='VirtualDebitCardCaixaScreen' component={VirtualDebitCardCaixaScreen} />
+      <MainStack.Screen name='PixScreen' component={PixScreen} />
       <MainStack.Screen
         name="GiftVoucherScreen"
         component={GiftVoucherScreen}
