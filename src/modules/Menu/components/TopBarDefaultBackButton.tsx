@@ -33,7 +33,7 @@ export const TopBarDefaultBackButton: React.FC<{
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
-          navigation.navigate("MyAddress");
+          navigation.navigate("BagScreen");
         },
       }}
       height={50}
