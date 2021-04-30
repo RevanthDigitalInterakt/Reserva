@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import { createAnimatableComponent } from 'react-native-animatable';
 
 const BoxAnimated = createAnimatableComponent(Box);
+
 export const BagScreen = () => {
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
@@ -304,13 +305,6 @@ export const BagScreen = () => {
         </Box>
       </ScrollView>
 
-      {/* <Button
-        onPress={() => navigation.navigate('DeliveryScreen')}
-        title="IR PARA ENTREGA"
-        variant="primarioEstreito"
-        inline
-      /> */}
-
       <Box
         width={'100%'}
         height={137}
@@ -351,7 +345,12 @@ export const BagScreen = () => {
           </Box>
         </Box>
 
-        <Button title="FINALIZAR COMPRA" variant="primarioEstreito" inline />
+        <Button
+          onPress={() => navigation.navigate('SummaryScreen')}
+          title="FINALIZAR COMPRA"
+          variant="primarioEstreito"
+          inline
+        />
       </Box>
     </SafeAreaView>
   );
