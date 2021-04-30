@@ -5,15 +5,19 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
-interface MyCardsScreenProps {}
+interface ListCardsScreenProps {}
 interface CardProps {
   cardNumber: string;
   flag?: FlagTypes;
   main: boolean;
   id: string;
 }
-export const MyCards = ({}: MyCardsScreenProps) => {
+
+type Props = StackScreenProps<RootStackParamList, 'ListCards'>;
+
+export const ListCards = ({ navigation, route }: Props) => {
   const [cards, setCards] = React.useState<CardProps[]>([
     {
       cardNumber: '3000400050006000',
@@ -44,8 +48,7 @@ export const MyCards = ({}: MyCardsScreenProps) => {
     false
   );
 
-  const navigation = useNavigation();
-
+  const { isCheckout } = route.params;
   const handleDeleteCard = (id: string) => {
     const restCards = cards.filter((card) => card.id !== id);
     setCards(restCards);
@@ -107,11 +110,29 @@ export const MyCards = ({}: MyCardsScreenProps) => {
         </Box>
         <Button
           mt="xs"
-          onPress={() => navigation.navigate('NewCard')}
+          onPress={() =>
+            navigation.navigate('NewCard', {
+              isCheckout: false,
+            })
+          }
           title={'ADICIONAR CARTÃO'}
           variant="primarioEstreitoOutline"
           padding="xl"
         />
+        {isCheckout && (
+          <Box flex={1} justifyContent="flex-end">
+            <Button
+              variant="primarioEstreito"
+              inline
+              title="PRÓXIMO"
+              onPress={() =>
+                navigation.navigate('NewCard', {
+                  isCheckout: true,
+                })
+              }
+            />
+          </Box>
+        )}
       </SafeAreaView>
       <Alert
         isVisible={isVisibleSuccessTrash}

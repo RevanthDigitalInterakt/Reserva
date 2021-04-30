@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Alert, Dimensions, PickerItemProps } from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from "react";
+import { Alert, Dimensions, PickerItemProps } from "react-native";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
   Button,
@@ -17,12 +17,12 @@ import {
   ProductVerticalListCard,
   ProductVerticalListCardProps,
   TopBar,
-} from 'reserva-ui';
-import { Input } from 'reserva-ui/src/components/TextField/TextField.styles';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { ModalBag } from '../components/ModalBag';
+} from "reserva-ui";
+import { Input } from "reserva-ui/src/components/TextField/TextField.styles";
+import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
+import { ModalBag } from "../components/ModalBag";
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 
 interface ProductDetailProps {
   recomendedProducts?: ProductVerticalListCardProps[];
@@ -33,23 +33,23 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const colors = [
-    '#F9F9ED',
-    '#7494A5',
-    '#2D4452',
-    '#484C51',
-    '#070707',
-    '#484C50',
-    '#BE6ED5',
-    '#4A56A7',
-    '#1ECB58',
+    "#F9F9ED",
+    "#7494A5",
+    "#2D4452",
+    "#484C51",
+    "#070707",
+    "#484C50",
+    "#BE6ED5",
+    "#4A56A7",
+    "#1ECB58",
   ];
-  const [selectedColor, setSelectedColor] = useState('#F9F9ED');
+  const [selectedColor, setSelectedColor] = useState("#F9F9ED");
   recomendedProducts = [
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -57,19 +57,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -77,19 +77,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -97,19 +97,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -117,19 +117,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -137,20 +137,20 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
 
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -158,19 +158,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -178,19 +178,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -198,19 +198,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       isFavorited: false,
     },
     {
-      currency: 'R$',
+      currency: "R$",
       discountTag: 18,
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -218,9 +218,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       isFavorited: true,
     },
     {
-      currency: 'R$',
-      imageSource: 'https://via.placeholder.com/100x160',
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      currency: "R$",
+      imageSource: "https://via.placeholder.com/100x160",
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
