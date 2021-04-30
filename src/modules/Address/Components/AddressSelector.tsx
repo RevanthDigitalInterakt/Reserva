@@ -29,17 +29,17 @@ const AddressSelector = ({
     <>
       <TouchableOpacity onPress={select}>
         <Box
+          bg="white"
           borderBottomWidth={"hairline"}
           borderColor={"divider"}
           width="100%"
-          backgroundColor="white"
           flexDirection="row"
           mt={"xxxs"}
         >
           <Box width={24} mr={"micro"}>
             {selected && <Icon name="Check" color="preto" size={24} />}
           </Box>
-          <Box paddingX="micro">
+          <Box paddingX="micro" flex={1}>
             <Typography fontFamily="reservaSerifRegular" fontSize={16}>
               {title}
             </Typography>

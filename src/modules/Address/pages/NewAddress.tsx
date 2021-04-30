@@ -1,18 +1,21 @@
-import * as React from "react";
+import React, { useRef } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-
 import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
-import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useRoute } from "@react-navigation/core";
-
+import { useNavigation } from "@react-navigation/native";
+import {
+  TextInputMaskTypeProp,
+  TextInputMaskOptionProp,
+} from 'react-native-masked-text';
 type Props = StackScreenProps<RootStackParamList, "NewAddress">;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
+  const navigation = useNavigation();
+  const scrollViewRef = useRef<ScrollView>(null);
   const id = route?.params;
-
+  const [toggleActivated, setToggleActivated] = React.useState(false)
   const [zipcode, setZipcode] = React.useState("");
   return (
     <>
@@ -21,61 +24,118 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         style={{ justifyContent: "space-between" }}
         backgroundColor="white"
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <TopBarBackButton showShadow />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          ref={scrollViewRef}
+        >
           <Box>
-            <TopBarBackButton showShadow />
-            <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"md"}>
-              <Box alignSelf={"flex-start"} mb={"xxxs"}>
+
+            <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
+              <Box alignSelf={"flex-start"} mb={"nano"}>
                 {id ? (
                   <Typography fontSize={20} fontFamily="reservaSerifRegular">
                     Editar endereço
                   </Typography>
                 ) : (
-                  <Typography fontSize={20} fontFamily="reservaSerifRegular">
-                    Adicionar endereço
+                  <Typography fontSize={28} fontFamily="reservaSerifRegular">
+                    Entrega
                   </Typography>
                 )}
               </Box>
+              <Box>
+                <Typography variant={"tituloSessao"}>
+                  Receba em casa ou no endereço de sua preferência
+                </Typography>
+              </Box>
 
-              <Box mt={"xxxs"}>
-                <TextField
-                  value={zipcode}
-                  height={55}
-                  placeholder="Digite seu CEP"
-                  maskType="zip-code"
-                />
-              </Box>
-              <Box mt={"xxxs"}>
-                <TextField height={55} placeholder="Endereço" />
-              </Box>
-              <Box flexDirection="row" justifyContent="space-between">
-                <Box mt={"xxxs"} width={"50%"}>
-                  <TextField height={55} placeholder="Digite seu Bairro" />
+              <InputOption
+                placeholder={"Digite seu CEP"}
+                maskType={"zip-code"}
+                value={zipcode}
+                onChangeText={() => { }}
+              />
+
+              <Box flexDirection={"row"} justifyContent="space-between">
+                <Box flex={1} marginRight={"micro"}>
+                  <InputOption
+                    placeholder={"Digite seu estado"}
+                    onChangeText={() => { }}
+                  />
                 </Box>
-                <Box mt={"xxxs"} width={"45%"}>
-                  <TextField height={55} placeholder="Digite seu estado" />
+
+                <Box flex={1}>
+                  <InputOption
+                    placeholder={"Digite sua cidade"}
+                    onChangeText={() => { }}
+                  />
                 </Box>
               </Box>
 
-              <Box mt={"xxxs"}>
-                <TextField height={55} placeholder="Número" />
-              </Box>
-              <Box mt={"xxxs"}>
-                <TextField height={55} placeholder="Complemento" />
+              <InputOption
+                placeholder={"Endereço"}
+                onChangeText={() => { }}
+              />
+
+              <Box flexDirection={"row"} justifyContent="space-between">
+                <Box flex={1} marginRight={"micro"}>
+                  <InputOption
+                    placeholder={"Digite seu bairro"}
+                    onChangeText={() => { }}
+                  />
+                </Box>
+
+                <Box flex={1}>
+                  <InputOption
+                    placeholder={"Número"}
+                    onChangeText={() => { }}
+                  />
+                </Box>
               </Box>
 
-              <Box alignSelf="center" mt="xs">
+              <InputOption
+                placeholder={"Complemento"}
+                onChangeText={() => { }}
+              />
+
+              <Box mt="xs" mb="xxxs">
                 <Toggle
-                  label="Tornar esse meu endereço principal"
-                  color="neutroFrio2"
+                  label="A entrega é para presente"
+                  color="preto"
                   thumbColor="vermelhoAlerta"
+                  value={toggleActivated}
+                  onValueChange={() => {
+                    setToggleActivated(!toggleActivated);
+                    scrollViewRef.current && scrollViewRef.current.scrollToEnd({ animated: true })
+                  }}
                 />
               </Box>
+
+              {toggleActivated &&
+                <Box mb={"sm"}>
+                  <InputOption
+                    placeholder={"Nome do destinatário"}
+                    onChangeText={() => { }}
+                  />
+
+                  <InputOption
+                    placeholder={"Telefone para contato"}
+                    onChangeText={() => { }}
+                  />
+
+                  <InputOption
+                    height={135}
+                    textAlignVertical={"top"}
+                    placeholder={"Deseja enviar algum recado junto?"}
+                    onChangeText={() => { }}
+                  />
+                </Box>
+              }
 
               {id && (
                 <Button
                   mt={"xs"}
-                  onPress={() => {}}
+                  onPress={() => { }}
                   title={"SALVAR ALTERAÇÕES"}
                   variant="primarioEstreitoOutline"
                 />
@@ -84,7 +144,12 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
           </Box>
         </ScrollView>
         {!id && (
-          <Button title="INCLUIR ENDEREÇO" variant="primarioEstreito" inline />
+          <Button
+            onPress={() => navigation.navigate("PaymentMethodScreen")}
+            title="FORMA DE PAGAMENTO"
+            variant="primarioEstreito"
+            inline
+          />
         )}
       </SafeAreaView>
     </>
@@ -92,3 +157,41 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 };
 
 export default NewAddress;
+
+interface IInputOption {
+  label?: string;
+  placeholder?: string;
+  maskType?: TextInputMaskTypeProp;
+  maskOptions?: TextInputMaskOptionProp;
+  value?: string;
+  height?: number;
+  textAlignVertical?: "auto" | "top" | "bottom" | "center" | undefined;
+  onChangeText?: (value: string) => void;
+}
+const InputOption = ({
+  label,
+  placeholder,
+  maskType,
+  maskOptions,
+  value,
+  height,
+  textAlignVertical,
+  onChangeText,
+}: IInputOption) => {
+  return (
+    <>
+      <Box mt={"xxxs"} >
+        <TextField
+          // label={"Nome do titular"}
+          textAlignVertical={textAlignVertical}
+          height={height}
+          maskType={maskType}
+          maskOptions={maskOptions}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          value={value}
+        />
+      </Box>
+    </>
+  );
+}
