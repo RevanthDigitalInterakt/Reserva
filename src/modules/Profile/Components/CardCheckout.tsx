@@ -137,7 +137,7 @@ export const CardCheckout = ({
             <Button onPress={scanCard}>
               <Box flexDirection="row" alignItems="center">
                 <Box mr="nano">
-                  <Icon name="Cam" size={25} />
+                  <Icon name="Cam" size={16} />
                 </Box>
                 <Typography>Escanear Cartão</Typography>
               </Box>
@@ -180,7 +180,7 @@ export const CardCheckout = ({
                 <Button onPress={scanCard}>
                   <Box flexDirection="row" alignItems="center">
                     <Box mr="nano">
-                      <Icon name="Cam" size={25} />
+                      <Icon name="Cam" size={16} />
                     </Box>
                     <Typography>Escanear Cartão</Typography>
                   </Box>
@@ -247,7 +247,7 @@ export const CardCheckout = ({
               onChangeText={(val) => onChangeTextCardOne('holder', val)}
               iconRight={
                 <Box ml="nano">
-                  <Icon color="neutroFrio2" name="Card" size={25} />
+                  <Icon color="neutroFrio2" name="HelpCircle" size={16} />
                 </Box>
               }
             />
@@ -261,7 +261,7 @@ export const CardCheckout = ({
               onChangeText={(val) => onChangeTextCardOne('number', val)}
               iconRight={
                 <Box ml="nano">
-                  <Icon color="neutroFrio2" name="Card" size={25} />
+                  <Icon color="neutroFrio2" name="HelpCircle" size={16} />
                 </Box>
               }
             />
@@ -279,7 +279,7 @@ export const CardCheckout = ({
                 onChangeText={(val) => onChangeTextCardOne('expiration', val)}
                 iconRight={
                   <Box ml="nano">
-                    <Icon color="neutroFrio2" name="Card" size={25} />
+                    <Icon color="neutroFrio2" name="HelpCircle" size={16} />
                   </Box>
                 }
               />
@@ -296,7 +296,7 @@ export const CardCheckout = ({
                 onChangeText={(val) => onChangeTextCardOne('CVC', val)}
                 iconRight={
                   <Box ml="nano">
-                    <Icon color="neutroFrio2" name="Card" size={25} />
+                    <Icon color="neutroFrio2" name="CreditCard" size={16} />
                   </Box>
                 }
               />
@@ -326,7 +326,7 @@ export const CardCheckout = ({
                       <Button onPress={scanCard}>
                         <Box flexDirection="row" alignItems="center">
                           <Box mr="nano">
-                            <Icon name="Cam" size={25} />
+                            <Icon name="Cam" size={16} />
                           </Box>
                           <Typography>Escanear Cartão</Typography>
                         </Box>
@@ -393,7 +393,7 @@ export const CardCheckout = ({
                     onChangeText={(val) => onChangeTextCardTwo('holder', val)}
                     iconRight={
                       <Box ml="nano">
-                        <Icon color="neutroFrio2" name="Card" size={25} />
+                        <Icon color="neutroFrio2" name="HelpCircle" size={16} />
                       </Box>
                     }
                   />
@@ -407,7 +407,7 @@ export const CardCheckout = ({
                     onChangeText={(val) => onChangeTextCardTwo('number', val)}
                     iconRight={
                       <Box ml="nano">
-                        <Icon color="neutroFrio2" name="Card" size={25} />
+                        <Icon color="neutroFrio2" name="HelpCircle" size={16} />
                       </Box>
                     }
                   />
@@ -427,7 +427,11 @@ export const CardCheckout = ({
                       }
                       iconRight={
                         <Box ml="nano">
-                          <Icon color="neutroFrio2" name="Card" size={25} />
+                          <Icon
+                            color="neutroFrio2"
+                            name="HelpCircle"
+                            size={16}
+                          />
                         </Box>
                       }
                     />
@@ -444,7 +448,11 @@ export const CardCheckout = ({
                       onChangeText={(val) => onChangeTextCardTwo('CVC', val)}
                       iconRight={
                         <Box ml="nano">
-                          <Icon color="neutroFrio2" name="Card" size={25} />
+                          <Icon
+                            color="neutroFrio2"
+                            name="CreditCard"
+                            size={16}
+                          />
                         </Box>
                       }
                     />
