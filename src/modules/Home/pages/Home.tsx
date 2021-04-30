@@ -31,20 +31,40 @@ export const HomeScreen: React.FC<{
           alignItems="flex-start"
           justifyContent="center"
         >
-          <Box pb="nano" width={1 / 1}>
-            <Image source={images.topBannerMock1} width={1 / 1} />
+          <Box mb="nano" width={1 / 1}>
+            <Image
+              resizeMode="stretch"
+              source={images.topBannerMock1}
+              width={1 / 1}
+            />
           </Box>
-          <Box pb="nano" width={1 / 1}>
-            <Image source={images.homeMock2} width={1 / 1} />
+          <Box mb="nano" width={1 / 1}>
+            <Image
+              resizeMode="stretch"
+              source={images.homeMock2}
+              width={1 / 1}
+            />
           </Box>
-          <Box pb="nano" width={1 / 1}>
-            <Image source={images.homeMock3} width={1 / 1} />
+          <Box mb="nano" width={1 / 1}>
+            <Image
+              resizeMode="stretch"
+              source={images.homeMock3}
+              width={1 / 1}
+            />
           </Box>
-          <Box pb="nano" width={1 / 1}>
-            <Image source={images.homeMock1} width={1 / 1} />
+          <Box mb="nano" width={1 / 1}>
+            <Image
+              resizeMode="stretch"
+              source={images.homeMock1}
+              width={1 / 1}
+            />
           </Box>
           <Box width={1 / 1}>
-            <Image source={images.homeMock4} width={1 / 1} />
+            <Image
+              resizeMode="stretch"
+              source={images.homeMock4}
+              width={1 / 1}
+            />
           </Box>
         </Box>
       </ScrollView>
