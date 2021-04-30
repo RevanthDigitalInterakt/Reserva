@@ -20,6 +20,7 @@ import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
 import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher';
 import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod';
 import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
+import { PixScreen } from '../modules/Checkout/pages/Pix';
 import { StackScreenProps } from '@react-navigation/stack';
 import OrderList from '../modules/Order/pages/OrderList';
 import OrderDetail from '../modules/Order/pages/OrderDetail';
@@ -63,6 +64,7 @@ const MainStackScreen = () => {
       <MainStack.Screen name='DeliveryScreen' component={DeliveryScreen} />
       <MainStack.Screen name='PaymentMethodScreen' component={PaymentMethodScreen} />
       <MainStack.Screen name='VirtualDebitCardCaixaScreen' component={VirtualDebitCardCaixaScreen} />
+      <MainStack.Screen name='PixScreen' component={PixScreen} />
       <MainStack.Screen
         name='GiftVoucherScreen'
         component={GiftVoucherScreen}

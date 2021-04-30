@@ -54,6 +54,9 @@ export const VirtualDebitCardCaixaScreen = () => {
                                 placeholder={"Vencimento"}
                                 iconName={"HelpCircle"}
                                 maskType={"datetime"}
+                                maskOptions={{
+                                    format: "MM/YYYY"
+                                }}
                                 onChangeText={() => { }}
                                 onPressIcon={() => { }}
                             />
@@ -63,13 +66,18 @@ export const VirtualDebitCardCaixaScreen = () => {
                             <InputOption
                                 placeholder={"CVV"}
                                 iconName={"CreditCard"}
-                                onPressIcon={() => { }}
                             />
                         </Box>
 
                     </Box>
                 </Box>
             </ScrollView>
+            <Button
+                onPress={() => navigation.navigate("")}
+                title="ADICIONAR CARTÃO"
+                variant="primarioEstreito"
+                inline
+            />
         </SafeAreaView >
     );
 };
@@ -102,11 +110,14 @@ const InputOption = ({
                     onChangeText={onChangeText}
                     placeholder={placeholder}
                     iconRight={
-                        <Button
-                            variant={"icone"}
-                            onPress={onPressIcon}
-                            icon={<Icon name={iconName} color={"preto"} size={16} />}
-                        />
+                        onPressIcon
+                            ?
+                            <Button
+                                variant={"icone"}
+                                onPress={onPressIcon}
+                                icon={<Icon name={iconName} color={"preto"} size={16} />}
+                            />
+                            : <Icon name={iconName} color={"preto"} size={16} />
                     }
                 />
             </Box>
