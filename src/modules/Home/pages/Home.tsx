@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { useEffect } from "react";
+import { Dimensions } from "react-native";
 import { ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button, Image, theme } from "reserva-ui";
@@ -18,6 +19,8 @@ export const HomeScreen: React.FC<{
 
   const { repositories } = useSelector((state: ApplicationState) => state);
 
+  const deviceWidth = Dimensions.get("screen").width;
+
   useEffect(() => {
     dispatch(loadRequest());
   }, []);
@@ -26,44 +29,40 @@ export const HomeScreen: React.FC<{
     <Box flex={1}>
       <TopBarDefault />
       <ScrollView>
-        <Box
-          variant="container"
-          alignItems="flex-start"
-          justifyContent="center"
-        >
-          <Box mb="nano" width={1 / 1}>
+        <Box alignItems="flex-start">
+          <Box mb="quarck" width={1 / 1}>
             <Image
-              resizeMode="stretch"
+              autoHeight={true}
+              width={deviceWidth}
               source={images.topBannerMock1}
-              width={1 / 1}
             />
           </Box>
-          <Box mb="nano" width={1 / 1}>
+          <Box mb="quarck" width={1 / 1}>
             <Image
-              resizeMode="stretch"
+              autoHeight={true}
+              width={deviceWidth}
               source={images.homeMock2}
-              width={1 / 1}
             />
           </Box>
-          <Box mb="nano" width={1 / 1}>
+          <Box mb="quarck" width={1 / 1}>
             <Image
-              resizeMode="stretch"
+              autoHeight={true}
+              width={deviceWidth}
               source={images.homeMock3}
-              width={1 / 1}
             />
           </Box>
-          <Box mb="nano" width={1 / 1}>
+          <Box mb="quarck" width={1 / 1}>
             <Image
-              resizeMode="stretch"
+              autoHeight={true}
+              width={deviceWidth}
               source={images.homeMock1}
-              width={1 / 1}
             />
           </Box>
           <Box width={1 / 1}>
             <Image
-              resizeMode="stretch"
+              autoHeight={true}
+              width={deviceWidth}
               source={images.homeMock4}
-              width={1 / 1}
             />
           </Box>
         </Box>
