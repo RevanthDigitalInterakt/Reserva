@@ -20,8 +20,8 @@ export const WishListCategory: React.FC<{}> = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
+      <TopBarDefaultBackButton showShadow />
       <ScrollView>
-        <TopBarDefaultBackButton showShadow />
         <Box paddingX="xxxs" marginTop="xs">
           <Box marginTop="xxxs">
             <Typography fontSize={20} fontFamily="reservaSerifRegular">
