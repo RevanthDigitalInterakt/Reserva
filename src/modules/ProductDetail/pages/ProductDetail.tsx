@@ -247,11 +247,10 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             price={345}
             priceWithDiscount={297}
             imagesWidth={screenWidth}
-            //imagesHeight={504}
+            
             images={[
-              'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-              'https://media.discordapp.net/attachments/488087473348542486/834835471582363719/unknown.png',
-              'https://media.discordapp.net/attachments/488087473348542486/831612180508049408/Imagem_332x.png',
+              'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
+              'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
             ]}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
