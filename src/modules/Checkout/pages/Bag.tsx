@@ -1,46 +1,53 @@
-import React, { useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import React, { useState } from 'react';
+import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
   ProgressBar,
   ProductHorizontalListCard,
+  ProductDetailCard,
   Divider,
   Button,
   Icon,
   Toggle,
   TextField,
-} from "reserva-ui";
-import { PriceCustom } from "../components/PriceCustom";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation } from "@react-navigation/native";
+  ProductVerticalListCard,
+} from 'reserva-ui';
+import { PriceCustom } from '../components/PriceCustom';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useNavigation } from '@react-navigation/native';
+import { createAnimatableComponent } from 'react-native-animatable';
 
+const BoxAnimated = createAnimatableComponent(Box);
 export const BagScreen = () => {
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
+  const [hasBagGift, setHasBagGift] = React.useState(false);
+  const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
+
   const [lisProduct, setLisProduct] = useState([
     {
       discountTag: 18,
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      itemColor: 'Branca',
+      ItemSize: '41',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
     {
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      itemColor: 'Branca',
+      ItemSize: '41',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
   ]);
   const AddProduct = (count: number) => {
@@ -58,48 +65,51 @@ export const BagScreen = () => {
   return (
     <SafeAreaView
       style={{
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
         flex: 1,
-        backgroundColor: "#FFF",
+        backgroundColor: '#FFF',
       }}
     >
       <TopBarBackButton showShadow />
       <ScrollView>
-        <Box paddingX={"xxxs"} paddingY={"xxs"}>
-          <Box variant={"container"}>
+        <Box paddingX={'xxxs'} paddingY={'xxs'}>
+          <Box bg={'white'} marginTop={'xxs'}>
+            <Typography fontFamily="reservaSerifRegular" fontSize={28}>
+              Sacola (2)
+            </Typography>
+          </Box>
+          <Box mb="xs">
             <Box flexDirection="row">
-              <Typography fontFamily={"nunitoSemiBold"} fontSize={13}>
+              <Typography fontFamily={'nunitoSemiBold'} fontSize={13}>
                 Faltam apenas R$29,90 para ganhar
               </Typography>
               <Typography> </Typography>
               <Typography
-                variant={"precoPromocional2"}
-                color={"vermelhoFechadoRSV"}
+                variant={'precoPromocional2'}
+                color={'vermelhoFechadoRSV'}
               >
                 frete grátis
               </Typography>
             </Box>
 
-            <Box width="100%" paddingX={"xxxs"}>
+            <Box width="100%">
               <ProgressBar
-                colorLabel={"fullBlack"}
-                colorBar={"neutroFrio1"}
-                colorProgress={"neutroFrio2"}
+                colorLabel={'fullBlack'}
+                colorBar={'neutroFrio1'}
+                colorProgress={'neutroFrio2'}
                 value={90}
                 max={100}
                 showPercent={false}
                 barHeight={5}
+                borderRadius="xxxs"
               />
             </Box>
           </Box>
 
-          <Box bg={"white"} marginTop={"xxs"}>
-            <Typography variant={"tituloSessoes"}>Sacola (2)</Typography>
-          </Box>
           {lisProduct.map((item, index) => (
-            <Box key={index} bg={"white"} marginTop={"xxxs"}>
+            <Box key={index} bg={'white'} marginTop={'xxxs'}>
               <ProductHorizontalListCard
-                currency={"R$"}
+                currency={'R$'}
                 discountTag={item.discountTag}
                 itemColor={item.itemColor}
                 ItemSize={item.ItemSize}
@@ -111,118 +121,160 @@ export const BagScreen = () => {
                 count={quantity}
                 onClickAddCount={(count) => AddProduct(count)}
                 onClickSubCount={(count) => RemoveProduct(count)}
-                onClickClose={() => { }}
+                onClickClose={() => {}}
                 imageSource={item.imageSource}
               />
             </Box>
           ))}
-          <Divider marginTop={"xs"} variant={"fullWidth"} />
 
-          <Box flexDirection={"row"} marginY={"xxs"} alignItems={"center"}>
+          <Divider marginTop={'xs'} variant={'fullWidth'} />
+
+          <Button onPress={() => setShowLikelyProducts(!showLikelyProducts)}>
+            <Box flexDirection={'row'} marginY={'xxs'} alignItems={'center'}>
+              <Box marginRight="micro">
+                <Icon name={'Handbag'} size={20} />
+              </Box>
+              <Box flex={1}>
+                <Typography variant={'subtituloSessoes'}>
+                  Outros produtos que você pode gostar
+                </Typography>
+              </Box>
+              <Box marginRight="micro">
+                <Icon name={'ArrowDown'} size={20} />
+              </Box>
+            </Box>
+          </Button>
+          <Divider variant={'fullWidth'} />
+
+          <BoxAnimated animation={showLikelyProducts ? 'fadeInUp' : ''}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{
+                flex: 1,
+              }}
+            >
+              {lisProduct.map((product, index) => (
+                <Box mt="xxs" mr="xxs" key={`${index}-${product.productTitle}`}>
+                  <Box flex={1} mb="micro">
+                    <ProductVerticalListCard {...product} />
+                  </Box>
+
+                  <Button
+                    title="ADICIONAR"
+                    variant="primarioEstreito"
+                    width={'100%'}
+                  />
+                </Box>
+              ))}
+            </ScrollView>
+          </BoxAnimated>
+
+          {showLikelyProducts && (
+            <Divider marginTop={'xs'} variant={'fullWidth'} />
+          )}
+
+          <Box flexDirection={'row'} marginY={'xxs'} alignItems={'center'}>
             <Box marginRight="micro">
-              <Icon name={"Presente"} size={20} />
+              <Icon name={'Presente'} size={20} />
             </Box>
             <Box flex={1}>
-              <Typography variant={"subtituloSessoes"}>
+              <Typography variant={'subtituloSessoes'}>
                 Embalagem para presente
               </Typography>
             </Box>
-            <Box marginLeft={"micro"}>
+            <Box marginLeft={'micro'}>
               <Toggle
-                thumbColor={"vermelhoAlerta"}
-                color={"preto"}
-                value={false}
+                onValueChange={setHasBagGift}
+                thumbColor={'vermelhoAlerta'}
+                color={'preto'}
+                value={hasBagGift}
               />
             </Box>
           </Box>
 
-          <Divider variant={"fullWidth"} />
+          <Divider variant={'fullWidth'} />
 
           <Box
-            flexDirection={"row"}
-            marginTop={"xxs"}
-            marginBottom={"xxxs"}
-            alignItems={"center"}
+            flexDirection={'row'}
+            marginTop={'xxs'}
+            marginBottom={'xxxs'}
+            alignItems={'center'}
           >
             <Box marginRight="micro">
-              <Icon name={"Tag"} size={20} color="preto" />
+              <Icon name={'Tag'} size={20} color="preto" />
             </Box>
             <Box flex={1}>
-              <Typography variant={"subtituloSessoes"}>
-                Código promocional{" "}
+              <Typography variant={'subtituloSessoes'}>
+                Código promocional{' '}
               </Typography>
             </Box>
           </Box>
           <Box>
-            <Typography variant={"tituloSessao"}>
+            <Typography variant={'tituloSessao'}>
               Insira aqui o código do vendedor(a) e/ou cupom de desconto.
             </Typography>
           </Box>
 
           <Box
-            bg={"backgoundInput"}
-            flexDirection={"row"}
+            bg={'backgoundInput'}
+            flexDirection={'row'}
             alignItems="center"
-            px={"micro"}
+            px={'micro'}
             height={34}
-            alignSelf={"flex-start"}
-            borderRadius={"pico"}
+            alignSelf={'flex-start'}
+            borderRadius={'pico'}
             marginTop="nano"
           >
-            <Typography
-              fontFamily={"nunitoRegular"}
-              fontSize={13}
-            >RSV1234</Typography>
+            <Typography fontFamily={'nunitoRegular'} fontSize={13}>
+              RSV1234
+            </Typography>
             <Button
-              onPress={() => { }}
-              marginLeft={"micro"}
-              variant={"icone"}
-              icon={
-                <Icon
-                  name='Close'
-                  size={10}
-                />}
+              onPress={() => {}}
+              marginLeft={'micro'}
+              variant={'icone'}
+              icon={<Icon name="Close" size={10} />}
             />
           </Box>
 
-          <Box marginTop={"nano"} flexDirection={"row"}>
-            <Box flex={1} marginRight={"micro"}>
-              <TextField placeholder={"Insira o código"} />
+          <Box marginTop={'nano'} flexDirection={'row'}>
+            <Box flex={1} marginRight={'micro'}>
+              <TextField placeholder={'Insira o código'} />
             </Box>
             <Box>
               <Button
-                width={"100%"}
-                title={"APLICAR"}
-                variant={"primarioEstreito"}
+                width={'100%'}
+                title={'APLICAR'}
+                variant={'primarioEstreito'}
                 disabled={false}
               />
             </Box>
           </Box>
-          <Divider variant={"fullWidth"} marginY={"xs"} />
+          <Divider variant={'fullWidth'} marginY={'xs'} />
           <Box
-            marginBottom={"micro"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
+            marginBottom={'micro'}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
           >
-            <Typography variant={"precoAntigo3"}>Subtotal</Typography>
+            <Typography variant={'precoAntigo3'}>Subtotal</Typography>
             <PriceCustom
-              fontFamily={"nunitoSemiBold"}
+              fontFamily={'nunitoSemiBold'}
               sizeInterger={15}
               sizeDecimal={11}
               num={1254.0}
             />
           </Box>
           <Box
-            marginBottom={"micro"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
+            marginBottom={'micro'}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
           >
-            <Typography variant={"precoAntigo3"}>Descontos</Typography>
+            <Typography variant={'precoAntigo3'}>Descontos</Typography>
 
             <PriceCustom
-              fontFamily={"nunitoSemiBold"}
+              fontFamily={'nunitoSemiBold'}
               negative={true}
               sizeInterger={15}
               sizeDecimal={11}
@@ -230,14 +282,14 @@ export const BagScreen = () => {
             />
           </Box>
           <Box
-            marginBottom={"micro"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
+            marginBottom={'micro'}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
           >
-            <Typography variant={"precoAntigo3"}>Tortal</Typography>
+            <Typography variant={'precoAntigo3'}>Total</Typography>
             <PriceCustom
-              fontFamily={"nunitoBold"}
+              fontFamily={'nunitoBold'}
               sizeInterger={20}
               sizeDecimal={11}
               num={1000.0}
@@ -246,12 +298,48 @@ export const BagScreen = () => {
         </Box>
       </ScrollView>
 
-      <Button
-        onPress={() => navigation.navigate("DeliveryScreen")}
+      {/* <Button
+        onPress={() => navigation.navigate('DeliveryScreen')}
         title="IR PARA ENTREGA"
         variant="primarioEstreito"
         inline
-      />
+      /> */}
+
+      <Box width={'100%'} height={137} px="xxs">
+        <Box flexDirection="row" justifyContent="space-between" py="xxs">
+          <Box>
+            <Typography fontFamily="nunitoRegular" fontSize={13}>
+              Total:
+            </Typography>
+            <Typography fontFamily="nunitoBold" fontSize={15}>
+              R$ 1000,00
+            </Typography>
+          </Box>
+          <Box alignItems="flex-end">
+            <Typography fontFamily="nunitoRegular" fontSize={13}>
+              em até
+            </Typography>
+            <Box flexDirection="row">
+              <Typography
+                fontFamily="nunitoBold"
+                fontSize={15}
+                color="vermelhoRSV"
+              >
+                10x de R$ 100,
+              </Typography>
+              <Typography
+                fontFamily="nunitoBold"
+                fontSize={1}
+                color="vermelhoRSV"
+              >
+                00
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        <Button title="FINALIZAR COMPRA" variant="primarioEstreito" inline />
+      </Box>
     </SafeAreaView>
   );
 };
