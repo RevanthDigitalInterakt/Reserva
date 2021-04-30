@@ -1,0 +1,37 @@
+import * as React from "react";
+import {
+    Typography,
+    Box,
+    theme
+} from 'reserva-ui';
+
+export interface IpriceCustom {
+    num: number;
+    fontFamily: keyof typeof theme.fonts;
+    sizeInterger: number;
+    sizeDecimal: number;
+    negative?: boolean;
+}
+export const PriceCustom: React.FC<IpriceCustom> = ({ num, fontFamily, sizeInterger, sizeDecimal, negative }) => {
+    const integerPart = (num: number) => {
+        return Math.floor(num);
+    };
+    const decimalPart = (num: number) => {
+        return (num.toFixed(2) + '').split('.')[1];
+    };
+    return (
+        <Box flexDirection="row">
+            <Box>
+                {negative ?
+                    <Typography fontFamily={fontFamily} fontSize={sizeInterger}>-R$ {integerPart(num)},</Typography>
+                    :
+                    <Typography fontFamily={fontFamily} fontSize={sizeInterger}>R$ {integerPart(num)},</Typography>
+                }
+
+            </Box>
+            <Box alignSelf="flex-start" >
+                <Typography fontFamily={fontFamily} fontSize={sizeDecimal}>{decimalPart(num)}</Typography>
+            </Box>
+        </Box>
+    )
+}

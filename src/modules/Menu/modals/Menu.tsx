@@ -49,11 +49,7 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
         size={22}
       />
       <Box paddingX="micro">
-        <Typography
-          fontSize={12}
-          fontFamily="nunitoRegular"
-          fontWeight="normal"
-        >
+        <Typography fontSize={12} fontFamily="nunitoRegular">
           Pagina Inicial
         </Typography>
       </Box>
@@ -79,8 +75,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
       >
         <Typography
           fontSize={13}
-          fontFamily="nunitoRegular"
-          fontWeight={highlight ? "bold" : "normal"}
+          fontFamily={highlight ? "nunitoBold" : "nunitoRegular"}
         >
           {title}
         </Typography>
@@ -110,7 +105,6 @@ const MenuItem: React.FC<IMenuItem> = ({
             color={highlight ? "vermelhoAlerta" : "preto"}
             fontSize={13}
             fontFamily="nunitoBold"
-            fontWeight="bold"
           >
             {title.toUpperCase()}
           </Typography>
@@ -150,7 +144,7 @@ export const FixedMenuItem: React.FC<{
   onPress: Function;
 }> = ({ iconName, title, onPress }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <Box
         justifyContent="flex-start"
         alignItems="flex-end"
@@ -165,7 +159,6 @@ export const FixedMenuItem: React.FC<{
             color="preto"
             fontSize={15}
             fontFamily="nunitoBold"
-            fontWeight="bold"
           >
             {title}
           </Typography>
@@ -284,7 +277,9 @@ export const Menu: React.FC<{}> = () => {
           <FixedMenuItem
             iconName="Profile"
             title="Acessar Conta ou Cadastre-se"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Heart"
@@ -294,7 +289,10 @@ export const Menu: React.FC<{}> = () => {
           <FixedMenuItem
             iconName="Message"
             title="Central de Ajuda"
-            onPress={() => {}}
+            onPress={() => {
+              console.log("ok");
+              navigation.navigate("HelpCenter");
+            }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Pin"

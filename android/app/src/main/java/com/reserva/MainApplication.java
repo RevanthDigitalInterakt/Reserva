@@ -4,12 +4,14 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.getbouncer.RNCardscanModule;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -45,6 +47,18 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+
+     // set your generated API key
+    RNCardscanModule.apiKey = "l86jNJBFrP9A-_pTvvho-g54rybCp2d1";
+
+    // set to true for experimental name extraction
+    RNCardscanModule.enableNameExtraction = false;
+
+    // set to true for experimental expiry extraction
+    RNCardscanModule.enableExpiryExtraction = false;
+
+    // set to true to display an "Enter Card Manually" button
+    RNCardscanModule.enableEnterCardManually = false;
   }
 
   /**
