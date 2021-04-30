@@ -32,11 +32,11 @@ import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
 import { ProductDetail } from "../modules/ProductDetail/pages/ProductDetail";
 
 //profile
-import { EditProfile } from "../modules/Profile/pages/EditProfile";
-import { EditPassword } from "../modules/Profile/pages/EditPassword";
-import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
-import { MyCards } from "../modules/Profile/pages/MyCards";
-import { NewCard } from "../modules/Profile/pages/NewCard";
+import { EditProfile } from '../modules/Profile/pages/EditProfile';
+import { EditPassword } from '../modules/Profile/pages/EditPassword';
+import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
+import { ListCards } from '../modules/Profile/pages/ListCards';
+import { NewCard } from '../modules/Profile/pages/NewCard';
 //--
 
 import { HelpCenter } from "../modules/HelpCenter/pages/HelpCenter";
@@ -50,7 +50,7 @@ import { WhatsappsHelp } from "../modules/HelpCenter/PagesHelp/WhatsappsHelp";
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
   NewAddress: { id?: number };
-  MyCards: { isCheckout: boolean };
+  ListCards: { isCheckout: boolean };
   NewCard: { isCheckout: boolean };
 };
 
@@ -116,8 +116,8 @@ const MainStackScreen = () => {
       />
 
       <MainStack.Screen
-        name="MyCards"
-        component={MyCards}
+        name="ListCards"
+        component={ListCards}
         initialParams={{ isCheckout: true }}
       />
       <MainStack.Screen

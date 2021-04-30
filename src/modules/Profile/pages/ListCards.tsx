@@ -7,7 +7,7 @@ import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 
-interface MyCardsScreenProps {}
+interface ListCardsScreenProps {}
 interface CardProps {
   cardNumber: string;
   flag?: FlagTypes;
@@ -15,9 +15,9 @@ interface CardProps {
   id: string;
 }
 
-type Props = StackScreenProps<RootStackParamList, 'MyCards'>;
+type Props = StackScreenProps<RootStackParamList, 'ListCards'>;
 
-export const MyCards = ({ navigation, route }: Props) => {
+export const ListCards = ({ navigation, route }: Props) => {
   const [cards, setCards] = React.useState<CardProps[]>([
     {
       cardNumber: '3000400050006000',

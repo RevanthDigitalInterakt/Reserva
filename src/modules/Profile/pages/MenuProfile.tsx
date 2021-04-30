@@ -62,7 +62,7 @@ export const MenuProfile: React.FC<{}> = () => {
               descr={'Consulte e adicione cartões de crédito'}
               icon={'Card'}
               onPress={() => {
-                navigation.navigate('MyCards');
+                navigation.navigate('ListCards');
               }}
             />
 
