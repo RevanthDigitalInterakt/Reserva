@@ -146,29 +146,35 @@ export const BagScreen = () => {
           </Button>
           <Divider variant={'fullWidth'} />
 
-          <BoxAnimated animation={showLikelyProducts ? 'fadeInUp' : ''}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{
-                flex: 1,
-              }}
-            >
-              {lisProduct.map((product, index) => (
-                <Box mt="xxs" mr="xxs" key={`${index}-${product.productTitle}`}>
-                  <Box flex={1} mb="micro">
-                    <ProductVerticalListCard {...product} />
-                  </Box>
+          {showLikelyProducts && (
+            <BoxAnimated animation={showLikelyProducts ? 'fadeIn' : ''}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{
+                  flex: 1,
+                }}
+              >
+                {lisProduct.map((product, index) => (
+                  <Box
+                    mt="xxs"
+                    mr="xxs"
+                    key={`${index}-${product.productTitle}`}
+                  >
+                    <Box flex={1} mb="micro">
+                      <ProductVerticalListCard {...product} />
+                    </Box>
 
-                  <Button
-                    title="ADICIONAR"
-                    variant="primarioEstreito"
-                    width={'100%'}
-                  />
-                </Box>
-              ))}
-            </ScrollView>
-          </BoxAnimated>
+                    <Button
+                      title="ADICIONAR"
+                      variant="primarioEstreito"
+                      width={'100%'}
+                    />
+                  </Box>
+                ))}
+              </ScrollView>
+            </BoxAnimated>
+          )}
 
           {showLikelyProducts && (
             <Divider marginTop={'xs'} variant={'fullWidth'} />
@@ -305,7 +311,14 @@ export const BagScreen = () => {
         inline
       /> */}
 
-      <Box width={'100%'} height={137} px="xxs">
+      <Box
+        width={'100%'}
+        height={137}
+        px="xxs"
+        bg="white"
+        style={{ elevation: Platform.OS == 'android' ? 5 : 0 }}
+        boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+      >
         <Box flexDirection="row" justifyContent="space-between" py="xxs">
           <Box>
             <Typography fontFamily="nunitoRegular" fontSize={13}>
