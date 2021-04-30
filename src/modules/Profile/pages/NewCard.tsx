@@ -147,8 +147,8 @@ export const NewCard = ({ navigation, route }: Props) => {
                   cvc={card.CVC}
                   expiration={card.expiration}
                   name={card.holder}
-                  backImage={images.cardImage}
-                  frontImage={images.cardImage}
+                  backImage={images.cardVerso}
+                  frontImage={images.cardFront}
                   fontColorCvc="white"
                   fontSize={12}
                   numberContainerStyles={
@@ -186,6 +186,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                     marginTop: 9,
                     transform: [{ translateX: 5 }],
                   }}
+                  cvcContainerStyles={{}}
                 />
                 <Box mt={'xxxs'}>
                   <TextField
