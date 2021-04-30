@@ -12,6 +12,7 @@ import {
 } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { images } from "../../../assets";
+import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -20,7 +21,7 @@ export const WishListCategory: React.FC<{}> = () => {
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <ScrollView>
-        <TopBarBackButton showShadow={true} />
+        <TopBarDefaultBackButton showShadow />
         <Box paddingX="xxxs" marginTop="xs">
           <Box marginTop="xxxs">
             <Typography fontSize={20} fontFamily="reservaSerifRegular">
