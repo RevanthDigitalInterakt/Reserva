@@ -291,9 +291,6 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
       </ScrollView>
       <ReactNativeModal
         isVisible={showLottie}
-        onBackdropPress={() => {
-          setShowLottie(false);
-        }}
         backdropOpacity={0.7}
         backdropColor={'black'}
         animationInTiming={300}
