@@ -19,6 +19,8 @@ import { BagScreen } from "../modules/Checkout/pages/Bag";
 import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
 import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
 import { StackScreenProps } from "@react-navigation/stack";
+import { WishList } from "../modules/WishList/pages/WishList";
+import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
 import OrderList from "../modules/Order/pages/OrderList";
 import OrderDetail from "../modules/Order/pages/OrderDetail";
 import OrderCancel from "../modules/Order/pages/OrderCancel";
@@ -67,6 +69,8 @@ const MainStackScreen = () => {
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
       <MainStack.Screen name="AddressList" component={AddressList} />
       <MainStack.Screen name="NewAddress" component={NewAddress} />
+      <MainStack.Screen name="WishList" component={WishList} />
+      <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen name="BagScreen" component={BagScreen} />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
       <MainStack.Screen
