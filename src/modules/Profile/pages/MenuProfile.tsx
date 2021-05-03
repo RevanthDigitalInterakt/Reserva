@@ -19,7 +19,7 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
 
   return (
     <Box flex={1} backgroundColor="white">
-      <TopBarBackButton />
+      <TopBarDefault />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"micro"}>
