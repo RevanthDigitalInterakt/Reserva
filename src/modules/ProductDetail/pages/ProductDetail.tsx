@@ -174,7 +174,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               <Button>
                 <Box flexDirection="row" alignItems="center">
                   <Icon name="Add" size={15} color="preto" />
-                  <Typography fontFamily="reservaSerifRegular" fontSize="20px">
+                  <Typography variant="subtituloSessoes">
                     Sobre este produto
                   </Typography>
                 </Box>
