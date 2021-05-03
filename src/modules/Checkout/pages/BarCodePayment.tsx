@@ -18,7 +18,7 @@ export const BarCodePayment = () => {
           <Information
             description={`Imprima o boleto e pague no banco`}
             showDivider
-            iconName="Barcode"
+            iconName="Print"
           />
           <Information
             description={`Ou pague pela internet utilizando o \ncódigo de barras do boleto`}
@@ -27,7 +27,7 @@ export const BarCodePayment = () => {
           />
           <Information
             description={`O prazo de validade do boleto \né de 1 dia útil.`}
-            iconName="Barcode"
+            iconName="Clock"
           />
         </Box>
       </ScrollView>
