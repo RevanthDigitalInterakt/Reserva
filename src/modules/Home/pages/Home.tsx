@@ -3,6 +3,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { Dimensions } from "react-native";
 import { ScrollView } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button, Image, theme } from "reserva-ui";
 import { images } from "../../../assets";
@@ -31,39 +32,69 @@ export const HomeScreen: React.FC<{
       <ScrollView>
         <Box alignItems="flex-start">
           <Box mb="quarck" width={1 / 1}>
-            <Image
-              autoHeight={true}
-              width={deviceWidth}
-              source={images.topBannerMock1}
-            />
+            <TouchableHighlight
+              onPress={() => {
+                navigation.navigate("ProductCatalog");
+              }}
+            >
+              <Image
+                autoHeight={true}
+                width={deviceWidth}
+                source={images.topBannerMock1}
+              />
+            </TouchableHighlight>
           </Box>
           <Box mb="quarck" width={1 / 1}>
-            <Image
-              autoHeight={true}
-              width={deviceWidth}
-              source={images.homeMock2}
-            />
+            <TouchableHighlight
+              onPress={() => {
+                navigation.navigate("ProductCatalog");
+              }}
+            >
+              <Image
+                autoHeight={true}
+                width={deviceWidth}
+                source={images.homeMock2}
+              />
+            </TouchableHighlight>
           </Box>
           <Box mb="quarck" width={1 / 1}>
-            <Image
-              autoHeight={true}
-              width={deviceWidth}
-              source={images.homeMock3}
-            />
+            <TouchableHighlight
+              onPress={() => {
+                navigation.navigate("ProductCatalog");
+              }}
+            >
+              <Image
+                autoHeight={true}
+                width={deviceWidth}
+                source={images.homeMock3}
+              />
+            </TouchableHighlight>
           </Box>
           <Box mb="quarck" width={1 / 1}>
-            <Image
-              autoHeight={true}
-              width={deviceWidth}
-              source={images.homeMock1}
-            />
+            <TouchableHighlight
+              onPress={() => {
+                navigation.navigate("ProductCatalog");
+              }}
+            >
+              <Image
+                autoHeight={true}
+                width={deviceWidth}
+                source={images.homeMock1}
+              />
+            </TouchableHighlight>
           </Box>
           <Box width={1 / 1}>
-            <Image
-              autoHeight={true}
-              width={deviceWidth}
-              source={images.homeMock4}
-            />
+            <TouchableHighlight
+              onPress={() => {
+                navigation.navigate("ProductCatalog");
+              }}
+            >
+              <Image
+                autoHeight={true}
+                width={deviceWidth}
+                source={images.homeMock4}
+              />
+            </TouchableHighlight>
           </Box>
         </Box>
       </ScrollView>
