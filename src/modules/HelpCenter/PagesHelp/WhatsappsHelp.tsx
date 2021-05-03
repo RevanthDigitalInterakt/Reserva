@@ -21,8 +21,8 @@ export const WhatsappsHelp: React.FC<{}> = () => {
     dispatch(loadRequest());
   }, []);
 
-    
-  const ItemWhatsapp = ({local, address, whatsapp}:ItemWhatsappProps) => {
+
+  const ItemWhatsapp = ({ local, address, whatsapp }: ItemWhatsappProps) => {
     return (
       <Box
         boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
@@ -52,13 +52,13 @@ export const WhatsappsHelp: React.FC<{}> = () => {
             </Box>
           </Box>
 
-          <Button 
+          <Button
             title={"WHATSAPP"}
             onPress={() => {
               Linking.openURL(`whatsapp://send?text=Olá quero comprar!&phone=${whatsapp}`)
             }}
-            variant={"primarioEstreitoOutline"} 
-            width={'100%'} 
+            variant={"primarioEstreitoOutline"}
+            width={'100%'}
           />
         </Box>
 
@@ -66,7 +66,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
     );
   }
 
-  
+
   return (
     <SafeAreaView
       flex={1}
@@ -84,7 +84,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
           </Box>
 
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
-            Selecione seu estado e cidade para falar com um vendedor da loja mais próxima 
+            Selecione seu estado e cidade para falar com um vendedor da loja mais próxima
             das 10h ás 21h.
           </Typography>
 
@@ -98,30 +98,30 @@ export const WhatsappsHelp: React.FC<{}> = () => {
             <Button variant={"primarioEstreito"} title={"FALE COM O SAC"} width={'80%'} />
           </Box>
 
-          <ItemWhatsapp 
-            local={'Shopping Praia Grande'} 
+          <ItemWhatsapp
+            local={'Shopping Praia Grande'}
             address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
             whatsapp={'99 99999 9999'}
           />
 
-          <ItemWhatsapp 
-            local={'Shopping Praia Grande'} 
+          <ItemWhatsapp
+            local={'Shopping Praia Grande'}
             address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
             whatsapp={'99 99999 9999'}
           />
 
-          <ItemWhatsapp 
-            local={'Shopping Praia Grande'} 
+          <ItemWhatsapp
+            local={'Shopping Praia Grande'}
             address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
             whatsapp={'99 99999 9999'}
           />
 
-          <ItemWhatsapp 
-            local={'Shopping Praia Grande'} 
+          <ItemWhatsapp
+            local={'Shopping Praia Grande'}
             address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
             whatsapp={'99 99999 9999'}
           />
-            
+
 
         </Box>
       </ScrollView>

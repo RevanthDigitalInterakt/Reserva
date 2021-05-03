@@ -43,7 +43,7 @@ export const DeliveryScreen = () => {
                     <SelectOption
                         title={"Receber em casa"}
                         subtitle={"Segunda-feira, 15 de abril de 2021"}
-                        onPress={() => navigation.navigate('AddressList')}
+                        onPress={() => navigation.navigate('WithdrawInStore')}
                     />
                 </Box>
 
