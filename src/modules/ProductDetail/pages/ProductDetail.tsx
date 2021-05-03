@@ -358,7 +358,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               </Box>
               <ScrollView horizontal>
                 {recomendedProducts.map((product, index) => (
-                  <Box mx='micro' key={index}>
+                  <Box ml={index!=0?'micro' : null} key={index}>
                     <ProductVerticalListCard {...product} />
                   </Box>
                 ))}
