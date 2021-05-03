@@ -1,56 +1,57 @@
 // In App.js in a new project
-import * as React from "react";
+import * as React from 'react';
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { HomeScreen } from "../modules/Home/pages/Home";
-import { SearchScreen } from "../modules/Search/pages/Search";
-import AddressList from "../modules/Address/pages/AddressList";
-import NewAddress from "../modules/Address/pages/NewAddress";
-import { Tabs } from "./BottomTabNavigator";
-import { Menu } from "../modules/Menu/modals/Menu";
+import { HomeScreen } from '../modules/Home/pages/Home';
+import { SearchScreen } from '../modules/Search/pages/Search';
+import AddressList from '../modules/Address/pages/AddressList';
+import NewAddress from '../modules/Address/pages/NewAddress';
+import { Tabs } from './BottomTabNavigator';
+import { Menu } from '../modules/Menu/modals/Menu';
 
-import { horizontalAnimationBackwards } from "./utils/utils";
-import { ExampleScreen } from "../modules/Example/pages/Example";
-import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
-import { RegisterSuccess } from "../modules/Register/pages/RegisterSuccess";
-import { LoginScreen } from "../modules/Login/pages/Login";
-import { BagScreen } from "../modules/Checkout/pages/Bag";
-import { SummaryScreen } from "../modules/Checkout/pages/Summary";
-import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
-import { PaymentMethodScreen } from "../modules/Checkout/pages/PaymentMethod";
-import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
-import { VirtualDebitCardCaixaScreen } from "../modules/Checkout/pages/VirtualDebitCardCaixa";
-import { PixScreen } from "../modules/Checkout/pages/Pix";
+import { horizontalAnimationBackwards } from './utils/utils';
+import { ExampleScreen } from '../modules/Example/pages/Example';
+import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
+import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
+import { LoginScreen } from '../modules/Login/pages/Login';
+import { BagScreen } from '../modules/Checkout/pages/Bag';
+import { SummaryScreen } from '../modules/Checkout/pages/Summary';
+import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
+import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod';
+import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher';
+import { BarCodePayment } from '../modules/Checkout/pages/BarCodePayment';
+import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
+import { PixScreen } from '../modules/Checkout/pages/Pix';
 
-import { StackScreenProps } from "@react-navigation/stack";
-import { WishList } from "../modules/WishList/pages/WishList";
-import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
-import OrderList from "../modules/Order/pages/OrderList";
-import OrderDetail from "../modules/Order/pages/OrderDetail";
-import OrderCancel from "../modules/Order/pages/OrderCancel";
-import { Register } from "../modules/Register/pages/Register";
-import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
-import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
-import { ForgotPassword } from "../modules/Forgot/pages/ForgotPassword";
-import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
-import { ProductDetail } from "../modules/ProductDetail/pages/ProductDetail";
+import { StackScreenProps } from '@react-navigation/stack';
+import { WishList } from '../modules/WishList/pages/WishList';
+import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
+import OrderList from '../modules/Order/pages/OrderList';
+import OrderDetail from '../modules/Order/pages/OrderDetail';
+import OrderCancel from '../modules/Order/pages/OrderCancel';
+import { Register } from '../modules/Register/pages/Register';
+import { ForgotEmail } from '../modules/Forgot/pages/ForgotEmail';
+import { ForgotEmailSuccess } from '../modules/Forgot/pages/ForgotEmailSuccess';
+import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword';
+import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword';
+import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail';
 
 //profile
-import { EditProfile } from "../modules/Profile/pages/EditProfile";
-import { EditPassword } from "../modules/Profile/pages/EditPassword";
-import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
-import { ListCards } from "../modules/Profile/pages/ListCards";
-import { NewCard } from "../modules/Profile/pages/NewCard";
+import { EditProfile } from '../modules/Profile/pages/EditProfile';
+import { EditPassword } from '../modules/Profile/pages/EditPassword';
+import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
+import { ListCards } from '../modules/Profile/pages/ListCards';
+import { NewCard } from '../modules/Profile/pages/NewCard';
 //--
 
-import { HelpCenter } from "../modules/HelpCenter/pages/HelpCenter";
-import { SizeGuide } from "../modules/HelpCenter/PagesHelp/SizeGuide";
-import { ClothingCare } from "../modules/HelpCenter/PagesHelp/ClothingCare";
+import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter';
+import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
+import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
 
-import { ContactUs } from "../modules/HelpCenter/PagesHelp/ContactUs";
-import { Exchanges } from "../modules/HelpCenter/PagesHelp/Exchanges";
-import { WhatsappsHelp } from "../modules/HelpCenter/PagesHelp/WhatsappsHelp";
+import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
+import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
+import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
@@ -59,7 +60,7 @@ export type RootStackParamList = {
   ListCards: { isCheckout: boolean };
   NewCard: { isCheckout: boolean };
   Summary: {
-    paymentType: "PIX" | "Credit" | "Debit" | "Boleto" | "GiftCard";
+    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard';
   };
 };
 
@@ -95,7 +96,7 @@ const MainStackScreen = () => {
         name="SummaryScreen"
         component={SummaryScreen}
         initialParams={{
-          paymentType: "CreditCard",
+          paymentType: 'CreditCard',
         }}
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
@@ -112,6 +113,7 @@ const MainStackScreen = () => {
         name="GiftVoucherScreen"
         component={GiftVoucherScreen}
       />
+      <MainStack.Screen name="BarCodePayment" component={BarCodePayment} />
       <MainStack.Screen name="Login" component={LoginScreen} />
       <MainStack.Screen name="Register" component={Register} />
       <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
