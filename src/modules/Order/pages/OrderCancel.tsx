@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import * as React from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { Linking, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 
 import { Typography, Box, Button, Alert, Icon } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -13,22 +13,37 @@ type ItemContactProps = {
 
 const ItemContact = ({number, type}:ItemContactProps) => {
   return (
-    <Box 
-      border={1} 
-      borderColor={'neutroFrio1'} 
-      borderRadius={'nano'} 
-      p={'xxxs'} 
-      alignItems={'center'}
-      mb={'xxs'}>
-      <Box flexDirection={'row'}>
-        <Icon 
-          name={type == 'wp' ? 'WhatsappBg' : 'PhoneBg'} 
-          mr={'xxxs'} 
-          color={type == 'wp' ? 'verdeSucesso' : 'neutroFrio2'} 
-          size={20} />
-        <Typography fontSize={15}>{number}</Typography>
+    <TouchableOpacity onPress={() => {
+      switch(type) {
+        case 'wp':
+          Linking.openURL(
+            `whatsapp://send?text=Olá quero comprar!&phone=${number}`
+          );
+          break;
+        case 'phone':
+          Linking.openURL(
+            `tel:${number}`
+          );
+          break;
+      }
+    }}>
+      <Box 
+        border={1} 
+        borderColor={'neutroFrio1'} 
+        borderRadius={'nano'} 
+        p={'xxxs'} 
+        alignItems={'center'}
+        mb={'xxs'}>
+        <Box flexDirection={'row'}>
+          <Icon 
+            name={type == 'wp' ? 'WhatsappBg' : 'PhoneBg'} 
+            mr={'xxxs'} 
+            color={type == 'wp' ? 'verdeSucesso' : 'neutroFrio2'} 
+            size={20} />
+          <Typography fontSize={15}>{number}</Typography>
+        </Box>
       </Box>
-    </Box>
+    </TouchableOpacity>
   );
 }
 
