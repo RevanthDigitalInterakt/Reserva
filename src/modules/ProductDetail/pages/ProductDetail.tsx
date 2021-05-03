@@ -356,13 +356,15 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   Seu produto combina com
                 </Typography>
               </Box>
-              <ScrollView horizontal>
-                {recomendedProducts.map((product, index) => (
-                  <Box ml={index!=0?'micro' : null} key={index}>
-                    <ProductVerticalListCard {...product} />
-                  </Box>
-                ))}
-              </ScrollView>
+              <Box mb='xxl'>
+                <ScrollView horizontal>
+                  {recomendedProducts.map((product, index) => (
+                    <Box ml={index!=0?'micro' : null} key={index}>
+                      <ProductVerticalListCard {...product} />
+                    </Box>
+                  ))}
+                </ScrollView>
+              </Box>
             </Box>
           </Box>
         </ScrollView>
