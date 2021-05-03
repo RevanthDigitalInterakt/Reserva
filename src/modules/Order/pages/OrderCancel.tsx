@@ -4,9 +4,38 @@ import { SafeAreaView, ScrollView } from "react-native";
 
 import { Typography, Box, Button, Alert, Icon } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import Order from "../Components/Order";
+
+type ItemContactProps = {
+  number: string
+  type: string
+}
+
+
+const ItemContact = ({number, type}:ItemContactProps) => {
+  return (
+    <Box 
+      border={1} 
+      borderColor={'neutroFrio1'} 
+      borderRadius={'nano'} 
+      p={'xxxs'} 
+      alignItems={'center'}
+      mb={'xxs'}>
+      <Box flexDirection={'row'}>
+        <Icon 
+          name={type == 'wp' ? 'WhatsappBg' : 'PhoneBg'} 
+          mr={'xxxs'} 
+          color={type == 'wp' ? 'verdeSucesso' : 'neutroFrio2'} 
+          size={20} />
+        <Typography fontSize={15}>{number}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
 const OrderList = () => {
   const navigation = useNavigation();
+  
+
   return (
     <>
       <SafeAreaView flex={1} backgroundColor={"white"}>
@@ -28,17 +57,37 @@ const OrderList = () => {
         >
           <Box mb="xxs">
             <Typography fontSize={15} fontFamily="nunitoRegular">
-              De acordo com o CDC (Código de Defesa do Consumidor), a
-              solicitação de cancelamento de compras virtuais deve ser feita em
-              até 7 dias úteis/corridos após a data de recebimento.
+              {`Entre em contato conosco por telefone que nós providenciaremos a devolução.\n\n`}
+              {`Você precisará informar o seu CPF, o número do pedido e o produto a ser devolvido.`}
             </Typography>
           </Box>
-          <Typography fontSize={15} fontFamily="nunitoRegular">
-            Entre em contato conosco clicando aqui ou pelo telefone:
-            011.2388-8280 - SP e demais estados / 021.2108-4990 - RJ que nós
-            providenciaremos a devolução. Você precisará informar o seu CPF, o
-            número do pedido e o produto a ser devolvido.
+          <Typography fontSize={12} fontFamily="nunitoRegular" color={"neutroFrio2"}>
+            Obs: De acordo com o CDC (Código de Defesa do Consumidor), a solicitação de cancelamento de compras virtuais deve ser feita em até 7 dias úteis/corridos após a data de recebimento.
           </Typography>
+
+          <Box mt={'xxs'} flexDirection={'row'} justifyContent={'space-between'}>            
+            <Box width={'45%'}>
+              <Box mb={'xxxs'}>
+                <Typography fontSize={15} textAlign={'center'}>
+                  Rio de Janeiro e regiões:
+                </Typography>
+              </Box>
+
+              <ItemContact number={'2108-4990'} type={'wp'} />
+              <ItemContact number={'2108-4990'} type={'phone'} />
+            </Box>
+
+            <Box width={'45%'}>
+             <Box mb={'xxxs'}>
+                <Typography fontSize={15} textAlign={'center'}>
+                  São Paulo e demais estados:
+                </Typography>
+              </Box>
+
+              <ItemContact number={'2108-4990'} type={'wp'} />
+              <ItemContact number={'2108-4990'} type={'phone'} />
+            </Box>
+          </Box>
 
           <Box width="80%" alignSelf="center" mt="xl">
             <Button
