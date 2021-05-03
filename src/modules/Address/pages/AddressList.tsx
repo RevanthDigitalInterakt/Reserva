@@ -41,7 +41,10 @@ const AddressList = () => {
         }}
       />
       <SafeAreaView flex={1} backgroundColor="white">
-        <TopBarBackButton showShadow backButtonPress={() => navigation.navigate('HomeTabs')} />
+        <TopBarBackButton
+          showShadow
+          backButtonPress={() => navigation.navigate("HomeTabs")}
+        />
 
         <Box
           overflow={"hidden"}
@@ -51,7 +54,7 @@ const AddressList = () => {
           pt={"md"}
         >
           <Box alignSelf={"flex-start"} mb={"xxxs"}>
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+            <Typography fontSize={28} fontFamily="reservaSerifRegular">
               Meus endereços
             </Typography>
           </Box>
@@ -84,7 +87,6 @@ const AddressList = () => {
             variant="primarioEstreitoOutline"
           />
         </Box>
-
       </SafeAreaView>
     </>
   );

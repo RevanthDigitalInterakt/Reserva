@@ -28,7 +28,6 @@ export const BagScreen = () => {
 
   const [lisProduct, setLisProduct] = useState([
     {
-      discountTag: 18,
       itemColor: "Branca",
       ItemSize: "41",
       productTitle: "CAMISETA BÁSICA RESERVA",
@@ -167,8 +166,11 @@ export const BagScreen = () => {
                     </Box>
 
                     <Button
+                      fontSize={"11px"}
                       title="ADICIONAR"
-                      variant="primarioEstreito"
+                      bg="preto"
+                      color="white"
+                      height={"30px"}
                       width={"100%"}
                     />
                   </Box>

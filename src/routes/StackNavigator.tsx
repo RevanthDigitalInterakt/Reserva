@@ -77,7 +77,13 @@ const MainStackScreen = () => {
       <MainStack.Screen name="Example" component={ExampleScreen} />
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
       <MainStack.Screen name="AddressList" component={AddressList} />
-      <MainStack.Screen name="NewAddress" component={NewAddress} />
+      <MainStack.Screen
+        name="NewAddress"
+        component={NewAddress}
+        initialParams={{
+          isCheckout: false,
+        }}
+      />
       <MainStack.Screen name="WishList" component={WishList} />
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen name="BagScreen" component={BagScreen} />
