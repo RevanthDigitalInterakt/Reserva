@@ -73,7 +73,11 @@ export const WithdrawInStore = () => {
                             />
                         </Box>
                         <Box >
-                            <Button title='MAPA' variant='primarioEstreito' />
+                            <Button
+                                onPress={() => navigation.navigate('MapScreen')}
+                                title='MAPA'
+                                variant='primarioEstreito'
+                            />
                         </Box>
 
                     </Box>
