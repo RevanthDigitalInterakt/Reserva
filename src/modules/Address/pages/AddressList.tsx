@@ -83,17 +83,21 @@ const AddressList: React.FC<Props> = ({ route }) => {
               selected={true}
               select={() => navigation.navigate("PaymentMethodScreen")}
             />
+            <Box marginX={"md"}>
+              <Button
+                mt="xs"
+                onPress={() =>
+                  navigation.navigate("NewAddress", {
+                    isCheckout: false,
+                    id: null,
+                  })
+                }
+                title={"ADICIONAR ENDEREÇO"}
+                variant="primarioEstreitoOutline"
+                padding="xl"
+              />
+            </Box>
           </ScrollView>
-        </Box>
-        <Box marginX={"md"}>
-          <Button
-            width={"100%"}
-            onPress={() => {
-              navigation.navigate("NewAddress", { isCheckout });
-            }}
-            title={"ADICIONAR ENDEREÇO"}
-            variant="primarioEstreitoOutline"
-          />
         </Box>
         {isCheckout && (
           <Button

@@ -76,7 +76,11 @@ const MainStackScreen = () => {
       <MainStack.Screen name="HomeTabs" component={Tabs} />
       <MainStack.Screen name="Example" component={ExampleScreen} />
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-      <MainStack.Screen name="AddressList" component={AddressList} />
+      <MainStack.Screen
+        name="AddressList"
+        component={AddressList}
+        initialParams={{ isCheckout: false }}
+      />
       <MainStack.Screen
         name="NewAddress"
         component={NewAddress}
