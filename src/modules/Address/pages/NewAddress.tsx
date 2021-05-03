@@ -8,15 +8,18 @@ import { useNavigation } from "@react-navigation/native";
 import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
-} from 'react-native-masked-text';
+} from "react-native-masked-text";
 type Props = StackScreenProps<RootStackParamList, "NewAddress">;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const id = route?.params;
-  const [toggleActivated, setToggleActivated] = React.useState(false)
+  const [toggleActivated, setToggleActivated] = React.useState(false);
   const [zipcode, setZipcode] = React.useState("");
+
+  const { isCheckout } = route.params;
+
   return (
     <>
       <SafeAreaView
@@ -25,12 +28,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         backgroundColor="white"
       >
         <TopBarBackButton showShadow />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          ref={scrollViewRef}
-        >
+        <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
           <Box>
-
             <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
               <Box alignSelf={"flex-start"} mb={"nano"}>
                 {id ? (
@@ -53,49 +52,43 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 placeholder={"Digite seu CEP"}
                 maskType={"zip-code"}
                 value={zipcode}
-                onChangeText={() => { }}
+                onChangeText={() => {}}
               />
 
               <Box flexDirection={"row"} justifyContent="space-between">
                 <Box flex={1} marginRight={"micro"}>
                   <InputOption
                     placeholder={"Digite seu estado"}
-                    onChangeText={() => { }}
+                    onChangeText={() => {}}
                   />
                 </Box>
 
                 <Box flex={1}>
                   <InputOption
                     placeholder={"Digite sua cidade"}
-                    onChangeText={() => { }}
+                    onChangeText={() => {}}
                   />
                 </Box>
               </Box>
 
-              <InputOption
-                placeholder={"Endereço"}
-                onChangeText={() => { }}
-              />
+              <InputOption placeholder={"Endereço"} onChangeText={() => {}} />
 
               <Box flexDirection={"row"} justifyContent="space-between">
                 <Box flex={1} marginRight={"micro"}>
                   <InputOption
                     placeholder={"Digite seu bairro"}
-                    onChangeText={() => { }}
+                    onChangeText={() => {}}
                   />
                 </Box>
 
                 <Box flex={1}>
-                  <InputOption
-                    placeholder={"Número"}
-                    onChangeText={() => { }}
-                  />
+                  <InputOption placeholder={"Número"} onChangeText={() => {}} />
                 </Box>
               </Box>
 
               <InputOption
                 placeholder={"Complemento"}
-                onChangeText={() => { }}
+                onChangeText={() => {}}
               />
 
               <Box mt="xs" mb="xxxs">
@@ -106,36 +99,37 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   value={toggleActivated}
                   onValueChange={() => {
                     setToggleActivated(!toggleActivated);
-                    scrollViewRef.current && scrollViewRef.current.scrollToEnd({ animated: true })
+                    scrollViewRef.current &&
+                      scrollViewRef.current.scrollToEnd({ animated: true });
                   }}
                 />
               </Box>
 
-              {toggleActivated &&
+              {toggleActivated && (
                 <Box mb={"sm"}>
                   <InputOption
                     placeholder={"Nome do destinatário"}
-                    onChangeText={() => { }}
+                    onChangeText={() => {}}
                   />
 
                   <InputOption
                     placeholder={"Telefone para contato"}
-                    onChangeText={() => { }}
+                    onChangeText={() => {}}
                   />
 
                   <InputOption
                     height={135}
                     textAlignVertical={"top"}
                     placeholder={"Deseja enviar algum recado junto?"}
-                    onChangeText={() => { }}
+                    onChangeText={() => {}}
                   />
                 </Box>
-              }
+              )}
 
               {id && (
                 <Button
                   mt={"xs"}
-                  onPress={() => { }}
+                  onPress={() => {}}
                   title={"SALVAR ALTERAÇÕES"}
                   variant="primarioEstreitoOutline"
                 />
@@ -143,7 +137,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             </Box>
           </Box>
         </ScrollView>
-        {!id && (
+        {!isCheckout && (
           <Button
             onPress={() => navigation.navigate("PaymentMethodScreen")}
             title="FORMA DE PAGAMENTO"
@@ -180,7 +174,7 @@ const InputOption = ({
 }: IInputOption) => {
   return (
     <>
-      <Box mt={"xxxs"} >
+      <Box mt={"xxxs"}>
         <TextField
           // label={"Nome do titular"}
           textAlignVertical={textAlignVertical}
@@ -194,4 +188,4 @@ const InputOption = ({
       </Box>
     </>
   );
-}
+};
