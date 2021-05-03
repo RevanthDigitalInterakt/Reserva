@@ -94,6 +94,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             price={345}
             priceWithDiscount={297}
             imagesWidth={screenWidth}
+            imagesHeight={160}
             images={[
               'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
               'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
@@ -114,7 +115,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               >
                 Cores:
               </Typography>
-              <Box pr='micro'>
+              <Box pr='micro' mt='xxxs'>
                 <ScrollView horizontal>
                   <SelectColor
                     onPress={(color: any) => setSelectedColor(color)}
@@ -130,6 +131,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 flexDirection='row'
                 justifyContent='space-between'
                 alignItems='center'
+                mb='xxxs'
               >
                 <Typography fontFamily='reservaSerifRegular' fontSize='20px'>Tamanhos:</Typography>
                 <Button
@@ -167,7 +169,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
               Consultar prazo e valor do frete
             </Typography>
-            <Box flexDirection='row' mt='nano'>
+            <Box flexDirection='row' mt='xxxs'>
               <OutlineInput placeholder='Digite seu CEP' iconName='Search' />
             </Box>
             <Divider variant='fullWidth' my='xs' />
@@ -185,14 +187,14 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
               Receba novidades e promoções
             </Typography>
-            <Box flexDirection='column' mt='nano'>
+            <Box flexDirection='column' mt='xxxs'>
               <OutlineInput
                 placeholder='Digite seu e-mail'
                 iconName='ChevronRight'
               />
             </Box>
             <Box mt='xs' mb='sm'>
-              <Box mb='micro'>
+              <Box mb='xxxs'>
                 <Typography
                   fontFamily='nunitoBold'
                   fontSize={14}
@@ -201,11 +203,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   Seu produto combina com
                 </Typography>
               </Box>
-              <Box mb='xxl'>
+              <Box mb='xxl' mx='sm' >
                 <ScrollView horizontal>
                   {recomendedProducts.map((product, index) => (
-                    <Box ml={index!=0?'micro' : null} key={index}>
-                      <ProductVerticalListCard {...product} />
+                    <Box ml={'micro'} key={index}>
+                      <ProductVerticalListCard imageWidth={screenWidth* .33} {...product} />
                     </Box>
                   ))}
                 </ScrollView>
