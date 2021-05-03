@@ -45,6 +45,9 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
               title={"Favoritos"}
               descr={"Veja os produtos que você curtiu"}
               icon={"Heart"}
+              onPress={() => {
+                navigation.navigate("WishList");
+              }}
             />
 
             <ItemList
