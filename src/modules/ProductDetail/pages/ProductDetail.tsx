@@ -142,7 +142,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               </Box>
               <Box alignItems="center">
                 <RadioButtons
-                  size={44}
+                  size={42}
                   fontSize={14}
                   onSelectedChange={() => {}}
                   optionsList={["PP", "P", "M", "G", "GG", "3G"]}
