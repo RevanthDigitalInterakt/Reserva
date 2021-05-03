@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to scan your card</string>
 	<key>UIAppFonts</key>
@@ -68,6 +68,18 @@
 		<string>ReservaSerif-Regular.otf</string>
 		<string>ReservaSerif-Thin.otf</string>
 		<string>ReservaSerif-ThinItalic.otf</string>
+		<string>ReservaSans-Black.ttf</string>
+		<string>ReservaSans-BlackItalic.ttf</string>
+		<string>ReservaSans-Bold.ttf</string>
+		<string>ReservaSans-BoldItalic.ttf</string>
+		<string>ReservaSans-Italic.ttf</string>
+		<string>ReservaSans-Light.ttf</string>
+		<string>ReservaSans-LightItalic.ttf</string>
+		<string>ReservaSans-Medium.ttf</string>
+		<string>ReservaSans-MediumItalic.ttf</string>
+		<string>ReservaSans-Regular.ttf</string>
+		<string>ReservaSans-Thin.ttf</string>
+		<string>ReservaSans-ThinItalic.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
