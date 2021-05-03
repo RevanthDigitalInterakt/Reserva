@@ -10,8 +10,7 @@ import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 import ItemList from "../Components/ItemList";
 
-export const MenuProfile: React.FC<{}> = () => {
-  const navigation = useNavigation();
+export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

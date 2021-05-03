@@ -5,10 +5,18 @@ import { Typography, Box, Button, Alert } from "reserva-ui";
 import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/core";
-const AddressList = () => {
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
+
+type Props = StackScreenProps<RootStackParamList, "AddressList">;
+
+const AddressList: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [sucessModal, setSucessModal] = React.useState(false);
+
+  const { isCheckout } = route.params;
+
   return (
     <>
       <Alert
@@ -41,7 +49,10 @@ const AddressList = () => {
         }}
       />
       <SafeAreaView flex={1} backgroundColor="white">
-        <TopBarBackButton showShadow backButtonPress={() => navigation.navigate('HomeTabs')} />
+        <TopBarBackButton
+          showShadow
+          backButtonPress={() => navigation.goBack()}
+        />
 
         <Box
           overflow={"hidden"}
@@ -51,9 +62,7 @@ const AddressList = () => {
           pt={"md"}
         >
           <Box alignSelf={"flex-start"} mb={"xxxs"}>
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
-              Meus endereços
-            </Typography>
+            <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -72,19 +81,32 @@ const AddressList = () => {
               selected={true}
               select={() => navigation.navigate("PaymentMethodScreen")}
             />
+            <Box marginX={"md"}>
+              <Button
+                mt="xs"
+                onPress={() =>
+                  navigation.navigate("NewAddress", {
+                    isCheckout: false,
+                    id: null,
+                  })
+                }
+                title={"ADICIONAR ENDEREÇO"}
+                variant="primarioEstreitoOutline"
+                padding="xl"
+              />
+            </Box>
           </ScrollView>
         </Box>
-        <Box marginX={"md"}>
-          <Button
-            width={"100%"}
-            onPress={() => {
-              navigation.navigate("NewAddress");
-            }}
-            title={"ADICIONAR ENDEREÇO"}
-            variant="primarioEstreitoOutline"
-          />
-        </Box>
-
+        {isCheckout && (
+          <Box justifyContent="flex-end" flex={1}>
+            <Button
+              onPress={() => navigation.navigate("PaymentMethodScreen")}
+              title="FORMA DE PAGAMENTO"
+              variant="primarioEstreito"
+              inline={true}
+            />
+          </Box>
+        )}
       </SafeAreaView>
     </>
   );
