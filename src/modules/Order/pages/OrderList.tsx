@@ -18,25 +18,23 @@ const OrderList = () => {
           justifyContent="flex-start"
           paddingTop={"md"}
         >
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+          <Typography fontSize={28} fontFamily="reservaSerifRegular">
             Meus pedidos
           </Typography>
         </Box>
-        <ScrollView
-          contentContainerStyle={{ flex: 1 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <Box flex={1} paddingX={"xxxs"} bg="backgoundInput" width={"100%"}>
-            {/* aqui dentro os pedidos */}
-            <Order
-              onPress={() => {
-                navigation.navigate("OrderDetail");
-              }}
-              delivered={true}
-            />
-            <Order />
-          </Box>
-        </ScrollView>
+        <Box flex={1} paddingX={"xxxs"} bg="backgoundInput" width={"100%"}>
+          <ScrollView>
+              {/* aqui dentro os pedidos */}
+              <Order pixPending />
+              <Order
+                onPress={() => {
+                  navigation.navigate("OrderDetail");
+                }}
+                delivered={true}
+              />
+              <Order />
+          </ScrollView>
+        </Box>
       </SafeAreaView>
     </>
   );

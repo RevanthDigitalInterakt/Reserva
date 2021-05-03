@@ -46,185 +46,32 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   const [selectedColor, setSelectedColor] = useState("#F9F9ED");
   recomendedProducts = [
     {
-      currency: "R$",
       discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: 'CAMISETA BÁSICA RESERVA',
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
-      isFavorited: true,
+      imageSource:
+        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
     {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: 'CAMISETA BÁSICA RESERVA',
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
-      isFavorited: true,
+      imageSource:
+        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
     {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: 'CAMISETA BÁSICA RESERVA',
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
-      isFavorited: true,
-    },
-    {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      isFavorited: true,
-    },
-    {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      isFavorited: true,
-    },
-    {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      isFavorited: true,
-    },
-    {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      isFavorited: true,
-    },
-    {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      isFavorited: true,
-    },
-    {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      isFavorited: true,
-    },
-    {
-      currency: "R$",
-      imageSource: "https://via.placeholder.com/100x160",
-      productTitle: "CAMISETA BÁSICA RESERVA",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      isFavorited: false,
+      imageSource:
+        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
   ];
   const [isVisible, setIsVisible] = useState(false);
@@ -247,7 +94,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             price={345}
             priceWithDiscount={297}
             imagesWidth={screenWidth}
-            
             images={[
               'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
               'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
@@ -264,8 +110,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <Box mt='xxs'>
               <Typography
                 fontFamily='reservaSerifRegular'
-                fontWeight='normal'
-                fontSize={22}
+                fontSize={20}
               >
                 Cores:
               </Typography>
@@ -286,7 +131,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 justifyContent='space-between'
                 alignItems='center'
               >
-                <Typography variant='tituloSessoes'>Tamanhos:</Typography>
+                <Typography fontFamily='reservaSerifRegular' fontSize='20px'>Tamanhos:</Typography>
                 <Button
                   title='Guia de medidas'
                   fontFamily='nunitoRegular'
@@ -319,7 +164,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
             <Box mt='nano' flexDirection='row'></Box>
             <Divider variant='fullWidth' my='xs' />
-            <Typography variant='subtituloSessoes'>
+            <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
               Consultar prazo e valor do frete
             </Typography>
             <Box flexDirection='row' mt='nano'>
@@ -330,14 +175,14 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               <Button>
                 <Box flexDirection='row' alignItems='center'>
                   <Icon name='Add' size={15} color='preto' />
-                  <Typography variant='tituloSessoes'>
+                  <Typography fontFamily='reservaSerifRegular' fontSize='20px'>
                     Sobre este produto
                   </Typography>
                 </Box>
               </Button>
             </Typography>
             <Divider variant='fullWidth' my='xs' />
-            <Typography variant='subtituloSessoes'>
+            <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
               Receba novidades e promoções
             </Typography>
             <Box flexDirection='column' mt='nano'>
