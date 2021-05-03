@@ -112,7 +112,7 @@ export const ListCards = ({ navigation, route }: Props) => {
           mt="xs"
           onPress={() =>
             navigation.navigate("NewCard", {
-              isCheckout: false,
+              isCheckout: isCheckout,
             })
           }
           title={"ADICIONAR CARTÃO"}
