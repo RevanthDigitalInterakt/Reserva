@@ -12,29 +12,35 @@ const OrderList = () => {
       <SafeAreaView flex={1} backgroundColor={"white"}>
         <TopBarBackButton showShadow />
 
-        <Box
-          mb="xxxs"
-          paddingHorizontal={20}
-          justifyContent="flex-start"
-          paddingTop={"md"}
-        >
-          <Typography fontSize={28} fontFamily="reservaSerifRegular">
-            Meus pedidos
-          </Typography>
-        </Box>
-        <Box flex={1} paddingX={"xxxs"} bg="backgoundInput" width={"100%"}>
-          <ScrollView>
-              {/* aqui dentro os pedidos */}
-              <Order pixPending />
-              <Order
-                onPress={() => {
-                  navigation.navigate("OrderDetail");
-                }}
-                delivered={true}
-              />
-              <Order />
-          </ScrollView>
-        </Box>
+        <ScrollView>
+          <Box
+            mb="xxxs"
+            paddingHorizontal={20}
+            justifyContent="flex-start"
+            paddingTop={"md"}
+          >
+            <Typography fontSize={28} fontFamily="reservaSerifRegular">
+              Meus pedidos
+            </Typography>
+          </Box>
+          <Box
+            flex={1}
+            paddingY={"xxxs"}
+            paddingX={"xxxs"}
+            bg="backgoundInput"
+            width={"100%"}
+          >
+            {/* aqui dentro os pedidos */}
+            <Order pixPending />
+            <Order
+              onPress={() => {
+                navigation.navigate("OrderDetail");
+              }}
+              delivered={true}
+            />
+            <Order />
+          </Box>
+        </ScrollView>
       </SafeAreaView>
     </>
   );
