@@ -105,7 +105,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             <Box bg="dropDownBorderColor">
               <Button p="nano">
                 <Box flexDirection="row">
-                  <Icon name="Message" size={16} color="preto"></Icon>
+                  <Icon name="Whatsapp" size={16} color="preto"></Icon>
                   <Box marginX="nano">
                     <Typography
                       color="preto"
