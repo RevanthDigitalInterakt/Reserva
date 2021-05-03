@@ -100,12 +100,14 @@ const AddressList: React.FC<Props> = ({ route }) => {
           </ScrollView>
         </Box>
         {isCheckout && (
-          <Button
-            onPress={() => navigation.navigate("PaymentMethodScreen")}
-            title="FORMA DE PAGAMENTO"
-            variant="primarioEstreito"
-            inline
-          />
+          <Box justifyContent="flex-end" flex={1}>
+            <Button
+              onPress={() => navigation.navigate("PaymentMethodScreen")}
+              title="FORMA DE PAGAMENTO"
+              variant="primarioEstreito"
+              inline={true}
+            />
+          </Box>
         )}
       </SafeAreaView>
     </>
