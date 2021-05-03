@@ -5,10 +5,18 @@ import { Typography, Box, Button, Alert } from "reserva-ui";
 import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/core";
-const AddressList = () => {
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
+
+type Props = StackScreenProps<RootStackParamList, "AddressList">;
+
+const AddressList: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [sucessModal, setSucessModal] = React.useState(false);
+
+  const { isCheckout } = route.params;
+
   return (
     <>
       <Alert
@@ -81,12 +89,20 @@ const AddressList = () => {
           <Button
             width={"100%"}
             onPress={() => {
-              navigation.navigate("NewAddress");
+              navigation.navigate("NewAddress", { isCheckout });
             }}
             title={"ADICIONAR ENDEREÇO"}
             variant="primarioEstreitoOutline"
           />
         </Box>
+        {isCheckout && (
+          <Button
+            onPress={() => navigation.navigate("PaymentMethodScreen")}
+            title="FORMA DE PAGAMENTO"
+            variant="primarioEstreito"
+            inline
+          />
+        )}
       </SafeAreaView>
     </>
   );

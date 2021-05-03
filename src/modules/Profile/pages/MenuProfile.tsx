@@ -13,8 +13,6 @@ import ItemList from "../Components/ItemList";
 export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
-  const { isCheckout } = route.params;
-
   useEffect(() => {
     dispatch(loadRequest());
   }, []);
@@ -103,14 +101,6 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
           </Box>
         </Box>
       </ScrollView>
-      {!isCheckout && (
-        <Button
-          onPress={() => navigation.navigate("PaymentMethodScreen")}
-          title="FORMA DE PAGAMENTO"
-          variant="primarioEstreito"
-          inline
-        />
-      )}
     </Box>
   );
 };

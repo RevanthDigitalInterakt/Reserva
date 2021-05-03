@@ -126,7 +126,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 </Box>
               )}
 
-              {id && (
+              {id && !isCheckout && (
                 <Button
                   mt={"xs"}
                   onPress={() => {}}
@@ -137,7 +137,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             </Box>
           </Box>
         </ScrollView>
-        {!isCheckout && (
+        {isCheckout && (
           <Button
             onPress={() => navigation.navigate("PaymentMethodScreen")}
             title="FORMA DE PAGAMENTO"

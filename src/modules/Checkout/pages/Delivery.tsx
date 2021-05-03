@@ -24,7 +24,7 @@ export const DeliveryScreen = () => {
             title={"Retirar na loja"}
             subtitle={"Segunda-feira, 05 de abril de 2021"}
             onPress={() =>
-              navigation.navigate("AddressList", { isCheckout: true })
+              navigation.navigate("PaymentMethodScreen", { isCheckout: true })
             }
             divider
           />
@@ -32,7 +32,7 @@ export const DeliveryScreen = () => {
             title={"Receber em casa"}
             subtitle={"Segunda-feira, 15 de abril de 2021"}
             onPress={() =>
-              navigation.navigate("PaymentMethodScreen", { isCheckout: true })
+              navigation.navigate("AddressList", { isCheckout: true })
             }
           />
         </Box>
