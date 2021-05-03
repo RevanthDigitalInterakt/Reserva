@@ -55,7 +55,7 @@ const Information = ({
   return (
     <Box>
       <Box paddingBottom="xxs" flexDirection="row" py="xxs">
-        <Box mr="micro">
+        <Box mr="micro" justifyContent="center">
           <Icon name={iconName} size={20} />
         </Box>
         <Typography fontFamily="nunitoRegular" fontSize={15}>
