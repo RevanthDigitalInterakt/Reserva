@@ -20,13 +20,8 @@ export const NotificationProfile: React.FC<{}> = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      flex={1}
-      style={{ justifyContent: "space-between" }}
-      backgroundColor="white"
-    >
+    <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton />
-
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"micro"} alignSelf={"flex-start"}>
@@ -78,10 +73,7 @@ export const NotificationProfile: React.FC<{}> = () => {
           </Box>
         </Box>
       </ScrollView>
-
-      <Box justifyContent={"flex-end"}>
-        <Button title="CONFIRMAR" variant={"primarioMaior"}></Button>
-      </Box>
+      <Button title="CONFIRMAR" variant="primarioEstreito" inline />
     </SafeAreaView>
   );
 };
