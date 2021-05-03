@@ -31,7 +31,11 @@ const OrderList = () => {
             width={"100%"}
           >
             {/* aqui dentro os pedidos */}
-            <Order pixPending />
+            <Order
+              onPress={() => {
+                navigation.navigate("OrderDetail", { pixPending: true });
+              }}
+            />
             <Order
               onPress={() => {
                 navigation.navigate("OrderDetail");

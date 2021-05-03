@@ -79,7 +79,7 @@ export const NotificationProfile: React.FC<{}> = () => {
         </Box>
       </ScrollView>
 
-      <Box bottom={0} justifyContent={"flex-end"}>
+      <Box justifyContent={"flex-end"}>
         <Button title="CONFIRMAR" variant={"primarioMaior"}></Button>
       </Box>
     </SafeAreaView>
