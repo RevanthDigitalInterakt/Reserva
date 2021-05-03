@@ -62,9 +62,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
           pt={"md"}
         >
           <Box alignSelf={"flex-start"} mb={"xxxs"}>
-            <Typography fontSize={28} fontFamily="reservaSerifRegular">
-              Meus endereços
-            </Typography>
+            <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>

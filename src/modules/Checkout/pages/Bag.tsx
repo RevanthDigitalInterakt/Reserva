@@ -74,9 +74,7 @@ export const BagScreen = () => {
       <ScrollView>
         <Box paddingX={"xxxs"} paddingY={"xxs"}>
           <Box bg={"white"} marginTop={"xxs"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={28}>
-              Sacola (2)
-            </Typography>
+            <Typography variant="tituloSessoes">Sacola (2)</Typography>
           </Box>
           <Box mb="xs">
             <Box flexDirection="row">

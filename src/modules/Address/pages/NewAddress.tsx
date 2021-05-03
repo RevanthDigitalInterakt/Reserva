@@ -33,13 +33,11 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
               <Box alignSelf={"flex-start"} mb={"nano"}>
                 {id ? (
-                  <Typography fontSize={20} fontFamily="reservaSerifRegular">
+                  <Typography variant="tituloSessoes">
                     Editar endereço
                   </Typography>
                 ) : (
-                  <Typography fontSize={28} fontFamily="reservaSerifRegular">
-                    Entrega
-                  </Typography>
+                  <Typography variant="tituloSessoes">Entrega</Typography>
                 )}
               </Box>
               <Box>

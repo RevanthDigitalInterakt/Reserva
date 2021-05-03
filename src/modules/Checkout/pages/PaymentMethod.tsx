@@ -12,7 +12,7 @@ export const PaymentMethodScreen = () => {
       <ScrollView>
         <Box paddingX={"xxxs"} paddingY={"sm"}>
           <Box marginBottom={"xxs"}>
-            <Typography fontFamily={"reservaSerifRegular"} fontSize={28}>
+            <Typography variant="tituloSessoes">
               Selecione a forma de pagamento
             </Typography>
           </Box>
