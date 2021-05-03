@@ -70,16 +70,21 @@ const AddressList = () => {
                 navigation.navigate("NewAddress", { id: 1 });
               }}
               selected={true}
+              select={() => navigation.navigate("PaymentMethodScreen")}
             />
           </ScrollView>
         </Box>
-        <Button
-          onPress={() => {
-            navigation.navigate("NewAddress");
-          }}
-          title={"ADICIONAR ENDEREÇO"}
-          variant="primarioEstreitoOutline"
-        />
+        <Box marginX={"md"}>
+          <Button
+            width={"100%"}
+            onPress={() => {
+              navigation.navigate("NewAddress");
+            }}
+            title={"ADICIONAR ENDEREÇO"}
+            variant="primarioEstreitoOutline"
+          />
+        </Box>
+
       </SafeAreaView>
     </>
   );

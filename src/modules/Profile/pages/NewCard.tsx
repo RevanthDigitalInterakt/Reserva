@@ -131,7 +131,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                     <Button onPress={scanCard}>
                       <Box flexDirection="row" alignItems="center">
                         <Box mr="nano">
-                          <Icon name="Cam" size={25} />
+                          <Icon name="Cam" size={16} />
                         </Box>
                         <Typography>Escanear Cartão</Typography>
                       </Box>
@@ -147,8 +147,8 @@ export const NewCard = ({ navigation, route }: Props) => {
                   cvc={card.CVC}
                   expiration={card.expiration}
                   name={card.holder}
-                  backImage={images.cardImage}
-                  frontImage={images.cardImage}
+                  backImage={images.cardVerso}
+                  frontImage={images.cardFront}
                   fontColorCvc="white"
                   fontSize={12}
                   numberContainerStyles={
@@ -186,6 +186,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                     marginTop: 9,
                     transform: [{ translateX: 5 }],
                   }}
+                  cvcContainerStyles={{}}
                 />
                 <Box mt={'xxxs'}>
                   <TextField
@@ -195,7 +196,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                     onChangeText={(val) => onChangeTextCard('holder', val)}
                     iconRight={
                       <Box ml="nano">
-                        <Icon color="neutroFrio2" name="Card" size={25} />
+                        <Icon color="neutroFrio2" name="HelpCircle" size={16} />
                       </Box>
                     }
                   />
@@ -209,7 +210,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                     onChangeText={(val) => onChangeTextCard('number', val)}
                     iconRight={
                       <Box ml="nano">
-                        <Icon color="neutroFrio2" name="Card" size={25} />
+                        <Icon color="neutroFrio2" name="HelpCircle" size={16} />
                       </Box>
                     }
                   />
@@ -229,7 +230,11 @@ export const NewCard = ({ navigation, route }: Props) => {
                       }
                       iconRight={
                         <Box ml="nano">
-                          <Icon color="neutroFrio2" name="Card" size={25} />
+                          <Icon
+                            color="neutroFrio2"
+                            name="HelpCircle"
+                            size={16}
+                          />
                         </Box>
                       }
                     />
@@ -246,7 +251,11 @@ export const NewCard = ({ navigation, route }: Props) => {
                       onChangeText={(val) => onChangeTextCard('CVC', val)}
                       iconRight={
                         <Box ml="nano">
-                          <Icon color="neutroFrio2" name="Card" size={25} />
+                          <Icon
+                            color="neutroFrio2"
+                            name="CreditCard"
+                            size={16}
+                          />
                         </Box>
                       }
                     />

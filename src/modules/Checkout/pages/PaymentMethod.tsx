@@ -46,21 +46,21 @@ export const PaymentMethodScreen = () => {
                     <SelectPayment
                         iconLeft={"Presente"}
                         title={"Cartão presente"}
-                        onPress={() => { navigation.navigate('GiftVoucherScreen') }}
+                        onPress={() => { navigation.navigate("GiftVoucherScreen") }}
                         divider
                     />
 
                     <SelectPayment
                         iconLeft={"Pix"}
                         title={"PIX"}
-                        onPress={() => Alert.alert("PIX")}
+                        onPress={() => navigation.navigate("PixScreen")}
                         divider
                     />
 
                     <SelectPayment
                         iconLeft={"Caixa"}
                         title={"Cartão de Débito Virtual Caixa"}
-                        onPress={() => Alert.alert("Caixa")}
+                        onPress={() => navigation.navigate("VirtualDebitCardCaixaScreen")}
                     />
                 </Box>
             </ScrollView>

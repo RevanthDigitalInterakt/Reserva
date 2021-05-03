@@ -6828,6 +6828,11 @@ react-native-safe-modules@^1.0.3:
   dependencies:
     dedent "^0.6.0"
 
+react-native-scalable-image@^1.1.0:
+  version "1.1.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-scalable-image/-/react-native-scalable-image-1.1.0.tgz#b8cb9db6f11d1bd2a1a7b35cced30eb01f215a99"
+  integrity sha1-uMudtvEdG9Khp7NcztMOsB8hWpk=
+
 react-native-screens@^3.1.0:
   version "3.1.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-screens/-/react-native-screens-3.1.1.tgz#2cd4496c5e3ed1ffbaf77962b8fcc10be3af2158"
@@ -7165,10 +7170,12 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@0.0.102:
-  version "0.0.102"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.102.tgz#1e26d77c91a961ed2c62ade699efa6bcaa871a7a"
-  integrity sha1-HibXfJGpYe0sYq3mme+mvKqHGno=
+reserva-ui@0.0.106:
+  version "0.0.106"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.106.tgz#c6aa360c52fe6c23664d306ea2c9b21571b8c797"
+  integrity sha1-xqo2DFL+bCNmTTBuosmyFXG4x5c=
+  dependencies:
+    react-native-scalable-image "^1.1.0"
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
