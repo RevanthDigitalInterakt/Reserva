@@ -15,14 +15,14 @@ import AnimatedLottieView from "lottie-react-native";
 import { animations } from "../../../assets";
 import { ThemeConsumer } from "styled-components/native";
 import { useEffect } from "react";
-import { Dimensions, Platform, SafeAreaView } from "react-native";
+import { Dimensions, Platform, SafeAreaView, StatusBar } from "react-native";
 import { position } from "styled-system";
-import DeviceInfo from "react-native-device-info";
+import DeviceInfo, { hasNotch } from "react-native-device-info";
 
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 
-const isIphoneX = DeviceInfo.hasNotch();
+const haveNotch = DeviceInfo.hasNotch();
 
 export interface ModalBagProps {
   isVisible: boolean;
@@ -154,42 +154,51 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
             source={animations.bag}
           />
         ) : (
-          <Box
-            position={"absolute"}
-            width={321}
-            py="xxxs"
-            pl="xxxs"
-            top={isIphoneX ? 77 : 29}
-            right={-20}
-            height={351}
-            backgroundColor="white"
-            style={{ elevation: Platform.OS == "android" ? 5 : 0 }}
-            boxShadow={Platform.OS == "android" ? null : "topBarShadow"}
-          >
-            <Animatable.View animation="fadeIn" style={{ height: "100%" }}>
-              <Box marginBottom="micro">
-                <Typography variant="tituloSessoes">Sacola (1)</Typography>
-              </Box>
-              <ScrollView>
-                {bagProducts.map((product, key) => (
-                  <Box mt={key > 0 ? "micro" : null} key={key}>
-                    <ProductHorizontalListCard {...product} />
-                  </Box>
-                ))}
-              </ScrollView>
-              <Button
-                onPress={() => {
-                  setAnimationFinished(false);
-                  onBackdropPress();
-                  navigation.navigate("DeliveryScreen");
-                }}
-                title="FECHAR PEDIDO"
-                variant="primarioEstreito"
-                inline
-                mx="md"
-                mt="xxxs"
-              />
-            </Animatable.View>
+          <Box flex={1} alignSelf={animationFinished ? "center" : "flex-end"}>
+            <Box
+              width={321}
+              top={
+                haveNotch && Platform.OS == "ios"
+                  ? Number(StatusBar.currentHeight) + 77
+                  : Platform.OS == "android"
+                  ? Number(StatusBar.currentHeight)
+                  : Number(StatusBar.currentHeight) + 51
+              }
+              py="xxxs"
+              pl="xxxs"
+              right={-25}
+              height={351}
+              backgroundColor="white"
+              style={{ elevation: Platform.OS == "android" ? 5 : 0 }}
+              boxShadow={Platform.OS == "android" ? null : "topBarShadow"}
+            >
+              <Animatable.View animation="fadeIn" style={{ height: "100%" }}>
+                <Box marginBottom="micro">
+                  <Typography fontFamily="reservaSerifRegular" fontSize="20px">
+                    Sacola (1)
+                  </Typography>
+                </Box>
+                <ScrollView>
+                  {bagProducts.map((product, key) => (
+                    <Box mt={key > 0 ? "micro" : null} key={key}>
+                      <ProductHorizontalListCard {...product} />
+                    </Box>
+                  ))}
+                </ScrollView>
+                <Button
+                  onPress={() => {
+                    setAnimationFinished(false);
+                    onBackdropPress();
+                    navigation.navigate("DeliveryScreen");
+                  }}
+                  title="FECHAR PEDIDO"
+                  variant="primarioEstreito"
+                  inline
+                  mx="md"
+                  mt="xxxs"
+                />
+              </Animatable.View>
+            </Box>
           </Box>
         )}
       </Modal>

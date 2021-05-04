@@ -1,6 +1,13 @@
-import React, { useState } from "react";
-import { Alert, Dimensions, PickerItemProps } from "react-native";
+import React, { createRef, useState } from "react";
+import {
+  Alert,
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  PickerItemProps,
+} from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { ceil } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
@@ -17,12 +24,15 @@ import {
   ProductVerticalListCard,
   ProductVerticalListCardProps,
   TopBar,
+  theme,
 } from "reserva-ui";
 import { Input } from "reserva-ui/src/components/TextField/TextField.styles";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 import { ModalBag } from "../components/ModalBag";
 
 const screenWidth = Dimensions.get("window").width;
+
+let recomendedScroll = createRef<ScrollView>();
 
 interface ProductDetailProps {
   recomendedProducts?: ProductVerticalListCardProps[];
@@ -46,7 +56,87 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   const [selectedColor, setSelectedColor] = useState("#F9F9ED");
   recomendedProducts = [
     {
-      discountTag: 18,
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
       productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
@@ -75,6 +165,25 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
     },
   ];
   const [isVisible, setIsVisible] = useState(false);
+  const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
+
+  const onChangeRecomended = (
+    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    const actualItem = Math.ceil(
+      scrollEvent.nativeEvent.contentOffset.x /
+        scrollEvent.nativeEvent.layoutMeasurement.width
+    );
+    if (
+      actualItem !== actualRecomendedindex &&
+      recomendedProducts &&
+      actualItem < Math.ceil(recomendedProducts.length / 2)
+    ) {
+      console.log(actualItem);
+      setActualRecomendedindex(actualItem);
+    }
+  };
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -135,7 +244,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   fontFamily="nunitoRegular"
                   fontSize={"10px"}
                   py="nano"
-                  fontWeight="normal"
                   leftIcon={<Icon name="Ruler" size={26} />}
                 />
               </Box>
@@ -192,27 +300,63 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 iconName="ChevronRight"
               />
             </Box>
-            <Box mt="xs" mb="sm">
+            <Box mt="xs" mb="xxl">
               <Box mb="xxxs">
-                <Typography
-                  fontFamily="nunitoBold"
-                  fontSize={14}
-                  fontWeight="bold"
-                >
+                <Typography fontFamily="nunitoBold" fontSize={14}>
                   Seu produto combina com
                 </Typography>
               </Box>
-              <Box mb="xxl">
-                <ScrollView horizontal>
+              <Box mb="md">
+                <ScrollView
+                  horizontal
+                  pagingEnabled
+                  ref={recomendedScroll}
+                  showsHorizontalScrollIndicator={false}
+                  onScroll={onChangeRecomended}
+                >
                   {recomendedProducts.map((product, index) => (
-                    <Box ml={"micro"} key={index}>
+                    <Box mx="nano" mr={"micro"} key={index} height={230}>
                       <ProductVerticalListCard
-                        imageWidth={screenWidth * 0.33}
+                        imageWidth={137}
+                        small
                         {...product}
                       />
                     </Box>
                   ))}
                 </ScrollView>
+                <Box
+                  paddingTop="nano"
+                  flexDirection="row"
+                  justifyContent="center"
+                >
+                  {recomendedProducts.map(
+                    (i, k) =>
+                      k % 2 == 0 && (
+                        <Button
+                          paddingX="quarck"
+                          variant="icone"
+                          onPress={() => {
+                            let width = (137 + theme.space.micro) * 2;
+                            console.log(`k/2: ${k / 2}`);
+                            recomendedScroll.current?.scrollTo({
+                              x: width * (k / 2),
+                            });
+                          }}
+                          icon={
+                            <Icon
+                              name="Circle"
+                              size={6}
+                              color={
+                                actualRecomendedindex == Math.ceil((k - 1) / 2)
+                                  ? "preto"
+                                  : "neutroFrio1"
+                              }
+                            />
+                          }
+                        />
+                      )
+                  )}
+                </Box>
               </Box>
             </Box>
           </Box>
