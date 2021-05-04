@@ -12,8 +12,8 @@ export const WishList: React.FC<{}> = () => {
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarDefaultBackButton showShadow />
       <ScrollView>
-        <Box paddingX="xxxs" marginTop="md">
-          <Box marginTop="xxxs">
+        <Box paddingX="xxxs" marginTop="md" paddingBottom='xxxs' >
+          <Box>
             <Typography fontSize={20} fontFamily="reservaSerifRegular">
               Lista de desejos
             </Typography>
@@ -46,7 +46,7 @@ export const WishList: React.FC<{}> = () => {
               />
             </Box>
           </Box>
-          <Box marginTop="xxxs">
+          <Box marginTop="xxxs" height={147}>
             <ProductHorizontalListCard
               currency={"R$"}
               discountTag={18}
@@ -63,7 +63,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt3}
             />
           </Box>
-          <Box marginTop="xxxs">
+          <Box marginTop="xxxs" height={147} >
             <ProductHorizontalListCard
               currency={"R$"}
               itemColor="Cinza"
@@ -77,7 +77,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt4}
             />
           </Box>
-          <Box marginTop="xxxs">
+          <Box marginTop="xxxs" height={147} >
             <ProductHorizontalListCard
               currency={"R$"}
               discountTag={18}
@@ -93,7 +93,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt1}
             />
           </Box>
-        </Box>
+        </Box> 
       </ScrollView>
     </SafeAreaView>
   );
