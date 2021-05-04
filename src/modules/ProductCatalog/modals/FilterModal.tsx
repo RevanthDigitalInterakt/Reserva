@@ -32,7 +32,10 @@ export interface FilterModalProps {
   onAndroidBackButtonPress?: () => void;
 }
 
-export const TitleFilter: React.FC<{ title: string }> = ({ title }) => {
+export const TitleFilter: React.FC<{ title: string; showMore?: boolean }> = ({
+  title,
+  showMore,
+}) => {
   return (
     <Box
       paddingX="micro"
@@ -43,19 +46,21 @@ export const TitleFilter: React.FC<{ title: string }> = ({ title }) => {
       <Typography fontFamily="reservaSerifRegular" fontSize="16px">
         {title}
       </Typography>
-      <Box flexDirection="row" justifyContent="space-between">
-        <Typography fontFamily="nunitoRegular" fontSize="12px">
-          Ver mais
-        </Typography>
-        <Icon
-          style={{ transform: [{ rotate: "90deg" }] }}
-          name="ChevronRight"
-          color="preto"
-          marginY="quarck"
-          marginX="nano"
-          size={12}
-        />
-      </Box>
+      {showMore && (
+        <Box flexDirection="row" justifyContent="space-between">
+          <Typography fontFamily="nunitoRegular" fontSize="12px">
+            Ver mais
+          </Typography>
+          <Icon
+            style={{ transform: [{ rotate: "90deg" }] }}
+            name="ChevronRight"
+            color="preto"
+            marginY="quarck"
+            marginX="nano"
+            size={12}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
@@ -134,10 +139,12 @@ export const FilterModal = ({
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography variant={"tituloSessoes"}>Filtrar Por:</Typography>
+                <Typography fontFamily="reservaSerifRegular" fontSize="24px">
+                  Filtrar Por:
+                </Typography>
               </Box>
 
-              <TitleFilter title="Categorias"></TitleFilter>
+              <TitleFilter showMore={true} title="Categorias"></TitleFilter>
 
               <Box paddingX="micro">
                 <CheckboxList
@@ -165,7 +172,7 @@ export const FilterModal = ({
                 marginTop="nano"
               />
 
-              <TitleFilter title="Cores"></TitleFilter>
+              <TitleFilter showMore={true} title="Cores"></TitleFilter>
 
               <Box paddingX="micro">
                 <SelectColor
