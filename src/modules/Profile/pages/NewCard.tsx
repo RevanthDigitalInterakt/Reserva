@@ -111,10 +111,11 @@ export const NewCard = ({ navigation, route }: Props) => {
     <SafeAreaView flex={1} backgroundColor="white">
       <Box flex={1}>
         <TopBarBackButton showShadow />
+
         <ScrollView showsVerticalScrollIndicator={false}>
           {!isCheckout ? (
             <Box pb="sm">
-              <Box mt={"md"} overflow={"hidden"}>
+              <Box mt={"md"} overflow={"hidden"} paddingX="xxxs">
                 <Box
                   mb={"xxs"}
                   flexDirection="row"
