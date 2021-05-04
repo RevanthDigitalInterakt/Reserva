@@ -10,19 +10,13 @@ export const RegisterStep1: React.FC<{
 }> = ({ nextStep, setUserData, userData }) => {
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <Box
-        paddingX="micro"
-        alignItems="center"
-        marginTop="xxl"
-        marginBottom="sm"
-      >
-        <Box justifyContent="center" marginTop="xxxs">
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+      <Box marginTop="xxl" paddingX="micro" flex={1}>
+        <Box marginTop="xs">
+          <Typography variant={"tituloSessoes"}>
             Para começar seu cadastro, por favor, digite o seu CPF ou CNPJ
           </Typography>
         </Box>
-      </Box>
-      <Box paddingX="micro" flex={1}>
+        
         <Box marginTop="sm" marginBottom="nano">
           <TextField
             height={55}

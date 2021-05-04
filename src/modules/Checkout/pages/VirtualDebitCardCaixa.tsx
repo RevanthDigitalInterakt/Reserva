@@ -17,7 +17,7 @@ export const VirtualDebitCardCaixaScreen = () => {
       <ScrollView>
         <Box paddingX={"xxxs"} paddingY={"sm"}>
           <Box marginBottom={"xxs"}>
-            <Typography fontFamily={"reservaSerifRegular"} fontSize={20}>
+            <Typography variant="tituloSessoes">
               Cartão de Débito Virtual Caixa
             </Typography>
           </Box>

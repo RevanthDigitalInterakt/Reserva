@@ -1,15 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React from "react";
 import { useEffect } from "react";
-import { Dimensions, SafeAreaView, ScrollView } from "react-native";
+import {  SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
-import { Typography, Box, Button, TextField, Icon, Image } from "reserva-ui";
+import { Typography, Box, Image } from "reserva-ui";
 import { images } from "../../../assets";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const SizeGuide: React.FC<{}> = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,8 +24,8 @@ export const SizeGuide: React.FC<{}> = () => {
 
       <ScrollView>
         <Box variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+          <Box mb={"nano"} alignSelf={"flex-start"}>
+            <Typography variant={"tituloSessoes"}>
               Guia de tamanhos
             </Typography>
           </Box>

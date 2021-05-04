@@ -12,7 +12,7 @@ export const PixScreen = () => {
       <ScrollView>
         <Box paddingX={"xxxs"} paddingY={"sm"}>
           <Box marginBottom={"xxxs"}>
-            <Typography fontFamily={"reservaSerifRegular"} fontSize={20}>
+            <Typography variant={"tituloSessoes"}>
               PIX
             </Typography>
           </Box>

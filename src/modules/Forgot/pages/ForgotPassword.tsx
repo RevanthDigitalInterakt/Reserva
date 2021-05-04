@@ -16,14 +16,14 @@ export const ForgotPassword: React.FC = () => {
       <Box
         paddingX="micro"
         marginTop="xxl"
-        marginBottom="sm"
       >
         <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+          <Typography variant={"tituloSessoes"}>
             Esqueci minha senha
           </Typography>
         </Box>
       </Box>
+      
       <Box paddingX="micro" flex={1}>
         <Box marginTop="sm" marginBottom="nano">
           <TextField

@@ -12,9 +12,9 @@ export const WishList: React.FC<{}> = () => {
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarDefaultBackButton showShadow />
       <ScrollView>
-        <Box paddingX="xxxs" marginTop="xs">
+        <Box paddingX="xxxs" marginTop="xs" mb="nano">
           <Box marginTop="xxxs">
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+            <Typography variant="tituloSessoes">
               Lista de desejos
             </Typography>
           </Box>
