@@ -284,7 +284,10 @@ export const Menu: React.FC<{}> = () => {
           <FixedMenuItem
             iconName="Heart"
             title="Favoritos"
-            onPress={() => {}}
+            onPress={() => {
+              console.log("ok");
+              navigation.navigate("WishList");
+            }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Message"
