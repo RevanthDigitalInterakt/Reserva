@@ -111,7 +111,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <Box px="xxxs">
               <Typography variant={"subtituloSessoes"}>Cores:</Typography>
             </Box>
-            <Box pr='md'>
+            <Box>
               <ScrollView horizontal>
                 <SelectColor
                   onPress={(color: any) => setSelectedColor(color)}
@@ -139,7 +139,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   leftIcon={<Icon name="Ruler" size={26} />}
                 />
               </Box>
-              <Box alignItems="center" mt='xxxs'>
+              <Box alignItems="center" mt="xxxs">
                 <RadioButtons
                   size={42}
                   fontSize={14}
@@ -165,8 +165,8 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Consultar prazo e valor do frete
             </Typography>
-            <Box flexDirection='row' mt='xxxs'>
-              <OutlineInput placeholder='Digite seu CEP' iconName='Search' />
+            <Box flexDirection="row" mt="xxxs">
+              <OutlineInput placeholder="Digite seu CEP" iconName="Search" />
             </Box>
             <Divider variant="fullWidth" my="xs" />
             <Box>
@@ -186,14 +186,14 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Receba novidades e promoções
             </Typography>
-            <Box flexDirection='column' mt='xxxs'>
+            <Box flexDirection="column" mt="xxxs">
               <OutlineInput
                 placeholder="Digite seu e-mail"
                 iconName="ChevronRight"
               />
             </Box>
-            <Box mt='xs' mb='sm'>
-              <Box mb='xxxs'>
+            <Box mt="xs" mb="sm">
+              <Box mb="xxxs">
                 <Typography
                   fontFamily="nunitoBold"
                   fontSize={14}
@@ -202,11 +202,14 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   Seu produto combina com
                 </Typography>
               </Box>
-              <Box mb='xxl' mx='sm' >
+              <Box mb="xxl">
                 <ScrollView horizontal>
                   {recomendedProducts.map((product, index) => (
-                    <Box ml={'micro'} key={index}>
-                      <ProductVerticalListCard imageWidth={screenWidth* .33} {...product} />
+                    <Box ml={"micro"} key={index}>
+                      <ProductVerticalListCard
+                        imageWidth={screenWidth * 0.33}
+                        {...product}
+                      />
                     </Box>
                   ))}
                 </ScrollView>
