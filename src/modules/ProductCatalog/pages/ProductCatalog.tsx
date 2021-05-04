@@ -1,9 +1,9 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
-import { useEffect } from "react";
-import { Dimensions, ScrollView, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { StackScreenProps } from '@react-navigation/stack';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   theme,
@@ -14,18 +14,18 @@ import {
   Icon,
   Picker,
   SearchBar,
-} from "reserva-ui";
-import { images } from "../../../assets";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
-import { FilterModal } from "../modals/FilterModal";
+} from 'reserva-ui';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { ApplicationState } from '../../../store';
+import { loadRequest } from '../../../store/ducks/repositories/actions';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { FilterModal } from '../modals/FilterModal';
 
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get('window').width;
 
-type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { safeArea } = route.params;
@@ -56,7 +56,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title="Excluir endereço"
-        confirmText={"Ok"}
+        confirmText={'Ok'}
         subtitle="Tem certeza que deseja excluir o endereço salvo?"
       />
       <Picker
@@ -66,19 +66,19 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: "Menor Preço",
+            text: 'Menor Preço',
           },
           {
-            text: "Maior Preço",
+            text: 'Maior Preço',
           },
           {
-            text: "Mais Novos",
+            text: 'Mais Novos',
           },
           {
-            text: "Mais Antigos",
+            text: 'Mais Antigos',
           },
           {
-            text: "Relevante",
+            text: 'Relevante',
           },
         ]}
         onConfirm={() => {
@@ -112,8 +112,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                       fontFamily="nunitoSemiBold"
                       fontSize={11}
                     >
-                      Chama no Whats! Seja atendido sem sair de casa. Clique
-                      aqui!
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
+                        Clique aqui!
+                      </Typography>
                     </Typography>
                   </Box>
                 </Box>
@@ -168,6 +170,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     >
                       Ordenar
                     </Typography>
+                    <Icon
+                      style={{ transform: [{ rotate: '90deg' }] }}
+                      name="ChevronRight"
+                      color="preto"
+                      marginX="nano"
+                      size={16}
+                    />
                   </Box>
                 </Button>
               </Box>
@@ -181,22 +190,22 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               <Box
                 borderColor="divider"
                 borderWidth="hairline"
-                bg={"backgoundInput"}
-                flexDirection={"row"}
+                bg={'backgoundInput'}
+                flexDirection={'row'}
                 alignItems="center"
-                px={"micro"}
+                px={'micro'}
                 height={34}
-                alignSelf={"flex-start"}
-                borderRadius={"pico"}
+                alignSelf={'flex-start'}
+                borderRadius={'pico'}
                 marginTop="nano"
               >
-                <Typography fontFamily={"nunitoRegular"} fontSize={13}>
+                <Typography fontFamily={'nunitoRegular'} fontSize={13}>
                   Camisetas
                 </Typography>
                 <Button
                   onPress={() => {}}
-                  marginLeft={"micro"}
-                  variant={"icone"}
+                  marginLeft={'micro'}
+                  variant={'icone'}
                   icon={<Icon name="Close" size={10} />}
                 />
               </Box>
@@ -218,7 +227,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 priceWithDiscount={297.0}
                 isFavorited={true}
                 onClickImage={() => {
-                  navigation.navigate("ProductDetail");
+                  navigation.navigate('ProductDetail');
                 }}
               />
               <ProductVerticalListCard

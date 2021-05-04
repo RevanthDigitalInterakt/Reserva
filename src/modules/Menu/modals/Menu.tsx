@@ -1,6 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
   Button,
@@ -10,11 +10,11 @@ import {
   TextField,
   theme,
   Typography,
-} from "reserva-ui";
-import { TopBarMenu } from "../components/TopBarMenu";
-import * as Animatable from "react-native-animatable";
-import { Alert, ScrollView, TouchableOpacity } from "react-native";
-import { useState } from "react";
+} from 'reserva-ui';
+import { TopBarMenu } from '../components/TopBarMenu';
+import * as Animatable from 'react-native-animatable';
+import { Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 
 interface IBreadCumbs {
   title: string;
@@ -58,7 +58,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("ProductCatalog");
+        navigation.navigate('ProductCatalog');
       }}
     >
       <Box
@@ -70,7 +70,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
       >
         <Typography
           fontSize={13}
-          fontFamily={highlight ? "nunitoBold" : "nunitoRegular"}
+          fontFamily={highlight ? 'nunitoBold' : 'nunitoRegular'}
         >
           {title}
         </Typography>
@@ -97,7 +97,7 @@ const MenuItem: React.FC<IMenuItem> = ({
           marginX="xxxs"
         >
           <Typography
-            color={highlight ? "vermelhoAlerta" : "preto"}
+            color={highlight ? 'vermelhoAlerta' : 'preto'}
             fontSize={13}
             fontFamily="nunitoBold"
           >
@@ -105,7 +105,7 @@ const MenuItem: React.FC<IMenuItem> = ({
           </Typography>
           <Box>
             <Icon
-              style={{ transform: [{ rotate: opened ? "90deg" : "0deg" }] }}
+              style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
               name="ChevronRight"
               color="preto"
               size={16}
@@ -135,9 +135,10 @@ const MenuItem: React.FC<IMenuItem> = ({
 
 export const FixedMenuItem: React.FC<{
   iconName: string;
-  title: string;
+  title: JSX.Element;
   onPress: Function;
-}> = ({ iconName, title, onPress }) => {
+  underline: boolean;
+}> = ({ iconName, title, onPress, underline }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Box
@@ -148,16 +149,7 @@ export const FixedMenuItem: React.FC<{
         marginX="xxxs"
       >
         <Icon mb="quarck" name={iconName} color="preto" size={18} />
-        <Box marginX="micro">
-          <Typography
-            alignSelf="flex-end"
-            color="preto"
-            fontSize={15}
-            fontFamily="nunitoBold"
-          >
-            {title}
-          </Typography>
-        </Box>
+        <Box marginX="micro">{title}</Box>
       </Box>
     </TouchableOpacity>
   );
@@ -166,61 +158,61 @@ export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation();
 
   const [mockSubItemList] = useState([
-    { title: "Roupas", highlight: true },
-    { title: "Ver tudo" },
-    { title: "Camisetas" },
-    { title: "Camisas" },
-    { title: "Polos" },
-    { title: "Casacos" },
-    { title: "Bermudas" },
-    { title: "Calças" },
-    { title: "Cuecas" },
-    { title: "Sungas" },
+    { title: 'Roupas', highlight: true },
+    { title: 'Ver tudo' },
+    { title: 'Camisetas' },
+    { title: 'Camisas' },
+    { title: 'Polos' },
+    { title: 'Casacos' },
+    { title: 'Bermudas' },
+    { title: 'Calças' },
+    { title: 'Cuecas' },
+    { title: 'Sungas' },
   ]);
   const [mockItens, setMockItens] = useState([
     {
-      title: "Novidades",
+      title: 'Novidades',
       opened: false,
       subItemList: mockSubItemList,
     },
     {
-      title: "Masculino",
+      title: 'Masculino',
       opened: false,
       subItemList: mockSubItemList,
     },
     {
-      title: "Infantil",
+      title: 'Infantil',
       opened: false,
       subItemList: mockSubItemList,
     },
     {
-      title: "Calçados",
+      title: 'Calçados',
       opened: false,
       subItemList: mockSubItemList,
     },
     {
-      title: "Acessórios",
+      title: 'Acessórios',
       opened: false,
       subItemList: mockSubItemList,
     },
     {
-      title: "Crie sua Camiseta",
+      title: 'Crie sua Camiseta',
       opened: false,
       subItemList: mockSubItemList,
     },
     {
-      title: "Parcerias",
+      title: 'Parcerias',
       opened: false,
       subItemList: mockSubItemList,
     },
     {
-      title: "Ofertas",
+      title: 'Ofertas',
       opened: false,
       subItemList: mockSubItemList,
       highlight: true,
     },
     {
-      title: "Sobre a Reserva",
+      title: 'Sobre a Reserva',
       opened: false,
       subItemList: mockSubItemList,
     },
@@ -271,30 +263,73 @@ export const Menu: React.FC<{}> = () => {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           <FixedMenuItem
             iconName="Profile"
-            title="Acessar Conta ou Cadastre-se"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                <Typography style={{ textDecorationLine: 'underline' }}>
+                  Acessar Conta
+                </Typography>
+                {'  '}ou{'  '}
+                <Typography style={{ textDecorationLine: 'underline' }}>
+                  Cadastre-se
+                </Typography>
+              </Typography>
+            }
             onPress={() => {
-              navigation.navigate("Login");
+              navigation.navigate('Login');
             }}
+            underline
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Heart"
-            title="Favoritos"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                Favoritos
+              </Typography>
+            }
             onPress={() => {
-              console.log("ok");
-              navigation.navigate("WishList");
+              console.log('ok');
+              navigation.navigate('WishList');
             }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Message"
-            title="Central de Ajuda"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                Central de Ajuda
+              </Typography>
+            }
             onPress={() => {
-              console.log("ok");
-              navigation.navigate("HelpCenter");
+              console.log('ok');
+              navigation.navigate('HelpCenter');
             }}
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Pin"
-            title="Lojas"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                Lojas
+              </Typography>
+            }
             onPress={() => {}}
           ></FixedMenuItem>
         </ScrollView>
