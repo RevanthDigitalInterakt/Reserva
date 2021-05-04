@@ -1,44 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { Platform, SafeAreaView, ScrollView, } from "react-native";
+import { Platform, SafeAreaView, ScrollView, Picker } from "react-native";
 import {
     Typography,
     Box,
     Button,
     TextField,
     DropDown,
+    OutlineInput,
+    Icon
 } from 'reserva-ui';
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
-
+import Modal from 'react-native-modal';
 export const WithdrawInStore = () => {
     const navigation = useNavigation();
-    const [state, setState] = useState("");
+
+    const [openState, setOpenState] = useState(false);
+    const [opencity, setOpenCity] = useState(false);
+    const [selectedValue, setSelectedValue] = useState("java");
+    const [state, setState] = useState("UF")
     const [cep, setCep] = useState("");
-    const [city, setCity] = useState("");
+    const [city, setCity] = useState("Cidade");
     const [disabled, setDisabled] = useState(true);
     const hairline = Platform.OS == 'android' ? "hairline" : null
-    const CheckDisabledCep = () => {
-        if (cep === "") {
-            setDisabled(true)
-        } else {
-            setDisabled(false)
-        }
 
-    }
-    const CheckStateCity = () => {
-        if (state === "" || city === "") {
-            setDisabled(true)
-        } else {
-            setDisabled(false)
-        }
-    }
+    const dataState = [
+        { label: "UF", value: "" },
+        { label: "AC", value: "1" },
+        { label: "AL", value: "2" },
+    ]
 
-    useEffect(() => {
-        CheckDisabledCep();
-    }, [cep])
-    useEffect(() => {
-        CheckStateCity();
-    }, [state, city])
+    const dataCity = [
+        { label: "Cidade", value: "" },
+        { label: "Vila Velha", value: "1" },
+        { label: "Vitória", value: "2" },
+    ]
+
 
     return (
         <SafeAreaView
@@ -85,41 +82,99 @@ export const WithdrawInStore = () => {
                     <Box mt="sm" >
                         <Typography variant={"tituloSessao"}>Ou selecione seu estado e cidade:</Typography>
 
-                        <Box flexDirection={"row"} mt={"micro"}>
-                            <Box
-                                borderTopWidth={hairline}
-                                flex={1}
-                                borderBottomWidth={hairline}
-                                borderLeftWidth={hairline}
-                                borderRightWidth={hairline}
-                                borderRadius="nano"
+                        <Box>
+                            <Modal
+                                isVisible={openState}
+                                onBackdropPress={() => setOpenState(!openState)}
                             >
-                                <DropDown
-                                    data={[
-                                        { label: "UF", value: "" },
-                                        { label: "AC", value: "1" },
-                                        { label: "AL", value: "2" },
-                                    ]}
-                                    onSelect={(value) => { setState(value) }}
-                                ></DropDown>
+                                <Box bg="white" width={"100%"} py="micro" px="nano" >
+                                    {dataState.map((item) => (
+                                        <Button alignSelf="flex-start" width="100%" onPress={() => { setOpenState(false); setState(item.label) }}>
+                                            <Box height={35} width="100%" justifyContent="center">
+                                                <Typography>{item.label}</Typography>
+                                            </Box>
+                                        </Button>
+                                    ))}
+
+                                </Box>
+                            </Modal>
+                        </Box>
+
+                        <Box>
+                            <Modal
+                                isVisible={opencity}
+                                onBackdropPress={() => setOpenCity(!opencity)}
+                            >
+                                <Box bg="white" width={"100%"} py="micro" px="nano" >
+                                    {dataCity.map((item) => (
+                                        <Button alignSelf="flex-start" width="100%" onPress={() => { setOpenCity(false); setCity(item.label) }}>
+                                            <Box height={35} width="100%" justifyContent="center">
+                                                <Typography>{item.label}</Typography>
+                                            </Box>
+                                        </Button>
+                                    ))}
+
+                                </Box>
+                            </Modal>
+                        </Box>
+
+                        <Box flexDirection={"row"} mt={"micro"} height={40}>
+                            <Box flex={1}>
+                                <Button flexDirection="row" onPress={() => setOpenState(!openState)}>
+                                    <Box
+                                        borderTopWidth={"hairline"}
+                                        height={40}
+                                        borderBottomWidth={"hairline"}
+                                        borderLeftWidth={"hairline"}
+                                        borderRightWidth={"hairline"}
+                                        borderRadius="nano"
+                                        alignItems={"center"}
+                                        paddingLeft="nano"
+                                        flexDirection={"row"}
+                                    >
+                                        <Typography>{state}</Typography>
+                                        <Box
+                                            marginLeft="xxs"
+                                            borderLeftWidth={"hairline"}
+                                            height={40}
+                                            width={30}
+                                            alignItems="center"
+                                            justifyContent="center"
+                                        >
+                                            <Icon name={'ArrowDown'} size={20} />
+                                        </Box>
+                                    </Box>
+                                </Button>
                             </Box>
-                            <Box
-                                marginLeft={"xxs"}
-                                borderTopWidth={hairline}
-                                flex={3}
-                                borderBottomWidth={hairline}
-                                borderLeftWidth={hairline}
-                                borderRightWidth={hairline}
-                                borderRadius="nano"
-                            >
-                                <DropDown
-                                    data={[
-                                        { label: "Cidade", value: "" },
-                                        { label: "Aracruz", value: "1" },
-                                        { label: "Vila Velha", value: "2" },
-                                    ]}
-                                    onSelect={(value) => { setCity(value) }}
-                                ></DropDown>
+                            <Box flex={3} marginLeft="xxs">
+                                <Button flexDirection="row" onPress={() => setOpenCity(!opencity)} >
+                                    <Box
+                                        flex={1}
+                                        borderTopWidth={"hairline"}
+                                        height={40}
+                                        borderBottomWidth={"hairline"}
+                                        borderLeftWidth={"hairline"}
+                                        borderRightWidth={"hairline"}
+                                        borderRadius="nano"
+                                        alignItems={"center"}
+                                        paddingLeft="nano"
+                                        flexDirection={"row"}
+                                    >
+                                        <Typography>{city}</Typography>
+                                        <Box alignItems="flex-end" flex={1}>
+                                            <Box
+                                                marginLeft="md"
+                                                borderLeftWidth={"hairline"}
+                                                height={40}
+                                                width={30}
+                                                alignItems="center"
+                                                justifyContent="center"
+                                            >
+                                                <Icon name={'ArrowDown'} size={20} />
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                </Button>
                             </Box>
                         </Box>
 
