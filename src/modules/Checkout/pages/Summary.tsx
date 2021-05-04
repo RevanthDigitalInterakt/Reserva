@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
-  ProgressBar,
   ProductHorizontalListCard,
-  ProductDetailCard,
   Divider,
   Button,
   Icon,
@@ -22,7 +20,8 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import LottieView from 'lottie-react-native';
 import AnimatedLottieView from 'lottie-react-native';
 import ReactNativeModal from 'react-native-modal';
-type Props = StackScreenProps<RootStackParamList, 'Summary'>;
+
+type Props = StackScreenProps<RootStackParamList, 'SummaryScreen'>;
 
 export const SummaryScreen = ({ navigation, route }: Props) => {
   const [quantity, setQuantity] = useState(1);
@@ -30,8 +29,11 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
   const [showLottie, setShowLottie] = React.useState(false);
 
   useEffect(() => {
-    lottieRef.current?.play();
+    if (showLottie) {
+      lottieRef.current?.play();
+    }
   }, [showLottie]);
+
   const [lisProduct, setLisProduct] = useState([
     {
       discountTag: 18,
@@ -143,9 +145,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
       <ScrollView>
         <Box paddingX={'xxxs'} paddingY={'xxs'}>
           <Box bg={'white'} marginTop={'xxs'}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={28}>
-              Resumo
-            </Typography>
+            <Typography variant="tituloSessoes">Resumo</Typography>
             <Box flexDirection="row" justifyContent="space-between" mt="xs">
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                 Produtos
@@ -281,7 +281,6 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
           }}
           title="FECHAR PEDIDO"
           color="backgroundApp"
-          mb="nano"
           bg="verdeSucesso"
           width="100%"
           height={50}
@@ -300,7 +299,10 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
         <LottieView
           style={{ flex: 1 }}
           onAnimationFinish={() => {
-            navigation.goBack();
+            setShowLottie(false);
+            navigation.navigate('PurchaseConfirmationScreen', {
+              paymentType: route.params.paymentType,
+            });
           }}
           ref={lottieRef}
           loop={false}

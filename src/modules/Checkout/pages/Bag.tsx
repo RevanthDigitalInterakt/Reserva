@@ -28,7 +28,6 @@ export const BagScreen = () => {
 
   const [lisProduct, setLisProduct] = useState([
     {
-      discountTag: 18,
       itemColor: 'Branca',
       ItemSize: '41',
       productTitle: 'CAMISETA BÁSICA RESERVA',
@@ -75,9 +74,7 @@ export const BagScreen = () => {
       <ScrollView>
         <Box paddingX={'xxxs'} paddingY={'xxs'}>
           <Box bg={'white'} marginTop={'xxs'}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={28}>
-              Sacola (2)
-            </Typography>
+            <Typography variant="tituloSessoes">Sacola (2)</Typography>
           </Box>
           <Box mb="xs">
             <Box flexDirection="row">
@@ -167,8 +164,11 @@ export const BagScreen = () => {
                     </Box>
 
                     <Button
+                      fontSize={'11px'}
                       title="ADICIONAR"
-                      variant="primarioEstreito"
+                      bg="preto"
+                      color="white"
+                      height={'30px'}
                       width={'100%'}
                     />
                   </Box>
@@ -307,7 +307,7 @@ export const BagScreen = () => {
 
       <Box
         width={'100%'}
-        height={137}
+        height={145}
         px="xxs"
         bg="white"
         style={{ elevation: Platform.OS == 'android' ? 5 : 0 }}
@@ -344,9 +344,13 @@ export const BagScreen = () => {
             </Box>
           </Box>
         </Box>
-
         <Button
-          onPress={() => navigation.navigate('SummaryScreen')}
+          onPress={() => {
+            navigation.navigate('DeliveryScreen');
+            // Math.random() >= 0.5
+            //   ? navigation.navigate("DeliveryScreen")
+            //   : navigation.navigate("LoginAlternative");
+          }}
           title="FINALIZAR COMPRA"
           variant="primarioEstreito"
           inline

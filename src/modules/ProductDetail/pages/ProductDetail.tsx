@@ -47,37 +47,37 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   recomendedProducts = [
     {
       discountTag: 18,
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'CAMISETA BÁSICA RESERVA',
+      productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
   ];
   const [isVisible, setIsVisible] = useState(false);
   return (
     <SafeAreaView>
-      <Box bg='white'>
+      <Box bg="white">
         <ModalBag
           isVisible={isVisible}
           onBackdropPress={() => {
@@ -89,29 +89,26 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           <ProductDetailCard
             installmentsNumber={3}
             installmentsPrice={99.9}
-            title='CAMISETA BÁSICA RESERVA'
+            title="Camiseta Básica Reserva"
             discountTag={18}
             price={345}
             priceWithDiscount={297}
             imagesWidth={screenWidth}
             images={[
-              'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
-              'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
+              "https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png",
+              "https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png",
             ]}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState);
             }}
             onClickShare={() => {
-              Alert.alert('compartilhar!!');
+              Alert.alert("compartilhar!!");
             }}
           />
-          <Box px='xxxs'>
-            <Box mt='xxs'>
-              <Typography
-                fontFamily='reservaSerifRegular'
-                fontSize={20}
-              >
+          <Box px="xxxs">
+            <Box mt="xxxs">
+              <Typography variant={"tituloSessoes"}>
                 Cores:
               </Typography>
               <Box pr='micro' mt='xxxs'>
@@ -125,79 +122,80 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 </ScrollView>
               </Box>
             </Box>
-            <Box mt='xxs'>
+            <Box mt="xxxs">
               <Box
-                flexDirection='row'
-                justifyContent='space-between'
-                alignItems='center'
-                mb='xxxs'
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                <Typography fontFamily='reservaSerifRegular' fontSize='20px'>Tamanhos:</Typography>
+                <Typography variant={"tituloSessoes"}>
+                  Tamanhos:
+                </Typography>
                 <Button
-                  title='Guia de medidas'
-                  fontFamily='nunitoRegular'
-                  fontSize={'10px'}
-                  py='nano'
-                  fontWeight='normal'
-                  leftIcon={<Icon name='Ruler' size={26} />}
+                  title="Guia de medidas"
+                  fontFamily="nunitoRegular"
+                  fontSize={"10px"}
+                  py="nano"
+                  fontWeight="normal"
+                  leftIcon={<Icon name="Ruler" size={26} />}
                 />
               </Box>
-              <Box alignItems='center'>
+              <Box alignItems="center" mt='xxxs'>
                 <RadioButtons
-                  size={44}
+                  size={42}
                   fontSize={14}
                   onSelectedChange={() => {}}
-                  optionsList={['PP', 'P', 'M', 'G', 'GG', '3G']}
-                  defaultSelectedItem={'G'}
+                  optionsList={["PP", "P", "M", "G", "GG", "3G"]}
+                  defaultSelectedItem={"G"}
                 />
               </Box>
             </Box>
 
             <Button
-              mt='xxs'
-              title='ADICIONAR À SACOLA'
-              variant='primarioEstreito'
+              mt="xxxs"
+              title="ADICIONAR À SACOLA"
+              variant="primarioEstreito"
               onPress={() => {
                 setIsVisible(true);
               }}
               inline
             />
 
-            <Box mt='nano' flexDirection='row'></Box>
-            <Divider variant='fullWidth' my='xs' />
-            <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
+            <Box mt="nano" flexDirection="row"></Box>
+            <Divider variant="fullWidth" my="xs" />
+            <Typography variant={"subtituloSessoes"}>
               Consultar prazo e valor do frete
             </Typography>
             <Box flexDirection='row' mt='xxxs'>
               <OutlineInput placeholder='Digite seu CEP' iconName='Search' />
             </Box>
-            <Divider variant='fullWidth' my='xs' />
+            <Divider variant="fullWidth" my="xs" />
             <Typography>
               <Button>
-                <Box flexDirection='row' alignItems='center'>
-                  <Icon name='Add' size={15} color='preto' />
-                  <Typography fontFamily='reservaSerifRegular' fontSize='20px'>
+                <Box flexDirection="row" alignItems="center">
+                  <Icon name="Add" size={15} color="preto" />
+                  <Typography variant="subtituloSessoes">
                     Sobre este produto
                   </Typography>
                 </Box>
               </Button>
             </Typography>
-            <Divider variant='fullWidth' my='xs' />
-            <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
+            <Divider variant="fullWidth" my="xs" />
+            <Typography variant={"subtituloSessoes"}>
               Receba novidades e promoções
             </Typography>
             <Box flexDirection='column' mt='xxxs'>
               <OutlineInput
-                placeholder='Digite seu e-mail'
-                iconName='ChevronRight'
+                placeholder="Digite seu e-mail"
+                iconName="ChevronRight"
               />
             </Box>
             <Box mt='xs' mb='sm'>
               <Box mb='xxxs'>
                 <Typography
-                  fontFamily='nunitoBold'
+                  fontFamily="nunitoBold"
                   fontSize={14}
-                  fontWeight='bold'
+                  fontWeight="bold"
                 >
                   Seu produto combina com
                 </Typography>

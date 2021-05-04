@@ -26,13 +26,13 @@ export const ClothingCare: React.FC<{}> = () => {
 
       <ScrollView>
         <Box variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+          <Box mb={"nano"} alignSelf={"flex-start"}>
+            <Typography variant={"tituloSessoes"}>
               Cuidados com a roupa
             </Typography>
           </Box>
 
-          <Box>
+          <Box mb={"xxxs"}>
             <Typography fontFamily={"nunitoRegular"} fontSize={13}>
               Joga na máquina e tá tudo certo!" Na, na, ni, na, não! 
               Saiba aqui o que fazer para manter a qualidade da sua peça reserva e prolongar ao 

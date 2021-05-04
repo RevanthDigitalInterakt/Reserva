@@ -1,11 +1,11 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
-import { Box, Button, Icon, Typography, Alert } from 'reserva-ui';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import Card, { FlagTypes } from '../Components/Card';
-import { useNavigation } from '@react-navigation/core';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import { StackScreenProps } from "@react-navigation/stack";
+import React from "react";
+import { Box, Button, Icon, Typography, Alert } from "reserva-ui";
+import { SafeAreaView, ScrollView } from "react-native";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import Card, { FlagTypes } from "../Components/Card";
+import { useNavigation } from "@react-navigation/core";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
 interface ListCardsScreenProps {}
 interface CardProps {
@@ -15,27 +15,27 @@ interface CardProps {
   id: string;
 }
 
-type Props = StackScreenProps<RootStackParamList, 'ListCards'>;
+type Props = StackScreenProps<RootStackParamList, "ListCards">;
 
 export const ListCards = ({ navigation, route }: Props) => {
   const [cards, setCards] = React.useState<CardProps[]>([
     {
-      cardNumber: '3000400050006000',
-      flag: 'elo',
+      cardNumber: "3000400050006000",
+      flag: "elo",
       main: false,
-      id: '01',
+      id: "01",
     },
     {
-      cardNumber: '3000400050006000',
-      flag: 'mastercard',
+      cardNumber: "3000400050006000",
+      flag: "mastercard",
       main: true,
-      id: '02',
+      id: "02",
     },
     {
-      cardNumber: '3000400050006000',
-      flag: 'visa',
+      cardNumber: "3000400050006000",
+      flag: "visa",
       main: false,
-      id: '03',
+      id: "03",
     },
   ]);
   const [cardSelected, setCardSelected] = React.useState<CardProps>(
@@ -75,13 +75,13 @@ export const ListCards = ({ navigation, route }: Props) => {
         <TopBarBackButton showShadow />
 
         <Box
-          overflow={'hidden'}
+          overflow={"hidden"}
           // height={'80%'}
           paddingHorizontal={20}
-          pt={'md'}
+          pt={"md"}
         >
-          <Box mb={'xxxs'}>
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+          <Box mb={"xxxs"}>
+            <Typography variant="tituloSessoes">
               Meus cartões
             </Typography>
           </Box>
@@ -111,11 +111,11 @@ export const ListCards = ({ navigation, route }: Props) => {
         <Button
           mt="xs"
           onPress={() =>
-            navigation.navigate('NewCard', {
-              isCheckout: false,
+            navigation.navigate("NewCard", {
+              isCheckout: isCheckout,
             })
           }
-          title={'ADICIONAR CARTÃO'}
+          title={"ADICIONAR CARTÃO"}
           variant="primarioEstreitoOutline"
           padding="xl"
         />
@@ -126,8 +126,8 @@ export const ListCards = ({ navigation, route }: Props) => {
               inline
               title="PRÓXIMO"
               onPress={() =>
-                navigation.navigate('NewCard', {
-                  isCheckout: true,
+                navigation.navigate("SummaryScreen", {
+                  paymentType: "Credit",
                 })
               }
             />
@@ -136,8 +136,8 @@ export const ListCards = ({ navigation, route }: Props) => {
       </SafeAreaView>
       <Alert
         isVisible={isVisibleSuccessTrash}
-        title={'Seu cartão foi excluído com sucesso'}
-        confirmText={'OK'}
+        title={"Seu cartão foi excluído com sucesso"}
+        confirmText={"OK"}
         onConfirm={() => {
           setIsVisibleSuccessTrash(false);
         }}
@@ -147,12 +147,12 @@ export const ListCards = ({ navigation, route }: Props) => {
       />
       <Alert
         isVisible={isVisibleModalCard}
-        title={'Cartão padrão'}
+        title={"Cartão padrão"}
         subtitle={`Tem certeza que deseja tornar o cartão **** ${cardSelected?.cardNumber?.substring(
           12
         )} seu cartão principal?`}
-        confirmText={'SIM'}
-        cancelText={'NÃO'}
+        confirmText={"SIM"}
+        cancelText={"NÃO"}
         onConfirm={() => {
           handleMainCard(cardSelected.id);
         }}
@@ -168,10 +168,10 @@ export const ListCards = ({ navigation, route }: Props) => {
 
       <Alert
         isVisible={isVisibleModalTrash}
-        title={'Excluir cartão'}
+        title={"Excluir cartão"}
         subtitle={`Tem certeza que deseja excluir o cartão salvo?`}
-        confirmText={'SIM'}
-        cancelText={'NÃO'}
+        confirmText={"SIM"}
+        cancelText={"NÃO"}
         onConfirm={() => {
           handleDeleteCard(cardSelected.id);
           setIsVisibleSuccessTrash(true);

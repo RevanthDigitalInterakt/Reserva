@@ -20,6 +20,7 @@ import { SummaryScreen } from '../modules/Checkout/pages/Summary';
 import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
 import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod';
 import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher';
+import { BarCodePayment } from '../modules/Checkout/pages/BarCodePayment';
 import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
 import { PixScreen } from '../modules/Checkout/pages/Pix';
 
@@ -51,13 +52,19 @@ import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
 import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
 import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
+import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation';
+import { LoginAlternative } from '../modules/Login/pages/LoginAlternative';
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
-  NewAddress: { id?: number };
+  NewAddress: { id?: number; isCheckout: boolean };
+  AddressList: { isCheckout: boolean };
   ListCards: { isCheckout: boolean };
   NewCard: { isCheckout: boolean };
-  Summary: {
+  SummaryScreen: {
+    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard';
+  };
+  PurchaseConfirmationScreen: {
     paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard';
   };
 };
@@ -75,8 +82,18 @@ const MainStackScreen = () => {
       <MainStack.Screen name="HomeTabs" component={Tabs} />
       <MainStack.Screen name="Example" component={ExampleScreen} />
       <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-      <MainStack.Screen name="AddressList" component={AddressList} />
-      <MainStack.Screen name="NewAddress" component={NewAddress} />
+      <MainStack.Screen
+        name="AddressList"
+        component={AddressList}
+        initialParams={{ isCheckout: false }}
+      />
+      <MainStack.Screen
+        name="NewAddress"
+        component={NewAddress}
+        initialParams={{
+          isCheckout: false,
+        }}
+      />
       <MainStack.Screen name="WishList" component={WishList} />
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen name="BagScreen" component={BagScreen} />
@@ -84,13 +101,17 @@ const MainStackScreen = () => {
         name="SummaryScreen"
         component={SummaryScreen}
         initialParams={{
-          paymentType: 'GiftCard',
+          paymentType: 'CreditCard',
         }}
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
       <MainStack.Screen
         name="PaymentMethodScreen"
         component={PaymentMethodScreen}
+      />
+      <MainStack.Screen
+        name="PurchaseConfirmationScreen"
+        component={PurchaseConfirmationScreen}
       />
       <MainStack.Screen
         name="VirtualDebitCardCaixaScreen"
@@ -101,6 +122,7 @@ const MainStackScreen = () => {
         name="GiftVoucherScreen"
         component={GiftVoucherScreen}
       />
+      <MainStack.Screen name="BarCodePayment" component={BarCodePayment} />
       <MainStack.Screen name="Login" component={LoginScreen} />
       <MainStack.Screen name="Register" component={Register} />
       <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
@@ -142,7 +164,7 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name="ListCards"
         component={ListCards}
-        initialParams={{ isCheckout: true }}
+        initialParams={{ isCheckout: false }}
       />
       <MainStack.Screen
         name="NewCard"
@@ -172,6 +194,7 @@ const AppRouting = () => {
         component={Menu}
       />
       <RootStack.Screen name="Login" component={LoginScreen} />
+      <RootStack.Screen name="LoginAlternative" component={LoginAlternative} />
     </RootStack.Navigator>
   );
 };

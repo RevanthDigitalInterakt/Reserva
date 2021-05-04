@@ -24,8 +24,8 @@ export const EditPassword: React.FC<{}> = () => {
       <TopBarBackButton />
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+          <Box mb={"nano"} alignSelf={"flex-start"}>
+            <Typography variant="tituloSessoes">
               Alterar senha
             </Typography>
           </Box>

@@ -20,23 +20,18 @@ export const NotificationProfile: React.FC<{}> = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      flex={1}
-      style={{ justifyContent: "space-between" }}
-      backgroundColor="white"
-    >
+    <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton />
-
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+          <Box mb={"nano"} alignSelf={"flex-start"}>
+            <Typography variant="tituloSessoes">
               Notificações
             </Typography>
           </Box>
 
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="nunitoRegular" fontSize={15}>
+          <Box alignSelf={"flex-start"}>
+            <Typography variant="subtituloSessoes">
               Qual é o tipo de conteúdo que você quer receber? Marque abaixo as
               opções de contato:
             </Typography>
@@ -78,10 +73,7 @@ export const NotificationProfile: React.FC<{}> = () => {
           </Box>
         </Box>
       </ScrollView>
-
-      <Box bottom={0} justifyContent={"flex-end"}>
-        <Button title="CONFIRMAR" variant={"primarioMaior"}></Button>
-      </Box>
+      <Button title="CONFIRMAR" variant="primarioEstreito" inline />
     </SafeAreaView>
   );
 };

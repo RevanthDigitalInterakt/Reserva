@@ -6,10 +6,11 @@ import { Typography, Box, Button, Icon } from "reserva-ui";
 interface IOrder {
   onPress?: () => void;
   delivered?: boolean;
+  pixPending?: boolean;
   obj?: object;
 }
 
-const Order = ({ delivered, onPress }: IOrder) => {
+const Order = ({ delivered, pixPending, onPress }: IOrder) => {
   // TODO: na hr da integração remover o delivered e OnPress e tratar aqui dentro do componente. foi usado apenas para demonstração.
   return (
     <>
@@ -48,28 +49,62 @@ const Order = ({ delivered, onPress }: IOrder) => {
           >
             12-3456789
           </Typography>
-
-          {delivered ? (
-            <Typography
-              style={{ marginTop: 5 }}
-              mt={"micro"}
-              fontSize={14}
-              fontFamily="nunitoBold"
-              color="verdeSucesso"
-            >
-              Produto entregue
-            </Typography>
-          ) : (
-            <Typography
-              style={{ marginTop: 5 }}
-              mt={"micro"}
-              fontSize={14}
-              fontFamily="nunitoBold"
-              color="preto"
-            >
-              Entrega prevista: 04/04/2021
-            </Typography>
-          )}
+          {
+            pixPending && (
+              <Box 
+                flexDirection="row" 
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Typography
+                  style={{ marginTop: 5, marginBottom: 5 }}
+                  mt={"micro"}
+                  fontSize={14}
+                  fontFamily="nunitoBold"
+                  color="preto"
+                >
+                  Pagamento pendente - PIX
+                </Typography>
+                <Box
+                  flexDirection="row" 
+                  alignItems="center"
+                >
+                  <Box marginRight="nano">
+                    <Icon name="Clock" size={15} />
+                  </Box>
+                  <Typography>
+                    21:30
+                  </Typography>
+                </Box>
+              </Box>
+            )
+          }
+          {
+            delivered && (
+              <Typography
+                style={{ marginTop: 5, marginBottom: 5 }}
+                mt={"micro"}
+                fontSize={14}
+                fontFamily="nunitoBold"
+                color="verdeSucesso"
+              >
+                Produto entregue
+              </Typography>
+            ) 
+          }
+          {
+            !delivered && !pixPending && (
+              <Typography
+                style={{ marginTop: 5, marginBottom: 5 }}
+                mt={"micro"}
+                fontSize={14}
+                fontFamily="nunitoBold"
+                color="preto"
+              >
+                Entrega prevista: 04/04/2021
+              </Typography>
+            ) 
+          }
 
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
             Endereço de entrega: AV. Castelo Branco, 123, Praia da Costa - Vila

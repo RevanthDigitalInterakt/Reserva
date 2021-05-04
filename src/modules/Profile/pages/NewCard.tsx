@@ -114,7 +114,7 @@ export const NewCard = ({ navigation, route }: Props) => {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           {!isCheckout ? (
-            <Box>
+            <Box mb="nano">
               <Box mt={'md'} overflow={'hidden'} paddingHorizontal={20}>
                 <Box
                   mb={'xxs'}
@@ -122,7 +122,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Typography fontSize={20} fontFamily="reservaSerifRegular">
+                  <Typography variant="tituloSessoes">
                     Adicionar cartão
                   </Typography>
                   {!handleNewTwoCards &&
@@ -262,7 +262,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                   </Box>
                 </Box>
 
-                <Box mt="xs" alignItems="center" justifyContent="center">
+                <Box my="xs" alignItems="center" justifyContent="center">
                   <Toggle
                     onValueChange={(e) => setMainCard(!mainCard)}
                     value={mainCard}
@@ -274,7 +274,7 @@ export const NewCard = ({ navigation, route }: Props) => {
               </Box>
             </Box>
           ) : (
-            <>
+            <Box pb="sm">
               <CardCheckout
                 cardOne={card}
                 onChangeCardOne={setCard}
@@ -283,7 +283,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                 handleNewTwoCards={handleNewTwoCards}
                 setHandleNewTwoCards={setHandleNewTwoCards}
               />
-            </>
+            </Box>
           )}
         </ScrollView>
         <Box>
