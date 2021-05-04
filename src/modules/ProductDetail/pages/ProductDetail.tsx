@@ -315,7 +315,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   onScroll={onChangeRecomended}
                 >
                   {recomendedProducts.map((product, index) => (
-                    <Box mr={"micro"} key={index} height={200}>
+                    <Box mx="nano" mr={"micro"} key={index} height={200}>
                       <ProductVerticalListCard
                         imageWidth={137}
                         small
