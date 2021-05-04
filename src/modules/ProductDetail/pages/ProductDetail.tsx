@@ -108,9 +108,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           />
           <Box px="xxxs">
             <Box mt="xxs">
-              <Typography variant={"tituloSessoes"}>
-                Cores:
-              </Typography>
+              <Typography variant={"subtituloSessoes"}>Cores:</Typography>
               <Box pr="micro">
                 <ScrollView horizontal>
                   <SelectColor
@@ -128,9 +126,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant={"tituloSessoes"}>
-                  Tamanhos:
-                </Typography>
+                <Typography variant={"subtituloSessoes"}>Tamanhos:</Typography>
                 <Button
                   title="Guia de medidas"
                   fontFamily="nunitoRegular"
@@ -163,25 +159,28 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
             <Box mt="nano" flexDirection="row"></Box>
             <Divider variant="fullWidth" my="xs" />
-            <Typography variant={"subtituloSessoes"}>
+            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Consultar prazo e valor do frete
             </Typography>
             <Box flexDirection="row" mt="nano">
               <OutlineInput placeholder="Digite seu CEP" iconName="Search" />
             </Box>
             <Divider variant="fullWidth" my="xs" />
-            <Typography>
-              <Button>
-                <Box flexDirection="row" alignItems="center">
-                  <Icon name="Add" size={15} color="preto" />
-                  <Typography variant="subtituloSessoes">
-                    Sobre este produto
-                  </Typography>
-                </Box>
-              </Button>
-            </Typography>
+            <Box>
+              <Typography>
+                <Button>
+                  <Box flexDirection="row" alignItems="center">
+                    <Icon name="Add" size={15} color="preto" />
+                    <Typography variant="subtituloSessoes">
+                      Sobre este produto
+                    </Typography>
+                  </Box>
+                </Button>
+              </Typography>
+            </Box>
+
             <Divider variant="fullWidth" my="xs" />
-            <Typography variant={"subtituloSessoes"}>
+            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Receba novidades e promoções
             </Typography>
             <Box flexDirection="column" mt="nano">
