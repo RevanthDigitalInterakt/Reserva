@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Platform, SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect, useRef, useState } from 'react';
+import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
@@ -12,17 +12,18 @@ import {
   Toggle,
   TextField,
   ProductVerticalListCard,
-} from "reserva-ui";
-import { animations } from "../../../assets";
+} from 'reserva-ui';
+import { animations } from '../../../assets';
 
-import { PriceCustom } from "../components/PriceCustom";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import LottieView from "lottie-react-native";
-import AnimatedLottieView from "lottie-react-native";
-import ReactNativeModal from "react-native-modal";
-type Props = StackScreenProps<RootStackParamList, "Summary">;
+import { PriceCustom } from '../components/PriceCustom';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import LottieView from 'lottie-react-native';
+import AnimatedLottieView from 'lottie-react-native';
+import ReactNativeModal from 'react-native-modal';
+
+type Props = StackScreenProps<RootStackParamList, 'SummaryScreen'>;
 
 export const SummaryScreen = ({ navigation, route }: Props) => {
   const [quantity, setQuantity] = useState(1);
@@ -30,31 +31,34 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
   const [showLottie, setShowLottie] = React.useState(false);
 
   useEffect(() => {
-    lottieRef.current?.play();
+    if (showLottie) {
+      lottieRef.current?.play();
+    }
   }, [showLottie]);
+
   const [lisProduct, setLisProduct] = useState([
     {
       discountTag: 18,
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      itemColor: 'Branca',
+      ItemSize: '41',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
     {
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      itemColor: 'Branca',
+      ItemSize: '41',
+      productTitle: 'CAMISETA BÁSICA RESERVA',
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
   ]);
   const AddProduct = (count: number) => {
@@ -72,7 +76,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
   const paymentType = () => {
     const { paymentType } = route?.params;
     switch (paymentType) {
-      case "Boleto":
+      case 'Boleto':
         return (
           <Box flexDirection="row" alignItems="center">
             <Box mr="nano">
@@ -83,30 +87,30 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             </Typography>
           </Box>
         );
-      case "Credit":
+      case 'Credit':
         return (
           <Box flexDirection="row" alignItems="center">
             <Box mr="nano">
               <Icon name="Card" size={18} />
             </Box>
             <Typography fontFamily="nunitoRegular" fontSize={15}>
-              Cartão de crédito{"     "} **** 6582
+              Cartão de crédito{'     '} **** 6582
             </Typography>
           </Box>
         );
-      case "Debit":
+      case 'Debit':
         return (
           <Box flexDirection="row" alignItems="center">
             <Box mr="nano">
               <Icon name="Caixa" size={18} />
             </Box>
             <Typography fontFamily="nunitoRegular" fontSize={15}>
-              Cartão de Débito Virtual Caixa{"     "} **** 6582
+              Cartão de Débito Virtual Caixa{'     '} **** 6582
             </Typography>
           </Box>
         );
 
-      case "GiftCard":
+      case 'GiftCard':
         return (
           <Box flexDirection="row" alignItems="center">
             <Box mr="nano">
@@ -117,7 +121,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             </Typography>
           </Box>
         );
-      case "PIX":
+      case 'PIX':
         return (
           <Box flexDirection="row" alignItems="center">
             <Box mr="nano">
@@ -134,22 +138,22 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
   return (
     <SafeAreaView
       style={{
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
         flex: 1,
-        backgroundColor: "#FFF",
+        backgroundColor: '#FFF',
       }}
     >
       <TopBarBackButton showShadow />
       <ScrollView>
-        <Box paddingX={"xxxs"} paddingY={"xxs"}>
-          <Box bg={"white"} marginTop={"xxs"}>
+        <Box paddingX={'xxxs'} paddingY={'xxs'}>
+          <Box bg={'white'} marginTop={'xxs'}>
             <Typography variant="tituloSessoes">Resumo</Typography>
             <Box flexDirection="row" justifyContent="space-between" mt="xs">
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                 Produtos
               </Typography>
-              <Button onPress={() => {}} pb={"quarck"}>
-                <Typography style={{ textDecorationLine: "underline" }}>
+              <Button onPress={() => {}} pb={'quarck'}>
+                <Typography style={{ textDecorationLine: 'underline' }}>
                   editar
                 </Typography>
               </Button>
@@ -157,9 +161,9 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
           </Box>
 
           {lisProduct.map((item, index) => (
-            <Box key={index} bg={"white"} marginTop={"xxxs"}>
+            <Box key={index} bg={'white'} marginTop={'xxxs'}>
               <ProductHorizontalListCard
-                currency={"R$"}
+                currency={'R$'}
                 discountTag={item.discountTag}
                 itemColor={item.itemColor}
                 ItemSize={item.ItemSize}
@@ -177,7 +181,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             </Box>
           ))}
 
-          <Divider marginTop={"xxxs"} variant={"fullWidth"} />
+          <Divider marginTop={'xxxs'} variant={'fullWidth'} />
           <Box>
             <Box
               flexDirection="row"
@@ -188,15 +192,15 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
               <Typography fontFamily="reservaSerifRegular" fontSize={20}>
                 Entrega
               </Typography>
-              <Button onPress={() => {}} pb={"quarck"}>
-                <Typography style={{ textDecorationLine: "underline" }}>
+              <Button onPress={() => {}} pb={'quarck'}>
+                <Typography style={{ textDecorationLine: 'underline' }}>
                   editar
                 </Typography>
               </Button>
             </Box>
             <Box>
               <Typography fontFamily="nunitoRegular" fontSize={15}>
-                R. Tomás Antônio Gonzaga -{" "}
+                R. Tomás Antônio Gonzaga -{' '}
               </Typography>
               <Typography fontFamily="nunitoRegular" fontSize={15}>
                 Cristóvão Colombo, Vila Velha - ES
@@ -204,7 +208,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             </Box>
           </Box>
 
-          <Divider marginTop={"xxxs"} variant={"fullWidth"} />
+          <Divider marginTop={'xxxs'} variant={'fullWidth'} />
           <Box>
             <Box
               flexDirection="row"
@@ -215,8 +219,8 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
               <Typography fontFamily="reservaSerifRegular" fontSize={20}>
                 Forma de Pagamento
               </Typography>
-              <Button onPress={() => {}} pb={"quarck"}>
-                <Typography style={{ textDecorationLine: "underline" }}>
+              <Button onPress={() => {}} pb={'quarck'}>
+                <Typography style={{ textDecorationLine: 'underline' }}>
                   editar
                 </Typography>
               </Button>
@@ -224,33 +228,33 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             {paymentType()}
           </Box>
 
-          <Divider marginTop={"xxxs"} variant={"fullWidth"} />
+          <Divider marginTop={'xxxs'} variant={'fullWidth'} />
 
           <Box mt="xxs">
             <Box
-              marginBottom={"micro"}
-              flexDirection={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
+              marginBottom={'micro'}
+              flexDirection={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
             >
-              <Typography variant={"precoAntigo3"}>Subtotal</Typography>
+              <Typography variant={'precoAntigo3'}>Subtotal</Typography>
               <PriceCustom
-                fontFamily={"nunitoSemiBold"}
+                fontFamily={'nunitoSemiBold'}
                 sizeInterger={15}
                 sizeDecimal={11}
                 num={1254.0}
               />
             </Box>
             <Box
-              marginBottom={"micro"}
-              flexDirection={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
+              marginBottom={'micro'}
+              flexDirection={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
             >
-              <Typography variant={"precoAntigo3"}>Descontos</Typography>
+              <Typography variant={'precoAntigo3'}>Descontos</Typography>
 
               <PriceCustom
-                fontFamily={"nunitoSemiBold"}
+                fontFamily={'nunitoSemiBold'}
                 negative={true}
                 sizeInterger={15}
                 sizeDecimal={11}
@@ -258,14 +262,14 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
               />
             </Box>
             <Box
-              marginBottom={"micro"}
-              flexDirection={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
+              marginBottom={'micro'}
+              flexDirection={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
             >
-              <Typography variant={"precoAntigo3"}>Total</Typography>
+              <Typography variant={'precoAntigo3'}>Total</Typography>
               <PriceCustom
-                fontFamily={"nunitoBold"}
+                fontFamily={'nunitoBold'}
                 sizeInterger={20}
                 sizeDecimal={11}
                 num={1000.0}
@@ -290,7 +294,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
       <ReactNativeModal
         isVisible={showLottie}
         backdropOpacity={0.7}
-        backdropColor={"black"}
+        backdropColor={'black'}
         animationInTiming={300}
         animationIn="fadeIn"
         animationOut="fadeIn"
@@ -298,7 +302,10 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
         <LottieView
           style={{ flex: 1 }}
           onAnimationFinish={() => {
-            navigation.goBack();
+            setShowLottie(false);
+            navigation.navigate('PurchaseConfirmationScreen', {
+              paymentType: route.params.paymentType,
+            });
           }}
           ref={lottieRef}
           loop={false}

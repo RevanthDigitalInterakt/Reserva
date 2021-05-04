@@ -52,6 +52,7 @@ import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
 import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
 import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
+import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation';
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
@@ -59,7 +60,10 @@ export type RootStackParamList = {
   AddressList: { isCheckout: boolean };
   ListCards: { isCheckout: boolean };
   NewCard: { isCheckout: boolean };
-  Summary: {
+  SummaryScreen: {
+    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard';
+  };
+  PurchaseConfirmationScreen: {
     paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard';
   };
 };
@@ -103,6 +107,10 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name="PaymentMethodScreen"
         component={PaymentMethodScreen}
+      />
+      <MainStack.Screen
+        name="PurchaseConfirmationScreen"
+        component={PurchaseConfirmationScreen}
       />
       <MainStack.Screen
         name="VirtualDebitCardCaixaScreen"

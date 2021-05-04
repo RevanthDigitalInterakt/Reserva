@@ -29,6 +29,7 @@ export const images = {
   clothingCare1: require('./img/clothing-care1.png'),
   localReserva: require('./img/local-reserva.png'),
   bannerLogin: require('./img/banner-login.png'),
+  purchaseConfirmation: require('./img/purchaseConfirmation.png'),
 };
 
 export const animations = {
