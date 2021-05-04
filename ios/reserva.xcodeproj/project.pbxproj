@@ -666,6 +666,10 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-cardscan\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNDeviceInfo\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-geolocation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-maps\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Google-Maps-iOS-Utils\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-google-maps\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -731,6 +735,10 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-cardscan\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNDeviceInfo\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-geolocation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-maps\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Google-Maps-iOS-Utils\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-google-maps\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
