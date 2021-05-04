@@ -22,12 +22,12 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
       <TopBarBackButton />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+          <Box mb={"nano"}>
+            <Typography variant="tituloSessoes">
               Perfil
             </Typography>
           </Box>
-          <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+          <Typography variant="subtituloSessoes">
             Bem-vindo, João.
           </Typography>
 

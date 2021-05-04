@@ -114,7 +114,7 @@ export const NewCard = ({ navigation, route }: Props) => {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           {!isCheckout ? (
-            <Box>
+            <Box mb="nano">
               <Box mt={'md'} overflow={'hidden'} paddingHorizontal={20}>
                 <Box
                   mb={'xxs'}
@@ -122,7 +122,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Typography fontSize={20} fontFamily="reservaSerifRegular">
+                  <Typography variant="tituloSessoes">
                     Adicionar cartão
                   </Typography>
                   {!handleNewTwoCards &&
