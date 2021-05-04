@@ -20,7 +20,7 @@ export const SearchScreen: React.FC<{
 	return (
 		<SafeAreaView flex={1}>
 			<Box variant="container" alignItems="center" justifyContent="center">
-				<Typography variant="heading1">Lista de Repositórios</Typography>
+				<Typography variant="tituloSessoes">Lista de Repositórios</Typography>
 				{repositories.loading ? (
 					<Typography>Loading</Typography>
 				) : (
