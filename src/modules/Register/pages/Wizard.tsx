@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native";
 import { ProgressBar } from "reserva-ui";
 import { useEffect } from "react";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
+import * as Animatable from "react-native-animatable";
 
 export interface IUserData {
   cpf: string;
@@ -58,17 +59,19 @@ export const Wizard: React.FC<{
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       {currentStep !== 0 && (
-        <ProgressBar
-          colorBar="neutroFrio1"
-          colorProgress="neutroFrio2"
-          bg="neutroFrio1"
-          p={25}
-          value={currentStep}
-          max={percentStep}
-          barHeight={3}
-          colorLabel="neutroFrio2"
-          showPercent
-        />
+        <Animatable.View animation="fadeIn">
+          <ProgressBar
+            colorBar="neutroFrio1"
+            colorProgress="neutroFrio2"
+            bg="neutroFrio1"
+            p={25}
+            value={currentStep}
+            max={percentStep}
+            barHeight={3}
+            colorLabel="neutroFrio2"
+            showPercent
+          />
+        </Animatable.View>
       )}
       <TopBarBackButtonWithoutLogo
         showShadow={false}
