@@ -348,10 +348,7 @@ export const BagScreen = () => {
         </Box>
         <Button
           onPress={() => {
-            navigation.navigate("DeliveryScreen");
-            // Math.random() >= 0.5
-            //   ? navigation.navigate("DeliveryScreen")
-            //   : navigation.navigate("LoginAlternative");
+            navigation.navigate("LoginAlternative");
           }}
           title="FINALIZAR COMPRA"
           variant="primarioEstreito"
