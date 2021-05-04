@@ -1,20 +1,63 @@
-import React, { useState, } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, ScrollView, Platform } from "react-native";
 import {
     Typography,
     Box,
     Button,
     Image,
-    Divider
+    Divider,
+    Icon
 } from 'reserva-ui';
 import { images } from "../../../assets";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 import MapView from 'react-native-maps';
-import { height } from "styled-system";
+import { Marker } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 
 export const MapScreen = () => {
     const navigation = useNavigation();
+    const [position, setPosition] = useState(
+        {
+            latitude: 10,
+            longitude: 10,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
+        },
+    );
+    const [markers, setMarkers] = useState([
+        {
+            latitude: -20.312225246494084,
+            longitude: -40.28799595837181,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05
+        },
+        {
+            latitude: -22.99146412201489,
+            longitude: -43.383208321806656,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05
+        },
+        {
+            latitude: -22.98577509792866,
+            longitude: -43.36054902034232,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05
+        },
+
+    ]);
+    useEffect(() => {
+        Geolocation.getCurrentPosition((pos) => {
+            const coords = pos.coords;
+            setPosition({
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05
+            })
+
+        })
+    }, []);
 
     return (
         <SafeAreaView
@@ -22,40 +65,67 @@ export const MapScreen = () => {
             backgroundColor={"white"}
         >
             <TopBarBackButton showShadow />
-            <ScrollView>
-                <Box
-                    paddingX={"xxxs"}
-                    paddingY={"sm"}
+
+            <Box flex={2}>
+                <MapView
+                    style={{ flex: 1, }}
+                    initialRegion={position}
                 >
-                    <Box marginBottom={"xxs"}>
-                        <Typography fontFamily={"reservaSerifRegular"} fontSize={20}>
-                            Retirar na loja
-                        </Typography>
-                    </Box>
-                    <Box height={500} width={360}>
-                        <MapView
-                            style={{ flex: 1, }}
-                            initialRegion={{
-                                latitude: 37.78825,
-                                longitude: -122.4324,
-                                latitudeDelta: 0.05,
-                                longitudeDelta: 0.05
-                            }}
-                        />
-                    </Box>
+                    <Marker
+                        coordinate={position}
+                    >
+                        <Box>
+                            <Image height={40} source={images.pinYou} resizeMode={"contain"} />
+                        </Box>
+                    </Marker>
+                    {markers.map((marker, index) => (
+                        < Marker
+                            key={index}
+                            coordinate={marker}
+                        >
+                            <Image height={40} source={images.localReserva} resizeMode={"contain"} />
+                        </ Marker>
+                    ))}
 
-                    <ItemStoresAddress
-                        local={'Shopping Praia Grande'}
-                        address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
-                    />
-
-                    <ItemStoresAddress
-                        local={'Shopping Praia Grande'}
-                        address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
-                    />
-
+                </MapView>
+                <Box position={"absolute"} right={20} bottom={20}>
+                    <Button
+                        height={40}
+                        width={40}
+                        bg="white"
+                        borderRadius={"infinity"}
+                        alignItems={"center"}
+                        justifyContent={"center"}>
+                        <Icon name={"Crosshair"} size={30} color={"preto"} />
+                    </Button>
                 </Box>
-            </ScrollView>
+            </Box>
+            <Box flex={1}>
+                <ScrollView>
+                    <Box
+                        paddingX={"xxxs"}
+                    >
+                        <ItemStoresAddress
+                            local={'Shopping Praia Grande'}
+                            address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
+                        />
+
+                        <ItemStoresAddress
+                            local={'Shopping Praia Grande'}
+                            address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
+                        />
+                        <ItemStoresAddress
+                            local={'Shopping Praia Grande'}
+                            address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
+                        />
+                        <ItemStoresAddress
+                            local={'Shopping Praia Grande'}
+                            address={'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'}
+                        />
+
+                    </Box>
+                </ScrollView>
+            </Box>
 
         </SafeAreaView >
     );
