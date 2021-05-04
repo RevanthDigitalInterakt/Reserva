@@ -244,7 +244,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   fontFamily="nunitoRegular"
                   fontSize={"10px"}
                   py="nano"
-                  fontWeight="normal"
                   leftIcon={<Icon name="Ruler" size={26} />}
                 />
               </Box>
@@ -303,11 +302,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             </Box>
             <Box mt="xs" mb="xxl">
               <Box mb="xxxs">
-                <Typography
-                  fontFamily="nunitoBold"
-                  fontSize={14}
-                  fontWeight="bold"
-                >
+                <Typography fontFamily="nunitoBold" fontSize={14}>
                   Seu produto combina com
                 </Typography>
               </Box>
