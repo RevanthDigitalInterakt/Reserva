@@ -174,7 +174,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             </Box>
             <Box paddingX="micro" paddingY="quarck">
               <Typography fontFamily="nunitoRegular" fontSize="13px">
-                127 produtos
+                127 produtos encontrados
               </Typography>
             </Box>
             <Box

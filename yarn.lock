@@ -7175,10 +7175,10 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@0.0.114:
-  version "0.0.114"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.114.tgz#47e61e50c80f82a0e8d9f40a165b2965d56390e7"
-  integrity sha1-R+YeUMgPgqDo2fQKFlspZdVjkOc=
+reserva-ui@0.0.117:
+  version "0.0.117"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.117.tgz#b0cd5b791ffa180564b5321ff51ff8f007938631"
+  integrity sha1-sM1beR/6GAVktTIf9R/48AeThjE=
   dependencies:
     react-native-scalable-image "^1.1.0"
 

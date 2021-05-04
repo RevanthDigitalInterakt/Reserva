@@ -159,10 +159,10 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
               width={321}
               top={
                 haveNotch && Platform.OS == "ios"
-                  ? StatusBar.currentHeight + 77
+                  ? Number(StatusBar.currentHeight) + 77
                   : Platform.OS == "android"
-                  ? StatusBar.currentHeight
-                  : StatusBar.currentHeight + 51
+                  ? Number(StatusBar.currentHeight)
+                  : Number(StatusBar.currentHeight) + 51
               }
               py="xxxs"
               pl="xxxs"
