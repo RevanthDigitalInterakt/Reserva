@@ -106,20 +106,23 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               Alert.alert("compartilhar!!");
             }}
           />
-          <Box px="xxxs">
-            <Box mt="xxs">
+
+          <Box mt="xxs">
+            <Box px="xxxs">
               <Typography variant={"subtituloSessoes"}>Cores:</Typography>
-              <Box pr="micro">
-                <ScrollView horizontal>
-                  <SelectColor
-                    onPress={(color: any) => setSelectedColor(color)}
-                    size={40}
-                    listColors={colors}
-                    selectedColor={selectedColor}
-                  />
-                </ScrollView>
-              </Box>
             </Box>
+            <Box>
+              <ScrollView horizontal>
+                <SelectColor
+                  onPress={(color: any) => setSelectedColor(color)}
+                  size={40}
+                  listColors={colors}
+                  selectedColor={selectedColor}
+                />
+              </ScrollView>
+            </Box>
+          </Box>
+          <Box px="xxxs">
             <Box mt="xxs">
               <Box
                 flexDirection="row"
