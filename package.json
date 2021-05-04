@@ -6,7 +6,7 @@
     "pod-deintegrate": "cd ios && arch -x86_64 pod deintegrate",
     "pod-install": "cd ios && arch -x86_64 pod install",
     "android": "react-native run-android",
-    "ios": "react-native run-ios  --simulator='iPhone 8'",
+    "ios": "react-native run-ios  --simulator='iPhone 12'",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
     "test": "jest",
