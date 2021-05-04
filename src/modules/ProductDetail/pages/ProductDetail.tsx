@@ -94,7 +94,6 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             price={345}
             priceWithDiscount={297}
             imagesWidth={screenWidth}
-            imagesHeight={160}
             images={[
               'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
               'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
