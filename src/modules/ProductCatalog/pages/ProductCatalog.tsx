@@ -177,6 +177,30 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 127 produtos encontrados
               </Typography>
             </Box>
+            <Box paddingX="xxxs">
+              <Box
+                borderColor="divider"
+                borderWidth="hairline"
+                bg={"backgoundInput"}
+                flexDirection={"row"}
+                alignItems="center"
+                px={"micro"}
+                height={34}
+                alignSelf={"flex-start"}
+                borderRadius={"pico"}
+                marginTop="nano"
+              >
+                <Typography fontFamily={"nunitoRegular"} fontSize={13}>
+                  Camisetas
+                </Typography>
+                <Button
+                  onPress={() => {}}
+                  marginLeft={"micro"}
+                  variant={"icone"}
+                  icon={<Icon name="Close" size={10} />}
+                />
+              </Box>
+            </Box>
             <Box
               p="micro"
               flexDirection="row"

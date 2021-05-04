@@ -166,7 +166,7 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
               }
               py="xxxs"
               pl="xxxs"
-              right={-20}
+              right={-25}
               height={351}
               backgroundColor="white"
               style={{ elevation: Platform.OS == "android" ? 5 : 0 }}
