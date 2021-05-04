@@ -19,7 +19,7 @@ export const ForgotEmailSuccess: React.FC = () => {
         marginBottom="sm"
       >
         <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+          <Typography variant={"tituloSessoes"}>
             Esqueci meu e-mail
           </Typography>
         </Box>

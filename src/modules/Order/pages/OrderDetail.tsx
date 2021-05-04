@@ -25,7 +25,7 @@ const OrderList = () => {
           showsVerticalScrollIndicator={false}
         >
           <Box mb="xxxs" justifyContent="flex-start" paddingTop={"md"}>
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+            <Typography variant={"tituloSessoes"}>
               Rastreamento de entrega
             </Typography>
           </Box>
