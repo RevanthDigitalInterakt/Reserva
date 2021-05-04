@@ -14,7 +14,7 @@ export const WishList: React.FC<{}> = () => {
       <ScrollView>
         <Box paddingX="xxxs" marginTop="md" paddingBottom='xxxs' >
           <Box>
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+            <Typography variant="tituloSessoes">
               Lista de desejos
             </Typography>
           </Box>
