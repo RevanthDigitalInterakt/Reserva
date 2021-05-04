@@ -25,9 +25,7 @@ export const EditPassword: React.FC<{}> = () => {
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"nano"} alignSelf={"flex-start"}>
-            <Typography variant="tituloSessoes">
-              Alterar senha
-            </Typography>
+            <Typography variant="tituloSessoes">Alterar senha</Typography>
           </Box>
 
           <Box mt={"xxxs"}>

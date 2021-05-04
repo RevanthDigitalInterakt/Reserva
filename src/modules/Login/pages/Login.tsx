@@ -82,6 +82,9 @@ export const LoginScreen: React.FC<{
               title="ENTRAR"
               variant="primarioEstreito"
               mb="nano"
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
             />
           </Box>
           {/* <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
