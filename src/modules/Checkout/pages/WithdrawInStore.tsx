@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, } from "react-native";
+import { Platform, SafeAreaView, ScrollView, } from "react-native";
 import {
     Typography,
     Box,
@@ -16,7 +16,7 @@ export const WithdrawInStore = () => {
     const [cep, setCep] = useState("");
     const [city, setCity] = useState("");
     const [disabled, setDisabled] = useState(true);
-
+    const hairline = Platform.OS == 'android' ? "hairline" : null
     const CheckDisabledCep = () => {
         if (cep === "") {
             setDisabled(true)
@@ -82,16 +82,16 @@ export const WithdrawInStore = () => {
 
                     </Box>
 
-                    <Box marginTop="sm">
+                    <Box mt="sm" >
                         <Typography variant={"tituloSessao"}>Ou selecione seu estado e cidade:</Typography>
 
-                        <Box flexDirection={"row"}>
+                        <Box flexDirection={"row"} mt={"micro"}>
                             <Box
-                                borderTopWidth={"hairline"}
+                                borderTopWidth={hairline}
                                 flex={1}
-                                borderBottomWidth={"hairline"}
-                                borderLeftWidth={"hairline"}
-                                borderRightWidth={"hairline"}
+                                borderBottomWidth={hairline}
+                                borderLeftWidth={hairline}
+                                borderRightWidth={hairline}
                                 borderRadius="nano"
                             >
                                 <DropDown
@@ -105,11 +105,11 @@ export const WithdrawInStore = () => {
                             </Box>
                             <Box
                                 marginLeft={"xxs"}
-                                borderTopWidth={"hairline"}
+                                borderTopWidth={hairline}
                                 flex={3}
-                                borderBottomWidth={"hairline"}
-                                borderLeftWidth={"hairline"}
-                                borderRightWidth={"hairline"}
+                                borderBottomWidth={hairline}
+                                borderLeftWidth={hairline}
+                                borderRightWidth={hairline}
                                 borderRadius="nano"
                             >
                                 <DropDown
