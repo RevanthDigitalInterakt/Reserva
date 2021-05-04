@@ -156,6 +156,12 @@ android {
             keyAlias 'my-key-alias'
             keyPassword 'Abc123*'
         }
+        release {
+            storeFile file('release.keystore')
+            storePassword '123456'
+            keyAlias 'my-key-alias'
+            keyPassword '123456'
+        }
     }
     buildTypes {
         debug {

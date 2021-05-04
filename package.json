@@ -11,7 +11,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "clean": "cd android && ./gradlew clean && cd .."
+    "clean": "cd android && ./gradlew clean && cd ..",
+    "android-build-release": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@monterosa/react-native-parallax-scroll": "^1.8.0",
