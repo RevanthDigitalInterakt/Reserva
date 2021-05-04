@@ -108,7 +108,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           />
           <Box px="xxxs">
             <Box mt="xxs">
-              <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+              <Typography variant={"tituloSessoes"}>
                 Cores:
               </Typography>
               <Box pr="micro">
@@ -128,7 +128,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography fontFamily="reservaSerifRegular" fontSize="20px">
+                <Typography variant={"tituloSessoes"}>
                   Tamanhos:
                 </Typography>
                 <Button
@@ -163,7 +163,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
             <Box mt="nano" flexDirection="row"></Box>
             <Divider variant="fullWidth" my="xs" />
-            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
+            <Typography variant={"subtituloSessoes"}>
               Consultar prazo e valor do frete
             </Typography>
             <Box flexDirection="row" mt="nano">
@@ -181,7 +181,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               </Button>
             </Typography>
             <Divider variant="fullWidth" my="xs" />
-            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
+            <Typography variant={"subtituloSessoes"}>
               Receba novidades e promoções
             </Typography>
             <Box flexDirection="column" mt="nano">
