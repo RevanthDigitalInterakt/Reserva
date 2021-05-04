@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { Linking, SafeAreaView, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import { Typography, Box, Icon, Divider } from "reserva-ui";
@@ -59,13 +59,17 @@ export const ContactUs: React.FC<{}> = () => {
       <ScrollView>
         <Box variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+            <Typography variant={"tituloSessoes"}>
             Fale conosco
             </Typography>
           </Box>
 
           <ItemContact divider={true} icon={'Mail'} label={'sac@usereserva.com'} />
-          <ItemContact divider={true} icon={'Phone'} label={'(21) 2108-4990'} />
+          <ItemContact divider={true} icon={'Phone'} label={'(21) 2108-4990'} onPress={() => {
+            Linking.openURL(
+              `tel: (21) 2108-4990`
+            );
+          }} />
           <ItemContact icon={'Whatsapp'} label={"Whatsapp's"} onPress={() => {
             navigation.navigate("WhatsappsHelp");
           }} />

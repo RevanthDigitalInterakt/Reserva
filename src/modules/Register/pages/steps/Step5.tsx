@@ -12,14 +12,13 @@ export const RegisterStep5: React.FC<{
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <Box marginTop="xxl">
-        <Box paddingX="micro" marginTop="xxxs">
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+      <Box paddingX="micro" marginTop="xs" flex={1}>
+        <Box marginTop="xxxs">
+          <Typography variant={"tituloSessoes"}>
             Registre sua senha:
           </Typography>
         </Box>
-      </Box>
-      <Box paddingX="micro" flex={1}>
+
         <Box marginTop="sm" marginBottom="nano">
           <TextField
             secureTextEntry

@@ -53,6 +53,7 @@ import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
 import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
 import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation';
+import { LoginAlternative } from '../modules/Login/pages/LoginAlternative';
 
 export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
@@ -193,6 +194,7 @@ const AppRouting = () => {
         component={Menu}
       />
       <RootStack.Screen name="Login" component={LoginScreen} />
+      <RootStack.Screen name="LoginAlternative" component={LoginAlternative} />
     </RootStack.Navigator>
   );
 };

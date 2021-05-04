@@ -16,10 +16,9 @@ export const ForgotEmail: React.FC = () => {
       <Box
         paddingX="micro"
         marginTop="xxl"
-        marginBottom="sm"
       >
         <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+          <Typography variant={"tituloSessoes"}>
             Esqueci meu e-mail
           </Typography>
         </Box>
@@ -28,7 +27,7 @@ export const ForgotEmail: React.FC = () => {
         <Box marginTop="sm" marginBottom="nano">
           <TextField
             height={55}
-            placeholder="Digite seu e-mail ou CPF ou CNPJ"
+            placeholder="Digite o seu CPF ou CNPJ"
           />
         </Box>
         <Box marginTop="xs" alignItems="center">

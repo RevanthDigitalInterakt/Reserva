@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
-  ProgressBar,
   ProductHorizontalListCard,
-  ProductDetailCard,
   Divider,
   Button,
   Icon,
@@ -283,7 +281,6 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
           }}
           title="FECHAR PEDIDO"
           color="backgroundApp"
-          mb="nano"
           bg="verdeSucesso"
           width="100%"
           height={50}

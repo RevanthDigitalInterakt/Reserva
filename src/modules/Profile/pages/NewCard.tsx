@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Button, Icon, TextField, Toggle, Typography } from 'reserva-ui';
-import CreditCardDisplay from 'react-native-credit-card-display';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { Alert, SafeAreaView, useWindowDimensions } from 'react-native';
-import { images } from '../../../assets';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/core';
-import Cardscan from 'react-native-cardscan';
-import { borderWidth } from 'styled-system';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { StackScreenProps } from '@react-navigation/stack';
-import { CardCheckout } from '../Components/CardCheckout';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Box, Button, Icon, TextField, Toggle, Typography } from "reserva-ui";
+import CreditCardDisplay from "react-native-credit-card-display";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { Alert, SafeAreaView, useWindowDimensions } from "react-native";
+import { images } from "../../../assets";
+import { ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/core";
+import Cardscan from "react-native-cardscan";
+import { borderWidth } from "styled-system";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
+import { CardCheckout } from "../Components/CardCheckout";
 interface Card {
   holder: string;
   number: string;
@@ -18,9 +18,9 @@ interface Card {
   CVC: string;
 }
 
-type CardWriting = 'manually' | 'scanned';
+type CardWriting = "manually" | "scanned";
 
-type Props = StackScreenProps<RootStackParamList, 'NewCard'>;
+type Props = StackScreenProps<RootStackParamList, "NewCard">;
 
 export const NewCard = ({ navigation, route }: Props) => {
   const [card, setCard] = useState<Card>({} as Card);
@@ -31,7 +31,7 @@ export const NewCard = ({ navigation, route }: Props) => {
 
   const [compatible, setCompatible] = useState(null);
   const [cardWritingType, setCardWritingType] = React.useState<CardWriting>(
-    'manually'
+    "manually"
   );
 
   const { isCheckout } = route.params;
@@ -54,46 +54,46 @@ export const NewCard = ({ navigation, route }: Props) => {
     // TODO customizar ScanView
     const { action, scanId, payload, canceledReason } = await Cardscan.scan();
 
-    if (action === 'scanned') {
-      setCardWritingType('scanned');
-      let issuer = payload.issuer || '??';
-      if (issuer === 'MasterCard') {
-        issuer = 'master-card';
-      } else if (issuer === 'American Express') {
-        issuer = 'american-express';
+    if (action === "scanned") {
+      setCardWritingType("scanned");
+      let issuer = payload.issuer || "??";
+      if (issuer === "MasterCard") {
+        issuer = "master-card";
+      } else if (issuer === "American Express") {
+        issuer = "american-express";
       } else {
         issuer = issuer.toLowerCase();
       }
       setCard({
-        CVC: payload.cvc ?? '',
+        CVC: payload.cvc ?? "",
         expiration:
           payload.expiryMonth && payload.expiryYear
             ? `${payload.expiryMonth}/${payload.expiryYear}`
-            : '',
+            : "",
         holder: payload.cardholderName,
         number: payload.number,
       });
     }
 
-    if (action === 'canceled') {
-      if (canceledReason === 'enter_card_manually') {
-        Alert.alert('Enter card manually');
+    if (action === "canceled") {
+      if (canceledReason === "enter_card_manually") {
+        Alert.alert("Enter card manually");
       }
 
-      if (canceledReason === 'user_canceled') {
-        Alert.alert('User canceled scan');
+      if (canceledReason === "user_canceled") {
+        Alert.alert("User canceled scan");
       }
 
-      if (canceledReason === 'camera_error') {
-        Alert.alert('Camera error during scan');
+      if (canceledReason === "camera_error") {
+        Alert.alert("Camera error during scan");
       }
 
-      if (canceledReason === 'fatal_error') {
-        Alert.alert('Processing error during scan');
+      if (canceledReason === "fatal_error") {
+        Alert.alert("Processing error during scan");
       }
 
-      if (canceledReason === 'unknown') {
-        Alert.alert('Unknown reason for scan cancellation');
+      if (canceledReason === "unknown") {
+        Alert.alert("Unknown reason for scan cancellation");
       }
     }
   }, [setCard]);
@@ -114,20 +114,20 @@ export const NewCard = ({ navigation, route }: Props) => {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           {!isCheckout ? (
-            <Box>
+            <Box mb="nano">
               <Box mt={'md'} overflow={'hidden'} paddingHorizontal={20}>
                 <Box
-                  mb={'xxs'}
+                  mb={"xxs"}
                   flexDirection="row"
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Typography fontSize={20} fontFamily="reservaSerifRegular">
+                  <Typography variant="tituloSessoes">
                     Adicionar cartão
                   </Typography>
                   {!handleNewTwoCards &&
                   compatible &&
-                  cardWritingType !== 'scanned' ? (
+                  cardWritingType !== "scanned" ? (
                     <Button onPress={scanCard}>
                       <Box flexDirection="row" alignItems="center">
                         <Box mr="nano">
@@ -142,7 +142,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                 </Box>
                 <CreditCardDisplay
                   flipped={isFlipped}
-                  width={('100%' as unknown) as number}
+                  width={("100%" as unknown) as number}
                   number={card.number}
                   cvc={card.CVC}
                   expiration={card.expiration}
@@ -155,10 +155,10 @@ export const NewCard = ({ navigation, route }: Props) => {
                     card.number
                       ? {
                           borderWidth: 1,
-                          borderColor: 'red',
+                          borderColor: "red",
                           borderRadius: 6,
-                          width: '45%',
-                          alignItems: 'center',
+                          width: "45%",
+                          alignItems: "center",
                           paddingVertical: 4,
                         }
                       : {}
@@ -167,10 +167,10 @@ export const NewCard = ({ navigation, route }: Props) => {
                     card.holder
                       ? {
                           borderWidth: 1,
-                          borderColor: 'red',
+                          borderColor: "red",
                           borderRadius: 6,
-                          alignItems: 'center',
-                          justifyContent: 'center',
+                          alignItems: "center",
+                          justifyContent: "center",
                           paddingHorizontal: 4,
                           paddingVertical: 5,
                         }
@@ -178,9 +178,9 @@ export const NewCard = ({ navigation, route }: Props) => {
                   }
                   expirationContainerStyles={{
                     borderWidth: 1,
-                    borderColor: 'red',
+                    borderColor: "red",
                     borderRadius: 3,
-                    alignItems: 'center',
+                    alignItems: "center",
                     paddingHorizontal: 4,
                     paddingVertical: 5,
                     marginTop: 9,
@@ -188,12 +188,12 @@ export const NewCard = ({ navigation, route }: Props) => {
                   }}
                   cvcContainerStyles={{}}
                 />
-                <Box mt={'xxxs'}>
+                <Box mt={"xxxs"}>
                   <TextField
                     height={55}
                     placeholder="Nome do titular"
                     value={card.holder}
-                    onChangeText={(val) => onChangeTextCard('holder', val)}
+                    onChangeText={(val) => onChangeTextCard("holder", val)}
                     iconRight={
                       <Box ml="nano">
                         <Icon color="neutroFrio2" name="HelpCircle" size={16} />
@@ -201,13 +201,13 @@ export const NewCard = ({ navigation, route }: Props) => {
                     }
                   />
                 </Box>
-                <Box mt={'xxxs'}>
+                <Box mt={"xxxs"}>
                   <TextField
                     maskType="credit-card"
                     height={55}
                     placeholder="Número do cartão"
                     value={card.number}
-                    onChangeText={(val) => onChangeTextCard('number', val)}
+                    onChangeText={(val) => onChangeTextCard("number", val)}
                     iconRight={
                       <Box ml="nano">
                         <Icon color="neutroFrio2" name="HelpCircle" size={16} />
@@ -215,18 +215,18 @@ export const NewCard = ({ navigation, route }: Props) => {
                     }
                   />
                 </Box>
-                <Box mt={'xxxs'} flexDirection="row">
+                <Box mt={"xxxs"} flexDirection="row">
                   <Box flex={1} mr="xxxs">
                     <TextField
                       height={55}
                       maskType="custom"
                       maskOptions={{
-                        mask: '99/99',
+                        mask: "99/99",
                       }}
                       placeholder="Vencimento"
                       value={card.expiration}
                       onChangeText={(val) =>
-                        onChangeTextCard('expiration', val)
+                        onChangeTextCard("expiration", val)
                       }
                       iconRight={
                         <Box ml="nano">
@@ -248,7 +248,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                       value={card.CVC}
                       onFocus={() => setIsFlipped(true)}
                       onBlur={() => setIsFlipped(false)}
-                      onChangeText={(val) => onChangeTextCard('CVC', val)}
+                      onChangeText={(val) => onChangeTextCard("CVC", val)}
                       iconRight={
                         <Box ml="nano">
                           <Icon
@@ -274,7 +274,7 @@ export const NewCard = ({ navigation, route }: Props) => {
               </Box>
             </Box>
           ) : (
-            <>
+            <Box pb="sm">
               <CardCheckout
                 cardOne={card}
                 onChangeCardOne={setCard}
@@ -283,16 +283,16 @@ export const NewCard = ({ navigation, route }: Props) => {
                 handleNewTwoCards={handleNewTwoCards}
                 setHandleNewTwoCards={setHandleNewTwoCards}
               />
-            </>
+            </Box>
           )}
         </ScrollView>
         <Box>
           <Button
             disabled={!canAddCard()}
-            title={handleNewTwoCards ? 'ADICIONAR CARTÕES' : 'ADICIONAR CARTÃO'}
+            title={handleNewTwoCards ? "ADICIONAR CARTÕES" : "ADICIONAR CARTÃO"}
             variant="primarioEstreito"
             fontFamily="nunitoRegular"
-            onPress={() => console.log('prin')}
+            onPress={() => console.log("prin")}
             fontSize={13}
             inline
           />

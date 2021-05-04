@@ -307,7 +307,7 @@ export const BagScreen = () => {
 
       <Box
         width={"100%"}
-        height={137}
+        height={145}
         px="xxs"
         bg="white"
         style={{ elevation: Platform.OS == "android" ? 5 : 0 }}
@@ -344,9 +344,12 @@ export const BagScreen = () => {
             </Box>
           </Box>
         </Box>
-
         <Button
-          onPress={() => navigation.navigate("DeliveryScreen")}
+          onPress={() => {
+            Math.random() >= 0.5
+              ? navigation.navigate("DeliveryScreen")
+              : navigation.navigate("LoginAlternative");
+          }}
           title="FINALIZAR COMPRA"
           variant="primarioEstreito"
           inline
