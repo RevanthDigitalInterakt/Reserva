@@ -43,9 +43,9 @@ export const RegisterSuccess: React.FC<{
         showShadow={false}
         backButtonPress={() => navigation.navigate("Login")}
       />
-      <Box alignItems="center" justifyContent="center" marginTop="xxl" flex={1}>
-        <Box marginTop="xxxs">
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+      <Box alignItems="center" justifyContent="center" flex={1}>
+        <Box>
+          <Typography variant={"tituloSessoes"}>
             Cadastro realizado com sucesso!
           </Typography>
         </Box>
