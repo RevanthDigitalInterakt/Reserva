@@ -24,14 +24,14 @@ export const NotificationProfile: React.FC<{}> = () => {
       <TopBarBackButton />
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+          <Box mb={"nano"} alignSelf={"flex-start"}>
+            <Typography variant="tituloSessoes">
               Notificações
             </Typography>
           </Box>
 
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography fontFamily="nunitoRegular" fontSize={15}>
+          <Box alignSelf={"flex-start"}>
+            <Typography variant="subtituloSessoes">
               Qual é o tipo de conteúdo que você quer receber? Marque abaixo as
               opções de contato:
             </Typography>

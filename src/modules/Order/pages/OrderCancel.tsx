@@ -70,7 +70,7 @@ const OrderList = () => {
             justifyContent="flex-start"
             paddingTop={"md"}
           >
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+            <Typography variant={"tituloSessoes"}>
               Cancelar pedido
             </Typography>
           </Box>

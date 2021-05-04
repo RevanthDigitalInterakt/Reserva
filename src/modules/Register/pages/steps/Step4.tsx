@@ -10,14 +10,13 @@ export const RegisterStep4: React.FC<{
 }> = ({ nextStep, setUserData, userData }) => {
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <Box paddingX="micro" marginTop="xxl" marginBottom="sm">
+      <Box paddingX="micro" marginTop="xs" flex={1}>
         <Box marginTop="xxxs">
-          <Typography fontSize={20} fontFamily="reservaSerifRegular">
+          <Typography variant={"tituloSessoes"}>
             Informe a sua data de nascimento:
           </Typography>
         </Box>
-      </Box>
-      <Box paddingX="micro" flex={1}>
+
         <Box marginTop="sm" marginBottom="nano">
           <TextField
             height={55}

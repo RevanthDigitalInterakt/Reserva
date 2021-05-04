@@ -16,8 +16,8 @@ export const ForgotNewPassword: React.FC = () => {
       <ScrollView>
         <Box marginTop="xxl">
           <Box paddingX="micro" marginTop="xxxs">
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
-              Nova senha:
+            <Typography variant={"tituloSessoes"}>
+              Nova senha
             </Typography>
           </Box>
         </Box>
@@ -26,7 +26,7 @@ export const ForgotNewPassword: React.FC = () => {
             <TextField
               secureTextEntry
               height={55}
-              placeholder="Digite sua senha"
+              placeholder="Digite sua nova senha"
               iconRight={
                 <Box ml="nano">
                   <Icon color="neutroFrio2" name="EyeOpen" size={25} />

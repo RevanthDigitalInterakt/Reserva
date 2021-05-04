@@ -81,7 +81,7 @@ export const ListCards = ({ navigation, route }: Props) => {
           pt={"md"}
         >
           <Box mb={"xxxs"}>
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+            <Typography variant="tituloSessoes">
               Meus cartões
             </Typography>
           </Box>

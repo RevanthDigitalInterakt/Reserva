@@ -131,7 +131,7 @@ export const FilterModal = ({
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography fontFamily="reservaSerifRegular" fontSize="20px">
+                <Typography variant={"tituloSessoes"}>
                   Filtrar Por:
                 </Typography>
               </Box>

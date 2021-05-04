@@ -19,7 +19,7 @@ const OrderList = () => {
             justifyContent="flex-start"
             paddingTop={"md"}
           >
-            <Typography fontSize={28} fontFamily="reservaSerifRegular">
+            <Typography variant={"tituloSessoes"}>
               Meus pedidos
             </Typography>
           </Box>
