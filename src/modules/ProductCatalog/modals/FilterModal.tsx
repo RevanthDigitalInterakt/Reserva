@@ -40,11 +40,11 @@ export const TitleFilter: React.FC<{ title: string }> = ({ title }) => {
       justifyContent="space-between"
       flexDirection="row"
     >
-      <Typography fontFamily="reservaSerifRegular" fontSize="15px">
+      <Typography fontFamily="reservaSerifRegular" fontSize="16px">
         {title}
       </Typography>
       <Box flexDirection="row" justifyContent="space-between">
-        <Typography fontFamily="reservaSerifRegular" fontSize="15px">
+        <Typography fontFamily="nunitoRegular" fontSize="12px">
           Ver mais
         </Typography>
         <Icon
@@ -53,7 +53,7 @@ export const TitleFilter: React.FC<{ title: string }> = ({ title }) => {
           color="preto"
           marginY="quarck"
           marginX="nano"
-          size={14}
+          size={12}
         />
       </Box>
     </Box>
@@ -81,7 +81,10 @@ export const FilterModal = ({
     "#947E57",
     "#E362A2",
     "#EEECDF",
+    "#663054",
   ]);
+
+  const [selectedColor, setSelectedColor] = useState(colors[3]);
 
   const androidCloseButton = () => {
     if (Platform.OS !== "android") return;
@@ -131,9 +134,7 @@ export const FilterModal = ({
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography variant={"tituloSessoes"}>
-                  Filtrar Por:
-                </Typography>
+                <Typography variant={"tituloSessoes"}>Filtrar Por:</Typography>
               </Box>
 
               <TitleFilter title="Categorias"></TitleFilter>
@@ -170,10 +171,10 @@ export const FilterModal = ({
                 <SelectColor
                   listColors={colors}
                   onPress={(color) => {
-                    console.log(color);
+                    setSelectedColor(color);
                   }}
-                  selectedColor={null}
-                  size={25}
+                  selectedColor={selectedColor}
+                  size={23}
                 />
               </Box>
 
@@ -190,7 +191,7 @@ export const FilterModal = ({
                   onSelectedChange={(color) => {
                     console.log(color);
                   }}
-                  optionsList={["PP", "P", "M", "G", "GG", "GGG"]}
+                  optionsList={["PP", "P", "M", "G", "GG", "3G"]}
                   defaultSelectedItem={"G"}
                 />
               </Box>
