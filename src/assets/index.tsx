@@ -28,7 +28,9 @@ export const images = {
   helpSizeGuide8: require('./img/help-size-guide8.png'),
   clothingCare1: require('./img/clothing-care1.png'),
   localReserva: require('./img/local-reserva.png'),
-  pinYou: require('./img/pinYou.png')
+  pinYou: require('./img/pinYou.png'),
+  bannerLogin: require('./img/banner-login.png'),
+  purchaseConfirmation: require('./img/purchaseConfirmation.png'),
 };
 
 export const animations = {

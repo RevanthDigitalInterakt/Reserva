@@ -32,7 +32,10 @@ export interface FilterModalProps {
   onAndroidBackButtonPress?: () => void;
 }
 
-export const TitleFilter: React.FC<{ title: string }> = ({ title }) => {
+export const TitleFilter: React.FC<{ title: string; showMore?: boolean }> = ({
+  title,
+  showMore,
+}) => {
   return (
     <Box
       paddingX="micro"
@@ -40,22 +43,24 @@ export const TitleFilter: React.FC<{ title: string }> = ({ title }) => {
       justifyContent="space-between"
       flexDirection="row"
     >
-      <Typography fontFamily="reservaSerifRegular" fontSize="15px">
+      <Typography fontFamily="reservaSerifRegular" fontSize="16px">
         {title}
       </Typography>
-      <Box flexDirection="row" justifyContent="space-between">
-        <Typography fontFamily="reservaSerifRegular" fontSize="15px">
-          Ver mais
-        </Typography>
-        <Icon
-          style={{ transform: [{ rotate: "90deg" }] }}
-          name="ChevronRight"
-          color="preto"
-          marginY="quarck"
-          marginX="nano"
-          size={14}
-        />
-      </Box>
+      {showMore && (
+        <Box flexDirection="row" justifyContent="space-between">
+          <Typography fontFamily="nunitoRegular" fontSize="12px">
+            Ver mais
+          </Typography>
+          <Icon
+            style={{ transform: [{ rotate: "90deg" }] }}
+            name="ChevronRight"
+            color="preto"
+            marginY="quarck"
+            marginX="nano"
+            size={12}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
@@ -81,7 +86,10 @@ export const FilterModal = ({
     "#947E57",
     "#E362A2",
     "#EEECDF",
+    "#663054",
   ]);
+
+  const [selectedColor, setSelectedColor] = useState(colors[3]);
 
   const androidCloseButton = () => {
     if (Platform.OS !== "android") return;
@@ -131,12 +139,12 @@ export const FilterModal = ({
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography fontFamily="reservaSerifRegular" fontSize="20px">
+                <Typography fontFamily="reservaSerifRegular" fontSize="24px">
                   Filtrar Por:
                 </Typography>
               </Box>
 
-              <TitleFilter title="Categorias"></TitleFilter>
+              <TitleFilter showMore={true} title="Categorias"></TitleFilter>
 
               <Box paddingX="micro">
                 <CheckboxList
@@ -164,16 +172,16 @@ export const FilterModal = ({
                 marginTop="nano"
               />
 
-              <TitleFilter title="Cores"></TitleFilter>
+              <TitleFilter showMore={true} title="Cores"></TitleFilter>
 
               <Box paddingX="micro">
                 <SelectColor
                   listColors={colors}
                   onPress={(color) => {
-                    console.log(color);
+                    setSelectedColor(color);
                   }}
-                  selectedColor={null}
-                  size={25}
+                  selectedColor={selectedColor}
+                  size={23}
                 />
               </Box>
 
@@ -190,7 +198,7 @@ export const FilterModal = ({
                   onSelectedChange={(color) => {
                     console.log(color);
                   }}
-                  optionsList={["PP", "P", "M", "G", "GG", "GGG"]}
+                  optionsList={["PP", "P", "M", "G", "GG", "3G"]}
                   defaultSelectedItem={"G"}
                 />
               </Box>

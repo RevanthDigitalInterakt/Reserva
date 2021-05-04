@@ -20,6 +20,7 @@ import { position } from "styled-system";
 import DeviceInfo from "react-native-device-info";
 
 import * as Animatable from "react-native-animatable";
+import { useNavigation } from "@react-navigation/native";
 
 const isIphoneX = DeviceInfo.hasNotch();
 
@@ -33,6 +34,8 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
   const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
 
   const [count, setCount] = useState(1);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (animation && isVisible) {
@@ -175,6 +178,11 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
                 ))}
               </ScrollView>
               <Button
+                onPress={() => {
+                  setAnimationFinished(false);
+                  onBackdropPress();
+                  navigation.navigate("DeliveryScreen");
+                }}
                 title="FECHAR PEDIDO"
                 variant="primarioEstreito"
                 inline

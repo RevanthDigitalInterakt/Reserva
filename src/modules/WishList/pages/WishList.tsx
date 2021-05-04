@@ -12,9 +12,9 @@ export const WishList: React.FC<{}> = () => {
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarDefaultBackButton showShadow />
       <ScrollView>
-        <Box paddingX="xxxs" marginTop="xs">
-          <Box marginTop="xxxs">
-            <Typography fontSize={20} fontFamily="reservaSerifRegular">
+        <Box paddingX="xxxs" marginTop="md" paddingBottom='xxxs' >
+          <Box>
+            <Typography variant="tituloSessoes">
               Lista de desejos
             </Typography>
           </Box>
@@ -24,6 +24,7 @@ export const WishList: React.FC<{}> = () => {
                 title="Todos os items"
                 height={32}
                 color="white"
+                fontFamily='nunitoRegular'
                 fontSize={12}
                 bg="neutroFrio2"
                 marginRight="nano"
@@ -38,12 +39,14 @@ export const WishList: React.FC<{}> = () => {
                 onPress={() => navigation.navigate("WishListCategory")}
                 borderColor="preto"
                 borderWidth={1}
+                fontSize={12}
+                fontFamily='nunitoRegular'
                 title="Minhas categorias"
                 inline
               />
             </Box>
           </Box>
-          <Box marginTop="xxxs">
+          <Box marginTop="xxxs" height={147}>
             <ProductHorizontalListCard
               currency={"R$"}
               discountTag={18}
@@ -60,7 +63,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt3}
             />
           </Box>
-          <Box marginTop="xxxs">
+          <Box marginTop="xxxs" height={147} >
             <ProductHorizontalListCard
               currency={"R$"}
               itemColor="Cinza"
@@ -74,7 +77,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt4}
             />
           </Box>
-          <Box marginTop="xxxs">
+          <Box marginTop="xxxs" height={147} >
             <ProductHorizontalListCard
               currency={"R$"}
               discountTag={18}
@@ -90,7 +93,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt1}
             />
           </Box>
-        </Box>
+        </Box> 
       </ScrollView>
     </SafeAreaView>
   );

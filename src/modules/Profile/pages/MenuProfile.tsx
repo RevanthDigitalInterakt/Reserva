@@ -19,15 +19,15 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
 
   return (
     <Box flex={1} backgroundColor="white">
-      <TopBarBackButton />
+      <TopBarDefault />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+          <Box mb={"nano"}>
+            <Typography variant="tituloSessoes">
               Perfil
             </Typography>
           </Box>
-          <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+          <Typography variant="subtituloSessoes">
             Bem-vindo, João.
           </Typography>
 
@@ -45,6 +45,9 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
               title={"Favoritos"}
               descr={"Veja os produtos que você curtiu"}
               icon={"Heart"}
+              onPress={() => {
+                navigation.navigate("WishList");
+              }}
             />
 
             <ItemList
