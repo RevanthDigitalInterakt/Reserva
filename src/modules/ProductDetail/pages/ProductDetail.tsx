@@ -1,6 +1,13 @@
-import React, { useState } from "react";
-import { Alert, Dimensions, PickerItemProps } from "react-native";
+import React, { createRef, useState } from "react";
+import {
+  Alert,
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  PickerItemProps,
+} from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { ceil } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
@@ -17,12 +24,15 @@ import {
   ProductVerticalListCard,
   ProductVerticalListCardProps,
   TopBar,
+  theme,
 } from "reserva-ui";
 import { Input } from "reserva-ui/src/components/TextField/TextField.styles";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 import { ModalBag } from "../components/ModalBag";
 
 const screenWidth = Dimensions.get("window").width;
+
+let recomendedScroll = createRef<ScrollView>();
 
 interface ProductDetailProps {
   recomendedProducts?: ProductVerticalListCardProps[];
@@ -46,7 +56,87 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   const [selectedColor, setSelectedColor] = useState("#F9F9ED");
   recomendedProducts = [
     {
-      discountTag: 18,
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "CAMISETA BÁSICA RESERVA",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
       productTitle: "CAMISETA BÁSICA RESERVA",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
@@ -75,6 +165,25 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
     },
   ];
   const [isVisible, setIsVisible] = useState(false);
+  const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
+
+  const onChangeRecomended = (
+    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    const actualItem = Math.ceil(
+      scrollEvent.nativeEvent.contentOffset.x /
+        scrollEvent.nativeEvent.layoutMeasurement.width
+    );
+    if (
+      actualItem !== actualRecomendedindex &&
+      recomendedProducts &&
+      actualItem < Math.ceil(recomendedProducts.length / 2)
+    ) {
+      console.log(actualItem);
+      setActualRecomendedindex(actualItem);
+    }
+  };
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -106,41 +215,39 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               Alert.alert("compartilhar!!");
             }}
           />
-          <Box px="xxxs">
-            <Box mt="xxs">
-              <Typography variant={"tituloSessoes"}>
-                Cores:
-              </Typography>
-              <Box pr="micro">
-                <ScrollView horizontal>
-                  <SelectColor
-                    onPress={(color: any) => setSelectedColor(color)}
-                    size={40}
-                    listColors={colors}
-                    selectedColor={selectedColor}
-                  />
-                </ScrollView>
-              </Box>
+
+          <Box mt="xxxs">
+            <Box px="xxxs">
+              <Typography variant={"subtituloSessoes"}>Cores:</Typography>
             </Box>
-            <Box mt="xxs">
+            <Box>
+              <ScrollView horizontal>
+                <SelectColor
+                  onPress={(color: any) => setSelectedColor(color)}
+                  size={40}
+                  listColors={colors}
+                  selectedColor={selectedColor}
+                />
+              </ScrollView>
+            </Box>
+          </Box>
+          <Box px="xxxs">
+            <Box mt="xxxs">
               <Box
                 flexDirection="row"
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant={"tituloSessoes"}>
-                  Tamanhos:
-                </Typography>
+                <Typography variant={"subtituloSessoes"}>Tamanhos:</Typography>
                 <Button
                   title="Guia de medidas"
                   fontFamily="nunitoRegular"
                   fontSize={"10px"}
                   py="nano"
-                  fontWeight="normal"
                   leftIcon={<Icon name="Ruler" size={26} />}
                 />
               </Box>
-              <Box alignItems="center">
+              <Box alignItems="center" mt="xxxs">
                 <RadioButtons
                   size={42}
                   fontSize={14}
@@ -152,7 +259,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             </Box>
 
             <Button
-              mt="xxs"
+              mt="xxxs"
               title="ADICIONAR À SACOLA"
               variant="primarioEstreito"
               onPress={() => {
@@ -163,51 +270,93 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
             <Box mt="nano" flexDirection="row"></Box>
             <Divider variant="fullWidth" my="xs" />
-            <Typography variant={"subtituloSessoes"}>
+            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Consultar prazo e valor do frete
             </Typography>
-            <Box flexDirection="row" mt="nano">
+            <Box flexDirection="row" mt="xxxs">
               <OutlineInput placeholder="Digite seu CEP" iconName="Search" />
             </Box>
             <Divider variant="fullWidth" my="xs" />
-            <Typography>
-              <Button>
-                <Box flexDirection="row" alignItems="center">
-                  <Icon name="Add" size={15} color="preto" />
-                  <Typography variant="subtituloSessoes">
-                    Sobre este produto
-                  </Typography>
-                </Box>
-              </Button>
-            </Typography>
+            <Box>
+              <Typography>
+                <Button>
+                  <Box flexDirection="row" alignItems="center">
+                    <Icon name="Add" size={15} color="preto" />
+                    <Typography variant="subtituloSessoes">
+                      Sobre este produto
+                    </Typography>
+                  </Box>
+                </Button>
+              </Typography>
+            </Box>
+
             <Divider variant="fullWidth" my="xs" />
-            <Typography variant={"subtituloSessoes"}>
+            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Receba novidades e promoções
             </Typography>
-            <Box flexDirection="column" mt="nano">
+            <Box flexDirection="column" mt="xxxs">
               <OutlineInput
                 placeholder="Digite seu e-mail"
                 iconName="ChevronRight"
               />
             </Box>
-            <Box mt="xs" mb="sm">
-              <Box mb="micro">
-                <Typography
-                  fontFamily="nunitoBold"
-                  fontSize={14}
-                  fontWeight="bold"
-                >
+            <Box mt="xs" mb="xxl">
+              <Box mb="xxxs">
+                <Typography fontFamily="nunitoBold" fontSize={14}>
                   Seu produto combina com
                 </Typography>
               </Box>
-              <Box mb="xxl">
-                <ScrollView horizontal>
+              <Box mb="md">
+                <ScrollView
+                  horizontal
+                  pagingEnabled
+                  ref={recomendedScroll}
+                  showsHorizontalScrollIndicator={false}
+                  onScroll={onChangeRecomended}
+                >
                   {recomendedProducts.map((product, index) => (
-                    <Box ml={index != 0 ? "micro" : null} key={index}>
-                      <ProductVerticalListCard {...product} />
+                    <Box mx="nano" mr={"micro"} key={index} height={200}>
+                      <ProductVerticalListCard
+                        imageWidth={137}
+                        small
+                        {...product}
+                      />
                     </Box>
                   ))}
                 </ScrollView>
+                <Box
+                  paddingTop="nano"
+                  flexDirection="row"
+                  justifyContent="center"
+                >
+                  {recomendedProducts.map(
+                    (i, k) =>
+                      k % 2 == 0 && (
+                        <Button
+                          paddingX="quarck"
+                          variant="icone"
+                          onPress={() => {
+                            let width = (137 + theme.space.micro) * 2;
+                            console.log(`k/2: ${k / 2}`);
+                            recomendedScroll.current?.scrollTo({
+                              x: width * (k / 2),
+                            });
+                          }}
+                          icon={
+                            <Icon
+                              name="Circle"
+                              size={6}
+                              color={
+                                actualRecomendedindex == Math.ceil((k - 1) / 2)
+                                  ? "preto"
+                                  : "neutroFrio1"
+                              }
+                            />
+                          }
+                        />
+                      )
+                  )}
+                </Box>
               </Box>
             </Box>
           </Box>

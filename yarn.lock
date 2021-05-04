@@ -1002,6 +1002,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@monterosa/react-native-parallax-scroll@^1.8.0":
+  version "1.8.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@monterosa/react-native-parallax-scroll/-/react-native-parallax-scroll-1.8.0.tgz#04339a772c02818b229582a8b903aca4f9106005"
+  integrity sha1-BDOadywCgYsilYKouQOspPkQYAU=
+
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"
@@ -7170,10 +7175,10 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@0.0.113:
-  version "0.0.113"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.113.tgz#de3c2009d3398fe258fe1ed67f760ac294d3ca5d"
-  integrity sha1-3jwgCdM5j+JY/h7Wf3YKwpTTyl0=
+reserva-ui@0.0.118:
+  version "0.0.118"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.118.tgz#9e3f8dc2eb2addc34adf2c3983e177b282306fef"
+  integrity sha1-nj+Nwusq3cNK3yw5g+F3soIwb+8=
   dependencies:
     react-native-scalable-image "^1.1.0"
 

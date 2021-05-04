@@ -125,8 +125,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               <Box width={1 / 2}>
                 <Button
                   onPress={() => setFilterVisible(true)}
-                  marginRight="micro"
-                  marginLeft="nano"
+                  marginRight="nano"
+                  marginLeft="micro"
                   borderRadius="nano"
                   borderColor="dropDownBorderColor"
                   borderWidth="hairline"
@@ -134,18 +134,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   inline={true}
                   height={40}
                 >
-                  <Icon
-                    name="SearchMenu"
-                    color="preto"
-                    marginX="nano"
-                    size={22}
-                  />
                   <Typography
                     color="preto"
-                    fontFamily="nunitoRegular"
-                    fontSize="15px"
+                    fontFamily="nunitoSemiBold"
+                    fontSize="14px"
                   >
-                    Filtrar Por
+                    Filtrar
                   </Typography>
                 </Button>
               </Box>
@@ -171,10 +165,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   >
                     <Typography
                       color="preto"
-                      fontFamily="nunitoRegular"
-                      fontSize="15px"
+                      fontFamily="nunitoSemiBold"
+                      fontSize="14px"
                     >
-                      Mais Recentes
+                      Ordenar
                     </Typography>
                     <Icon
                       style={{ transform: [{ rotate: '90deg' }] }}
@@ -189,8 +183,32 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             </Box>
             <Box paddingX="micro" paddingY="quarck">
               <Typography fontFamily="nunitoRegular" fontSize="13px">
-                127 produtos
+                127 produtos encontrados
               </Typography>
+            </Box>
+            <Box paddingX="xxxs">
+              <Box
+                borderColor="divider"
+                borderWidth="hairline"
+                bg={'backgoundInput'}
+                flexDirection={'row'}
+                alignItems="center"
+                px={'micro'}
+                height={34}
+                alignSelf={'flex-start'}
+                borderRadius={'pico'}
+                marginTop="nano"
+              >
+                <Typography fontFamily={'nunitoRegular'} fontSize={13}>
+                  Camisetas
+                </Typography>
+                <Button
+                  onPress={() => {}}
+                  marginLeft={'micro'}
+                  variant={'icone'}
+                  icon={<Icon name="Close" size={10} />}
+                />
+              </Box>
             </Box>
             <Box
               p="micro"

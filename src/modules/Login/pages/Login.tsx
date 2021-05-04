@@ -82,12 +82,15 @@ export const LoginScreen: React.FC<{
               title="ENTRAR"
               variant="primarioEstreito"
               mb="nano"
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
             />
           </Box>
-          <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
+          {/* <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
             <SocialButton variant="Facebook" onPress={() => {}} />
             <SocialButton variant="Google" onPress={() => {}} />
-          </Box>
+          </Box> */}
           <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
             <Typography fontSize={13} fontFamily="nunitoRegular">
               Ainda não possui uma conta?

@@ -42,12 +42,7 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
       alignItems="center"
       flexDirection="row"
     >
-      <Icon
-        style={{ transform: [{ rotate: '180deg' }] }}
-        name="RightArrow"
-        color="preto"
-        size={22}
-      />
+      <Icon name="MenuArrowBack" color="preto" size={22} />
       <Box paddingX="micro">
         <Typography fontSize={12} fontFamily="nunitoRegular">
           Pagina Inicial
