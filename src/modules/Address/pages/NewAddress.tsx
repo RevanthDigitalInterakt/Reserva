@@ -29,7 +29,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       >
         <TopBarBackButton showShadow />
         <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
-          <Box>
+          <Box pb="sm">
             <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
               <Box alignSelf={"flex-start"} mb={"nano"}>
                 {id ? (
