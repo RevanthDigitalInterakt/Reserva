@@ -89,8 +89,8 @@ export const WhatsappsHelp: React.FC<{}> = () => {
       <ScrollView>
         <Box flex={1} pt={"xs"}>
           <Box paddingX={"xxxs"}>
-            <Box mb={"micro"} alignSelf={"flex-start"}>
-              <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+            <Box mb={"nano"} alignSelf={"flex-start"}>
+              <Typography variant={"tituloSessoes"}>
                 Whatsapp
               </Typography>
             </Box>
