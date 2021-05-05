@@ -14,6 +14,7 @@ import {
   Icon,
   Picker,
   SearchBar,
+  Pill,
 } from 'reserva-ui';
 import { images } from '../../../assets';
 import { RootStackParamList } from '../../../routes/StackNavigator';
@@ -35,6 +36,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   const [filterVisible, setFilterVisible] = React.useState(false);
   const [sorterVisible, setSorterVisible] = React.useState(false);
+  const [filterList, setFilterList] = React.useState<string[]>([]);
 
   useEffect(() => {
     dispatch(loadRequest());
@@ -51,6 +53,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         </Box>
       )}
       <FilterModal
+        filterList={filterList}
+        setFilterList={setFilterList}
         isVisible={filterVisible}
         onConfirm={() => {}}
         onCancel={() => setFilterVisible(false)}
@@ -72,7 +76,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             text: 'Maior Preço',
           },
           {
-            text: 'Mais Novos',
+            text: 'Mais Recentes',
           },
           {
             text: 'Mais Antigos',
@@ -87,6 +91,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         onClose={() => {
           setSorterVisible(false);
         }}
+        onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
       <ScrollView>
@@ -158,58 +163,53 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     setSorterVisible(true);
                   }}
                 >
-                  <Box
-                    paddingX="xxs"
-                    flexDirection="row"
-                    justifyContent="space-between"
+                  <Typography
+                    color="preto"
+                    fontFamily="nunitoSemiBold"
+                    fontSize="14px"
                   >
-                    <Typography
-                      color="preto"
-                      fontFamily="nunitoSemiBold"
-                      fontSize="14px"
-                    >
-                      Ordenar
-                    </Typography>
-                    <Icon
-                      style={{ transform: [{ rotate: '90deg' }] }}
-                      name="ChevronRight"
-                      color="preto"
-                      marginX="nano"
-                      size={16}
-                    />
-                  </Box>
+                    Ordenar
+                  </Typography>
                 </Button>
               </Box>
             </Box>
-            <Box paddingX="micro" paddingY="quarck">
+            <Box
+              paddingX="micro"
+              paddingY="quarck"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
               <Typography fontFamily="nunitoRegular" fontSize="13px">
                 127 produtos encontrados
               </Typography>
+              {filterList.length > 0 && (
+                <Button onPress={() => setFilterList([])}>
+                  <Typography
+                    color="progressTextColor"
+                    variant="precoAntigo3"
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    Limpar tudo
+                  </Typography>
+                </Button>
+              )}
             </Box>
-            <Box paddingX="xxxs">
-              <Box
-                borderColor="divider"
-                borderWidth="hairline"
-                bg={'backgoundInput'}
-                flexDirection={'row'}
-                alignItems="center"
-                px={'micro'}
-                height={34}
-                alignSelf={'flex-start'}
-                borderRadius={'pico'}
-                marginTop="nano"
-              >
-                <Typography fontFamily={'nunitoRegular'} fontSize={13}>
-                  Camisetas
-                </Typography>
-                <Button
-                  onPress={() => {}}
-                  marginLeft={'micro'}
-                  variant={'icone'}
-                  icon={<Icon name="Close" size={10} />}
-                />
+            {filterList.length > 0 && (
+              <Box px="micro" flexDirection="row" py="quarck" flexWrap="wrap">
+                {filterList.map((item) => (
+                  <Pill
+                    key={item}
+                    pillText={item}
+                    onPress={() => {
+                      const updateList = filterList.filter(
+                        (tag) => tag !== item
+                      );
+                      setFilterList(updateList);
+                    }}
+                  />
+                ))}
               </Box>
-            </Box>
+            )}
             <Box
               p="micro"
               flexDirection="row"
