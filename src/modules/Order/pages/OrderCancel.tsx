@@ -42,8 +42,8 @@ const ItemContact = ({ number, type }: ItemContactProps) => {
         <Box flexDirection={"row"}>
           <Icon
             name={type == "wp" ? "WhatsappBg" : "PhoneBg"}
-            mr={"xxxs"}
             color={type == "wp" ? "verdeSucesso" : "neutroFrio2"}
+            mr={"nano"}
             size={20}
           />
           <Typography fontSize={15}>{number}</Typography>
@@ -60,10 +60,7 @@ const OrderList = () => {
     <>
       <SafeAreaView flex={1} backgroundColor={"white"}>
         <TopBarBackButton showShadow />
-        <ScrollView
-          contentContainerStyle={{ flex: 1 }}
-          showsVerticalScrollIndicator={false}
-        >
+        <ScrollView showsVerticalScrollIndicator={false} >
           <Box
             mb="xxxs"
             paddingX="xxxs"
@@ -74,7 +71,7 @@ const OrderList = () => {
               Cancelar pedido
             </Typography>
           </Box>
-          <Box paddingX="xxxs" mb="xxs">
+          <Box paddingX="xxxs" mb="xxxs">
             <Typography fontSize={15} fontFamily="nunitoRegular">
               {`Entre em contato conosco por telefone que nós providenciaremos a devolução.\n\n`}
               {`Você precisará informar o seu CPF, o número do pedido e o produto a ser devolvido.`}
@@ -95,33 +92,47 @@ const OrderList = () => {
           <Box
             paddingX="xxxs"
             mt={"xxs"}
-            flexDirection={"row"}
+            flexDirection={"column"}
             justifyContent={"space-between"}
           >
-            <Box width={"45%"}>
-              <Box mb={"xxxs"}>
-                <Typography fontSize={15} textAlign={"center"}>
-                  Rio de Janeiro e regiões:
+            <Box flexDirection={"row"} mb={"xxs"}>
+              <Box 
+                width={"50%"}                 
+                borderRightWidth={1}
+                borderRightColor={'divider'}>
+                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                  Rio de Janeiro
+                </Typography>
+                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                  e regiões:
                 </Typography>
               </Box>
 
-              <ItemContact number={"2108-4990"} type={"wp"} />
-              <ItemContact number={"2108-4990"} type={"phone"} />
+              <Box width={"50%"}>
+                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                  São Paulo e
+                </Typography>
+
+                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                  demais estados:
+                </Typography>
+              </Box>
             </Box>
 
-            <Box width={"45%"}>
-              <Box mb={"xxxs"}>
-                <Typography fontSize={15} textAlign={"center"}>
-                  São Paulo e demais estados:
-                </Typography>
+            <Box flexDirection={"row"} justifyContent={"space-between"}>
+              <Box width={"43%"}>
+                <ItemContact number={"2108-4990"} type={"wp"} />
+                <ItemContact number={"2108-4990"} type={"phone"} />
               </Box>
 
-              <ItemContact number={"2108-4990"} type={"wp"} />
-              <ItemContact number={"2108-4990"} type={"phone"} />
+              <Box width={"43%"}>
+                <ItemContact number={"2108-4990"} type={"wp"} />
+                <ItemContact number={"2108-4990"} type={"phone"} />
+              </Box>
             </Box>
           </Box>
 
-          <Box paddingY="nano" alignSelf="center" mt="xl">
+          <Box paddingY="nano" alignSelf="center" mt={"micro"}>
             <Button
               inline
               onPress={() => {
