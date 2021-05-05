@@ -42,12 +42,7 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
       alignItems="center"
       flexDirection="row"
     >
-      <Icon
-        style={{ transform: [{ rotate: "180deg" }] }}
-        name="RightArrow"
-        color="preto"
-        size={22}
-      />
+      <Icon name="MenuArrowBack" color="preto" size={22} />
       <Box paddingX="micro">
         <Typography fontSize={12} fontFamily="nunitoRegular">
           Pagina Inicial
@@ -140,9 +135,10 @@ const MenuItem: React.FC<IMenuItem> = ({
 
 export const FixedMenuItem: React.FC<{
   iconName: string;
-  title: string;
+  title: JSX.Element;
   onPress: Function;
-}> = ({ iconName, title, onPress }) => {
+  underline: boolean;
+}> = ({ iconName, title, onPress, underline }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Box
@@ -153,16 +149,7 @@ export const FixedMenuItem: React.FC<{
         marginX="xxxs"
       >
         <Icon mb="quarck" name={iconName} color="preto" size={18} />
-        <Box marginX="micro">
-          <Typography
-            alignSelf="flex-end"
-            color="preto"
-            fontSize={15}
-            fontFamily="nunitoBold"
-          >
-            {title}
-          </Typography>
-        </Box>
+        <Box marginX="micro">{title}</Box>
       </Box>
     </TouchableOpacity>
   );
@@ -276,14 +263,39 @@ export const Menu: React.FC<{}> = () => {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           <FixedMenuItem
             iconName="Profile"
-            title="Acessar Conta ou Cadastre-se"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                <Typography style={{ textDecorationLine: "underline" }}>
+                  Acessar Conta
+                </Typography>
+                {"  "}ou{"  "}
+                <Typography style={{ textDecorationLine: "underline" }}>
+                  Cadastre-se
+                </Typography>
+              </Typography>
+            }
             onPress={() => {
-              navigation.navigate("Login");
+              navigation.navigate("LoginAlternative");
             }}
+            underline
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Heart"
-            title="Favoritos"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                Favoritos
+              </Typography>
+            }
             onPress={() => {
               console.log("ok");
               navigation.navigate("WishList");
@@ -291,7 +303,16 @@ export const Menu: React.FC<{}> = () => {
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Message"
-            title="Central de Ajuda"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                Central de Ajuda
+              </Typography>
+            }
             onPress={() => {
               console.log("ok");
               navigation.navigate("HelpCenter");
@@ -299,7 +320,16 @@ export const Menu: React.FC<{}> = () => {
           ></FixedMenuItem>
           <FixedMenuItem
             iconName="Pin"
-            title="Lojas"
+            title={
+              <Typography
+                alignSelf="flex-end"
+                color="preto"
+                fontSize={15}
+                fontFamily="nunitoBold"
+              >
+                Lojas
+              </Typography>
+            }
             onPress={() => {}}
           ></FixedMenuItem>
         </ScrollView>

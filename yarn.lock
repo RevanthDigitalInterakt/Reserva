@@ -1002,6 +1002,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@monterosa/react-native-parallax-scroll@^1.8.0":
+  version "1.8.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@monterosa/react-native-parallax-scroll/-/react-native-parallax-scroll-1.8.0.tgz#04339a772c02818b229582a8b903aca4f9106005"
+  integrity sha1-BDOadywCgYsilYKouQOspPkQYAU=
+
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"
@@ -1175,6 +1180,11 @@
   version "1.1.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-community/eslint-plugin/-/eslint-plugin-1.1.0.tgz#e42b1bef12d2415411519fd528e64b593b1363dc"
   integrity sha1-5Csb7xLSQVQRUZ/VKOZLWTsTY9w=
+
+"@react-native-community/geolocation@^2.0.2":
+  version "2.0.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-community/geolocation/-/geolocation-2.0.2.tgz#ba8b40f560ead8d014740d1cdea970b33f19312e"
+  integrity sha1-uotA9WDq2NAUdA0c3qlwsz8ZMS4=
 
 "@react-native-community/masked-view@^0.1.10":
   version "0.1.11"
@@ -1574,6 +1584,11 @@
   version "1.0.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha1-HuMNeVRMqE1o1LPNsK9PIFZj3S0=
+
+"@types/geojson@^7946.0.7":
+  version "7946.0.7"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"
+  integrity sha1-yPpTK2CgBCIZzfFzyiGpde8GZq0=
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
@@ -6790,6 +6805,13 @@ react-native-iphone-x-helper@^1.3.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha1-IMYD6aDnZf1vlzlmOL3rDlpgsBA=
 
+react-native-maps@^0.28.0:
+  version "0.28.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-maps/-/react-native-maps-0.28.0.tgz#1913dd4977652ddfc317d39c7cb7d78a8e513784"
+  integrity sha1-GRPdSXdlLd/DF9OcfLfXio5RN4Q=
+  dependencies:
+    "@types/geojson" "^7946.0.7"
+
 react-native-masked-text@^1.13.0:
   version "1.13.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-masked-text/-/react-native-masked-text-1.13.0.tgz#533fde8c45ccbaa1d6b0df30bf19b84b4ace3de3"
@@ -7170,10 +7192,10 @@ require-main-filename@^2.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
-reserva-ui@0.0.113:
-  version "0.0.113"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.113.tgz#de3c2009d3398fe258fe1ed67f760ac294d3ca5d"
-  integrity sha1-3jwgCdM5j+JY/h7Wf3YKwpTTyl0=
+reserva-ui@0.0.119:
+  version "0.0.119"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.119.tgz#3f07b75736c10ff33da09bfffcd7be5e7da54468"
+  integrity sha1-Pwe3VzbBD/M9oJv//Ne+Xn2lRGg=
   dependencies:
     react-native-scalable-image "^1.1.0"
 

@@ -6,30 +6,22 @@ import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackBut
 
 export const ForgotPassword: React.FC = () => {
   const navigation = useNavigation();
-  
+
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarBackButtonWithoutLogo
         showShadow={false}
-        backButtonPress={() => navigation.navigate('Login')}
+        backButtonPress={() => navigation.goBack()}
       />
-      <Box
-        paddingX="micro"
-        marginTop="xxl"
-      >
+      <Box paddingX="micro" marginTop="xxl">
         <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography variant={"tituloSessoes"}>
-            Esqueci minha senha
-          </Typography>
+          <Typography variant={"tituloSessoes"}>Esqueci minha senha</Typography>
         </Box>
       </Box>
-      
+
       <Box paddingX="micro" flex={1}>
         <Box marginTop="sm" marginBottom="nano">
-          <TextField
-            height={55}
-            placeholder="Digite seu e-mail"
-          />
+          <TextField height={55} placeholder="Digite seu e-mail" />
         </Box>
         <Box marginTop="xs" alignItems="center">
           <Button

@@ -6,26 +6,21 @@ import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackBut
 
 export const ForgotEmailSuccess: React.FC = () => {
   const navigation = useNavigation();
-  
+
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarBackButtonWithoutLogo
         showShadow={false}
-        backButtonPress={() => navigation.navigate('ForgotEmail')}
+        backButtonPress={() => navigation.navigate("ForgotEmail")}
       />
-      <Box
-        paddingX="micro"
-        marginTop="xxl"
-        marginBottom="sm"
-      >
+      <Box paddingX="micro" marginTop="xxl" marginBottom="sm">
         <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography variant={"tituloSessoes"}>
-            Esqueci meu e-mail
-          </Typography>
+          <Typography variant={"tituloSessoes"}>Esqueci meu e-mail</Typography>
         </Box>
         <Box justifyContent="flex-start" marginTop="nano">
           <Typography fontSize={15} fontFamily="nunitoRegular">
-            Um código de acesso foi enviado para o e-mail cadastrado, jo****@email.com.
+            Um código de acesso foi enviado para o e-mail cadastrado,
+            jo****@email.com.
           </Typography>
         </Box>
         <Box justifyContent="flex-start" marginTop="nano">
@@ -41,7 +36,7 @@ export const ForgotEmailSuccess: React.FC = () => {
             title="CONTINUAR"
             width={258}
             variant="primarioEstreitoOutline"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("LoginAlternative")}
             mb="nano"
           />
         </Box>

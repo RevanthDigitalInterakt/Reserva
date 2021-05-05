@@ -6,6 +6,9 @@ platform :ios, '11.0'
 target 'reserva' do
   pod 'CardScan'
   pod 'react-native-cardscan', :path => '../node_modules/react-native-cardscan/react-native-cardscan.podspec'
+  # React Native Maps dependencies
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
   config = use_native_modules!
 
   use_react_native!(
@@ -17,6 +20,8 @@ target 'reserva' do
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
   target 'reservaTests' do
     inherit! :complete

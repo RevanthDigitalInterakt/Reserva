@@ -224,6 +224,8 @@ export const BagScreen = () => {
           </Box>
 
           <Box
+            borderColor="divider"
+            borderWidth="hairline"
             bg={"backgoundInput"}
             flexDirection={"row"}
             alignItems="center"
@@ -346,9 +348,7 @@ export const BagScreen = () => {
         </Box>
         <Button
           onPress={() => {
-            Math.random() >= 0.5
-              ? navigation.navigate("DeliveryScreen")
-              : navigation.navigate("LoginAlternative");
+            navigation.navigate("LoginAlternative", { isCheckout: true });
           }}
           title="FINALIZAR COMPRA"
           variant="primarioEstreito"

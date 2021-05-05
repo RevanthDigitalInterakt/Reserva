@@ -23,7 +23,9 @@ import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
 import { BarCodePayment } from "../modules/Checkout/pages/BarCodePayment";
 import { VirtualDebitCardCaixaScreen } from "../modules/Checkout/pages/VirtualDebitCardCaixa";
 import { PixScreen } from "../modules/Checkout/pages/Pix";
-
+import { WithdrawInStore } from "../modules/Checkout/pages/WithdrawInStore";
+import { NearbyStores } from "../modules/Checkout/pages/NearbyStores";
+import { MapScreen } from "../modules/Checkout/pages/Map";
 import { StackScreenProps } from "@react-navigation/stack";
 import { WishList } from "../modules/WishList/pages/WishList";
 import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
@@ -52,15 +54,20 @@ import { ClothingCare } from "../modules/HelpCenter/PagesHelp/ClothingCare";
 import { ContactUs } from "../modules/HelpCenter/PagesHelp/ContactUs";
 import { Exchanges } from "../modules/HelpCenter/PagesHelp/Exchanges";
 import { WhatsappsHelp } from "../modules/HelpCenter/PagesHelp/WhatsappsHelp";
+import { PurchaseConfirmationScreen } from "../modules/Checkout/pages/PurchaseConfirmation";
 import { LoginAlternative } from "../modules/Login/pages/LoginAlternative";
 
 export type RootStackParamList = {
+  LoginAlternative: { isCheckout: boolean };
   ProductCatalog: { safeArea: boolean; search: boolean };
   NewAddress: { id?: number; isCheckout: boolean };
   AddressList: { isCheckout: boolean };
   ListCards: { isCheckout: boolean };
   NewCard: { isCheckout: boolean };
-  Summary: {
+  SummaryScreen: {
+    paymentType: "PIX" | "Credit" | "Debit" | "Boleto" | "GiftCard";
+  };
+  PurchaseConfirmationScreen: {
     paymentType: "PIX" | "Credit" | "Debit" | "Boleto" | "GiftCard";
   };
 };
@@ -101,9 +108,16 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
+      <MainStack.Screen name="NearbyStores" component={NearbyStores} />
+      <MainStack.Screen name="MapScreen" component={MapScreen} />
       <MainStack.Screen
         name="PaymentMethodScreen"
         component={PaymentMethodScreen}
+      />
+      <MainStack.Screen
+        name="PurchaseConfirmationScreen"
+        component={PurchaseConfirmationScreen}
       />
       <MainStack.Screen
         name="VirtualDebitCardCaixaScreen"
@@ -186,7 +200,11 @@ const AppRouting = () => {
         component={Menu}
       />
       <RootStack.Screen name="Login" component={LoginScreen} />
-      <RootStack.Screen name="LoginAlternative" component={LoginAlternative} />
+      <RootStack.Screen
+        name="LoginAlternative"
+        component={LoginAlternative}
+        initialParams={{ isCheckout: false }}
+      />
     </RootStack.Navigator>
   );
 };
