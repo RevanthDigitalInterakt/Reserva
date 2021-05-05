@@ -23,7 +23,9 @@ import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
 import { BarCodePayment } from "../modules/Checkout/pages/BarCodePayment";
 import { VirtualDebitCardCaixaScreen } from "../modules/Checkout/pages/VirtualDebitCardCaixa";
 import { PixScreen } from "../modules/Checkout/pages/Pix";
-
+import { WithdrawInStore } from "../modules/Checkout/pages/WithdrawInStore";
+import { NearbyStores } from "../modules/Checkout/pages/NearbyStores";
+import { MapScreen } from "../modules/Checkout/pages/Map";
 import { StackScreenProps } from "@react-navigation/stack";
 import { WishList } from "../modules/WishList/pages/WishList";
 import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
@@ -106,6 +108,9 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
+      <MainStack.Screen name="NearbyStores" component={NearbyStores} />
+      <MainStack.Screen name="MapScreen" component={MapScreen} />
       <MainStack.Screen
         name="PaymentMethodScreen"
         component={PaymentMethodScreen}

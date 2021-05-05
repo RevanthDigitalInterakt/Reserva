@@ -22,15 +22,15 @@ export const DeliveryScreen = () => {
           </Box>
           <SelectOption
             title={"Retirar na loja"}
-            subtitle={"Segunda-feira, 05 de abril de 2021"}
+            subtitle={"Segunda-feira, 06 de maio de 2021"}
             onPress={() =>
-              navigation.navigate("PaymentMethodScreen", { isCheckout: true })
+              navigation.navigate("WithdrawInStore", { isCheckout: true })
             }
             divider
           />
           <SelectOption
             title={"Receber em casa"}
-            subtitle={"Segunda-feira, 15 de abril de 2021"}
+            subtitle={"Segunda-feira, 7 de maio de 2021"}
             onPress={() =>
               navigation.navigate("AddressList", { isCheckout: true })
             }
