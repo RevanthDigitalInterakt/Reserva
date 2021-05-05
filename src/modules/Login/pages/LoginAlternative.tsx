@@ -84,6 +84,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     bg="preto"
                     color="white"
                     title="CRIAR CONTA"
+                    onPress={() => navigation.navigate("Register")}
                   />
                   <Button
                     padding="micro"
