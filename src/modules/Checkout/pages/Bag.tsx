@@ -312,7 +312,7 @@ export const BagScreen = () => {
         height={145}
         px="xxs"
         bg="white"
-        style={{ elevation: Platform.OS == "android" ? 5 : 0 }}
+        style={{ elevation: Platform.OS == "android" ? 10 : 0 }}
         boxShadow={Platform.OS == "android" ? null : "bottomBarShadow"}
       >
         <Box flexDirection="row" justifyContent="space-between" py="xxs">
