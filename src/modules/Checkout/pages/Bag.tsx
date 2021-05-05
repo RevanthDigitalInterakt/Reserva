@@ -76,7 +76,7 @@ export const BagScreen = () => {
           <Box bg={"white"} marginTop={"xxs"}>
             <Typography variant="tituloSessoes">Sacola (2)</Typography>
           </Box>
-          <Box mb="xs">
+          <Box my="micro">
             <Box flexDirection="row">
               <Typography fontFamily={"nunitoSemiBold"} fontSize={13}>
                 Faltam apenas R$29,90 para ganhar
