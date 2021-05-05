@@ -198,7 +198,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           <ProductDetailCard
             installmentsNumber={3}
             installmentsPrice={99.9}
-            title="Camiseta Básica Reserva"
+            title="CAMISETA BÁSICA RESERVA"
             discountTag={18}
             price={345}
             priceWithDiscount={297}
@@ -211,13 +211,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState);
             }}
-            onClickShare={() => {
-              Alert.alert("compartilhar!!");
-            }}
+            onClickShare={() => {}}
           />
 
-          <Box mt="xxxs">
-            <Box px="xxxs">
+          <Box mt="xs">
+            <Box px="xxxs" mb='xxxs'>
               <Typography variant={"subtituloSessoes"}>Cores:</Typography>
             </Box>
             <Box>
@@ -239,17 +237,21 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 alignItems="center"
               >
                 <Typography variant={"subtituloSessoes"}>Tamanhos:</Typography>
-                <Button
-                  title="Guia de medidas"
-                  fontFamily="nunitoRegular"
-                  fontSize={"10px"}
-                  py="nano"
-                  leftIcon={<Icon name="Ruler" size={26} />}
-                />
+                <Button>
+                  <Box flexDirection='row' alignItems='center'>
+                    <Icon name="Ruler" size={35} />
+                    <Typography
+                      fontFamily="nunitoRegular"
+                      fontSize={"11px"}
+                      >
+                      Guia de medidas
+                    </Typography>
+                  </Box>
+                </Button>
               </Box>
               <Box alignItems="center" mt="xxxs">
                 <RadioButtons
-                  size={42}
+                  size={44}
                   fontSize={14}
                   onSelectedChange={() => {}}
                   optionsList={["PP", "P", "M", "G", "GG", "3G"]}
@@ -259,7 +261,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             </Box>
 
             <Button
-              mt="xxxs"
+              mt="xxs"
               title="ADICIONAR À SACOLA"
               variant="primarioEstreito"
               onPress={() => {
@@ -274,17 +276,19 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               Consultar prazo e valor do frete
             </Typography>
             <Box flexDirection="row" mt="xxxs">
-              <OutlineInput placeholder="Digite seu CEP" iconName="Search" />
+              <OutlineInput placeholder="Digite seu CEP" iconName="Search" keyboardType='number-pad' keyboardAppearance='light' maskType='zip-code'/>
             </Box>
             <Divider variant="fullWidth" my="xs" />
             <Box>
               <Typography>
                 <Button>
                   <Box flexDirection="row" alignItems="center">
-                    <Icon name="Add" size={15} color="preto" />
-                    <Typography variant="subtituloSessoes">
-                      Sobre este produto
-                    </Typography>
+                    <Icon name="Add" size={26} color="preto" />
+                    <Box ml='nano'>
+                      <Typography fontFamily='reservaSerifRegular' fontSize='20px'>
+                        Sobre este produto
+                      </Typography>
+                    </Box>
                   </Box>
                 </Button>
               </Typography>
@@ -298,6 +302,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               <OutlineInput
                 placeholder="Digite seu e-mail"
                 iconName="ChevronRight"
+                keyboardType="email-address"
               />
             </Box>
             <Box mt="xs" mb="xxl">

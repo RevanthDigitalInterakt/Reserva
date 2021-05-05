@@ -56,7 +56,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         filterList={filterList}
         setFilterList={setFilterList}
         isVisible={filterVisible}
-        onConfirm={() => {}}
+        onConfirm={() => { }}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title="Excluir endereço"
