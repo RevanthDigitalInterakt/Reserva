@@ -1,56 +1,24 @@
 import React, { useState } from "react";
-import { Dimensions, Platform, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { Dimensions, Platform, } from "react-native";
 import { SafeAreaView, ScrollView } from "react-native";
 import {
   Box,
-  Button,
   Icon,
-  ProductHorizontalListCard,
   Typography,
   Image,
 } from "reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+
 import { images } from "../../../assets";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 
 const screenWidth = Dimensions.get("window").width;
 
 export const WishListCategory: React.FC<{}> = () => {
-  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <TopBarDefaultBackButton showShadow />
+
       <ScrollView>
-        <Box paddingX="xxxs" marginTop="xs" mb="nano">
-          <Box marginTop="xxxs">
-            <Typography variant="tituloSessoes">Lista de desejos</Typography>
-          </Box>
-          <Box marginTop="xxxs" flexDirection="row">
-            <Box width={1 / 2}>
-              <Button
-                inline
-                color="preto"
-                height={32}
-                marginRight="xxs"
-                onPress={() => navigation.navigate("WishList")}
-                borderColor="preto"
-                borderWidth={1}
-                title="Todos os itens"
-              />
-            </Box>
-            <Box width={1 / 2}>
-              <Button
-                inline
-                height={32}
-                color="white"
-                fontSize={12}
-                bg="neutroFrio2"
-                title="Minhas categorias"
-              />
-            </Box>
-          </Box>
-        </Box>
+
         <Box
           paddingX="xxxs"
           paddingY="xxs"
@@ -58,7 +26,7 @@ export const WishListCategory: React.FC<{}> = () => {
           width="100%"
           height="100%"
           flexDirection="column"
-          marginTop="xxs"
+          marginTop="xxxs"
         >
           <Box
             boxShadow={Platform.OS == "android" ? null : "topBarShadow"}
@@ -71,7 +39,7 @@ export const WishListCategory: React.FC<{}> = () => {
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                 Camisas
               </Typography>
-              <Icon color="preto" name="ChevronRight" size={16} />
+              <Icon color="preto" name="ArrowProcced" size={16} />
             </Box>
             <Box flexDirection="row">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
@@ -121,7 +89,7 @@ export const WishListCategory: React.FC<{}> = () => {
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                 Sapatos
               </Typography>
-              <Icon color="preto" name="ChevronRight" size={16} />
+              <Icon color="preto" name="ArrowProcced" size={16} />
             </Box>
             <Box flexDirection="row">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
@@ -157,7 +125,7 @@ export const WishListCategory: React.FC<{}> = () => {
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                 Camisas
               </Typography>
-              <Icon color="preto" name="ChevronRight" size={16} />
+              <Icon color="preto" name="ArrowProcced" size={16} />
             </Box>
             <Box flexDirection="row">
               <Typography fontFamily="nunitoRegular" fontSize={12}>

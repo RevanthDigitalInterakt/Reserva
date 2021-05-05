@@ -52,7 +52,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       )}
       <FilterModal
         isVisible={filterVisible}
-        onConfirm={() => {}}
+        onConfirm={() => { }}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title="Excluir endereço"
@@ -203,7 +203,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   Camisetas
                 </Typography>
                 <Button
-                  onPress={() => {}}
+                  onPress={() => { }}
                   marginLeft={'micro'}
                   variant={'icone'}
                   icon={<Icon name="Close" size={10} />}
