@@ -198,7 +198,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           <ProductDetailCard
             installmentsNumber={3}
             installmentsPrice={99.9}
-            title="Camiseta Básica Reserva"
+            title="CAMISETA BÁSICA RESERVA"
             discountTag={18}
             price={345}
             priceWithDiscount={297}
@@ -215,7 +215,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           />
 
           <Box mt="xs">
-            <Box px="xxxs">
+            <Box px="xxxs" mb='xxxs'>
               <Typography variant={"subtituloSessoes"}>Cores:</Typography>
             </Box>
             <Box>
