@@ -12,19 +12,17 @@ export const WishList: React.FC<{}> = () => {
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarDefaultBackButton showShadow />
       <ScrollView>
-        <Box paddingX="xxxs" marginTop="md" paddingBottom='xxxs' >
+        <Box paddingX="xxxs" marginTop="md" paddingBottom="xxxs">
           <Box>
-            <Typography variant="tituloSessoes">
-              Lista de desejos
-            </Typography>
+            <Typography variant="tituloSessoes">Lista de desejos</Typography>
           </Box>
           <Box marginTop="xxxs" flexDirection="row">
             <Box width={1 / 2}>
               <Button
-                title="Todos os items"
+                title="Todos os itens"
                 height={32}
                 color="white"
-                fontFamily='nunitoRegular'
+                fontFamily="nunitoRegular"
                 fontSize={12}
                 bg="neutroFrio2"
                 marginRight="nano"
@@ -40,7 +38,7 @@ export const WishList: React.FC<{}> = () => {
                 borderColor="preto"
                 borderWidth={1}
                 fontSize={12}
-                fontFamily='nunitoRegular'
+                fontFamily="nunitoRegular"
                 title="Minhas categorias"
                 inline
               />
@@ -63,7 +61,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt3}
             />
           </Box>
-          <Box marginTop="xxxs" height={147} >
+          <Box marginTop="xxxs" height={147}>
             <ProductHorizontalListCard
               currency={"R$"}
               itemColor="Cinza"
@@ -77,7 +75,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt4}
             />
           </Box>
-          <Box marginTop="xxxs" height={147} >
+          <Box marginTop="xxxs" height={147}>
             <ProductHorizontalListCard
               currency={"R$"}
               discountTag={18}
@@ -93,7 +91,7 @@ export const WishList: React.FC<{}> = () => {
               imageSource={images.shirt1}
             />
           </Box>
-        </Box> 
+        </Box>
       </ScrollView>
     </SafeAreaView>
   );

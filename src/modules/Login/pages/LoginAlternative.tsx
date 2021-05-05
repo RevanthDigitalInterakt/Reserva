@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
 import { Animated, SafeAreaView, ScrollView } from "react-native";
 import {
@@ -8,15 +9,20 @@ import {
   Button,
   TextField,
   Icon,
-  Toggle
+  Toggle,
 } from "reserva-ui";
 import { images } from "../../../assets";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const LoginAlternative: React.FC = () => {
+type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
+
+export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;
   const boxTranslation = React.useRef(new Animated.Value(100)).current;
+
+  const { isCheckout } = route.params;
 
   React.useEffect(() => {
     Animated.parallel([
@@ -30,83 +36,81 @@ export const LoginAlternative: React.FC = () => {
         duration: 300,
         useNativeDriver: true,
       }),
-    ]).start()
+    ]).start();
   }, [isVisible]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <ScrollView>
         <Box position="relative" paddingBottom="xxl" height="100%" width="100%">
-          <Animated.View 
+          <Animated.View
             style={{
               transform: [
                 {
-                  translateY: imageTranslation
-                }
-              ]
+                  translateY: imageTranslation,
+                },
+              ],
             }}
           >
-            <Image 
-              source={images.bannerLogin} 
-              height={578}
-              width="100%" 
-            />          
+            <Image source={images.bannerLogin} height={578} width="100%" />
           </Animated.View>
           <Animated.View
-            style={{ 
-              position: 'absolute', 
-              backgroundColor: 'white', 
-              width: '100%',
+            style={{
+              position: "absolute",
+              backgroundColor: "white",
+              width: "100%",
               bottom: isVisible ? 60 : 32,
             }}
           >
-            {!isVisible ? <>
-                <Box 
-                flex={1}
-                marginLeft="xxs" 
-                marginTop="xxs"
-                marginBottom="xxs"
-                marginRight="xxs" 
-                justifyContent="center"
-              >
-                <Typography variant="tituloSessoes" textAlign="center">
-                  Identifique-se para continuar sua navegação
-                </Typography>
-              </Box>
-              <Box flexDirection="row" justifyContent="center">
-                <Button 
-                  padding="micro" 
-                  height={50} 
-                  width={150}
-                  bg="preto" 
-                  color="white" 
-                  title="CRIAR CONTA" 
-                />
-                <Button 
-                  padding="micro" 
-                  height={50} 
-                  marginLeft="xxxs"
-                  width={150}
-                  title="ENTRAR"
-                  onPress={() => {
-                    setIsVisible(true);
-                  }}
-                  borderColor="preto"
-                  borderWidth={1}
-                />
-              </Box>
-            </> : 
-              <Animated.View 
+            {!isVisible ? (
+              <>
+                <Box
+                  flex={1}
+                  marginLeft="xxs"
+                  marginTop="xxs"
+                  marginBottom="xxs"
+                  marginRight="xxs"
+                  justifyContent="center"
+                >
+                  <Typography variant="tituloSessoes" textAlign="center">
+                    Identifique-se para continuar sua navegação
+                  </Typography>
+                </Box>
+                <Box flexDirection="row" justifyContent="center">
+                  <Button
+                    padding="micro"
+                    height={50}
+                    width={150}
+                    bg="preto"
+                    color="white"
+                    title="CRIAR CONTA"
+                  />
+                  <Button
+                    padding="micro"
+                    height={50}
+                    marginLeft="xxxs"
+                    width={150}
+                    title="ENTRAR"
+                    onPress={() => {
+                      setIsVisible(true);
+                    }}
+                    borderColor="preto"
+                    borderWidth={1}
+                  />
+                </Box>
+              </>
+            ) : (
+              <Animated.View
                 style={{
                   marginBottom: 8,
                   transform: [
                     {
-                      translateY: boxTranslation
-                    }
-                  ]
+                      translateY: boxTranslation,
+                    },
+                  ],
                 }}
               >
-                <Box marginLeft="xxs" marginTop="xxs" >
+                <Box marginLeft="xxs" marginTop="xxs">
                   <Typography variant="tituloSessoes">
                     Seja bem-vindo novamente!
                   </Typography>
@@ -153,6 +157,13 @@ export const LoginAlternative: React.FC = () => {
                   </Box>
                   <Box marginTop="xs" alignItems="center">
                     <Button
+                      onPress={() => {
+                        if (isCheckout) {
+                          navigation.navigate("DeliveryScreen");
+                        } else {
+                          navigation.navigate("Home");
+                        }
+                      }}
                       width="150px"
                       fontFamily="nunitoRegular"
                       title="ENTRAR"
@@ -164,7 +175,11 @@ export const LoginAlternative: React.FC = () => {
                     <SocialButton variant="Google" onPress={() => {}} />
                     <SocialButton variant="Facebook" onPress={() => {}} />
                   </Box> */}
-                  <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
+                  <Box
+                    flexDirection="row"
+                    justifyContent="center"
+                    marginTop="xxxs"
+                  >
                     <Typography fontSize={13} fontFamily="nunitoRegular">
                       Ainda não possui uma conta?
                     </Typography>
@@ -181,8 +196,8 @@ export const LoginAlternative: React.FC = () => {
                   </Box>
                 </Box>
               </Animated.View>
-            }
-            </Animated.View>
+            )}
+          </Animated.View>
         </Box>
       </ScrollView>
     </SafeAreaView>

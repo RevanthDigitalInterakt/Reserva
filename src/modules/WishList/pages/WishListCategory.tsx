@@ -24,9 +24,7 @@ export const WishListCategory: React.FC<{}> = () => {
       <ScrollView>
         <Box paddingX="xxxs" marginTop="xs" mb="nano">
           <Box marginTop="xxxs">
-            <Typography variant="tituloSessoes">
-              Lista de desejos
-            </Typography>
+            <Typography variant="tituloSessoes">Lista de desejos</Typography>
           </Box>
           <Box marginTop="xxxs" flexDirection="row">
             <Box width={1 / 2}>
@@ -38,7 +36,7 @@ export const WishListCategory: React.FC<{}> = () => {
                 onPress={() => navigation.navigate("WishList")}
                 borderColor="preto"
                 borderWidth={1}
-                title="Todos os items"
+                title="Todos os itens"
               />
             </Box>
             <Box width={1 / 2}>

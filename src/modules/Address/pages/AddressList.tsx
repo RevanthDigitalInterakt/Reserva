@@ -86,7 +86,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 mt="xs"
                 onPress={() =>
                   navigation.navigate("NewAddress", {
-                    isCheckout: false,
+                    isCheckout,
                     id: null,
                   })
                 }

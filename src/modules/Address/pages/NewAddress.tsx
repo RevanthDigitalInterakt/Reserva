@@ -14,7 +14,7 @@ type Props = StackScreenProps<RootStackParamList, "NewAddress">;
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const id = route?.params;
+  const { id } = route?.params;
   const [toggleActivated, setToggleActivated] = React.useState(false);
   const [zipcode, setZipcode] = React.useState("");
 
