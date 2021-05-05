@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
   Platform,
   ScrollView,
   Switch,
   TouchableWithoutFeedback,
   View,
-} from "react-native";
+} from 'react-native';
 import {
   Box,
   Button,
@@ -17,12 +17,12 @@ import {
   SelectColor,
   theme,
   Typography,
-} from "reserva-ui";
-import Modal from "react-native-modal";
-import { Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from 'reserva-ui';
+import Modal from 'react-native-modal';
+import { Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const deviceHeight = Dimensions.get("window").height;
+const deviceHeight = Dimensions.get('window').height;
 
 export interface FilterModalProps {
   isVisible: boolean;
@@ -30,6 +30,8 @@ export interface FilterModalProps {
   onCancel: () => void;
   onClose: () => void;
   onAndroidBackButtonPress?: () => void;
+  setFilterList: Dispatch<SetStateAction<string[]>>;
+  filterList: string[];
 }
 
 export const TitleFilter: React.FC<{ title: string; showMore?: boolean }> = ({
@@ -52,7 +54,7 @@ export const TitleFilter: React.FC<{ title: string; showMore?: boolean }> = ({
             Ver mais
           </Typography>
           <Icon
-            style={{ transform: [{ rotate: "90deg" }] }}
+            style={{ transform: [{ rotate: '90deg' }] }}
             name="ChevronRight"
             color="preto"
             marginY="quarck"
@@ -72,27 +74,29 @@ export const FilterModal = ({
   onCancel,
   onClose,
   onAndroidBackButtonPress,
+  setFilterList,
+  filterList,
   ...props
 }: FilterModalProps) => {
   const [colors, setColors] = useState([
-    "#F2F2F2",
-    "#1E1E1E",
-    "#C0C0C0",
-    "#325477",
-    "#D33A2A",
-    "#31B44A",
-    "#FFF001",
-    "#E5E1C4",
-    "#947E57",
-    "#E362A2",
-    "#EEECDF",
-    "#663054",
+    '#F2F2F2',
+    '#1E1E1E',
+    '#C0C0C0',
+    '#325477',
+    '#D33A2A',
+    '#31B44A',
+    '#FFF001',
+    '#E5E1C4',
+    '#947E57',
+    '#E362A2',
+    '#EEECDF',
+    '#663054',
   ]);
 
   const [selectedColor, setSelectedColor] = useState(colors[3]);
 
   const androidCloseButton = () => {
-    if (Platform.OS !== "android") return;
+    if (Platform.OS !== 'android') return;
     if (onAndroidBackButtonPress) {
       onAndroidBackButtonPress();
       return;
@@ -134,8 +138,8 @@ export const FilterModal = ({
             <ScrollView>
               <Box
                 paddingX="micro"
-                paddingTop={"xs"}
-                paddingBottom={"nano"}
+                paddingTop={'xs'}
+                paddingBottom={'nano'}
                 flexDirection="row"
                 justifyContent="space-between"
               >
@@ -149,20 +153,20 @@ export const FilterModal = ({
               <Box paddingX="micro">
                 <CheckboxList
                   optionsList={[
-                    "Bermudas",
-                    "Casacos",
-                    "Calças",
-                    "Cuecas",
-                    "Camisas",
-                    "Polos",
-                    "Camisetas",
-                    "Sungas",
+                    'Bermudas',
+                    'Casacos',
+                    'Calças',
+                    'Cuecas',
+                    'Camisas',
+                    'Polos',
+                    'Camisetas',
+                    'Sungas',
                   ]}
-                  selectedList={["Bermudas"]}
+                  selectedList={filterList}
                   color="dropDownBorderColor"
                   selectedColor="preto"
                   onCheckChange={(checkBoxList) => {
-                    console.log(checkBoxList);
+                    setFilterList(checkBoxList);
                   }}
                 />
               </Box>
@@ -198,8 +202,8 @@ export const FilterModal = ({
                   onSelectedChange={(color) => {
                     console.log(color);
                   }}
-                  optionsList={["PP", "P", "M", "G", "GG", "3G"]}
-                  defaultSelectedItem={"G"}
+                  optionsList={['PP', 'P', 'M', 'G', 'GG', '3G', 'XG']}
+                  defaultSelectedItem={'G'}
                 />
               </Box>
 
@@ -235,7 +239,7 @@ export const FilterModal = ({
                     onPress={() => onClose()}
                     marginLeft="micro"
                     marginRight="nano"
-                    title={"VOLTAR"}
+                    title={'VOLTAR'}
                     variant="primarioEstreitoOutline"
                     inline={true}
                   />
@@ -246,7 +250,7 @@ export const FilterModal = ({
                     onPress={() => onConfirm()}
                     marginRight="micro"
                     marginLeft="nano"
-                    title={"APLICAR"}
+                    title={'APLICAR'}
                     variant="primarioEstreito"
                     inline={true}
                   />
