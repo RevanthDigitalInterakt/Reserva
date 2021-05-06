@@ -18,15 +18,21 @@ import { ApplicationState } from "../../../store";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
+// TODO: REMOVE THIS, get from the image index.ts
 import okImage from "../../../assets/img/ok.png";
-import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
 
-export const RegisterSuccess: React.FC<{
-  title: string;
-}> = ({ children, title }) => {
+import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
+
+type Props = StackScreenProps<RootStackParamList, "RegisterSuccess">;
+
+export const RegisterSuccess: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { repositories } = useSelector((state: ApplicationState) => state);
+
+  const { comeFrom } = route.params;
 
   useEffect(() => {
     dispatch(loadRequest());
@@ -55,10 +61,24 @@ export const RegisterSuccess: React.FC<{
         <Box marginTop="md" alignItems="center">
           <Button
             onPress={() => {
-              navigation.navigate("Home");
+              if (comeFrom == "Profile") {
+                navigation.navigate("Profile");
+              }
+
+              if (comeFrom == "Menu") {
+                navigation.navigate("Home");
+              }
+
+              if (comeFrom == "Favorite") {
+                navigation.navigate("WishList");
+              }
+
+              if (comeFrom == "Checkout") {
+                navigation.navigate("DeliveryScreen");
+              }
             }}
             fontFamily="nunitoRegular"
-            title="ENTRAR"
+            title={"ENTRAR"}
             width={167}
             variant="primarioEstreito"
             mb="nano"

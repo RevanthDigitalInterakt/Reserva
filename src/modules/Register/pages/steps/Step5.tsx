@@ -7,30 +7,30 @@ import { IUserData } from "../Wizard";
 export const RegisterStep5: React.FC<{
   setUserData: React.Dispatch<React.SetStateAction<IUserData>>;
   userData: IUserData;
-}> = ({ setUserData, userData }) => {
+  comeFrom: string;
+}> = ({ setUserData, userData, comeFrom }) => {
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <Box paddingX="micro" marginTop="xs" flex={1}>
         <Box marginTop="xxxs">
-          <Typography variant={"tituloSessoes"}>
-            Registre sua senha:
-          </Typography>
+          <Typography variant={"tituloSessoes"}>Registre sua senha:</Typography>
         </Box>
 
         <Box marginTop="sm" marginBottom="nano">
           <TextField
             secureTextEntry
             height={55}
+            fontFamily="nunitoRegular"
             placeholder="Digite sua senha"
             value={userData.password}
             onChangeText={(text) =>
               setUserData({ ...userData, password: text })
             }
             iconRight={
-              <Box ml="nano">
-                <Icon color="neutroFrio2" name="EyeOpen" size={25} />
+              <Box mr="xxxs">
+                <Icon color="neutroFrio2" name="EyeOff" size={25} />
               </Box>
             }
           />
@@ -48,15 +48,16 @@ export const RegisterStep5: React.FC<{
         <Box marginTop="xxxs" marginBottom="nano">
           <TextField
             secureTextEntry
-            height={52}
+            height={55}
+            fontFamily="nunitoRegular"
             placeholder="Repita a senha"
             value={userData.confirm_password}
             onChangeText={(text) =>
               setUserData({ ...userData, confirm_password: text })
             }
             iconRight={
-              <Box ml="nano">
-                <Icon color="neutroFrio2" name="EyeOpen" size={25} />
+              <Box mr="xxxs">
+                <Icon color="neutroFrio2" name="EyeOff" size={25} />
               </Box>
             }
           />
@@ -65,7 +66,7 @@ export const RegisterStep5: React.FC<{
           <Button
             fontFamily="nunitoRegular"
             title="CONTINUAR"
-            onPress={() => navigation.navigate("RegisterSuccess")}
+            onPress={() => navigation.navigate("RegisterSuccess", { comeFrom })}
             width={258}
             variant="primarioEstreitoOutline"
             mb="nano"

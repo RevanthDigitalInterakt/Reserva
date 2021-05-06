@@ -353,7 +353,7 @@ export const BagScreen = () => {
         </Box>
         <Button
           onPress={() => {
-            navigation.navigate("LoginAlternative", { isCheckout: true });
+            navigation.navigate("LoginAlternative", { comeFrom: "Checkout" });
           }}
           title="FINALIZAR COMPRA"
           variant="primarioEstreito"

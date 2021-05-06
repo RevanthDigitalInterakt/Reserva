@@ -17,7 +17,8 @@ export interface IUserData {
 
 export const Wizard: React.FC<{
   children: React.ReactElement[];
-}> = ({ children }) => {
+  comeFrom: string;
+}> = ({ children, comeFrom }) => {
   const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(0);
   const [percentStep, setPercentStep] = useState(0);
@@ -84,6 +85,7 @@ export const Wizard: React.FC<{
             setUserData,
             userData,
             handleCompleteRegistration,
+            comeFrom,
           });
         }
         return null;

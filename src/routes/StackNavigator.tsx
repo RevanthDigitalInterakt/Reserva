@@ -58,7 +58,12 @@ import { PurchaseConfirmationScreen } from "../modules/Checkout/pages/PurchaseCo
 import { LoginAlternative } from "../modules/Login/pages/LoginAlternative";
 
 export type RootStackParamList = {
-  LoginAlternative: { isCheckout: boolean };
+  Register: {
+    reset: Boolean;
+    comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite";
+  };
+  RegisterSuccess: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
+  LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   ProductCatalog: { safeArea: boolean; search: boolean };
   NewAddress: { id?: number; isCheckout: boolean };
   AddressList: { isCheckout: boolean };
@@ -130,8 +135,16 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name="BarCodePayment" component={BarCodePayment} />
       <MainStack.Screen name="Login" component={LoginScreen} />
-      <MainStack.Screen name="Register" component={Register} />
-      <MainStack.Screen name="RegisterSuccess" component={RegisterSuccess} />
+      <MainStack.Screen
+        name="Register"
+        component={Register}
+        initialParams={{ reset: false }}
+      />
+      <MainStack.Screen
+        name="RegisterSuccess"
+        component={RegisterSuccess}
+        initialParams={{ comefrom: "Profile" }}
+      />
       <MainStack.Screen name="ForgotEmail" component={ForgotEmail} />
       <MainStack.Screen
         name="ForgotEmailSuccess"
@@ -203,7 +216,7 @@ const AppRouting = () => {
       <RootStack.Screen
         name="LoginAlternative"
         component={LoginAlternative}
-        initialParams={{ isCheckout: false }}
+        initialParams={{ comeFrom: "Profile" }}
       />
     </RootStack.Navigator>
   );

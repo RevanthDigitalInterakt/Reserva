@@ -21,6 +21,7 @@ export const RegisterStep4: React.FC<{
           <TextField
             height={55}
             maskType={"custom"}
+            keyboardType="number-pad"
             maskOptions={{
               mask: "99/99/9999",
             }}

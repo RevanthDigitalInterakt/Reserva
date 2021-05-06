@@ -20,9 +20,11 @@ export const RegisterStep1: React.FC<{
         <Box marginTop="sm" marginBottom="nano">
           <TextField
             height={55}
+            maskType={userData.cpf.length > 13 ? "cnpj" : "cpf"}
+            keyboardType="number-pad"
             value={userData.cpf}
             onChangeText={(text) => setUserData({ ...userData, cpf: text })}
-            placeholder="Digite seu e-mail ou CPF ou CNPJ"
+            placeholder="Digite seu CPF ou CNPJ"
           />
         </Box>
         <Box marginTop="xs" alignItems="center">
