@@ -11,14 +11,12 @@ export const ForgotNewPassword: React.FC = () => {
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarBackButtonWithoutLogo
         showShadow={false}
-        backButtonPress={() => navigation.navigate('ForgotPassword')}
+        backButtonPress={() => navigation.navigate("ForgotPassword")}
       />
       <ScrollView>
         <Box marginTop="xxl">
           <Box paddingX="micro" marginTop="xxxs">
-            <Typography variant={"tituloSessoes"}>
-              Nova senha
-            </Typography>
+            <Typography variant={"tituloSessoes"}>Nova senha</Typography>
           </Box>
         </Box>
         <Box paddingX="micro" flex={1}>
@@ -39,8 +37,8 @@ export const ForgotNewPassword: React.FC = () => {
                 fontFamily="nunitoRegular"
                 fontSize={13}
               >
-                No mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas
-                e números.
+                No mínimo com 8 caracteres, contendo letras maiúsculas,
+                minúsculas e números.
               </Typography>
             </Box>
           </Box>
@@ -60,7 +58,7 @@ export const ForgotNewPassword: React.FC = () => {
             <Button
               fontFamily="nunitoRegular"
               title="CONTINUAR"
-              onPress={() => navigation.navigate("Login")}
+              onPress={() => navigation.navigate("LoginAlternative")}
               width={258}
               variant="primarioEstreitoOutline"
               mb="nano"
