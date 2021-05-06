@@ -55,7 +55,7 @@ export const RegisterSuccess: React.FC<{
         <Box marginTop="md" alignItems="center">
           <Button
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.navigate("BagScreen");
             }}
             fontFamily="nunitoRegular"
             title="ENTRAR"
