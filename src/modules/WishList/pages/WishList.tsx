@@ -51,7 +51,7 @@ export const WishList: React.FC<{}> = () => {
         />
         <Box marginTop="md" paddingBottom="xxxs">
           <Box paddingX="xxxs">
-            <Typography variant="tituloSessoes">Lista de desejos</Typography>
+            <Typography variant="tituloSessoes">Favoritos</Typography>
           </Box>
           <Box paddingX="xxxs" marginTop="xxxs" flexDirection="row">
             <Box width={1 / 2}>

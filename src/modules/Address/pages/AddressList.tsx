@@ -90,7 +90,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                     id: null,
                   })
                 }
-                title={"ADICIONAR ENDEREÇO"}
+                title={"NOVO ENDEREÇO"}
                 variant="primarioEstreitoOutline"
                 padding="xl"
               />

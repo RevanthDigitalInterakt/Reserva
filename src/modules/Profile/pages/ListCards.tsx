@@ -81,9 +81,7 @@ export const ListCards = ({ navigation, route }: Props) => {
           pt={"md"}
         >
           <Box mb={"xxxs"}>
-            <Typography variant="tituloSessoes">
-              Meus cartões
-            </Typography>
+            <Typography variant="tituloSessoes">Meus cartões</Typography>
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -148,9 +146,9 @@ export const ListCards = ({ navigation, route }: Props) => {
       <Alert
         isVisible={isVisibleModalCard}
         title={"Cartão padrão"}
-        subtitle={`Tem certeza que deseja tornar o cartão **** ${cardSelected?.cardNumber?.substring(
+        subtitle={`Deseja definir o cartão **** ${cardSelected?.cardNumber?.substring(
           12
-        )} seu cartão principal?`}
+        )} como principal?`}
         confirmText={"SIM"}
         cancelText={"NÃO"}
         onConfirm={() => {

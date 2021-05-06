@@ -25,15 +25,12 @@ export const NotificationProfile: React.FC<{}> = () => {
       <ScrollView>
         <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"nano"} alignSelf={"flex-start"}>
-            <Typography variant="tituloSessoes">
-              Notificações
-            </Typography>
+            <Typography variant="tituloSessoes">Notificações</Typography>
           </Box>
 
-          <Box alignSelf={"flex-start"}>
+          <Box py={"xxxs"} alignSelf={"flex-start"}>
             <Typography variant="subtituloSessoes">
-              Qual é o tipo de conteúdo que você quer receber? Marque abaixo as
-              opções de contato:
+              Por onde podemos entrar em contato com você?
             </Typography>
           </Box>
 

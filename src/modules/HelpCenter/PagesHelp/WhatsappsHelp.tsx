@@ -90,9 +90,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
         <Box flex={1} pt={"xs"}>
           <Box paddingX={"xxxs"}>
             <Box mb={"nano"} alignSelf={"flex-start"}>
-              <Typography variant={"tituloSessoes"}>
-                Whatsapp
-              </Typography>
+              <Typography variant={"tituloSessoes"}>WhatsApp</Typography>
             </Box>
 
             <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
