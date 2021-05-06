@@ -139,6 +139,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                       secureTextEntry
                       height={55}
                       placeholder="Digite sua senha"
+                      fontFamily="nunitoRegular"
                       iconRight={
                         <Box mr="xxxs">
                           <Icon color="neutroFrio2" name="EyeOff" size={25} />
