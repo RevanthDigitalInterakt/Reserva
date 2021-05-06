@@ -17,7 +17,7 @@ export const GiftVoucherScreen = () => {
       <ScrollView>
         <Box paddingX={"xxxs"} paddingY={"sm"}>
           <Box>
-            <Typography variant={"tituloSessoes"}>Vale-presente</Typography>
+            <Typography variant={"tituloSessoes"}>Cartão presente</Typography>
           </Box>
 
           <Box marginTop={"xs"}>

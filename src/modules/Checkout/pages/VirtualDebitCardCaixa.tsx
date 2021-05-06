@@ -23,18 +23,19 @@ export const VirtualDebitCardCaixaScreen = () => {
           </Box>
 
           <InputOption
-            placeholder={"Nome do titular"}
-            iconName={"HelpCircle"}
-            onPressIcon={() => {}}
-          />
-
-          <InputOption
             placeholder={"Número do cartão"}
             iconName={"HelpCircle"}
             maskType={"credit-card"}
             onChangeText={() => {}}
             onPressIcon={() => {}}
           />
+
+          <InputOption
+            placeholder={"Nome do titular"}
+            iconName={"HelpCircle"}
+            onPressIcon={() => {}}
+          />
+
           <Box flexDirection={"row"}>
             <Box width={"55%"}>
               <InputOption
@@ -99,10 +100,17 @@ const InputOption = ({
               <Button
                 variant={"icone"}
                 onPress={onPressIcon}
-                icon={<Icon name={iconName} color={"preto"} size={16} />}
+                icon={
+                  <Icon
+                    name={iconName}
+                    marginX="xxxs"
+                    color={"preto"}
+                    size={16}
+                  />
+                }
               />
             ) : (
-              <Icon name={iconName} color={"preto"} size={16} />
+              <Icon name={iconName} marginX="xxxs" color={"preto"} size={16} />
             )
           }
         />

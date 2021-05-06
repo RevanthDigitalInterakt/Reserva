@@ -79,7 +79,17 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 navigation.navigate("NewAddress", { id: 1 });
               }}
               selected={true}
-              select={() => navigation.navigate("PaymentMethodScreen")}
+              select={() => {
+                if (isCheckout) {
+                  navigation.navigate("PaymentMethodScreen");
+                  return;
+                }
+
+                navigation.navigate("NewAddress", {
+                  isCheckout,
+                  id: null,
+                });
+              }}
             />
             <Box marginX={"md"}>
               <Button

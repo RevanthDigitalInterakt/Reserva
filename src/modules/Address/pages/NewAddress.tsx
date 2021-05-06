@@ -124,8 +124,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 </Box>
               )}
 
-              {id && !isCheckout && (
+              {!isCheckout && (
                 <Button
+                  width="200px"
                   mt={"xs"}
                   onPress={() => {}}
                   title={"SALVAR ALTERAÇÕES"}

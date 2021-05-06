@@ -57,7 +57,7 @@ export const PurchaseConfirmationScreen = ({ navigation, route }: Props) => {
           {paymentType === "Boleto" && <BarCodeArea />}
           {paymentType === "PIX" && <PixArea />}
 
-          {paymentType !== "PIX" && (
+          {paymentType !== "PIX" && paymentType !== "Boleto" && (
             <>
               <Box my="xxs">
                 <Box mb="micro">
@@ -175,7 +175,7 @@ const BarCodeArea = () => {
         bg="verdeSucesso"
         width="100%"
         height={50}
-        title="COPIAR CÓDIGO DE BARRAS"
+        title="VER BOLETO EM PDF"
         color="white"
         fontFamily="nunitoRegular"
         fontSize={13}

@@ -1,19 +1,19 @@
-import React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, Button, Icon, Divider } from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { SafeAreaView, ScrollView } from "react-native";
+import { Typography, Box, Button, Icon, Divider } from "reserva-ui";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { useNavigation } from "@react-navigation/native";
 
 export const BarCodePayment = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView flex={1} backgroundColor={'white'}>
+    <SafeAreaView flex={1} backgroundColor={"white"}>
       <TopBarBackButton showShadow />
       <ScrollView>
-        <Box paddingX={'xxxs'} paddingY={'sm'}>
+        <Box paddingX={"xxxs"} paddingY={"sm"}>
           <Box>
-            <Typography variant={'tituloSessoes'}>Boleto</Typography>
+            <Typography variant={"tituloSessoes"}>Boleto</Typography>
           </Box>
           <Information
             description={`Imprima o boleto e pague no banco`}
@@ -26,14 +26,14 @@ export const BarCodePayment = () => {
             showDivider
           />
           <Information
-            description={`O prazo de validade do boleto \né de 1 dia útil.`}
+            description={`O prazo de validade do boleto \né de 2 dia úteis'.`}
             iconName="Clock"
           />
         </Box>
       </ScrollView>
       <Button
         onPress={() =>
-          navigation.navigate('SummaryScreen', { paymentType: 'Boleto' })
+          navigation.navigate("SummaryScreen", { paymentType: "Boleto" })
         }
         title="RESUMO"
         variant="primarioEstreito"

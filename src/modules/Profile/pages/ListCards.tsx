@@ -113,6 +113,7 @@ export const ListCards = ({ navigation, route }: Props) => {
               isCheckout: isCheckout,
             })
           }
+          width="200px"
           title={"ADICIONAR CARTÃO"}
           variant="primarioEstreitoOutline"
           padding="xl"
@@ -133,7 +134,7 @@ export const ListCards = ({ navigation, route }: Props) => {
         )}
       </SafeAreaView>
       <Alert
-        isVisible={isVisibleSuccessTrash}
+        isVisible={!isVisibleModalCard && isVisibleSuccessTrash}
         title={"Seu cartão foi excluído com sucesso"}
         confirmText={"OK"}
         onConfirm={() => {
@@ -144,7 +145,7 @@ export const ListCards = ({ navigation, route }: Props) => {
         }}
       />
       <Alert
-        isVisible={isVisibleModalCard}
+        isVisible={!isVisibleSuccessTrash && isVisibleModalCard}
         title={"Cartão padrão"}
         subtitle={`Deseja definir o cartão **** ${cardSelected?.cardNumber?.substring(
           12
@@ -172,8 +173,10 @@ export const ListCards = ({ navigation, route }: Props) => {
         cancelText={"NÃO"}
         onConfirm={() => {
           handleDeleteCard(cardSelected.id);
-          setIsVisibleSuccessTrash(true);
-          setIsVisibleModalTrash(false);
+
+          setTimeout(() => {
+            setIsVisibleSuccessTrash(true);
+          });
         }}
         onCancel={() => {
           setIsVisibleModalTrash(false);

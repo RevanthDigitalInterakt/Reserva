@@ -73,9 +73,13 @@ const AddressSelector = ({
                   editar
                 </Typography>
               </Button>
-              <TouchableOpacity onPress={deleteAddress}>
+
+              <Button
+                hitSlop={{ top: 30, left: 30, bottom: 30, right: 30 }}
+                onPress={deleteAddress}
+              >
                 <Icon ml={"xxs"} name="Trash" color="preto" size={24} />
-              </TouchableOpacity>
+              </Button>
             </Box>
           </Box>
         </Box>
