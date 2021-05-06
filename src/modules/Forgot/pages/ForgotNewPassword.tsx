@@ -60,7 +60,7 @@ export const ForgotNewPassword: React.FC = () => {
             <Button
               fontFamily="nunitoRegular"
               title="CONTINUAR"
-              onPress={() => navigation.navigate("Login")}
+              onPress={() => navigation.navigate("LoginAlternative")}
               width={258}
               variant="primarioEstreitoOutline"
               mb="nano"
