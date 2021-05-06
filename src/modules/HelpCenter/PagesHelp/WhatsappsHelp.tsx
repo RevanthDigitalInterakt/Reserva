@@ -95,7 +95,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
 
             <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
               Selecione seu estado e cidade para falar com um vendedor da loja
-              mais próxima das 10h ás 21h.
+              mais próxima, das 10h às 21h.
             </Typography>
 
             <Box mt={"nano"}>
