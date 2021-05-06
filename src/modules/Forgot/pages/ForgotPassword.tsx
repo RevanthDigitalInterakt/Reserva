@@ -11,7 +11,7 @@ export const ForgotPassword: React.FC = () => {
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarBackButtonWithoutLogo
         showShadow={false}
-        backButtonPress={() => navigation.goBack()}
+        backButtonPress={() => navigation.navigate("LoginAlternative")}
       />
       <Box paddingX="micro" marginTop="xxl">
         <Box justifyContent="flex-start" marginTop="xxxs">
