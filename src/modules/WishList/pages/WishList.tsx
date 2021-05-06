@@ -66,7 +66,7 @@ export const WishList: React.FC<{}> = () => {
                 borderColor={showWishListCategory ? "preto" : null}
                 borderWidth={showWishListCategory ? 1 : null}
                 fontSize={12}
-                bg={showWishListCategory === false ? "neutroFrio2" : null}
+                bg={!showWishListCategory ? "neutroFrio2" : null}
                 marginRight="nano"
                 inline
               />
@@ -89,7 +89,7 @@ export const WishList: React.FC<{}> = () => {
               />
             </Box>
           </Box>
-          {showWishListCategory === false ? (
+          {!showWishListCategory ? (
             <Box paddingX="xxxs">
               <Box marginTop="xxxs" height={147}>
                 <ProductHorizontalListCard
@@ -98,13 +98,13 @@ export const WishList: React.FC<{}> = () => {
                   isFavorited
                   itemColor="Branca"
                   ItemSize="41"
-                  productTitle="Camiseta Básica Reserva "
+                  productTitle="Camiseta Básica Reserva"
                   installmentsNumber={3}
                   installmentsPrice={99.9}
                   price={345.0}
                   priceWithDiscount={297.0}
-                  onClickFavorite={() => {}}
-                  onClickBagButton={() => {}}
+                  onClickFavorite={() => { }}
+                  onClickBagButton={() => { }}
                   onClickPiker={() => {
                     setSorterVisible(true);
                   }}
@@ -121,8 +121,8 @@ export const WishList: React.FC<{}> = () => {
                   installmentsNumber={3}
                   installmentsPrice={79.66}
                   price={345.0}
-                  onClickFavorite={() => {}}
-                  onClickBagButton={() => {}}
+                  onClickFavorite={() => { }}
+                  onClickBagButton={() => { }}
                   imageSource={images.shirt4}
                 />
               </Box>
@@ -138,8 +138,8 @@ export const WishList: React.FC<{}> = () => {
                   installmentsPrice={99.9}
                   price={345.0}
                   priceWithDiscount={297.0}
-                  onClickFavorite={() => {}}
-                  onClickBagButton={() => {}}
+                  onClickFavorite={() => { }}
+                  onClickBagButton={() => { }}
                   imageSource={images.shirt1}
                 />
               </Box>
