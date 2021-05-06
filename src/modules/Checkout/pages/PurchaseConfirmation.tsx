@@ -1,29 +1,29 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StackScreenProps } from "@react-navigation/stack";
+import React, { useState } from "react";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Box, Button, Divider, Icon, Typography, Image } from 'reserva-ui';
-import { images } from '../../../assets';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { Box, Button, Divider, Icon, Typography, Image } from "reserva-ui";
+import { images } from "../../../assets";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
-type Props = StackScreenProps<RootStackParamList, 'PurchaseConfirmationScreen'>;
+type Props = StackScreenProps<RootStackParamList, "PurchaseConfirmationScreen">;
 
 export const PurchaseConfirmationScreen = ({ navigation, route }: Props) => {
   const { paymentType } = route?.params;
   return (
     <SafeAreaView
       style={{
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
         flex: 1,
-        backgroundColor: '#FFF',
+        backgroundColor: "#FFF",
       }}
     >
       <TopBarBackButton showShadow />
 
       <ScrollView>
-        <Box paddingX={'xxxs'} paddingY={'xxs'}>
+        <Box paddingX={"xxxs"} paddingY={"xxs"}>
           <Box flexDirection="row">
             <Image source={images.purchaseConfirmation} />
             <Box width="80%" ml="xxs">
@@ -54,16 +54,16 @@ export const PurchaseConfirmationScreen = ({ navigation, route }: Props) => {
             </Typography>
           </Box>
           <Divider variant="fullWidth" />
-          {paymentType === 'Boleto' && <BarCodeArea />}
-          {paymentType === 'PIX' && <PixArea />}
+          {paymentType === "Boleto" && <BarCodeArea />}
+          {paymentType === "PIX" && <PixArea />}
 
-          {paymentType !== 'PIX' && (
+          {paymentType !== "PIX" && (
             <>
               <Box my="xxs">
                 <Box mb="micro">
                   <Typography variant="precoPromocional2">
-                    Sua entrega chegará no dia{' '}
-                    <Typography style={{ textDecorationLine: 'underline' }}>
+                    Sua entrega chegará no dia{" "}
+                    <Typography style={{ textDecorationLine: "underline" }}>
                       04 de Abril de 2021
                     </Typography>
                     .
@@ -84,21 +84,21 @@ export const PurchaseConfirmationScreen = ({ navigation, route }: Props) => {
               <ProductDescription
                 title="Camiseta Básica Reserva"
                 description={{
-                  color: 'Branca',
-                  size: 'M',
+                  color: "Branca",
+                  size: "M",
                 }}
               />
               <ProductDescription
                 title="Camiseta Básica Reserva"
                 description={{
-                  color: 'Branca',
-                  size: 'M',
+                  color: "Branca",
+                  size: "M",
                 }}
               />
             </>
           )}
         </Box>
-        {paymentType !== 'PIX' && (
+        {paymentType !== "PIX" && (
           <Button variant="primarioEstreito" title="RASTREAR ENTREGA" inline />
         )}
       </ScrollView>
@@ -204,8 +204,8 @@ const PixArea = () => {
         </Typography>
       </Box>
       <Information
-        number={'1'}
-        description={'Copie o código para pagamento:'}
+        number={"1"}
+        description={"Copie o código para pagamento:"}
       />
       <Button
         justifyContent="center"
@@ -237,7 +237,7 @@ const PixArea = () => {
             fontSize={13}
             color="neutroFrio2"
           >
-            Esté código estará válido por{' '}
+            Esté código estará válido por{" "}
             <Typography fontFamily="nunitoBold" fontSize={13}>
               30 minutos
             </Typography>
@@ -247,16 +247,16 @@ const PixArea = () => {
       <Divider variant="fullWidth" />
       <Box mb="xxxs" />
       <Information
-        number={'2'}
+        number={"2"}
         description={
-          'Copie o código e faça o pagamento no aplicativo da sua instituição financeira.'
+          "Copie o código e faça o pagamento no aplicativo da sua instituição financeira."
         }
         divider
       />
       <Information
-        number={'3'}
+        number={"3"}
         description={
-          'Quando realizado, o seu pedido será liberado em nosso aplicativo.'
+          "Quando realizado, o seu pedido será liberado em nosso aplicativo."
         }
       />
     </Box>
@@ -272,29 +272,29 @@ interface IInformation {
 const Information = ({ number, description, divider }: IInformation) => {
   return (
     <>
-      <Box flexDirection={'row'}>
+      <Box flexDirection={"row"}>
         <Box
           height={40}
           width={40}
-          bg={'neutroFrio2'}
-          borderRadius={'infinity'}
-          marginRight={'xxxs'}
-          justifyContent={'center'}
-          alignItems={'center'}
+          bg={"neutroFrio2"}
+          borderRadius={"infinity"}
+          marginRight={"xxxs"}
+          justifyContent={"center"}
+          alignItems={"center"}
         >
           <Typography
-            fontFamily={'reservaSerifRegular'}
+            fontFamily={"reservaSerifRegular"}
             fontSize={20}
-            color={'white'}
+            color={"white"}
           >
             {number}
           </Typography>
         </Box>
         <Box flex={1}>
-          <Typography variant={'tituloSessao'}>{description}</Typography>
+          <Typography variant={"tituloSessao"}>{description}</Typography>
         </Box>
       </Box>
-      {divider && <Divider marginY={'xxxs'} variant={'fullWidth'} />}
+      {divider && <Divider marginY={"xxxs"} variant={"fullWidth"} />}
     </>
   );
 };

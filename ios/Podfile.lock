@@ -348,6 +348,8 @@ PODS:
   - RNSentry (2.4.2):
     - React-Core
     - Sentry (= 6.1.4)
+  - RNShare (6.0.1):
+    - React-Core
   - RNSVG (12.1.1):
     - React
   - Sentry (6.1.4):
@@ -400,6 +402,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -494,6 +497,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -545,6 +550,7 @@ SPEC CHECKSUMS:
   RNReanimated: b8c8004b43446e3c2709fe64b2b41072f87428ad
   RNScreens: bd1523c3bde7069b8e958e5a16e1fc7722ad0bdd
   RNSentry: e86fb2e2fec0365644f4b582938bf66be515acce
+  RNShare: 755de6bac084428f8fd8fb54c376f126f40e560c
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf

@@ -30,6 +30,8 @@ import { Input } from "reserva-ui/src/components/TextField/TextField.styles";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 import { ModalBag } from "../components/ModalBag";
 
+import Share from "react-native-share";
+
 const screenWidth = Dimensions.get("window").width;
 
 let recomendedScroll = createRef<ScrollView>();
@@ -56,7 +58,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   const [selectedColor, setSelectedColor] = useState("#F9F9ED");
   recomendedProducts = [
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -65,7 +67,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -74,7 +76,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -83,7 +85,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -92,7 +94,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -101,7 +103,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -110,7 +112,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -119,7 +121,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -128,7 +130,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -137,7 +139,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -146,7 +148,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -155,7 +157,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -184,6 +186,8 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
     }
   };
 
+  const [cep, setCep] = useState("");
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -198,7 +202,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
           <ProductDetailCard
             installmentsNumber={3}
             installmentsPrice={99.9}
-            title="CAMISETA BÁSICA RESERVA"
+            title="Camiseta Básica Reserva"
             discountTag={18}
             price={345}
             priceWithDiscount={297}
@@ -211,11 +215,23 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState);
             }}
-            onClickShare={() => {}}
+            onClickShare={() => {
+              const options = {
+                message: "Aqui está um produto que você pode gostar",
+                title: "Compartilhar",
+              };
+              Share.open(options)
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  err && console.log(err);
+                });
+            }}
           />
 
           <Box mt="xs">
-            <Box px="xxxs" mb='xxxs'>
+            <Box px="xxxs" mb="xxxs">
               <Typography variant={"subtituloSessoes"}>Cores:</Typography>
             </Box>
             <Box>
@@ -238,12 +254,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               >
                 <Typography variant={"subtituloSessoes"}>Tamanhos:</Typography>
                 <Button>
-                  <Box flexDirection='row' alignItems='center'>
+                  <Box flexDirection="row" alignItems="center">
                     <Icon name="Ruler" size={35} />
-                    <Typography
-                      fontFamily="nunitoRegular"
-                      fontSize={"11px"}
-                      >
+                    <Typography fontFamily="nunitoRegular" fontSize={"11px"}>
                       Guia de medidas
                     </Typography>
                   </Box>
@@ -276,7 +289,17 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
               Consultar prazo e valor do frete
             </Typography>
             <Box flexDirection="row" mt="xxxs">
-              <OutlineInput placeholder="Digite seu CEP" iconName="Search" keyboardType='number-pad' keyboardAppearance='light' maskType='zip-code'/>
+              <OutlineInput
+                onChangeText={(text) => {
+                  setCep(text);
+                }}
+                value={cep}
+                placeholder="Digite seu CEP"
+                iconName="Search"
+                keyboardType="number-pad"
+                keyboardAppearance="light"
+                maskType="zip-code"
+              />
             </Box>
             <Divider variant="fullWidth" my="xs" />
             <Box>
@@ -284,8 +307,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 <Button>
                   <Box flexDirection="row" alignItems="center">
                     <Icon name="Add" size={26} color="preto" />
-                    <Box ml='nano'>
-                      <Typography fontFamily='reservaSerifRegular' fontSize='20px'>
+                    <Box ml="nano">
+                      <Typography
+                        fontFamily="reservaSerifRegular"
+                        fontSize="20px"
+                      >
                         Sobre este produto
                       </Typography>
                     </Box>

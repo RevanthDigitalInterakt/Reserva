@@ -117,7 +117,7 @@ const OrderDetailComponent = ({
             Confirmação
           </Typography> */}
           <Typography
-            fontFamily="reservaSerifBold"
+            fontFamily="reservaDisplayRegular"
             fontSize={20}
             color="vermelhoRSV"
           >

@@ -28,9 +28,10 @@ export const BagScreen = () => {
 
   const [lisProduct, setLisProduct] = useState([
     {
+      discountTag: "30%",
       itemColor: "Branca",
       ItemSize: "41",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -41,7 +42,7 @@ export const BagScreen = () => {
     {
       itemColor: "Branca",
       ItemSize: "41",
-      productTitle: "CAMISETA BÁSICA RESERVA",
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
@@ -124,9 +125,10 @@ export const BagScreen = () => {
               />
             </Box>
           ))}
+        </Box>
 
-          <Divider marginTop={"xs"} variant={"fullWidth"} />
-
+        <Box paddingX={"xxxs"}>
+          <Divider variant={"fullWidth"} />
           <Button onPress={() => setShowLikelyProducts(!showLikelyProducts)}>
             <Box flexDirection={"row"} marginY={"xxs"} alignItems={"center"}>
               <Box marginRight="micro">
@@ -134,7 +136,7 @@ export const BagScreen = () => {
               </Box>
               <Box flex={1}>
                 <Typography variant={"subtituloSessoes"}>
-                  Outros produtos que você pode gostar
+                  Você vai gostar destas aqui
                 </Typography>
               </Box>
               <Box marginRight="micro">
@@ -143,40 +145,43 @@ export const BagScreen = () => {
             </Box>
           </Button>
           <Divider variant={"fullWidth"} />
+        </Box>
 
-          {showLikelyProducts && (
-            <BoxAnimated animation={showLikelyProducts ? "fadeIn" : ""}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={{
-                  flex: 1,
-                }}
-              >
-                {lisProduct.map((product, index) => (
-                  <Box
-                    mt="xxs"
-                    mr="xxs"
-                    key={`${index}-${product.productTitle}`}
-                  >
-                    <Box flex={1} mb="micro">
-                      <ProductVerticalListCard {...product} />
-                    </Box>
-
-                    <Button
-                      fontSize={"11px"}
-                      title="ADICIONAR"
-                      bg="preto"
-                      color="white"
-                      height={"30px"}
-                      width={"100%"}
+        {showLikelyProducts && (
+          <BoxAnimated
+            paddingX={"xxxs"}
+            bg="#FAFAFA"
+            animation={showLikelyProducts ? "fadeIn" : ""}
+          >
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{
+                flex: 1,
+              }}
+            >
+              {lisProduct.map((product, index) => (
+                <Box mt="xxs" mr="xxs" key={`${index}-${product.productTitle}`}>
+                  <Box flex={1} mb="micro">
+                    <ProductVerticalListCard
+                      bg="#FAFAFA"
+                      small
+                      {...product}
+                      productTitle={product.productTitle.toUpperCase()}
                     />
                   </Box>
-                ))}
-              </ScrollView>
-            </BoxAnimated>
-          )}
+                  <Button
+                    width="100%"
+                    title="ADICIONAR"
+                    variant="primarioEstreitoSmall"
+                  />
+                </Box>
+              ))}
+            </ScrollView>
+          </BoxAnimated>
+        )}
 
+        <Box paddingX={"xxxs"}>
           {showLikelyProducts && (
             <Divider marginTop={"xs"} variant={"fullWidth"} />
           )}

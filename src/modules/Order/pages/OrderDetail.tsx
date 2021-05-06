@@ -88,24 +88,33 @@ const OrderList = () => {
             </Box>
           </Box>
 
-          <Box
-            mb={"md"}
-            mt="md"
-            flexDirection="row"
-            justifyContent="space-between"
-          >
-            <Box width="48%">
-              <Button inline title="AJUDA" variant="primarioEstreitoOutline" />
-            </Box>
-            <Box width="48%">
+          <Box mb={"md"} mt="md">
+            <Box width="100%">
               <Button
+                inline
+                title="PRECISO DE AJUDA"
+                variant="primarioEstreitoOutline"
+                onPress={() => {
+                  navigation.navigate("HelpCenter");
+                }}
+              />
+            </Box>
+            <Box my="xxxs">
+              <Button
+                inline
                 onPress={() => {
                   navigation.navigate("OrderCancel");
                 }}
-                inline
-                title="CANCELAR"
-                variant="primarioEstreitoOutline"
-              />
+                title="Desejo cancelar meu pedido"
+              >
+                <Typography
+                  style={{ textDecorationLine: "underline" }}
+                  fontSize="12px"
+                  fontFamily="nunitoRegular"
+                >
+                  Desejo cancelar meu pedido
+                </Typography>
+              </Button>
             </Box>
           </Box>
         </ScrollView>

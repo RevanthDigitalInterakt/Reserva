@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -35,20 +35,25 @@ interface IMenuItem {
 }
 
 const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
+  const navigation = useNavigation();
+
   return (
-    <Box
-      paddingX="micro"
-      paddingTop="xxxs"
-      alignItems="center"
-      flexDirection="row"
-    >
-      <Icon name="MenuArrowBack" color="preto" size={22} />
-      <Box paddingX="micro">
-        <Typography fontSize={12} fontFamily="nunitoRegular">
-          Pagina Inicial
-        </Typography>
+    <Button onPress={() => navigation.navigate("Home")} alignSelf="flex-start">
+      <Box
+        alignSelf="flex-start"
+        paddingX="micro"
+        paddingTop="nano"
+        alignItems="center"
+        flexDirection="row"
+      >
+        <Icon name="MenuArrowBack" color="preto" size={22} />
+        <Box paddingX="micro">
+          <Typography fontSize={12} fontFamily="nunitoRegular">
+            Pagina Inicial
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    </Button>
   );
 };
 

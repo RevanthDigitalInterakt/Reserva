@@ -4,13 +4,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-} from 'react-native';
+} from "react-native";
 
 import {
   BottomTabBarProps,
   createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
-import { HomeScreen } from '../modules/Home/pages/Home';
+} from "@react-navigation/bottom-tabs";
+import { HomeScreen } from "../modules/Home/pages/Home";
 
 import * as React from "react";
 import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
@@ -18,6 +18,7 @@ import { ExampleScreen } from "../modules/Example/pages/Example";
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 import { MenuProfile } from "../modules/Profile/pages/MenuProfile";
+import { Search, SearchScreen } from "../modules/Search/pages/Search";
 
 type OnPressType = {
   key: string;
@@ -33,7 +34,7 @@ export const DefaultRoutes = ({
 }: BottomTabBarProps<{}>) => {
   const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
     const event = navigation.emit({
-      type: 'tabPress',
+      type: "tabPress",
       target: key,
       canPreventDefault: true,
     });
@@ -70,7 +71,7 @@ export const Tabs = () => {
         <Tab.Screen
           name="SearchMenu"
           initialParams={{ safeArea: false, search: true }}
-          component={ProductCatalog}
+          component={SearchScreen}
         />
         <Tab.Screen
           name="Offers"

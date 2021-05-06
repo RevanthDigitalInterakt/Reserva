@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
-import { Platform } from "react-native";
+import { Platform, TouchableOpacity } from "react-native";
 import { Typography, Box, Button, Icon } from "reserva-ui";
 
 interface IOrder {
@@ -13,7 +13,11 @@ interface IOrder {
 const Order = ({ delivered, pixPending, onPress }: IOrder) => {
   // TODO: na hr da integração remover o delivered e OnPress e tratar aqui dentro do componente. foi usado apenas para demonstração.
   return (
-    <>
+    <TouchableOpacity
+      onPress={() => {
+        onPress();
+      }}
+    >
       <Box
         style={{ elevation: 10 }}
         boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
@@ -44,56 +48,17 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
           </Box>
           <Typography
             fontSize={20}
-            fontFamily="reservaSerifBold"
+            fontFamily="reservaDisplayRegular"
             color="vermelhoRSV"
           >
             12-3456789
           </Typography>
-          {
-            pixPending && (
-              <Box 
-                flexDirection="row" 
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Typography
-                  style={{ marginTop: 5, marginBottom: 5 }}
-                  mt={"micro"}
-                  fontSize={14}
-                  fontFamily="nunitoBold"
-                  color="preto"
-                >
-                  Pagamento pendente - PIX
-                </Typography>
-                <Box
-                  flexDirection="row" 
-                  alignItems="center"
-                >
-                  <Box marginRight="nano">
-                    <Icon name="Clock" size={15} />
-                  </Box>
-                  <Typography>
-                    21:30
-                  </Typography>
-                </Box>
-              </Box>
-            )
-          }
-          {
-            delivered && (
-              <Typography
-                style={{ marginTop: 5, marginBottom: 5 }}
-                mt={"micro"}
-                fontSize={14}
-                fontFamily="nunitoBold"
-                color="verdeSucesso"
-              >
-                Produto entregue
-              </Typography>
-            ) 
-          }
-          {
-            !delivered && !pixPending && (
+          {pixPending && (
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
               <Typography
                 style={{ marginTop: 5, marginBottom: 5 }}
                 mt={"micro"}
@@ -101,10 +66,38 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
                 fontFamily="nunitoBold"
                 color="preto"
               >
-                Entrega prevista: 04/04/2021
+                Pagamento pendente - PIX
               </Typography>
-            ) 
-          }
+              <Box flexDirection="row" alignItems="center">
+                <Box marginRight="nano">
+                  <Icon name="Clock" size={15} />
+                </Box>
+                <Typography>21:30</Typography>
+              </Box>
+            </Box>
+          )}
+          {delivered && (
+            <Typography
+              style={{ marginTop: 5, marginBottom: 5 }}
+              mt={"micro"}
+              fontSize={14}
+              fontFamily="nunitoBold"
+              color="verdeSucesso"
+            >
+              Produto entregue
+            </Typography>
+          )}
+          {!delivered && !pixPending && (
+            <Typography
+              style={{ marginTop: 5, marginBottom: 5 }}
+              mt={"micro"}
+              fontSize={14}
+              fontFamily="nunitoBold"
+              color="preto"
+            >
+              Entrega prevista: 04/04/2021
+            </Typography>
+          )}
 
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
             Endereço de entrega: AV. Castelo Branco, 123, Praia da Costa - Vila
@@ -112,17 +105,11 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
           </Typography>
         </Box>
 
-        <Button
-          onPress={onPress}
-          pt={"xxxs"}
-          backgroundColor={"white"}
-          height={20}
-          width={100}
-        >
+        <Button pt={"xxxs"} backgroundColor={"white"} height={20} width={100}>
           <Icon name="ArrowDown" size={20} />
         </Button>
       </Box>
-    </>
+    </TouchableOpacity>
   );
 };
 

@@ -60,16 +60,14 @@ const OrderList = () => {
     <>
       <SafeAreaView flex={1} backgroundColor={"white"}>
         <TopBarBackButton showShadow />
-        <ScrollView showsVerticalScrollIndicator={false} >
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Box
             mb="xxxs"
             paddingX="xxxs"
             justifyContent="flex-start"
             paddingTop={"md"}
           >
-            <Typography variant={"tituloSessoes"}>
-              Cancelar pedido
-            </Typography>
+            <Typography variant={"tituloSessoes"}>Cancelar pedido</Typography>
           </Box>
           <Box paddingX="xxxs" mb="xxxs">
             <Typography fontSize={15} fontFamily="nunitoRegular">
@@ -96,24 +94,41 @@ const OrderList = () => {
             justifyContent={"space-between"}
           >
             <Box flexDirection={"row"} mb={"xxs"}>
-              <Box 
-                width={"50%"}                 
+              <Box
+                width={"50%"}
                 borderRightWidth={1}
-                borderRightColor={'divider'}>
-                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                borderRightColor={"divider"}
+              >
+                <Typography
+                  fontFamily={"nunitoRegular"}
+                  fontSize={15}
+                  textAlign={"center"}
+                >
                   Rio de Janeiro
                 </Typography>
-                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                <Typography
+                  fontFamily={"nunitoRegular"}
+                  fontSize={15}
+                  textAlign={"center"}
+                >
                   e regiões:
                 </Typography>
               </Box>
 
               <Box width={"50%"}>
-                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                <Typography
+                  fontFamily={"nunitoRegular"}
+                  fontSize={15}
+                  textAlign={"center"}
+                >
                   São Paulo e
                 </Typography>
 
-                <Typography fontFamily={"nunitoRegular"} fontSize={15} textAlign={"center"}>
+                <Typography
+                  fontFamily={"nunitoRegular"}
+                  fontSize={15}
+                  textAlign={"center"}
+                >
                   demais estados:
                 </Typography>
               </Box>
@@ -132,7 +147,7 @@ const OrderList = () => {
             </Box>
           </Box>
 
-          <Box paddingY="nano" alignSelf="center" mt={"micro"}>
+          <Box paddingY="micro" alignSelf="center" mt={"micro"}>
             <Button
               inline
               onPress={() => {

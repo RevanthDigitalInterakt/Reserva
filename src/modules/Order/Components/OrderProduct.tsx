@@ -18,7 +18,7 @@ const OrderProduct = ({ obj }: IOrderProduct) => {
         />
         <Box ml="micro">
           <Typography fontSize={13} fontFamily="nunitoBold">
-            CAMISETA BÁSICA RESERVA
+            Camiseta Básica Reserva
           </Typography>
           <Typography fontSize={11} fontFamily="nunitoRegular">
             Tam: 41
