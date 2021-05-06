@@ -133,7 +133,7 @@ export const CardCheckout = ({
           <Typography fontSize={20} fontFamily="reservaSerifRegular">
             Adicionar Cartão
           </Typography>
-          {!handleNewTwoCards && compatible && cardWritingType !== "scanned" ? (
+          {!handleNewTwoCards && compatible ? (
             <Button onPress={scanCard}>
               <Box flexDirection="row" alignItems="center">
                 <Box mr="nano">

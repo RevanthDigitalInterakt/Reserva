@@ -137,9 +137,7 @@ export const NewCard = ({ navigation, route }: Props) => {
                     <Typography variant="tituloSessoes">
                       Adicionar cartão
                     </Typography>
-                    {!handleNewTwoCards &&
-                    compatible &&
-                    cardWritingType !== "scanned" ? (
+                    {!handleNewTwoCards && compatible ? (
                       <Button onPress={scanCard}>
                         <Box flexDirection="row" alignItems="center">
                           <Box mr="nano">
