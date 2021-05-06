@@ -22,7 +22,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const imageTranslation = React.useRef(new Animated.Value(0)).current;
   const boxTranslation = React.useRef(new Animated.Value(100)).current;
 
-  const { isCheckout } = route.params;
+  const { comeFrom } = route.params;
 
   React.useEffect(() => {
     Animated.parallel([
@@ -72,7 +72,11 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                   marginRight="xxs"
                   justifyContent="center"
                 >
-                  <Typography variant="tituloSessoes" fontSize={24} textAlign="center">
+                  <Typography
+                    variant="tituloSessoes"
+                    fontSize={24}
+                    textAlign="center"
+                  >
                     Identifique-se para continuar sua navegação
                   </Typography>
                 </Box>
@@ -99,7 +103,9 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     fontSize={13}
                     title="CRIAR CONTA"
                     borderColor="preto"
-                    onPress={() => navigation.navigate("Register")}
+                    onPress={() =>
+                      navigation.navigate("Register", { reset: true, comeFrom })
+                    }
                     borderWidth={1}
                   />
                 </Box>
@@ -116,8 +122,16 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                 }}
               >
                 <Box marginLeft="xxs" marginTop="xxs">
-                  <Typography variant="tituloSessoes">
-                    Seja bem-vindo novamente!
+                  <Typography fontSize="24px" fontFamily="reservaSerifRegular">
+                    {JSON.stringify(comeFrom)}
+                    {comeFrom == "Profile" &&
+                      "Acesse ou crie sua conta para continuar"}
+                    {comeFrom == "Menu" &&
+                      "Acesse ou crie sua conta para continuar"}
+                    {comeFrom == "Checkout" &&
+                      "Ótimo gosto! Agora, acesse ou crie sua conta para finalizar seu pedido"}
+                    {comeFrom == "Favorite" &&
+                      "Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos"}
                   </Typography>
                 </Box>
                 <Box flex={1} marginLeft="xxs" marginRight="xxs">
@@ -163,7 +177,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                   <Box marginTop="xs" alignItems="center">
                     <Button
                       onPress={() => {
-                        if (isCheckout) {
+                        if (comeFrom == "Checkout") {
                           navigation.navigate("DeliveryScreen");
                         } else {
                           navigation.navigate("Home");
@@ -193,7 +207,12 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                         fontSize={13}
                         style={{ textDecorationLine: "underline" }}
                         fontFamily="nunitoRegular"
-                        onPress={() => navigation.navigate("Register")}
+                        onPress={() =>
+                          navigation.navigate("Register", {
+                            reset: true,
+                            comeFrom,
+                          })
+                        }
                       >
                         Clique para se cadastrar
                       </Typography>

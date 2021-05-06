@@ -7,7 +7,8 @@ import { IUserData } from "../Wizard";
 export const RegisterStep5: React.FC<{
   setUserData: React.Dispatch<React.SetStateAction<IUserData>>;
   userData: IUserData;
-}> = ({ setUserData, userData }) => {
+  comeFrom: string;
+}> = ({ setUserData, userData, comeFrom }) => {
   const navigation = useNavigation();
 
   return (
@@ -15,7 +16,7 @@ export const RegisterStep5: React.FC<{
       <Box paddingX="micro" marginTop="xs" flex={1}>
         <Box marginTop="xxxs">
           <Typography variant={"tituloSessoes"}>
-            Registre sua senha:
+            Registre sua senha: {JSON.stringify(comeFrom)}
           </Typography>
         </Box>
 
@@ -65,7 +66,7 @@ export const RegisterStep5: React.FC<{
           <Button
             fontFamily="nunitoRegular"
             title="CONTINUAR"
-            onPress={() => navigation.navigate("RegisterSuccess")}
+            onPress={() => navigation.navigate("RegisterSuccess", { comeFrom })}
             width={258}
             variant="primarioEstreitoOutline"
             mb="nano"
