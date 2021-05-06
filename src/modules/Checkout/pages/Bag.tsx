@@ -76,7 +76,7 @@ export const BagScreen = () => {
           <Box bg={"white"} marginTop={"xxs"}>
             <Typography variant="tituloSessoes">Sacola (2)</Typography>
           </Box>
-          <Box mb="xs">
+          <Box my="micro">
             <Box flexDirection="row">
               <Typography fontFamily={"nunitoSemiBold"} fontSize={13}>
                 Faltam apenas R$29,90 para ganhar
@@ -312,7 +312,7 @@ export const BagScreen = () => {
         height={145}
         px="xxs"
         bg="white"
-        style={{ elevation: Platform.OS == "android" ? 5 : 0 }}
+        style={{ elevation: Platform.OS == "android" ? 10 : 0 }}
         boxShadow={Platform.OS == "android" ? null : "bottomBarShadow"}
       >
         <Box flexDirection="row" justifyContent="space-between" py="xxs">
