@@ -52,7 +52,7 @@ export const Wizard: React.FC<{
     if (currentStep !== 0) {
       setCurrentStep(currentStep - 1);
     } else {
-      navigation.goBack();
+      navigation.navigate("LoginAlternative");
     }
   };
 

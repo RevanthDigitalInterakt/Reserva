@@ -72,7 +72,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                   marginRight="xxs"
                   justifyContent="center"
                 >
-                  <Typography variant="tituloSessoes" textAlign="center">
+                  <Typography variant="tituloSessoes" fontSize={24} textAlign="center">
                     Identifique-se para continuar sua navegação
                   </Typography>
                 </Box>
@@ -81,21 +81,25 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     padding="micro"
                     height={50}
                     width={150}
+                    fontFamily="nunitoBold"
+                    fontSize={13}
                     bg="preto"
                     color="white"
-                    title="CRIAR CONTA"
-                    onPress={() => navigation.navigate("Register")}
+                    title="ENTRAR"
+                    onPress={() => {
+                      setIsVisible(true);
+                    }}
                   />
                   <Button
                     padding="micro"
                     height={50}
                     marginLeft="xxxs"
                     width={150}
-                    title="ENTRAR"
-                    onPress={() => {
-                      setIsVisible(true);
-                    }}
+                    fontFamily="nunitoBold"
+                    fontSize={13}
+                    title="CRIAR CONTA"
                     borderColor="preto"
+                    onPress={() => navigation.navigate("Register")}
                     borderWidth={1}
                   />
                 </Box>
@@ -136,8 +140,8 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                       height={55}
                       placeholder="Digite sua senha"
                       iconRight={
-                        <Box ml="nano">
-                          <Icon color="neutroFrio2" name="EyeOpen" size={25} />
+                        <Box mr="xxxs">
+                          <Icon color="neutroFrio2" name="EyeOff" size={25} />
                         </Box>
                       }
                     />
@@ -165,7 +169,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                           navigation.navigate("Home");
                         }
                       }}
-                      width="150px"
+                      width={190}
                       fontFamily="nunitoRegular"
                       title="ENTRAR"
                       variant="primarioEstreito"
@@ -184,7 +188,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Typography fontSize={13} fontFamily="nunitoRegular">
                       Ainda não possui uma conta?
                     </Typography>
-                    <Box marginLeft="micro">
+                    <Box marginLeft="quarck">
                       <Typography
                         fontSize={13}
                         style={{ textDecorationLine: "underline" }}
