@@ -24,14 +24,15 @@ export const RegisterStep5: React.FC<{
           <TextField
             secureTextEntry
             height={55}
+            fontFamily="nunitoRegular"
             placeholder="Digite sua senha"
             value={userData.password}
             onChangeText={(text) =>
               setUserData({ ...userData, password: text })
             }
             iconRight={
-              <Box ml="nano">
-                <Icon color="neutroFrio2" name="EyeOpen" size={25} />
+              <Box mr="xxxs">
+                <Icon color="neutroFrio2" name="EyeOff" size={25} />
               </Box>
             }
           />
@@ -49,15 +50,16 @@ export const RegisterStep5: React.FC<{
         <Box marginTop="xxxs" marginBottom="nano">
           <TextField
             secureTextEntry
-            height={52}
+            height={55}
+            fontFamily="nunitoRegular"
             placeholder="Repita a senha"
             value={userData.confirm_password}
             onChangeText={(text) =>
               setUserData({ ...userData, confirm_password: text })
             }
             iconRight={
-              <Box ml="nano">
-                <Icon color="neutroFrio2" name="EyeOpen" size={25} />
+              <Box mr="xxxs">
+                <Icon color="neutroFrio2" name="EyeOff" size={25} />
               </Box>
             }
           />
