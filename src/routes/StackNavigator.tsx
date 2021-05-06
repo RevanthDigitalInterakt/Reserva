@@ -29,6 +29,7 @@ import { MapScreen } from "../modules/Checkout/pages/Map";
 import { StackScreenProps } from "@react-navigation/stack";
 import { WishList } from "../modules/WishList/pages/WishList";
 import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
+import { ShowListByCategory } from "../modules/WishList/pages/ShowListByCategory";
 import OrderList from "../modules/Order/pages/OrderList";
 import OrderDetail from "../modules/Order/pages/OrderDetail";
 import OrderCancel from "../modules/Order/pages/OrderCancel";
@@ -104,6 +105,7 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name="WishList" component={WishList} />
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
+      <MainStack.Screen name="ShowListByCategory" component={ShowListByCategory} />
       <MainStack.Screen name="BagScreen" component={BagScreen} />
       <MainStack.Screen
         name="SummaryScreen"
