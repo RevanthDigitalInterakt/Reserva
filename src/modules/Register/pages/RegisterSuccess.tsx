@@ -41,7 +41,7 @@ export const RegisterSuccess: React.FC<{
     >
       <TopBarBackButtonWithoutLogo
         showShadow={false}
-        backButtonPress={() => navigation.navigate("Login")}
+        backButtonPress={() => navigation.navigate("LoginAlternative")}
       />
       <Box alignItems="center" justifyContent="center" flex={1}>
         <Box>
