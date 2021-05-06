@@ -78,7 +78,7 @@ export const RegisterSuccess: React.FC<Props> = ({ route }) => {
               }
             }}
             fontFamily="nunitoRegular"
-            title={"ENTRAR" + comeFrom}
+            title={"ENTRAR"}
             width={167}
             variant="primarioEstreito"
             mb="nano"

@@ -15,9 +15,7 @@ export const RegisterStep5: React.FC<{
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <Box paddingX="micro" marginTop="xs" flex={1}>
         <Box marginTop="xxxs">
-          <Typography variant={"tituloSessoes"}>
-            Registre sua senha: {JSON.stringify(comeFrom)}
-          </Typography>
+          <Typography variant={"tituloSessoes"}>Registre sua senha:</Typography>
         </Box>
 
         <Box marginTop="sm" marginBottom="nano">

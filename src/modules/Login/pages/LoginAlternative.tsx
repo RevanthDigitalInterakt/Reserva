@@ -123,7 +123,6 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
               >
                 <Box marginLeft="xxs" marginTop="xxs">
                   <Typography fontSize="24px" fontFamily="reservaSerifRegular">
-                    {JSON.stringify(comeFrom)}
                     {comeFrom == "Profile" &&
                       "Acesse ou crie sua conta para continuar"}
                     {comeFrom == "Menu" &&
