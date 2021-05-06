@@ -53,14 +53,20 @@ export const EditProfile: React.FC<{
             ></Avatar>
 
             <Button
-              title={"Alterar senha"}
-              fontFamily={"nunitoRegular"}
-              fontSize={13}
-              mt={"nano"}
+              inline
               onPress={() => {
                 navigation.navigate("EditPassword");
               }}
-            />
+              title="Alterar senha"
+            >
+              <Typography
+                style={{ textDecorationLine: "underline" }}
+                fontSize="12px"
+                fontFamily="nunitoRegular"
+              >
+                Alterar senha
+              </Typography>
+            </Button>
           </Box>
 
           <Box mt={"xxxs"}>
@@ -73,7 +79,12 @@ export const EditProfile: React.FC<{
                 }}
                 iconRight={
                   <Box ml="nano">
-                    <Icon color="neutroFrio2" name="Check" size={25} />
+                    <Icon
+                      color="preto"
+                      name="Check"
+                      size={18}
+                      marginX="micro"
+                    ></Icon>
                   </Box>
                 }
               />
@@ -88,7 +99,12 @@ export const EditProfile: React.FC<{
                 }}
                 iconRight={
                   <Box ml="nano">
-                    <Icon color="neutroFrio2" name="Check" size={25} />
+                    <Icon
+                      color="preto"
+                      name="Check"
+                      size={18}
+                      marginX="micro"
+                    ></Icon>
                   </Box>
                 }
               />
@@ -96,14 +112,21 @@ export const EditProfile: React.FC<{
 
             <Box mb={"nano"}>
               <TextField
-                label={"Digite seu CPF"}
+                keyboardType="number-pad"
+                label={"Digite seu CPF/CNPJ"}
                 value={data.cpf}
+                maskType={data.cpf.length > 13 ? "cnpj" : "cpf"}
                 onChangeText={(text) => {
-                  setData({ ...data, ...{ email: text } });
+                  setData({ ...data, ...{ cpf: text } });
                 }}
                 iconRight={
                   <Box ml="nano">
-                    <Icon color="neutroFrio2" name="Check" size={25} />
+                    <Icon
+                      color="preto"
+                      name="Check"
+                      size={18}
+                      marginX="micro"
+                    ></Icon>
                   </Box>
                 }
               />
@@ -118,7 +141,12 @@ export const EditProfile: React.FC<{
                 }}
                 iconRight={
                   <Box ml="nano">
-                    <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                    <Icon
+                      color="preto"
+                      name="EyeOff"
+                      size={18}
+                      marginX="micro"
+                    />
                   </Box>
                 }
               />
@@ -126,20 +154,22 @@ export const EditProfile: React.FC<{
 
             <Box mb={"nano"}>
               <TextField
+                keyboardType="number-pad"
                 label={"Digite sua data de nascimento"}
                 value={data.birth}
                 onChangeText={(text) => {
-                  setData({ ...data, ...{ email: text } });
+                  setData({ ...data, ...{ birth: text } });
                 }}
               />
             </Box>
 
             <Box mb={"nano"}>
               <TextField
+                maskType="cel-phone"
                 label={"Telefone (opcional)"}
                 value={data.phone}
                 onChangeText={(text) => {
-                  setData({ ...data, ...{ email: text } });
+                  setData({ ...data, ...{ phone: text } });
                 }}
               />
             </Box>
