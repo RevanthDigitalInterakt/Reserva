@@ -217,6 +217,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               justifyContent="space-between"
             >
               <ProductVerticalListCard
+                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
                 currency="R$"
                 discountTag={18}
                 imageSource={images.shirt3}
@@ -231,6 +232,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 }}
               />
               <ProductVerticalListCard
+                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
                 currency="R$"
                 imageSource={images.shirt1}
                 productTitle="CAMISETA BÁSICA RESERVA"

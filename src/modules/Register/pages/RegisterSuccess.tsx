@@ -45,10 +45,10 @@ export const RegisterSuccess: React.FC<Props> = ({ route }) => {
       }}
       flex={1}
     >
-      <TopBarBackButtonWithoutLogo
+      {/* <TopBarBackButtonWithoutLogo
         showShadow={false}
         backButtonPress={() => navigation.navigate("LoginAlternative")}
-      />
+      /> */}
       <Box alignItems="center" justifyContent="center" flex={1}>
         <Box>
           <Typography variant={"tituloSessoes"}>
