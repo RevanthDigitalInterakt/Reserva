@@ -121,101 +121,107 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                   ],
                 }}
               >
-                <Box marginLeft="xxs" marginTop="xxs">
-                  <Typography fontSize="24px" fontFamily="reservaSerifRegular">
-                    {comeFrom == "Profile" &&
-                      "Acesse ou crie sua conta para continuar"}
-                    {comeFrom == "Menu" &&
-                      "Acesse ou crie sua conta para continuar"}
-                    {comeFrom == "Checkout" &&
-                      "Ótimo gosto! Agora, acesse ou crie sua conta para finalizar seu pedido"}
-                    {comeFrom == "Favorite" &&
-                      "Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos"}
-                  </Typography>
-                </Box>
-                <Box flex={1} marginLeft="xxs" marginRight="xxs">
-                  <Box marginTop="xxs" marginBottom="nano">
-                    <TextField
-                      height={55}
-                      placeholder="Digite seu e-mail ou CPF ou CNPJ"
-                    />
+                <Box marginX="xxs">
+                  <Box marginTop="xxs">
+                    <Typography
+                      fontSize="24px"
+                      fontFamily="reservaSerifRegular"
+                    >
+                      {comeFrom == "Profile" &&
+                        "Acesse ou crie sua conta para continuar"}
+                      {comeFrom == "Menu" &&
+                        "Acesse ou crie sua conta para continuar"}
+                      {comeFrom == "Checkout" &&
+                        "Ótimo gosto! Agora, acesse ou crie sua conta para finalizar seu pedido"}
+                      {comeFrom == "Favorite" &&
+                        "Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos"}
+                    </Typography>
                   </Box>
-                  <Typography
-                    fontFamily="nunitoRegular"
-                    style={{ textDecorationLine: "underline" }}
-                    onPress={() => navigation.navigate("ForgotEmail")}
-                  >
-                    Esqueci meu e-mail
-                  </Typography>
-                  <Box marginTop="md" marginBottom="nano">
-                    <TextField
-                      secureTextEntry
-                      height={55}
-                      placeholder="Digite sua senha"
+
+                  <Box flex={1}>
+                    <Box marginTop="xxs" marginBottom="nano">
+                      <TextField
+                        height={55}
+                        placeholder="Digite seu e-mail ou CPF ou CNPJ"
+                      />
+                    </Box>
+                    <Typography
                       fontFamily="nunitoRegular"
-                      iconRight={
-                        <Box mr="xxxs">
-                          <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                        </Box>
-                      }
-                    />
-                  </Box>
-                  <Typography
-                    fontFamily="nunitoRegular"
-                    style={{ textDecorationLine: "underline" }}
-                    onPress={() => navigation.navigate("ForgotPassword")}
-                  >
-                    Esqueci minha senha
-                  </Typography>
-                  <Box marginTop="xs" alignItems="center">
-                    <Toggle
-                      thumbColor="neutroFrio1"
-                      color="neutroFrio2"
-                      label="Lembrar meu acesso"
-                    />
-                  </Box>
-                  <Box marginTop="xs" alignItems="center">
-                    <Button
-                      onPress={() => {
-                        if (comeFrom == "Checkout") {
-                          navigation.navigate("DeliveryScreen");
-                        } else {
-                          navigation.navigate("Home");
+                      style={{ textDecorationLine: "underline" }}
+                      onPress={() => navigation.navigate("ForgotEmail")}
+                    >
+                      Esqueci meu e-mail
+                    </Typography>
+                    <Box marginTop="md" marginBottom="nano">
+                      <TextField
+                        secureTextEntry
+                        height={55}
+                        placeholder="Digite sua senha"
+                        fontFamily="nunitoRegular"
+                        iconRight={
+                          <Box mr="xxxs">
+                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                          </Box>
                         }
-                      }}
-                      width={190}
+                      />
+                    </Box>
+                    <Typography
                       fontFamily="nunitoRegular"
-                      title="ENTRAR"
-                      variant="primarioEstreito"
-                      mb="nano"
-                    />
-                  </Box>
-                  {/* <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
+                      style={{ textDecorationLine: "underline" }}
+                      onPress={() => navigation.navigate("ForgotPassword")}
+                    >
+                      Esqueci minha senha
+                    </Typography>
+                    <Box marginTop="xs" alignItems="center">
+                      <Toggle
+                        thumbColor="neutroFrio1"
+                        color="neutroFrio2"
+                        label="Lembrar meu acesso"
+                      />
+                    </Box>
+                    <Box marginTop="xs" alignItems="center">
+                      <Button
+                        onPress={() => {
+                          if (comeFrom == "Checkout") {
+                            navigation.navigate("DeliveryScreen");
+                          } else {
+                            navigation.navigate("Home");
+                          }
+                        }}
+                        width={190}
+                        fontFamily="nunitoRegular"
+                        title="ENTRAR"
+                        variant="primarioEstreito"
+                        mb="nano"
+                      />
+                    </Box>
+                    {/* <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
                     <SocialButton variant="Google" onPress={() => {}} />
                     <SocialButton variant="Facebook" onPress={() => {}} />
                   </Box> */}
-                  <Box
-                    flexDirection="row"
-                    justifyContent="center"
-                    marginTop="xxxs"
-                  >
-                    <Typography fontSize={13} fontFamily="nunitoRegular">
-                      Ainda não possui uma conta?
-                    </Typography>
-                    <Box marginLeft="quarck">
-                      <Typography
-                        fontSize={13}
-                        style={{ textDecorationLine: "underline" }}
-                        fontFamily="nunitoRegular"
-                        onPress={() =>
-                          navigation.navigate("Register", {
-                            reset: true,
-                            comeFrom,
-                          })
-                        }
-                      >
-                        Clique para se cadastrar
+                    <Box
+                      flexDirection="row"
+                      justifyContent="center"
+                      marginTop="xxxs"
+                    >
+                      <Typography fontSize={13} fontFamily="nunitoRegular">
+                        Ainda não possui uma conta?
                       </Typography>
+                      <Box marginLeft="quarck">
+                        <Typography
+                          fontSize={13}
+                          style={{ textDecorationLine: "underline" }}
+                          fontFamily="nunitoRegular"
+                          onPress={() =>
+                            navigation.navigate("Register", {
+                              reset: true,
+                              comeFrom,
+                            })
+                          }
+                        >
+                          Clique para se cadastrar
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
