@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button } from "reserva-ui";
 import { ApplicationState } from "../../../store";
+import { loadProducts } from "../../../store/ducks/products/actions";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 
@@ -14,10 +15,10 @@ export const ExampleScreen: React.FC<{
 
   const dispatch = useDispatch();
 
-  const { repositories } = useSelector((state: ApplicationState) => state);
+  const { products } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
-    dispatch(loadRequest());
+    dispatch(loadProducts());
   }, []);
 
   return (
@@ -31,11 +32,11 @@ export const ExampleScreen: React.FC<{
           onPress={() => navigation.navigate("MyModal")}
           title="Open Modal"
         />
-        {repositories.loading ? (
+        {products.loading ? (
           <Typography>Loading</Typography>
         ) : (
-          repositories.data.map((repository) => {
-            return <Typography>{repository.name}</Typography>;
+          products.data.map((product) => {
+            return <Typography>{product.title}</Typography>;
           })
         )}
       </Box>
