@@ -12,7 +12,8 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "clean": "cd android && ./gradlew clean && cd ..",
-    "android-build-release": "cd android && ./gradlew assembleRelease"
+    "android-build-release": "cd android && ./gradlew assembleRelease",
+    "codepush-ios": "appcenter codepush release-react -a GlobalsysApps/Reserva-iOS -d Staging"
   },
   "dependencies": {
     "@monterosa/react-native-parallax-scroll": "^1.8.0",
@@ -33,6 +34,7 @@
     "react-native": "0.64.0",
     "react-native-animatable": "^1.3.3",
     "react-native-cardscan": "^1.1.30",
+    "react-native-code-push": "^7.0.1",
     "react-native-credit-card-display": "https://github.com/ebellumat/react-native-credit-card-display",
     "react-native-credit-card-input-view": "^0.0.7",
     "react-native-device-info": "^8.1.2",

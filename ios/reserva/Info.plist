@@ -103,5 +103,7 @@
 		<string></string>
 		<key>NSLocationAlwaysUsageDescription</key>
 		<string></string>
+		<key>CodePushDeploymentKey</key>
+		<string>zsi6nczL5sely5_C5fPfThRGmD2pdOZUfOHnn</string>
 	</dict>
 </plist>
