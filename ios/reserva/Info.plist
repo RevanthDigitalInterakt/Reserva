@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
-		<key>UIUserInterfaceStyle</key>
-		<string>Light</string>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>en</string>
 		<key>CFBundleDisplayName</key>
@@ -24,6 +22,8 @@
 		<string>????</string>
 		<key>CFBundleVersion</key>
 		<string>1</string>
+		<key>CodePushDeploymentKey</key>
+		<string>zsi6nczL5sely5_C5fPfThRGmD2pdOZUfOHnn</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>NSAppTransportSecurity</key>
@@ -37,10 +37,14 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>NSLocationWhenInUseUsageDescription</key>
-		<string/>
 		<key>NSCameraUsageDescription</key>
 		<string>We need access to your camera to scan your card</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string></string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string></string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 		<key>UIAppFonts</key>
 		<array>
 			<string>Nunito-Black.ttf</string>
@@ -95,15 +99,9 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>UIUserInterfaceStyle</key>
+		<string>Light</string>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
-		<key>NSLocationWhenInUseUsageDescription</key>
-		<string/>
-		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string></string>
-		<key>NSLocationAlwaysUsageDescription</key>
-		<string></string>
-		<key>CodePushDeploymentKey</key>
-		<string>zsi6nczL5sely5_C5fPfThRGmD2pdOZUfOHnn</string>
 	</dict>
 </plist>
