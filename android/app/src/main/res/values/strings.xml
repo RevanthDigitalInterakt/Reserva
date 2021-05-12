@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">reserva</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">fSCtTLXq7ZG9s3Z_bE4R8tWNpMD0iZ1Lmfq0b</string>
 </resources>
