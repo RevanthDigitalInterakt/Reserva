@@ -16,7 +16,7 @@ const reducer: Reducer<ProductsState> = (state = INITIAL_STATE, action) => {
         case ProductsTypes.LOAD_PRODUCTS_FAILURE:
             return { ...state, loading: false, error: true }
         default:
-            return { ...state }
+            return state
     }
 }
 

@@ -32,6 +32,7 @@ export const ExampleScreen: React.FC<{
           onPress={() => navigation.navigate("MyModal")}
           title="Open Modal"
         />
+        <Typography>{JSON.stringify(products)} </Typography>
         {products.loading ? (
           <Typography>Loading</Typography>
         ) : (

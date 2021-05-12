@@ -16,7 +16,7 @@ const reducer: Reducer<RepositoriesState> = (state = INITIAL_STATE, action) => {
         case RepositoriesTypes.LOAD_FAILURE:
             return { ...state, loading: false, error: true }
         default:
-            return { ...state }
+            return state
     }
 }
 

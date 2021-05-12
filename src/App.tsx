@@ -2,7 +2,7 @@ import { ThemeProvider } from "styled-components/native";
 
 import React from "react";
 
-import { Alert, useColorScheme } from "react-native";
+import { Alert, Text, useColorScheme } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -14,7 +14,7 @@ import AppRouting from "./routes/StackNavigator";
 
 import { Provider } from "react-redux";
 
-import store from "./store/index";
+import configureStore from "./store/index";
 
 import * as Sentry from "@sentry/react-native";
 
@@ -23,6 +23,8 @@ import InitialScreen from "./InitialScreen";
 
 import codePush from "react-native-code-push";
 import { useEffect } from "react";
+
+import { PersistGate } from "redux-persist/integration/react";
 
 Sentry.init({
   dsn: env.SENTRY_KEY,
@@ -66,10 +68,12 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer theme={DefaultTheme}>
-        <Provider store={store}>
-          <InitialScreen>
-            <AppRouting />
-          </InitialScreen>
+        <Provider store={configureStore().store}>
+          <PersistGate persistor={configureStore().persistor}>
+            <InitialScreen>
+              <AppRouting />
+            </InitialScreen>
+          </PersistGate>
         </Provider>
       </NavigationContainer>
     </ThemeProvider>
