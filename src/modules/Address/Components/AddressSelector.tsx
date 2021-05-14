@@ -1,16 +1,20 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { Alert, TouchableOpacity } from "react-native";
-import { theme, TopBar } from "reserva-ui";
-import { Typography, Box, Button, Icon } from "reserva-ui";
+import { useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { Alert, TouchableOpacity } from 'react-native';
+import { theme, TopBar } from 'reserva-ui';
+import { Typography, Box, Button, Icon } from 'reserva-ui';
 
-interface IAdressSelector {
-  select?: () => void;
-  edit?: () => void;
-  deleteAddress?: () => void;
+export interface Address {
   title?: string;
   address?: string;
   zipcode?: string;
+}
+interface IAddressesSelector {
+  select?: () => void;
+  edit?: () => void;
+  deleteAddress?: () => void;
+  addressData: Address;
+
   selected: boolean;
 }
 
@@ -19,24 +23,21 @@ const AddressSelector = ({
   select,
   edit,
   deleteAddress,
-  title,
-  address,
-  zipcode,
-}: IAdressSelector) => {
-  const navigation = useNavigation();
-
+  addressData,
+}: IAddressesSelector) => {
+  const { address, title, zipcode } = addressData;
   return (
     <>
       <TouchableOpacity onPress={select}>
         <Box
           bg="white"
-          borderBottomWidth={"hairline"}
-          borderColor={"divider"}
+          borderBottomWidth={'hairline'}
+          borderColor={'divider'}
           width="100%"
           flexDirection="row"
-          mt={"xxxs"}
+          mt={'xxxs'}
         >
-          <Box width={24} mr={"micro"}>
+          <Box width={24} mr={'micro'}>
             {selected && <Icon name="Check" color="preto" size={24} />}
           </Box>
           <Box paddingX="micro" flex={1}>
@@ -45,7 +46,7 @@ const AddressSelector = ({
             </Typography>
             <Box mt="nano" mb="quarck">
               <Typography
-                style={{ flexWrap: "wrap" }}
+                style={{ flexWrap: 'wrap' }}
                 fontFamily="nunitoRegular"
                 fontSize={12}
               >
@@ -59,26 +60,25 @@ const AddressSelector = ({
 
             <Box
               flexDirection="row"
-              mb={"xxxs"}
+              mb={'xxxs'}
               justifyContent="flex-end"
               alignItems="flex-end"
             >
               <Button
-                onPress={() => {
-                  navigation.navigate("NewAddress", { id: 1 });
-                }}
-                pb={"quarck"}
+                onPress={edit}
+                pb={'quarck'}
+                hitSlop={{ top: 10, left: 10, bottom: 30, right: 10 }}
               >
-                <Typography style={{ textDecorationLine: "underline" }}>
+                <Typography style={{ textDecorationLine: 'underline' }}>
                   editar
                 </Typography>
               </Button>
 
               <Button
-                hitSlop={{ top: 30, left: 30, bottom: 30, right: 30 }}
+                hitSlop={{ top: 10, left: -10, bottom: 30, right: 10 }}
                 onPress={deleteAddress}
               >
-                <Icon ml={"xxs"} name="Trash" color="preto" size={24} />
+                <Icon ml={'xxs'} name="Trash" color="preto" size={24} />
               </Button>
             </Box>
           </Box>

@@ -1,33 +1,47 @@
-import * as React from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import * as React from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
 
-import { Typography, Box, Button, Alert } from "reserva-ui";
-import AddressSelector from "../Components/AddressSelector";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation } from "@react-navigation/core";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { StackScreenProps } from "@react-navigation/stack";
+import { Typography, Box, Button, Alert } from 'reserva-ui';
+import AddressSelector, { Address } from '../Components/AddressSelector';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useNavigation } from '@react-navigation/core';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
 
-type Props = StackScreenProps<RootStackParamList, "AddressList">;
+type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
-  const [sucessModal, setSucessModal] = React.useState(false);
-
+  const [successModal, setSuccessModal] = React.useState(false);
+  const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
+
+  const [addresses, setAddresses] = React.useState<Address[]>([
+    {
+      address:
+        'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
+      title: 'Casa',
+      zipcode: '29.123-456',
+    },
+  ]);
 
   return (
     <>
       <Alert
+        onModalHide={() => {
+          modalRef.current && setSuccessModal(true);
+        }}
         isVisible={deleteModal}
-        title={"Excluir endereço"}
-        subtitle={"Tem certeza que deseja excluir o endereço salvo?"}
-        confirmText={"SIM"}
-        cancelText={"NÃO"}
+        title={'Excluir endereço'}
+        subtitle={'Tem certeza que deseja excluir o endereço salvo?'}
+        confirmText={'SIM'}
+        cancelText={'NÃO'}
         onConfirm={() => {
-          setSucessModal(true);
+          modalRef.current = true;
+
           setDeleteModal(false);
+          setAddresses([]);
         }}
         onCancel={() => {
           setDeleteModal(false);
@@ -38,11 +52,11 @@ const AddressList: React.FC<Props> = ({ route }) => {
       />
 
       <Alert
-        isVisible={sucessModal}
-        title={"Seu endereço foi excluido com sucesso."}
-        confirmText={"OK"}
+        isVisible={successModal}
+        title={'Seu endereço foi excluido com sucesso.'}
+        confirmText={'OK'}
         onConfirm={() => {
-          setSucessModal(false);
+          setSuccessModal(false);
         }}
         onClose={() => {
           setDeleteModal(false);
@@ -55,52 +69,58 @@ const AddressList: React.FC<Props> = ({ route }) => {
         />
 
         <Box
-          overflow={"hidden"}
-          height={"80%"}
+          overflow={'hidden'}
+          height={'80%'}
           paddingHorizontal={20}
           justifyContent="flex-start"
-          pt={"md"}
+          pt={'md'}
         >
-          <Box alignSelf={"flex-start"} mb={"xxxs"}>
+          <Box alignSelf={'flex-start'} mb={'xxxs'}>
             <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <AddressSelector
-              address={
-                "R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES"
-              }
-              title={"Casa"}
-              zipcode={"29.123-456"}
-              deleteAddress={() => {
-                setDeleteModal(true);
-              }}
-              edit={() => {
-                navigation.navigate("NewAddress", { id: 1 });
-              }}
-              selected={true}
-              select={() => {
-                if (isCheckout) {
-                  navigation.navigate("PaymentMethodScreen");
-                  return;
-                }
+            {addresses.map((addressItem) => {
+              const { address, title, zipcode } = addressItem;
+              return (
+                <AddressSelector
+                  key={address}
+                  addressData={{
+                    address,
+                    title,
+                    zipcode,
+                  }}
+                  deleteAddress={() => {
+                    setDeleteModal(true);
+                  }}
+                  edit={() => {
+                    navigation.navigate('NewAddress', { edit: true });
+                  }}
+                  selected={true}
+                  select={() => {
+                    if (isCheckout) {
+                      navigation.navigate('PaymentMethodScreen');
+                      return;
+                    }
 
-                navigation.navigate("NewAddress", {
-                  isCheckout,
-                  id: null,
-                });
-              }}
-            />
-            <Box marginX={"md"}>
+                    navigation.navigate('NewAddress', {
+                      isCheckout,
+                      id: null,
+                    });
+                  }}
+                />
+              );
+            })}
+            <Box marginX={'md'}>
               <Button
                 mt="xs"
                 onPress={() =>
-                  navigation.navigate("NewAddress", {
+                  navigation.navigate('NewAddress', {
                     isCheckout,
                     id: null,
                   })
                 }
-                title={"NOVO ENDEREÇO"}
+                title={'NOVO ENDEREÇO'}
                 variant="primarioEstreitoOutline"
                 padding="xl"
               />
@@ -110,7 +130,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
         {isCheckout && (
           <Box justifyContent="flex-end" flex={1}>
             <Button
-              onPress={() => navigation.navigate("PaymentMethodScreen")}
+              onPress={() => navigation.navigate('PaymentMethodScreen')}
               title="FORMA DE PAGAMENTO"
               variant="primarioEstreito"
               inline={true}
