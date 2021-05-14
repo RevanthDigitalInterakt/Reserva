@@ -21,9 +21,9 @@ import {
 import Modal from 'react-native-modal';
 import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { createAnimatableComponent } from 'react-native-animatable';
 const deviceHeight = Dimensions.get('window').height;
-
+const BoxAnimation = createAnimatableComponent(Box);
 export interface FilterModalProps {
   isVisible: boolean;
   onConfirm: () => void;
@@ -34,10 +34,11 @@ export interface FilterModalProps {
   filterList: string[];
 }
 
-export const TitleFilter: React.FC<{ title: string; showMore?: boolean }> = ({
-  title,
-  showMore,
-}) => {
+export const TitleFilter: React.FC<{
+  title: string;
+  showMore: boolean;
+  setShowMore: (val: boolean) => void;
+}> = ({ title, showMore, setShowMore }) => {
   return (
     <Box
       paddingX="micro"
@@ -48,21 +49,34 @@ export const TitleFilter: React.FC<{ title: string; showMore?: boolean }> = ({
       <Typography fontFamily="reservaSerifRegular" fontSize="16px">
         {title}
       </Typography>
-      {showMore && (
-        <Box flexDirection="row" justifyContent="space-between">
+
+      <Button
+        onPress={() => setShowMore(!showMore)}
+        hitSlop={{ left: 50, top: 15, bottom: 15 }}
+      >
+        <BoxAnimation
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography fontFamily="nunitoRegular" fontSize="12px">
             Ver mais
           </Typography>
+
           <Icon
-            style={{ transform: [{ rotate: '90deg' }] }}
-            name="ChevronRight"
+            style={
+              showMore
+                ? { transform: [{ rotate: '-90deg' }] }
+                : { transform: [{ translateY: 4 }] }
+            }
+            name={showMore ? 'ChevronRight' : 'ArrowDown'}
             color="preto"
             marginY="quarck"
             marginX="nano"
             size={12}
           />
-        </Box>
-      )}
+        </BoxAnimation>
+      </Button>
     </Box>
   );
 };
@@ -94,6 +108,10 @@ export const FilterModal = ({
   ]);
 
   const [selectedColor, setSelectedColor] = useState(colors[3]);
+  const [showCategories, setShowCategories] = React.useState(false);
+  const [showColors, setShowColors] = React.useState(false);
+  const [showSizes, setShowSizes] = React.useState(false);
+  const [showPrices, setShowPrices] = React.useState(false);
 
   const androidCloseButton = () => {
     if (Platform.OS !== 'android') return;
@@ -148,46 +166,58 @@ export const FilterModal = ({
                 </Typography>
               </Box>
 
-              <TitleFilter showMore={true} title="Categorias"></TitleFilter>
+              <TitleFilter
+                showMore={showCategories}
+                setShowMore={setShowCategories}
+                title="Categorias"
+              />
 
-              <Box paddingX="micro">
-                <CheckboxList
-                  optionsList={[
-                    'Bermudas',
-                    'Casacos',
-                    'Calças',
-                    'Cuecas',
-                    'Camisas',
-                    'Polos',
-                    'Camisetas',
-                    'Sungas',
-                  ]}
-                  selectedList={filterList}
-                  color="dropDownBorderColor"
-                  selectedColor="preto"
-                  onCheckChange={(checkBoxList) => {
-                    setFilterList(checkBoxList);
-                  }}
-                />
-              </Box>
+              {showCategories && (
+                <BoxAnimation animation="fadeIn" paddingX="micro">
+                  <CheckboxList
+                    optionsList={[
+                      'Bermudas',
+                      'Casacos',
+                      'Calças',
+                      'Cuecas',
+                      'Camisas',
+                      'Polos',
+                      'Camisetas',
+                      'Sungas',
+                    ]}
+                    selectedList={filterList}
+                    color="dropDownBorderColor"
+                    selectedColor="preto"
+                    onCheckChange={(checkBoxList) => {
+                      setFilterList(checkBoxList);
+                    }}
+                  />
+                </BoxAnimation>
+              )}
               <Divider
                 variant="fullWidth"
                 marginBottom="nano"
                 marginTop="nano"
               />
 
-              <TitleFilter showMore={true} title="Cores"></TitleFilter>
+              <TitleFilter
+                showMore={showColors}
+                setShowMore={setShowColors}
+                title="Cores"
+              />
 
-              <Box paddingX="micro">
-                <SelectColor
-                  listColors={colors}
-                  onPress={(color) => {
-                    setSelectedColor(color);
-                  }}
-                  selectedColor={selectedColor}
-                  size={23}
-                />
-              </Box>
+              {showColors && (
+                <BoxAnimation animation="fadeIn" paddingX="micro">
+                  <SelectColor
+                    listColors={colors}
+                    onPress={(color) => {
+                      setSelectedColor(color);
+                    }}
+                    selectedColor={selectedColor}
+                    size={23}
+                  />
+                </BoxAnimation>
+              )}
 
               <Divider
                 variant="fullWidth"
@@ -195,17 +225,27 @@ export const FilterModal = ({
                 marginTop="nano"
               />
 
-              <TitleFilter title="Tamanho"></TitleFilter>
+              <TitleFilter
+                title="Tamanho"
+                showMore={showSizes}
+                setShowMore={setShowSizes}
+              />
 
-              <Box paddingY="micro" paddingX="micro">
-                <RadioButtons
-                  onSelectedChange={(color) => {
-                    console.log(color);
-                  }}
-                  optionsList={['PP', 'P', 'M', 'G', 'GG', '3G', 'XG']}
-                  defaultSelectedItem={'G'}
-                />
-              </Box>
+              {showSizes && (
+                <BoxAnimation
+                  animation="fadeIn"
+                  paddingY="micro"
+                  paddingX="micro"
+                >
+                  <RadioButtons
+                    onSelectedChange={(color) => {
+                      console.log(color);
+                    }}
+                    optionsList={['PP', 'P', 'M', 'G', 'GG', '3G', 'XG']}
+                    defaultSelectedItem={'G'}
+                  />
+                </BoxAnimation>
+              )}
 
               <Divider
                 variant="fullWidth"
@@ -213,20 +253,30 @@ export const FilterModal = ({
                 marginY="micro"
               />
 
-              <TitleFilter title="Preços"></TitleFilter>
+              <TitleFilter
+                title="Preços"
+                showMore={showPrices}
+                setShowMore={setShowPrices}
+              />
 
-              <Box paddingX="micro" alignSelf="center">
-                <Range
-                  max={1000}
-                  mdxType="Range"
-                  min={1}
-                  onValuesChange={() => {}}
-                  originalType={() => {}}
-                  prefix="R$ "
-                  value={[100, 400]}
-                  width={300}
-                />
-              </Box>
+              {showPrices && (
+                <BoxAnimation
+                  animation="fadeIn"
+                  paddingX="micro"
+                  alignSelf="center"
+                >
+                  <Range
+                    max={1000}
+                    mdxType="Range"
+                    min={1}
+                    onValuesChange={() => {}}
+                    originalType={() => {}}
+                    prefix="R$ "
+                    value={[100, 400]}
+                    width={300}
+                  />
+                </BoxAnimation>
+              )}
 
               <Box
                 paddingTop="micro"
