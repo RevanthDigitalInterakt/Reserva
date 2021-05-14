@@ -92,7 +92,7 @@ export const FilterModal = ({
   filterList,
   ...props
 }: FilterModalProps) => {
-  const [colors, setColors] = useState([
+  const colors = [
     '#F2F2F2',
     '#1E1E1E',
     '#C0C0C0',
@@ -105,9 +105,9 @@ export const FilterModal = ({
     '#E362A2',
     '#EEECDF',
     '#663054',
-  ]);
+  ];
 
-  const [selectedColor, setSelectedColor] = useState(colors[3]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [showCategories, setShowCategories] = React.useState(false);
   const [showColors, setShowColors] = React.useState(false);
   const [showSizes, setShowSizes] = React.useState(false);
@@ -211,9 +211,18 @@ export const FilterModal = ({
                   <SelectColor
                     listColors={colors}
                     onPress={(color) => {
-                      setSelectedColor(color);
+                      if (selectedColors.includes(color)) {
+                        const newColors = selectedColors.filter(
+                          (colorItem) => colorItem !== color
+                        );
+                        setSelectedColors(newColors);
+                        return;
+                      }
+                      setSelectedColors((preview) => {
+                        return [...preview, color];
+                      });
                     }}
-                    selectedColor={selectedColor}
+                    selectedColors={selectedColors}
                     size={23}
                   />
                 </BoxAnimation>
