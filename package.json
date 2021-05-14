@@ -54,11 +54,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.3",
-<<<<<<< HEAD
     "reserva-ui": "0.0.132",
-=======
-    "reserva-ui": "0.0.131",
->>>>>>> 1022a2a4a8af3545816cd2ce56e789c44e0e1f40
     "styled-components": "^5.2.3",
     "styled-system": "5.1.5",
     "typesafe-actions": "^5.1.0",
