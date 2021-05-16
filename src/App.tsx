@@ -25,6 +25,7 @@ import codePush from "react-native-code-push";
 import { useEffect } from "react";
 
 import { PersistGate } from "redux-persist/integration/react";
+import { oneSignalConfig } from "./config/pushNotification";
 
 Sentry.init({
   dsn: env.SENTRY_KEY,
@@ -63,6 +64,8 @@ const App = () => {
         /* Update download modal progress */
       }
     );
+
+    oneSignalConfig();
   }, []);
 
   return (

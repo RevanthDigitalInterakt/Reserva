@@ -44,6 +44,7 @@ PODS:
   - lottie-react-native (4.0.2):
     - lottie-ios (~> 3.1.8)
     - React-Core
+  - OneSignal (3.4.3)
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -248,6 +249,9 @@ PODS:
     - React-Core
   - react-native-maps (0.28.0):
     - React-Core
+  - react-native-onesignal (4.1.0):
+    - OneSignal (= 3.4.3)
+    - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.2.0):
     - React-Core
   - React-perflogger (0.64.0)
@@ -377,6 +381,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - OneSignal (< 4.0, >= 3.0)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -394,6 +399,7 @@ DEPENDENCIES:
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
+  - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -427,6 +433,7 @@ SPEC REPOS:
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - JWT
+    - OneSignal
     - Sentry
     - SSZipArchive
 
@@ -475,6 +482,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-onesignal:
+    :path: "../node_modules/react-native-onesignal"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
@@ -538,6 +547,7 @@ SPEC CHECKSUMS:
   JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 4dff8fe8d10ddef9e7880e770080f4a56121397e
+  OneSignal: e4dfb1912410f302dc9661ce98fc829f6c18ff6a
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
   RCTTypeSafety: 512728b73549e72ad7330b92f3d42936f2a4de5b
@@ -553,6 +563,7 @@ SPEC CHECKSUMS:
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-google-maps: 46dea4aa4acb7300beff508f64d9f8c84e9fb106
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
+  react-native-onesignal: 6d3d3ac10192c5694049ce8c1ba481e5392c1a73
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
@@ -580,6 +591,6 @@ SPEC CHECKSUMS:
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: b64902f148a626b38c182accebf89f599d5e6807
+PODFILE CHECKSUM: 9b509a9f18ba755bf7c57b216c1c2657823f08f8
 
 COCOAPODS: 1.10.1
