@@ -1,9 +1,9 @@
 //#region Action Types
 
 export enum ProductsTypes {
-    LOAD_PRODUCTS_REQUEST = "@products/LOAD_PRODUCTS_REQUEST",
-    LOAD_PRODUCTS_SUCCESS = "@products/LOAD_PRODUCTS_SUCCESS",
-    LOAD_PRODUCTS_FAILURE = "@products/LOAD_PRODUCTS_FAILURE"
+  LOAD_PRODUCTS_REQUEST = '@products/LOAD_PRODUCTS_REQUEST',
+  LOAD_PRODUCTS_SUCCESS = '@products/LOAD_PRODUCTS_SUCCESS',
+  LOAD_PRODUCTS_FAILURE = '@products/LOAD_PRODUCTS_FAILURE',
 }
 
 //#endregion
@@ -11,22 +11,22 @@ export enum ProductsTypes {
 //#region Data Types
 
 export interface Product {
-    id: number,
-    title: string,
-    category: string,
-    description: string,
-    image: string,
-    price: number
+  id: number
+  title: string
+  category: string
+  description: string
+  images: string[]
+  price: number
 }
 
-//#region 
+//#region
 
 //#region State Type
 
 export interface ProductsState {
-    readonly dataOffer: Product[],
-    readonly loading: boolean,
-    readonly error: boolean
+  readonly dataOffer: Product[]
+  readonly loading: boolean
+  readonly error: boolean
 }
 
-//#region 
+//#region
