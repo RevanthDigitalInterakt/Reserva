@@ -234,10 +234,7 @@ export const Menu: React.FC<{}> = () => {
                 marginBottom="nano"
                 marginTop="nano"
               />
-            </Animatable.View>
-          )}
-          {categories && (
-            <Animatable.View animation="fadeIn">
+
               <FixedMenuItem
                 iconName="Profile"
                 title={
