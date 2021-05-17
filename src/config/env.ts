@@ -13,4 +13,4 @@ const production: typeof dev = {
   },
 };
 
-export const env = dev;
+export const env = __DEV__ ? dev : production;
