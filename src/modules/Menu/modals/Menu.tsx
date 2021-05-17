@@ -1,6 +1,6 @@
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import * as React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import * as React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
   Button,
@@ -10,15 +10,20 @@ import {
   TextField,
   theme,
   Typography,
-} from 'reserva-ui';
-import { TopBarMenu } from '../components/TopBarMenu';
-import * as Animatable from 'react-native-animatable';
-import { Alert, ScrollView, TouchableOpacity } from 'react-native';
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { loadRequest } from '../../../store/ducks/categories/actions';
-import { ApplicationState } from '../../../store';
-import { Category } from '../../../store/ducks/categories/types';
+} from "reserva-ui";
+import { TopBarMenu } from "../components/TopBarMenu";
+import * as Animatable from "react-native-animatable";
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { loadRequest } from "../../../store/ducks/categories/actions";
+import { ApplicationState } from "../../../store";
+import { Category } from "../../../store/ducks/categories/types";
 
 interface IBreadCumbs {
   title: string;
@@ -42,7 +47,7 @@ const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
   const navigation = useNavigation();
 
   return (
-    <Button onPress={() => navigation.navigate('Home')} alignSelf="flex-start">
+    <Button onPress={() => navigation.navigate("Home")} alignSelf="flex-start">
       <Box
         alignSelf="flex-start"
         paddingX="micro"
@@ -67,7 +72,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('ProductCatalog');
+        navigation.navigate("ProductCatalog");
       }}
     >
       <Box
@@ -79,7 +84,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
       >
         <Typography
           fontSize={13}
-          fontFamily={highlight ? 'nunitoBold' : 'nunitoRegular'}
+          fontFamily={highlight ? "nunitoBold" : "nunitoRegular"}
         >
           {title}
         </Typography>
@@ -107,7 +112,7 @@ const MenuItem: React.FC<IMenuItem> = ({
           marginX="xxxs"
         >
           <Typography
-            color={highlight ? 'vermelhoAlerta' : 'preto'}
+            color={highlight ? "vermelhoAlerta" : "preto"}
             fontSize={13}
             fontFamily="nunitoBold"
           >
@@ -115,7 +120,7 @@ const MenuItem: React.FC<IMenuItem> = ({
           </Typography>
           <Box>
             <Icon
-              style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
+              style={{ transform: [{ rotate: opened ? "90deg" : "0deg" }] }}
               name="ChevronRight"
               color="preto"
               size={16}
@@ -170,7 +175,7 @@ export const Menu: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState<Category[]>([]);
   const {
-    categories: { data },
+    categories: { data, loading, error },
   } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
@@ -207,91 +212,105 @@ export const Menu: React.FC<{}> = () => {
           </Box>
           <Breadcumbs title="Página Inicial" />
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
-          {categories.map((item, index) => {
-            return (
-              <MenuItem
-                key={index}
-                highlight={item.highlight}
-                subItemList={item.childs}
-                onPress={openMenuItem}
-                opened={item.opened}
-                index={index}
-                title={item.name}
+          {loading && !categories ? (
+            <ActivityIndicator size="small" color="#333333" />
+          ) : (
+            <Animatable.View animation="fadeIn">
+              {categories.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={index}
+                    highlight={item.highlight}
+                    subItemList={item.childs}
+                    onPress={openMenuItem}
+                    opened={item.opened}
+                    index={index}
+                    title={item.name}
+                  />
+                );
+              })}
+              <Divider
+                variant="fullWidth"
+                marginBottom="nano"
+                marginTop="nano"
               />
-            );
-          })}
-          <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
-          <FixedMenuItem
-            iconName="Profile"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                <Typography style={{ textDecorationLine: 'underline' }}>
-                  Acessar Conta
-                </Typography>
-                {'  '}ou{'  '}
-                <Typography style={{ textDecorationLine: 'underline' }}>
-                  Cadastre-se
-                </Typography>
-              </Typography>
-            }
-            onPress={() => {
-              navigation.navigate('LoginAlternative');
-            }}
-            underline
-          ></FixedMenuItem>
-          <FixedMenuItem
-            iconName="Heart"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                Favoritos
-              </Typography>
-            }
-            onPress={() => {
-              console.log('ok');
-              navigation.navigate('WishList');
-            }}
-          ></FixedMenuItem>
-          <FixedMenuItem
-            iconName="Message"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                Central de Ajuda
-              </Typography>
-            }
-            onPress={() => {
-              console.log('ok');
-              navigation.navigate('HelpCenter');
-            }}
-          ></FixedMenuItem>
-          <FixedMenuItem
-            iconName="Pin"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                Lojas
-              </Typography>
-            }
-            onPress={() => {}}
-          ></FixedMenuItem>
+            </Animatable.View>
+          )}
+          {categories && (
+            <Animatable.View animation="fadeIn">
+              <FixedMenuItem
+                iconName="Profile"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    <Typography style={{ textDecorationLine: "underline" }}>
+                      Acessar Conta
+                    </Typography>
+                    {"  "}ou{"  "}
+                    <Typography style={{ textDecorationLine: "underline" }}>
+                      Cadastre-se
+                    </Typography>
+                  </Typography>
+                }
+                onPress={() => {
+                  navigation.navigate("LoginAlternative");
+                }}
+                underline
+              ></FixedMenuItem>
+              <FixedMenuItem
+                iconName="Heart"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Favoritos
+                  </Typography>
+                }
+                onPress={() => {
+                  console.log("ok");
+                  navigation.navigate("WishList");
+                }}
+              ></FixedMenuItem>
+              <FixedMenuItem
+                iconName="Message"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Central de Ajuda
+                  </Typography>
+                }
+                onPress={() => {
+                  console.log("ok");
+                  navigation.navigate("HelpCenter");
+                }}
+              ></FixedMenuItem>
+              <FixedMenuItem
+                iconName="Pin"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Lojas
+                  </Typography>
+                }
+                onPress={() => {}}
+              ></FixedMenuItem>
+            </Animatable.View>
+          )}
         </ScrollView>
       </Box>
     </SafeAreaView>
