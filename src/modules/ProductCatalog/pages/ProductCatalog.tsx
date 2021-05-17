@@ -1,9 +1,9 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
-import { useEffect } from "react";
-import { Dimensions, ScrollView, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { StackScreenProps } from '@react-navigation/stack';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   theme,
@@ -15,18 +15,18 @@ import {
   Picker,
   SearchBar,
   Pill,
-} from "reserva-ui";
-import { images } from "../../../assets";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
-import { FilterModal } from "../modals/FilterModal";
+} from 'reserva-ui';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { ApplicationState } from '../../../store';
+import { loadRequest } from '../../../store/ducks/repositories/actions';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { FilterModal } from '../modals/FilterModal';
 
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get('window').width;
 
-type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { safeArea } = route.params;
@@ -60,7 +60,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title="Excluir endereço"
-        confirmText={"Ok"}
+        confirmText={'Ok'}
         subtitle="Tem certeza que deseja excluir o endereço salvo?"
       />
       <Picker
@@ -70,19 +70,19 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: "Menor Preço",
+            text: 'Menor Preço',
           },
           {
-            text: "Maior Preço",
+            text: 'Maior Preço',
           },
           {
-            text: "Mais Recentes",
+            text: 'Mais Recentes',
           },
           {
-            text: "Mais Antigos",
+            text: 'Mais Antigos',
           },
           {
-            text: "Relevante",
+            text: 'Relevante',
           },
         ]}
         onConfirm={() => {
@@ -117,8 +117,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                       fontFamily="nunitoSemiBold"
                       fontSize={11}
                     >
-                      Chama no Whats! Seja atendido sem sair de casa.{" "}
-                      <Typography style={{ textDecorationLine: "underline" }}>
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
                       </Typography>
                     </Typography>
@@ -187,7 +187,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   <Typography
                     color="progressTextColor"
                     variant="precoAntigo3"
-                    style={{ textDecorationLine: "underline" }}
+                    style={{ textDecorationLine: 'underline' }}
                   >
                     Limpar tudo
                   </Typography>
@@ -217,7 +217,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               justifyContent="space-between"
             >
               <ProductVerticalListCard
-                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
+                colors={['#F9F9ED', '#7494A5', '#2D4452', '#484C51', '#070707']}
                 currency="R$"
                 discountTag={18}
                 imageSource={images.shirt3}
@@ -228,11 +228,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 priceWithDiscount={297.0}
                 isFavorited={true}
                 onClickImage={() => {
-                  navigation.navigate("ProductDetail");
+                  navigation.navigate('ProductDetail');
                 }}
               />
               <ProductVerticalListCard
-                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
+                colors={['#F9F9ED', '#7494A5', '#2D4452', '#484C51', '#070707']}
                 currency="R$"
                 imageSource={images.shirt1}
                 productTitle="CAMISETA BÁSICA RESERVA"
@@ -241,7 +241,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 price={345.0}
                 isFavorited={false}
                 onClickImage={() => {
-                  navigation.navigate("ProductDetail");
+                  navigation.navigate('ProductDetail');
                 }}
               />
             </Box>
@@ -262,7 +262,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 priceWithDiscount={297.0}
                 isFavorited={true}
                 onClickImage={() => {
-                  navigation.navigate("ProductDetail");
+                  navigation.navigate('ProductDetail');
                 }}
               />
               <ProductVerticalListCard
@@ -274,7 +274,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 price={345.0}
                 isFavorited={false}
                 onClickImage={() => {
-                  navigation.navigate("ProductDetail");
+                  navigation.navigate('ProductDetail');
                 }}
               />
             </Box>
