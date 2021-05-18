@@ -25,7 +25,12 @@ export const PaymentMethodScreen = () => {
             }
             divider
           />
-
+          <SelectPayment
+            iconLeft={'Pix'}
+            title={'PIX'}
+            onPress={() => navigation.navigate('PixScreen')}
+            divider
+          />
           <SelectPayment
             iconLeft={'Barcode'}
             title={'Boleto bancário'}
@@ -41,13 +46,6 @@ export const PaymentMethodScreen = () => {
             onPress={() => {
               navigation.navigate('GiftVoucherScreen');
             }}
-            divider
-          />
-
-          <SelectPayment
-            iconLeft={'Pix'}
-            title={'PIX'}
-            onPress={() => navigation.navigate('PixScreen')}
             divider
           />
 
