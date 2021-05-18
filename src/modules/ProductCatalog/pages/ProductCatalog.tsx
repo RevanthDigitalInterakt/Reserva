@@ -1,8 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useEffect } from 'react'
-import { Dimensions, ScrollView } from 'react-native'
-import { FlatList } from 'react-native'
+import { Dimensions, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -26,11 +25,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault'
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
 import { FilterModal } from '../modals/FilterModal'
 
-const windowWidth = Dimensions.get('window').width
-
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
-
-const screenWidth = Dimensions.get('window').width
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { safeArea } = route.params

@@ -13,8 +13,17 @@ import {
 } from "reserva-ui";
 import { TopBarMenu } from "../components/TopBarMenu";
 import * as Animatable from "react-native-animatable";
-import { Alert, ScrollView, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { loadRequest } from "../../../store/ducks/categories/actions";
+import { ApplicationState } from "../../../store";
+import { Category } from "../../../store/ducks/categories/types";
 
 interface IBreadCumbs {
   title: string;
@@ -27,7 +36,7 @@ interface IMenuSubItem {
 }
 interface IMenuItem {
   title: string;
-  subItemList: IMenuSubItem[];
+  subItemList: Category[];
   opened?: boolean;
   onPress?: Function;
   index?: number;
@@ -92,6 +101,7 @@ const MenuItem: React.FC<IMenuItem> = ({
   subItemList,
   highlight,
 }) => {
+  console.log(subItemList);
   return (
     <Box>
       <TouchableOpacity onPress={() => onPress(index)}>
@@ -122,11 +132,12 @@ const MenuItem: React.FC<IMenuItem> = ({
         <>
           <Divider variant="fullWidth" marginTop="micro" />
           <Animatable.View animation="fadeIn">
-            {subItemList.map((item) => {
+            {subItemList.map((item, index) => {
               return (
                 <MenuSubItem
+                  key={index}
                   highlight={item.highlight}
-                  title={item.title}
+                  title={item.name}
                   onPress={() => {}}
                 />
               );
@@ -161,86 +172,34 @@ export const FixedMenuItem: React.FC<{
 };
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const {
+    categories: { data, loading, error },
+  } = useSelector((state: ApplicationState) => state);
 
-  const [mockSubItemList] = useState([
-    { title: "Roupas", highlight: true },
-    { title: "Ver tudo" },
-    { title: "Camisetas" },
-    { title: "Camisas" },
-    { title: "Polos" },
-    { title: "Casacos" },
-    { title: "Bermudas" },
-    { title: "Calças" },
-    { title: "Cuecas" },
-    { title: "Sungas" },
-  ]);
-  const [mockItens, setMockItens] = useState([
-    {
-      title: "Novidades",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-    {
-      title: "Masculino",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-    {
-      title: "Infantil",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-    {
-      title: "Calçados",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-    {
-      title: "Acessórios",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-    {
-      title: "Crie sua Camiseta",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-    {
-      title: "Parcerias",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-    {
-      title: "Ofertas",
-      opened: false,
-      subItemList: mockSubItemList,
-      highlight: true,
-    },
-    {
-      title: "Sobre a Reserva",
-      opened: false,
-      subItemList: mockSubItemList,
-    },
-  ]);
+  useEffect(() => {
+    dispatch(loadRequest());
+  }, []);
+
+  useEffect(() => {
+    setCategories(
+      data.map((item) => ({
+        ...item,
+        childs: item.childs.flat(),
+        opened: false,
+        highlight: false,
+      }))
+    );
+  }, [data]);
 
   const openMenuItem = (index: number) => {
-    let itens: IMenuItem[] = JSON.parse(JSON.stringify(mockItens));
-
-    if (itens[index].opened) {
-      itens[index].opened = false;
-      setMockItens(itens);
-      return;
-    }
-
-    itens.forEach((menuItem, itemIndex) => {
-      if (menuItem.opened) {
-        menuItem.opened = false;
-      }
-    });
-
-    itens[index].opened = !itens[index].opened;
-
-    setMockItens(itens);
+    setCategories(
+      categories.map((item, i) => ({
+        ...item,
+        opened: index === i && !item.opened,
+      }))
+    );
   };
 
   return (
@@ -253,90 +212,102 @@ export const Menu: React.FC<{}> = () => {
           </Box>
           <Breadcumbs title="Página Inicial" />
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
-          {mockItens.map((item, index) => {
-            return (
-              <MenuItem
-                highlight={item.highlight}
-                subItemList={item.subItemList}
-                onPress={openMenuItem}
-                opened={item.opened}
-                index={index}
-                title={item.title}
+          {loading && !categories ? (
+            <ActivityIndicator size="small" color="#333333" />
+          ) : (
+            <Animatable.View animation="fadeIn">
+              {categories.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={index}
+                    highlight={item.highlight}
+                    subItemList={item.childs}
+                    onPress={openMenuItem}
+                    opened={item.opened}
+                    index={index}
+                    title={item.name}
+                  />
+                );
+              })}
+              <Divider
+                variant="fullWidth"
+                marginBottom="nano"
+                marginTop="nano"
               />
-            );
-          })}
-          <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
-          <FixedMenuItem
-            iconName="Profile"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                <Typography style={{ textDecorationLine: "underline" }}>
-                  Acessar Conta
-                </Typography>
-                {"  "}ou{"  "}
-                <Typography style={{ textDecorationLine: "underline" }}>
-                  Cadastre-se
-                </Typography>
-              </Typography>
-            }
-            onPress={() => {
-              navigation.navigate("LoginAlternative");
-            }}
-            underline
-          ></FixedMenuItem>
-          <FixedMenuItem
-            iconName="Heart"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                Favoritos
-              </Typography>
-            }
-            onPress={() => {
-              console.log("ok");
-              navigation.navigate("WishList");
-            }}
-          ></FixedMenuItem>
-          <FixedMenuItem
-            iconName="Message"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                Central de Ajuda
-              </Typography>
-            }
-            onPress={() => {
-              console.log("ok");
-              navigation.navigate("HelpCenter");
-            }}
-          ></FixedMenuItem>
-          <FixedMenuItem
-            iconName="Pin"
-            title={
-              <Typography
-                alignSelf="flex-end"
-                color="preto"
-                fontSize={15}
-                fontFamily="nunitoBold"
-              >
-                Lojas
-              </Typography>
-            }
-            onPress={() => {}}
-          ></FixedMenuItem>
+
+              <FixedMenuItem
+                iconName="Profile"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    <Typography style={{ textDecorationLine: "underline" }}>
+                      Acessar Conta
+                    </Typography>
+                    {"  "}ou{"  "}
+                    <Typography style={{ textDecorationLine: "underline" }}>
+                      Cadastre-se
+                    </Typography>
+                  </Typography>
+                }
+                onPress={() => {
+                  navigation.navigate("LoginAlternative");
+                }}
+                underline
+              ></FixedMenuItem>
+              <FixedMenuItem
+                iconName="Heart"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Favoritos
+                  </Typography>
+                }
+                onPress={() => {
+                  console.log("ok");
+                  navigation.navigate("WishList");
+                }}
+              ></FixedMenuItem>
+              <FixedMenuItem
+                iconName="Message"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Central de Ajuda
+                  </Typography>
+                }
+                onPress={() => {
+                  console.log("ok");
+                  navigation.navigate("HelpCenter");
+                }}
+              ></FixedMenuItem>
+              <FixedMenuItem
+                iconName="Pin"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Lojas
+                  </Typography>
+                }
+                onPress={() => {}}
+              ></FixedMenuItem>
+            </Animatable.View>
+          )}
         </ScrollView>
       </Box>
     </SafeAreaView>
