@@ -44,3 +44,7 @@ target 'reserva' do
       end
   end
 end
+
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '>= 3.0', '< 4.0'
+end

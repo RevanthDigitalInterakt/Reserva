@@ -1,11 +1,11 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import React from "react";
-import { Box, Button, Icon, Typography, Alert } from "reserva-ui";
-import { SafeAreaView, ScrollView } from "react-native";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import Card, { FlagTypes } from "../Components/Card";
-import { useNavigation } from "@react-navigation/core";
-import { RootStackParamList } from "../../../routes/StackNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useRef } from 'react';
+import { Box, Button, Icon, Typography, Alert } from 'reserva-ui';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import Card, { FlagTypes } from '../Components/Card';
+import { useNavigation } from '@react-navigation/core';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
 interface ListCardsScreenProps {}
 interface CardProps {
@@ -15,27 +15,27 @@ interface CardProps {
   id: string;
 }
 
-type Props = StackScreenProps<RootStackParamList, "ListCards">;
+type Props = StackScreenProps<RootStackParamList, 'ListCards'>;
 
 export const ListCards = ({ navigation, route }: Props) => {
   const [cards, setCards] = React.useState<CardProps[]>([
     {
-      cardNumber: "3000400050006000",
-      flag: "elo",
+      cardNumber: '3000400050002000',
+      flag: 'elo',
       main: false,
-      id: "01",
+      id: '01',
     },
     {
-      cardNumber: "3000400050006000",
-      flag: "mastercard",
+      cardNumber: '3000400050005000',
+      flag: 'mastercard',
       main: true,
-      id: "02",
+      id: '02',
     },
     {
-      cardNumber: "3000400050006000",
-      flag: "visa",
+      cardNumber: '3000400050008000',
+      flag: 'visa',
       main: false,
-      id: "03",
+      id: '03',
     },
   ]);
   const [cardSelected, setCardSelected] = React.useState<CardProps>(
@@ -47,10 +47,15 @@ export const ListCards = ({ navigation, route }: Props) => {
   const [isVisibleSuccessTrash, setIsVisibleSuccessTrash] = React.useState(
     false
   );
+  const modalTrash = useRef(false);
 
   const { isCheckout } = route.params;
   const handleDeleteCard = (id: string) => {
     const restCards = cards.filter((card) => card.id !== id);
+    const cardsMain = restCards.filter((card) => card.main);
+    if (restCards.length && !cardsMain.length) {
+      restCards[0].main = true;
+    }
     setCards(restCards);
   };
 
@@ -75,12 +80,12 @@ export const ListCards = ({ navigation, route }: Props) => {
         <TopBarBackButton showShadow />
 
         <Box
-          overflow={"hidden"}
+          overflow={'hidden'}
           // height={'80%'}
           paddingHorizontal={20}
-          pt={"md"}
+          pt={'md'}
         >
-          <Box mb={"xxxs"}>
+          <Box mb={'xxxs'}>
             <Typography variant="tituloSessoes">Meus cartões</Typography>
           </Box>
 
@@ -95,7 +100,9 @@ export const ListCards = ({ navigation, route }: Props) => {
                   cardNumbers={cardNumber}
                   onPressCard={() => {
                     setCardSelected(card);
-                    setIsVisibleModalCard(true);
+                    if (!card.main) {
+                      setIsVisibleModalCard(true);
+                    }
                   }}
                   onPressTrash={() => {
                     setCardSelected(card);
@@ -109,12 +116,12 @@ export const ListCards = ({ navigation, route }: Props) => {
         <Button
           mt="xs"
           onPress={() =>
-            navigation.navigate("NewCard", {
+            navigation.navigate('NewCard', {
               isCheckout: isCheckout,
             })
           }
           width="200px"
-          title={"ADICIONAR CARTÃO"}
+          title={'ADICIONAR CARTÃO'}
           variant="primarioEstreitoOutline"
           padding="xl"
         />
@@ -125,8 +132,8 @@ export const ListCards = ({ navigation, route }: Props) => {
               inline
               title="PRÓXIMO"
               onPress={() =>
-                navigation.navigate("SummaryScreen", {
-                  paymentType: "Credit",
+                navigation.navigate('SummaryScreen', {
+                  paymentType: 'Credit',
                 })
               }
             />
@@ -134,11 +141,13 @@ export const ListCards = ({ navigation, route }: Props) => {
         )}
       </SafeAreaView>
       <Alert
-        isVisible={!isVisibleModalCard && isVisibleSuccessTrash}
-        title={"Seu cartão foi excluído com sucesso"}
-        confirmText={"OK"}
+        isVisible={isVisibleSuccessTrash}
+        title={'Seu cartão foi excluído com sucesso'}
+        confirmText={'OK'}
         onConfirm={() => {
+          modalTrash.current = false;
           setIsVisibleSuccessTrash(false);
+          setIsVisibleModalTrash(false);
         }}
         onClose={() => {
           setIsVisibleModalTrash(false);
@@ -146,12 +155,12 @@ export const ListCards = ({ navigation, route }: Props) => {
       />
       <Alert
         isVisible={!isVisibleSuccessTrash && isVisibleModalCard}
-        title={"Cartão padrão"}
+        title={'Cartão padrão'}
         subtitle={`Deseja definir o cartão **** ${cardSelected?.cardNumber?.substring(
           12
         )} como principal?`}
-        confirmText={"SIM"}
-        cancelText={"NÃO"}
+        confirmText={'SIM'}
+        cancelText={'NÃO'}
         onConfirm={() => {
           handleMainCard(cardSelected.id);
         }}
@@ -166,17 +175,18 @@ export const ListCards = ({ navigation, route }: Props) => {
       />
 
       <Alert
+        onModalHide={() => {
+          modalTrash.current && setIsVisibleSuccessTrash(true);
+        }}
         isVisible={isVisibleModalTrash}
-        title={"Excluir cartão"}
+        title={'Excluir cartão'}
         subtitle={`Tem certeza que deseja excluir o cartão salvo?`}
-        confirmText={"SIM"}
-        cancelText={"NÃO"}
+        confirmText={'SIM'}
+        cancelText={'NÃO'}
         onConfirm={() => {
           handleDeleteCard(cardSelected.id);
-
-          setTimeout(() => {
-            setIsVisibleSuccessTrash(true);
-          });
+          modalTrash.current = true;
+          setIsVisibleModalTrash(false);
         }}
         onCancel={() => {
           setIsVisibleModalTrash(false);

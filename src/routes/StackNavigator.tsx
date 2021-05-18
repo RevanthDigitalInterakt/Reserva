@@ -57,7 +57,6 @@ import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges'
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp'
 import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation'
 import { LoginAlternative } from '../modules/Login/pages/LoginAlternative'
-import { Product } from '../store/ducks/products/types'
 
 export type RootStackParamList = {
   Register: {
@@ -67,8 +66,7 @@ export type RootStackParamList = {
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   ProductCatalog: { safeArea: boolean; search: boolean }
-  ProductDetail: { product: Product }
-  NewAddress: { id?: number; isCheckout: boolean }
+  NewAddress: { id?: number; isCheckout: boolean; edit?: boolean }
   AddressList: { isCheckout: boolean }
   ListCards: { isCheckout: boolean }
   NewCard: { isCheckout: boolean }
@@ -106,6 +104,11 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name='WishList' component={WishList} />
       <MainStack.Screen name='WishListCategory' component={WishListCategory} />
+      <MainStack.Screen
+        name='ShowListByCategory'
+        component={ShowListByCategory}
+      />
+      <MainStack.Screen name='BagScreen' component={BagScreen} />
       <MainStack.Screen
         name='ShowListByCategory'
         component={ShowListByCategory}

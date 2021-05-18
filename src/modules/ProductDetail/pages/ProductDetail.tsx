@@ -31,9 +31,7 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ModalBag } from '../components/ModalBag'
 
 import Share from 'react-native-share'
-import { Product } from '../../../store/ducks/products/types'
-import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamList } from '../../../routes/StackNavigator'
+
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -62,8 +60,6 @@ export const ProductDetail: React.FC<Props> = ({
     '#4A56A7',
     '#1ECB58',
   ]
-  const { product } = route.params
-  console.log(product)
   const [selectedColor, setSelectedColor] = useState('#F9F9ED')
   recomendedProducts = [
     {
@@ -216,7 +212,10 @@ export const ProductDetail: React.FC<Props> = ({
             price={product.price}
             priceWithDiscount={product.price}
             imagesWidth={screenWidth}
-            images={product.images}
+            images={[
+              'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
+              'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
+            ]}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState)
@@ -246,7 +245,7 @@ export const ProductDetail: React.FC<Props> = ({
                   onPress={(color: any) => setSelectedColor(color)}
                   size={40}
                   listColors={colors}
-                  selectedColor={selectedColor}
+                  selectedColors={selectedColor}
                 />
               </ScrollView>
             </Box>
