@@ -232,7 +232,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               price={item.price || 0}
               productTitle={item.title}
               onClickImage={() => {
-                navigation.navigate('ProductDetail', { product: item })
+                navigation.navigate('ProductDetail', {
+                  product: item,
+                })
               }}
             />
           </Box>

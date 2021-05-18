@@ -31,6 +31,8 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ModalBag } from '../components/ModalBag'
 
 import Share from 'react-native-share'
+import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types'
+import { RootStackParamList } from '../../../routes/StackNavigator'
 
 const screenWidth = Dimensions.get('window').width
 
@@ -174,6 +176,8 @@ export const ProductDetail: React.FC<Props> = ({
   const [isVisible, setIsVisible] = useState(false)
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
 
+  const product = route.params.product
+
   const onChangeRecomended = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
@@ -208,14 +212,11 @@ export const ProductDetail: React.FC<Props> = ({
             installmentsNumber={1}
             installmentsPrice={product.price}
             title={product.title}
-            //discountTag={18}
+            discountTag={18}
             price={product.price}
             priceWithDiscount={product.price}
             imagesWidth={screenWidth}
-            images={[
-              'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
-              'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
-            ]}
+            images={product.images}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState)
