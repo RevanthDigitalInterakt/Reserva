@@ -2,23 +2,22 @@ import { Product } from './types'
 import axios from 'axios'
 import { call, put } from 'redux-saga/effects'
 
-// import api from '../../../services/api';
-
-const api = axios.create({
-  baseURL: 'https://reserva-gateway.gateway.linkapi.solutions/v1',
-  headers: {
-    Authorization:
-      'Basic NzFjMmZmNTAtNGUzNy00MDVmLWJhMzEtYmJlMWE2ODY4MDYxOjQyNjgxMzBkLWMwYzItNGQwYi04NTBjLTk1NzgzOWVkMzhlMw==',
-  },
-})
-
 import { loadProductsSuccess, loadProductsFailure } from './actions'
+import { api } from '../../../services/api'
 
-export function* loadProducts() {
+export function* loadProducts({ ...action }) {
   try {
-    const response = yield call(api.get, 'products')
-    const items = response.data.response.body.items
-    console.log(response.data.response.body.items)
+    const categoryId = action.payload.data.categoryId
+
+    const {
+      data: { response, request },
+    } = yield call(
+      api.get,
+      `products${categoryId != '' ? '?categoryId=' + categoryId : ''}`
+    )
+
+    const items: any = response.body.items
+    console.log(response)
 
     yield put(
       loadProductsSuccess(

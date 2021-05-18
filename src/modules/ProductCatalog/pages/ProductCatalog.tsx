@@ -28,8 +28,7 @@ import { FilterModal } from '../modals/FilterModal'
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea } = route.params
-  const { search } = route.params
+  const { safeArea, search, categoryId } = route.params
 
   const dispatch = useDispatch()
 
@@ -39,7 +38,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const products = useSelector((state: ApplicationState) => state.products)
 
   useEffect(() => {
-    dispatch(loadProducts())
+    dispatch(loadProducts(categoryId))
   }, [])
 
   const DynamicComponent = safeArea ? SafeAreaView : Box

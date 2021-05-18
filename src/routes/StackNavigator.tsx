@@ -65,7 +65,7 @@ export type RootStackParamList = {
   }
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
-  ProductCatalog: { safeArea: boolean; search: boolean }
+  ProductCatalog: { safeArea: boolean; search: boolean; categoryId?: string }
   NewAddress: { id?: number; isCheckout: boolean; edit?: boolean }
   AddressList: { isCheckout: boolean }
   ListCards: { isCheckout: boolean }
@@ -108,11 +108,7 @@ const MainStackScreen = () => {
         name='ShowListByCategory'
         component={ShowListByCategory}
       />
-      <MainStack.Screen name='BagScreen' component={BagScreen} />
-      <MainStack.Screen
-        name='ShowListByCategory'
-        component={ShowListByCategory}
-      />
+
       <MainStack.Screen name='BagScreen' component={BagScreen} />
       <MainStack.Screen
         name='SummaryScreen'
