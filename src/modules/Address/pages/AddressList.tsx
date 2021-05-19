@@ -9,6 +9,8 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { loadAddress } from "../../../store/ducks/address/actions";
+import { useDispatch, useSelector } from 'react-redux';
+import { ApplicationState } from "../../../store";
 
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
@@ -18,6 +20,14 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [successModal, setSuccessModal] = React.useState(false);
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
+
+  const dispatch = useDispatch();
+
+  const { products } = useSelector((state: ApplicationState) => state);
+
+  React.useEffect(() => {
+    dispatch(loadAddress());
+  }, []);
 
   const [addresses, setAddresses] = React.useState<Address[]>([
     {

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { call, put } from 'redux-saga/effects';
-import { apiCategories } from '../../../services/api';
-import { loadSuccess, loadFailure } from './actions';
+import { loadAddressSuccess, loadAddressFailure } from './actions';
 
 const api = axios.create({
   baseURL: 'https://reserva-gateway.gateway.linkapi.solutions/v1/profiles/current/addresses'
@@ -10,12 +9,12 @@ const api = axios.create({
 export function* loadAddress() {
   try {
     const { data } = yield call(
-      apiCategories.get,
+      api.get,
       'reserva.json?cachekey=202132157'
     );
 
-    yield put(loadSuccess(data.categories));
+    yield put(loadAddressSuccess(data.categories));
   } catch (err) {
-    yield put(loadFailure());
+    yield put(loadAddressFailure());
   }
 }
