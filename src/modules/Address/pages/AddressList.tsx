@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 
+import { loadAddress } from "../../../store/ducks/address/actions";
+
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
