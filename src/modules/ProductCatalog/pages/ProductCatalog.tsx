@@ -1,9 +1,9 @@
-import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
-import { useEffect } from 'react'
-import { Dimensions, FlatList } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { StackScreenProps } from '@react-navigation/stack';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { Dimensions, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -15,35 +15,35 @@ import {
   SearchBar,
   theme,
   Typography,
-} from 'reserva-ui'
-import { images } from '../../../assets'
-import { RootStackParamList } from '../../../routes/StackNavigator'
-import { ApplicationState } from '../../../store'
-import { loadProducts } from '../../../store/ducks/products/actions'
-import { Product } from '../../../store/ducks/products/types'
-import { TopBarDefault } from '../../Menu/components/TopBarDefault'
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
-import { FilterModal } from '../modals/FilterModal'
+} from 'reserva-ui';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { ApplicationState } from '../../../store';
+import { loadProducts } from '../../../store/ducks/products/actions';
+import { Product } from '../../../store/ducks/products/types';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { FilterModal } from '../modals/FilterModal';
 
-type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea, search, categoryId } = route.params
+  const { safeArea, search, categoryId } = route.params;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [filterVisible, setFilterVisible] = React.useState(false)
-  const [sorterVisible, setSorterVisible] = React.useState(false)
-  const [filterList, setFilterList] = React.useState<string[]>([])
-  const products = useSelector((state: ApplicationState) => state.products)
+  const [filterVisible, setFilterVisible] = React.useState(false);
+  const [sorterVisible, setSorterVisible] = React.useState(false);
+  const [filterList, setFilterList] = React.useState<string[]>([]);
+  const products = useSelector((state: ApplicationState) => state.products);
 
   useEffect(() => {
-    dispatch(loadProducts(categoryId))
-  }, [])
+    dispatch(loadProducts(categoryId));
+  }, []);
 
-  const DynamicComponent = safeArea ? SafeAreaView : Box
-
-  console.log(products)
+  const DynamicComponent = safeArea ? SafeAreaView : Box;
+  console.log('aqui');
+  console.log(products);
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? <TopBarDefaultBackButton /> : <TopBarDefault />}
@@ -65,7 +65,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       />
       <Picker
         onSelect={() => {
-          setSorterVisible(false)
+          setSorterVisible(false);
         }}
         isVisible={sorterVisible}
         items={[
@@ -86,10 +86,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           },
         ]}
         onConfirm={() => {
-          setSorterVisible(false)
+          setSorterVisible(false);
         }}
         onClose={() => {
-          setSorterVisible(false)
+          setSorterVisible(false);
         }}
         onBackDropPress={() => setSorterVisible(false)}
         title='Ordenar Por'
@@ -109,7 +109,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         </Box>
       </ScrollView> */}
       <FlatList
-        data={products.dataOffer.slice(0, 20)}
+        data={products?.dataOffer}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         ListHeaderComponent={
@@ -128,7 +128,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     <Typography
                       color='preto'
                       fontFamily='nunitoSemiBold'
-                      fontSize={11}>
+                      fontSize={11}
+                    >
                       Chama no Whats! Seja atendido sem sair de casa.{' '}
                       <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
@@ -149,11 +150,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   borderWidth='hairline'
                   flexDirection='row'
                   inline={true}
-                  height={40}>
+                  height={40}
+                >
                   <Typography
                     color='preto'
                     fontFamily='nunitoSemiBold'
-                    fontSize='14px'>
+                    fontSize='14px'
+                  >
                     Filtrar
                   </Typography>
                 </Button>
@@ -170,12 +173,14 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   inline={true}
                   height={40}
                   onPress={() => {
-                    setSorterVisible(true)
-                  }}>
+                    setSorterVisible(true);
+                  }}
+                >
                   <Typography
                     color='preto'
                     fontFamily='nunitoSemiBold'
-                    fontSize='14px'>
+                    fontSize='14px'
+                  >
                     Ordenar
                   </Typography>
                 </Button>
@@ -185,16 +190,18 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               paddingX='micro'
               paddingY='quarck'
               flexDirection='row'
-              justifyContent='space-between'>
+              justifyContent='space-between'
+            >
               <Typography fontFamily='nunitoRegular' fontSize='13px'>
-                {products.dataOffer.length} produtos encontrados
+                {products?.dataOffer?.length} produtos encontrados
               </Typography>
               {filterList.length > 0 && (
                 <Button onPress={() => setFilterList([])}>
                   <Typography
                     color='progressTextColor'
                     variant='precoAntigo3'
-                    style={{ textDecorationLine: 'underline' }}>
+                    style={{ textDecorationLine: 'underline' }}
+                  >
                     Limpar tudo
                   </Typography>
                 </Button>
@@ -209,8 +216,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     onPress={() => {
                       const updateList = filterList.filter(
                         (tag) => tag !== item
-                      )
-                      setFilterList(updateList)
+                      );
+                      setFilterList(updateList);
                     }}
                   />
                 ))}
@@ -223,9 +230,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             flex={1}
             alignItems='center'
             justifyContent='center'
-            height={320}>
+            height={320}
+          >
             <ProductVerticalListCard
-              imageSource={item.images[0]}
+              imageSource='https://www.usereserva.com/ccstore/v1/images/?source=/file/v1682631840131169492/products/0032093040_01.jpg&height=475&width=475'
               installmentsNumber={1}
               installmentsPrice={item.price || 0}
               currency='R$'
@@ -234,12 +242,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               onClickImage={() => {
                 navigation.navigate('ProductDetail', {
                   product: item,
-                })
+                });
               }}
             />
           </Box>
         )}
       />
     </DynamicComponent>
-  )
-}
+  );
+};
