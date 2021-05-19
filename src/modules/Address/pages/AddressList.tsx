@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { ApplicationState } from "../../../store";
 import { loadAddress } from "../../../store/ducks/address/actions";
 // import { Address } from "../../../store/ducks/address/types";
+
+
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
@@ -24,7 +26,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
   // const [addressess, setAddressess] = React.useState<Address[]>([]);
-
+  const { products } = useSelector((state: ApplicationState) => state);
   React.useEffect(() => {
     dispatch(loadAddress());
   }, []);
@@ -46,6 +48,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   //     }))
   //   );
   // }, [data]);
+
 
   const [addresses, setAddresses] = React.useState<Address[]>([
     {

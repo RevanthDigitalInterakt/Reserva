@@ -15,6 +15,7 @@ api.defaults.headers.common['client-token'] =
 
 
 export function* loadAddress() {
+  console.log('ok')
   try {
     const response = yield call(api, 'profiles/current/addresses');
     yield put(loadAddressSuccess(response.data?.items));
