@@ -23,6 +23,7 @@ import { loadProducts } from '../../../store/ducks/products/actions';
 import { Product } from '../../../store/ducks/products/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
@@ -108,7 +109,123 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           </Box>
         </Box>
       </ScrollView> */}
-      <FlatList
+      <ListVerticalProducts
+        products={products.dataOffer}
+        listHeader={
+          <>
+            <Image
+              source={
+                safeArea || search ? images.bannerCatalog : images.bannerOffer
+              }
+              width={1 / 1}
+            />
+            <Box bg='dropDownBorderColor'>
+              <Button p='nano'>
+                <Box flexDirection='row'>
+                  <Icon name='Whatsapp' size={16} color='preto'></Icon>
+                  <Box marginX='nano'>
+                    <Typography
+                      color='preto'
+                      fontFamily='nunitoSemiBold'
+                      fontSize={11}
+                    >
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
+                        Clique aqui!
+                      </Typography>
+                    </Typography>
+                  </Box>
+                </Box>
+              </Button>
+            </Box>
+            <Box paddingY='micro' flexDirection='row' justifyContent='center'>
+              <Box width={1 / 2}>
+                <Button
+                  onPress={() => setFilterVisible(true)}
+                  marginRight='nano'
+                  marginLeft='micro'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
+                  inline={true}
+                  height={40}
+                >
+                  <Typography
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'
+                  >
+                    Filtrar
+                  </Typography>
+                </Button>
+              </Box>
+
+              <Box width={1 / 2}>
+                <Button
+                  marginRight='micro'
+                  marginLeft='nano'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
+                  inline={true}
+                  height={40}
+                  onPress={() => {
+                    setSorterVisible(true);
+                  }}
+                >
+                  <Typography
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'
+                  >
+                    Ordenar
+                  </Typography>
+                </Button>
+              </Box>
+            </Box>
+            <Box
+              paddingX='micro'
+              paddingY='quarck'
+              flexDirection='row'
+              justifyContent='space-between'
+            >
+              <Typography fontFamily='nunitoRegular' fontSize='13px'>
+                {products?.dataOffer?.length} produtos encontrados
+              </Typography>
+              {filterList.length > 0 && (
+                <Button onPress={() => setFilterList([])}>
+                  <Typography
+                    color='progressTextColor'
+                    variant='precoAntigo3'
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    Limpar tudo
+                  </Typography>
+                </Button>
+              )}
+            </Box>
+            {filterList.length > 0 && (
+              <Box px='micro' flexDirection='row' py='quarck' flexWrap='wrap'>
+                {filterList.map((item) => (
+                  <Pill
+                    key={item}
+                    pillText={item}
+                    onPress={() => {
+                      const updateList = filterList.filter(
+                        (tag) => tag !== item
+                      );
+                      setFilterList(updateList);
+                    }}
+                  />
+                ))}
+              </Box>
+            )}
+          </>
+        }
+      />
+      {/* <FlatList
         data={products?.dataOffer}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
@@ -233,7 +350,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             height={320}
           >
             <ProductVerticalListCard
-              imageSource='https://www.usereserva.com/ccstore/v1/images/?source=/file/v1682631840131169492/products/0032093040_01.jpg&height=475&width=475'
+              imageSource={item.images[0]}
               installmentsNumber={1}
               installmentsPrice={item.price || 0}
               currency='R$'
@@ -247,7 +364,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             />
           </Box>
         )}
-      />
+      /> */}
     </DynamicComponent>
   );
 };

@@ -4,6 +4,7 @@ import { call, put } from 'redux-saga/effects';
 
 import { loadProductsSuccess, loadProductsFailure } from './actions';
 import { api } from '../../../services/api';
+import { env } from '../../../config/env';
 
 export function* loadProducts({ ...action }) {
   try {
@@ -25,7 +26,8 @@ export function* loadProducts({ ...action }) {
         description: item.description,
         price: item.salePrices.real,
         category: item.parentCategories[0].repositoryId,
-        images: [`https://www.usereserva.com${item.primaryMediumImageURL}`],
+        primaryImage: `${env.BASE_URL_IMAGE}${item.primaryMediumImageURL}`,
+        images: item.mediumImageURLs.map((x: string) => env.BASE_URL_IMAGE + x),
       };
       return product;
     });
