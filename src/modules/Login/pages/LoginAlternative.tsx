@@ -1,7 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
-import { Animated, SafeAreaView, ScrollView } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import * as React from 'react';
+import { Animated, SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
@@ -10,17 +10,18 @@ import {
   TextField,
   Icon,
   Toggle,
-} from "reserva-ui";
-import { images } from "../../../assets";
-import { RootStackParamList } from "../../../routes/StackNavigator";
+} from 'reserva-ui';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
-type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
+type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;
   const boxTranslation = React.useRef(new Animated.Value(100)).current;
+  const [isSecureText, setIsSecureText] = React.useState(true);
 
   const { comeFrom } = route.params;
 
@@ -40,7 +41,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   }, [isVisible]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <ScrollView>
         <Box position="relative" paddingBottom="xxl" height="100%" width="100%">
           <Animated.View
@@ -56,9 +57,9 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
           </Animated.View>
           <Animated.View
             style={{
-              position: "absolute",
-              backgroundColor: "white",
-              width: "100%",
+              position: 'absolute',
+              backgroundColor: 'white',
+              width: '100%',
               bottom: isVisible ? 60 : 32,
             }}
           >
@@ -104,7 +105,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     title="CRIAR CONTA"
                     borderColor="preto"
                     onPress={() =>
-                      navigation.navigate("Register", { reset: true, comeFrom })
+                      navigation.navigate('Register', { reset: true, comeFrom })
                     }
                     borderWidth={1}
                   />
@@ -127,48 +128,55 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                       fontSize="24px"
                       fontFamily="reservaSerifRegular"
                     >
-                      {comeFrom == "Profile" &&
-                        "Acesse ou crie sua conta para continuar"}
-                      {comeFrom == "Menu" &&
-                        "Acesse ou crie sua conta para continuar"}
-                      {comeFrom == "Checkout" &&
-                        "Ótimo gosto! Agora, acesse ou crie sua conta para finalizar seu pedido"}
-                      {comeFrom == "Favorite" &&
-                        "Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos"}
+                      {comeFrom == 'Profile' &&
+                        'Acesse ou crie sua conta para continuar'}
+                      {comeFrom == 'Menu' &&
+                        'Acesse ou crie sua conta para continuar'}
+                      {comeFrom == 'Checkout' &&
+                        'Ótimo gosto! Agora, acesse ou crie sua conta para finalizar seu pedido'}
+                      {comeFrom == 'Favorite' &&
+                        'Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos'}
                     </Typography>
                   </Box>
 
                   <Box flex={1}>
                     <Box marginTop="xxs" marginBottom="nano">
                       <TextField
+                        autoCapitalize="none"
+                        autoCompleteType="email"
+                        textContentType="emailAddress"
+                        keyboardType="email-address"
                         height={55}
                         placeholder="Digite seu e-mail ou CPF ou CNPJ"
                       />
                     </Box>
                     <Typography
                       fontFamily="nunitoRegular"
-                      style={{ textDecorationLine: "underline" }}
-                      onPress={() => navigation.navigate("ForgotEmail")}
+                      style={{ textDecorationLine: 'underline' }}
+                      onPress={() => navigation.navigate('ForgotEmail')}
                     >
                       Esqueci meu e-mail
                     </Typography>
                     <Box marginTop="md" marginBottom="nano">
                       <TextField
-                        secureTextEntry
+                        secureTextEntry={isSecureText}
                         height={55}
                         placeholder="Digite sua senha"
                         fontFamily="nunitoRegular"
                         iconRight={
-                          <Box mr="xxxs">
+                          <Button
+                            mr="xxxs"
+                            onPress={() => setIsSecureText(!isSecureText)}
+                          >
                             <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                          </Box>
+                          </Button>
                         }
                       />
                     </Box>
                     <Typography
                       fontFamily="nunitoRegular"
-                      style={{ textDecorationLine: "underline" }}
-                      onPress={() => navigation.navigate("ForgotPassword")}
+                      style={{ textDecorationLine: 'underline' }}
+                      onPress={() => navigation.navigate('ForgotPassword')}
                     >
                       Esqueci minha senha
                     </Typography>
@@ -182,10 +190,10 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Box marginTop="xs" alignItems="center">
                       <Button
                         onPress={() => {
-                          if (comeFrom == "Checkout") {
-                            navigation.navigate("DeliveryScreen");
+                          if (comeFrom == 'Checkout') {
+                            navigation.navigate('DeliveryScreen');
                           } else {
-                            navigation.navigate("Home");
+                            navigation.navigate('Home');
                           }
                         }}
                         width={190}
@@ -210,10 +218,10 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                       <Box marginLeft="quarck">
                         <Typography
                           fontSize={13}
-                          style={{ textDecorationLine: "underline" }}
+                          style={{ textDecorationLine: 'underline' }}
                           fontFamily="nunitoRegular"
                           onPress={() =>
-                            navigation.navigate("Register", {
+                            navigation.navigate('Register', {
                               reset: true,
                               comeFrom,
                             })
