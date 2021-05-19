@@ -14,7 +14,7 @@ import { ProductsState } from './ducks/products/types';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import { CategoriesState } from './ducks/categories/types';
-
+import { AddressState } from './ducks/address/types';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
@@ -26,6 +26,7 @@ export interface ApplicationState {
   repositories: RepositoriesState;
   products: ProductsState;
   categories: CategoriesState;
+  address: AddressState;
 }
 
 const sagaMiddleware = createSagaMiddleware();

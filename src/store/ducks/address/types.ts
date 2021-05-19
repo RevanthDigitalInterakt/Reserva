@@ -11,15 +11,17 @@ export enum AddressTypes {
 //#region Data Types
 
 export interface Address {
-  country: string;
-  address1: string;
-  address2: string;
-  address3: string;
-  city: string;
-  postalCode: string;
-  state: string;
-  alias: string;
-  fullAddress: string;
+  isDefaultBillingAddress?: boolean;
+  country?: string; //pais
+  address3: string; //bairro
+  address2: string; //numero
+  city: string;  //cidade
+  address1: string; //rua
+  postalCode: string; //CEP
+  state: string; //EStado
+  alias: string; //complemento
+  fullAddress?: string; //endereco completo
+  isDefaultShippingAddress?: boolean;
 }
 
 //#region

@@ -9,19 +9,19 @@ const INITIAL_STATE: AddressState = {
 
 const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case AddressTypes.LOAD_REQUEST:
+    case AddressTypes.LOAD_ADDRESS_REQUEST:
       return { ...state, loading: true };
-    case AddressTypes.LOAD_SUCCESS:
+    case AddressTypes.LOAD_ADDRESS_SUCCESS:
       return {
         ...state,
         loading: false,
         error: false,
         data: action.payload.data,
       };
-    case AddressTypes.LOAD_FAILURE:
+    case AddressTypes.LOAD_ADDRESS_FAILURE:
       return { ...state, loading: false, error: true };
     default:
-      return { ...state };
+      return state;
   }
 };
 

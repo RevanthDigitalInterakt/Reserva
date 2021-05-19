@@ -7,17 +7,45 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
-
+import { useSelector, useDispatch } from "react-redux";
+import { ApplicationState } from "../../../store";
 import { loadAddress } from "../../../store/ducks/address/actions";
-
+// import { Address } from "../../../store/ducks/address/types";
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
+  const dispatch = useDispatch();
+  const {
+    address
+  } = useSelector((state: ApplicationState) => state);
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [successModal, setSuccessModal] = React.useState(false);
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
+  // const [addressess, setAddressess] = React.useState<Address[]>([]);
+
+  React.useEffect(() => {
+    dispatch(loadAddress());
+  }, []);
+
+  React.useEffect(() => {
+    // console.log(address.data)
+    address.data.map((item) => {
+      console.log(item.address)
+    })
+  }, [address]);
+
+  // useEffect(() => {
+  //   setCategories(
+  //     data.map((item) => ({
+  //       ...item,
+  //       childs: item.childs.flat(),
+  //       opened: false,
+  //       highlight: false,
+  //     }))
+  //   );
+  // }, [data]);
 
   const [addresses, setAddresses] = React.useState<Address[]>([
     {
