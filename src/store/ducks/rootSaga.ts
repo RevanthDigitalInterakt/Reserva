@@ -16,6 +16,6 @@ export default function* rootSaga() {
     takeLatest(ProductsTypes.LOAD_PRODUCTS_REQUEST, loadProducts),
     takeLatest(RepositoriesTypes.LOAD_REQUEST, load),
     takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
-    takeLatest(AddressTypes.LOAD_REQUEST, loadAddress),
+    takeLatest(AddressTypes.LOAD_ADDRESS_REQUEST, loadAddress),
   ]);
 }

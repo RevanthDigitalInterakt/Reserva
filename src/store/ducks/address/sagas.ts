@@ -7,6 +7,7 @@ const api = axios.create({
 });
 
 export function* loadAddress() {
+  console.log('ok')
   try {
     const { data } = yield call(
       api.get,
