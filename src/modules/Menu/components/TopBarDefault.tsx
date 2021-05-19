@@ -4,12 +4,14 @@ import { Alert, Platform } from "react-native";
 import { TopBar } from "reserva-ui";
 
 export const TopBarDefault: React.FC<{
+  loading?: Boolean;
   showShadow?: Boolean;
-}> = ({ showShadow = true }) => {
+}> = ({ showShadow = true, loading = false }) => {
   const navigation = useNavigation();
 
   return (
     <TopBar
+      loading={loading}
       paddingX="quarck"
       bg="white"
       style={{ elevation: 10 }}
