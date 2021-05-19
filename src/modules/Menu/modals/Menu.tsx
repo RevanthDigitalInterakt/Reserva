@@ -212,7 +212,7 @@ export const Menu: React.FC<{}> = () => {
           </Box>
           <Breadcumbs title="Página Inicial" />
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
-          {!loading && categories && (
+          {categories && (
             <Animatable.View animation="fadeIn">
               {categories.map((item, index) => {
                 return (
