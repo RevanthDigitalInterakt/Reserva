@@ -218,7 +218,7 @@ export const Menu: React.FC<{}> = () => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
       <Box flex={1} backgroundColor="backgroundApp">
-        <TopBarMenu loading={loading && !categories} />
+        <TopBarMenu loading={loading} />
         <ScrollView>
           <Box paddingX="nano" paddingTop="micro">
             <SearchBar height={36} placeholder="Buscar" />
