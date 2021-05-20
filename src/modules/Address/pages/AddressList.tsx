@@ -9,7 +9,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useSelector, useDispatch } from "react-redux";
 import { ApplicationState } from "../../../store";
-import { loadAddress } from "../../../store/ducks/address/actions";
+import { loadAddress, createAddress } from "../../../store/ducks/address/actions";
 // import { Address } from "../../../store/ducks/address/types";
 
 
@@ -25,10 +25,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [successModal, setSuccessModal] = React.useState(false);
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
-  // const [addressess, setAddressess] = React.useState<Address[]>([]);
-  // const { products } = useSelector((state: ApplicationState) => state);
+
   React.useEffect(() => {
     dispatch(loadAddress());
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(createAddress());
   }, []);
 
   React.useEffect(() => {

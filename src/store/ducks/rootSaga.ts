@@ -8,7 +8,7 @@ import { AddressTypes } from './address/types';
 
 import { ProductsTypes } from './products/types';
 import { loadProducts } from './products/sagas';
-import { loadAddress } from './address/sagas';
+import { loadAddress, createAddress } from './address/sagas';
 
 
 export default function* rootSaga() {
@@ -17,5 +17,6 @@ export default function* rootSaga() {
     takeLatest(RepositoriesTypes.LOAD_REQUEST, load),
     takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
     takeLatest(AddressTypes.LOAD_ADDRESS_REQUEST, loadAddress),
+    takeLatest(AddressTypes.CREATE_ADDRESS_REQUEST, createAddress),
   ]);
 }

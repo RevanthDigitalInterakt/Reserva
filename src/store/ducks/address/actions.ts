@@ -7,3 +7,20 @@ export const loadAddressSuccess = (data: Address[]) =>
   action(AddressTypes.LOAD_ADDRESS_SUCCESS, { data });
 
 export const loadAddressFailure = () => action(AddressTypes.LOAD_ADDRESS_FAILURE);
+
+export const createAddress = (data: Address[]) => action(AddressTypes.CREATE_ADDRESS_REQUEST, { data });
+
+export const createAddressSuccess = (data: Address[]) => action(AddressTypes.CREATE_ADDRESS_SUCCESS, { data });
+
+export const createAddressFailure = () => action(AddressTypes.CREATE_ADDRESS_FAILURE);
+
+export const deleteAddress = () => action(AddressTypes.DELETE_ADDRESS_REQUEST);
+
+// export const loadProducts = (categoryId: string = '') =>
+//   action(ProductsTypes.LOAD_PRODUCTS_REQUEST, { data: { categoryId } });
+
+// export const loadProductsSuccess = (dataOffer: Product[]) =>
+//   action(ProductsTypes.LOAD_PRODUCTS_SUCCESS, { dataOffer });
+
+// export const loadProductsFailure = () =>
+//   action(ProductsTypes.LOAD_PRODUCTS_FAILURE);

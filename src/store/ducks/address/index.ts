@@ -20,6 +20,21 @@ const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
       };
     case AddressTypes.LOAD_ADDRESS_FAILURE:
       return { ...state, loading: false, error: true };
+
+    case AddressTypes.CREATE_ADDRESS_REQUEST:
+      return { ...state, loading: true, };
+    case AddressTypes.CREATE_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+      };
+    case AddressTypes.CREATE_ADDRESS_FAILURE:
+      return { ...state, loading: false, error: true };
+
+    case AddressTypes.DELETE_ADDRESS_REQUEST:
+      return { ...state, loading: false, error: true };
+
     default:
       return state;
   }
