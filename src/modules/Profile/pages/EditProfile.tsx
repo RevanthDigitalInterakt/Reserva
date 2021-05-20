@@ -17,6 +17,9 @@ import {
   Icon,
   Checkbox,
 } from "reserva-ui";
+import { ApplicationState } from "../../../store";
+import { profileLoad } from "../../../store/ducks/profile/actions";
+import { Profile, ProfileState } from "../../../store/ducks/profile/types";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
@@ -25,20 +28,27 @@ export const EditProfile: React.FC<{
 }> = ({ children, title }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [data, setData] = useState({
-    name: "João da Silva",
-    email: "joao@email.com",
-    cpf: "123.456.789-10",
-    password: "*****",
-    birth: "01/02/1983",
-    phone: "01/02/1983",
-    sendNotification: false,
-  });
+  const [data, setData] = useState<Profile | undefined>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    receiveEmail: "",
+    gender: "",
+    fullName: "",
+    phone: "",
+    ddd: "",
+    rsvCPF: "",
+    rsvBirthDate: "",
+    rsvPhoneNumber: ""
+});
+
+  const { profile } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
-
+    setData(profile.data);
+  })
+  
   return (
     <SafeAreaView
       flex={1}
@@ -82,9 +92,9 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu nome completo"}
-                  value={data.name}
+                  value={data?.fullName}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ name: text } });
+                    setData({ ...data, fullName: text });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -102,7 +112,7 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu e-mail"}
-                  value={data.email}
+                  value={data?.email}
                   onChangeText={(text) => {
                     setData({ ...data, ...{ email: text } });
                   }}
@@ -123,10 +133,10 @@ export const EditProfile: React.FC<{
                 <TextField
                   keyboardType="number-pad"
                   label={"Digite seu CPF/CNPJ"}
-                  value={data.cpf}
-                  maskType={data.cpf.length > 13 ? "cnpj" : "cpf"}
+                  value={data?.rsvCPF}
+                  maskType={"cpf"}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ cpf: text } });
+                    setData({ ...data, ...{ rsvCPF: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -144,9 +154,9 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite sua senha"}
-                  value={data.password}
+                  value={data?.password}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ email: text } });
+                    setData({ ...data, ...{ password: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -165,9 +175,9 @@ export const EditProfile: React.FC<{
                 <TextField
                   keyboardType="number-pad"
                   label={"Digite sua data de nascimento"}
-                  value={data.birth}
+                  value={data?.rsvBirthDate}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ birth: text } });
+                    setData({ ...data, ...{ rsvBirthDate: text } });
                   }}
                 />
               </Box>
@@ -176,9 +186,9 @@ export const EditProfile: React.FC<{
                 <TextField
                   maskType="cel-phone"
                   label={"Telefone (opcional)"}
-                  value={data.phone}
+                  value={data?.rsvPhoneNumber}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ phone: text } });
+                    setData({ ...data, ...{ rsvPhoneNumber: text } });
                   }}
                 />
               </Box>
@@ -188,11 +198,12 @@ export const EditProfile: React.FC<{
                   color="dropDownBorderColor"
                   selectedColor="preto"
                   width={"100%"}
-                  checked={data.sendNotification}
+                  checked={data?.receiveEmail === 'yes'}
                   onCheck={() => {
+                    const value = data?.receiveEmail === 'yes' ? 'no' : 'yes';
                     setData({
                       ...data,
-                      ...{ sendNotification: !data.sendNotification },
+                      ...{ receiveEmail: value },
                     });
                   }}
                   optionName={

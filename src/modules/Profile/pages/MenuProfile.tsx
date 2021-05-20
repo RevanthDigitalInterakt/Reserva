@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button } from "reserva-ui";
+import { ApplicationState } from "../../../store";
+import { profileLoad } from "../../../store/ducks/profile/actions";
 import { loadRequest } from "../../../store/ducks/repositories/actions";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
@@ -12,9 +14,11 @@ import ItemList from "../Components/ItemList";
 
 export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
   const dispatch = useDispatch();
+  
+  const { profile } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
-    dispatch(loadRequest());
+    dispatch(profileLoad());
   }, []);
 
   return (
@@ -28,7 +32,7 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
             </Typography>
           </Box>
           <Typography variant="subtituloSessoes">
-            Bem-vindo, João.
+            Bem-vindo, {profile.data?.firstName}.
           </Typography>
 
           <Box mt={"xxxs"}>

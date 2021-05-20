@@ -27,6 +27,8 @@ import { useEffect } from "react";
 import { PersistGate } from "redux-persist/integration/react";
 import { oneSignalConfig } from "./config/pushNotification";
 
+import './config/ReactotronConfig'
+
 Sentry.init({
   dsn: env.SENTRY_KEY,
 });

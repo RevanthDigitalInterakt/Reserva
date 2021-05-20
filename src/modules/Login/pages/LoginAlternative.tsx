@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { Animated, SafeAreaView, ScrollView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
   Box,
@@ -13,15 +14,28 @@ import {
 } from 'reserva-ui';
 import { images } from '../../../assets';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { ApplicationState } from '../../../store';
+import { login } from '../../../store/ducks/authentication/actions';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [loginCredentials, setLoginCredentials] = React.useState({
+    username: 'danilo.sousa@globalsys.com.br',
+    password: 'danilo123'
+  });
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;
   const boxTranslation = React.useRef(new Animated.Value(100)).current;
   const [isSecureText, setIsSecureText] = React.useState(true);
+  const { authentication } = useSelector((state: ApplicationState) => state);
+
+  React.useEffect(() => {
+    console.log(authentication);
+  }, [authentication])
+  
 
   const { comeFrom } = route.params;
 
@@ -39,6 +53,10 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
       }),
     ]).start();
   }, [isVisible]);
+
+  const handleLogin = () => {
+    dispatch(login(loginCredentials))
+  } 
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
@@ -145,6 +163,12 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                         autoCapitalize="none"
                         autoCompleteType="email"
                         textContentType="emailAddress"
+                        value={loginCredentials.username}
+                        onChangeText={(value) => { setLoginCredentials({
+                            ...loginCredentials,
+                            username: value
+                          })} 
+                        }
                         keyboardType="email-address"
                         height={55}
                         placeholder="Digite seu e-mail ou CPF ou CNPJ"
@@ -163,6 +187,12 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                         height={55}
                         placeholder="Digite sua senha"
                         fontFamily="nunitoRegular"
+                        value={loginCredentials.password}
+                        onChangeText={(value) => { setLoginCredentials({
+                            ...loginCredentials,
+                            password: value
+                          })} 
+                        }
                         iconRight={
                           <Button
                             mr="xxxs"
@@ -190,11 +220,12 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Box marginTop="xs" alignItems="center">
                       <Button
                         onPress={() => {
-                          if (comeFrom == 'Checkout') {
-                            navigation.navigate('DeliveryScreen');
-                          } else {
-                            navigation.navigate('Home');
-                          }
+                          handleLogin()
+                          // if (comeFrom == 'Checkout') {
+                          //   navigation.navigate('DeliveryScreen');
+                          // } else {
+                          //   navigation.navigate('Home');
+                          // }
                         }}
                         width={190}
                         fontFamily="nunitoRegular"
