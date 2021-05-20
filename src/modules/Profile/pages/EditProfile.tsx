@@ -20,7 +20,7 @@ import {
 import { ApplicationState } from "../../../store";
 import { profileLoad } from "../../../store/ducks/profile/actions";
 import { Profile, ProfileState } from "../../../store/ducks/profile/types";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const EditProfile: React.FC<{
@@ -40,15 +40,15 @@ export const EditProfile: React.FC<{
     ddd: "",
     rsvCPF: "",
     rsvBirthDate: "",
-    rsvPhoneNumber: ""
-});
+    rsvPhoneNumber: "",
+  });
 
   const { profile } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
     setData(profile.data);
-  })
-  
+  });
+
   return (
     <SafeAreaView
       flex={1}
@@ -198,9 +198,9 @@ export const EditProfile: React.FC<{
                   color="dropDownBorderColor"
                   selectedColor="preto"
                   width={"100%"}
-                  checked={data?.receiveEmail === 'yes'}
+                  checked={data?.receiveEmail === "yes"}
                   onCheck={() => {
-                    const value = data?.receiveEmail === 'yes' ? 'no' : 'yes';
+                    const value = data?.receiveEmail === "yes" ? "no" : "yes";
                     setData({
                       ...data,
                       ...{ receiveEmail: value },

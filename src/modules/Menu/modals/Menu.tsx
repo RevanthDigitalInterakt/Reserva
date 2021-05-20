@@ -178,9 +178,7 @@ export const Menu: React.FC<{}> = () => {
     categories: { data, loading, error },
   } = useSelector((state: ApplicationState) => state);
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     setCategories(

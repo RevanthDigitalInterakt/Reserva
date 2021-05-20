@@ -11,7 +11,7 @@ import {
   Icon,
   SearchBar,
 } from "reserva-ui";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import ItemListHelp from "../Components/ItemListHelp";
 
@@ -35,9 +35,7 @@ export const HelpCenter: React.FC<{}> = () => {
 
   const [filter, setFilter] = useState(data);
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView
@@ -49,9 +47,7 @@ export const HelpCenter: React.FC<{}> = () => {
 
       <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
         <Box mb={"nano"} alignSelf={"flex-start"}>
-          <Typography variant={"tituloSessoes"}>
-            Central de ajuda
-          </Typography>
+          <Typography variant={"tituloSessoes"}>Central de ajuda</Typography>
         </Box>
 
         <Box mb={"micro"} mt={"xxxs"}>

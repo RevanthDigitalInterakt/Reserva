@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button } from "reserva-ui";
 import { ApplicationState } from "../../../store";
 import { profileLoad } from "../../../store/ducks/profile/actions";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
