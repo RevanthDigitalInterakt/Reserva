@@ -1,10 +1,9 @@
 export enum ProfileTypes {
-  REGISTER = '@profile/REGISTER',
-  REQUEST_SUCCESS = '@profile/REQUEST_SUCCESS',
-  REQUEST_FAILURE = '@profile/REQUEST_FAILURE',
-
-  PROFILE_UPDATE = '@profile/PROFILE_UPDATE',
-  PROFILE_LOAD = '@profile/PROFILE_LOAD'
+  REGISTER_REQUEST = "@profile/REGISTER_REQUEST",
+  REQUEST_SUCCESS = "@profile/REQUEST_SUCCESS",
+  REQUEST_FAILURE = "@profile/REQUEST_FAILURE",
+  PROFILE_UPDATE = "@profile/PROFILE_UPDATE",
+  PROFILE_LOAD = "@profile/PROFILE_LOAD",
 }
 
 export interface Profile {

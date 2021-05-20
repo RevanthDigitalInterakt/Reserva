@@ -1,7 +1,7 @@
 export enum AuthenticationTypes {
-  LOGIN = '@authentication/LOGIN',
-  LOGIN_SUCCESS = '@authentication/LOGIN_SUCCESS',
-  LOGIN_FAILURE = '@authentication/LOGIN_FAILURE',
+  LOGIN_REQUEST = "@authentication/LOGIN_REQUEST",
+  LOGIN_SUCCESS = "@authentication/LOGIN_SUCCESS",
+  LOGIN_FAILURE = "@authentication/LOGIN_FAILURE",
 }
 
 export interface Authentication {

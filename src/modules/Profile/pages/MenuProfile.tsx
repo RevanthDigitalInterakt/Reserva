@@ -19,7 +19,7 @@ const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
   const { profile } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
-    dispatch(profileLoad());
+    // dispatch(profileLoad());
   }, []);
 
   return (

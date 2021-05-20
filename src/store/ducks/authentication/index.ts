@@ -7,13 +7,16 @@ const INITIAL_STATE: AuthenticationState = {
   loading: false,
 };
 
-const reducer: Reducer<AuthenticationState> = (state = INITIAL_STATE, action) => {
+const reducer: Reducer<AuthenticationState> = (
+  state = INITIAL_STATE,
+  action
+) => {
   switch (action.type) {
-    case AuthenticationTypes.LOGIN:
-      return { 
-        ...state, 
+    case AuthenticationTypes.LOGIN_REQUEST:
+      return {
+        ...state,
         loading: true,
-        payload: action.payload.data
+        payload: action.payload.data,
       };
     case AuthenticationTypes.LOGIN_SUCCESS:
       return {

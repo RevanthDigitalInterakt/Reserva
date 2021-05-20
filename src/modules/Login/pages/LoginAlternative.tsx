@@ -11,11 +11,13 @@ import {
   TextField,
   Icon,
   Toggle,
+  theme,
 } from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { ApplicationState } from "../../../store";
 import { login } from "../../../store/ducks/authentication/actions";
+import ProgressBar from "react-native-progress/Bar";
 
 type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
@@ -55,7 +57,9 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   }, [isVisible]);
 
   const handleLogin = () => {
-    dispatch(login(loginCredentials));
+    if (!authentication.loading) {
+      dispatch(login(loginCredentials));
+    }
   };
 
   return (
@@ -140,6 +144,15 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                   ],
                 }}
               >
+                <ProgressBar
+                  animated
+                  indeterminate={authentication.loading}
+                  color={theme.colors.vermelhoAlerta}
+                  height={2}
+                  borderWidth={0}
+                  width={null}
+                  borderRadius={0}
+                />
                 <Box marginX="xxs">
                   <Box marginTop="xxs">
                     <Typography
@@ -156,7 +169,6 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                         "Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos"}
                     </Typography>
                   </Box>
-
                   <Box flex={1}>
                     <Box marginTop="xxs" marginBottom="nano">
                       <TextField

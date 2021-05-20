@@ -9,23 +9,23 @@ const INITIAL_STATE: ProfileState = {
 
 const reducer: Reducer<ProfileState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ProfileTypes.REGISTER:
-      return { 
-        ...state, 
+    case ProfileTypes.REGISTER_REQUEST:
+      return {
+        ...state,
         loading: true,
-        payload: action.payload.data
+        payload: action.payload.data,
       };
-    case ProfileTypes.PROFILE_UPDATE: 
+    case ProfileTypes.PROFILE_UPDATE:
       return {
         ...state,
         loading: true,
-        payload: action.payload.data
-      }
-    case ProfileTypes.PROFILE_LOAD: 
+        payload: action.payload.data,
+      };
+    case ProfileTypes.PROFILE_LOAD:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case ProfileTypes.REQUEST_SUCCESS:
       return {
         ...state,

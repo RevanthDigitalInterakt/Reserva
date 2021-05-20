@@ -1,24 +1,27 @@
-import { call, put } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { api } from "../../../services/api";
 import { profileLoad } from "../profile/actions";
 import { loginSuccess, loginFailure } from "./actions";
+import { AuthenticationTypes } from "./types";
 
 interface ILoginPayload {
   username: string;
   password: string;
 }
 
-export function* login({ payload }: any) {
-  const { loginCredentials } = payload;
-
+export function* loginReqest({ payload }: any) {
   try {
-    const { data } = yield call(api.post, "/login", loginCredentials);
+    const { loginCredentials } = payload;
 
-    console.log(data);
+    const { data } = yield call(api.post, "/login", loginCredentials);
 
     yield put(loginSuccess(data));
     yield put(profileLoad());
   } catch (err) {
     yield put(loginFailure());
   }
+}
+
+export function* login() {
+  yield takeLatest(AuthenticationTypes.LOGIN_REQUEST, loginReqest);
 }

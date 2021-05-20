@@ -2,9 +2,12 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { SafeAreaView } from "react-native";
 import { useDispatch } from "react-redux";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import { Typography, Box, TextField, Button, Icon } from "reserva-ui";
-import { register } from "../../../../store/ducks/profile/actions";
+import {
+  register,
+  registerRequest,
+} from "../../../../store/ducks/profile/actions";
 import { Profile } from "../../../../store/ducks/profile/types";
 import { IUserData } from "../Wizard";
 
@@ -17,7 +20,7 @@ export const RegisterStep5: React.FC<{
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    const dateSplit = userData.birth_date.split('/');
+    const dateSplit = userData.birth_date.split("/");
     const birthDate = new Date(
       `${dateSplit[1]}-${dateSplit[0]}-${dateSplit[2]}`
     ).toISOString();
@@ -29,11 +32,11 @@ export const RegisterStep5: React.FC<{
       receiveEmail: "yes",
       fullName: userData.name,
       rsvCPF: userData.cpf,
-      rsvBirthDate: birthDate
+      rsvBirthDate: birthDate,
     };
 
-    dispatch(register(profileCredentials));
-  }
+    dispatch(registerRequest(profileCredentials));
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
