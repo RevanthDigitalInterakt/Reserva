@@ -10,20 +10,47 @@ export enum AddressTypes {
 
 //#region Data Types
 
+// export interface Address {
+//   isDefaultBillingAddress?: boolean;
+//   country?: string; //pais
+//   address3: string; //bairro
+//   address2: string; //numero
+//   city: string;  //cidade
+//   address1: string; //rua
+//   postalCode: string; //CEP
+//   state: string; //EStado
+//   alias: string; //complemento
+//   fullAddress?: string; //endereco completo
+//   isDefaultShippingAddress?: boolean;
+// }
 export interface Address {
-  isDefaultBillingAddress?: boolean;
-  country?: string; //pais
-  address3: string; //bairro
-  address2: string; //numero
-  city: string;  //cidade
-  address1: string; //rua
-  postalCode: string; //CEP
-  state: string; //EStado
-  alias: string; //complemento
-  fullAddress?: string; //endereco completo
-  isDefaultShippingAddress?: boolean;
+  addressType: string;
+  address: {
+    country?: string; //pais
+    lastName?: any;
+    types?: any[];
+    address3: string; //bairro
+    city: string; //cidade
+    address2: string; //numero
+    prefix?: any;
+    address1: string; //rua
+    postalCode: string;
+    jobTitle?: any;
+    companyName?: any;
+    county?: any;
+    suffix?: any;
+    firstName?: any;
+    externalAddressId?: any;
+    phoneNumber?: any;
+    repositoryId?: string;
+    faxNumber?: any;
+    middleName?: any;
+    state: string;
+    id: string;
+    alias: string;
+    ullAddress: string;
+  }
 }
-
 //#region
 
 //#region State Type

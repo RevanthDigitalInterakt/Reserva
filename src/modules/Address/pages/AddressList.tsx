@@ -26,28 +26,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
   // const [addressess, setAddressess] = React.useState<Address[]>([]);
-  const { products } = useSelector((state: ApplicationState) => state);
+  // const { products } = useSelector((state: ApplicationState) => state);
   React.useEffect(() => {
     dispatch(loadAddress());
   }, []);
 
   React.useEffect(() => {
-    // console.log(address.data)
     address.data.map((item) => {
-      console.log(item.address)
+      console.log(item.address.address1)
     })
   }, [address]);
-
-  // useEffect(() => {
-  //   setCategories(
-  //     data.map((item) => ({
-  //       ...item,
-  //       childs: item.childs.flat(),
-  //       opened: false,
-  //       highlight: false,
-  //     }))
-  //   );
-  // }, [data]);
 
 
   const [addresses, setAddresses] = React.useState<Address[]>([
@@ -97,6 +85,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
       />
       <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton
+          loading={address.loading}
           showShadow
           backButtonPress={() => navigation.goBack()}
         />
@@ -113,15 +102,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            {addresses.map((addressItem) => {
-              const { address, title, zipcode } = addressItem;
+            {address.data.map((addressItem) => {
+              // const { address, title, zipcode } = addressItem;
+              const { address1, address2, address3, city, state, postalCode, id } = addressItem.address
               return (
                 <AddressSelector
-                  key={address}
+                  key={id.toString()}
                   addressData={{
-                    address,
-                    title,
-                    zipcode,
+                    address: `${address1}, ${address2}, ${address3}, ${city} - ${state}`,
+                    title: address1,
+                    zipcode: postalCode,
                   }}
                   deleteAddress={() => {
                     setDeleteModal(true);
