@@ -8,9 +8,9 @@ export const loadAddressSuccess = (data: Address[]) =>
 
 export const loadAddressFailure = () => action(AddressTypes.LOAD_ADDRESS_FAILURE);
 
-export const createAddress = (data: Address[]) => action(AddressTypes.CREATE_ADDRESS_REQUEST, { data });
+export const createAddress = (dataAddress: Address[]) => action(AddressTypes.CREATE_ADDRESS_REQUEST, { dataAddress });
 
-export const createAddressSuccess = (data: Address[]) => action(AddressTypes.CREATE_ADDRESS_SUCCESS, { data });
+export const createAddressSuccess = (dataAddress: Address[]) => action(AddressTypes.CREATE_ADDRESS_SUCCESS, { dataAddress });
 
 export const createAddressFailure = () => action(AddressTypes.CREATE_ADDRESS_FAILURE);
 

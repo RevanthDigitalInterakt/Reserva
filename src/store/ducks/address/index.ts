@@ -10,7 +10,7 @@ const INITIAL_STATE: AddressState = {
 const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case AddressTypes.LOAD_ADDRESS_REQUEST:
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: false };
     case AddressTypes.LOAD_ADDRESS_SUCCESS:
       return {
         ...state,
@@ -28,6 +28,7 @@ const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: false,
+        data: action.payload.dataAddress
       };
     case AddressTypes.CREATE_ADDRESS_FAILURE:
       return { ...state, loading: false, error: true };

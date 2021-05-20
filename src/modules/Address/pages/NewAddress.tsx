@@ -1,25 +1,68 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Typography, TextField, Box, Button, Toggle } from 'reserva-ui';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from "react-redux";
 import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
 } from 'react-native-masked-text';
+import { loadAddress, createAddress } from "../../../store/ducks/address/actions";
+
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const { edit } = route?.params;
   const [toggleActivated, setToggleActivated] = React.useState(false);
-  const [zipcode, setZipcode] = React.useState('');
-
+  const [postalCode, setPostalCode] = useState('');
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [number, setNumber] = useState('');
+  const [complement, setComplement] = useState('');
   const { isCheckout } = route.params;
 
+  // useEffect(() => {
+  //   dispatch(createAddress({
+  //     "address": {
+  //       "isDefaultBillingAddress": false,
+  //       "country": "BR",
+  //       "types": [],
+  //       "address3": "VILLAGE DO SOL",
+  //       "address2": "123|ASDASD",
+  //       "city": "GUARAPARI",
+  //       "address1": "RODOVIA DO SOL",
+  //       "postalCode": "29226680",
+  //       "county": null,
+  //       "externalAddressId": null,
+  //       "phoneNumber": null,
+  //       "repositoryId": "16712296",
+  //       "state": "ES",
+  //       "isDefaultShippingAddress": false
+  //     },
+  //   }));
+  // }, []);
+  const addNewAddress = () => {
+    dispatch(createAddress([
+      {
+        address: {
+          isDefaultBillingAddress: false,
+          country: "BR",
+          address3: "VILLAGE",
+          address2: "123|ASDASD",
+          city: "Vila Velha",
+          address1: "Rua Mercurio",
+          postalCode: "29226680",
+          state: "ES",
+        },
+      }]))
+  }
   return (
     <>
       <SafeAreaView
@@ -49,44 +92,44 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               <InputOption
                 placeholder={'Digite seu CEP'}
                 maskType={'zip-code'}
-                value={zipcode}
-                onChangeText={() => {}}
+                value={postalCode}
+                onChangeText={(text) => { setPostalCode(text) }}
               />
 
               <Box flexDirection={'row'} justifyContent="space-between">
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu estado'}
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                   />
                 </Box>
 
                 <Box flex={1}>
                   <InputOption
                     placeholder={'Digite sua cidade'}
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                   />
                 </Box>
               </Box>
 
-              <InputOption placeholder={'Endereço'} onChangeText={() => {}} />
+              <InputOption placeholder={'Endereço'} onChangeText={() => { }} />
 
               <Box flexDirection={'row'} justifyContent="space-between">
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu bairro'}
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                   />
                 </Box>
 
                 <Box flex={1}>
-                  <InputOption placeholder={'Número'} onChangeText={() => {}} />
+                  <InputOption placeholder={'Número'} onChangeText={() => { }} />
                 </Box>
               </Box>
 
               <InputOption
                 placeholder={'Complemento'}
-                onChangeText={() => {}}
+                onChangeText={() => { }}
               />
 
               <Box mt="xs" mb="xxxs">
@@ -107,28 +150,29 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box mb={'sm'}>
                   <InputOption
                     placeholder={'Nome do destinatário'}
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                   />
 
                   <InputOption
                     placeholder={'Telefone para contato'}
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                   />
 
                   <InputOption
                     height={135}
                     textAlignVertical={'top'}
                     placeholder={'Deseja enviar algum recado junto?'}
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                   />
                 </Box>
               )}
 
               {!isCheckout && (
                 <Button
+
                   width="200px"
                   mt={'xs'}
-                  onPress={() => {}}
+                  onPress={addNewAddress}
                   title={'SALVAR ALTERAÇÕES'}
                   variant="primarioEstreitoOutline"
                 />

@@ -30,11 +30,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
     dispatch(loadAddress());
   }, []);
 
-  React.useEffect(() => {
-    dispatch(createAddress());
-  }, []);
 
   React.useEffect(() => {
+    // console.log('address', address.data)
+    if (!address || !!address.data) return;
     address.data.map((item) => {
       console.log(item.address.address1)
     })
@@ -88,7 +87,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
       />
       <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton
-          loading={address.loading}
+          // loading={address.loading}
           showShadow
           backButtonPress={() => navigation.goBack()}
         />
@@ -105,38 +104,40 @@ const AddressList: React.FC<Props> = ({ route }) => {
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            {address.data.map((addressItem) => {
-              // const { address, title, zipcode } = addressItem;
-              const { address1, address2, address3, city, state, postalCode, id } = addressItem.address
-              return (
-                <AddressSelector
-                  key={id.toString()}
-                  addressData={{
-                    address: `${address1}, ${address2}, ${address3}, ${city} - ${state}`,
-                    title: address1,
-                    zipcode: postalCode,
-                  }}
-                  deleteAddress={() => {
-                    setDeleteModal(true);
-                  }}
-                  edit={() => {
-                    navigation.navigate('NewAddress', { edit: true });
-                  }}
-                  selected={true}
-                  select={() => {
-                    if (isCheckout) {
-                      navigation.navigate('PaymentMethodScreen');
-                      return;
-                    }
+            {/* address.data.length > 0 &&  */}
+            {
+              address.data.map((addressItem, index) => {
+                // const { address, title, zipcode } = addressItem;
+                const { address1, address2, address3, city, state, postalCode, } = addressItem.address
+                return (
+                  <AddressSelector
+                    key={index}
+                    addressData={{
+                      address: `${address1}, ${address2}, ${address3}, ${city} - ${state}`,
+                      title: address1,
+                      zipcode: postalCode,
+                    }}
+                    deleteAddress={() => {
+                      setDeleteModal(true);
+                    }}
+                    edit={() => {
+                      navigation.navigate('NewAddress', { edit: true });
+                    }}
+                    selected={true}
+                    select={() => {
+                      if (isCheckout) {
+                        navigation.navigate('PaymentMethodScreen');
+                        return;
+                      }
 
-                    navigation.navigate('NewAddress', {
-                      isCheckout,
-                      id: null,
-                    });
-                  }}
-                />
-              );
-            })}
+                      navigation.navigate('NewAddress', {
+                        isCheckout,
+                        id: null,
+                      });
+                    }}
+                  />
+                );
+              })}
             <Box marginX={'md'}>
               <Button
                 mt="xs"
