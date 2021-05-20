@@ -3,14 +3,11 @@ import * as React from "react";
 import { Alert } from "react-native";
 import { TopBar } from "reserva-ui";
 
-export const TopBarMenu: React.FC<{ loading?: Boolean }> = ({
-  loading = false,
-}) => {
+export const TopBarMenu: React.FC<{}> = () => {
   const navigation = useNavigation();
 
   return (
     <TopBar
-      loading={loading}
       paddingX="quarck"
       bg="white"
       leftButton={{
