@@ -57,6 +57,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   }, [isVisible]);
 
   const handleLogin = () => {
+    console.log("entrou");
     if (!authentication.loading) {
       dispatch(login(loginCredentials));
     }

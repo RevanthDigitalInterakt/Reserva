@@ -29,17 +29,17 @@ export interface ApplicationState {
   profile: ProfileState;
 }
 
-const sagaMiddleware = createSagaMiddleware();
-
 const configureStore = () => {
+  const sagaMiddleware = createSagaMiddleware();
+
   const store: Store<ApplicationState> = createStore(
     persistedReducer,
     composeWithDevTools(applyMiddleware(sagaMiddleware))
   );
 
-  sagaMiddleware.run(rootSaga);
-
   const persistor = persistStore(store);
+
+  sagaMiddleware.run(rootSaga);
 
   return { persistor, store };
 };

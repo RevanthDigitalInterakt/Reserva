@@ -22,6 +22,7 @@ import {
 import { useState, useEffect } from "react";
 import { ApplicationState } from "../../../store";
 import { Category } from "../../../store/ducks/categories/types";
+import { useDispatch, useSelector } from "react-redux";
 
 interface IBreadCumbs {
   title: string;

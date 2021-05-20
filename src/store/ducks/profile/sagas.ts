@@ -15,7 +15,7 @@ export function* register({ payload }: any) {
   }
 }
 
-function* profileLoad() {
+export function* profileLoad() {
   try {
     const { data } = yield call(api.get, "/profiles/current");
 
@@ -53,8 +53,4 @@ export function* profileUpdate({ payload }: any) {
   } catch (err) {
     yield put(requestFailure());
   }
-}
-
-export function* loadProfile() {
-  yield takeLatest(ProfileTypes.PROFILE_LOAD, profileLoad);
 }
