@@ -14,7 +14,6 @@ import {
   Image,
 } from "reserva-ui";
 import { ApplicationState } from "../../../store";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
 
 import logo from "../../../assets/img/logo.png";
 
@@ -23,7 +22,6 @@ export const LoginScreen: React.FC<{
 }> = ({ children, title }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { repositories } = useSelector((state: ApplicationState) => state);
   const [isSecureText, setIsSecureText] = React.useState(true);
 
   useEffect(() => {}, []);

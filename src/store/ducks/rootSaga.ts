@@ -1,8 +1,5 @@
 import { all, takeLatest, takeEvery, fork } from "redux-saga/effects";
 
-import { RepositoriesTypes } from "./repositories/types";
-
-import { load } from "./repositories/sagas";
 import { load as loadCategories } from "./categories/sagas";
 import { CategoriesTypes } from "./categories/types";
 
@@ -13,10 +10,16 @@ import { AuthenticationTypes } from "./authentication/types";
 import { login } from "./authentication/sagas";
 
 import { ProfileTypes } from "./profile/types";
-import { profileLoad, profileUpdate, register } from "./profile/sagas";
+import {
+  loadProfile,
+  profileLoad,
+  profileUpdate,
+  register,
+} from "./profile/sagas";
 
 export default function* rootSaga() {
-  yield all([fork(login)]);
+  yield all([fork(login), fork(loadProfile)]);
+
   // yield all([
   //   takeLatest(ProductsTypes.LOAD_PRODUCTS_REQUEST, loadProducts),
   //   takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),

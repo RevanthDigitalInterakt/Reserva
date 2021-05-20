@@ -1,18 +1,13 @@
-import { call, put } from 'redux-saga/effects';
-import { api } from '../../../services/api';
-import { requestSuccess, requestFailure } from './actions';
-import { Profile } from './types';
+import { call, put, takeLatest } from "redux-saga/effects";
+import { api } from "../../../services/api";
+import { requestSuccess, requestFailure } from "./actions";
+import { Profile, ProfileTypes } from "./types";
 
 export function* register({ payload }: any) {
-
   const { profileCredentials } = payload;
-  
+
   try {
-    const { data } = yield call(
-      api.post,
-      '/profiles',
-      profileCredentials
-    );
+    const { data } = yield call(api.post, "/profiles", profileCredentials);
 
     yield put(requestSuccess(data));
   } catch (err) {
@@ -20,12 +15,9 @@ export function* register({ payload }: any) {
   }
 }
 
-export function* profileLoad() {
+function* profileLoad() {
   try {
-    const { data } = yield call(
-      api.get,
-      '/profiles/current'
-    );
+    const { data } = yield call(api.get, "/profiles/current");
 
     const profile: Profile = {
       firstName: data.firstName,
@@ -34,9 +26,15 @@ export function* profileLoad() {
       receiveEmail: data.receiveEmail,
       gender: data.gender,
       fullName: `${data.firstName} ${data.lastName}`,
-      rsvCPF: data.dynamicProperties.filter((f) => f.id === 'rsvCPF')[0]['value'],
-      rsvBirthDate: data.dynamicProperties.filter((f) => f.id === 'rsvBirthDate')[0]['value'],
-      rsvPhoneNumber: data.dynamicProperties.filter((f) => f.id === 'rsvPhoneNumber')[0]['value'],
+      rsvCPF: data.dynamicProperties.filter((f) => f.id === "rsvCPF")[0][
+        "value"
+      ],
+      rsvBirthDate: data.dynamicProperties.filter(
+        (f) => f.id === "rsvBirthDate"
+      )[0]["value"],
+      rsvPhoneNumber: data.dynamicProperties.filter(
+        (f) => f.id === "rsvPhoneNumber"
+      )[0]["value"],
     };
 
     yield put(requestSuccess(profile));
@@ -47,16 +45,16 @@ export function* profileLoad() {
 
 export function* profileUpdate({ payload }: any) {
   const { profileCredentials } = payload;
-  
+
   try {
-    const { data } = yield call(
-      api.put,
-      '/profiles',
-      profileCredentials
-    );
+    const { data } = yield call(api.put, "/profiles", profileCredentials);
 
     yield put(requestSuccess(data));
   } catch (err) {
     yield put(requestFailure());
   }
+}
+
+export function* loadProfile() {
+  yield takeLatest(ProfileTypes.PROFILE_LOAD, profileLoad);
 }

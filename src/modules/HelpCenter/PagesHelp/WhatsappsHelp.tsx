@@ -11,7 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { Typography, Box, Image, Button } from "reserva-ui";
 import { images } from "../../../assets";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 type ItemWhatsappProps = {

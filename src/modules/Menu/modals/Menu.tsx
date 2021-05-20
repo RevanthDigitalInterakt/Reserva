@@ -20,8 +20,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { loadRequest } from "../../../store/ducks/categories/actions";
 import { ApplicationState } from "../../../store";
 import { Category } from "../../../store/ducks/categories/types";
 

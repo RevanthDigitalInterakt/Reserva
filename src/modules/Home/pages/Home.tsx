@@ -18,8 +18,6 @@ export const HomeScreen: React.FC<{
 
   const dispatch = useDispatch();
 
-  const { repositories } = useSelector((state: ApplicationState) => state);
-
   const deviceWidth = Dimensions.get("screen").width;
 
   useEffect(() => {}, []);

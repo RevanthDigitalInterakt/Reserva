@@ -30,7 +30,6 @@ type Props = StackScreenProps<RootStackParamList, "RegisterSuccess">;
 export const RegisterSuccess: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { repositories } = useSelector((state: ApplicationState) => state);
 
   const { comeFrom } = route.params;
 
