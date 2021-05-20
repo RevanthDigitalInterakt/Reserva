@@ -1034,15 +1034,6 @@
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@ptomasroos/react-native-multi-slider/-/react-native-multi-slider-2.2.2.tgz#35a97fb8c355627c6a2ded010b360ac5728b44ad"
   integrity sha1-Nal/uMNVYnxqLe0BCzYKxXKLRK0=
 
-"@react-native-community/art@^1.1.2":
-  version "1.2.0"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-community/art/-/art-1.2.0.tgz#386d95393f6042d9006f9d4bc6063fb898794460"
-  integrity sha1-OG2VOT9gQtkAb51LxgY/uJh5RGA=
-  dependencies:
-    art "^0.10.3"
-    invariant "^2.2.4"
-    prop-types "^15.7.2"
-
 "@react-native-community/async-storage@^1.12.1":
   version "1.12.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-community/async-storage/-/async-storage-1.12.1.tgz#25f821b4f6b13abe005ad67e47c6f1cee9f27b24"
@@ -2183,11 +2174,6 @@ array.prototype.flatmap@^1.2.4:
     define-properties "^1.1.3"
     es-abstract "^1.18.0-next.1"
     function-bind "^1.1.1"
-
-art@^0.10.3:
-  version "0.10.3"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/art/-/art-0.10.3.tgz#b01d84a968ccce6208df55a733838c96caeeaea2"
-  integrity sha1-sB2EqWjMzmII31WnM4OMlsrurqI=
 
 asap@~2.0.3, asap@~2.0.6:
   version "2.0.6"
@@ -7183,14 +7169,6 @@ react-native-onesignal@^4.1.0:
   integrity sha1-AYEeWTQVPeg9bQHYLHtSt6EePfE=
   dependencies:
     invariant "^2.2.2"
-
-react-native-progress@^4.1.2:
-  version "4.1.2"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-progress/-/react-native-progress-4.1.2.tgz#ffb2264ddfeba409c730e36a9791bb7bbe07a00d"
-  integrity sha1-/7ImTd/rpAnHMONql5G7e74HoA0=
-  dependencies:
-    "@react-native-community/art" "^1.1.2"
-    prop-types "^15.7.2"
 
 react-native-reanimated@^2.1.0:
   version "2.1.0"
