@@ -16,7 +16,7 @@ export function* loginReqest({ payload }: any) {
     const { data } = yield call(api.post, "/login", loginCredentials);
 
     yield put(loginSuccess(data));
-    yield put(profileLoad());
+    // yield put(profileLoad());
   } catch (err) {
     yield put(loginFailure());
   }
