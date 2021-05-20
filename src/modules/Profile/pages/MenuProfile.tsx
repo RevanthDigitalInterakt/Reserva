@@ -4,17 +4,22 @@ import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button } from "reserva-ui";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+import { ApplicationState } from "../../../store";
+import { profileLoad } from "../../../store/ducks/profile/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 import ItemList from "../Components/ItemList";
+import { withAuthentication } from "../HOC/withAuthentication";
 
-export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
+const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
+  const { profile } = useSelector((state: ApplicationState) => state);
+
   useEffect(() => {
-    dispatch(loadRequest());
+    // dispatch(profileLoad());
   }, []);
 
   return (
@@ -23,12 +28,10 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"nano"}>
-            <Typography variant="tituloSessoes">
-              Perfil
-            </Typography>
+            <Typography variant="tituloSessoes">Perfil</Typography>
           </Box>
           <Typography variant="subtituloSessoes">
-            Bem-vindo, João.
+            Bem-vindo, {profile.data?.firstName}.
           </Typography>
 
           <Box mt={"xxxs"}>
@@ -107,3 +110,5 @@ export const MenuProfile: React.FC<{}> = ({ route, navigation }) => {
     </Box>
   );
 };
+
+export const MenuProfile = withAuthentication(MenuScreen);

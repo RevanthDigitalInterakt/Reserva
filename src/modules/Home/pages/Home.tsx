@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button, Image, theme } from "reserva-ui";
 import { images } from "../../../assets";
 import { ApplicationState } from "../../../store";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 
 export const HomeScreen: React.FC<{
@@ -18,13 +18,9 @@ export const HomeScreen: React.FC<{
 
   const dispatch = useDispatch();
 
-  const { repositories } = useSelector((state: ApplicationState) => state);
-
   const deviceWidth = Dimensions.get("screen").width;
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Box flex={1}>

@@ -20,10 +20,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { loadRequest } from "../../../store/ducks/categories/actions";
 import { ApplicationState } from "../../../store";
 import { Category } from "../../../store/ducks/categories/types";
+import { useDispatch, useSelector } from "react-redux";
 
 interface IBreadCumbs {
   title: string;
@@ -178,9 +177,7 @@ export const Menu: React.FC<{}> = () => {
     categories: { data, loading, error },
   } = useSelector((state: ApplicationState) => state);
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     setCategories(
@@ -205,14 +202,16 @@ export const Menu: React.FC<{}> = () => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
       <Box flex={1} backgroundColor="backgroundApp">
-        <TopBarMenu loading={loading && !categories} />
+        <TopBarMenu />
         <ScrollView>
           <Box paddingX="nano" paddingTop="micro">
             <SearchBar height={36} placeholder="Buscar" />
           </Box>
           <Breadcumbs title="Página Inicial" />
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
-          {categories && (
+          {loading && !categories ? (
+            <ActivityIndicator size="small" color="#333333" />
+          ) : (
             <Animatable.View animation="fadeIn">
               {categories.map((item, index) => {
                 return (

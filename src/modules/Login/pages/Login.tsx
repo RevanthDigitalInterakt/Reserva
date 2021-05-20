@@ -1,8 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
-import * as React from 'react';
-import { useEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from "@react-navigation/native";
+import * as React from "react";
+import { useEffect } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -12,26 +12,22 @@ import {
   SocialButton,
   Icon,
   Image,
-} from 'reserva-ui';
-import { ApplicationState } from '../../../store';
-import { loadRequest } from '../../../store/ducks/repositories/actions';
+} from "reserva-ui";
+import { ApplicationState } from "../../../store";
 
-import logo from '../../../assets/img/logo.png';
+import logo from "../../../assets/img/logo.png";
 
 export const LoginScreen: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { repositories } = useSelector((state: ApplicationState) => state);
   const [isSecureText, setIsSecureText] = React.useState(true);
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <ScrollView>
         <Box alignItems="center" marginTop="xxl" marginBottom="sm">
           <Image source={logo} />
@@ -49,8 +45,8 @@ export const LoginScreen: React.FC<{
           </Box>
           <Typography
             fontFamily="nunitoRegular"
-            style={{ textDecorationLine: 'underline' }}
-            onPress={() => navigation.navigate('ForgotEmail')}
+            style={{ textDecorationLine: "underline" }}
+            onPress={() => navigation.navigate("ForgotEmail")}
           >
             Esqueci meu e-mail
           </Typography>
@@ -72,8 +68,8 @@ export const LoginScreen: React.FC<{
           </Box>
           <Typography
             fontFamily="nunitoRegular"
-            style={{ textDecorationLine: 'underline' }}
-            onPress={() => navigation.navigate('ForgotPassword')}
+            style={{ textDecorationLine: "underline" }}
+            onPress={() => navigation.navigate("ForgotPassword")}
           >
             Esqueci minha senha
           </Typography>
@@ -92,7 +88,7 @@ export const LoginScreen: React.FC<{
               variant="primarioEstreito"
               mb="nano"
               onPress={() => {
-                navigation.navigate('Home');
+                navigation.navigate("Home");
               }}
             />
           </Box>
@@ -107,9 +103,9 @@ export const LoginScreen: React.FC<{
             <Box marginLeft="micro">
               <Typography
                 fontSize={13}
-                style={{ textDecorationLine: 'underline' }}
+                style={{ textDecorationLine: "underline" }}
                 fontFamily="nunitoRegular"
-                onPress={() => navigation.navigate('Register')}
+                onPress={() => navigation.navigate("Register")}
               >
                 Clique para se cadastrar
               </Typography>

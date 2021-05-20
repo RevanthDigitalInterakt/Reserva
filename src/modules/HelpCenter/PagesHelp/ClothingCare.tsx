@@ -5,16 +5,14 @@ import { Dimensions, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { Typography, Box, Button, TextField, Icon, Image } from "reserva-ui";
 import { images } from "../../../assets";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const ClothingCare: React.FC<{}> = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView
@@ -34,9 +32,10 @@ export const ClothingCare: React.FC<{}> = () => {
 
           <Box mb={"xxxs"}>
             <Typography fontFamily={"nunitoRegular"} fontSize={13}>
-              Joga na máquina e tá tudo certo!" Na, na, ni, na, não! 
-              Saiba aqui o que fazer para manter a qualidade da sua peça reserva e prolongar ao 
-              máximo a vida útil das roupas. O pica-pau merece seu carinho!
+              Joga na máquina e tá tudo certo!" Na, na, ni, na, não! Saiba aqui
+              o que fazer para manter a qualidade da sua peça reserva e
+              prolongar ao máximo a vida útil das roupas. O pica-pau merece seu
+              carinho!
             </Typography>
           </Box>
 
@@ -45,8 +44,6 @@ export const ClothingCare: React.FC<{}> = () => {
             resizeMode={"contain"}
             height={430}
           />
-
-
         </Box>
       </ScrollView>
     </SafeAreaView>

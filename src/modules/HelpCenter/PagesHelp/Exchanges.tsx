@@ -1,17 +1,15 @@
 import React from "react";
 import { useEffect } from "react";
-import {SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { Typography, Box, ExpansePanel, Divider } from "reserva-ui";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const Exchanges = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   const data = [
     {
@@ -22,21 +20,21 @@ export const Exchanges = () => {
     },
     {
       title: "Como trocar produtos comprados em lojas Multimarcas?",
-      content: ""
+      content: "",
     },
     {
       title: "Como cancelar o pedido?",
-      content: ""
+      content: "",
     },
     {
       title: "É possível alterar o pedido após finalizado?",
-      content: ""
+      content: "",
     },
     {
       title: "Recebi um produto diferente do que eu comprei. Como proceder?",
-      content: ""
-    }
-  ]
+      content: "",
+    },
+  ];
 
   return (
     <SafeAreaView
@@ -57,12 +55,11 @@ export const Exchanges = () => {
           {data.map((item, key) => {
             return (
               <Box key={key}>
-                <ExpansePanel information={{...item}}/>
+                <ExpansePanel information={{ ...item }} />
                 <Divider mt={"xxxs"} variant={"fullWidth"} />
               </Box>
-            )
+            );
           })}
-
         </Box>
       </ScrollView>
     </SafeAreaView>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button } from "reserva-ui";
 import { ApplicationState } from "../../../store";
 import { loadProducts } from "../../../store/ducks/products/actions";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 
 export const ExampleScreen: React.FC<{
