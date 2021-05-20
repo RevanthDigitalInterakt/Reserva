@@ -25,6 +25,7 @@ import {
   ProductVerticalListCardProps,
   TopBar,
   theme,
+  ExpansePanel,
 } from 'reserva-ui';
 import { Input } from 'reserva-ui/src/components/TextField/TextField.styles';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
@@ -212,7 +213,7 @@ export const ProductDetail: React.FC<Props> = ({
             installmentsNumber={1}
             installmentsPrice={product.price}
             title={product.title}
-            discountTag={18}
+            //discountTag={18}
             price={product.price}
             priceWithDiscount={product.price}
             imagesWidth={screenWidth}
@@ -245,7 +246,7 @@ export const ProductDetail: React.FC<Props> = ({
                 <SelectColor
                   onPress={(color: any) => setSelectedColor(color)}
                   size={40}
-                  listColors={colors}
+                  listColors={product.colors.map((x) => x.hex)}
                   selectedColors={selectedColor}
                 />
               </ScrollView>
@@ -273,8 +274,8 @@ export const ProductDetail: React.FC<Props> = ({
                   size={44}
                   fontSize={14}
                   onSelectedChange={() => {}}
-                  optionsList={['PP', 'P', 'M', 'G', 'GG', '3G']}
-                  defaultSelectedItem={'G'}
+                  optionsList={product.sizes}
+                  defaultSelectedItem={product.sizes[0]}
                 />
               </Box>
             </Box>
@@ -309,7 +310,13 @@ export const ProductDetail: React.FC<Props> = ({
             </Box>
             <Divider variant='fullWidth' my='xs' />
             <Box>
-              <Typography>
+              <ExpansePanel
+                information={{
+                  title: 'Descrição do produto',
+                  content: product.description,
+                }}
+              />
+              {/* <Typography>
                 <Button>
                   <Box flexDirection='row' alignItems='center'>
                     <Icon name='Add' size={26} color='preto' />
@@ -323,7 +330,8 @@ export const ProductDetail: React.FC<Props> = ({
                     </Box>
                   </Box>
                 </Button>
-              </Typography>
+                {product.description}
+              </Typography> */}
             </Box>
 
             <Divider variant='fullWidth' my='xs' />

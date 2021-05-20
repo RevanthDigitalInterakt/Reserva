@@ -18,6 +18,12 @@ export interface Product {
   primaryImage: string;
   images: string[];
   price: number;
+  colors: {
+    code: string;
+    name: string;
+    hex: string;
+  }[];
+  sizes: string[];
 }
 
 //#region
