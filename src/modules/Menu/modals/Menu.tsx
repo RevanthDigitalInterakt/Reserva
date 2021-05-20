@@ -205,16 +205,14 @@ export const Menu: React.FC<{}> = () => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
       <Box flex={1} backgroundColor="backgroundApp">
-        <TopBarMenu />
+        <TopBarMenu loading={loading && !categories} />
         <ScrollView>
           <Box paddingX="nano" paddingTop="micro">
             <SearchBar height={36} placeholder="Buscar" />
           </Box>
           <Breadcumbs title="Página Inicial" />
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
-          {loading && !categories ? (
-            <ActivityIndicator size="small" color="#333333" />
-          ) : (
+          {categories && (
             <Animatable.View animation="fadeIn">
               {categories.map((item, index) => {
                 return (
