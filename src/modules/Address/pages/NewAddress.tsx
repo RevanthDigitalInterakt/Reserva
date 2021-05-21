@@ -11,6 +11,7 @@ import {
   TextInputMaskOptionProp,
 } from 'react-native-masked-text';
 import { loadAddress, createAddress } from "../../../store/ducks/address/actions";
+import { ApplicationState } from "../../../store";
 
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 
@@ -18,9 +19,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit } = route?.params;
+  const { edit, editAddress, } = route?.params;
+
   const [toggleActivated, setToggleActivated] = React.useState(false);
-  const [postalCode, setPostalCode] = useState('29226680');
+  const [postalCode, setPostalCode] = useState('');
   const [state, setState] = useState('ES');
   const [city, setCity] = useState('Vitoria');
   const [number, setNumber] = useState('123');
@@ -31,6 +33,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [sendMessage, setSendMessage] = useState('');
   const { isCheckout } = route.params;
+  const {
+    address: { data: addresses, loading, error, defaultAddress }
+  } = useSelector((state: ApplicationState) => state);
 
   const addNewAddress = () => {
     dispatch(createAddress(
@@ -56,7 +61,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         style={{ justifyContent: 'space-between' }}
         backgroundColor="white"
       >
-        <TopBarBackButton showShadow />
+        <TopBarBackButton
+          loading={loading}
+          showShadow />
         <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
           <Box pb="sm">
             <Box paddingX={'xxxs'} justifyContent="flex-start" pt={'sm'}>
@@ -78,7 +85,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               <InputOption
                 placeholder={'Digite seu CEP'}
                 maskType={'zip-code'}
-                value={postalCode}
+                value={edit ? editAddress.postalCode : postalCode}
                 onChangeText={(value) => { setPostalCode(value) }}
               />
 
@@ -86,7 +93,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu estado'}
-                    value={state}
+                    value={edit ? editAddress.state : state}
                     onChangeText={(value) => { setState(value) }}
                   />
                 </Box>
@@ -94,7 +101,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box flex={1}>
                   <InputOption
                     placeholder={'Digite sua cidade'}
-                    value={city}
+                    value={edit ? editAddress.city : city}
                     onChangeText={(value) => { setCity(value) }}
                   />
                 </Box>
@@ -102,7 +109,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
               <InputOption
                 placeholder={'Endereço'}
-                value={street}
+                value={edit ? editAddress.street : street}
                 onChangeText={(value) => { setStreet(value) }}
               />
 
@@ -110,14 +117,14 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu bairro'}
-                    value={district}
+                    value={edit ? editAddress.district : district}
                     onChangeText={(value) => { setDistrict(value) }}
                   />
                 </Box>
 
                 <Box flex={1}>
                   <InputOption placeholder={'Número'}
-                    value={number}
+                    value={edit ? editAddress.numberAndComplement[0] : number}
                     onChangeText={(value) => { setNumber(value) }}
                   />
                 </Box>
@@ -125,7 +132,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
               <InputOption
                 placeholder={'Complemento'}
-                value={complement}
+                value={edit ? editAddress.numberAndComplement[1] : complement}
                 onChangeText={(value) => { setComplement(value) }}
               />
 

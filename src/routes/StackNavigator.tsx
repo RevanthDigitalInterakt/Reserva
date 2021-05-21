@@ -66,7 +66,20 @@ export type RootStackParamList = {
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   ProductCatalog: { safeArea: boolean; search: boolean };
-  NewAddress: { id?: number; isCheckout: boolean; edit?: boolean };
+  NewAddress: {
+    id?: number;
+    isCheckout: boolean;
+    edit?: boolean;
+    editAddress: {
+      id: string,
+      postalCode: string,
+      state: string,
+      city: string,
+      street: string,
+      district: string,
+      numberAndComplement: string[],
+    }
+  };
   AddressList: { isCheckout: boolean };
   ListCards: { isCheckout: boolean };
   NewCard: { isCheckout: boolean };

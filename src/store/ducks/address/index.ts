@@ -5,6 +5,7 @@ const INITIAL_STATE: AddressState = {
   data: [],
   error: false,
   loading: false,
+  defaultAddress: false
 };
 
 const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {

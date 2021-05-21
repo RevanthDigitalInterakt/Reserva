@@ -44,27 +44,14 @@ export interface Address {
     isDefaultShippingAddress?: boolean;
   }
 }
-// export interface CreateAddress {
-//   address: {
-//     address: {
-//       country: string;
-//       address1: string;
-//       address2: string;
-//       address3: string;
-//       city: string;
-//       postalCode: string;
-//       state: string;
-//       alias: string;
-//       fullAddress: string;
-//     }
-//   }
-// }
+
 //#region
 
 //#region State Type
 
 export interface AddressState {
   readonly data?: Address[];
+  readonly defaultAddress?: boolean;
   readonly loading: boolean;
   readonly error: boolean;
 }

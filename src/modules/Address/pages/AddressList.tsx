@@ -30,12 +30,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
     dispatch(loadAddress());
   }, []);
 
-
-  React.useEffect(() => {
-    console.log('addressesdata', addresses)
-  }, [addresses]);
-
-
   // const [addresses, setAddresses] = React.useState<Address[]>([
   //   {
   //     address:
@@ -58,8 +52,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
         cancelText={'NÃO'}
         onConfirm={() => {
           modalRef.current = true;
-          console.log('addressId', addressId)
           dispatch(deleteAddress(addressId))
+
           setDeleteModal(false);
         }}
         onCancel={() => {
@@ -69,20 +63,35 @@ const AddressList: React.FC<Props> = ({ route }) => {
           setDeleteModal(false);
         }}
       />
+      {error ?
+        <Alert
+          isVisible={successModal}
+          title={"Não foi possível exluir o endereço"}
+          confirmText={'OK'}
+          onConfirm={() => {
+            setSuccessModal(false);
+          }}
+          onClose={() => {
+            setDeleteModal(false);
+          }}
+        />
+        :
+        <Alert
+          isVisible={successModal}
+          title={"Seu endereço foi excluido com sucesso."}
+          confirmText={'OK'}
+          onConfirm={() => {
+            setSuccessModal(false);
+          }}
+          onClose={() => {
+            setDeleteModal(false);
+          }}
+        />
+      }
 
-      <Alert
-        isVisible={successModal}
-        title={'Seu endereço foi excluido com sucesso.'}
-        confirmText={'OK'}
-        onConfirm={() => {
-          setSuccessModal(false);
-        }}
-        onClose={() => {
-          setDeleteModal(false);
-        }}
-      />
       <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton
+          loading={loading}
           showShadow
           backButtonPress={() => navigation.goBack()}
         />
@@ -117,7 +126,19 @@ const AddressList: React.FC<Props> = ({ route }) => {
                       setAddressId(id)
                     }}
                     edit={() => {
-                      navigation.navigate('NewAddress', { edit: true });
+                      navigation.navigate('NewAddress',
+                        {
+                          edit: true,
+                          editAddress: {
+                            id: id,
+                            postalCode: postalCode,
+                            state: state,
+                            city: city,
+                            street: address1,
+                            district: address3,
+                            numberAndComplement: address2.split("|"),
+                          }
+                        });
                     }}
                     selected={true}
                     select={() => {
@@ -130,25 +151,27 @@ const AddressList: React.FC<Props> = ({ route }) => {
                         isCheckout,
                         id: null,
                       });
-                    }}
+                    }
+                    }
                   />
                 );
               })}
-            <Box marginX={'md'}>
-              <Button
-                mt="xs"
-                onPress={() =>
-                  navigation.navigate('NewAddress', {
-                    isCheckout,
-                    id: null,
-                  })
-                }
-                title={'NOVO ENDEREÇO'}
-                variant="primarioEstreitoOutline"
-                padding="xl"
-              />
-            </Box>
+
           </ScrollView>
+          <Box marginX={'md'}>
+            <Button
+              mt="xs"
+              onPress={() =>
+                navigation.navigate('NewAddress', {
+                  isCheckout,
+                  id: null,
+                })
+              }
+              title={'NOVO ENDEREÇO'}
+              variant="primarioEstreitoOutline"
+              padding="xl"
+            />
+          </Box>
         </Box>
         {isCheckout && (
           <Box justifyContent="flex-end" flex={1}>
