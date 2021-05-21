@@ -18,6 +18,7 @@ import { RootStackParamList } from "../../../routes/StackNavigator";
 import { ApplicationState } from "../../../store";
 import { login } from "../../../store/ducks/authentication/actions";
 import ProgressBar from "react-native-progress/Bar";
+import { useEffect } from "react";
 
 type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
@@ -62,6 +63,16 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
       dispatch(login(loginCredentials));
     }
   };
+
+  useEffect(() => {
+    if (authentication.data?.access_token) {
+      if (comeFrom == "Checkout") {
+        navigation.navigate("DeliveryScreen");
+      } else {
+        navigation.navigate("Home");
+      }
+    }
+  }, [authentication]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
@@ -236,11 +247,6 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                       <Button
                         onPress={() => {
                           handleLogin();
-                          // if (comeFrom == 'Checkout') {
-                          //   navigation.navigate('DeliveryScreen');
-                          // } else {
-                          //   navigation.navigate('Home');
-                          // }
                         }}
                         width={190}
                         disabled={authentication.loading}
