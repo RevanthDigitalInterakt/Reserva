@@ -111,4 +111,6 @@ const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
   );
 };
 
-export const MenuProfile = withAuthentication(MenuScreen);
+export const MenuProfile = withAuthentication(MenuScreen, {
+  comeFrom: "Profile",
+});

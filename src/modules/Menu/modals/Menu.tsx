@@ -272,7 +272,6 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  console.log('ok')
                   navigation.navigate('WishList')
                 }}></FixedMenuItem>
               <FixedMenuItem
@@ -287,7 +286,6 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  console.log('ok')
                   navigation.navigate('HelpCenter')
                 }}></FixedMenuItem>
               <FixedMenuItem
