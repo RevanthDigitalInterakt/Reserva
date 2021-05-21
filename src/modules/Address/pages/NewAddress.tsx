@@ -20,27 +20,32 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const { edit } = route?.params;
   const [toggleActivated, setToggleActivated] = React.useState(false);
-  const [postalCode, setPostalCode] = useState('');
-  const [state, setState] = useState('');
-  const [city, setCity] = useState('');
-  const [address, setAddress] = useState('');
-  const [number, setNumber] = useState('');
-  const [complement, setComplement] = useState('');
+  const [postalCode, setPostalCode] = useState('29226680');
+  const [state, setState] = useState('ES');
+  const [city, setCity] = useState('Vitoria');
+  const [number, setNumber] = useState('123');
+  const [complement, setComplement] = useState('Em frente a oficina');
+  const [district, setDistrict] = useState('Camburi');
+  const [street, setStreet] = useState('Camburi');
+  const [recipientName, setRecipientName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [sendMessage, setSendMessage] = useState('');
   const { isCheckout } = route.params;
-
 
   const addNewAddress = () => {
     dispatch(createAddress(
       {
         address: {
-          isDefaultBillingAddress: false,
           country: "BR",
-          address3: "Camburi",
-          address2: "123|ASDASD",
-          city: "Vitoria",
-          address1: "Camburi",
-          postalCode: "29226680",
-          state: "ES",
+          address3: district,
+          address2: `${number}|${complement}`,
+          city: city,
+          address1: street,
+          postalCode: postalCode,
+          state: state,
+          firstName: recipientName,
+          phoneNumber: phoneNumber,
+          jobTitle: sendMessage,
         },
       }))
   }
@@ -74,43 +79,54 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 placeholder={'Digite seu CEP'}
                 maskType={'zip-code'}
                 value={postalCode}
-                onChangeText={(text) => { setPostalCode(text) }}
+                onChangeText={(value) => { setPostalCode(value) }}
               />
 
               <Box flexDirection={'row'} justifyContent="space-between">
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu estado'}
-                    onChangeText={() => { }}
+                    value={state}
+                    onChangeText={(value) => { setState(value) }}
                   />
                 </Box>
 
                 <Box flex={1}>
                   <InputOption
                     placeholder={'Digite sua cidade'}
-                    onChangeText={() => { }}
+                    value={city}
+                    onChangeText={(value) => { setCity(value) }}
                   />
                 </Box>
               </Box>
 
-              <InputOption placeholder={'Endereço'} onChangeText={() => { }} />
+              <InputOption
+                placeholder={'Endereço'}
+                value={street}
+                onChangeText={(value) => { setStreet(value) }}
+              />
 
               <Box flexDirection={'row'} justifyContent="space-between">
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu bairro'}
-                    onChangeText={() => { }}
+                    value={district}
+                    onChangeText={(value) => { setDistrict(value) }}
                   />
                 </Box>
 
                 <Box flex={1}>
-                  <InputOption placeholder={'Número'} onChangeText={() => { }} />
+                  <InputOption placeholder={'Número'}
+                    value={number}
+                    onChangeText={(value) => { setNumber(value) }}
+                  />
                 </Box>
               </Box>
 
               <InputOption
                 placeholder={'Complemento'}
-                onChangeText={() => { }}
+                value={complement}
+                onChangeText={(value) => { setComplement(value) }}
               />
 
               <Box mt="xs" mb="xxxs">
@@ -131,19 +147,23 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box mb={'sm'}>
                   <InputOption
                     placeholder={'Nome do destinatário'}
-                    onChangeText={() => { }}
+                    value={recipientName}
+                    onChangeText={(value) => { setRecipientName(value) }}
                   />
 
                   <InputOption
+                    maskType={'cel-phone'}
                     placeholder={'Telefone para contato'}
-                    onChangeText={() => { }}
+                    value={phoneNumber}
+                    onChangeText={(value) => { setPhoneNumber(value) }}
                   />
 
                   <InputOption
                     height={135}
                     textAlignVertical={'top'}
                     placeholder={'Deseja enviar algum recado junto?'}
-                    onChangeText={() => { }}
+                    value={sendMessage}
+                    onChangeText={(value) => { setSendMessage(value) }}
                   />
                 </Box>
               )}

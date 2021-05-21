@@ -16,8 +16,9 @@ type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 const AddressList: React.FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
   const {
-    address: { data, loading, error }
+    address: { data: addresses, loading, error }
   } = useSelector((state: ApplicationState) => state);
+
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [addressId, setAddressId] = React.useState('');
@@ -31,26 +32,18 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
 
   React.useEffect(() => {
-    console.log('addressesdata', data)
-    // if (!address || !!address.data) return;
-    // if (address.data) {
-    //   address.data?.map((item) => {
-    //     console.log('item', item)
-    //     setAddresses(item.address)
-    //     console.log(item.address.address1)
-    //   })
-    // }
-  }, [data]);
+    console.log('addressesdata', addresses)
+  }, [addresses]);
 
 
-  const [addresses, setAddresses] = React.useState<Address[]>([
-    {
-      address:
-        'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
-      title: 'Casa',
-      zipcode: '29.123-456',
-    },
-  ]);
+  // const [addresses, setAddresses] = React.useState<Address[]>([
+  //   {
+  //     address:
+  //       'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
+  //     title: 'Casa',
+  //     zipcode: '29.123-456',
+  //   },
+  // ]);
 
   return (
     <>
@@ -68,7 +61,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
           console.log('addressId', addressId)
           dispatch(deleteAddress(addressId))
           setDeleteModal(false);
-          setAddresses([]);
         }}
         onCancel={() => {
           setDeleteModal(false);
@@ -109,12 +101,12 @@ const AddressList: React.FC<Props> = ({ route }) => {
           <ScrollView showsVerticalScrollIndicator={false}>
 
             {
-              data?.map((addressItem, index) => {
+              addresses?.map((addressItem: any, index: any) => {
                 // const { address, title, zipcode } = addressItem;
                 const { address1, address2, address3, city, state, postalCode, id } = addressItem.address
                 return (
                   <AddressSelector
-                    key={index}
+                    key={id}
                     addressData={{
                       address: `${address1}, ${address2}, ${address3}, ${city} - ${state}`,
                       title: address1,

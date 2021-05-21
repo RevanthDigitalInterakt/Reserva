@@ -34,7 +34,7 @@ const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
     //   return { ...state, loading: false, error: true };
 
     case AddressTypes.DELETE_ADDRESS_REQUEST:
-      return { ...state, loading: false, error: true, payload: action.payload.addressId };
+      return { ...state, loading: true, payload: action.payload.addressId };
 
     default:
       return { ...state };
