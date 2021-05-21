@@ -5,11 +5,13 @@ import { TopBar } from "reserva-ui";
 
 export const TopBarBackButton: React.FC<{
   showShadow?: Boolean;
+  loading: Boolean;
   backButtonPress?: () => void;
-}> = ({ showShadow = true, backButtonPress }) => {
+}> = ({ showShadow = true, backButtonPress, loading = false }) => {
   const navigation = useNavigation();
   return (
     <TopBar
+      loading={loading}
       paddingX="quarck"
       bg="white"
       showLogo
