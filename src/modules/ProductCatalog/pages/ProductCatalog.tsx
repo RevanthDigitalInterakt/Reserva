@@ -43,8 +43,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   }, [])
 
   const DynamicComponent = safeArea ? SafeAreaView : Box
-  console.log('aqui')
-  console.log(products)
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? <TopBarDefaultBackButton /> : <TopBarDefault />}
