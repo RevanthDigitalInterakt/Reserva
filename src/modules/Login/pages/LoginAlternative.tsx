@@ -1,7 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import * as React from 'react';
-import { Animated, SafeAreaView, ScrollView } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import * as React from "react";
+import { Animated, SafeAreaView, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -10,18 +11,33 @@ import {
   TextField,
   Icon,
   Toggle,
-} from 'reserva-ui';
-import { images } from '../../../assets';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+  theme,
+} from "reserva-ui";
+import { images } from "../../../assets";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { ApplicationState } from "../../../store";
+import { login } from "../../../store/ducks/authentication/actions";
+import ProgressBar from "react-native-progress/Bar";
 
-type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
+type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
 export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [loginCredentials, setLoginCredentials] = React.useState({
+    username: "danilo.sousa@globalsys.com.br",
+    password: "danilo123",
+  });
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;
   const boxTranslation = React.useRef(new Animated.Value(100)).current;
   const [isSecureText, setIsSecureText] = React.useState(true);
+  const { authentication } = useSelector((state: ApplicationState) => state);
+  const { profile } = useSelector((state: ApplicationState) => state);
+
+  React.useEffect(() => {
+    console.log(authentication);
+  }, [authentication]);
 
   const { comeFrom } = route.params;
 
@@ -40,8 +56,15 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
     ]).start();
   }, [isVisible]);
 
+  const handleLogin = () => {
+    console.log("entrou");
+    if (!authentication.loading) {
+      dispatch(login(loginCredentials));
+    }
+  };
+
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <ScrollView>
         <Box position="relative" paddingBottom="xxl" height="100%" width="100%">
           <Animated.View
@@ -57,9 +80,9 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
           </Animated.View>
           <Animated.View
             style={{
-              position: 'absolute',
-              backgroundColor: 'white',
-              width: '100%',
+              position: "absolute",
+              backgroundColor: "white",
+              width: "100%",
               bottom: isVisible ? 60 : 32,
             }}
           >
@@ -105,7 +128,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     title="CRIAR CONTA"
                     borderColor="preto"
                     onPress={() =>
-                      navigation.navigate('Register', { reset: true, comeFrom })
+                      navigation.navigate("Register", { reset: true, comeFrom })
                     }
                     borderWidth={1}
                   />
@@ -122,29 +145,44 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                   ],
                 }}
               >
+                <ProgressBar
+                  animated
+                  indeterminate={authentication.loading}
+                  color={theme.colors.vermelhoAlerta}
+                  height={2}
+                  borderWidth={0}
+                  width={null}
+                  borderRadius={0}
+                />
                 <Box marginX="xxs">
                   <Box marginTop="xxs">
                     <Typography
                       fontSize="24px"
                       fontFamily="reservaSerifRegular"
                     >
-                      {comeFrom == 'Profile' &&
-                        'Acesse ou crie sua conta para continuar'}
-                      {comeFrom == 'Menu' &&
-                        'Acesse ou crie sua conta para continuar'}
-                      {comeFrom == 'Checkout' &&
-                        'Ótimo gosto! Agora, acesse ou crie sua conta para finalizar seu pedido'}
-                      {comeFrom == 'Favorite' &&
-                        'Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos'}
+                      {comeFrom == "Profile" &&
+                        "Acesse ou crie sua conta para continuar"}
+                      {comeFrom == "Menu" &&
+                        "Acesse ou crie sua conta para continuar"}
+                      {comeFrom == "Checkout" &&
+                        "Ótimo gosto! Agora, acesse ou crie sua conta para finalizar seu pedido"}
+                      {comeFrom == "Favorite" &&
+                        "Acesse ou crie sua conta para a gente não se esquecer dos seus produtos favoritos"}
                     </Typography>
                   </Box>
-
                   <Box flex={1}>
                     <Box marginTop="xxs" marginBottom="nano">
                       <TextField
                         autoCapitalize="none"
                         autoCompleteType="email"
                         textContentType="emailAddress"
+                        value={loginCredentials.username}
+                        onChangeText={(value) => {
+                          setLoginCredentials({
+                            ...loginCredentials,
+                            username: value,
+                          });
+                        }}
                         keyboardType="email-address"
                         height={55}
                         placeholder="Digite seu e-mail ou CPF ou CNPJ"
@@ -152,8 +190,8 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     </Box>
                     <Typography
                       fontFamily="nunitoRegular"
-                      style={{ textDecorationLine: 'underline' }}
-                      onPress={() => navigation.navigate('ForgotEmail')}
+                      style={{ textDecorationLine: "underline" }}
+                      onPress={() => navigation.navigate("ForgotEmail")}
                     >
                       Esqueci meu e-mail
                     </Typography>
@@ -163,6 +201,13 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                         height={55}
                         placeholder="Digite sua senha"
                         fontFamily="nunitoRegular"
+                        value={loginCredentials.password}
+                        onChangeText={(value) => {
+                          setLoginCredentials({
+                            ...loginCredentials,
+                            password: value,
+                          });
+                        }}
                         iconRight={
                           <Button
                             mr="xxxs"
@@ -175,8 +220,8 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     </Box>
                     <Typography
                       fontFamily="nunitoRegular"
-                      style={{ textDecorationLine: 'underline' }}
-                      onPress={() => navigation.navigate('ForgotPassword')}
+                      style={{ textDecorationLine: "underline" }}
+                      onPress={() => navigation.navigate("ForgotPassword")}
                     >
                       Esqueci minha senha
                     </Typography>
@@ -190,13 +235,15 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Box marginTop="xs" alignItems="center">
                       <Button
                         onPress={() => {
-                          if (comeFrom == 'Checkout') {
-                            navigation.navigate('DeliveryScreen');
-                          } else {
-                            navigation.navigate('Home');
-                          }
+                          handleLogin();
+                          // if (comeFrom == 'Checkout') {
+                          //   navigation.navigate('DeliveryScreen');
+                          // } else {
+                          //   navigation.navigate('Home');
+                          // }
                         }}
                         width={190}
+                        disabled={authentication.loading}
                         fontFamily="nunitoRegular"
                         title="ENTRAR"
                         variant="primarioEstreito"
@@ -218,10 +265,10 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                       <Box marginLeft="quarck">
                         <Typography
                           fontSize={13}
-                          style={{ textDecorationLine: 'underline' }}
+                          style={{ textDecorationLine: "underline" }}
                           fontFamily="nunitoRegular"
                           onPress={() =>
-                            navigation.navigate('Register', {
+                            navigation.navigate("Register", {
                               reset: true,
                               comeFrom,
                             })

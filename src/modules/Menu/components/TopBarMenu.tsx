@@ -3,7 +3,7 @@ import * as React from "react";
 import { Alert } from "react-native";
 import { TopBar } from "reserva-ui";
 
-export const TopBarMenu: React.FC<{ loading?: Boolean }> = ({
+export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
   loading = false,
 }) => {
   const navigation = useNavigation();

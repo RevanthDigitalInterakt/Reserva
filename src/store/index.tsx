@@ -1,44 +1,45 @@
-import { createStore, applyMiddleware, Store } from 'redux';
+import { createStore, applyMiddleware, Store } from "redux";
 
-import { RepositoriesState } from './ducks/repositories/types';
+import rootReducer from "./ducks/rootReducer";
+import rootSaga from "./ducks/rootSaga";
 
-import rootReducer from './ducks/rootReducer';
-import rootSaga from './ducks/rootSaga';
+import { persistStore, persistReducer } from "redux-persist";
 
-import { persistStore, persistReducer } from 'redux-persist';
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from "redux-saga";
+import { ProductsState } from "./ducks/products/types";
 
-import createSagaMiddleware from 'redux-saga';
-import { ProductsState } from './ducks/products/types';
-
-import AsyncStorage from '@react-native-community/async-storage';
-import { CategoriesState } from './ducks/categories/types';
+import AsyncStorage from "@react-native-community/async-storage";
+import { CategoriesState } from "./ducks/categories/types";
+import { AuthenticationState } from "./ducks/authentication/types";
+import { ProfileState } from "./ducks/profile/types";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: AsyncStorage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export interface ApplicationState {
-  repositories: RepositoriesState;
   products: ProductsState;
   categories: CategoriesState;
+  authentication: AuthenticationState;
+  profile: ProfileState;
 }
 
-const sagaMiddleware = createSagaMiddleware();
-
 const configureStore = () => {
+  const sagaMiddleware = createSagaMiddleware();
+
   const store: Store<ApplicationState> = createStore(
     persistedReducer,
     composeWithDevTools(applyMiddleware(sagaMiddleware))
   );
 
-  sagaMiddleware.run(rootSaga);
-
   const persistor = persistStore(store);
+
+  sagaMiddleware.run(rootSaga);
 
   return { persistor, store };
 };

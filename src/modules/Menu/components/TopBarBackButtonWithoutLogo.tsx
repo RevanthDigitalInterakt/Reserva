@@ -4,8 +4,8 @@ import { Alert, Platform } from "react-native";
 import { TopBar } from "reserva-ui";
 
 export const TopBarBackButtonWithoutLogo: React.FC<{
-  loading?: Boolean;
   showShadow?: Boolean;
+  loading: Boolean;
   backButtonPress: () => void;
 }> = ({ showShadow = true, backButtonPress, loading = false }) => {
   return (

@@ -1,18 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
-import {  SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { Typography, Box, Image } from "reserva-ui";
 import { images } from "../../../assets";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const SizeGuide: React.FC<{}> = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView
@@ -25,11 +23,9 @@ export const SizeGuide: React.FC<{}> = () => {
       <ScrollView>
         <Box variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"nano"} alignSelf={"flex-start"}>
-            <Typography variant={"tituloSessoes"}>
-              Guia de tamanhos
-            </Typography>
+            <Typography variant={"tituloSessoes"}>Guia de tamanhos</Typography>
           </Box>
-          
+
           <Box>
             <Image
               source={images.helpSizeGuide1}
@@ -53,7 +49,7 @@ export const SizeGuide: React.FC<{}> = () => {
               resizeMode={"contain"}
             />
           </Box>
-          
+
           <Box>
             <Image
               source={images.helpSizeGuide3}
@@ -77,7 +73,7 @@ export const SizeGuide: React.FC<{}> = () => {
               resizeMode={"contain"}
             />
           </Box>
-       
+
           <Box>
             <Image
               source={images.helpSizeGuide6}

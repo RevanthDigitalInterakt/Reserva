@@ -15,7 +15,7 @@ import {
   Image,
 } from "reserva-ui";
 import { ApplicationState } from "../../../store";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 // TODO: REMOVE THIS, get from the image index.ts
@@ -30,13 +30,10 @@ type Props = StackScreenProps<RootStackParamList, "RegisterSuccess">;
 export const RegisterSuccess: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { repositories } = useSelector((state: ApplicationState) => state);
 
   const { comeFrom } = route.params;
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
-import { loadRequest } from "../../../store/ducks/repositories/actions";
+
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const EditPassword: React.FC<{}> = () => {
@@ -15,9 +15,7 @@ export const EditPassword: React.FC<{}> = () => {
     password_confirm: "*****",
   });
 
-  useEffect(() => {
-    dispatch(loadRequest());
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">

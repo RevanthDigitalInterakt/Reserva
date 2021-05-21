@@ -13,15 +13,10 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
 
   useEffect(() => {
-    console.log("");
     animation?.play();
-    console.log(animation);
   }, [animation]);
 
-  useEffect(() => {
-    console.log("Progress");
-    console.log(animation?.props.progress);
-  }, [animation?.props.progress]);
+  useEffect(() => {}, [animation?.props.progress]);
 
   return (
     <>

@@ -1,18 +1,24 @@
-import { all, takeLatest, takeEvery } from 'redux-saga/effects';
+import { all, takeLatest, takeEvery, fork } from "redux-saga/effects";
 
-import { RepositoriesTypes } from './repositories/types';
+import { load as loadCategories } from "./categories/sagas";
+import { CategoriesTypes } from "./categories/types";
 
-import { load } from './repositories/sagas';
-import { load as loadCategories } from './categories/sagas';
-import { CategoriesTypes } from './categories/types';
+import { ProductsTypes } from "./products/types";
+import { loadProducts } from "./products/sagas";
 
-import { ProductsTypes } from './products/types';
-import { loadProducts } from './products/sagas';
+import { AuthenticationTypes } from "./authentication/types";
+import { loginReqest } from "./authentication/sagas";
+
+import { ProfileTypes } from "./profile/types";
+import { profileLoad, profileUpdate, register } from "./profile/sagas";
 
 export default function* rootSaga() {
-  return yield all([
+  yield all([
+    takeLatest(AuthenticationTypes.LOGIN_REQUEST, loginReqest),
+    takeLatest(ProfileTypes.PROFILE_LOAD, profileLoad),
     takeLatest(ProductsTypes.LOAD_PRODUCTS_REQUEST, loadProducts),
-    takeLatest(RepositoriesTypes.LOAD_REQUEST, load),
     takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
+    takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
+    takeLatest(ProfileTypes.REGISTER_REQUEST, register),
   ]);
 }
