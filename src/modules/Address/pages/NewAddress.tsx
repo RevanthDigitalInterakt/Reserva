@@ -28,40 +28,21 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [complement, setComplement] = useState('');
   const { isCheckout } = route.params;
 
-  // useEffect(() => {
-  //   dispatch(createAddress({
-  //     "address": {
-  //       "isDefaultBillingAddress": false,
-  //       "country": "BR",
-  //       "types": [],
-  //       "address3": "VILLAGE DO SOL",
-  //       "address2": "123|ASDASD",
-  //       "city": "GUARAPARI",
-  //       "address1": "RODOVIA DO SOL",
-  //       "postalCode": "29226680",
-  //       "county": null,
-  //       "externalAddressId": null,
-  //       "phoneNumber": null,
-  //       "repositoryId": "16712296",
-  //       "state": "ES",
-  //       "isDefaultShippingAddress": false
-  //     },
-  //   }));
-  // }, []);
+
   const addNewAddress = () => {
-    dispatch(createAddress([
+    dispatch(createAddress(
       {
         address: {
           isDefaultBillingAddress: false,
           country: "BR",
-          address3: "VILLAGE",
+          address3: "Camburi",
           address2: "123|ASDASD",
-          city: "Vila Velha",
-          address1: "Rua Mercurio",
+          city: "Vitoria",
+          address1: "Camburi",
           postalCode: "29226680",
           state: "ES",
         },
-      }]))
+      }))
   }
   return (
     <>

@@ -15,7 +15,7 @@ export enum AddressTypes {
 //#region Data Types
 
 export interface Address {
-  addressType?: string;
+  addressType: string;
   address: {
     isDefaultBillingAddress?: boolean;
     country?: string; //pais
@@ -64,7 +64,7 @@ export interface Address {
 //#region State Type
 
 export interface AddressState {
-  readonly data: Address[];
+  readonly data?: Address[];
   readonly loading: boolean;
   readonly error: boolean;
 }

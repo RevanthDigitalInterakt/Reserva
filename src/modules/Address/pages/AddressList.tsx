@@ -9,19 +9,18 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useSelector, useDispatch } from "react-redux";
 import { ApplicationState } from "../../../store";
-import { loadAddress, createAddress } from "../../../store/ducks/address/actions";
-// import { Address } from "../../../store/ducks/address/types";
-
+import { loadAddress, createAddress, deleteAddress } from "../../../store/ducks/address/actions";
 
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
   const {
-    address
+    address: { data, loading, error }
   } = useSelector((state: ApplicationState) => state);
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
+  const [addressId, setAddressId] = React.useState('');
   const [successModal, setSuccessModal] = React.useState(false);
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
@@ -32,12 +31,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
 
   React.useEffect(() => {
-    // console.log('address', address.data)
-    if (!address || !!address.data) return;
-    address.data.map((item) => {
-      console.log(item.address.address1)
-    })
-  }, [address]);
+    console.log('addressesdata', data)
+    // if (!address || !!address.data) return;
+    // if (address.data) {
+    //   address.data?.map((item) => {
+    //     console.log('item', item)
+    //     setAddresses(item.address)
+    //     console.log(item.address.address1)
+    //   })
+    // }
+  }, [data]);
 
 
   const [addresses, setAddresses] = React.useState<Address[]>([
@@ -62,7 +65,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
         cancelText={'NÃO'}
         onConfirm={() => {
           modalRef.current = true;
-
+          console.log('addressId', addressId)
+          dispatch(deleteAddress(addressId))
           setDeleteModal(false);
           setAddresses([]);
         }}
@@ -87,7 +91,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
       />
       <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton
-          // loading={address.loading}
           showShadow
           backButtonPress={() => navigation.goBack()}
         />
@@ -104,11 +107,11 @@ const AddressList: React.FC<Props> = ({ route }) => {
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            {/* address.data.length > 0 &&  */}
+
             {
-              address.data.map((addressItem, index) => {
+              data?.map((addressItem, index) => {
                 // const { address, title, zipcode } = addressItem;
-                const { address1, address2, address3, city, state, postalCode, } = addressItem.address
+                const { address1, address2, address3, city, state, postalCode, id } = addressItem.address
                 return (
                   <AddressSelector
                     key={index}
@@ -119,6 +122,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                     }}
                     deleteAddress={() => {
                       setDeleteModal(true);
+                      setAddressId(id)
                     }}
                     edit={() => {
                       navigation.navigate('NewAddress', { edit: true });

@@ -22,22 +22,22 @@ const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
       return { ...state, loading: false, error: true };
 
     case AddressTypes.CREATE_ADDRESS_REQUEST:
-      return { ...state, loading: true, };
-    case AddressTypes.CREATE_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        error: false,
-        data: action.payload.dataAddress
-      };
-    case AddressTypes.CREATE_ADDRESS_FAILURE:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: true, payload: action.payload.dataAddress };
+    // case AddressTypes.CREATE_ADDRESS_SUCCESS:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     error: false,
+    //     // data: action.payload.dataAddress
+    //   };
+    // case AddressTypes.CREATE_ADDRESS_FAILURE:
+    //   return { ...state, loading: false, error: true };
 
     case AddressTypes.DELETE_ADDRESS_REQUEST:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: true, payload: action.payload.addressId };
 
     default:
-      return state;
+      return { ...state };
   }
 };
 
