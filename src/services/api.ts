@@ -8,9 +8,13 @@ const api = axios.create({
   },
 })
 
+const apiBffProducts = axios.create({
+  baseURL: 'https://rsv-bff-linkapi.rj.r.appspot.com/',
+})
+
 // nao e link
 const apiCategories = axios.create({
   baseURL: 'https://front.usereserva.com/menu',
 })
 
-export { api, apiCategories }
+export { api, apiCategories, apiBffProducts }

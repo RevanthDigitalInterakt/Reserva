@@ -11,19 +11,19 @@ export enum ProductsTypes {
 //#region Data Types
 
 export interface Product {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  primaryImage: string;
-  images: string[];
-  price: number;
-  colors: {
-    code: string;
-    name: string;
-    hex: string;
-  }[];
-  sizes: string[];
+  id: string
+  title: string
+  imageUrl: string
+  isFavorite: boolean
+  fullPrice: number
+  discountPrice: number
+  currency: string
+  installmentPrice: number
+  installmentNumber: number
+  discountTag: string
+  creationDate: string
+  colors: string[]
+  sizes: string[]
 }
 
 //#region
@@ -31,9 +31,9 @@ export interface Product {
 //#region State Type
 
 export interface ProductsState {
-  readonly dataOffer: Product[];
-  readonly loading: boolean;
-  readonly error: boolean;
+  readonly dataOffer: Product[]
+  readonly loading: boolean
+  readonly error: boolean
 }
 
 //#region
