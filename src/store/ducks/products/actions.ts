@@ -1,11 +1,14 @@
-import { action } from 'typesafe-actions';
-import { ProductsTypes, Product } from './types';
+import { BffGetProductsRequest } from './sagas'
+import { action } from 'typesafe-actions'
+import { ProductsTypes, Product } from './types'
 
-export const loadProducts = (categoryId: string = '') =>
-  action(ProductsTypes.LOAD_PRODUCTS_REQUEST, { data: { categoryId } });
+export const loadProducts = (requestParams?: BffGetProductsRequest) =>
+  action(ProductsTypes.LOAD_PRODUCTS_REQUEST, { data: { requestParams } })
+
+export const cleanProducts = () => action(ProductsTypes.LOAD_PRODUCTS_CLEAN)
 
 export const loadProductsSuccess = (dataOffer: Product[]) =>
-  action(ProductsTypes.LOAD_PRODUCTS_SUCCESS, { dataOffer });
+  action(ProductsTypes.LOAD_PRODUCTS_SUCCESS, { dataOffer })
 
 export const loadProductsFailure = () =>
-  action(ProductsTypes.LOAD_PRODUCTS_FAILURE);
+  action(ProductsTypes.LOAD_PRODUCTS_FAILURE)

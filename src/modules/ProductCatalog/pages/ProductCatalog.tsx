@@ -1,9 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { Dimensions, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { connectAdvanced, useDispatch, useSelector } from 'react-redux'
 import {
   Box,
   Button,
@@ -19,7 +19,10 @@ import {
 import { images } from '../../../assets'
 import { RootStackParamList } from '../../../routes/StackNavigator'
 import { ApplicationState } from '../../../store'
-import { loadProducts } from '../../../store/ducks/products/actions'
+import {
+  cleanProducts,
+  loadProducts,
+} from '../../../store/ducks/products/actions'
 import { Product } from '../../../store/ducks/products/types'
 import { TopBarDefault } from '../../Menu/components/TopBarDefault'
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
@@ -33,19 +36,36 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   const dispatch = useDispatch()
 
-  const [filterVisible, setFilterVisible] = React.useState(false)
-  const [sorterVisible, setSorterVisible] = React.useState(false)
-  const [filterList, setFilterList] = React.useState<string[]>([])
+  const [filterVisible, setFilterVisible] = useState(false)
+  const [sorterVisible, setSorterVisible] = useState(false)
+  const [filterList, setFilterList] = useState<string[]>([])
+  // const [offset, setOffset] = useState(0)
   const products = useSelector((state: ApplicationState) => state.products)
+  const loadMoreProducts = (offset: number) => {
+    console.log('loading more')
+    dispatch(
+      loadProducts({
+        categoryId: categoryId || '',
+        limit: 10,
+        offset: offset,
+      })
+    )
+  }
 
   useEffect(() => {
-    dispatch(loadProducts(categoryId))
+    console.log('products', products)
+    dispatch(cleanProducts())
+    loadMoreProducts(0)
   }, [])
 
   const DynamicComponent = safeArea ? SafeAreaView : Box
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
-      {safeArea ? <TopBarDefaultBackButton /> : <TopBarDefault />}
+      {safeArea ? (
+        <TopBarDefaultBackButton loading={true} />
+      ) : (
+        <TopBarDefault loading={true} />
+      )}
       {search && (
         <Box paddingX='nano' paddingBottom='micro' paddingTop='micro'>
           <SearchBar height={36} placeholder='Buscar' />
@@ -94,6 +114,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         title='Ordenar Por'
       />
       <ListVerticalProducts
+        loadMoreProducts={loadMoreProducts}
         products={products.dataOffer}
         listHeader={
           <>

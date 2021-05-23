@@ -1,6 +1,7 @@
 //#region Action Types
 
 export enum ProductsTypes {
+  LOAD_PRODUCTS_CLEAN = '@products/LOAD_PRODUCTS_CLEAN',
   LOAD_PRODUCTS_REQUEST = '@products/LOAD_PRODUCTS_REQUEST',
   LOAD_PRODUCTS_SUCCESS = '@products/LOAD_PRODUCTS_SUCCESS',
   LOAD_PRODUCTS_FAILURE = '@products/LOAD_PRODUCTS_FAILURE',

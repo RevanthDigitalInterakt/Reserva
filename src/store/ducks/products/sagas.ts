@@ -13,23 +13,46 @@ export function* loadProducts({
 }): Generator<
   CallEffect<any> | PutEffect<AnyAction>,
   void,
-  { data: BffProductsResponse }
+  { data: BffGetProductsResponse }
 > {
   try {
-    const categoryId = action.payload.data.categoryId
-    const { data } = yield call(
-      apiBffProducts.get,
-      `products?categoryId=${categoryId}`
-    )
+    const requestParams: BffGetProductsRequest =
+      action.payload.data.requestParams
+    console.log('request params', requestParams)
+
+    const { data } = yield call(apiBffProducts.get, `products`, {
+      params: {
+        categoryId: requestParams.categoryId,
+        limit: requestParams.limit,
+        offset: requestParams.offset,
+        colors: requestParams.colors?.toString(),
+        sizes: requestParams.size?.toString(),
+        sort: requestParams.sort,
+        searchQuery: requestParams.searchQuery,
+        maxPrice: requestParams.maxPrice,
+        minPrice: requestParams.minPrice,
+      },
+    })
     console.log('response', data)
-    //data.products
-    yield put(loadProductsSuccess([...data.products]))
+    yield put(loadProductsSuccess(data.products))
   } catch (err) {
     yield put(loadProductsFailure())
   }
 }
 
-interface BffProductsResponse {
+export interface BffGetProductsRequest {
+  categoryId: string
+  sort?: string
+  searchQuery?: string
+  limit?: number
+  offset?: number
+  maxPrice?: number
+  minPrice?: number
+  size?: string[]
+  colors?: string[]
+}
+
+export interface BffGetProductsResponse {
   banner: string
   fillters: {
     colors: string[]
