@@ -8,6 +8,8 @@ export enum AddressTypes {
   CREATE_ADDRESS_SUCCESS = '@address/CREATE_ADDRESS_SUCCESS',
   CREATE_ADDRESS_FAILURE = '@address/CREATE_ADDRESS_FAILURE',
   DELETE_ADDRESS_REQUEST = '@address/DELETE_ADDRESS_REQUEST',
+  DEFAULT_ADDRESS_REQUEST = '@address/DEFAULT_ADDRESS_REQUEST',
+  DELETE_DEFAULT_ADDRESS = '@address/DELETE_DEFAULT_ADDRESS',
 }
 
 //#endregion
@@ -15,7 +17,7 @@ export enum AddressTypes {
 //#region Data Types
 
 export interface Address {
-  addressType: string;
+  addressType?: string;
   address: {
     isDefaultBillingAddress?: boolean;
     country?: string; //pais
@@ -51,7 +53,7 @@ export interface Address {
 
 export interface AddressState {
   readonly data?: Address[];
-  readonly defaultAddress?: boolean;
+  readonly defaultAddress?: Address | {};
   readonly loading: boolean;
   readonly error: boolean;
 }

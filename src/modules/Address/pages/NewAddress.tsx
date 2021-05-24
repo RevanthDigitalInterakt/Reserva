@@ -10,7 +10,7 @@ import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
 } from 'react-native-masked-text';
-import { loadAddress, createAddress } from "../../../store/ducks/address/actions";
+import { loadAddress, createAddress, createDefaultAddress } from "../../../store/ducks/address/actions";
 import { ApplicationState } from "../../../store";
 
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
@@ -34,8 +34,21 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [sendMessage, setSendMessage] = useState('');
   const { isCheckout } = route.params;
   const {
-    address: { data: addresses, loading, error, defaultAddress }
+    address: { data: addresses, loading, error, defaultAddress },
+
   } = useSelector((state: ApplicationState) => state);
+
+  useEffect(() => {
+    if (edit) {
+      setPostalCode(editAddress.postalCode);
+      setState(editAddress.state);
+      setCity(editAddress.city);
+      setStreet(editAddress.street);
+      setDistrict(editAddress.district);
+      setNumber(editAddress.numberAndComplement[0]);
+      setComplement(editAddress.numberAndComplement[1]);
+    }
+  }, [edit])
 
   const addNewAddress = () => {
     dispatch(createAddress(
@@ -85,7 +98,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               <InputOption
                 placeholder={'Digite seu CEP'}
                 maskType={'zip-code'}
-                value={edit ? editAddress.postalCode : postalCode}
+                value={postalCode}
                 onChangeText={(value) => { setPostalCode(value) }}
               />
 
@@ -93,7 +106,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu estado'}
-                    value={edit ? editAddress.state : state}
+                    value={state}
                     onChangeText={(value) => { setState(value) }}
                   />
                 </Box>
@@ -101,7 +114,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box flex={1}>
                   <InputOption
                     placeholder={'Digite sua cidade'}
-                    value={edit ? editAddress.city : city}
+                    value={city}
                     onChangeText={(value) => { setCity(value) }}
                   />
                 </Box>
@@ -109,7 +122,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
               <InputOption
                 placeholder={'Endereço'}
-                value={edit ? editAddress.street : street}
+                value={street}
                 onChangeText={(value) => { setStreet(value) }}
               />
 
@@ -117,14 +130,14 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box flex={1} marginRight={'micro'}>
                   <InputOption
                     placeholder={'Digite seu bairro'}
-                    value={edit ? editAddress.district : district}
+                    value={district}
                     onChangeText={(value) => { setDistrict(value) }}
                   />
                 </Box>
 
                 <Box flex={1}>
                   <InputOption placeholder={'Número'}
-                    value={edit ? editAddress.numberAndComplement[0] : number}
+                    value={number}
                     onChangeText={(value) => { setNumber(value) }}
                   />
                 </Box>
@@ -132,7 +145,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
               <InputOption
                 placeholder={'Complemento'}
-                value={edit ? editAddress.numberAndComplement[1] : complement}
+                value={complement}
                 onChangeText={(value) => { setComplement(value) }}
               />
 

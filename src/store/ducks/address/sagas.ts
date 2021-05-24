@@ -6,8 +6,8 @@ import { api } from "../../../services/api";
 import {
   loadAddressSuccess,
   loadAddressFailure,
-  createAddressSuccess,
-  loadAddress
+  loadAddress,
+  createDefaultAddress
 } from './actions';
 import { Address } from './types';
 
@@ -33,7 +33,7 @@ export function* createAddressRequest({ ...action }) {
 
 export function* deleteAddressRequest({ ...action }) {
   try {
-    const addressId = action.payload.addressId;
+    const addressId = action?.payload?.addressId;
     console.log('param', addressId)
     yield call(api.delete, `profiles/current/addresses?addressId=${addressId}`);
     yield put(loadAddress());
@@ -41,3 +41,5 @@ export function* deleteAddressRequest({ ...action }) {
     yield put(loadAddressFailure());
   }
 }
+
+

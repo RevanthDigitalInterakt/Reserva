@@ -1,28 +1,32 @@
 import * as React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, FlatList } from 'react-native';
 
 import { Typography, Box, Button, Alert } from 'reserva-ui';
-import AddressSelector, { Address } from '../Components/AddressSelector';
+// import AddressSelector, { Address } from '../Components/AddressSelector';
+import AddressSelector from '../Components/AddressSelector';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useSelector, useDispatch } from "react-redux";
 import { ApplicationState } from "../../../store";
-import { loadAddress, createAddress, deleteAddress } from "../../../store/ducks/address/actions";
+import { loadAddress, deleteAddress, createDefaultAddress, deleteDefautAddress } from "../../../store/ducks/address/actions";
+import { Address } from '../../../store/ducks/address/types';
 
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
   const {
-    address: { data: addresses, loading, error }
+    address: { data: addresses, loading, error, defaultAddress }
   } = useSelector((state: ApplicationState) => state);
 
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [addressId, setAddressId] = React.useState('');
   const [successModal, setSuccessModal] = React.useState(false);
+  const [selected, setSelected] = React.useState(false);
+  const [idAddress, setIdAddress] = React.useState<string | undefined>('');
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
 
@@ -30,8 +34,55 @@ const AddressList: React.FC<Props> = ({ route }) => {
     dispatch(loadAddress());
   }, []);
 
+
+  React.useEffect(() => {
+    if (defaultAddress) {
+      setIdAddress(defaultAddress?.address?.id)
+    } else {
+      setIdAddress('')
+    }
+  }, [defaultAddress]);
+  //verifica se tem o primeiro endereço, se tiver, então salva como padrão
+  React.useEffect(() => {
+    if (addresses?.length === 1) {
+      const { address1, address2, address3, city, postalCode, state, firstName, phoneNumber, jobTitle, id } = addresses[0].address
+      dispatch(createDefaultAddress(
+        {
+          address: {
+            country: "BR",
+            address3: address3,
+            address2: address2,
+            city: city,
+            address1: address1,
+            postalCode: postalCode,
+            state: state,
+            firstName: firstName,
+            phoneNumber: phoneNumber,
+            jobTitle: jobTitle,
+            id: id
+          }
+        }
+      ))
+    }
+  }, [addresses])
+
   // const [addresses, setAddresses] = React.useState<Address[]>([
   //   {
+  //     id: "1",
+  //     address:
+  //       'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
+  //     title: 'Casa',
+  //     zipcode: '29.123-456',
+  //   },
+  //   {
+  //     id: "2",
+  //     address:
+  //       'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
+  //     title: 'Casa',
+  //     zipcode: '29.123-456',
+  //   },
+  //   {
+  //     id: "3",
   //     address:
   //       'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
   //     title: 'Casa',
@@ -53,6 +104,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
         onConfirm={() => {
           modalRef.current = true;
           dispatch(deleteAddress(addressId))
+          if (addressId === defaultAddress?.address.id) {
+            dispatch(deleteDefautAddress())
+          }
 
           setDeleteModal(false);
         }}
@@ -107,57 +161,78 @@ const AddressList: React.FC<Props> = ({ route }) => {
             <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
 
-            {
-              addresses?.map((addressItem: any, index: any) => {
-                // const { address, title, zipcode } = addressItem;
-                const { address1, address2, address3, city, state, postalCode, id } = addressItem.address
-                return (
-                  <AddressSelector
-                    key={id}
-                    addressData={{
-                      address: `${address1}, ${address2}, ${address3}, ${city} - ${state}`,
-                      title: address1,
-                      zipcode: postalCode,
-                    }}
-                    deleteAddress={() => {
-                      setDeleteModal(true);
-                      setAddressId(id)
-                    }}
-                    edit={() => {
-                      navigation.navigate('NewAddress',
-                        {
-                          edit: true,
-                          editAddress: {
-                            id: id,
-                            postalCode: postalCode,
-                            state: state,
-                            city: city,
-                            street: address1,
-                            district: address3,
-                            numberAndComplement: address2.split("|"),
-                          }
-                        });
-                    }}
-                    selected={true}
-                    select={() => {
-                      if (isCheckout) {
-                        navigation.navigate('PaymentMethodScreen');
-                        return;
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={addresses}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => {
+              const { address1, address2, address3, city, state, postalCode, id, firstName, phoneNumber, jobTitle } = item.address
+              const numberAndComplement: string[] | undefined = address2?.split("|");
+              return (
+                <AddressSelector
+                  addressData={{
+                    address: `${address1}, ${numberAndComplement && numberAndComplement[0]}, ${numberAndComplement && numberAndComplement[1]}, ${address3}, ${city} - ${state}`,
+                    title: address1,
+                    zipcode: postalCode,
+                  }}
+                  deleteAddress={() => {
+                    setDeleteModal(true);
+                    setAddressId(id ? id : '')
+                  }}
+                  edit={() => {
+                    navigation.navigate('NewAddress',
+                      {
+                        edit: true,
+                        editAddress: {
+                          id: id,
+                          postalCode: postalCode,
+                          state: state,
+                          city: city,
+                          street: address1,
+                          district: address3,
+                          numberAndComplement: address2?.split("|"),
+                          firstName: firstName,
+                          phoneNumber: phoneNumber,
+                          jobTitle: jobTitle
+                        }
                       }
-
-                      navigation.navigate('NewAddress', {
-                        isCheckout,
-                        id: null,
-                      });
+                    );
+                  }}
+                  selected={idAddress === id ? true : false}
+                  select={() => {
+                    if (isCheckout) {
+                      navigation.navigate('PaymentMethodScreen');
+                      return;
                     }
-                    }
-                  />
-                );
-              })}
-
-          </ScrollView>
+                    setSelected(selected)
+                    setIdAddress(id)
+                    dispatch(createDefaultAddress(
+                      {
+                        address: {
+                          country: "BR",
+                          address3: address3,
+                          address2: address2,
+                          city: city,
+                          address1: address1,
+                          postalCode: postalCode,
+                          state: state,
+                          firstName: firstName,
+                          phoneNumber: phoneNumber,
+                          jobTitle: jobTitle,
+                          id: id
+                        }
+                      }
+                    ))
+                    // navigation.navigate('NewAddress', {
+                    //   isCheckout,
+                    //   id: null,
+                    // });
+                  }
+                  }
+                />)
+            }}
+          />
           <Box marginX={'md'}>
             <Button
               mt="xs"

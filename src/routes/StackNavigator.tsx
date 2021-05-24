@@ -71,13 +71,16 @@ export type RootStackParamList = {
     isCheckout: boolean;
     edit?: boolean;
     editAddress: {
-      id: string,
-      postalCode: string,
-      state: string,
-      city: string,
-      street: string,
-      district: string,
-      numberAndComplement: string[],
+      id: string;
+      postalCode: string;
+      state: string;
+      city: string;
+      street: string;
+      district: string;
+      numberAndComplement: string[];
+      firstName: string;
+      phoneNumber: string;
+      jobTitle: string;
     }
   };
   AddressList: { isCheckout: boolean };

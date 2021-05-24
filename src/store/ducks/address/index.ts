@@ -5,7 +5,7 @@ const INITIAL_STATE: AddressState = {
   data: [],
   error: false,
   loading: false,
-  defaultAddress: false
+  defaultAddress: {},
 };
 
 const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
@@ -37,6 +37,11 @@ const reducer: Reducer<AddressState> = (state = INITIAL_STATE, action) => {
     case AddressTypes.DELETE_ADDRESS_REQUEST:
       return { ...state, loading: true, payload: action.payload.addressId };
 
+    case AddressTypes.DEFAULT_ADDRESS_REQUEST:
+      return { ...state, loading: true, defaultAddress: action.payload.addressDefault }
+
+    case AddressTypes.DELETE_DEFAULT_ADDRESS:
+      return { ...state, loading: true, defaultAddress: {} }
     default:
       return { ...state };
   }

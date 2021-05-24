@@ -16,3 +16,5 @@ export const createAddress = (dataAddress: any) => action(AddressTypes.CREATE_AD
 
 export const deleteAddress = (addressId: string) => action(AddressTypes.DELETE_ADDRESS_REQUEST, { addressId });
 
+export const createDefaultAddress = (addressDefault: Address) => action(AddressTypes.DEFAULT_ADDRESS_REQUEST, { addressDefault });
+export const deleteDefautAddress = () => action(AddressTypes.DELETE_DEFAULT_ADDRESS);
