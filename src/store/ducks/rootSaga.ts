@@ -18,10 +18,11 @@ export default function* rootSaga() {
     takeLatest(AuthenticationTypes.LOGOUT_REQUEST, logoutRequest),
 
     takeLatest(ProfileTypes.PROFILE_LOAD, profileLoad),
+    takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
 
     takeLatest(ProductsTypes.LOAD_PRODUCTS_REQUEST, loadProducts),
     takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
-    takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
+
     takeLatest(ProfileTypes.REGISTER_REQUEST, register),
   ]);
 }

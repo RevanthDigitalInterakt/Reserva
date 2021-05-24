@@ -39,7 +39,7 @@ const reducer: Reducer<AuthenticationState> = (
         data: null,
       };
     default:
-      return { ...state };
+      return state;
   }
 };
 
