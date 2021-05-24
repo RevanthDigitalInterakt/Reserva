@@ -66,30 +66,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
     }
   }, [addresses])
 
-  // const [addresses, setAddresses] = React.useState<Address[]>([
-  //   {
-  //     id: "1",
-  //     address:
-  //       'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
-  //     title: 'Casa',
-  //     zipcode: '29.123-456',
-  //   },
-  //   {
-  //     id: "2",
-  //     address:
-  //       'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
-  //     title: 'Casa',
-  //     zipcode: '29.123-456',
-  //   },
-  //   {
-  //     id: "3",
-  //     address:
-  //       'R. Tomas antonio gonzaga, 123, Apto 101, Cristovao colombo, Vila velha - ES',
-  //     title: 'Casa',
-  //     zipcode: '29.123-456',
-  //   },
-  // ]);
-
   return (
     <>
       <Alert
@@ -104,7 +80,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
         onConfirm={() => {
           modalRef.current = true;
           dispatch(deleteAddress(addressId))
-          if (addressId === defaultAddress?.address.id) {
+          if (addressId === defaultAddress?.address?.id) {
             dispatch(deleteDefautAddress())
           }
 

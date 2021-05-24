@@ -88,6 +88,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         }))
     }
   }
+
   return (
     <>
       <SafeAreaView
@@ -211,6 +212,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
               {!isCheckout && (
                 <Button
+                  disabled={loading}
                   width="200px"
                   mt={'xs'}
                   onPress={addNewAddress}
