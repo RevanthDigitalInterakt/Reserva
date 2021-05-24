@@ -4,6 +4,7 @@ export enum ProfileTypes {
   REQUEST_FAILURE = "@profile/REQUEST_FAILURE",
   PROFILE_UPDATE = "@profile/PROFILE_UPDATE",
   PROFILE_LOAD = "@profile/PROFILE_LOAD",
+  PROFILE_DELETE = "@profile/PROFILE_DELETE",
 }
 
 export interface Profile {

@@ -57,22 +57,20 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
     ]).start();
   }, [isVisible]);
 
-  const handleLogin = () => {
-    console.log("entrou");
-    if (!authentication.loading) {
-      dispatch(login(loginCredentials));
-    }
+  const handleLogin = async () => {
+    dispatch(login(loginCredentials));
   };
 
   useEffect(() => {
-    if (authentication.data?.access_token) {
-      if (comeFrom == "Checkout") {
-        navigation.navigate("DeliveryScreen");
-      } else {
-        navigation.navigate("Home");
-      }
+    if (authentication.data?.access_token && profile.data) {
+      // if (comeFrom == "Checkout") {
+      //   navigation.navigate("DeliveryScreen");
+      // } else {
+      //   navigation.navigate("Home");
+      // }
+      navigation.goBack();
     }
-  }, [authentication]);
+  }, [profile]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>

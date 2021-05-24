@@ -7,7 +7,7 @@ import { ProductsTypes } from "./products/types";
 import { loadProducts } from "./products/sagas";
 
 import { AuthenticationTypes } from "./authentication/types";
-import { loginReqest } from "./authentication/sagas";
+import { loginReqest, logoutRequest } from "./authentication/sagas";
 
 import { ProfileTypes } from "./profile/types";
 import { profileLoad, profileUpdate, register } from "./profile/sagas";
@@ -15,7 +15,10 @@ import { profileLoad, profileUpdate, register } from "./profile/sagas";
 export default function* rootSaga() {
   yield all([
     takeLatest(AuthenticationTypes.LOGIN_REQUEST, loginReqest),
+    takeLatest(AuthenticationTypes.LOGOUT_REQUEST, logoutRequest),
+
     takeLatest(ProfileTypes.PROFILE_LOAD, profileLoad),
+
     takeLatest(ProductsTypes.LOAD_PRODUCTS_REQUEST, loadProducts),
     takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
     takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),

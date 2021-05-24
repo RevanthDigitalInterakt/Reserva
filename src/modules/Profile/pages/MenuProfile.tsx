@@ -5,6 +5,7 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button } from "reserva-ui";
 import { ApplicationState } from "../../../store";
+import { logoutRequest } from "../../../store/ducks/authentication/actions";
 import { profileLoad } from "../../../store/ducks/profile/actions";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -22,9 +23,13 @@ const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
     // dispatch(profileLoad());
   }, []);
 
+  const logout = () => {
+    dispatch(logoutRequest());
+  };
+
   return (
     <Box flex={1} backgroundColor="white">
-      <TopBarDefault />
+      <TopBarDefault loading={profile.loading} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"nano"}>
@@ -100,6 +105,8 @@ const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
 
             <Box marginY={"xs"} justifyContent={"flex-end"}>
               <Button
+                disabled={profile.loading}
+                onPress={() => logout()}
                 title="LOGOUT"
                 variant={"primarioEstreitoOutline"}
               ></Button>
@@ -111,6 +118,4 @@ const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
   );
 };
 
-export const MenuProfile = withAuthentication(MenuScreen, {
-  comeFrom: "Profile",
-});
+export const MenuProfile = withAuthentication(MenuScreen, "Profile");

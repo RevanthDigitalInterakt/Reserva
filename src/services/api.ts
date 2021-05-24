@@ -12,4 +12,12 @@ const apiCategories = axios.create({
   baseURL: "https://front.usereserva.com/menu",
 });
 
-export { api, apiCategories };
+const setAuthorizationToken = (accessToken: string) => {
+  api.defaults.headers.common["client-token"] = accessToken;
+};
+
+const removeAuthorizationToken = () => {
+  api.defaults.headers.common["client-token"] = null;
+};
+
+export { api, apiCategories, setAuthorizationToken, removeAuthorizationToken };
