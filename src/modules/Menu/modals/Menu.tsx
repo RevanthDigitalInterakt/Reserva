@@ -101,7 +101,6 @@ const MenuItem: React.FC<IMenuItem> = ({
   subItemList,
   highlight,
 }) => {
-  console.log(subItemList);
   return (
     <Box>
       <TouchableOpacity onPress={() => onPress(index)}>
@@ -269,7 +268,6 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  console.log("ok");
                   navigation.navigate("WishList");
                 }}
               ></FixedMenuItem>
@@ -286,7 +284,6 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  console.log("ok");
                   navigation.navigate("HelpCenter");
                 }}
               ></FixedMenuItem>

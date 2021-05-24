@@ -2,7 +2,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { api } from "../../../services/api";
 import { profileLoad } from "../profile/actions";
 import { loginSuccess, loginFailure } from "./actions";
-import { AuthenticationTypes } from "./types";
+import { Authentication, AuthenticationTypes } from "./types";
 
 interface ILoginPayload {
   username: string;
@@ -14,6 +14,8 @@ export function* loginReqest({ payload }: any) {
     const { loginCredentials } = payload;
 
     const { data } = yield call(api.post, "/login", loginCredentials);
+
+    api.defaults.headers.common["client-token"] = data.access_token;
 
     yield put(loginSuccess(data));
     yield put(profileLoad());

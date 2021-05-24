@@ -11,7 +11,7 @@ export interface Authentication {
 }
 
 export interface AuthenticationState {
-  readonly data?: Authentication[];
+  readonly data?: Authentication;
   readonly loading: boolean;
   readonly error: boolean;
 }
