@@ -12,6 +12,9 @@ import { loginReqest, logoutRequest } from "./authentication/sagas";
 import { ProfileTypes } from "./profile/types";
 import { profileLoad, profileUpdate, register } from "./profile/sagas";
 
+import { LocalitiesTypes } from "./localities/types";
+import { loadLocalities } from "./localities/sagas";
+
 export default function* rootSaga() {
   yield all([
     takeLatest(AuthenticationTypes.LOGIN_REQUEST, loginReqest),
@@ -23,5 +26,7 @@ export default function* rootSaga() {
     takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
     takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
     takeLatest(ProfileTypes.REGISTER_REQUEST, register),
+
+    takeLatest(LocalitiesTypes.LOAD_LOCALITY_REQUEST, loadLocalities),
   ]);
 }
