@@ -5,6 +5,7 @@ import { theme, TopBar } from 'reserva-ui';
 import { Typography, Box, Button, Icon } from 'reserva-ui';
 
 export interface Address {
+  id?: string;
   title?: string;
   address?: string;
   zipcode?: string;
@@ -25,7 +26,7 @@ const AddressSelector = ({
   deleteAddress,
   addressData,
 }: IAddressesSelector) => {
-  const { address, title, zipcode } = addressData;
+  const { address, title, zipcode, id } = addressData;
   return (
     <>
       <TouchableOpacity onPress={select}>
