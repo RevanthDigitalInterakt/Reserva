@@ -152,7 +152,7 @@ export const FixedMenuItem: React.FC<{
   iconName: string;
   title: JSX.Element;
   onPress: Function;
-  underline: boolean;
+  underline?: boolean;
 }> = ({ iconName, title, onPress, underline }) => {
   return (
     <TouchableOpacity onPress={onPress}>
