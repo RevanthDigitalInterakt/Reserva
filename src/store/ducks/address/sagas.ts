@@ -34,8 +34,17 @@ export function* createAddressRequest({ ...action }) {
 export function* deleteAddressRequest({ ...action }) {
   try {
     const addressId = action?.payload?.addressId;
-    console.log('param', addressId)
     yield call(api.delete, `profiles/current/addresses?addressId=${addressId}`);
+    yield put(loadAddress());
+  } catch (err) {
+    yield put(loadAddressFailure());
+  }
+}
+
+export function* updateAddressRequest({ ...action }) {
+  try {
+    const dataAddress = action.payload.dataAddress;
+    yield call(api.put, `profiles/current/addresses?addressId=${dataAddress.address.id}`, dataAddress);
     yield put(loadAddress());
   } catch (err) {
     yield put(loadAddressFailure());

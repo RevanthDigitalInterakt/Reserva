@@ -10,7 +10,7 @@ import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
 } from 'react-native-masked-text';
-import { loadAddress, createAddress, createDefaultAddress } from "../../../store/ducks/address/actions";
+import { loadAddress, createAddress, createDefaultAddress, updateAddress } from "../../../store/ducks/address/actions";
 import { ApplicationState } from "../../../store";
 
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
@@ -20,7 +20,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const { edit, editAddress, } = route?.params;
-
+  const [addressId, setAddressId] = React.useState('');
   const [toggleActivated, setToggleActivated] = React.useState(false);
   const [postalCode, setPostalCode] = useState('');
   const [state, setState] = useState('ES');
@@ -40,6 +40,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (edit) {
+      setAddressId(editAddress.id);
       setPostalCode(editAddress.postalCode);
       setState(editAddress.state);
       setCity(editAddress.city);
@@ -51,21 +52,41 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   }, [edit])
 
   const addNewAddress = () => {
-    dispatch(createAddress(
-      {
-        address: {
-          country: "BR",
-          address3: district,
-          address2: `${number}|${complement}`,
-          city: city,
-          address1: street,
-          postalCode: postalCode,
-          state: state,
-          firstName: recipientName,
-          phoneNumber: phoneNumber,
-          jobTitle: sendMessage,
-        },
-      }))
+    if (edit) {
+      dispatch(updateAddress(
+        {
+          address: {
+            country: "BR",
+            address3: district,
+            address2: `${number}|${complement}`,
+            city: city,
+            address1: street,
+            postalCode: postalCode,
+            state: state,
+            firstName: recipientName,
+            phoneNumber: phoneNumber,
+            jobTitle: sendMessage,
+            id: addressId
+          },
+        }
+      ))
+    } else {
+      dispatch(createAddress(
+        {
+          address: {
+            country: "BR",
+            address3: district,
+            address2: `${number}|${complement}`,
+            city: city,
+            address1: street,
+            postalCode: postalCode,
+            state: state,
+            firstName: recipientName,
+            phoneNumber: phoneNumber,
+            jobTitle: sendMessage,
+          },
+        }))
+    }
   }
   return (
     <>
@@ -190,7 +211,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
               {!isCheckout && (
                 <Button
-
                   width="200px"
                   mt={'xs'}
                   onPress={addNewAddress}
