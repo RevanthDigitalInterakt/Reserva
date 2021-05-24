@@ -4,10 +4,12 @@ import products from "./products";
 import categories from "./categories";
 import authentication from "./authentication";
 import profile from "./profile";
+import address from './address';
 
 export default combineReducers({
   products,
   categories,
   authentication,
   profile,
+  address
 });

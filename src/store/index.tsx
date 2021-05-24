@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { CategoriesState } from "./ducks/categories/types";
 import { AuthenticationState } from "./ducks/authentication/types";
 import { ProfileState } from "./ducks/profile/types";
-
+import { AddressState } from './ducks/address/types';
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -25,6 +25,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export interface ApplicationState {
   products: ProductsState;
   categories: CategoriesState;
+  address: AddressState;
   authentication: AuthenticationState;
   profile: ProfileState;
 }
