@@ -120,6 +120,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       />
 
       <ListVerticalProducts
+        loading={products.loading}
         loadMoreProducts={loadMoreProducts}
         products={products.dataOffer}
         listHeader={
