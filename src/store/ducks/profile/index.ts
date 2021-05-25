@@ -43,7 +43,7 @@ const reducer: Reducer<ProfileState> = (state = INITIAL_STATE, action) => {
     case ProfileTypes.REQUEST_FAILURE:
       return { ...state, loading: false, error: true };
     default:
-      return { ...state };
+      return state;
   }
 };
 

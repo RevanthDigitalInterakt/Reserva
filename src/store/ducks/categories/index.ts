@@ -1,5 +1,5 @@
-import { Reducer } from 'redux';
-import { CategoriesState, CategoriesTypes } from './types';
+import { Reducer } from "redux";
+import { CategoriesState, CategoriesTypes } from "./types";
 
 const INITIAL_STATE: CategoriesState = {
   data: [],
@@ -21,7 +21,7 @@ const reducer: Reducer<CategoriesState> = (state = INITIAL_STATE, action) => {
     case CategoriesTypes.LOAD_FAILURE:
       return { ...state, loading: false, error: true };
     default:
-      return { ...state };
+      return state;
   }
 };
 

@@ -299,7 +299,9 @@ export const Menu: React.FC<{}> = () => {
                     Lojas
                   </Typography>
                 }
-                onPress={() => {}}
+                onPress={() => {
+                  navigation.navigate("NearbyStores");
+                }}
               ></FixedMenuItem>
             </Animatable.View>
           )}
