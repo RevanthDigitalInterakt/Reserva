@@ -22,7 +22,7 @@ export const ListVerticalProducts = ({
   const navigation = useNavigation();
 
   useEffect(() => {
-    console.log(products?.length);
+    console.log(products);
   }, []);
 
   return products?.length > 0 ? (
@@ -36,6 +36,7 @@ export const ListVerticalProducts = ({
       renderItem={({ index, item }) => (
         <Box flex={1} alignItems="center" justifyContent="center" height={320}>
           <ProductVerticalListCard
+            colors={item.colorsHex}
             imageSource={item.imageUrl}
             installmentsNumber={item.installmentNumber}
             discountTag={item.discountTag > 0 ? item.discountTag : undefined}

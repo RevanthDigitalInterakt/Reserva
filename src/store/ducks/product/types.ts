@@ -31,6 +31,7 @@ export interface Product {
   discountTag: number;
   creationDate: string;
   colors?: string[];
+  colorsHex?: string[];
   sizes?: string[];
   description?: string;
   skuList?: ProductSKU[];
