@@ -1,5 +1,7 @@
 //#region Action Types
 
+import { Product } from '../product/types'
+
 export enum ProductsTypes {
   LOAD_PRODUCTS_CLEAN = '@products/LOAD_PRODUCTS_CLEAN',
   LOAD_PRODUCTS_REQUEST = '@products/LOAD_PRODUCTS_REQUEST',
@@ -11,21 +13,21 @@ export enum ProductsTypes {
 
 //#region Data Types
 
-export interface Product {
-  id: string
-  title: string
-  imageUrl: string
-  isFavorite: boolean
-  fullPrice: number
-  discountPrice: number
-  currency: string
-  installmentPrice: number
-  installmentNumber: number
-  discountTag: string
-  creationDate: string
-  colors: string[]
-  sizes: string[]
-}
+// export interface Product {
+//   id: string
+//   title: string
+//   imageUrl: string
+//   isFavorite: boolean
+//   fullPrice: number
+//   discountPrice: number
+//   currency: string
+//   installmentPrice: number
+//   installmentNumber: number
+//   discountTag: number
+//   creationDate: string
+//   colors: string[]
+//   sizes: string[]
+// }
 
 //#region
 

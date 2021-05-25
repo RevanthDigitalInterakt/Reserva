@@ -1,9 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-import { Dimensions, FlatList } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connectAdvanced, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Box,
   Button,
@@ -11,7 +9,6 @@ import {
   Image,
   Picker,
   Pill,
-  ProductVerticalListCard,
   SearchBar,
   theme,
   Typography,
@@ -23,7 +20,6 @@ import {
   cleanProducts,
   loadProducts,
 } from '../../../store/ducks/products/actions'
-import { Product } from '../../../store/ducks/products/types'
 import { TopBarDefault } from '../../Menu/components/TopBarDefault'
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts'
@@ -62,9 +58,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
-        <TopBarDefaultBackButton loading={true} />
+        <TopBarDefaultBackButton loading={products.loading} />
       ) : (
-        <TopBarDefault loading={true} />
+        <TopBarDefault loading={products.loading} />
       )}
       {search && (
         <Box paddingX='nano' paddingBottom='micro' paddingTop='micro'>
@@ -112,6 +108,14 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         }}
         onBackDropPress={() => setSorterVisible(false)}
         title='Ordenar Por'
+      />
+      <Button
+        title='adas'
+        onPress={() =>
+          navigation.navigate('ProductDetail', {
+            productId: '0043831',
+          })
+        }
       />
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}

@@ -1,12 +1,12 @@
 import { useColorScheme } from 'react-native'
-import { Product } from './types'
 import axios from 'axios'
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects'
 
 import { loadProductsSuccess, loadProductsFailure } from './actions'
-import { apiBffProducts } from '../../../services/api'
+import { api, apiBffProducts } from '../../../services/api'
 import { env } from '../../../config/env'
 import { AnyAction } from 'redux'
+import { Product } from '../product/types'
 
 export function* loadProducts({
   ...action
@@ -18,7 +18,7 @@ export function* loadProducts({
   try {
     const requestParams: BffGetProductsRequest =
       action.payload.data.requestParams
-    console.log('request params', requestParams)
+    // console.log('request params', requestParams)
 
     const { data } = yield call(apiBffProducts.get, `products`, {
       params: {
@@ -33,7 +33,7 @@ export function* loadProducts({
         minPrice: requestParams.minPrice,
       },
     })
-    console.log('response', data)
+    // console.log('response', data)
     yield put(loadProductsSuccess(data.products))
   } catch (err) {
     yield put(loadProductsFailure())

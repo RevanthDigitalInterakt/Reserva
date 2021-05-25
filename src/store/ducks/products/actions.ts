@@ -1,6 +1,7 @@
 import { BffGetProductsRequest } from './sagas'
 import { action } from 'typesafe-actions'
-import { ProductsTypes, Product } from './types'
+import { ProductsTypes } from './types'
+import { Product } from '../product/types'
 
 export const loadProducts = (requestParams?: BffGetProductsRequest) =>
   action(ProductsTypes.LOAD_PRODUCTS_REQUEST, { data: { requestParams } })

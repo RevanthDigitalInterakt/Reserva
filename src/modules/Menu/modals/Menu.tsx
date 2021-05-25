@@ -102,7 +102,7 @@ const MenuItem: React.FC<IMenuItem> = ({
   subItemList,
   highlight,
 }) => {
-  console.log(subItemList)
+  //console.log(subItemList)
   const navigation = useNavigation()
   return (
     <Box>
@@ -140,8 +140,8 @@ const MenuItem: React.FC<IMenuItem> = ({
                   title={item.name}
                   onPress={() => {
                     let route = item.route.split('/')
-                    console.log(route[route.length - 1])
-                    console.log('asdasd')
+                    //console.log(route[route.length - 1])
+                    //console.log('asdasd')
                     navigation.navigate('ProductCatalog', {
                       categoryId: route[route.length - 1],
                     })

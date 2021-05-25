@@ -1,63 +1,54 @@
 // In App.js in a new project
-import * as React from 'react'
-
 import { createStackNavigator } from '@react-navigation/stack'
-
-import { HomeScreen } from '../modules/Home/pages/Home'
-import { SearchScreen } from '../modules/Search/pages/Search'
+import * as React from 'react'
 import AddressList from '../modules/Address/pages/AddressList'
 import NewAddress from '../modules/Address/pages/NewAddress'
-import { Tabs } from './BottomTabNavigator'
-import { Menu } from '../modules/Menu/modals/Menu'
-
-import { horizontalAnimationBackwards } from './utils/utils'
-import { ExampleScreen } from '../modules/Example/pages/Example'
-import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog'
-import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess'
-import { LoginScreen } from '../modules/Login/pages/Login'
 import { BagScreen } from '../modules/Checkout/pages/Bag'
-import { SummaryScreen } from '../modules/Checkout/pages/Summary'
-import { DeliveryScreen } from '../modules/Checkout/pages/Delivery'
-import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod'
-import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher'
 import { BarCodePayment } from '../modules/Checkout/pages/BarCodePayment'
-import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa'
-import { PixScreen } from '../modules/Checkout/pages/Pix'
-import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore'
-import { NearbyStores } from '../modules/Checkout/pages/NearbyStores'
+import { DeliveryScreen } from '../modules/Checkout/pages/Delivery'
+import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher'
 import { MapScreen } from '../modules/Checkout/pages/Map'
-import { StackScreenProps } from '@react-navigation/stack'
-import { WishList } from '../modules/WishList/pages/WishList'
-import { WishListCategory } from '../modules/WishList/pages/WishListCategory'
-import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory'
-import OrderList from '../modules/Order/pages/OrderList'
-import OrderDetail from '../modules/Order/pages/OrderDetail'
-import OrderCancel from '../modules/Order/pages/OrderCancel'
-import { Register } from '../modules/Register/pages/Register'
+import { NearbyStores } from '../modules/Checkout/pages/NearbyStores'
+import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod'
+import { PixScreen } from '../modules/Checkout/pages/Pix'
+import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation'
+import { SummaryScreen } from '../modules/Checkout/pages/Summary'
+import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa'
+import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore'
+import { ExampleScreen } from '../modules/Example/pages/Example'
 import { ForgotEmail } from '../modules/Forgot/pages/ForgotEmail'
 import { ForgotEmailSuccess } from '../modules/Forgot/pages/ForgotEmailSuccess'
-import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword'
 import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword'
-import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail'
-
-//profile
-import { EditProfile } from '../modules/Profile/pages/EditProfile'
-import { EditPassword } from '../modules/Profile/pages/EditPassword'
-import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile'
-import { ListCards } from '../modules/Profile/pages/ListCards'
-import { NewCard } from '../modules/Profile/pages/NewCard'
+import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword'
 //--
-
 import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter'
-import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide'
 import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare'
-
 import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs'
 import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges'
+import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide'
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp'
-import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation'
+import { LoginScreen } from '../modules/Login/pages/Login'
 import { LoginAlternative } from '../modules/Login/pages/LoginAlternative'
-import { Product } from '../store/ducks/products/types'
+import { Menu } from '../modules/Menu/modals/Menu'
+import OrderCancel from '../modules/Order/pages/OrderCancel'
+import OrderDetail from '../modules/Order/pages/OrderDetail'
+import OrderList from '../modules/Order/pages/OrderList'
+import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog'
+import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail'
+import { EditPassword } from '../modules/Profile/pages/EditPassword'
+//profile
+import { EditProfile } from '../modules/Profile/pages/EditProfile'
+import { ListCards } from '../modules/Profile/pages/ListCards'
+import { NewCard } from '../modules/Profile/pages/NewCard'
+import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile'
+import { Register } from '../modules/Register/pages/Register'
+import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess'
+import { SearchScreen } from '../modules/Search/pages/Search'
+import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory'
+import { WishList } from '../modules/WishList/pages/WishList'
+import { WishListCategory } from '../modules/WishList/pages/WishListCategory'
+import { Tabs } from './BottomTabNavigator'
+import { horizontalAnimationBackwards } from './utils/utils'
 
 export type RootStackParamList = {
   Register: {
@@ -67,7 +58,7 @@ export type RootStackParamList = {
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   ProductCatalog: { safeArea: boolean; search: boolean; categoryId?: string }
-  ProductDetail: { product: Product }
+  ProductDetail: { productId: string }
   NewAddress: { id?: number; isCheckout: boolean; edit?: boolean }
   AddressList: { isCheckout: boolean }
   ListCards: { isCheckout: boolean }

@@ -1,14 +1,14 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react'
 import {
   Alert,
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   PickerItemProps,
-} from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { ceil } from 'react-native-reanimated';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from 'react-native'
+import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import { ceil } from 'react-native-reanimated'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   Box,
   Button,
@@ -26,44 +26,41 @@ import {
   TopBar,
   theme,
   ExpansePanel,
-} from 'reserva-ui';
-import { Input } from 'reserva-ui/src/components/TextField/TextField.styles';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { ModalBag } from '../components/ModalBag';
+} from 'reserva-ui'
+import { Input } from 'reserva-ui/src/components/TextField/TextField.styles'
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
+import { ModalBag } from '../components/ModalBag'
 
-import Share from 'react-native-share';
-import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import Share from 'react-native-share'
+import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types'
+import { RootStackParamList } from '../../../routes/StackNavigator'
+import { useDispatch, useSelector } from 'react-redux'
+import { ApplicationState } from '../../../store'
+import {
+  loadProduct,
+  loadProductSuccess,
+} from '../../../store/ducks/product/actions'
+const screenWidth = Dimensions.get('window').width
 
-const screenWidth = Dimensions.get('window').width;
-
-let recomendedScroll = createRef<ScrollView>();
+let recomendedScroll = createRef<ScrollView>()
 
 interface ProductDetailProps {
-  recomendedProducts?: ProductVerticalListCardProps[];
+  recomendedProducts?: ProductVerticalListCardProps[]
 }
 
 type Props = StackScreenProps<RootStackParamList, 'ProductDetail'> &
-  ProductDetailProps;
+  ProductDetailProps
 
 export const ProductDetail: React.FC<Props> = ({
   navigation,
   route,
   recomendedProducts,
 }) => {
-  const [isFavorited, setIsFavorited] = useState(false);
-  const colors = [
-    '#F9F9ED',
-    '#7494A5',
-    '#2D4452',
-    '#484C51',
-    '#070707',
-    '#484C50',
-    '#BE6ED5',
-    '#4A56A7',
-    '#1ECB58',
-  ];
-  const [selectedColor, setSelectedColor] = useState('#F9F9ED');
+  const [isFavorited, setIsFavorited] = useState(false)
+
+  const [isVisible, setIsVisible] = useState(false)
+  const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
+
   recomendedProducts = [
     {
       productTitle: 'Camiseta Básica Reserva',
@@ -173,30 +170,56 @@ export const ProductDetail: React.FC<Props> = ({
       imageSource:
         'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
-  ];
-  const [isVisible, setIsVisible] = useState(false);
-  const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
-
-  const product = route.params.product;
-
+  ]
   const onChangeRecomended = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
     const actualItem = Math.ceil(
       scrollEvent.nativeEvent.contentOffset.x /
         scrollEvent.nativeEvent.layoutMeasurement.width
-    );
+    )
     if (
       actualItem !== actualRecomendedindex &&
       recomendedProducts &&
       actualItem < Math.ceil(recomendedProducts.length / 2)
     ) {
-      console.log(actualItem);
-      setActualRecomendedindex(actualItem);
+      console.log(actualItem)
+      setActualRecomendedindex(actualItem)
     }
-  };
+  }
 
-  const [cep, setCep] = useState('');
+  const [selectedColor, setSelectedColor] = useState('')
+  const [selectedSize, setSelectedSize] = useState<string | number>('')
+
+  const [skuIdx, setSkuIdx] = useState(0)
+
+  let product = useSelector((state: ApplicationState) => state.product)
+  const dispatch = useDispatch()
+
+  const productId = route.params.productId
+  useEffect(() => {
+    dispatch(loadProduct(productId))
+    console.log(product)
+  }, [])
+
+  useEffect(() => {
+    console.log('skuList', product.data.skuList)
+    setSelectedColor(
+      product.data.skuList ? product.data.skuList[skuIdx]?.color : ''
+    )
+    setSelectedSize(
+      product.data.skuList ? product.data.skuList[skuIdx]?.size : ''
+    )
+  }, [product])
+  const [cep, setCep] = useState('')
+
+  useEffect(() => {
+    let sku = product.data.skuList?.findIndex((x) => {
+      return x.color == selectedColor && x.size == selectedSize
+    })
+    console.log('sku', sku)
+    if (sku) setSkuIdx(sku)
+  }, [selectedColor, selectedSize])
 
   return (
     <SafeAreaView>
@@ -204,36 +227,42 @@ export const ProductDetail: React.FC<Props> = ({
         <ModalBag
           isVisible={isVisible}
           onBackdropPress={() => {
-            setIsVisible(false);
+            setIsVisible(false)
           }}
         />
-        <TopBarDefaultBackButton />
+        <TopBarDefaultBackButton loading={product.loading} />
         <ScrollView>
           <ProductDetailCard
-            installmentsNumber={1}
-            installmentsPrice={product.price}
-            title={product.title}
-            //discountTag={18}
-            price={product.price}
-            priceWithDiscount={product.price}
+            installmentsNumber={product.data.installmentNumber}
+            installmentsPrice={product.data.installmentPrice}
+            title={
+              product.data.skuList
+                ? product.data.skuList[0].title
+                : product.data.title
+            }
+            discountTag={product.data.discountTag}
+            price={product.data.fullPrice}
+            priceWithDiscount={product.data.discountPrice}
             imagesWidth={screenWidth}
-            images={product.images.slice(0, 6)}
+            images={
+              product.data.skuList ? product.data.skuList[0].imagesUrls : []
+            }
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
-              setIsFavorited(favoriteState);
+              setIsFavorited(favoriteState)
             }}
             onClickShare={() => {
               const options = {
                 message: 'Aqui está um produto que você pode gostar',
                 title: 'Compartilhar',
-              };
+              }
               Share.open(options)
                 .then((res) => {
-                  console.log(res);
+                  //console.log(res)
                 })
                 .catch((err) => {
-                  err && console.log(err);
-                });
+                  //err && console.log(err)
+                })
             }}
           />
 
@@ -246,7 +275,7 @@ export const ProductDetail: React.FC<Props> = ({
                 <SelectColor
                   onPress={(color: any) => setSelectedColor(color)}
                   size={40}
-                  listColors={product.colors.map((x) => x.hex)}
+                  listColors={product.data.colors || []}
                   selectedColors={selectedColor}
                 />
               </ScrollView>
@@ -257,8 +286,7 @@ export const ProductDetail: React.FC<Props> = ({
               <Box
                 flexDirection='row'
                 justifyContent='space-between'
-                alignItems='center'
-              >
+                alignItems='center'>
                 <Typography variant={'subtituloSessoes'}>Tamanhos:</Typography>
                 <Button>
                   <Box flexDirection='row' alignItems='center'>
@@ -273,9 +301,11 @@ export const ProductDetail: React.FC<Props> = ({
                 <RadioButtons
                   size={44}
                   fontSize={14}
-                  onSelectedChange={() => {}}
-                  optionsList={product.sizes}
-                  defaultSelectedItem={product.sizes[0]}
+                  onSelectedChange={(item) => {
+                    setSelectedSize(item)
+                  }}
+                  optionsList={product.data.sizes || []}
+                  defaultSelectedItem={selectedSize}
                 />
               </Box>
             </Box>
@@ -285,7 +315,7 @@ export const ProductDetail: React.FC<Props> = ({
               title='ADICIONAR À SACOLA'
               variant='primarioEstreito'
               onPress={() => {
-                setIsVisible(true);
+                setIsVisible(true)
               }}
               inline
             />
@@ -298,7 +328,7 @@ export const ProductDetail: React.FC<Props> = ({
             <Box flexDirection='row' mt='xxxs'>
               <OutlineInput
                 onChangeText={(text) => {
-                  setCep(text);
+                  setCep(text)
                 }}
                 value={cep}
                 placeholder='Digite seu CEP'
@@ -313,25 +343,11 @@ export const ProductDetail: React.FC<Props> = ({
               <ExpansePanel
                 information={{
                   title: 'Descrição do produto',
-                  content: product.description,
+                  content: product.data.skuList!
+                    ? product.data.skuList[0].description
+                    : product.data.description || '',
                 }}
               />
-              {/* <Typography>
-                <Button>
-                  <Box flexDirection='row' alignItems='center'>
-                    <Icon name='Add' size={26} color='preto' />
-                    <Box ml='nano'>
-                      <Typography
-                        fontFamily='reservaSerifRegular'
-                        fontSize='20px'
-                      >
-                        Sobre este produto
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Button>
-                {product.description}
-              </Typography> */}
             </Box>
 
             <Divider variant='fullWidth' my='xs' />
@@ -357,8 +373,7 @@ export const ProductDetail: React.FC<Props> = ({
                   pagingEnabled
                   ref={recomendedScroll}
                   showsHorizontalScrollIndicator={false}
-                  onScroll={onChangeRecomended}
-                >
+                  onScroll={onChangeRecomended}>
                   {recomendedProducts.map((product, index) => (
                     <Box mx='nano' mr={'micro'} key={index} height={230}>
                       <ProductVerticalListCard
@@ -372,8 +387,7 @@ export const ProductDetail: React.FC<Props> = ({
                 <Box
                   paddingTop='nano'
                   flexDirection='row'
-                  justifyContent='center'
-                >
+                  justifyContent='center'>
                   {recomendedProducts.map(
                     (i, k) =>
                       k % 2 == 0 && (
@@ -381,11 +395,11 @@ export const ProductDetail: React.FC<Props> = ({
                           paddingX='quarck'
                           variant='icone'
                           onPress={() => {
-                            let width = (137 + theme.space.micro) * 2;
-                            console.log(`k/2: ${k / 2}`);
+                            let width = (137 + theme.space.micro) * 2
+                            console.log(`k/2: ${k / 2}`)
                             recomendedScroll.current?.scrollTo({
                               x: width * (k / 2),
-                            });
+                            })
                           }}
                           icon={
                             <Icon
@@ -408,5 +422,5 @@ export const ProductDetail: React.FC<Props> = ({
         </ScrollView>
       </Box>
     </SafeAreaView>
-  );
-};
+  )
+}
