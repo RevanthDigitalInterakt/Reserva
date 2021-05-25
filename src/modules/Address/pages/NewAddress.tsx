@@ -56,7 +56,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     phoneNumber: edit ? editAddress.phoneNumber : '',
     sendMessage: edit ? editAddress.jobTitle : '',
   })
-
   const validation = Yup.object().shape({
     postalCode: Yup.string().required('Informe um CEP')
       .matches(/^(?=.{9,})/, { message: 'CEP não é valido' }),
@@ -65,6 +64,19 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     number: Yup.string().required('Informe um número'),
     district: Yup.string().required('Informe um bairro'),
     street: Yup.string().required('Informe um endereço'),
+    recipientName: Yup.string().when("toggleActivated", {
+      is: () => {
+        return toggleActivated;
+      },
+      then: Yup.string().required("Informe um nome")
+    }),
+    phoneNumber: Yup.string().when("toggleActivated", {
+      is: () => {
+        return toggleActivated;
+      },
+      then: Yup.string().required("Informe um telefone")
+    }),
+
   })
 
   useEffect(() => {
