@@ -109,14 +109,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title='Ordenar Por'
       />
-      <Button
-        title='adas'
-        onPress={() =>
-          navigation.navigate('ProductDetail', {
-            productId: '0043831',
-          })
-        }
-      />
+
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}
         products={products.dataOffer}
