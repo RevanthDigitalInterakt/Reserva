@@ -13,7 +13,7 @@ import { ProfileTypes } from "./profile/types";
 import { profileLoad, profileUpdate, register } from "./profile/sagas";
 
 import { LocalitiesTypes } from "./localities/types";
-import { loadLocalities } from "./localities/sagas";
+import { loadLocalities, loadCounty } from "./localities/sagas";
 
 export default function* rootSaga() {
   yield all([
@@ -27,6 +27,7 @@ export default function* rootSaga() {
     takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
     takeLatest(ProfileTypes.REGISTER_REQUEST, register),
 
-    takeLatest(LocalitiesTypes.LOAD_LOCALITY_REQUEST, loadLocalities),
+    takeLatest(LocalitiesTypes.LOAD_STATES_REQUEST, loadLocalities),
+    takeLatest(LocalitiesTypes.LOAD_COUNTIES_REQUEST, loadCounty),
   ]);
 }
