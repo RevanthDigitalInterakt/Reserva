@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import products from './products'
+import product from './product'
 import wishlist from './wishlist'
 import categories from './categories'
 import authentication from './authentication'
@@ -9,6 +10,7 @@ import address from './address'
 
 export default combineReducers({
   products,
+  product,
   wishlist,
   categories,
   authentication,

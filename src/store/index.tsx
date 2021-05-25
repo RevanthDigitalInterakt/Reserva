@@ -16,6 +16,7 @@ import { AuthenticationState } from './ducks/authentication/types'
 import { ProfileState } from './ducks/profile/types'
 import { AddressState } from './ducks/address/types'
 import { WishlistState } from './ducks/wishlist/types'
+import { ProductState } from './ducks/product/types'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
@@ -26,8 +27,9 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 export interface ApplicationState {
   products: ProductsState
   wishlist: WishlistState
-  categories: CategoriesState
   address: AddressState
+  product: ProductState
+  categories: CategoriesState
   authentication: AuthenticationState
   profile: ProfileState
 }

@@ -1,50 +1,76 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
-import { useEffect } from "react";
-import { Dimensions, ScrollView, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
-  theme,
-  Image,
-  ProductVerticalListCard,
   Button,
-  Typography,
   Icon,
+  Image,
   Picker,
-  SearchBar,
   Pill,
+  SearchBar,
+  theme,
+  Typography,
 } from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { ApplicationState } from "../../../store";
-
+import {
+  cleanProducts,
+  loadProducts,
+} from "../../../store/ducks/products/actions";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
+import { ListVerticalProducts } from "../components/ListVerticalProducts/ListVerticalProducts";
 import { FilterModal } from "../modals/FilterModal";
-
-const windowWidth = Dimensions.get("window").width;
 
 type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea } = route.params;
-  const { search } = route.params;
+  const { safeArea, search, categoryId } = route.params;
+
+  // Alert.alert(JSON.stringify(categoryId));
 
   const dispatch = useDispatch();
 
-  const [filterVisible, setFilterVisible] = React.useState(false);
-  const [sorterVisible, setSorterVisible] = React.useState(false);
-  const [filterList, setFilterList] = React.useState<string[]>([]);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [sorterVisible, setSorterVisible] = useState(false);
+  const [filterList, setFilterList] = useState<string[]>([]);
+  // const [offset, setOffset] = useState(0)
+  const products = useSelector((state: ApplicationState) => state.products);
+  const loadMoreProducts = (offset: number) => {
+    console.log("loading more");
+    dispatch(
+      loadProducts({
+        categoryId: categoryId || "",
+        limit: 10,
+        offset: offset,
+      })
+    );
+  };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("products", products);
+    dispatch(cleanProducts());
+    loadMoreProducts(0);
+  }, []);
+
+  useEffect(() => {
+    console.log("products", products);
+    dispatch(cleanProducts());
+    loadMoreProducts(0);
+  }, [categoryId]);
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
-
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
-      {safeArea ? <TopBarDefaultBackButton /> : <TopBarDefault />}
+      {safeArea ? (
+        <TopBarDefaultBackButton loading={products.loading} />
+      ) : (
+        <TopBarDefault loading={products.loading} />
+      )}
       {search && (
         <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
           <SearchBar height={36} placeholder="Buscar" />
@@ -92,13 +118,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      <ScrollView>
-        <Box
-          variant="container"
-          alignItems="flex-start"
-          justifyContent="center"
-        >
-          <Box width={1 / 1}>
+
+      <ListVerticalProducts
+        loadMoreProducts={loadMoreProducts}
+        products={products.dataOffer}
+        listHeader={
+          <>
             <Image
               source={
                 safeArea || search ? images.bannerCatalog : images.bannerOffer
@@ -178,7 +203,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               justifyContent="space-between"
             >
               <Typography fontFamily="nunitoRegular" fontSize="13px">
-                127 produtos encontrados
+                {products?.dataOffer?.length} produtos encontrados
               </Typography>
               {filterList.length > 0 && (
                 <Button onPress={() => setFilterList([])}>
@@ -208,77 +233,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 ))}
               </Box>
             )}
-            <Box
-              p="micro"
-              flexDirection="row"
-              flex={1}
-              justifyContent="space-between"
-            >
-              <ProductVerticalListCard
-                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
-                currency="R$"
-                discountTag={18}
-                imageSource={images.shirt3}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                priceWithDiscount={297.0}
-                isFavorited={true}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-              <ProductVerticalListCard
-                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
-                currency="R$"
-                imageSource={images.shirt1}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                isFavorited={false}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-            </Box>
-            <Box
-              p="micro"
-              flexDirection="row"
-              flex={1}
-              justifyContent="space-between"
-            >
-              <ProductVerticalListCard
-                currency="R$"
-                discountTag={18}
-                imageSource={images.shirt4}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                priceWithDiscount={297.0}
-                isFavorited={true}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-              <ProductVerticalListCard
-                currency="R$"
-                imageSource={images.shirt2}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                isFavorited={false}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-            </Box>
-          </Box>
-        </Box>
-      </ScrollView>
+          </>
+        }
+      />
     </DynamicComponent>
   );
 };
