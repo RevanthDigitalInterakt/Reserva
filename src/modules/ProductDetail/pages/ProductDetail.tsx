@@ -237,7 +237,7 @@ export const ProductDetail: React.FC<Props> = ({
             installmentsPrice={product.data.installmentPrice}
             title={
               product.data.skuList
-                ? product.data.skuList[0].title
+                ? product.data.skuList[skuIdx].title
                 : product.data.title
             }
             discountTag={product.data.discountTag}
@@ -245,7 +245,9 @@ export const ProductDetail: React.FC<Props> = ({
             priceWithDiscount={product.data.discountPrice}
             imagesWidth={screenWidth}
             images={
-              product.data.skuList ? product.data.skuList[0].imagesUrls : []
+              product.data.skuList
+                ? product.data.skuList[skuIdx].imagesUrls
+                : []
             }
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
@@ -344,7 +346,7 @@ export const ProductDetail: React.FC<Props> = ({
                 information={{
                   title: 'Descrição do produto',
                   content: product.data.skuList!
-                    ? product.data.skuList[0].description
+                    ? product.data.skuList[skuIdx].description
                     : product.data.description || '',
                 }}
               />
