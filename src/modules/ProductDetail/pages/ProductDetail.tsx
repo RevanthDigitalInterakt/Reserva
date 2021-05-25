@@ -1,14 +1,14 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React, { createRef, useEffect, useState } from "react";
 import {
   Alert,
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   PickerItemProps,
-} from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
-import { ceil } from 'react-native-reanimated'
-import { SafeAreaView } from 'react-native-safe-area-context'
+} from "react-native";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { ceil } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
   Button,
@@ -26,208 +26,212 @@ import {
   TopBar,
   theme,
   ExpansePanel,
-} from 'reserva-ui'
-import { Input } from 'reserva-ui/src/components/TextField/TextField.styles'
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
-import { ModalBag } from '../components/ModalBag'
+} from "reserva-ui";
+import { Input } from "reserva-ui/src/components/TextField/TextField.styles";
+import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
+import { ModalBag } from "../components/ModalBag";
 
-import Share from 'react-native-share'
-import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types'
-import { RootStackParamList } from '../../../routes/StackNavigator'
-import { useDispatch, useSelector } from 'react-redux'
-import { ApplicationState } from '../../../store'
+import Share from "react-native-share";
+import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { useDispatch, useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
 import {
   loadProduct,
   loadProductSuccess,
-} from '../../../store/ducks/product/actions'
-const screenWidth = Dimensions.get('window').width
+} from "../../../store/ducks/product/actions";
+import { ProductSKU } from "../../../store/ducks/product/types";
+const screenWidth = Dimensions.get("window").width;
 
-let recomendedScroll = createRef<ScrollView>()
+let recomendedScroll = createRef<ScrollView>();
 
 interface ProductDetailProps {
-  recomendedProducts?: ProductVerticalListCardProps[]
+  recomendedProducts?: ProductVerticalListCardProps[];
 }
 
-type Props = StackScreenProps<RootStackParamList, 'ProductDetail'> &
-  ProductDetailProps
+type Props = StackScreenProps<RootStackParamList, "ProductDetail"> &
+  ProductDetailProps;
 
 export const ProductDetail: React.FC<Props> = ({
   navigation,
   route,
   recomendedProducts,
 }) => {
-  const [isFavorited, setIsFavorited] = useState(false)
+  const [isFavorited, setIsFavorited] = useState(false);
 
-  const [isVisible, setIsVisible] = useState(false)
-  const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
+  const [isVisible, setIsVisible] = useState(false);
+  const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
 
   recomendedProducts = [
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
     {
-      productTitle: 'Camiseta Básica Reserva',
+      productTitle: "Camiseta Básica Reserva",
       installmentsNumber: 3,
       installmentsPrice: 99.9,
       price: 345.0,
       priceWithDiscount: 297.0,
       imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
     },
-  ]
+  ];
   const onChangeRecomended = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
     const actualItem = Math.ceil(
       scrollEvent.nativeEvent.contentOffset.x /
         scrollEvent.nativeEvent.layoutMeasurement.width
-    )
+    );
     if (
       actualItem !== actualRecomendedindex &&
       recomendedProducts &&
       actualItem < Math.ceil(recomendedProducts.length / 2)
     ) {
-      console.log(actualItem)
-      setActualRecomendedindex(actualItem)
+      console.log(actualItem);
+      setActualRecomendedindex(actualItem);
     }
-  }
+  };
 
-  const [selectedColor, setSelectedColor] = useState('')
-  const [selectedSize, setSelectedSize] = useState<string | number>('')
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState<string | number>("");
 
-  const [skuIdx, setSkuIdx] = useState(0)
+  const [skuIdx, setSkuIdx] = useState(0);
 
-  let product = useSelector((state: ApplicationState) => state.product)
-  const dispatch = useDispatch()
+  let product = useSelector((state: ApplicationState) => state.product);
 
-  const productId = route.params.productId
+  const [selectedSku, setSelectedSku] = useState<ProductSKU>();
+
+  const dispatch = useDispatch();
+
+  const productId = route.params.productId;
   useEffect(() => {
-    dispatch(loadProduct(productId))
-    console.log(product)
-  }, [])
+    dispatch(loadProduct(productId));
+    console.log(product);
+  }, []);
 
   useEffect(() => {
-    console.log('skuList', product.data.skuList)
     setSelectedColor(
-      product.data.skuList ? product.data.skuList[skuIdx]?.color : ''
-    )
-    setSelectedSize(
-      product.data.skuList ? product.data.skuList[skuIdx]?.size : ''
-    )
-  }, [product])
-  const [cep, setCep] = useState('')
+      product.data.skuList ? product.data.skuList[0]?.color : ""
+    );
+    setSelectedSize(product.data.skuList ? product.data.skuList[0]?.size : "");
+  }, [product]);
+
+  const [cep, setCep] = useState("");
 
   useEffect(() => {
-    let sku = product.data.skuList?.findIndex((x) => {
-      return x.color == selectedColor && x.size == selectedSize
-    })
-    console.log('sku', sku)
-    if (sku) setSkuIdx(sku)
-  }, [selectedColor, selectedSize])
+    let sku = product.data.skuList?.find((x) => {
+      return x.color == selectedColor && x.size == selectedSize;
+    });
+
+    console.log("cara novo", sku);
+
+    if (sku) setSelectedSku(sku);
+  }, [selectedColor, selectedSize]);
 
   return (
     <SafeAreaView>
-      <Box bg='white'>
+      <Box bg="white">
         <ModalBag
           isVisible={isVisible}
           onBackdropPress={() => {
-            setIsVisible(false)
+            setIsVisible(false);
           }}
         />
         <TopBarDefaultBackButton loading={product.loading} />
@@ -235,42 +239,34 @@ export const ProductDetail: React.FC<Props> = ({
           <ProductDetailCard
             installmentsNumber={product.data.installmentNumber}
             installmentsPrice={product.data.installmentPrice}
-            title={
-              product.data.skuList
-                ? product.data.skuList[skuIdx].title
-                : product.data.title
-            }
+            title={selectedSku?.title || product.data.title}
             discountTag={product.data.discountTag}
             price={product.data.fullPrice}
             priceWithDiscount={product.data.discountPrice}
             imagesWidth={screenWidth}
-            images={
-              product.data.skuList
-                ? product.data.skuList[skuIdx].imagesUrls
-                : []
-            }
+            images={selectedSku?.imagesUrls || []}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
-              setIsFavorited(favoriteState)
+              setIsFavorited(favoriteState);
             }}
             onClickShare={() => {
               const options = {
-                message: 'Aqui está um produto que você pode gostar',
-                title: 'Compartilhar',
-              }
+                message: "Aqui está um produto que você pode gostar",
+                title: "Compartilhar",
+              };
               Share.open(options)
                 .then((res) => {
                   //console.log(res)
                 })
                 .catch((err) => {
                   //err && console.log(err)
-                })
+                });
             }}
           />
 
-          <Box mt='xs'>
-            <Box px='xxxs' mb='xxxs'>
-              <Typography variant={'subtituloSessoes'}>Cores:</Typography>
+          <Box mt="xs">
+            <Box px="xxxs" mb="xxxs">
+              <Typography variant={"subtituloSessoes"}>Cores:</Typography>
             </Box>
             <Box>
               <ScrollView horizontal>
@@ -283,28 +279,29 @@ export const ProductDetail: React.FC<Props> = ({
               </ScrollView>
             </Box>
           </Box>
-          <Box px='xxxs'>
-            <Box mt='xxxs'>
+          <Box px="xxxs">
+            <Box mt="xxxs">
               <Box
-                flexDirection='row'
-                justifyContent='space-between'
-                alignItems='center'>
-                <Typography variant={'subtituloSessoes'}>Tamanhos:</Typography>
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography variant={"subtituloSessoes"}>Tamanhos:</Typography>
                 <Button>
-                  <Box flexDirection='row' alignItems='center'>
-                    <Icon name='Ruler' size={35} />
-                    <Typography fontFamily='nunitoRegular' fontSize={'11px'}>
+                  <Box flexDirection="row" alignItems="center">
+                    <Icon name="Ruler" size={35} />
+                    <Typography fontFamily="nunitoRegular" fontSize={"11px"}>
                       Guia de medidas
                     </Typography>
                   </Box>
                 </Button>
               </Box>
-              <Box alignItems='center' mt='xxxs'>
+              <Box alignItems="center" mt="xxxs">
                 <RadioButtons
                   size={44}
                   fontSize={14}
                   onSelectedChange={(item) => {
-                    setSelectedSize(item)
+                    setSelectedSize(item);
                   }}
                   optionsList={product.data.sizes || []}
                   defaultSelectedItem={selectedSize}
@@ -313,71 +310,72 @@ export const ProductDetail: React.FC<Props> = ({
             </Box>
 
             <Button
-              mt='xxs'
-              title='ADICIONAR À SACOLA'
-              variant='primarioEstreito'
+              mt="xxs"
+              title="ADICIONAR À SACOLA"
+              variant="primarioEstreito"
               onPress={() => {
-                setIsVisible(true)
+                setIsVisible(true);
               }}
               inline
             />
 
-            <Box mt='nano' flexDirection='row'></Box>
-            <Divider variant='fullWidth' my='xs' />
-            <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
+            <Box mt="nano" flexDirection="row"></Box>
+            <Divider variant="fullWidth" my="xs" />
+            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Consultar prazo e valor do frete
             </Typography>
-            <Box flexDirection='row' mt='xxxs'>
+            <Box flexDirection="row" mt="xxxs">
               <OutlineInput
                 onChangeText={(text) => {
-                  setCep(text)
+                  setCep(text);
                 }}
                 value={cep}
-                placeholder='Digite seu CEP'
-                iconName='Search'
-                keyboardType='number-pad'
-                keyboardAppearance='light'
-                maskType='zip-code'
+                placeholder="Digite seu CEP"
+                iconName="Search"
+                keyboardType="number-pad"
+                keyboardAppearance="light"
+                maskType="zip-code"
               />
             </Box>
-            <Divider variant='fullWidth' my='xs' />
+            <Divider variant="fullWidth" my="xs" />
             <Box>
               <ExpansePanel
                 information={{
-                  title: 'Descrição do produto',
-                  content: product.data.skuList!
-                    ? product.data.skuList[skuIdx].description
-                    : product.data.description || '',
+                  title: "Descrição do produto",
+                  content: selectedSku?.description
+                    ? selectedSku?.description
+                    : product.data.description || "",
                 }}
               />
             </Box>
 
-            <Divider variant='fullWidth' my='xs' />
-            <Typography fontFamily='reservaSerifRegular' fontSize='16px'>
+            <Divider variant="fullWidth" my="xs" />
+            <Typography fontFamily="reservaSerifRegular" fontSize="16px">
               Receba novidades e promoções
             </Typography>
-            <Box flexDirection='column' mt='xxxs'>
+            <Box flexDirection="column" mt="xxxs">
               <OutlineInput
-                placeholder='Digite seu e-mail'
-                iconName='ChevronRight'
-                keyboardType='email-address'
+                placeholder="Digite seu e-mail"
+                iconName="ChevronRight"
+                keyboardType="email-address"
               />
             </Box>
-            <Box mt='xs' mb='xxl'>
-              <Box mb='xxxs'>
-                <Typography fontFamily='nunitoBold' fontSize={14}>
+            <Box mt="xs" mb="xxl">
+              <Box mb="xxxs">
+                <Typography fontFamily="nunitoBold" fontSize={14}>
                   Seu produto combina com
                 </Typography>
               </Box>
-              <Box mb='md'>
+              <Box mb="md">
                 <ScrollView
                   horizontal
                   pagingEnabled
                   ref={recomendedScroll}
                   showsHorizontalScrollIndicator={false}
-                  onScroll={onChangeRecomended}>
+                  onScroll={onChangeRecomended}
+                >
                   {recomendedProducts.map((product, index) => (
-                    <Box mx='nano' mr={'micro'} key={index} height={230}>
+                    <Box mx="nano" mr={"micro"} key={index} height={230}>
                       <ProductVerticalListCard
                         imageWidth={137}
                         small
@@ -387,30 +385,31 @@ export const ProductDetail: React.FC<Props> = ({
                   ))}
                 </ScrollView>
                 <Box
-                  paddingTop='nano'
-                  flexDirection='row'
-                  justifyContent='center'>
+                  paddingTop="nano"
+                  flexDirection="row"
+                  justifyContent="center"
+                >
                   {recomendedProducts.map(
                     (i, k) =>
                       k % 2 == 0 && (
                         <Button
-                          paddingX='quarck'
-                          variant='icone'
+                          paddingX="quarck"
+                          variant="icone"
                           onPress={() => {
-                            let width = (137 + theme.space.micro) * 2
-                            console.log(`k/2: ${k / 2}`)
+                            let width = (137 + theme.space.micro) * 2;
+                            console.log(`k/2: ${k / 2}`);
                             recomendedScroll.current?.scrollTo({
                               x: width * (k / 2),
-                            })
+                            });
                           }}
                           icon={
                             <Icon
-                              name='Circle'
+                              name="Circle"
                               size={6}
                               color={
                                 actualRecomendedindex == Math.ceil((k - 1) / 2)
-                                  ? 'preto'
-                                  : 'neutroFrio1'
+                                  ? "preto"
+                                  : "neutroFrio1"
                               }
                             />
                           }
@@ -424,5 +423,5 @@ export const ProductDetail: React.FC<Props> = ({
         </ScrollView>
       </Box>
     </SafeAreaView>
-  )
-}
+  );
+};
