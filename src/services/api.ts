@@ -25,4 +25,10 @@ const removeAuthorizationToken = () => {
   api.defaults.headers.common['client-token'] = null
 }
 
-export { api, apiCategories, setAuthorizationToken, removeAuthorizationToken }
+export {
+  api,
+  apiCategories,
+  setAuthorizationToken,
+  removeAuthorizationToken,
+  apiBffProducts,
+}

@@ -1,8 +1,9 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect, useState } from "react";
-import { Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { StackScreenProps } from '@react-navigation/stack'
+import React, { useEffect, useState } from 'react'
+import { TextInput } from 'react-native-gesture-handler'
+//import { Alert } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Box,
   Button,
@@ -12,58 +13,60 @@ import {
   Pill,
   SearchBar,
   theme,
+  Alert,
   Typography,
-} from "reserva-ui";
-import { images } from "../../../assets";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
+  TextField,
+} from 'reserva-ui'
+import { images } from '../../../assets'
+import { RootStackParamList } from '../../../routes/StackNavigator'
+import { ApplicationState } from '../../../store'
 import {
   cleanProducts,
   loadProducts,
-} from "../../../store/ducks/products/actions";
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
-import { ListVerticalProducts } from "../components/ListVerticalProducts/ListVerticalProducts";
-import { FilterModal } from "../modals/FilterModal";
+} from '../../../store/ducks/products/actions'
+import { TopBarDefault } from '../../Menu/components/TopBarDefault'
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
+import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts'
+import { FilterModal } from '../modals/FilterModal'
 
-type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea, search, categoryId } = route.params;
+  const { safeArea, search, categoryId } = route.params
 
   // Alert.alert(JSON.stringify(categoryId));
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [filterVisible, setFilterVisible] = useState(false);
-  const [sorterVisible, setSorterVisible] = useState(false);
-  const [filterList, setFilterList] = useState<string[]>([]);
+  const [filterVisible, setFilterVisible] = useState(false)
+  const [sorterVisible, setSorterVisible] = useState(false)
+  const [filterList, setFilterList] = useState<string[]>([])
   // const [offset, setOffset] = useState(0)
-  const products = useSelector((state: ApplicationState) => state.products);
+  const products = useSelector((state: ApplicationState) => state.products)
   const loadMoreProducts = (offset: number) => {
-    console.log("loading more");
+    console.log('loading more')
     dispatch(
       loadProducts({
-        categoryId: categoryId || "",
+        categoryId: categoryId || '',
         limit: 10,
         offset: offset,
       })
-    );
-  };
+    )
+  }
 
   useEffect(() => {
-    console.log("products", products);
-    dispatch(cleanProducts());
-    loadMoreProducts(0);
-  }, []);
+    console.log('products', products)
+    dispatch(cleanProducts())
+    loadMoreProducts(0)
+  }, [])
 
   useEffect(() => {
-    console.log("products", products);
-    dispatch(cleanProducts());
-    loadMoreProducts(0);
-  }, [categoryId]);
+    console.log('products', products)
+    dispatch(cleanProducts())
+    loadMoreProducts(0)
+  }, [categoryId])
 
-  const DynamicComponent = safeArea ? SafeAreaView : Box;
+  const DynamicComponent = safeArea ? SafeAreaView : Box
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
@@ -72,8 +75,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         <TopBarDefault loading={products.loading} />
       )}
       {search && (
-        <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
-          <SearchBar height={36} placeholder="Buscar" />
+        <Box paddingX='nano' paddingBottom='micro' paddingTop='micro'>
+          <SearchBar height={36} placeholder='Buscar' />
         </Box>
       )}
       <FilterModal
@@ -83,41 +86,43 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         onConfirm={() => {}}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
-        title="Excluir endereço"
-        confirmText={"Ok"}
-        subtitle="Tem certeza que deseja excluir o endereço salvo?"
+        title='Excluir endereço'
+        confirmText={'Ok'}
+        subtitle='Tem certeza que deseja excluir o endereço salvo?'
       />
       <Picker
         onSelect={() => {
-          setSorterVisible(false);
+          setSorterVisible(false)
         }}
         isVisible={sorterVisible}
         items={[
           {
-            text: "Menor Preço",
+            text: 'Menor Preço',
           },
           {
-            text: "Maior Preço",
+            text: 'Maior Preço',
           },
           {
-            text: "Mais Recentes",
+            text: 'Mais Recentes',
           },
           {
-            text: "Mais Antigos",
+            text: 'Mais Antigos',
           },
           {
-            text: "Relevante",
+            text: 'Relevante',
           },
         ]}
         onConfirm={() => {
-          setSorterVisible(false);
+          setSorterVisible(false)
         }}
         onClose={() => {
-          setSorterVisible(false);
+          setSorterVisible(false)
         }}
         onBackDropPress={() => setSorterVisible(false)}
-        title="Ordenar Por"
+        title='Ordenar Por'
       />
+
+      <CreateCategoryModal isVisible />
 
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}
@@ -130,18 +135,17 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               }
               width={1 / 1}
             />
-            <Box bg="dropDownBorderColor">
-              <Button p="nano">
-                <Box flexDirection="row">
-                  <Icon name="Whatsapp" size={16} color="preto"></Icon>
-                  <Box marginX="nano">
+            <Box bg='dropDownBorderColor'>
+              <Button p='nano'>
+                <Box flexDirection='row'>
+                  <Icon name='Whatsapp' size={16} color='preto'></Icon>
+                  <Box marginX='nano'>
                     <Typography
-                      color="preto"
-                      fontFamily="nunitoSemiBold"
-                      fontSize={11}
-                    >
-                      Chama no Whats! Seja atendido sem sair de casa.{" "}
-                      <Typography style={{ textDecorationLine: "underline" }}>
+                      color='preto'
+                      fontFamily='nunitoSemiBold'
+                      fontSize={11}>
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
                       </Typography>
                     </Typography>
@@ -149,24 +153,22 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 </Box>
               </Button>
             </Box>
-            <Box paddingY="micro" flexDirection="row" justifyContent="center">
+            <Box paddingY='micro' flexDirection='row' justifyContent='center'>
               <Box width={1 / 2}>
                 <Button
                   onPress={() => setFilterVisible(true)}
-                  marginRight="nano"
-                  marginLeft="micro"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
+                  marginRight='nano'
+                  marginLeft='micro'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
                   inline={true}
-                  height={40}
-                >
+                  height={40}>
                   <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
-                  >
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'>
                     Filtrar
                   </Typography>
                 </Button>
@@ -174,51 +176,47 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
               <Box width={1 / 2}>
                 <Button
-                  marginRight="micro"
-                  marginLeft="nano"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
+                  marginRight='micro'
+                  marginLeft='nano'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
                   inline={true}
                   height={40}
                   onPress={() => {
-                    setSorterVisible(true);
-                  }}
-                >
+                    setSorterVisible(true)
+                  }}>
                   <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
-                  >
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'>
                     Ordenar
                   </Typography>
                 </Button>
               </Box>
             </Box>
             <Box
-              paddingX="micro"
-              paddingY="quarck"
-              flexDirection="row"
-              justifyContent="space-between"
-            >
-              <Typography fontFamily="nunitoRegular" fontSize="13px">
+              paddingX='micro'
+              paddingY='quarck'
+              flexDirection='row'
+              justifyContent='space-between'>
+              <Typography fontFamily='nunitoRegular' fontSize='13px'>
                 {products?.dataOffer?.length} produtos encontrados
               </Typography>
               {filterList.length > 0 && (
                 <Button onPress={() => setFilterList([])}>
                   <Typography
-                    color="progressTextColor"
-                    variant="precoAntigo3"
-                    style={{ textDecorationLine: "underline" }}
-                  >
+                    color='progressTextColor'
+                    variant='precoAntigo3'
+                    style={{ textDecorationLine: 'underline' }}>
                     Limpar tudo
                   </Typography>
                 </Button>
               )}
             </Box>
             {filterList.length > 0 && (
-              <Box px="micro" flexDirection="row" py="quarck" flexWrap="wrap">
+              <Box px='micro' flexDirection='row' py='quarck' flexWrap='wrap'>
                 {filterList.map((item) => (
                   <Pill
                     key={item}
@@ -226,8 +224,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     onPress={() => {
                       const updateList = filterList.filter(
                         (tag) => tag !== item
-                      );
-                      setFilterList(updateList);
+                      )
+                      setFilterList(updateList)
                     }}
                   />
                 ))}
@@ -237,5 +235,49 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         }
       />
     </DynamicComponent>
-  );
-};
+  )
+}
+
+interface CreateCategoryModalProps {
+  isVisible: boolean
+  onClink: (categoryName: string) => null
+}
+
+const CreateCategoryModal = ({
+  isVisible,
+  onClink,
+}: CreateCategoryModalProps) => {
+  const [text, setText] = useState('')
+  return isVisible ? (
+    <Box
+      position='absolute'
+      height={'100%'}
+      width={'100%'}
+      backgroundColor='transparente'
+      justifyContent='center'
+      alignItems='center'
+      style={{ elevation: 4, zIndex: 4 }}>
+      <Box
+        px='micro'
+        py='xxs'
+        height={170}
+        width={300}
+        backgroundColor='white'
+        justifyContent='space-between'>
+        <TextField
+          placeholder='nome da categoria'
+          onChangeText={(value) => {
+            setText(value)
+          }}
+        />
+        <Button
+          title='criar categoria'
+          variant='primarioEstreitoOutline'
+          onPress={() => {
+            onClink(text)
+          }}
+        />
+      </Box>
+    </Box>
+  ) : null
+}

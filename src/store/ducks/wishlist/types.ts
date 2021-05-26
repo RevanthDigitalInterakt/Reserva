@@ -1,6 +1,6 @@
 //#region Action Types
 
-import { Product } from '../products/types'
+import { Product } from '../product/types'
 
 export enum WishlistTypes {
   APPEND_WISHLIST = '@wishlist/APPEND_WISHLIST',
@@ -16,8 +16,12 @@ export enum WishlistTypes {
 
 //#region State Type
 
+interface Wish extends Product {
+  category: string
+}
+
 export interface WishlistState {
-  readonly data: Product[]
+  readonly data: Wish[]
 }
 
 //#region

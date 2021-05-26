@@ -19,6 +19,7 @@ import {
 import { ApplicationState } from '../../../store'
 import { FlatList } from 'react-native'
 import ItemList from '../../Profile/Components/ItemList'
+import { Product } from '../../../store/ducks/product/types'
 
 export const WishList: React.FC<{}> = () => {
   const [showWishListCategory, setShowWishListCategory] = useState(false)
@@ -26,7 +27,9 @@ export const WishList: React.FC<{}> = () => {
 
   let dispatch = useDispatch()
 
-  let wishlist = useSelector((state: ApplicationState) => state.wishlist)
+  let wishlist: Product[] = useSelector(
+    (state: ApplicationState) => state.wishlist.data
+  )
 
   useEffect(() => {
     console.log(wishlist)
@@ -65,6 +68,18 @@ export const WishList: React.FC<{}> = () => {
             setSorterVisible(false)
           }}
           title='Tamanho'
+        />
+        <Picker
+          isVisible
+          items={[
+            {
+              text: 'dasdas',
+              subText: 'asdas',
+            },
+          ]}
+          onClose={() => {}}
+          onAndroidBackButtonPress={() => {}}
+          title='Categorias'
         />
         <Box marginTop='md' paddingBottom='xxxs'>
           <Box paddingX='xxxs'>
@@ -109,24 +124,24 @@ export const WishList: React.FC<{}> = () => {
           {!showWishListCategory ? (
             <Box paddingX='xxxs'>
               <FlatList
-                data={wishlist.data}
+                data={wishlist}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={(product) => (
+                renderItem={({ item }) => (
                   <Box marginTop='xxxs' height={147}>
                     <ProductHorizontalListCard
                       isFavorited
-                      currency={'R$'}
+                      currency={item.currency}
                       itemColor='Cinza'
                       ItemSize='36'
-                      productTitle={product.item.title}
-                      installmentsNumber={3}
-                      installmentsPrice={79.66}
-                      price={345.0}
+                      productTitle={item.title}
+                      installmentsNumber={item.installmentNumber}
+                      installmentsPrice={item.installmentPrice}
+                      price={item.fullPrice}
                       onClickFavorite={() => {
-                        dispatch(removeWishlist(product.item))
+                        dispatch(removeWishlist(item))
                       }}
                       onClickBagButton={() => {}}
-                      imageSource={product.item.image}
+                      imageSource={item.imageUrl || ''}
                     />
                   </Box>
                 )}
