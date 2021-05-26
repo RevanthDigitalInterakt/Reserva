@@ -193,7 +193,6 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
-  const [cep, setCep] = useState('');
   const dispatch = useDispatch();
   const shippingMethodState = useSelector(shippingMethodStateSelector);
   const [selectedColor, setSelectedColor] = useState('');
@@ -204,8 +203,6 @@ export const ProductDetail: React.FC<Props> = ({
   let product = useSelector((state: ApplicationState) => state.product);
 
   const [selectedSku, setSelectedSku] = useState<ProductSKU>();
-
-  const dispatch = useDispatch();
 
   const productId = route.params.productId;
   useEffect(() => {
@@ -347,10 +344,7 @@ export const ProductDetail: React.FC<Props> = ({
                 }}
               />
             </Box>
-            <Typography
-              fontFamily="nunitoRegular"
-              fontSize={'11px'}
-            ></Typography>
+
             {shippingMethodState.shippingMethods && cep
               ? shippingMethodState.shippingMethods.map((method) => {
                   return (
