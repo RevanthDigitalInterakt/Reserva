@@ -1,7 +1,11 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { api } from "../../../services/api";
-import { profileLoad } from "../profile/actions";
-import { loginSuccess, loginFailure } from "./actions";
+import {
+  api,
+  removeAuthorizationToken,
+  setAuthorizationToken,
+} from "../../../services/api";
+import { profileDelete, profileLoad } from "../profile/actions";
+import { loginSuccess, loginFailure, logoutSucess } from "./actions";
 import { Authentication, AuthenticationTypes } from "./types";
 
 interface ILoginPayload {
@@ -15,10 +19,20 @@ export function* loginReqest({ payload }: any) {
 
     const { data } = yield call(api.post, "/login", loginCredentials);
 
-    api.defaults.headers.common["client-token"] = data.access_token;
+    setAuthorizationToken(data.access_token);
 
     yield put(loginSuccess(data));
     yield put(profileLoad());
+  } catch (err) {
+    yield put(loginFailure());
+  }
+}
+
+export function* logoutRequest({ payload }: any) {
+  try {
+    removeAuthorizationToken();
+    yield put(logoutSucess());
+    yield put(profileDelete());
   } catch (err) {
     yield put(loginFailure());
   }

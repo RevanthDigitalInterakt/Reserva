@@ -27,8 +27,19 @@ const reducer: Reducer<AuthenticationState> = (
       };
     case AuthenticationTypes.LOGIN_FAILURE:
       return { ...state, loading: false, error: true };
+    case AuthenticationTypes.LOGOUT_REQUEST:
+      return {
+        ...state,
+      };
+    case AuthenticationTypes.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: null,
+      };
     default:
-      return { ...state };
+      return state;
   }
 };
 

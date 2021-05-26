@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useEffect } from "react";
+import { Alert } from "react-native";
 import { useSelector } from "react-redux";
 import { ApplicationState } from "../../../store";
 
-export const withAuthentication = (Component: React.FC, { ...props }) => ({
+export const withAuthentication = (Component: React.FC, comeFrom: string) => ({
   ...props
 }) => {
   const navigation = useNavigation();
@@ -12,10 +13,10 @@ export const withAuthentication = (Component: React.FC, { ...props }) => ({
   const { authentication } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
-    if (!authentication || !authentication.data?.access_token) {
-      navigation.navigate("LoginAlternative");
+    if (!authentication.data?.access_token && !authentication.loading) {
+      navigation.navigate("LoginAlternative", { comeFrom });
     }
   }, [authentication]);
 
-  return profile.data ? <Component {...props} /> : null;
+  return authentication.data ? <Component {...props} /> : null;
 };

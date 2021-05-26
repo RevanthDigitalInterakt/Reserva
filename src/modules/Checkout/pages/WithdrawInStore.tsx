@@ -13,9 +13,16 @@ import {
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
+import { ApplicationState } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { loadLocalitiesRequest, loadCountyResquest } from "../../../store/ducks/localities/actions";
+
 export const WithdrawInStore = () => {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
+  const {
+    localities: { dataState: states, dataCounty, loading, error },
+  } = useSelector((state: ApplicationState) => state);
   const [openState, setOpenState] = useState(false);
   const [opencity, setOpenCity] = useState(false);
   const [selectedValue, setSelectedValue] = useState('java');
@@ -24,19 +31,13 @@ export const WithdrawInStore = () => {
   const [city, setCity] = useState('Cidade');
   const hairline = Platform.OS == 'android' ? 'hairline' : null;
 
-  const dataState = [
-    { label: 'AC', value: '1' },
-    { label: 'AL', value: '2' },
-  ];
-
-  const dataCity = [
-    { label: 'Vila Velha', value: '1' },
-    { label: 'Vitória', value: '2' },
-  ];
+  useEffect(() => {
+    dispatch(loadLocalitiesRequest());
+  }, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
-      <TopBarBackButton showShadow />
+      <TopBarBackButton loading={loading} showShadow />
       <ScrollView>
         <Box paddingX={'xxxs'} paddingY={'sm'}>
           <Box marginBottom={'xxs'}>
@@ -160,13 +161,16 @@ export const WithdrawInStore = () => {
       <Picker
         onAndroidBackButtonPress={() => setOpenState(false)}
         onClose={() => setOpenState(false)}
-        onSelect={(item) => setState(item.text)}
+        onSelect={(item) => {
+          setState(item.text);
+          dispatch(loadCountyResquest(item.text))
+        }}
         isVisible={openState}
-        items={dataState.map((item) => {
+        items={states ? states.map((item) => {
           return {
-            text: item.label,
+            text: item.sigla,
           };
-        })}
+        }) : []}
         title="Selecione um Estado"
       />
       <Picker
@@ -174,11 +178,11 @@ export const WithdrawInStore = () => {
         onClose={() => setOpenCity(false)}
         onSelect={(item) => setCity(item.text)}
         isVisible={opencity}
-        items={dataCity.map((item) => {
+        items={dataCounty ? dataCounty.map((item) => {
           return {
-            text: item.label,
+            text: item.nome,
           };
-        })}
+        }) : []}
         title="Selecione a cidade"
       />
     </SafeAreaView>

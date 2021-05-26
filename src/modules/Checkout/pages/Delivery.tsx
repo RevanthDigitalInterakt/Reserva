@@ -3,9 +3,9 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Icon, Divider } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
+import { withAuthentication } from "../../Profile/HOC/withAuthentication";
 
-export const DeliveryScreen = () => {
-  const navigation = useNavigation();
+const Delivery: React.FC<{}> = ({ route, navigation }) => {
   return (
     <SafeAreaView flex={1} backgroundColor={"white"}>
       <TopBarBackButton showShadow />
@@ -74,3 +74,5 @@ const SelectOption = ({ title, subtitle, divider, onPress }: ISelectOption) => {
     </>
   );
 };
+
+export const DeliveryScreen = withAuthentication(Delivery, "Checkout");

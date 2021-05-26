@@ -33,10 +33,17 @@ const reducer: Reducer<ProfileState> = (state = INITIAL_STATE, action) => {
         error: false,
         data: action.payload.data,
       };
+    case ProfileTypes.PROFILE_DELETE:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: null,
+      };
     case ProfileTypes.REQUEST_FAILURE:
       return { ...state, loading: false, error: true };
     default:
-      return { ...state };
+      return state;
   }
 };
 
