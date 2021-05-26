@@ -53,13 +53,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const products = useSelector((state: ApplicationState) => state.products);
 
   const loadMoreProducts = (offset: number) => {
-    console.log("loading more");
+    console.log("loading more", offset);
     dispatch(
       loadProducts({
+        ...filterRequestList,
         categoryId: categoryId || "",
         limit: 10,
         offset: offset,
-        ...filterRequestList,
       })
     );
   };
