@@ -15,6 +15,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from '../../../store';
 import { removeWishlist } from '../../../store/ducks/wishlist/actions';
+import { Product } from '../../../store/ducks/product/types';
 
 type Props = StackScreenProps<RootStackParamList, 'ShowListByCategory'>;
 
@@ -26,7 +27,6 @@ export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
   const wishlist = useSelector(
     (state: ApplicationState) => state.wishlist.data
   );
-
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <TopBarBackButton loading={false} showShadow />
@@ -50,8 +50,8 @@ export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
                       discountTag={
                         prod.discountTag > 0 ? prod.discountTag : undefined
                       }
-                      itemColor='Branca'
-                      ItemSize='41'
+                      itemColor={prod.colorsHex && prod.colorsHex[0]}
+                      ItemSize={prod.sizes && prod.sizes[0]}
                       productTitle={`${prod.title.slice(0, 30)}${
                         prod.title.length > 30 ? '...' : ''
                       }`}
@@ -63,7 +63,9 @@ export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
                         dispatch(removeWishlist(prod.id));
                       }}
                       onClickBagButton={() => {
-                        //navigation.navigate('Pro');
+                        navigation.navigate('ProductDetail', {
+                          products: { ...prod },
+                        });
                       }}
                       onClickPiker={() => {}}
                       imageSource={prod.imageUrl}

@@ -120,8 +120,8 @@ export const WishList: React.FC<{}> = () => {
                     <ProductHorizontalListCard
                       isFavorited
                       currency={item.currency}
-                      itemColor='Cinza'
-                      ItemSize='36'
+                      itemColor={item.colorsHex && item.colorsHex[0]}
+                      ItemSize={item.sizes && item.sizes[0]}
                       productTitle={`${item.title.slice(0, 30)}${
                         item.title.length > 30 ? '...' : ''
                       }`}
