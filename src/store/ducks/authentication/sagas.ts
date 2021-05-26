@@ -1,4 +1,5 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
+import { ApplicationState } from "../..";
 import {
   api,
   removeAuthorizationToken,
@@ -6,11 +7,23 @@ import {
 } from "../../../services/api";
 import { profileDelete, profileLoad } from "../profile/actions";
 import { loginSuccess, loginFailure, logoutSucess } from "./actions";
-import { Authentication, AuthenticationTypes } from "./types";
 
 interface ILoginPayload {
   username: string;
   password: string;
+}
+
+export function* restoreSessionToken({ payload }: any) {
+  try {
+    const { authentication }: ApplicationState = yield select(
+      (state: ApplicationState) => state
+    );
+    console.log("Entrou", authentication);
+
+    if (authentication.data?.access_token) {
+      setAuthorizationToken(authentication.data?.access_token);
+    }
+  } catch (err) {}
 }
 
 export function* loginReqest({ payload }: any) {

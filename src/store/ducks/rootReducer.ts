@@ -1,13 +1,14 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import products from './products';
-import product from './product';
-import wishlist from './wishlist';
-import categories from './categories';
-import authentication from './authentication';
-import profile from './profile';
-import address from './address';
-import localities from './localities';
+import filter from "./filter";
+import products from "./products";
+import product from "./product";
+import categories from "./categories";
+import authentication from "./authentication";
+import profile from "./profile";
+import localities from "./localities";
+import address from "./address";
+import wishlist from "./wishlist";
 
 export default combineReducers({
   products,
@@ -18,4 +19,5 @@ export default combineReducers({
   profile,
   localities,
   address,
+  filter,
 });

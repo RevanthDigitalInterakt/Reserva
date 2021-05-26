@@ -1,20 +1,25 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { Typography, TextField, Box, Button, Toggle } from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useNavigation } from '@react-navigation/native';
+import React, { useRef, useState, useEffect } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
-} from 'react-native-masked-text';
-import { loadAddress, createAddress, createDefaultAddress, updateAddress } from "../../../store/ducks/address/actions";
+} from "react-native-masked-text";
+import {
+  loadAddress,
+  createAddress,
+  createDefaultAddress,
+  updateAddress,
+} from "../../../store/ducks/address/actions";
 import { ApplicationState } from "../../../store";
-import { useFormikContext } from 'formik';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { useFormikContext } from "formik";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 interface IAdress {
   postalCode: string;
@@ -28,60 +33,59 @@ interface IAdress {
   phoneNumber?: string;
   sendMessage?: string;
 }
-type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
+type Props = StackScreenProps<RootStackParamList, "NewAddress">;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit, editAddress, } = route?.params;
-  const [addressId, setAddressId] = React.useState(edit ? editAddress.id : '');
+  const { edit, editAddress } = route?.params;
+  const [addressId, setAddressId] = React.useState(edit ? editAddress.id : "");
   const [toggleActivated, setToggleActivated] = React.useState(false);
 
   const { isCheckout } = route.params;
   const {
     address: { data: addresses, loading, error, defaultAddress },
-
   } = useSelector((state: ApplicationState) => state);
 
   const [initialValues, setInitialValues] = useState<IAdress>({
-    postalCode: edit ? editAddress.postalCode : '',
-    state: edit ? editAddress.state : '',
-    city: edit ? editAddress.city : '',
-    number: edit ? editAddress.numberAndComplement[0] : '',
-    complement: edit ? editAddress.numberAndComplement[1] : '',
-    district: edit ? editAddress.district : '',
-    street: edit ? editAddress.street : '',
-    recipientName: edit ? editAddress.firstName : '',
-    phoneNumber: edit ? editAddress.phoneNumber : '',
-    sendMessage: edit ? editAddress.jobTitle : '',
-  })
+    postalCode: edit ? editAddress.postalCode : "",
+    state: edit ? editAddress.state : "",
+    city: edit ? editAddress.city : "",
+    number: edit ? editAddress.numberAndComplement[0] : "",
+    complement: edit ? editAddress.numberAndComplement[1] : "",
+    district: edit ? editAddress.district : "",
+    street: edit ? editAddress.street : "",
+    recipientName: edit ? editAddress.firstName : "",
+    phoneNumber: edit ? editAddress.phoneNumber : "",
+    sendMessage: edit ? editAddress.jobTitle : "",
+  });
   const validation = Yup.object().shape({
-    postalCode: Yup.string().required('Informe um CEP')
-      .matches(/^(?=.{9,})/, { message: 'CEP não é valido' }),
-    state: Yup.string().required('Informe um Estado'),
-    city: Yup.string().required('Informe uma Cidade'),
-    number: Yup.string().required('Informe um número'),
-    district: Yup.string().required('Informe um bairro'),
-    street: Yup.string().required('Informe um endereço'),
+    postalCode: Yup.string()
+      .required("Informe um CEP")
+      .matches(/^(?=.{9,})/, { message: "CEP não é valido" }),
+    state: Yup.string().required("Informe um Estado"),
+    city: Yup.string().required("Informe uma Cidade"),
+    number: Yup.string().required("Informe um número"),
+    district: Yup.string().required("Informe um bairro"),
+    street: Yup.string().required("Informe um endereço"),
     recipientName: Yup.string().when("toggleActivated", {
       is: () => {
         return toggleActivated;
       },
-      then: Yup.string().required("Informe um nome")
+      then: Yup.string().required("Informe um nome"),
     }),
     phoneNumber: Yup.string().when("toggleActivated", {
       is: () => {
         return toggleActivated;
       },
-      then: Yup.string().required("Informe um telefone")
+      then: Yup.string().required("Informe um telefone"),
     }),
-
-  })
+  });
 
   useEffect(() => {
     if (edit) {
-      console.log('editAddress', editAddress)
+      console.log("editAddress", editAddress);
       setAddressId(editAddress.id);
       setInitialValues({
         postalCode: editAddress.postalCode,
@@ -96,9 +100,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         sendMessage: editAddress.jobTitle,
       });
     }
-  }, [edit])
+  }, [edit]);
 
-  const addNewAddress = (
+  const addNewAddress = async (
     city: string,
     complement: string,
     district: string,
@@ -111,8 +115,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     sendMessage: string
   ) => {
     if (edit) {
-      dispatch(updateAddress(
-        {
+      dispatch(
+        updateAddress({
           address: {
             country: "BR",
             address3: district,
@@ -124,13 +128,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             firstName: recipientName,
             phoneNumber: phoneNumber,
             jobTitle: sendMessage,
-            id: addressId
+            id: addressId,
           },
-        }
-      ))
+        })
+      );
     } else {
-      dispatch(createAddress(
-        {
+      dispatch(
+        createAddress({
           address: {
             country: "BR",
             address3: district,
@@ -143,24 +147,24 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             phoneNumber: phoneNumber,
             jobTitle: sendMessage,
           },
-        }))
+        })
+      );
     }
-  }
+    navigation.goBack();
+  };
 
   return (
     <>
       <SafeAreaView
         flex={1}
-        style={{ justifyContent: 'space-between' }}
+        style={{ justifyContent: "space-between" }}
         backgroundColor="white"
       >
-        <TopBarBackButton
-          loading={loading}
-          showShadow />
+        <TopBarBackButton loading={loading} showShadow />
         <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
           <Box pb="sm">
-            <Box paddingX={'xxxs'} justifyContent="flex-start" pt={'sm'}>
-              <Box alignSelf={'flex-start'} mb={'nano'}>
+            <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
+              <Box alignSelf={"flex-start"} mb={"nano"}>
                 {edit ? (
                   <Typography variant="tituloSessoes">
                     Editar endereço
@@ -170,7 +174,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 )}
               </Box>
               <Box>
-                <Typography variant={'tituloSessao'}>
+                <Typography variant={"tituloSessao"}>
                   Receba em casa ou no endereço de sua preferência
                 </Typography>
               </Box>
@@ -178,58 +182,74 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 initialValues={initialValues}
                 validationSchema={validation}
                 onSubmit={(values) => {
-                  const { city, complement, district, number, postalCode, state, street, phoneNumber, recipientName, sendMessage } = values;
-                  addNewAddress(city, complement, district, number, postalCode, state, street, phoneNumber, recipientName, sendMessage)
-                  console.log('sucesso', values)
+                  const {
+                    city,
+                    complement,
+                    district,
+                    number,
+                    postalCode,
+                    state,
+                    street,
+                    phoneNumber,
+                    recipientName,
+                    sendMessage,
+                  } = values;
+                  addNewAddress(
+                    city,
+                    complement,
+                    district,
+                    number,
+                    postalCode,
+                    state,
+                    street,
+                    phoneNumber,
+                    recipientName,
+                    sendMessage
+                  );
+                  console.log("sucesso", values);
                 }}
               >
                 {({ handleSubmit }) => (
                   <>
                     <InputOption
-                      placeholder={'Digite seu CEP'}
-                      maskType={'zip-code'}
+                      placeholder={"Digite seu CEP"}
+                      maskType={"zip-code"}
                       field={"postalCode"}
                     />
 
-                    <Box flexDirection={'row'} justifyContent="space-between">
-                      <Box flex={1} marginRight={'micro'}>
+                    <Box flexDirection={"row"} justifyContent="space-between">
+                      <Box flex={1} marginRight={"micro"}>
                         <InputOption
-                          placeholder={'Digite seu estado'}
+                          placeholder={"Digite seu estado"}
                           field={"state"}
                         />
                       </Box>
 
                       <Box flex={1}>
                         <InputOption
-                          placeholder={'Digite sua cidade'}
+                          placeholder={"Digite sua cidade"}
                           field={"city"}
                         />
                       </Box>
                     </Box>
 
-                    <InputOption
-                      placeholder={'Endereço'}
-                      field={"street"}
-                    />
+                    <InputOption placeholder={"Endereço"} field={"street"} />
 
-                    <Box flexDirection={'row'} justifyContent="space-between">
-                      <Box flex={1} marginRight={'micro'}>
+                    <Box flexDirection={"row"} justifyContent="space-between">
+                      <Box flex={1} marginRight={"micro"}>
                         <InputOption
-                          placeholder={'Digite seu bairro'}
+                          placeholder={"Digite seu bairro"}
                           field={"district"}
                         />
                       </Box>
 
                       <Box flex={1}>
-                        <InputOption
-                          placeholder={'Número'}
-                          field={"number"}
-                        />
+                        <InputOption placeholder={"Número"} field={"number"} />
                       </Box>
                     </Box>
 
                     <InputOption
-                      placeholder={'Complemento'}
+                      placeholder={"Complemento"}
                       field={"complement"}
                     />
 
@@ -242,28 +262,30 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                         onValueChange={() => {
                           setToggleActivated(!toggleActivated);
                           scrollViewRef.current &&
-                            scrollViewRef.current.scrollToEnd({ animated: true });
+                            scrollViewRef.current.scrollToEnd({
+                              animated: true,
+                            });
                         }}
                       />
                     </Box>
 
                     {toggleActivated && (
-                      <Box mb={'sm'}>
+                      <Box mb={"sm"}>
                         <InputOption
-                          placeholder={'Nome do destinatário'}
+                          placeholder={"Nome do destinatário"}
                           field={"recipientName"}
                         />
 
                         <InputOption
-                          maskType={'cel-phone'}
-                          placeholder={'Telefone para contato'}
+                          maskType={"cel-phone"}
+                          placeholder={"Telefone para contato"}
                           field={"phoneNumber"}
                         />
 
                         <InputOption
                           height={135}
-                          textAlignVertical={'top'}
-                          placeholder={'Deseja enviar algum recado junto?'}
+                          textAlignVertical={"top"}
+                          placeholder={"Deseja enviar algum recado junto?"}
                           field={"sendMenssage"}
                         />
                       </Box>
@@ -273,9 +295,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                       <Button
                         disabled={loading}
                         width="200px"
-                        mt={'xs'}
+                        mt={"xs"}
                         onPress={handleSubmit}
-                        title={'SALVAR ALTERAÇÕES'}
+                        title={"SALVAR ALTERAÇÕES"}
                         variant="primarioEstreitoOutline"
                       />
                     )}
@@ -287,7 +309,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         </ScrollView>
         {isCheckout && (
           <Button
-            onPress={() => navigation.navigate('PaymentMethodScreen')}
+            onPress={() => navigation.navigate("PaymentMethodScreen")}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"
             inline
@@ -311,7 +333,7 @@ interface IInputOption {
   touch?: string;
   field: string;
   touched?: any;
-  textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center' | undefined;
+  textAlignVertical?: "auto" | "top" | "bottom" | "center" | undefined;
   onChangeText?: (value: string) => void;
 }
 const InputOption = ({
@@ -336,7 +358,7 @@ const InputOption = ({
   } = useFormikContext<any>();
   return (
     <>
-      <Box mt={'xxxs'}>
+      <Box mt={"xxxs"}>
         <TextField
           // label={"Nome do titular"}
           textAlignVertical={textAlignVertical}

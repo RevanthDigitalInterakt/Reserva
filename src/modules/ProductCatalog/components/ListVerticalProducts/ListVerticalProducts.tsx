@@ -1,20 +1,21 @@
-import { useNavigation } from '@react-navigation/core';
-import React, { Component, useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Box, Image, ProductVerticalListCard } from 'reserva-ui';
-import { RootStackParamList } from '../../../../routes/StackNavigator';
-import { ApplicationState } from '../../../../store';
-import { Product } from '../../../../store/ducks/product/types';
+import { useNavigation } from "@react-navigation/core";
+import React, { Component, useEffect, useState } from "react";
+import { FlatList } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Image, ProductVerticalListCard } from "reserva-ui";
+import { RootStackParamList } from "../../../../routes/StackNavigator";
+import { ApplicationState } from "../../../../store";
+import { Product } from "../../../../store/ducks/product/types";
 import {
   appendWishlist,
   removeWishlist,
   setWishlist,
-} from '../../../../store/ducks/wishlist/actions';
-import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
+} from "../../../../store/ducks/wishlist/actions";
+import { CreateCategoryModal } from "../CategoryModals/CategoryModals";
 
 interface ListProductsProps {
   //listHeader: any;
+  loading: boolean;
   products: Product[];
   loadMoreProducts: (offSet: number) => void;
   listHeader?:
@@ -23,6 +24,7 @@ interface ListProductsProps {
 }
 
 export const ListVerticalProducts = ({
+  loading,
   products,
   listHeader,
   loadMoreProducts,
@@ -61,8 +63,8 @@ export const ListVerticalProducts = ({
         renderItem={({ index, item }) => (
           <Box
             flex={1}
-            alignItems='center'
-            justifyContent='center'
+            alignItems="center"
+            justifyContent="center"
             height={320}
           >
             <ProductVerticalListCard
@@ -82,7 +84,7 @@ export const ListVerticalProducts = ({
                 //   : dispatch(appendWishlist(item));
               }}
               onClickImage={() => {
-                navigation.navigate('ProductDetail', {
+                navigation.navigate("ProductDetail", {
                   productId: item.id,
                 });
               }}
