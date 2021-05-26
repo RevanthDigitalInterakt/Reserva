@@ -1,39 +1,39 @@
-import React, { useDebugValue, useEffect, useState } from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
+import React, { useDebugValue, useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
 import {
   Box,
   Button,
   ProductHorizontalListCard,
   Typography,
   Picker,
-} from 'reserva-ui'
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
-import { images } from '../../../assets'
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
-import { WishListCategory } from './WishListCategory'
-import { useDispatch, useSelector } from 'react-redux'
+} from 'reserva-ui';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { images } from '../../../assets';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { WishListCategory } from './WishListCategory';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   removeWishlist,
   setWishlist,
-} from '../../../store/ducks/wishlist/actions'
-import { ApplicationState } from '../../../store'
-import { FlatList } from 'react-native'
-import ItemList from '../../Profile/Components/ItemList'
-import { Product } from '../../../store/ducks/product/types'
+} from '../../../store/ducks/wishlist/actions';
+import { ApplicationState } from '../../../store';
+import { FlatList } from 'react-native';
+import ItemList from '../../Profile/Components/ItemList';
+import { Product } from '../../../store/ducks/product/types';
 
 export const WishList: React.FC<{}> = () => {
-  const [showWishListCategory, setShowWishListCategory] = useState(false)
-  const [sorterVisible, setSorterVisible] = React.useState(false)
+  const [showWishListCategory, setShowWishListCategory] = useState(true);
+  const [sorterVisible, setSorterVisible] = React.useState(false);
 
-  let dispatch = useDispatch()
+  let dispatch = useDispatch();
 
   let wishlist: Product[] = useSelector(
     (state: ApplicationState) => state.wishlist.data
-  )
+  );
 
   useEffect(() => {
-    console.log(wishlist)
-  }, [])
+    console.log(wishlist);
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
@@ -41,7 +41,7 @@ export const WishList: React.FC<{}> = () => {
       <Box>
         <Picker
           onSelect={() => {
-            setSorterVisible(false)
+            setSorterVisible(false);
           }}
           isVisible={sorterVisible}
           items={[
@@ -62,25 +62,14 @@ export const WishList: React.FC<{}> = () => {
             },
           ]}
           onConfirm={() => {
-            setSorterVisible(false)
+            setSorterVisible(false);
           }}
           onClose={() => {
-            setSorterVisible(false)
+            setSorterVisible(false);
           }}
           title='Tamanho'
         />
-        <Picker
-          isVisible
-          items={[
-            {
-              text: 'dasdas',
-              subText: 'asdas',
-            },
-          ]}
-          onClose={() => {}}
-          onAndroidBackButtonPress={() => {}}
-          title='Categorias'
-        />
+
         <Box marginTop='md' paddingBottom='xxxs'>
           <Box paddingX='xxxs'>
             <Typography variant='tituloSessoes'>Favoritos</Typography>
@@ -89,7 +78,7 @@ export const WishList: React.FC<{}> = () => {
             <Box width={1 / 2}>
               <Button
                 onPress={() => {
-                  setShowWishListCategory(false)
+                  setShowWishListCategory(false);
                 }}
                 title='Todos os itens'
                 height={32}
@@ -109,7 +98,7 @@ export const WishList: React.FC<{}> = () => {
                 color={showWishListCategory ? 'white' : 'preto'}
                 height={32}
                 onPress={() => {
-                  setShowWishListCategory(true)
+                  setShowWishListCategory(true);
                 }}
                 borderColor={showWishListCategory ? null : 'preto'}
                 borderWidth={showWishListCategory ? null : 1}
@@ -133,12 +122,14 @@ export const WishList: React.FC<{}> = () => {
                       currency={item.currency}
                       itemColor='Cinza'
                       ItemSize='36'
-                      productTitle={item.title}
+                      productTitle={`${item.title.slice(0, 30)}${
+                        item.title.length > 30 ? '...' : ''
+                      }`}
                       installmentsNumber={item.installmentNumber}
                       installmentsPrice={item.installmentPrice}
                       price={item.fullPrice}
                       onClickFavorite={() => {
-                        dispatch(removeWishlist(item))
+                        dispatch(removeWishlist(item.id));
                       }}
                       onClickBagButton={() => {}}
                       imageSource={item.imageUrl || ''}
@@ -153,5 +144,5 @@ export const WishList: React.FC<{}> = () => {
         </Box>
       </Box>
     </SafeAreaView>
-  )
-}
+  );
+};

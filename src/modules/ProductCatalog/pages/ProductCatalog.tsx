@@ -1,9 +1,9 @@
-import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
-import { TextInput } from 'react-native-gesture-handler'
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+import { TextInput } from 'react-native-gesture-handler';
 //import { Alert } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -16,57 +16,60 @@ import {
   Alert,
   Typography,
   TextField,
-} from 'reserva-ui'
-import { images } from '../../../assets'
-import { RootStackParamList } from '../../../routes/StackNavigator'
-import { ApplicationState } from '../../../store'
+} from 'reserva-ui';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { ApplicationState } from '../../../store';
+import { Product } from '../../../store/ducks/product/types';
 import {
   cleanProducts,
   loadProducts,
-} from '../../../store/ducks/products/actions'
-import { TopBarDefault } from '../../Menu/components/TopBarDefault'
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
-import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts'
-import { FilterModal } from '../modals/FilterModal'
+} from '../../../store/ducks/products/actions';
+import { setWishlist } from '../../../store/ducks/wishlist/actions';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { CreateCategoryModal } from '../components/CategoryModals/CategoryModals';
+import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
+import { FilterModal } from '../modals/FilterModal';
 
-type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea, search, categoryId } = route.params
+  const { safeArea, search, categoryId } = route.params;
 
   // Alert.alert(JSON.stringify(categoryId));
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [filterVisible, setFilterVisible] = useState(false)
-  const [sorterVisible, setSorterVisible] = useState(false)
-  const [filterList, setFilterList] = useState<string[]>([])
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [sorterVisible, setSorterVisible] = useState(false);
+  const [filterList, setFilterList] = useState<string[]>([]);
   // const [offset, setOffset] = useState(0)
-  const products = useSelector((state: ApplicationState) => state.products)
+  const products = useSelector((state: ApplicationState) => state.products);
   const loadMoreProducts = (offset: number) => {
-    console.log('loading more')
+    console.log('loading more');
     dispatch(
       loadProducts({
         categoryId: categoryId || '',
         limit: 10,
         offset: offset,
       })
-    )
-  }
+    );
+  };
 
   useEffect(() => {
-    console.log('products', products)
-    dispatch(cleanProducts())
-    loadMoreProducts(0)
-  }, [])
+    console.log('products', products);
+    dispatch(cleanProducts());
+    loadMoreProducts(0);
+  }, []);
 
   useEffect(() => {
-    console.log('products', products)
-    dispatch(cleanProducts())
-    loadMoreProducts(0)
-  }, [categoryId])
+    console.log('products', products);
+    dispatch(cleanProducts());
+    loadMoreProducts(0);
+  }, [categoryId]);
 
-  const DynamicComponent = safeArea ? SafeAreaView : Box
+  const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
@@ -92,7 +95,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       />
       <Picker
         onSelect={() => {
-          setSorterVisible(false)
+          setSorterVisible(false);
         }}
         isVisible={sorterVisible}
         items={[
@@ -113,16 +116,14 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           },
         ]}
         onConfirm={() => {
-          setSorterVisible(false)
+          setSorterVisible(false);
         }}
         onClose={() => {
-          setSorterVisible(false)
+          setSorterVisible(false);
         }}
         onBackDropPress={() => setSorterVisible(false)}
         title='Ordenar Por'
       />
-
-      <CreateCategoryModal isVisible />
 
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}
@@ -143,7 +144,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     <Typography
                       color='preto'
                       fontFamily='nunitoSemiBold'
-                      fontSize={11}>
+                      fontSize={11}
+                    >
                       Chama no Whats! Seja atendido sem sair de casa.{' '}
                       <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
@@ -164,11 +166,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   borderWidth='hairline'
                   flexDirection='row'
                   inline={true}
-                  height={40}>
+                  height={40}
+                >
                   <Typography
                     color='preto'
                     fontFamily='nunitoSemiBold'
-                    fontSize='14px'>
+                    fontSize='14px'
+                  >
                     Filtrar
                   </Typography>
                 </Button>
@@ -185,12 +189,14 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   inline={true}
                   height={40}
                   onPress={() => {
-                    setSorterVisible(true)
-                  }}>
+                    setSorterVisible(true);
+                  }}
+                >
                   <Typography
                     color='preto'
                     fontFamily='nunitoSemiBold'
-                    fontSize='14px'>
+                    fontSize='14px'
+                  >
                     Ordenar
                   </Typography>
                 </Button>
@@ -200,7 +206,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               paddingX='micro'
               paddingY='quarck'
               flexDirection='row'
-              justifyContent='space-between'>
+              justifyContent='space-between'
+            >
               <Typography fontFamily='nunitoRegular' fontSize='13px'>
                 {products?.dataOffer?.length} produtos encontrados
               </Typography>
@@ -209,7 +216,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   <Typography
                     color='progressTextColor'
                     variant='precoAntigo3'
-                    style={{ textDecorationLine: 'underline' }}>
+                    style={{ textDecorationLine: 'underline' }}
+                  >
                     Limpar tudo
                   </Typography>
                 </Button>
@@ -224,8 +232,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     onPress={() => {
                       const updateList = filterList.filter(
                         (tag) => tag !== item
-                      )
-                      setFilterList(updateList)
+                      );
+                      setFilterList(updateList);
                     }}
                   />
                 ))}
@@ -235,49 +243,5 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         }
       />
     </DynamicComponent>
-  )
-}
-
-interface CreateCategoryModalProps {
-  isVisible: boolean
-  onClink: (categoryName: string) => null
-}
-
-const CreateCategoryModal = ({
-  isVisible,
-  onClink,
-}: CreateCategoryModalProps) => {
-  const [text, setText] = useState('')
-  return isVisible ? (
-    <Box
-      position='absolute'
-      height={'100%'}
-      width={'100%'}
-      backgroundColor='transparente'
-      justifyContent='center'
-      alignItems='center'
-      style={{ elevation: 4, zIndex: 4 }}>
-      <Box
-        px='micro'
-        py='xxs'
-        height={170}
-        width={300}
-        backgroundColor='white'
-        justifyContent='space-between'>
-        <TextField
-          placeholder='nome da categoria'
-          onChangeText={(value) => {
-            setText(value)
-          }}
-        />
-        <Button
-          title='criar categoria'
-          variant='primarioEstreitoOutline'
-          onPress={() => {
-            onClink(text)
-          }}
-        />
-      </Box>
-    </Box>
-  ) : null
-}
+  );
+};

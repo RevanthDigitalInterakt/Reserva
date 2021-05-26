@@ -1,12 +1,11 @@
-import { action } from 'typesafe-actions'
-import { Product } from '../products/types'
-import { WishlistTypes } from './types'
+import { action } from 'typesafe-actions';
+import { Wish, WishlistTypes } from './types';
 
-export const appendWishlist = (product: Product) =>
-  action(WishlistTypes.APPEND_WISHLIST, { product })
+export const appendWishlist = (product: Wish) =>
+  action(WishlistTypes.APPEND_WISHLIST, { product });
 
-export const removeWishlist = (product: Product) =>
-  action(WishlistTypes.REMOVE_WISHLIST, { product })
+export const removeWishlist = (productId: string) =>
+  action(WishlistTypes.REMOVE_WISHLIST, { productId });
 
-export const setWishlist = (productsList: Product[]) =>
-  action(WishlistTypes.SET_WISHLIST, { productsList })
+export const setWishlist = (productsList: Wish[]) =>
+  action(WishlistTypes.SET_WISHLIST, { productsList });
