@@ -26,6 +26,11 @@ import { ClothingCare } from "../modules/HelpCenter/PagesHelp/ClothingCare";
 import { ContactUs } from "../modules/HelpCenter/PagesHelp/ContactUs";
 import { Exchanges } from "../modules/HelpCenter/PagesHelp/Exchanges";
 import { SizeGuide } from "../modules/HelpCenter/PagesHelp/SizeGuide";
+import { OrdersAndDeliveries } from "../modules/HelpCenter/PagesHelp/OrdersAndDeliveries";
+import { HelpPaymentMethods } from "../modules/HelpCenter/PagesHelp/HelpPaymentMethods";
+import { FrequentDoubts } from "../modules/HelpCenter/PagesHelp/FrequentDoubts";
+import { PrivacyPolicy } from "../modules/HelpCenter/PagesHelp/PrivacyPolicy";
+
 import { WhatsappsHelp } from "../modules/HelpCenter/PagesHelp/WhatsappsHelp";
 import { LoginScreen } from "../modules/Login/pages/Login";
 import { LoginAlternative } from "../modules/Login/pages/LoginAlternative";
@@ -47,6 +52,8 @@ import { SearchScreen } from "../modules/Search/pages/Search";
 import { ShowListByCategory } from "../modules/WishList/pages/ShowListByCategory";
 import { WishList } from "../modules/WishList/pages/WishList";
 import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
+import { Product } from "../store/ducks/product/types";
+import { Wish } from "../store/ducks/wishlist/types";
 import { Tabs } from "./BottomTabNavigator";
 import { horizontalAnimationBackwards } from "./utils/utils";
 
@@ -55,9 +62,11 @@ export type RootStackParamList = {
     reset: Boolean;
     comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite";
   };
+  ProductDetail: { productId: Product };
   RegisterSuccess: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
-  ProductCatalog: { safeArea: boolean; search: boolean; categoryId?: string };
+  ProductCatalog: { safeArea: boolean; search: boolean };
+  ShowListByCategory: { categoryName: string; products: Wish[] };
   NewAddress: {
     id?: number;
     isCheckout: boolean;
@@ -185,6 +194,16 @@ const MainStackScreen = () => {
       <MainStack.Screen name="ClothingCare" component={ClothingCare} />
       <MainStack.Screen name="ContactUs" component={ContactUs} />
       <MainStack.Screen name="Exchanges" component={Exchanges} />
+      <MainStack.Screen
+        name="OrdersAndDeliveries"
+        component={OrdersAndDeliveries}
+      />
+      <MainStack.Screen
+        name="HelpPaymentMethods"
+        component={HelpPaymentMethods}
+      />
+      <MainStack.Screen name="FrequentDoubts" component={FrequentDoubts} />
+      <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
 
       <MainStack.Screen name="EditProfile" component={EditProfile} />

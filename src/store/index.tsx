@@ -19,6 +19,9 @@ import { LocalitiesState } from "./ducks/localities/types";
 
 import { AddressState } from "./ducks/address/types";
 import { FilterState } from "./ducks/filter/types";
+
+import { WishlistState } from "./ducks/wishlist/types";
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -29,6 +32,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export interface ApplicationState {
   filter: FilterState;
   products: ProductsState;
+  wishlist: WishlistState;
   product: ProductState;
   categories: CategoriesState;
   authentication: AuthenticationState;

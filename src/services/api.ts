@@ -45,9 +45,6 @@ api.interceptors.response.use(
   }
 );
 
-// message: Invalid value "undefined" for header "client_token"
-// message: "The user is not authenticated."
-
 export {
   api,
   apiCategories,

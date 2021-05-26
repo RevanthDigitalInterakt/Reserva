@@ -1,6 +1,7 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
-import { Alert } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+//import { Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,11 +13,14 @@ import {
   Pill,
   SearchBar,
   theme,
+  Alert,
   Typography,
+  TextField,
 } from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { ApplicationState } from "../../../store";
+import { Product } from "../../../store/ducks/product/types";
 import {
   cleanProducts,
   loadProducts,
@@ -61,6 +65,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    console.log("products", products);
     dispatch(cleanProducts());
     loadMoreProducts(0);
   }, [filterRequestList]);
