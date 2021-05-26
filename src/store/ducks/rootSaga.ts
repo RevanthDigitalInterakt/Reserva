@@ -1,20 +1,29 @@
-import { all, takeLatest, takeEvery, fork } from "redux-saga/effects";
+import { all, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 
-import { load as loadCategories } from "./categories/sagas";
-import { CategoriesTypes } from "./categories/types";
+import { load as loadCategories } from './categories/sagas';
+import { CategoriesTypes } from './categories/types';
 
-import { ProductsTypes } from "./products/types";
-import { loadProducts } from "./products/sagas";
+import { ProductsTypes } from './products/types';
+import { loadProducts } from './products/sagas';
 
-import { AuthenticationTypes } from "./authentication/types";
-import { loginReqest, logoutRequest } from "./authentication/sagas";
+import { AuthenticationTypes } from './authentication/types';
+import { loginReqest, logoutRequest } from './authentication/sagas';
 
 import { AddressTypes } from './address/types';
-import { loadAddressRequest, createAddressRequest, deleteAddressRequest, updateAddressRequest } from './address/sagas';
+import {
+  loadAddressRequest,
+  createAddressRequest,
+  deleteAddressRequest,
+  updateAddressRequest,
+} from './address/sagas';
 
+import { ProfileTypes } from './profile/types';
+import { profileLoad, profileUpdate, register } from './profile/sagas';
 
-import { ProfileTypes } from "./profile/types";
-import { profileLoad, profileUpdate, register } from "./profile/sagas";
+import { loadShippingMethodsRequest } from './shippingMethod/saga';
+import { ShippingMethodTypes } from './shippingMethod/types';
+import { NearbyStoresTypes } from './nearbyStores/types';
+import { loadNearbyStores } from './nearbyStores/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -31,8 +40,10 @@ export default function* rootSaga() {
     takeLatest(AddressTypes.CREATE_ADDRESS_REQUEST, createAddressRequest),
     takeLatest(AddressTypes.DELETE_ADDRESS_REQUEST, deleteAddressRequest),
     takeLatest(AddressTypes.UPDATE_ADDRESS_REQUEST, updateAddressRequest),
-    
+
     takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
     takeLatest(ProfileTypes.REGISTER_REQUEST, register),
+    takeLatest(ShippingMethodTypes.LOAD_REQUEST, loadShippingMethodsRequest),
+    takeLatest(NearbyStoresTypes.LOAD_REQUEST, loadNearbyStores),
   ]);
 }

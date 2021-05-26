@@ -1,15 +1,16 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { useEffect } from "react";
-import { Dimensions } from "react-native";
-import { ScrollView } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
-import { useDispatch, useSelector } from "react-redux";
-import { Typography, Box, Button, Image, theme } from "reserva-ui";
-import { images } from "../../../assets";
-import { ApplicationState } from "../../../store";
+import { useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { Dimensions } from 'react-native';
+import { ScrollView } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
+import { Typography, Box, Button, Image, theme } from 'reserva-ui';
+import { images } from '../../../assets';
+import { ApplicationState } from '../../../store';
+import { load } from '../../../store/ducks/nearbyStores/actions';
 
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -18,9 +19,11 @@ export const HomeScreen: React.FC<{
 
   const dispatch = useDispatch();
 
-  const deviceWidth = Dimensions.get("screen").width;
+  const deviceWidth = Dimensions.get('screen').width;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(load({ UF: 'RJ' }));
+  }, []);
 
   return (
     <Box flex={1}>
@@ -30,7 +33,7 @@ export const HomeScreen: React.FC<{
           <Box mb="quarck" width={1 / 1}>
             <TouchableHighlight
               onPress={() => {
-                navigation.navigate("ProductCatalog");
+                navigation.navigate('ProductCatalog');
               }}
             >
               <Image
@@ -43,7 +46,7 @@ export const HomeScreen: React.FC<{
           <Box mb="quarck" width={1 / 1}>
             <TouchableHighlight
               onPress={() => {
-                navigation.navigate("ProductCatalog");
+                navigation.navigate('ProductCatalog');
               }}
             >
               <Image
@@ -56,7 +59,7 @@ export const HomeScreen: React.FC<{
           <Box mb="quarck" width={1 / 1}>
             <TouchableHighlight
               onPress={() => {
-                navigation.navigate("ProductCatalog");
+                navigation.navigate('ProductCatalog');
               }}
             >
               <Image
@@ -69,7 +72,7 @@ export const HomeScreen: React.FC<{
           <Box mb="quarck" width={1 / 1}>
             <TouchableHighlight
               onPress={() => {
-                navigation.navigate("ProductCatalog");
+                navigation.navigate('ProductCatalog');
               }}
             >
               <Image
@@ -82,7 +85,7 @@ export const HomeScreen: React.FC<{
           <Box width={1 / 1}>
             <TouchableHighlight
               onPress={() => {
-                navigation.navigate("ProductCatalog");
+                navigation.navigate('ProductCatalog');
               }}
             >
               <Image

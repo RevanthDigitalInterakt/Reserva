@@ -31,6 +31,10 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ModalBag } from '../components/ModalBag';
 
 import Share from 'react-native-share';
+import { useDispatch, useSelector } from 'react-redux';
+import { load } from '../../../store/ducks/shippingMethod/actions';
+import { shippingMethodStateSelector } from '../../../store/ducks/shippingMethod';
+import { add, addDays, format } from 'date-fns';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -187,6 +191,8 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   };
 
   const [cep, setCep] = useState('');
+  const dispatch = useDispatch();
+  const shippingMethodState = useSelector(shippingMethodStateSelector);
 
   return (
     <SafeAreaView>
@@ -299,8 +305,45 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 keyboardType="number-pad"
                 keyboardAppearance="light"
                 maskType="zip-code"
+                onPressIcon={() => {
+                  dispatch(load({ cep }));
+                }}
               />
             </Box>
+            <Typography
+              fontFamily="nunitoRegular"
+              fontSize={'11px'}
+            ></Typography>
+            {shippingMethodState.shippingMethods && cep
+              ? shippingMethodState.shippingMethods.map((method) => {
+                  return (
+                    <Box flexDirection="row" justifyContent="space-between">
+                      <Box flexDirection="row">
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={'14px'}
+                        >
+                          R$ {method.shippingCost}{' '}
+                        </Typography>
+
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={'14px'}
+                        >
+                          {method.displayName}
+                        </Typography>
+                      </Box>
+                      <Typography fontFamily="nunitoRegular" fontSize={'14px'}>
+                        {format(
+                          addDays(Date.now(), method.deliveryDays),
+                          'dd/MM'
+                        )}
+                      </Typography>
+                    </Box>
+                  );
+                })
+              : null}
+
             <Divider variant="fullWidth" my="xs" />
             <Box>
               <Typography>
