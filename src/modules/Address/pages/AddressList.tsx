@@ -169,17 +169,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 phoneNumber,
                 jobTitle,
               } = item.address;
-              const numberAndComplement: string[] | undefined = address2?.split(
-                "|"
-              );
+              const numberAndComplement: string[] | undefined = address2?.split("|");
               return (
                 <AddressSelector
                   addressData={{
-                    address: `${address1}, ${
-                      numberAndComplement && numberAndComplement[0]
-                    }, ${
-                      numberAndComplement && numberAndComplement[1]
-                    }, ${address3}, ${city} - ${state}`,
+                    address: `${address1}, ${numberAndComplement && numberAndComplement[0]
+                      }, ${numberAndComplement && numberAndComplement[1]
+                      }, ${address3}, ${city} - ${state}`,
                     title: address1,
                     zipcode: postalCode,
                   }}
