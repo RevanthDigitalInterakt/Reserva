@@ -45,13 +45,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   } = useSelector((state: ApplicationState) => state);
 
   const [initialValues, setInitialValues] = useState<IAdress>({
-    postalCode: edit ? editAddress.postalCode : '11111',
-    state: edit ? editAddress.state : 'ES',
-    city: edit ? editAddress.city : 'VITORIA',
-    number: edit ? editAddress.numberAndComplement[0] : '370',
-    complement: edit ? editAddress.numberAndComplement[1] : 'Em frente a oficina',
-    district: edit ? editAddress.district : 'Vista da Penha',
-    street: edit ? editAddress.street : 'Rua Mercurio',
+    postalCode: edit ? editAddress.postalCode : '',
+    state: edit ? editAddress.state : '',
+    city: edit ? editAddress.city : '',
+    number: edit ? editAddress.numberAndComplement[0] : '',
+    complement: edit ? editAddress.numberAndComplement[1] : '',
+    district: edit ? editAddress.district : '',
+    street: edit ? editAddress.street : '',
     recipientName: edit ? editAddress.firstName : '',
     phoneNumber: edit ? editAddress.phoneNumber : '',
     sendMessage: edit ? editAddress.jobTitle : '',
@@ -183,74 +183,54 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   console.log('sucesso', values)
                 }}
               >
-                {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                {({ handleSubmit }) => (
                   <>
                     <InputOption
                       placeholder={'Digite seu CEP'}
                       maskType={'zip-code'}
-                      value={values.postalCode}
-                      onChangeText={handleChange('postalCode')}
-                      touched={touched.postalCode}
-                      error={errors.postalCode && touched.postalCode ? `${errors.postalCode}` : null}
+                      field={"postalCode"}
                     />
 
                     <Box flexDirection={'row'} justifyContent="space-between">
                       <Box flex={1} marginRight={'micro'}>
                         <InputOption
                           placeholder={'Digite seu estado'}
-                          value={values.state}
-                          onChangeText={handleChange('state')}
-                          touched={touched.state}
-                          error={errors.state && touched.state ? `${errors.state}` : null}
+                          field={"state"}
                         />
                       </Box>
 
                       <Box flex={1}>
                         <InputOption
                           placeholder={'Digite sua cidade'}
-                          value={values.city}
-                          onChangeText={handleChange('city')}
-                          touched={touched.city}
-                          error={errors.city && touched.city ? `${errors.city}` : null}
+                          field={"city"}
                         />
                       </Box>
                     </Box>
 
                     <InputOption
                       placeholder={'Endereço'}
-                      value={values.street}
-                      onChangeText={handleChange('street')}
-                      touched={touched.street}
-                      error={errors.street && touched.street ? `${errors.street}` : null}
+                      field={"street"}
                     />
 
                     <Box flexDirection={'row'} justifyContent="space-between">
                       <Box flex={1} marginRight={'micro'}>
                         <InputOption
                           placeholder={'Digite seu bairro'}
-                          value={values.district}
-                          onChangeText={handleChange('district')}
-                          touched={touched.district}
-                          error={errors.district && touched.district ? `${errors.district}` : null}
+                          field={"district"}
                         />
                       </Box>
 
                       <Box flex={1}>
-                        <InputOption placeholder={'Número'}
-                          value={values.number}
-                          onChangeText={handleChange('number')}
-                          touched={touched.number}
-                          error={errors.number && touched.number ? `${errors.number}` : null}
+                        <InputOption
+                          placeholder={'Número'}
+                          field={"number"}
                         />
                       </Box>
                     </Box>
 
                     <InputOption
                       placeholder={'Complemento'}
-                      value={values.complement}
-                      onChangeText={handleChange('complement')}
-                      touched={touched.complement}
-                      error={errors.complement && touched.complement ? `${errors.complement}` : null}
+                      field={"complement"}
                     />
 
                     <Box mt="xs" mb="xxxs">
@@ -271,29 +251,20 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                       <Box mb={'sm'}>
                         <InputOption
                           placeholder={'Nome do destinatário'}
-                          value={values.recipientName}
-                          onChangeText={handleChange('recipientName')}
-                          touched={touched.recipientName}
-                          error={errors.recipientName && touched.recipientName ? `${errors.recipientName}` : null}
+                          field={"recipientName"}
                         />
 
                         <InputOption
                           maskType={'cel-phone'}
                           placeholder={'Telefone para contato'}
-                          value={values.phoneNumber}
-                          onChangeText={handleChange('phoneNumber')}
-                          touched={touched.phoneNumber}
-                          error={errors.phoneNumber && touched.phoneNumber ? `${errors.phoneNumber}` : null}
+                          field={"phoneNumber"}
                         />
 
                         <InputOption
                           height={135}
                           textAlignVertical={'top'}
                           placeholder={'Deseja enviar algum recado junto?'}
-                          value={values.sendMessage}
-                          onChangeText={handleChange('sendMessage')}
-                          touched={touched.sendMessage}
-                          error={errors.sendMessage && touched.sendMessage ? `${errors.sendMessage}` : null}
+                          field={"sendMenssage"}
                         />
                       </Box>
                     )}
@@ -337,6 +308,8 @@ interface IInputOption {
   value?: string;
   height?: number;
   error?: any;
+  touch?: string;
+  field: string;
   touched?: any;
   textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center' | undefined;
   onChangeText?: (value: string) => void;
@@ -349,10 +322,18 @@ const InputOption = ({
   value,
   height,
   error,
-  touched,
+  touch,
+  field,
   textAlignVertical,
   onChangeText,
 }: IInputOption) => {
+  const {
+    values,
+    handleChange,
+    setFieldTouched,
+    touched,
+    errors,
+  } = useFormikContext<any>();
   return (
     <>
       <Box mt={'xxxs'}>
@@ -362,11 +343,11 @@ const InputOption = ({
           height={height}
           maskType={maskType}
           maskOptions={maskOptions}
-          onChangeText={onChangeText}
+          onChangeText={handleChange(field)}
           placeholder={placeholder}
-          value={value}
-          touched={touched}
-          error={error}
+          value={values[field]}
+          touched={touched[field]}
+          error={errors[field] && touched[field] ? `${errors[field]}` : null}
         />
       </Box>
     </>
