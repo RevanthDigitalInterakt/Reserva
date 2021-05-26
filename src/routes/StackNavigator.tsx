@@ -1,71 +1,72 @@
 // In App.js in a new project
-import * as React from 'react';
-
-import { createStackNavigator } from '@react-navigation/stack';
-
-import { HomeScreen } from '../modules/Home/pages/Home';
-import { SearchScreen } from '../modules/Search/pages/Search';
-import AddressList from '../modules/Address/pages/AddressList';
-import NewAddress from '../modules/Address/pages/NewAddress';
-import { Tabs } from './BottomTabNavigator';
-import { Menu } from '../modules/Menu/modals/Menu';
-
-import { horizontalAnimationBackwards } from './utils/utils';
-import { ExampleScreen } from '../modules/Example/pages/Example';
-import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
-import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
-import { LoginScreen } from '../modules/Login/pages/Login';
-import { BagScreen } from '../modules/Checkout/pages/Bag';
-import { SummaryScreen } from '../modules/Checkout/pages/Summary';
-import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
-import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod';
-import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher';
-import { BarCodePayment } from '../modules/Checkout/pages/BarCodePayment';
-import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
-import { PixScreen } from '../modules/Checkout/pages/Pix';
-import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
-import { NearbyStores } from '../modules/Checkout/pages/NearbyStores';
-import { MapScreen } from '../modules/Checkout/pages/Map';
-import { StackScreenProps } from '@react-navigation/stack';
-import { WishList } from '../modules/WishList/pages/WishList';
-import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
-import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
-import OrderList from '../modules/Order/pages/OrderList';
-import OrderDetail from '../modules/Order/pages/OrderDetail';
-import OrderCancel from '../modules/Order/pages/OrderCancel';
-import { Register } from '../modules/Register/pages/Register';
-import { ForgotEmail } from '../modules/Forgot/pages/ForgotEmail';
-import { ForgotEmailSuccess } from '../modules/Forgot/pages/ForgotEmailSuccess';
-import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword';
-import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword';
-import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail';
-
-//profile
-import { EditProfile } from '../modules/Profile/pages/EditProfile';
-import { EditPassword } from '../modules/Profile/pages/EditPassword';
-import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
-import { ListCards } from '../modules/Profile/pages/ListCards';
-import { NewCard } from '../modules/Profile/pages/NewCard';
+import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
+import AddressList from "../modules/Address/pages/AddressList";
+import NewAddress from "../modules/Address/pages/NewAddress";
+import { BagScreen } from "../modules/Checkout/pages/Bag";
+import { BarCodePayment } from "../modules/Checkout/pages/BarCodePayment";
+import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
+import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
+import { MapScreen } from "../modules/Checkout/pages/Map";
+import { NearbyStores } from "../modules/Checkout/pages/NearbyStores";
+import { PaymentMethodScreen } from "../modules/Checkout/pages/PaymentMethod";
+import { PixScreen } from "../modules/Checkout/pages/Pix";
+import { PurchaseConfirmationScreen } from "../modules/Checkout/pages/PurchaseConfirmation";
+import { SummaryScreen } from "../modules/Checkout/pages/Summary";
+import { VirtualDebitCardCaixaScreen } from "../modules/Checkout/pages/VirtualDebitCardCaixa";
+import { WithdrawInStore } from "../modules/Checkout/pages/WithdrawInStore";
+import { ExampleScreen } from "../modules/Example/pages/Example";
+import { ForgotEmail } from "../modules/Forgot/pages/ForgotEmail";
+import { ForgotEmailSuccess } from "../modules/Forgot/pages/ForgotEmailSuccess";
+import { ForgotNewPassword } from "../modules/Forgot/pages/ForgotNewPassword";
+import { ForgotPassword } from "../modules/Forgot/pages/ForgotPassword";
 //--
+import { HelpCenter } from "../modules/HelpCenter/pages/HelpCenter";
+import { ClothingCare } from "../modules/HelpCenter/PagesHelp/ClothingCare";
+import { ContactUs } from "../modules/HelpCenter/PagesHelp/ContactUs";
+import { Exchanges } from "../modules/HelpCenter/PagesHelp/Exchanges";
+import { SizeGuide } from "../modules/HelpCenter/PagesHelp/SizeGuide";
+import { OrdersAndDeliveries } from "../modules/HelpCenter/PagesHelp/OrdersAndDeliveries";
+import { HelpPaymentMethods } from "../modules/HelpCenter/PagesHelp/HelpPaymentMethods";
+import { FrequentDoubts } from "../modules/HelpCenter/PagesHelp/FrequentDoubts";
+import { PrivacyPolicy } from "../modules/HelpCenter/PagesHelp/PrivacyPolicy";
 
-import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter';
-import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
-import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
-
-import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
-import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
-import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
-import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation';
-import { LoginAlternative } from '../modules/Login/pages/LoginAlternative';
+import { WhatsappsHelp } from "../modules/HelpCenter/PagesHelp/WhatsappsHelp";
+import { LoginScreen } from "../modules/Login/pages/Login";
+import { LoginAlternative } from "../modules/Login/pages/LoginAlternative";
+import { Menu } from "../modules/Menu/modals/Menu";
+import OrderCancel from "../modules/Order/pages/OrderCancel";
+import OrderDetail from "../modules/Order/pages/OrderDetail";
+import OrderList from "../modules/Order/pages/OrderList";
+import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
+import { ProductDetail } from "../modules/ProductDetail/pages/ProductDetail";
+import { EditPassword } from "../modules/Profile/pages/EditPassword";
+//profile
+import { EditProfile } from "../modules/Profile/pages/EditProfile";
+import { ListCards } from "../modules/Profile/pages/ListCards";
+import { NewCard } from "../modules/Profile/pages/NewCard";
+import { NotificationProfile } from "../modules/Profile/pages/NotificationProfile";
+import { Register } from "../modules/Register/pages/Register";
+import { RegisterSuccess } from "../modules/Register/pages/RegisterSuccess";
+import { SearchScreen } from "../modules/Search/pages/Search";
+import { ShowListByCategory } from "../modules/WishList/pages/ShowListByCategory";
+import { WishList } from "../modules/WishList/pages/WishList";
+import { WishListCategory } from "../modules/WishList/pages/WishListCategory";
+import { Product } from "../store/ducks/product/types";
+import { Wish } from "../store/ducks/wishlist/types";
+import { Tabs } from "./BottomTabNavigator";
+import { horizontalAnimationBackwards } from "./utils/utils";
 
 export type RootStackParamList = {
   Register: {
     reset: Boolean;
-    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite';
+    comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite";
   };
-  RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
-  LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
+  ProductDetail: { productId: Product };
+  RegisterSuccess: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
+  LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   ProductCatalog: { safeArea: boolean; search: boolean };
+  ShowListByCategory: { categoryName: string; products: Wish[] };
   NewAddress: {
     id?: number;
     isCheckout: boolean;
@@ -81,16 +82,16 @@ export type RootStackParamList = {
       firstName: string;
       phoneNumber: string;
       jobTitle: string;
-    }
+    };
   };
   AddressList: { isCheckout: boolean };
   ListCards: { isCheckout: boolean };
   NewCard: { isCheckout: boolean };
   SummaryScreen: {
-    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard';
+    paymentType: "PIX" | "Credit" | "Debit" | "Boleto" | "GiftCard";
   };
   PurchaseConfirmationScreen: {
-    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard';
+    paymentType: "PIX" | "Credit" | "Debit" | "Boleto" | "GiftCard";
   };
 };
 
@@ -125,12 +126,13 @@ const MainStackScreen = () => {
         name="ShowListByCategory"
         component={ShowListByCategory}
       />
+
       <MainStack.Screen name="BagScreen" component={BagScreen} />
       <MainStack.Screen
         name="SummaryScreen"
         component={SummaryScreen}
         initialParams={{
-          paymentType: 'CreditCard',
+          paymentType: "CreditCard",
         }}
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
@@ -164,7 +166,7 @@ const MainStackScreen = () => {
       <MainStack.Screen
         name="RegisterSuccess"
         component={RegisterSuccess}
-        initialParams={{ comefrom: 'Profile' }}
+        initialParams={{ comefrom: "Profile" }}
       />
       <MainStack.Screen name="ForgotEmail" component={ForgotEmail} />
       <MainStack.Screen
@@ -192,6 +194,16 @@ const MainStackScreen = () => {
       <MainStack.Screen name="ClothingCare" component={ClothingCare} />
       <MainStack.Screen name="ContactUs" component={ContactUs} />
       <MainStack.Screen name="Exchanges" component={Exchanges} />
+      <MainStack.Screen
+        name="OrdersAndDeliveries"
+        component={OrdersAndDeliveries}
+      />
+      <MainStack.Screen
+        name="HelpPaymentMethods"
+        component={HelpPaymentMethods}
+      />
+      <MainStack.Screen name="FrequentDoubts" component={FrequentDoubts} />
+      <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
 
       <MainStack.Screen name="EditProfile" component={EditProfile} />
@@ -237,7 +249,7 @@ const AppRouting = () => {
       <RootStack.Screen
         name="LoginAlternative"
         component={LoginAlternative}
-        initialParams={{ comeFrom: 'Profile' }}
+        initialParams={{ comeFrom: "Profile" }}
       />
     </RootStack.Navigator>
   );

@@ -21,21 +21,21 @@ export const HelpCenter: React.FC<{}> = () => {
 
   const [search, setSearch] = useState("");
   const data = [
-    { title: "Guia de Tamanhos", navigate: "SizeGuide" },
+    // { title: "Guia de Tamanhos", navigate: "SizeGuide" },
     { title: "Cuidados com a roupa", navigate: "ClothingCare" },
     { title: "Trocas e devoluções", navigate: "Exchanges" },
-    { title: "Pedidos e entregas", navigate: "" },
-    { title: "Formas de pagamento", navigate: "" },
-    { title: "Dúvidas Frequentes", navigate: "" },
-    { title: "Política de privacidade", navigate: "" },
-    { title: "Termos de Uso", navigate: "" },
-    { title: "Meu Cartão Presente", navigate: "" },
+    { title: "Pedidos e entregas", navigate: "OrdersAndDeliveries" },
+    { title: "Formas de pagamento", navigate: "HelpPaymentMethods" },
+    { title: "Dúvidas Frequentes", navigate: "FrequentDoubts" },
+    { title: "Política de privacidade e Termos de Uso", navigate: "PrivacyPolicy" },
+    // { title: "Termos de Uso", navigate: "" },
+    // { title: "Meu Cartão Presente", navigate: "" },
     { title: "Fale Conosco", navigate: "ContactUs" },
   ];
 
   const [filter, setFilter] = useState(data);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <SafeAreaView

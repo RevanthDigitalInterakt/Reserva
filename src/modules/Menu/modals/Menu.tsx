@@ -1,4 +1,8 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  NavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
 import * as React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -22,6 +26,7 @@ import {
 import { useState, useEffect } from "react";
 import { ApplicationState } from "../../../store";
 import { Category } from "../../../store/ducks/categories/types";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 import { useDispatch, useSelector } from "react-redux";
 import { loadRequest } from "../../../store/ducks/categories/actions";
 
@@ -72,7 +77,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("ProductCatalog");
+        onPress && onPress();
       }}
     >
       <Box
@@ -101,6 +106,8 @@ const MenuItem: React.FC<IMenuItem> = ({
   subItemList,
   highlight,
 }) => {
+  //console.log(subItemList)
+  const navigation = useNavigation();
   return (
     <Box>
       <TouchableOpacity onPress={() => onPress(index)}>
@@ -137,7 +144,14 @@ const MenuItem: React.FC<IMenuItem> = ({
                   key={index}
                   highlight={item.highlight}
                   title={item.name}
-                  onPress={() => {}}
+                  onPress={() => {
+                    let route = item.route.split("/");
+                    //console.log(route[route.length - 1])
+                    //console.log('asdasd')
+                    navigation.navigate("ProductCatalog", {
+                      categoryId: route[route.length - 1],
+                    });
+                  }}
                 />
               );
             })}
@@ -152,7 +166,7 @@ export const FixedMenuItem: React.FC<{
   iconName: string;
   title: JSX.Element;
   onPress: Function;
-  underline?: boolean;
+  underline: boolean;
 }> = ({ iconName, title, onPress, underline }) => {
   return (
     <TouchableOpacity onPress={onPress}>

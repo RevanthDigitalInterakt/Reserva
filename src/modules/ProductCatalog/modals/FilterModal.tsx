@@ -1,11 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import {
-  Platform,
-  ScrollView,
-  Switch,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import React, { useState } from "react";
+import { Platform, ScrollView } from "react-native";
 import {
   Box,
   Button,
@@ -17,21 +11,26 @@ import {
   SelectColor,
   theme,
   Typography,
-} from 'reserva-ui';
-import Modal from 'react-native-modal';
-import { Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { createAnimatableComponent } from 'react-native-animatable';
-const deviceHeight = Dimensions.get('window').height;
+} from "reserva-ui";
+import Modal from "react-native-modal";
+import { Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { createAnimatableComponent } from "react-native-animatable";
+import { useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
+const deviceHeight = Dimensions.get("window").height;
 const BoxAnimation = createAnimatableComponent(Box);
 export interface FilterModalProps {
+  setFilterRequestList;
   isVisible: boolean;
   onConfirm: () => void;
   onCancel: () => void;
   onClose: () => void;
   onAndroidBackButtonPress?: () => void;
-  setFilterList: Dispatch<SetStateAction<string[]>>;
+  setFilterList: Function;
   filterList: string[];
+  dispatch: Function;
+  categoryId?: string;
 }
 
 export const TitleFilter: React.FC<{
@@ -66,10 +65,10 @@ export const TitleFilter: React.FC<{
           <Icon
             style={
               showMore
-                ? { transform: [{ rotate: '-90deg' }] }
+                ? { transform: [{ rotate: "-90deg" }] }
                 : { transform: [{ translateY: 4 }] }
             }
-            name={showMore ? 'ChevronRight' : 'ArrowDown'}
+            name={showMore ? "ChevronRight" : "ArrowDown"}
             color="preto"
             marginY="quarck"
             marginX="nano"
@@ -82,30 +81,24 @@ export const TitleFilter: React.FC<{
 };
 
 export const FilterModal = ({
+  setFilterRequestList,
   isVisible,
-  subtitle,
   onConfirm,
   onCancel,
   onClose,
   onAndroidBackButtonPress,
   setFilterList,
   filterList,
+  dispatch,
+  categoryId,
   ...props
 }: FilterModalProps) => {
-  const colors = [
-    '#F2F2F2',
-    '#1E1E1E',
-    '#C0C0C0',
-    '#325477',
-    '#D33A2A',
-    '#31B44A',
-    '#FFF001',
-    '#E5E1C4',
-    '#947E57',
-    '#E362A2',
-    '#EEECDF',
-    '#663054',
-  ];
+  const [selectedMinprice, setSelectedMinprice] = React.useState<
+    number | undefined
+  >(undefined);
+  const [selectedMaxprice, setSelectedMaxPrice] = React.useState<
+    number | undefined
+  >(undefined);
 
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [showCategories, setShowCategories] = React.useState(false);
@@ -113,14 +106,34 @@ export const FilterModal = ({
   const [showSizes, setShowSizes] = React.useState(false);
   const [showPrices, setShowPrices] = React.useState(false);
 
+  const { filter } = useSelector((state: ApplicationState) => state);
+
+  const [selectedSize, setSelectedSize] = useState<string | null>();
+
+  // const dispatch = useDispatch();
+
+  const loadMoreProducts = () => {
+    console.log("Set from filter");
+    setFilterRequestList({
+      categoryId: categoryId || "",
+      limit: 10,
+      offset: 0,
+      ...(selectedMinprice > 0 && { minPrice: selectedMinprice }),
+      ...(selectedMaxprice > 0 && { maxPrice: selectedMaxprice }),
+      ...(selectedSize && { size: [selectedSize] }),
+      ...(selectedColors.length > 0 && { colors: selectedColors }),
+    });
+    onClose();
+  };
+
   const androidCloseButton = () => {
-    if (Platform.OS !== 'android') return;
+    if (Platform.OS !== "android") return;
     if (onAndroidBackButtonPress) {
       onAndroidBackButtonPress();
       return;
     }
 
-    if (!onAndroidBackButtonPress && onClose) {
+    if (!onAndroidBackButtonPress && !!onClose) {
       onClose();
       return;
     }
@@ -156,8 +169,8 @@ export const FilterModal = ({
             <ScrollView>
               <Box
                 paddingX="micro"
-                paddingTop={'xs'}
-                paddingBottom={'nano'}
+                paddingTop={"xs"}
+                paddingBottom={"nano"}
                 flexDirection="row"
                 justifyContent="space-between"
               >
@@ -172,28 +185,24 @@ export const FilterModal = ({
                 title="Categorias"
               />
 
-              {showCategories && (
-                <BoxAnimation animation="fadeIn" paddingX="micro">
-                  <CheckboxList
-                    optionsList={[
-                      'Bermudas',
-                      'Casacos',
-                      'Calças',
-                      'Cuecas',
-                      'Camisas',
-                      'Polos',
-                      'Camisetas',
-                      'Sungas',
-                    ]}
-                    selectedList={filterList}
-                    color="dropDownBorderColor"
-                    selectedColor="preto"
-                    onCheckChange={(checkBoxList) => {
-                      setFilterList(checkBoxList);
-                    }}
-                  />
-                </BoxAnimation>
-              )}
+              <BoxAnimation animation="fadeIn" paddingX="micro">
+                <CheckboxList
+                  optionsList={
+                    showCategories
+                      ? filter.data?.categories.map((x) => x.description)
+                      : filter.data?.categories
+                          .map((x) => x.description)
+                          .slice(0, 6)
+                  }
+                  selectedList={filterList}
+                  color="dropDownBorderColor"
+                  selectedColor="preto"
+                  onCheckChange={(checkBoxList) => {
+                    setFilterList(checkBoxList);
+                  }}
+                />
+              </BoxAnimation>
+
               <Divider
                 variant="fullWidth"
                 marginBottom="nano"
@@ -206,27 +215,29 @@ export const FilterModal = ({
                 title="Cores"
               />
 
-              {showColors && (
-                <BoxAnimation animation="fadeIn" paddingX="micro">
-                  <SelectColor
-                    listColors={colors}
-                    onPress={(color) => {
-                      if (selectedColors.includes(color)) {
-                        const newColors = selectedColors.filter(
-                          (colorItem) => colorItem !== color
-                        );
-                        setSelectedColors(newColors);
-                        return;
-                      }
-                      setSelectedColors((preview) => {
-                        return [...preview, color];
-                      });
-                    }}
-                    selectedColors={selectedColors}
-                    size={23}
-                  />
-                </BoxAnimation>
-              )}
+              <BoxAnimation animation="fadeIn" paddingX="micro">
+                <SelectColor
+                  listColors={
+                    showColors
+                      ? filter.data?.colors
+                      : filter.data?.colors.slice(0, 6)
+                  }
+                  onPress={(color) => {
+                    if (selectedColors.includes(color)) {
+                      const newColors = selectedColors.filter(
+                        (colorItem) => colorItem !== color
+                      );
+                      setSelectedColors(newColors);
+                      return;
+                    }
+                    setSelectedColors((preview) => {
+                      return [...preview, color];
+                    });
+                  }}
+                  selectedColors={selectedColors}
+                  size={23}
+                />
+              </BoxAnimation>
 
               <Divider
                 variant="fullWidth"
@@ -240,21 +251,23 @@ export const FilterModal = ({
                 setShowMore={setShowSizes}
               />
 
-              {showSizes && (
-                <BoxAnimation
-                  animation="fadeIn"
-                  paddingY="micro"
-                  paddingX="micro"
-                >
-                  <RadioButtons
-                    onSelectedChange={(color) => {
-                      console.log(color);
-                    }}
-                    optionsList={['PP', 'P', 'M', 'G', 'GG', '3G', 'XG']}
-                    defaultSelectedItem={'G'}
-                  />
-                </BoxAnimation>
-              )}
+              <BoxAnimation
+                animation="fadeIn"
+                paddingY="micro"
+                paddingX="micro"
+              >
+                <RadioButtons
+                  onSelectedChange={(size) => {
+                    setSelectedSize(size);
+                  }}
+                  optionsList={
+                    showSizes
+                      ? filter.data?.sizes
+                      : filter.data?.sizes.slice(0, 6)
+                  }
+                  defaultSelectedItem={"M"}
+                />
+              </BoxAnimation>
 
               <Divider
                 variant="fullWidth"
@@ -275,10 +288,13 @@ export const FilterModal = ({
                   alignSelf="center"
                 >
                   <Range
-                    max={1000}
+                    max={filter.data?.maxPrice}
                     mdxType="Range"
-                    min={1}
-                    onValuesChange={() => {}}
+                    min={filter.data?.minPrice}
+                    onValuesChange={(prices) => {
+                      setSelectedMinprice(prices[0]);
+                      setSelectedMaxPrice(prices[1]);
+                    }}
                     originalType={() => {}}
                     prefix="R$ "
                     value={[100, 400]}
@@ -298,7 +314,7 @@ export const FilterModal = ({
                     onPress={() => onClose()}
                     marginLeft="micro"
                     marginRight="nano"
-                    title={'VOLTAR'}
+                    title={"VOLTAR"}
                     variant="primarioEstreitoOutline"
                     inline={true}
                   />
@@ -306,10 +322,10 @@ export const FilterModal = ({
 
                 <Box width={1 / 2}>
                   <Button
-                    onPress={() => onConfirm()}
+                    onPress={() => loadMoreProducts()}
                     marginRight="micro"
                     marginLeft="nano"
-                    title={'APLICAR'}
+                    title={"APLICAR"}
                     variant="primarioEstreito"
                     inline={true}
                   />

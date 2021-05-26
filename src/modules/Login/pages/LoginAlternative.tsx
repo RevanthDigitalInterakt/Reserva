@@ -26,8 +26,8 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loginCredentials, setLoginCredentials] = React.useState({
-    username: "danilo.sousa@globalsys.com.br",
-    password: "danilo123",
+    username: "",
+    password: "",
   });
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;

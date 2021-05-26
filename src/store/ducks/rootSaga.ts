@@ -7,7 +7,11 @@ import { ProductsTypes } from './products/types';
 import { loadProducts } from './products/sagas';
 
 import { AuthenticationTypes } from './authentication/types';
-import { loginReqest, logoutRequest } from './authentication/sagas';
+import {
+  loginReqest,
+  logoutRequest,
+  restoreSessionToken,
+} from './authentication/sagas';
 
 import { AddressTypes } from './address/types';
 import {
@@ -19,14 +23,19 @@ import {
 
 import { ProfileTypes } from './profile/types';
 import { profileLoad, profileUpdate, register } from './profile/sagas';
+import { ProductTypes } from './product/types';
+import { loadProduct } from './product/sagas';
 
-import { loadShippingMethodsRequest } from './shippingMethod/saga';
+import { LocalitiesTypes } from './localities/types';
+import { loadLocalities, loadCounty } from './localities/sagas';
 import { ShippingMethodTypes } from './shippingMethod/types';
 import { NearbyStoresTypes } from './nearbyStores/types';
+import { loadShippingMethodsRequest } from './shippingMethod/saga';
 import { loadNearbyStores } from './nearbyStores/saga';
 
 export default function* rootSaga() {
   yield all([
+    takeLatest(AuthenticationTypes.RESTORE_SESSION, restoreSessionToken),
     takeLatest(AuthenticationTypes.LOGIN_REQUEST, loginReqest),
     takeLatest(AuthenticationTypes.LOGOUT_REQUEST, logoutRequest),
 
@@ -34,6 +43,7 @@ export default function* rootSaga() {
     takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
 
     takeLatest(ProductsTypes.LOAD_PRODUCTS_REQUEST, loadProducts),
+    takeLatest(ProductTypes.LOAD_PRODUCT_REQUEST, loadProduct),
     takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
 
     takeLatest(AddressTypes.LOAD_ADDRESS_REQUEST, loadAddressRequest),
@@ -45,5 +55,8 @@ export default function* rootSaga() {
     takeLatest(ProfileTypes.REGISTER_REQUEST, register),
     takeLatest(ShippingMethodTypes.LOAD_REQUEST, loadShippingMethodsRequest),
     takeLatest(NearbyStoresTypes.LOAD_REQUEST, loadNearbyStores),
+
+    takeLatest(LocalitiesTypes.LOAD_STATES_REQUEST, loadLocalities),
+    takeLatest(LocalitiesTypes.LOAD_COUNTIES_REQUEST, loadCounty),
   ]);
 }

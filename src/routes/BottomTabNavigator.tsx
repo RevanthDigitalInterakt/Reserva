@@ -76,7 +76,10 @@ export const Tabs = () => {
         <Tab.Screen
           name="Offers"
           component={ProductCatalog}
-          initialParams={{ safeArea: false }}
+          initialParams={{
+            safeArea: false,
+            categoryId: "reserva-bazar-camisetas",
+          }}
         />
         <Tab.Screen name="Profile" component={MenuProfile} />
       </Tab.Navigator>
