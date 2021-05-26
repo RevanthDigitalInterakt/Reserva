@@ -1,11 +1,5 @@
 import { action } from "typesafe-actions";
-import { Product, ProductTypes } from "./types";
+import { FilterTypes, Filter } from "./types";
 
-export const loadProduct = (productId: string) =>
-  action(ProductTypes.LOAD_PRODUCT_REQUEST, { productId });
-
-export const loadProductSuccess = (data: Product) =>
-  action(ProductTypes.LOAD_PRODUCT_SUCCESS, { data });
-
-export const loadProductFailure = () =>
-  action(ProductTypes.LOAD_PRODUCT_FAILURE);
+export const loadFilterSuccess = (data: Filter) =>
+  action(FilterTypes.LOAD_FILTER_SUCCESS, { data });

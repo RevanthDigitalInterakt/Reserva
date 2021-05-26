@@ -1,13 +1,19 @@
+//#region Action Types
+
+export enum FilterTypes {
+  LOAD_FILTER_SUCCESS = "@filter/LOAD_FILTER_SUCCESS",
+}
+
 export interface Filter {
   colors: string[];
   sizes: string[];
   maxPrice: number;
   minPrice: number;
-  categories: string[];
+  categories: { id: string; description: string }[];
 }
 
 export interface FilterState {
-  readonly data: Filter[];
+  readonly data: Filter | null;
   readonly loading: boolean;
   readonly error: boolean;
 }

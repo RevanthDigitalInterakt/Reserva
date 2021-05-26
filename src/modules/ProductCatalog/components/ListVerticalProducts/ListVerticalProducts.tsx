@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { Component, useEffect } from "react";
-import { FlatList, RefreshControl } from "react-native";
-import { Box, Image, ProductVerticalListCard } from "reserva-ui";
-import { RootStackParamList } from "../../../../routes/StackNavigator";
+import React, { useEffect, useState } from "react";
+import { FlatList } from "react-native";
+import { Box, ProductVerticalListCard } from "reserva-ui";
 import { Product } from "../../../../store/ducks/product/types";
 
 interface ListProductsProps {
@@ -23,17 +22,22 @@ export const ListVerticalProducts = ({
 }: ListProductsProps) => {
   const navigation = useNavigation();
 
+  const [scrollEnd, setScrollEnd] = useState(false);
+
   useEffect(() => {
-    console.log(products);
-  }, []);
+    console.log("teste", scrollEnd);
+  }, [scrollEnd]);
 
   return products?.length > 0 ? (
     <FlatList
       data={products}
       //keyExtractor={(item) => item.id}
       numColumns={2}
-      onEndReached={() => loadMoreProducts(products.length)}
-      onEndReachedThreshold={0.5}
+      onMomentumScrollEnd={() => setScrollEnd(true)}
+      onEndReached={() => {
+        loadMoreProducts(products.length);
+      }}
+      onEndReachedThreshold={0.0}
       ListHeaderComponent={listHeader}
       renderItem={({ index, item }) => (
         <Box flex={1} alignItems="center" justifyContent="center" height={320}>

@@ -21,6 +21,7 @@ import {
   cleanProducts,
   loadProducts,
 } from "../../../store/ducks/products/actions";
+import { BffGetProductsRequest } from "../../../store/ducks/products/sagas";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 import { ListVerticalProducts } from "../components/ListVerticalProducts/ListVerticalProducts";
@@ -31,13 +32,22 @@ type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { safeArea, search, categoryId } = route.params;
 
+  const originalOpenedcategoryId = categoryId;
+
   const dispatch = useDispatch();
 
   const [filterVisible, setFilterVisible] = useState(false);
   const [sorterVisible, setSorterVisible] = useState(false);
   const [filterList, setFilterList] = useState<string[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<string>();
+
+  const [
+    filterRequestList,
+    setFilterRequestList,
+  ] = useState<BffGetProductsRequest>();
 
   const products = useSelector((state: ApplicationState) => state.products);
+
   const loadMoreProducts = (offset: number) => {
     console.log("loading more");
     dispatch(
@@ -45,20 +55,31 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         categoryId: categoryId || "",
         limit: 10,
         offset: offset,
+        ...filterRequestList,
       })
     );
   };
 
-  // useEffect(() => {
-  //   console.log("products", products);
-  //   dispatch(cleanProducts());
-  //   loadMoreProducts(0);
-  // }, []);
-
   useEffect(() => {
-    console.log("products", products);
     dispatch(cleanProducts());
     loadMoreProducts(0);
+  }, [filterRequestList]);
+
+  useEffect(() => {
+    const newFilter = {
+      ...filterRequestList,
+      ...(selectedOrder && { sort: selectedOrder }),
+    };
+    console.log("filtro novo", newFilter);
+    setFilterRequestList(newFilter);
+  }, [selectedOrder]);
+
+  useEffect(() => {
+    if (categoryId != originalOpenedcategoryId) {
+      console.log("products", products);
+      dispatch(cleanProducts());
+      loadMoreProducts(0);
+    }
   }, [categoryId]);
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
@@ -75,10 +96,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         </Box>
       )}
       <FilterModal
+        setFilterRequestList={setFilterRequestList}
+        categoryId={categoryId}
+        dispatch={dispatch}
         filterList={filterList}
         setFilterList={setFilterList}
         isVisible={filterVisible}
-        onConfirm={() => {}}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title="Excluir endereço"
@@ -86,25 +109,31 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         subtitle="Tem certeza que deseja excluir o endereço salvo?"
       />
       <Picker
-        onSelect={() => {
+        onSelect={(item) => {
           setSorterVisible(false);
+          setSelectedOrder(item?.value);
         }}
         isVisible={sorterVisible}
         items={[
           {
             text: "Menor Preço",
+            value: "lower-price",
           },
           {
             text: "Maior Preço",
+            value: "highest-price",
           },
           {
             text: "Mais Recentes",
+            value: "newest",
           },
           {
             text: "Mais Antigos",
+            value: "oldest",
           },
           {
             text: "Relevante",
+            value: "relevance",
           },
         ]}
         onConfirm={() => {
@@ -216,7 +245,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 </Button>
               )}
             </Box>
-            {filterList.length > 0 && (
+            {/* {filterList.length > 0 && (
               <Box px="micro" flexDirection="row" py="quarck" flexWrap="wrap">
                 {filterList.map((item) => (
                   <Pill
@@ -231,7 +260,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   />
                 ))}
               </Box>
-            )}
+            )} */}
           </>
         }
       />

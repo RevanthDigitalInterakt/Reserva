@@ -18,6 +18,7 @@ import { ProductState } from "./ducks/product/types";
 import { LocalitiesState } from "./ducks/localities/types";
 
 import { AddressState } from "./ducks/address/types";
+import { FilterState } from "./ducks/filter/types";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,

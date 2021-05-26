@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 
+import filter from "./filter";
 import products from "./products";
 import product from "./product";
 import categories from "./categories";
@@ -16,4 +17,5 @@ export default combineReducers({
   profile,
   localities,
   address,
+  filter,
 });
