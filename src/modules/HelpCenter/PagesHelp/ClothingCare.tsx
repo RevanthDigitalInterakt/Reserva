@@ -13,7 +13,7 @@ export const ClothingCare: React.FC<{}> = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => { console.log('windowWidth', windowWidth); console.log('windowWidth', windowheight) }, []);
+  useEffect(() => { }, []);
 
   return (
     <SafeAreaView
