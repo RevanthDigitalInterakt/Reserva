@@ -54,6 +54,11 @@ import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
 
 import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
 import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
+import { OrdersAndDeliveries } from '../modules/HelpCenter/PagesHelp/OrdersAndDeliveries';
+import { HelpPaymentMethods } from '../modules/HelpCenter/PagesHelp/HelpPaymentMethods';
+import { FrequentDoubts } from '../modules/HelpCenter/PagesHelp/FrequentDoubts';
+import { PrivacyPolicy } from '../modules/HelpCenter/PagesHelp/PrivacyPolicy';
+
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
 import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation';
 import { LoginAlternative } from '../modules/Login/pages/LoginAlternative';
@@ -192,6 +197,10 @@ const MainStackScreen = () => {
       <MainStack.Screen name="ClothingCare" component={ClothingCare} />
       <MainStack.Screen name="ContactUs" component={ContactUs} />
       <MainStack.Screen name="Exchanges" component={Exchanges} />
+      <MainStack.Screen name="OrdersAndDeliveries" component={OrdersAndDeliveries} />
+      <MainStack.Screen name="HelpPaymentMethods" component={HelpPaymentMethods} />
+      <MainStack.Screen name="FrequentDoubts" component={FrequentDoubts} />
+      <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
 
       <MainStack.Screen name="EditProfile" component={EditProfile} />
