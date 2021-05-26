@@ -1,6 +1,8 @@
 import { action } from "typesafe-actions";
 import { Authentication, AuthenticationTypes } from "./types";
 
+export const restoreSession = () => action(AuthenticationTypes.RESTORE_SESSION);
+
 export const login = (loginCredentials: any) =>
   action(AuthenticationTypes.LOGIN_REQUEST, {
     loginCredentials,

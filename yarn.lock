@@ -7285,6 +7285,13 @@ react-native-swipe-gestures-plus@^1.1.2:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-swipe-gestures-plus/-/react-native-swipe-gestures-plus-1.1.2.tgz#134eb41207b237c52703376dbbc8f0e51b13028f"
   integrity sha1-E060EgeyN8UnAzdtu8jw5RsTAo8=
 
+react-native-toast-message@^1.4.9:
+  version "1.4.9"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-toast-message/-/react-native-toast-message-1.4.9.tgz#47f33ac312fe2aee5dbdd4ae14745fa0d354102e"
+  integrity sha1-R/M6wxL+Ku5dvdSuFHRfoNNUEC4=
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native@0.64.0:
   version "0.64.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native/-/react-native-0.64.0.tgz#c3bde5b638bf8bcf12bae6e094930d39cb942ab7"

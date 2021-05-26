@@ -7,7 +7,11 @@ import { ProductsTypes } from "./products/types";
 import { loadProducts } from "./products/sagas";
 
 import { AuthenticationTypes } from "./authentication/types";
-import { loginReqest, logoutRequest } from "./authentication/sagas";
+import {
+  loginReqest,
+  logoutRequest,
+  restoreSessionToken,
+} from "./authentication/sagas";
 
 import { AddressTypes } from "./address/types";
 import {
@@ -27,6 +31,7 @@ import { loadLocalities, loadCounty } from "./localities/sagas";
 
 export default function* rootSaga() {
   yield all([
+    takeLatest(AuthenticationTypes.RESTORE_SESSION, restoreSessionToken),
     takeLatest(AuthenticationTypes.LOGIN_REQUEST, loginReqest),
     takeLatest(AuthenticationTypes.LOGOUT_REQUEST, logoutRequest),
 

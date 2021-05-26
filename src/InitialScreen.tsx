@@ -7,14 +7,21 @@ import * as Animatable from "react-native-animatable";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AnimatedLottieView from "lottie-react-native";
 import { useEffect } from "react";
+import { restoreSession } from "./store/ducks/authentication/actions";
+import { useDispatch } from "react-redux";
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
+  const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
   const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
 
   useEffect(() => {
     animation?.play();
   }, [animation]);
+
+  useEffect(() => {
+    dispatch(restoreSession());
+  }, []);
 
   useEffect(() => {}, [animation?.props.progress]);
 

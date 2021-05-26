@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 const api = axios.create({
   baseURL: "https://reserva-gateway.gateway.linkapi.solutions/v1/",
@@ -25,29 +25,28 @@ const removeAuthorizationToken = () => {
   api.defaults.headers.common["client-token"] = null;
 };
 
-// api.interceptors.response.use((response) => {
-//   return response
-// },
-//  (error) => {
-//   const originalRequest: AxiosRequestConfig = error.config;
-//   if (error.response.status === 401) {
-//       return api.post('/auth/token',
-//           {
-//             "refresh_token": originalRequest.headers[]
-//           })
-//           .then(res => {
-//               if (res.status === 201) {
-//                   // 1) put token to LocalStorage
-//                   //localStorageService.setToken(res.data);
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const originalRequest: AxiosRequestConfig = error.config;
+    if (error.response.status === 401 || error.response.status === 500) {
+      return api.post("/profiles/refresh").then((res: AxiosResponse) => {
+        if (res.status === 200) {
+          setAuthorizationToken(res.data?.access_token);
 
-//                   // 2) Change Authorization header
-//                   api.defaults.headers.common['Authorization'] = 'Bearer ' + localStorageService.getAccessToken();
+          originalRequest.headers["client-token"] = res.data?.access_token;
 
-//                   // 3) return originalRequest object with Axios.
-//                   return axios(originalRequest);
-//               }
-//           })
-//   }
+          return axios(originalRequest);
+        }
+      });
+    }
+  }
+);
+
+// message: Invalid value "undefined" for header "client_token"
+// message: "The user is not authenticated."
 
 export {
   api,

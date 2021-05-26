@@ -31,14 +31,12 @@ type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { safeArea, search, categoryId } = route.params;
 
-  // Alert.alert(JSON.stringify(categoryId));
-
   const dispatch = useDispatch();
 
   const [filterVisible, setFilterVisible] = useState(false);
   const [sorterVisible, setSorterVisible] = useState(false);
   const [filterList, setFilterList] = useState<string[]>([]);
-  // const [offset, setOffset] = useState(0)
+
   const products = useSelector((state: ApplicationState) => state.products);
   const loadMoreProducts = (offset: number) => {
     console.log("loading more");
@@ -51,11 +49,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     );
   };
 
-  useEffect(() => {
-    console.log("products", products);
-    dispatch(cleanProducts());
-    loadMoreProducts(0);
-  }, []);
+  // useEffect(() => {
+  //   console.log("products", products);
+  //   dispatch(cleanProducts());
+  //   loadMoreProducts(0);
+  // }, []);
 
   useEffect(() => {
     console.log("products", products);
