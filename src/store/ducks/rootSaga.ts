@@ -1,33 +1,37 @@
-import { all, takeLatest, takeEvery, fork } from "redux-saga/effects";
+import { all, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 
-import { load as loadCategories } from "./categories/sagas";
-import { CategoriesTypes } from "./categories/types";
+import { load as loadCategories } from './categories/sagas';
+import { CategoriesTypes } from './categories/types';
 
-import { ProductsTypes } from "./products/types";
-import { loadProducts } from "./products/sagas";
+import { ProductsTypes } from './products/types';
+import { loadProducts } from './products/sagas';
 
-import { AuthenticationTypes } from "./authentication/types";
+import { AuthenticationTypes } from './authentication/types';
 import {
   loginReqest,
   logoutRequest,
   restoreSessionToken,
-} from "./authentication/sagas";
+} from './authentication/sagas';
 
-import { AddressTypes } from "./address/types";
+import { AddressTypes } from './address/types';
 import {
   loadAddressRequest,
   createAddressRequest,
   deleteAddressRequest,
   updateAddressRequest,
-} from "./address/sagas";
+} from './address/sagas';
 
-import { ProfileTypes } from "./profile/types";
-import { profileLoad, profileUpdate, register } from "./profile/sagas";
-import { ProductTypes } from "./product/types";
-import { loadProduct } from "./product/sagas";
+import { ProfileTypes } from './profile/types';
+import { profileLoad, profileUpdate, register } from './profile/sagas';
+import { ProductTypes } from './product/types';
+import { loadProduct } from './product/sagas';
 
-import { LocalitiesTypes } from "./localities/types";
-import { loadLocalities, loadCounty } from "./localities/sagas";
+import { LocalitiesTypes } from './localities/types';
+import { loadLocalities, loadCounty } from './localities/sagas';
+import { ShippingMethodTypes } from './shippingMethod/types';
+import { NearbyStoresTypes } from './nearbyStores/types';
+import { loadShippingMethodsRequest } from './shippingMethod/saga';
+import { loadNearbyStores } from './nearbyStores/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -49,6 +53,8 @@ export default function* rootSaga() {
 
     takeLatest(ProfileTypes.PROFILE_UPDATE, profileUpdate),
     takeLatest(ProfileTypes.REGISTER_REQUEST, register),
+    takeLatest(ShippingMethodTypes.LOAD_REQUEST, loadShippingMethodsRequest),
+    takeLatest(NearbyStoresTypes.LOAD_REQUEST, loadNearbyStores),
 
     takeLatest(LocalitiesTypes.LOAD_STATES_REQUEST, loadLocalities),
     takeLatest(LocalitiesTypes.LOAD_COUNTIES_REQUEST, loadCounty),

@@ -1,29 +1,31 @@
-import { createStore, applyMiddleware, Store } from "redux";
+import { createStore, applyMiddleware, Store } from 'redux';
 
-import rootReducer from "./ducks/rootReducer";
-import rootSaga from "./ducks/rootSaga";
+import rootReducer from './ducks/rootReducer';
+import rootSaga from './ducks/rootSaga';
 
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
 
-import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import createSagaMiddleware from "redux-saga";
-import { ProductsState } from "./ducks/products/types";
+import createSagaMiddleware from 'redux-saga';
+import { ProductsState } from './ducks/products/types';
 
-import AsyncStorage from "@react-native-community/async-storage";
-import { CategoriesState } from "./ducks/categories/types";
-import { AuthenticationState } from "./ducks/authentication/types";
-import { ProfileState } from "./ducks/profile/types";
-import { ProductState } from "./ducks/product/types";
-import { LocalitiesState } from "./ducks/localities/types";
+import AsyncStorage from '@react-native-community/async-storage';
+import { CategoriesState } from './ducks/categories/types';
+import { AuthenticationState } from './ducks/authentication/types';
+import { ProfileState } from './ducks/profile/types';
+import { ProductState } from './ducks/product/types';
+import { LocalitiesState } from './ducks/localities/types';
 
-import { AddressState } from "./ducks/address/types";
-import { FilterState } from "./ducks/filter/types";
+import { AddressState } from './ducks/address/types';
+import { FilterState } from './ducks/filter/types';
 
-import { WishlistState } from "./ducks/wishlist/types";
+import { WishlistState } from './ducks/wishlist/types';
+import { NearbyStoresState } from './ducks/nearbyStores/types';
+import { ShippingMethodState } from './ducks/shippingMethod/types';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: AsyncStorage,
 };
 
@@ -37,6 +39,8 @@ export interface ApplicationState {
   categories: CategoriesState;
   authentication: AuthenticationState;
   profile: ProfileState;
+  shippingMethod: ShippingMethodState;
+  nearbyStores: NearbyStoresState;
   address: AddressState;
   localities: LocalitiesState;
 }
