@@ -1,24 +1,26 @@
-import { createStore, applyMiddleware, Store } from "redux";
+import { createStore, applyMiddleware, Store } from 'redux';
 
-import rootReducer from "./ducks/rootReducer";
-import rootSaga from "./ducks/rootSaga";
+import rootReducer from './ducks/rootReducer';
+import rootSaga from './ducks/rootSaga';
 
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer } from 'redux-persist';
 
-import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import createSagaMiddleware from "redux-saga";
-import { ProductsState } from "./ducks/products/types";
+import createSagaMiddleware from 'redux-saga';
+import { ProductsState } from './ducks/products/types';
 
-import AsyncStorage from "@react-native-community/async-storage";
-import { CategoriesState } from "./ducks/categories/types";
-import { AuthenticationState } from "./ducks/authentication/types";
-import { ProfileState } from "./ducks/profile/types";
-import { LocalitiesState } from "./ducks/localities/types";
-
+import AsyncStorage from '@react-native-community/async-storage';
+import { CategoriesState } from './ducks/categories/types';
+import { AuthenticationState } from './ducks/authentication/types';
+import { ProfileState } from './ducks/profile/types';
 import { AddressState } from './ducks/address/types';
+import { WishlistState } from './ducks/wishlist/types';
+import { ProductState } from './ducks/product/types';
+import { LocalitiesState } from './ducks/localities/types';
+
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: AsyncStorage,
 };
 
@@ -26,8 +28,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export interface ApplicationState {
   products: ProductsState;
-  categories: CategoriesState;
+  wishlist: WishlistState;
   address: AddressState;
+  product: ProductState;
+  categories: CategoriesState;
   authentication: AuthenticationState;
   profile: ProfileState;
   localities: LocalitiesState;

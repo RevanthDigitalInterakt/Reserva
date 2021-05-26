@@ -1,14 +1,14 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useEffect, useState } from "react";
 import {
   Alert,
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   PickerItemProps,
-} from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { ceil } from 'react-native-reanimated';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { ceil } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
   Button,
@@ -25,14 +25,23 @@ import {
   ProductVerticalListCardProps,
   TopBar,
   theme,
-} from 'reserva-ui';
-import { Input } from 'reserva-ui/src/components/TextField/TextField.styles';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { ModalBag } from '../components/ModalBag';
+  ExpansePanel,
+} from "reserva-ui";
+import { Input } from "reserva-ui/src/components/TextField/TextField.styles";
+import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
+import { ModalBag } from "../components/ModalBag";
 
-import Share from 'react-native-share';
-
-const screenWidth = Dimensions.get('window').width;
+import Share from "react-native-share";
+import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { useDispatch, useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
+import {
+  loadProduct,
+  loadProductSuccess,
+} from "../../../store/ducks/product/actions";
+import { ProductSKU } from "../../../store/ducks/product/types";
+const screenWidth = Dimensions.get("window").width;
 
 let recomendedScroll = createRef<ScrollView>();
 
@@ -40,135 +49,129 @@ interface ProductDetailProps {
   recomendedProducts?: ProductVerticalListCardProps[];
 }
 
-export const ProductDetail: React.FC<ProductDetailProps> = ({
+type Props = StackScreenProps<RootStackParamList, "ProductDetail"> &
+  ProductDetailProps;
+
+export const ProductDetail: React.FC<Props> = ({
+  navigation,
+  route,
   recomendedProducts,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
-  const colors = [
-    '#F9F9ED',
-    '#7494A5',
-    '#2D4452',
-    '#484C51',
-    '#070707',
-    '#484C50',
-    '#BE6ED5',
-    '#4A56A7',
-    '#1ECB58',
-  ];
-  const [selectedColor, setSelectedColor] = useState('#F9F9ED');
-  recomendedProducts = [
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-  ];
+
   const [isVisible, setIsVisible] = useState(false);
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
 
+  recomendedProducts = [
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+    {
+      productTitle: "Camiseta Básica Reserva",
+      installmentsNumber: 3,
+      installmentsPrice: 99.9,
+      price: 345.0,
+      priceWithDiscount: 297.0,
+      imageSource:
+        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
+    },
+  ];
   const onChangeRecomended = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
@@ -186,7 +189,41 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
     }
   };
 
-  const [cep, setCep] = useState('');
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState<string | number>("");
+
+  const [skuIdx, setSkuIdx] = useState(0);
+
+  let product = useSelector((state: ApplicationState) => state.product);
+
+  const [selectedSku, setSelectedSku] = useState<ProductSKU>();
+
+  const dispatch = useDispatch();
+
+  const productId = route.params.productId;
+  useEffect(() => {
+    dispatch(loadProduct(productId));
+    console.log(product);
+  }, []);
+
+  useEffect(() => {
+    setSelectedColor(
+      product.data.skuList ? product.data.skuList[0]?.color : ""
+    );
+    setSelectedSize(product.data.skuList ? product.data.skuList[0]?.size : "");
+  }, [product]);
+
+  const [cep, setCep] = useState("");
+
+  useEffect(() => {
+    let sku = product.data.skuList?.find((x) => {
+      return x.color == selectedColor && x.size == selectedSize;
+    });
+
+    console.log("cara novo", sku);
+
+    if (sku) setSelectedSku(sku);
+  }, [selectedColor, selectedSize]);
 
   return (
     <SafeAreaView>
@@ -197,49 +234,46 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton />
+        <TopBarDefaultBackButton loading={product.loading} />
         <ScrollView>
           <ProductDetailCard
-            installmentsNumber={3}
-            installmentsPrice={99.9}
-            title="Camiseta Básica Reserva"
-            discountTag={18}
-            price={345}
-            priceWithDiscount={297}
+            installmentsNumber={product.data.installmentNumber}
+            installmentsPrice={product.data.installmentPrice}
+            title={selectedSku?.title || product.data.title}
+            discountTag={product.data.discountTag}
+            price={product.data.fullPrice}
+            priceWithDiscount={product.data.discountPrice}
             imagesWidth={screenWidth}
-            images={[
-              'https://media.discordapp.net/attachments/488490557320986636/837421567348441098/cara_de_frente.png',
-              'https://media.discordapp.net/attachments/488490557320986636/837421564961882162/cara_de_costas.png',
-            ]}
+            images={selectedSku?.imagesUrls || []}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState);
             }}
             onClickShare={() => {
               const options = {
-                message: 'Aqui está um produto que você pode gostar',
-                title: 'Compartilhar',
+                message: "Aqui está um produto que você pode gostar",
+                title: "Compartilhar",
               };
               Share.open(options)
                 .then((res) => {
-                  console.log(res);
+                  //console.log(res)
                 })
                 .catch((err) => {
-                  err && console.log(err);
+                  //err && console.log(err)
                 });
             }}
           />
 
           <Box mt="xs">
             <Box px="xxxs" mb="xxxs">
-              <Typography variant={'subtituloSessoes'}>Cores:</Typography>
+              <Typography variant={"subtituloSessoes"}>Cores:</Typography>
             </Box>
             <Box>
               <ScrollView horizontal>
                 <SelectColor
                   onPress={(color: any) => setSelectedColor(color)}
                   size={40}
-                  listColors={colors}
+                  listColors={product.data.colors || []}
                   selectedColors={selectedColor}
                 />
               </ScrollView>
@@ -252,11 +286,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant={'subtituloSessoes'}>Tamanhos:</Typography>
+                <Typography variant={"subtituloSessoes"}>Tamanhos:</Typography>
                 <Button>
                   <Box flexDirection="row" alignItems="center">
                     <Icon name="Ruler" size={35} />
-                    <Typography fontFamily="nunitoRegular" fontSize={'11px'}>
+                    <Typography fontFamily="nunitoRegular" fontSize={"11px"}>
                       Guia de medidas
                     </Typography>
                   </Box>
@@ -266,9 +300,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 <RadioButtons
                   size={44}
                   fontSize={14}
-                  onSelectedChange={() => {}}
-                  optionsList={['PP', 'P', 'M', 'G', 'GG', '3G']}
-                  defaultSelectedItem={'G'}
+                  onSelectedChange={(item) => {
+                    setSelectedSize(item);
+                  }}
+                  optionsList={product.data.sizes || []}
+                  defaultSelectedItem={selectedSize}
                 />
               </Box>
             </Box>
@@ -303,21 +339,14 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             </Box>
             <Divider variant="fullWidth" my="xs" />
             <Box>
-              <Typography>
-                <Button>
-                  <Box flexDirection="row" alignItems="center">
-                    <Icon name="Add" size={26} color="preto" />
-                    <Box ml="nano">
-                      <Typography
-                        fontFamily="reservaSerifRegular"
-                        fontSize="20px"
-                      >
-                        Sobre este produto
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Button>
-              </Typography>
+              <ExpansePanel
+                information={{
+                  title: "Descrição do produto",
+                  content: selectedSku?.description
+                    ? selectedSku?.description
+                    : product.data.description || "",
+                }}
+              />
             </Box>
 
             <Divider variant="fullWidth" my="xs" />
@@ -346,7 +375,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                   onScroll={onChangeRecomended}
                 >
                   {recomendedProducts.map((product, index) => (
-                    <Box mx="nano" mr={'micro'} key={index} height={230}>
+                    <Box mx="nano" mr={"micro"} key={index} height={230}>
                       <ProductVerticalListCard
                         imageWidth={137}
                         small
@@ -379,8 +408,8 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                               size={6}
                               color={
                                 actualRecomendedindex == Math.ceil((k - 1) / 2)
-                                  ? 'preto'
-                                  : 'neutroFrio1'
+                                  ? "preto"
+                                  : "neutroFrio1"
                               }
                             />
                           }

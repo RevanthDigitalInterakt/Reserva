@@ -1,53 +1,85 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
-import { useEffect } from "react";
-import { Dimensions, ScrollView, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+import { TextInput } from 'react-native-gesture-handler';
+//import { Alert } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
-  theme,
-  Image,
-  ProductVerticalListCard,
   Button,
-  Typography,
   Icon,
+  Image,
   Picker,
-  SearchBar,
   Pill,
-} from "reserva-ui";
-import { images } from "../../../assets";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
+  SearchBar,
+  theme,
+  Alert,
+  Typography,
+  TextField,
+} from 'reserva-ui';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { ApplicationState } from '../../../store';
+import { Product } from '../../../store/ducks/product/types';
+import {
+  cleanProducts,
+  loadProducts,
+} from '../../../store/ducks/products/actions';
+import { setWishlist } from '../../../store/ducks/wishlist/actions';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { CreateCategoryModal } from '../components/CategoryModals/CategoryModals';
+import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
+import { FilterModal } from '../modals/FilterModal';
 
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
-import { FilterModal } from "../modals/FilterModal";
-
-const windowWidth = Dimensions.get("window").width;
-
-type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea } = route.params;
-  const { search } = route.params;
+  const { safeArea, search, categoryId } = route.params;
+
+  // Alert.alert(JSON.stringify(categoryId));
 
   const dispatch = useDispatch();
 
-  const [filterVisible, setFilterVisible] = React.useState(false);
-  const [sorterVisible, setSorterVisible] = React.useState(false);
-  const [filterList, setFilterList] = React.useState<string[]>([]);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [sorterVisible, setSorterVisible] = useState(false);
+  const [filterList, setFilterList] = useState<string[]>([]);
+  // const [offset, setOffset] = useState(0)
+  const products = useSelector((state: ApplicationState) => state.products);
+  const loadMoreProducts = (offset: number) => {
+    console.log('loading more');
+    dispatch(
+      loadProducts({
+        categoryId: categoryId || '',
+        limit: 10,
+        offset: offset,
+      })
+    );
+  };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log('products', products);
+    dispatch(cleanProducts());
+    loadMoreProducts(0);
+  }, []);
+
+  useEffect(() => {
+    console.log('products', products);
+    dispatch(cleanProducts());
+    loadMoreProducts(0);
+  }, [categoryId]);
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
-
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
-      {safeArea ? <TopBarDefaultBackButton /> : <TopBarDefault />}
+      {safeArea ? (
+        <TopBarDefaultBackButton loading={products.loading} />
+      ) : (
+        <TopBarDefault loading={products.loading} />
+      )}
       {search && (
-        <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
-          <SearchBar height={36} placeholder="Buscar" />
+        <Box paddingX='nano' paddingBottom='micro' paddingTop='micro'>
+          <SearchBar height={36} placeholder='Buscar' />
         </Box>
       )}
       <FilterModal
@@ -57,9 +89,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         onConfirm={() => {}}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
-        title="Excluir endereço"
-        confirmText={"Ok"}
-        subtitle="Tem certeza que deseja excluir o endereço salvo?"
+        title='Excluir endereço'
+        confirmText={'Ok'}
+        subtitle='Tem certeza que deseja excluir o endereço salvo?'
       />
       <Picker
         onSelect={() => {
@@ -68,19 +100,19 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: "Menor Preço",
+            text: 'Menor Preço',
           },
           {
-            text: "Maior Preço",
+            text: 'Maior Preço',
           },
           {
-            text: "Mais Recentes",
+            text: 'Mais Recentes',
           },
           {
-            text: "Mais Antigos",
+            text: 'Mais Antigos',
           },
           {
-            text: "Relevante",
+            text: 'Relevante',
           },
         ]}
         onConfirm={() => {
@@ -90,33 +122,32 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           setSorterVisible(false);
         }}
         onBackDropPress={() => setSorterVisible(false)}
-        title="Ordenar Por"
+        title='Ordenar Por'
       />
-      <ScrollView>
-        <Box
-          variant="container"
-          alignItems="flex-start"
-          justifyContent="center"
-        >
-          <Box width={1 / 1}>
+
+      <ListVerticalProducts
+        loadMoreProducts={loadMoreProducts}
+        products={products.dataOffer}
+        listHeader={
+          <>
             <Image
               source={
                 safeArea || search ? images.bannerCatalog : images.bannerOffer
               }
               width={1 / 1}
             />
-            <Box bg="dropDownBorderColor">
-              <Button p="nano">
-                <Box flexDirection="row">
-                  <Icon name="Whatsapp" size={16} color="preto"></Icon>
-                  <Box marginX="nano">
+            <Box bg='dropDownBorderColor'>
+              <Button p='nano'>
+                <Box flexDirection='row'>
+                  <Icon name='Whatsapp' size={16} color='preto'></Icon>
+                  <Box marginX='nano'>
                     <Typography
-                      color="preto"
-                      fontFamily="nunitoSemiBold"
+                      color='preto'
+                      fontFamily='nunitoSemiBold'
                       fontSize={11}
                     >
-                      Chama no Whats! Seja atendido sem sair de casa.{" "}
-                      <Typography style={{ textDecorationLine: "underline" }}>
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
                       </Typography>
                     </Typography>
@@ -124,23 +155,23 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 </Box>
               </Button>
             </Box>
-            <Box paddingY="micro" flexDirection="row" justifyContent="center">
+            <Box paddingY='micro' flexDirection='row' justifyContent='center'>
               <Box width={1 / 2}>
                 <Button
                   onPress={() => setFilterVisible(true)}
-                  marginRight="nano"
-                  marginLeft="micro"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
+                  marginRight='nano'
+                  marginLeft='micro'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
                   inline={true}
                   height={40}
                 >
                   <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'
                   >
                     Filtrar
                   </Typography>
@@ -149,12 +180,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
               <Box width={1 / 2}>
                 <Button
-                  marginRight="micro"
-                  marginLeft="nano"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
+                  marginRight='micro'
+                  marginLeft='nano'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
                   inline={true}
                   height={40}
                   onPress={() => {
@@ -162,9 +193,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   }}
                 >
                   <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'
                   >
                     Ordenar
                   </Typography>
@@ -172,20 +203,20 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               </Box>
             </Box>
             <Box
-              paddingX="micro"
-              paddingY="quarck"
-              flexDirection="row"
-              justifyContent="space-between"
+              paddingX='micro'
+              paddingY='quarck'
+              flexDirection='row'
+              justifyContent='space-between'
             >
-              <Typography fontFamily="nunitoRegular" fontSize="13px">
-                127 produtos encontrados
+              <Typography fontFamily='nunitoRegular' fontSize='13px'>
+                {products?.dataOffer?.length} produtos encontrados
               </Typography>
               {filterList.length > 0 && (
                 <Button onPress={() => setFilterList([])}>
                   <Typography
-                    color="progressTextColor"
-                    variant="precoAntigo3"
-                    style={{ textDecorationLine: "underline" }}
+                    color='progressTextColor'
+                    variant='precoAntigo3'
+                    style={{ textDecorationLine: 'underline' }}
                   >
                     Limpar tudo
                   </Typography>
@@ -193,7 +224,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               )}
             </Box>
             {filterList.length > 0 && (
-              <Box px="micro" flexDirection="row" py="quarck" flexWrap="wrap">
+              <Box px='micro' flexDirection='row' py='quarck' flexWrap='wrap'>
                 {filterList.map((item) => (
                   <Pill
                     key={item}
@@ -208,77 +239,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 ))}
               </Box>
             )}
-            <Box
-              p="micro"
-              flexDirection="row"
-              flex={1}
-              justifyContent="space-between"
-            >
-              <ProductVerticalListCard
-                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
-                currency="R$"
-                discountTag={18}
-                imageSource={images.shirt3}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                priceWithDiscount={297.0}
-                isFavorited={true}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-              <ProductVerticalListCard
-                colors={["#F9F9ED", "#7494A5", "#2D4452", "#484C51", "#070707"]}
-                currency="R$"
-                imageSource={images.shirt1}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                isFavorited={false}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-            </Box>
-            <Box
-              p="micro"
-              flexDirection="row"
-              flex={1}
-              justifyContent="space-between"
-            >
-              <ProductVerticalListCard
-                currency="R$"
-                discountTag={18}
-                imageSource={images.shirt4}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                priceWithDiscount={297.0}
-                isFavorited={true}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-              <ProductVerticalListCard
-                currency="R$"
-                imageSource={images.shirt2}
-                productTitle="CAMISETA BÁSICA RESERVA"
-                installmentsNumber={3}
-                installmentsPrice={99.9}
-                price={345.0}
-                isFavorited={false}
-                onClickImage={() => {
-                  navigation.navigate("ProductDetail");
-                }}
-              />
-            </Box>
-          </Box>
-        </Box>
-      </ScrollView>
+          </>
+        }
+      />
     </DynamicComponent>
   );
 };
