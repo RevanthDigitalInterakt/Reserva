@@ -46,10 +46,10 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
   const [filterList, setFilterList] = React.useState<string[]>([])
 
   const products = useSelector((state: ApplicationState) => state.products)
+  const filters = useSelector((state: ApplicationState) => state.filter.data)
 
   useEffect(() => {
     setShowResults(false)
-    id
     dispatch(loadProductsSuccess([]))
   }, [])
 
@@ -60,7 +60,8 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
         categoryId: '',
         limit: 10,
         offset: offset,
-        //searchQuery: searchQuery,
+        searchQuery: searchQuery,
+        ...filters,
       })
     )
   }
