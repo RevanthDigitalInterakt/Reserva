@@ -1,120 +1,131 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import {
   Linking,
   Platform,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
-} from "react-native";
-import { useDispatch } from "react-redux";
-import { Typography, Box, Image, Button } from "reserva-ui";
-import { images } from "../../../assets";
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Typography, Box, Image, Button, Picker } from 'reserva-ui';
+import { images } from '../../../assets';
+import { load } from '../../../store/ducks/nearbyStores/actions';
+import { nearbyStoresStateSelector } from '../../../store/ducks/nearbyStores';
 
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { FlatList } from 'react-native-gesture-handler';
+import { NearbyStores as NearbyStoresProps } from '../../../store/ducks/nearbyStores/types';
 
 export const NearbyStores: React.FC<{}> = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {}, []);
+  const { data } = useSelector(nearbyStoresStateSelector);
+  const { stores } = data;
+  useEffect(() => {
+    dispatch(load({ UF: 'RJ' }));
+  }, []);
 
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: "space-between" }}
+      style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
       <TopBarBackButton />
 
-      <ScrollView>
-        <Box flex={1} pt={"sm"}>
-          <Box paddingX={"xxxs"} mb={"xxs"} alignSelf={"flex-start"}>
-            <Typography variant="tituloSessoes">
-              Lojas próximas da sua região
-            </Typography>
-          </Box>
-
-          <Box paddingX={"xxxs"} bg="divider">
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-          </Box>
+      <Box flex={1} pt={'sm'}>
+        <Box paddingX={'xxxs'} mb={'xxs'} alignSelf={'flex-start'}>
+          <Typography variant="tituloSessoes">
+            Lojas próximas da sua região
+          </Typography>
         </Box>
-      </ScrollView>
+
+        <Box paddingX={'xxxs'} bg="divider" flex={1}>
+          <FlatList
+            data={stores}
+            renderItem={({ item }: { item: NearbyStoresProps }) => {
+              return (
+                <ItemStoresAddress
+                  key={item.storeID}
+                  storeName={item.storeName}
+                  address1={`${item.address1}`}
+                  address2={`${item.address2}`}
+                />
+              );
+            }}
+          />
+        </Box>
+      </Box>
+      {/* <Picker
+        onAndroidBackButtonPress={() => setOpenState(false)}
+        onClose={() => setOpenState(false)}
+        onSelect={(item) => setState(item.text)}
+        isVisible={openState}
+        items={dataState.map((item) => {
+          return {
+            text: item.label,
+          };
+        })}
+        title="Selecione um Estado"
+      /> */}
     </SafeAreaView>
   );
 };
 
 interface IItemStoresAddress {
-  local: string;
-  address: string;
+  address1: string;
+  address2: string;
+  storeName: string;
 }
-const ItemStoresAddress = ({ local, address }: IItemStoresAddress) => {
+const ItemStoresAddress = ({
+  address1,
+  address2,
+  storeName,
+}: IItemStoresAddress) => {
   return (
     <Box
-      boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
-      width={"100%"}
+      boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+      width={'100%'}
       height={171}
-      backgroundColor={"white"}
+      backgroundColor={'white'}
       style={{ elevation: 5 }}
-      mt={"xxs"}
+      mt={'xxs'}
     >
       <Box
         height={160}
-        borderColor={"backgroundMenuOpened"}
-        paddingY={"xxxs"}
-        paddingX={"xxxs"}
+        borderColor={'backgroundMenuOpened'}
+        paddingY={'xxxs'}
+        // paddingX={'xxxs'}
       >
-        <Box mb={"nano"} flexDirection="row">
+        <Box mb={'nano'} flexDirection="row">
           <Box>
             <Image
               height={40}
               source={images.localReserva}
-              resizeMode={"contain"}
+              resizeMode={'contain'}
             />
           </Box>
           <Box>
-            <Box mb={"quarck"}>
+            <Box mb={'quarck'}>
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                {local}
+                {storeName}
               </Typography>
             </Box>
             <Typography fontFamily="nunitoRegular" fontSize={14}>
-              {address}
+              {address1}
+            </Typography>
+            <Typography fontFamily="nunitoRegular" fontSize={14}>
+              {address2}
             </Typography>
           </Box>
         </Box>
 
         <Button
-          title={"IR ATÉ A LOJA"}
+          title={'IR ATÉ A LOJA'}
           onPress={() => {}}
-          variant={"primarioEstreito"}
-          width={"100%"}
+          variant={'primarioEstreito'}
+          width={'90%'}
         />
       </Box>
     </Box>

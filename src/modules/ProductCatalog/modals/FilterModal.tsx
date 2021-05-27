@@ -115,9 +115,6 @@ export const FilterModal = ({
   const loadMoreProducts = () => {
     console.log("Set from filter");
     setFilterRequestList({
-      categoryId: categoryId || "",
-      limit: 10,
-      offset: 0,
       ...(selectedMinprice > 0 && { minPrice: selectedMinprice }),
       ...(selectedMaxprice > 0 && { maxPrice: selectedMaxprice }),
       ...(selectedSize && { size: [selectedSize] }),
