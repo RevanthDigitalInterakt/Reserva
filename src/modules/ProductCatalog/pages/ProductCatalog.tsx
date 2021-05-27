@@ -1,9 +1,9 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect, useState } from "react";
-import { TextInput } from "react-native-gesture-handler";
+import { StackScreenProps } from '@react-navigation/stack'
+import React, { useEffect, useState } from 'react'
+import { TextInput } from 'react-native-gesture-handler'
 //import { Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Box,
   Button,
@@ -16,41 +16,41 @@ import {
   Alert,
   Typography,
   TextField,
-} from "reserva-ui";
-import { images } from "../../../assets";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
-import { Product } from "../../../store/ducks/product/types";
+} from 'reserva-ui'
+import { images } from '../../../assets'
+import { RootStackParamList } from '../../../routes/StackNavigator'
+import { ApplicationState } from '../../../store'
+import { Product } from '../../../store/ducks/product/types'
 import {
   cleanProducts,
   loadProducts,
-} from "../../../store/ducks/products/actions";
-import { BffGetProductsRequest } from "../../../store/ducks/products/sagas";
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
-import { ListVerticalProducts } from "../components/ListVerticalProducts/ListVerticalProducts";
-import { FilterModal } from "../modals/FilterModal";
+} from '../../../store/ducks/products/actions'
+import { BffGetProductsRequest } from '../../../store/ducks/products/sagas'
+import { TopBarDefault } from '../../Menu/components/TopBarDefault'
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
+import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts'
+import { FilterModal } from '../modals/FilterModal'
 
-type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea, search, categoryId } = route.params;
+  const { safeArea, search, categoryId } = route.params
 
-  const originalOpenedcategoryId = categoryId;
+  const originalOpenedcategoryId = categoryId
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [filterVisible, setFilterVisible] = useState(false);
-  const [sorterVisible, setSorterVisible] = useState(false);
-  const [filterList, setFilterList] = useState<string[]>([]);
-  const [selectedOrder, setSelectedOrder] = useState<string>();
+  const [filterVisible, setFilterVisible] = useState(false)
+  const [sorterVisible, setSorterVisible] = useState(false)
+  const [filterList, setFilterList] = useState<string[]>([])
+  const [selectedOrder, setSelectedOrder] = useState<string>()
 
   const [
     filterRequestList,
     setFilterRequestList,
-  ] = useState<BffGetProductsRequest>();
+  ] = useState<BffGetProductsRequest>()
 
-  const products = useSelector((state: ApplicationState) => state.products);
+  const products = useSelector((state: ApplicationState) => state.products)
 
   const loadMoreProducts = (offset: number) => {
     console.log("loading more", offset);
@@ -61,33 +61,33 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         limit: 10,
         offset: offset,
       })
-    );
-  };
+    )
+  }
 
   useEffect(() => {
-    console.log("products", products);
-    dispatch(cleanProducts());
-    loadMoreProducts(0);
-  }, [filterRequestList]);
+    console.log('products', products)
+    dispatch(cleanProducts())
+    loadMoreProducts(0)
+  }, [filterRequestList])
 
   useEffect(() => {
     const newFilter = {
       ...filterRequestList,
       ...(selectedOrder && { sort: selectedOrder }),
-    };
-    console.log("filtro novo", newFilter);
-    setFilterRequestList(newFilter);
-  }, [selectedOrder]);
+    }
+    console.log('filtro novo', newFilter)
+    setFilterRequestList(newFilter)
+  }, [selectedOrder])
 
   useEffect(() => {
     if (categoryId != originalOpenedcategoryId) {
-      console.log("products", products);
-      dispatch(cleanProducts());
-      loadMoreProducts(0);
+      console.log('products', products)
+      dispatch(cleanProducts())
+      loadMoreProducts(0)
     }
-  }, [categoryId]);
+  }, [categoryId])
 
-  const DynamicComponent = safeArea ? SafeAreaView : Box;
+  const DynamicComponent = safeArea ? SafeAreaView : Box
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
@@ -96,8 +96,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         <TopBarDefault loading={products.loading} />
       )}
       {search && (
-        <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
-          <SearchBar height={36} placeholder="Buscar" />
+        <Box paddingX='nano' paddingBottom='micro' paddingTop='micro'>
+          <SearchBar height={36} placeholder='Buscar' />
         </Box>
       )}
       <FilterModal
@@ -109,46 +109,46 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         isVisible={filterVisible}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
-        title="Excluir endereço"
-        confirmText={"Ok"}
-        subtitle="Tem certeza que deseja excluir o endereço salvo?"
+        title='Excluir endereço'
+        confirmText={'Ok'}
+        subtitle='Tem certeza que deseja excluir o endereço salvo?'
       />
       <Picker
         onSelect={(item) => {
-          setSorterVisible(false);
-          setSelectedOrder(item?.value);
+          setSorterVisible(false)
+          setSelectedOrder(item?.value)
         }}
         isVisible={sorterVisible}
         items={[
           {
-            text: "Menor Preço",
-            value: "lower-price",
+            text: 'Menor Preço',
+            value: 'lower-price',
           },
           {
-            text: "Maior Preço",
-            value: "highest-price",
+            text: 'Maior Preço',
+            value: 'highest-price',
           },
           {
-            text: "Mais Recentes",
-            value: "newest",
+            text: 'Mais Recentes',
+            value: 'newest',
           },
           {
-            text: "Mais Antigos",
-            value: "oldest",
+            text: 'Mais Antigos',
+            value: 'oldest',
           },
           {
-            text: "Relevante",
-            value: "relevance",
+            text: 'Relevante',
+            value: 'relevance',
           },
         ]}
         onConfirm={() => {
-          setSorterVisible(false);
+          setSorterVisible(false)
         }}
         onClose={() => {
-          setSorterVisible(false);
+          setSorterVisible(false)
         }}
         onBackDropPress={() => setSorterVisible(false)}
-        title="Ordenar Por"
+        title='Ordenar Por'
       />
 
       <ListVerticalProducts
@@ -163,18 +163,17 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               }
               width={1 / 1}
             />
-            <Box bg="dropDownBorderColor">
-              <Button p="nano">
-                <Box flexDirection="row">
-                  <Icon name="Whatsapp" size={16} color="preto"></Icon>
-                  <Box marginX="nano">
+            <Box bg='dropDownBorderColor'>
+              <Button p='nano'>
+                <Box flexDirection='row'>
+                  <Icon name='Whatsapp' size={16} color='preto'></Icon>
+                  <Box marginX='nano'>
                     <Typography
-                      color="preto"
-                      fontFamily="nunitoSemiBold"
-                      fontSize={11}
-                    >
-                      Chama no Whats! Seja atendido sem sair de casa.{" "}
-                      <Typography style={{ textDecorationLine: "underline" }}>
+                      color='preto'
+                      fontFamily='nunitoSemiBold'
+                      fontSize={11}>
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
                       </Typography>
                     </Typography>
@@ -182,24 +181,22 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 </Box>
               </Button>
             </Box>
-            <Box paddingY="micro" flexDirection="row" justifyContent="center">
+            <Box paddingY='micro' flexDirection='row' justifyContent='center'>
               <Box width={1 / 2}>
                 <Button
                   onPress={() => setFilterVisible(true)}
-                  marginRight="nano"
-                  marginLeft="micro"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
+                  marginRight='nano'
+                  marginLeft='micro'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
                   inline={true}
-                  height={40}
-                >
+                  height={40}>
                   <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
-                  >
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'>
                     Filtrar
                   </Typography>
                 </Button>
@@ -207,68 +204,48 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
               <Box width={1 / 2}>
                 <Button
-                  marginRight="micro"
-                  marginLeft="nano"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
+                  marginRight='micro'
+                  marginLeft='nano'
+                  borderRadius='nano'
+                  borderColor='dropDownBorderColor'
+                  borderWidth='hairline'
+                  flexDirection='row'
                   inline={true}
                   height={40}
                   onPress={() => {
-                    setSorterVisible(true);
-                  }}
-                >
+                    setSorterVisible(true)
+                  }}>
                   <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
-                  >
+                    color='preto'
+                    fontFamily='nunitoSemiBold'
+                    fontSize='14px'>
                     Ordenar
                   </Typography>
                 </Button>
               </Box>
             </Box>
             <Box
-              paddingX="micro"
-              paddingY="quarck"
-              flexDirection="row"
-              justifyContent="space-between"
-            >
-              <Typography fontFamily="nunitoRegular" fontSize="13px">
+              paddingX='micro'
+              paddingY='quarck'
+              flexDirection='row'
+              justifyContent='space-between'>
+              <Typography fontFamily='nunitoRegular' fontSize='13px'>
                 {products?.dataOffer?.length} produtos encontrados
               </Typography>
               {filterList.length > 0 && (
                 <Button onPress={() => setFilterList([])}>
                   <Typography
-                    color="progressTextColor"
-                    variant="precoAntigo3"
-                    style={{ textDecorationLine: "underline" }}
-                  >
+                    color='progressTextColor'
+                    variant='precoAntigo3'
+                    style={{ textDecorationLine: 'underline' }}>
                     Limpar tudo
                   </Typography>
                 </Button>
               )}
             </Box>
-            {/* {filterList.length > 0 && (
-              <Box px="micro" flexDirection="row" py="quarck" flexWrap="wrap">
-                {filterList.map((item) => (
-                  <Pill
-                    key={item}
-                    pillText={item}
-                    onPress={() => {
-                      const updateList = filterList.filter(
-                        (tag) => tag !== item
-                      );
-                      setFilterList(updateList);
-                    }}
-                  />
-                ))}
-              </Box>
-            )} */}
           </>
         }
       />
     </DynamicComponent>
-  );
-};
+  )
+}
