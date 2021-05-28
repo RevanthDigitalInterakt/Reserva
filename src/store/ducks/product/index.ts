@@ -8,7 +8,7 @@ const INITIAL_STATE: ProductState = {
     currency: '',
     description: '',
     discountPrice: 0,
-    discountTag: '0',
+    discountTag: 0,
     fullPrice: 0,
     id: '',
     imageUrl: '',

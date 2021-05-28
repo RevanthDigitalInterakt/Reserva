@@ -241,16 +241,20 @@ export const ProductDetail: React.FC<Props> = ({
           <ProductDetailCard
             installmentsNumber={product.data.installmentNumber}
             installmentsPrice={product.data.installmentPrice}
-            title={selectedSku?.title || product.data.title}
+            title={selectedSku ? selectedSku.title : product.data.title}
+            price={product.data.fullPrice}
+            priceWithDiscount={
+              product.data.discountPrice > 0
+                ? product.data.discountPrice
+                : undefined
+            }
             discountTag={
               product.data.discountTag > 0
                 ? product.data.discountTag
                 : undefined
             }
-            price={product.data.fullPrice}
-            priceWithDiscount={product.data.discountPrice}
             imagesWidth={screenWidth}
-            images={selectedSku?.imagesUrls || []}
+            images={selectedSku ? selectedSku.imagesUrls : []}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState)
