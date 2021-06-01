@@ -45,6 +45,7 @@ import {
   loadProductSuccess,
 } from '../../../store/ducks/product/actions'
 import { ProductSKU } from '../../../store/ducks/product/types'
+import { appendOrders } from '../../../store/ducks/orders/actions'
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -201,6 +202,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [skuIdx, setSkuIdx] = useState(0)
 
   let product = useSelector((state: ApplicationState) => state.product)
+  let orders = useSelector((state: ApplicationState) => state.orders.orders)
 
   const [selectedSku, setSelectedSku] = useState<ProductSKU>()
 
@@ -322,7 +324,10 @@ export const ProductDetail: React.FC<Props> = ({
               mt='xxs'
               title='ADICIONAR À SACOLA'
               variant='primarioEstreito'
-              onPress={() => {
+              onPress={() => {                
+                dispatch(appendOrders({
+                  ...product.data, ...selectedSku, sku: selectedSku?.id
+                }))
                 setIsVisible(true)
               }}
               inline

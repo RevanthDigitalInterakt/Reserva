@@ -21,6 +21,10 @@ import DeviceInfo, { hasNotch } from "react-native-device-info";
 
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
+import { Product } from "../../../store/ducks/product/types";
+import { OrderItems } from "../../../store/ducks/orders/types";
 
 const haveNotch = DeviceInfo.hasNotch();
 
@@ -32,8 +36,14 @@ export interface ModalBagProps {
 export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
   const [animationFinished, setAnimationFinished] = useState(false);
   const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
+  const [products, setProducts] = React.useState<[Product & OrderItems]>();
+  const { orders } = useSelector((state: ApplicationState) => state);
 
   const [count, setCount] = useState(1);
+  
+  useEffect(() => {
+    setProducts(orders.orders);
+  }, [orders])
 
   const navigation = useNavigation();
 
@@ -179,9 +189,22 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
                   </Typography>
                 </Box>
                 <ScrollView>
-                  {bagProducts.map((product, key) => (
+                  {products?.map((product, key) => (
                     <Box mt={key > 0 ? "micro" : null} key={key}>
-                      <ProductHorizontalListCard {...product} />
+                      <ProductHorizontalListCard
+                        currency={"R$"}
+                        discountTag={product.discountTag > 0 ? product.discountTag : undefined }
+                        itemColor={product.color || ''}
+                        ItemSize={product.size || ''}
+                        productTitle={product.title}
+                        installmentsNumber={product.installmentNumber}
+                        installmentsPrice={product.installmentPrice}
+                        price={product.fullPrice}
+                        priceWithDiscount={product.discountPrice}
+                        count={product.quantity}
+                        onClickClose={() => {}}
+                        imageSource={product.imagesUrls?.length && product.imagesUrls[0] || ''}
+                       />
                     </Box>
                   ))}
                 </ScrollView>

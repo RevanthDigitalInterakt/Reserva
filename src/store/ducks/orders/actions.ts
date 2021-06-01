@@ -1,4 +1,5 @@
 import { action } from 'typesafe-actions'
+import { Product } from '../product/types'
 import { CouponsOrders, OrderItems, OrderRequest, OrdersTypes } from './types'
 
 export const loadRequest = (orderRequestParams: OrderRequest) =>{
@@ -11,14 +12,14 @@ export const loadSuccess = (data: any[]) =>
 export const loadFailure = () => action(OrdersTypes.ORDER_FAILURE)
 
 //? ORDERS ACTIONS
-export const appendOrders = (orderItem: OrderItems) =>
-  action(OrdersTypes.APPEND_ORDERS, { orderItem });
+export const appendOrders = (product: Product & OrderItems) =>
+  action(OrdersTypes.APPEND_ORDERS, { product });
 
-export const removeOrders = (orderSku: string) =>
-  action(OrdersTypes.REMOVE_ORDERS, { orderSku });
+export const removeOrders = (productId: string) =>
+  action(OrdersTypes.REMOVE_ORDERS, { productId });
 
-export const setOrders = (orderList: OrderItems[]) =>
-  action(OrdersTypes.SET_ORDERS, { orderList });
+export const setOrders = (productList: [Product & OrderItems]) =>
+  action(OrdersTypes.SET_ORDERS, { productList });
 
 //? COUPONS ACTIONS
 export const appendCoupons = (couponItem: CouponsOrders) =>

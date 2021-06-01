@@ -1,3 +1,5 @@
+import { Product } from "../product/types"
+
 export enum OrdersTypes {
   ORDER_REQUEST = '@orders/ORDERS_REQUEST',
   ORDER_SUCCESS = '@orders/ORDERS_SUCCESS',
@@ -11,7 +13,7 @@ export enum OrdersTypes {
 }
 
 export interface OrdersState {
-  orders: OrderItems[],
+  orders: [Product & OrderItems],
   coupons: CouponsOrders[]
   loading: boolean,
   error: boolean,
@@ -46,13 +48,13 @@ export type Profile = {
 }
 
 export type OrderItems = {
-  sku: number;
-  quantity: number;
-  title: string;
-  description: string;
-  size: string;
-  color: string;
-  imagesUrls: string[];
+  sku?: string;
+  quantity?: number;
+  title?: string;
+  description?: string;
+  size?: string;
+  color?: string;
+  imagesUrls?: string[];
 }
 
 export type ShippingMethod = {

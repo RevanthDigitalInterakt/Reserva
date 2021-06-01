@@ -18,10 +18,11 @@ import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 import { createAnimatableComponent } from "react-native-animatable";
 import { CouponBadge } from "../components/CouponBadge";
-import { CouponsOrders } from "../../../store/ducks/orders/types";
+import { CouponsOrders, OrderItems } from "../../../store/ducks/orders/types";
 import { ApplicationState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { appendCoupons } from "../../../store/ducks/orders/actions";
+import { Product } from "../../../store/ducks/product/types";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -34,10 +35,12 @@ export const BagScreen = () => {
 
   const [coupons, setCoupons] = React.useState<CouponsOrders[]>([]);
   const [coupon, setCoupon] = React.useState<CouponsOrders>({} as CouponsOrders);
+  const [products, setProducts] = React.useState<[Product & OrderItems]>();
   const { orders } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
     setCoupons(orders.coupons);
+    setProducts(orders.orders);
   }, [orders])
 
   const addCoupons = () => {
@@ -124,23 +127,23 @@ export const BagScreen = () => {
             </Box>
           </Box>
 
-          {lisProduct.map((item, index) => (
+          {products?.map((item, index) => (
             <Box key={index} bg={"white"} marginTop={"xxxs"}>
               <ProductHorizontalListCard
                 currency={"R$"}
-                discountTag={item.discountTag}
-                itemColor={item.itemColor}
-                ItemSize={item.ItemSize}
-                productTitle={item.productTitle}
-                installmentsNumber={item.installmentsNumber}
-                installmentsPrice={item.installmentsPrice}
-                price={item.price}
-                priceWithDiscount={item.priceWithDiscount}
+                discountTag={item.discountTag > 0 ? item.discountTag : undefined }
+                itemColor={item.color || ''}
+                ItemSize={item.size || ''}
+                productTitle={item.title}
+                installmentsNumber={item.installmentNumber}
+                installmentsPrice={item.installmentPrice}
+                price={item.fullPrice}
+                priceWithDiscount={item.discountPrice}
                 count={quantity}
                 onClickAddCount={(count) => AddProduct(count)}
                 onClickSubCount={(count) => RemoveProduct(count)}
                 onClickClose={() => {}}
-                imageSource={item.imageSource}
+                imageSource={item.imagesUrls?.length && item.imagesUrls[0] || ''}
               />
             </Box>
           ))}

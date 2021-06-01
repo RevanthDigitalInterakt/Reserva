@@ -24,19 +24,19 @@ const reducer: Reducer<OrdersState> = (state = INITIAL_STATE, action) => {
     case OrdersTypes.APPEND_ORDERS:
       return {
         ...state,
-        orders: state.orders.find((x) => x.sku == action.payload.orderItem.sku)
+        orders: state.orders.find((x) => x.sku == action.payload.product.sku)
           ? state.orders
-          : [...state.orders, action.payload.orderItem],
+          : [...state.orders, action.payload.product],
       };
     case OrdersTypes.REMOVE_ORDERS:
       return {
         ...state,
-        orders:state.orders.filter((x) => x.sku != action.payload.orderSku),
+        orders:state.orders.filter((x) => x.sku != action.payload.productId),
       };
     case OrdersTypes.SET_ORDERS:
       return {
         ...state,
-        orders: action.payload.orderList,
+        orders: action.payload.productList,
       };
     case OrdersTypes.APPEND_COUPONS:
       return {
