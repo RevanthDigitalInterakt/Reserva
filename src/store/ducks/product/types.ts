@@ -11,6 +11,7 @@ export enum ProductTypes {
 //#region Data Types
 
 export interface ProductSKU {
+  id: string,
   title: string;
   description: string;
   size: string;
@@ -19,7 +20,7 @@ export interface ProductSKU {
 }
 
 export interface Product {
-  id: string;
+  id?: string;
   title: string;
   imageUrl?: string;
   isFavorite: boolean;

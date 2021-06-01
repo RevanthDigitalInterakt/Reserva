@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Platform, SafeAreaView, ScrollView } from "react-native";
 import {
   Typography,
@@ -17,15 +17,33 @@ import { PriceCustom } from "../components/PriceCustom";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 import { createAnimatableComponent } from "react-native-animatable";
+import { CouponBadge } from "../components/CouponBadge";
+import { CouponsOrders } from "../../../store/ducks/orders/types";
+import { ApplicationState } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { appendCoupons } from "../../../store/ducks/orders/actions";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
 export const BagScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
 
+  const [coupons, setCoupons] = React.useState<CouponsOrders[]>([]);
+  const [coupon, setCoupon] = React.useState<CouponsOrders>({} as CouponsOrders);
+  const { orders } = useSelector((state: ApplicationState) => state);
+
+  useEffect(() => {
+    setCoupons(orders.coupons);
+  }, [orders])
+
+  const addCoupons = () => {
+    dispatch(appendCoupons(coupon)); 
+  } 
+  
   const [lisProduct, setLisProduct] = useState([
     {
       discountTag: "30%",
@@ -237,38 +255,24 @@ export const BagScreen = () => {
               Insira aqui o código do vendedor(a) e/ou cupom de desconto.
             </Typography>
           </Box>
-
-          <Box
-            borderColor="divider"
-            borderWidth="hairline"
-            bg={"backgoundInput"}
-            flexDirection={"row"}
-            alignItems="center"
-            px={"micro"}
-            height={34}
-            alignSelf={"flex-start"}
-            borderRadius={"pico"}
-            marginTop="nano"
-          >
-            <Typography fontFamily={"nunitoRegular"} fontSize={13}>
-              RSV1234
-            </Typography>
-            <Button
-              onPress={() => {}}
-              marginLeft={"micro"}
-              variant={"icone"}
-              icon={<Icon name="Close" size={10} />}
-            />
-          </Box>
-
+          {
+            coupons && coupons.map((coupon) => (
+              <CouponBadge  value={coupon.value} />
+            ))
+          }
+          
           <Box marginTop={"nano"} flexDirection={"row"}>
             <Box flex={1} marginRight={"micro"}>
-              <TextField placeholder={"Insira o código"} />
+              <TextField 
+                onChangeText={(text) => setCoupon({ value: text })} 
+                placeholder={"Insira o código"} 
+              />
             </Box>
             <Box>
               <Button
                 width={"100%"}
                 title={"APLICAR"}
+                onPress={() => addCoupons() }
                 variant={"primarioEstreito"}
                 disabled={false}
               />
