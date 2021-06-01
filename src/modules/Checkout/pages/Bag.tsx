@@ -41,9 +41,10 @@ export const BagScreen = () => {
   }, [orders])
 
   const addCoupons = () => {
-    dispatch(appendCoupons(coupon)); 
+    dispatch(appendCoupons(coupon));
+    setCoupon({ value: '' });
   } 
-  
+
   const [lisProduct, setLisProduct] = useState([
     {
       discountTag: "30%",
@@ -264,6 +265,7 @@ export const BagScreen = () => {
           <Box marginTop={"nano"} flexDirection={"row"}>
             <Box flex={1} marginRight={"micro"}>
               <TextField 
+                value={coupon.value}
                 onChangeText={(text) => setCoupon({ value: text })} 
                 placeholder={"Insira o código"} 
               />
