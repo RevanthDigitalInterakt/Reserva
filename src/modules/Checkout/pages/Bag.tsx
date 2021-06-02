@@ -30,6 +30,9 @@ export const BagScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
+  const [totalBag, setTotalBag] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
 
@@ -41,6 +44,21 @@ export const BagScreen = () => {
   useEffect(() => {
     setCoupons(orders.coupons);
     setProducts(orders.orders);
+    setTotalBag(orders.orders.reduce(
+      (acc, currentValue) => {
+        return acc + (currentValue.quantity ? currentValue.quantity : 0)
+      }, 0
+    ));
+    setTotalPrice(orders.orders.reduce(
+      (acc, currentValue) => {
+        return acc + (currentValue.fullPrice ? currentValue.fullPrice : 0)
+      }, 0
+    ))
+    setTotalDiscountPrice(orders.orders.reduce(
+      (acc, currentValue) => {
+        return acc + (currentValue.discountPrice ? currentValue.discountPrice : 0)
+      }, 0
+    ))
   }, [orders])
 
   const addCoupons = () => {
@@ -97,7 +115,7 @@ export const BagScreen = () => {
       <ScrollView>
         <Box paddingX={"xxxs"} paddingY={"xxs"}>
           <Box bg={"white"} marginTop={"xxs"}>
-            <Typography variant="tituloSessoes">Sacola (2)</Typography>
+            <Typography variant="tituloSessoes">Sacola ({totalBag})</Typography>
           </Box>
           <Box my="micro">
             <Box flexDirection="row">
@@ -295,7 +313,7 @@ export const BagScreen = () => {
               fontFamily={"nunitoSemiBold"}
               sizeInterger={15}
               sizeDecimal={11}
-              num={1254.0}
+              num={totalPrice}
             />
           </Box>
           <Box
@@ -311,7 +329,7 @@ export const BagScreen = () => {
               negative={true}
               sizeInterger={15}
               sizeDecimal={11}
-              num={254.0}
+              num={totalPrice - totalDiscountPrice}
             />
           </Box>
           <Box
@@ -325,7 +343,7 @@ export const BagScreen = () => {
               fontFamily={"nunitoBold"}
               sizeInterger={20}
               sizeDecimal={11}
-              num={1000.0}
+              num={totalDiscountPrice}
             />
           </Box>
         </Box>
@@ -344,9 +362,13 @@ export const BagScreen = () => {
             <Typography fontFamily="nunitoRegular" fontSize={13}>
               Total:
             </Typography>
-            <Typography fontFamily="nunitoBold" fontSize={15}>
-              R$ 1000,00
-            </Typography>
+            
+            <PriceCustom
+              fontFamily={"nunitoBold"}
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={totalDiscountPrice}
+            />
           </Box>
           <Box alignItems="flex-end">
             <Typography fontFamily="nunitoRegular" fontSize={13}>
@@ -358,15 +380,16 @@ export const BagScreen = () => {
                 fontSize={15}
                 color="vermelhoRSV"
               >
-                10x de R$ 100,
+                10x de {' '}
               </Typography>
-              <Typography
-                fontFamily="nunitoBold"
-                fontSize={1}
+              
+              <PriceCustom
+                fontFamily={"nunitoBold"}
                 color="vermelhoRSV"
-              >
-                00
-              </Typography>
+                sizeInterger={15}
+                sizeDecimal={11}
+                num={totalDiscountPrice / 10}
+              />
             </Box>
           </Box>
         </Box>

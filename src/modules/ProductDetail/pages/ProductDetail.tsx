@@ -326,7 +326,10 @@ export const ProductDetail: React.FC<Props> = ({
               variant='primarioEstreito'
               onPress={() => {                
                 dispatch(appendOrders({
-                  ...product.data, ...selectedSku, sku: selectedSku?.id
+                  ...product.data, 
+                  ...selectedSku, 
+                  sku: selectedSku?.id,
+                  quantity: 1
                 }))
                 setIsVisible(true)
               }}

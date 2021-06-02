@@ -43,6 +43,11 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
   
   useEffect(() => {
     setProducts(orders.orders);
+    setCount(orders.orders.reduce(
+      (acc, currentValue) => {
+        return acc + (currentValue.quantity ? currentValue.quantity : 0)
+      }, 0
+    ));
   }, [orders])
 
   const navigation = useNavigation();
@@ -185,7 +190,7 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
               <Animatable.View animation="fadeIn" style={{ height: "100%" }}>
                 <Box marginBottom="micro">
                   <Typography fontFamily="reservaSerifRegular" fontSize="20px">
-                    Sacola (1)
+                    Sacola ({count})
                   </Typography>
                 </Box>
                 <ScrollView>
