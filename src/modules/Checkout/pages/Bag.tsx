@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   appendCoupons,
   increaseOrderCount,
+  removeOrders,
 } from '../../../store/ducks/orders/actions'
 import { Product } from '../../../store/ducks/product/types'
 
@@ -188,7 +189,9 @@ export const BagScreen = () => {
                 onClickSubCount={(count) =>
                   dispatch(item.sku && increaseOrderCount(item.sku, -1))
                 }
-                onClickClose={() => {}}
+                onClickClose={() => {
+                  dispatch(removeOrders(item.id ? item.id : ''))
+                }}
                 imageSource={
                   (item.imagesUrls?.length && item.imagesUrls[0]) || ''
                 }
@@ -326,34 +329,38 @@ export const BagScreen = () => {
             </Box>
           </Box>
           <Divider variant={'fullWidth'} marginY={'xs'} />
-          <Box
-            marginBottom={'micro'}
-            flexDirection={'row'}
-            justifyContent={'space-between'}
-            alignItems={'center'}>
-            <Typography variant={'precoAntigo3'}>Subtotal</Typography>
-            <PriceCustom
-              fontFamily={'nunitoSemiBold'}
-              sizeInterger={15}
-              sizeDecimal={11}
-              num={totalPrice}
-            />
-          </Box>
-          <Box
-            marginBottom={'micro'}
-            flexDirection={'row'}
-            justifyContent={'space-between'}
-            alignItems={'center'}>
-            <Typography variant={'precoAntigo3'}>Descontos</Typography>
+          {totalPrice - totalDiscountPrice > 0 && (
+            <>
+              <Box
+                marginBottom={'micro'}
+                flexDirection={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}>
+                <Typography variant={'precoAntigo3'}>Subtotal</Typography>
+                <PriceCustom
+                  fontFamily={'nunitoSemiBold'}
+                  sizeInterger={15}
+                  sizeDecimal={11}
+                  num={totalPrice}
+                />
+              </Box>
+              <Box
+                marginBottom={'micro'}
+                flexDirection={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}>
+                <Typography variant={'precoAntigo3'}>Descontos</Typography>
 
-            <PriceCustom
-              fontFamily={'nunitoSemiBold'}
-              negative={true}
-              sizeInterger={15}
-              sizeDecimal={11}
-              num={totalPrice - totalDiscountPrice}
-            />
-          </Box>
+                <PriceCustom
+                  fontFamily={'nunitoSemiBold'}
+                  negative={true}
+                  sizeInterger={15}
+                  sizeDecimal={11}
+                  num={totalPrice - totalDiscountPrice}
+                />
+              </Box>
+            </>
+          )}
           <Box
             marginBottom={'micro'}
             flexDirection={'row'}
