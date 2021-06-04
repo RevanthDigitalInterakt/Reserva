@@ -1,5 +1,8 @@
+import { useDispatch } from 'react-redux'
 import { Value } from 'react-native-reanimated'
 import { Reducer } from 'redux'
+import { order } from 'styled-system'
+import { increaseOrderCount } from './actions'
 import { OrderRequest, OrdersState, OrdersTypes } from './types'
 
 const INITIAL_STATE: OrdersState = {
@@ -8,8 +11,8 @@ const INITIAL_STATE: OrdersState = {
   error: false,
   loading: false,
 }
-
 const reducer: Reducer<OrdersState> = (state = INITIAL_STATE, action) => {
+  //const dispatch = useDispatch()
   switch (action.type) {
     case OrdersTypes.ORDER_REQUEST:
       return { ...state, loading: true }
@@ -34,19 +37,19 @@ const reducer: Reducer<OrdersState> = (state = INITIAL_STATE, action) => {
         }),
       }
     case OrdersTypes.APPEND_ORDERS:
-      return {
-        ...state,
-        orders: state.orders.find(
-          (order) => order.sku == action.payload.product.sku
-        )
-          ? state.orders.map((x) => {
-              console.log('x quantity', x.sku, action.payload.product.sku)
-              return x.sku == action.payload.product.sku
-                ? { quantity: 2, ...x }
-                : { ...x }
-            })
-          : [...state.orders, action.payload.product],
-      }
+      let orderInArray = state.orders.find(
+        (order) => order.sku == action.payload.product.sku
+      )
+      let updatedOrders = [...state.orders]
+      if (orderInArray?.quantity) {
+        orderInArray.quantity += 1
+        updatedOrders.map((x) => {
+          if (x.sku == orderInArray?.sku) return orderInArray
+          else return x
+        })
+      } else updatedOrders = [...updatedOrders, action.payload.product]
+
+      return { ...state, orders: [...updatedOrders] }
     case OrdersTypes.REMOVE_ORDERS:
       return {
         ...state,
