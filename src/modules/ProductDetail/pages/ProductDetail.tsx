@@ -209,7 +209,7 @@ export const ProductDetail: React.FC<Props> = ({
   const productId = route.params.productId
   useEffect(() => {
     dispatch(loadProduct(productId))
-    console.log(product)
+    console.log('product', product)
   }, [])
 
   useEffect(() => {
@@ -324,13 +324,15 @@ export const ProductDetail: React.FC<Props> = ({
               mt='xxs'
               title='ADICIONAR À SACOLA'
               variant='primarioEstreito'
-              onPress={() => {                
-                dispatch(appendOrders({
-                  ...product.data, 
-                  ...selectedSku, 
-                  sku: selectedSku?.id,
-                  quantity: 1
-                }))
+              onPress={() => {
+                dispatch(
+                  appendOrders({
+                    ...product.data,
+                    ...selectedSku,
+                    sku: selectedSku?.id,
+                    quantity: 1,
+                  })
+                )
                 setIsVisible(true)
               }}
               inline

@@ -63,10 +63,11 @@ export type RootStackParamList = {
     comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite'
   }
   SearchScreen: { searchterm?: string }
-  ProductDetail: { productId: Product }
+  ProductDetail: { productId: string }
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   ProductCatalog: { safeArea: boolean; search: boolean }
+  WishList: {}
   ShowListByCategory: { categoryName: string; products: Wish[] }
   NewAddress: {
     id?: number
