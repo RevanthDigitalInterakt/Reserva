@@ -20,6 +20,7 @@ export function* profileLoad() {
     const { data } = yield call(api.get, "/profiles/current");
 
     const profile: Profile = {
+      id: data.id,
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,

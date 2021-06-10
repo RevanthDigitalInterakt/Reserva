@@ -1,32 +1,30 @@
-import React, { useState } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import React, { useState } from 'react'
+import { SafeAreaView, ScrollView } from 'react-native'
 import {
   Box,
   Button,
   ProductHorizontalListCard,
   Typography,
   Picker,
-} from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { images } from '../../../assets';
-import { WishListCategory } from './WishListCategory';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { useDispatch, useSelector } from 'react-redux';
-import { ApplicationState } from '../../../store';
-import { removeWishlist } from '../../../store/ducks/wishlist/actions';
-import { Product } from '../../../store/ducks/product/types';
+} from 'reserva-ui'
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
+import { images } from '../../../assets'
+import { WishListCategory } from './WishListCategory'
+import { StackScreenProps } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../routes/StackNavigator'
+import { useDispatch, useSelector } from 'react-redux'
+import { ApplicationState } from '../../../store'
+import { removeWishlist } from '../../../store/ducks/wishlist/actions'
+import { Product } from '../../../store/ducks/product/types'
 
-type Props = StackScreenProps<RootStackParamList, 'ShowListByCategory'>;
+type Props = StackScreenProps<RootStackParamList, 'ShowListByCategory'>
 
 export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
-  let { categoryName, products } = route.params;
-  products = !products ? [] : products;
+  let { categoryName, products } = route.params
+  products = !products ? [] : products
 
-  const dispatch = useDispatch();
-  const wishlist = useSelector(
-    (state: ApplicationState) => state.wishlist.data
-  );
+  const dispatch = useDispatch()
+  const wishlist = useSelector((state: ApplicationState) => state.wishlist.data)
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <TopBarBackButton loading={false} showShadow />
@@ -60,22 +58,22 @@ export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
                       price={prod.fullPrice}
                       priceWithDiscount={prod.discountPrice}
                       onClickFavorite={() => {
-                        dispatch(removeWishlist(prod.id));
+                        dispatch(removeWishlist(prod.id))
                       }}
                       onClickBagButton={() => {
                         navigation.navigate('ProductDetail', {
-                          products: { ...prod },
-                        });
+                          productId: prod.id ? prod.id : '',
+                        })
                       }}
                       onClickPiker={() => {}}
                       imageSource={prod.imageUrl}
                     />
                   </Box>
-                );
+                )
               })}
           </Box>
         </Box>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}

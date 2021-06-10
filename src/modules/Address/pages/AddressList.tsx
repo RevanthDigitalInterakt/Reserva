@@ -16,7 +16,6 @@ import {
   createDefaultAddress,
   deleteDefautAddress,
 } from "../../../store/ducks/address/actions";
-import { Address } from "../../../store/ducks/address/types";
 
 type Props = StackScreenProps<RootStackParamList, "AddressList">;
 

@@ -32,6 +32,7 @@ import { ShippingMethodTypes } from './shippingMethod/types';
 import { NearbyStoresTypes } from './nearbyStores/types';
 import { loadShippingMethodsRequest } from './shippingMethod/saga';
 import { loadNearbyStores } from './nearbyStores/saga';
+import { OrdersTypes } from './orders/types';
 
 export default function* rootSaga() {
   yield all([

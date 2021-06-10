@@ -50,7 +50,6 @@ interface IMenuItem {
 
 const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
   const navigation = useNavigation()
-
   return (
     <Button onPress={() => navigation.navigate('Home')} alignSelf='flex-start'>
       <Box
@@ -199,6 +198,8 @@ export const Menu: React.FC<{}> = () => {
     )
   }, [data])
 
+  const { authentication } = useSelector((state: ApplicationState) => state)
+
   const openMenuItem = (index: number) => {
     setCategories(
       categories.map((item, i) => ({
@@ -244,28 +245,29 @@ export const Menu: React.FC<{}> = () => {
                 marginBottom='nano'
                 marginTop='nano'
               />
-
-              <FixedMenuItem
-                iconName='Profile'
-                title={
-                  <Typography
-                    alignSelf='flex-end'
-                    color='preto'
-                    fontSize={15}
-                    fontFamily='nunitoBold'>
-                    <Typography style={{ textDecorationLine: 'underline' }}>
-                      Acessar Conta
+              {!authentication.data?.access_token && (
+                <FixedMenuItem
+                  iconName='Profile'
+                  title={
+                    <Typography
+                      alignSelf='flex-end'
+                      color='preto'
+                      fontSize={15}
+                      fontFamily='nunitoBold'>
+                      <Typography style={{ textDecorationLine: 'underline' }}>
+                        Acessar Conta
+                      </Typography>
+                      {'  '}ou{'  '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
+                        Cadastre-se
+                      </Typography>
                     </Typography>
-                    {'  '}ou{'  '}
-                    <Typography style={{ textDecorationLine: 'underline' }}>
-                      Cadastre-se
-                    </Typography>
-                  </Typography>
-                }
-                onPress={() => {
-                  navigation.navigate('LoginAlternative')
-                }}
-                underline></FixedMenuItem>
+                  }
+                  onPress={() => {
+                    navigation.navigate('LoginAlternative')
+                  }}
+                  underline></FixedMenuItem>
+              )}
               <FixedMenuItem
                 iconName='Heart'
                 title={

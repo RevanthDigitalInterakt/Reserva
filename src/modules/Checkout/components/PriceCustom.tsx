@@ -11,8 +11,9 @@ export interface IpriceCustom {
     sizeInterger: number;
     sizeDecimal: number;
     negative?: boolean;
+    color?: keyof typeof theme.colors;
 }
-export const PriceCustom: React.FC<IpriceCustom> = ({ num, fontFamily, sizeInterger, sizeDecimal, negative }) => {
+export const PriceCustom: React.FC<IpriceCustom> = ({ num, fontFamily, sizeInterger, sizeDecimal, negative, color = "preto" }) => {
     const integerPart = (num: number) => {
         return Math.floor(num);
     };
@@ -23,14 +24,14 @@ export const PriceCustom: React.FC<IpriceCustom> = ({ num, fontFamily, sizeInter
         <Box flexDirection="row">
             <Box>
                 {negative ?
-                    <Typography fontFamily={fontFamily} fontSize={sizeInterger}>-R$ {integerPart(num)},</Typography>
+                    <Typography color={color} fontFamily={fontFamily} fontSize={sizeInterger}>-R$ {integerPart(num)},</Typography>
                     :
-                    <Typography fontFamily={fontFamily} fontSize={sizeInterger}>R$ {integerPart(num)},</Typography>
+                    <Typography color={color} fontFamily={fontFamily} fontSize={sizeInterger}>R$ {integerPart(num)},</Typography>
                 }
 
             </Box>
             <Box alignSelf="flex-start" >
-                <Typography fontFamily={fontFamily} fontSize={sizeDecimal}>{decimalPart(num)}</Typography>
+                <Typography color={color} fontFamily={fontFamily} fontSize={sizeDecimal}>{decimalPart(num)}</Typography>
             </Box>
         </Box>
     )

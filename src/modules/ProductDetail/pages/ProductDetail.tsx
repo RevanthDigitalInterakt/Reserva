@@ -45,6 +45,7 @@ import {
   loadProductSuccess,
 } from '../../../store/ducks/product/actions'
 import { ProductSKU } from '../../../store/ducks/product/types'
+import { appendOrders } from '../../../store/ducks/orders/actions'
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -180,15 +181,13 @@ export const ProductDetail: React.FC<Props> = ({
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
     const actualItem = Math.ceil(
-      scrollEvent.nativeEvent.contentOffset.x /
-        scrollEvent.nativeEvent.layoutMeasurement.width
+      scrollEvent.nativeEvent.contentOffset.x / ((138 + theme.space.micro) * 2)
     )
     if (
       actualItem !== actualRecomendedindex &&
       recomendedProducts &&
-      actualItem < Math.ceil(recomendedProducts.length / 2)
+      actualItem <= Math.ceil(recomendedProducts.length / 2)
     ) {
-      console.log(actualItem)
       setActualRecomendedindex(actualItem)
     }
   }
@@ -201,13 +200,14 @@ export const ProductDetail: React.FC<Props> = ({
   const [skuIdx, setSkuIdx] = useState(0)
 
   let product = useSelector((state: ApplicationState) => state.product)
+  let orders = useSelector((state: ApplicationState) => state.orders.orders)
 
   const [selectedSku, setSelectedSku] = useState<ProductSKU>()
 
   const productId = route.params.productId
   useEffect(() => {
     dispatch(loadProduct(productId))
-    console.log(product)
+    console.log('product', product)
   }, [])
 
   useEffect(() => {
@@ -323,6 +323,14 @@ export const ProductDetail: React.FC<Props> = ({
               title='ADICIONAR À SACOLA'
               variant='primarioEstreito'
               onPress={() => {
+                dispatch(
+                  appendOrders({
+                    ...product.data,
+                    ...selectedSku,
+                    sku: selectedSku?.id,
+                    quantity: 1,
+                  })
+                )
                 setIsVisible(true)
               }}
               inline
@@ -411,17 +419,28 @@ export const ProductDetail: React.FC<Props> = ({
                 <ScrollView
                   horizontal
                   pagingEnabled
+                  scrollEventThrottle={138}
+                  snapToInterval={(138 + theme.space.micro) * 2}
                   ref={recomendedScroll}
                   showsHorizontalScrollIndicator={false}
                   onScroll={onChangeRecomended}>
                   {recomendedProducts.map((product, index) => (
-                    <Box mx='nano' mr={'micro'} key={index} height={230}>
-                      <ProductVerticalListCard
-                        imageWidth={137}
-                        small
-                        {...product}
+                    <>
+                      <Box mr={'micro'} key={index} height={230}>
+                        <ProductVerticalListCard
+                          imageWidth={138}
+                          small
+                          {...product}
+                        />
+                      </Box>
+                      <Box
+                        width={
+                          recomendedProducts?.length - 1 == index
+                            ? 138 / 2 + theme.space.micro
+                            : 0
+                        }
                       />
-                    </Box>
+                    </>
                   ))}
                 </ScrollView>
                 <Box
@@ -435,7 +454,7 @@ export const ProductDetail: React.FC<Props> = ({
                           paddingX='quarck'
                           variant='icone'
                           onPress={() => {
-                            let width = (137 + theme.space.micro) * 2
+                            let width = (138 + theme.space.micro) * 2
                             console.log(`k/2: ${k / 2}`)
                             recomendedScroll.current?.scrollTo({
                               x: width * (k / 2),
@@ -446,7 +465,7 @@ export const ProductDetail: React.FC<Props> = ({
                               name='Circle'
                               size={6}
                               color={
-                                actualRecomendedindex == Math.ceil((k - 1) / 2)
+                                actualRecomendedindex == Math.ceil(k / 2)
                                   ? 'preto'
                                   : 'neutroFrio1'
                               }

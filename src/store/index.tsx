@@ -23,6 +23,7 @@ import { FilterState } from './ducks/filter/types';
 import { WishlistState } from './ducks/wishlist/types';
 import { NearbyStoresState } from './ducks/nearbyStores/types';
 import { ShippingMethodState } from './ducks/shippingMethod/types';
+import { OrdersState } from './ducks/orders/types';
 
 const persistConfig = {
   key: 'root',
@@ -43,6 +44,7 @@ export interface ApplicationState {
   nearbyStores: NearbyStoresState;
   address: AddressState;
   localities: LocalitiesState;
+  orders: OrdersState;
 }
 
 const configureStore = () => {

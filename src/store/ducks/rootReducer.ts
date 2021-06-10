@@ -11,6 +11,7 @@ import profile from './profile';
 import localities from './localities';
 import address from './address';
 import wishlist from './wishlist';
+import orders from './orders';
 
 export default combineReducers({
   products,
@@ -24,4 +25,5 @@ export default combineReducers({
   nearbyStores,
   localities,
   filter,
+  orders
 });
