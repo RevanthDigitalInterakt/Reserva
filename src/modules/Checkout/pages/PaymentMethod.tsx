@@ -13,7 +13,8 @@ export const PaymentMethodScreen = () => {
   const [paymentDifference, setPaymentDifference] = useState(0)
   const [mixedpayment, setMixedpayment] = useState(false)
 
-  const [isChecked, setIsChecked] = useState(true)
+  const [isCheckedCashback, setIsCheckedCashback] = useState(true)
+
   const {
     orders,
     profile,
@@ -43,54 +44,59 @@ export const PaymentMethodScreen = () => {
             </Typography>
           </Box>
 
-          <Box marginY={'micro'}>
-            <Typography variant="tituloSessao">
-              Você possui crédito/cashback na sua conta. Caso não queira usá-lo, desmarque abaixo.
-            </Typography>
-          </Box>
+          {cashBack > 0 &&
+            <>
+              <Box marginY={'micro'}>
+                <Typography variant="tituloSessao">
+                  Você possui crédito/cashback na sua conta. Caso não queira usá-lo, desmarque abaixo.
+                </Typography>
+              </Box>
 
-          <Box
-            marginBottom={'xxxs'}
-            height={42}
-            borderWidth={'hairline'}
-            borderRadius={'nano'}
-            bg='neutroFrio1'
-            borderColor={'offWhite'}
-            flexDirection={'row'}
-            paddingX={'micro'}
-          >
-            <Checkbox
-              flex={1}
-              optionName={'Aplicar crédito/cashback disponível'}
-              checked={isChecked}
-              color={'preto'}
-              onCheck={() => { setIsChecked(!isChecked); setMixedpayment(!mixedpayment) }}
-            />
-            <Box alignSelf={"center"}>
-              <PriceCustom
-                fontFamily={'nunitoSemiBold'}
-                sizeInterger={14}
-                sizeDecimal={11}
-                num={cashBack}
-              />
-            </Box>
-          </Box>
+              <Box
+                marginBottom={'xxxs'}
+                height={42}
+                borderWidth={'hairline'}
+                borderRadius={'nano'}
+                bg='offWhite15'
+                borderColor={'offWhite'}
+                flexDirection={'row'}
+                paddingX={'micro'}
+              >
+                <Checkbox
+                  flex={1}
+                  optionName={'Aplicar crédito/cashback disponível'}
+                  checked={isCheckedCashback}
+                  color={'preto'}
+                  onCheck={() => { setIsCheckedCashback(!isCheckedCashback); setMixedpayment(!mixedpayment) }}
+                />
+                <Box alignSelf={"center"}>
+                  <PriceCustom
+                    fontFamily={'nunitoSemiBold'}
+                    sizeInterger={14}
+                    sizeDecimal={11}
+                    num={cashBack}
+                  />
+                </Box>
+              </Box>
 
-          {paymentDifference >= 0 && isChecked ?
-            <CashbackPayment
-              totalPrice={totalPrice}
-              paymentDifference={paymentDifference}
-              description={"Crédito/cashback restante"}
-              color={"verdeSucesso"}
-            />
-            :
-            paymentDifference < 0 && isChecked &&
-            <CashbackPayment
-              totalPrice={totalPrice}
-              paymentDifference={Math.abs(paymentDifference)}
-              description={"Diferença no pagamento"}
-              color={"vermelhoAlerta"}
-            />
+
+              {paymentDifference >= 0 && isCheckedCashback ?
+                <CashbackPayment
+                  totalPrice={totalPrice}
+                  paymentDifference={paymentDifference}
+                  description={"Crédito/cashback restante"}
+                  color={"verdeSucesso"}
+                />
+                :
+                paymentDifference < 0 && isCheckedCashback &&
+                <CashbackPayment
+                  totalPrice={totalPrice}
+                  paymentDifference={Math.abs(paymentDifference)}
+                  description={"Diferença no pagamento"}
+                  color={"vermelhoAlerta"}
+                />
+              }
+            </>
           }
           <Box mb={'xs'} />
           {mixedpayment || paymentDifference < 0 ?
@@ -136,6 +142,16 @@ export const PaymentMethodScreen = () => {
           }
         </Box>
       </ScrollView>
+      {paymentDifference >= 0 && isCheckedCashback &&
+        <Button
+          onPress={() =>
+            navigation.navigate("SummaryScreen", { paymentType: "Crédito/cashback" })
+          }
+          title="RESUMO"
+          variant="primarioEstreito"
+          inline
+        />
+      }
     </SafeAreaView>
   );
 };
