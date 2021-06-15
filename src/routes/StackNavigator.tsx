@@ -56,6 +56,7 @@ import { Product } from '../store/ducks/product/types'
 import { Wish } from '../store/ducks/wishlist/types'
 import { Tabs } from './BottomTabNavigator'
 import { horizontalAnimationBackwards } from './utils/utils'
+import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder'
 
 export type RootStackParamList = {
   Register: {
@@ -86,6 +87,7 @@ export type RootStackParamList = {
       jobTitle: string
     }
   }
+  CancelOrder: {}
   AddressList: { isCheckout: boolean }
   ListCards: { isCheckout: boolean }
   NewCard: { isCheckout: boolean }
@@ -104,6 +106,7 @@ const MainStackScreen = () => {
   // Here you put normal navigation
   return (
     <MainStack.Navigator
+      initialRouteName='CancelOrder'
       detachInactiveScreens
       screenOptions={{ headerShown: false }}>
       <MainStack.Screen name='HomeTabs' component={Tabs} />
@@ -224,6 +227,7 @@ const MainStackScreen = () => {
         component={NewCard}
         initialParams={{ isCheckout: false }}
       />
+      <MainStack.Screen name='CancelOrder' component={CancelOrder} />
     </MainStack.Navigator>
   )
 }
