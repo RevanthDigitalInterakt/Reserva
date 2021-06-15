@@ -105,21 +105,21 @@ export const PaymentMethodScreen = () => {
                 iconLeft={'Card'}
                 title={'Cartão de crédito'}
                 onPress={() =>
-                  navigation.navigate('ListCards', { isCheckout: true })
+                  navigation.navigate('ListCards', { isCheckout: true, cashback: isCheckedCashback })
                 }
                 divider
               />
               <SelectPayment
                 iconLeft={'Pix'}
                 title={'PIX'}
-                onPress={() => navigation.navigate('PixScreen')}
+                onPress={() => navigation.navigate('PixScreen', { cashback: isCheckedCashback })}
                 divider
               />
               <SelectPayment
                 iconLeft={'Barcode'}
                 title={'Boleto bancário'}
                 onPress={() => {
-                  navigation.navigate('BarCodePayment');
+                  navigation.navigate('BarCodePayment', { cashback: isCheckedCashback });
                 }}
                 divider
               />
@@ -128,7 +128,7 @@ export const PaymentMethodScreen = () => {
                 iconLeft={'Presente'}
                 title={'Cartão presente'}
                 onPress={() => {
-                  navigation.navigate('GiftVoucherScreen');
+                  navigation.navigate('GiftVoucherScreen', { cashback: isCheckedCashback });
                 }}
                 divider
               />
@@ -136,7 +136,7 @@ export const PaymentMethodScreen = () => {
               <SelectPayment
                 iconLeft={'Caixa'}
                 title={'Cartão de Débito Virtual Caixa'}
-                onPress={() => navigation.navigate('VirtualDebitCardCaixaScreen')}
+                onPress={() => navigation.navigate('VirtualDebitCardCaixaScreen', { cashback: isCheckedCashback })}
               />
             </> : null
           }
@@ -145,7 +145,7 @@ export const PaymentMethodScreen = () => {
       {paymentDifference >= 0 && isCheckedCashback &&
         <Button
           onPress={() =>
-            navigation.navigate("SummaryScreen", { paymentType: "Crédito/cashback" })
+            navigation.navigate("SummaryScreen", { paymentType: "Cashback" })
           }
           title="RESUMO"
           variant="primarioEstreito"

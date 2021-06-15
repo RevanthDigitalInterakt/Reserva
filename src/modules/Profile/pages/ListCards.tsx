@@ -7,7 +7,7 @@ import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 
-interface ListCardsScreenProps {}
+interface ListCardsScreenProps { }
 interface CardProps {
   cardNumber: string;
   flag?: FlagTypes;
@@ -49,7 +49,8 @@ export const ListCards = ({ navigation, route }: Props) => {
   );
   const modalTrash = useRef(false);
 
-  const { isCheckout } = route.params;
+  const { isCheckout, cashback } = route.params;
+
   const handleDeleteCard = (id: string) => {
     const restCards = cards.filter((card) => card.id !== id);
     const cardsMain = restCards.filter((card) => card.main);
@@ -134,6 +135,7 @@ export const ListCards = ({ navigation, route }: Props) => {
               onPress={() =>
                 navigation.navigate('SummaryScreen', {
                   paymentType: 'Credit',
+                  cashback: cashback
                 })
               }
             />
