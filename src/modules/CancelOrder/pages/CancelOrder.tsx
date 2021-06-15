@@ -124,6 +124,9 @@ export const CancelOrder: React.FC<Props> = ({ navigation, route }) => {
       </Box>
       <Divider variant='fullWidth' />
       <Button
+        onPress={() => {
+          navigation.goBack()
+        }}
         variant='primarioEstreitoOutline'
         title='RETORNAR AO PEDIDO'
         inline

@@ -106,7 +106,6 @@ const MainStackScreen = () => {
   // Here you put normal navigation
   return (
     <MainStack.Navigator
-      initialRouteName='CancelOrder'
       detachInactiveScreens
       screenOptions={{ headerShown: false }}>
       <MainStack.Screen name='HomeTabs' component={Tabs} />
