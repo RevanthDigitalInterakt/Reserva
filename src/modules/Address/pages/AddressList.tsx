@@ -168,13 +168,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 phoneNumber,
                 jobTitle,
               } = item.address;
-              const numberAndComplement: string[] | undefined = address2?.split("|");
+              const numberAndComplement: string[] | undefined =
+                address2?.split("|");
               return (
                 <AddressSelector
                   addressData={{
-                    address: `${address1}, ${numberAndComplement && numberAndComplement[0]
-                      }, ${numberAndComplement && numberAndComplement[1]
-                      }, ${address3}, ${city} - ${state}`,
+                    address: `${address1}, ${
+                      numberAndComplement && numberAndComplement[0]
+                    }, ${
+                      numberAndComplement && numberAndComplement[1]
+                    }, ${address3}, ${city} - ${state}`,
                     title: address1,
                     zipcode: postalCode,
                   }}
@@ -233,6 +236,18 @@ const AddressList: React.FC<Props> = ({ route }) => {
               );
             }}
           />
+        </Box>
+
+        {isCheckout ? (
+          <Box justifyContent="flex-end" flex={1}>
+            <Button
+              onPress={() => navigation.navigate("PaymentMethodScreen")}
+              title="FORMA DE PAGAMENTO"
+              variant="primarioEstreito"
+              inline={true}
+            />
+          </Box>
+        ) : (
           <Box marginX={"md"}>
             <Button
               mt="xs"
@@ -245,16 +260,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
               title={"NOVO ENDEREÇO"}
               variant="primarioEstreitoOutline"
               padding="xl"
-            />
-          </Box>
-        </Box>
-        {isCheckout && (
-          <Box justifyContent="flex-end" flex={1}>
-            <Button
-              onPress={() => navigation.navigate("PaymentMethodScreen")}
-              title="FORMA DE PAGAMENTO"
-              variant="primarioEstreito"
-              inline={true}
             />
           </Box>
         )}
