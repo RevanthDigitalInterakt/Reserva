@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
@@ -34,6 +34,13 @@ export const WithdrawInStore = () => {
   useEffect(() => {
     dispatch(loadLocalitiesRequest());
   }, []);
+
+  const activatedButton = useCallback((): boolean => {
+    if (state != "UF" && city != "Cidade") {
+      return true;
+    }
+    return false;
+  }, [state, city]);
 
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
@@ -152,10 +159,10 @@ export const WithdrawInStore = () => {
       </ScrollView>
 
       <Button
-        onPress={() => navigation.navigate('NearbyStores')}
+        onPress={() => navigation.navigate('NearbyStores', { UF: state })}
         title="CONTINUAR"
         variant="primarioEstreito"
-        disabled={false}
+        disabled={!activatedButton()}
         inline
       />
       <Picker

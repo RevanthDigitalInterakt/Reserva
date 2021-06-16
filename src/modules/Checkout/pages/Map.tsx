@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, Platform } from "react-native";
+import { SafeAreaView, ScrollView, Platform, FlatList } from "react-native";
 import { Typography, Box, Button, Image, Divider, Icon } from "reserva-ui";
 import { images } from "../../../assets";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -10,12 +10,14 @@ import Geolocation from "@react-native-community/geolocation";
 
 export const MapScreen = () => {
   const navigation = useNavigation();
+
   const [position, setPosition] = useState({
     latitude: 10,
     longitude: 10,
     latitudeDelta: 0.001,
     longitudeDelta: 0.001,
   });
+
   const [markers, setMarkers] = useState([
     {
       latitude: -20.312225246494084,
@@ -36,6 +38,26 @@ export const MapScreen = () => {
       longitudeDelta: 0.05,
     },
   ]);
+
+  const listOfStores = [
+    {
+      id: 1,
+      local: "Shopping Praia Grande",
+      address: "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
+    },
+    {
+      id: 2,
+      local: "Shopping Praia Grande",
+      address: "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
+    },
+    {
+      id: 3,
+      local: "Shopping Praia Grande",
+      address: "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
+    }
+  ]
+
+  //Pega a posição do usuário
   useEffect(() => {
     Geolocation.getCurrentPosition((pos) => {
       const coords = pos.coords;
@@ -55,10 +77,11 @@ export const MapScreen = () => {
       <Box flex={2}>
         <MapView
           provider={PROVIDER_GOOGLE}
-          style={{ flex: 1 }}
+          style={{ flex: 2 }}
           initialRegion={position}
         >
           <Marker coordinate={position}>
+            {/* Posição do usuário */}
             <Box>
               <Image
                 height={40}
@@ -67,7 +90,7 @@ export const MapScreen = () => {
               />
             </Box>
           </Marker>
-          {markers.map((marker, index) => (
+          {markers?.map((marker, index) => (
             <Marker key={index} coordinate={marker}>
               <Image
                 height={40}
@@ -90,72 +113,46 @@ export const MapScreen = () => {
           </Button>
         </Box>
       </Box>
+
       <Box flex={1}>
-        <ScrollView>
-          <Box paddingX={"xxxs"}>
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-            <ItemStoresAddress
-              local={"Shopping Praia Grande"}
-              address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-              }
-            />
-          </Box>
-        </ScrollView>
+        <FlatList
+          data={listOfStores}
+          renderItem={({ item }) => (
+            <>
+              <Button
+                width={"100%"}
+                onPress={() => { navigation.navigate("PaymentMethodScreen") }}
+              >
+                <Box width={"100%"} backgroundColor={"white"} my={"micro"}>
+                  <Box borderColor={"backgroundMenuOpened"}>
+                    <Box flexDirection="row">
+                      <Box>
+                        <Image
+                          height={40}
+                          source={images.localReserva}
+                          resizeMode={"contain"}
+                        />
+                      </Box>
+                      <Box>
+                        <Box mb={"quarck"}>
+                          <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                            {item.local}
+                          </Typography>
+                        </Box>
+                        <Typography fontFamily="nunitoRegular" fontSize={14}>
+                          {item.address}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </Button>
+              <Divider variant={"fullWidth"} />
+            </>
+          )}
+          keyExtractor={item => item.id.toString()}
+        />
       </Box>
-    </SafeAreaView>
-  );
-};
-
-interface IItemStoresAddress {
-  local: string;
-  address: string;
-}
-const ItemStoresAddress = ({ local, address }: IItemStoresAddress) => {
-  return (
-    <>
-      <Box width={"100%"} backgroundColor={"white"} my={"micro"}>
-        <Box borderColor={"backgroundMenuOpened"}>
-          <Box flexDirection="row">
-            <Box>
-              <Image
-                height={40}
-                source={images.localReserva}
-                resizeMode={"contain"}
-              />
-            </Box>
-            <Box>
-              <Box mb={"quarck"}>
-                <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                  {local}
-                </Typography>
-              </Box>
-              <Typography fontFamily="nunitoRegular" fontSize={14}>
-                {address}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-      <Divider variant={"fullWidth"} />
-    </>
+    </SafeAreaView >
   );
 };
