@@ -58,6 +58,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
 
     authentication,
   } = useSelector((state: ApplicationState) => state)
+
   useEffect(() => {
     setCoupons(orders.coupons)
     setProducts(orders.orders)
@@ -66,6 +67,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
         return acc + (currentValue.quantity ? currentValue.quantity : 0)
       }, 0)
     )
+
     setTotalPrice(
       orders.orders.reduce((acc, currentValue) => {
         return (
@@ -99,43 +101,6 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
     }
   }, [showLottie]);
 
-  const [lisProduct, setLisProduct] = useState([
-    {
-      discountTag: 18,
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "Camiseta Básica Reserva",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
-    },
-    {
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "Camiseta Básica Reserva",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
-    },
-  ]);
-  const AddProduct = (count: number) => {
-    setQuantity(quantity + 1);
-  };
-
-  const RemoveProduct = (count: number) => {
-    setQuantity(quantity - 1);
-
-    if (quantity <= 1) {
-      setQuantity(1);
-    }
-  };
-
   return (
     <SafeAreaView
       style={{
@@ -153,11 +118,6 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                 Produtos
               </Typography>
-              <Button onPress={() => { }} pb={"quarck"}>
-                <Typography style={{ textDecorationLine: "underline" }}>
-                  editar
-                </Typography>
-              </Button>
             </Box>
           </Box>
           {products?.map((item, index) => (
@@ -201,7 +161,11 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
               <Typography fontFamily="reservaSerifRegular" fontSize={20}>
                 Entrega
               </Typography>
-              <Button onPress={() => { }} pb={"quarck"}>
+              <Button
+                onPress={() => {
+                  navigation.navigate('AddressList');
+                }}
+                pb={"quarck"}>
                 <Typography style={{ textDecorationLine: "underline" }}>
                   editar
                 </Typography>
@@ -228,7 +192,11 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
               <Typography fontFamily="reservaSerifRegular" fontSize={20}>
                 Forma de Pagamento
               </Typography>
-              <Button onPress={() => { }} pb={"quarck"}>
+              <Button
+                onPress={() => {
+                  navigation.navigate('PaymentMethodScreen');
+                }}
+                pb={"quarck"}>
                 <Typography style={{ textDecorationLine: "underline" }}>
                   editar
                 </Typography>
@@ -287,52 +255,6 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             />
           </Box>
 
-          {/* <Box mt="xxs">
-            <Box
-              marginBottom={"micro"}
-              flexDirection={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Typography variant={"precoAntigo3"}>Subtotal</Typography>
-              <PriceCustom
-                fontFamily={"nunitoSemiBold"}
-                sizeInterger={15}
-                sizeDecimal={11}
-                num={1254.0}
-              />
-            </Box>
-            <Box
-              marginBottom={"micro"}
-              flexDirection={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Typography variant={"precoAntigo3"}>Descontos</Typography>
-
-              <PriceCustom
-                fontFamily={"nunitoSemiBold"}
-                negative={true}
-                sizeInterger={15}
-                sizeDecimal={11}
-                num={254.0}
-              />
-            </Box>
-            <Box
-              marginBottom={"micro"}
-              flexDirection={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Typography variant={"precoAntigo3"}>Total</Typography>
-              <PriceCustom
-                fontFamily={"nunitoBold"}
-                sizeInterger={20}
-                sizeDecimal={11}
-                num={1000.0}
-              />
-            </Box>
-          </Box> */}
         </Box>
         <Button
           onPress={() => {
