@@ -231,7 +231,7 @@ export const BagScreen = () => {
         {showLikelyProducts && (
           <BoxAnimated
             paddingX={"xxxs"}
-            bg="#FAFAFA"
+            bg={"whiteSecondary"}
             animation={showLikelyProducts ? "fadeIn" : ""}
           >
             <ScrollView
@@ -245,7 +245,7 @@ export const BagScreen = () => {
                 <Box mt="xxs" mr="xxs" key={`${index}-${product.productTitle}`}>
                   <Box flex={1} mb="micro">
                     <ProductVerticalListCard
-                      bg="#FAFAFA"
+                      bg={"whiteSecondary"}
                       small
                       {...product}
                       productTitle={product.productTitle.toUpperCase()}
