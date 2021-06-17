@@ -8,8 +8,12 @@ import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
 } from "react-native-masked-text";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const VirtualDebitCardCaixaScreen = () => {
+type Props = StackScreenProps<RootStackParamList, "VirtualDebitCardCaixaScreen">;
+export const VirtualDebitCardCaixaScreen = ({ route }: Props) => {
+  const { cashback } = route?.params;
   const navigation = useNavigation();
   return (
     <SafeAreaView flex={1} backgroundColor={"white"}>
@@ -26,14 +30,14 @@ export const VirtualDebitCardCaixaScreen = () => {
             placeholder={"Número do cartão"}
             iconName={"HelpCircle"}
             maskType={"credit-card"}
-            onChangeText={() => {}}
-            onPressIcon={() => {}}
+            onChangeText={() => { }}
+            onPressIcon={() => { }}
           />
 
           <InputOption
             placeholder={"Nome do titular"}
             iconName={"HelpCircle"}
-            onPressIcon={() => {}}
+            onPressIcon={() => { }}
           />
 
           <Box flexDirection={"row"}>
@@ -45,8 +49,8 @@ export const VirtualDebitCardCaixaScreen = () => {
                 maskOptions={{
                   format: "MM/YYYY",
                 }}
-                onChangeText={() => {}}
-                onPressIcon={() => {}}
+                onChangeText={() => { }}
+                onPressIcon={() => { }}
               />
             </Box>
             <Box width="5%" />
@@ -58,7 +62,7 @@ export const VirtualDebitCardCaixaScreen = () => {
       </ScrollView>
       <Button
         onPress={() =>
-          navigation.navigate("SummaryScreen", { paymentType: "Debit" })
+          navigation.navigate("SummaryScreen", { paymentType: "Debit", cashback: cashback })
         }
         title="ADICIONAR CARTÃO"
         variant="primarioEstreito"

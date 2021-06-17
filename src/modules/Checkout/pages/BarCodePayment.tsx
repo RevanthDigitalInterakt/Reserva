@@ -3,8 +3,12 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Icon, Divider } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const BarCodePayment = () => {
+type Props = StackScreenProps<RootStackParamList, "BarCodePayment">;
+export const BarCodePayment = ({ route }: Props) => {
+  const { cashback } = route?.params;
   const navigation = useNavigation();
 
   return (
@@ -33,7 +37,7 @@ export const BarCodePayment = () => {
       </ScrollView>
       <Button
         onPress={() =>
-          navigation.navigate("SummaryScreen", { paymentType: "Boleto" })
+          navigation.navigate("SummaryScreen", { paymentType: "Boleto", cashback: cashback })
         }
         title="RESUMO"
         variant="primarioEstreito"

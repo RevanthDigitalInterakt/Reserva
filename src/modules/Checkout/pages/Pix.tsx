@@ -3,8 +3,12 @@ import { Alert, SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Icon, Divider, TextField } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const PixScreen = () => {
+type Props = StackScreenProps<RootStackParamList, "PixScreen">;
+export const PixScreen = ({ route }: Props) => {
+  const { cashback } = route?.params;
   const navigation = useNavigation();
   return (
     <SafeAreaView flex={1} backgroundColor={"white"}>
@@ -51,7 +55,7 @@ export const PixScreen = () => {
 
       <Button
         onPress={() =>
-          navigation.navigate("SummaryScreen", { paymentType: "PIX" })
+          navigation.navigate("SummaryScreen", { paymentType: "PIX", cashback: cashback })
         }
         title="RESUMO"
         variant="primarioEstreito"

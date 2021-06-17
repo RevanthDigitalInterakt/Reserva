@@ -91,13 +91,35 @@ export type RootStackParamList = {
   CancelOrder: {}
   Cashback: {}
   AddressList: { isCheckout: boolean }
-  ListCards: { isCheckout: boolean }
+  ListCards: {
+    isCheckout: boolean
+    cashback: boolean
+  }
   NewCard: { isCheckout: boolean }
   SummaryScreen: {
-    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard'
+    paymentType:
+    'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback'
+    cashback: boolean
   }
   PurchaseConfirmationScreen: {
-    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard'
+    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard' | 'Cashback'
+  }
+  PixScreen: {
+    cashback: boolean
+  }
+  BarCodePayment: {
+    cashback: boolean
+  }
+  GiftVoucherScreen: {
+    cashback: boolean
+  }
+  VirtualDebitCardCaixaScreen: {
+    cashback: boolean
   }
 }
 
