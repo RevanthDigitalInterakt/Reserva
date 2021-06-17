@@ -16,10 +16,12 @@ import Modal from 'react-native-modal';
 import { ApplicationState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { loadLocalitiesRequest, loadCountyResquest } from "../../../store/ducks/localities/actions";
+import { useFocusEffect } from '@react-navigation/native';
 
 export const WithdrawInStore = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const {
     localities: { dataState: states, dataCounty, loading, error },
   } = useSelector((state: ApplicationState) => state);
@@ -35,7 +37,22 @@ export const WithdrawInStore = () => {
     dispatch(loadLocalitiesRequest());
   }, []);
 
-  const activatedButton = useCallback((): boolean => {
+  // limpar o state e city quando focar na tela
+  useFocusEffect(
+    useCallback(() => {
+      setState('UF')
+      setCity('Cidade')
+    }, [])
+  );
+
+  const activateMapButton = useCallback((): boolean => {
+    if (cep?.length && cep?.match(/^(?=.{9,})/)) {
+      return true;
+    }
+    return false;
+  }, [cep]);
+
+  const activateContinueButton = useCallback((): boolean => {
     if (state != "UF" && city != "Cidade") {
       return true;
     }
@@ -72,7 +89,8 @@ export const WithdrawInStore = () => {
             </Box>
             <Box>
               <Button
-                onPress={() => navigation.navigate('MapScreen')}
+                disabled={!activateMapButton()}
+                onPress={() => navigation.navigate('MapScreen', { geolocation: cep })}
                 title="MAPA"
                 variant="primarioEstreito"
               />
@@ -162,7 +180,7 @@ export const WithdrawInStore = () => {
         onPress={() => navigation.navigate('NearbyStores', { UF: state })}
         title="CONTINUAR"
         variant="primarioEstreito"
-        disabled={!activatedButton()}
+        disabled={!activateContinueButton()}
         inline
       />
       <Picker
@@ -178,6 +196,7 @@ export const WithdrawInStore = () => {
             text: item.sigla,
           };
         }) : []}
+        onBackDropPress={() => setOpenState(false)}
         title="Selecione um Estado"
       />
       <Picker
@@ -190,6 +209,7 @@ export const WithdrawInStore = () => {
             text: item.nome,
           };
         }) : []}
+        onBackDropPress={() => setOpenCity(false)}
         title="Selecione a cidade"
       />
     </SafeAreaView>

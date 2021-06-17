@@ -7,8 +7,12 @@ import { useNavigation } from "@react-navigation/native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Marker } from "react-native-maps";
 import Geolocation from "@react-native-community/geolocation";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const MapScreen = () => {
+type Props = StackScreenProps<RootStackParamList, "MapScreen">;
+export const MapScreen = ({ route }: Props) => {
+  const { geolocation, locationPermission } = route?.params;
   const navigation = useNavigation();
 
   const [position, setPosition] = useState({
@@ -16,6 +20,13 @@ export const MapScreen = () => {
     longitude: 10,
     latitudeDelta: 0.001,
     longitudeDelta: 0.001,
+  });
+
+  const [positionCep, setPositionCep] = useState({
+    latitude: -20.3559106,
+    longitude: -40.3202333,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
   });
 
   const [markers, setMarkers] = useState([
@@ -57,17 +68,22 @@ export const MapScreen = () => {
     }
   ]
 
+  const getGeolocation = () => {
+    if (locationPermission) {
+      Geolocation.getCurrentPosition((pos) => {
+        const coords = pos.coords;
+        setPosition({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        });
+      });
+    }
+  }
   //Pega a posição do usuário
   useEffect(() => {
-    Geolocation.getCurrentPosition((pos) => {
-      const coords = pos.coords;
-      setPosition({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      });
-    });
+    getGeolocation()
   }, []);
 
   return (
@@ -78,9 +94,9 @@ export const MapScreen = () => {
         <MapView
           provider={PROVIDER_GOOGLE}
           style={{ flex: 2 }}
-          initialRegion={position}
+          initialRegion={geolocation?.toString() != "" ? positionCep : position}
         >
-          <Marker coordinate={position}>
+          <Marker coordinate={geolocation?.toString() != "" ? positionCep : position}>
             {/* Posição do usuário */}
             <Box>
               <Image

@@ -89,6 +89,8 @@ export type RootStackParamList = {
   AddressList: { isCheckout: boolean }
   ListCards: { isCheckout: boolean }
   NewCard: { isCheckout: boolean }
+  NearbyStores: { UF: string }
+  MapScreen: { geolocation: number, locationPermission: boolean }
   SummaryScreen: {
     paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard'
   }

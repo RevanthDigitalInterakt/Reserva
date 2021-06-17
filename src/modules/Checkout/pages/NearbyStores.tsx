@@ -21,13 +21,14 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 
 type Props = StackScreenProps<RootStackParamList, "NearbyStores">;
-export const NearbyStores = ({ route }) => {
+export const NearbyStores = ({ route }: Props) => {
+  const { UF } = route?.params;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { data } = useSelector(nearbyStoresStateSelector);
   const { stores } = data;
   useEffect(() => {
-    dispatch(load({ UF: 'RJ' }));
+    dispatch(load({ UF: UF }));
   }, []);
 
   return (
