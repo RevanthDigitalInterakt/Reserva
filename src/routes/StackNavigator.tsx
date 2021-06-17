@@ -57,6 +57,7 @@ import { Wish } from '../store/ducks/wishlist/types'
 import { Tabs } from './BottomTabNavigator'
 import { horizontalAnimationBackwards } from './utils/utils'
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder'
+import { Cashback } from '../modules/Cashback/pages/Cashback'
 
 export type RootStackParamList = {
   Register: {
@@ -88,6 +89,7 @@ export type RootStackParamList = {
     }
   }
   CancelOrder: {}
+  Cashback: {}
   AddressList: { isCheckout: boolean }
   ListCards: { isCheckout: boolean }
   NewCard: { isCheckout: boolean }
@@ -150,6 +152,7 @@ const MainStackScreen = () => {
         name='PurchaseConfirmationScreen'
         component={PurchaseConfirmationScreen}
       />
+      <MainStack.Screen name='Cashback' component={Cashback} />
       <MainStack.Screen
         name='VirtualDebitCardCaixaScreen'
         component={VirtualDebitCardCaixaScreen}
