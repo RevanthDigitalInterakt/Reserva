@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { SafeAreaView, ScrollView, Platform } from "react-native";
 import { Typography, Box, Button, Icon, Divider } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 import { withAuthentication } from "../../Profile/HOC/withAuthentication";
-import { requestMultiple, request, check, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
+import { useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
+import { request, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
+  const { authentication } = useSelector((state: ApplicationState) => state);
   const [Permission, setPermission] = useState(false)
   const [mapPermission, setMapPermission] = useState(false)
 
   const requestMap = async () => {
-    withAuthentication(Delivery, "Checkout")
     try {
       const lacationAlways = await request(
         PERMISSIONS.IOS.LOCATION_ALWAYS);
@@ -26,7 +28,6 @@ const Delivery: React.FC<{}> = () => {
         setPermission(true)
       }
     } catch (error) {
-      console.log('error resquest loca', error)
     }
   }
 
@@ -41,15 +42,15 @@ const Delivery: React.FC<{}> = () => {
         setMapPermission(true)
       }
     } catch (err) {
-      console.log('err lo', err);
     }
   }
-  console.log('Permission', Permission)
-  console.log('mapPermission', mapPermission)
 
   useEffect(() => {
-    requestMap();
-  }, [])
+    if (authentication.data?.access_token) {
+      requestMap();
+    }
+  }, [authentication])
+
 
   useEffect(() => {
     CkeckmapPermission();
