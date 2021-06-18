@@ -1,9 +1,5 @@
-import {
-  NavigationContainer,
-  NavigationProp,
-  useNavigation,
-} from '@react-navigation/native'
 import * as React from 'react'
+import {  useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   Box,
@@ -11,26 +7,22 @@ import {
   Divider,
   Icon,
   SearchBar,
-  TextField,
   theme,
   Typography,
 } from 'reserva-ui'
-import { TopBarMenu } from '../components/TopBarMenu'
 import * as Animatable from 'react-native-animatable'
 import {
-  ActivityIndicator,
-  Alert,
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
 import { useState, useEffect } from 'react'
-import { ApplicationState } from '../../../store'
-import { Category } from '../../../store/ducks/categories/types'
-import { RootStackParamList } from '../../../routes/StackNavigator'
+import { useQuery } from '@apollo/client'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadRequest } from '../../../store/ducks/categories/actions'
+import { ApplicationState } from '../../../store'
+import { categoriesQuery, CategoryQuery } from '../../../store/ducks/categories/types'
+import { TopBarMenu } from '../components/TopBarMenu'
 
-interface IBreadCumbs {
+interface IBreadCrumbs {
   title: string
 }
 
@@ -41,14 +33,14 @@ interface IMenuSubItem {
 }
 interface IMenuItem {
   title: string
-  subItemList: Category[]
+  subItemList: CategoryQuery[]
   opened?: boolean
   onPress?: Function
   index?: number
   highlight?: boolean
 }
 
-const Breadcumbs: React.FC<IBreadCumbs> = ({ title }) => {
+const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
   const navigation = useNavigation()
   return (
     <Button onPress={() => navigation.navigate('Home')} alignSelf='flex-start'>
@@ -138,7 +130,7 @@ const MenuItem: React.FC<IMenuItem> = ({
                   highlight={item.highlight}
                   title={item.name}
                   onPress={() => {
-                    let route = item.route.split('/')
+                    let route = item.href.split('/')
                     //console.log(route[route.length - 1])
                     //console.log('asdasd')
                     navigation.navigate('ProductCatalog', {
@@ -175,28 +167,25 @@ export const FixedMenuItem: React.FC<{
     </TouchableOpacity>
   )
 }
+
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const [categories, setCategories] = useState<Category[]>([])
-  const {
-    categories: { data, loading, error },
-  } = useSelector((state: ApplicationState) => state)
+  const [categories, setCategories] = useState<CategoryQuery[]>([])
 
-  useEffect(() => {
-    dispatch(loadRequest())
-  }, [])
-
+  const { loading, error, data } = useQuery(categoriesQuery);
+  
   useEffect(() => {
     setCategories(
-      data.map((item) => ({
+      data.categories.map((item: CategoryQuery) => ({
         ...item,
-        childs: item.childs.flat(),
+        children: item.children.flat(),
         opened: false,
         highlight: false,
       }))
     )
   }, [data])
+
 
   const { authentication } = useSelector((state: ApplicationState) => state)
 
@@ -223,7 +212,7 @@ export const Menu: React.FC<{}> = () => {
               }}
             />
           </Box>
-          <Breadcumbs title='Página Inicial' />
+          <Breadcrumbs title='Página Inicial' />
           <Divider variant='fullWidth' marginBottom='nano' marginTop='nano' />
           {categories && (
             <Animatable.View animation='fadeIn'>
@@ -232,7 +221,7 @@ export const Menu: React.FC<{}> = () => {
                   <MenuItem
                     key={index}
                     highlight={item.highlight}
-                    subItemList={item.childs}
+                    subItemList={item.children}
                     onPress={openMenuItem}
                     opened={item.opened}
                     index={index}

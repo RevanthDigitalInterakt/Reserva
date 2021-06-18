@@ -16,6 +16,7 @@
     "codepush-ios": "appcenter codepush release-react -a GlobalsysApps/Reserva-iOS -d Staging"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.20",
     "@monterosa/react-native-parallax-scroll": "^1.8.0",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/geolocation": "^2.0.2",
@@ -31,6 +32,7 @@
     "date-fns": "^2.21.3",
     "dayjs": "^1.10.4",
     "formik": "^2.2.8",
+    "graphql": "^15.5.0",
     "lottie-ios": "3.1.8",
     "lottie-react-native": "^4.0.2",
     "react": "17.0.1",
@@ -68,6 +70,7 @@
     "styled-components": "^5.2.3",
     "styled-system": "5.1.5",
     "typesafe-actions": "^5.1.0",
+    "vtex.search-graphql": "vtex-apps/search-graphql",
     "yarn": "^1.22.10",
     "yup": "^0.32.9"
   },

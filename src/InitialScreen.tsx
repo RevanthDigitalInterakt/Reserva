@@ -9,6 +9,8 @@ import AnimatedLottieView from "lottie-react-native";
 import { useEffect } from "react";
 import { restoreSession } from "./store/ducks/authentication/actions";
 import { useDispatch } from "react-redux";
+import { gql, useQuery } from '@apollo/client';
+import { productSearchQuery } from "./store/ducks/products/types";
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   const dispatch = useDispatch();
@@ -24,6 +26,16 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   }, []);
 
   useEffect(() => {}, [animation?.props.progress]);
+
+  const { loading, error, data } = useQuery(
+    productSearchQuery, 
+    { 
+      variables: {
+        query: "clothing"
+      }
+    }
+  );
+  console.log(data);
 
   return (
     <>
