@@ -56,6 +56,8 @@ import { Product } from '../store/ducks/product/types'
 import { Wish } from '../store/ducks/wishlist/types'
 import { Tabs } from './BottomTabNavigator'
 import { horizontalAnimationBackwards } from './utils/utils'
+import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder'
+import { Cashback } from '../modules/Cashback/pages/Cashback'
 
 export type RootStackParamList = {
   Register: {
@@ -86,16 +88,40 @@ export type RootStackParamList = {
       jobTitle: string
     }
   }
+  CancelOrder: {}
+  Cashback: {}
   AddressList: { isCheckout: boolean }
-  ListCards: { isCheckout: boolean }
+  ListCards: {
+    isCheckout: boolean
+    cashback: boolean
+  }
   NewCard: { isCheckout: boolean }
   NearbyStores: { UF: string }
   MapScreen: { geolocation: number, locationPermission: boolean }
   SummaryScreen: {
-    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard'
+    paymentType:
+    'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback'
+    cashback: boolean
   }
   PurchaseConfirmationScreen: {
-    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard'
+    paymentType: 'PIX' | 'Credit' | 'Debit' | 'Boleto' | 'GiftCard' | 'Cashback'
+  }
+  PixScreen: {
+    cashback: boolean
+  }
+  BarCodePayment: {
+    cashback: boolean
+  }
+  GiftVoucherScreen: {
+    cashback: boolean
+  }
+  VirtualDebitCardCaixaScreen: {
+    cashback: boolean
   }
 }
 
@@ -150,6 +176,7 @@ const MainStackScreen = () => {
         name='PurchaseConfirmationScreen'
         component={PurchaseConfirmationScreen}
       />
+      <MainStack.Screen name='Cashback' component={Cashback} />
       <MainStack.Screen
         name='VirtualDebitCardCaixaScreen'
         component={VirtualDebitCardCaixaScreen}
@@ -226,6 +253,7 @@ const MainStackScreen = () => {
         component={NewCard}
         initialParams={{ isCheckout: false }}
       />
+      <MainStack.Screen name='CancelOrder' component={CancelOrder} />
     </MainStack.Navigator>
   )
 }

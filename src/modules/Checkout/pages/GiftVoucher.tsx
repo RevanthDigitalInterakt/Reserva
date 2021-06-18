@@ -3,8 +3,12 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, TextField } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const GiftVoucherScreen = () => {
+type Props = StackScreenProps<RootStackParamList, "GiftVoucherScreen">;
+export const GiftVoucherScreen = ({ route }: Props) => {
+  const { cashback } = route?.params;
   const navigation = useNavigation();
   const [codigo, setCodigo] = useState<string>("");
   const [cpf, setCpf] = useState<string>("");
@@ -55,7 +59,7 @@ export const GiftVoucherScreen = () => {
       </ScrollView>
       <Button
         onPress={() =>
-          navigation.navigate("SummaryScreen", { paymentType: "GiftCard" })
+          navigation.navigate("SummaryScreen", { paymentType: "GiftCard", cashback: cashback })
         }
         title="RESUMO"
         variant="primarioEstreito"
