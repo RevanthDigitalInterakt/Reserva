@@ -1,3 +1,5 @@
+import { gql } from "@apollo/client";
+
 export enum ProfileTypes {
   REGISTER_REQUEST = "@profile/REGISTER_REQUEST",
   REQUEST_SUCCESS = "@profile/REQUEST_SUCCESS",
@@ -28,3 +30,17 @@ export interface ProfileState {
   readonly loading: boolean;
   readonly error: boolean;
 }
+
+export const profileQuery = gql`
+  query Profile {
+    profile
+    @context(provider: "vtex.store-graphql") {
+      userId
+      firstName
+      lastName
+      document
+      birthDate
+      homePhone 
+    }
+  }
+`;
