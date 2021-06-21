@@ -44,3 +44,12 @@ export const profileQuery = gql`
     }
   }
 `;
+
+const ProfileMutation = gql`
+  mutation AddTodo($type: String!) {
+    addTodo(type: $type) {
+      id
+      type
+    }
+  }
+`;
