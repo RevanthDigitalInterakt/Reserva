@@ -1,5 +1,7 @@
 //#region Action Types
 
+import { gql } from "@apollo/client";
+
 export enum CategoriesTypes {
   LOAD_REQUEST = '@categories/LOAD_REQUEST',
   LOAD_SUCCESS = '@categories/LOAD_SUCCESS',
@@ -33,3 +35,40 @@ export interface CategoriesState {
 }
 
 //#region
+
+export type CategoryQuery = {
+  id: number;
+  href: string;
+  slug: string;
+  name: string;
+  titleTag: string;
+  hasChildren: boolean;
+  metaTagDescription: string;
+  children: [CategoryQuery]
+  highlight?: boolean;
+  opened?: boolean;
+}
+
+export const categoriesQuery = gql`
+  query Categories {
+    categories
+    @context(provider: "vtex.store-graphql") {
+      id
+      href
+      slug
+      name
+      titleTag
+      hasChildren
+      metaTagDescription
+      children {
+        id
+        href
+        slug
+        name
+        titleTag
+        hasChildren
+        metaTagDescription
+      }
+    }
+  }
+`;

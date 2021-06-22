@@ -7,6 +7,7 @@ import { Alert, Text, useColorScheme } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { theme, platformHelper } from "reserva-ui";
+import { ApolloProvider } from '@apollo/client';
 
 import "react-native-gesture-handler";
 
@@ -26,8 +27,9 @@ import { useEffect } from "react";
 
 import { PersistGate } from "redux-persist/integration/react";
 import { oneSignalConfig } from "./config/pushNotification";
+import { apolloClient } from "./services/apolloClient";
 
-// import './config/ReactotronConfig'
+import './config/ReactotronConfig'
 
 Sentry.init({
   dsn: env.SENTRY_KEY,
@@ -68,18 +70,20 @@ const App = () => {
     );
 
     oneSignalConfig();
-  }, []);
+  }, []); 
 
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer theme={DefaultTheme}>
-        <Provider store={configureStore().store}>
-          <PersistGate persistor={configureStore().persistor}>
-            <InitialScreen>
-              <AppRouting />
-            </InitialScreen>
-          </PersistGate>
-        </Provider>
+        <ApolloProvider client={apolloClient}>
+          <Provider store={configureStore().store}>
+            <PersistGate persistor={configureStore().persistor}>
+              <InitialScreen>
+                <AppRouting />
+              </InitialScreen>
+            </PersistGate>
+          </Provider>
+        </ApolloProvider>
       </NavigationContainer>
     </ThemeProvider>
   );

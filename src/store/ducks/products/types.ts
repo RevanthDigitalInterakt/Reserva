@@ -1,5 +1,7 @@
 //#region Action Types
 
+import { gql } from '@apollo/client';
+
 import { Product } from '../product/types'
 
 export enum ProductsTypes {
@@ -9,34 +11,29 @@ export enum ProductsTypes {
   LOAD_PRODUCTS_FAILURE = '@products/LOAD_PRODUCTS_FAILURE',
 }
 
-//#endregion
-
-//#region Data Types
-
-// export interface Product {
-//   id: string
-//   title: string
-//   imageUrl: string
-//   isFavorite: boolean
-//   fullPrice: number
-//   discountPrice: number
-//   currency: string
-//   installmentPrice: number
-//   installmentNumber: number
-//   discountTag: number
-//   creationDate: string
-//   colors: string[]
-//   sizes: string[]
-// }
-
-//#region
-
-//#region State Type
-
 export interface ProductsState {
   readonly dataOffer: Product[]
   readonly loading: boolean
   readonly error: boolean
 }
 
-//#region
+export const productSearchQuery = gql`
+  query ProductSearch($query: String!){
+    productSearch(
+      query: $query, 
+      map:"c", 
+      hideUnavailableItems: true
+    ) 
+    @context(provider: "vtex.search-graphql") {
+      products {
+        productName
+        productId
+      }
+      recordsFiltered
+      breadcrumb {
+        name
+        href
+      }
+    } 
+  }
+`;
