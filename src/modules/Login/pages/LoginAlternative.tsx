@@ -19,6 +19,8 @@ import { ApplicationState } from "../../../store";
 import { login } from "../../../store/ducks/authentication/actions";
 import ProgressBar from "react-native-progress/Bar";
 import { useEffect } from "react";
+import { gql, useMutation } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
 
 type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
@@ -71,6 +73,22 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
       navigation.goBack();
     }
   }, [profile]);
+
+  const loginMutation = gql`
+    mutation Login {
+      classicSignIn(email: "danilo.sousa@globalsys.com.br", password: "Danilo123")
+    }
+  `;
+
+  const [login, { data }] = useMutation(loginMutation);
+  console.log(data);
+
+  if(data){
+    AsyncStorage.setItem('@RNAuth:cookie', data.cookie);
+  }
+
+  useEffect(() => {}, []);
+
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
@@ -244,7 +262,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Box marginTop="xs" alignItems="center">
                       <Button
                         onPress={() => {
-                          handleLogin();
+                          login();
                         }}
                         width={190}
                         disabled={authentication.loading}

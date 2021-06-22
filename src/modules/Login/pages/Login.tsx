@@ -23,9 +23,6 @@ export const LoginScreen: React.FC<{
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [isSecureText, setIsSecureText] = React.useState(true);
-
-  useEffect(() => {}, []);
-
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <ScrollView>
@@ -87,9 +84,7 @@ export const LoginScreen: React.FC<{
               title="ENTRAR"
               variant="primarioEstreito"
               mb="nano"
-              onPress={() => {
-                navigation.navigate("Home");
-              }}
+              onPress={() => {}}
             />
           </Box>
           {/* <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
