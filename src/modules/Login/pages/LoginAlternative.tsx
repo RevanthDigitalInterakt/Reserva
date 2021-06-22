@@ -1,8 +1,7 @@
+import * as React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
 import { Animated, SafeAreaView, ScrollView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -16,17 +15,16 @@ import {
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { ApplicationState } from "../../../store";
-import { login } from "../../../store/ducks/authentication/actions";
 import ProgressBar from "react-native-progress/Bar";
 import { useEffect } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
+import { classicSignInMutation } from "../../../graphql/login/loginMutations";
 
 type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
 export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: "",
     password: "",
@@ -35,13 +33,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const imageTranslation = React.useRef(new Animated.Value(0)).current;
   const boxTranslation = React.useRef(new Animated.Value(100)).current;
   const [isSecureText, setIsSecureText] = React.useState(true);
-  const { authentication } = useSelector((state: ApplicationState) => state);
-  const { profile } = useSelector((state: ApplicationState) => state);
-
-  React.useEffect(() => {
-    console.log(authentication);
-  }, [authentication]);
-
+  const [login, { data, loading }] = useMutation(classicSignInMutation);
   const { comeFrom } = route.params;
 
   React.useEffect(() => {
@@ -60,35 +52,17 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   }, [isVisible]);
 
   const handleLogin = async () => {
-    dispatch(login(loginCredentials));
+    login({ 
+      variables: {
+        email: loginCredentials.username,
+        password: loginCredentials.password
+      } 
+    })
   };
-
+  
   useEffect(() => {
-    if (authentication.data?.access_token && profile.data) {
-      // if (comeFrom == "Checkout") {
-      //   navigation.navigate("DeliveryScreen");
-      // } else {
-      //   navigation.navigate("Home");
-      // }
-      navigation.goBack();
-    }
-  }, [profile]);
-
-  const loginMutation = gql`
-    mutation Login {
-      classicSignIn(email: "danilo.sousa@globalsys.com.br", password: "Danilo123")
-    }
-  `;
-
-  const [login, { data }] = useMutation(loginMutation);
-  console.log(data);
-
-  if(data){
-    AsyncStorage.setItem('@RNAuth:cookie', data.cookie);
-  }
-
-  useEffect(() => {}, []);
-
+    AsyncStorage.setItem('@RNAuth:cookie', data?.cookie);
+  }, [data]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
@@ -174,7 +148,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
               >
                 <ProgressBar
                   animated
-                  indeterminate={authentication.loading}
+                  indeterminate={loading}
                   color={theme.colors.vermelhoAlerta}
                   height={2}
                   borderWidth={0}
@@ -262,10 +236,10 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Box marginTop="xs" alignItems="center">
                       <Button
                         onPress={() => {
-                          login();
+                          handleLogin()
                         }}
                         width={190}
-                        disabled={authentication.loading}
+                        disabled={loading}
                         fontFamily="nunitoRegular"
                         title="ENTRAR"
                         variant="primarioEstreito"
