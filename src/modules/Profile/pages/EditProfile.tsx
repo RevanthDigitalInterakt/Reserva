@@ -19,7 +19,8 @@ import {
 } from "reserva-ui";
 import { ApplicationState } from "../../../store";
 import { profileLoad } from "../../../store/ducks/profile/actions";
-import { Profile, ProfileState, profileQuery } from "../../../store/ducks/profile/types";
+import { useQuery } from '@apollo/client'
+import { Profile, ProfileState, profileQuery, ProfileQuery } from "../../../store/ducks/profile/types";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
@@ -27,28 +28,35 @@ export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const [data, setData] = useState<Profile | undefined>({
+  const [userData, setData] = useState<ProfileQuery>({
+    userId: "",
     firstName: "",
     lastName: "",
-    email: "",
-    password: "",
-    receiveEmail: "",
-    gender: "",
     fullName: "",
-    phone: "",
-    ddd: "",
-    rsvCPF: "",
-    rsvBirthDate: "",
-    rsvPhoneNumber: "",
+    email: "",
+    document: "",
+    birthDate: "",
+    homePhone: "",
+
   });
-
-  const { profile } = useSelector((state: ApplicationState) => state);
-
+  const { loading, error, data } = useQuery(profileQuery);
+  console.log('datasdatas', userData)
   useEffect(() => {
-    setData(profile.data);
-  });
+    setData({
+      userId: data?.profile.userId,
+      firstName: data?.profile.firstName,
+      lastName: data?.profile.lastName,
+      fullName: `${data?.profile.firstName} ${data?.profile.lastName}`,
+      email: data?.profile.email,
+      document: data?.profile.document,
+      birthDate: data?.profile.birthDate,
+      homePhone: data?.profile.homePhone
+    });
+  }, [data]);
 
+  const updateUserData = () => {
+    navigation.goBack();
+  }
   return (
     <SafeAreaView
       flex={1}
@@ -92,9 +100,17 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu nome completo"}
-                  value={data?.fullName}
+                  value={userData?.fullName}
                   onChangeText={(text) => {
-                    setData({ ...data, fullName: text });
+                    const newFullName = userData.fullName = text
+                    const fistName = newFullName.split(' ').slice(0, 1).join(' ');
+                    const lastName = newFullName.split(' ').slice(1).join(' ');
+                    setData(
+                      {
+                        ...userData,
+                        firstName: fistName,
+                        lastName: lastName
+                      });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -112,9 +128,9 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu e-mail"}
-                  value={data?.email}
+                  value={userData.email}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ email: text } });
+                    setData({ ...userData, ...{ email: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -133,10 +149,10 @@ export const EditProfile: React.FC<{
                 <TextField
                   keyboardType="number-pad"
                   label={"Digite seu CPF/CNPJ"}
-                  value={data?.rsvCPF}
+                  value={userData.document}
                   maskType={"cpf"}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ rsvCPF: text } });
+                    setData({ ...userData, ...{ userData: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -175,9 +191,9 @@ export const EditProfile: React.FC<{
                 <TextField
                   keyboardType="number-pad"
                   label={"Digite sua data de nascimento"}
-                  value={data?.rsvBirthDate}
+                  value={userData.birthDate}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ rsvBirthDate: text } });
+                    setData({ ...userData, ...{ birthDate: text } });
                   }}
                 />
               </Box>
@@ -186,9 +202,9 @@ export const EditProfile: React.FC<{
                 <TextField
                   maskType="cel-phone"
                   label={"Telefone (opcional)"}
-                  value={data?.rsvPhoneNumber}
+                  value={userData.homePhone}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ rsvPhoneNumber: text } });
+                    setData({ ...userData, ...{ homePhone: text } });
                   }}
                 />
               </Box>
@@ -232,9 +248,7 @@ export const EditProfile: React.FC<{
                     title="SALVAR"
                     variant={"primarioEstreito"}
                     inline={true}
-                    onPress={() => {
-                      navigation.goBack();
-                    }}
+                    onPress={() => { updateUserData }}
                   ></Button>
                 </Box>
               </Box>

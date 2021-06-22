@@ -31,6 +31,17 @@ export interface ProfileState {
   readonly error: boolean;
 }
 
+export type ProfileQuery = {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+  document: string;
+  birthDate: string;
+  homePhone: string;
+}
+
 export const profileQuery = gql`
   query Profile {
     profile
@@ -38,6 +49,7 @@ export const profileQuery = gql`
       userId
       firstName
       lastName
+      email
       document
       birthDate
       homePhone 
