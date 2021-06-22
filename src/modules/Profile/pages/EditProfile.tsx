@@ -19,7 +19,7 @@ import {
 } from "reserva-ui";
 import { ApplicationState } from "../../../store";
 import { profileLoad } from "../../../store/ducks/profile/actions";
-import { Profile, ProfileState } from "../../../store/ducks/profile/types";
+import { Profile, ProfileState, profileQuery } from "../../../store/ducks/profile/types";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 

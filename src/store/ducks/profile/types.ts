@@ -46,10 +46,9 @@ export const profileQuery = gql`
 `;
 
 const ProfileMutation = gql`
-  mutation AddTodo($type: String!) {
-    addTodo(type: $type) {
-      id
-      type
+  mutation UpdateProfile($fields: ProfileInput){
+    updateProfile(fields:$fields){
+      fields
     }
   }
 `;
