@@ -177,7 +177,7 @@ export const Menu: React.FC<{}> = () => {
   
   useEffect(() => {
     setCategories(
-      data.categories.map((item: CategoryQuery) => ({
+      data?.categories.map((item: CategoryQuery) => ({
         ...item,
         children: item.children.flat(),
         opened: false,

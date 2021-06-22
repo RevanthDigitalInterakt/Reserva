@@ -27,13 +27,20 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
 
   useEffect(() => {}, [animation?.props.progress]);
 
-  const { loading, error, data } = useQuery(
-    productSearchQuery, 
-    { 
-      variables: {
-        query: "clothing"
-      }
+  const profileQuery = gql`
+  query Profile {
+    profile{
+      firstName
+      lastName
+      birthDate
+      document
+      homePhone
     }
+  }
+`;
+
+  const { loading, error, data } = useQuery(
+    profileQuery
   );
   console.log(data);
 

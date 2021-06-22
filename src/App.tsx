@@ -29,7 +29,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { oneSignalConfig } from "./config/pushNotification";
 import { apolloClient } from "./services/apolloClient";
 
-// import './config/ReactotronConfig'
+import './config/ReactotronConfig'
 
 Sentry.init({
   dsn: env.SENTRY_KEY,
