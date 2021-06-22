@@ -61,7 +61,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   };
   
   useEffect(() => {
-    AsyncStorage.setItem('@RNAuth:cookie', data.cookie);
+    AsyncStorage.setItem('@RNAuth:cookie', data?.cookie);
   }, [data]);
 
   return (
