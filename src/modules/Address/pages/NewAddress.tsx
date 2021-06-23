@@ -21,6 +21,9 @@ import { useFormikContext } from "formik";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+import { useMutation } from "@apollo/client";
+import { saveAddressMutation } from "../../../store/ducks/address/types";
+
 interface IAdress {
   postalCode: string;
   state: string;
@@ -42,6 +45,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const { edit, editAddress } = route?.params;
   const [addressId, setAddressId] = React.useState(edit ? editAddress.id : "");
   const [toggleActivated, setToggleActivated] = React.useState(false);
+  const [saveAddress, { data }] = useMutation(saveAddressMutation);
 
   const { isCheckout } = route.params;
   const {
@@ -81,6 +85,19 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       },
       then: Yup.string().required("Informe um telefone"),
     }),
+  });
+
+  saveAddress({
+    variables: {
+      fields: {
+        receiverName: editAddress.firstName,
+        postalCode: editAddress.postalCode,
+        street: editAddress.street,
+        state: editAddress.state,
+        number: editAddress.numberAndComplement[0],
+        complement: editAddress.numberAndComplement[1],
+      },
+    },
   });
 
   useEffect(() => {
@@ -349,13 +366,8 @@ const InputOption = ({
   textAlignVertical,
   onChangeText,
 }: IInputOption) => {
-  const {
-    values,
-    handleChange,
-    setFieldTouched,
-    touched,
-    errors,
-  } = useFormikContext<any>();
+  const { values, handleChange, setFieldTouched, touched, errors } =
+    useFormikContext<any>();
   return (
     <>
       <Box mt={"xxxs"}>

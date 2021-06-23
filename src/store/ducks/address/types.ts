@@ -75,27 +75,9 @@ export type CategoryQuery = {
   opened?: boolean;
 };
 
-export const classicAddressMutation = gql`
-  mutation SaveAddress(
-    $receiverName: String!
-    $postalCode: String!
-    $street: String!
-    $neighborhood: String!
-    $state: String!
-    $number: String!
-    $complement: String!
-  ) {
-    saveAddress(
-      address: {
-        receiverName: $receiverName
-        postalCode: $postalCode
-        street: $street
-        neighborhood: $neighborhood
-        state: $state
-        number: $number
-        complement: $complement
-      }
-    ) {
+export const saveAddressMutation = gql`
+  mutation SaveAddress($fields: AddressInput!) {
+    saveAddress(address: $fields) {
       addressId
       userId
     }
