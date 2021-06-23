@@ -17,44 +17,46 @@ type Props = StackScreenProps<RootStackParamList, "EditPassword">;
 export const EditPassword = ({ route }: Props) => {
   const { email } = route?.params;
   const navigation = useNavigation();
-  const formRef = useRef(null)
+  const formRef = useRef<any>(null)
   const dispatch = useDispatch();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
   const [newPassword, { data: dataMutation, loading: loadingMutation }] = useMutation(profileMutationPassword);
 
-  // const handleSubmit = () => {
-  //   if (formRef.current) {
-  //     formRef.current.handleSubmit()
-  //   }
-  // }
+  //acessa a função handleSubmit do formik
+  const handleSubmit = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit()
+    }
+  }
+
   const [initialValues, setInitialValues] = useState({
     password: "",
     password_confirm: "",
     current_password: ""
   });
 
-  const [userData, setData] = useState({
-    password: "",
-    password_confirm: "",
-    current_password: ""
-  });
-
   const validation = Yup.object().shape({
-    password: Yup.string().required("Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números."),
-    password_confirm: Yup.string().required("Informe Novamente a senha"),
+    password: Yup.string()
+      .required("Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números."),
+    password_confirm: Yup.string()
+      .required("Informe a senha novamente")
+      .oneOf(
+        [Yup.ref('password'), null],
+        'As senhas devem corresponder'
+      ),
     current_password: Yup.string().required("Informe sua senha atual"),
   });
 
   const changePassword = (password: string, current_password: string) => {
-    // newPassword({
-    //   variables: {
-    //     email: email,
-    //     newPassword: userData.password,
-    //     currentPassword: userData.current_password,
-    //   }
-    // })
-    // navigation.goBack()
+    newPassword({
+      variables: {
+        email: email,
+        newPassword: password,
+        currentPassword: current_password,
+      }
+    })
+    navigation.goBack()
   }
 
   useEffect(() => { }, []);
@@ -76,10 +78,9 @@ export const EditPassword = ({ route }: Props) => {
               onSubmit={(values) => {
                 const {
                   password,
-                  password_confirm
+                  current_password
                 } = values;
-                changePassword(password, password_confirm)
-                console.log("sucesso", values);
+                changePassword(password, current_password)
               }}
             >
               {({ handleSubmit }) => (
@@ -109,7 +110,6 @@ export const EditPassword = ({ route }: Props) => {
                     <FormikTextInput
                       label={"Digite sua senha atual"}
                       field={"current_password"}
-                      value={userData.current_password}
                       iconRight={
                         <Button
                           mr="xxxs"
@@ -120,83 +120,14 @@ export const EditPassword = ({ route }: Props) => {
                       }
                     />
                   </Box>
-
-
-                  {/* <InputOption
-                    placeholder={"Digite seu CEP"}
-                    maskType={"zip-code"}
-                    field={"postalCode"}
-                  />
-                  <Button
-                    disabled={loading}
-                    width="200px"
-                    mt={"xs"}
-                    onPress={handleSubmit}
-                    title={"SALVAR ALTERAÇÕES"}
-                    variant="primarioEstreitoOutline"
-                  /> */}
-                  {/* ) */}
                 </>
               )}
             </Formik>
-            {/* <Box mb={"micro"}>
-
-              <TextField
-                secureTextEntry={showNewPassword}
-                label={"Digite sua nova senha"}
-                fontFamily="nunitoRegular"
-                value={userData.password}
-                onChangeText={(text) => {
-                  setData({ ...userData, ...{ password: text } });
-                }}
-                iconRight={
-                  <Button
-                    mr="xxxs"
-                    onPress={() => setShowNewPassword(!showNewPassword)}
-                  >
-                    <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                  </Button>
-                }
-              />
-            </Box>
-
-            <Box mb={"nano"}>
-
-              <TextField
-                label={"Repita a senha"}
-                fontFamily="nunitoRegular"
-                value={userData.password_confirm}
-                onChangeText={(text) => {
-                  setData({ ...userData, ...{ password_confirm: text } });
-                }}
-              />
-            </Box>
-
-            <Box mb={"micro"}>
-
-              <TextField
-                secureTextEntry={showCurrentPassword}
-                label={"Digite sua senha atual"}
-                fontFamily="nunitoRegular"
-                value={userData.current_password}
-                onChangeText={(text) => {
-                  setData({ ...userData, ...{ current_password: text } });
-                }}
-                iconRight={
-                  <Button
-                    mr="xxxs"
-                    onPress={() => setShowCurrentPassword(!showCurrentPassword)}
-                  >
-                    <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                  </Button>
-                }
-              />
-            </Box> */}
           </Box>
         </Box>
       </ScrollView>
       <Button
-        onPress={changePassword}
+        onPress={handleSubmit}
         title="CONFIRMAR"
         variant="primarioEstreito"
         inline
