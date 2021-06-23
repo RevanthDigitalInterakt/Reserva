@@ -67,8 +67,13 @@ export const profileMutation = gql`
   }
 `;
 
-// export const classicSignInMutation = gql`
-//   mutation ClassicSignIn($email: String!, $password: String!) {
-//     classicSignIn(email: $email, password: $password)
-//   }
-// `;
+export const profileMutationPassword = gql`
+    mutation RedefinePassword($email:String!, $newPassword:String!, $currentPassword:String!){
+      redefinePassword(
+        email:$email,
+        newPassword:$newPassword,
+        currentPassword:$currentPassword,
+      )
+    }
+`;
+

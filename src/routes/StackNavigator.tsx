@@ -95,6 +95,9 @@ export type RootStackParamList = {
     isCheckout: boolean
     cashback: boolean
   }
+  EditPassword: {
+    email: string
+  }
   NewCard: { isCheckout: boolean }
   SummaryScreen: {
     paymentType:

@@ -5,7 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView,
+  ScrollView
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,7 +17,7 @@ import {
   Icon,
   Checkbox,
 } from "reserva-ui";
-import { add, addDays, format, parseISO } from 'date-fns'
+import { addHours, format, parseISO } from 'date-fns'
 import { ApplicationState } from "../../../store";
 import { profileLoad } from "../../../store/ducks/profile/actions";
 import { useQuery, useMutation } from '@apollo/client'
@@ -40,10 +40,21 @@ export const EditProfile: React.FC<{
     homePhone: "",
 
   });
-  const { loading, error, data } = useQuery(profileQuery);
+  const { loading, error, data, refetch } = useQuery(profileQuery);
   const [updateUserdata, { data: updateData, loading: updateLoading }] = useMutation(profileMutation);
 
   useEffect(() => {
+    refetch()
+    let formattedDate
+    if (Platform.OS === "android") {
+      if (data?.profile?.birthDate) {
+        formattedDate = format(addHours(new Date(Date.parse(data.profile.birthDate)), 3), 'dd/MM/yyyy')
+      }
+    } else {
+      if (data.profile.birthDate) {
+        formattedDate = format((new Date(Date.parse(data.profile.birthDate))), 'dd/MM/yyyy')
+      }
+    }
     setData({
       userId: data?.profile.userId,
       firstName: data?.profile.firstName,
@@ -51,14 +62,16 @@ export const EditProfile: React.FC<{
       fullName: `${data?.profile.firstName} ${data?.profile.lastName}`,
       email: data?.profile.email,
       document: data?.profile.document,
-      birthDate: data?.profile.birthDate,
+      birthDate: data?.profile.birthDate && formattedDate,
       homePhone: data?.profile.homePhone
     });
   }, [data]);
-  console.log('userData', userData)
-  console.log('data', data)
-  const updateUserData = () => {
-    console.log('userData', userData)
+
+  const SaveUserData = () => {
+    const dateSplit = userData?.birthDate?.split("/");
+    const birthDate = new Date(
+      `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`
+    );
     updateUserdata({
       variables: {
         fields: {
@@ -66,20 +79,14 @@ export const EditProfile: React.FC<{
           lastName: userData.lastName,
           email: userData.email,
           document: userData.document,
-          birthDate: userData.birthDate,
+          birthDate: birthDate,
           homePhone: userData.homePhone
         }
       }
     })
-    navigation.goBack();
+
   }
 
-  // console.log(format(parseISO(userData.birthDate), 'dd/MM/YYYY'))
-  const date = parseISO(userData.birthDate)
-  console.log('date', date)
-  const formattedDate = format(Date.parse(userData.birthDate), 'dd-MM-yyyy')
-  // let result = format(date, 'yyyy-dd-MM')
-  console.log('formattedDate', formattedDate)
   return (
     <SafeAreaView
       flex={1}
@@ -105,7 +112,7 @@ export const EditProfile: React.FC<{
               <Button
                 inline
                 onPress={() => {
-                  navigation.navigate("EditPassword");
+                  navigation.navigate("EditPassword", { email: userData.email });
                 }}
                 title="Alterar senha"
               >
@@ -214,6 +221,10 @@ export const EditProfile: React.FC<{
                 <TextField
                   keyboardType="number-pad"
                   label={"Digite sua data de nascimento"}
+                  maskType={"custom"}
+                  maskOptions={{
+                    mask: "99/99/9999",
+                  }}
                   value={userData.birthDate}
                   onChangeText={(text) => {
                     setData({ ...userData, ...{ birthDate: text } });
@@ -271,7 +282,7 @@ export const EditProfile: React.FC<{
                     title="SALVAR"
                     variant={"primarioEstreito"}
                     inline={true}
-                    onPress={updateUserData}
+                    onPress={SaveUserData}
                   ></Button>
                 </Box>
               </Box>
