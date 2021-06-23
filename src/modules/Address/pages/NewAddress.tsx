@@ -87,18 +87,20 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     }),
   });
 
-  saveAddress({
-    variables: {
-      fields: {
-        receiverName: editAddress.firstName,
-        postalCode: editAddress.postalCode,
-        street: editAddress.street,
-        state: editAddress.state,
-        number: editAddress.numberAndComplement[0],
-        complement: editAddress.numberAndComplement[1],
+  const handleSaveAddress = async () => {
+    saveAddress({
+      variables: {
+        fields: {
+          postalCode: editAddress.postalCode,
+          street: editAddress.street,
+          state: editAddress.state,
+          city: editAddress.city,
+          number: editAddress.numberAndComplement[0],
+          complement: editAddress.numberAndComplement[1],
+        },
       },
-    },
-  });
+    });
+  };
 
   useEffect(() => {
     if (edit) {
