@@ -1,16 +1,17 @@
+import { gql } from "@apollo/client";
 //#region Action Types
 
 export enum AddressTypes {
-  LOAD_ADDRESS_REQUEST = '@address/LOAD_ADDRESS_REQUEST',
-  LOAD_ADDRESS_SUCCESS = '@address/LOAD_ADDRESS_SUCCESS',
-  LOAD_ADDRESS_FAILURE = '@address/LOAD_ADDRESS_FAILURE',
-  CREATE_ADDRESS_REQUEST = '@address/CREATE_ADDRESS_REQUEST',
-  CREATE_ADDRESS_SUCCESS = '@address/CREATE_ADDRESS_SUCCESS',
-  CREATE_ADDRESS_FAILURE = '@address/CREATE_ADDRESS_FAILURE',
-  DELETE_ADDRESS_REQUEST = '@address/DELETE_ADDRESS_REQUEST',
-  UPDATE_ADDRESS_REQUEST = '@address/UPDATE_ADDRESS_REQUEST',
-  DEFAULT_ADDRESS_REQUEST = '@address/DEFAULT_ADDRESS_REQUEST',
-  DELETE_DEFAULT_ADDRESS = '@address/DELETE_DEFAULT_ADDRESS',
+  LOAD_ADDRESS_REQUEST = "@address/LOAD_ADDRESS_REQUEST",
+  LOAD_ADDRESS_SUCCESS = "@address/LOAD_ADDRESS_SUCCESS",
+  LOAD_ADDRESS_FAILURE = "@address/LOAD_ADDRESS_FAILURE",
+  CREATE_ADDRESS_REQUEST = "@address/CREATE_ADDRESS_REQUEST",
+  CREATE_ADDRESS_SUCCESS = "@address/CREATE_ADDRESS_SUCCESS",
+  CREATE_ADDRESS_FAILURE = "@address/CREATE_ADDRESS_FAILURE",
+  DELETE_ADDRESS_REQUEST = "@address/DELETE_ADDRESS_REQUEST",
+  UPDATE_ADDRESS_REQUEST = "@address/UPDATE_ADDRESS_REQUEST",
+  DEFAULT_ADDRESS_REQUEST = "@address/DEFAULT_ADDRESS_REQUEST",
+  DELETE_DEFAULT_ADDRESS = "@address/DELETE_DEFAULT_ADDRESS",
 }
 
 //#endregion
@@ -45,7 +46,7 @@ export interface Address {
     alias?: string;
     ullAddress?: string;
     isDefaultShippingAddress?: boolean;
-  }
+  };
 }
 
 //#region
@@ -60,3 +61,66 @@ export interface AddressState {
 }
 
 //#region
+
+export type CategoryQuery = {
+  id: number;
+  href: string;
+  slug: string;
+  name: string;
+  titleTag: string;
+  hasChildren: boolean;
+  metaTagDescription: string;
+  children: [CategoryQuery];
+  highlight?: boolean;
+  opened?: boolean;
+};
+
+export const classicAddressMutation = gql`
+  mutation SaveAddress(
+    $receiverName: String!
+    $postalCode: String!
+    $street: String!
+    $neighborhood: String!
+    $state: String!
+    $number: String!
+    $complement: String!
+  ) {
+    saveAddress(
+      address: {
+        receiverName: $receiverName
+        postalCode: $postalCode
+        street: $street
+        neighborhood: $neighborhood
+        state: $state
+        number: $number
+        complement: $complement
+      }
+    ) {
+      addressId
+      userId
+    }
+  }
+`;
+
+export const categoriesQuery = gql`
+  query Categories {
+    categories @context(provider: "vtex.store-graphql") {
+      id
+      href
+      slug
+      name
+      titleTag
+      hasChildren
+      metaTagDescription
+      children {
+        id
+        href
+        slug
+        name
+        titleTag
+        hasChildren
+        metaTagDescription
+      }
+    }
+  }
+`;

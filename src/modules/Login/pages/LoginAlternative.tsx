@@ -52,16 +52,16 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   }, [isVisible]);
 
   const handleLogin = async () => {
-    login({ 
+    login({
       variables: {
         email: loginCredentials.username,
-        password: loginCredentials.password
-      } 
-    })
+        password: loginCredentials.password,
+      },
+    });
   };
-  
+
   useEffect(() => {
-    AsyncStorage.setItem('@RNAuth:cookie', data?.cookie);
+    AsyncStorage.setItem("@RNAuth:cookie", data?.cookie);
   }, [data]);
 
   return (
@@ -236,7 +236,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Box marginTop="xs" alignItems="center">
                       <Button
                         onPress={() => {
-                          handleLogin()
+                          handleLogin();
                         }}
                         width={190}
                         disabled={loading}
