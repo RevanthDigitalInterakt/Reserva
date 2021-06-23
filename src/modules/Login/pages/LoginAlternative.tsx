@@ -52,14 +52,14 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
   }, [isVisible]);
 
   const handleLogin = async () => {
-    login({ 
+    login({
       variables: {
         email: loginCredentials.username,
         password: loginCredentials.password
-      } 
+      }
     })
   };
-  
+
   useEffect(() => {
     AsyncStorage.setItem('@RNAuth:cookie', data?.cookie);
   }, [data]);

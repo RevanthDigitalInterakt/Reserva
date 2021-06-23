@@ -58,6 +58,7 @@ import { Tabs } from './BottomTabNavigator'
 import { horizontalAnimationBackwards } from './utils/utils'
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder'
 import { Cashback } from '../modules/Cashback/pages/Cashback'
+import AccessCode from '../modules/Login/pages/AccessCode'
 
 export type RootStackParamList = {
   Register: {
@@ -186,6 +187,7 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name='BarCodePayment' component={BarCodePayment} />
       <MainStack.Screen name='Login' component={LoginScreen} />
+      <MainStack.Screen name='AccessCode' component={AccessCode} />
       <MainStack.Screen
         name='Register'
         component={Register}
