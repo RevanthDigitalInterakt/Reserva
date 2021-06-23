@@ -35,11 +35,12 @@ export type ProfileQuery = {
   userId: string;
   firstName: string;
   lastName: string;
-  fullName: string;
+  fullName?: string;
   email: string;
   document: string;
   birthDate: string;
   homePhone: string;
+  passwordLastUpdate?: string;
 }
 
 export const profileQuery = gql`
@@ -57,10 +58,17 @@ export const profileQuery = gql`
   }
 `;
 
-const ProfileMutation = gql`
-  mutation UpdateProfile($fields: ProfileInput){
+export const profileMutation = gql`
+  mutation UpdateProfile($fields: ProfileInput!){
     updateProfile(fields:$fields){
-      fields
+      userId
+      passwordLastUpdate
     }
   }
 `;
+
+// export const classicSignInMutation = gql`
+//   mutation ClassicSignIn($email: String!, $password: String!) {
+//     classicSignIn(email: $email, password: $password)
+//   }
+// `;

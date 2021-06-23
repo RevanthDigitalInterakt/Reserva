@@ -17,10 +17,11 @@ import {
   Icon,
   Checkbox,
 } from "reserva-ui";
+import { add, addDays, format, parseISO } from 'date-fns'
 import { ApplicationState } from "../../../store";
 import { profileLoad } from "../../../store/ducks/profile/actions";
-import { useQuery } from '@apollo/client'
-import { Profile, ProfileState, profileQuery, ProfileQuery } from "../../../store/ducks/profile/types";
+import { useQuery, useMutation } from '@apollo/client'
+import { Profile, ProfileState, profileQuery, ProfileQuery, profileMutation } from "../../../store/ducks/profile/types";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
@@ -40,7 +41,8 @@ export const EditProfile: React.FC<{
 
   });
   const { loading, error, data } = useQuery(profileQuery);
-  console.log('datasdatas', userData)
+  const [updateUserdata, { data: updateData, loading: updateLoading }] = useMutation(profileMutation);
+
   useEffect(() => {
     setData({
       userId: data?.profile.userId,
@@ -53,10 +55,31 @@ export const EditProfile: React.FC<{
       homePhone: data?.profile.homePhone
     });
   }, [data]);
-
+  console.log('userData', userData)
+  console.log('data', data)
   const updateUserData = () => {
+    console.log('userData', userData)
+    updateUserdata({
+      variables: {
+        fields: {
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          document: userData.document,
+          birthDate: userData.birthDate,
+          homePhone: userData.homePhone
+        }
+      }
+    })
     navigation.goBack();
   }
+
+  // console.log(format(parseISO(userData.birthDate), 'dd/MM/YYYY'))
+  const date = parseISO(userData.birthDate)
+  console.log('date', date)
+  const formattedDate = format(Date.parse(userData.birthDate), 'dd-MM-yyyy')
+  // let result = format(date, 'yyyy-dd-MM')
+  console.log('formattedDate', formattedDate)
   return (
     <SafeAreaView
       flex={1}
@@ -68,7 +91,7 @@ export const EditProfile: React.FC<{
         keyboardVerticalOffset={80}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <TopBarBackButton />
+        <TopBarBackButton loading={loading || updateLoading} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
             <Box alignItems={"center"}>
@@ -100,7 +123,7 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu nome completo"}
-                  value={userData?.fullName}
+                  value={data ? userData.fullName : ""}
                   onChangeText={(text) => {
                     const newFullName = userData.fullName = text
                     const fistName = newFullName.split(' ').slice(0, 1).join(' ');
@@ -152,7 +175,7 @@ export const EditProfile: React.FC<{
                   value={userData.document}
                   maskType={"cpf"}
                   onChangeText={(text) => {
-                    setData({ ...userData, ...{ userData: text } });
+                    setData({ ...userData, ...{ document: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -214,13 +237,13 @@ export const EditProfile: React.FC<{
                   color="dropDownBorderColor"
                   selectedColor="preto"
                   width={"100%"}
-                  checked={data?.receiveEmail === "yes"}
+                  // checked={data?.receiveEmail === "yes"}
                   onCheck={() => {
-                    const value = data?.receiveEmail === "yes" ? "no" : "yes";
-                    setData({
-                      ...data,
-                      ...{ receiveEmail: value },
-                    });
+                    // const value = data?.receiveEmail === "yes" ? "no" : "yes";
+                    // setData({
+                    //   ...data,
+                    //   ...{ receiveEmail: value },
+                    // });
                   }}
                   optionName={
                     "Desejo receber e-mails com promoções das marcas Reserva."
@@ -248,7 +271,7 @@ export const EditProfile: React.FC<{
                     title="SALVAR"
                     variant={"primarioEstreito"}
                     inline={true}
-                    onPress={() => { updateUserData }}
+                    onPress={updateUserData}
                   ></Button>
                 </Box>
               </Box>
