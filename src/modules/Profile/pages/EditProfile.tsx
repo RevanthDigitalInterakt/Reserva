@@ -84,7 +84,7 @@ export const EditProfile: React.FC<{
         }
       }
     })
-
+    navigation.goBack()
   }
 
   return (
