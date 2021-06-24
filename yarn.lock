@@ -7088,6 +7088,11 @@ react-native-onesignal@^4.1.0:
   dependencies:
     invariant "^2.2.2"
 
+react-native-permissions@^3.0.4:
+  version "3.0.4"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-permissions/-/react-native-permissions-3.0.4.tgz#7771d28899d7d2b75fd2a70cd3f86d44c90397ec"
+  integrity sha1-d3HSiJnX0rdf0qcM0/htRMkDl+w=
+
 react-native-progress@^4.1.2:
   version "4.1.2"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-progress/-/react-native-progress-4.1.2.tgz#ffb2264ddfeba409c730e36a9791bb7bbe07a00d"

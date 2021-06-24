@@ -97,6 +97,8 @@ export type RootStackParamList = {
     cashback: boolean
   }
   NewCard: { isCheckout: boolean }
+  NearbyStores: { UF: string }
+  MapScreen: { geolocation: number, locationPermission: boolean }
   SummaryScreen: {
     paymentType:
     'PIX'

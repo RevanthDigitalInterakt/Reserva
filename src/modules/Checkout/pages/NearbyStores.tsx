@@ -17,13 +17,18 @@ import { nearbyStoresStateSelector } from '../../../store/ducks/nearbyStores';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { FlatList } from 'react-native-gesture-handler';
 import { NearbyStores as NearbyStoresProps } from '../../../store/ducks/nearbyStores/types';
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const NearbyStores: React.FC<{}> = () => {
+type Props = StackScreenProps<RootStackParamList, "NearbyStores">;
+export const NearbyStores = ({ route }: Props) => {
+  const { UF } = route?.params;
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const { data } = useSelector(nearbyStoresStateSelector);
   const { stores } = data;
   useEffect(() => {
-    dispatch(load({ UF: 'RJ' }));
+    dispatch(load({ UF: UF }));
   }, []);
 
   return (
@@ -51,6 +56,7 @@ export const NearbyStores: React.FC<{}> = () => {
                   storeName={item.storeName}
                   address1={`${item.address1}`}
                   address2={`${item.address2}`}
+                  onPress={() => { navigation.navigate("PaymentMethodScreen") }}
                 />
               );
             }}
@@ -77,11 +83,13 @@ interface IItemStoresAddress {
   address1: string;
   address2: string;
   storeName: string;
+  onPress: () => void;
 }
 const ItemStoresAddress = ({
   address1,
   address2,
   storeName,
+  onPress
 }: IItemStoresAddress) => {
   return (
     <Box
@@ -96,7 +104,7 @@ const ItemStoresAddress = ({
         height={160}
         borderColor={'backgroundMenuOpened'}
         paddingY={'xxxs'}
-        // paddingX={'xxxs'}
+      // paddingX={'xxxs'}
       >
         <Box mb={'nano'} flexDirection="row">
           <Box>
@@ -123,7 +131,7 @@ const ItemStoresAddress = ({
 
         <Button
           title={'IR ATÉ A LOJA'}
-          onPress={() => {}}
+          onPress={onPress}
           variant={'primarioEstreito'}
           width={'90%'}
         />
