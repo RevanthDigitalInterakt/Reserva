@@ -1,16 +1,35 @@
+import { gql, useMutation } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, TextField, Button, Icon } from "reserva-ui";
+import { setLocale } from "yup";
+import { recoveryPassword } from "../../../graphql/login/recoveryPassword";
+import { apolloClient } from "../../../services/apolloClient";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
 
 export const ForgotNewPassword: React.FC = () => {
   const navigation = useNavigation();
 
+  const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
+
+  // recovery({
+  //   variables: {
+  //     email: '',
+  //     newPassword: '',
+  //     code: ''
+  //   }
+  // })
+
+
+  AsyncStorage.getItem('recoveryEmail').then(x => console.log(x))
+  //console.log(a().)
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <TopBarBackButtonWithoutLogo
         showShadow={false}
+        loading={false}
         backButtonPress={() => navigation.navigate("ForgotPassword")}
       />
       <ScrollView>

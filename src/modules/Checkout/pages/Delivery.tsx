@@ -1,11 +1,61 @@
-import React, { useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { SafeAreaView, ScrollView, Platform } from "react-native";
 import { Typography, Box, Button, Icon, Divider } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 import { withAuthentication } from "../../Profile/HOC/withAuthentication";
+import { useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
+import { request, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
 
-const Delivery: React.FC<{}> = ({ route, navigation }) => {
+const Delivery: React.FC<{}> = () => {
+  const navigation = useNavigation();
+  const { authentication } = useSelector((state: ApplicationState) => state);
+  const [Permission, setPermission] = useState(false)
+  const [mapPermission, setMapPermission] = useState(false)
+
+  const requestMap = async () => {
+    try {
+      const lacationAlways = await request(
+        PERMISSIONS.IOS.LOCATION_ALWAYS);
+      const lacationInUse = await request(
+        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+      );
+      const fineLoation = await request(
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+      )
+      if (lacationAlways === 'granted' || lacationInUse === 'granted' || fineLoation === 'granted') {
+        setPermission(true)
+      }
+    } catch (error) {
+    }
+  }
+
+  const CkeckmapPermission = async () => {
+    try {
+      const check = await checkMultiple([
+        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        PERMISSIONS.IOS.LOCATION_ALWAYS,
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+      ]);
+      if (check["ios.permission.LOCATION_WHEN_IN_USE"] === 'granted' || check["ios.permission.LOCATION_ALWAYS"] === 'granted' || check["android.permission.ACCESS_FINE_LOCATION"] === "granted") {
+        setMapPermission(true)
+      }
+    } catch (err) {
+    }
+  }
+
+  useEffect(() => {
+    if (authentication.data?.access_token) {
+      requestMap();
+    }
+  }, [authentication])
+
+
+  useEffect(() => {
+    CkeckmapPermission();
+  }, [Permission])
+
   return (
     <SafeAreaView flex={1} backgroundColor={"white"}>
       <TopBarBackButton showShadow />
@@ -22,15 +72,18 @@ const Delivery: React.FC<{}> = ({ route, navigation }) => {
           </Box>
           <SelectOption
             title={"Retirar na loja"}
-            subtitle={"Segunda-feira, 06 de maio de 2021"}
+            subtitle={mapPermission ? "Segunda-feira, 06 de maio de 2021" : ""}
             onPress={() =>
-              navigation.navigate("WithdrawInStore", { isCheckout: true })
+              mapPermission ?
+                navigation.navigate('MapScreen', { geolocation: "", locationPermission: mapPermission })
+                :
+                navigation.navigate("WithdrawInStore", { isCheckout: true, })
             }
             divider
           />
           <SelectOption
             title={"Receber em casa"}
-            subtitle={"Segunda-feira, 7 de maio de 2021"}
+            subtitle={mapPermission ? "Segunda-feira, 7 de maio de 2021" : ""}
             onPress={() =>
               navigation.navigate("AddressList", { isCheckout: true })
             }
@@ -43,7 +96,7 @@ const Delivery: React.FC<{}> = ({ route, navigation }) => {
 
 interface ISelectOption {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   divider?: boolean;
   onPress?: () => void;
 }

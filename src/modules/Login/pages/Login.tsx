@@ -16,95 +16,71 @@ import {
 import { ApplicationState } from "../../../store";
 
 import logo from "../../../assets/img/logo.png";
+import HeaderBanner from "../../Forgot/componet/HeaderBanner";
+import { images } from "../../../assets";
+import UnderlineInput from "../components/UnderlineInput";
+import { useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export const LoginScreen: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [isSecureText, setIsSecureText] = React.useState(true);
+  const [isSecureText, setIsSecureText] = useState(true);
+
+  const [loginWithCode, setLoginWithCode] = useState(true)
+
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
+      <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { }} />
       <ScrollView>
-        <Box alignItems="center" marginTop="xxl" marginBottom="sm">
-          <Image source={logo} />
-        </Box>
-        <Box flex={1} marginLeft="xxs" marginRight="xxs">
-          <Box marginTop="sm" marginBottom="nano">
-            <TextField
-              autoCapitalize="none"
-              autoCompleteType="email"
-              textContentType="emailAddress"
-              keyboardType="email-address"
-              height={55}
-              placeholder="Digite seu e-mail ou CPF ou CNPJ"
-            />
-          </Box>
-          <Typography
-            fontFamily="nunitoRegular"
-            style={{ textDecorationLine: "underline" }}
-            onPress={() => navigation.navigate("ForgotEmail")}
-          >
-            Esqueci meu e-mail
+        <Box px={20} pt={13}>
+          <Typography fontFamily='reservaSerifRegular' fontSize={22}>
+            Seja bem-vindo novamente!
           </Typography>
-          <Box marginTop="md" marginBottom="nano">
-            <TextField
-              secureTextEntry={isSecureText}
-              height={55}
-              placeholder="Digite sua senha"
-              fontFamily="nunitoRegular"
-              iconRight={
-                <Button
-                  mr="xxxs"
-                  onPress={() => setIsSecureText(!isSecureText)}
-                >
-                  <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                </Button>
-              }
-            />
-          </Box>
-          <Typography
-            fontFamily="nunitoRegular"
-            style={{ textDecorationLine: "underline" }}
-            onPress={() => navigation.navigate("ForgotPassword")}
-          >
-            Esqueci minha senha
-          </Typography>
-          <Box marginTop="xs" alignItems="center">
-            <Toggle
-              thumbColor="neutroFrio1"
-              color="neutroFrio2"
-              label="Lembrar meu acesso"
-            />
-          </Box>
-          <Box marginTop="xs" alignItems="center">
-            <Button
-              width="150px"
-              fontFamily="nunitoRegular"
-              title="ENTRAR"
-              variant="primarioEstreito"
-              mb="nano"
-              onPress={() => {}}
-            />
-          </Box>
-          {/* <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
-            <SocialButton variant="Facebook" onPress={() => {}} />
-            <SocialButton variant="Google" onPress={() => {}} />
-          </Box> */}
-          <Box flexDirection="row" justifyContent="center" marginTop="xxxs">
-            <Typography fontSize={13} fontFamily="nunitoRegular">
-              Ainda não possui uma conta?
+
+          <Box mt='xxs'>
+            <Typography variant='tituloSessao'>
+              Insira seu e-mail para continuar:
             </Typography>
-            <Box marginLeft="micro">
-              <Typography
-                fontSize={13}
-                style={{ textDecorationLine: "underline" }}
-                fontFamily="nunitoRegular"
-                onPress={() => navigation.navigate("Register")}
-              >
+
+            <UnderlineInput placeholder='Digite seu e-mail' errorMsg='Digite um e-mail válido' showError={false} />
+            {
+              !loginWithCode &&
+              <Box mt='md' width='100%'>
+                <UnderlineInput placeholder='Digite sua senha' isSecureText={true} />
+
+                <Box mt='quarck'>
+
+                  <TouchableOpacity>
+                    <Typography style={{ textDecorationLine: 'underline' }}>
+                      Esqueci minha senha
+                    </Typography>
+                  </TouchableOpacity>
+                </Box>
+              </Box>
+            }
+
+          </Box>
+          <Box mt='md' />
+          <Button title='RECEBER CÓDIGO' inline variant='primarioEstreito' onPress={() => navigation.navigate('AccessCode')} />
+          <Box my={50}  >
+            <Typography variant='tituloSessao' textAlign='center'>UO</Typography>
+          </Box>
+          <Button
+            title={loginWithCode ? 'ENTRAR COM LOGIN E SENHA' : 'RECEBER CÓDIGO DE ACESSO'}
+            inline variant='primarioEstreitoOutline'
+            onPress={() => setLoginWithCode(!loginWithCode)} />
+          <Box flexDirection='row' mt='sm'>
+            <Typography>
+              {'Ainda não possui uma conta? '}
+            </Typography>
+            <Button>
+              <Typography style={{ textDecorationLine: 'underline' }}>
                 Clique para se cadastrar
               </Typography>
-            </Box>
+            </Button>
           </Box>
         </Box>
       </ScrollView>

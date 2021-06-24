@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {  useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   Box,
@@ -174,7 +174,7 @@ export const Menu: React.FC<{}> = () => {
   const [categories, setCategories] = useState<CategoryQuery[]>([])
 
   const { loading, error, data } = useQuery(categoriesQuery);
-  
+
   useEffect(() => {
     setCategories(
       data?.categories.map((item: CategoryQuery) => ({
@@ -253,7 +253,7 @@ export const Menu: React.FC<{}> = () => {
                     </Typography>
                   }
                   onPress={() => {
-                    navigation.navigate('LoginAlternative')
+                    navigation.navigate('Login')
                   }}
                   underline></FixedMenuItem>
               )}

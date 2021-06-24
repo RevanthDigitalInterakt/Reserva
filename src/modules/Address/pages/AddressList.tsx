@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, FlatList } from "react-native";
 
 import { Typography, Box, Button, Alert } from "reserva-ui";
@@ -16,14 +16,19 @@ import {
   createDefaultAddress,
   deleteDefautAddress,
 } from "../../../store/ducks/address/actions";
+import {
+  addressesQuery,
+  AddressQueryList,
+} from "../../../store/ducks/address/types";
+import { useQuery } from "@apollo/client";
 
 type Props = StackScreenProps<RootStackParamList, "AddressList">;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
-  const {
-    address: { data: addresses, loading, error, defaultAddress },
-  } = useSelector((state: ApplicationState) => state);
+  // const {
+  //   address: { data: addresses, defaultAddress },
+  // } = useSelector((state: ApplicationState) => state);
 
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
@@ -33,52 +38,64 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [idAddress, setIdAddress] = React.useState<string | undefined>("");
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
+  const { loading, error, data, refetch } = useQuery(addressesQuery);
+  const [address, setAddress] = useState<AddressQueryList>();
 
   React.useEffect(() => {
     dispatch(loadAddress());
   }, []);
 
-  React.useEffect(() => {
-    if (defaultAddress) {
-      setIdAddress(defaultAddress?.address?.id);
-    } else {
-      setIdAddress("");
-    }
-  }, [defaultAddress]);
+  // React.useEffect(() => {
+  //   if (defaultAddress) {
+
+  //     setIdAddress(defaultAddress?.address?.id);
+  //   } else {
+  //     setIdAddress("");
+  //   }
+  // }, [defaultAddress]);
   //verifica se tem o primeiro endereço, se tiver, então salva como padrão
-  React.useEffect(() => {
-    if (addresses?.length === 1) {
-      const {
-        address1,
-        address2,
-        address3,
-        city,
-        postalCode,
-        state,
-        firstName,
-        phoneNumber,
-        jobTitle,
-        id,
-      } = addresses[0].address;
-      dispatch(
-        createDefaultAddress({
-          address: {
-            country: "BR",
-            address3: address3,
-            address2: address2,
-            city: city,
-            address1: address1,
-            postalCode: postalCode,
-            state: state,
-            firstName: firstName,
-            phoneNumber: phoneNumber,
-            jobTitle: jobTitle,
-            id: id,
-          },
-        })
-      );
-    }
-  }, [addresses]);
+  // React.useEffect(() => {
+  //   if (addresses?.length === 1) {
+  //     const {
+  //       address1,
+  //       address2,
+  //       address3,
+  //       city,
+  //       postalCode,
+  //       state,
+  //       firstName,
+  //       phoneNumber,
+  //       jobTitle,
+  //       id,
+  //     } = addresses[0].address;
+  //     dispatch(
+  //       createDefaultAddress({
+  //         address: {
+  //           country: "BR",
+  //           address3: address3,
+  //           address2: address2,
+  //           city: city,
+  //           address1: address1,
+  //           postalCode: postalCode,
+  //           state: state,
+  //           firstName: firstName,
+  //           phoneNumber: phoneNumber,
+  //           jobTitle: jobTitle,
+  //           id: id,
+  //         },
+  //       })
+  //     );
+  //   }
+  // }, [addresses]);
+
+  useEffect(() => {
+    refetch();
+    setAddress({
+      addresses: data?.profile.addresses,
+    });
+    console.log(data);
+  }, [data]);
+  const listAddresses = ({}) => {};
 
   return (
     <>
@@ -153,56 +170,51 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={addresses}
+            data={address?.addresses}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               const {
-                address1,
-                address2,
-                address3,
                 city,
-                state,
+                complement,
+                number,
                 postalCode,
-                id,
-                firstName,
-                phoneNumber,
-                jobTitle,
-              } = item.address;
-              const numberAndComplement: string[] | undefined =
-                address2?.split("|");
+                state,
+                street,
+                neighborhood,
+              } = item;
+
+              const numberAndComplement: string[] | undefined = number;
               return (
                 <AddressSelector
                   addressData={{
-                    address: `${address1}, ${
-                      numberAndComplement && numberAndComplement[0]
-                    }, ${
-                      numberAndComplement && numberAndComplement[1]
-                    }, ${address3}, ${city} - ${state}`,
-                    title: address1,
+                    address: `${street}, ${number && complement}, ${
+                      number && complement
+                    }, ${neighborhood}, ${city} - ${state}`,
+                    title: street,
                     zipcode: postalCode,
                   }}
-                  deleteAddress={() => {
-                    setDeleteModal(true);
-                    setAddressId(id ? id : "");
-                  }}
-                  edit={() => {
-                    navigation.navigate("NewAddress", {
-                      edit: true,
-                      editAddress: {
-                        id: id,
-                        postalCode: postalCode,
-                        state: state,
-                        city: city,
-                        street: address1,
-                        district: address3,
-                        numberAndComplement: address2?.split("|"),
-                        firstName: firstName,
-                        phoneNumber: phoneNumber,
-                        jobTitle: jobTitle,
-                      },
-                    });
-                  }}
-                  selected={idAddress === id ? true : false}
+                  // deleteAddress={() => {
+                  //   setDeleteModal(true);
+                  //   setAddressId(id ? id : "");
+                  // }}
+                  // edit={() => {
+                  //   navigation.navigate("NewAddress", {
+                  //     edit: true,
+                  //     editAddress: {
+                  //       id: id,
+                  //       postalCode: postalCode,
+                  //       state: state,
+                  //       city: city,
+                  //       street: address1,
+                  //       district: address3,
+                  //       numberAndComplement: address2?.split("|"),
+                  //       firstName: firstName,
+                  //       phoneNumber: phoneNumber,
+                  //       jobTitle: jobTitle,
+                  //     },
+                  //   });
+                  // }}
+                  selected={idAddress === address.addresses.id ? true : false}
                   select={() => {
                     if (isCheckout) {
                       navigation.navigate("PaymentMethodScreen");

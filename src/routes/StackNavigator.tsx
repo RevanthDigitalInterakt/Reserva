@@ -58,6 +58,7 @@ import { Tabs } from "./BottomTabNavigator";
 import { horizontalAnimationBackwards } from "./utils/utils";
 import { CancelOrder } from "../modules/CancelOrder/pages/CancelOrder";
 import { Cashback } from "../modules/Cashback/pages/Cashback";
+import AccessCode from "../modules/Login/pages/AccessCode";
 
 export type RootStackParamList = {
   Register: {
@@ -99,7 +100,12 @@ export type RootStackParamList = {
     isCheckout: boolean;
     cashback: boolean;
   };
+  EditPassword: {
+    email: string;
+  };
   NewCard: { isCheckout: boolean };
+  NearbyStores: { UF: string };
+  MapScreen: { geolocation: number; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
       | "PIX"
@@ -197,6 +203,7 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name="BarCodePayment" component={BarCodePayment} />
       <MainStack.Screen name="Login" component={LoginScreen} />
+      <MainStack.Screen name="AccessCode" component={AccessCode} />
       <MainStack.Screen
         name="Register"
         component={Register}

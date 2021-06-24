@@ -35,6 +35,7 @@ export const images = {
   localReserva: require('./img/local-reserva.png'),
   pinYou: require('./img/pinYou.png'),
   bannerLogin: require('./img/banner-login.png'),
+  headerLogin: require('./img/headerLogin.png'),
   purchaseConfirmation: require('./img/purchaseConfirmation.png'),
 };
 
