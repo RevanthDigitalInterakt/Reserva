@@ -83,6 +83,30 @@ export const saveAddressMutation = gql`
     }
   }
 `;
+// export const saveAddressMutation = gql`
+//   mutation Address(
+//     $postalCode: String!
+//     $street: String!
+//     $neighborhood: String!
+//     $state: String!
+//     $number: String!
+//     $complement: String!
+//   ) {
+//     saveAddress(
+//       address: {
+//         postalCode: $postalCode
+//         street: $street
+//         neighborhood: $neighborhood
+//         state: $state
+//         number: $number
+//         complement: $complement
+//       }
+//     ) {
+//       addressId
+//       userId
+//     }
+//   }
+// `;
 
 export const categoriesQuery = gql`
   query Categories {

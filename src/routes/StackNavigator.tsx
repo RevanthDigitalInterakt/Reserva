@@ -83,10 +83,12 @@ export type RootStackParamList = {
       city: string;
       street: string;
       district: string;
-      numberAndComplement: string[];
+      number: string;
+      complement: string;
       firstName: string;
       phoneNumber: string;
       jobTitle: string;
+      neighborhood: string;
     };
   };
 
