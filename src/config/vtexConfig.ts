@@ -4,8 +4,9 @@ const urlBase = "https://lojausereserva.vtexcommercestable.com.br/api/";
 
 const url = urlBase;
 
-const AppKey = "12341234";
-const AppToken = "1234123123123123112";
+const AppKey = "vtexappkey-lojausereserva-SJLOOC";
+const AppToken =
+  "HNTVHRYYICABKZUFEXCSBIZQFUWLUBRQSBWKNCBDDQKCZCZGGGCNHGMYNDPNUNDHKJJJCKRBVZPKXWQDUQFOYEILOXWKNOJPMDRPTQEWPBRIRBBQMMSEIPIGBXUFNGOH";
 
 const headers = {
   Accept: "application/json",
