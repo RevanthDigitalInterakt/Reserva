@@ -5,7 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView,
+  ScrollView
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,9 +17,11 @@ import {
   Icon,
   Checkbox,
 } from "reserva-ui";
+import { addHours, format, parseISO } from 'date-fns'
 import { ApplicationState } from "../../../store";
 import { profileLoad } from "../../../store/ducks/profile/actions";
-import { Profile, ProfileState } from "../../../store/ducks/profile/types";
+import { useQuery, useMutation } from '@apollo/client'
+import { Profile, ProfileState, profileQuery, ProfileQuery, profileMutation } from "../../../store/ducks/profile/types";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
@@ -27,27 +29,63 @@ export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const [data, setData] = useState<Profile | undefined>({
+  const [userData, setData] = useState<ProfileQuery>({
+    userId: "",
     firstName: "",
     lastName: "",
-    email: "",
-    password: "",
-    receiveEmail: "",
-    gender: "",
     fullName: "",
-    phone: "",
-    ddd: "",
-    rsvCPF: "",
-    rsvBirthDate: "",
-    rsvPhoneNumber: "",
-  });
+    email: "",
+    document: "",
+    birthDate: "",
+    homePhone: "",
 
-  const { profile } = useSelector((state: ApplicationState) => state);
+  });
+  const { loading, error, data, refetch } = useQuery(profileQuery);
+  const [updateUserdata, { data: updateData, loading: updateLoading }] = useMutation(profileMutation);
 
   useEffect(() => {
-    setData(profile.data);
-  });
+    refetch()
+    let formattedDate
+    if (Platform.OS === "android") {
+      if (data?.profile?.birthDate) {
+        formattedDate = format(addHours(new Date(Date.parse(data.profile.birthDate)), 3), 'dd/MM/yyyy')
+      }
+    } else {
+      if (data.profile.birthDate) {
+        formattedDate = format((new Date(Date.parse(data.profile.birthDate))), 'dd/MM/yyyy')
+      }
+    }
+    setData({
+      userId: data?.profile.userId,
+      firstName: data?.profile.firstName,
+      lastName: data?.profile.lastName,
+      fullName: `${data?.profile.firstName} ${data?.profile.lastName}`,
+      email: data?.profile.email,
+      document: data?.profile.document,
+      birthDate: data?.profile.birthDate && formattedDate,
+      homePhone: data?.profile.homePhone
+    });
+  }, [data]);
+
+  const SaveUserData = () => {
+    const dateSplit = userData?.birthDate?.split("/");
+    const birthDate = new Date(
+      `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`
+    );
+    updateUserdata({
+      variables: {
+        fields: {
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          document: userData.document,
+          birthDate: birthDate,
+          homePhone: userData.homePhone
+        }
+      }
+    })
+    navigation.goBack()
+  }
 
   return (
     <SafeAreaView
@@ -60,7 +98,7 @@ export const EditProfile: React.FC<{
         keyboardVerticalOffset={80}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <TopBarBackButton />
+        <TopBarBackButton loading={loading || updateLoading} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
             <Box alignItems={"center"}>
@@ -74,7 +112,7 @@ export const EditProfile: React.FC<{
               <Button
                 inline
                 onPress={() => {
-                  navigation.navigate("EditPassword");
+                  navigation.navigate("EditPassword", { email: userData.email });
                 }}
                 title="Alterar senha"
               >
@@ -92,9 +130,17 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu nome completo"}
-                  value={data?.fullName}
+                  value={data ? userData.fullName : ""}
                   onChangeText={(text) => {
-                    setData({ ...data, fullName: text });
+                    const newFullName = userData.fullName = text
+                    const fistName = newFullName.split(' ').slice(0, 1).join(' ');
+                    const lastName = newFullName.split(' ').slice(1).join(' ');
+                    setData(
+                      {
+                        ...userData,
+                        firstName: fistName,
+                        lastName: lastName
+                      });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -112,9 +158,9 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu e-mail"}
-                  value={data?.email}
+                  value={userData.email}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ email: text } });
+                    setData({ ...userData, ...{ email: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -133,10 +179,10 @@ export const EditProfile: React.FC<{
                 <TextField
                   keyboardType="number-pad"
                   label={"Digite seu CPF/CNPJ"}
-                  value={data?.rsvCPF}
+                  value={userData.document}
                   maskType={"cpf"}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ rsvCPF: text } });
+                    setData({ ...userData, ...{ document: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -175,9 +221,13 @@ export const EditProfile: React.FC<{
                 <TextField
                   keyboardType="number-pad"
                   label={"Digite sua data de nascimento"}
-                  value={data?.rsvBirthDate}
+                  maskType={"custom"}
+                  maskOptions={{
+                    mask: "99/99/9999",
+                  }}
+                  value={userData.birthDate}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ rsvBirthDate: text } });
+                    setData({ ...userData, ...{ birthDate: text } });
                   }}
                 />
               </Box>
@@ -186,9 +236,9 @@ export const EditProfile: React.FC<{
                 <TextField
                   maskType="cel-phone"
                   label={"Telefone (opcional)"}
-                  value={data?.rsvPhoneNumber}
+                  value={userData.homePhone}
                   onChangeText={(text) => {
-                    setData({ ...data, ...{ rsvPhoneNumber: text } });
+                    setData({ ...userData, ...{ homePhone: text } });
                   }}
                 />
               </Box>
@@ -198,13 +248,13 @@ export const EditProfile: React.FC<{
                   color="dropDownBorderColor"
                   selectedColor="preto"
                   width={"100%"}
-                  checked={data?.receiveEmail === "yes"}
+                  // checked={data?.receiveEmail === "yes"}
                   onCheck={() => {
-                    const value = data?.receiveEmail === "yes" ? "no" : "yes";
-                    setData({
-                      ...data,
-                      ...{ receiveEmail: value },
-                    });
+                    // const value = data?.receiveEmail === "yes" ? "no" : "yes";
+                    // setData({
+                    //   ...data,
+                    //   ...{ receiveEmail: value },
+                    // });
                   }}
                   optionName={
                     "Desejo receber e-mails com promoções das marcas Reserva."
@@ -232,9 +282,7 @@ export const EditProfile: React.FC<{
                     title="SALVAR"
                     variant={"primarioEstreito"}
                     inline={true}
-                    onPress={() => {
-                      navigation.goBack();
-                    }}
+                    onPress={SaveUserData}
                   ></Button>
                 </Box>
               </Box>

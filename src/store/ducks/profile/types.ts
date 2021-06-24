@@ -1,3 +1,5 @@
+import { gql } from "@apollo/client";
+
 export enum ProfileTypes {
   REGISTER_REQUEST = "@profile/REGISTER_REQUEST",
   REQUEST_SUCCESS = "@profile/REQUEST_SUCCESS",
@@ -28,3 +30,50 @@ export interface ProfileState {
   readonly loading: boolean;
   readonly error: boolean;
 }
+
+export type ProfileQuery = {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  fullName?: string;
+  email: string;
+  document: string;
+  birthDate: string;
+  homePhone: string;
+  passwordLastUpdate?: string;
+}
+
+export const profileQuery = gql`
+  query Profile {
+    profile
+    @context(provider: "vtex.store-graphql") {
+      userId
+      firstName
+      lastName
+      email
+      document
+      birthDate
+      homePhone 
+    }
+  }
+`;
+
+export const profileMutation = gql`
+  mutation UpdateProfile($fields: ProfileInput!){
+    updateProfile(fields:$fields){
+      userId
+      passwordLastUpdate
+    }
+  }
+`;
+
+export const profileMutationPassword = gql`
+    mutation RedefinePassword($email:String!, $newPassword:String!, $currentPassword:String!){
+      redefinePassword(
+        email:$email,
+        newPassword:$newPassword,
+        currentPassword:$currentPassword,
+      )
+    }
+`;
+

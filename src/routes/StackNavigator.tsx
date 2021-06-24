@@ -96,6 +96,9 @@ export type RootStackParamList = {
     isCheckout: boolean
     cashback: boolean
   }
+  EditPassword: {
+    email: string
+  }
   NewCard: { isCheckout: boolean }
   NearbyStores: { UF: string }
   MapScreen: { geolocation: number, locationPermission: boolean }
