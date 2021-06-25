@@ -77,6 +77,7 @@ export type CategoryQuery = {
 
 export interface AddressQueryList {
   addresses: {
+    id: string;
     number: string;
     city: string;
     complement: string;
@@ -88,16 +89,17 @@ export interface AddressQueryList {
 }
 
 export const updateAddress = gql`
-  mutation updateAddress($fields: AddressInput!) {
-    updateAddress(address: $fields) @context(provider: "vtex.store-graphql") {
-      addressId
+  mutation updateAddress($fields: AddressInput) {
+    updateAddress(fields: $fields) @context(provider: "vtex.store-graphql") {
+      userId
     }
   }
 `;
+
 export const deleteAddress = gql`
-  mutation deleteAddress($fields: AddressInput!) {
-    deleteAddress(address: $fields) @context(provider: "vtex.store-graphql") {
-      addressId
+  mutation DeleteAddress($address: String) {
+    deleteAddress(id: $address) @context(provider: "vtex.store-graphql") {
+      userId
     }
   }
 `;

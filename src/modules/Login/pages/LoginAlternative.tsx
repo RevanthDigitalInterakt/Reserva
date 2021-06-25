@@ -26,8 +26,8 @@ type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
-    username: "",
-    password: "",
+    username: "danilo.sousa@globalsys.com.br",
+    password: "Danilo123",
   });
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;

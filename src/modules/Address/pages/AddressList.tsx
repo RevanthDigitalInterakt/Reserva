@@ -12,15 +12,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { ApplicationState } from "../../../store";
 import {
   loadAddress,
-  deleteAddress,
   createDefaultAddress,
   deleteDefautAddress,
 } from "../../../store/ducks/address/actions";
 import {
   addressesQuery,
   AddressQueryList,
+  updateAddress,
+  deleteAddress,
 } from "../../../store/ducks/address/types";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
 type Props = StackScreenProps<RootStackParamList, "AddressList">;
 
@@ -35,11 +36,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [addressId, setAddressId] = React.useState("");
   const [successModal, setSuccessModal] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
-  const [idAddress, setIdAddress] = React.useState<string | undefined>("");
+  const [idAddress, setIdAddress] = React.useState<string>("");
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
   const { loading, error, data, refetch } = useQuery(addressesQuery);
   const [address, setAddress] = useState<AddressQueryList>();
+  const [addressDelete, { data: dataDelete }] = useMutation(deleteAddress);
+  const [addressUpdate, { data: dataUpdate }] = useMutation(updateAddress);
 
   React.useEffect(() => {
     dispatch(loadAddress());
@@ -90,12 +93,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     refetch();
-    setAddress({
-      addresses: data?.profile.addresses,
-    });
-    console.log(data);
+    setAddress({ addresses: data?.profile.addresses });
+    console.log(address);
   }, [data]);
-  const listAddresses = ({}) => {};
 
   return (
     <>
@@ -110,10 +110,15 @@ const AddressList: React.FC<Props> = ({ route }) => {
         cancelText={"NÃO"}
         onConfirm={() => {
           modalRef.current = true;
-          dispatch(deleteAddress(addressId));
-          if (addressId === defaultAddress?.address?.id) {
-            dispatch(deleteDefautAddress());
-          }
+          // dispatch(deleteAddress(addressId));
+          // if (addressId === defaultAddress?.address?.id) {
+          //   dispatch(deleteDefautAddress());
+          // }
+          addressDelete({
+            variables: {
+              id: addressId,
+            },
+          });
 
           setDeleteModal(false);
         }}
@@ -174,6 +179,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               const {
+                id,
                 city,
                 complement,
                 number,
@@ -183,7 +189,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 neighborhood,
               } = item;
 
-              const numberAndComplement: string[] | undefined = number;
+              // const numberAndComplement: string[] | undefined = number;
               return (
                 <AddressSelector
                   addressData={{
@@ -193,10 +199,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
                     title: street,
                     zipcode: postalCode,
                   }}
-                  // deleteAddress={() => {
-                  //   setDeleteModal(true);
-                  //   setAddressId(id ? id : "");
-                  // }}
+                  deleteAddress={() => {
+                    setDeleteModal(true);
+                    setAddressId(id);
+                  }}
                   // edit={() => {
                   //   navigation.navigate("NewAddress", {
                   //     edit: true,
@@ -214,7 +220,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   //     },
                   //   });
                   // }}
-                  selected={idAddress === address.addresses.id ? true : false}
+                  // selected={idAddress === address.addresses.id ? true : false}
                   select={() => {
                     if (isCheckout) {
                       navigation.navigate("PaymentMethodScreen");
