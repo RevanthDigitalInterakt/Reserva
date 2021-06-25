@@ -75,59 +75,6 @@ export type CategoryQuery = {
   opened?: boolean;
 };
 
-export interface AddressQueryList {
-  addresses: {
-    id: string;
-    number: string;
-    city: string;
-    complement: string;
-    postalCode: string;
-    state: string;
-    street: string;
-    neighborhood: string;
-  }[];
-}
-
-export const updateAddress = gql`
-  mutation updateAddress($fields: AddressInput) {
-    updateAddress(fields: $fields) @context(provider: "vtex.store-graphql") {
-      userId
-    }
-  }
-`;
-
-export const deleteAddress = gql`
-  mutation DeleteAddress($address: String) {
-    deleteAddress(id: $address) @context(provider: "vtex.store-graphql") {
-      userId
-    }
-  }
-`;
-
-export const saveAddressMutation = gql`
-  mutation SaveAddress($fields: AddressInput!) {
-    saveAddress(address: $fields) @context(provider: "vtex.store-graphql") {
-      addressId
-      userId
-    }
-  }
-`;
-
-export const addressesQuery = gql`
-  query Addresses {
-    profile @context(provider: "vtex.store-graphql") {
-      addresses {
-        number
-        city
-        complement
-        postalCode
-        state
-        street
-        neighborhood
-      }
-    }
-  }
-`;
 
 // export const saveAddressMutation = gql`
 //   mutation Address(

@@ -5,26 +5,18 @@ import { RootStackParamList } from "../../../routes/StackNavigator";
 import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector, useDispatch } from "react-redux";
 import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
 } from "react-native-masked-text";
-import {
-  loadAddress,
-  createAddress,
-  createDefaultAddress,
-  updateAddress,
-} from "../../../store/ducks/address/actions";
-import { ApplicationState } from "../../../store";
 import { useFormikContext } from "formik";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 import { useMutation } from "@apollo/client";
-import { saveAddressMutation } from "../../../store/ducks/address/types";
+import { saveAddressMutation, updateAddress } from "../../../graphql/address/addressMutations";
 
-interface IAdress {
+interface IAddress {
   postalCode: string;
   state: string;
   city: string;
@@ -36,21 +28,19 @@ interface IAdress {
 type Props = StackScreenProps<RootStackParamList, "NewAddress">;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const { edit, editAddress } = route?.params;
   const [addressId, setAddressId] = React.useState(edit ? editAddress.id : "");
   const [toggleActivated, setToggleActivated] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
-  const [saveAddress, { data }] = useMutation(saveAddressMutation);
+  const [saveAddress] = useMutation(saveAddressMutation);
+  const [addressUpdate] = useMutation(updateAddress);
 
   const { isCheckout } = route.params;
-  const {
-    address: { data: addresses, loading, error, defaultAddress },
-  } = useSelector((state: ApplicationState) => state);
 
-  const [initialValues, setInitialValues] = useState<IAdress>({
+  const [initialValues, setInitialValues] = useState<IAddress>({
     postalCode: edit ? editAddress.postalCode : "",
     state: edit ? editAddress.state : "",
     city: edit ? editAddress.city : "",
@@ -59,6 +49,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     street: edit ? editAddress.street : "",
     neighborhood: edit ? editAddress.neighborhood : "",
   });
+
   // const validation = Yup.object().shape({
   //   postalCode: Yup.string()
   //     .required("Informe um CEP")
@@ -82,7 +73,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   //   }),
   // });
 
-  const handleSaveAddress = async (
+  type SaveAddressDTO = {
     postalCode: string,
     state: string,
     city: string,
@@ -90,103 +81,67 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     neighborhood: string,
     number: string,
     complement: string
+  }
+
+  const handleSaveAddress = async (
+    {
+      postalCode,
+      state,
+      city,
+      street,
+      neighborhood,
+      number,
+      complement
+    }: SaveAddressDTO
   ) => {
-    console.log({
-      variables: {
-        fields: {
-          postalCode: postalCode,
-          street: street,
-          state: state,
-          city: city,
-          neighborhood: neighborhood,
-          number: number,
-          complement: complement,
+    if (edit) {
+      addressUpdate({
+        variables: {
+          id: addressId,
+          fields: {
+            postalCode: postalCode,
+            street: street,
+            state: state,
+            city: city,
+            neighborhood: neighborhood,
+            number: number,
+            complement: complement,
+          },
         },
-      },
-    });
-    saveAddress({
-      variables: {
-        fields: {
-          postalCode: postalCode,
-          street: street,
-          state: state,
-          city: city,
-          neighborhood: neighborhood,
-          number: number,
-          complement: complement,
+      })
+    } else {
+      saveAddress({
+        variables: {
+          fields: {
+            postalCode: postalCode,
+            street: street,
+            state: state,
+            city: city,
+            neighborhood: neighborhood,
+            number: number,
+            complement: complement,
+          },
         },
-      },
-    });
+      });
+    }
+    navigation.goBack();
   };
 
-  // useEffect(() => {
-  //   if (edit) {
-  //     console.log("editAddress", editAddress);
-  //     setAddressId(editAddress.id);
-  //     setInitialValues({
-  //       postalCode: editAddress.postalCode,
-  //       state: editAddress.state,
-  //       city: editAddress.city,
-  //       number: editAddress.number,
-  //       complement: editAddress.complement,
-  //       street: editAddress.street,
-  //       recipientName: editAddress.firstName,
-  //       phoneNumber: editAddress.phoneNumber,
-  //       sendMessage: editAddress.jobTitle,
-  //     });
-  //   }
-  // }, [edit]);
-
-  // const addNewAddress = async (
-  //   city: string,
-  //   complement: string,
-  //   district: string,
-  //   number: string,
-  //   postalCode: string,
-  //   state: string,
-  //   street: string,
-  //   phoneNumber: string,
-  //   recipientName: string,
-  //   sendMessage: string
-  // ) => {
-  //   if (edit) {
-  //     dispatch(
-  //       updateAddress({
-  //         address: {
-  //           country: "BR",
-  //           address3: district,
-  //           address2: `${number}|${complement}`,
-  //           city: city,
-  //           address1: street,
-  //           postalCode: postalCode,
-  //           state: state,
-  //           firstName: recipientName,
-  //           phoneNumber: phoneNumber,
-  //           jobTitle: sendMessage,
-  //           id: addressId,
-  //         },
-  //       })
-  //     );
-  //   } else {
-  //     dispatch(
-  //       createAddress({
-  //         address: {
-  //           country: "BR",
-  //           address3: district,
-  //           address2: `${number}|${complement}`,
-  //           city: city,
-  //           address1: street,
-  //           postalCode: postalCode,
-  //           state: state,
-  //           firstName: recipientName,
-  //           phoneNumber: phoneNumber,
-  //           jobTitle: sendMessage,
-  //         },
-  //       })
-  //     );
-  //   }
-  //   navigation.goBack();
-  // };
+  useEffect(() => {
+    if (edit) {
+      console.log("editAddress", edit, editAddress);
+      setAddressId(editAddress.id);
+      setInitialValues({
+        postalCode: editAddress.postalCode,
+        state: editAddress.state,
+        city: editAddress.city,
+        number: editAddress.number,
+        complement: editAddress.complement,
+        street: editAddress.street,
+        neighborhood: editAddress.neighborhood
+      });
+    }
+  }, [edit]);
 
   return (
     <>
@@ -225,7 +180,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     number,
                     complement,
                   } = values;
-                  handleSaveAddress(
+                  handleSaveAddress({
                     city,
                     complement,
                     number,
@@ -233,7 +188,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     state,
                     street,
                     neighborhood
-                  );
+                  });
                   console.log("sucesso", values);
                 }}
               >
