@@ -44,17 +44,7 @@ export const EditProfile: React.FC<{
   const [updateUserdata, { data: updateData, loading: updateLoading }] = useMutation(profileMutation);
 
   useEffect(() => {
-    refetch()
-    let formattedDate
-    if (Platform.OS === "android") {
-      if (data?.profile?.birthDate) {
-        formattedDate = format(addHours(new Date(Date.parse(data.profile.birthDate)), 3), 'dd/MM/yyyy')
-      }
-    } else {
-      if (data.profile.birthDate) {
-        formattedDate = format((new Date(Date.parse(data.profile.birthDate))), 'dd/MM/yyyy')
-      }
-    }
+    refetch();
     setData({
       userId: data?.profile.userId,
       firstName: data?.profile.firstName,
@@ -62,7 +52,7 @@ export const EditProfile: React.FC<{
       fullName: `${data?.profile.firstName} ${data?.profile.lastName}`,
       email: data?.profile.email,
       document: data?.profile.document,
-      birthDate: data?.profile.birthDate && formattedDate,
+      birthDate: data?.profile?.birthDate && format(addHours(new Date(Date.parse(data.profile.birthDate)), 3), 'dd/MM/yyyy'),
       homePhone: data?.profile.homePhone
     });
   }, [data]);
@@ -192,26 +182,6 @@ export const EditProfile: React.FC<{
                         size={18}
                         marginX="micro"
                       ></Icon>
-                    </Box>
-                  }
-                />
-              </Box>
-
-              <Box mb={"nano"}>
-                <TextField
-                  label={"Digite sua senha"}
-                  value={data?.password}
-                  onChangeText={(text) => {
-                    setData({ ...data, ...{ password: text } });
-                  }}
-                  iconRight={
-                    <Box ml="nano">
-                      <Icon
-                        color="preto"
-                        name="EyeOff"
-                        size={18}
-                        marginX="micro"
-                      />
                     </Box>
                   }
                 />
