@@ -71,6 +71,9 @@ export type RootStackParamList = {
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' }
   ProductCatalog: { safeArea: boolean; search: boolean }
   WishList: {}
+  OrderDetail: {
+    orderId?: string;
+  }
   ShowListByCategory: { categoryName: string; products: Wish[] }
   NewAddress: {
     id?: number

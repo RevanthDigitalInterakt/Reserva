@@ -2,20 +2,62 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import { Typography, Box, Button, Icon } from "reserva-ui";
+import { string } from "yup";
+import { stringToReal } from "../../../utils/stringToReal";
+
+type IOrderData = {
+  orderId: string;
+  shippingData: {
+    logisticsInfo: {
+      itemIndex: string;
+      selectedSla: string;
+      slas: {
+        shippingEstimate: string;
+        shippingEstimateDate: string;
+      }
+    }
+    address: {
+      street: string;
+      number: string;
+      neighborhood: string;
+      city: string;
+      state: string;
+      postalCode: string;
+    }
+  }
+  status: string;
+  value: string;
+  totals: {
+    id: string;
+    name: string;
+    value: string;
+  }
+  items: {
+    id: string;
+    name: string;
+  }
+}
 
 interface IOrder {
   onPress?: () => void;
   delivered?: boolean;
   pixPending?: boolean;
   obj?: object;
+  data: IOrderData;
 }
 
-const Order = ({ delivered, pixPending, onPress }: IOrder) => {
+const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
+  const navigation = useNavigation();
+
+  const status = data.status;
+
   // TODO: na hr da integração remover o delivered e OnPress e tratar aqui dentro do componente. foi usado apenas para demonstração.
   return (
     <TouchableOpacity
-      onPress={() => {
-        onPress();
+      onPress={() => { 
+        navigation.navigate("OrderDetail", {
+          orderId: data.orderId,
+        }); 
       }}
     >
       <Box
@@ -43,7 +85,7 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
             </Typography>
 
             <Typography fontSize={20} fontFamily="nunitoBold" color="preto">
-              R$ 1000,00
+              {stringToReal(String(data.value))}
             </Typography>
           </Box>
           <Typography
@@ -51,9 +93,9 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
             fontFamily="reservaDisplayRegular"
             color="vermelhoRSV"
           >
-            12-3456789
+            {data.orderId}
           </Typography>
-          {pixPending && (
+          {status === 'payment-pending' && (
             <Box
               flexDirection="row"
               alignItems="center"
@@ -66,7 +108,7 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
                 fontFamily="nunitoBold"
                 color="preto"
               >
-                Pagamento pendente - PIX
+                Pagamento pendente
               </Typography>
               <Box flexDirection="row" alignItems="center">
                 <Box marginRight="nano">
@@ -76,32 +118,20 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
               </Box>
             </Box>
           )}
-          {delivered && (
+          {status && (
             <Typography
               style={{ marginTop: 5, marginBottom: 5 }}
               mt={"micro"}
               fontSize={14}
               fontFamily="nunitoBold"
-              color="verdeSucesso"
+              color={status === 'payment-pending'? "preto" : "verdeSucesso"}
             >
-              Produto entregue
-            </Typography>
-          )}
-          {!delivered && !pixPending && (
-            <Typography
-              style={{ marginTop: 5, marginBottom: 5 }}
-              mt={"micro"}
-              fontSize={14}
-              fontFamily="nunitoBold"
-              color="preto"
-            >
-              Entrega prevista: 04/04/2021
+              {status}
             </Typography>
           )}
 
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
-            Endereço de entrega: AV. Castelo Branco, 123, Praia da Costa - Vila
-            Velha - ES - 29123-123
+            Endereço de entrega: {` ${data.shippingData.address.street}, ${data.shippingData.address.number}, ${data.shippingData.address.neighborhood} - ${data.shippingData.address.city} - ${data.shippingData.address.state} - ${data.shippingData.address.postalCode}`}
           </Typography>
         </Box>
 

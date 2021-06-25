@@ -3,22 +3,31 @@ import * as React from "react";
 import { Platform } from "react-native";
 import { Typography, Box, Button, Icon, Image } from "reserva-ui";
 
-interface IOrderProduct {
-  obj?: object;
+type IOrderItemData = {
+  name: string;
+  price: string;
+  sellingPrice: string;
+  quantity: string;
+  imageUrl: string;
+  measurementUnit: string;
 }
 
-const OrderProduct = ({ obj }: IOrderProduct) => {
+interface IOrderProduct {
+  orderItem: IOrderItemData;
+}
+
+const OrderProduct = ({ orderItem }: IOrderProduct) => {
   //TODO: repassar nesse componente. se possivel trocar com o que ja foi feito anteriormente.
   return (
     <>
       <Box flexDirection="row" mt={"xxs"}>
         <Image
           variant="sm"
-          source="https://2516.cdn.simplo7.net/static/2516/sku/vestuario-camisas-camisetas-camisa-safari-masculina-hard-adventure--p-1548699444121.jpeg"
+          source={orderItem.imageUrl}
         />
         <Box ml="micro">
           <Typography fontSize={13} fontFamily="nunitoBold">
-            Camiseta Básica Reserva
+            {orderItem.name}
           </Typography>
           <Typography fontSize={11} fontFamily="nunitoRegular">
             Tam: 41
