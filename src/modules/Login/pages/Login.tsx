@@ -35,23 +35,24 @@ export const LoginScreen: React.FC<{
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { }} />
       <ScrollView>
-        <Box px={20} pt={13}>
+        <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily='reservaSerifRegular' fontSize={22}>
             Seja bem-vindo novamente!
           </Typography>
 
           <Box mt='xxs'>
-            <Typography variant='tituloSessao'>
-              Insira seu e-mail para continuar:
-            </Typography>
-
+            <Box marginBottom="xxxs">
+              <Typography variant='tituloSessao'>
+                Insira seu e-mail para continuar:
+              </Typography>
+            </Box>
             <UnderlineInput placeholder='Digite seu e-mail' errorMsg='Digite um e-mail válido' showError={false} />
             {
               !loginWithCode &&
               <Box mt='md' width='100%'>
                 <UnderlineInput placeholder='Digite sua senha' isSecureText={true} />
 
-                <Box mt='quarck'>
+                <Box mt='micro'>
 
                   <TouchableOpacity>
                     <Typography style={{ textDecorationLine: 'underline' }}>
@@ -64,9 +65,14 @@ export const LoginScreen: React.FC<{
 
           </Box>
           <Box mt='md' />
-          <Button title='RECEBER CÓDIGO' inline variant='primarioEstreito' onPress={() => navigation.navigate('AccessCode')} />
+          <Button 
+            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'} 
+            inline 
+            variant='primarioEstreito' 
+            onPress={() => navigation.navigate('AccessCode')} 
+          />
           <Box my={50}  >
-            <Typography variant='tituloSessao' textAlign='center'>UO</Typography>
+            <Typography variant='tituloSessao' textAlign='center'>OU</Typography>
           </Box>
           <Button
             title={loginWithCode ? 'ENTRAR COM LOGIN E SENHA' : 'RECEBER CÓDIGO DE ACESSO'}
