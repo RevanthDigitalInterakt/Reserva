@@ -87,6 +87,21 @@ export interface AddressQueryList {
   }[];
 }
 
+export const updateAddress = gql`
+  mutation updateAddress($fields: AddressInput!) {
+    updateAddress(address: $fields) @context(provider: "vtex.store-graphql") {
+      addressId
+    }
+  }
+`;
+export const deleteAddress = gql`
+  mutation deleteAddress($fields: AddressInput!) {
+    deleteAddress(address: $fields) @context(provider: "vtex.store-graphql") {
+      addressId
+    }
+  }
+`;
+
 export const saveAddressMutation = gql`
   mutation SaveAddress($fields: AddressInput!) {
     saveAddress(address: $fields) @context(provider: "vtex.store-graphql") {
