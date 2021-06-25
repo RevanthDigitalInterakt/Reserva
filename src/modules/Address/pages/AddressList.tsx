@@ -1,35 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, FlatList } from "react-native";
-
+import { SafeAreaView, FlatList } from "react-native";
 import { Typography, Box, Button, Alert } from "reserva-ui";
-// import AddressSelector, { Address } from '../Components/AddressSelector';
+import { StackScreenProps } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/core";
+
 import AddressSelector from "../Components/AddressSelector";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation } from "@react-navigation/core";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useSelector, useDispatch } from "react-redux";
-import { ApplicationState } from "../../../store";
-import {
-  loadAddress,
-  createDefaultAddress,
-  deleteDefautAddress,
-} from "../../../store/ducks/address/actions";
-import {
-  addressesQuery,
-  AddressQueryList,
-  updateAddress,
-  deleteAddress,
-} from "../../../store/ducks/address/types";
 import { useMutation, useQuery } from "@apollo/client";
+import { addressesQuery, AddressQueryList } from "../../../graphql/address/addressQuery";
+import { deleteAddress } from "../../../graphql/address/addressMutations";
 
 type Props = StackScreenProps<RootStackParamList, "AddressList">;
 
 const AddressList: React.FC<Props> = ({ route }) => {
-  const dispatch = useDispatch();
-  // const {
-  //   address: { data: addresses, defaultAddress },
-  // } = useSelector((state: ApplicationState) => state);
 
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
@@ -41,12 +25,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const { isCheckout } = route.params;
   const { loading, error, data, refetch } = useQuery(addressesQuery);
   const [address, setAddress] = useState<AddressQueryList>();
-  const [addressDelete, { data: dataDelete }] = useMutation(deleteAddress);
-  const [addressUpdate, { data: dataUpdate }] = useMutation(updateAddress);
-
-  React.useEffect(() => {
-    dispatch(loadAddress());
-  }, []);
+  const [addressDelete, { data: dataDelete, loading: deleteLoading }] = useMutation(deleteAddress);
 
   // React.useEffect(() => {
   //   if (defaultAddress) {
@@ -93,8 +72,15 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     refetch();
-    setAddress({ addresses: data?.profile.addresses });
-    console.log(address);
+  }, [])
+
+  useEffect(() => {
+    refetch();
+  }, [deleteLoading])
+
+  useEffect(() => {
+    if(!loading)
+      setAddress({ addresses: data?.profile.addresses });
   }, [data]);
 
   return (
@@ -109,17 +95,12 @@ const AddressList: React.FC<Props> = ({ route }) => {
         confirmText={"SIM"}
         cancelText={"NÃO"}
         onConfirm={() => {
-          modalRef.current = true;
-          // dispatch(deleteAddress(addressId));
-          // if (addressId === defaultAddress?.address?.id) {
-          //   dispatch(deleteDefautAddress());
-          // }
+          modalRef.current = true;          
           addressDelete({
             variables: {
               id: addressId,
             },
           });
-
           setDeleteModal(false);
         }}
         onCancel={() => {
@@ -189,7 +170,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 neighborhood,
               } = item;
 
-              // const numberAndComplement: string[] | undefined = number;
               return (
                 <AddressSelector
                   addressData={{
@@ -203,24 +183,22 @@ const AddressList: React.FC<Props> = ({ route }) => {
                     setDeleteModal(true);
                     setAddressId(id);
                   }}
-                  // edit={() => {
-                  //   navigation.navigate("NewAddress", {
-                  //     edit: true,
-                  //     editAddress: {
-                  //       id: id,
-                  //       postalCode: postalCode,
-                  //       state: state,
-                  //       city: city,
-                  //       street: address1,
-                  //       district: address3,
-                  //       numberAndComplement: address2?.split("|"),
-                  //       firstName: firstName,
-                  //       phoneNumber: phoneNumber,
-                  //       jobTitle: jobTitle,
-                  //     },
-                  //   });
-                  // }}
-                  // selected={idAddress === address.addresses.id ? true : false}
+                  edit={() => {                    
+                    navigation.navigate("NewAddress", {
+                      edit: true,
+                      editAddress: {
+                        id,
+                        postalCode,
+                        state,
+                        city,
+                        street,
+                        neighborhood,
+                        number,
+                        complement
+                      },
+                    });
+                  }}
+                  selected={idAddress === address?.addresses.id ? true : false}
                   select={() => {
                     if (isCheckout) {
                       navigation.navigate("PaymentMethodScreen");
@@ -228,27 +206,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
                     }
                     setSelected(selected);
                     setIdAddress(id);
-                    dispatch(
-                      createDefaultAddress({
-                        address: {
-                          country: "BR",
-                          address3: address3,
-                          address2: address2,
-                          city: city,
-                          address1: address1,
-                          postalCode: postalCode,
-                          state: state,
-                          firstName: firstName,
-                          phoneNumber: phoneNumber,
-                          jobTitle: jobTitle,
-                          id: id,
-                        },
-                      })
-                    );
-                    // navigation.navigate('NewAddress', {
-                    //   isCheckout,
-                    //   id: null,
-                    // });
                   }}
                 />
               );
