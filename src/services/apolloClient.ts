@@ -7,10 +7,10 @@ const httpLink = new HttpLink({
 });
 
 const authAfterware = new ApolloLink((operation, forward) => {
-  return forward(operation).map(response => { 
+  return forward(operation).map(response => {
     const { data } = response;
 
-    if(data?.classicSignIn === 'Success'){
+    if (data?.classicSignIn === 'Success') {
       const { response: res } = operation.getContext();
 
       response.data.cookie = res.headers.map['set-cookie'];
@@ -21,7 +21,7 @@ const authAfterware = new ApolloLink((operation, forward) => {
 
 const authLinkHeader = setContext(async (_, { headers }) => {
   const cookie = await AsyncStorage.getItem('@RNAuth:cookie');
-  
+
   return {
     headers: {
       ...headers,
@@ -36,3 +36,12 @@ export const apolloClient = new ApolloClient({
   link,
   cache: new InMemoryCache(),
 })
+
+export const clientContentFul = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: "https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4",
+  headers: {
+    "Authorization": "Bearer e7GuVP-T2J7zqAR8NWZK6IhteMokbshJIx1_c16TG6U"
+  }
+});
+

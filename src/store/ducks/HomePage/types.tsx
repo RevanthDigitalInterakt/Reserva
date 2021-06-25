@@ -1,0 +1,32 @@
+import { gql } from "@apollo/client";
+
+export interface HomeQuery {
+  fileName: string;
+  title: string;
+  width: number;
+  height: number;
+  size: number;
+  url: string;
+}
+
+export const homeQuery = gql`
+  query homePageCollection($limit:Int!){
+    homePageCollection{
+      items{
+        mediasCollection(limit:$limit){
+          items{
+            image{
+              fileName
+              title
+              width
+              height
+              size
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
