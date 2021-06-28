@@ -1,22 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useEffect } from "react";
-import { Alert } from "react-native";
-import { useSelector } from "react-redux";
-import { ApplicationState } from "../../../store";
+import { useAuth } from "../../../context/AuthContext";
 
 export const withAuthentication = (Component: React.FC, comeFrom: string) => ({
   ...props
 }) => {
+  const { cookie } = useAuth();
   const navigation = useNavigation();
-  const { profile } = useSelector((state: ApplicationState) => state);
-  const { authentication } = useSelector((state: ApplicationState) => state);
 
   useEffect(() => {
-    if (!authentication.data?.access_token && !authentication.loading) {
-      navigation.navigate("LoginAlternative", { comeFrom });
+    if (cookie === null) {
+      navigation.navigate("Login", { comeFrom });
     }
-  }, [authentication]);
+  }, [cookie]);
 
-  return authentication.data ? <Component {...props} /> : null;
+  return <Component {...props} />;
 };
