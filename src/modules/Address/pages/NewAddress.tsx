@@ -5,153 +5,143 @@ import { RootStackParamList } from "../../../routes/StackNavigator";
 import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector, useDispatch } from "react-redux";
 import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
 } from "react-native-masked-text";
-import {
-  loadAddress,
-  createAddress,
-  createDefaultAddress,
-  updateAddress,
-} from "../../../store/ducks/address/actions";
-import { ApplicationState } from "../../../store";
 import { useFormikContext } from "formik";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-interface IAdress {
+import { useMutation } from "@apollo/client";
+import { saveAddressMutation, updateAddress } from "../../../graphql/address/addressMutations";
+
+interface IAddress {
   postalCode: string;
   state: string;
   city: string;
   number: string;
   complement: string;
-  district: string;
   street: string;
-  recipientName?: string;
-  phoneNumber?: string;
-  sendMessage?: string;
+  neighborhood: string;
 }
 type Props = StackScreenProps<RootStackParamList, "NewAddress">;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const { edit, editAddress } = route?.params;
   const [addressId, setAddressId] = React.useState(edit ? editAddress.id : "");
   const [toggleActivated, setToggleActivated] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  const [saveAddress] = useMutation(saveAddressMutation);
+  const [addressUpdate] = useMutation(updateAddress);
 
   const { isCheckout } = route.params;
-  const {
-    address: { data: addresses, loading, error, defaultAddress },
-  } = useSelector((state: ApplicationState) => state);
 
-  const [initialValues, setInitialValues] = useState<IAdress>({
+  const [initialValues, setInitialValues] = useState<IAddress>({
     postalCode: edit ? editAddress.postalCode : "",
     state: edit ? editAddress.state : "",
     city: edit ? editAddress.city : "",
-    number: edit ? editAddress.numberAndComplement[0] : "",
-    complement: edit ? editAddress.numberAndComplement[1] : "",
-    district: edit ? editAddress.district : "",
+    number: edit ? editAddress.number : "",
+    complement: edit ? editAddress.complement : "",
     street: edit ? editAddress.street : "",
-    recipientName: edit ? editAddress.firstName : "",
-    phoneNumber: edit ? editAddress.phoneNumber : "",
-    sendMessage: edit ? editAddress.jobTitle : "",
+    neighborhood: edit ? editAddress.neighborhood : "",
   });
-  const validation = Yup.object().shape({
-    postalCode: Yup.string()
-      .required("Informe um CEP")
-      .matches(/^(?=.{9,})/, { message: "CEP não é valido" }),
-    state: Yup.string().required("Informe um Estado"),
-    city: Yup.string().required("Informe uma Cidade"),
-    number: Yup.string().required("Informe um número"),
-    district: Yup.string().required("Informe um bairro"),
-    street: Yup.string().required("Informe um endereço"),
-    recipientName: Yup.string().when("toggleActivated", {
-      is: () => {
-        return toggleActivated;
-      },
-      then: Yup.string().required("Informe um nome"),
-    }),
-    phoneNumber: Yup.string().when("toggleActivated", {
-      is: () => {
-        return toggleActivated;
-      },
-      then: Yup.string().required("Informe um telefone"),
-    }),
-  });
+
+  // const validation = Yup.object().shape({
+  //   postalCode: Yup.string()
+  //     .required("Informe um CEP")
+  //     .matches(/^(?=.{9,})/, { message: "CEP não é valido" }),
+  //   state: Yup.string().required("Informe um Estado"),
+  //   city: Yup.string().required("Informe uma Cidade"),
+  //   number: Yup.string().required("Informe um número"),
+  //   district: Yup.string().required("Informe um bairro"),
+  //   street: Yup.string().required("Informe um endereço"),
+  //   recipientName: Yup.string().when("toggleActivated", {
+  //     is: () => {
+  //       return toggleActivated;
+  //     },
+  //     then: Yup.string().required("Informe um nome"),
+  //   }),
+  //   phoneNumber: Yup.string().when("toggleActivated", {
+  //     is: () => {
+  //       return toggleActivated;
+  //     },
+  //     then: Yup.string().required("Informe um telefone"),
+  //   }),
+  // });
+
+  type SaveAddressDTO = {
+    postalCode: string,
+    state: string,
+    city: string,
+    street: string,
+    neighborhood: string,
+    number: string,
+    complement: string
+  }
+
+  const handleSaveAddress = async (
+    {
+      postalCode,
+      state,
+      city,
+      street,
+      neighborhood,
+      number,
+      complement
+    }: SaveAddressDTO
+  ) => {
+    if (edit) {
+      addressUpdate({
+        variables: {
+          id: addressId,
+          fields: {
+            postalCode: postalCode,
+            street: street,
+            state: state,
+            city: city,
+            neighborhood: neighborhood,
+            number: number,
+            complement: complement,
+          },
+        },
+      })
+    } else {
+      saveAddress({
+        variables: {
+          fields: {
+            postalCode: postalCode,
+            street: street,
+            state: state,
+            city: city,
+            neighborhood: neighborhood,
+            number: number,
+            complement: complement,
+          },
+        },
+      });
+    }
+    navigation.goBack();
+  };
 
   useEffect(() => {
     if (edit) {
-      console.log("editAddress", editAddress);
+      console.log("editAddress", edit, editAddress);
       setAddressId(editAddress.id);
       setInitialValues({
         postalCode: editAddress.postalCode,
         state: editAddress.state,
         city: editAddress.city,
-        number: editAddress.numberAndComplement[0],
-        complement: editAddress.numberAndComplement[1],
-        district: editAddress.district,
+        number: editAddress.number,
+        complement: editAddress.complement,
         street: editAddress.street,
-        recipientName: editAddress.firstName,
-        phoneNumber: editAddress.phoneNumber,
-        sendMessage: editAddress.jobTitle,
+        neighborhood: editAddress.neighborhood
       });
     }
   }, [edit]);
-
-  const addNewAddress = async (
-    city: string,
-    complement: string,
-    district: string,
-    number: string,
-    postalCode: string,
-    state: string,
-    street: string,
-    phoneNumber: string,
-    recipientName: string,
-    sendMessage: string
-  ) => {
-    if (edit) {
-      dispatch(
-        updateAddress({
-          address: {
-            country: "BR",
-            address3: district,
-            address2: `${number}|${complement}`,
-            city: city,
-            address1: street,
-            postalCode: postalCode,
-            state: state,
-            firstName: recipientName,
-            phoneNumber: phoneNumber,
-            jobTitle: sendMessage,
-            id: addressId,
-          },
-        })
-      );
-    } else {
-      dispatch(
-        createAddress({
-          address: {
-            country: "BR",
-            address3: district,
-            address2: `${number}|${complement}`,
-            city: city,
-            address1: street,
-            postalCode: postalCode,
-            state: state,
-            firstName: recipientName,
-            phoneNumber: phoneNumber,
-            jobTitle: sendMessage,
-          },
-        })
-      );
-    }
-    navigation.goBack();
-  };
 
   return (
     <>
@@ -180,32 +170,25 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               </Box>
               <Formik
                 initialValues={initialValues}
-                validationSchema={validation}
                 onSubmit={(values) => {
                   const {
-                    city,
-                    complement,
-                    district,
-                    number,
                     postalCode,
                     state,
+                    city,
                     street,
-                    phoneNumber,
-                    recipientName,
-                    sendMessage,
+                    neighborhood,
+                    number,
+                    complement,
                   } = values;
-                  addNewAddress(
+                  handleSaveAddress({
                     city,
                     complement,
-                    district,
                     number,
                     postalCode,
                     state,
                     street,
-                    phoneNumber,
-                    recipientName,
-                    sendMessage
-                  );
+                    neighborhood
+                  });
                   console.log("sucesso", values);
                 }}
               >
@@ -239,7 +222,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                       <Box flex={1} marginRight={"micro"}>
                         <InputOption
                           placeholder={"Digite seu bairro"}
-                          field={"district"}
+                          field={"neighborhood"}
                         />
                       </Box>
 
@@ -349,13 +332,8 @@ const InputOption = ({
   textAlignVertical,
   onChangeText,
 }: IInputOption) => {
-  const {
-    values,
-    handleChange,
-    setFieldTouched,
-    touched,
-    errors,
-  } = useFormikContext<any>();
+  const { values, handleChange, setFieldTouched, touched, errors } =
+    useFormikContext<any>();
   return (
     <>
       <Box mt={"xxxs"}>
