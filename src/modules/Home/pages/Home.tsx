@@ -1,19 +1,14 @@
+import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import { ScrollView } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
-import { useDispatch, useSelector } from 'react-redux';
-import { Typography, Box, Button, Image, theme } from 'reserva-ui';
-import { images } from '../../../assets';
-import { ApplicationState } from '../../../store';
-import { load } from '../../../store/ducks/nearbyStores/actions';
-
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import { clientContentFul } from "../../../services/apolloClient";
-import { useQuery, useMutation } from '@apollo/client'
+import { useDispatch } from 'react-redux';
+import { Box, Image } from 'reserva-ui';
 import { homeQuery, HomeQuery } from '../../../store/ducks/HomePage/types';
+import { load } from '../../../store/ducks/nearbyStores/actions';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -26,15 +21,14 @@ export const HomeScreen: React.FC<{
   const { loading, error, data, } = useQuery(
     homeQuery,
     {
-      client: clientContentFul,
+      context: { clientName: 'contentful' },
       variables: { limit: 5 } // quantidade de itens que iram renderizar
     }
   );
 
   useEffect(() => {
-    console.log('homeData', data?.homePageCollection.items[0].mediasCollection.items)
-    let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription) => (
-      {
+    let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription) => {
+      return {
         fileName: imageDescription.image.fileName,
         title: imageDescription.image.title,
         width: imageDescription.image.width,
@@ -42,7 +36,7 @@ export const HomeScreen: React.FC<{
         size: imageDescription.image.size,
         url: imageDescription.image.url,
       }
-    ))
+    })
     setImages(arrayImages)
   }, [data]);
 
@@ -53,7 +47,6 @@ export const HomeScreen: React.FC<{
   return (
     <Box flex={1}>
       <TopBarDefault loading={loading} />
-      {/* <ScrollView> */}
       <FlatList
         data={images}
         renderItem={({ item }) => (
@@ -75,88 +68,6 @@ export const HomeScreen: React.FC<{
         )}
         keyExtractor={item => item.id}
       />
-      {/* <Box alignItems="flex-start"> */}
-      {/* <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                // navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={image && true}
-                width={deviceWidth}
-                source={{ uri: image?.image.url }}
-              />
-            </TouchableHighlight>
-          </Box> */}
-
-      {/* <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.topBannerMock1}
-              />
-            </TouchableHighlight>
-          </Box>
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock2}
-              />
-            </TouchableHighlight>
-          </Box>
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock3}
-              />
-            </TouchableHighlight>
-          </Box>
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock1}
-              />
-            </TouchableHighlight>
-          </Box>
-          <Box width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock4}
-              />
-            </TouchableHighlight>
-          </Box> */}
-      {/* </Box> */}
-      {/* </ScrollView> */}
     </Box>
   );
 };
