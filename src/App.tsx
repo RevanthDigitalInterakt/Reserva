@@ -28,7 +28,7 @@ import { useEffect } from "react";
 import { PersistGate } from "redux-persist/integration/react";
 import { oneSignalConfig } from "./config/pushNotification";
 import { apolloClient } from "./services/apolloClient";
-import AuthContextProvider from './context/AuthContext';
+import AuthContextProvider from "./context/AuthContext";
 
 import './config/ReactotronConfig'
 
