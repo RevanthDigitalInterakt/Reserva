@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { SafeAreaView, ScrollView, BackHandler } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import {
   Typography,
   Box,
@@ -13,27 +13,65 @@ import {
   Icon,
   Image,
 } from "reserva-ui";
-import { ApplicationState } from "../../../store";
 
-import logo from "../../../assets/img/logo.png";
 import HeaderBanner from "../../Forgot/componet/HeaderBanner";
 import { images } from "../../../assets";
 import UnderlineInput from "../components/UnderlineInput";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useMutation } from "@apollo/client";
+import { classicSignInMutation } from "../../../graphql/login/loginMutations";
+import { useAuth } from "../../../context/AuthContext";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import id from "date-fns/esm/locale/id/index.js";
 
-export const LoginScreen: React.FC<{
-  title: string;
-}> = ({ children, title }) => {
+type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
+
+export const LoginScreen: React.FC<Props> = ({ children, route }) => {
+  const { comeFrom } = route.params;
+  const { cookie, setCookie } = useAuth();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+  const [loginCredentials, setLoginCredentials] = React.useState({
+    username: "",
+    password: "",
+  });
   const [isSecureText, setIsSecureText] = useState(true);
-
+  const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true)
+
+  const handleLogin = () => {
+    login({
+      variables: {
+        email: loginCredentials.username,
+        password: loginCredentials.password
+      }
+    })
+  }
+
+  useEffect(() => {
+    if(comeFrom === "Profile"){
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        navigation.navigate("Home");
+        return true;
+      });
+    }
+  }, [])
+  
+  useEffect(() => {
+    if(!loading && data?.cookie){
+      setCookie(data?.cookie)
+      AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
+        navigation.navigate("Home");
+      });
+    }    
+  }, [data]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { }} />
+      <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => {
+        navigation.navigate("Home");
+       }} />
       <ScrollView>
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily='reservaSerifRegular' fontSize={22}>
@@ -46,11 +84,28 @@ export const LoginScreen: React.FC<{
                 Insira seu e-mail para continuar:
               </Typography>
             </Box>
-            <UnderlineInput placeholder='Digite seu e-mail' errorMsg='Digite um e-mail válido' showError={false} />
+            <UnderlineInput 
+              placeholder='Digite seu e-mail' 
+              errorMsg='Digite um e-mail válido' 
+              showError={false}
+              onChangeText={
+                (text) => setLoginCredentials(
+                  { ...loginCredentials, username: text }
+                )
+              }
+            />
             {
               !loginWithCode &&
               <Box mt='md' width='100%'>
-                <UnderlineInput placeholder='Digite sua senha' isSecureText={true} />
+                <UnderlineInput 
+                  placeholder='Digite sua senha' 
+                  isSecureText={true} 
+                  onChangeText={
+                    (text) => setLoginCredentials(
+                      { ...loginCredentials, password: text }
+                    )
+                  }
+                />
 
                 <Box mt='micro'>
 
@@ -69,7 +124,7 @@ export const LoginScreen: React.FC<{
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'} 
             inline 
             variant='primarioEstreito' 
-            onPress={() => navigation.navigate('AccessCode')} 
+            onPress={() => handleLogin()} 
           />
           <Box my={50}  >
             <Typography variant='tituloSessao' textAlign='center'>OU</Typography>
