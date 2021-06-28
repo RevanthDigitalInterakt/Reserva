@@ -110,7 +110,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
       </Box>
 
       {showResults && (
-        <Animatable.View animation='fadeIn' style={{ height: '100%' }}>
+        <Animatable.View animation='fadeIn' style={{ marginBottom: 120 }}>
           <ListVerticalProducts
             products={products ? products : []}
             loadMoreProducts={(offset) => {
