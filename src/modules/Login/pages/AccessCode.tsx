@@ -1,3 +1,4 @@
+import { StackScreenProps } from "@react-navigation/stack"
 import React from "react"
 import { useRef } from "react"
 import { useState } from "react"
@@ -6,25 +7,26 @@ import { ScrollView, } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Box, Button, Typography } from "reserva-ui"
 import { images } from "../../../assets"
+import { RootStackParamList } from "../../../routes/StackNavigator"
 import HeaderBanner from "../../Forgot/componet/HeaderBanner"
 import CodeInput from "../components/CodeInput"
 
-export interface AccessCodeProps {
+export interface AccessCodeProps extends StackScreenProps<RootStackParamList, "AccessCode"> {
 
 }
 
-const AccessCode: React.FC<AccessCodeProps> = ({ }) => {
+const AccessCode: React.FC<AccessCodeProps> = ({ navigation }) => {
     const [accessCode, setAccessCode] = useState('')
     const [showError, setShowError] = useState(false)
 
 
     return (
         <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-            <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { }} />
             <ScrollView>
+                <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
                 <Box px={20} pt='md'>
                     <Typography variant='tituloSessao'>
-                        Digite abaixo o código de acesso:
+                        Digite aqui o código enviado para o e-mail:
                     </Typography>
                     <Box mt={25} mb={16}>
                         <CodeInput code={accessCode} onChageCode={setAccessCode} showError={showError} />

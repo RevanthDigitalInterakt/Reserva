@@ -11,19 +11,20 @@ import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackBut
 
 import { images } from '../../../assets/'
 import HeaderBanner from "../componet/HeaderBanner";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 const width = Dimensions.get('window').width
-export const ForgotPassword: React.FC = () => {
+
+export interface ForgotPasswordProps extends StackScreenProps<RootStackParamList, "ForgotPassword"> { }
+
+
+export const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState<string>('')
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      {/* <TopBarBackButtonWithoutLogo
-        showShadow={false}
-        loading={false}
 
-        backButtonPress={() => navigation.navigate("LoginAlternative")}
-      /> */}
-      <HeaderBanner />
+      <HeaderBanner imageHeader={images.headerLogin} />
       <Box paddingX="micro" marginTop="xxl" >
         <Box justifyContent="flex-start" marginTop="xxxs">
           <Typography variant={"tituloSessoes"} >Esqueci minha senha</Typography>

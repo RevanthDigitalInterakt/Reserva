@@ -59,6 +59,8 @@ import { horizontalAnimationBackwards } from "./utils/utils";
 import { CancelOrder } from "../modules/CancelOrder/pages/CancelOrder";
 import { Cashback } from "../modules/Cashback/pages/Cashback";
 import AccessCode from "../modules/Login/pages/AccessCode";
+import { IdentifyEmail } from "../modules/LoginCheckout/pages/IdentifyEmail";
+import { ForgotAccessCode } from "../modules/Forgot/pages/ForgotAccessCode";
 
 export type RootStackParamList = {
   Register: {
@@ -71,8 +73,13 @@ export type RootStackParamList = {
   LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   ProductCatalog: { safeArea: boolean; search: boolean };
   WishList: {};
+  ForgotAccessCode: { email?: string };
   ShowListByCategory: { categoryName: string; products: Wish[] };
-
+  IdentifyEmail: {};
+  AccessCode: {},
+  ForgotPassword: {} | undefined
+  ForgotNewPassword: {} | undefined
+  ForgotEmailSuccess: {} | undefined
   NewAddress: {
     id?: number;
     isCheckout: boolean;
@@ -92,7 +99,7 @@ export type RootStackParamList = {
       neighborhood: string;
     };
   };
-
+  ForgotEmail: {};
   CancelOrder: {};
   Cashback: {};
   AddressList: { isCheckout: boolean };
@@ -108,22 +115,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: number; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | "PIX"
-      | "Credit"
-      | "Debit"
-      | "Boleto"
-      | "GiftCard"
-      | "Cashback";
+    | "PIX"
+    | "Credit"
+    | "Debit"
+    | "Boleto"
+    | "GiftCard"
+    | "Cashback";
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | "PIX"
-      | "Credit"
-      | "Debit"
-      | "Boleto"
-      | "GiftCard"
-      | "Cashback";
+    | "PIX"
+    | "Credit"
+    | "Debit"
+    | "Boleto"
+    | "GiftCard"
+    | "Cashback";
   };
   PixScreen: {
     cashback: boolean;
@@ -146,6 +153,7 @@ const MainStackScreen = () => {
   // Here you put normal navigation
   return (
     <MainStack.Navigator
+      //initialRouteName='ForgotEmailSuccess'
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
     >
@@ -166,6 +174,7 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name="WishList" component={WishList} />
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
+      <MainStack.Screen name="IdentifyEmail" component={IdentifyEmail} />
       <MainStack.Screen
         name="ShowListByCategory"
         component={ShowListByCategory}
@@ -220,6 +229,7 @@ const MainStackScreen = () => {
         component={ForgotEmailSuccess}
       />
       <MainStack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <MainStack.Screen name="ForgotAccessCode" component={ForgotAccessCode} />
       <MainStack.Screen
         name="ForgotNewPassword"
         component={ForgotNewPassword}
