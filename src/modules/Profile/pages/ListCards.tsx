@@ -86,7 +86,7 @@ export const ListCards = ({ navigation, route }: Props) => {
           paddingHorizontal={20}
           pt={'md'}
         >
-          <Box mb={'xxxs'}>
+          <Box mb={'xs'}>
             <Typography variant="tituloSessoes">Meus cartões</Typography>
           </Box>
 
@@ -121,7 +121,8 @@ export const ListCards = ({ navigation, route }: Props) => {
               isCheckout: isCheckout,
             })
           }
-          width="200px"
+          inline
+          marginX="xl"
           title={'ADICIONAR CARTÃO'}
           variant="primarioEstreitoOutline"
           padding="xl"

@@ -34,8 +34,8 @@ const Card = ({
         <Box flexDirection="row" flex={1} alignItems="center">
           {isMain && <Icon name="Check" color="preto" size={12} />}
 
-          <Box mr="xxxs" ml={isMain && 'nano'}>
-            <Image source={images[flag]} />
+          <Box mr="xxxs" ml={isMain && 'nano'} >
+            <Image source={images[flag]} resizeMode="center" />
           </Box>
           <Typography variant="precoAntigo3">
             ****{cardNumbers.substring(12)}
