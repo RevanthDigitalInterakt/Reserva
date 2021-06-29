@@ -17,8 +17,8 @@ interface ListProductsProps {
   products: Product[]
   loadMoreProducts: (offSet: number) => void
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>
 }
 
 export const ListVerticalProducts = ({
