@@ -1,15 +1,13 @@
+import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import { ScrollView } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { useDispatch, useSelector } from 'react-redux';
-import { Typography, Box, Button, Image, theme } from 'reserva-ui';
-import { images } from '../../../assets';
-import { ApplicationState } from '../../../store';
+import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { Box, Image } from 'reserva-ui';
+import { homeQuery, HomeQuery } from '../../../store/ducks/HomePage/types';
 import { load } from '../../../store/ducks/nearbyStores/actions';
-
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 
 export const HomeScreen: React.FC<{
@@ -18,8 +16,29 @@ export const HomeScreen: React.FC<{
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-
+  const [images, setImages] = React.useState<HomeQuery[]>([])
   const deviceWidth = Dimensions.get('screen').width;
+  const { loading, error, data, } = useQuery(
+    homeQuery,
+    {
+      context: { clientName: 'contentful' },
+      variables: { limit: 5 } // quantidade de itens que iram renderizar
+    }
+  );
+
+  useEffect(() => {
+    let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription) => {
+      return {
+        fileName: imageDescription.image.fileName,
+        title: imageDescription.image.title,
+        width: imageDescription.image.width,
+        height: imageDescription.image.height,
+        size: imageDescription.image.size,
+        url: imageDescription.image.url,
+      }
+    })
+    setImages(arrayImages)
+  }, [data]);
 
   useEffect(() => {
     dispatch(load({ UF: 'RJ' }));
@@ -27,76 +46,28 @@ export const HomeScreen: React.FC<{
 
   return (
     <Box flex={1}>
-      <TopBarDefault />
-      <ScrollView>
-        <Box alignItems="flex-start">
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.topBannerMock1}
-              />
-            </TouchableHighlight>
+      <TopBarDefault loading={loading} />
+      <FlatList
+        data={images}
+        renderItem={({ item }) => (
+          <Box alignItems="flex-start">
+            <Box mb="quarck" width={1 / 1}>
+              <TouchableHighlight
+                onPress={() => {
+                  navigation.navigate('ProductCatalog');
+                }}
+              >
+                <Image
+                  autoHeight={true}
+                  width={deviceWidth}
+                  source={{ uri: item.url }}
+                />
+              </TouchableHighlight>
+            </Box>
           </Box>
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock2}
-              />
-            </TouchableHighlight>
-          </Box>
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock3}
-              />
-            </TouchableHighlight>
-          </Box>
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock1}
-              />
-            </TouchableHighlight>
-          </Box>
-          <Box width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => {
-                navigation.navigate('ProductCatalog');
-              }}
-            >
-              <Image
-                autoHeight={true}
-                width={deviceWidth}
-                source={images.homeMock4}
-              />
-            </TouchableHighlight>
-          </Box>
-        </Box>
-      </ScrollView>
+        )}
+        keyExtractor={item => item.id}
+      />
     </Box>
   );
 };

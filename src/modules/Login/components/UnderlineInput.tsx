@@ -11,7 +11,7 @@ interface UnderlineInputProps {
     isSecureText?: boolean
     width?: number
     iconSize?: number
-    onChangeText?: (value: string) => void
+    onChangeText: (value: string) => void
 }
 
 const screenWidth = Dimensions.get('window').width
@@ -35,7 +35,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({ placeholder, onChangeTe
                     <TextInput
                         secureTextEntry={isSecureText && revelPassword}
                         placeholder={placeholder}
-                        onChangeText={(value) => { onChangeText }}
+                        onChangeText={(value) =>  onChangeText(value)}
                         style={{
                             padding: 0,
                             margin: 0,

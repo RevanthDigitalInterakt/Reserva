@@ -28,6 +28,7 @@ import { useEffect } from "react";
 import { PersistGate } from "redux-persist/integration/react";
 import { oneSignalConfig } from "./config/pushNotification";
 import { apolloClient } from "./services/apolloClient";
+import AuthContextProvider from "./context/AuthContext";
 
 import './config/ReactotronConfig'
 
@@ -75,15 +76,17 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer theme={DefaultTheme}>
-        <ApolloProvider client={apolloClient}>
-          <Provider store={configureStore().store}>
-            <PersistGate persistor={configureStore().persistor}>
-              <InitialScreen>
-                <AppRouting />
-              </InitialScreen>
-            </PersistGate>
-          </Provider>
-        </ApolloProvider>
+        <AuthContextProvider>
+          <ApolloProvider client={apolloClient}>
+            <Provider store={configureStore().store}>
+              <PersistGate persistor={configureStore().persistor}>
+                <InitialScreen>
+                  <AppRouting />
+                </InitialScreen>
+              </PersistGate>
+            </Provider>
+          </ApolloProvider>
+        </AuthContextProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
