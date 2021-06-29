@@ -114,7 +114,7 @@ const MenuItem: React.FC<IMenuItem> = ({
               style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
               name='ChevronRight'
               color='preto'
-              size={16}
+              size={12}
             />
           </Box>
         </Box>
