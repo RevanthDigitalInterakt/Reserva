@@ -1,9 +1,11 @@
-import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-community/async-storage'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { SafeAreaView, ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Typography, Box, Button } from 'reserva-ui'
+import { useAuth } from '../../../context/AuthContext'
 import { ApplicationState } from '../../../store'
 import { logoutRequest } from '../../../store/ducks/authentication/actions'
 import { profileLoad } from '../../../store/ducks/profile/actions'
@@ -15,17 +17,20 @@ import ItemList from '../Components/ItemList'
 import { withAuthentication } from '../HOC/withAuthentication'
 
 const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
-  const dispatch = useDispatch()
-
+  const { cookie, setCookie } = useAuth();
   const { profile } = useSelector((state: ApplicationState) => state)
 
-  useEffect(() => {
-    // dispatch(profileLoad());
-  }, [])
-
   const logout = () => {
-    dispatch(logoutRequest())
+    AsyncStorage.removeItem("@RNAuth:cookie");
+    setCookie(null);
+    navigation.navigate("Home");
   }
+
+  useFocusEffect(() => {
+    if (cookie === null) {
+      navigation.navigate("Login", { comeFrom: "Profile" });
+    }
+  })
 
   return (
     <Box flex={1} backgroundColor='white'>

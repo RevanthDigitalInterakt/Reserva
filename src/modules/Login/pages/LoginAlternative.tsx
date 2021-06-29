@@ -26,8 +26,8 @@ type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
-    username: "",
-    password: "",
+    username: "danilo.sousa@globalsys.com.br",
+    password: "Danilo123",
   });
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;
@@ -55,14 +55,10 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
     login({
       variables: {
         email: loginCredentials.username,
-        password: loginCredentials.password
-      }
-    })
+        password: loginCredentials.password,
+      },
+    });
   };
-
-  useEffect(() => {
-    AsyncStorage.setItem('@RNAuth:cookie', data?.cookie);
-  }, [data]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
@@ -236,7 +232,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                     <Box marginTop="xs" alignItems="center">
                       <Button
                         onPress={() => {
-                          handleLogin()
+                          handleLogin();
                         }}
                         width={190}
                         disabled={loading}
