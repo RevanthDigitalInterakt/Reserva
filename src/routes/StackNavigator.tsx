@@ -7,6 +7,7 @@ import { BagScreen } from "../modules/Checkout/pages/Bag";
 import { BarCodePayment } from "../modules/Checkout/pages/BarCodePayment";
 import { EnterYourEmail } from "../modules/Checkout/pages/EnterYourEmail";
 import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
+import Checkout from "../modules/Checkout/pages/WebviewCheckout";
 import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
 import { MapScreen } from "../modules/Checkout/pages/Map";
 import { NearbyStores } from "../modules/Checkout/pages/NearbyStores";
@@ -73,7 +74,6 @@ export type RootStackParamList = {
   ProductCatalog: { safeArea: boolean; search: boolean };
   WishList: {};
   ShowListByCategory: { categoryName: string; products: Wish[] };
-
   NewAddress: {
     id?: number;
     isCheckout: boolean;
@@ -87,13 +87,13 @@ export type RootStackParamList = {
       district: string;
       number: string;
       complement: string;
+      numberAndComplement: string[];
       firstName: string;
       phoneNumber: string;
       jobTitle: string;
       neighborhood: string;
     };
   };
-
   CancelOrder: {};
   Cashback: {};
   AddressList: { isCheckout: boolean };
@@ -182,6 +182,7 @@ const MainStackScreen = () => {
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
       <MainStack.Screen name="EnterYourEmail" component={EnterYourEmail} />
+      <MainStack.Screen name="Checkout" component={Checkout} />
       <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
       <MainStack.Screen name="NearbyStores" component={NearbyStores} />
       <MainStack.Screen name="MapScreen" component={MapScreen} />
