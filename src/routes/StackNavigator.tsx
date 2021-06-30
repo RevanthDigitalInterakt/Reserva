@@ -5,6 +5,7 @@ import AddressList from "../modules/Address/pages/AddressList";
 import NewAddress from "../modules/Address/pages/NewAddress";
 import { BagScreen } from "../modules/Checkout/pages/Bag";
 import { BarCodePayment } from "../modules/Checkout/pages/BarCodePayment";
+import { EnterYourEmail } from "../modules/Checkout/pages/EnterYourEmail";
 import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
 import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
 import { MapScreen } from "../modules/Checkout/pages/Map";
@@ -108,22 +109,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: number; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | "PIX"
-      | "Credit"
-      | "Debit"
-      | "Boleto"
-      | "GiftCard"
-      | "Cashback";
+    | "PIX"
+    | "Credit"
+    | "Debit"
+    | "Boleto"
+    | "GiftCard"
+    | "Cashback";
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | "PIX"
-      | "Credit"
-      | "Debit"
-      | "Boleto"
-      | "GiftCard"
-      | "Cashback";
+    | "PIX"
+    | "Credit"
+    | "Debit"
+    | "Boleto"
+    | "GiftCard"
+    | "Cashback";
   };
   PixScreen: {
     cashback: boolean;
@@ -180,6 +181,7 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name="EnterYourEmail" component={EnterYourEmail} />
       <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
       <MainStack.Screen name="NearbyStores" component={NearbyStores} />
       <MainStack.Screen name="MapScreen" component={MapScreen} />
