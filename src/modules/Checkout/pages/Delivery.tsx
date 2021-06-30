@@ -88,6 +88,12 @@ const Delivery: React.FC<{}> = () => {
               navigation.navigate("AddressList", { isCheckout: true })
             }
           />
+
+          <SelectOption
+            title={"wbeview"}
+            subtitle={"S123123123"}
+            onPress={() => navigation.navigate("Checkout")}
+          />
         </Box>
       </ScrollView>
     </SafeAreaView>
