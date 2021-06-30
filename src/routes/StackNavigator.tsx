@@ -73,12 +73,12 @@ export type RootStackParamList = {
   LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   ProductCatalog: { safeArea: boolean; search: boolean };
   WishList: {};
-  ForgotAccessCode: { email?: string };
+  ForgotAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: Wish[] };
   IdentifyEmail: {};
   AccessCode: {},
   ForgotPassword: {} | undefined
-  ForgotNewPassword: {} | undefined
+  ForgotNewPassword: { email: string, code: string }
   ForgotEmailSuccess: {} | undefined
   NewAddress: {
     id?: number;

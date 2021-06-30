@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
@@ -5,6 +6,7 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native";
 import { Typography, Box, TextField, Button } from "reserva-ui";
 import { images } from "../../../assets";
+import { recoveryPasswordMutation, sendEmailVerificationMutation } from "../../../graphql/login/loginMutations";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import UnderlineInput from "../../Login/components/UnderlineInput";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
@@ -17,6 +19,18 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
 
   const [email, setEmail] = useState('')
 
+  const [sendEmailVerification, { data, loading }] = useMutation(sendEmailVerificationMutation)
+
+  const handleEmailAccess = () => {
+    sendEmailVerification({
+      variables: {
+        email
+      }
+    }).then(x =>
+      navigation.navigate('ForgotAccessCode', { email })
+    )
+  }
+
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
       <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
@@ -28,7 +42,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
         <Box mt={33}>
           <UnderlineInput onChangeText={(text) => { setEmail(text) }} placeholder='Digite seu e-mail' />
         </Box>
-        <Button mt={55} variant='primarioEstreito' title='ENVIAR E-MAIL' onPress={() => { navigation.navigate('ForgotAccessCode', { email }) }} disabled={email.length <= 0} inline />
+        <Button mt={55} variant='primarioEstreito' title='ENVIAR E-MAIL' onPress={handleEmailAccess} disabled={email.length <= 0} inline />
 
       </Box>
     </SafeAreaView >

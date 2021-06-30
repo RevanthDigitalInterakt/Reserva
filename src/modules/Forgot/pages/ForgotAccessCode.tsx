@@ -19,6 +19,8 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({ navigation, 
 
     const [code, setCode] = useState('')
 
+
+
     return <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
         <ScrollView>
             <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
@@ -31,7 +33,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({ navigation, 
                 <Box mt={17} >
                     <CodeInput code={code} onChageCode={setCode} showError={false} />
                 </Box>
-                <Button mt={28} variant='primarioEstreito' title='ATUALIZAR SENHA' onPress={() => { navigation.navigate('ForgotEmailSuccess') }} inline />
+                <Button mt={28} variant='primarioEstreito' title='CONTINUAR' disabled={code.length < 6} onPress={() => { navigation.navigate('ForgotNewPassword', { email, code }) }} inline />
 
             </Box>
         </ScrollView>

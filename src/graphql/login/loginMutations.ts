@@ -5,3 +5,15 @@ export const classicSignInMutation = gql`
     classicSignIn(email: $email, password: $password)
   }
 `;
+
+export const sendEmailVerificationMutation = gql`
+  mutation SendEmailVerification($email: String!) {
+    sendEmailVerification(email: $email)
+  }
+`
+
+export const recoveryPasswordMutation = gql`
+  mutation RecoveryPassword( $email: String!, $newPassword: String!, $code: String!){
+    recoveryPassword(email: $email , newPassword: $newPassword, code: $code)
+  }
+`

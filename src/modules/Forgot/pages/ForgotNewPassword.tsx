@@ -9,6 +9,8 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, TextField, Button, Icon } from "reserva-ui";
 import { setLocale } from "yup";
 import { images } from "../../../assets";
+import { useAuth } from "../../../context/AuthContext";
+import { recoveryPasswordMutation } from "../../../graphql/login/loginMutations";
 import { recoveryPassword } from "../../../graphql/login/recoveryPassword";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { apolloClient } from "../../../services/apolloClient";
@@ -21,6 +23,10 @@ export interface ForgotPasswordProps extends StackScreenProps<RootStackParamList
 
 export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, route }) => {
 
+  const { code, email } = route.params
+
+  const [recoveryPassword, { data, loading }] = useMutation(recoveryPasswordMutation)
+
   const passwordCheckHandler = () => ({
     equal: passwords.first === passwords.confirm,
     digitsCount: passwords.first.length >= 8,
@@ -32,10 +38,24 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
   const enabledButton = () => (passwordsChecker.equal && passwordsChecker.digitsCount && passwordsChecker.uppercase && passwordsChecker.lowercase && passwordsChecker.number)
 
   const handleUpdaePassword = () => {
-
+    let variables = {
+      email,
+      code,
+      newPassword: passwords.confirm
+    }
+    console.log('variables', variables)
+    recoveryPassword({
+      variables
+    }).then(x => {
+      x.data.recoveryPassword != null ?
+        navigation.navigate('ForgotEmailSuccess')
+        :
+        navigation.navigate('ForgotEmail', {})
+    })
   }
 
-  const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
+
+  //const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
 
   const [passwords, setPasswords] = useState({
     first: '',
@@ -49,7 +69,6 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
     setPasswordChecker(passwordCheckHandler())
   }, [passwords])
 
-  AsyncStorage.getItem('recoveryEmail').then(x => console.log(x))
 
 
 

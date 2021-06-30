@@ -20,7 +20,7 @@ import UnderlineInput from "../components/UnderlineInput";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useMutation } from "@apollo/client";
-import { classicSignInMutation } from "../../../graphql/login/loginMutations";
+import { classicSignInMutation, sendEmailVerificationMutation } from "../../../graphql/login/loginMutations";
 import { useAuth } from "../../../context/AuthContext";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
@@ -37,7 +37,9 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
     password: "",
   });
   const [isSecureText, setIsSecureText] = useState(true);
+  const [showError, setShowError] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
+  const [sendEmail, { }] = useMutation(sendEmailVerificationMutation);
   const [loginWithCode, setLoginWithCode] = useState(true)
 
   const handleLogin = () => {
@@ -47,6 +49,14 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
         password: loginCredentials.password
       }
     })
+  }
+
+  const handleLoginCode = () => {
+    sendEmail({
+      variables: {
+        email: loginCredentials.username
+      }
+    }).then(x => navigation.navigate('AccessCode', {}))
   }
 
   useEffect(() => {
@@ -87,7 +97,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
             <UnderlineInput
               placeholder='Digite seu e-mail'
               errorMsg='Digite um e-mail válido'
-              showError={false}
+              showError={showError}
               onChangeText={
                 (text) => setLoginCredentials(
                   { ...loginCredentials, username: text }
@@ -124,7 +134,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant='primarioEstreito'
-            onPress={() => loginWithCode ? navigation.navigate('AccessCode', {}) : handleLogin()}
+            onPress={() => loginWithCode ? handleLoginCode() : handleLogin()}
           />
           <Box my={50}  >
             <Typography variant='tituloSessao' textAlign='center'>OU</Typography>
