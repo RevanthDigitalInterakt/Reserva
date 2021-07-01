@@ -17,7 +17,7 @@ const HeaderBanner: React.FC<{ onClickGoBack?: () => void; imageHeader: any }> =
           style={{ elevation: 3 }}
         >
           <Button onPress={onClickGoBack}>
-            <Icon name="ArrowBack" size={19} color="preto" />
+            <Icon name="ArrowBack" size={18} color="preto" />
           </Button>
         </Box>
         <Image source={imageHeader} width={"100%"} />
