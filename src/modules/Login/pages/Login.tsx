@@ -137,8 +137,15 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
             variant="primarioEstreitoOutline"
             onPress={() => setLoginWithCode(!loginWithCode)}
           />
-          <Box flexDirection="row" mt="sm">
-            <Typography>{"Ainda não possui uma conta? "}</Typography>
+          <Box
+            flexDirection="row"
+            mt="sm"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography textAlign="center">
+              {"Ainda não possui uma conta?"}
+            </Typography>
             <Button>
               <Typography style={{ textDecorationLine: "underline" }}>
                 Clique para se cadastrar
