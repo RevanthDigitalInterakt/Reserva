@@ -188,7 +188,7 @@ const GetPurchaseData = async (orderGroup: any) => {
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
 };
 
-export default {
+export {
   CreateCart,
   CreateSession,
   GetSession,
