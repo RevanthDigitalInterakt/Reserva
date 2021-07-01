@@ -1,30 +1,18 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { useEffect } from "react";
-import { SafeAreaView, ScrollView, BackHandler } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
-import {
-  Typography,
-  Box,
-  TextField,
-  Toggle,
-  Button,
-  SocialButton,
-  Icon,
-  Image,
-} from "reserva-ui";
-
-import HeaderBanner from "../../Forgot/componet/HeaderBanner";
-import { images } from "../../../assets";
-import UnderlineInput from "../components/UnderlineInput";
-import { useState } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useMutation } from "@apollo/client";
-import { classicSignInMutation } from "../../../graphql/login/loginMutations";
-import { useAuth } from "../../../context/AuthContext";
+import AsyncStorage from "@react-native-community/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { BackHandler, SafeAreaView, ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Box, Button, Typography } from "reserva-ui";
+import { images } from "../../../assets";
+import { useAuth } from "../../../context/AuthContext";
+import { classicSignInMutation } from "../../../graphql/login/loginMutations";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-import id from "date-fns/esm/locale/id/index.js";
+import HeaderBanner from "../../Forgot/componet/HeaderBanner";
+import UnderlineInput from "../components/UnderlineInput";
 
 type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
