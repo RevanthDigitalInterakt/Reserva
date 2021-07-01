@@ -8,7 +8,7 @@ import React, {
     Dispatch,
 } from 'react';
 import { useEffect } from 'react';
-import { AddItemToCart, CreateCart } from '../services/vtexService'
+import { AddAddressToCart, AddCustomerToOrder, AddItemToCart, CreateCart, IdentifyCustomer } from '../services/vtexService'
 
 interface ClientPreferencesData {
     attachmentId: string;
@@ -160,6 +160,9 @@ interface OrderForm {
 interface CartContextProps {
     orderForm: OrderForm | undefined
     addItem: (quantity: number, itemId: string) => void;
+    identifyCustomer: (email: string) => Promise<boolean | undefined>;
+    addCustomer: (customer: any) => Promise<boolean | undefined>;
+    addShippingData: (address: any) => Promise<boolean | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -188,13 +191,50 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         }
     }
 
+    const identifyCustomer = async (email: string) => {
+        try {
+            const data = await IdentifyCustomer(orderForm?.orderFormId, email);
+
+            setOrderForm(data);
+
+            // TODO - change this later, find a better way to check if theres's no user
+            return !!data.clientProfileData.firstName;
+        } catch (error) {
+            console.log("error", error.response.data);
+        }
+    }
+
+    const addCustomer = async (customer: any) => {
+        try {
+            const data = await AddCustomerToOrder(orderForm?.orderFormId, { ...customer, email: orderForm?.clientProfileData.email });
+
+            setOrderForm(data);
+
+            return !!data;
+        } catch (error) {
+            console.log("error", error.response.data);
+        }
+    }
+
+    const addShippingData = async (address: any) => {
+        try {
+            const data = await AddAddressToCart(orderForm?.orderFormId, { selectedAddresses: [address], clearAddressIfPostalCodeNotFound: false });
+
+            console.log(data);
+
+            return !!data;
+        } catch (error) {
+            console.log("error", error.response.data);
+        }
+    }
+
     useEffect(() => {
         orderform()
     }, []);
 
     return (
         <CartContext.Provider
-            value={{ orderForm, addItem }}
+            value={{ orderForm, addItem, identifyCustomer, addCustomer, addShippingData }}
         >
             {children}
         </CartContext.Provider>
@@ -209,9 +249,12 @@ export const useCart = () => {
     if (!cartContext) {
         throw new Error('use Auth must be used within a AuthContextProvider');
     }
-    const { orderForm, addItem } = cartContext;
+    const { orderForm, addItem, identifyCustomer, addCustomer, addShippingData } = cartContext;
     return {
         orderForm,
-        addItem
+        addItem,
+        identifyCustomer,
+        addCustomer,
+        addShippingData
     };
 };

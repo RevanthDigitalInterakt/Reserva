@@ -1,8 +1,10 @@
 import { StackScreenProps } from "@react-navigation/stack"
 import React, { useState } from "react"
+import { useEffect } from "react"
 import { ScrollView } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Box, Button, TextField, Typography } from "reserva-ui"
+import { useCart } from "../../../context/CartContext"
 import { RootStackParamList } from "../../../routes/StackNavigator"
 import { TopBarDefault } from "../../Menu/components/TopBarDefault"
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton"
@@ -12,18 +14,36 @@ interface CreateCartProfileProfile extends StackScreenProps<RootStackParamList, 
 }
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigation, route }) => {
+    const { addCustomer, addShippingData } = useCart();
     const [fields, setFields] = useState({
         firstName: '',
         lastName: '',
-        brigthDate: '',
-        cpf: '',
-        tel: '',
-        cep: '',
+        birthDate: '',
+        documentType: "CPF",
+        document: '',
+        phone: '',
+        postalCode: '',
         district: '',
         state: '',
         number: '',
         complement: ''
-    })
+    });
+
+    const saveCustomer = async () => {
+        const { firstName, lastName, document, documentType, phone } = fields;
+
+        const isCustomerSave = await addCustomer({ firstName, lastName, document, documentType, phone });
+
+        if (isCustomerSave) {
+            // save address
+            const receiverName = `${firstName} ${lastName}`;
+            const { postalCode, state, number, district: neighborhood, complement } = fields;
+
+            // todo - add cep api
+            const isAddressSaved = await addShippingData({ postalCode, state, number, receiverName, neighborhood, addressType: "search", country: "BRA", city: "Guarapari", street: "Rod. do Sol", complement });
+        }
+    }
+
     return <SafeAreaView backgroundColor='white' flex={1}>
         <TopBarDefaultBackButton loading={false} />
         <ScrollView>
@@ -52,20 +72,23 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                 </Box>
                 <Box mt={15}>
                     <TextField
-                        value={fields.brigthDate}
-                        onChangeText={(text) => setFields({ ...fields, brigthDate: text })}
+                        value={fields.birthDate}
+                        maskType="datetime"
+                        onChangeText={(text) => setFields({ ...fields, birthDate: text })}
                         placeholder='Data de Nascimento' />
                 </Box>
                 <Box mt={15}>
                     <TextField
-                        value={fields.brigthDate}
-                        onChangeText={(text) => setFields({ ...fields, brigthDate: text })}
-                        placeholder='Cpf' />
+                        value={fields.document}
+                        maskType="cpf"
+                        onChangeText={(text) => setFields({ ...fields, document: text })}
+                        placeholder='CPF' />
                 </Box>
                 <Box mt={15}>
                     <TextField
-                        value={fields.tel}
-                        onChangeText={(text) => setFields({ ...fields, tel: text })}
+                        value={fields.phone}
+                        maskType="cel-phone"
+                        onChangeText={(text) => setFields({ ...fields, phone: text })}
                         placeholder='Telefone' />
                 </Box>
 
@@ -75,8 +98,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
 
                 <Box mt={15}>
                     <TextField
-                        value={fields.cep}
-                        onChangeText={(text) => setFields({ ...fields, cep: text })}
+                        value={fields.postalCode}
+                        onChangeText={(text) => setFields({ ...fields, postalCode: text })}
                         placeholder='CEP' />
                 </Box>
                 <Box mt={15} flexDirection='row' justifyContent='space-between'>
@@ -105,11 +128,9 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                         onChangeText={(text) => setFields({ ...fields, complement: text })}
                         placeholder='Complemento' />
                 </Box>
-
-
             </Box>
         </ScrollView>
 
-        <Button variant='primarioEstreito' title='IR PARA PAGAMENTO' inline />
+        <Button variant='primarioEstreito' onPress={saveCustomer} title='IR PARA PAGAMENTO' inline />
     </SafeAreaView >
 }

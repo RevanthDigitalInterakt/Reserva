@@ -11,27 +11,30 @@ import { RootStackParamList } from "../../../routes/StackNavigator";
 
 export const EnterYourEmail = () => {
     const navigation = useNavigation();
-    const { orderForm } = useCart();
+    const { orderForm, identifyCustomer } = useCart();
     const [email, setEmail] = useState<string>("");
-
+    const [loading, setLoading] = useState<boolean>(false);
     const hasEmail = useCallback((): boolean => {
         return email.length > 0
     }, [email]);
 
     const onCheckCustomerMail = async () => {
-        const hasCustomer = await IdentifyCustomer(orderForm?.orderFormId, email);
+        setLoading(true);
+        const hasCustomer = await identifyCustomer(email);
+
+        setLoading(false);
 
         if (!hasCustomer) {
             navigation.navigate("CreateCartProfile");
             return;
         }
 
-        navigation.navigate("SummaryScreen", { paymentType: "PIX" })
+        navigation.navigate("DeliveryScreen");
     }
 
     return (
         <SafeAreaView flex={1} backgroundColor={"white"}>
-            <TopBarBackButton showShadow />
+            <TopBarBackButton showShadow loading={loading} />
             <ScrollView>
                 <Box paddingX={"xxxs"} paddingY={"sm"}>
                     <Box>

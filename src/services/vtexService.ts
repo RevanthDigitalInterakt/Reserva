@@ -101,39 +101,12 @@ const RemoveCoupon = async (orderFormId: any) => {
   return response;
 };
 
-const AddAddressToCart = async (orderFormId: any) => {
+const AddAddressToCart = async (orderFormId: any, address: any) => {
   //APENAS adiciona endereço ao carrinho(orderForm)
-  const response = await vtexConfig.post(
-    `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData
-  `,
-    {
-      selectedAddresses: [
-        {
-          // substituir pelos argumentos corretos
-          addressType: "search",
-          city: "São Paulo",
-          country: "BRA",
-          neighborhood: "Vila Tramontano",
-          number: "213",
-          postalCode: "05690-000",
-          receiverName: "Vitor Hansen",
-          state: "SP",
-          street: "R. George Eastman",
-        },
-      ],
-      clearAddressIfPostalCodeNotFound: false,
-    }
-  );
+  const { data } = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData`, address);
 
-  // caso n tenha todos os dados apresentar apenas esses
-  //   {
-  //     "addressType": "search",
-  //     "country": "BRA",
-  //     "postalCode": "05690-000",
-  //     "receiverName": "Vitor Hansen"
-  // }
-
-  return response;
+  return data;
 };
 
 const DeliveryType = async (orderFormId: any) => {
@@ -191,7 +164,17 @@ const IdentifyCustomer = async (orderFormId: string | undefined, email: string) 
   try {
     const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`, { email })
 
-    return !!data.clientProfileData.firstName;
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const AddCustomerToOrder = async (orderFormId: string | undefined, customer: any) => {
+  try {
+    const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`, { ...customer })
+
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -207,5 +190,6 @@ export {
   AddAddressToCart,
   DeliveryType,
   GetPurchaseData,
-  IdentifyCustomer
+  IdentifyCustomer,
+  AddCustomerToOrder
 };
