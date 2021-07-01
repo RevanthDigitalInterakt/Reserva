@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { IdentifyCustomer } from "../../../services/vtexService";
 import { useCart } from "../../../context/CartContext";
 import { useState } from "react";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
 
 export const EnterYourEmail = () => {
@@ -21,7 +22,7 @@ export const EnterYourEmail = () => {
         const hasCustomer = await IdentifyCustomer(orderForm?.orderFormId, email);
 
         if (!hasCustomer) {
-            navigation.navigate("EditProfile");
+            navigation.navigate("CreateCartProfile");
             return;
         }
 

@@ -61,6 +61,7 @@ import { horizontalAnimationBackwards } from "./utils/utils";
 import { CancelOrder } from "../modules/CancelOrder/pages/CancelOrder";
 import { Cashback } from "../modules/Cashback/pages/Cashback";
 import AccessCode from "../modules/Login/pages/AccessCode";
+import { CreateCartProfile } from "../modules/Checkout/pages/CreateCartProfile";
 
 export type RootStackParamList = {
   Register: {
@@ -104,6 +105,7 @@ export type RootStackParamList = {
   EditPassword: {
     email: string;
   };
+  CreateCartProfile: {},
   NewCard: { isCheckout: boolean };
   NearbyStores: { UF: string };
   MapScreen: { geolocation: number; locationPermission: boolean };
@@ -147,6 +149,7 @@ const MainStackScreen = () => {
   // Here you put normal navigation
   return (
     <MainStack.Navigator
+      //initialRouteName='CreateCartProfile'
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
     >
@@ -166,6 +169,7 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen name="WishList" component={WishList} />
+      <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen
         name="ShowListByCategory"
