@@ -38,107 +38,109 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
   });
   const [isSecureText, setIsSecureText] = useState(true);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
-  const [loginWithCode, setLoginWithCode] = useState(true)
+  const [loginWithCode, setLoginWithCode] = useState(true);
 
   const handleLogin = () => {
     login({
       variables: {
         email: loginCredentials.username,
-        password: loginCredentials.password
-      }
-    })
-  }
+        password: loginCredentials.password,
+      },
+    });
+  };
 
   useEffect(() => {
-    if(comeFrom === "Profile"){
-      BackHandler.addEventListener('hardwareBackPress', () => {
+    if (comeFrom === "Profile") {
+      BackHandler.addEventListener("hardwareBackPress", () => {
         navigation.navigate("Home");
         return true;
       });
     }
-  }, [])
-  
+  }, []);
+
   useEffect(() => {
-    if(!loading && data?.cookie){
-      setCookie(data?.cookie)
-      AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
+    if (!loading && data?.cookie) {
+      setCookie(data?.cookie);
+      AsyncStorage.setItem("@RNAuth:cookie", data?.cookie).then(() => {
         navigation.navigate("Home");
       });
-    }    
+    }
   }, [data]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => {
-        navigation.navigate("Home");
-       }} />
+      <HeaderBanner
+        imageHeader={images.headerLogin}
+        onClickGoBack={() => {
+          navigation.navigate("Home");
+        }}
+      />
       <ScrollView>
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
-          <Typography fontFamily='reservaSerifRegular' fontSize={22}>
+          <Typography fontFamily="reservaSerifRegular" fontSize={22}>
             Seja bem-vindo novamente!
           </Typography>
 
-          <Box mt='xxs'>
+          <Box mt="xxs">
             <Box marginBottom="xxxs">
-              <Typography variant='tituloSessao'>
+              <Typography variant="tituloSessao">
                 Insira seu e-mail para continuar:
               </Typography>
             </Box>
-            <UnderlineInput 
-              placeholder='Digite seu e-mail' 
-              errorMsg='Digite um e-mail válido' 
+            <UnderlineInput
+              placeholder="Digite seu e-mail"
+              errorMsg="Digite um e-mail válido"
               showError={false}
-              onChangeText={
-                (text) => setLoginCredentials(
-                  { ...loginCredentials, username: text }
-                )
+              onChangeText={(text) =>
+                setLoginCredentials({ ...loginCredentials, username: text })
               }
             />
-            {
-              !loginWithCode &&
-              <Box mt='md' width='100%'>
-                <UnderlineInput 
-                  placeholder='Digite sua senha' 
-                  isSecureText={true} 
-                  onChangeText={
-                    (text) => setLoginCredentials(
-                      { ...loginCredentials, password: text }
-                    )
+            {!loginWithCode && (
+              <Box mt="md" width="100%">
+                <UnderlineInput
+                  placeholder="Digite sua senha"
+                  isSecureText={true}
+                  onChangeText={(text) =>
+                    setLoginCredentials({ ...loginCredentials, password: text })
                   }
                 />
 
-                <Box mt='micro'>
-
+                <Box mt="micro">
                   <TouchableOpacity>
-                    <Typography style={{ textDecorationLine: 'underline' }}>
+                    <Typography style={{ textDecorationLine: "underline" }}>
                       Esqueci minha senha
                     </Typography>
                   </TouchableOpacity>
                 </Box>
               </Box>
-            }
-
+            )}
           </Box>
-          <Box mt='md' />
-          <Button 
-            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'} 
-            inline 
-            variant='primarioEstreito' 
-            onPress={() => handleLogin()} 
+          <Box mt="md" />
+          <Button
+            title={!loginWithCode ? "ENTRAR" : "RECEBER CÓDIGO"}
+            inline
+            variant="primarioEstreito"
+            onPress={() => handleLogin()}
           />
-          <Box my={50}  >
-            <Typography variant='tituloSessao' textAlign='center'>OU</Typography>
+          <Box my={35}>
+            <Typography variant="tituloSessao" textAlign="center">
+              OU
+            </Typography>
           </Box>
           <Button
-            title={loginWithCode ? 'ENTRAR COM LOGIN E SENHA' : 'RECEBER CÓDIGO DE ACESSO'}
-            inline variant='primarioEstreitoOutline'
-            onPress={() => setLoginWithCode(!loginWithCode)} />
-          <Box flexDirection='row' mt='sm'>
-            <Typography>
-              {'Ainda não possui uma conta? '}
-            </Typography>
+            title={
+              loginWithCode
+                ? "ENTRAR COM LOGIN E SENHA"
+                : "RECEBER CÓDIGO DE ACESSO"
+            }
+            inline
+            variant="primarioEstreitoOutline"
+            onPress={() => setLoginWithCode(!loginWithCode)}
+          />
+          <Box flexDirection="row" mt="sm">
+            <Typography>{"Ainda não possui uma conta? "}</Typography>
             <Button>
-              <Typography style={{ textDecorationLine: 'underline' }}>
+              <Typography style={{ textDecorationLine: "underline" }}>
                 Clique para se cadastrar
               </Typography>
             </Button>
