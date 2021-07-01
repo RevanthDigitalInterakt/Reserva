@@ -22,21 +22,20 @@ const GetSession = async () => {
 };
 
 const AddItemToCart = async (
-  orderFormId: any,
-  quantity: any,
-  itemId: any,
-  seller: any
+  orderFormId: string | undefined,
+  quantity: number,
+  id: string,
+  seller: string
 ) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderFom/${orderFormId}/items?sc=3
-  `,
+    `/checkout/pub/orderForm/${orderFormId}/items?sc=3`,
     {
       // modificar esse item de acordo com o modelo do carrinho
       orderItems: [
         {
-          quantity: quantity,
-          id: itemId,
-          seller: seller,
+          quantity,
+          id,
+          seller,
         },
       ],
     }
@@ -188,6 +187,16 @@ const GetPurchaseData = async (orderGroup: any) => {
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
 };
 
+const IdentifyCustomer = async (orderFormId: string | undefined, email: string) => {
+  try {
+    const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`, { email })
+
+    return !!data.clientProfileData.firstName;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export {
   CreateCart,
   CreateSession,
@@ -198,4 +207,5 @@ export {
   AddAddressToCart,
   DeliveryType,
   GetPurchaseData,
+  IdentifyCustomer
 };

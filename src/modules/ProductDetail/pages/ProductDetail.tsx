@@ -46,6 +46,7 @@ import {
 } from '../../../store/ducks/product/actions'
 import { ProductSKU } from '../../../store/ducks/product/types'
 import { appendOrders } from '../../../store/ducks/orders/actions'
+import { useCart } from '../../../context/CartContext'
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -66,6 +67,18 @@ export const ProductDetail: React.FC<Props> = ({
 
   const [isVisible, setIsVisible] = useState(false)
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
+  const { addItem } = useCart();
+  const dispatch = useDispatch()
+  const shippingMethodState = useSelector(shippingMethodStateSelector)
+  const [selectedColor, setSelectedColor] = useState('')
+  const [selectedSize, setSelectedSize] = useState<string | number>('')
+
+  const [skuIdx, setSkuIdx] = useState(0)
+
+  let product = useSelector((state: ApplicationState) => state.product)
+  let orders = useSelector((state: ApplicationState) => state.orders.orders)
+
+  const [selectedSku, setSelectedSku] = useState<ProductSKU>()
 
   recomendedProducts = [
     {
@@ -177,6 +190,7 @@ export const ProductDetail: React.FC<Props> = ({
         'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
     },
   ]
+
   const onChangeRecomended = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
@@ -192,22 +206,9 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }
 
-  const dispatch = useDispatch()
-  const shippingMethodState = useSelector(shippingMethodStateSelector)
-  const [selectedColor, setSelectedColor] = useState('')
-  const [selectedSize, setSelectedSize] = useState<string | number>('')
-
-  const [skuIdx, setSkuIdx] = useState(0)
-
-  let product = useSelector((state: ApplicationState) => state.product)
-  let orders = useSelector((state: ApplicationState) => state.orders.orders)
-
-  const [selectedSku, setSelectedSku] = useState<ProductSKU>()
-
   const productId = route.params.productId
   useEffect(() => {
     dispatch(loadProduct(productId))
-    console.log('product', product)
   }, [])
 
   useEffect(() => {
@@ -221,8 +222,6 @@ export const ProductDetail: React.FC<Props> = ({
     let sku = product.data.skuList?.find((x) => {
       return x.color == selectedColor && x.size == selectedSize
     })
-
-    console.log('cara novo', sku)
 
     if (sku) setSelectedSku(sku)
   }, [selectedColor, selectedSize])
@@ -323,14 +322,17 @@ export const ProductDetail: React.FC<Props> = ({
               title='ADICIONAR À SACOLA'
               variant='primarioEstreito'
               onPress={() => {
-                dispatch(
-                  appendOrders({
-                    ...product.data,
-                    ...selectedSku,
-                    sku: selectedSku?.id,
-                    quantity: 1,
-                  })
-                )
+                // dispatch(
+                //   appendOrders({
+                //     ...product.data,
+                //     ...selectedSku,
+                //     sku: selectedSku?.id,
+                //     quantity: 1,
+                //   })
+                // )
+
+                // TODO - change this later
+                addItem(1, "43205");
                 setIsVisible(true)
               }}
               inline
@@ -360,30 +362,30 @@ export const ProductDetail: React.FC<Props> = ({
 
             {shippingMethodState.shippingMethods && cep
               ? shippingMethodState.shippingMethods.map((method) => {
-                  return (
-                    <Box flexDirection='row' justifyContent='space-between'>
-                      <Box flexDirection='row'>
-                        <Typography
-                          fontFamily='nunitoRegular'
-                          fontSize={'14px'}>
-                          R$ {method.shippingCost}{' '}
-                        </Typography>
+                return (
+                  <Box flexDirection='row' justifyContent='space-between'>
+                    <Box flexDirection='row'>
+                      <Typography
+                        fontFamily='nunitoRegular'
+                        fontSize={'14px'}>
+                        R$ {method.shippingCost}{' '}
+                      </Typography>
 
-                        <Typography
-                          fontFamily='nunitoRegular'
-                          fontSize={'14px'}>
-                          {method.displayName}
-                        </Typography>
-                      </Box>
-                      <Typography fontFamily='nunitoRegular' fontSize={'14px'}>
-                        {format(
-                          addDays(Date.now(), method.deliveryDays),
-                          'dd/MM'
-                        )}
+                      <Typography
+                        fontFamily='nunitoRegular'
+                        fontSize={'14px'}>
+                        {method.displayName}
                       </Typography>
                     </Box>
-                  )
-                })
+                    <Typography fontFamily='nunitoRegular' fontSize={'14px'}>
+                      {format(
+                        addDays(Date.now(), method.deliveryDays),
+                        'dd/MM'
+                      )}
+                    </Typography>
+                  </Box>
+                )
+              })
               : null}
 
             <Divider variant='fullWidth' my='xs' />

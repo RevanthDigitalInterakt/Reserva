@@ -3,22 +3,30 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Divider, TextField } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
-
+import { IdentifyCustomer } from "../../../services/vtexService";
+import { useCart } from "../../../context/CartContext";
+import { useState } from "react";
 
 
 export const EnterYourEmail = () => {
     const navigation = useNavigation();
-    const [emailCheckout, setEmailCheckout] = React.useState({
-        email: "danilo.sousa@globalsys.com.br",
-    });
+    const { orderForm } = useCart();
+    const [email, setEmail] = useState<string>("");
 
     const hasEmail = useCallback((): boolean => {
-        const { email } = emailCheckout;
-        if (email?.length) {
-            return true;
+        return email.length > 0
+    }, [email]);
+
+    const onCheckCustomerMail = async () => {
+        const hasCustomer = await IdentifyCustomer(orderForm?.orderFormId, email);
+
+        if (!hasCustomer) {
+            navigation.navigate("EditProfile");
+            return;
         }
-        return false;
-    }, [emailCheckout]);
+
+        navigation.navigate("SummaryScreen", { paymentType: "PIX" })
+    }
 
     return (
         <SafeAreaView flex={1} backgroundColor={"white"}>
@@ -32,15 +40,17 @@ export const EnterYourEmail = () => {
                     </Box>
                     <Box marginY="xs">
                         <TextField
-                            value={emailCheckout.email}
-                            onChangeText={(text) => setEmailCheckout({ email: text })}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            autoCompleteType="email"
+                            value={email}
+                            onChangeText={(text) => setEmail(text)}
                             placeholder={"Digite seu e-mail"}
                         />
                     </Box>
                     <Button
-                        onPress={() =>
-                            navigation.navigate("SummaryScreen", { paymentType: "PIX" })
-                        }
+                        onPress={onCheckCustomerMail}
                         title="CONTINUAR"
                         variant="primarioEstreito"
                         inline

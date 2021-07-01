@@ -215,8 +215,8 @@ export const BagScreen = () => {
                   style={
                     showLikelyProducts
                       ? {
-                          transform: [{ rotate: "-180deg" }, { translateY: 8 }],
-                        }
+                        transform: [{ rotate: "-180deg" }, { translateY: 8 }],
+                      }
                       : { transform: [{ translateY: 4 }] }
                   }
                   name={"ArrowDown"}
@@ -446,7 +446,7 @@ export const BagScreen = () => {
               console.log("requestPrams", requestPrams);
               navigate("AddressList", { comeFrom: "Checkout" });
             } else {
-              navigate("DeliveryScreen", { comeFrom: "Checkout" });
+              navigate("EnterYourEmail", { comeFrom: "Checkout" });
             }
           }}
           title="IR PARA ENTREGA"

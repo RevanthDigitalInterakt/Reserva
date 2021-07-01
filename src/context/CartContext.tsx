@@ -8,7 +8,7 @@ import React, {
     Dispatch,
 } from 'react';
 import { useEffect } from 'react';
-import { CreateCart } from '../services/vtexService'
+import { AddItemToCart, CreateCart } from '../services/vtexService'
 
 interface ClientPreferencesData {
     attachmentId: string;
@@ -136,7 +136,7 @@ interface StorePreferencesData {
     currencyFormatInfo: CurrencyFormatInfo
 }
 
-interface CartContextProps {
+interface OrderForm {
     canEditData: boolean;
     clientPreferencesData: ClientPreferencesData
     clientProfileData: ClientProfileData
@@ -157,31 +157,44 @@ interface CartContextProps {
     value: number
 }
 
-export const CartContext = createContext<CartContextProps>({} as CartContextProps);
+interface CartContextProps {
+    orderForm: OrderForm | undefined
+    addItem: (quantity: number, itemId: string) => void;
+}
+
+export const CartContext = createContext<CartContextProps | null>(null);
 
 interface CartContextProviderProps {
     children?: ReactNode;
 }
 
 const CartContextProvider = ({ children }: CartContextProviderProps) => {
+    const [orderForm, setOrderForm] = useState<OrderForm>();
 
     const orderform = async () => {
         try {
-            const response = await CreateCart();
-            console.log("orderform", response);
+            const { data } = await CreateCart();
+            setOrderForm(data);
         } catch (error) {
             console.log("error", error.response.data);
         }
     }
+
+    const addItem = async (quantity: number, itemId: string) => {
+        try {
+            const { data } = await AddItemToCart(orderForm?.orderFormId, quantity, itemId, "1")
+        } catch (error) {
+            console.log("error", error.response.data);
+        }
+    }
+
     useEffect(() => {
         orderform()
-    }, [])
+    }, []);
 
     return (
         <CartContext.Provider
-            value={{
-
-            }}
+            value={{ orderForm, addItem }}
         >
             {children}
         </CartContext.Provider>
@@ -196,9 +209,9 @@ export const useCart = () => {
     if (!cartContext) {
         throw new Error('use Auth must be used within a AuthContextProvider');
     }
-    const { } = cartContext;
+    const { orderForm, addItem } = cartContext;
     return {
-        cookie,
-        setCookie
+        orderForm,
+        addItem
     };
 };
