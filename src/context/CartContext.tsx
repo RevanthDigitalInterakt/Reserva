@@ -10,126 +10,150 @@ import React, {
 import { useEffect } from 'react';
 import { CreateCart } from '../services/vtexService'
 
+interface ClientPreferencesData {
+    attachmentId: string;
+    locale: string;
+    optinNewsLetter: boolean;
+};
+
+interface ClientProfileData {
+    attachmentId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    document: string;
+    documentType: string;
+    phone: string;
+    corporateName: any;
+    tradeName: any;
+    corporateDocument: any;
+    stateInscription: any;
+    corporatePhone: any;
+    isCorporate: boolean;
+};
+
+interface Message {
+    code: any,
+    status: string;
+    text: string;
+};
+
+interface Seller {
+    id: string;
+    name: string;
+    logo: string;
+}
+
+interface Totalizers {
+    id: string;
+    name: string;
+    value: number;
+}
+
+interface Address {
+    addressType: string;
+    receiverName: string;
+    addressId: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    street: string;
+    number: string;
+    neighborhood: string;
+    complement: string;
+    reference: any
+}
+
+interface AvailableAddresses {
+    addressType: string;
+    receiverName: string;
+    addressId: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    street: string;
+    number: string;
+    neighborhood: string;
+    complement: string;
+    reference: any
+}
+
+interface DeliveryIds {
+    courierId: string;
+    warehouseId: string;
+    dockId: string;
+    courierName: string;
+    quantity: number;
+}
+
+interface Slas {
+    id: string;
+    name: string;
+    deliveryIds: [DeliveryIds],
+    shippingEstimate: string;
+    shippingEstimateDate: any,
+    lockTTL: any,
+    availableDeliveryWindows: [],
+    deliveryWindow: any,
+    price: number;
+    tax: number;
+}
+interface LogisticsInfo {
+    itemIndex: number;
+    selectedSla: string;
+    slas: Slas[]
+}
+
+interface ShippingData {
+    attachmentId: string;
+    address: Address,
+    availableAddresses: AvailableAddresses[];
+    logisticsInfo: LogisticsInfo[]
+}
+
+interface TemplateOptions {
+    toggleCorporate: boolean;
+}
+
+interface CurrencyFormatInfo {
+    currencyDecimalDigits: number;
+    currencyDecimalSeparator: string;
+    currencyGroupSeparator: string;
+    currencyGroupSize: number;
+    startsWithCurrencySymbol: boolean;
+}
+
+interface StorePreferencesData {
+    countryCode: string;
+    checkToSavePersonDataByDefault: boolean,
+    templateOptions: TemplateOptions,
+    timeZone: string;
+    currencyCode: string;
+    currencyLocale: number,
+    currencySymbol: string;
+    currencyFormatInfo: CurrencyFormatInfo
+}
+
 interface CartContextProps {
     canEditData: boolean;
-    clientPreferencesData: {
-        attachmentId: string;
-        locale: string;
-        optinNewsLetter: boolean;
-    };
-    clientProfileData: {
-        attachmentId: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-        document: string;
-        documentType: string;
-        phone: string;
-        corporateName: null;
-        tradeName: null;
-        corporateDocument: null;
-        stateInscription: null;
-        corporatePhone: null;
-        isCorporate: boolean;
-    };
-    giftRegistryData: null;
+    clientPreferencesData: ClientPreferencesData
+    clientProfileData: ClientProfileData
+    giftRegistryData: any;
     items: string[];
     loggedIn: boolean;
-    marketingData: null;
-    messages: {
-        code: null,
-        status: string;
-        text: string;
-    }[];
+    marketingData: any;
+    messages: Message[];
     orderFormId: string,
-    paymentData: …,
+    paymentData: string,
     salesChannel: string,
-    sellers: {
-        id: string;
-        name: string;
-        logo: string;
-    }[]
-    shippingData: {
-        attachmentId: string;
-        address: {
-            addressType: string;
-            receiverName: string;
-            addressId: string;
-            postalCode: string;
-            city: string;
-            state: string;
-            country: string;
-            street: string;
-            number: string;
-            neighborhood: string;
-            complement: string;
-            reference: null
-        },
-        availableAddresses: {
-            addressType: string;
-            receiverName: string;
-            addressId: string;
-            postalCode: string;
-            city: string;
-            state: string;
-            country: string;
-            street: string;
-            number: string;
-            neighborhood: string;
-            complement: string;
-            reference: null
-        }[];
-        logisticsInfo: {
-            itemIndex: number;
-            selectedSla: string;
-            slas: {
-                id: string;
-                name: string;
-                deliveryIds: [
-                    {
-                        courierId: string;
-                        warehouseId: string;
-                        dockId: string;
-                        courierName: string;
-                        quantity: number;
-                    }
-                ],
-                shippingEstimate: string;
-                shippingEstimateDate: null,
-                lockTTL: null,
-                availableDeliveryWindows: [],
-                deliveryWindow: null,
-                price: number;
-                tax: number;
-            }[]
-        }[]
-    }
-
-    storePreferencesData: {
-        countryCode: string;
-        checkToSavePersonDataByDefault: boolean,
-        templateOptions: {
-            toggleCorporate: boolean;
-        },
-        timeZone: string;
-        currencyCode: string;
-        currencyLocale: number,
-        currencySymbol: string;
-        currencyFormatInfo: {
-            currencyDecimalDigits: number;
-            currencyDecimalSeparator: string;
-            currencyGroupSeparator: string;
-            currencyGroupSize: number;
-            startsWithCurrencySymbol: boolean;
-        }
-    }
-    totalizers: {
-        id: string;
-        name: string;
-        value: number;
-    }[]
-    userProfileId: null,
-    userType: null,
+    sellers: Seller[]
+    shippingData: ShippingData
+    storePreferencesData: StorePreferencesData
+    totalizers: Totalizers[]
+    userProfileId: any,
+    userType: any,
     value: number
 }
 
