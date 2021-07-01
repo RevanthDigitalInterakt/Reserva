@@ -122,7 +122,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
             variant="primarioEstreito"
             onPress={() => handleLogin()}
           />
-          <Box my={35}>
+          <Box my={50}>
             <Typography variant="tituloSessao" textAlign="center">
               OU
             </Typography>
