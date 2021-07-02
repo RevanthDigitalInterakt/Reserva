@@ -46,6 +46,9 @@ import {
 } from '../../../store/ducks/product/actions'
 import { ProductSKU } from '../../../store/ducks/product/types'
 import { appendOrders } from '../../../store/ducks/orders/actions'
+import { QueryResult, useQuery } from '@apollo/client'
+import { productQuery } from '../../../graphql/product/productQuery'
+import { ProductQL } from '../../../graphql/products/productSearch'
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -58,14 +61,35 @@ type Props = StackScreenProps<RootStackParamList, 'ProductDetail'> &
   ProductDetailProps
 
 export const ProductDetail: React.FC<Props> = ({
-  navigation,
   route,
   recomendedProducts,
 }) => {
-  const [isFavorited, setIsFavorited] = useState(false)
+  const productId = route.params.productId;
+  const [productsQuery, setProduct] = useState<ProductQL>({} as ProductQL)
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false)
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
+  const { 
+    data, 
+    loading, 
+    error, 
+    fetchMore, 
+    refetch 
+  }: QueryResult = useQuery(
+    productQuery, 
+    {
+      variables: {
+        id: productId
+      }
+    }
+  )
+
+  useEffect(() => {
+    if(!loading){
+      setProduct(data.product);
+    }
+  }, [data])
 
   recomendedProducts = [
     {
@@ -204,10 +228,8 @@ export const ProductDetail: React.FC<Props> = ({
 
   const [selectedSku, setSelectedSku] = useState<ProductSKU>()
 
-  const productId = route.params.productId
   useEffect(() => {
-    dispatch(loadProduct(productId))
-    console.log('product', product)
+    console.log('product', productId)
   }, [])
 
   useEffect(() => {
@@ -229,6 +251,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   return (
     <SafeAreaView>
+      {!loading && (
       <Box bg='white'>
         <ModalBag
           isVisible={isVisible}
@@ -239,22 +262,18 @@ export const ProductDetail: React.FC<Props> = ({
         <TopBarDefaultBackButton loading={product.loading} />
         <ScrollView>
           <ProductDetailCard
-            installmentsNumber={product.data.installmentNumber}
-            installmentsPrice={product.data.installmentPrice}
-            title={selectedSku ? selectedSku.title : product.data.title}
-            price={product.data.fullPrice}
-            priceWithDiscount={
-              product.data.discountPrice > 0
-                ? product.data.discountPrice
-                : undefined
-            }
+            installmentsNumber={productsQuery.items[0].sellers[0].commertialOffer.Installments[0].NumberOfInstallments}
+            installmentsPrice={productsQuery.items[0].sellers[0].commertialOffer.Installments[0].Value}
+            title={productsQuery.productName}
+            price={productsQuery.priceRange?.listPrice?.highPrice}
+            priceWithDiscount={productsQuery.priceRange?.sellingPrice.highPrice}
             discountTag={
               product.data.discountTag > 0
                 ? product.data.discountTag
                 : undefined
             }
             imagesWidth={screenWidth}
-            images={selectedSku ? selectedSku.imagesUrls : []}
+            images={productsQuery.items[0].images.map((image) => image.imageUrl)}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState)
@@ -391,9 +410,7 @@ export const ProductDetail: React.FC<Props> = ({
               <ExpansePanel
                 information={{
                   title: 'Descrição do produto',
-                  content: selectedSku?.description
-                    ? selectedSku?.description
-                    : product.data.description || '',
+                  content: productsQuery.productName || '',
                 }}
               />
             </Box>
@@ -480,6 +497,7 @@ export const ProductDetail: React.FC<Props> = ({
           </Box>
         </ScrollView>
       </Box>
-    </SafeAreaView>
+      )}
+      </SafeAreaView>
   )
 }

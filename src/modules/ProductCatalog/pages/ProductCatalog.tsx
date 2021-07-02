@@ -1,3 +1,4 @@
+import { QueryResult, useQuery } from '@apollo/client'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
@@ -18,6 +19,7 @@ import {
   TextField,
 } from 'reserva-ui'
 import { images } from '../../../assets'
+import { OrderByEnum, productSearch, ProductSearchResponse, ProductSearchVars } from '../../../graphql/products/productSearch'
 import { RootStackParamList } from '../../../routes/StackNavigator'
 import { ApplicationState } from '../../../store'
 import { Product } from '../../../store/ducks/product/types'
@@ -30,11 +32,20 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault'
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts'
 import { FilterModal } from '../modals/FilterModal'
+import { ProductSearchData } from '../../../graphql/products/productSearch';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { safeArea, search, categoryId } = route.params
+  const [productsQuery, setProducts] = useState<ProductSearchData>({} as ProductSearchData)
+  let pageSize = 12
+  const { 
+    safeArea, 
+    search, 
+    facetInput
+  } = route.params
+  
+  let categoryId = "camisetas";
 
   const originalOpenedcategoryId = categoryId
 
@@ -44,25 +55,51 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [sorterVisible, setSorterVisible] = useState(false)
   const [filterList, setFilterList] = useState<string[]>([])
   const [selectedOrder, setSelectedOrder] = useState<string>()
+  
+  const { 
+    data, 
+    loading, 
+    error, 
+    fetchMore, 
+    refetch 
+  }: QueryResult = useQuery(
+    productSearch, 
+    {
+      variables: {
+        hideUnavailableItems: true,
+        selectedFacets: facetInput,
+        orderBy: selectedOrder,
+        to: (pageSize - 1)
+      }
+    }
+  )
 
   const [
     filterRequestList,
     setFilterRequestList,
   ] = useState<BffGetProductsRequest>()
 
-  const products = useSelector((state: ApplicationState) => state.products)
+  useEffect(() => { 
+    if(!loading){
+      setProducts(data.productSearch);
+    }
+    console.log(categoryId);
+    
+  }, [data])
 
-  const loadMoreProducts = (offset: number) => {
-    console.log("loading more", offset);
-    dispatch(
-      loadProducts({
-        ...filterRequestList,
-        categoryId: categoryId || "",
-        limit: 10,
-        offset: offset,
-      })
-    )
+  const loadMoreProducts = async (offset: number) => {
+    let { data } = await fetchMore({
+      variables: {
+        orderBy: selectedOrder,
+        form: offset < pageSize ? pageSize : offset,
+        to: offset < pageSize ? (pageSize * 2) - 1 : offset + (pageSize - 1),
+      }
+    })
+
+    setProducts(data.productSearch)
   }
+
+  const products = useSelector((state: ApplicationState) => state.products)
 
   useEffect(() => {
     console.log('products', products)
@@ -71,12 +108,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   }, [filterRequestList])
 
   useEffect(() => {
-    const newFilter = {
-      ...filterRequestList,
-      ...(selectedOrder && { sort: selectedOrder }),
-    }
-    console.log('filtro novo', newFilter)
-    setFilterRequestList(newFilter)
+    refetch();
   }, [selectedOrder])
 
   useEffect(() => {
@@ -91,9 +123,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
-        <TopBarDefaultBackButton loading={products.loading} />
+        <TopBarDefaultBackButton loading={loading} />
       ) : (
-        <TopBarDefault loading={products.loading} />
+        <TopBarDefault loading={loading} />
       )}
       {search && (
         <Box paddingX='nano' paddingBottom='micro' paddingTop='micro'>
@@ -122,23 +154,19 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         items={[
           {
             text: 'Menor Preço',
-            value: 'lower-price',
+            value: OrderByEnum.OrderByPriceDESC,
           },
           {
             text: 'Maior Preço',
-            value: 'highest-price',
+            value: OrderByEnum.OrderByPriceASC,
           },
           {
             text: 'Mais Recentes',
-            value: 'newest',
-          },
-          {
-            text: 'Mais Antigos',
-            value: 'oldest',
+            value: OrderByEnum.OrderByReleaseDateDESC,
           },
           {
             text: 'Relevante',
-            value: 'relevance',
+            value: OrderByEnum.OrderByReviewRateDESC,
           },
         ]}
         onConfirm={() => {
@@ -152,9 +180,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       />
 
       <ListVerticalProducts
-        loading={products.loading}
         loadMoreProducts={loadMoreProducts}
-        products={products.dataOffer}
+        products={productsQuery.products}
         listHeader={
           <>
             <Image
@@ -230,7 +257,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               flexDirection='row'
               justifyContent='space-between'>
               <Typography fontFamily='nunitoRegular' fontSize='13px'>
-                {products?.dataOffer?.length} produtos encontrados
+                {productsQuery.recordsFiltered} produtos encontrados
               </Typography>
               {filterList.length > 0 && (
                 <Button onPress={() => setFilterList([])}>

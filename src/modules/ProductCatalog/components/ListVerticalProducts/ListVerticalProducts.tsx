@@ -3,6 +3,7 @@ import React, { Component, useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Image, ProductVerticalListCard } from 'reserva-ui'
+import { ProductQL } from '../../../../graphql/products/productSearch'
 import { RootStackParamList } from '../../../../routes/StackNavigator'
 import { ApplicationState } from '../../../../store'
 import { Product } from '../../../../store/ducks/product/types'
@@ -14,11 +15,22 @@ import {
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals'
 
 interface ListProductsProps {
-  products: Product[]
+  products: ProductQL[]
   loadMoreProducts: (offSet: number) => void
   listHeader?:
   | React.ComponentType<any>
   | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+}
+
+const getColorsInProductSearch = () => {
+  
+}
+
+const getPercent = (sellingPrice: number, listPrice: number): number | undefined => {
+  if(sellingPrice === listPrice){
+    return undefined;
+  }
+  return Math.round((listPrice - sellingPrice) * 100 / listPrice);
 }
 
 export const ListVerticalProducts = ({
@@ -30,7 +42,7 @@ export const ListVerticalProducts = ({
   const [favoritedProduct, setFavoritedProduct] = useState<Product>()
   const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
-    console.log(products)
+    console.log("products", products)
     //dispatch(setWishlist([]))
   }, [])
 
@@ -55,7 +67,7 @@ export const ListVerticalProducts = ({
         //keyExtractor={(item) => item.id}
         numColumns={2}
         onEndReached={() => loadMoreProducts(products.length)}
-        onEndReachedThreshold={0}
+        onEndReachedThreshold={0.5}
         ListHeaderComponent={listHeader}
         renderItem={({ index, item }) => (
           <Box
@@ -64,24 +76,20 @@ export const ListVerticalProducts = ({
             justifyContent='center'
             height={320}>
             <ProductVerticalListCard
-              colors={item.colorsHex}
-              imageSource={item.imageUrl}
-              installmentsNumber={item.installmentNumber}
-              isFavorited={wishlist.find((x) => x.id == item.id) != undefined}
-              discountTag={item.discountTag > 0 ? item.discountTag : undefined}
-              installmentsPrice={item.installmentPrice || 0}
-              currency={item.currency}
-              price={item.fullPrice || 0}
-              productTitle={item.title}
-              onClickFavorite={() => {
-                wishlist.find((x) => x.id == item.id) == undefined
-                  ? handleOnFavorite(item)
-                  : dispatch(removeWishlist(item.id))
-                //   : dispatch(appendWishlist(item));
-              }}
+              colors={[""]}
+              imageSource={item.items[0].images[0].imageUrl}
+              installmentsNumber={item.items[0].sellers[0].commertialOffer.Installments[0].NumberOfInstallments}
+              installmentsPrice={item.items[0].sellers[0].commertialOffer.Installments[0].Value}
+              currency="R$"
+              discountTag={
+                getPercent(item.priceRange?.sellingPrice.lowPrice, item.priceRange?.listPrice.lowPrice)
+              }
+              priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+              price={item.priceRange?.listPrice?.lowPrice}
+              productTitle={item.productName}
               onClickImage={() => {
                 navigation.navigate('ProductDetail', {
-                  productId: item.id,
+                  productId: item.productId,
                 })
               }}
             />
