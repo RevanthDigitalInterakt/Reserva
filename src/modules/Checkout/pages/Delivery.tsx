@@ -72,7 +72,116 @@ const Delivery: React.FC<{}> = () => {
               Escolha a forma de envio
             </Typography>
           </Box>
-          <SelectOption
+          <Box>
+            <Button
+              flex={1}
+              width="100%"
+              onPress={() =>
+                mapPermission ?
+                  navigation.navigate('MapScreen', { geolocation: "", locationPermission: mapPermission })
+                  :
+                  navigation.navigate("WithdrawInStore", { isCheckout: true, })
+              }
+            >
+              <>
+                <Box
+                  width="100%"
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  justifyContent="space-between"
+                >
+                  <Box>
+                    <Typography>Retirar na loja</Typography>
+                  </Box>
+                  <Box height={20} bg="#EF1E1E" borderRadius="pico">
+                    <Box marginLeft="nano" marginRight="sm">
+                      <Typography
+                        fontFamily="reservaSerifRegular"
+                        fontSize={15}
+                        color="white">
+                        Isenção de frete
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box
+                  mt="nano"
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  flex={1}
+                  justifyContent={"space-between"}
+                >
+                  <Box flex={2}>
+                    <Typography fontFamily="nunitoRegular" fontSize={11} >
+                      Ao escolher esta opção vamos apresentar opções de lojas próximas a você
+                    </Typography>
+                  </Box>
+                  <Box flex={1} alignItems="flex-end">
+                    <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
+                  </Box>
+                </Box>
+                <Box alignSelf="flex-start" mt="quarck">
+                  <Typography
+                    fontFamily={"nunitoSemiBold"}
+                    fontSize={13}
+                    color={"verdeSucesso"}
+                  >
+                    Segunda-feira, 05 de abril de 2021
+                  </Typography>
+                </Box>
+              </>
+            </Button>
+            <Divider variant={"fullWidth"} marginY={"micro"} />
+            <Button
+              flex={1}
+              width="100%"
+              onPress={() =>
+                navigation.navigate("AddressList", { isCheckout: true })
+              }
+            >
+              <>
+                <Box
+                  width="100%"
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  justifyContent="space-between"
+                >
+                  <Box>
+                    <Typography>Receber em casa</Typography>
+                  </Box>
+
+                </Box>
+
+                <Box
+                  mt="nano"
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  flex={1}
+                  justifyContent={"space-between"}
+                >
+                  <Box flex={2}>
+                    <Typography fontFamily="nunitoRegular" fontSize={11} >
+                      Ao escolher esta opção vamos apresentar opções de lojas próximas a você
+                    </Typography>
+                  </Box>
+                  <Box flex={1} alignItems="flex-end">
+                    <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
+                  </Box>
+                </Box>
+                <Box alignSelf="flex-start" mt="quarck">
+                  <Typography
+                    fontFamily={"nunitoSemiBold"}
+                    fontSize={13}
+                    color={"verdeSucesso"}
+                  >
+                    Segunda-feira, 05 de abril de 2021
+                  </Typography>
+                </Box>
+              </>
+            </Button>
+          </Box>
+          {/* <SelectOption
             title={"Retirar na loja"}
             subtitle={mapPermission ? "Segunda-feira, 06 de maio de 2021" : ""}
             onPress={() =>
@@ -82,20 +191,20 @@ const Delivery: React.FC<{}> = () => {
                 navigation.navigate("WithdrawInStore", { isCheckout: true, })
             }
             divider
-          />
-          <SelectOption
+          /> */}
+          {/* <SelectOption
             title={"Receber em casa"}
             subtitle={mapPermission ? "Segunda-feira, 7 de maio de 2021" : ""}
             onPress={() =>
               navigation.navigate("AddressList", { isCheckout: true })
             }
-          />
+          /> */}
 
-          <SelectOption
+          {/* <SelectOption
             title={"wbeview"}
             subtitle={"S123123123"}
             onPress={() => navigation.navigate("Checkout")}
-          />
+          /> */}
         </Box>
       </ScrollView>
     </SafeAreaView>
@@ -118,6 +227,7 @@ const SelectOption = ({ title, subtitle, divider, onPress }: ISelectOption) => {
           flex={1}
           justifyContent={"space-between"}
         >
+
           <Box>
             <Typography variant={"tituloSessao"}>{title}</Typography>
             <Typography
