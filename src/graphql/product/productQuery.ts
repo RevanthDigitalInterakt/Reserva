@@ -12,8 +12,23 @@ export const productQuery = gql`
     {
       productId
       productName
-      
+      description
+      skuSpecifications{
+        field{
+          name
+          originalName
+        }
+        values{
+          name
+          originalName
+        }
+      }
       items {
+        variations{
+          originalName
+          name
+          values
+        }
         images{
           imageUrl
         }

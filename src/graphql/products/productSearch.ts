@@ -196,7 +196,7 @@ export interface ProductQL {
     productClusters?: ProductClusters[]
     description?: string
     items: SKU[]
-    skuSpecifications?: SkuSpecification[]
+    skuSpecifications: SkuSpecification[]
     link?: string
     linkText?: string
     productId?: string
@@ -383,8 +383,8 @@ export interface OnlyProduct {
 }
 
 export interface SkuSpecification {
-    field?: SKUSpecificationField
-    values?: SKUSpecificationValue[]
+    field: SKUSpecificationField
+    values: SKUSpecificationValue[]
 }
 
 export interface SKUSpecificationField {

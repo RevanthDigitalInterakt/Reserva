@@ -73,6 +73,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       }
     }
   )
+  
+  useEffect(() => {
+    refetch()
+  }, [])
 
   const [
     filterRequestList,

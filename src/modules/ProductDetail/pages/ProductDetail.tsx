@@ -48,7 +48,8 @@ import { ProductSKU } from '../../../store/ducks/product/types'
 import { appendOrders } from '../../../store/ducks/orders/actions'
 import { QueryResult, useQuery } from '@apollo/client'
 import { productQuery } from '../../../graphql/product/productQuery'
-import { ProductQL } from '../../../graphql/products/productSearch'
+import { ProductQL, SkuSpecification } from '../../../graphql/products/productSearch'
+import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts'
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -65,8 +66,10 @@ export const ProductDetail: React.FC<Props> = ({
   recomendedProducts,
 }) => {
   const productId = route.params.productId;
-  const [productsQuery, setProduct] = useState<ProductQL>({} as ProductQL)
+  const [productsQuery, setProduct] = useState<ProductQL>()
   const [isFavorited, setIsFavorited] = useState(false);
+  const [skuSizes, setSkuSises] = useState<(string | undefined)[]>();
+  const [skuColors, setSkuColors] = useState<(string | undefined)[]>();
 
   const [isVisible, setIsVisible] = useState(false)
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
@@ -86,10 +89,30 @@ export const ProductDetail: React.FC<Props> = ({
   )
 
   useEffect(() => {
-    if(!loading){
+    if(!loading){      
       setProduct(data.product);
     }
   }, [data])
+
+  useEffect(() => {
+    let sizes: (string | undefined)[] = [];
+    let colors: (string | undefined)[] = [];
+    productsQuery?.skuSpecifications.forEach((sku) => {
+      if(sku.field.name === "TAMANHO"){
+        sizes = sku.values.map(value => value.name);
+      }
+    })
+    setSkuSises(sizes);
+
+    productsQuery?.skuSpecifications.forEach((sku) => {
+      if(sku.field.name === "DESC_COR_ORIGINAL"){
+        colors = sku.values.map(value => "#FF0000");
+      }
+    })
+    setSkuColors(colors);
+    
+    console.log(colors, sizes);
+  }, [productsQuery])
 
   recomendedProducts = [
     {
@@ -227,9 +250,9 @@ export const ProductDetail: React.FC<Props> = ({
   let orders = useSelector((state: ApplicationState) => state.orders.orders)
 
   const [selectedSku, setSelectedSku] = useState<ProductSKU>()
-
+  
   useEffect(() => {
-    console.log('product', productId)
+    refetch()
   }, [])
 
   useEffect(() => {
@@ -251,7 +274,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   return (
     <SafeAreaView>
-      {!loading && (
+      {!loading && productsQuery && (
       <Box bg='white'>
         <ModalBag
           isVisible={isVisible}
@@ -262,15 +285,16 @@ export const ProductDetail: React.FC<Props> = ({
         <TopBarDefaultBackButton loading={product.loading} />
         <ScrollView>
           <ProductDetailCard
-            installmentsNumber={productsQuery.items[0].sellers[0].commertialOffer.Installments[0].NumberOfInstallments}
-            installmentsPrice={productsQuery.items[0].sellers[0].commertialOffer.Installments[0].Value}
+            installmentsNumber={0}
+            installmentsPrice={0}
             title={productsQuery.productName}
-            price={productsQuery.priceRange?.listPrice?.highPrice}
-            priceWithDiscount={productsQuery.priceRange?.sellingPrice.highPrice}
+            price={productsQuery.priceRange?.listPrice?.lowPrice}
+            priceWithDiscount={productsQuery.priceRange?.sellingPrice.lowPrice}
             discountTag={
-              product.data.discountTag > 0
-                ? product.data.discountTag
-                : undefined
+              getPercent(
+                productsQuery.priceRange?.sellingPrice.lowPrice,
+                productsQuery.priceRange?.listPrice?.lowPrice
+              )
             }
             imagesWidth={screenWidth}
             images={productsQuery.items[0].images.map((image) => image.imageUrl)}
@@ -302,7 +326,7 @@ export const ProductDetail: React.FC<Props> = ({
                 <SelectColor
                   onPress={(color: any) => setSelectedColor(color)}
                   size={40}
-                  listColors={product.data.colors || []}
+                  listColors={skuColors}
                   selectedColors={selectedColor}
                 />
               </ScrollView>
@@ -331,7 +355,7 @@ export const ProductDetail: React.FC<Props> = ({
                   onSelectedChange={(item) => {
                     setSelectedSize(item)
                   }}
-                  optionsList={product.data.sizes || []}
+                  optionsList={skuSizes}
                   defaultSelectedItem={selectedSize}
                 />
               </Box>
@@ -410,7 +434,7 @@ export const ProductDetail: React.FC<Props> = ({
               <ExpansePanel
                 information={{
                   title: 'Descrição do produto',
-                  content: productsQuery.productName || '',
+                  content: productsQuery.description ? productsQuery.description : 'teste',
                 }}
               />
             </Box>

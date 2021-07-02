@@ -26,7 +26,7 @@ const getColorsInProductSearch = () => {
   
 }
 
-const getPercent = (sellingPrice: number, listPrice: number): number | undefined => {
+export const getPercent = (sellingPrice: number, listPrice: number): number | undefined => {
   if(sellingPrice === listPrice){
     return undefined;
   }
