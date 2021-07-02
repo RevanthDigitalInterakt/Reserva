@@ -1,3 +1,4 @@
+import { brasilApi } from "../config/brasilApi";
 import vtexConfig from "../config/vtexConfig";
 
 const CreateCart = async () => {
@@ -73,10 +74,11 @@ const AddCouponToCart = async (orderFormId: any) => {
   return response;
 };
 
+
 const RemoveCoupon = async (orderFormId: any) => {
   const response = await vtexConfig.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons
-  `,
+    `,
     {
       text: "",
       expectedOrderFormSections: [
@@ -113,7 +115,7 @@ const DeliveryType = async (orderFormId: any) => {
   // deve enviar o endereço junto do array de tipo de entrega de CADA produto. ai o vtex irá calcular as entregas possiveis.
   const response = await vtexConfig.post(
     `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData
-  `,
+        `,
     {
       selectedAddresses: [
         {
@@ -154,7 +156,7 @@ const DeliveryType = async (orderFormId: any) => {
 const GetPurchaseData = async (orderGroup: any) => {
   const response =
     await vtexConfig.get(`/checkout/pub/orders/order-group/${orderGroup}
-  `);
+        `);
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
@@ -170,6 +172,7 @@ const IdentifyCustomer = async (orderFormId: string | undefined, email: string) 
   }
 }
 
+
 const AddCustomerToOrder = async (orderFormId: string | undefined, customer: any) => {
   try {
     const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`, { ...customer })
@@ -179,11 +182,17 @@ const AddCustomerToOrder = async (orderFormId: string | undefined, customer: any
     console.log(err);
   }
 }
+const CepVerify = async (cep: string) => {
+  const { data } = await brasilApi.get(`/cep/v2/${cep}`)
+  console.log(data)
+  return { ...data }
+}
 
 export {
   CreateCart,
   CreateSession,
   GetSession,
+  CepVerify,
   AddItemToCart,
   AddCouponToCart,
   RemoveCoupon,

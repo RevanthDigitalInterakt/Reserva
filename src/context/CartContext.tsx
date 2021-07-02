@@ -8,7 +8,7 @@ import React, {
     Dispatch,
 } from 'react';
 import { useEffect } from 'react';
-import { AddAddressToCart, AddCustomerToOrder, AddItemToCart, CreateCart, IdentifyCustomer } from '../services/vtexService'
+import { AddAddressToCart, AddCustomerToOrder, AddItemToCart, CepVerify, CreateCart, IdentifyCustomer } from '../services/vtexService'
 
 interface ClientPreferencesData {
     attachmentId: string;
@@ -162,7 +162,7 @@ interface CartContextProps {
     addItem: (quantity: number, itemId: string) => void;
     identifyCustomer: (email: string) => Promise<boolean | undefined>;
     addCustomer: (customer: any) => Promise<boolean | undefined>;
-    addShippingData: (address: any) => Promise<boolean | undefined>;
+    addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -216,9 +216,22 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         }
     }
 
-    const addShippingData = async (address: any) => {
+    const addShippingData = async (address: Partial<Address>) => {
         try {
-            const data = await AddAddressToCart(orderForm?.orderFormId, { selectedAddresses: [address], clearAddressIfPostalCodeNotFound: false });
+
+
+            const { city, street } = await CepVerify(address.postalCode || '')
+            console.log(city, street)
+            const data = await AddAddressToCart(
+                orderForm?.orderFormId,
+                {
+                    selectedAddresses: [{
+                        ...address,
+                        city,
+                        street,
+                    }],
+                    clearAddressIfPostalCodeNotFound: false
+                });
 
             console.log(data);
 
@@ -249,6 +262,7 @@ export const useCart = () => {
     if (!cartContext) {
         throw new Error('use Auth must be used within a AuthContextProvider');
     }
+
     const { orderForm, addItem, identifyCustomer, addCustomer, addShippingData } = cartContext;
     return {
         orderForm,

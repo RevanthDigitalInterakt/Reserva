@@ -129,10 +129,10 @@ export const BagScreen = () => {
       style={{
         justifyContent: "space-between",
         flex: 1,
-        backgroundColor: "#FFF",
+        backgroundColor: "#FFFFFF",
       }}
     >
-      <TopBarBackButton showShadow />
+      <TopBarBackButton showShadow loading={false} />
       <ScrollView>
         <Box paddingX={"xxxs"} paddingY={"xxs"}>
           <Box bg={"white"} marginTop={"xxs"}>

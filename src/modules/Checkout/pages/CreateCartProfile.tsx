@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { Box, Button, TextField, Typography } from "reserva-ui"
 import { useCart } from "../../../context/CartContext"
 import { RootStackParamList } from "../../../routes/StackNavigator"
+import { CepVerify } from "../../../services/vtexService"
 import { TopBarDefault } from "../../Menu/components/TopBarDefault"
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton"
 
@@ -40,11 +41,21 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
             const { postalCode, state, number, district: neighborhood, complement } = fields;
 
             // todo - add cep api
-            const isAddressSaved = await addShippingData({ postalCode, state, number, receiverName, neighborhood, addressType: "search", country: "BRA", city: "Guarapari", street: "Rod. do Sol", complement });
+            //const cepData = await CepVerify(postalCode)
+            const isAddressSaved = await addShippingData({
+                postalCode,
+                state,
+                number,
+                receiverName,
+                neighborhood,
+                addressType: "search",
+                country: "BRA",
+                complement
+            });
         }
     }
 
-    return <SafeAreaView backgroundColor='white' flex={1}>
+    return <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
         <TopBarDefaultBackButton loading={false} />
         <ScrollView>
             <Box mx={20}>
@@ -99,7 +110,9 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                 <Box mt={15}>
                     <TextField
                         value={fields.postalCode}
-                        onChangeText={(text) => setFields({ ...fields, postalCode: text })}
+                        onChangeText={(text) => {
+                            setFields({ ...fields, postalCode: text })
+                        }}
                         placeholder='CEP' />
                 </Box>
                 <Box mt={15} flexDirection='row' justifyContent='space-between'>
