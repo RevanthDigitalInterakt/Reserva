@@ -425,6 +425,7 @@ export const BagScreen = () => {
             </Box>
           </Box>
         </Box>
+
         <Button
           onPress={() => {
             if (authentication.data?.access_token && profile.data) {
@@ -449,7 +450,7 @@ export const BagScreen = () => {
               navigate("DeliveryScreen", { comeFrom: "Checkout" });
             }
           }}
-          title="IR PARA ENTREGA"
+          title="FINALIZAR COMPRA"
           variant="primarioEstreito"
           inline
         />
