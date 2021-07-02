@@ -19,19 +19,19 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
       }}
     >
       <Box
-        style={{ elevation: 10 }}
+        style={{ elevation: 6 }}
         boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
         mt="xxxs"
         width={"100%"}
-        height={171}
+        height={180}
         backgroundColor={"white"}
       >
         <Box
-          height={141}
+          height={150}
           borderBottomWidth="hairline"
           borderColor={"backgroundMenuOpened"}
-          paddingY={"xxxs"}
-          paddingX={"xxxs"}
+          paddingY={"micro"}
+          paddingX={"micro"}
         >
           <Box flexDirection="row" justifyContent="space-between">
             <Typography
@@ -48,7 +48,7 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
           </Box>
           <Typography
             fontSize={20}
-            fontFamily="reservaDisplayRegular"
+            fontFamily="reservaSerifRegular"
             color="vermelhoRSV"
           >
             12-3456789
