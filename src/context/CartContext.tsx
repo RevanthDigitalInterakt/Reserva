@@ -8,6 +8,7 @@ import React, {
     Dispatch,
 } from 'react';
 import { useEffect } from 'react';
+import { CepResponse } from '../config/brasilApi';
 import { AddAddressToCart, AddCustomerToOrder, AddItemToCart, CepVerify, CreateCart, IdentifyCustomer } from '../services/vtexService'
 
 interface ClientPreferencesData {
@@ -157,12 +158,14 @@ interface OrderForm {
     value: number
 }
 
+
 interface CartContextProps {
     orderForm: OrderForm | undefined
     addItem: (quantity: number, itemId: string) => void;
     identifyCustomer: (email: string) => Promise<boolean | undefined>;
     addCustomer: (customer: any) => Promise<boolean | undefined>;
     addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
+    getCepData: (postalCode: string) => Promise<CepResponse | undefined>
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -216,6 +219,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         }
     }
 
+    const getCepData = async (postalCode: string) => {
+        try {
+            const data = await CepVerify(postalCode)
+
+            return data
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     const addShippingData = async (address: Partial<Address>) => {
         try {
 
@@ -247,7 +260,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
     return (
         <CartContext.Provider
-            value={{ orderForm, addItem, identifyCustomer, addCustomer, addShippingData }}
+            value={{ orderForm, addItem, identifyCustomer, addCustomer, addShippingData, getCepData }}
         >
             {children}
         </CartContext.Provider>
@@ -263,12 +276,13 @@ export const useCart = () => {
         throw new Error('use Auth must be used within a AuthContextProvider');
     }
 
-    const { orderForm, addItem, identifyCustomer, addCustomer, addShippingData } = cartContext;
+    const { orderForm, addItem, identifyCustomer, addCustomer, addShippingData, getCepData } = cartContext;
     return {
         orderForm,
         addItem,
         identifyCustomer,
         addCustomer,
-        addShippingData
+        addShippingData,
+        getCepData
     };
 };

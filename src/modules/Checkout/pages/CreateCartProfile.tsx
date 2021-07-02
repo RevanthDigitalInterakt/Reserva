@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { ScrollView } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Box, Button, TextField, Typography } from "reserva-ui"
+import { CepResponse } from "../../../config/brasilApi"
 import { useCart } from "../../../context/CartContext"
 import { RootStackParamList } from "../../../routes/StackNavigator"
 import { CepVerify } from "../../../services/vtexService"
@@ -15,7 +16,8 @@ interface CreateCartProfileProfile extends StackScreenProps<RootStackParamList, 
 }
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigation, route }) => {
-    const { addCustomer, addShippingData } = useCart();
+    const { addCustomer, addShippingData, getCepData } = useCart();
+    const [showCepDescrption, setShowCepDescrption] = useState(false)
     const [fields, setFields] = useState({
         firstName: '',
         lastName: '',
@@ -24,11 +26,35 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
         document: '',
         phone: '',
         postalCode: '',
-        district: '',
+        neighborhood: '',
         state: '',
+        street: '',
         number: '',
-        complement: ''
+        complement: '',
+        city: '',
     });
+
+    const cepHandler = async (postalCode: string) => {
+        const isValidPostalCode = postalCode.length == 8
+
+        if (isValidPostalCode) {
+            const { street, neighborhood, city, state, cep, errors } = await CepVerify(postalCode)
+            setShowCepDescrption(!!cep)
+            console.log('cep', cep)
+            setFields({
+                ...fields,
+                postalCode: postalCode,
+                street,
+                neighborhood,
+                city,
+                state
+            })
+
+        } else {
+            setShowCepDescrption(false)
+        }
+    }
+
 
     const saveCustomer = async () => {
         const { firstName, lastName, document, documentType, phone } = fields;
@@ -38,7 +64,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
         if (isCustomerSave) {
             // save address
             const receiverName = `${firstName} ${lastName}`;
-            const { postalCode, state, number, district: neighborhood, complement } = fields;
+            const { postalCode, state, number, neighborhood: neighborhood, complement } = fields;
 
             // todo - add cep api
             //const cepData = await CepVerify(postalCode)
@@ -104,7 +130,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                 </Box>
 
                 <Box mt={20}>
-                    <Typography>Insira o endereço do destinatário:</Typography>
+                    <Typography fontFamily='nunitoRegular' fontSize={15}>Insira o endereço do destinatário:</Typography>
                 </Box>
 
                 <Box mt={15}>
@@ -112,14 +138,24 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                         value={fields.postalCode}
                         onChangeText={(text) => {
                             setFields({ ...fields, postalCode: text })
+                            cepHandler(text)
                         }}
+
                         placeholder='CEP' />
+                </Box>
+                <Box>
+                    <Typography fontFamily='nunitoRegular' fontSize={13}>
+                        {showCepDescrption ?
+                            `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}` :
+                            ''
+                        }
+                    </Typography>
                 </Box>
                 <Box mt={15} flexDirection='row' justifyContent='space-between'>
                     <Box flex={1} marginRight='micro'>
                         <TextField
-                            value={fields.district}
-                            onChangeText={(text) => setFields({ ...fields, district: text })}
+                            value={fields.neighborhood}
+                            onChangeText={(text) => setFields({ ...fields, neighborhood: text })}
                             placeholder='Bairro' />
                     </Box>
                     <Box flex={1}>

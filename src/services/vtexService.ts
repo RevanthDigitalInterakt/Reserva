@@ -1,3 +1,4 @@
+import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from "../config/brasilApi";
 import vtexConfig from "../config/vtexConfig";
 
@@ -183,9 +184,17 @@ const AddCustomerToOrder = async (orderFormId: string | undefined, customer: any
   }
 }
 const CepVerify = async (cep: string) => {
-  const { data } = await brasilApi.get(`/cep/v2/${cep}`)
-  console.log(data)
-  return { ...data }
+  try {
+
+    const { data } = await brasilApi.get(`/cep/v2/${cep}`)
+    console.log(data)
+    return data
+  } catch (err) {
+
+    console.log(err)
+    return { errors: err } as CepResponse
+
+  }
 }
 
 export {
