@@ -37,7 +37,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
     password: "",
   });
   const [isSecureText, setIsSecureText] = useState(true);
-  const [login, { data, loading }] = useMutation(classicSignInMutation);
+  const [login, { data, loading: loadngClassicLogin }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true)
 
   const handleLogin = () => {
@@ -50,28 +50,28 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
   }
 
   useEffect(() => {
-    if(comeFrom === "Profile"){
+    if (comeFrom === "Profile") {
       BackHandler.addEventListener('hardwareBackPress', () => {
         navigation.navigate("Home");
         return true;
       });
     }
   }, [])
-  
+
   useEffect(() => {
-    if(!loading && data?.cookie){
+    if (!loadngClassicLogin && data?.cookie) {
       setCookie(data?.cookie)
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         navigation.navigate("Home");
       });
-    }    
+    }
   }, [data]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => {
+      <HeaderBanner loading={loadngClassicLogin} imageHeader={images.headerLogin} onClickGoBack={() => {
         navigation.navigate("Home");
-       }} />
+      }} />
       <ScrollView>
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily='reservaSerifRegular' fontSize={22}>
@@ -84,9 +84,9 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
                 Insira seu e-mail para continuar:
               </Typography>
             </Box>
-            <UnderlineInput 
-              placeholder='Digite seu e-mail' 
-              errorMsg='Digite um e-mail válido' 
+            <UnderlineInput
+              placeholder='Digite seu e-mail'
+              errorMsg='Digite um e-mail válido'
               showError={false}
               onChangeText={
                 (text) => setLoginCredentials(
@@ -97,9 +97,9 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
             {
               !loginWithCode &&
               <Box mt='md' width='100%'>
-                <UnderlineInput 
-                  placeholder='Digite sua senha' 
-                  isSecureText={true} 
+                <UnderlineInput
+                  placeholder='Digite sua senha'
+                  isSecureText={true}
                   onChangeText={
                     (text) => setLoginCredentials(
                       { ...loginCredentials, password: text }
@@ -120,11 +120,11 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
 
           </Box>
           <Box mt='md' />
-          <Button 
-            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'} 
-            inline 
-            variant='primarioEstreito' 
-            onPress={() => handleLogin()} 
+          <Button
+            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
+            inline
+            variant='primarioEstreito'
+            onPress={() => handleLogin()}
           />
           <Box my={50}  >
             <Typography variant='tituloSessao' textAlign='center'>OU</Typography>

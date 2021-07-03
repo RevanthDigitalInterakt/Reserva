@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useEffect } from 'react';
 import { CepResponse } from '../config/brasilApi';
-import { AddAddressToCart, AddCustomerToOrder, AddItemToCart, CepVerify, CreateCart, IdentifyCustomer } from '../services/vtexService'
+import { AddAddressToCart, AddCustomerToOrder, AddItemToCart, CepVerify, CreateCart, IdentifyCustomer, RemoveItemFromCart } from '../services/vtexService'
 
 interface ClientPreferencesData {
     attachmentId: string;
@@ -161,7 +161,7 @@ interface OrderForm {
 
 interface CartContextProps {
     orderForm: OrderForm | undefined
-    addItem: (quantity: number, itemId: string) => void;
+    addItem: (quantity: number, itemId: string) => { message: string, ok: boolean };
     identifyCustomer: (email: string) => Promise<boolean | undefined>;
     addCustomer: (customer: any) => Promise<boolean | undefined>;
     addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
@@ -189,6 +189,26 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     const addItem = async (quantity: number, itemId: string) => {
         try {
             const { data } = await AddItemToCart(orderForm?.orderFormId, quantity, itemId, "1")
+
+            // check produt availability
+            const index = data.items.findIndex(({ id }: any) => id === itemId)
+            const product = data.items[index];
+            if (product.availability === "withoutStock") {
+                const productRemoved = await removeUnavailableProduct(product.id, index);
+
+                if (productRemoved)
+                    return { message: "O produto não está disponível" }
+            }
+        } catch (error) {
+            console.log("error", error.response.data);
+        }
+    }
+
+    const removeUnavailableProduct = async (itemId: string, index: number,) => {
+        try {
+            const { data } = await RemoveItemFromCart(orderForm?.orderFormId, itemId, index)
+
+            return !!data;
         } catch (error) {
             console.log("error", error.response.data);
         }
@@ -231,17 +251,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
     const addShippingData = async (address: Partial<Address>) => {
         try {
-
-
-            const { city, street } = await CepVerify(address.postalCode || '')
-            console.log(city, street)
             const data = await AddAddressToCart(
                 orderForm?.orderFormId,
                 {
                     selectedAddresses: [{
                         ...address,
-                        city,
-                        street,
                     }],
                     clearAddressIfPostalCodeNotFound: false
                 });

@@ -17,6 +17,7 @@ interface CreateCartProfileProfile extends StackScreenProps<RootStackParamList, 
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigation, route }) => {
     const { addCustomer, addShippingData, getCepData } = useCart();
+    const [loading, setLoading] = useState(false)
     const [showCepDescrption, setShowCepDescrption] = useState(false)
     const [fields, setFields] = useState({
         firstName: '',
@@ -38,17 +39,18 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
         const isValidPostalCode = postalCode.length == 8
 
         if (isValidPostalCode) {
+            setLoading(true)
             const { street, neighborhood, city, state, cep, errors } = await CepVerify(postalCode)
             setShowCepDescrption(!!cep)
-            console.log('cep', cep)
             setFields({
                 ...fields,
-                postalCode: postalCode,
+                postalCode,
                 street,
                 neighborhood,
                 city,
                 state
             })
+            setLoading(false)
 
         } else {
             setShowCepDescrption(false)
@@ -64,10 +66,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
         if (isCustomerSave) {
             // save address
             const receiverName = `${firstName} ${lastName}`;
-            const { postalCode, state, number, neighborhood: neighborhood, complement } = fields;
-
-            // todo - add cep api
-            //const cepData = await CepVerify(postalCode)
+            const { postalCode, state, number, neighborhood, complement, city, street } = fields;
+            setLoading(true)
             const isAddressSaved = await addShippingData({
                 postalCode,
                 state,
@@ -76,13 +76,20 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                 neighborhood,
                 addressType: "search",
                 country: "BRA",
-                complement
+                complement,
+                city,
+                street
             });
+            setLoading(false)
+
+            if (isAddressSaved) {
+                navigation.navigate("DeliveryScreen")
+            }
         }
     }
 
     return <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
-        <TopBarDefaultBackButton loading={false} />
+        <TopBarDefaultBackButton loading={loading} />
         <ScrollView>
             <Box mx={20}>
                 <Box mt={49}>
@@ -154,12 +161,14 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                 <Box mt={15} flexDirection='row' justifyContent='space-between'>
                     <Box flex={1} marginRight='micro'>
                         <TextField
+                            editable={false}
                             value={fields.neighborhood}
                             onChangeText={(text) => setFields({ ...fields, neighborhood: text })}
                             placeholder='Bairro' />
                     </Box>
                     <Box flex={1}>
                         <TextField
+                            editable={false}
                             value={fields.state}
                             onChangeText={(text) => setFields({ ...fields, state: text })}
                             placeholder='Estado' />

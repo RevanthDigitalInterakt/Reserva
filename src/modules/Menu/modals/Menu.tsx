@@ -253,7 +253,7 @@ export const Menu: React.FC<{}> = () => {
                     </Typography>
                   }
                   onPress={() => {
-                    navigation.navigate('Login')
+                    navigation.navigate('Login', { comefrom: 'Home' })
                   }}
                   underline></FixedMenuItem>
               )}

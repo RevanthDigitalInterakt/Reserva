@@ -8,10 +8,12 @@ import { useSelector } from "react-redux";
 import { ApplicationState } from "../../../store";
 import { request, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
 import { useCart } from "../../../context/CartContext";
+import { useAuth } from "../../../context/AuthContext";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
   // const {orderForm} = useCart();
+  const { cookie, setCookie } = useAuth()
   const { authentication } = useSelector((state: ApplicationState) => state);
   const [Permission, setPermission] = useState(false)
   const [mapPermission, setMapPermission] = useState(false)
@@ -48,10 +50,10 @@ const Delivery: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    if (authentication.data?.access_token) {
+    if (cookie) {
       requestMap();
     }
-  }, [authentication])
+  }, [cookie])
 
 
   useEffect(() => {
