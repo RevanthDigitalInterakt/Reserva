@@ -118,6 +118,7 @@ const MenuScreen: React.FC<{}> = ({ route, navigation }) => {
 
             <Box marginY={'xs'} justifyContent={'flex-end'}>
               <Button
+                width={150}
                 disabled={profile.loading}
                 onPress={() => logout()}
                 title='LOGOUT'

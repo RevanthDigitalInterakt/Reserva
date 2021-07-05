@@ -24,7 +24,7 @@ export const PriceCustom: React.FC<IpriceCustom> = ({ num, fontFamily, sizeInter
         <Box flexDirection="row">
             <Box>
                 {negative ?
-                    <Typography color={color} fontFamily={fontFamily} fontSize={sizeInterger}>-R$ {integerPart(num)},</Typography>
+                    <Typography color={color} fontFamily={fontFamily} fontSize={sizeInterger}>- R$ {integerPart(num)},</Typography>
                     :
                     <Typography color={color} fontFamily={fontFamily} fontSize={sizeInterger}>R$ {integerPart(num)},</Typography>
                 }

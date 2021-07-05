@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Platform } from "react-native";
 import { Typography, Box, Button, Icon, Image } from "reserva-ui";
+import { PriceCustom } from "../../Checkout/components/PriceCustom";
 import OrderProduct from "./OrderProduct";
 interface IOrderDetailComponent {
   obj?: object;
@@ -131,36 +132,50 @@ const OrderDetailComponent = ({
 
         {/* //preços */}
         <Box mt="xs" flexDirection="row" justifyContent="space-between">
-          <Typography fontSize={12} fontFamily="nunitoSemiBold">
+          <Typography variant="precoAntigo3">
             Subtotal
           </Typography>
-          <Typography fontSize={13} fontFamily="nunitoSemiBold">
-            R$ 1254,00
-          </Typography>
+          <PriceCustom
+            fontFamily={"nunitoSemiBold"}
+            sizeInterger={15}
+            sizeDecimal={11}
+            num={10000}
+          />
         </Box>
         <Box mt="micro" flexDirection="row" justifyContent="space-between">
-          <Typography fontSize={12} fontFamily="nunitoSemiBold">
+          <Typography variant="precoAntigo3">
             Frete
           </Typography>
-          <Typography fontSize={13} fontFamily="nunitoSemiBold">
-            R$ 1254,00
-          </Typography>
+          <PriceCustom
+            fontFamily={"nunitoSemiBold"}
+            sizeInterger={15}
+            sizeDecimal={11}
+            num={1254}
+          />
         </Box>
         <Box mt="micro" flexDirection="row" justifyContent="space-between">
-          <Typography fontSize={12} fontFamily="nunitoSemiBold">
+          <Typography variant="precoAntigo3">
             Descontos
           </Typography>
-          <Typography fontSize={13} fontFamily="nunitoSemiBold">
-            - R$ 254,00
-          </Typography>
+          <PriceCustom
+            fontFamily={"nunitoSemiBold"}
+            sizeInterger={15}
+            negative={true}
+            sizeDecimal={11}
+            num={254}
+          />
         </Box>
-        <Box mt="xxxs" flexDirection="row" justifyContent="space-between">
-          <Typography fontSize={12} fontFamily="nunitoSemiBold">
+        <Box mt="xxxs" flexDirection="row" justifyContent="space-between" alignItems="center">
+          <Typography variant="precoAntigo3" >
             Total
           </Typography>
-          <Typography fontSize={20} fontFamily="nunitoBold">
-            R$ 1000,00
-          </Typography>
+          <PriceCustom
+            fontFamily={"nunitoBold"}
+            sizeInterger={20}
+            sizeDecimal={11}
+            num={1000}
+          />
+
         </Box>
       </Box>
     </>
