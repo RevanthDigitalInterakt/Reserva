@@ -74,7 +74,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({ navigati
                 number,
                 receiverName,
                 neighborhood,
-                addressType: "search",
+                addressType: "residential",
                 country: "BRA",
                 complement,
                 city,

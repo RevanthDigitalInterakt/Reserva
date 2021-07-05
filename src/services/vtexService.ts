@@ -30,7 +30,7 @@ const AddItemToCart = async (
   seller: string
 ) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/items?sc=1`,
+    `/checkout/pub/orderForm/${orderFormId}/items?sc=1`,
     {
       // modificar esse item de acordo com o modelo do carrinho
       orderItems: [

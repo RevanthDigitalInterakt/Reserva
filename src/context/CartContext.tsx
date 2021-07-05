@@ -110,6 +110,7 @@ interface LogisticsInfo {
 interface ShippingData {
     attachmentId: string;
     address: Address,
+    selectedAddresses: Address[];
     availableAddresses: AvailableAddresses[];
     logisticsInfo: LogisticsInfo[]
 }
@@ -188,7 +189,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
     const addItem = async (quantity: number, itemId: string) => {
         try {
-            const { data } = await AddItemToCart(orderForm?.orderFormId, quantity, itemId, "1")
+            const { data } = await AddItemToCart(orderForm?.orderFormId, quantity, itemId, "lojausereservaondemand")
 
             // check produt availability
             const index = data.items.findIndex(({ id }: any) => id === itemId)
@@ -219,7 +220,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
             const data = await IdentifyCustomer(orderForm?.orderFormId, email);
 
             setOrderForm(data);
-
+            console.log('identifyCustomer', data)
             // TODO - change this later, find a better way to check if theres's no user
             return !!data.clientProfileData.firstName;
         } catch (error) {
