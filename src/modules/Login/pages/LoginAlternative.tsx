@@ -250,6 +250,7 @@ export const LoginAlternative: React.FC<Props> = ({ route }) => {
                       flexDirection="row"
                       justifyContent="center"
                       marginTop="xxxs"
+                      alignItems="center"
                     >
                       <Typography fontSize={13} fontFamily="nunitoRegular">
                         Ainda não possui uma conta?
