@@ -1408,7 +1408,7 @@
     "@sentry/types" "6.7.1"
     tslib "^1.9.3"
 
-"@sentry/react-native@^2.4.0":
+"@sentry/react-native@^2.6.0":
   version "2.6.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@sentry/react-native/-/react-native-2.6.0.tgz#1674ffa8c447581cde5e3566841841aa2bbbc25b"
   integrity sha1-FnT/qMRHWBzeXjVmhBhBqiu7wls=
