@@ -1,46 +1,29 @@
 import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, TextField, Button } from "reserva-ui";
+import { images } from "../../../assets";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import CodeInput from "../../Login/components/CodeInput";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
+import HeaderBanner from "../componet/HeaderBanner";
+
+export interface ForgotAccessCodeProps extends StackScreenProps<RootStackParamList, "ForgotEmailSuccess"> { };
 
 export const ForgotEmailSuccess: React.FC = () => {
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <TopBarBackButtonWithoutLogo
-        showShadow={false}
-        backButtonPress={() => navigation.navigate("ForgotEmail")}
-      />
-      <Box paddingX="micro" marginTop="xxl" marginBottom="sm">
-        <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography variant={"tituloSessoes"}>Esqueci meu e-mail</Typography>
+      <ScrollView>
+        <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
+        <Box mx={20} mt={65}>
+          <Typography fontFamily='reservaSerifRegular' fontSize={35}>Senha alterada com sucesso!</Typography>
+          <Button mt={106} variant='primarioEstreito' title='ATUALIZAR SENHA' onPress={() => { }} inline />
+
         </Box>
-        <Box justifyContent="flex-start" marginTop="nano">
-          <Typography fontSize={15} fontFamily="nunitoRegular">
-            Um código de acesso foi enviado para o e-mail cadastrado,
-            jo****@email.com.
-          </Typography>
-        </Box>
-        <Box justifyContent="flex-start" marginTop="nano">
-          <Typography fontSize={15} fontFamily="nunitoRegular">
-            Verifique sua caixa de e-mail e siga as orientações enviadas.
-          </Typography>
-        </Box>
-      </Box>
-      <Box paddingX="micro" flex={1}>
-        <Box marginTop="xs" alignItems="center">
-          <Button
-            fontFamily="nunitoRegular"
-            title="CONTINUAR"
-            width={258}
-            variant="primarioEstreitoOutline"
-            onPress={() => navigation.navigate("LoginAlternative")}
-            mb="nano"
-          />
-        </Box>
-      </Box>
+      </ScrollView>
     </SafeAreaView>
   );
 };

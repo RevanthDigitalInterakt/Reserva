@@ -114,7 +114,7 @@ const MenuItem: React.FC<IMenuItem> = ({
               style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
               name='ChevronRight'
               color='preto'
-              size={16}
+              size={12}
             />
           </Box>
         </Box>
@@ -253,7 +253,7 @@ export const Menu: React.FC<{}> = () => {
                     </Typography>
                   }
                   onPress={() => {
-                    navigation.navigate('Login')
+                    navigation.navigate('Login', { comefrom: 'Menu' })
                   }}
                   underline></FixedMenuItem>
               )}

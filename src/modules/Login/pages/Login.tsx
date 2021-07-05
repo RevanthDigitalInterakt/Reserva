@@ -8,25 +8,30 @@ import { BackHandler, SafeAreaView, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Box, Button, Typography } from "reserva-ui";
 import { images } from "../../../assets";
+import { 
+  classicSignInMutation, 
+  sendEmailVerificationMutation 
+} from "../../../graphql/login/loginMutations";
 import { useAuth } from "../../../context/AuthContext";
-import { classicSignInMutation } from "../../../graphql/login/loginMutations";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import HeaderBanner from "../../Forgot/componet/HeaderBanner";
 import UnderlineInput from "../components/UnderlineInput";
 
 type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
-export const LoginScreen: React.FC<Props> = ({ children, route }) => {
+export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) => {
   const { comeFrom } = route.params;
   const { cookie, setCookie } = useAuth();
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: "",
     password: "",
   });
   const [isSecureText, setIsSecureText] = useState(true);
+  const [showError, setShowError] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true);
+  const [sendEmail, { }] = useMutation(sendEmailVerificationMutation);
 
   const handleLogin = () => {
     login({
@@ -36,6 +41,14 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
       },
     });
   };
+
+  const handleLoginCode = () => {
+    sendEmail({
+      variables: {
+        email: loginCredentials.username
+      }
+    }).then(x => navigation.navigate('AccessCode', {}))
+  }
 
   useEffect(() => {
     if (comeFrom === "Profile") {
@@ -64,6 +77,9 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
         }}
       />
       <ScrollView>
+        <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => {
+          navigation.navigate("Home");
+        }} />
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily="reservaSerifRegular" fontSize={22}>
             Seja bem-vindo novamente!
@@ -78,9 +94,11 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
             <UnderlineInput
               placeholder="Digite seu e-mail"
               errorMsg="Digite um e-mail válido"
-              showError={false}
-              onChangeText={(text) =>
-                setLoginCredentials({ ...loginCredentials, username: text })
+              showError={showError}
+              onChangeText={
+                (text) => setLoginCredentials(
+                  { ...loginCredentials, username: text }
+                )
               }
             />
             {!loginWithCode && (
@@ -94,7 +112,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
                 />
 
                 <Box mt="micro">
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => { navigation.navigate('ForgotEmail', {}) }}>
                     <Typography style={{ textDecorationLine: "underline" }}>
                       Esqueci minha senha
                     </Typography>
@@ -103,12 +121,12 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
               </Box>
             )}
           </Box>
-          <Box mt="md" />
+          <Box mt='md' />
           <Button
-            title={!loginWithCode ? "ENTRAR" : "RECEBER CÓDIGO"}
+            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
-            variant="primarioEstreito"
-            onPress={() => handleLogin()}
+            variant='primarioEstreito'
+            onPress={() => loginWithCode ? handleLoginCode() : handleLogin()}
           />
           <Box my={50}>
             <Typography variant="tituloSessao" textAlign="center">

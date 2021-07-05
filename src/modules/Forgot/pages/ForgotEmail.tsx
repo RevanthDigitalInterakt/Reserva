@@ -1,38 +1,50 @@
+import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
+import { useState } from "react";
 import { SafeAreaView } from "react-native";
 import { Typography, Box, TextField, Button } from "reserva-ui";
+import { images } from "../../../assets";
+import { recoveryPasswordMutation, sendEmailVerificationMutation } from "../../../graphql/login/loginMutations";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import UnderlineInput from "../../Login/components/UnderlineInput";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
+import HeaderBanner from "../componet/HeaderBanner";
 
-export const ForgotEmail: React.FC = () => {
-  const navigation = useNavigation();
+export interface ForgotEmailProps extends StackScreenProps<RootStackParamList, "ForgotEmail"> { };
+
+export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
+  //const navigation = useNavigation();
+
+  const [email, setEmail] = useState('')
+
+  const [sendEmailVerification, { data, loading }] = useMutation(sendEmailVerificationMutation)
+
+  const handleEmailAccess = () => {
+    sendEmailVerification({
+      variables: {
+        email
+      }
+    }).then(x =>
+      navigation.navigate('ForgotAccessCode', { email })
+    )
+  }
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <TopBarBackButtonWithoutLogo
-        showShadow={false}
-        backButtonPress={() => navigation.navigate("LoginAlternative")}
-      />
-      <Box paddingX="micro" marginTop="xxl">
-        <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography variant={"tituloSessoes"}>Esqueci meu e-mail</Typography>
+      <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
+      <Box mx={20} mt={13}>
+        <Typography fontFamily='reservaSerifRegular' fontSize={22} >Atualize sua senha</Typography>
+        <Box mt={27} >
+          <Typography fontFamily='nunitoRegular' fontSize={15} >Para alterar a senha, digite seu e-mail abaixo:</Typography>
         </Box>
+        <Box mt={33}>
+          <UnderlineInput onChangeText={(text) => { setEmail(text) }} placeholder='Digite seu e-mail' />
+        </Box>
+        <Button mt={55} variant='primarioEstreito' title='ENVIAR E-MAIL' onPress={handleEmailAccess} disabled={email.length <= 0} inline />
+
       </Box>
-      <Box paddingX="micro" flex={1}>
-        <Box marginTop="sm" marginBottom="nano">
-          <TextField height={55} placeholder="Digite o seu CPF ou CNPJ" />
-        </Box>
-        <Box marginTop="xs" alignItems="center">
-          <Button
-            fontFamily="nunitoRegular"
-            title="CONTINUAR"
-            width={258}
-            variant="primarioEstreitoOutline"
-            onPress={() => navigation.navigate("ForgotEmailSuccess")}
-            mb="nano"
-          />
-        </Box>
-      </Box>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };

@@ -41,9 +41,12 @@ const OrderList = () => {
             borderBottomWidth={"hairline"}
             borderBottomColor={"divider"}
           >
-            <Typography fontSize={14} fontFamily="nunitoBold">
-              Previsão: 04 de abril de 2021
-            </Typography>
+            <Box mb="nano">
+              <Typography fontSize={14} fontFamily="nunitoBold">
+                Previsão: 04 de abril de 2021
+              </Typography>
+            </Box>
+
             <Typography
               style={{ marginBottom: 17 }}
               fontSize={14}
