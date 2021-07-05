@@ -33,9 +33,9 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({ placeholder, onChangeTe
             >
                 <Box flexGrow={4}>
                     <TextInput
-                        secureTextEntry={isSecureText && revelPassword}
+                        secureTextEntry={isSecureText && !revelPassword}
                         placeholder={placeholder}
-                        onChangeText={(value) =>  onChangeText(value)}
+                        onChangeText={(value) => onChangeText(value)}
                         style={{
                             padding: 0,
                             margin: 0,
@@ -47,7 +47,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({ placeholder, onChangeTe
                 {isSecureText &&
                     <Box justifyContent='center' >
                         <Button onPress={() => { setRevelPassword(!revelPassword) }}>
-                            <Icon name={!revelPassword ? 'EyeOpen' : 'EyeOff'} size={iconSize} />
+                            <Icon name={revelPassword ? 'EyeOpen' : 'EyeOff'} size={iconSize} />
                         </Button>
                     </Box>}
             </Box>

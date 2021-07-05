@@ -20,7 +20,7 @@ import UnderlineInput from "../components/UnderlineInput";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useMutation } from "@apollo/client";
-import { classicSignInMutation } from "../../../graphql/login/loginMutations";
+import { classicSignInMutation, sendEmailVerificationMutation } from "../../../graphql/login/loginMutations";
 import { useAuth } from "../../../context/AuthContext";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
@@ -28,16 +28,18 @@ import id from "date-fns/esm/locale/id/index.js";
 
 type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 
-export const LoginScreen: React.FC<Props> = ({ children, route }) => {
+export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) => {
   const { comeFrom } = route.params;
   const { cookie, setCookie } = useAuth();
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: "",
     password: "",
   });
   const [isSecureText, setIsSecureText] = useState(true);
+  const [showError, setShowError] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
+  const [sendEmail, { }] = useMutation(sendEmailVerificationMutation);
   const [loginWithCode, setLoginWithCode] = useState(true)
 
   const handleLogin = () => {
@@ -49,30 +51,38 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
     })
   }
 
+  const handleLoginCode = () => {
+    sendEmail({
+      variables: {
+        email: loginCredentials.username
+      }
+    }).then(x => navigation.navigate('AccessCode', {}))
+  }
+
   useEffect(() => {
-    if(comeFrom === "Profile"){
+    if (comeFrom === "Profile") {
       BackHandler.addEventListener('hardwareBackPress', () => {
         navigation.navigate("Home");
         return true;
       });
     }
   }, [])
-  
+
   useEffect(() => {
-    if(!loading && data?.cookie){
+    if (!loading && data?.cookie) {
       setCookie(data?.cookie)
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         navigation.navigate("Home");
       });
-    }    
+    }
   }, [data]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => {
-        navigation.navigate("Home");
-       }} />
       <ScrollView>
+        <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => {
+          navigation.navigate("Home");
+        }} />
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily='reservaSerifRegular' fontSize={22}>
             Seja bem-vindo novamente!
@@ -84,10 +94,10 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
                 Insira seu e-mail para continuar:
               </Typography>
             </Box>
-            <UnderlineInput 
-              placeholder='Digite seu e-mail' 
-              errorMsg='Digite um e-mail válido' 
-              showError={false}
+            <UnderlineInput
+              placeholder='Digite seu e-mail'
+              errorMsg='Digite um e-mail válido'
+              showError={showError}
               onChangeText={
                 (text) => setLoginCredentials(
                   { ...loginCredentials, username: text }
@@ -97,9 +107,9 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
             {
               !loginWithCode &&
               <Box mt='md' width='100%'>
-                <UnderlineInput 
-                  placeholder='Digite sua senha' 
-                  isSecureText={true} 
+                <UnderlineInput
+                  placeholder='Digite sua senha'
+                  isSecureText={true}
                   onChangeText={
                     (text) => setLoginCredentials(
                       { ...loginCredentials, password: text }
@@ -109,7 +119,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
 
                 <Box mt='micro'>
 
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => { navigation.navigate('ForgotEmail', {}) }}>
                     <Typography style={{ textDecorationLine: 'underline' }}>
                       Esqueci minha senha
                     </Typography>
@@ -120,11 +130,11 @@ export const LoginScreen: React.FC<Props> = ({ children, route }) => {
 
           </Box>
           <Box mt='md' />
-          <Button 
-            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'} 
-            inline 
-            variant='primarioEstreito' 
-            onPress={() => handleLogin()} 
+          <Button
+            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
+            inline
+            variant='primarioEstreito'
+            onPress={() => loginWithCode ? handleLoginCode() : handleLogin()}
           />
           <Box my={50}  >
             <Typography variant='tituloSessao' textAlign='center'>OU</Typography>

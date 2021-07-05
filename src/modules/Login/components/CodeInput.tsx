@@ -28,6 +28,7 @@ const CodeInput: React.FC<CodeInputProps> = ({ code, onChageCode, showError = tr
                 <Box flexDirection='row' justifyContent='space-between'>
                     {codeDigitsArray.map((val, idx) => (
                         <Box
+                            key={idx}
                             borderWidth='hairline'
                             borderColor={showError ? 'vermelhoAlerta' : 'transparente'}
                             alignItems='center'
