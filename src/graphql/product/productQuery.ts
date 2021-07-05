@@ -35,6 +35,7 @@ export const productQuery = gql`
         itemId
         sellers {
           commertialOffer {
+            AvailableQuantity
             Price
             Tax
             taxPercentage

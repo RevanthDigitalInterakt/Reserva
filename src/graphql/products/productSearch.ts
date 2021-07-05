@@ -56,9 +56,11 @@ $options: Options
                     imageUrl
                 }
                 sellers{
+                    sellerId
                     commertialOffer{
                         Tax
                         taxPercentage
+                        AvailableQuantity
                         Price
                         PriceWithoutDiscount
                         discountHighlights {

@@ -1,18 +1,10 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { Component, useEffect, useState } from 'react'
-import { FlatList } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
-import { Box, Image, ProductVerticalListCard } from 'reserva-ui'
-import { ProductQL } from '../../../../graphql/products/productSearch'
-import { RootStackParamList } from '../../../../routes/StackNavigator'
-import { ApplicationState } from '../../../../store'
-import { Product } from '../../../../store/ducks/product/types'
-import {
-  appendWishlist,
-  removeWishlist,
-  setWishlist,
-} from '../../../../store/ducks/wishlist/actions'
-import { CreateCategoryModal } from '../CategoryModals/CategoryModals'
+import { useNavigation } from '@react-navigation/core';
+import React, { useEffect, useState } from 'react';
+import { FlatList } from 'react-native';
+import { Box, ProductVerticalListCard } from 'reserva-ui';
+import { ProductQL } from '../../../../graphql/products/productSearch';
+import { Product } from '../../../../store/ducks/product/types';
+import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 
 interface ListProductsProps {
   products: ProductQL[]
@@ -45,10 +37,6 @@ export const ListVerticalProducts = ({
     console.log("products", products)
     //dispatch(setWishlist([]))
   }, [])
-
-  let dispatch = useDispatch()
-
-  let wishlist = useSelector((state: ApplicationState) => state.wishlist.data)
 
   const handleOnFavorite = (prod: Product) => {
     setFavoritedProduct(prod)
