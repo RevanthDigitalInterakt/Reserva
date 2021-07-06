@@ -48,8 +48,9 @@ import { ProductSKU } from '../../../store/ducks/product/types'
 import { appendOrders } from '../../../store/ducks/orders/actions'
 import { QueryResult, useQuery } from '@apollo/client'
 import { productQuery } from '../../../graphql/product/productQuery'
-import { ProductQL, SkuSpecification } from '../../../graphql/products/productSearch'
+import { ProductQL, SKU, SkuSpecification } from '../../../graphql/products/productSearch'
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts'
+import { id } from 'date-fns/locale'
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -65,19 +66,19 @@ export const ProductDetail: React.FC<Props> = ({
   route,
   recomendedProducts,
 }) => {
-  const productId = route.params.productId;
+  const productId = route.params.productId.split('-')[0];
   const [productsQuery, setProduct] = useState<ProductQL>()
   const [isFavorited, setIsFavorited] = useState(false);
   const [skuSizes, setSkuSises] = useState<(string | undefined)[]>();
   const [skuColors, setSkuColors] = useState<(string | undefined)[]>();
+  const [itemSelected, setItemSelected] = useState('');
 
   const [isVisible, setIsVisible] = useState(false)
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
+  
   const { 
     data, 
-    loading, 
-    error, 
-    fetchMore, 
+    loading,
     refetch 
   }: QueryResult = useQuery(
     productQuery, 
@@ -105,8 +106,8 @@ export const ProductDetail: React.FC<Props> = ({
     setSkuSises(sizes);
 
     productsQuery?.skuSpecifications.forEach((sku) => {
-      if(sku.field.name === "DESC_COR_ORIGINAL"){
-        colors = sku.values.map(value => "#FF0000");
+      if(sku.field.name === "VALOR_HEX_CONSOLIDADA"){
+        colors = sku.values.map(value => value.name);
       }
     })
     setSkuColors(colors);
@@ -243,13 +244,8 @@ export const ProductDetail: React.FC<Props> = ({
   const shippingMethodState = useSelector(shippingMethodStateSelector)
   const [selectedColor, setSelectedColor] = useState('')
   const [selectedSize, setSelectedSize] = useState<string | number>('')
-
-  const [skuIdx, setSkuIdx] = useState(0)
-
   let product = useSelector((state: ApplicationState) => state.product)
-  let orders = useSelector((state: ApplicationState) => state.orders.orders)
-
-  const [selectedSku, setSelectedSku] = useState<ProductSKU>()
+  const [selectedItemsSku, setSelectedItemsSku] = useState<SKU[]>()
   
   useEffect(() => {
     refetch()
@@ -263,14 +259,39 @@ export const ProductDetail: React.FC<Props> = ({
   const [cep, setCep] = useState('')
 
   useEffect(() => {
-    let sku = product.data.skuList?.find((x) => {
-      return x.color == selectedColor && x.size == selectedSize
+    let selectedSku: SKU[] = [];
+    productsQuery?.items.forEach((x) => {
+      x.variations?.forEach(variation => {
+        if(variation.name === "VALOR_HEX_CONSOLIDADA"){
+          variation.values?.forEach(value => {
+            if(value === selectedColor){
+              selectedSku = selectedSku.concat(x);
+            }
+          })
+        }
+      });
     })
+    setSelectedItemsSku(selectedSku);    
+  }, [selectedColor])
 
-    console.log('cara novo', sku)
+  useEffect(() => { 
+    selectedItemsSku?.forEach(item => {
+      item.variations?.forEach(variation => {
+        if(variation.name === "TAMANHO"){
+          variation.values?.forEach(value => {
+            if(value === selectedSize){
+              setItemSelected(item.itemId);
+            }
+          })
+        }        
+      })
+    })   
+  }, [selectedSize])
 
-    if (sku) setSelectedSku(sku)
-  }, [selectedColor, selectedSize])
+
+  useEffect(() => {
+    console.log(itemSelected);
+  }, [itemSelected])
 
   return (
     <SafeAreaView>
