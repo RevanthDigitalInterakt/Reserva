@@ -57,8 +57,8 @@ export const BagScreen = () => {
 
   useEffect(() => {
     console.log('orderForm', orderForm?.items)
-    console.log('ImageUrl', orderForm?.items[0].imageUrl + orderForm?.items[0].detailUrl)
   })
+
   useEffect(() => {
     setCoupons(orders.coupons);
     setProducts(orders.orders);
@@ -169,8 +169,6 @@ export const BagScreen = () => {
                   console.log(count)
                   // console.log(message)
                 }
-
-                  // dispatch(item.sku && increaseOrderCount(item.sku, 1))
                 }
                 onClickSubCount={(count) =>
                   dispatch(item.sku && increaseOrderCount(item.sku, -1))
@@ -316,7 +314,7 @@ export const BagScreen = () => {
             </Box>
           </Box>
           <Divider variant={'fullWidth'} marginY={'xs'} />
-          {orderForm?.totalizers && orderForm?.totalizers[0].value + orderForm?.totalizers[1].value > 0 && (
+          {orderForm?.totalizers && orderForm?.totalizers[0]?.value + orderForm?.totalizers[1]?.value > 0 && (
             <>
               <Box
                 marginBottom={'micro'}
@@ -329,7 +327,7 @@ export const BagScreen = () => {
                   fontFamily={'nunitoSemiBold'}
                   sizeInterger={15}
                   sizeDecimal={11}
-                  num={orderForm?.totalizers[0].value}
+                  num={orderForm?.totalizers[0]?.value}
                 />
               </Box>
               <Box
@@ -345,7 +343,7 @@ export const BagScreen = () => {
                   negative={true}
                   sizeInterger={15}
                   sizeDecimal={11}
-                  num={Math.abs(orderForm?.totalizers[1].value)}
+                  num={Math.abs(orderForm?.totalizers[1]?.value)}
                 />
               </Box>
             </>
@@ -361,7 +359,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={20}
               sizeDecimal={11}
-              num={orderForm?.totalizers[0].value + orderForm?.totalizers[1].value}
+              num={orderForm?.totalizers[0]?.value + orderForm?.totalizers[1]?.value}
             />
           </Box>
         </Box>
@@ -385,7 +383,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={15}
               sizeDecimal={11}
-              num={orderForm?.totalizers[0].value + orderForm?.totalizers[1].value}
+              num={orderForm?.totalizers[0]?.value + orderForm?.totalizers[1]?.value}
             />
           </Box>
           <Box alignItems="flex-end">
