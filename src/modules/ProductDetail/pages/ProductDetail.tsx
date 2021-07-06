@@ -50,6 +50,7 @@ import { useCart } from '../../../context/CartContext';
 import { QueryResult, useQuery } from '@apollo/client';
 import { productQuery } from '../../../graphql/product/productQuery';
 import {
+  Installment,
   ProductQL,
   SKU,
   SkuSpecification,
@@ -76,6 +77,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isFavorited, setIsFavorited] = useState(false);
   const [skuSizes, setSkuSises] = useState<(string | undefined)[]>();
   const [skuColors, setSkuColors] = useState<(string | undefined)[]>();
+  const [skuColorSelected, setSkuColorSelected] = useState<SKU | undefined>();
   const [itemSelected, setItemSelected] = useState('');
 
   const [isVisible, setIsVisible] = useState(false);
@@ -88,9 +90,25 @@ export const ProductDetail: React.FC<Props> = ({
     },
   });
 
+  const getMaxInstallments = (installments: Installment[]) => {
+    let maxInstallments: Installment = {
+      NumberOfInstallments: 0,
+      Value: 0
+    };
+
+    installments.forEach(installment => {
+      if(maxInstallments.NumberOfInstallments < installment.NumberOfInstallments){
+        maxInstallments = installment;
+      }
+    })
+
+    return maxInstallments;
+  }
+
   useEffect(() => {
     if (!loading) {
       setProduct(data.product);
+      setSkuColorSelected(data.product?.items[0]);
     }
   }, [data]);
 
@@ -282,6 +300,7 @@ export const ProductDetail: React.FC<Props> = ({
         }
       });
     });
+    setSkuColorSelected(selectedSku[0]);
     setSelectedItemsSku(selectedSku);
   }, [selectedColor]);
 
@@ -303,9 +322,13 @@ export const ProductDetail: React.FC<Props> = ({
     console.log(itemSelected);
   }, [itemSelected]);
 
+  useEffect(() => {
+    console.log("skuColorSelected", skuColorSelected);
+  }, [skuColorSelected]);
+
   return (
     <SafeAreaView>
-      {!loading && productsQuery && (
+      {!loading && productsQuery && skuColorSelected && (
         <Box bg="white">
           <ModalBag
             isVisible={isVisible}
@@ -316,8 +339,12 @@ export const ProductDetail: React.FC<Props> = ({
           <TopBarDefaultBackButton loading={product.loading} />
           <ScrollView>
             <ProductDetailCard
-              installmentsNumber={0}
-              installmentsPrice={0}
+              installmentsNumber={
+                getMaxInstallments(productsQuery.items[0].sellers[0].commertialOffer.Installments).NumberOfInstallments
+              }
+              installmentsPrice={
+                getMaxInstallments(productsQuery.items[0].sellers[0].commertialOffer.Installments).Value
+              }
               title={productsQuery.productName}
               price={productsQuery.priceRange?.listPrice?.lowPrice}
               priceWithDiscount={
@@ -328,7 +355,7 @@ export const ProductDetail: React.FC<Props> = ({
                 productsQuery.priceRange?.listPrice?.lowPrice
               )}
               imagesWidth={screenWidth}
-              images={productsQuery.items[0].images.map(
+              images={skuColorSelected?.images.map(
                 (image) => image.imageUrl
               )}
               isFavorited={isFavorited}
