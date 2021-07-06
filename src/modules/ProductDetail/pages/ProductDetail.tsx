@@ -1,34 +1,23 @@
 import React, { createRef, useEffect, useState } from 'react';
 import {
   Alert,
-  Dimensions,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  PickerItemProps,
-  AsyncStorage,
+  Dimensions
 } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { ceil } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
   Button,
   Divider,
   Icon,
-  Picker,
-  PickerItem,
   ProductDetailCard,
   SelectColor,
   Typography,
   OutlineInput,
   RadioButtons,
-  ProductVerticalListCard,
   ProductVerticalListCardProps,
-  TopBar,
-  theme,
   ExpansePanel,
 } from 'reserva-ui';
-import { Input } from 'reserva-ui/src/components/TextField/TextField.styles';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ModalBag } from '../components/ModalBag';
 
@@ -41,16 +30,11 @@ import { add, addDays, format } from 'date-fns';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { ApplicationState } from '../../../store';
-import {
-  loadProduct,
-  loadProductSuccess,
-} from '../../../store/ducks/product/actions';
-import { ProductSKU } from '../../../store/ducks/product/types';
-import { appendOrders } from '../../../store/ducks/orders/actions';
 import { useCart } from '../../../context/CartContext';
 import { QueryResult, useQuery } from '@apollo/client';
 import { productQuery } from '../../../graphql/product/productQuery';
 import {
+  Installment,
   ProductQL,
   SKU,
   SkuSpecification,
@@ -77,7 +61,8 @@ export const ProductDetail: React.FC<Props> = ({
   const [isFavorited, setIsFavorited] = useState(false);
   const [skuSizes, setSkuSises] = useState<(string | undefined)[]>();
   const [skuColors, setSkuColors] = useState<(string | undefined)[]>();
-  const [itemSelected, setItemSelected] = useState('43205');
+  const [skuColorSelected, setSkuColorSelected] = useState<SKU | undefined>();
+  const [itemSelected, setItemSelected] = useState('');
 
   const [isVisible, setIsVisible] = useState(false);
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
@@ -89,9 +74,25 @@ export const ProductDetail: React.FC<Props> = ({
     },
   });
 
+  const getMaxInstallments = (installments: Installment[]) => {
+    let maxInstallments: Installment = {
+      NumberOfInstallments: 0,
+      Value: 0
+    };
+
+    installments.forEach(installment => {
+      if(maxInstallments.NumberOfInstallments < installment.NumberOfInstallments){
+        maxInstallments = installment;
+      }
+    })
+
+    return maxInstallments;
+  }
+
   useEffect(() => {
     if (!loading) {
       setProduct(data.product);
+      setSkuColorSelected(data.product?.items[0]);
     }
   }, [data]);
 
@@ -172,6 +173,7 @@ export const ProductDetail: React.FC<Props> = ({
         }
       });
     });
+    setSkuColorSelected(selectedSku[0]);
     setSelectedItemsSku(selectedSku);
   }, [selectedColor]);
 
@@ -195,9 +197,13 @@ export const ProductDetail: React.FC<Props> = ({
     console.log(itemSelected);
   }, [itemSelected]);
 
+  useEffect(() => {
+    console.log("skuColorSelected", skuColorSelected);
+  }, [skuColorSelected]);
+
   return (
     <SafeAreaView>
-      {!loading && productsQuery && (
+      {!loading && productsQuery && skuColorSelected && (
         <Box bg="white">
           <ModalBag
             isVisible={isVisible}
@@ -208,8 +214,12 @@ export const ProductDetail: React.FC<Props> = ({
           <TopBarDefaultBackButton loading={product.loading} />
           <ScrollView>
             <ProductDetailCard
-              installmentsNumber={0}
-              installmentsPrice={0}
+              installmentsNumber={
+                getMaxInstallments(productsQuery.items[0].sellers[0].commertialOffer.Installments).NumberOfInstallments
+              }
+              installmentsPrice={
+                getMaxInstallments(productsQuery.items[0].sellers[0].commertialOffer.Installments).Value
+              }
               title={productsQuery.productName}
               price={productsQuery.priceRange?.listPrice?.lowPrice}
               priceWithDiscount={
@@ -220,7 +230,7 @@ export const ProductDetail: React.FC<Props> = ({
                 productsQuery.priceRange?.listPrice?.lowPrice
               )}
               imagesWidth={screenWidth}
-              images={productsQuery.items[0].images.map(
+              images={skuColorSelected?.images.map(
                 (image) => image.imageUrl
               )}
               isFavorited={isFavorited}
