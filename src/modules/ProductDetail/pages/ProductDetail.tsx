@@ -245,7 +245,7 @@ export const ProductDetail: React.FC<Props> = ({
   
   const onProductAdd = () => {
     // todo - change hardcoded product
-    const { message, ok } = addItem(1, itemSelected);
+    const { message, ok } = addItem(1, itemSelected, "1");
 
     if (!ok) {
       Alert.alert("Produto sem estoque", message);

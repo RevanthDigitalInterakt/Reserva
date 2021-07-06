@@ -162,7 +162,7 @@ interface OrderForm {
 
 interface CartContextProps {
     orderForm: OrderForm | undefined
-    addItem: (quantity: number, itemId: string) => { message: string, ok: boolean };
+    addItem: (quantity: number, itemId: string, seller: string) => { message: string, ok: boolean };
     identifyCustomer: (email: string) => Promise<boolean | undefined>;
     addCustomer: (customer: any) => Promise<boolean | undefined>;
     addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
@@ -187,9 +187,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         }
     }
 
-    const addItem = async (quantity: number, itemId: string) => {
+    const addItem = async (quantity: number, itemId: string, seller: string) => {
         try {
-            const { data } = await AddItemToCart(orderForm?.orderFormId, quantity, itemId, "lojausereservaondemand")
+            const { data } = await AddItemToCart(orderForm?.orderFormId, quantity, itemId, seller)
 
             // check produt availability
             const index = data.items.findIndex(({ id }: any) => id === itemId)
