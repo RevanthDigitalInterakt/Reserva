@@ -76,7 +76,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isFavorited, setIsFavorited] = useState(false);
   const [skuSizes, setSkuSises] = useState<(string | undefined)[]>();
   const [skuColors, setSkuColors] = useState<(string | undefined)[]>();
-  const [itemSelected, setItemSelected] = useState('');
+  const [itemSelected, setItemSelected] = useState('43205');
 
   const [isVisible, setIsVisible] = useState(false);
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
@@ -432,35 +432,35 @@ export const ProductDetail: React.FC<Props> = ({
 
               {shippingMethodState.shippingMethods && cep
                 ? shippingMethodState.shippingMethods.map((method) => {
-                    return (
-                      <Box flexDirection="row" justifyContent="space-between">
-                        <Box flexDirection="row">
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={'14px'}
-                          >
-                            R$ {method.shippingCost}{' '}
-                          </Typography>
-
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={'14px'}
-                          >
-                            {method.displayName}
-                          </Typography>
-                        </Box>
+                  return (
+                    <Box flexDirection="row" justifyContent="space-between">
+                      <Box flexDirection="row">
                         <Typography
                           fontFamily="nunitoRegular"
                           fontSize={'14px'}
                         >
-                          {format(
-                            addDays(Date.now(), method.deliveryDays),
-                            'dd/MM'
-                          )}
+                          R$ {method.shippingCost}{' '}
+                        </Typography>
+
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={'14px'}
+                        >
+                          {method.displayName}
                         </Typography>
                       </Box>
-                    );
-                  })
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={'14px'}
+                      >
+                        {format(
+                          addDays(Date.now(), method.deliveryDays),
+                          'dd/MM'
+                        )}
+                      </Typography>
+                    </Box>
+                  );
+                })
                 : null}
 
               <Divider variant="fullWidth" my="xs" />

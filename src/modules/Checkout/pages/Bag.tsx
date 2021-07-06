@@ -59,35 +59,16 @@ export const BagScreen = () => {
     console.log('orderForm', orderForm?.items)
   })
 
+
   useEffect(() => {
-    setCoupons(orders.coupons);
-    setProducts(orders.orders);
-    setTotalBag(
-      orders.orders.reduce((acc, currentValue) => {
-        return acc + (currentValue.quantity ? currentValue.quantity : 0);
-      }, 0)
-    );
-    setTotalPrice(
-      orders.orders.reduce((acc, currentValue) => {
-        return (
-          acc +
-          (currentValue.fullPrice
-            ? currentValue.fullPrice * (currentValue.quantity || 1)
-            : 0)
-        );
-      }, 0)
-    );
-    setTotalDiscountPrice(
-      orders.orders.reduce((acc, currentValue) => {
-        return (
-          acc +
-          (currentValue.discountPrice
-            ? currentValue.discountPrice * (currentValue.quantity || 1)
-            : 0)
-        );
-      }, 0)
-    );
-  }, [orders]);
+
+    let totalItensPrice = orderForm?.totalizers.find(x => x.id === 'Items')?.value || 0
+    let totalDiscountPrice = orderForm?.totalizers.find(x => x.id === 'Discounts')?.value || 0
+
+    setTotalBag(totalItensPrice)
+    setTotalDiscountPrice(totalDiscountPrice)
+  }, [orderForm])
+
 
   const addCoupons = () => {
     dispatch(appendCoupons(coupon));
@@ -314,7 +295,7 @@ export const BagScreen = () => {
             </Box>
           </Box>
           <Divider variant={'fullWidth'} marginY={'xs'} />
-          {orderForm?.totalizers && orderForm?.totalizers[0]?.value + orderForm?.totalizers[1]?.value > 0 && (
+          {totalDiscountPrice != 0 && (
             <>
               <Box
                 marginBottom={'micro'}
@@ -327,7 +308,7 @@ export const BagScreen = () => {
                   fontFamily={'nunitoSemiBold'}
                   sizeInterger={15}
                   sizeDecimal={11}
-                  num={orderForm?.totalizers[0]?.value}
+                  num={totalBag}
                 />
               </Box>
               <Box
@@ -343,7 +324,7 @@ export const BagScreen = () => {
                   negative={true}
                   sizeInterger={15}
                   sizeDecimal={11}
-                  num={Math.abs(orderForm?.totalizers[1]?.value)}
+                  num={Math.abs(totalDiscountPrice)}
                 />
               </Box>
             </>
@@ -359,7 +340,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={20}
               sizeDecimal={11}
-              num={orderForm?.totalizers[0]?.value + orderForm?.totalizers[1]?.value}
+              num={totalBag}
             />
           </Box>
         </Box>
@@ -404,7 +385,7 @@ export const BagScreen = () => {
                 color="vermelhoRSV"
                 sizeInterger={15}
                 sizeDecimal={11}
-                num={totalDiscountPrice / 10}
+                num={totalBag / 10}
               />
             </Box>
           </Box>
