@@ -32,6 +32,7 @@ import {
   removeOrders,
 } from '../../../store/ducks/orders/actions';
 import { Product } from '../../../store/ducks/product/types';
+import { useCart } from '../../../context/CartContext';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -39,6 +40,7 @@ export const BagScreen = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const [quantity, setQuantity] = useState(1);
+  const { orderForm, addItem } = useCart()
   const [totalBag, setTotalBag] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
@@ -50,8 +52,13 @@ export const BagScreen = () => {
     {} as CouponsOrders
   );
   const [products, setProducts] = React.useState<[Product & OrderItems]>();
-  const { orders, profile, address, shippingMethod, authentication } =
-    useSelector((state: ApplicationState) => state);
+  const { orders, profile, address, shippingMethod, authentication } = useSelector((state: ApplicationState) => state);
+
+
+  useEffect(() => {
+    console.log('orderForm', orderForm?.items)
+    console.log('ImageUrl', orderForm?.items[0].imageUrl + orderForm?.items[0].detailUrl)
+  })
   useEffect(() => {
     setCoupons(orders.coupons);
     setProducts(orders.orders);
@@ -87,31 +94,7 @@ export const BagScreen = () => {
     setCoupon({ value: '' });
   };
 
-  const [lisProduct, setLisProduct] = useState([
-    {
-      discountTag: '30%',
-      itemColor: 'Branca',
-      ItemSize: '41',
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      itemColor: 'Branca',
-      ItemSize: '41',
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-  ]);
+  const [lisProduct, setLisProduct] = useState([]); // Produtos recomendados
   const AddProduct = (count: number) => {
     setQuantity(quantity + 1);
   };
@@ -136,7 +119,7 @@ export const BagScreen = () => {
       <ScrollView>
         <Box paddingX={'xxxs'} paddingY={'xxs'}>
           <Box bg={'white'} marginTop={'xxs'}>
-            <Typography variant="tituloSessoes">Sacola ({totalBag})</Typography>
+            <Typography variant="tituloSessoes">Sacola ({orderForm?.items.length})</Typography>
           </Box>
           <Box my="micro">
             <Box flexDirection="row">
@@ -166,23 +149,28 @@ export const BagScreen = () => {
             </Box>
           </Box>
 
-          {products?.map((item, index) => (
+          {orderForm?.items.map((item, index) => (
             <Box key={index} bg={'white'} marginTop={'xxxs'}>
               <ProductHorizontalListCard
                 currency={'R$'}
                 discountTag={
-                  item.discountTag > 0 ? item.discountTag : undefined
+                  item.sellingPrice > 0 ? item.sellingPrice : undefined
                 }
-                itemColor={item.color || ''}
-                ItemSize={item.size || ''}
-                productTitle={item.title}
-                installmentsNumber={item.installmentNumber}
-                installmentsPrice={item.installmentPrice}
-                price={item.fullPrice}
-                priceWithDiscount={item.discountPrice}
+                itemColor={item.skuName.split("-")[0] || ''}
+                ItemSize={item.skuName.split("-")[1] || ''}
+                productTitle={item.name}
+                // installmentsNumber={item.installmentNumber}
+                // installmentsPrice={item.installmentPrice}
+                price={item.price}
+                priceWithDiscount={item.sellingPrice}
                 count={item.quantity}
-                onClickAddCount={(count) =>
-                  dispatch(item.sku && increaseOrderCount(item.sku, 1))
+                onClickAddCount={(count) => {
+                  const { message, ok } = addItem(count, item.productId, '1')
+                  console.log(count)
+                  // console.log(message)
+                }
+
+                  // dispatch(item.sku && increaseOrderCount(item.sku, 1))
                 }
                 onClickSubCount={(count) =>
                   dispatch(item.sku && increaseOrderCount(item.sku, -1))
@@ -190,9 +178,7 @@ export const BagScreen = () => {
                 onClickClose={() => {
                   dispatch(removeOrders(item.id ? item.id : ''));
                 }}
-                imageSource={
-                  (item.imagesUrls?.length && item.imagesUrls[0]) || ''
-                }
+                imageSource={item.imageUrl}
               />
             </Box>
           ))}
@@ -215,8 +201,8 @@ export const BagScreen = () => {
                   style={
                     showLikelyProducts
                       ? {
-                          transform: [{ rotate: '-180deg' }, { translateY: 8 }],
-                        }
+                        transform: [{ rotate: '-180deg' }, { translateY: 8 }],
+                      }
                       : { transform: [{ translateY: 4 }] }
                   }
                   name={'ArrowDown'}
@@ -330,7 +316,7 @@ export const BagScreen = () => {
             </Box>
           </Box>
           <Divider variant={'fullWidth'} marginY={'xs'} />
-          {totalPrice - totalDiscountPrice > 0 && (
+          {orderForm?.totalizers && orderForm?.totalizers[0].value + orderForm?.totalizers[1].value > 0 && (
             <>
               <Box
                 marginBottom={'micro'}
@@ -343,7 +329,7 @@ export const BagScreen = () => {
                   fontFamily={'nunitoSemiBold'}
                   sizeInterger={15}
                   sizeDecimal={11}
-                  num={totalPrice}
+                  num={orderForm?.totalizers[0].value}
                 />
               </Box>
               <Box
@@ -359,7 +345,7 @@ export const BagScreen = () => {
                   negative={true}
                   sizeInterger={15}
                   sizeDecimal={11}
-                  num={totalPrice - totalDiscountPrice}
+                  num={Math.abs(orderForm?.totalizers[1].value)}
                 />
               </Box>
             </>
@@ -375,7 +361,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={20}
               sizeDecimal={11}
-              num={totalDiscountPrice}
+              num={orderForm?.totalizers[0].value + orderForm?.totalizers[1].value}
             />
           </Box>
         </Box>
@@ -399,7 +385,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={15}
               sizeDecimal={11}
-              num={totalDiscountPrice}
+              num={orderForm?.totalizers[0].value + orderForm?.totalizers[1].value}
             />
           </Box>
           <Box alignItems="flex-end">
