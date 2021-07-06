@@ -47,6 +47,11 @@ import {
 import { ProductSKU } from '../../../store/ducks/product/types'
 import { appendOrders } from '../../../store/ducks/orders/actions'
 import { useCart } from '../../../context/CartContext'
+import { QueryResult, useQuery } from '@apollo/client'
+import { productQuery } from '../../../graphql/product/productQuery'
+import { ProductQL, SKU, SkuSpecification } from '../../../graphql/products/productSearch'
+import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts'
+import { id } from 'date-fns/locale'
 const screenWidth = Dimensions.get('window').width
 
 let recomendedScroll = createRef<ScrollView>()
@@ -59,26 +64,58 @@ type Props = StackScreenProps<RootStackParamList, 'ProductDetail'> &
   ProductDetailProps
 
 export const ProductDetail: React.FC<Props> = ({
-  navigation,
   route,
   recomendedProducts,
 }) => {
-  const [isFavorited, setIsFavorited] = useState(false)
+  const productId = route.params.productId.split('-')[0];
+  const [productsQuery, setProduct] = useState<ProductQL>()
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [skuSizes, setSkuSises] = useState<(string | undefined)[]>();
+  const [skuColors, setSkuColors] = useState<(string | undefined)[]>();
+  const [itemSelected, setItemSelected] = useState('');
 
   const [isVisible, setIsVisible] = useState(false)
   const [actualRecomendedindex, setActualRecomendedindex] = useState(0)
   const { addItem } = useCart();
-  const dispatch = useDispatch()
-  const shippingMethodState = useSelector(shippingMethodStateSelector)
-  const [selectedColor, setSelectedColor] = useState('')
-  const [selectedSize, setSelectedSize] = useState<string | number>('')
+  
+  const { 
+    data, 
+    loading,
+    refetch 
+  }: QueryResult = useQuery(
+    productQuery, 
+    {
+      variables: {
+        id: productId
+      }
+    }
+  )
 
-  const [skuIdx, setSkuIdx] = useState(0)
+  useEffect(() => {
+    if(!loading){      
+      setProduct(data.product);
+    }
+  }, [data])
 
-  let product = useSelector((state: ApplicationState) => state.product)
-  let orders = useSelector((state: ApplicationState) => state.orders.orders)
+  useEffect(() => {
+    let sizes: (string | undefined)[] = [];
+    let colors: (string | undefined)[] = [];
+    productsQuery?.skuSpecifications.forEach((sku) => {
+      if(sku.field.name === "TAMANHO"){
+        sizes = sku.values.map(value => value.name);
+      }
+    })
+    setSkuSises(sizes);
 
-  const [selectedSku, setSelectedSku] = useState<ProductSKU>()
+    productsQuery?.skuSpecifications.forEach((sku) => {
+      if(sku.field.name === "VALOR_HEX_CONSOLIDADA"){
+        colors = sku.values.map(value => value.name);
+      }
+    })
+    setSkuColors(colors);
+    
+    console.log(colors, sizes);
+  }, [productsQuery])
 
   recomendedProducts = [
     {
@@ -205,19 +242,25 @@ export const ProductDetail: React.FC<Props> = ({
       setActualRecomendedindex(actualItem)
     }
   }
-
+  
   const onProductAdd = () => {
     // todo - change hardcoded product
-    const { message, ok } = addItem(1, "102348");
+    const { message, ok } = addItem(1, itemSelected);
 
     if (!ok) {
       Alert.alert("Produto sem estoque", message);
     }
   }
 
-  const productId = route.params.productId
+  const dispatch = useDispatch()
+  const shippingMethodState = useSelector(shippingMethodStateSelector)
+  const [selectedColor, setSelectedColor] = useState('')
+  const [selectedSize, setSelectedSize] = useState<string | number>('')
+  let product = useSelector((state: ApplicationState) => state.product)
+  const [selectedItemsSku, setSelectedItemsSku] = useState<SKU[]>()
+  
   useEffect(() => {
-    dispatch(loadProduct(productId))
+    refetch()
   }, [])
 
   useEffect(() => {
@@ -228,15 +271,43 @@ export const ProductDetail: React.FC<Props> = ({
   const [cep, setCep] = useState('')
 
   useEffect(() => {
-    let sku = product.data.skuList?.find((x) => {
-      return x.color == selectedColor && x.size == selectedSize
+    let selectedSku: SKU[] = [];
+    productsQuery?.items.forEach((x) => {
+      x.variations?.forEach(variation => {
+        if(variation.name === "VALOR_HEX_CONSOLIDADA"){
+          variation.values?.forEach(value => {
+            if(value === selectedColor){
+              selectedSku = selectedSku.concat(x);
+            }
+          })
+        }
+      });
     })
+    setSelectedItemsSku(selectedSku);    
+  }, [selectedColor])
 
-    if (sku) setSelectedSku(sku)
-  }, [selectedColor, selectedSize])
+  useEffect(() => { 
+    selectedItemsSku?.forEach(item => {
+      item.variations?.forEach(variation => {
+        if(variation.name === "TAMANHO"){
+          variation.values?.forEach(value => {
+            if(value === selectedSize){
+              setItemSelected(item.itemId);
+            }
+          })
+        }        
+      })
+    })   
+  }, [selectedSize])
+
+
+  useEffect(() => {
+    console.log(itemSelected);
+  }, [itemSelected])
 
   return (
     <SafeAreaView>
+      {!loading && productsQuery && (
       <Box bg='white'>
         <ModalBag
           isVisible={isVisible}
@@ -247,22 +318,19 @@ export const ProductDetail: React.FC<Props> = ({
         <TopBarDefaultBackButton loading={product.loading} />
         <ScrollView>
           <ProductDetailCard
-            installmentsNumber={product.data.installmentNumber}
-            installmentsPrice={product.data.installmentPrice}
-            title={selectedSku ? selectedSku.title : product.data.title}
-            price={product.data.fullPrice}
-            priceWithDiscount={
-              product.data.discountPrice > 0
-                ? product.data.discountPrice
-                : undefined
-            }
+            installmentsNumber={0}
+            installmentsPrice={0}
+            title={productsQuery.productName}
+            price={productsQuery.priceRange?.listPrice?.lowPrice}
+            priceWithDiscount={productsQuery.priceRange?.sellingPrice.lowPrice}
             discountTag={
-              product.data.discountTag > 0
-                ? product.data.discountTag
-                : undefined
+              getPercent(
+                productsQuery.priceRange?.sellingPrice.lowPrice,
+                productsQuery.priceRange?.listPrice?.lowPrice
+              )
             }
             imagesWidth={screenWidth}
-            images={selectedSku ? selectedSku.imagesUrls : []}
+            images={productsQuery.items[0].images.map((image) => image.imageUrl)}
             isFavorited={isFavorited}
             onClickFavorite={(favoriteState: any) => {
               setIsFavorited(favoriteState)
@@ -291,7 +359,7 @@ export const ProductDetail: React.FC<Props> = ({
                 <SelectColor
                   onPress={(color: any) => setSelectedColor(color)}
                   size={40}
-                  listColors={product.data.colors || []}
+                  listColors={skuColors}
                   selectedColors={selectedColor}
                 />
               </ScrollView>
@@ -320,7 +388,7 @@ export const ProductDetail: React.FC<Props> = ({
                   onSelectedChange={(item) => {
                     setSelectedSize(item)
                   }}
-                  optionsList={product.data.sizes || []}
+                  optionsList={skuSizes}
                   defaultSelectedItem={selectedSize}
                 />
               </Box>
@@ -331,16 +399,6 @@ export const ProductDetail: React.FC<Props> = ({
               title='ADICIONAR À SACOLA'
               variant='primarioEstreito'
               onPress={() => {
-                // dispatch(
-                //   appendOrders({
-                //     ...product.data,
-                //     ...selectedSku,
-                //     sku: selectedSku?.id,
-                //     quantity: 1,
-                //   })
-                // )
-
-                // TODO - change this later
                 onProductAdd()
                 setIsVisible(true)
               }}
@@ -402,9 +460,7 @@ export const ProductDetail: React.FC<Props> = ({
               <ExpansePanel
                 information={{
                   title: 'Descrição do produto',
-                  content: selectedSku?.description
-                    ? selectedSku?.description
-                    : product.data.description || '',
+                  content: productsQuery.description ? productsQuery.description : 'teste',
                 }}
               />
             </Box>
@@ -491,6 +547,7 @@ export const ProductDetail: React.FC<Props> = ({
           </Box>
         </ScrollView>
       </Box>
-    </SafeAreaView>
+      )}
+      </SafeAreaView>
   )
 }
