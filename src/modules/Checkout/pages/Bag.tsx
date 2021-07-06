@@ -62,8 +62,8 @@ export const BagScreen = () => {
 
   useEffect(() => {
 
-    let totalItensPrice = orderForm?.totalizers.find(x => x.id === 'Items')?.value || 0
-    let totalDiscountPrice = orderForm?.totalizers.find(x => x.id === 'Discounts')?.value || 0
+    let totalItensPrice = (orderForm?.totalizers.find(x => x.id === 'Items')?.value || 0) / 100
+    let totalDiscountPrice = (orderForm?.totalizers.find(x => x.id === 'Discounts')?.value || 0) / 100
 
     setTotalBag(totalItensPrice)
     setTotalDiscountPrice(totalDiscountPrice)
@@ -135,15 +135,15 @@ export const BagScreen = () => {
               <ProductHorizontalListCard
                 currency={'R$'}
                 discountTag={
-                  item.sellingPrice > 0 ? item.sellingPrice : undefined
+                  item.sellingPrice > 0 ? item.sellingPrice / 100 : undefined
                 }
                 itemColor={item.skuName.split("-")[0] || ''}
                 ItemSize={item.skuName.split("-")[1] || ''}
                 productTitle={item.name}
                 // installmentsNumber={item.installmentNumber}
                 // installmentsPrice={item.installmentPrice}
-                price={item.price}
-                priceWithDiscount={item.sellingPrice}
+                price={item.price / 100}
+                priceWithDiscount={item.sellingPrice / 100}
                 count={item.quantity}
                 onClickAddCount={(count) => {
                   const { message, ok } = addItem(count, item.productId, '1')
