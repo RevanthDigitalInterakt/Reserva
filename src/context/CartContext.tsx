@@ -166,7 +166,7 @@ interface OrderForm {
     clientPreferencesData: ClientPreferencesData;
     clientProfileData: ClientProfileData;
     giftRegistryData: any;
-    items: string[];
+    items: Item[];
     loggedIn: boolean;
     marketingData: any;
     messages: Message[];
@@ -180,6 +180,72 @@ interface OrderForm {
     userProfileId: any;
     userType: any;
     value: number;
+}
+interface Item {
+    unique: string
+    id: string
+    productId: string
+    productRefId: string
+    refId: string
+    ean: any
+    name: string
+    skuName: string
+    modalType: any
+    parentItemIndex: any
+    parentAssemblyBinding: any
+    assemblies: any[]
+    priceValidUntil: string
+    tax: number
+    price: number
+    listPrice: number
+    manualPrice: any
+    manualPriceAppliedBy: any
+    sellingPrice: number
+    rewardValue: number
+    isGift: boolean
+    additionalInfo: AdditionalInfo
+    preSaleDate: any
+    productCategoryIds: string
+    productCategories: any
+    quantity: number
+    seller: string
+    sellerChain: string[]
+    imageUrl: string
+    detailUrl: string
+    components: any[]
+    bundleItems: any[]
+    attachments: any[]
+    attachmentOfferings: any[]
+    offerings: any[]
+    priceTags: PrioceTag[]
+    availability: string
+    measurementUnit: string
+    unitMultiplier: number
+    manufacturerCode: any
+    priceDefinition: PriceDefinition
+}
+interface AdditionalInfo {
+    dimension: any
+    brandName: string
+    brandId: string
+    offeringInfo: any
+    offeringType: any
+    offeringTypeId: any
+}
+
+interface PrioceTag {
+    name: string
+    value: number
+    rawValue: number
+    isPercentual: boolean
+    identifier: string
+}
+
+
+interface PriceDefinition {
+    calculatedSellingPrice: number
+    total: number
+    sellingPrices: { value: number, quantity: number }[]
 }
 
 interface CartContextProps {
