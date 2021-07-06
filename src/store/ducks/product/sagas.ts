@@ -13,6 +13,7 @@ export function* loadProduct({
     console.log('request params product', action)
     const { productId } = action.payload
 
+    console.log(productId);
     const { data } = yield call(apiBffProducts.get, `product/${productId}`)
 
     let colors = data.skuList?.map((x) => x.color) || []

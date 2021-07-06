@@ -5,6 +5,7 @@ import AddressList from "../modules/Address/pages/AddressList";
 import NewAddress from "../modules/Address/pages/NewAddress";
 import { BagScreen } from "../modules/Checkout/pages/Bag";
 import { BarCodePayment } from "../modules/Checkout/pages/BarCodePayment";
+import { EnterYourEmail } from "../modules/Checkout/pages/EnterYourEmail";
 import { DeliveryScreen } from "../modules/Checkout/pages/Delivery";
 import Checkout from "../modules/Checkout/pages/WebviewCheckout";
 import { GiftVoucherScreen } from "../modules/Checkout/pages/GiftVoucher";
@@ -62,6 +63,7 @@ import { Cashback } from "../modules/Cashback/pages/Cashback";
 import AccessCode from "../modules/Login/pages/AccessCode";
 import { IdentifyEmail } from "../modules/LoginCheckout/pages/IdentifyEmail";
 import { ForgotAccessCode } from "../modules/Forgot/pages/ForgotAccessCode";
+import { CreateCartProfile } from "../modules/Checkout/pages/CreateCartProfile";
 
 export type RootStackParamList = {
   Register: {
@@ -72,7 +74,16 @@ export type RootStackParamList = {
   ProductDetail: { productId: string };
   RegisterSuccess: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
-  ProductCatalog: { safeArea: boolean; search: boolean };
+  ProductCatalog: { 
+    safeArea: boolean; 
+    search: boolean;
+    facetInput: [
+      {
+        key: string;
+        value: string;
+      }
+    ]
+  };
   WishList: {};
   ForgotAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: Wish[] };
@@ -112,6 +123,7 @@ export type RootStackParamList = {
   EditPassword: {
     email: string;
   };
+  CreateCartProfile: {},
   NewCard: { isCheckout: boolean };
   NearbyStores: { UF: string };
   MapScreen: { geolocation: number; locationPermission: boolean };
@@ -155,7 +167,7 @@ const MainStackScreen = () => {
   // Here you put normal navigation
   return (
     <MainStack.Navigator
-      //initialRouteName='ForgotEmailSuccess'
+      //initialRouteName='CreateCartProfile'
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
     >
@@ -175,6 +187,7 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen name="WishList" component={WishList} />
+      <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen name="IdentifyEmail" component={IdentifyEmail} />
       <MainStack.Screen
@@ -191,6 +204,7 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name="EnterYourEmail" component={EnterYourEmail} />
       <MainStack.Screen name="Checkout" component={Checkout} />
       <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
       <MainStack.Screen name="NearbyStores" component={NearbyStores} />

@@ -52,11 +52,20 @@ $options: Options
             href
             }
             items(filter: FIRST_AVAILABLE){
-                images(quantity: 1){
+                images{
                     imageUrl
                 }
                 sellers{
+                    sellerId
                     commertialOffer{
+                        Tax
+                        taxPercentage
+                        AvailableQuantity
+                        Price
+                        PriceWithoutDiscount
+                        discountHighlights {
+                            name
+                        }
                         Installments{
                             Value
                             TotalValuePlusInterestRate
@@ -71,6 +80,11 @@ $options: Options
             priceRange {
                 sellingPrice {
                     highPrice
+                    lowPrice
+                }
+                listPrice {
+                    highPrice
+                    lowPrice
                 }
             }
         }
@@ -123,7 +137,7 @@ export interface ProductSearchResponse {
 }
 
 export interface ProductSearchData {
-    products?: ProductQL[]
+    products: ProductQL[]
     recordsFiltered?: number
     titleTag?: string
     metaTagDescription?: string
@@ -184,11 +198,11 @@ export interface ProductQL {
     productClusters?: ProductClusters[]
     description?: string
     items: SKU[]
-    skuSpecifications?: SkuSpecification[]
+    skuSpecifications: SkuSpecification[]
     link?: string
     linkText?: string
     productId?: string
-    productName?: string
+    productName: string
     properties?: Property[]
     propertyGroups?: PropertyGroup[]
     productReference?: string
@@ -199,7 +213,7 @@ export interface ProductQL {
     benefits?: Benefit[]
     itemMetadata?: ItemMetadata
     specificationGroups?: SpecificationGroup[]
-    priceRange?: ProductPriceRange
+    priceRange: ProductPriceRange
     releaseDate?: string
     selectedProperties?: SelectedProperty[]
 }
@@ -335,7 +349,7 @@ export interface SKU {
     kitItems?: KitItem[]
     images: Image[]
     videos?: Video[]
-    sellers?: Seller[]
+    sellers: Seller[]
     variations?: Property[]
     estimatedDateArrival?: string
 }
@@ -371,8 +385,8 @@ export interface OnlyProduct {
 }
 
 export interface SkuSpecification {
-    field?: SKUSpecificationField
-    values?: SKUSpecificationValue[]
+    field: SKUSpecificationField
+    values: SKUSpecificationValue[]
 }
 
 export interface SKUSpecificationField {
@@ -398,13 +412,13 @@ export interface SpecificationGroupProperty {
 }
 
 export interface ProductPriceRange {
-    sellingPrice?: PriceRange
-    listPrice?: PriceRange
+    sellingPrice: PriceRange
+    listPrice: PriceRange
 }
 
 export interface PriceRange {
-    highPrice?: number
-    lowPrice?: number
+    highPrice: number
+    lowPrice: number
 }
 
 export interface SelectedProperty {
@@ -417,7 +431,7 @@ export interface Image {
     imageId?: string
     imageLabel?: string
     imageTag?: string
-    imageUrl?: string
+    imageUrl: string
     imageText?: string
 }
 
@@ -430,7 +444,7 @@ export interface Seller {
     sellerName?: string
     addToCartLink?: string
     sellerDefault?: boolean
-    commertialOffer?: Offer
+    commertialOffer: Offer
 }
 
 export interface Offer {
@@ -455,10 +469,10 @@ export interface Offer {
 export type InstallmentsCriteria = 'MAX_WITHOUT_INTEREST' | 'MAX_WITH_INTEREST' | 'MAX' | 'MIN' | 'ALL'
 
 export interface Installment {
-    Value?: number
+    Value: number
     InterestRate?: number
     TotalValuePlusInterestRate?: number
-    NumberOfInstallments?: number
+    NumberOfInstallments: number
     PaymentSystemName?: string
     PaymentSystemGroupName?: string
     Name?: string
@@ -523,3 +537,14 @@ export interface GiftImage {
     imageLabel: string
     imageText: string
 }
+
+export enum OrderByEnum  {
+    OrderByPriceDESC = "OrderByPriceDESC",
+    OrderByPriceASC = "OrderByPriceASC", 
+    OrderByTopSaleDESC = "OrderByTopSaleDESC", 
+    OrderByReviewRateDESC = "OrderByReviewRateDESC", 
+    OrderByNameASC = "OrderByNameASC",
+    OrderByNameDESC = "OrderByNameDESC", 
+    OrderByReleaseDateDESC = "OrderByReleaseDateDESC", 
+    OrderByBestDiscountDESC = "OrderByBestDiscountDESC"
+} 

@@ -52,7 +52,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
 
   useEffect(() => {
     if (comeFrom === "Profile") {
-      BackHandler.addEventListener("hardwareBackPress", () => {
+      BackHandler.addEventListener('hardwareBackPress', () => {
         navigation.navigate("Home");
         return true;
       });
@@ -101,13 +101,16 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
                 )
               }
             />
-            {!loginWithCode && (
-              <Box mt="md" width="100%">
+            {
+              !loginWithCode &&
+              <Box mt='md' width='100%'>
                 <UnderlineInput
-                  placeholder="Digite sua senha"
+                  placeholder='Digite sua senha'
                   isSecureText={true}
-                  onChangeText={(text) =>
-                    setLoginCredentials({ ...loginCredentials, password: text })
+                  onChangeText={
+                    (text) => setLoginCredentials(
+                      { ...loginCredentials, password: text }
+                    )
                   }
                 />
 

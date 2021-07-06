@@ -38,13 +38,18 @@ PODS:
   - GoogleMaps/Base (3.5.0)
   - GoogleMaps/Maps (3.5.0):
     - GoogleMaps/Base
-  - JWT (3.0.0-beta.12):
+  - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
   - lottie-ios (3.1.8)
   - lottie-react-native (4.0.2):
     - lottie-ios (~> 3.1.8)
     - React-Core
-  - OneSignal (3.4.3)
+  - OneSignal (3.5.3)
+  - OneSignalXCFramework (3.4.4)
+  - Permission-LocationAlways (3.0.4):
+    - RNPermissions
+  - Permission-LocationWhenInUse (3.0.4):
+    - RNPermissions
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -249,10 +254,12 @@ PODS:
     - React-Core
   - react-native-maps (0.28.0):
     - React-Core
-  - react-native-onesignal (4.1.0):
-    - OneSignal (= 3.4.3)
+  - react-native-onesignal (4.1.1):
+    - OneSignalXCFramework (= 3.4.4)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.2.0):
+    - React-Core
+  - react-native-webview (11.6.5):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -328,7 +335,9 @@ PODS:
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNReanimated (2.1.0):
+  - RNPermissions (3.0.4):
+    - React-Core
+  - RNReanimated (2.2.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -357,18 +366,19 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.1.1):
+  - RNScreens (3.4.0):
     - React-Core
-  - RNSentry (2.4.2):
+    - React-RCTImage
+  - RNSentry (2.6.0):
     - React-Core
-    - Sentry (= 6.1.4)
-  - RNShare (6.0.1):
+    - Sentry (= 7.0.0)
+  - RNShare (6.2.1):
     - React-Core
   - RNSVG (12.1.1):
     - React
-  - Sentry (6.1.4):
-    - Sentry/Core (= 6.1.4)
-  - Sentry/Core (6.1.4)
+  - Sentry (7.0.0):
+    - Sentry/Core (= 7.0.0)
+  - Sentry/Core (7.0.0)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
 
@@ -382,6 +392,8 @@ DEPENDENCIES:
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - OneSignal (< 4.0, >= 3.0)
+  - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -401,6 +413,7 @@ DEPENDENCIES:
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -418,6 +431,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -434,6 +448,7 @@ SPEC REPOS:
     - GoogleMaps
     - JWT
     - OneSignal
+    - OneSignalXCFramework
     - Sentry
     - SSZipArchive
 
@@ -452,6 +467,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  Permission-LocationAlways:
+    :path: "../node_modules/react-native-permissions/ios/LocationAlways"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -486,6 +505,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-onesignal"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -520,6 +541,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -540,14 +563,17 @@ SPEC CHECKSUMS:
   CodePush: 9bb93f52a44ee80b72739d89dead9c7e86c3bd3a
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 128888d3e5a524c706b2720deb9ba6558f2f6072
+  FBReactNativeSpec: 0d02a1b291560503e1c46636e9519f90f0e44d4e
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
-  JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
+  JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 4dff8fe8d10ddef9e7880e770080f4a56121397e
-  OneSignal: e4dfb1912410f302dc9661ce98fc829f6c18ff6a
+  OneSignal: e12773ef3dfc68f42103c8cd28ad50660209528f
+  OneSignalXCFramework: eaf286b7438aa1f030f03e5fa9f1c79ede5d8f04
+  Permission-LocationAlways: d3ac15e4bf8f4f5f4e224b4fea6f84b14fa19132
+  Permission-LocationWhenInUse: ebef6bf8a123d382f25e9990468cfc8a76fbadf5
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
   RCTTypeSafety: 512728b73549e72ad7330b92f3d42936f2a4de5b
@@ -563,8 +589,9 @@ SPEC CHECKSUMS:
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-google-maps: 46dea4aa4acb7300beff508f64d9f8c84e9fb106
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
-  react-native-onesignal: 6d3d3ac10192c5694049ce8c1ba481e5392c1a73
+  react-native-onesignal: 2a7c3a5f2aa1c599d94cda6cc583205e1548828d
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
+  react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -582,15 +609,16 @@ SPEC CHECKSUMS:
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNDeviceInfo: 8d3a29207835f972bce883723882980143270d55
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNReanimated: b8c8004b43446e3c2709fe64b2b41072f87428ad
-  RNScreens: bd1523c3bde7069b8e958e5a16e1fc7722ad0bdd
-  RNSentry: e86fb2e2fec0365644f4b582938bf66be515acce
-  RNShare: 755de6bac084428f8fd8fb54c376f126f40e560c
+  RNPermissions: c46788f4cd402287425983e04a4c9bb4356036eb
+  RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
+  RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
+  RNSentry: a2b02b326ae4fce91ce7c57d3f7dcf8df4f72269
+  RNShare: 5ac8f6532ca4cd80fc71caef1cfbba1854a6a045
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
-  Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
+  Sentry: 89d26e036063b9cb9caa59b6951dd2f8277aa13b
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: 9b509a9f18ba755bf7c57b216c1c2657823f08f8
+PODFILE CHECKSUM: 292343a13fee21e5389e665edfd85f4eec19c463
 
 COCOAPODS: 1.10.1
