@@ -1,53 +1,57 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, FlatList } from "react-native";
-import { Typography, Box, Button, Alert } from "reserva-ui";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, FlatList } from 'react-native';
+import { Typography, Box, Button, Alert } from 'reserva-ui';
+import { StackScreenProps } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/core';
 
-import AddressSelector from "../Components/AddressSelector";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { useMutation, useQuery } from "@apollo/client";
-import { addressesQuery, AddressQueryList } from "../../../graphql/address/addressQuery";
-import { deleteAddress } from "../../../graphql/address/addressMutations";
-import { useCart } from "../../../context/CartContext";
-import { closestIndexTo } from "date-fns/esm";
+import AddressSelector from '../Components/AddressSelector';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { useMutation } from '@apollo/client';
+import { deleteAddress } from '../../../graphql/address/addressMutations';
+import { useCart } from '../../../context/CartContext';
 
-type Props = StackScreenProps<RootStackParamList, "AddressList">;
+type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
-
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
-  const [addressId, setAddressId] = React.useState("");
+  const [addressId, setAddressId] = React.useState('');
   const [successModal, setSuccessModal] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
-  const [idAddress, setIdAddress] = React.useState("");
+  const [, setIdAddress] = React.useState('');
+  const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
-  //const { loading, error, data, refetch } = useQuery(addressesQuery);
-  const [address, setAddress] = useState<AddressQueryList>();
-  const [addressDelete, { data: dataDelete, loading: deleteLoading }] = useMutation(deleteAddress);
-
-  const { orderForm, addShippingData } = useCart()
+  const [addressDelete] = useMutation(deleteAddress);
+  const [loading, setLoading] = useState(false);
+  const { orderForm, addShippingData } = useCart();
 
   useEffect(() => {
-    console.log(orderForm)
     if (!!orderForm?.shippingData) {
-      setIdAddress(orderForm?.shippingData.selectedAddresses[0].addressId)
+      setIdAddress(orderForm?.shippingData.selectedAddresses[0].addressId);
     }
-  }, [])
+  }, []);
 
+  const onAddressChosen = (item: any) => {
+    setSelected(true);
 
+    setSelectedAddress(item);
+  };
 
-  useEffect(() => {
-    //refetch();
-  }, [deleteLoading])
+  const onGoToPayment = async () => {
+    setLoading(true);
+    if (
+      orderForm &&
+      orderForm.shippingData.selectedAddresses[0].addressId !==
+        selectedAddress.addressId
+    ) {
+      await addShippingData(selectedAddress);
+      setLoading(false);
+    }
 
-  // useEffect(() => {
-  //   if (!loading)
-  //     setAddress({ addresses: data?.profile.addresses });
-  // }, [data]);
+    navigation.navigate('Checkout');
+  };
 
   return (
     <>
@@ -56,10 +60,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
           modalRef.current && setSuccessModal(true);
         }}
         isVisible={deleteModal}
-        title={"Excluir endereço"}
-        subtitle={"Tem certeza que deseja excluir o endereço salvo?"}
-        confirmText={"SIM"}
-        cancelText={"NÃO"}
+        title={'Excluir endereço'}
+        subtitle={'Tem certeza que deseja excluir o endereço salvo?'}
+        confirmText={'SIM'}
+        cancelText={'NÃO'}
         onConfirm={() => {
           modalRef.current = true;
           addressDelete({
@@ -79,8 +83,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       {true ? (
         <Alert
           isVisible={successModal}
-          title={"Não foi possível excluir o endereço"}
-          confirmText={"OK"}
+          title={'Não foi possível excluir o endereço'}
+          confirmText={'OK'}
           onConfirm={() => {
             setSuccessModal(false);
           }}
@@ -91,8 +95,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       ) : (
         <Alert
           isVisible={successModal}
-          title={"Seu endereço foi excluido com sucesso."}
-          confirmText={"OK"}
+          title={'Seu endereço foi excluido com sucesso.'}
+          confirmText={'OK'}
           onConfirm={() => {
             setSuccessModal(false);
           }}
@@ -104,19 +108,19 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
       <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton
-          loading={false}
+          loading={loading}
           showShadow
           backButtonPress={() => navigation.goBack()}
         />
 
         <Box
-          overflow={"hidden"}
-          height={"80%"}
+          overflow={'hidden'}
+          height={'80%'}
           paddingHorizontal={20}
           justifyContent="flex-start"
-          pt={"md"}
+          pt={'md'}
         >
-          <Box alignSelf={"flex-start"} mb={"xxxs"}>
+          <Box alignSelf={'flex-start'} mb={'xxxs'}>
             <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
@@ -139,8 +143,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
               return (
                 <AddressSelector
                   addressData={{
-                    address: `${street}, ${number && complement}, ${number && complement
-                      }, ${neighborhood}, ${city} - ${state}`,
+                    address: `${street}, ${number && complement}, ${
+                      number && complement
+                    }, ${neighborhood}, ${city} - ${state}`,
                     title: street,
                     zipcode: postalCode,
                   }}
@@ -149,7 +154,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                     setAddressId(addressId);
                   }}
                   edit={() => {
-                    navigation.navigate("NewAddress", {
+                    navigation.navigate('NewAddress', {
                       edit: true,
                       editAddress: {
                         addressId,
@@ -159,20 +164,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
                         street,
                         neighborhood,
                         number,
-                        complement
+                        complement,
                       },
                     });
                   }}
-                  selected={false}
+                  selected={selected}
                   select={() => {
-                    addShippingData(item)
-                    console.log('item', item)
-                    if (isCheckout) {
-                      navigation.navigate("PaymentMethodScreen");
-                      return;
-                    }
-                    setSelected(selected);
-                    //setIdAddress();
+                    onAddressChosen(item);
                   }}
                 />
               );
@@ -183,23 +181,24 @@ const AddressList: React.FC<Props> = ({ route }) => {
         {isCheckout ? (
           <Box justifyContent="flex-end" flex={1}>
             <Button
-              onPress={() => navigation.navigate("PaymentMethodScreen")}
+              disabled={loading}
+              onPress={onGoToPayment}
               title="FORMA DE PAGAMENTO"
               variant="primarioEstreito"
               inline={true}
             />
           </Box>
         ) : (
-          <Box marginX={"md"}>
+          <Box marginX={'md'}>
             <Button
               mt="xs"
               onPress={() =>
-                navigation.navigate("NewAddress", {
+                navigation.navigate('NewAddress', {
                   isCheckout,
                   id: null,
                 })
               }
-              title={"NOVO ENDEREÇO"}
+              title={'NOVO ENDEREÇO'}
               variant="primarioEstreitoOutline"
               padding="xl"
             />

@@ -123,7 +123,7 @@ const Delivery: React.FC<{}> = () => {
                     <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
                   </Box>
                 </Box>
-                <Box alignSelf="flex-start" mt="quarck">
+                {/* <Box alignSelf="flex-start" mt="quarck">
                   <Typography
                     fontFamily={"nunitoSemiBold"}
                     fontSize={13}
@@ -131,7 +131,7 @@ const Delivery: React.FC<{}> = () => {
                   >
                     Segunda-feira, 05 de abril de 2021
                   </Typography>
-                </Box>
+                </Box> */}
               </>
             </Button>
             <Divider variant={"fullWidth"} marginY={"micro"} />
@@ -171,7 +171,7 @@ const Delivery: React.FC<{}> = () => {
                     <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
                   </Box>
                 </Box>
-                <Box alignSelf="flex-start" mt="quarck">
+                {/* <Box alignSelf="flex-start" mt="quarck">
                   <Typography
                     fontFamily={"nunitoSemiBold"}
                     fontSize={13}
@@ -179,7 +179,7 @@ const Delivery: React.FC<{}> = () => {
                   >
                     Segunda-feira, 05 de abril de 2021
                   </Typography>
-                </Box>
+                </Box> */}
               </>
             </Button>
           </Box>

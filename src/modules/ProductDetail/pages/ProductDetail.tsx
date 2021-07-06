@@ -5,6 +5,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   PickerItemProps,
+  AsyncStorage,
 } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { ceil } from 'react-native-reanimated';
@@ -114,135 +115,24 @@ export const ProductDetail: React.FC<Props> = ({
     console.log(colors, sizes);
   }, [productsQuery]);
 
-  recomendedProducts = [
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-    {
-      productTitle: 'Camiseta Básica Reserva',
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      imageSource:
-        'https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png',
-    },
-  ];
+  // const onChangeRecomended = (
+  //   scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
+  // ) => {
+  //   const actualItem = Math.ceil(
+  //     scrollEvent.nativeEvent.contentOffset.x / ((138 + theme.space.micro) * 2)
+  //   );
+  //   if (
+  //     actualItem !== actualRecomendedindex &&
+  //     recomendedProducts &&
+  //     actualItem <= Math.ceil(recomendedProducts.length / 2)
+  //   ) {
+  //     setActualRecomendedindex(actualItem);
+  //   }
+  // };
 
-  const onChangeRecomended = (
-    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
-  ) => {
-    const actualItem = Math.ceil(
-      scrollEvent.nativeEvent.contentOffset.x / ((138 + theme.space.micro) * 2)
-    );
-    if (
-      actualItem !== actualRecomendedindex &&
-      recomendedProducts &&
-      actualItem <= Math.ceil(recomendedProducts.length / 2)
-    ) {
-      setActualRecomendedindex(actualItem);
-    }
-  };
-
-  const onProductAdd = () => {
+  const onProductAdd = async () => {
     // todo - change hardcoded product
-    const { message, ok } = addItem(1, itemSelected, '1');
+    const { message, ok } = await addItem(1, itemSelected, '1');
 
     if (!ok) {
       Alert.alert('Produto sem estoque', message);
@@ -286,11 +176,13 @@ export const ProductDetail: React.FC<Props> = ({
   }, [selectedColor]);
 
   useEffect(() => {
+    console.log(selectedItemsSku);
     selectedItemsSku?.forEach((item) => {
       item.variations?.forEach((variation) => {
         if (variation.name === 'TAMANHO') {
           variation.values?.forEach((value) => {
             if (value === selectedSize) {
+              console.log(item);
               setItemSelected(item.itemId);
             }
           });
@@ -486,7 +378,7 @@ export const ProductDetail: React.FC<Props> = ({
                   keyboardType="email-address"
                 />
               </Box>
-              <Box mt="xs" mb="xxl">
+              {/* <Box mt="xs" mb="xxl">
                 <Box mb="xxxs">
                   <Typography fontFamily="nunitoBold" fontSize={14}>
                     Seu produto combina com
@@ -556,6 +448,7 @@ export const ProductDetail: React.FC<Props> = ({
                   </Box>
                 </Box>
               </Box>
+             */}
             </Box>
           </ScrollView>
         </Box>

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, Platform, FlatList } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  FlatList,
+  Alert,
+} from 'react-native';
 import { Typography, Box, Button, Image, Divider, Icon } from 'reserva-ui';
 import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -14,8 +20,9 @@ import { useCart, PickupPoints } from '../../../context/CartContext';
 type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
 export const MapScreen = ({ route }: Props) => {
   const { geolocation, locationPermission } = route?.params;
-  const { orderForm, addShippingData } = useCart();
+  const { orderForm, addShippingOrPickupInfo } = useCart();
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const [position, setPosition] = useState({
     latitude: 10,
@@ -65,6 +72,41 @@ export const MapScreen = ({ route }: Props) => {
       });
     }
   };
+
+  const onSelectPickupPoint = async (item: any) => {
+    setLoading(true);
+    if (orderForm) {
+      const slas = orderForm.shippingData.logisticsInfo[0].slas.find(
+        ({ pickupPointId }) => pickupPointId === item.id
+      );
+
+      if (slas) {
+        const { deliveryChannel, id } = slas;
+
+        // save selected logistc info
+        const logisticInfo = orderForm.shippingData.logisticsInfo.map(
+          ({ itemIndex }) => {
+            return {
+              itemIndex,
+              selectedDeliveryChannel: deliveryChannel,
+              selectedSla: id,
+            };
+          }
+        );
+
+        const data = await addShippingOrPickupInfo(logisticInfo);
+
+        setLoading(false);
+        // case when update orderform has succeeded, must open payment webview
+        if (data) {
+          navigation.navigate('Checkout');
+        } else {
+          Alert.alert('Ocorreu um problema', 'Problema ao atualizar o pedido');
+        }
+      }
+    }
+  };
+
   //Pega a posição do usuário
   useEffect(() => {
     getGeolocation();
@@ -72,7 +114,7 @@ export const MapScreen = ({ route }: Props) => {
 
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
-      <TopBarBackButton showShadow />
+      <TopBarBackButton loading={loading} showShadow />
 
       <Box flex={2}>
         <MapView
@@ -124,9 +166,9 @@ export const MapScreen = ({ route }: Props) => {
               <Button
                 width={'100%'}
                 onPress={() => {
-                  // navigation.navigate('PaymentMethodScreen');
-                  console.log(orderForm?.shippingData.logisticsInfo);
+                  onSelectPickupPoint(item);
                 }}
+                disabled={loading}
               >
                 <Box width={'100%'} backgroundColor={'white'} my={'micro'}>
                   <Box borderColor={'backgroundMenuOpened'}>

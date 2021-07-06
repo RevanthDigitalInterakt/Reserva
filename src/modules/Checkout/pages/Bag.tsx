@@ -39,10 +39,8 @@ const BoxAnimated = createAnimatableComponent(Box);
 export const BagScreen = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const [quantity, setQuantity] = useState(1);
-  const { orderForm, addItem } = useCart()
+  const { orderForm, addItem, orderform } = useCart();
   const [totalBag, setTotalBag] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
@@ -51,40 +49,43 @@ export const BagScreen = () => {
   const [coupon, setCoupon] = React.useState<CouponsOrders>(
     {} as CouponsOrders
   );
-  const [products, setProducts] = React.useState<[Product & OrderItems]>();
-  const { orders, profile, address, shippingMethod, authentication } = useSelector((state: ApplicationState) => state);
-
 
   useEffect(() => {
-    console.log('orderForm', orderForm?.items)
-  })
-
+    orderform();
+  }, []);
 
   useEffect(() => {
+    const totalItensPrice =
+      (orderForm?.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
+    const totalDiscountPrice =
+      (orderForm?.totalizers.find((x) => x.id === 'Discounts')?.value || 0) /
+      100;
 
-    let totalItensPrice = (orderForm?.totalizers.find(x => x.id === 'Items')?.value || 0) / 100
-    let totalDiscountPrice = (orderForm?.totalizers.find(x => x.id === 'Discounts')?.value || 0) / 100
-
-    setTotalBag(totalItensPrice)
-    setTotalDiscountPrice(totalDiscountPrice)
-  }, [orderForm])
-
+    setTotalBag(totalItensPrice);
+    setTotalDiscountPrice(totalDiscountPrice);
+  }, [orderForm]);
 
   const addCoupons = () => {
     dispatch(appendCoupons(coupon));
     setCoupon({ value: '' });
   };
 
-  const [lisProduct, setLisProduct] = useState([]); // Produtos recomendados
-  const AddProduct = (count: number) => {
-    setQuantity(quantity + 1);
-  };
+  const onGoToDelivery = () => {
+    if (orderForm) {
+      const { clientProfileData, shippingData } = orderForm;
+      const hasCustomer =
+        clientProfileData &&
+        clientProfileData.email &&
+        clientProfileData.firstName;
 
-  const RemoveProduct = (count: number) => {
-    setQuantity(quantity - 1);
+      const hasAddress =
+        shippingData && shippingData.availableAddresses.length > 0;
 
-    if (quantity <= 1) {
-      setQuantity(1);
+      if (!hasCustomer && !hasAddress) {
+        navigate('EnterYourEmail');
+      } else {
+        navigate('DeliveryScreen');
+      }
     }
   };
 
@@ -100,9 +101,11 @@ export const BagScreen = () => {
       <ScrollView>
         <Box paddingX={'xxxs'} paddingY={'xxs'}>
           <Box bg={'white'} marginTop={'xxs'}>
-            <Typography variant="tituloSessoes">Sacola ({orderForm?.items.length})</Typography>
+            <Typography variant="tituloSessoes">
+              Sacola ({orderForm?.items.length})
+            </Typography>
           </Box>
-          <Box my="micro">
+          {/* <Box my="micro">
             <Box flexDirection="row">
               <Typography fontFamily={'nunitoSemiBold'} fontSize={13}>
                 Faltam apenas R$29,90 para ganhar
@@ -128,7 +131,7 @@ export const BagScreen = () => {
                 borderRadius="xxxs"
               />
             </Box>
-          </Box>
+          </Box> */}
 
           {orderForm?.items.map((item, index) => (
             <Box key={index} bg={'white'} marginTop={'xxxs'}>
@@ -137,27 +140,24 @@ export const BagScreen = () => {
                 discountTag={
                   item.sellingPrice > 0 ? item.sellingPrice / 100 : undefined
                 }
-                itemColor={item.skuName.split("-")[0] || ''}
-                ItemSize={item.skuName.split("-")[1] || ''}
+                itemColor={item.skuName.split('-')[0] || ''}
+                ItemSize={item.skuName.split('-')[1] || ''}
                 productTitle={item.name}
                 // installmentsNumber={item.installmentNumber}
                 // installmentsPrice={item.installmentPrice}
                 price={item.price / 100}
                 priceWithDiscount={item.sellingPrice / 100}
                 count={item.quantity}
-                onClickAddCount={(count) => {
-                  const { message, ok } = addItem(count, item.productId, '1')
-                  console.log(count)
-                  // console.log(message)
-                }
-                }
-                onClickSubCount={(count) =>
-                  dispatch(item.sku && increaseOrderCount(item.sku, -1))
-                }
-                onClickClose={() => {
-                  dispatch(removeOrders(item.id ? item.id : ''));
+                onClickAddCount={async (count) => {
+                  await addItem(count, item.id, item.seller);
                 }}
-                imageSource={item.imageUrl}
+                onClickSubCount={async (count) =>
+                  await addItem(count, item.id, item.seller)
+                }
+                onClickClose={async () => {
+                  await addItem(0, item.id, item.seller);
+                }}
+                imageSource={item.imageUrl.replace('http', 'https')}
               />
             </Box>
           ))}
@@ -180,8 +180,8 @@ export const BagScreen = () => {
                   style={
                     showLikelyProducts
                       ? {
-                        transform: [{ rotate: '-180deg' }, { translateY: 8 }],
-                      }
+                          transform: [{ rotate: '-180deg' }, { translateY: 8 }],
+                        }
                       : { transform: [{ translateY: 4 }] }
                   }
                   name={'ArrowDown'}
@@ -193,7 +193,7 @@ export const BagScreen = () => {
           <Divider variant={'fullWidth'} />
         </Box>
 
-        {showLikelyProducts && (
+        {/* {showLikelyProducts && (
           <BoxAnimated
             paddingX={'xxxs'}
             bg={'whiteSecondary'}
@@ -225,7 +225,7 @@ export const BagScreen = () => {
               ))}
             </ScrollView>
           </BoxAnimated>
-        )}
+        )} */}
 
         <Box paddingX={'xxxs'}>
           {showLikelyProducts && (
@@ -364,7 +364,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={15}
               sizeDecimal={11}
-              num={orderForm?.totalizers[0]?.value + orderForm?.totalizers[1]?.value}
+              num={totalBag}
             />
           </Box>
           <Box alignItems="flex-end">
@@ -391,29 +391,7 @@ export const BagScreen = () => {
           </Box>
         </Box>
         <Button
-          onPress={() => {
-            if (authentication.data?.access_token && profile.data) {
-              let requestPrams: OrderRequest = {
-                profile: profile.data,
-                coupons: orders.coupons,
-                items: orders.orders.map((x) => ({ ...x })),
-                shippingAddress: address.defaultAddress
-                  ? address.defaultAddress
-                  : {},
-                shippingMethod: {
-                  id: parseInt(shippingMethod.data.quoteId),
-                  name: 'generic name', //shippingMethod.data.shippingMethods[0].displayName,
-                  value: 0, //shippingMethod.data.shippingMethods[0].shippingTotal,
-                },
-                paymentInfo: {},
-                paymentType: PaymentType.PIX,
-              };
-              console.log('requestPrams', requestPrams);
-              navigate('AddressList', { comeFrom: 'Checkout' });
-            } else {
-              navigate('DeliveryScreen', { comeFrom: 'Checkout' });
-            }
-          }}
+          onPress={onGoToDelivery}
           title="IR PARA ENTREGA"
           variant="primarioEstreito"
           inline
