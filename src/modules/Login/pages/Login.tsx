@@ -102,7 +102,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
               }
             />
             {
-              !loginWithCode &&
+              !loginWithCode && (
               <Box mt='md' width='100%'>
                 <UnderlineInput
                   placeholder='Digite sua senha'
