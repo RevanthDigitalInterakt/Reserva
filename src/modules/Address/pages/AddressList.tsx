@@ -10,6 +10,8 @@ import { RootStackParamList } from "../../../routes/StackNavigator";
 import { useMutation, useQuery } from "@apollo/client";
 import { addressesQuery, AddressQueryList } from "../../../graphql/address/addressQuery";
 import { deleteAddress } from "../../../graphql/address/addressMutations";
+import { useCart } from "../../../context/CartContext";
+import { closestIndexTo } from "date-fns/esm";
 
 type Props = StackScreenProps<RootStackParamList, "AddressList">;
 
@@ -20,68 +22,32 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [addressId, setAddressId] = React.useState("");
   const [successModal, setSuccessModal] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
-  const [idAddress, setIdAddress] = React.useState<string>("");
+  const [idAddress, setIdAddress] = React.useState("");
   const modalRef = React.useRef(false);
   const { isCheckout } = route.params;
-  const { loading, error, data, refetch } = useQuery(addressesQuery);
+  //const { loading, error, data, refetch } = useQuery(addressesQuery);
   const [address, setAddress] = useState<AddressQueryList>();
   const [addressDelete, { data: dataDelete, loading: deleteLoading }] = useMutation(deleteAddress);
 
-  // React.useEffect(() => {
-  //   if (defaultAddress) {
-
-  //     setIdAddress(defaultAddress?.address?.id);
-  //   } else {
-  //     setIdAddress("");
-  //   }
-  // }, [defaultAddress]);
-  //verifica se tem o primeiro endereço, se tiver, então salva como padrão
-  // React.useEffect(() => {
-  //   if (addresses?.length === 1) {
-  //     const {
-  //       address1,
-  //       address2,
-  //       address3,
-  //       city,
-  //       postalCode,
-  //       state,
-  //       firstName,
-  //       phoneNumber,
-  //       jobTitle,
-  //       id,
-  //     } = addresses[0].address;
-  //     dispatch(
-  //       createDefaultAddress({
-  //         address: {
-  //           country: "BR",
-  //           address3: address3,
-  //           address2: address2,
-  //           city: city,
-  //           address1: address1,
-  //           postalCode: postalCode,
-  //           state: state,
-  //           firstName: firstName,
-  //           phoneNumber: phoneNumber,
-  //           jobTitle: jobTitle,
-  //           id: id,
-  //         },
-  //       })
-  //     );
-  //   }
-  // }, [addresses]);
+  const { orderForm, addShippingData } = useCart()
 
   useEffect(() => {
-    refetch();
+    console.log(orderForm)
+    if (!!orderForm?.shippingData) {
+      setIdAddress(orderForm?.shippingData.selectedAddresses[0].addressId)
+    }
   }, [])
 
-  useEffect(() => {
-    refetch();
-  }, [deleteLoading])
+
 
   useEffect(() => {
-    if(!loading)
-      setAddress({ addresses: data?.profile.addresses });
-  }, [data]);
+    //refetch();
+  }, [deleteLoading])
+
+  // useEffect(() => {
+  //   if (!loading)
+  //     setAddress({ addresses: data?.profile.addresses });
+  // }, [data]);
 
   return (
     <>
@@ -95,7 +61,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
         confirmText={"SIM"}
         cancelText={"NÃO"}
         onConfirm={() => {
-          modalRef.current = true;          
+          modalRef.current = true;
           addressDelete({
             variables: {
               id: addressId,
@@ -110,7 +76,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
           setDeleteModal(false);
         }}
       />
-      {error ? (
+      {true ? (
         <Alert
           isVisible={successModal}
           title={"Não foi possível excluir o endereço"}
@@ -138,7 +104,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
       <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton
-          loading={loading}
+          loading={false}
           showShadow
           backButtonPress={() => navigation.goBack()}
         />
@@ -156,11 +122,11 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={address?.addresses}
+            data={orderForm?.shippingData.availableAddresses}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               const {
-                id,
+                addressId,
                 city,
                 complement,
                 number,
@@ -173,21 +139,20 @@ const AddressList: React.FC<Props> = ({ route }) => {
               return (
                 <AddressSelector
                   addressData={{
-                    address: `${street}, ${number && complement}, ${
-                      number && complement
-                    }, ${neighborhood}, ${city} - ${state}`,
+                    address: `${street}, ${number && complement}, ${number && complement
+                      }, ${neighborhood}, ${city} - ${state}`,
                     title: street,
                     zipcode: postalCode,
                   }}
                   deleteAddress={() => {
                     setDeleteModal(true);
-                    setAddressId(id);
+                    setAddressId(addressId);
                   }}
-                  edit={() => {                    
+                  edit={() => {
                     navigation.navigate("NewAddress", {
                       edit: true,
                       editAddress: {
-                        id,
+                        addressId,
                         postalCode,
                         state,
                         city,
@@ -198,14 +163,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
                       },
                     });
                   }}
-                  selected={idAddress === address?.addresses.id ? true : false}
+                  selected={false}
                   select={() => {
+                    addShippingData(item)
+                    console.log('item', item)
                     if (isCheckout) {
                       navigation.navigate("PaymentMethodScreen");
                       return;
                     }
                     setSelected(selected);
-                    setIdAddress(id);
+                    //setIdAddress();
                   }}
                 />
               );

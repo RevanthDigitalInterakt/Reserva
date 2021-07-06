@@ -23,7 +23,7 @@ export const EnterYourEmail = () => {
         const hasCustomer = await identifyCustomer(email);
 
         setLoading(false);
-
+        console.log(hasCustomer)
         if (!hasCustomer) {
             navigation.navigate("CreateCartProfile");
             return;
