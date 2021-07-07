@@ -130,11 +130,22 @@ const MenuItem: React.FC<IMenuItem> = ({
                   highlight={item.highlight}
                   title={item.name}
                   onPress={() => {
-                    let route = item.href.split('/')
-                    //console.log(route[route.length - 1])
+                    let facetInput = [{}];
+                    let facetInputKey = '';
+                    let cont = 0;
+                    let routes = item.href.split('/')
+                    routes.forEach((route) => {
+                      if(route !== ""){
+                        facetInput[cont] = {
+                          key: 'c',
+                          value: route
+                        }
+                        cont++;
+                      }
+                    });
                     //console.log('asdasd')
                     navigation.navigate('ProductCatalog', {
-                      categoryId: route[route.length - 1],
+                      facetInput
                     })
                   }}
                 />
@@ -253,7 +264,7 @@ export const Menu: React.FC<{}> = () => {
                     </Typography>
                   }
                   onPress={() => {
-                    navigation.navigate('Login', { comefrom: 'Menu' })
+                    navigation.navigate('Login', { comefrom: 'Home' })
                   }}
                   underline></FixedMenuItem>
               )}

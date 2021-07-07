@@ -29,7 +29,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { oneSignalConfig } from "./config/pushNotification";
 import { apolloClient } from "./services/apolloClient";
 import AuthContextProvider from "./context/AuthContext";
-
+import CartContextProvider from "./context/CartContext";
 import './config/ReactotronConfig'
 
 Sentry.init({
@@ -71,22 +71,24 @@ const App = () => {
     );
 
     oneSignalConfig();
-  }, []); 
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer theme={DefaultTheme}>
-        <AuthContextProvider>
-          <ApolloProvider client={apolloClient}>
-            <Provider store={configureStore().store}>
-              <PersistGate persistor={configureStore().persistor}>
-                <InitialScreen>
-                  <AppRouting />
-                </InitialScreen>
-              </PersistGate>
-            </Provider>
-          </ApolloProvider>
-        </AuthContextProvider>
+        <CartContextProvider>
+          <AuthContextProvider>
+            <ApolloProvider client={apolloClient}>
+              <Provider store={configureStore().store}>
+                <PersistGate persistor={configureStore().persistor}>
+                  <InitialScreen>
+                    <AppRouting />
+                  </InitialScreen>
+                </PersistGate>
+              </Provider>
+            </ApolloProvider>
+          </AuthContextProvider>
+        </CartContextProvider>
       </NavigationContainer>
     </ThemeProvider>
   );

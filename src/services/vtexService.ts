@@ -1,9 +1,11 @@
+import { CepResponse } from './../config/brasilApi';
+import { brasilApi } from "../config/brasilApi";
 import vtexConfig from "../config/vtexConfig";
 
 const CreateCart = async () => {
   // cria o carrinho
   // retorna um payload gigante pra ser preenchido de acordo.
-  const response = await vtexConfig.get(`/checkout/pub/orderForm/?sc=3`);
+  const response = await vtexConfig.get(`/checkout/pub/orderForm/?sc=1`);
   return response;
 };
 
@@ -22,21 +24,44 @@ const GetSession = async () => {
 };
 
 const AddItemToCart = async (
-  orderFormId: any,
-  quantity: any,
-  itemId: any,
-  seller: any
+  orderFormId: string | undefined,
+  quantity: number,
+  id: string,
+  seller: string
 ) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderFom/${orderFormId}/items?sc=3
-  `,
+    `/checkout/pub/orderForm/${orderFormId}/items?sc=1`,
     {
       // modificar esse item de acordo com o modelo do carrinho
       orderItems: [
         {
-          quantity: quantity,
-          id: itemId,
-          seller: seller,
+          quantity,
+          id,
+          seller,
+        },
+      ],
+    }
+  );
+
+  // o retorno é o proprio carrinho com todos os itens
+  return response;
+};
+
+const RemoveItemFromCart = async (
+  orderFormId: string | undefined,
+  id: string,
+  index: number
+) => {
+  const response = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/items/update?sc=1`,
+    {
+      // modificar esse item de acordo com o modelo do carrinho
+      orderItems: [
+        {
+          seller: "1",
+          id,
+          quantity: 0,
+          index
         },
       ],
     }
@@ -48,7 +73,7 @@ const AddItemToCart = async (
 
 const AddCouponToCart = async (orderFormId: any) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/coupons
+    `/checkout/pub/orderForm/${orderFormId}/coupons?sc=1
   `,
     {
       text: "testeapp",
@@ -74,10 +99,11 @@ const AddCouponToCart = async (orderFormId: any) => {
   return response;
 };
 
+
 const RemoveCoupon = async (orderFormId: any) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/coupons
-  `,
+    `/checkout/pub/orderForm/${orderFormId}/coupons?sc=1
+    `,
     {
       text: "",
       expectedOrderFormSections: [
@@ -102,46 +128,19 @@ const RemoveCoupon = async (orderFormId: any) => {
   return response;
 };
 
-const AddAddressToCart = async (orderFormId: any) => {
+const AddAddressToCart = async (orderFormId: any, address: any) => {
   //APENAS adiciona endereço ao carrinho(orderForm)
-  const response = await vtexConfig.post(
-    `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData
-  `,
-    {
-      selectedAddresses: [
-        {
-          // substituir pelos argumentos corretos
-          addressType: "search",
-          city: "São Paulo",
-          country: "BRA",
-          neighborhood: "Vila Tramontano",
-          number: "213",
-          postalCode: "05690-000",
-          receiverName: "Vitor Hansen",
-          state: "SP",
-          street: "R. George Eastman",
-        },
-      ],
-      clearAddressIfPostalCodeNotFound: false,
-    }
-  );
+  const { data } = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData?sc=1`, address);
 
-  // caso n tenha todos os dados apresentar apenas esses
-  //   {
-  //     "addressType": "search",
-  //     "country": "BRA",
-  //     "postalCode": "05690-000",
-  //     "receiverName": "Vitor Hansen"
-  // }
-
-  return response;
+  return data;
 };
 
 const DeliveryType = async (orderFormId: any) => {
   // deve enviar o endereço junto do array de tipo de entrega de CADA produto. ai o vtex irá calcular as entregas possiveis.
   const response = await vtexConfig.post(
-    `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData
-  `,
+    `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData?sc=1
+        `,
     {
       selectedAddresses: [
         {
@@ -181,21 +180,58 @@ const DeliveryType = async (orderFormId: any) => {
 
 const GetPurchaseData = async (orderGroup: any) => {
   const response =
-    await vtexConfig.get(`/checkout/pub/orders/order-group/${orderGroup}
-  `);
+    await vtexConfig.get(`/checkout/pub/orders/order-group/${orderGroup}?sc=1`);
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
 };
 
-export default {
+const IdentifyCustomer = async (orderFormId: string | undefined, email: string) => {
+  try {
+    const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData?sc=1`, { email })
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+const AddCustomerToOrder = async (orderFormId: string | undefined, customer: any) => {
+  try {
+    const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`, { ...customer })
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+const CepVerify = async (cep: string) => {
+  try {
+
+    const { data } = await brasilApi.get(`/cep/v2/${cep}`)
+    console.log(data)
+    return data
+  } catch (err) {
+
+    console.log(err)
+    return { errors: err } as CepResponse
+
+  }
+}
+
+export {
   CreateCart,
   CreateSession,
   GetSession,
+  CepVerify,
   AddItemToCart,
   AddCouponToCart,
   RemoveCoupon,
   AddAddressToCart,
   DeliveryType,
   GetPurchaseData,
+  IdentifyCustomer,
+  AddCustomerToOrder,
+  RemoveItemFromCart
 };

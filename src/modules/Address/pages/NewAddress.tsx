@@ -14,7 +14,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 import { useMutation } from "@apollo/client";
-import { saveAddressMutation, updateAddress } from "../../../graphql/address/addressMutations";
+import {
+  saveAddressMutation,
+  updateAddress,
+} from "../../../graphql/address/addressMutations";
 
 interface IAddress {
   postalCode: string;
@@ -74,26 +77,24 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   // });
 
   type SaveAddressDTO = {
-    postalCode: string,
-    state: string,
-    city: string,
-    street: string,
-    neighborhood: string,
-    number: string,
-    complement: string
-  }
+    postalCode: string;
+    state: string;
+    city: string;
+    street: string;
+    neighborhood: string;
+    number: string;
+    complement: string;
+  };
 
-  const handleSaveAddress = async (
-    {
-      postalCode,
-      state,
-      city,
-      street,
-      neighborhood,
-      number,
-      complement
-    }: SaveAddressDTO
-  ) => {
+  const handleSaveAddress = async ({
+    postalCode,
+    state,
+    city,
+    street,
+    neighborhood,
+    number,
+    complement,
+  }: SaveAddressDTO) => {
     if (edit) {
       addressUpdate({
         variables: {
@@ -108,7 +109,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             complement: complement,
           },
         },
-      })
+      });
     } else {
       saveAddress({
         variables: {
@@ -138,7 +139,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         number: editAddress.number,
         complement: editAddress.complement,
         street: editAddress.street,
-        neighborhood: editAddress.neighborhood
+        neighborhood: editAddress.neighborhood,
       });
     }
   }, [edit]);
@@ -187,7 +188,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     postalCode,
                     state,
                     street,
-                    neighborhood
+                    neighborhood,
                   });
                   console.log("sucesso", values);
                 }}
@@ -280,7 +281,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                         width="200px"
                         mt={"xs"}
                         onPress={handleSubmit}
-                        title={"SALVAR ALTERAÇÕES"}
+                        title={"SALVAR"}
                         variant="primarioEstreitoOutline"
                       />
                     )}

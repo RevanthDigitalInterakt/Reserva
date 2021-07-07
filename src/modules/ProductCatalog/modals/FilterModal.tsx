@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { ApplicationState } from "../../../store";
 const deviceHeight = Dimensions.get("window").height;
 const BoxAnimation = createAnimatableComponent(Box);
+
 export interface FilterModalProps {
   setFilterRequestList;
   isVisible: boolean;

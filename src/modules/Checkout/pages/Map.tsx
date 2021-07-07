@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, Platform, FlatList } from "react-native";
-import { Typography, Box, Button, Image, Divider, Icon } from "reserva-ui";
-import { images } from "../../../assets";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation } from "@react-navigation/native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { Marker } from "react-native-maps";
-import Geolocation from "@react-native-community/geolocation";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
+import React, { useState, useEffect } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  FlatList,
+  Alert,
+} from 'react-native';
+import { Typography, Box, Button, Image, Divider, Icon } from 'reserva-ui';
+import { images } from '../../../assets';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useNavigation } from '@react-navigation/native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { useCart, PickupPoints } from '../../../context/CartContext';
 
-type Props = StackScreenProps<RootStackParamList, "MapScreen">;
+type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
 export const MapScreen = ({ route }: Props) => {
   const { geolocation, locationPermission } = route?.params;
+  const { orderForm, addShippingOrPickupInfo } = useCart();
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const [position, setPosition] = useState({
     latitude: 10,
@@ -50,24 +59,6 @@ export const MapScreen = ({ route }: Props) => {
     },
   ]);
 
-  const listOfStores = [
-    {
-      id: 1,
-      local: "Shopping Praia Grande",
-      address: "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-    },
-    {
-      id: 2,
-      local: "Shopping Praia Grande",
-      address: "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-    },
-    {
-      id: 3,
-      local: "Shopping Praia Grande",
-      address: "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
-    }
-  ]
-
   const getGeolocation = () => {
     if (locationPermission) {
       Geolocation.getCurrentPosition((pos) => {
@@ -80,29 +71,66 @@ export const MapScreen = ({ route }: Props) => {
         });
       });
     }
-  }
+  };
+
+  const onSelectPickupPoint = async (item: any) => {
+    setLoading(true);
+    if (orderForm) {
+      const slas = orderForm.shippingData.logisticsInfo[0].slas.find(
+        ({ pickupPointId }) => pickupPointId === item.id
+      );
+
+      if (slas) {
+        const { deliveryChannel, id } = slas;
+
+        // save selected logistc info
+        const logisticInfo = orderForm.shippingData.logisticsInfo.map(
+          ({ itemIndex }) => {
+            return {
+              itemIndex,
+              selectedDeliveryChannel: deliveryChannel,
+              selectedSla: id,
+            };
+          }
+        );
+
+        const data = await addShippingOrPickupInfo(logisticInfo);
+
+        setLoading(false);
+        // case when update orderform has succeeded, must open payment webview
+        if (data) {
+          navigation.navigate('Checkout');
+        } else {
+          Alert.alert('Ocorreu um problema', 'Problema ao atualizar o pedido');
+        }
+      }
+    }
+  };
+
   //Pega a posição do usuário
   useEffect(() => {
-    getGeolocation()
+    getGeolocation();
   }, []);
 
   return (
-    <SafeAreaView flex={1} backgroundColor={"white"}>
-      <TopBarBackButton showShadow />
+    <SafeAreaView flex={1} backgroundColor={'white'}>
+      <TopBarBackButton loading={loading} showShadow />
 
       <Box flex={2}>
         <MapView
           provider={PROVIDER_GOOGLE}
           style={{ flex: 2 }}
-          initialRegion={geolocation?.toString() != "" ? positionCep : position}
+          initialRegion={geolocation?.toString() != '' ? positionCep : position}
         >
-          <Marker coordinate={geolocation?.toString() != "" ? positionCep : position}>
+          <Marker
+            coordinate={geolocation?.toString() != '' ? positionCep : position}
+          >
             {/* Posição do usuário */}
             <Box>
               <Image
                 height={40}
                 source={images.pinYou}
-                resizeMode={"contain"}
+                resizeMode={'contain'}
               />
             </Box>
           </Marker>
@@ -111,64 +139,71 @@ export const MapScreen = ({ route }: Props) => {
               <Image
                 height={40}
                 source={images.localReserva}
-                resizeMode={"contain"}
+                resizeMode={'contain'}
               />
             </Marker>
           ))}
         </MapView>
-        <Box position={"absolute"} right={20} bottom={20}>
+        <Box position={'absolute'} right={20} bottom={20}>
           <Button
             height={40}
             width={40}
             bg="white"
-            borderRadius={"infinity"}
-            alignItems={"center"}
-            justifyContent={"center"}
+            borderRadius={'infinity'}
+            alignItems={'center'}
+            justifyContent={'center'}
           >
-            <Icon name={"Crosshair"} size={30} color={"preto"} />
+            <Icon name={'Crosshair'} size={30} color={'preto'} />
           </Button>
         </Box>
       </Box>
 
       <Box flex={1}>
         <FlatList
-          data={listOfStores}
+          data={orderForm?.shippingData.pickupPoints}
           renderItem={({ item }) => (
             <>
               <Button
-                width={"100%"}
-                onPress={() => { navigation.navigate("PaymentMethodScreen") }}
+                width={'100%'}
+                onPress={() => {
+                  onSelectPickupPoint(item);
+                }}
+                disabled={loading}
               >
-                <Box width={"100%"} backgroundColor={"white"} my={"micro"}>
-                  <Box borderColor={"backgroundMenuOpened"}>
+                <Box width={'100%'} backgroundColor={'white'} my={'micro'}>
+                  <Box borderColor={'backgroundMenuOpened'}>
                     <Box flexDirection="row">
                       <Box>
                         <Image
                           height={40}
                           source={images.localReserva}
-                          resizeMode={"contain"}
+                          resizeMode={'contain'}
                         />
                       </Box>
                       <Box>
-                        <Box mb={"quarck"}>
-                          <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                            {item.local}
+                        <Box mb={'quarck'}>
+                          <Typography
+                            fontFamily="reservaSerifRegular"
+                            fontSize={16}
+                          >
+                            {item.friendlyName}
                           </Typography>
                         </Box>
                         <Typography fontFamily="nunitoRegular" fontSize={14}>
-                          {item.address}
+                          {`${item.address.street}, ${item.address.number}
+${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`}
                         </Typography>
                       </Box>
                     </Box>
                   </Box>
                 </Box>
               </Button>
-              <Divider variant={"fullWidth"} />
+              <Divider variant={'fullWidth'} />
             </>
           )}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={(item) => item.id.toString()}
         />
       </Box>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };

@@ -9,7 +9,7 @@ import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-import { useMutation } from '@apollo/client'
+import { useMutation } from "@apollo/client";
 import { profileMutationPassword } from "../../../store/ducks/profile/types";
 import { FormikTextInput } from "../Components/FormikTextInput";
 
@@ -17,34 +17,33 @@ type Props = StackScreenProps<RootStackParamList, "EditPassword">;
 export const EditPassword = ({ route }: Props) => {
   const { email } = route?.params;
   const navigation = useNavigation();
-  const formRef = useRef<any>(null)
+  const formRef = useRef<any>(null);
   const dispatch = useDispatch();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
-  const [newPassword, { data: dataMutation, loading: loadingMutation }] = useMutation(profileMutationPassword);
+  const [newPassword, { data: dataMutation, loading: loadingMutation }] =
+    useMutation(profileMutationPassword);
 
   //acessa a função handleSubmit do formik
   const handleSubmit = () => {
     if (formRef.current) {
-      formRef.current.handleSubmit()
+      formRef.current.handleSubmit();
     }
-  }
+  };
 
   const [initialValues, setInitialValues] = useState({
     password: "",
     password_confirm: "",
-    current_password: ""
+    current_password: "",
   });
 
   const validation = Yup.object().shape({
-    password: Yup.string()
-      .required("Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números."),
+    password: Yup.string().required(
+      "Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números."
+    ),
     password_confirm: Yup.string()
       .required("Informe a senha novamente")
-      .oneOf(
-        [Yup.ref('password'), null],
-        'As senhas devem corresponder'
-      ),
+      .oneOf([Yup.ref("password"), null], "As senhas devem corresponder"),
     current_password: Yup.string().required("Informe sua senha atual"),
   });
 
@@ -54,12 +53,12 @@ export const EditPassword = ({ route }: Props) => {
         email: email,
         newPassword: password,
         currentPassword: current_password,
-      }
-    })
-    navigation.goBack()
-  }
+      },
+    });
+    navigation.goBack();
+  };
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
@@ -76,11 +75,8 @@ export const EditPassword = ({ route }: Props) => {
               validationSchema={validation}
               innerRef={formRef}
               onSubmit={(values) => {
-                const {
-                  password,
-                  current_password
-                } = values;
-                changePassword(password, current_password)
+                const { password, current_password } = values;
+                changePassword(password, current_password);
               }}
             >
               {({ handleSubmit }) => (
@@ -103,7 +99,6 @@ export const EditPassword = ({ route }: Props) => {
                     <FormikTextInput
                       label={"Repita a senha"}
                       field={"password_confirm"}
-
                     />
                   </Box>
                   <Box mb={"micro"}>
@@ -113,7 +108,9 @@ export const EditPassword = ({ route }: Props) => {
                       iconRight={
                         <Button
                           mr="xxxs"
-                          onPress={() => setShowCurrentPassword(!showCurrentPassword)}
+                          onPress={() =>
+                            setShowCurrentPassword(!showCurrentPassword)
+                          }
                         >
                           <Icon color="neutroFrio2" name="EyeOff" size={25} />
                         </Button>
