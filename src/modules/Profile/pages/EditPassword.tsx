@@ -11,7 +11,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { useMutation } from "@apollo/client";
 import { profileMutationPassword } from "../../../store/ducks/profile/types";
-import { FormikTextInput } from "../Components/FormikTextInput";
+import { FormikTextInput } from "../../../shared/componentes/FormikTextInput";
 
 type Props = StackScreenProps<RootStackParamList, "EditPassword">;
 export const EditPassword = ({ route }: Props) => {
@@ -58,7 +58,7 @@ export const EditPassword = ({ route }: Props) => {
     navigation.goBack();
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
@@ -84,13 +84,18 @@ export const EditPassword = ({ route }: Props) => {
                   <Box mb={"micro"}>
                     <FormikTextInput
                       label={"Digite sua nova senha"}
+                      secureTextEntry={showNewPassword}
                       field={"password"}
                       iconRight={
                         <Button
                           mr="xxxs"
                           onPress={() => setShowNewPassword(!showNewPassword)}
                         >
-                          <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                          {showNewPassword ?
+                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                            :
+                            <Icon color="neutroFrio2" name="EyeOpen" size={25} />
+                          }
                         </Button>
                       }
                     />
@@ -104,6 +109,7 @@ export const EditPassword = ({ route }: Props) => {
                   <Box mb={"micro"}>
                     <FormikTextInput
                       label={"Digite sua senha atual"}
+                      secureTextEntry={showCurrentPassword}
                       field={"current_password"}
                       iconRight={
                         <Button
@@ -112,7 +118,11 @@ export const EditPassword = ({ route }: Props) => {
                             setShowCurrentPassword(!showCurrentPassword)
                           }
                         >
-                          <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                          {showCurrentPassword ?
+                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                            :
+                            <Icon color="neutroFrio2" name="EyeOpen" size={25} />
+                          }
                         </Button>
                       }
                     />

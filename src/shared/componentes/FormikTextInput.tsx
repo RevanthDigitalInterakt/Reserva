@@ -1,5 +1,5 @@
 import React from "react";
-import { ViewComponent } from "react-native";
+import { ViewComponent, KeyboardTypeOptions } from "react-native";
 import { TextField, Box, } from "reserva-ui";
 import { useFormikContext } from "formik";
 import {
@@ -16,9 +16,12 @@ interface IFormikTextInput {
     height?: number;
     field: string;
     iconRight?: ViewComponent;
+    textAlignVertical?: "auto" | "top" | "bottom" | "center" | undefined;
+    keyboardType?: KeyboardTypeOptions;
 }
 export const FormikTextInput = ({
     label,
+    textAlignVertical,
     secureTextEntry,
     placeholder,
     maskType,
@@ -26,11 +29,11 @@ export const FormikTextInput = ({
     height,
     field,
     iconRight,
+    keyboardType
 }: IFormikTextInput) => {
     const {
         values,
         handleChange,
-        setFieldTouched,
         touched,
         errors,
     } = useFormikContext<any>();
@@ -38,9 +41,12 @@ export const FormikTextInput = ({
         <>
             <TextField
                 label={label}
+                textAlignVertical={textAlignVertical}
                 fontFamily="nunitoRegular"
                 secureTextEntry={secureTextEntry}
+                autoCapitalize="none"
                 height={height}
+                keyboardType={keyboardType}
                 maskType={maskType}
                 maskOptions={maskOptions}
                 onChangeText={handleChange(field)}
