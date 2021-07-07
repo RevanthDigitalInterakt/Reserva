@@ -44,7 +44,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     if (
       orderForm &&
       orderForm.shippingData.selectedAddresses[0].addressId !==
-        selectedAddress.addressId
+      selectedAddress.addressId
     ) {
       await addShippingData(selectedAddress);
       setLoading(false);
@@ -95,7 +95,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
       ) : (
         <Alert
           isVisible={successModal}
-          title={'Seu endereço foi excluido com sucesso.'}
+          title={'Seu endereço foi excluído com sucesso.'}
           confirmText={'OK'}
           onConfirm={() => {
             setSuccessModal(false);
@@ -143,9 +143,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
               return (
                 <AddressSelector
                   addressData={{
-                    address: `${street}, ${number && complement}, ${
-                      number && complement
-                    }, ${neighborhood}, ${city} - ${state}`,
+                    address: `${street}, ${number && complement}, ${number && complement
+                      }, ${neighborhood}, ${city} - ${state}`,
                     title: street,
                     zipcode: postalCode,
                   }}
