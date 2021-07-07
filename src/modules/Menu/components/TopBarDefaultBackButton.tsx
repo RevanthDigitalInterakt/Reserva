@@ -2,15 +2,17 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Alert, Platform } from "react-native";
 import { TopBar } from "reserva-ui";
+import { useCart } from "../../../context/CartContext";
 
 export const TopBarDefaultBackButton: React.FC<{
   showShadow?: Boolean;
   loading: Boolean;
 }> = ({ showShadow = true, loading = false }) => {
   const navigation = useNavigation();
-
+  const { orderForm } = useCart()
   return (
     <TopBar
+      itemQuantity={orderForm?.items.length}
       loading={loading}
       paddingX="quarck"
       bg="white"

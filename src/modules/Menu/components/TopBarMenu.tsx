@@ -2,14 +2,16 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Alert } from "react-native";
 import { TopBar } from "reserva-ui";
+import { useCart } from "../../../context/CartContext";
 
 export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
   loading = false,
 }) => {
   const navigation = useNavigation();
-
+  const { orderForm } = useCart()
   return (
     <TopBar
+      itemQuantity={orderForm?.items.length}
       loading={loading}
       paddingX="quarck"
       bg="white"
