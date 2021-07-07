@@ -19,6 +19,8 @@ import { createAnimatableComponent } from "react-native-animatable";
 import { useSelector } from "react-redux";
 import { ApplicationState } from "../../../store";
 const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+
 const BoxAnimation = createAnimatableComponent(Box);
 
 export interface FilterModalProps {
@@ -189,8 +191,8 @@ export const FilterModal = ({
                     showCategories
                       ? filter.data?.categories.map((x) => x.description)
                       : filter.data?.categories
-                          .map((x) => x.description)
-                          .slice(0, 6)
+                        .map((x) => x.description)
+                        .slice(0, 6)
                   }
                   selectedList={filterList}
                   color="dropDownBorderColor"
@@ -293,10 +295,10 @@ export const FilterModal = ({
                       setSelectedMinprice(prices[0]);
                       setSelectedMaxPrice(prices[1]);
                     }}
-                    originalType={() => {}}
+                    originalType={() => { }}
                     prefix="R$ "
                     value={[100, 400]}
-                    width={300}
+                    width={deviceWidth - 95}
                   />
                 </BoxAnimation>
               )}
