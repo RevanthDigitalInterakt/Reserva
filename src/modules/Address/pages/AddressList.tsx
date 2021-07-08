@@ -126,7 +126,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={orderForm?.shippingData.availableAddresses}
+            data={orderForm?.shippingData?.availableAddresses}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               const {
