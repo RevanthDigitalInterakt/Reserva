@@ -4,14 +4,18 @@ import { Box } from 'reserva-ui';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { WebView } from 'react-native-webview';
 import { useCart } from '../../../context/CartContext';
+import { useNavigation } from "@react-navigation/native";
 
 const Checkout: React.FC<{}> = () => {
+  const navigation = useNavigation();
   const { orderForm } = useCart();
   const checkURL = (url: any) => {
     const check = url.includes('/checkout/orderPlaced');
     // verifica a url do webview se ja está no checkout/orderplaced para pegar o orderGroup da url.
     if (check) {
-      Alert.alert(url);
+      setTimeout(() => {
+        navigation.navigate("Home");
+      }, 2000);
     }
   };
 
