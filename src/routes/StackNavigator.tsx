@@ -88,7 +88,9 @@ export type RootStackParamList = {
   ForgotAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: Wish[] };
   IdentifyEmail: {};
-  AccessCode: {},
+  AccessCode: {
+    email: string;
+  },
   ForgotPassword: {} | undefined
   ForgotNewPassword: { email: string, code: string }
   ForgotEmailSuccess: {} | undefined

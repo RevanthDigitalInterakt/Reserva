@@ -27,7 +27,10 @@ const authAfterware = new ApolloLink((operation, forward) => {
   return forward(operation).map(response => {
     const { data } = response;
 
-    if (data?.classicSignIn === 'Success') {
+    if(
+      data?.classicSignIn === 'Success' || 
+      data?.accessKeySignIn === 'Success'
+    ) {
       const { response: res } = operation.getContext();
 
       response.data.cookie = res.headers.map['set-cookie'];
