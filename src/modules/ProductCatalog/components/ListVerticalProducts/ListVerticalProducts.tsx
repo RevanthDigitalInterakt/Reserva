@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { Box, ProductVerticalListCard } from 'reserva-ui';
 import { ProductQL } from '../../../../graphql/products/productSearch';
+import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { Product } from '../../../../store/ducks/product/types';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 
@@ -57,32 +58,35 @@ export const ListVerticalProducts = ({
         onEndReached={() => loadMoreProducts(products.length)}
         onEndReachedThreshold={0.5}
         ListHeaderComponent={listHeader}
-        renderItem={({ index, item }) => (
-          <Box
-            flex={1}
-            alignItems='center'
-            justifyContent='center'
-            height={320}>
-            <ProductVerticalListCard
-              colors={[""]}
-              imageSource={item.items[0].images[0].imageUrl}
-              installmentsNumber={item.items[0].sellers[0].commertialOffer.Installments[0].NumberOfInstallments}
-              installmentsPrice={item.items[0].sellers[0].commertialOffer.Installments[0].Value}
-              currency="R$"
-              discountTag={
-                getPercent(item.priceRange?.sellingPrice.lowPrice, item.priceRange?.listPrice.lowPrice)
-              }
-              priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-              price={item.priceRange?.listPrice?.lowPrice}
-              productTitle={item.productName}
-              onClickImage={() => {
-                navigation.navigate('ProductDetail', {
-                  productId: item.productId,
-                })
-              }}
-            />
-          </Box>
-        )}
+        renderItem={({ index, item }) => {
+          const colors = new ProductUtils().getColorsArray(item);
+          return (
+            <Box
+              flex={1}
+              alignItems='center'
+              justifyContent='center'
+              height={320}>
+              <ProductVerticalListCard
+                colors={colors}
+                imageSource={item.items[0].images[0].imageUrl}
+                installmentsNumber={item.items[0].sellers[0].commertialOffer.Installments[0].NumberOfInstallments}
+                installmentsPrice={item.items[0].sellers[0].commertialOffer.Installments[0].Value}
+                currency="R$"
+                discountTag={
+                  getPercent(item.priceRange?.sellingPrice.lowPrice, item.priceRange?.listPrice.lowPrice)
+                }
+                priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+                price={item.priceRange?.listPrice?.lowPrice}
+                productTitle={item.productName}
+                onClickImage={() => {
+                  navigation.navigate('ProductDetail', {
+                    productId: item.productId,
+                  })
+                }}
+              />
+            </Box>
+          )
+        }}
       />
     </>
   ) : null
