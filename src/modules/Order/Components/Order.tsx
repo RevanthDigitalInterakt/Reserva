@@ -84,7 +84,7 @@ const Order = ({ delivered, pixPending, onPress }: IOrder) => {
               fontFamily="nunitoBold"
               color="verdeSucesso"
             >
-              Produto entregue
+              Produto entregue!
             </Typography>
           )}
           {!delivered && !pixPending && (

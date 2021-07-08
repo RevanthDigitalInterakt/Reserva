@@ -101,7 +101,7 @@ const Delivery: React.FC<{}> = () => {
                         fontFamily="reservaSerifRegular"
                         fontSize={15}
                         color="white">
-                        Isenção de frete
+                        Recomendado: sem frete!
                       </Typography>
                     </Box>
                   </Box>
