@@ -46,14 +46,14 @@ export const EditProfile: React.FC<{
   useEffect(() => {
     refetch();
     setData({
-      userId: data?.profile.userId,
-      firstName: data?.profile.firstName,
-      lastName: data?.profile.lastName,
-      fullName: `${data?.profile.firstName} ${data?.profile.lastName}`,
-      email: data?.profile.email,
-      document: data?.profile.document,
+      userId: data?.profile?.userId,
+      firstName: data?.profile?.firstName,
+      lastName: data?.profile?.lastName,
+      fullName: data?.profile ? `${data?.profile?.firstName} ${data?.profile?.lastName}` : "",
+      email: data?.profile?.email,
+      document: data?.profile?.document,
       birthDate: data?.profile?.birthDate && format(addHours(new Date(Date.parse(data.profile.birthDate)), 3), 'dd/MM/yyyy'),
-      homePhone: data?.profile.homePhone
+      homePhone: data?.profile?.homePhone
     });
   }, [data]);
 
@@ -120,7 +120,7 @@ export const EditProfile: React.FC<{
               <Box mb={"nano"}>
                 <TextField
                   label={"Digite seu nome completo"}
-                  value={data ? userData.fullName : ""}
+                  value={userData.fullName}
                   onChangeText={(text) => {
                     const newFullName = userData.fullName = text
                     const fistName = newFullName.split(' ').slice(0, 1).join(' ');

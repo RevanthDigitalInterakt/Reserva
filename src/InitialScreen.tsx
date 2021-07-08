@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Children, Component, FC } from "react";
+import { StatusBar, Platform } from 'react-native';
 import LottieView from "lottie-react-native";
 import { animations } from "./assets";
 import Animated from "react-native-reanimated";
@@ -25,7 +26,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     dispatch(restoreSession());
   }, []);
 
-  useEffect(() => {}, [animation?.props.progress]);
+  useEffect(() => { }, [animation?.props.progress]);
 
   const profileQuery = gql`
   query Profile {
@@ -61,6 +62,10 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         />
       ) : (
         <SafeAreaView style={{ flex: 1 }}>
+          <StatusBar
+            animated={true}
+            barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
+          />
           <Animatable.View animation="fadeIn" style={{ height: "100%" }}>
             {children}
           </Animatable.View>
