@@ -27,14 +27,14 @@ export const TopBarDefault: React.FC<{
       }}
       rightButton1={{
         name: "Heart",
-        size: 18,
+        size: 24,
         onPress: () => {
           navigation.navigate("WishList");
         },
       }}
       rightButton2={{
         name: "Handbag",
-        size: 18,
+        size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
           navigation.navigate("BagScreen");
