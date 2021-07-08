@@ -265,6 +265,7 @@ interface CartContextProps {
     logisticInfo: any[]
   ) => Promise<boolean | undefined>; //todo - type later,
   orderform: () => void;
+  removeItem: () => Promise<{ ok: boolean }>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -315,12 +316,42 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const removeUnavailableProduct = async (itemId: string, index: number) => {
+  const removeItem = async (
+    itemId: string,
+    index: number,
+    seller: string,
+    qty: number
+  ) => {
     try {
       const { data } = await RemoveItemFromCart(
         orderForm?.orderFormId,
         itemId,
-        index
+        index,
+        seller,
+        qty
+      );
+
+      console.log(data);
+      setOrderForm(data);
+
+      return { ok: true };
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeUnavailableProduct = async (
+    itemId: string,
+    index: number,
+    seller: string
+  ) => {
+    try {
+      const { data } = await RemoveItemFromCart(
+        orderForm?.orderFormId,
+        itemId,
+        index,
+        seller,
+        0
       );
 
       return !!data;
@@ -418,6 +449,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         getCepData,
         addShippingOrPickupInfo,
         orderform,
+        removeItem,
       }}
     >
       {children}
@@ -443,6 +475,7 @@ export const useCart = () => {
     getCepData,
     addShippingOrPickupInfo,
     orderform,
+    removeItem,
   } = cartContext;
   return {
     orderForm,
@@ -453,5 +486,6 @@ export const useCart = () => {
     getCepData,
     addShippingOrPickupInfo,
     orderform,
+    removeItem,
   };
 };

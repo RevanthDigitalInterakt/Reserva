@@ -39,7 +39,7 @@ const BoxAnimated = createAnimatableComponent(Box);
 export const BagScreen = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { orderForm, addItem, orderform } = useCart();
+  const { orderForm, addItem, orderform, removeItem } = useCart();
   const [totalBag, setTotalBag] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
@@ -105,33 +105,6 @@ export const BagScreen = () => {
               Sacola ({orderForm?.items.length})
             </Typography>
           </Box>
-          {/* <Box my="micro">
-            <Box flexDirection="row">
-              <Typography fontFamily={'nunitoSemiBold'} fontSize={13}>
-                Faltam apenas R$29,90 para ganhar
-              </Typography>
-              <Typography> </Typography>
-              <Typography
-                variant={'precoPromocional2'}
-                color={'vermelhoFechadoRSV'}
-              >
-                frete grátis
-              </Typography>
-            </Box>
-
-            <Box width="100%">
-              <ProgressBar
-                colorLabel={'fullBlack'}
-                colorBar={'neutroFrio1'}
-                colorProgress={'neutroFrio2'}
-                value={90}
-                max={100}
-                showPercent={false}
-                barHeight={5}
-                borderRadius="xxxs"
-              />
-            </Box>
-          </Box> */}
 
           {orderForm?.items.map((item, index) => (
             <Box key={index} bg={'white'} marginTop={'xxxs'}>
@@ -152,10 +125,15 @@ export const BagScreen = () => {
                   await addItem(count, item.id, item.seller);
                 }}
                 onClickSubCount={async (count) =>
-                  await addItem(count, item.id, item.seller)
+                  await removeItem(
+                    item.id,
+                    index,
+                    item.seller,
+                    item.quantity - 1
+                  )
                 }
                 onClickClose={async () => {
-                  await addItem(0, item.id, item.seller);
+                  await removeItem(item.id, index, item.seller, 0);
                 }}
                 imageSource={item.imageUrl.replace('http', 'https')}
               />

@@ -85,6 +85,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => { 
     if(!loading){
+      console.log(data);
       setProducts(data.productSearch);
     }
     console.log(categoryId);

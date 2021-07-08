@@ -1,6 +1,6 @@
 import { CepResponse } from './../config/brasilApi';
-import { brasilApi } from "../config/brasilApi";
-import vtexConfig from "../config/vtexConfig";
+import { brasilApi } from '../config/brasilApi';
+import vtexConfig from '../config/vtexConfig';
 
 const CreateCart = async () => {
   // cria o carrinho
@@ -50,7 +50,9 @@ const AddItemToCart = async (
 const RemoveItemFromCart = async (
   orderFormId: string | undefined,
   id: string,
-  index: number
+  index: number,
+  seller: string,
+  quantity: number
 ) => {
   const response = await vtexConfig.post(
     `/checkout/pub/orderForm/${orderFormId}/items/update?sc=1`,
@@ -58,10 +60,10 @@ const RemoveItemFromCart = async (
       // modificar esse item de acordo com o modelo do carrinho
       orderItems: [
         {
-          seller: "1",
+          seller,
           id,
-          quantity: 0,
-          index
+          quantity,
+          index,
         },
       ],
     }
@@ -76,52 +78,51 @@ const AddCouponToCart = async (orderFormId: any) => {
     `/checkout/pub/orderForm/${orderFormId}/coupons?sc=1
   `,
     {
-      text: "testeapp",
+      text: 'testeapp',
       expectedOrderFormSections: [
-        "items",
-        "totalizers",
-        "clientProfileData",
-        "shippingData",
-        "paymentData",
-        "sellers",
-        "messages",
-        "marketingData",
-        "clientPreferencesData",
-        "storePreferencesData",
-        "giftRegistryData",
-        "ratesAndBenefitsData",
-        "openTextField",
-        "commercialConditionData",
-        "customData",
+        'items',
+        'totalizers',
+        'clientProfileData',
+        'shippingData',
+        'paymentData',
+        'sellers',
+        'messages',
+        'marketingData',
+        'clientPreferencesData',
+        'storePreferencesData',
+        'giftRegistryData',
+        'ratesAndBenefitsData',
+        'openTextField',
+        'commercialConditionData',
+        'customData',
       ],
     }
   );
   return response;
 };
 
-
 const RemoveCoupon = async (orderFormId: any) => {
   const response = await vtexConfig.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons?sc=1
     `,
     {
-      text: "",
+      text: '',
       expectedOrderFormSections: [
-        "items",
-        "totalizers",
-        "clientProfileData",
-        "shippingData",
-        "paymentData",
-        "sellers",
-        "messages",
-        "marketingData",
-        "clientPreferencesData",
-        "storePreferencesData",
-        "giftRegistryData",
-        "ratesAndBenefitsData",
-        "openTextField",
-        "commercialConditionData",
-        "customData",
+        'items',
+        'totalizers',
+        'clientProfileData',
+        'shippingData',
+        'paymentData',
+        'sellers',
+        'messages',
+        'marketingData',
+        'clientPreferencesData',
+        'storePreferencesData',
+        'giftRegistryData',
+        'ratesAndBenefitsData',
+        'openTextField',
+        'commercialConditionData',
+        'customData',
       ],
     }
   );
@@ -131,7 +132,9 @@ const RemoveCoupon = async (orderFormId: any) => {
 const AddAddressToCart = async (orderFormId: any, address: any) => {
   //APENAS adiciona endereço ao carrinho(orderForm)
   const { data } = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData?sc=1`, address);
+    `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData?sc=1`,
+    address
+  );
 
   return data;
 };
@@ -144,17 +147,17 @@ const DeliveryType = async (orderFormId: any) => {
     {
       selectedAddresses: [
         {
-          addressType: "search",
-          receiverName: "Vitor Hansen",
-          addressId: "6b55e28925b045fd8e967438f5413a2b",
-          postalCode: "04571-011",
-          city: "São Paulo",
-          state: "SP",
-          country: "BRA",
-          street: "Avenida Engenheiro Luiz Carlos Berrini",
-          number: "1493",
-          neighborhood: "Itaim Bibi",
-          complement: "",
+          addressType: 'search',
+          receiverName: 'Vitor Hansen',
+          addressId: '6b55e28925b045fd8e967438f5413a2b',
+          postalCode: '04571-011',
+          city: 'São Paulo',
+          state: 'SP',
+          country: 'BRA',
+          street: 'Avenida Engenheiro Luiz Carlos Berrini',
+          number: '1493',
+          neighborhood: 'Itaim Bibi',
+          complement: '',
           reference: null,
           geoCoordinates: [-46.694234, -23.609928],
         },
@@ -164,13 +167,13 @@ const DeliveryType = async (orderFormId: any) => {
       logisticsInfo: [
         {
           itemIndex: 0,
-          selectedDeliveryChannel: "pickup-in-point",
-          selectedSla: "Scan & Go (XAR)",
+          selectedDeliveryChannel: 'pickup-in-point',
+          selectedSla: 'Scan & Go (XAR)',
         },
         {
           itemIndex: 1,
-          selectedDeliveryChannel: "pickup-in-point",
-          selectedSla: "Scan & Go (XAR)",
+          selectedDeliveryChannel: 'pickup-in-point',
+          selectedSla: 'Scan & Go (XAR)',
         },
       ],
     }
@@ -179,46 +182,55 @@ const DeliveryType = async (orderFormId: any) => {
 };
 
 const GetPurchaseData = async (orderGroup: any) => {
-  const response =
-    await vtexConfig.get(`/checkout/pub/orders/order-group/${orderGroup}?sc=1`);
+  const response = await vtexConfig.get(
+    `/checkout/pub/orders/order-group/${orderGroup}?sc=1`
+  );
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
 };
 
-const IdentifyCustomer = async (orderFormId: string | undefined, email: string) => {
+const IdentifyCustomer = async (
+  orderFormId: string | undefined,
+  email: string
+) => {
   try {
-    const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData?sc=1`, { email })
+    const { data } = await vtexConfig.post(
+      `/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData?sc=1`,
+      { email }
+    );
 
     return data;
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-
-const AddCustomerToOrder = async (orderFormId: string | undefined, customer: any) => {
+const AddCustomerToOrder = async (
+  orderFormId: string | undefined,
+  customer: any
+) => {
   try {
-    const { data } = await vtexConfig.post(`/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`, { ...customer })
+    const { data } = await vtexConfig.post(
+      `/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`,
+      { ...customer }
+    );
 
     return data;
   } catch (err) {
     console.log(err);
   }
-}
+};
 const CepVerify = async (cep: string) => {
   try {
-
-    const { data } = await brasilApi.get(`/cep/v2/${cep}`)
-    console.log(data)
-    return data
+    const { data } = await brasilApi.get(`/cep/v2/${cep}`);
+    console.log(data);
+    return data;
   } catch (err) {
-
-    console.log(err)
-    return { errors: err } as CepResponse
-
+    console.log(err);
+    return { errors: err } as CepResponse;
   }
-}
+};
 
 export {
   CreateCart,
@@ -233,5 +245,5 @@ export {
   GetPurchaseData,
   IdentifyCustomer,
   AddCustomerToOrder,
-  RemoveItemFromCart
+  RemoveItemFromCart,
 };

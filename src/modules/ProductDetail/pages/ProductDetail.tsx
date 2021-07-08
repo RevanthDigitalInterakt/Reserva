@@ -329,14 +329,14 @@ export const ProductDetail: React.FC<Props> = ({
                     <Typography variant={'subtituloSessoes'}>
                       Tamanhos:
                     </Typography>
-                    <Button>
+                    {/* <Button>
                       <Box flexDirection="row" alignItems="center">
                         <Icon name="Ruler" size={35} />
                         <Typography fontFamily="nunitoRegular" fontSize={11}>
                           Guia de medidas
                         </Typography>
                       </Box>
-                    </Button>
+                    </Button> */}
                   </Box>
                   <Box alignItems="center" mt="xxxs">
                     <RadioButtons
