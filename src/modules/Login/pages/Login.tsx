@@ -31,7 +31,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
   const [showError, setShowError] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true);
-  const [sendEmail, { }] = useMutation(sendEmailVerificationMutation);
+  const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] = useMutation(sendEmailVerificationMutation);
 
   const handleLogin = () => {
     login({
@@ -47,7 +47,11 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
       variables: {
         email: loginCredentials.username
       }
-    }).then(x => navigation.navigate('AccessCode', {}))
+    }).then(data => {
+      navigation.navigate('AccessCode', {
+        email: loginCredentials.username
+      });   
+    });
   }
 
   useEffect(() => {
@@ -77,9 +81,6 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
         }}
       />
       <ScrollView>
-        <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => {
-          navigation.navigate("Home");
-        }} />
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily="reservaSerifRegular" fontSize={22}>
             Seja bem-vindo novamente!

@@ -109,7 +109,41 @@ export const FilterModal = ({
   const [showSizes, setShowSizes] = React.useState(false);
   const [showPrices, setShowPrices] = React.useState(false);
 
-  const { filter } = useSelector((state: ApplicationState) => state);
+  const [filter, setFilter] = useState({
+    categories: [
+      'Bermuda',
+      'Casacos',
+      'Calças',
+      'Cuecas',
+      'Camisas',
+      'Polos',
+      'Camisetas',
+      'Sungas'
+    ],
+    colors: [
+      '#FFF001',
+      '#18479F',
+      '#F1492E',
+      '#E5E1C4',
+      '#E363A2',
+      '#663054',
+      '#30B349',
+      '#947E57'
+    ],
+    sizes: [
+      'PP',
+      'p',
+      'G',
+      'GG',
+      '3G'
+    ],
+    priceRange: {
+      maxPrice: 1500,
+      minPrice: 300
+    }
+  })
+
+  //const { filter } = useSelector((state: ApplicationState) => state);
 
   const [selectedSize, setSelectedSize] = useState<string | null>();
 
@@ -189,9 +223,8 @@ export const FilterModal = ({
                 <CheckboxList
                   optionsList={
                     showCategories
-                      ? filter.data?.categories.map((x) => x.description)
-                      : filter.data?.categories
-                        .map((x) => x.description)
+                      ? filter.categories
+                      : filter.categories
                         .slice(0, 6)
                   }
                   selectedList={filterList}
@@ -219,8 +252,8 @@ export const FilterModal = ({
                 <SelectColor
                   listColors={
                     showColors
-                      ? filter.data?.colors
-                      : filter.data?.colors.slice(0, 6)
+                      ? filter.colors
+                      : filter.colors.slice(0, 6)
                   }
                   onPress={(color) => {
                     if (selectedColors.includes(color)) {
@@ -262,8 +295,8 @@ export const FilterModal = ({
                   }}
                   optionsList={
                     showSizes
-                      ? filter.data?.sizes
-                      : filter.data?.sizes.slice(0, 6)
+                      ? filter.sizes
+                      : filter.sizes.slice(0, 6)
                   }
                   defaultSelectedItem={"M"}
                 />
@@ -288,16 +321,16 @@ export const FilterModal = ({
                   alignSelf="center"
                 >
                   <Range
-                    max={filter.data?.maxPrice}
+                    max={filter.priceRange.maxPrice}
                     mdxType="Range"
-                    min={filter.data?.minPrice}
-                    onValuesChange={(prices) => {
+                    min={filter.priceRange.minPrice}
+                    onValuesChange={(prices: string[]) => {
                       setSelectedMinprice(prices[0]);
                       setSelectedMaxPrice(prices[1]);
                     }}
                     originalType={() => { }}
                     prefix="R$ "
-                    value={[100, 400]}
+                    value={[filter.priceRange.minPrice, filter.priceRange.maxPrice]}
                     width={deviceWidth - 95}
                   />
                 </BoxAnimation>

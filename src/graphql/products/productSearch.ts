@@ -55,6 +55,12 @@ $options: Options
                 images{
                     imageUrl
                 }
+				itemId
+                variations{
+                    originalName
+                    name
+                    values
+                }
                 sellers{
                     sellerId
                     commertialOffer{

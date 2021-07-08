@@ -17,3 +17,8 @@ export const recoveryPasswordMutation = gql`
     recoveryPassword(email: $email , newPassword: $newPassword, code: $code)
   }
 `
+export const accessKeySignInMutation = gql`
+  mutation AccessKeySignIn($email: String!, $code: String!){
+    accessKeySignIn(email: $email, code: $code)
+  }
+`

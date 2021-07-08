@@ -1,8 +1,5 @@
 import React, { createRef, useEffect, useState } from 'react';
-import {
-  Alert,
-  Dimensions
-} from 'react-native';
+import { Alert, Dimensions } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -32,7 +29,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { ApplicationState } from '../../../store';
 import { useCart } from '../../../context/CartContext';
 import { QueryResult, useQuery } from '@apollo/client';
-import { productQuery } from '../../../graphql/product/productQuery';
+import { GET_PRODUCTS } from '../../../graphql/product/productQuery';
 import {
   Installment,
   ProductQL,
@@ -52,417 +49,478 @@ interface ProductDetailProps {
 type Props = StackScreenProps<RootStackParamList, 'ProductDetail'> &
   ProductDetailProps;
 
+type Price = {
+  highPrice: number;
+  lowPrice: number;
+};
+
+type CommercialOffer = {
+  Tax: number;
+  taxPercentage: number;
+  AvailableQuantity: number;
+  Price: number;
+  PriceWithoutDiscont: number;
+  discountHighlights: any[];
+  Installments: {
+    Value: number;
+    TotalValuePlusInterestRate: number;
+    NumberOfInstallments: number;
+    PaymentSystemGroupName: string;
+    PaymentSystemName: string;
+  }[];
+};
+
+type Facets = {
+  name: string;
+  originalName: string | null;
+  values: string[];
+};
+
+type Variant = {
+  itemId: string;
+  images: {
+    imageUrl: string;
+  }[];
+  sellers: {
+    sellerId: string;
+    commertialOffer: CommercialOffer;
+  }[];
+  variations: Facets[] | undefined;
+};
+
+type Field = {
+  name: string;
+  originalName: string;
+};
+
+type Specification = {
+  field: Field;
+  values: Field[];
+};
+
+type Product = {
+  categoryTree: any[]; // doesnt matter
+  productId: string;
+  productName: string;
+  skuSpecifications: Specification[];
+  priceRange: {
+    sellingPrice: Price;
+    listPrice: Price;
+  };
+  items: Variant[];
+  description: string;
+};
+
+type ProductQueryResponse = {
+  product: Product;
+};
+
 export const ProductDetail: React.FC<Props> = ({
   route,
   recomendedProducts,
 }) => {
-  const productId = route.params.productId.split('-')[0];
-  const [productsQuery, setProduct] = useState<ProductQL>();
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [skuSizes, setSkuSises] = useState<(string | undefined)[]>();
-  const [skuColors, setSkuColors] = useState<(string | undefined)[]>();
-  const [skuColorSelected, setSkuColorSelected] = useState<SKU | undefined>();
-  const [itemSelected, setItemSelected] = useState('');
+  /**
+   * States, queries and mutations
+   */
 
+  const [product, setProduct] = useState<Product | null>(null);
+  const { data, loading, refetch }: QueryResult<ProductQueryResponse> =
+    useQuery<ProductQueryResponse>(GET_PRODUCTS, {
+      variables: {
+        id: route.params.productId.split('-')[0],
+      },
+    });
+  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
+  const [selectedColor, setSelectedColor] = useState('');
+  const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
+  const [selectedSize, setSelectedSize] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
-  const [actualRecomendedindex, setActualRecomendedindex] = useState(0);
   const { addItem } = useCart();
-
-  const { data, loading, refetch }: QueryResult = useQuery(productQuery, {
-    variables: {
-      id: productId,
-    },
-  });
-
-  const getMaxInstallments = (installments: Installment[]) => {
-    let maxInstallments: Installment = {
-      NumberOfInstallments: 0,
-      Value: 0
-    };
-
-    installments.forEach(installment => {
-      if(maxInstallments.NumberOfInstallments < installment.NumberOfInstallments){
-        maxInstallments = installment;
-      }
-    })
-
-    return maxInstallments;
-  }
-
-  useEffect(() => {
-    if (!loading) {
-      setProduct(data.product);
-      setSkuColorSelected(data.product?.items[0]);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    let sizes: (string | undefined)[] = [];
-    let colors: (string | undefined)[] = [];
-    productsQuery?.skuSpecifications.forEach((sku) => {
-      if (sku.field.name === 'TAMANHO') {
-        sizes = sku.values.map((value) => value.name);
-      }
-    });
-    setSkuSises(sizes);
-
-    productsQuery?.skuSpecifications.forEach((sku) => {
-      if (sku.field.name === 'VALOR_HEX_CONSOLIDADA') {
-        colors = sku.values.map((value) => value.name);
-      }
-    });
-    setSkuColors(colors);
-
-    console.log(colors, sizes);
-  }, [productsQuery]);
-
-  // const onChangeRecomended = (
-  //   scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
-  // ) => {
-  //   const actualItem = Math.ceil(
-  //     scrollEvent.nativeEvent.contentOffset.x / ((138 + theme.space.micro) * 2)
-  //   );
-  //   if (
-  //     actualItem !== actualRecomendedindex &&
-  //     recomendedProducts &&
-  //     actualItem <= Math.ceil(recomendedProducts.length / 2)
-  //   ) {
-  //     setActualRecomendedindex(actualItem);
-  //   }
-  // };
-
-  const onProductAdd = async () => {
-    // todo - change hardcoded product
-    const { message, ok } = await addItem(1, itemSelected, '1');
-
-    if (!ok) {
-      Alert.alert('Produto sem estoque', message);
-    }
-  };
-
   const dispatch = useDispatch();
   const shippingMethodState = useSelector(shippingMethodStateSelector);
-  const [selectedColor, setSelectedColor] = useState('');
-  const [selectedSize, setSelectedSize] = useState<string | number>('');
-  let product = useSelector((state: ApplicationState) => state.product);
-  const [selectedItemsSku, setSelectedItemsSku] = useState<SKU[]>();
+  const [cep, setCep] = useState('');
 
+  /***
+   * Effects
+   */
   useEffect(() => {
     refetch();
   }, []);
 
   useEffect(() => {
-    setSelectedColor(
-      product.data.skuList ? product.data.skuList[0]?.color : ''
-    );
-    setSelectedSize(product.data.skuList ? product.data.skuList[0]?.size : '');
-  }, [product]);
+    if (data) {
+      const { product } = data;
 
-  const [cep, setCep] = useState('');
+      setProduct(product);
 
+      // set default first selected variant
+      setSelectedVariant(product.items[0]);
+
+      // set colors filter
+      const colorList = getColorsList(product);
+      setColorFilters(colorList);
+
+      // set initial selected color
+      setSelectedColor(colorList ? colorList[0] : '');
+
+      // set size filter
+      const sizeList = getSizeList(product);
+      setSizeFilters(sizeList);
+    }
+  }, [data]);
+
+  // change sku effect
   useEffect(() => {
-    let selectedSku: SKU[] = [];
-    productsQuery?.items.forEach((x) => {
-      x.variations?.forEach((variation) => {
-        if (variation.name === 'VALOR_HEX_CONSOLIDADA') {
-          variation.values?.forEach((value) => {
-            if (value === selectedColor) {
-              selectedSku = selectedSku.concat(x);
-            }
-          });
-        }
+    if (product && selectedColor && selectedSize) {
+      const { items } = product;
+
+      // map sku variant hex
+      const sizeColorSkuVariations = items.flatMap((i) => {
+        const variants = i.variations
+          ?.map((v) => {
+            if (['VALOR_HEX_CONSOLIDADA', 'TAMANHO'].includes(v.name)) return v;
+          })
+          .filter((a) => a !== undefined);
+
+        return {
+          ...i,
+          variations: variants,
+        };
       });
-    });
-    setSkuColorSelected(selectedSku[0]);
-    setSelectedItemsSku(selectedSku);
-  }, [selectedColor]);
 
-  useEffect(() => {
-    console.log(selectedItemsSku);
-    selectedItemsSku?.forEach((item) => {
-      item.variations?.forEach((variation) => {
-        if (variation.name === 'TAMANHO') {
-          variation.values?.forEach((value) => {
-            if (value === selectedSize) {
-              console.log(item);
-              setItemSelected(item.itemId);
-            }
-          });
-        }
-      });
-    });
-  }, [selectedSize]);
+      if (sizeColorSkuVariations) {
+        const selectedSkuVariations: Facets[] = [
+          {
+            name: 'TAMANHO',
+            originalName: null,
+            values: [selectedSize],
+          },
+          {
+            name: 'VALOR_HEX_CONSOLIDADA',
+            originalName: null,
+            values: [selectedColor],
+          },
+        ];
 
-  useEffect(() => {
-    console.log(itemSelected);
-  }, [itemSelected]);
+        const variantToSelect = sizeColorSkuVariations.find((i) => {
+          if (i.variations) {
+            const a = i.variations.map(
+              ({ name, originalName, values }: Facets) => ({
+                name,
+                originalName,
+                values,
+              })
+            );
 
-  useEffect(() => {
-    console.log("skuColorSelected", skuColorSelected);
-  }, [skuColorSelected]);
+            return JSON.stringify(a) === JSON.stringify(selectedSkuVariations);
+          }
+        });
+
+        setSelectedVariant(variantToSelect);
+      }
+    }
+  }, [selectedColor, selectedSize]);
+
+  const getInstallments = () => {
+    const chosenInstallment =
+      selectedVariant?.sellers[0].commertialOffer.Installments.filter(
+        ({ PaymentSystemGroupName }) =>
+          PaymentSystemGroupName === 'creditCardPaymentGroup'
+      ).reduce(
+        (prev, next) =>
+          prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+        { NumberOfInstallments: 0, Value: 0 }
+      );
+
+    return chosenInstallment;
+  };
+
+  const onShare = async () => {
+    const options = {
+      message: 'Aqui está um produto que você pode gostar',
+      title: 'Compartilhar',
+    };
+
+    Share.open(options);
+  };
+
+  const onProductAdd = async () => {
+    if (selectedVariant) {
+      const { message, ok } = await addItem(1, selectedVariant?.itemId, '1');
+
+      if (!ok) {
+        Alert.alert('Produto sem estoque', message);
+      }
+    }
+  };
+
+  const getColorsList = ({ skuSpecifications }: Product) =>
+    skuSpecifications
+      .find(({ field }) => field.name === 'VALOR_HEX_CONSOLIDADA')
+      ?.values.map(({ name }) => name);
+
+  const getSizeList = ({ skuSpecifications }: Product) =>
+    skuSpecifications
+      .find(({ field }) => field.name === 'TAMANHO')
+      ?.values.map(({ name }) => name);
 
   return (
     <SafeAreaView>
-      {!loading && productsQuery && skuColorSelected && (
-        <Box bg="white">
-          <ModalBag
-            isVisible={isVisible}
-            onBackdropPress={() => {
-              setIsVisible(false);
-            }}
-          />
-          <TopBarDefaultBackButton loading={product.loading} />
-          <ScrollView>
-            <ProductDetailCard
-              installmentsNumber={
-                getMaxInstallments(productsQuery.items[0].sellers[0].commertialOffer.Installments).NumberOfInstallments
-              }
-              installmentsPrice={
-                getMaxInstallments(productsQuery.items[0].sellers[0].commertialOffer.Installments).Value
-              }
-              title={productsQuery.productName}
-              price={productsQuery.priceRange?.listPrice?.lowPrice}
-              priceWithDiscount={
-                productsQuery.priceRange?.sellingPrice.lowPrice
-              }
-              discountTag={getPercent(
-                productsQuery.priceRange?.sellingPrice.lowPrice,
-                productsQuery.priceRange?.listPrice?.lowPrice
-              )}
-              imagesWidth={screenWidth}
-              images={skuColorSelected?.images.map(
-                (image) => image.imageUrl
-              )}
-              isFavorited={isFavorited}
-              onClickFavorite={(favoriteState: any) => {
-                setIsFavorited(favoriteState);
-              }}
-              onClickShare={() => {
-                const options = {
-                  message: 'Aqui está um produto que você pode gostar',
-                  title: 'Compartilhar',
-                };
-                Share.open(options)
-                  .then((res) => {
-                    //console.log(res)
-                  })
-                  .catch((err) => {
-                    //err && console.log(err)
-                  });
-              }}
-            />
-
-            <Box mt="xs">
-              <Box px="xxxs" mb="xxxs">
-                <Typography variant={'subtituloSessoes'}>Cores:</Typography>
-              </Box>
-              <Box>
-                <ScrollView horizontal>
-                  <SelectColor
-                    onPress={(color: any) => setSelectedColor(color)}
-                    size={40}
-                    listColors={skuColors}
-                    selectedColors={selectedColor}
-                  />
-                </ScrollView>
-              </Box>
-            </Box>
-            <Box px="xxxs">
-              <Box mt="xxxs">
-                <Box
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography variant={'subtituloSessoes'}>
-                    Tamanhos:
-                  </Typography>
-                  <Button>
-                    <Box flexDirection="row" alignItems="center">
-                      <Icon name="Ruler" size={35} />
-                      <Typography fontFamily="nunitoRegular" fontSize={'11px'}>
-                        Guia de medidas
-                      </Typography>
-                    </Box>
-                  </Button>
-                </Box>
-                <Box alignItems="center" mt="xxxs">
-                  <RadioButtons
-                    size={44}
-                    fontSize={14}
-                    onSelectedChange={(item) => {
-                      setSelectedSize(item);
-                    }}
-                    optionsList={skuSizes}
-                    defaultSelectedItem={selectedSize}
-                  />
-                </Box>
-              </Box>
-
-              <Button
-                mt="xxs"
-                title="ADICIONAR À SACOLA"
-                variant="primarioEstreito"
-                onPress={() => {
-                  onProductAdd();
-                  setIsVisible(true);
-                }}
-                inline
+      <Box bg="white">
+        <ModalBag
+          isVisible={isVisible}
+          onBackdropPress={() => {
+            setIsVisible(false);
+          }}
+        />
+        <TopBarDefaultBackButton loading={loading} />
+        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+          {product && selectedVariant && (
+            <>
+              {/* PRODUCT CARD SECTION */}
+              <ProductDetailCard
+                {...product}
+                price={product.priceRange.listPrice.lowPrice || 0}
+                priceWithDiscount={
+                  product.priceRange.sellingPrice.lowPrice || 0
+                }
+                imagesWidth={screenWidth}
+                images={selectedVariant.images.map(({ imageUrl }) => imageUrl)}
+                installmentsNumber={
+                  getInstallments()?.NumberOfInstallments || 0
+                }
+                installmentsPrice={getInstallments()?.Value || 0}
+                onClickShare={onShare}
+                discountTag={
+                  getPercent(
+                    product.priceRange.sellingPrice.lowPrice,
+                    product.priceRange.listPrice.lowPrice
+                  ) || 0
+                }
               />
-
-              <Box mt="nano" flexDirection="row"></Box>
-              <Divider variant="fullWidth" my="xs" />
-              <Typography fontFamily="reservaSerifRegular" fontSize="16px">
-                Consultar prazo e valor do frete
-              </Typography>
-              <Box flexDirection="row" mt="xxxs">
-                <OutlineInput
-                  onChangeText={(text) => {
-                    setCep(text);
-                  }}
-                  value={cep}
-                  placeholder="Digite seu CEP"
-                  iconName="Search"
-                  keyboardType="number-pad"
-                  keyboardAppearance="light"
-                  maskType="zip-code"
-                  onPressIcon={() => {
-                    dispatch(load({ cep }));
-                  }}
-                />
+              {/* COLORS SECTION */}
+              <Box mt="xs">
+                <Box px="xxxs" mb="xxxs">
+                  <Typography variant="subtituloSessoes">Cores:</Typography>
+                </Box>
+                <Box>
+                  <ScrollView horizontal>
+                    <SelectColor
+                      onPress={(color) => setSelectedColor(color)}
+                      size={40}
+                      listColors={colorFilters || []}
+                      selectedColors={
+                        selectedColor || (colorFilters && colorFilters[0])
+                      }
+                    />
+                  </ScrollView>
+                </Box>
               </Box>
 
-              {shippingMethodState.shippingMethods && cep
-                ? shippingMethodState.shippingMethods.map((method) => {
-                  return (
-                    <Box flexDirection="row" justifyContent="space-between">
-                      <Box flexDirection="row">
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={'14px'}
-                        >
-                          R$ {method.shippingCost}{' '}
-                        </Typography>
-
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={'14px'}
-                        >
-                          {method.displayName}
+              {/* SIZE SELECTION */}
+              <Box px="xxxs">
+                <Box mt="xxxs">
+                  <Box
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Typography variant={'subtituloSessoes'}>
+                      Tamanhos:
+                    </Typography>
+                    <Button>
+                      <Box flexDirection="row" alignItems="center">
+                        <Icon name="Ruler" size={35} />
+                        <Typography fontFamily="nunitoRegular" fontSize={11}>
+                          Guia de medidas
                         </Typography>
                       </Box>
-                      <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={'14px'}
-                      >
-                        {format(
-                          addDays(Date.now(), method.deliveryDays),
-                          'dd/MM'
-                        )}
-                      </Typography>
-                    </Box>
-                  );
-                })
-                : null}
-
-              <Divider variant="fullWidth" my="xs" />
-              <Box>
-                <ExpansePanel
-                  information={{
-                    title: 'Descrição do produto',
-                    content: productsQuery.description
-                      ? productsQuery.description
-                      : 'teste',
-                  }}
-                />
-              </Box>
-
-              <Divider variant="fullWidth" my="xs" />
-              <Typography fontFamily="reservaSerifRegular" fontSize="16px">
-                Receba novidades e promoções
-              </Typography>
-              <Box flexDirection="column" mt="xxxs">
-                <OutlineInput
-                  placeholder="Digite seu e-mail"
-                  iconName="ChevronRight"
-                  keyboardType="email-address"
-                />
-              </Box>
-              {/* <Box mt="xs" mb="xxl">
-                <Box mb="xxxs">
-                  <Typography fontFamily="nunitoBold" fontSize={14}>
-                    Seu produto combina com
-                  </Typography>
-                </Box>
-                <Box mb="md">
-                  <ScrollView
-                    horizontal
-                    pagingEnabled
-                    scrollEventThrottle={138}
-                    snapToInterval={(138 + theme.space.micro) * 2}
-                    ref={recomendedScroll}
-                    showsHorizontalScrollIndicator={false}
-                    onScroll={onChangeRecomended}
-                  >
-                    {recomendedProducts.map((product, index) => (
-                      <>
-                        <Box mr={'micro'} key={index} height={230}>
-                          <ProductVerticalListCard
-                            imageWidth={138}
-                            small
-                            {...product}
-                          />
-                        </Box>
-                        <Box
-                          width={
-                            recomendedProducts?.length - 1 == index
-                              ? 138 / 2 + theme.space.micro
-                              : 0
-                          }
-                        />
-                      </>
-                    ))}
-                  </ScrollView>
-                  <Box
-                    paddingTop="nano"
-                    flexDirection="row"
-                    justifyContent="center"
-                  >
-                    {recomendedProducts.map(
-                      (i, k) =>
-                        k % 2 == 0 && (
-                          <Button
-                            paddingX="quarck"
-                            variant="icone"
-                            onPress={() => {
-                              let width = (138 + theme.space.micro) * 2;
-                              console.log(`k/2: ${k / 2}`);
-                              recomendedScroll.current?.scrollTo({
-                                x: width * (k / 2),
-                              });
-                            }}
-                            icon={
-                              <Icon
-                                name="Circle"
-                                size={6}
-                                color={
-                                  actualRecomendedindex == Math.ceil(k / 2)
-                                    ? 'preto'
-                                    : 'neutroFrio1'
-                                }
-                              />
-                            }
-                          />
-                        )
-                    )}
+                    </Button>
+                  </Box>
+                  <Box alignItems="center" mt="xxxs">
+                    <RadioButtons
+                      size={44}
+                      fontSize={14}
+                      onSelectedChange={(item) => {
+                        setSelectedSize(item);
+                      }}
+                      optionsList={sizeFilters || []}
+                      defaultSelectedItem=""
+                    />
                   </Box>
                 </Box>
+
+                {/* ADD TO CART BUTTON */}
+                <Button
+                  mt="xxs"
+                  title="ADICIONAR À SACOLA"
+                  variant="primarioEstreito"
+                  onPress={() => {
+                    onProductAdd();
+                    setIsVisible(true);
+                  }}
+                  inline
+                />
+                <Box mt="nano" flexDirection="row"></Box>
+                <Divider variant="fullWidth" my="xs" />
+
+                {/* DELIVERY INFO */}
+                <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                  Consultar prazo e valor do frete
+                </Typography>
+
+                <Box flexDirection="row" mt="xxxs">
+                  <OutlineInput
+                    onChangeText={(text) => {
+                      setCep(text);
+                    }}
+                    value={cep}
+                    placeholder="Digite seu CEP"
+                    iconName="Search"
+                    keyboardType="number-pad"
+                    keyboardAppearance="light"
+                    maskType="zip-code"
+                    onPressIcon={() => {
+                      dispatch(load({ cep }));
+                    }}
+                  />
+                </Box>
+
+                {shippingMethodState.shippingMethods && cep
+                  ? shippingMethodState.shippingMethods.map((method) => {
+                      return (
+                        <Box flexDirection="row" justifyContent="space-between">
+                          <Box flexDirection="row">
+                            <Typography
+                              fontFamily="nunitoRegular"
+                              fontSize={14}
+                            >
+                              R$ {method.shippingCost}{' '}
+                            </Typography>
+
+                            <Typography
+                              fontFamily="nunitoRegular"
+                              fontSize={14}
+                            >
+                              {method.displayName}
+                            </Typography>
+                          </Box>
+                          <Typography fontFamily="nunitoRegular" fontSize={14}>
+                            {format(
+                              addDays(Date.now(), method.deliveryDays),
+                              'dd/MM'
+                            )}
+                          </Typography>
+                        </Box>
+                      );
+                    })
+                  : null}
+
+                <Divider variant="fullWidth" my="xs" />
+
+                <Box>
+                  <ExpansePanel
+                    information={{
+                      title: 'Descrição do produto',
+                      content: product.description || '',
+                    }}
+                  />
+                </Box>
+
+                <Divider variant="fullWidth" my="xs" />
+
+                <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                  Receba novidades e promoções
+                </Typography>
+
+                <Box flexDirection="column" mt="xxxs">
+                  <OutlineInput
+                    placeholder="Digite seu e-mail"
+                    iconName="ChevronRight"
+                    keyboardType="email-address"
+                  />
+                </Box>
               </Box>
-             */}
+            </>
+          )}
+
+          {/*
+        
+            <Box mt="xs" mb="xxl">
+              <Box mb="xxxs">
+                <Typography fontFamily="nunitoBold" fontSize={14}>
+                  Seu produto combina com
+                </Typography>
+              </Box>
+              <Box mb="md">
+                <ScrollView
+                  horizontal
+                  pagingEnabled
+                  scrollEventThrottle={138}
+                  snapToInterval={(138 + theme.space.micro) * 2}
+                  ref={recomendedScroll}
+                  showsHorizontalScrollIndicator={false}
+                  onScroll={onChangeRecomended}
+                >
+                  {recomendedProducts.map((product, index) => (
+                    <>
+                      <Box mr={'micro'} key={index} height={230}>
+                        <ProductVerticalListCard
+                          imageWidth={138}
+                          small
+                          {...product}
+                        />
+                      </Box>
+                      <Box
+                        width={
+                          recomendedProducts?.length - 1 == index
+                            ? 138 / 2 + theme.space.micro
+                            : 0
+                        }
+                      />
+                    </>
+                  ))}
+                </ScrollView>
+                <Box
+                  paddingTop="nano"
+                  flexDirection="row"
+                  justifyContent="center"
+                >
+                  {recomendedProducts.map(
+                    (i, k) =>
+                      k % 2 == 0 && (
+                        <Button
+                          paddingX="quarck"
+                          variant="icone"
+                          onPress={() => {
+                            let width = (138 + theme.space.micro) * 2;
+                            console.log(`k/2: ${k / 2}`);
+                            recomendedScroll.current?.scrollTo({
+                              x: width * (k / 2),
+                            });
+                          }}
+                          icon={
+                            <Icon
+                              name="Circle"
+                              size={6}
+                              color={
+                                actualRecomendedindex == Math.ceil(k / 2)
+                                  ? 'preto'
+                                  : 'neutroFrio1'
+                              }
+                            />
+                          }
+                        />
+                      )
+                  )}
+                </Box>
+              </Box>
             </Box>
-          </ScrollView>
-        </Box>
-      )}
+          </Box>
+         */}
+        </ScrollView>
+      </Box>
     </SafeAreaView>
   );
 };

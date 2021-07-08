@@ -1,35 +1,29 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
-export const productQuery = gql`
-  query Product($id: ID!){
-    product(
-      identifier: {
-        field: id, 
-        value: $id
-        }
-    )
-    @context(provider: "vtex.search-graphql")
-    {
+export const GET_PRODUCTS = gql`
+  query Product($id: ID!) {
+    product(identifier: { field: id, value: $id })
+      @context(provider: "vtex.search-graphql") {
       productId
       productName
       description
-      skuSpecifications{
-        field{
+      skuSpecifications {
+        field {
           name
           originalName
         }
-        values{
+        values {
           name
           originalName
         }
       }
       items {
-        variations{
+        variations {
           originalName
           name
           values
         }
-        images{
+        images {
           imageUrl
         }
         itemId
@@ -64,5 +58,4 @@ export const productQuery = gql`
       }
     }
   }
-
 `;
