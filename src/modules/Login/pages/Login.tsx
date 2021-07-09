@@ -95,6 +95,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
             <UnderlineInput
               placeholder="Digite seu e-mail"
               errorMsg="Digite um e-mail válido"
+              keyboardType="email-address"
               showError={showError}
               onChangeText={
                 (text) => setLoginCredentials(
