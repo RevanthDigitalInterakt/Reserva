@@ -281,6 +281,7 @@ export const ProductDetail: React.FC<Props> = ({
               {/* PRODUCT CARD SECTION */}
               <ProductDetailCard
                 {...product}
+                title={product.productName}
                 price={product.priceRange.listPrice.lowPrice || 0}
                 priceWithDiscount={
                   product.priceRange.sellingPrice.lowPrice || 0
@@ -299,6 +300,7 @@ export const ProductDetail: React.FC<Props> = ({
                   ) || 0
                 }
               />
+
               {/* COLORS SECTION */}
               <Box mt="xs">
                 <Box px="xxxs" mb="xxxs">

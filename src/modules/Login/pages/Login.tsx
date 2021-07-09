@@ -147,7 +147,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
             variant="primarioEstreitoOutline"
             onPress={() => setLoginWithCode(!loginWithCode)}
           />
-          <Box
+          {/* <Box
             flexDirection="row"
             mt="sm"
             justifyContent="center"
@@ -161,7 +161,7 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
                 Clique para se cadastrar
               </Typography>
             </Button>
-          </Box>
+          </Box> */}
         </Box>
       </ScrollView>
     </SafeAreaView>
