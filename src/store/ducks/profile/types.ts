@@ -1,16 +1,16 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export enum ProfileTypes {
-  REGISTER_REQUEST = "@profile/REGISTER_REQUEST",
-  REQUEST_SUCCESS = "@profile/REQUEST_SUCCESS",
-  REQUEST_FAILURE = "@profile/REQUEST_FAILURE",
-  PROFILE_UPDATE = "@profile/PROFILE_UPDATE",
-  PROFILE_LOAD = "@profile/PROFILE_LOAD",
-  PROFILE_DELETE = "@profile/PROFILE_DELETE",
+  REGISTER_REQUEST = '@profile/REGISTER_REQUEST',
+  REQUEST_SUCCESS = '@profile/REQUEST_SUCCESS',
+  REQUEST_FAILURE = '@profile/REQUEST_FAILURE',
+  PROFILE_UPDATE = '@profile/PROFILE_UPDATE',
+  PROFILE_LOAD = '@profile/PROFILE_LOAD',
+  PROFILE_DELETE = '@profile/PROFILE_DELETE',
 }
 
 export interface Profile {
-  id?: string
+  id?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -41,39 +41,44 @@ export type ProfileQuery = {
   birthDate: string;
   homePhone: string;
   passwordLastUpdate?: string;
-}
+};
 
 export const profileQuery = gql`
   query Profile {
-    profile
-    @context(provider: "vtex.store-graphql") {
+    profile @context(provider: "vtex.store-graphql") {
       userId
       firstName
       lastName
       email
       document
       birthDate
-      homePhone 
+      homePhone
+      payments {
+        id
+        cardNumber
+      }
     }
   }
 `;
 
 export const profileMutation = gql`
-  mutation UpdateProfile($fields: ProfileInput!){
-    updateProfile(fields:$fields){
+  mutation UpdateProfile($fields: ProfileInput!) {
+    updateProfile(fields: $fields) @context(provider: "vtex.store-graphql") {
       userId
-      passwordLastUpdate
     }
   }
 `;
 
 export const profileMutationPassword = gql`
-    mutation RedefinePassword($email:String!, $newPassword:String!, $currentPassword:String!){
-      redefinePassword(
-        email:$email,
-        newPassword:$newPassword,
-        currentPassword:$currentPassword,
-      )
-    }
+  mutation RedefinePassword(
+    $email: String!
+    $newPassword: String!
+    $currentPassword: String!
+  ) {
+    redefinePassword(
+      email: $email
+      newPassword: $newPassword
+      currentPassword: $currentPassword
+    )
+  }
 `;
-
