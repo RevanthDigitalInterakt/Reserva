@@ -54,10 +54,10 @@ const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
   // TODO: na hr da integração remover o delivered e OnPress e tratar aqui dentro do componente. foi usado apenas para demonstração.
   return (
     <TouchableOpacity
-      onPress={() => { 
+      onPress={() => {
         navigation.navigate("OrderDetail", {
           orderId: data.orderId,
-        }); 
+        });
       }}
     >
       <Box
@@ -90,7 +90,7 @@ const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
           </Box>
           <Typography
             fontSize={20}
-            fontFamily="reservaSerifRegular"
+            fontFamily="reservaSerifBold"
             color="vermelhoRSV"
           >
             {data.orderId}
@@ -135,7 +135,7 @@ const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
               mt={"micro"}
               fontSize={14}
               fontFamily="nunitoBold"
-              color={status === 'payment-pending'? "preto" : "verdeSucesso"}
+              color={status === 'payment-pending' ? "preto" : "verdeSucesso"}
             >
               {status}
             </Typography>
