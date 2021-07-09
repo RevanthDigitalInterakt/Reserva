@@ -33,6 +33,7 @@ import { GET_PRODUCTS } from '../../../graphql/product/productQuery';
 import {
   Installment,
   ProductQL,
+  Seller,
   SKU,
   SkuSpecification,
 } from '../../../graphql/products/productSearch';
@@ -81,12 +82,14 @@ type Variant = {
   images: {
     imageUrl: string;
   }[];
-  sellers: {
-    sellerId: string;
-    commertialOffer: CommercialOffer;
-  }[];
+  sellers: Seller[];
   variations: Facets[] | undefined;
 };
+
+type Seller = {
+  sellerId: string,
+  commertialOffer: CommercialOffer
+}
 
 type Field = {
   name: string;
@@ -151,11 +154,13 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     if (data) {
       const { product } = data;
-
       setProduct(product);
 
       // set default first selected variant
       setSelectedVariant(product.items[0]);
+
+      const disabledColors = getUnavailableColors(product)
+      console.log(disabledColors)
 
       // set colors filter
       const colorList = getColorsList(product);
@@ -206,11 +211,11 @@ export const ProductDetail: React.FC<Props> = ({
         const variantToSelect = sizeColorSkuVariations.find((i) => {
           if (i.variations) {
             const a = i.variations.map(
-              ({ name, originalName, values }: Facets) => ({
+              ({ name, originalName, values }: any) => ({
                 name,
                 originalName,
                 values,
-              })
+              } as Facets)
             );
 
             return JSON.stringify(a) === JSON.stringify(selectedSkuVariations);
@@ -255,6 +260,15 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
+  const getUnavailableColors = ({ items, skuSpecifications }: Product) => {
+    console.log('lengths', items.length, skuSpecifications.length)
+    return items.map(item => {
+      console.log('getUnavailableColors', item.sellers[0])
+      if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
+        console.log(item.variations?.find(variant => variant.name === 'VALOR_HEX_CONSOLIDADA'))
+    })
+  }
+
   const getColorsList = ({ skuSpecifications }: Product) =>
     skuSpecifications
       .find(({ field }) => field.name === 'VALOR_HEX_CONSOLIDADA')
@@ -289,9 +303,9 @@ export const ProductDetail: React.FC<Props> = ({
                 imagesWidth={screenWidth}
                 images={selectedVariant.images.map(({ imageUrl }) => imageUrl)}
                 installmentsNumber={
-                  getInstallments()?.NumberOfInstallments || 0
+                  getInstallments()?.NumberOfInstallments || 1
                 }
-                installmentsPrice={getInstallments()?.Value || 0}
+                installmentsPrice={getInstallments()?.Value || product.priceRange.listPrice.lowPrice}
                 onClickShare={onShare}
                 discountTag={
                   getPercent(
@@ -311,6 +325,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <SelectColor
                       onPress={(color) => setSelectedColor(color)}
                       size={40}
+                      disabledColors={colorFilters?.length ? [colorFilters[1]] : []}
                       listColors={colorFilters || []}
                       selectedColors={
                         selectedColor || (colorFilters && colorFilters[0])
@@ -344,6 +359,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <RadioButtons
                       size={44}
                       fontSize={14}
+                      disbledOptions={['G']}
                       onSelectedChange={(item) => {
                         setSelectedSize(item);
                       }}
@@ -391,32 +407,32 @@ export const ProductDetail: React.FC<Props> = ({
 
                 {shippingMethodState.shippingMethods && cep
                   ? shippingMethodState.shippingMethods.map((method) => {
-                      return (
-                        <Box flexDirection="row" justifyContent="space-between">
-                          <Box flexDirection="row">
-                            <Typography
-                              fontFamily="nunitoRegular"
-                              fontSize={14}
-                            >
-                              R$ {method.shippingCost}{' '}
-                            </Typography>
+                    return (
+                      <Box flexDirection="row" justifyContent="space-between">
+                        <Box flexDirection="row">
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={14}
+                          >
+                            R$ {method.shippingCost}{' '}
+                          </Typography>
 
-                            <Typography
-                              fontFamily="nunitoRegular"
-                              fontSize={14}
-                            >
-                              {method.displayName}
-                            </Typography>
-                          </Box>
-                          <Typography fontFamily="nunitoRegular" fontSize={14}>
-                            {format(
-                              addDays(Date.now(), method.deliveryDays),
-                              'dd/MM'
-                            )}
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={14}
+                          >
+                            {method.displayName}
                           </Typography>
                         </Box>
-                      );
-                    })
+                        <Typography fontFamily="nunitoRegular" fontSize={14}>
+                          {format(
+                            addDays(Date.now(), method.deliveryDays),
+                            'dd/MM'
+                          )}
+                        </Typography>
+                      </Box>
+                    );
+                  })
                   : null}
 
                 <Divider variant="fullWidth" my="xs" />
