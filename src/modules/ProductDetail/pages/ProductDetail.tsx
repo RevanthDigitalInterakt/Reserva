@@ -135,7 +135,6 @@ export const ProductDetail: React.FC<Props> = ({
     });
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
-  const [unavailableColors, SetUnavailableColors] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -266,7 +265,7 @@ export const ProductDetail: React.FC<Props> = ({
     return items.map(item => {
       console.log('getUnavailableColors', item.sellers[0])
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
-        //SetUnavailableColors([...unavailableColors, item.variations?.find(variant => variant.name === 'VALOR_HEX_CONSOLIDADA')?.values[0]])
+        console.log(item.variations?.find(variant => variant.name === 'VALOR_HEX_CONSOLIDADA'))
     })
   }
 
