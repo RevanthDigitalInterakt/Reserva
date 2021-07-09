@@ -1,84 +1,75 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Box, Button, Icon, Typography, Alert } from 'reserva-ui';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { useQuery } from '@apollo/client';
+import { profileQuery } from '../../../store/ducks/profile/types';
 
-interface ListCardsScreenProps { }
+interface ListCardsScreenProps {}
 interface CardProps {
   cardNumber: string;
-  flag?: FlagTypes;
-  main: boolean;
   id: string;
 }
 
 type Props = StackScreenProps<RootStackParamList, 'ListCards'>;
 
 export const ListCards = ({ navigation, route }: Props) => {
-  const [cards, setCards] = React.useState<CardProps[]>([
-    {
-      cardNumber: '3000400050002000',
-      flag: 'elo',
-      main: false,
-      id: '01',
-    },
-    {
-      cardNumber: '3000400050005000',
-      flag: 'mastercard',
-      main: true,
-      id: '02',
-    },
-    {
-      cardNumber: '3000400050008000',
-      flag: 'visa',
-      main: false,
-      id: '03',
-    },
-  ]);
+  const { loading, error, data, refetch } = useQuery(profileQuery);
+  const [cards, setCards] = React.useState<CardProps[]>();
   const [cardSelected, setCardSelected] = React.useState<CardProps>(
     {} as CardProps
   );
 
   const [isVisibleModalCard, setIsVisibleModalCard] = React.useState(false);
   const [isVisibleModalTrash, setIsVisibleModalTrash] = React.useState(false);
-  const [isVisibleSuccessTrash, setIsVisibleSuccessTrash] = React.useState(
-    false
-  );
+  const [isVisibleSuccessTrash, setIsVisibleSuccessTrash] =
+    React.useState(false);
   const modalTrash = useRef(false);
 
   const { isCheckout, cashback } = route.params;
 
   const handleDeleteCard = (id: string) => {
-    const restCards = cards.filter((card) => card.id !== id);
-    const cardsMain = restCards.filter((card) => card.main);
-    if (restCards.length && !cardsMain.length) {
-      restCards[0].main = true;
-    }
-    setCards(restCards);
+    // const restCards = cards.filter((card) => card.id !== id);
+    // const cardsMain = restCards.filter((card) => card.main);
+    // if (restCards.length && !cardsMain.length) {
+    //   restCards[0].main = true;
+    // }
+    // setCards(restCards);
   };
 
   const handleMainCard = (id: string) => {
-    const changeMain = cards.map((card) => {
-      if (card.main) {
-        card.main = false;
-      }
-      if (card.id === id) {
-        card.main = true;
-      }
-      return card;
-    });
-
-    setCards(changeMain);
-    setIsVisibleModalCard(false);
+    // const changeMain = cards.map((card) => {
+    //   if (card.main) {
+    //     card.main = false;
+    //   }
+    //   if (card.id === id) {
+    //     card.main = true;
+    //   }
+    //   return card;
+    // });
+    // setCards(changeMain);
+    // setIsVisibleModalCard(false);
   };
+
+  useEffect(() => {
+    if (data) {
+      const { profile } = data;
+      setCards(profile.payments);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <>
       <SafeAreaView flex={1} backgroundColor="white">
-        <TopBarBackButton showShadow />
+        <TopBarBackButton loading={loading} showShadow />
 
         <Box
           overflow={'hidden'}
@@ -91,27 +82,29 @@ export const ListCards = ({ navigation, route }: Props) => {
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            {cards.map((card) => {
-              const { cardNumber, flag, main, id } = card;
-              return (
-                <Card
-                  key={id}
-                  flag={flag}
-                  isMain={main}
-                  cardNumbers={cardNumber}
-                  onPressCard={() => {
-                    setCardSelected(card);
-                    if (!card.main) {
-                      setIsVisibleModalCard(true);
-                    }
-                  }}
-                  onPressTrash={() => {
-                    setCardSelected(card);
-                    setIsVisibleModalTrash(true);
-                  }}
-                />
-              );
-            })}
+            {cards &&
+              cards.length > 0 &&
+              cards.map((card) => {
+                const { cardNumber, id } = card;
+                return (
+                  <Card
+                    key={id}
+                    flag="visa"
+                    // isMain={main}
+                    cardNumbers={cardNumber}
+                    onPressCard={() => {
+                      setCardSelected(card);
+                      // if (!card.main) {
+                      //   setIsVisibleModalCard(true);
+                      // }
+                    }}
+                    onPressTrash={() => {
+                      setCardSelected(card);
+                      setIsVisibleModalTrash(true);
+                    }}
+                  />
+                );
+              })}
           </ScrollView>
         </Box>
         <Button
@@ -136,7 +129,7 @@ export const ListCards = ({ navigation, route }: Props) => {
               onPress={() =>
                 navigation.navigate('SummaryScreen', {
                   paymentType: 'Credit',
-                  cashback: cashback
+                  cashback: cashback,
                 })
               }
             />

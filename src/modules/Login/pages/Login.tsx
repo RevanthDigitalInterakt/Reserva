@@ -1,37 +1,42 @@
-import { useMutation } from "@apollo/client";
-import AsyncStorage from "@react-native-community/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
-import { useEffect, useState } from "react";
-import { BackHandler, SafeAreaView, ScrollView } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Box, Button, Typography } from "reserva-ui";
-import { images } from "../../../assets";
-import { 
-  classicSignInMutation, 
-  sendEmailVerificationMutation 
-} from "../../../graphql/login/loginMutations";
-import { useAuth } from "../../../context/AuthContext";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import HeaderBanner from "../../Forgot/componet/HeaderBanner";
-import UnderlineInput from "../components/UnderlineInput";
+import { useMutation } from '@apollo/client';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Box, Button, Typography } from 'reserva-ui';
+import { images } from '../../../assets';
+import {
+  classicSignInMutation,
+  sendEmailVerificationMutation,
+} from '../../../graphql/login/loginMutations';
+import { useAuth } from '../../../context/AuthContext';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import HeaderBanner from '../../Forgot/componet/HeaderBanner';
+import UnderlineInput from '../components/UnderlineInput';
 
-type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
+type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
-export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) => {
+export const LoginScreen: React.FC<Props> = ({
+  children,
+  route,
+  navigation,
+}) => {
   const { comeFrom } = route.params;
   const { cookie, setCookie } = useAuth();
   //const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
   const [isSecureText, setIsSecureText] = useState(true);
   const [showError, setShowError] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true);
-  const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] = useMutation(sendEmailVerificationMutation);
+  const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
+    useMutation(sendEmailVerificationMutation);
 
   const handleLogin = () => {
     login({
@@ -45,19 +50,19 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
   const handleLoginCode = () => {
     sendEmail({
       variables: {
-        email: loginCredentials.username
-      }
-    }).then(data => {
+        email: loginCredentials.username,
+      },
+    }).then((data) => {
       navigation.navigate('AccessCode', {
-        email: loginCredentials.username
-      });   
+        email: loginCredentials.username,
+      });
     });
-  }
+  };
 
   useEffect(() => {
-    if (comeFrom === "Profile") {
+    if (comeFrom === 'Profile') {
       BackHandler.addEventListener('hardwareBackPress', () => {
-        navigation.navigate("Home");
+        navigation.navigate('Home');
         return true;
       });
     }
@@ -66,18 +71,18 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
   useEffect(() => {
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
-      AsyncStorage.setItem("@RNAuth:cookie", data?.cookie).then(() => {
-        navigation.navigate("Home");
+      AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
+        navigation.navigate('Home');
       });
     }
   }, [data]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={() => {
-          navigation.navigate("Home");
+          navigation.navigate('Home');
         }}
       />
       <ScrollView>
@@ -95,29 +100,29 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
             <UnderlineInput
               placeholder="Digite seu e-mail"
               errorMsg="Digite um e-mail válido"
+              keyboardType="email-address"
               showError={showError}
-              onChangeText={
-                (text) => setLoginCredentials(
-                  { ...loginCredentials, username: text }
-                )
+              onChangeText={(text) =>
+                setLoginCredentials({ ...loginCredentials, username: text })
               }
             />
-            {
-              !loginWithCode && (
-              <Box mt='md' width='100%'>
+            {!loginWithCode && (
+              <Box mt="md" width="100%">
                 <UnderlineInput
-                  placeholder='Digite sua senha'
+                  placeholder="Digite sua senha"
                   isSecureText={true}
-                  onChangeText={
-                    (text) => setLoginCredentials(
-                      { ...loginCredentials, password: text }
-                    )
+                  onChangeText={(text) =>
+                    setLoginCredentials({ ...loginCredentials, password: text })
                   }
                 />
 
                 <Box mt="micro">
-                  <TouchableOpacity onPress={() => { navigation.navigate('ForgotEmail', {}) }}>
-                    <Typography style={{ textDecorationLine: "underline" }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('ForgotEmail', {});
+                    }}
+                  >
+                    <Typography style={{ textDecorationLine: 'underline' }}>
                       Esqueci minha senha
                     </Typography>
                   </TouchableOpacity>
@@ -125,12 +130,13 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
               </Box>
             )}
           </Box>
-          <Box mt='md' />
+          <Box mt="md" />
           <Button
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
-            variant='primarioEstreito'
-            onPress={() => loginWithCode ? handleLoginCode() : handleLogin()}
+            variant="primarioEstreito"
+            disabled={loadingSendMail}
+            onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
           <Box my={50}>
             <Typography variant="tituloSessao" textAlign="center">
@@ -140,8 +146,8 @@ export const LoginScreen: React.FC<Props> = ({ children, route, navigation }) =>
           <Button
             title={
               loginWithCode
-                ? "ENTRAR COM LOGIN E SENHA"
-                : "RECEBER CÓDIGO DE ACESSO"
+                ? 'ENTRAR COM LOGIN E SENHA'
+                : 'RECEBER CÓDIGO DE ACESSO'
             }
             inline
             variant="primarioEstreitoOutline"
