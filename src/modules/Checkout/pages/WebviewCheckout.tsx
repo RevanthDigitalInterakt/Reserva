@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { Box } from 'reserva-ui';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { WebView } from 'react-native-webview';
 import { useCart } from '../../../context/CartContext';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -14,7 +14,7 @@ const Checkout: React.FC<{}> = () => {
     // verifica a url do webview se ja está no checkout/orderplaced para pegar o orderGroup da url.
     if (check) {
       setTimeout(() => {
-        navigation.navigate("Home");
+        navigation.navigate('Home');
       }, 2000);
     }
   };
@@ -24,7 +24,13 @@ const Checkout: React.FC<{}> = () => {
       <TopBarBackButton showShadow />
       <Box>
         {orderForm?.orderFormId !== '' && (
-          <View style={{ width: '100%', height: 1000, backgroundColor: 'red' }}>
+          <View
+            style={{
+              width: '100%',
+              height: Dimensions.get('window').height - 100,
+              backgroundColor: 'red',
+            }}
+          >
             <WebView
               onNavigationStateChange={(navState) => {
                 checkURL(navState.url);

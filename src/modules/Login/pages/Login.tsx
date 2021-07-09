@@ -135,7 +135,7 @@ export const LoginScreen: React.FC<Props> = ({
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant="primarioEstreito"
-            disabled={loadingSendMail}
+            disabled={loadingSendMail || loading}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
           <Box my={50}>

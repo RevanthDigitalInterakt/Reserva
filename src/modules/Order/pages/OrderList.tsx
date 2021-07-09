@@ -1,26 +1,32 @@
-import { useQuery } from "@apollo/client";
-import { useNavigation } from "@react-navigation/core";
-import * as React from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { useQuery } from '@apollo/client';
+import * as React from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
 
-import { Typography, Box, Button, Alert, Icon } from "reserva-ui";
-import { ordersQuery } from "../../../graphql/orders/ordersQuery";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import Order from "../Components/Order";
+import { Typography, Box } from 'reserva-ui';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import Order from '../Components/Order';
+import { useEffect, useState } from 'react';
+import { GET_ORDERS } from '../../../store/ducks/orders/gql';
+
 const OrderList = () => {
-  const navigation = useNavigation();
-  const [orders, setOrders] = React.useState([]);
-  const { data, loading} = useQuery(ordersQuery);
+  const [orders, setOrders] = useState([]);
+  const { data, loading, refetch } = useQuery(GET_ORDERS);
 
-  React.useEffect(() => {
-    if(!loading){
-      setOrders(data.orders);
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if (!loading && data) {
+      const { orders } = data;
+
+      setOrders(orders);
     }
-  }, [data])
+  }, [data]);
 
   return (
     <>
-      <SafeAreaView flex={1} backgroundColor={"white"}>
+      <SafeAreaView flex={1} backgroundColor={'white'}>
         <TopBarBackButton loading={loading} showShadow />
 
         <ScrollView>
@@ -36,16 +42,18 @@ const OrderList = () => {
           </Box>
           <Box
             flex={1}
-            paddingY={'xxxs'}
-            paddingX={'xxxs'}
-            bg="backgoundInput"
-            width={'100%'}
+            paddingY="xxxs"
+            paddingX="xxxs"
+            backgroundColor="white"
+            width="100%"
           >
-            {
-              orders.map((order) => (
-                <Order data={order} />
-              ))
-            }
+            {orders.length > 0 ? (
+              orders.map((order) => <Order data={order} />)
+            ) : (
+              <Typography variant="tituloSessoes" fontSize={16}>
+                Você ainda não tem pedidos!
+              </Typography>
+            )}
           </Box>
         </ScrollView>
       </SafeAreaView>
