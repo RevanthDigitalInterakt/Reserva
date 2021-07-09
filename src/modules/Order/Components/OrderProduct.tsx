@@ -21,20 +21,32 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
   return (
     <>
       <Box flexDirection="row" mt={"xxs"}>
-        <Image
-          variant="sm"
-          source={orderItem.imageUrl}
-        />
-        <Box ml="micro">
-          <Typography fontSize={13} fontFamily="nunitoBold">
-            {orderItem.name}
-          </Typography>
-          <Typography fontSize={11} fontFamily="nunitoRegular">
-            Tam: 41
-          </Typography>
-          <Typography fontSize={11} fontFamily="nunitoRegular">
-            Cor: Branca
-          </Typography>
+        <Box>
+          <Image
+            variant="sm"
+            source={orderItem.imageUrl}
+          />
+        </Box>
+
+        <Box ml="micro" flex={1}>
+          <Box mb="nano">
+            <Typography fontSize={13} fontFamily="nunitoBold">
+              {orderItem.name.split(" - ")[0]}
+            </Typography>
+          </Box>
+          <Box flexDirection="row" mb="micro">
+            <Box mr="xxs">
+              <Typography fontSize={11} fontFamily="nunitoRegular">
+                Tam: 41
+              </Typography>
+            </Box>
+            <Box>
+              <Typography fontSize={11} fontFamily="nunitoRegular">
+                Cor: Branca
+              </Typography>
+            </Box>
+          </Box>
+
           <Box flexDirection="row">
             <Typography
               color="neutroFrio2"
@@ -52,9 +64,9 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               fontSize={11}
               fontFamily="nunitoRegular"
             >
-              345,00
+              {orderItem.price}
             </Typography>
-            <Typography
+            {/* <Typography
               style={{
                 marginLeft: 5,
               }}
@@ -63,10 +75,10 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               fontFamily="nunitoRegular"
             >
               por
-            </Typography>
+            </Typography> */}
           </Box>
           <Typography fontSize={18} fontFamily="nunitoBold">
-            R$297,00
+            R$ {orderItem.sellingPrice}
           </Typography>
         </Box>
       </Box>

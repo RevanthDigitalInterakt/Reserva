@@ -17,17 +17,66 @@ import { orderQuery } from "../../../graphql/orders/ordersQuery";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import Order from "../Components/Order";
-import OrderDetailComponent, { IOrderData } from "../Components/OrderDetailComponent";
+import OrderDetailComponent, { } from "../Components/OrderDetailComponent";
 
 type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 
+export type IOrderData = {
+  orderId: string;
+  status: string;
+  statusDescription: string;
+  shippingData: {
+    logisticsInfo: {
+      itemIndex: string;
+      selectedSla: string;
+      slas: {
+        shippingEstimate: string;
+        shippingEstimateDate: string;
+      }
+    }
+    address: {
+      street: string;
+      number: string;
+      neighborhood: string;
+      city: string;
+      state: string;
+      postalCode: string;
+    }
+  }
+  items: [{
+    name: string;
+    price: string;
+    sellingPrice: string;
+    quantity: string;
+    imageUrl: string;
+    measurementUnit: string;
+  }]
+  value: string;
+  totals: {
+    id: string;
+    name: string;
+    value: string;
+  }
+  paymentData: {
+    transactions: {
+      isActive: string;
+      merchantName: string;
+      payments: {
+        paymentSystemName: string;
+        paymentSystem: string;
+        lastDigits: string;
+      }
+    }
+  }
+}
+
 const OrderList: React.FC<Props> = ({ route }) => {
   const { orderId } = route.params;
+  const { data, loading, refetch } = useQuery(orderQuery, { variables: { orderId } });
   const [order, setOrder] = React.useState({} as IOrderData);
-  const {data, loading, refetch} = useQuery(orderQuery, { variables: { orderId }});
 
   React.useEffect(() => {
-    if(!loading){
+    if (!loading) {
       setOrder(data.order);
     }
   }, [data])
@@ -72,7 +121,10 @@ const OrderList: React.FC<Props> = ({ route }) => {
                   fontSize={14}
                   fontFamily="nunitoRegular"
                 >
-                Endereço de entrega: 
+                  Endereço de entrega: {
+                    order.shippingData &&
+                    `${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}
+                  `}
                 </Typography>
               </Box>
 
