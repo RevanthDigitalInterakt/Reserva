@@ -64,8 +64,8 @@ const OrderDetailComponent = ({
   data,
   deliveryState,
 }: IOrderDetailComponent) => {
-  console.log(data);
-  
+  console.log('dataTeste', data);
+
   const deliveryStateToStyle = () => {
     switch (deliveryState) {
       case 1:
@@ -175,15 +175,15 @@ const OrderDetailComponent = ({
             fontSize={20}
             color="vermelhoRSV"
           >
-            12-3456789
+            {data.orderId}
           </Typography>
         </Box>
         {deliveryStateToMsg()}
-        {/* {
-          data && data.items.map((item) => (
+        {
+          data.items && data.items.map((item) => (
             <OrderProduct orderItem={item} />
           ))
-        } */}
+        }
 
         {/* //preços */}
         <Box mt="xs" flexDirection="row" justifyContent="space-between">
