@@ -159,11 +159,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         items={[
           {
             text: 'Menor Preço',
-            value: OrderByEnum.OrderByPriceDESC,
+            value: OrderByEnum.OrderByPriceASC,
           },
           {
             text: 'Maior Preço',
-            value: OrderByEnum.OrderByPriceASC,
+            value: OrderByEnum.OrderByPriceDESC,
           },
           {
             text: 'Mais Recentes',

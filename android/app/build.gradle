@@ -166,16 +166,16 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'Abc123*'
-            keyAlias 'my-key-alias'
-            keyPassword 'Abc123*'
+            storeFile file('reserva-app-upload-key.keystore')
+            storePassword 'rsvglobalapp'
+            keyAlias 'reserva-app-key'
+            keyPassword 'rsvglobalapp'
         }
         release {
-            storeFile file('release.keystore')
-            storePassword '123456'
-            keyAlias 'my-key-alias'
-            keyPassword '123456'
+            storeFile file('reserva-app-upload-key.keystore')
+            storePassword 'rsvglobalapp'
+            keyAlias 'reserva-app-key'
+            keyPassword 'rsvglobalapp'
         }
     }
     buildTypes {
