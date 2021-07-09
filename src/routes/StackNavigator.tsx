@@ -85,6 +85,9 @@ export type RootStackParamList = {
     ]
   };
   WishList: {};
+  OrderDetail: {
+    orderId?: string;
+  };
   ForgotAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: Wish[] };
   IdentifyEmail: {};

@@ -4,15 +4,68 @@ import { Platform } from "react-native";
 import { Typography, Box, Button, Icon, Image } from "reserva-ui";
 import { PriceCustom } from "../../Checkout/components/PriceCustom";
 import OrderProduct from "./OrderProduct";
+
+
+export type IOrderData = {
+  orderId: string;
+  status: string;
+  statusDescription: string;
+  shippingData: {
+    logisticsInfo: {
+      itemIndex: string;
+      selectedSla: string;
+      slas: {
+        shippingEstimate: string;
+        shippingEstimateDate: string;
+      }
+    }
+    address: {
+      street: string;
+      number: string;
+      neighborhood: string;
+      city: string;
+      state: string;
+      postalCode: string;
+    }
+  }
+  items: [{
+    name: string;
+    price: string;
+    sellingPrice: string;
+    quantity: string;
+    imageUrl: string;
+    measurementUnit: string;
+  }]
+  value: string;
+  totals: {
+    id: string;
+    name: string;
+    value: string;
+  }
+  paymentData: {
+    transactions: {
+      isActive: string;
+      merchantName: string;
+      payments: {
+        paymentSystemName: string;
+        paymentSystem: string;
+        lastDigits: string;
+      }
+    }
+  }
+}
+
 interface IOrderDetailComponent {
-  obj?: object;
+  data: IOrderData;
   deliveryState: number;
 }
 
 const OrderDetailComponent = ({
-  obj,
+  data,
   deliveryState,
 }: IOrderDetailComponent) => {
+  console.log(data);
+  
   const deliveryStateToStyle = () => {
     switch (deliveryState) {
       case 1:
@@ -126,9 +179,11 @@ const OrderDetailComponent = ({
           </Typography>
         </Box>
         {deliveryStateToMsg()}
-
-        {/* aqui fazer o map de produtos comprados */}
-        <OrderProduct />
+        {/* {
+          data && data.items.map((item) => (
+            <OrderProduct orderItem={item} />
+          ))
+        } */}
 
         {/* //preços */}
         <Box mt="xs" flexDirection="row" justifyContent="space-between">

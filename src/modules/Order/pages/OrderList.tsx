@@ -1,30 +1,26 @@
-import { useNavigation } from '@react-navigation/core';
-import * as React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { useQuery } from "@apollo/client";
+import { useNavigation } from "@react-navigation/core";
+import * as React from "react";
+import { SafeAreaView, ScrollView } from "react-native";
 
-import { Typography, Box } from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import Order from '../Components/Order';
-import { useQuery } from '@apollo/client';
-import { GET_ORDERS } from '../../../store/ducks/orders/gql';
-import { useEffect, useState } from 'react';
+import { Typography, Box, Button, Alert, Icon } from "reserva-ui";
+import { ordersQuery } from "../../../graphql/orders/ordersQuery";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import Order from "../Components/Order";
 const OrderList = () => {
   const navigation = useNavigation();
-  const { data, loading, refetch } = useQuery(GET_ORDERS);
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = React.useState([]);
+  const { data, loading} = useQuery(ordersQuery);
 
-  useEffect(() => {
-    if (data) {
+  React.useEffect(() => {
+    if(!loading){
       setOrders(data.orders);
     }
-  }, [data]);
+  }, [data])
 
-  useEffect(() => {
-    refetch();
-  }, []);
   return (
     <>
-      <SafeAreaView flex={1} backgroundColor={'white'}>
+      <SafeAreaView flex={1} backgroundColor={"white"}>
         <TopBarBackButton loading={loading} showShadow />
 
         <ScrollView>
@@ -45,15 +41,11 @@ const OrderList = () => {
             bg="backgoundInput"
             width={'100%'}
           >
-            {/* aqui dentro os pedidos */}
-            {orders.length > 0 &&
-              orders.map(() => (
-                <Order
-                  onPress={() => {
-                    navigation.navigate('OrderDetail', { pixPending: true });
-                  }}
-                />
-              ))}
+            {
+              orders.map((order) => (
+                <Order data={order} />
+              ))
+            }
           </Box>
         </ScrollView>
       </SafeAreaView>
