@@ -141,7 +141,7 @@ export const BagScreen = () => {
           ))}
         </Box>
 
-        <Box paddingX={'xxxs'}>
+        {/* <Box paddingX={'xxxs'}>
           <Divider variant={'fullWidth'} />
           <Button onPress={() => setShowLikelyProducts(!showLikelyProducts)}>
             <Box flexDirection={'row'} marginY={'xxs'} alignItems={'center'}>
@@ -169,7 +169,7 @@ export const BagScreen = () => {
             </Box>
           </Button>
           <Divider variant={'fullWidth'} />
-        </Box>
+        </Box> */}
 
         {/* {showLikelyProducts && (
           <BoxAnimated

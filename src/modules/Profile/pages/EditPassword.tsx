@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { Alert, SafeAreaView, ScrollView } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
@@ -9,20 +9,29 @@ import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-import { useMutation } from "@apollo/client";
-import { profileMutationPassword } from "../../../store/ducks/profile/types";
+import { useMutation, useQuery } from "@apollo/client";
+import { profileMutationPassword, profileQuery } from "../../../store/ducks/profile/types";
 import { FormikTextInput } from "../../../shared/componentes/FormikTextInput";
+import { redefinePasswordMutation } from "../../../graphql/profile/redefinePassword";
 
 type Props = StackScreenProps<RootStackParamList, "EditPassword">;
 export const EditPassword = ({ route }: Props) => {
-  const { email } = route?.params;
   const navigation = useNavigation();
   const formRef = useRef<any>(null);
   const dispatch = useDispatch();
+  const [email, setEmail] = useState()
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
   const [newPassword, { data: dataMutation, loading: loadingMutation }] =
-    useMutation(profileMutationPassword);
+    useMutation(redefinePasswordMutation);
+    
+  const { loading, error, data, refetch } = useQuery(profileQuery);
+  
+  useEffect(() => {
+    if(!loading){
+      setEmail(data?.profile?.email)
+    }
+  }, [data]);
 
   //acessa a função handleSubmit do formik
   const handleSubmit = () => {
@@ -55,10 +64,14 @@ export const EditPassword = ({ route }: Props) => {
         currentPassword: current_password,
       },
     });
-    navigation.goBack();
+    // navigation.goBack();
   };
 
-  useEffect(() => { }, []);
+  useEffect(() => {
+    if(dataMutation?.redefinePassword === "Success"){
+      navigation.goBack();
+    }
+  }, [dataMutation])
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">

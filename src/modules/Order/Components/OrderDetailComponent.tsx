@@ -1,15 +1,16 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { Platform } from "react-native";
-import { Typography, Box, Button, Icon, Image } from "reserva-ui";
-import { PriceCustom } from "../../Checkout/components/PriceCustom";
-import OrderProduct from "./OrderProduct";
-
+import { useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { Platform } from 'react-native';
+import { Typography, Box, Button, Icon, Image } from 'reserva-ui';
+import { PriceCustom } from '../../Checkout/components/PriceCustom';
+import OrderProduct from './OrderProduct';
+import { useState } from 'react';
 
 export type IOrderData = {
   orderId: string;
   status: string;
   statusDescription: string;
+  state: string;
   shippingData: {
     logisticsInfo: {
       itemIndex: string;
@@ -17,8 +18,8 @@ export type IOrderData = {
       slas: {
         shippingEstimate: string;
         shippingEstimateDate: string;
-      }
-    }
+      };
+    };
     address: {
       street: string;
       number: string;
@@ -26,22 +27,26 @@ export type IOrderData = {
       city: string;
       state: string;
       postalCode: string;
+    };
+  };
+  items: [
+    {
+      name: string;
+      price: string;
+      sellingPrice: string;
+      quantity: string;
+      imageUrl: string;
+      measurementUnit: string;
     }
-  }
-  items: [{
-    name: string;
-    price: string;
-    sellingPrice: string;
-    quantity: string;
-    imageUrl: string;
-    measurementUnit: string;
-  }]
-  value: string;
-  totals: {
-    id: string;
-    name: string;
-    value: string;
-  }
+  ];
+  value: number;
+  totals: [
+    {
+      id: string;
+      name: string;
+      value: string;
+    }
+  ];
   paymentData: {
     transactions: {
       isActive: string;
@@ -50,187 +55,187 @@ export type IOrderData = {
         paymentSystemName: string;
         paymentSystem: string;
         lastDigits: string;
-      }
-    }
-  }
-}
+      };
+    };
+  };
+};
 
 interface IOrderDetailComponent {
   data: IOrderData;
   deliveryState: number;
 }
 
-const OrderDetailComponent = ({
-  data,
-  deliveryState,
-}: IOrderDetailComponent) => {
+const OrderDetailComponent = ({ data }: IOrderDetailComponent) => {
   console.log(data);
-  
-  const deliveryStateToStyle = () => {
-    switch (deliveryState) {
-      case 1:
-        return (
-          <Typography fontFamily="reservaSerifRegular" fontSize={20}>
-            Pedido feito
-          </Typography>
-        );
-        break;
-      case 2:
-        return (
-          <Typography fontFamily="reservaSerifRegular" fontSize={20}>
-            Confirmação
-          </Typography>
-        );
-        break;
-      case 3:
-        return (
-          <Typography fontFamily="reservaSerifRegular" fontSize={20}>
-            Envio
-          </Typography>
-        );
-        break;
-      case 4:
-        return (
-          <Typography fontFamily="reservaSerifRegular" fontSize={20}>
-            Entrega
-          </Typography>
-        );
-        break;
-    }
-  };
+  // const deliveryStateToStyle = () => {
+  //   switch (data.status) {
+  //     case 1:
+  //       return (
+  //         <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+  //           Pedido feito
+  //         </Typography>
+  //       );
+  //       break;
+  //     case 2:
+  //       return (
+  //         <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+  //           Confirmação
+  //         </Typography>
+  //       );
+  //       break;
+  //     case 3:
+  //       return (
+  //         <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+  //           Envio
+  //         </Typography>
+  //       );
+  //       break;
+  //     case 4:
+  //       return (
+  //         <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+  //           Entrega
+  //         </Typography>
+  //       );
+  //       break;
+  //     case 6:
+  //       return (
+  //         <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+  //           Cancelado
+  //         </Typography>
+  //       );
+  //       break;
+  //   }
+  // };
 
-  const deliveryStateToMsg = () => {
-    switch (deliveryState) {
-      case 1:
-        return (
-          <>
-            <Typography
-              style={{ marginBottom: 7, marginTop: 11 }}
-              fontSize={14}
-              fontFamily="nunitoBold"
-            >
-              Seu pedido foi feito com sucesso.
-            </Typography>
-            <Typography fontSize={14} fontFamily="nunitoRegular">
-              Aguardamos a confirmação do pagamento para seguirmos com a entrega
-            </Typography>
-          </>
-        );
-        break;
-      case 2:
-        return (
-          <>
-            <Typography
-              style={{ marginBottom: 7, marginTop: 11 }}
-              fontSize={14}
-              fontFamily="nunitoBold"
-            >
-              Pagamento recebido.
-            </Typography>
-            <Typography fontSize={14} fontFamily="nunitoRegular">
-              Sua compra foi confirmada com sucesso
-            </Typography>
-          </>
-        );
-        break;
-      case 3:
-        return (
-          <>
-            <Typography
-              style={{ marginBottom: 7, marginTop: 11 }}
-              fontSize={14}
-              fontFamily="nunitoBold"
-            >
-              Seu pedido saiu para entrega.
-            </Typography>
-          </>
-        );
-        break;
-      case 4:
-        return (
-          <>
-            <Typography
-              style={{ marginBottom: 7, marginTop: 11 }}
-              fontSize={14}
-              fontFamily="nunitoBold"
-            >
-              Sua compra foi entregue com sucesso.
-            </Typography>
-          </>
-        );
-        break;
-    }
-  };
+  // const deliveryStateToMsg = () => {
+  //   switch (deliveryState) {
+  //     case 1:
+  //       return (
+  //         <>
+  //           <Typography
+  //             style={{ marginBottom: 7, marginTop: 11 }}
+  //             fontSize={14}
+  //             fontFamily="nunitoBold"
+  //           >
+  //             Seu pedido foi feito com sucesso.
+  //           </Typography>
+  //           <Typography fontSize={14} fontFamily="nunitoRegular">
+  //             Aguardamos a confirmação do pagamento para seguirmos com a entrega
+  //           </Typography>
+  //         </>
+  //       );
+  //       break;
+  //     case 2:
+  //       return (
+  //         <>
+  //           <Typography
+  //             style={{ marginBottom: 7, marginTop: 11 }}
+  //             fontSize={14}
+  //             fontFamily="nunitoBold"
+  //           >
+  //             Pagamento recebido.
+  //           </Typography>
+  //           <Typography fontSize={14} fontFamily="nunitoRegular">
+  //             Sua compra foi confirmada com sucesso
+  //           </Typography>
+  //         </>
+  //       );
+  //       break;
+  //     case 3:
+  //       return (
+  //         <>
+  //           <Typography
+  //             style={{ marginBottom: 7, marginTop: 11 }}
+  //             fontSize={14}
+  //             fontFamily="nunitoBold"
+  //           >
+  //             Seu pedido saiu para entrega.
+  //           </Typography>
+  //         </>
+  //       );
+  //       break;
+  //     case 4:
+  //       return (
+  //         <>
+  //           <Typography
+  //             style={{ marginBottom: 7, marginTop: 11 }}
+  //             fontSize={14}
+  //             fontFamily="nunitoBold"
+  //           >
+  //             Sua compra foi entregue com sucesso.
+  //           </Typography>
+  //         </>
+  //       );
+  //       break;
+  //   }
+  // };
 
   return (
     <>
       <Box>
-        <Box mt={"xxs"} flexDirection="row" justifyContent="space-between">
-          {deliveryStateToStyle()}
-          {/* <Typography fontFamily="reservaSerifRegular" fontSize={20}>
-            Confirmação
-          </Typography> */}
+        <Box mt={'xxs'} flexDirection="row" justifyContent="space-between">
+          {/* {deliveryStateToStyle()} */}
           <Typography
             fontFamily="reservaDisplayRegular"
             fontSize={20}
             color="vermelhoRSV"
           >
-            12-3456789
+            {data.orderId}
           </Typography>
         </Box>
-        {deliveryStateToMsg()}
-        {/* {
-          data && data.items.map((item) => (
-            <OrderProduct orderItem={item} />
-          ))
-        } */}
+        {/* {deliveryStateToMsg()} */}
+        {data.items &&
+          data.items.map((item) => <OrderProduct orderItem={item} />)}
 
         {/* //preços */}
         <Box mt="xs" flexDirection="row" justifyContent="space-between">
-          <Typography variant="precoAntigo3">
-            Subtotal
-          </Typography>
+          <Typography variant="precoAntigo3">Subtotal</Typography>
           <PriceCustom
-            fontFamily={"nunitoSemiBold"}
+            fontFamily={'nunitoSemiBold'}
             sizeInterger={15}
             sizeDecimal={11}
-            num={10000}
+            num={
+              data.totals?.find(({ id }) => id === 'Items')?.value / 100 || 0
+            }
           />
         </Box>
         <Box mt="micro" flexDirection="row" justifyContent="space-between">
-          <Typography variant="precoAntigo3">
-            Frete
-          </Typography>
+          <Typography variant="precoAntigo3">Frete</Typography>
           <PriceCustom
-            fontFamily={"nunitoSemiBold"}
+            fontFamily={'nunitoSemiBold'}
             sizeInterger={15}
             sizeDecimal={11}
-            num={1254}
+            num={
+              data.totals?.find(({ id }) => id === 'Shipping')?.value / 100 || 0
+            }
           />
         </Box>
         <Box mt="micro" flexDirection="row" justifyContent="space-between">
-          <Typography variant="precoAntigo3">
-            Descontos
-          </Typography>
+          <Typography variant="precoAntigo3">Descontos</Typography>
           <PriceCustom
-            fontFamily={"nunitoSemiBold"}
+            fontFamily={'nunitoSemiBold'}
             sizeInterger={15}
             negative={true}
             sizeDecimal={11}
-            num={254}
+            num={
+              data.totals?.find(({ id }) => id === 'Discounts')?.value / 100 ||
+              0
+            }
           />
         </Box>
-        <Box mt="xxxs" flexDirection="row" justifyContent="space-between" alignItems="center">
-          <Typography variant="precoAntigo3" >
-            Total
-          </Typography>
+        <Box
+          mt="xxxs"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="precoAntigo3">Total</Typography>
           <PriceCustom
-            fontFamily={"nunitoBold"}
+            fontFamily={'nunitoBold'}
             sizeInterger={20}
             sizeDecimal={11}
-            num={1000}
+            num={data.value / 100}
           />
-
         </Box>
       </Box>
     </>

@@ -1,9 +1,10 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { Platform, TouchableOpacity } from "react-native";
-import { Typography, Box, Button, Icon } from "reserva-ui";
-import { string } from "yup";
-import { stringToReal } from "../../../utils/stringToReal";
+import { useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { Platform, TouchableOpacity } from 'react-native';
+import { Typography, Box, Button, Icon } from 'reserva-ui';
+import { string } from 'yup';
+import { stringToReal } from '../../../utils/stringToReal';
+import { useState } from 'react';
 
 type IOrderData = {
   orderId: string;
@@ -14,8 +15,8 @@ type IOrderData = {
       slas: {
         shippingEstimate: string;
         shippingEstimateDate: string;
-      }
-    }
+      };
+    };
     address: {
       street: string;
       number: string;
@@ -23,20 +24,20 @@ type IOrderData = {
       city: string;
       state: string;
       postalCode: string;
-    }
-  }
+    };
+  };
   status: string;
   value: string;
   totals: {
     id: string;
     name: string;
     value: string;
-  }
+  };
   items: {
     id: string;
     name: string;
-  }
-}
+  };
+};
 
 interface IOrder {
   onPress?: () => void;
@@ -46,34 +47,35 @@ interface IOrder {
   data: IOrderData;
 }
 
-const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
+const Order = ({ data }: IOrder) => {
   const navigation = useNavigation();
+  const [order, setOrder] = useState({
+    ...data,
+    status: data.state || data.status,
+  });
 
-  const status = data.status;
-
-  // TODO: na hr da integração remover o delivered e OnPress e tratar aqui dentro do componente. foi usado apenas para demonstração.
   return (
     <TouchableOpacity
-      onPress={() => { 
-        navigation.navigate("OrderDetail", {
-          orderId: data.orderId,
-        }); 
+      onPress={() => {
+        navigation.navigate('OrderDetail', {
+          order,
+        });
       }}
     >
       <Box
         style={{ elevation: 6 }}
-        boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
+        boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
         mt="xxxs"
-        width={"100%"}
+        width={'100%'}
         height={180}
-        backgroundColor={"white"}
+        backgroundColor={'white'}
       >
         <Box
           height={150}
           borderBottomWidth="hairline"
-          borderColor={"backgroundMenuOpened"}
-          paddingY={"micro"}
-          paddingX={"micro"}
+          borderColor={'backgroundMenuOpened'}
+          paddingY={'micro'}
+          paddingX={'micro'}
         >
           <Box flexDirection="row" justifyContent="space-between">
             <Typography
@@ -85,17 +87,17 @@ const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
             </Typography>
 
             <Typography fontSize={20} fontFamily="nunitoBold" color="preto">
-              {stringToReal(String(data.value))}
+              {stringToReal(String(order.value))}
             </Typography>
           </Box>
           <Typography
             fontSize={20}
-            fontFamily="reservaSerifRegular"
+            fontFamily="reservaSerifBold"
             color="vermelhoRSV"
           >
             {data.orderId}
           </Typography>
-          {status === 'payment-pending' && (
+          {order.status === 'payment-pending' && (
             <Box
               flexDirection="row"
               alignItems="center"
@@ -103,7 +105,7 @@ const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
             >
               <Typography
                 style={{ marginTop: 5, marginBottom: 5 }}
-                mt={"micro"}
+                mt={'micro'}
                 fontSize={14}
                 fontFamily="nunitoBold"
                 color="preto"
@@ -118,10 +120,10 @@ const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
               </Box>
             </Box>
           )}
-          {status && (
+          {order.status === 'confirmed' && (
             <Typography
               style={{ marginTop: 5, marginBottom: 5 }}
-              mt={"micro"}
+              mt={'micro'}
               fontSize={14}
               fontFamily="nunitoBold"
               color="verdeSucesso"
@@ -129,24 +131,29 @@ const Order = ({ delivered, pixPending, onPress, data }: IOrder) => {
               Produto entregue!
             </Typography>
           )}
-          {!delivered && !pixPending && (
+          {['payment-pending', 'canceled'].includes(order.status) && (
             <Typography
               style={{ marginTop: 5, marginBottom: 5 }}
-              mt={"micro"}
+              mt={'micro'}
               fontSize={14}
               fontFamily="nunitoBold"
-              color={status === 'payment-pending'? "preto" : "verdeSucesso"}
+              color={
+                ['payment-pending', 'canceled'].includes(order.status)
+                  ? 'vermelhoAlerta'
+                  : 'verdeSucesso'
+              }
             >
-              {status}
+              {order.status}
             </Typography>
           )}
 
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
-            Endereço de entrega: {` ${data.shippingData.address.street}, ${data.shippingData.address.number}, ${data.shippingData.address.neighborhood} - ${data.shippingData.address.city} - ${data.shippingData.address.state} - ${data.shippingData.address.postalCode}`}
+            Endereço de entrega:{' '}
+            {` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}`}
           </Typography>
         </Box>
 
-        <Button pt={"xxxs"} backgroundColor={"white"} height={20} width={100}>
+        <Button pt={'xxxs'} backgroundColor={'white'} height={20} width={100}>
           <Icon name="ArrowDown" size={20} />
         </Button>
       </Box>

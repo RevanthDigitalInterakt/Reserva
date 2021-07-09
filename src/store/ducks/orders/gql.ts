@@ -9,6 +9,45 @@ export const GET_ORDERS = gql`
       statusDescription
       creationDate
       isCompleted
+      value
+      shippingData {
+        logisticsInfo {
+          selectedSla
+          slas {
+            name
+            shippingEstimate
+            shippingEstimateDate
+          }
+        }
+        address {
+          postalCode
+          city
+          state
+          street
+          country
+          number
+          neighborhood
+          complement
+        }
+      }
+      paymentData {
+        transactions {
+          isActive
+          merchantName
+          payments {
+            firstDigits
+            paymentSystem
+            paymentSystemName
+            installments
+            value
+          }
+        }
+      }
+      totals {
+        id
+        name
+        value
+      }
       items {
         id
         name
@@ -16,6 +55,8 @@ export const GET_ORDERS = gql`
         price
         listPrice
         sellingPrice
+        quantity
+        imageUrl
       }
     }
   }

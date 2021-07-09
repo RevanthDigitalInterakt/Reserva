@@ -12,6 +12,7 @@ import {
 } from 'reserva-ui'
 import * as Animatable from 'react-native-animatable'
 import {
+  Linking,
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
@@ -135,7 +136,7 @@ const MenuItem: React.FC<IMenuItem> = ({
                     let cont = 0;
                     let routes = item.href.split('/')
                     routes.forEach((route) => {
-                      if(route !== ""){
+                      if (route !== "") {
                         facetInput[cont] = {
                           key: 'c',
                           value: route
@@ -308,7 +309,7 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate('NearbyStores')
+                  Linking.openURL('https://whts.co/reserva');
                 }}></FixedMenuItem>
             </Animatable.View>
           )}
