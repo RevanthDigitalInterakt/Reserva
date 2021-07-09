@@ -33,6 +33,8 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts'
 import { FilterModal } from '../modals/FilterModal'
 import { ProductSearchData } from '../../../graphql/products/productSearch';
+import { facetsQuery } from '../../../graphql/facets/facetsQuery'
+import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum'
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>
 
@@ -50,7 +52,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const originalOpenedcategoryId = categoryId
 
   const dispatch = useDispatch()
-
+  const [colorsfilters, setColorsFilters] = useState([]);
+  const [sizefilters, setSizeFilters] = useState([]);
+  const [categoryfilters, setCategoryFilters] = useState([]);
+  const [priceRangefilters, setPriceRangeFilters] = useState<{ from: number; to: number; }>();
   const [filterVisible, setFilterVisible] = useState(false)
   const [sorterVisible, setSorterVisible] = useState(false)
   const [filterList, setFilterList] = useState<string[]>([])
@@ -74,8 +79,74 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     }
   )
   
+  const { 
+    data: facetsData,
+    loading: lodingFacets,
+    refetch: refetchFacets
+  }: QueryResult = useQuery(
+    facetsQuery, 
+    {
+      variables: {
+        hideUnavailableItems: true,
+        selectedFacets: facetInput
+      }
+    }
+  )
+
+  useEffect(() => {
+    if(!lodingFacets){
+      const facets = facetsData.facets.facets;
+      let rangeFrom = 0;
+      let rangeTo = 0;
+      let colorValues = facets.map((facet) => {
+        if (['DESC_COR_CONSOLIDADA'].includes(facet.name)){
+          return facet.values;
+        }
+      })
+        .filter((a) => a !== undefined)[0]
+        .map(b => ColorsToHexEnum[b.value]);
+  
+      let sizeValues = facets.map((facet) => {
+        if (['TAMANHO'].includes(facet.name)){
+          return facet.values;
+        }
+      })
+        .filter((a) => a !== undefined)[0]
+        .map(b => b.value);
+  
+      let categoryValues = facets.map((facet) => {
+        if (['Categoria'].includes(facet.name)){
+          return facet.values;
+        }
+      })
+        .filter((a) => a !== undefined)[0]
+        .map(b => b.value);
+
+      let priceValues = facets.map((facet) => {
+        if (['Preço'].includes(facet.name)){
+          return facet.values;
+        }
+      })
+        .filter((a) => a !== undefined)[0]
+        .map(b => b.range).map((range) => {
+          console.log("range", range);
+          
+          if(rangeFrom === 0 || rangeFrom > range.from) rangeFrom = range.from;
+          if(rangeTo < range.to) rangeTo = range.to; 
+        });
+      setPriceRangeFilters({
+        from: rangeFrom,
+        to: rangeTo
+      })
+      setCategoryFilters(categoryValues);
+      setSizeFilters(sizeValues);
+      setColorsFilters(colorValues);
+    }
+  }, [facetsData])
+  
   useEffect(() => {
     refetch()
+    refetchFacets()
   }, [])
 
   const [
@@ -144,6 +215,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         filterList={filterList}
         setFilterList={setFilterList}
         isVisible={filterVisible}
+        colors={colorsfilters}
+        sizes={sizefilters}
+        categories={categoryfilters}
+        priceRange={priceRangefilters}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title='Excluir endereço'

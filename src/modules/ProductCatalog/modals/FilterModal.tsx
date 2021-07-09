@@ -33,6 +33,10 @@ export interface FilterModalProps {
   setFilterList: Function;
   filterList: string[];
   dispatch: Function;
+  colors: string[];
+  sizes: string[];
+  priceRange: { from: number; to: number; };
+  categories: string[];
   categoryId?: string;
 }
 
@@ -94,6 +98,10 @@ export const FilterModal = ({
   filterList,
   dispatch,
   categoryId,
+  colors,
+  sizes,
+  categories,
+  priceRange,
   ...props
 }: FilterModalProps) => {
   const [selectedMinprice, setSelectedMinprice] = React.useState<
@@ -223,9 +231,8 @@ export const FilterModal = ({
                 <CheckboxList
                   optionsList={
                     showCategories
-                      ? filter.categories
-                      : filter.categories
-                        .slice(0, 6)
+                      ? categories
+                      : categories.slice(0, 6)
                   }
                   selectedList={filterList}
                   color="dropDownBorderColor"
@@ -252,8 +259,8 @@ export const FilterModal = ({
                 <SelectColor
                   listColors={
                     showColors
-                      ? filter.colors
-                      : filter.colors.slice(0, 6)
+                      ? colors
+                      : colors.slice(0, 6)
                   }
                   onPress={(color) => {
                     if (selectedColors.includes(color)) {
@@ -295,8 +302,8 @@ export const FilterModal = ({
                   }}
                   optionsList={
                     showSizes
-                      ? filter.sizes
-                      : filter.sizes.slice(0, 6)
+                      ? sizes
+                      : sizes.slice(0, 6)
                   }
                   defaultSelectedItem={"M"}
                 />
@@ -321,16 +328,16 @@ export const FilterModal = ({
                   alignSelf="center"
                 >
                   <Range
-                    max={filter.priceRange.maxPrice}
+                    max={priceRange.to}
                     mdxType="Range"
-                    min={filter.priceRange.minPrice}
+                    min={priceRange.from}
                     onValuesChange={(prices: string[]) => {
                       setSelectedMinprice(prices[0]);
                       setSelectedMaxPrice(prices[1]);
                     }}
                     originalType={() => { }}
                     prefix="R$ "
-                    value={[filter.priceRange.minPrice, filter.priceRange.maxPrice]}
+                    value={[priceRange.from, priceRange.to]}
                     width={deviceWidth - 95}
                   />
                 </BoxAnimation>
