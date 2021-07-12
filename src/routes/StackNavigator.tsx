@@ -74,8 +74,8 @@ export type RootStackParamList = {
   ProductDetail: { productId: string };
   RegisterSuccess: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
-  ProductCatalog: { 
-    safeArea: boolean; 
+  ProductCatalog: {
+    safeArea: boolean;
     search: boolean;
     facetInput: [
       {
@@ -118,6 +118,7 @@ export type RootStackParamList = {
     };
   };
   ForgotEmail: {};
+  HomeTabs: undefined
   CancelOrder: {};
   Cashback: {};
   AddressList: { isCheckout: boolean };

@@ -16,7 +16,7 @@ import CodeInput from '../components/CodeInput';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export interface AccessCodeProps
-  extends StackScreenProps<RootStackParamList, 'AccessCode'> {}
+  extends StackScreenProps<RootStackParamList, 'AccessCode'> { }
 
 const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
   const { cookie, setCookie } = useAuth();
@@ -32,7 +32,7 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
     loginWithCode({
       variables: {
         email: email,
-        code: accessCode,
+        code: `${accessCode}`,
       },
     });
   };
@@ -41,7 +41,7 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        navigation.navigate('Home');
+        navigation.navigate('HomeTabs');
       });
     }
   }, [data]);
