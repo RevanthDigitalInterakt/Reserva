@@ -33,6 +33,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
       setIdAddress(orderForm?.shippingData.selectedAddresses[0].addressId);
     }
   }, []);
+  console.log("Que porra é essa", addressId);
 
   const onAddressChosen = (item: any) => {
     setSelected(true);
