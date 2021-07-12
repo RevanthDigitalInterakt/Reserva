@@ -6,6 +6,7 @@ import { Box, Button, Icon, neutroFrio2, theme, Typography } from 'reserva-ui';
 
 interface UnderlineInputProps {
   placeholder?: string;
+  value?: string;
   errorMsg?: string;
   showError?: boolean;
   isSecureText?: boolean;
@@ -21,6 +22,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
   placeholder,
   onChangeText,
   errorMsg,
+  value,
   showError,
   isSecureText,
   width,
@@ -47,6 +49,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
             keyboardType={keyboardType}
             autoCompleteType="off"
             autoCapitalize="none"
+            value={value}
             style={{
               padding: 0,
               margin: 0,

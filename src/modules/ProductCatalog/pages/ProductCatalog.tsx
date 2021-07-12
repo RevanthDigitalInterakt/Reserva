@@ -57,6 +57,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     productSearch,
     {
       variables: {
+        skusFilter: "ALL_AVAILABLE",
         hideUnavailableItems: true,
         selectedFacets: facetInput,
         orderBy: selectedOrder,

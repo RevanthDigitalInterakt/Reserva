@@ -30,6 +30,10 @@ export const LoginScreen: React.FC<Props> = ({
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: '',
     password: '',
+    showPasswordError: false,
+    passwordError: '',
+    showUsernameError: false,
+    usernameError: '',
   });
   const [isSecureText, setIsSecureText] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -38,13 +42,33 @@ export const LoginScreen: React.FC<Props> = ({
   const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
     useMutation(sendEmailVerificationMutation);
 
-  const handleLogin = () => {
-    login({
+  const passwordChecker = () => {
+    const password = loginCredentials.password
+    return password.match(/[A-Z]/g) != null && password.match(/[a-z]/g) != null && password.match(/[0-9]/g) != null && password.length >= 8
+  }
+
+  const handleLogin = async () => {
+    console.log('login')
+    const { data, errors } = await login({
       variables: {
         email: loginCredentials.username,
         password: loginCredentials.password,
       },
     });
+    console.log(data)
+    // ! verify login success 
+    if (data['classicSignIn'] != 'Success' || !passwordChecker()) {
+      console.log('asdas')
+      setLoginCredentials({
+        ...loginCredentials,
+        password: '',
+        showPasswordError: true,
+        showUsernameError: true,
+        passwordError: 'Verifique os campos acima e digite um e-mail ou senha válidos'
+      })
+    } else {
+      navigation.navigate('HomeTabs')
+    }
   };
 
   const handleLoginCode = () => {
@@ -62,7 +86,7 @@ export const LoginScreen: React.FC<Props> = ({
   useEffect(() => {
     if (comeFrom === 'Profile') {
       BackHandler.addEventListener('hardwareBackPress', () => {
-        navigation.navigate('Home');
+        navigation.navigate('HomeTabs');
         return true;
       });
     }
@@ -72,7 +96,7 @@ export const LoginScreen: React.FC<Props> = ({
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        navigation.navigate('Home');
+        navigation.navigate('HomeTabs');
       });
     }
   }, [data]);
@@ -82,7 +106,7 @@ export const LoginScreen: React.FC<Props> = ({
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={() => {
-          navigation.navigate('Home');
+          navigation.navigate('HomeTabs');
         }}
       />
       <ScrollView>
@@ -99,9 +123,10 @@ export const LoginScreen: React.FC<Props> = ({
             </Box>
             <UnderlineInput
               placeholder="Digite seu e-mail"
-              errorMsg="Digite um e-mail válido"
               keyboardType="email-address"
-              showError={showError}
+              value={loginCredentials.username}
+              showError={loginCredentials.showUsernameError}
+              errorMsg={loginCredentials.usernameError}
               onChangeText={(text) =>
                 setLoginCredentials({ ...loginCredentials, username: text })
               }
@@ -111,6 +136,9 @@ export const LoginScreen: React.FC<Props> = ({
                 <UnderlineInput
                   placeholder="Digite sua senha"
                   isSecureText={true}
+                  value={loginCredentials.password}
+                  showError={loginCredentials.showPasswordError}
+                  errorMsg={loginCredentials.passwordError}
                   onChangeText={(text) =>
                     setLoginCredentials({ ...loginCredentials, password: text })
                   }
