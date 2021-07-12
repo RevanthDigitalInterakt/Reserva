@@ -6,6 +6,7 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native";
 import { Typography, Box, TextField, Button } from "reserva-ui";
 import { images } from "../../../assets";
+import { useAuth } from "../../../context/AuthContext";
 import { recoveryPasswordMutation, sendEmailVerificationMutation } from "../../../graphql/login/loginMutations";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import UnderlineInput from "../../Login/components/UnderlineInput";
@@ -15,6 +16,7 @@ import HeaderBanner from "../componet/HeaderBanner";
 export interface ForgotEmailProps extends StackScreenProps<RootStackParamList, "ForgotEmail"> { };
 
 export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
+  const { cookie, setCookie } = useAuth();
   //const navigation = useNavigation();
 
   const [email, setEmail] = useState('')
@@ -26,8 +28,10 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
       variables: {
         email
       }
-    }).then(x =>
+    }).then(x => {
+      setCookie(`${cookie} ${x.data.cookie}`);
       navigation.navigate('ForgotAccessCode', { email })
+    }
     )
   }
 

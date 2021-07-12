@@ -29,7 +29,8 @@ const authAfterware = new ApolloLink((operation, forward) => {
 
     if(
       data?.classicSignIn === 'Success' || 
-      data?.accessKeySignIn === 'Success'
+      data?.accessKeySignIn === 'Success' ||
+      data?.sendEmailVerification === true
     ) {
       const { response: res } = operation.getContext();
 

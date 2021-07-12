@@ -20,7 +20,15 @@ export const ForgotEmailSuccess: React.FC = () => {
         <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
         <Box mx={20} mt={65}>
           <Typography fontFamily='reservaSerifRegular' fontSize={35}>Senha alterada com sucesso!</Typography>
-          <Button mt={106} variant='primarioEstreito' title='ATUALIZAR SENHA' onPress={() => { }} inline />
+          <Button 
+            mt={106} 
+            variant='primarioEstreito' 
+            title='VOLTAR AO LOGIN' 
+            onPress={() => { 
+              navigation.navigate("Login")
+            }} 
+            inline
+          />
 
         </Box>
       </ScrollView>
