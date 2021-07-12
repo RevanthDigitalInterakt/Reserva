@@ -22,7 +22,7 @@ export const HomeScreen: React.FC<{
     homeQuery,
     {
       context: { clientName: 'contentful' },
-      variables: { limit: 5 } // quantidade de itens que iram renderizar
+      variables: { limit: 0 } // quantidade de itens que iram renderizar
     }
   );
 
