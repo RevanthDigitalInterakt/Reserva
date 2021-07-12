@@ -30,11 +30,13 @@ import {
 } from '../../../store/ducks/profile/types';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 
 export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
+  const [subscribed, setSubscribed] = useState(false)
   const [userData, setData] = useState<ProfileQuery>({
     userId: '',
     firstName: '',
@@ -46,6 +48,8 @@ export const EditProfile: React.FC<{
     homePhone: '',
   });
   const { loading, error, data, refetch } = useQuery(profileQuery);
+  const [updateNewsLetter, { data: NewsLetterData, loading: NewsLetterLoading }] = useMutation(subscribeNewsLetter)
+
   const [updateUserdata, { data: updateData, loading: updateLoading }] =
     useMutation(profileMutation);
 
@@ -247,12 +251,19 @@ export const EditProfile: React.FC<{
                   selectedColor="preto"
                   width={'100%'}
                   // checked={data?.receiveEmail === "yes"}
-                  onCheck={() => {
-                    // const value = data?.receiveEmail === "yes" ? "no" : "yes";
-                    // setData({
-                    //   ...data,
-                    //   ...{ receiveEmail: value },
-                    // });
+                  checked={subscribed}
+                  onCheck={async () => {
+                    const { data } = await updateNewsLetter({
+                      variables: {
+                        email: userData.email,
+                        isNewsletterOptIn: false
+                      }
+                    })
+
+                    if (!!data['subscribeNewsletter']) {
+                      console.log(data)
+                      setSubscribed(data['subscribeNewsletter'])
+                    }
                   }}
                   optionName={
                     'Desejo receber e-mails com promoções das marcas Reserva.'
