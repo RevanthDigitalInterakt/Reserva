@@ -258,10 +258,6 @@ export const Menu: React.FC<{}> = () => {
                       <Typography style={{ textDecorationLine: 'underline' }}>
                         Acessar Conta
                       </Typography>
-                      {'  '}ou{'  '}
-                      <Typography style={{ textDecorationLine: 'underline' }}>
-                        Cadastre-se
-                      </Typography>
                     </Typography>
                   }
                   onPress={() => {
