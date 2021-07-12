@@ -216,13 +216,6 @@ export const Menu: React.FC<{}> = () => {
         <TopBarMenu loading={loading} />
         <ScrollView>
           <Box paddingX='nano' paddingTop='micro'>
-            <SearchBar
-              height={36}
-              placeholder='Buscar'
-              onClickIcon={() => {
-                navigation.navigate('SearchScreen')
-              }}
-            />
           </Box>
           <Breadcrumbs title='Página Inicial' />
           <Divider variant='fullWidth' marginBottom='nano' marginTop='nano' />
@@ -255,12 +248,8 @@ export const Menu: React.FC<{}> = () => {
                       color='preto'
                       fontSize={15}
                       fontFamily='nunitoBold'>
-                      <Typography style={{ textDecorationLine: 'underline' }}>
+                      <Typography>
                         Acessar Conta
-                      </Typography>
-                      {'  '}ou{'  '}
-                      <Typography style={{ textDecorationLine: 'underline' }}>
-                        Cadastre-se
                       </Typography>
                     </Typography>
                   }
