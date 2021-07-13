@@ -29,19 +29,31 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   useEffect(() => { }, [animation?.props.progress]);
 
   const profileQuery = gql`
-  query Profile {
-    profile{
-      firstName
-      lastName
-      birthDate
-      document
-      homePhone
+  query {
+    appMenuCollection(limit: 1) {
+      items {
+        itemsCollection(limit: 100) {
+          items {
+            name
+            referenceId
+            childCategoryCollection(limit: 100) {
+              items {
+                name
+                referenceId
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
 
   const { loading, error, data } = useQuery(
-    profileQuery
+    profileQuery,
+    {
+      context: { clientName: 'contentful' }
+    }
   );
   console.log(data);
 

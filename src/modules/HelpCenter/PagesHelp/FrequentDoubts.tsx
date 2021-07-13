@@ -73,8 +73,9 @@ export const FrequentDoubts = () => {
         },
         {
             title: "Cancelar um pedido",
-            content: `
-            `,
+            content: `De acordo com o CDC (Código de Defesa do Consumidor), a solicitação de cancelamento de compras virtuais deve ser feita em até 7 dias úteis/corridos após a data de recebimento.
+
+            Entre em contato conosco que nós providenciaremos a devolução.  Você precisará informar o seu CPF, o número do pedido e o produto a ser devolvido.`,
         },
         {
             title: "Como funciona a retirada em loja",
@@ -94,15 +95,33 @@ export const FrequentDoubts = () => {
 
         {
             title: "Como realizo uma compra no site?",
-            content: `.
-       
-            `,
+            content: `1- Escolha o produto de sua preferência e adicione ao carrinho.
+
+            2- Clique em fechar pedido no seu carrinho de compras.
+            
+            3- Na próxima tela insira seu CPF ou e-Mail e clique em fechar pedido.
+            
+            4- Insira seus dados, uma nova senha e o endereço para entrega
+            
+            5- Selecione e preencha os dados para pagamento, e clique em finalizar pagamento.
+            
+            Pronto, seu pedido será separado e enviado para o endereço que você escolheu!`,
         },
         {
             title: "Como realizo uma compra com cartão presente?",
-            content: `
-       
-            `,
+            content: `Aqui o passo a passo para comprar no site utilizando um cartão presente
+
+            1- Escolha o produto de sua preferência e adicione ao carrinho.
+            
+            2- Clique em fechar pedido no seu carrinho de compras.
+            
+            3- Na próxima tela insira seu CPF ou e-Mail e clique em fechar pedido.
+            
+            4- Insira ou confirme seus dados e o endereço para entrega.
+            
+            5- Selecione a opção Cartão presente no método de pagamento, insira o código e a senha e clique em Calcular.
+            
+            6- Caso o saldo do cartão seja menor que o valor da compra basta escolher uma outra forma de pagamento, e se o saldo for superior é só clicar em finalizar pagamento.`,
         },
         {
             title: "Falar com um setor interno da reserva",

@@ -11,11 +11,11 @@ interface ListProductsProps {
   products: ProductQL[];
   loadMoreProducts: (offSet: number) => void;
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 
-const getColorsInProductSearch = () => {};
+const getColorsInProductSearch = () => { };
 
 export const getPercent = (
   sellingPrice: number,
@@ -44,13 +44,14 @@ export const ListVerticalProducts = ({
     setFavoritedProduct(prod);
     setIsVisible(true);
   };
-
+  console.log('products', products)
   return products?.length > 0 ? (
     <>
       <CreateCategoryModal
         isVisible={isVisible}
         favoritedProduct={favoritedProduct}
       />
+
 
       <FlatList
         data={products}
@@ -65,7 +66,6 @@ export const ListVerticalProducts = ({
           const installmentsNumber =
             installments.length > 0 ? installments[0].NumberOfInstallments : 1;
 
-          console.log(installmentsNumber);
           const installmentPrice =
             installments.length > 0
               ? installments[0].Value
@@ -82,15 +82,15 @@ export const ListVerticalProducts = ({
               <ProductVerticalListCard
                 colors={colors}
                 imageSource={item.items[0].images[0].imageUrl}
-                installmentsNumber={installmentsNumber}
-                installmentsPrice={installmentPrice}
+                installmentsNumber={installmentsNumber} //numero de parcelas
+                installmentsPrice={installmentPrice || 0} //valor das parcelas
                 currency="R$"
                 discountTag={getPercent(
                   item.priceRange?.sellingPrice.lowPrice,
                   item.priceRange?.listPrice.lowPrice
                 )}
                 priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                price={item.priceRange?.listPrice?.lowPrice}
+                price={item.priceRange?.listPrice?.lowPrice || 0}
                 productTitle={item.productName}
                 onClickImage={() => {
                   navigation.navigate('ProductDetail', {

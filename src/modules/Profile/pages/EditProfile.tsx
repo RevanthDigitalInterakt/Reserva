@@ -30,12 +30,13 @@ import {
 } from '../../../store/ducks/profile/types';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 
 export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
-  const [userData, setData] = useState<ProfileQuery>({
+  const [userData, setUserData] = useState<ProfileQuery>({
     userId: '',
     firstName: '',
     lastName: '',
@@ -46,15 +47,18 @@ export const EditProfile: React.FC<{
     homePhone: '',
   });
   const { loading, error, data, refetch } = useQuery(profileQuery);
+  const [updateNewsLetter, { data: NewsLetterData, loading: NewsLetterLoading }] = useMutation(subscribeNewsLetter)
+
   const [updateUserdata, { data: updateData, loading: updateLoading }] =
     useMutation(profileMutation);
 
   useEffect(() => {
     if (data) {
-      setData({
+      setUserData({
         userId: data?.profile?.userId,
         firstName: data?.profile?.firstName || '',
         lastName: data?.profile?.lastName || '',
+        fullName: data?.profile?.firstName ? `${data?.profile?.firstName} ${data?.profile?.lastName}` : '',
         email: data?.profile?.email || '',
         document: data?.profile?.document || '',
         birthDate:
@@ -82,15 +86,16 @@ export const EditProfile: React.FC<{
 
   const saveUserData = () => {
     const splittedBirthDate = userData.birthDate?.split('/');
+    const [firstName, ...rest] = userData.fullName.trim().split(' ')
+    const lastName = rest.join(" ")
     const user = {
-      firstName: userData.firstName,
-      lastName: userData.lastName,
+      firstName: firstName,
+      lastName: lastName,
       email: userData.email,
       document: userData.document,
       birthDate: splittedBirthDate.reverse().join('-'),
       homePhone: userData.homePhone,
     };
-
     updateUserdata({
       variables: {
         fields: user,
@@ -143,21 +148,17 @@ export const EditProfile: React.FC<{
               <Box mb={'nano'}>
                 <TextField
                   label="Digite seu nome completo"
-                  value={`${userData.firstName} ${userData.lastName}`}
+                  value={userData.fullName}
                   onChangeText={(text) => {
-                    // const [firstName, lastName] = text.split('');
-                    const newFullName = (userData.fullName = text);
-                    const firstName = newFullName
-                      .split(' ')
-                      .slice(0, 1)
-                      .join(' ');
-                    const lastName = newFullName.split(' ').slice(1).join(' ');
-
-                    // console.log(firstName, lastName);
-                    setData({
+                    // const newFullName = (userData.fullName = text);
+                    // const firstName = newFullName
+                    //   .split(' ')
+                    //   .slice(0, 1)
+                    //   .join(' ');
+                    // const lastName = newFullName.split(' ').slice(1).join(' ');
+                    setUserData({
                       ...userData,
-                      firstName,
-                      lastName,
+                      fullName: text
                     });
                   }}
                   iconRight={
@@ -178,7 +179,7 @@ export const EditProfile: React.FC<{
                   label={'Digite seu e-mail'}
                   value={userData.email}
                   onChangeText={(text) => {
-                    setData({ ...userData, ...{ email: text } });
+                    setUserData({ ...userData, ...{ email: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -200,7 +201,7 @@ export const EditProfile: React.FC<{
                   value={userData.document}
                   maskType={'cpf'}
                   onChangeText={(text) => {
-                    setData({ ...userData, ...{ document: text } });
+                    setUserData({ ...userData, ...{ document: text } });
                   }}
                   iconRight={
                     <Box ml="nano">
@@ -225,7 +226,7 @@ export const EditProfile: React.FC<{
                   }}
                   value={userData.birthDate}
                   onChangeText={(text) => {
-                    setData({ ...userData, ...{ birthDate: text } });
+                    setUserData({ ...userData, ...{ birthDate: text } });
                   }}
                 />
               </Box>
@@ -236,7 +237,7 @@ export const EditProfile: React.FC<{
                   label={'Telefone (opcional)'}
                   value={userData.homePhone}
                   onChangeText={(text) => {
-                    setData({ ...userData, ...{ homePhone: text } });
+                    setUserData({ ...userData, ...{ homePhone: text } });
                   }}
                 />
               </Box>
@@ -247,12 +248,19 @@ export const EditProfile: React.FC<{
                   selectedColor="preto"
                   width={'100%'}
                   // checked={data?.receiveEmail === "yes"}
-                  onCheck={() => {
-                    // const value = data?.receiveEmail === "yes" ? "no" : "yes";
-                    // setData({
-                    //   ...data,
-                    //   ...{ receiveEmail: value },
-                    // });
+                  checked={subscribed}
+                  onCheck={async () => {
+                    const { data } = await updateNewsLetter({
+                      variables: {
+                        email: userData.email,
+                        isNewsletterOptIn: false
+                      }
+                    })
+
+                    if (!!data['subscribeNewsletter']) {
+                      console.log(data)
+                      setSubscribed(data['subscribeNewsletter'])
+                    }
                   }}
                   optionName={
                     'Desejo receber e-mails com promoções das marcas Reserva.'
