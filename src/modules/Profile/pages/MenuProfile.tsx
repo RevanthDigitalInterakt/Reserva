@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import * as React from 'react';
 import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ const MenuScreen: React.FC<{}> = ({ navigation }) => {
   // const { profile } = useSelector((state: ApplicationState) => state);
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
-
+  const isFocused = useIsFocused();
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
     setCookie(null);
@@ -43,7 +43,7 @@ const MenuScreen: React.FC<{}> = ({ navigation }) => {
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (data) {
