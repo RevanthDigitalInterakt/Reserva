@@ -10,7 +10,10 @@ import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { useMutation, useQuery } from "@apollo/client";
-import { profileMutationPassword, profileQuery } from "../../../store/ducks/profile/types";
+import {
+  profileMutationPassword,
+  profileQuery,
+} from "../../../store/ducks/profile/types";
 import { FormikTextInput } from "../../../shared/componentes/FormikTextInput";
 import { redefinePasswordMutation } from "../../../graphql/profile/redefinePassword";
 
@@ -19,17 +22,18 @@ export const EditPassword = ({ route }: Props) => {
   const navigation = useNavigation();
   const formRef = useRef<any>(null);
   const dispatch = useDispatch();
-  const [email, setEmail] = useState()
+  const [email, setEmail] = useState();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
+  const [showRepetPassword, setShowRepetPassword] = useState(true);
   const [newPassword, { data: dataMutation, loading: loadingMutation }] =
     useMutation(redefinePasswordMutation);
-    
+
   const { loading, error, data, refetch } = useQuery(profileQuery);
-  
+
   useEffect(() => {
-    if(!loading){
-      setEmail(data?.profile?.email)
+    if (!loading) {
+      setEmail(data?.profile?.email);
     }
   }, [data]);
 
@@ -68,10 +72,10 @@ export const EditPassword = ({ route }: Props) => {
   };
 
   useEffect(() => {
-    if(dataMutation?.redefinePassword === "Success"){
+    if (dataMutation?.redefinePassword === "Success") {
       navigation.goBack();
     }
-  }, [dataMutation])
+  }, [dataMutation]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
@@ -104,11 +108,15 @@ export const EditPassword = ({ route }: Props) => {
                           mr="xxxs"
                           onPress={() => setShowNewPassword(!showNewPassword)}
                         >
-                          {showNewPassword ?
+                          {showNewPassword ? (
                             <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                            :
-                            <Icon color="neutroFrio2" name="EyeOpen" size={25} />
-                          }
+                          ) : (
+                            <Icon
+                              color="neutroFrio2"
+                              name="EyeOpen"
+                              size={25}
+                            />
+                          )}
                         </Button>
                       }
                     />
@@ -117,6 +125,25 @@ export const EditPassword = ({ route }: Props) => {
                     <FormikTextInput
                       label={"Repita a senha"}
                       field={"password_confirm"}
+                      secureTextEntry={showRepetPassword}
+                      iconRight={
+                        <Button
+                          mr="xxxs"
+                          onPress={() =>
+                            setShowRepetPassword(!showRepetPassword)
+                          }
+                        >
+                          {showRepetPassword ? (
+                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                          ) : (
+                            <Icon
+                              color="neutroFrio2"
+                              name="EyeOpen"
+                              size={25}
+                            />
+                          )}
+                        </Button>
+                      }
                     />
                   </Box>
                   <Box mb={"micro"}>
@@ -131,11 +158,15 @@ export const EditPassword = ({ route }: Props) => {
                             setShowCurrentPassword(!showCurrentPassword)
                           }
                         >
-                          {showCurrentPassword ?
+                          {showCurrentPassword ? (
                             <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                            :
-                            <Icon color="neutroFrio2" name="EyeOpen" size={25} />
-                          }
+                          ) : (
+                            <Icon
+                              color="neutroFrio2"
+                              name="EyeOpen"
+                              size={25}
+                            />
+                          )}
                         </Button>
                       }
                     />
