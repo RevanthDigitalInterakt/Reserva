@@ -35,7 +35,7 @@ export type ProfileQuery = {
   userId: string;
   firstName: string;
   lastName: string;
-  fullName?: string;
+  fullName: string;
   email: string;
   document: string;
   birthDate: string;
