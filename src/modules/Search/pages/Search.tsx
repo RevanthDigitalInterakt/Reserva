@@ -3,7 +3,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
-import { Box, SearchBar } from 'reserva-ui';
+import { Box, SearchBar, Typography } from 'reserva-ui';
+import { bottom } from 'styled-system';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Product } from '../../../store/ducks/product/types';
@@ -15,6 +16,7 @@ type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [showResults, setShowResults] = React.useState(true);
+  const [waiting, setWaiting] = React.useState(false);
 
   const [products, setProducts] = useState<Product[]>();
 
@@ -39,6 +41,8 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
   }, []);
 
   const handleSearch = async (text: string) => {
+    setWaiting(true)
+
     const { data, loading } = await refetch({
       fullText: text,
     });
@@ -47,6 +51,8 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
     if (!loading) {
       setProducts(data.productSearch.products);
     }
+    setWaiting(false)
+
     setShowResults(true);
   };
 
@@ -98,6 +104,22 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
           />
         </Animatable.View>
       )}
+      {waiting &&
+        <Box
+          bg="white"
+          opacity={0.5}
+          position="absolute"
+          right={0}
+          left={0}
+          top={110}
+          bottom={0}
+          zIndex={2}
+        >
+          <Box marginLeft="nano">
+            <Typography>Carregando...</Typography>
+          </Box>
+        </Box>
+      }
     </Box>
   );
 };

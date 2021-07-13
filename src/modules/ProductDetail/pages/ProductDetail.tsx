@@ -306,7 +306,7 @@ export const ProductDetail: React.FC<Props> = ({
                 installmentsNumber={
                   getInstallments()?.NumberOfInstallments || 1
                 }
-                installmentsPrice={getInstallments()?.Value || product.priceRange.listPrice.lowPrice}
+                installmentsPrice={getInstallments()?.Value || product.priceRange.listPrice.lowPrice || 0}
                 onClickShare={onShare}
                 discountTag={
                   getPercent(
