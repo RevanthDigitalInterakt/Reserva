@@ -118,7 +118,7 @@ export type RootStackParamList = {
     };
   };
   ForgotEmail: {};
-  HomeTabs: undefined
+  Home: undefined
   CancelOrder: {};
   Cashback: {};
   AddressList: { isCheckout: boolean };

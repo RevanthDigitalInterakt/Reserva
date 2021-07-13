@@ -27,6 +27,7 @@ import {
   profileQuery,
   ProfileQuery,
   profileMutation,
+  ProfileCustomFieldsInput,
 } from '../../../store/ducks/profile/types';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -36,6 +37,7 @@ export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
+  const [subscribed, setSubscribed] = useState(false)
   const [userData, setUserData] = useState<ProfileQuery>({
     userId: '',
     firstName: '',
@@ -47,13 +49,14 @@ export const EditProfile: React.FC<{
     homePhone: '',
   });
   const { loading, error, data, refetch } = useQuery(profileQuery);
-  const [updateNewsLetter, { data: NewsLetterData, loading: NewsLetterLoading }] = useMutation(subscribeNewsLetter)
+  const [updateNewsLetter, { data: NewsLetterData, loading: newsLetterLoading }] = useMutation(subscribeNewsLetter)
 
   const [updateUserdata, { data: updateData, loading: updateLoading }] =
     useMutation(profileMutation);
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       setUserData({
         userId: data?.profile?.userId,
         firstName: data?.profile?.firstName || '',
@@ -69,6 +72,7 @@ export const EditProfile: React.FC<{
           ),
         homePhone: data?.profile?.homePhone || '',
       });
+      setSubscribed(data?.profile?.customFields.find((x: any) => x.key == 'isNewsletterOptIn').value === 'true' || subscribed)
     }
   }, [data]);
 
@@ -96,9 +100,15 @@ export const EditProfile: React.FC<{
       birthDate: splittedBirthDate.reverse().join('-'),
       homePhone: userData.homePhone,
     };
+
+    const newsletterCustomField: ProfileCustomFieldsInput = {
+      key: 'isNewsletterOptIn',
+      value: `${subscribed}`
+    }
     updateUserdata({
       variables: {
         fields: user,
+        customFields: [newsletterCustomField]
       },
     });
   };
@@ -114,7 +124,7 @@ export const EditProfile: React.FC<{
         keyboardVerticalOffset={80}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <TopBarBackButton loading={loading || updateLoading} />
+        <TopBarBackButton loading={loading || updateLoading || newsLetterLoading} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <Box alignContent={'flex-start'} pt={'xs'} paddingX={'xxxs'}>
             <Box alignItems={'center'}>
@@ -250,17 +260,15 @@ export const EditProfile: React.FC<{
                   // checked={data?.receiveEmail === "yes"}
                   checked={subscribed}
                   onCheck={async () => {
+
                     const { data } = await updateNewsLetter({
                       variables: {
                         email: userData.email,
-                        isNewsletterOptIn: false
+                        isNewsletterOptIn: !subscribed
                       }
                     })
-
-                    if (!!data['subscribeNewsletter']) {
-                      console.log(data)
-                      setSubscribed(data['subscribeNewsletter'])
-                    }
+                    if (data['subscribeNewsletter'])
+                      setSubscribed(!subscribed)
                   }}
                   optionName={
                     'Desejo receber e-mails com promoções das marcas Reserva.'

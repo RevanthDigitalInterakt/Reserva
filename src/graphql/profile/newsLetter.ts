@@ -5,7 +5,7 @@ export const subscribeNewsLetter = gql`
     $email: String!, 
     $isNewsletterOptIn: Boolean!, 
     $fields: NewsletterFieldsInput
-  ) {
+  ){
     subscribeNewsletter(
       email: $email, 
       isNewsletterOptIn: $isNewsletterOptIn, 

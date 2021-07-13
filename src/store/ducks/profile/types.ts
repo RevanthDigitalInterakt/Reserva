@@ -43,9 +43,14 @@ export type ProfileQuery = {
   passwordLastUpdate?: string;
 };
 
+export type ProfileCustomFieldsInput = {
+  key: string,
+  value: string
+}
+
 export const profileQuery = gql`
   query Profile {
-    profile @context(provider: "vtex.store-graphql") {
+    profile(customFields: "isNewsletterOptIn") @context(provider: "vtex.store-graphql") {
       userId
       firstName
       lastName
@@ -53,6 +58,11 @@ export const profileQuery = gql`
       document
       birthDate
       homePhone
+      customFields{
+        cacheId,
+        key,
+        value
+      }
       payments {
         id
         cardNumber
@@ -62,9 +72,15 @@ export const profileQuery = gql`
 `;
 
 export const profileMutation = gql`
-  mutation UpdateProfile($fields: ProfileInput!) {
-    updateProfile(fields: $fields) @context(provider: "vtex.store-graphql") {
-      userId
+  mutation UpdateProfile(
+    $fields: ProfileInput!, 
+    $customFields: [ProfileCustomFieldInput]
+    ){
+    updateProfile(
+      fields: $fields, 
+      customFields: $customFields
+      )@context(provider: "vtex.store-graphql") {
+      userId,
     }
   }
 `;

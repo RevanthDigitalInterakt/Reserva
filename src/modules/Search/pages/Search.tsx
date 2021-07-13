@@ -95,14 +95,33 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
       </Box>
 
       {showResults && (
-        <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-          <ListVerticalProducts
-            products={products ? products : []}
-            loadMoreProducts={(offset) => {
-              loadMoreProducts(offset, searchTerm);
-            }}
-          />
-        </Animatable.View>
+
+        products && products?.length > 0 ?
+          <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
+            <ListVerticalProducts
+              products={products ? products : []}
+              loadMoreProducts={(offset) => {
+                loadMoreProducts(offset, searchTerm);
+              }}
+            />
+          </Animatable.View>
+          :
+          <Box
+            height="100%"
+            justifyContent="center"
+            alignItems="center"
+            bg="white"
+          >
+            <Box mx="sm">
+              <Typography
+                textAlign="center"
+                fontFamily="reservaSansRegular"
+                fontSize={16}
+              >
+                Opss, infelizmente não encontramos nenhum resultado para a sua pesquisa.
+              </Typography>
+            </Box>
+          </Box>
       )}
       {waiting &&
         <Box
