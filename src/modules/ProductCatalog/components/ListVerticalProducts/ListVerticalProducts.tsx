@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import { Box, ProductVerticalListCard } from 'reserva-ui';
+import { Box, ProductVerticalListCard, Typography } from 'reserva-ui';
 import { ProductQL } from '../../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { Product } from '../../../../store/ducks/product/types';
@@ -44,7 +44,7 @@ export const ListVerticalProducts = ({
     setFavoritedProduct(prod);
     setIsVisible(true);
   };
-  console.log('products', products)
+
   return products?.length > 0 ? (
     <>
       <CreateCategoryModal
@@ -103,5 +103,21 @@ export const ListVerticalProducts = ({
         }}
       />
     </>
-  ) : null;
+  ) :
+    <Box
+      height="100%"
+      justifyContent="center"
+      alignItems="center"
+      bg="white"
+    >
+      <Box mx="sm">
+        <Typography
+          textAlign="center"
+          fontFamily="reservaSansRegular"
+          fontSize={16}
+        >
+          Opss, infelizmente não encontramos nenhum resultado para a sua pesquisa.
+        </Typography>
+      </Box>
+    </Box>
 };
