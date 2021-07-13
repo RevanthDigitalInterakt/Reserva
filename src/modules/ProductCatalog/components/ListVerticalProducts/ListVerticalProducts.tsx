@@ -103,21 +103,5 @@ export const ListVerticalProducts = ({
         }}
       />
     </>
-  ) :
-    <Box
-      height="100%"
-      justifyContent="center"
-      alignItems="center"
-      bg="white"
-    >
-      <Box mx="sm">
-        <Typography
-          textAlign="center"
-          fontFamily="reservaSansRegular"
-          fontSize={16}
-        >
-          Opss, infelizmente não encontramos nenhum resultado para a sua pesquisa.
-        </Typography>
-      </Box>
-    </Box>
+  ) : null
 };
