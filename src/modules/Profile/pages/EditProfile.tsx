@@ -35,7 +35,8 @@ import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation();  
+  const [subscribed, setSubscribed] = useState(false)
   const [userData, setUserData] = useState<ProfileQuery>({
     userId: '',
     firstName: '',
