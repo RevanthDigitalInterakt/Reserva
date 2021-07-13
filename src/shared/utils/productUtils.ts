@@ -12,4 +12,26 @@ export class ProductUtils{
     })
     return colors;
   }
+
+  orderSizes(sizes: string[]){
+    return sizes.sort((itemA, itemB) => {
+      const b = itemA;
+      const a = itemB; 
+      if (parseInt(a) > 0) {
+        return a > b ? -1 : 1;
+      } else {
+        if (a.charAt(0) === b.charAt(0)) {
+          if (a.length > b.length) {
+            return -1;
+          } else if (a.length < b.length) {
+            return 1;
+          } else {
+            return 0;
+          }
+        } else {
+          return a < b ? -1 : 1;
+        }
+      }
+    });
+  }
 }

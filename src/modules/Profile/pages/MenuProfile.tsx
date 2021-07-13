@@ -94,22 +94,22 @@ const MenuScreen: React.FC<{}> = ({ navigation }) => {
               }}
             />
 
-            <ItemList
+            {/* <ItemList
               title={'Meus cartões'}
               descr={'Consulte e adicione cartões de crédito'}
               icon={'Card'}
               onPress={() => {
                 navigation.navigate('ListCards');
               }}
-            />
-            <ItemList
+            /> */}
+            {/* <ItemList
               title={'Meus créditos'}
               descr={'Visualize seus créditos e cashbacks'}
               icon={'Card'}
               onPress={() => {
                 navigation.navigate('Cashback');
               }}
-            />
+            /> */}
 
             <ItemList
               title={'Meus endereços'}
@@ -129,14 +129,14 @@ const MenuScreen: React.FC<{}> = ({ navigation }) => {
               }}
             />
 
-            <ItemList
+            {/* <ItemList
               title={'Notificações'}
               descr={'Mantenha-se informado sobre as novidades'}
               icon={'Bell'}
               onPress={() => {
                 navigation.navigate('NotificationProfile');
               }}
-            />
+            /> */}
 
             <Box marginY={'xs'} justifyContent={'flex-end'}>
               <Button

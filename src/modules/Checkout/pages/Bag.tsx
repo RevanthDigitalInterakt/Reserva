@@ -118,7 +118,7 @@ export const BagScreen = () => {
                 productTitle={item.name}
                 // installmentsNumber={item.installmentNumber}
                 // installmentsPrice={item.installmentPrice}
-                price={item.price / 100}
+                price={item.listPrice / 100}
                 priceWithDiscount={item.sellingPrice / 100}
                 count={item.quantity}
                 onClickAddCount={async (count) => {

@@ -39,6 +39,7 @@ import {
 } from '../../../graphql/products/productSearch';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { id } from 'date-fns/locale';
+import { ProductUtils } from '../../../shared/utils/productUtils';
 const screenWidth = Dimensions.get('window').width;
 
 let recomendedScroll = createRef<ScrollView>();
@@ -363,7 +364,7 @@ export const ProductDetail: React.FC<Props> = ({
                       onSelectedChange={(item) => {
                         setSelectedSize(item);
                       }}
-                      optionsList={sizeFilters || []}
+                      optionsList={new ProductUtils().orderSizes(sizeFilters) || []}
                       defaultSelectedItem=""
                     />
                   </Box>
