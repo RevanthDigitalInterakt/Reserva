@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
@@ -39,16 +39,14 @@ const BoxAnimated = createAnimatableComponent(Box);
 export const BagScreen = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { orderForm, addItem, orderform, removeItem } = useCart();
+  const { orderForm, addItem, orderform, removeItem, addCoupon, addSellerCoupon } = useCart();
   const [totalBag, setTotalBag] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
 
-  const [coupons, setCoupons] = React.useState<CouponsOrders[]>([]);
-  const [coupon, setCoupon] = React.useState<CouponsOrders>(
-    {} as CouponsOrders
-  );
+  const [coupon, setCoupon] = React.useState<string>('');
+  const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
 
   useEffect(() => {
     orderform();
@@ -65,11 +63,12 @@ export const BagScreen = () => {
     setTotalDiscountPrice(totalDiscountPrice);
   }, [orderForm]);
 
-  const addCoupons = () => {
-    dispatch(appendCoupons(coupon));
-    setCoupon({ value: '' });
+  const addCoupons = async () => {
+    await addCoupon(coupon)
   };
-
+  const addSellerCoupons = async () => {
+    await addSellerCoupon(sellerCoupon)
+  };
   const onGoToDelivery = () => {
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
@@ -109,13 +108,14 @@ export const BagScreen = () => {
           {orderForm?.items.map((item, index) => (
             <Box key={index} bg={'white'} marginTop={'xxxs'}>
               <ProductHorizontalListCard
+                isBag
                 currency={'R$'}
                 discountTag={
                   item.sellingPrice > 0 ? item.sellingPrice / 100 : undefined
                 }
                 itemColor={item.skuName.split('-')[0] || ''}
                 ItemSize={item.skuName.split('-')[1] || ''}
-                productTitle={item.name}
+                productTitle={item.name.split(' - ')[0]}
                 // installmentsNumber={item.installmentNumber}
                 // installmentsPrice={item.installmentPrice}
                 price={item.listPrice / 100}
@@ -135,7 +135,7 @@ export const BagScreen = () => {
                 onClickClose={async () => {
                   await removeItem(item.id, index, item.seller, 0);
                 }}
-                imageSource={item.imageUrl.replace('http', 'https')}
+                imageSource={item.imageUrl.replace('http', 'https').split('-55-55').join('')}
               />
             </Box>
           ))}
@@ -251,23 +251,49 @@ export const BagScreen = () => {
               Insira aqui o código do vendedor(a) e/ou cupom de desconto.
             </Typography>
           </Box>
-          {coupons &&
-            coupons.map((coupon) => <CouponBadge value={coupon.value} />)}
+          <Box flexDirection="row">
+            {orderForm?.marketingData?.coupon &&
+              <CouponBadge value={orderForm?.marketingData?.coupon} />}
 
-          <Box marginTop={'nano'} flexDirection={'row'}>
+            {orderForm?.marketingData?.marketingTags &&
+              <CouponBadge value={orderForm?.marketingData?.marketingTags[1].split('code_CodigoVendedor=')[1]} />}
+          </Box>
+
+          <Box marginTop='nano' flexDirection='row'>
             <Box flex={1} marginRight={'micro'}>
               <TextField
-                value={coupon.value}
-                onChangeText={(text) => setCoupon({ value: text })}
-                placeholder={'Insira o código'}
+                height={50}
+                value={sellerCoupon}
+                onChangeText={(text) => setSellerCoupon(text)}
+                placeholder='Código do vendedor'
               />
             </Box>
             <Box>
               <Button
-                width={'100%'}
-                title={'APLICAR'}
-                onPress={() => addCoupons()}
-                variant={'primarioEstreito'}
+                width='100%'
+                title='APLICAR'
+                onPress={addSellerCoupons}
+                variant='primarioEstreito'
+                disabled={false}
+              />
+            </Box>
+          </Box>
+
+          <Box marginTop='xxxs' flexDirection='row'>
+            <Box flex={1} marginRight='micro'>
+              <TextField
+                height={50}
+                value={coupon}
+                onChangeText={(text) => setCoupon(text)}
+                placeholder='Cupom de desconto'
+              />
+            </Box>
+            <Box>
+              <Button
+                width='100%'
+                title='APLICAR'
+                onPress={addCoupons}
+                variant='primarioEstreito'
                 disabled={false}
               />
             </Box>
