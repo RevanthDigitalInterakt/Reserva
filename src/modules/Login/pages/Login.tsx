@@ -55,10 +55,9 @@ export const LoginScreen: React.FC<Props> = ({
         password: loginCredentials.password,
       },
     });
-    console.log(data)
+    console.log('data', data)
     // ! verify login success 
     if (data['classicSignIn'] != 'Success' || !passwordChecker()) {
-      console.log('asdas')
       setLoginCredentials({
         ...loginCredentials,
         password: '',
@@ -67,7 +66,8 @@ export const LoginScreen: React.FC<Props> = ({
         passwordError: 'Verifique os campos acima e digite um e-mail ou senha válidos'
       })
     } else {
-      navigation.navigate('HomeTabs')
+      // console.log(data)
+      navigation.navigate('Home')
     }
   };
 
@@ -86,7 +86,7 @@ export const LoginScreen: React.FC<Props> = ({
   useEffect(() => {
     if (comeFrom === 'Profile') {
       BackHandler.addEventListener('hardwareBackPress', () => {
-        navigation.navigate('HomeTabs');
+        navigation.navigate('Home');
         return true;
       });
     }
@@ -94,9 +94,10 @@ export const LoginScreen: React.FC<Props> = ({
 
   useEffect(() => {
     if (!loading && data?.cookie) {
+      console.log('cookie', data.cookie)
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        navigation.navigate('HomeTabs');
+        navigation.navigate('Home');
       });
     }
   }, [data]);
@@ -106,7 +107,7 @@ export const LoginScreen: React.FC<Props> = ({
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={() => {
-          navigation.navigate('HomeTabs');
+          navigation.navigate('Home');
         }}
       />
       <ScrollView>

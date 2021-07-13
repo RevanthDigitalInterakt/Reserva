@@ -50,24 +50,21 @@ export type CategoryQuery = {
 }
 
 export const categoriesQuery = gql`
-  query Categories {
-    categories
-    @context(provider: "vtex.store-graphql") {
-      id
-      href
-      slug
-      name
-      titleTag
-      hasChildren
-      metaTagDescription
-      children {
-        id
-        href
-        slug
-        name
-        titleTag
-        hasChildren
-        metaTagDescription
+  query {
+    appMenuCollection(limit: 1) {
+      items {
+        itemsCollection(limit: 100) {
+          items {
+            name
+            referenceId
+            childCategoryCollection(limit: 100) {
+              items {
+                name
+                referenceId
+              }
+            }
+          }
+        }
       }
     }
   }

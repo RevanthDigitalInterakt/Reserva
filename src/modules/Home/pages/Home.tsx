@@ -27,6 +27,7 @@ export const HomeScreen: React.FC<{
   );
 
   useEffect(() => {
+    console.log('data', data)
     let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription) => {
       return {
         fileName: imageDescription.image.fileName,

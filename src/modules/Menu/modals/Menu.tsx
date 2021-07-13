@@ -34,7 +34,7 @@ interface IMenuSubItem {
 }
 interface IMenuItem {
   title: string
-  subItemList: CategoryQuery[]
+  subItemList: Subcategory
   opened?: boolean
   onPress?: Function
   index?: number
@@ -124,27 +124,33 @@ const MenuItem: React.FC<IMenuItem> = ({
         <>
           <Divider variant='fullWidth' marginTop='micro' />
           <Animatable.View animation='fadeIn'>
-            {subItemList.map((item, index) => {
+            {subItemList.items.map((item, index) => {
               return (
                 <MenuSubItem
                   key={index}
                   highlight={item.highlight}
                   title={item.name}
                   onPress={() => {
-                    let facetInput = [{}];
-                    let facetInputKey = '';
-                    let cont = 0;
-                    let routes = item.href.split('/')
-                    routes.forEach((route) => {
-                      if (route !== "") {
-                        facetInput[cont] = {
-                          key: 'c',
-                          value: route
+                    let facetInput: any[] = [];
+                    let [subType, subcategories] = item.referenceId.split(':')
+
+                    if (subType == 'category') {
+                      subcategories.split('|').forEach((sub) => {
+                        if (sub !== "") {
+                          facetInput.push({
+                            key: 'c',
+                            value: sub
+                          })
                         }
-                        cont++;
-                      }
-                    });
-                    //console.log('asdasd')
+                      });
+                    } else {
+                      facetInput.push({
+                        key: 'productClusterIds',
+                        value: subcategories
+                      })
+                    }
+                    console.log(subType, subcategories)
+                    console.log(facetInput)
                     navigation.navigate('ProductCatalog', {
                       facetInput
                     })
@@ -180,18 +186,40 @@ export const FixedMenuItem: React.FC<{
   )
 }
 
+export interface Subcategory {
+  items: {
+    name: string,
+    referenceId: string,
+    highlight: boolean
+  }[]
+}
+export interface Category {
+  name: string,
+  children: Subcategory[],
+  opened: boolean,
+  highlight: boolean,
+  referenceId: string
+}
+
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const [categories, setCategories] = useState<CategoryQuery[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
 
-  const { loading, error, data } = useQuery(categoriesQuery);
+  const { loading, error, data } = useQuery(categoriesQuery, {
+    context: { clientName: 'contentful' }
+  });
+
+  console.log(data)
+
+  let categoryItems = data?.appMenuCollection.items[0].itemsCollection.items || []
 
   useEffect(() => {
     setCategories(
-      data?.categories.map((item: CategoryQuery) => ({
+      categoryItems.map((item: any) => ({
         ...item,
-        children: item.children.flat(),
+        name: item.name,
+        children: item.childCategoryCollection,
         opened: false,
         highlight: false,
       }))

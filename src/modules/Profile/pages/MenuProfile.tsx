@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,8 @@ import { withAuthentication } from '../HOC/withAuthentication';
 import { useQuery } from '@apollo/client';
 import { profileQuery } from '../../../store/ducks/profile/types';
 import { useState, useEffect } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
 type Profile = {
   birthDate: string | null;
@@ -23,7 +25,9 @@ type Profile = {
   lastName: string;
   userId: string;
 };
-const MenuScreen: React.FC<{}> = ({ navigation }) => {
+
+const MenuScreen: React.FC<{}> = ({ }) => {
+  const navigation = useNavigation()
   const { cookie, setCookie } = useAuth();
   // const { profile } = useSelector((state: ApplicationState) => state);
   const { loading, error, data, refetch } = useQuery(profileQuery);
@@ -34,6 +38,7 @@ const MenuScreen: React.FC<{}> = ({ navigation }) => {
     setCookie(null);
     navigation.navigate('Home');
   };
+
 
   useFocusEffect(() => {
     if (cookie === null) {
