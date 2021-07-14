@@ -2,6 +2,8 @@ import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
 import vtexConfig from '../config/vtexConfig';
 
+import vtexConfig2 from '../config/vtexConfig2';
+
 const CreateCart = async () => {
   // cria o carrinho
   // retorna um payload gigante pra ser preenchido de acordo.
@@ -236,7 +238,7 @@ const addToCoupon = async (
   orderFormId: string | undefined,
   coupon: string,
 ) => {
-  const response = await vtexConfig.post(
+  const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
     {
       text: coupon
@@ -249,7 +251,7 @@ const removeCouponToOder = async (
   orderFormId: string | undefined,
   coupon: string,
 ) => {
-  const response = await vtexConfig.post(
+  const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
     {
       text: coupon
@@ -261,7 +263,7 @@ const removeCouponToOder = async (
 const validateSellerCoupon = async (
   coupon: string,
 ) => {
-  const response = await vtexConfig.get(
+  const response = await vtexConfig2.get(
     `/dataentities/VE/search?_fields=id,coupon,ativo,vendedor_apelido&_where=((coupon=${coupon}) AND (ativo=true))`);
   return response;
 }
@@ -270,7 +272,7 @@ const addToSellerCoupon = async (
   orderFormId: string | undefined,
   marketingData: any,
 ) => {
-  const response = await vtexConfig.post(
+  const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
   return response;
 }
@@ -278,7 +280,7 @@ const removeSellerCouponToOder = async (
   orderFormId: string | undefined,
   marketingData: any,
 ) => {
-  const response = await vtexConfig.post(
+  const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
   return response;
 }
