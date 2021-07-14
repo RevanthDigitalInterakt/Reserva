@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const urlBase = 'https://applojausereserva.vtexcommercestable.com.br/api/';
 
+const urlBase2 = 'https://lojausereserva.vtexcommercestable.com.br/api/';
+
 const url = urlBase;
 
 const AppKey = 'vtexappkey-lojausereserva-SJLOOC';
@@ -21,4 +23,10 @@ const instance = axios.create({
   headers: headers,
 });
 
-export { instance as default, url, urlBase };
+const instance2 = axios.create({
+  baseURL: urlBase2,
+  timeout: 30000,
+  headers: headers,
+});
+
+export { instance, url, urlBase, instance2 };

@@ -1,8 +1,10 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
-import vtexConfig from '../config/vtexConfig';
+import { instance, instance2 } from '../config/vtexConfig';
 
-import vtexConfig2 from '../config/vtexConfig2';
+
+const vtexConfig = instance;
+const vtexConfig2 = instance2;
 
 const CreateCart = async () => {
   // cria o carrinho
