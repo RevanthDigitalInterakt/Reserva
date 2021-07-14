@@ -144,7 +144,8 @@ export const ProductDetail: React.FC<Props> = ({
         id: route.params.productId.split('-')[0],
       },
     });
-  const [itemsSKU, setItemsSKU ] = useState<ItemsSKU[]>([]);
+  const [imageSelected, setImageSelected ] = useState<any>([]);
+  const [itemsSKU, setItemsSKU ] = useState<any>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
@@ -188,14 +189,42 @@ export const ProductDetail: React.FC<Props> = ({
       const sizeList = getSizeList(product);
       setSizeFilters(sizeList);
 
-      let itemList: ItemsSKU[];
-
-      colorList?.forEach((color) => {
-        console.log(color, getSizePerColor(product, color));
-      })
+      let itemList = colorList?.map((color) => {
+        return {
+          color,
+          images: getImagesPerColor(product, color),
+          sizeList: getSizePerColor(product, color)
+        }
+      });
+      setItemsSKU(itemList);
+      console.log(itemList);
       
     }
   }, [data]);
+
+  useEffect(() => {
+    setImageSelected(
+      itemsSKU
+        .map(p => p.color === selectedColor && p.images)
+        .filter(a => a !== false)
+    );
+    setSizeFilters(
+      itemsSKU
+        .map(p => p.color === selectedColor && p.sizeList.map( sizes => sizes.size))
+        .filter(a => a !== false)[0]
+    );
+    setUnavailableSizes(
+      itemsSKU
+        .map(p => p.color === selectedColor && p.sizeList.map( sizes => !sizes.available && sizes.size))
+        .filter(a => a !== false)[0]
+    );
+    
+  }, [selectedColor])
+
+  useEffect(() => {
+    console.log("imageSelected",imageSelected[0]);
+    
+  }, [ imageSelected])
 
   // change sku effect
   useEffect(() => {
@@ -206,7 +235,7 @@ export const ProductDetail: React.FC<Props> = ({
       const sizeColorSkuVariations = items.flatMap((i) => {
         const variants = i.variations
           ?.map((v) => {
-            if (['VALOR_HEX_CONSOLIDADA', 'TAMANHO'].includes(v.name)) return v;
+            if (['VALOR_HEX_ORIGINAL', 'TAMANHO'].includes(v.name)) return v;
           })
           .filter((a) => a !== undefined);
 
@@ -226,7 +255,7 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedSize],
           },
           {
-            name: 'VALOR_HEX_CONSOLIDADA',
+            name: 'VALOR_HEX_ORIGINAL',
             originalName: null,
             values: [selectedColor],
           },
@@ -289,13 +318,13 @@ export const ProductDetail: React.FC<Props> = ({
     return items.map(item => {
       console.log('getUnavailableColors', item.sellers[0])
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
-        console.log(item.variations?.find(variant => variant.name === 'VALOR_HEX_CONSOLIDADA'))
+        console.log(item.variations?.find(variant => variant.name === 'VALOR_HEX_ORIGINAL'))
     })
   }
 
   const getColorsList = ({ skuSpecifications }: Product) =>
     skuSpecifications
-      .find(({ field }) => field.name === 'VALOR_HEX_CONSOLIDADA')
+      .find(({ field }) => field.name === 'VALOR_HEX_ORIGINAL')
       ?.values.map(({ name }) => name);
 
   const getSizeList = ({ skuSpecifications }: Product) =>
@@ -303,11 +332,27 @@ export const ProductDetail: React.FC<Props> = ({
       .find(({ field }) => field.name === 'TAMANHO')
       ?.values.map(({ name }) => name);
 
+  const getImagesPerColor  = ({ items }: Product, color: string) => {
+    return items.flatMap((item) => {
+      const images = item.variations
+        ?.map((v) => {
+          if (['VALOR_HEX_ORIGINAL'].includes(v.name)){
+            if(v.values[0] === color){
+              return item.images
+            }
+          } 
+        })
+        .filter((a) => a !== undefined);
+
+      return images;
+    });
+  }
+
   const getSizePerColor = ({ items }: Product, color: string) => {
     return items.flatMap((item) => {
       const variants = item.variations
         ?.map((v) => {
-          if (['VALOR_HEX_CONSOLIDADA'].includes(v.name)){
+          if (['VALOR_HEX_ORIGINAL'].includes(v.name)){
             if(v.values[0] === color){
               return {
                 item,
@@ -346,7 +391,7 @@ export const ProductDetail: React.FC<Props> = ({
                   product.priceRange.sellingPrice.lowPrice || 0
                 }
                 imagesWidth={screenWidth}
-                images={selectedVariant.images.map(({ imageUrl }) => imageUrl)}
+                images={imageSelected.length > 0 ? imageSelected[0][0].map(image => image.imageUrl) : []}
                 installmentsNumber={
                   getInstallments()?.NumberOfInstallments || 1
                 }
@@ -371,7 +416,7 @@ export const ProductDetail: React.FC<Props> = ({
                       onPress={(color) => setSelectedColor(color)}
                       size={40}
                       disabledColors={[]}
-                      listColors={colorFilters || []}
+                      listColors={itemsSKU.map(p => p.color) || []}
                       selectedColors={
                         selectedColor || (colorFilters && colorFilters[0])
                       }
@@ -404,11 +449,11 @@ export const ProductDetail: React.FC<Props> = ({
                     <RadioButtons
                       size={44}
                       fontSize={14}
-                      disbledOptions={unavailableSizes}
+                      disbledOptions={unavailableSizes > 0 ? unavailableSizes : []}
                       onSelectedChange={(item) => {
                         setSelectedSize(item);
                       }}
-                      optionsList={new ProductUtils().orderSizes(sizeFilters) || []}
+                      optionsList={sizeFilters || []}
                       defaultSelectedItem=""
                     />
                   </Box>
