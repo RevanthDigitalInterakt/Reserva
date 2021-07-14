@@ -232,6 +232,67 @@ const CepVerify = async (cep: string) => {
   }
 };
 
+const addToCoupon = async (
+  orderFormId: string | undefined,
+  coupon: string,
+) => {
+  const response = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/coupons`,
+    {
+      text: coupon
+    }
+  );
+  return response;
+}
+
+const removeCouponToOder = async (
+  orderFormId: string | undefined,
+  coupon: string,
+) => {
+  const response = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/coupons`,
+    {
+      text: coupon
+    }
+  );
+  return response;
+}
+
+const validateSellerCoupon = async (
+  coupon: string,
+) => {
+  const response = await vtexConfig.get(
+    `/dataentities/VE/search?_fields=id,coupon,ativo,vendedor_apelido&_where=((coupon=${coupon}) AND (ativo=true))`);
+  return response;
+}
+
+const addToSellerCoupon = async (
+  orderFormId: string | undefined,
+  coupon: string,
+) => {
+  const response = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, {
+    marketingTags: [
+      "CodigoVendedor",
+      `code_CodigoVendedor=${coupon}`
+    ]
+  });
+  return response;
+}
+
+const removeSellerCouponToOder = async (
+  orderFormId: string | undefined,
+  coupon: string,
+) => {
+  const response = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, {
+    marketingTags: [
+      "CodigoVendedor",
+      `code_CodigoVendedor=${coupon}`
+    ]
+  });
+  return response;
+}
 export {
   CreateCart,
   CreateSession,
@@ -246,4 +307,9 @@ export {
   IdentifyCustomer,
   AddCustomerToOrder,
   RemoveItemFromCart,
+  addToCoupon,
+  removeCouponToOder,
+  validateSellerCoupon,
+  addToSellerCoupon,
+  removeSellerCouponToOder
 };

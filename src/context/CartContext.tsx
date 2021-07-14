@@ -17,6 +17,11 @@ import {
   CreateCart,
   IdentifyCustomer,
   RemoveItemFromCart,
+  addToCoupon,
+  removeCouponToOder,
+  validateSellerCoupon,
+  addToSellerCoupon,
+  removeSellerCouponToOder
 } from '../services/vtexService';
 
 interface ClientPreferencesData {
@@ -41,6 +46,16 @@ interface ClientProfileData {
   isCorporate: boolean;
 }
 
+interface MarketingData {
+  utmSource: any;
+  utmMedium: any;
+  utmCampaign: any;
+  utmipage: any;
+  utmiPart: any;
+  utmiCampaign: any;
+  coupon: any;
+  marketingTags: string[]
+}
 interface Message {
   code: any;
   status: string;
@@ -171,7 +186,7 @@ interface OrderForm {
   giftRegistryData: any;
   items: Item[];
   loggedIn: boolean;
-  marketingData: any;
+  marketingData: MarketingData;
   messages: Message[];
   orderFormId: string;
   paymentData: string;
@@ -266,6 +281,10 @@ interface CartContextProps {
   ) => Promise<boolean | undefined>; //todo - type later,
   orderform: () => void;
   removeItem: () => Promise<{ ok: boolean }>;
+  addCoupon: (coupon: string) => Promise<{ message: string; ok: boolean }>;
+  addSellerCoupon: (coupon: string) => Promise<{ message: string; ok: boolean }>;
+  removeCoupon: (coupon: string) => Promise<{ ok: boolean }>;
+  removeSellerCoupon: (coupon: string) => Promise<{ ok: boolean }>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -434,6 +453,40 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
+  const addCoupon = async (coupon: string) => {
+    try {
+      const { data } = await addToCoupon(orderForm?.orderFormId, coupon);
+      setOrderForm(data);
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  }
+  const removeCoupon = async (coupon: string) => {
+    try {
+      const { data } = await removeCouponToOder(orderForm?.orderFormId, coupon);
+      setOrderForm(data);
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  }
+  const addSellerCoupon = async (coupon: string) => {
+    try {
+      const { data } = await validateSellerCoupon(coupon);
+      if (data[0].ativo) {
+        await addToSellerCoupon(orderForm?.orderFormId, coupon)
+      }
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  }
+  const removeSellerCoupon = async (coupon: any) => {
+    try {
+      await removeSellerCouponToOder(orderForm?.orderFormId, coupon)
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  }
+
   useEffect(() => {
     orderform();
   }, []);
@@ -450,6 +503,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         addShippingOrPickupInfo,
         orderform,
         removeItem,
+        addCoupon,
+        addSellerCoupon,
+        removeCoupon,
+        removeSellerCoupon,
       }}
     >
       {children}
@@ -476,6 +533,10 @@ export const useCart = () => {
     addShippingOrPickupInfo,
     orderform,
     removeItem,
+    addCoupon,
+    addSellerCoupon,
+    removeCoupon,
+    removeSellerCoupon
   } = cartContext;
   return {
     orderForm,
@@ -487,5 +548,9 @@ export const useCart = () => {
     addShippingOrPickupInfo,
     orderform,
     removeItem,
+    addCoupon,
+    addSellerCoupon,
+    removeCoupon,
+    removeSellerCoupon
   };
 };
