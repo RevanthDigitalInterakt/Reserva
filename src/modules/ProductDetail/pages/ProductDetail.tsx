@@ -138,6 +138,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
+  const [unavailableSizes, setUnavailableSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const { addItem } = useCart();
@@ -168,11 +169,14 @@ export const ProductDetail: React.FC<Props> = ({
       setColorFilters(colorList);
 
       // set initial selected color
-      setSelectedColor(colorList ? colorList[0] : '');
+      setSelectedColor(colorList ? colorList[0] : '');      
 
       // set size filter
       const sizeList = getSizeList(product);
       setSizeFilters(sizeList);
+
+      const unavailableSizeList = getUnavailableSizeList(product);
+      setUnavailableSizes(unavailableSizeList);
     }
   }, [data]);
 
@@ -279,6 +283,20 @@ export const ProductDetail: React.FC<Props> = ({
     skuSpecifications
       .find(({ field }) => field.name === 'TAMANHO')
       ?.values.map(({ name }) => name);
+  
+  const getUnavailableSizeList = (product: Product) => {
+    let colorsUnavailable = [];
+    product.items.forEach((item) => {
+      if(item.sellers[0].commertialOffer.AvailableQuantity === 0){
+        item.variations?.forEach((variation) => {
+          if(variation.name === 'TAMANHO'){
+            colorsUnavailable.push(variation.values[0]);
+          }
+        });
+      }
+    })
+    return colorsUnavailable;
+  }
 
   return (
     <SafeAreaView>
@@ -326,7 +344,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <SelectColor
                       onPress={(color) => setSelectedColor(color)}
                       size={40}
-                      disabledColors={colorFilters?.length ? [colorFilters[1]] : []}
+                      disabledColors={[]}
                       listColors={colorFilters || []}
                       selectedColors={
                         selectedColor || (colorFilters && colorFilters[0])
@@ -360,7 +378,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <RadioButtons
                       size={44}
                       fontSize={14}
-                      disbledOptions={['G']}
+                      disbledOptions={unavailableSizes}
                       onSelectedChange={(item) => {
                         setSelectedSize(item);
                       }}

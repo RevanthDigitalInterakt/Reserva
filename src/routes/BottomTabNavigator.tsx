@@ -79,6 +79,16 @@ export const Tabs = () => {
           initialParams={{
             safeArea: false,
             categoryId: "reserva-bazar-camisetas",
+            facetInput: [
+              {
+                key: "category-2",
+                value: "masculino"
+              },
+              {
+                key: "productClusterIds",
+                value: "326"
+              }
+            ]
           }}
         />
         <Tab.Screen name="Profile" component={MenuProfile} />
