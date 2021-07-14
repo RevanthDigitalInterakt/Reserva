@@ -37,16 +37,24 @@ import { useCart } from '../../../context/CartContext';
 const BoxAnimated = createAnimatableComponent(Box);
 
 export const BagScreen = () => {
-  const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { orderForm, addItem, orderform, removeItem, addCoupon, addSellerCoupon } = useCart();
+  const { orderForm, addItem, orderform, removeItem, addCoupon, addSellerCoupon, removeCoupon, removeSellerCoupon } = useCart();
   const [totalBag, setTotalBag] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
-
-  const [coupon, setCoupon] = React.useState<string>('');
   const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
+  const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
+  const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
+  const [sellerCouponIsValid, setSellerCouponIsValid] = React.useState<boolean>();
+
+  const hasSellerCoupon = useCallback((): boolean => {
+    return sellerCoupon.length > 0;
+  }, [sellerCoupon]);
+
+  const hasDiscountCoupon = useCallback((): boolean => {
+    return discountCoupon.length > 0;
+  }, [discountCoupon]);
 
   useEffect(() => {
     orderform();
@@ -59,16 +67,24 @@ export const BagScreen = () => {
       (orderForm?.totalizers.find((x) => x.id === 'Discounts')?.value || 0) /
       100;
 
+    const sellerCode = orderForm?.marketingData?.marketingTags[1]?.split('=')[1]
+
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
+    setSellerCode(sellerCode);
   }, [orderForm]);
 
-  const addCoupons = async () => {
-    await addCoupon(coupon)
+  const handleAddCoupons = async () => {
+    await addCoupon(discountCoupon);
+    orderform();
   };
-  const addSellerCoupons = async () => {
-    await addSellerCoupon(sellerCoupon)
+
+  const handleAddSellerCoupons = async () => {
+    const dataSellerCoupon = await addSellerCoupon(sellerCoupon);
+    console.log('dataSellerCoupon', dataSellerCoupon)
+    orderform();
   };
+
   const onGoToDelivery = () => {
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
@@ -252,11 +268,27 @@ export const BagScreen = () => {
             </Typography>
           </Box>
           <Box flexDirection="row">
-            {orderForm?.marketingData?.coupon &&
-              <CouponBadge value={orderForm?.marketingData?.coupon} />}
 
-            {orderForm?.marketingData?.marketingTags &&
-              <CouponBadge value={orderForm?.marketingData?.marketingTags[1].split('code_CodigoVendedor=')[1]} />}
+            {/* cupom vendedor */}
+            {!!sellerCode &&
+              <CouponBadge
+                value={sellerCode}
+                onPress={async () => {
+                  await removeSellerCoupon('') //remove passando ''
+                }}
+              />
+            }
+            {/* cupom desconto */}
+            {orderForm?.marketingData?.coupon &&
+              <CouponBadge
+                value={orderForm?.marketingData?.coupon}
+                onPress={async () => {
+                  await removeCoupon('') //remove passando ''
+                }}
+              />
+            }
+
+
           </Box>
 
           <Box marginTop='nano' flexDirection='row'>
@@ -272,9 +304,9 @@ export const BagScreen = () => {
               <Button
                 width='100%'
                 title='APLICAR'
-                onPress={addSellerCoupons}
+                onPress={handleAddSellerCoupons}
                 variant='primarioEstreito'
-                disabled={false}
+                disabled={!hasSellerCoupon()}
               />
             </Box>
           </Box>
@@ -283,8 +315,8 @@ export const BagScreen = () => {
             <Box flex={1} marginRight='micro'>
               <TextField
                 height={50}
-                value={coupon}
-                onChangeText={(text) => setCoupon(text)}
+                value={discountCoupon}
+                onChangeText={(text) => setDiscountCoupon(text)}
                 placeholder='Cupom de desconto'
               />
             </Box>
@@ -292,9 +324,9 @@ export const BagScreen = () => {
               <Button
                 width='100%'
                 title='APLICAR'
-                onPress={addCoupons}
+                onPress={handleAddCoupons}
                 variant='primarioEstreito'
-                disabled={false}
+                disabled={!hasDiscountCoupon()}
               />
             </Box>
           </Box>
@@ -344,7 +376,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={20}
               sizeDecimal={11}
-              num={totalBag}
+              num={totalBag + totalDiscountPrice}
             />
           </Box>
         </Box>
@@ -368,7 +400,7 @@ export const BagScreen = () => {
               fontFamily={'nunitoBold'}
               sizeInterger={15}
               sizeDecimal={11}
-              num={totalBag}
+              num={totalBag + totalDiscountPrice}
             />
           </Box>
           <Box alignItems="flex-end">
