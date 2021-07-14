@@ -281,10 +281,10 @@ interface CartContextProps {
   ) => Promise<boolean | undefined>; //todo - type later,
   orderform: () => void;
   removeItem: () => Promise<{ ok: boolean }>;
-  addCoupon: (coupon: string) => Promise<{ message: string; ok: boolean }>;
-  addSellerCoupon: (coupon: string) => Promise<{ message: string; ok: boolean }>;
-  removeCoupon: (coupon: string) => Promise<{ ok: boolean }>;
-  removeSellerCoupon: (coupon: string) => Promise<{ ok: boolean }>;
+  addCoupon: (coupon: string) => Promise<boolean | undefined>;
+  addSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
+  removeCoupon: (coupon: string) => Promise<boolean | undefined>;
+  removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -457,6 +457,30 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     try {
       const { data } = await addToCoupon(orderForm?.orderFormId, coupon);
       setOrderForm(data);
+      return !!data
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  }
+
+  const addSellerCoupon = async (coupon: string) => {
+    try {
+      const { data } = await validateSellerCoupon(coupon);
+      console.log('!!data', data)
+      if (data.length > 0 && data[0].ativo) {
+        await addToSellerCoupon(orderForm?.orderFormId,
+          {
+            ...orderForm?.marketingData,
+            marketingTags: [
+              "CodigoVendedor",
+              `code_CodigoVendedor=${coupon}`
+            ]
+          })
+        return !!data
+      } else {
+        return false;
+      }
+
     } catch (error) {
       console.log('error', error.response.data);
     }
@@ -465,28 +489,28 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     try {
       const { data } = await removeCouponToOder(orderForm?.orderFormId, coupon);
       setOrderForm(data);
-    } catch (error) {
-      console.log('error', error.response.data);
-    }
-  }
-  const addSellerCoupon = async (coupon: string) => {
-    try {
-      const { data } = await validateSellerCoupon(coupon);
-      if (data[0].ativo) {
-        await addToSellerCoupon(orderForm?.orderFormId, coupon)
-      }
-    } catch (error) {
-      console.log('error', error.response.data);
-    }
-  }
-  const removeSellerCoupon = async (coupon: any) => {
-    try {
-      await removeSellerCouponToOder(orderForm?.orderFormId, coupon)
+      return !!data
     } catch (error) {
       console.log('error', error.response.data);
     }
   }
 
+  const removeSellerCoupon = async (coupon: string) => {
+    try {
+      const { data } = await removeSellerCouponToOder(orderForm?.orderFormId,
+        {
+          ...orderForm?.marketingData,
+          marketingTags: [
+            "CodigoVendedor",
+            `code_CodigoVendedor=${coupon}`
+          ]
+        })
+      setOrderForm(data);
+      return !!data
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  }
   useEffect(() => {
     orderform();
   }, []);

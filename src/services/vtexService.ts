@@ -268,29 +268,18 @@ const validateSellerCoupon = async (
 
 const addToSellerCoupon = async (
   orderFormId: string | undefined,
-  coupon: string,
+  marketingData: any,
 ) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, {
-    marketingTags: [
-      "CodigoVendedor",
-      `code_CodigoVendedor=${coupon}`
-    ]
-  });
+    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
   return response;
 }
-
 const removeSellerCouponToOder = async (
   orderFormId: string | undefined,
-  coupon: string,
+  marketingData: any,
 ) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, {
-    marketingTags: [
-      "CodigoVendedor",
-      `code_CodigoVendedor=${coupon}`
-    ]
-  });
+    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
   return response;
 }
 export {

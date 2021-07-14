@@ -96,7 +96,7 @@ export const EditPassword = ({ route }: Props) => {
                 changePassword(password, current_password);
               }}
             >
-              {({ handleSubmit }) => (
+              {() => (
                 <>
                   <Box mb={"micro"}>
                     <FormikTextInput
