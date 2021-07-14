@@ -28,12 +28,12 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const { orderForm, addShippingData } = useCart();
 
-  useEffect(() => {
-    if (!!orderForm?.shippingData) {
-      setIdAddress(orderForm?.shippingData.selectedAddresses[0].addressId);
-    }
-  }, []);
-  console.log("Que porra é essa", addressId);
+  // useEffect(() => {
+  //   if (!!orderForm?.shippingData) {
+  //     setIdAddress(orderForm?.shippingData.selectedAddresses[0].addressId);
+  //   }
+  // }, []);
+  // console.log("Que porra é essa", addressId);
 
   const onAddressChosen = (item: any) => {
     setSelected(true);
