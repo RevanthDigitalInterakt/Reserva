@@ -1,9 +1,9 @@
-import { QueryResult, useQuery } from "@apollo/client";
-import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect, useState } from "react";
-import { Linking } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { QueryResult, useQuery } from '@apollo/client';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -13,25 +13,28 @@ import {
   SearchBar,
   theme,
   Typography,
-} from "reserva-ui";
-import { images } from "../../../assets";
+} from 'reserva-ui';
+import { images } from '../../../assets';
 import {
   OrderByEnum,
   productSearch,
-} from "../../../graphql/products/productSearch";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
-import { cleanProducts } from "../../../store/ducks/products/actions";
-import { BffGetProductsRequest } from "../../../store/ducks/products/sagas";
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
-import { ListVerticalProducts } from "../components/ListVerticalProducts/ListVerticalProducts";
-import { FilterModal } from "../modals/FilterModal";
-import { ProductSearchData } from "../../../graphql/products/productSearch";
-import { facetsQuery } from "../../../graphql/facets/facetsQuery";
-import { ColorsToHexEnum } from "../../../graphql/product/colorsToHexEnum";
+} from '../../../graphql/products/productSearch';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { ApplicationState } from '../../../store';
+import { cleanProducts } from '../../../store/ducks/products/actions';
+import { BffGetProductsRequest } from '../../../store/ducks/products/sagas';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
+import { FilterModal } from '../modals/FilterModal';
+import { ProductSearchData } from '../../../graphql/products/productSearch';
+import { facetsQuery } from '../../../graphql/facets/facetsQuery';
+import {
+  ColorsToHexEnum,
+  ColorHexEnum,
+} from '../../../graphql/product/colorsToHexEnum';
 
-type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [productsQuery, setProducts] = useState<ProductSearchData>(
@@ -40,26 +43,26 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   let pageSize = 12;
   const { safeArea, search, facetInput } = route.params;
 
-  let categoryId = "camisetas";
+  let categoryId = 'camisetas';
 
   const dispatch = useDispatch();
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
-  const [priceRangefilters, setPriceRangeFilters] =
-    useState<{ from: number; to: number }>();
+  const [priceRangefilters, setPriceRangeFilters] = useState<any[]>([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [sorterVisible, setSorterVisible] = useState(false);
   const [filterList, setFilterList] = useState<string[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<string>();
-
+  const [loadingFetchMore, setLoadingFetchMore] = useState(false);
+  const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
     productSearch,
     {
       variables: {
-        skusFilter: "ALL_AVAILABLE",
+        skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        selectedFacets: facetInput,
+        selectedFacets: [facetInput, filterRequestList].flat(),
         orderBy: selectedOrder,
         to: pageSize - 1,
       },
@@ -73,63 +76,63 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }: QueryResult = useQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets: facetInput,
+      selectedFacets: [facetInput, filterRequestList].flat(),
     },
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
     if (!lodingFacets) {
       const facets = facetsData.facets.facets;
-      let rangeFrom = 0;
-      let rangeTo = 0;
-      let colorValues = facets
-        .map((facet) => {
-          if (["DESC_COR_CONSOLIDADA"].includes(facet.name)) {
-            return facet.values;
-          }
-        })
-        .filter((a) => a !== undefined)[0]
-        .map((b) => ColorsToHexEnum[b.value]);
 
-      let sizeValues = facets
-        .map((facet) => {
-          if (["TAMANHO"].includes(facet.name)) {
-            return facet.values;
-          }
-        })
-        .filter((a) => a !== undefined)[0]
-        .map((b) => b.value);
+      // COLOR
+      const colorFacets = facets.filter(
+        ({ name }: any) => name === 'DESC_COR_CONSOLIDADA'
+      );
+      const colorFacetValues =
+        colorFacets.length > 0
+          ? colorFacets[0].values.map(({ key, value }: any) => ({
+              key,
+              value: ColorsToHexEnum[value],
+            }))
+          : [];
 
-      let categoryValues = facets
-        .map((facet) => {
-          if (["Categoria"].includes(facet.name)) {
-            return facet.values;
-          }
-        })
-        .filter((a) => a !== undefined)[0]
-        .map((b) => b.value);
+      // SIZE
+      const sizeFacets = facets.filter(({ name }: any) => name === 'TAMANHO');
+      const sizeFacetValues =
+        sizeFacets.length > 0
+          ? sizeFacets[0].values.map(({ key, value }: any) => ({
+              key,
+              value,
+            }))
+          : [];
 
-      let priceValues = facets
-        .map((facet) => {
-          if (["Preço"].includes(facet.name)) {
-            return facet.values;
-          }
-        })
-        .filter((a) => a !== undefined)[0]
-        .map((b) => b.range)
-        .map((range) => {
-          console.log("range", range);
+      // CATEGORY
+      const categoryFacets = facets.filter(
+        ({ name }: any) => name === 'Categoria'
+      );
+      const categoryFacetValues =
+        categoryFacets.length > 0
+          ? categoryFacets[0].values.map(({ key, value }: any) => ({
+              key,
+              value,
+            }))
+          : [];
 
-          if (rangeFrom === 0 || rangeFrom > range.from) rangeFrom = range.from;
-          if (rangeTo < range.to) rangeTo = range.to;
-        });
-      setPriceRangeFilters({
-        from: rangeFrom,
-        to: rangeTo,
-      });
-      setCategoryFilters(categoryValues);
-      setSizeFilters(sizeValues);
-      setColorsFilters(colorValues);
+      // PRICE
+      const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
+      const priceFacetValues =
+        priceFacets.length > 0
+          ? priceFacets[0].values.map(({ key, range }: any) => ({
+              key,
+              range,
+            }))
+          : [];
+
+      setPriceRangeFilters(priceFacetValues);
+      setCategoryFilters(categoryFacetValues);
+      setSizeFilters(sizeFacetValues);
+      setColorsFilters(colorFacetValues);
     }
   }, [facetsData]);
 
@@ -138,35 +141,33 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     refetchFacets();
   }, []);
 
-  const [filterRequestList, setFilterRequestList] =
-    useState<BffGetProductsRequest>();
-
   useEffect(() => {
     if (!loading) {
-      console.log(data);
       setProducts(data.productSearch);
     }
-    console.log(categoryId);
   }, [data]);
 
   const loadMoreProducts = async (offset: number) => {
-    let { data } = await fetchMore({
+    setLoadingFetchMore(true);
+    let { data, loading } = await fetchMore({
       variables: {
         orderBy: selectedOrder,
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
+        selectedFacets: [facetInput, filterRequestList].flat(),
       },
     });
+    refetchFacets();
+    setLoadingFetchMore(loading);
 
     setProducts(data.productSearch);
   };
 
-  const products = useSelector((state: ApplicationState) => state.products);
-
   useEffect(() => {
-    console.log("products", products);
-    dispatch(cleanProducts());
-    loadMoreProducts(0);
+    if (filterRequestList) {
+      setProducts([]);
+      loadMoreProducts(0);
+    }
   }, [filterRequestList]);
 
   useEffect(() => {
@@ -174,16 +175,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [selectedOrder]);
 
   const onClickWhatsappButton = () => {
-    Linking.openURL("https://whts.co/reserva");
+    Linking.openURL('https://whts.co/reserva');
   };
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
-        <TopBarDefaultBackButton loading={loading} />
+        <TopBarDefaultBackButton loading={loading || loadingFetchMore} />
       ) : (
-        <TopBarDefault loading={loading} />
+        <TopBarDefault loading={loading || loadingFetchMore} />
       )}
       {search && (
         <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
@@ -204,7 +205,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title="Excluir endereço"
-        confirmText={"Ok"}
+        confirmText={'Ok'}
         subtitle="Tem certeza que deseja excluir o endereço salvo?"
       />
       <Picker
@@ -215,19 +216,19 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: "Menor Preço",
+            text: 'Menor Preço',
             value: OrderByEnum.OrderByPriceASC,
           },
           {
-            text: "Maior Preço",
+            text: 'Maior Preço',
             value: OrderByEnum.OrderByPriceDESC,
           },
           {
-            text: "Mais Recentes",
+            text: 'Mais Recentes',
             value: OrderByEnum.OrderByReleaseDateDESC,
           },
           {
-            text: "Relevante",
+            text: 'Relevante',
             value: OrderByEnum.OrderByReviewRateDESC,
           },
         ]}
@@ -262,8 +263,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontFamily="nunitoSemiBold"
                       fontSize={11}
                     >
-                      Chama no Whats! Seja atendido sem sair de casa.{" "}
-                      <Typography style={{ textDecorationLine: "underline" }}>
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
                       </Typography>
                     </Typography>
@@ -327,17 +328,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               <Typography fontFamily="nunitoRegular" fontSize="13px">
                 {productsQuery.recordsFiltered} produtos encontrados
               </Typography>
-              {filterList.length > 0 && (
-                <Button onPress={() => setFilterList([])}>
-                  <Typography
-                    color="progressTextColor"
-                    variant="precoAntigo3"
-                    style={{ textDecorationLine: "underline" }}
-                  >
-                    Limpar tudo
-                  </Typography>
-                </Button>
-              )}
+
+              <Button onPress={() => setFilterRequestList([])}>
+                <Typography
+                  color="progressTextColor"
+                  variant="precoAntigo3"
+                  style={{ textDecorationLine: 'underline' }}
+                >
+                  Limpar tudo
+                </Typography>
+              </Button>
             </Box>
           </>
         }

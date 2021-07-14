@@ -77,7 +77,7 @@ export const ListVerticalProducts = ({
               flex={1}
               alignItems="center"
               justifyContent="center"
-              height={320}
+              height={353}
             >
               <ProductVerticalListCard
                 colors={colors}
