@@ -119,6 +119,16 @@ type ProductQueryResponse = {
   product: Product;
 };
 
+type ItemsSKU = {
+  color: string;
+  images: string[];
+  sizeList: [
+    id: string,
+    size: string,
+    available: boolean
+  ]
+}
+
 export const ProductDetail: React.FC<Props> = ({
   route,
   recomendedProducts,
@@ -134,6 +144,7 @@ export const ProductDetail: React.FC<Props> = ({
         id: route.params.productId.split('-')[0],
       },
     });
+  const [itemsSKU, setItemsSKU ] = useState<ItemsSKU[]>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
@@ -166,6 +177,8 @@ export const ProductDetail: React.FC<Props> = ({
 
       // set colors filter
       const colorList = getColorsList(product);
+      console.log("colorList", colorList);
+      
       setColorFilters(colorList);
 
       // set initial selected color
@@ -175,8 +188,12 @@ export const ProductDetail: React.FC<Props> = ({
       const sizeList = getSizeList(product);
       setSizeFilters(sizeList);
 
-      const unavailableSizeList = getUnavailableSizeList(product);
-      setUnavailableSizes(unavailableSizeList);
+      let itemList: ItemsSKU[];
+
+      colorList?.forEach((color) => {
+        console.log(color, getSizePerColor(product, color));
+      })
+      
     }
   }, [data]);
 
@@ -198,6 +215,8 @@ export const ProductDetail: React.FC<Props> = ({
           variations: variants,
         };
       });
+
+      console.log("sizeColorSkuVariations");      
 
       if (sizeColorSkuVariations) {
         const selectedSkuVariations: Facets[] = [
@@ -283,21 +302,28 @@ export const ProductDetail: React.FC<Props> = ({
     skuSpecifications
       .find(({ field }) => field.name === 'TAMANHO')
       ?.values.map(({ name }) => name);
-  
-  const getUnavailableSizeList = (product: Product) => {
-    let colorsUnavailable = [];
-    product.items.forEach((item) => {
-      if(item.sellers[0].commertialOffer.AvailableQuantity === 0){
-        item.variations?.forEach((variation) => {
-          if(variation.name === 'TAMANHO'){
-            colorsUnavailable.push(variation.values[0]);
-          }
-        });
-      }
-    })
-    return colorsUnavailable;
-  }
 
+  const getSizePerColor = ({ items }: Product, color: string) => {
+    return items.flatMap((item) => {
+      const variants = item.variations
+        ?.map((v) => {
+          if (['VALOR_HEX_CONSOLIDADA'].includes(v.name)){
+            if(v.values[0] === color){
+              return {
+                item,
+                size: item.variations?.filter(i => i.name === "TAMANHO")[0].values[0],
+                available: item.sellers[0].commertialOffer.AvailableQuantity > 0
+              };
+            }
+            
+          } 
+        })
+        .filter((a) => a !== undefined);
+
+      return variants;
+    });
+  }
+  
   return (
     <SafeAreaView>
       <Box bg="white">

@@ -1,16 +1,16 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const facetsQuery = gql`
   query Facets(
-    $selectedFacets: [SelectedFacetInput],
+    $selectedFacets: [SelectedFacetInput]
     $hideUnavailableItems: Boolean = true
-    ){
+  ) {
     facets(
-      hideUnavailableItems: $hideUnavailableItems,
+      hideUnavailableItems: $hideUnavailableItems
       selectedFacets: $selectedFacets
-    ) @context(provider: "vtex.search-graphql"){
+    ) @context(provider: "vtex.search-graphql") {
       queryArgs {
-        selectedFacets{
+        selectedFacets {
           key
           value
         }
@@ -21,7 +21,7 @@ export const facetsQuery = gql`
           id
           name
           value
-          range{
+          range {
             from
             to
           }

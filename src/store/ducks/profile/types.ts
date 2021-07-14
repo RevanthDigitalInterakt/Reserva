@@ -44,13 +44,14 @@ export type ProfileQuery = {
 };
 
 export type ProfileCustomFieldsInput = {
-  key: string,
-  value: string
-}
+  key: string;
+  value: string;
+};
 
 export const profileQuery = gql`
   query Profile {
-    profile(customFields: "isNewsletterOptIn") @context(provider: "vtex.store-graphql") {
+    profile(customFields: "isNewsletterOptIn")
+      @context(provider: "vtex.store-graphql") {
       userId
       firstName
       lastName
@@ -58,10 +59,21 @@ export const profileQuery = gql`
       document
       birthDate
       homePhone
-      customFields{
-        cacheId,
-        key,
+      customFields {
+        cacheId
+        key
         value
+      }
+      addresses {
+        id
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        complement
+        neighborhood
       }
       payments {
         id
@@ -73,14 +85,12 @@ export const profileQuery = gql`
 
 export const profileMutation = gql`
   mutation UpdateProfile(
-    $fields: ProfileInput!, 
+    $fields: ProfileInput!
     $customFields: [ProfileCustomFieldInput]
-    ){
-    updateProfile(
-      fields: $fields, 
-      customFields: $customFields
-      )@context(provider: "vtex.store-graphql") {
-      userId,
+  ) {
+    updateProfile(fields: $fields, customFields: $customFields)
+      @context(provider: "vtex.store-graphql") {
+      userId
     }
   }
 `;
