@@ -25,10 +25,10 @@ export const HomeScreen: React.FC<{
       variables: { limit: 0 } // quantidade de itens que iram renderizar
     }
   );
-
+  console.log(data)
   useEffect(() => {
     console.log('data', data)
-    let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription) => {
+    let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription: any) => {
       return {
         fileName: imageDescription.image.fileName,
         title: imageDescription.image.title,
@@ -36,6 +36,7 @@ export const HomeScreen: React.FC<{
         height: imageDescription.image.height,
         size: imageDescription.image.size,
         url: imageDescription.image.url,
+        reference: imageDescription.reference,
       }
     })
     setImages(arrayImages)
@@ -55,7 +56,25 @@ export const HomeScreen: React.FC<{
             <Box mb="quarck" width={1 / 1}>
               <TouchableHighlight
                 onPress={() => {
-                  navigation.navigate('ProductCatalog');
+                  let facetInput = []
+                  const [categoryType, categoryData] = item.reference.split(':')
+                  console.log(categoryType, categoryData)
+                  if (categoryType === 'category') {
+
+                    categoryData.split('|').forEach((cat: string) => {
+                      facetInput.push({
+                        key: 'c',
+                        value: cat
+                      })
+                    })
+                  } else {
+                    facetInput.push({
+                      key: 'productClusterIds',
+                      value: categoryData
+                    })
+                  }
+                  console.log(facetInput)
+                  navigation.navigate('ProductCatalog', { facetInput });
                 }}
               >
                 <Image

@@ -15,6 +15,7 @@ export const homeQuery = gql`
       items{
         mediasCollection(limit:$limit){
           items{
+            reference
             image{
               fileName
               title
