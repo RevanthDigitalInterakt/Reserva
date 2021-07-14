@@ -14,7 +14,7 @@ $specificationFilters: [String]
 $priceRange: String = ""
 $collection: String = ""
 $salesChannel: String = ""
-$orderBy: String = "OrderByPriceDESC"
+$orderBy: String = "OrderByReviewRateDESC"
 $from: Int = 0
 $to: Int = 9
 $hideUnavailableItems: Boolean = false
