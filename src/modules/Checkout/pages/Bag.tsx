@@ -38,7 +38,16 @@ const BoxAnimated = createAnimatableComponent(Box);
 
 export const BagScreen = () => {
   const { navigate } = useNavigation();
-  const { orderForm, addItem, orderform, removeItem, addCoupon, addSellerCoupon, removeCoupon, removeSellerCoupon } = useCart();
+  const {
+    orderForm,
+    addItem,
+    orderform,
+    removeItem,
+    addCoupon,
+    addSellerCoupon,
+    removeCoupon,
+    removeSellerCoupon,
+  } = useCart();
   const [totalBag, setTotalBag] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
@@ -46,7 +55,8 @@ export const BagScreen = () => {
   const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
   const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
   const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
-  const [sellerCouponIsValid, setSellerCouponIsValid] = React.useState<boolean>();
+  const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
+  const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
 
   const hasSellerCoupon = useCallback((): boolean => {
     return sellerCoupon.length > 0;
@@ -67,7 +77,8 @@ export const BagScreen = () => {
       (orderForm?.totalizers.find((x) => x.id === 'Discounts')?.value || 0) /
       100;
 
-    const sellerCode = orderForm?.marketingData?.marketingTags[1]?.split('=')[1]
+    const sellerCode =
+      orderForm?.marketingData?.marketingTags[1]?.split('=')[1];
 
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
@@ -75,13 +86,16 @@ export const BagScreen = () => {
   }, [orderForm]);
 
   const handleAddCoupons = async () => {
-    await addCoupon(discountCoupon);
+    const isCouponInvalid = await addCoupon(discountCoupon);
+    setCouponIsInvalid(isCouponInvalid);
+    setDiscountCoupon('');
     orderform();
   };
 
   const handleAddSellerCoupons = async () => {
     const dataSellerCoupon = await addSellerCoupon(sellerCoupon);
-    console.log('dataSellerCoupon', dataSellerCoupon)
+    setSellerCouponIsValid(dataSellerCoupon);
+    setSellerCoupon('');
     orderform();
   };
 
@@ -151,7 +165,10 @@ export const BagScreen = () => {
                 onClickClose={async () => {
                   await removeItem(item.id, index, item.seller, 0);
                 }}
-                imageSource={item.imageUrl.replace('http', 'https').split('-55-55').join('')}
+                imageSource={item.imageUrl
+                  .replace('http', 'https')
+                  .split('-55-55')
+                  .join('')}
               />
             </Box>
           ))}
@@ -268,68 +285,79 @@ export const BagScreen = () => {
             </Typography>
           </Box>
           <Box flexDirection="row">
-
             {/* cupom vendedor */}
-            {!!sellerCode &&
+            {!!sellerCode && (
               <CouponBadge
                 value={sellerCode}
                 onPress={async () => {
-                  await removeSellerCoupon('') //remove passando ''
+                  await removeSellerCoupon(''); //remove passando ''
                 }}
               />
-            }
+            )}
             {/* cupom desconto */}
-            {orderForm?.marketingData?.coupon &&
+            {orderForm?.marketingData?.coupon && (
               <CouponBadge
                 value={orderForm?.marketingData?.coupon}
                 onPress={async () => {
-                  await removeCoupon('') //remove passando ''
+                  await removeCoupon(''); //remove passando ''
                 }}
               />
-            }
-
-
+            )}
           </Box>
 
-          <Box marginTop='nano' flexDirection='row'>
+          <Box marginTop="nano" flexDirection="row">
             <Box flex={1} marginRight={'micro'}>
               <TextField
                 height={50}
                 value={sellerCoupon}
                 onChangeText={(text) => setSellerCoupon(text)}
-                placeholder='Código do vendedor'
+                placeholder="Código do vendedor"
               />
             </Box>
             <Box>
               <Button
-                width='100%'
-                title='APLICAR'
+                width="100%"
+                title="APLICAR"
                 onPress={handleAddSellerCoupons}
-                variant='primarioEstreito'
+                variant="primarioEstreito"
                 disabled={!hasSellerCoupon()}
               />
             </Box>
           </Box>
-
-          <Box marginTop='xxxs' flexDirection='row'>
-            <Box flex={1} marginRight='micro'>
+          {!sellerCouponIsValid && (
+            <Box marginRight={'micro'}>
+              <Typography color="vermelhoAlerta" variant={'precoAntigo3'}>
+                Digite um código válido
+              </Typography>
+            </Box>
+          )}
+          <Box marginTop="xxxs" flexDirection="row">
+            <Box flex={1} marginRight="micro">
               <TextField
                 height={50}
                 value={discountCoupon}
                 onChangeText={(text) => setDiscountCoupon(text)}
-                placeholder='Cupom de desconto'
+                placeholder="Cupom de desconto"
               />
             </Box>
             <Box>
               <Button
-                width='100%'
-                title='APLICAR'
+                width="100%"
+                title="APLICAR"
                 onPress={handleAddCoupons}
-                variant='primarioEstreito'
+                variant="primarioEstreito"
                 disabled={!hasDiscountCoupon()}
               />
             </Box>
           </Box>
+          {couponIsInvalid && (
+            <Box marginRight={'micro'}>
+              <Typography color="vermelhoAlerta" variant={'precoAntigo3'}>
+                Digite um código válido
+              </Typography>
+            </Box>
+          )}
+
           <Divider variant={'fullWidth'} marginY={'xs'} />
           {totalDiscountPrice != 0 && (
             <>

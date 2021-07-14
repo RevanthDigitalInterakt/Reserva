@@ -245,8 +245,6 @@ export const ProductDetail: React.FC<Props> = ({
         };
       });
 
-      console.log("sizeColorSkuVariations");      
-
       if (sizeColorSkuVariations) {
         const selectedSkuVariations: Facets[] = [
           {

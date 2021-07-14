@@ -41,14 +41,41 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
   const onGoToPayment = async () => {
     setLoading(true);
-    if (
-      orderForm &&
-      orderForm.shippingData.selectedAddresses[0].addressId !==
-        selectedAddress.addressId
-    ) {
-      await addShippingData(selectedAddress);
-      setLoading(false);
-    }
+    const {
+      city,
+      complement,
+      country,
+      id,
+      neighborhood,
+      number,
+      postalCode,
+      state,
+      street,
+    } = selectedAddress;
+
+    await addShippingData({
+      city,
+      complement,
+      country: country || 'BR',
+      id,
+      neighborhood,
+      number,
+      postalCode,
+      state,
+      street,
+    });
+
+    // if (
+    //   orderForm &&
+    //   orderForm.shippingData.selectedAddresses.length > 0 &&
+    //   orderForm.shippingData.selectedAddresses[0].addressId !==
+    //     selectedAddress.addressId
+    // ) {
+    //   setLoading(false);
+    // } else {
+    //   await addShippingData(selectedAddress);
+    //   setLoading(false);
+    // }
 
     navigation.navigate('Checkout');
   };
