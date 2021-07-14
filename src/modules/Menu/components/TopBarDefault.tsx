@@ -9,7 +9,7 @@ export const TopBarDefault: React.FC<{
   loading: Boolean;
 }> = ({ showShadow = true, loading = false }) => {
   const navigation = useNavigation();
-  const { orderForm } = useCart()
+  const { orderForm } = useCart();
   return (
     <TopBar
       loading={loading}
