@@ -1,23 +1,23 @@
-import React, { useRef, useState, useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation } from "@react-navigation/native";
+import React, { useRef, useState, useEffect } from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { Typography, TextField, Box, Button, Toggle } from 'reserva-ui';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
-} from "react-native-masked-text";
-import { useFormikContext } from "formik";
-import { Formik } from "formik";
-import * as Yup from "yup";
+} from 'react-native-masked-text';
+import { useFormikContext } from 'formik';
+import { Formik } from 'formik';
 
-import { useMutation } from "@apollo/client";
+import { useMutation } from '@apollo/client';
 import {
   saveAddressMutation,
   updateAddress,
-} from "../../../graphql/address/addressMutations";
+} from '../../../graphql/address/addressMutations';
+import { CepVerify } from '../../../services/vtexService';
 
 interface IAddress {
   postalCode: string;
@@ -28,109 +28,110 @@ interface IAddress {
   street: string;
   neighborhood: string;
 }
-type Props = StackScreenProps<RootStackParamList, "NewAddress">;
+type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
+
+type SaveAddressDTO = {
+  postalCode: string;
+  state: string;
+  city: string;
+  street: string;
+  neighborhood: string;
+  number: string;
+  complement: string;
+};
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const { edit, editAddress } = route?.params;
-  const [addressId, setAddressId] = React.useState(edit ? editAddress.id : "");
-  const [toggleActivated, setToggleActivated] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-
+  const [addressId, setAddressId] = useState(edit ? editAddress.id : '');
+  const [toggleActivated, setToggleActivated] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-
   const { isCheckout } = route.params;
-
   const [initialValues, setInitialValues] = useState<IAddress>({
-    postalCode: edit ? editAddress.postalCode : "",
-    state: edit ? editAddress.state : "",
-    city: edit ? editAddress.city : "",
-    number: edit ? editAddress.number : "",
-    complement: edit ? editAddress.complement : "",
-    street: edit ? editAddress.street : "",
-    neighborhood: edit ? editAddress.neighborhood : "",
+    postalCode: edit ? editAddress.postalCode : '',
+    state: edit ? editAddress.state : '',
+    city: edit ? editAddress.city : '',
+    number: edit ? editAddress.number : '',
+    complement: edit ? editAddress.complement : '',
+    street: edit ? editAddress.street : '',
+    neighborhood: edit ? editAddress.neighborhood : '',
   });
+  const [buttonEnabled, setButtonEnabled] = useState(false);
 
-  // const validation = Yup.object().shape({
-  //   postalCode: Yup.string()
-  //     .required("Informe um CEP")
-  //     .matches(/^(?=.{9,})/, { message: "CEP não é valido" }),
-  //   state: Yup.string().required("Informe um Estado"),
-  //   city: Yup.string().required("Informe uma Cidade"),
-  //   number: Yup.string().required("Informe um número"),
-  //   district: Yup.string().required("Informe um bairro"),
-  //   street: Yup.string().required("Informe um endereço"),
-  //   recipientName: Yup.string().when("toggleActivated", {
-  //     is: () => {
-  //       return toggleActivated;
-  //     },
-  //     then: Yup.string().required("Informe um nome"),
-  //   }),
-  //   phoneNumber: Yup.string().when("toggleActivated", {
-  //     is: () => {
-  //       return toggleActivated;
-  //     },
-  //     then: Yup.string().required("Informe um telefone"),
-  //   }),
-  // });
-
-  type SaveAddressDTO = {
-    postalCode: string;
-    state: string;
-    city: string;
-    street: string;
-    neighborhood: string;
-    number: string;
-    complement: string;
-  };
-
-  const handleSaveAddress = async ({
-    postalCode,
-    state,
-    city,
-    street,
-    neighborhood,
-    number,
-    complement,
-  }: SaveAddressDTO) => {
-    if (edit) {
-      addressUpdate({
-        variables: {
-          id: addressId,
-          fields: {
-            postalCode: postalCode,
-            street: street,
-            state: state,
-            city: city,
-            neighborhood: neighborhood,
-            number: number,
-            complement: complement,
+  const handleSaveAddress = async () => {
+    setLoading(true);
+    edit
+      ? await addressUpdate({
+          variables: {
+            id: addressId,
+            fields: initialValues,
           },
-        },
-      });
-    } else {
-      saveAddress({
-        variables: {
-          fields: {
-            postalCode: postalCode,
-            street: street,
-            state: state,
-            city: city,
-            neighborhood: neighborhood,
-            number: number,
-            complement: complement,
+        })
+      : await saveAddress({
+          variables: {
+            fields: initialValues,
           },
-        },
-      });
-    }
+        });
+
+    setLoading(false);
     navigation.goBack();
   };
 
+  const cepHandler = async (postalCode: string) => {
+    setLoading(true);
+    const isValidPostalCode = postalCode.length == 8;
+
+    if (isValidPostalCode) {
+      const { street, neighborhood, city, state, cep, errors } =
+        await CepVerify(postalCode);
+
+      setInitialValues({
+        ...initialValues,
+        postalCode,
+        street,
+        neighborhood,
+        city,
+        state,
+      });
+
+      setLoading(false);
+    }
+
+    setLoading(false);
+  };
+
+  // form validation effect
+  useEffect(() => {
+    const {
+      postalCode,
+      state,
+      city,
+      number,
+      complement,
+      street,
+      neighborhood,
+    } = initialValues;
+
+    if (
+      postalCode.length > 0 &&
+      state.length > 0 &&
+      city.length > 0 &&
+      number.length > 0 &&
+      complement.length > 0 &&
+      street.length > 0 &&
+      neighborhood.length > 0
+    ) {
+      setButtonEnabled(true);
+    } else {
+      setButtonEnabled(false);
+    }
+  }, [initialValues]);
+
   useEffect(() => {
     if (edit) {
-      console.log("editAddress", edit, editAddress);
       setAddressId(editAddress.id);
       setInitialValues({
         postalCode: editAddress.postalCode,
@@ -148,152 +149,129 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     <>
       <SafeAreaView
         flex={1}
-        style={{ justifyContent: "space-between" }}
+        style={{ justifyContent: 'space-between' }}
         backgroundColor="white"
       >
         <TopBarBackButton loading={loading} showShadow />
         <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
           <Box pb="sm">
-            <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
-              <Box alignSelf={"flex-start"} mb={"nano"}>
+            <Box paddingX={'xxxs'} justifyContent="flex-start" pt={'sm'}>
+              <Box alignSelf={'flex-start'} mb={'nano'}>
                 {edit ? (
                   <Typography variant="tituloSessoes">
                     Editar endereço
                   </Typography>
                 ) : (
-                  <Typography variant="tituloSessoes">Entrega</Typography>
+                  <Typography variant="tituloSessoes">Endereço</Typography>
                 )}
               </Box>
-              <Box>
-                <Typography variant={"tituloSessao"}>
-                  Receba em casa ou no endereço de sua preferência
-                </Typography>
-              </Box>
-              <Formik
-                initialValues={initialValues}
-                onSubmit={(values) => {
-                  const {
-                    postalCode,
-                    state,
-                    city,
-                    street,
-                    neighborhood,
-                    number,
-                    complement,
-                  } = values;
-                  handleSaveAddress({
-                    city,
-                    complement,
-                    number,
-                    postalCode,
-                    state,
-                    street,
-                    neighborhood,
-                  });
-                  console.log("sucesso", values);
+              <InputOption
+                placeholder={'Digite seu CEP'}
+                maskType={'zip-code'}
+                field={'postalCode'}
+                value={initialValues.postalCode}
+                onChangeText={(text) => {
+                  setInitialValues({ ...initialValues, postalCode: text });
+                  cepHandler(text.replace('-', ''));
                 }}
-              >
-                {({ handleSubmit }) => (
-                  <>
-                    <InputOption
-                      placeholder={"Digite seu CEP"}
-                      maskType={"zip-code"}
-                      field={"postalCode"}
-                    />
+              />
 
-                    <Box flexDirection={"row"} justifyContent="space-between">
-                      <Box flex={1} marginRight={"micro"}>
-                        <InputOption
-                          placeholder={"Digite seu estado"}
-                          field={"state"}
-                        />
-                      </Box>
+              <Box flexDirection={'row'} justifyContent="space-between">
+                <Box flex={1} marginRight={'micro'}>
+                  <InputOption
+                    placeholder={'Digite seu estado'}
+                    value={initialValues.state}
+                    field={'state'}
+                    editable={initialValues.state.length <= 0}
+                  />
+                </Box>
 
-                      <Box flex={1}>
-                        <InputOption
-                          placeholder={"Digite sua cidade"}
-                          field={"city"}
-                        />
-                      </Box>
-                    </Box>
+                <Box flex={1}>
+                  <InputOption
+                    placeholder={'Digite sua cidade'}
+                    field={'city'}
+                    value={initialValues.city}
+                    editable={initialValues.city.length <= 0}
+                  />
+                </Box>
+              </Box>
 
-                    <InputOption placeholder={"Endereço"} field={"street"} />
+              <InputOption
+                placeholder={'Endereço'}
+                value={initialValues.street}
+                editable={initialValues.street.length <= 0}
+                field={'street'}
+              />
 
-                    <Box flexDirection={"row"} justifyContent="space-between">
-                      <Box flex={1} marginRight={"micro"}>
-                        <InputOption
-                          placeholder={"Digite seu bairro"}
-                          field={"neighborhood"}
-                        />
-                      </Box>
+              <Box flexDirection={'row'} justifyContent="space-between">
+                <Box flex={1} marginRight={'micro'}>
+                  <InputOption
+                    placeholder={'Digite seu bairro'}
+                    field={'neighborhood'}
+                    value={initialValues.neighborhood}
+                    editable={initialValues.neighborhood.length <= 0}
+                  />
+                </Box>
 
-                      <Box flex={1}>
-                        <InputOption placeholder={"Número"} field={"number"} />
-                      </Box>
-                    </Box>
+                <Box flex={1}>
+                  <InputOption
+                    placeholder={'Número'}
+                    value={initialValues.number}
+                    onChangeText={(text) =>
+                      setInitialValues({ ...initialValues, number: text })
+                    }
+                    field={'number'}
+                  />
+                </Box>
+              </Box>
 
-                    <InputOption
-                      placeholder={"Complemento"}
-                      field={"complement"}
-                    />
+              <InputOption
+                placeholder={'Complemento'}
+                value={initialValues.complement}
+                onChangeText={(text) =>
+                  setInitialValues({ ...initialValues, complement: text })
+                }
+                field={'complement'}
+              />
 
-                    <Box mt="xs" mb="xxxs">
-                      <Toggle
-                        label="A entrega é para presente"
-                        color="preto"
-                        thumbColor="vermelhoAlerta"
-                        value={toggleActivated}
-                        onValueChange={() => {
-                          setToggleActivated(!toggleActivated);
-                          scrollViewRef.current &&
-                            scrollViewRef.current.scrollToEnd({
-                              animated: true,
-                            });
-                        }}
-                      />
-                    </Box>
+              {toggleActivated && (
+                <Box mb={'sm'}>
+                  <InputOption
+                    placeholder={'Nome do destinatário'}
+                    field={'recipientName'}
+                  />
 
-                    {toggleActivated && (
-                      <Box mb={"sm"}>
-                        <InputOption
-                          placeholder={"Nome do destinatário"}
-                          field={"recipientName"}
-                        />
+                  <InputOption
+                    maskType={'cel-phone'}
+                    placeholder={'Telefone para contato'}
+                    field={'phoneNumber'}
+                  />
 
-                        <InputOption
-                          maskType={"cel-phone"}
-                          placeholder={"Telefone para contato"}
-                          field={"phoneNumber"}
-                        />
+                  <InputOption
+                    height={135}
+                    textAlignVertical={'top'}
+                    placeholder={'Deseja enviar algum recado junto?'}
+                    field={'sendMenssage'}
+                  />
+                </Box>
+              )}
 
-                        <InputOption
-                          height={135}
-                          textAlignVertical={"top"}
-                          placeholder={"Deseja enviar algum recado junto?"}
-                          field={"sendMenssage"}
-                        />
-                      </Box>
-                    )}
-
-                    {!isCheckout && (
-                      <Button
-                        disabled={loading}
-                        width="200px"
-                        mt={"xs"}
-                        onPress={handleSubmit}
-                        title={"SALVAR"}
-                        variant="primarioEstreitoOutline"
-                      />
-                    )}
-                  </>
-                )}
-              </Formik>
+              {!isCheckout && (
+                <Button
+                  disabled={loading || !buttonEnabled}
+                  width="200px"
+                  mt={'xs'}
+                  onPress={handleSaveAddress}
+                  title={'SALVAR'}
+                  variant="primarioEstreitoOutline"
+                />
+              )}
             </Box>
           </Box>
         </ScrollView>
         {isCheckout && (
           <Button
-            onPress={() => navigation.navigate("PaymentMethodScreen")}
+            onPress={() => navigation.navigate('PaymentMethodScreen')}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"
             inline
@@ -317,7 +295,8 @@ interface IInputOption {
   touch?: string;
   field: string;
   touched?: any;
-  textAlignVertical?: "auto" | "top" | "bottom" | "center" | undefined;
+  textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center' | undefined;
+  editable?: boolean;
   onChangeText?: (value: string) => void;
 }
 const InputOption = ({
@@ -332,23 +311,23 @@ const InputOption = ({
   field,
   textAlignVertical,
   onChangeText,
+  editable = true,
 }: IInputOption) => {
-  const { values, handleChange, setFieldTouched, touched, errors } =
-    useFormikContext<any>();
   return (
     <>
-      <Box mt={"xxxs"}>
+      <Box mt={'xxxs'}>
         <TextField
           // label={"Nome do titular"}
           textAlignVertical={textAlignVertical}
           height={height}
           maskType={maskType}
           maskOptions={maskOptions}
-          onChangeText={handleChange(field)}
+          onChangeText={onChangeText}
           placeholder={placeholder}
-          value={values[field]}
-          touched={touched[field]}
-          error={errors[field] && touched[field] ? `${errors[field]}` : null}
+          value={value}
+          editable={editable}
+          // touched={touched[field]}
+          // error={errors[field] && touched[field] ? `${errors[field]}` : null}
         />
       </Box>
     </>

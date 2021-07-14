@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Platform, ScrollView } from "react-native";
+import React, { useState } from 'react';
+import { Platform, ScrollView } from 'react-native';
 import {
   Box,
   Button,
@@ -11,15 +11,22 @@ import {
   SelectColor,
   theme,
   Typography,
-} from "reserva-ui";
-import Modal from "react-native-modal";
-import { Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { createAnimatableComponent } from "react-native-animatable";
-import { useSelector } from "react-redux";
-import { ApplicationState } from "../../../store";
-const deviceHeight = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").width;
+  RadioButtonsFilter,
+  SelectColorFilter,
+  CheckboxListFilter,
+} from 'reserva-ui';
+import Modal from 'react-native-modal';
+import { Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { createAnimatableComponent } from 'react-native-animatable';
+import { useSelector } from 'react-redux';
+import { ApplicationState } from '../../../store';
+import {
+  ColorsToHexEnum,
+  HexToColorsEnum,
+} from '../../../graphql/product/colorsToHexEnum';
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 const BoxAnimation = createAnimatableComponent(Box);
 
@@ -35,7 +42,7 @@ export interface FilterModalProps {
   dispatch: Function;
   colors: string[];
   sizes: string[];
-  priceRange: { from: number; to: number; };
+  priceRange: any[];
   categories: string[];
   categoryId?: string;
 }
@@ -72,10 +79,10 @@ export const TitleFilter: React.FC<{
           <Icon
             style={
               showMore
-                ? { transform: [{ rotate: "-90deg" }] }
+                ? { transform: [{ rotate: '-90deg' }] }
                 : { transform: [{ translateY: 4 }] }
             }
-            name={showMore ? "ChevronRight" : "ArrowDown"}
+            name={showMore ? 'ChevronRight' : 'ArrowDown'}
             color="preto"
             marginY="quarck"
             marginX="nano"
@@ -104,72 +111,38 @@ export const FilterModal = ({
   priceRange,
   ...props
 }: FilterModalProps) => {
-  const [selectedMinprice, setSelectedMinprice] = React.useState<
-    number | undefined
-  >(undefined);
-  const [selectedMaxprice, setSelectedMaxPrice] = React.useState<
-    number | undefined
-  >(undefined);
-
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedColors, setSelectedColors] = useState<any[]>([]);
   const [showCategories, setShowCategories] = React.useState(false);
   const [showColors, setShowColors] = React.useState(false);
   const [showSizes, setShowSizes] = React.useState(false);
   const [showPrices, setShowPrices] = React.useState(false);
-
-  const [filter, setFilter] = useState({
-    categories: [
-      'Bermuda',
-      'Casacos',
-      'Calças',
-      'Cuecas',
-      'Camisas',
-      'Polos',
-      'Camisetas',
-      'Sungas'
-    ],
-    colors: [
-      '#FFF001',
-      '#18479F',
-      '#F1492E',
-      '#E5E1C4',
-      '#E363A2',
-      '#663054',
-      '#30B349',
-      '#947E57'
-    ],
-    sizes: [
-      'PP',
-      'p',
-      'G',
-      'GG',
-      '3G'
-    ],
-    priceRange: {
-      maxPrice: 1500,
-      minPrice: 300
-    }
-  })
-
-  //const { filter } = useSelector((state: ApplicationState) => state);
-
-  const [selectedSize, setSelectedSize] = useState<string | null>();
-
-  // const dispatch = useDispatch();
+  const [selectedSize, setSelectedSize] = useState<any>([]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState<any[]>([]);
 
   const loadMoreProducts = () => {
-    console.log("Set from filter");
-    setFilterRequestList({
-      ...(selectedMinprice > 0 && { minPrice: selectedMinprice }),
-      ...(selectedMaxprice > 0 && { maxPrice: selectedMaxprice }),
-      ...(selectedSize && { size: [selectedSize] }),
-      ...(selectedColors.length > 0 && { colors: selectedColors }),
-    });
+    const colors = selectedColors
+      .map((color) => ({
+        key: 'desc-cor-consolidada',
+        value: HexToColorsEnum[color],
+      }))
+      .filter(({ value }) => value !== undefined);
+
+    const filterRequestList = [
+      selectedSize && [selectedSize].flat(),
+      [...new Set(colors)],
+      filterList,
+      selectedPriceRange.map(({ key, range }) => ({
+        key,
+        value: `${range.from} TO ${range.to}`,
+      })),
+    ];
+
+    setFilterRequestList(filterRequestList.flat());
     onClose();
   };
 
   const androidCloseButton = () => {
-    if (Platform.OS !== "android") return;
+    if (Platform.OS !== 'android') return;
     if (onAndroidBackButtonPress) {
       onAndroidBackButtonPress();
       return;
@@ -185,6 +158,33 @@ export const FilterModal = ({
       return;
     }
   };
+
+  const getMaxPrice = () => {
+    if (priceRange.length > 0) {
+      const biggestPrice = priceRange
+        .map(({ range }) => range.to)
+        .sort((p, n) => n - p)[0]; // desc
+      return biggestPrice;
+    }
+  };
+
+  const getMinPrice = () => {
+    if (priceRange.length > 0) {
+      const smallestPrice = priceRange
+        .map(({ range }) => range.to)
+        .sort((p, n) => p - n)[0]; // asc
+
+      return smallestPrice;
+    }
+  };
+
+  const cleanFilters = () => {
+    setSelectedColors([]);
+    setSelectedPriceRange([]);
+    setSelectedSize([]);
+    setFilterList([]);
+  };
+
   return (
     <Box>
       <Modal
@@ -211,8 +211,8 @@ export const FilterModal = ({
             <ScrollView>
               <Box
                 paddingX="micro"
-                paddingTop={"xs"}
-                paddingBottom={"nano"}
+                paddingTop={'xs'}
+                paddingBottom={'nano'}
                 flexDirection="row"
                 justifyContent="space-between"
               >
@@ -228,11 +228,9 @@ export const FilterModal = ({
               />
 
               <BoxAnimation animation="fadeIn" paddingX="micro">
-                <CheckboxList
+                <CheckboxListFilter
                   optionsList={
-                    showCategories
-                      ? categories
-                      : categories.slice(0, 6)
+                    showCategories ? categories : categories.slice(0, 6)
                   }
                   selectedList={filterList}
                   color="dropDownBorderColor"
@@ -256,20 +254,22 @@ export const FilterModal = ({
               />
 
               <BoxAnimation animation="fadeIn" paddingX="micro">
-                <SelectColor
-                  listColors={
-                    showColors
-                      ? colors
-                      : colors.slice(0, 6)
-                  }
+                <SelectColorFilter
+                  listColors={showColors ? colors : colors.slice(0, 6)}
                   onPress={(color) => {
-                    if (selectedColors.includes(color)) {
+                    const mappedSelectedColor = selectedColors.map(
+                      ({ value }) => value
+                    );
+
+                    if (mappedSelectedColor.includes(color)) {
                       const newColors = selectedColors.filter(
-                        (colorItem) => colorItem !== color
+                        ({ value }) => value !== color
                       );
+
                       setSelectedColors(newColors);
                       return;
                     }
+
                     setSelectedColors((preview) => {
                       return [...preview, color];
                     });
@@ -296,16 +296,12 @@ export const FilterModal = ({
                 paddingY="micro"
                 paddingX="micro"
               >
-                <RadioButtons
+                <RadioButtonsFilter
                   onSelectedChange={(size) => {
                     setSelectedSize(size);
                   }}
-                  optionsList={
-                    showSizes
-                      ? sizes
-                      : sizes.slice(0, 6)
-                  }
-                  defaultSelectedItem={"M"}
+                  optionsList={showSizes ? sizes : sizes.slice(0, 6)}
+                  defaultSelectedItem={'M'}
                 />
               </BoxAnimation>
 
@@ -321,23 +317,30 @@ export const FilterModal = ({
                 setShowMore={setShowPrices}
               />
 
-              {showPrices && (
+              {true && (
                 <BoxAnimation
                   animation="fadeIn"
                   paddingX="micro"
                   alignSelf="center"
                 >
                   <Range
-                    max={priceRange.to}
+                    max={getMaxPrice()}
                     mdxType="Range"
-                    min={priceRange.from}
-                    onValuesChange={(prices: string[]) => {
-                      setSelectedMinprice(prices[0]);
-                      setSelectedMaxPrice(prices[1]);
+                    min={getMinPrice()}
+                    onValuesChange={(prices: number[]) => {
+                      const minPrice = prices[0];
+                      const maxPrice = prices[1];
+
+                      setSelectedPriceRange([
+                        {
+                          key: 'priceRange',
+                          range: { from: minPrice, to: maxPrice },
+                        },
+                      ]);
                     }}
-                    originalType={() => { }}
+                    originalType={() => {}}
                     prefix="R$ "
-                    value={[priceRange.from, priceRange.to]}
+                    value={[getMinPrice(), getMaxPrice()]}
                     width={deviceWidth - 95}
                   />
                 </BoxAnimation>
@@ -354,7 +357,7 @@ export const FilterModal = ({
                     onPress={() => onClose()}
                     marginLeft="micro"
                     marginRight="nano"
-                    title={"VOLTAR"}
+                    title={'VOLTAR'}
                     variant="primarioEstreitoOutline"
                     inline={true}
                   />
@@ -365,12 +368,21 @@ export const FilterModal = ({
                     onPress={() => loadMoreProducts()}
                     marginRight="micro"
                     marginLeft="nano"
-                    title={"APLICAR"}
+                    title={'APLICAR'}
                     variant="primarioEstreito"
                     inline={true}
                   />
                 </Box>
               </Box>
+              <Button onPress={cleanFilters}>
+                <Typography
+                  color="progressTextColor"
+                  variant="precoAntigo3"
+                  style={{ textDecorationLine: 'underline' }}
+                >
+                  Limpar filtros
+                </Typography>
+              </Button>
             </ScrollView>
           </SafeAreaView>
         </Box>
