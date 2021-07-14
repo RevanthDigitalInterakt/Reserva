@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   Button,
@@ -12,40 +12,40 @@ import {
   Picker,
   SearchBar,
   theme,
-  Typography,
+  Typography
 } from 'reserva-ui';
 import { images } from '../../../assets';
+import { facetsQuery } from '../../../graphql/facets/facetsQuery';
+import {
+  ColorsToHexEnum
+} from '../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
-  productSearch,
+  productSearch, ProductSearchData
 } from '../../../graphql/products/productSearch';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { ApplicationState } from '../../../store';
-import { cleanProducts } from '../../../store/ducks/products/actions';
-import { BffGetProductsRequest } from '../../../store/ducks/products/sagas';
+import { bannerQuery } from '../../../store/ducks/HomePage/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
-import { ProductSearchData } from '../../../graphql/products/productSearch';
-import { facetsQuery } from '../../../graphql/facets/facetsQuery';
-import {
-  ColorsToHexEnum,
-  ColorHexEnum,
-} from '../../../graphql/product/colorsToHexEnum';
+
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
+
+
 
 export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData
   );
   let pageSize = 12;
-  const { safeArea, search, facetInput } = route.params;
+  const { safeArea, search, facetInput, referenceId } = route.params;
 
   let categoryId = 'camisetas';
 
   const dispatch = useDispatch();
+  const [bannerIamge, setBannerImage] = useState(images.bannerOffer)
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -81,6 +81,32 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     fetchPolicy: 'no-cache',
   });
 
+  const { data: bannerData, loading: loadingBanner, refetch: refetchBanner } = useQuery(bannerQuery, {
+    context: { clientName: 'contentful' },
+    variables: {
+      category: referenceId
+    }
+  })
+
+  console.log(bannerData)
+
+  useEffect(() => {
+    refetch();
+    refetchFacets();
+    refetchBanner({ category: referenceId });
+    console.log('referenceId', referenceId)
+  }, []);
+
+  useEffect(() => {
+    const bannerUrl = bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.url
+    console.log(bannerUrl)
+    if (!!bannerUrl) {
+      setBannerImage(bannerUrl)
+    } else {
+      setBannerImage(images.bannerOffer)
+    }
+  }, [bannerData])
+
   useEffect(() => {
     if (!lodingFacets) {
       const facets = facetsData.facets.facets;
@@ -92,9 +118,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
 
       // SIZE
@@ -102,9 +128,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -114,9 +140,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // PRICE
@@ -124,9 +150,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -136,10 +162,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
   }, [facetsData]);
 
-  useEffect(() => {
-    refetch();
-    refetchFacets();
-  }, []);
 
   useEffect(() => {
     if (!loading) {
@@ -248,8 +270,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         listHeader={
           <>
             <Image
+              height={200}
               source={
-                safeArea || search ? images.bannerCatalog : images.bannerOffer
+                bannerIamge
               }
               width={1 / 1}
             />
@@ -345,3 +368,4 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     </DynamicComponent>
   );
 };
+

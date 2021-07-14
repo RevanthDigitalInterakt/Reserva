@@ -77,6 +77,7 @@ export type RootStackParamList = {
   ProductCatalog: {
     safeArea: boolean;
     search: boolean;
+    referenceId: string;
     facetInput: [
       {
         key: string;

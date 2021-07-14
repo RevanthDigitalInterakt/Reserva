@@ -30,3 +30,18 @@ export const homeQuery = gql`
     }
   }
 `;
+
+export const bannerQuery = gql`
+  query BannerCategoryCollection($category: String) {
+    bannerCategoryCollection(where:{item: {reference: $category}}) {
+      items {
+        name
+        item {
+          image {
+            url
+          }
+        }
+      }
+    }
+  }
+`
