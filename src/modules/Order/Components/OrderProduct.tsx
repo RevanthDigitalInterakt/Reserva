@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { Typography, Box, Button, Icon, Image } from 'reserva-ui';
+import { PriceCustom } from '../../Checkout/components/PriceCustom';
 
 type IOrderItemData = {
   name: string;
@@ -17,12 +18,16 @@ interface IOrderProduct {
 }
 
 const OrderProduct = ({ orderItem }: IOrderProduct) => {
+  console.log(orderItem.imageUrl);
   //TODO: repassar nesse componente. se possivel trocar com o que ja foi feito anteriormente.
   return (
     <>
       <Box flexDirection="row" mt={'xxs'}>
         <Box>
-          <Image variant="sm" source={{ uri: orderItem.imageUrl }} />
+          <Image
+            variant="sm"
+            source={{ uri: orderItem.imageUrl.replace('http', 'https') }}
+          />
         </Box>
 
         <Box ml="micro" flex={1}>
@@ -50,9 +55,15 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               fontSize={11}
               fontFamily="nunitoRegular"
             >
-              De:
+              De:{' '}
             </Typography>
-            <Typography
+            <PriceCustom
+              fontFamily={'nunitoSemiBold'}
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={orderItem.listPrice / 100}
+            />
+            {/* <Typography
               style={{
                 textDecorationLine: 'line-through',
                 marginLeft: 5,
@@ -62,7 +73,7 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               fontFamily="nunitoRegular"
             >
               {orderItem.price / 100}
-            </Typography>
+            </Typography> */}
             {/* <Typography
               style={{
                 marginLeft: 5,
@@ -74,9 +85,12 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               por
             </Typography> */}
           </Box>
-          <Typography fontSize={18} fontFamily="nunitoBold">
-            R$ {orderItem.sellingPrice / 100}
-          </Typography>
+          <PriceCustom
+            fontFamily={'nunitoSemiBold'}
+            sizeInterger={15}
+            sizeDecimal={11}
+            num={orderItem.price / 100}
+          />
         </Box>
       </Box>
     </>

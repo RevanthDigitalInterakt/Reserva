@@ -41,29 +41,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
   const onGoToPayment = async () => {
     setLoading(true);
-    const {
-      city,
-      complement,
-      country,
-      id,
-      neighborhood,
-      number,
-      postalCode,
-      state,
-      street,
-    } = selectedAddress;
 
-    await addShippingData({
-      city,
-      complement,
-      country: country || 'BR',
-      id,
-      neighborhood,
-      number,
-      postalCode,
-      state,
-      street,
-    });
+    await addShippingData(selectedAddress);
+
+    setLoading(false);
 
     // if (
     //   orderForm &&
@@ -173,7 +154,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={profile.addresses}
+            data={
+              orderForm?.shippingData
+                ? orderForm?.shippingData.availableAddresses.filter(
+                    ({ geoCoordinates }) => geoCoordinates.length > 0
+                  )
+                : profile.addresses
+            }
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               const {
@@ -185,7 +172,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 state,
                 street,
                 neighborhood,
+                addressId,
               } = item;
+
               return (
                 <AddressSelector
                   addressData={{
@@ -195,7 +184,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   }}
                   deleteAddress={() => {
                     setDeleteModal(true);
-                    setAddressId(id);
+                    setAddressId(id || addressId);
                   }}
                   edit={() => {
                     navigation.navigate('NewAddress', {
