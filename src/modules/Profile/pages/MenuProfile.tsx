@@ -44,7 +44,6 @@ const MenuScreen: React.FC<{}> = ({}) => {
   };
 
   useFocusEffect(() => {
-    refetch();
     if (cookie === null) {
       navigation.navigate("Login", { comeFrom: "Profile" });
     }
