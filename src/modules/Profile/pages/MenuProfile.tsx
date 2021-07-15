@@ -1,24 +1,24 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import {
   useFocusEffect,
   useIsFocused,
   useNavigation,
-} from '@react-navigation/native';
-import * as React from 'react';
-import { ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
-import { Typography, Box, Button } from 'reserva-ui';
-import { useAuth } from '../../../context/AuthContext';
-import { ApplicationState } from '../../../store';
+} from "@react-navigation/native";
+import * as React from "react";
+import { ScrollView } from "react-native";
+import { useSelector } from "react-redux";
+import { Typography, Box, Button } from "reserva-ui";
+import { useAuth } from "../../../context/AuthContext";
+import { ApplicationState } from "../../../store";
 
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import ItemList from '../Components/ItemList';
-import { withAuthentication } from '../HOC/withAuthentication';
-import { useQuery } from '@apollo/client';
-import { profileQuery } from '../../../store/ducks/profile/types';
-import { useState, useEffect } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import { TopBarDefault } from "../../Menu/components/TopBarDefault";
+import ItemList from "../Components/ItemList";
+import { withAuthentication } from "../HOC/withAuthentication";
+import { useQuery } from "@apollo/client";
+import { profileQuery } from "../../../store/ducks/profile/types";
+import { useState, useEffect } from "react";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
 type Profile = {
   birthDate: string | null;
@@ -37,20 +37,19 @@ const MenuScreen: React.FC<{}> = ({}) => {
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
   const logout = () => {
-    AsyncStorage.removeItem('@RNAuth:cookie');
+    AsyncStorage.removeItem("@RNAuth:cookie");
     setCookie(null);
-    navigation.navigate('Home');
+    navigation.navigate("Home");
   };
 
   useFocusEffect(() => {
+    if (data) {
+      refetch();
+    }
     if (cookie === null) {
-      navigation.navigate('Login', { comeFrom: 'Profile' });
+      navigation.navigate("Login", { comeFrom: "Profile" });
     }
   });
-
-  // useEffect(() => {
-  //   refetch();
-  // }, []);
 
   useEffect(() => {
     if (data) {
@@ -69,8 +68,8 @@ const MenuScreen: React.FC<{}> = ({}) => {
     <Box flex={1} backgroundColor="white">
       <TopBarDefault loading={loading} />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Box alignContent={'flex-start'} pt={'xs'} paddingX={'xxxs'}>
-          <Box mb={'xxs'}>
+        <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
+          <Box mb={"xxs"}>
             <Typography variant="tituloSessoes" fontSize={20}>
               Perfil
             </Typography>
@@ -79,31 +78,31 @@ const MenuScreen: React.FC<{}> = ({}) => {
             Bem-vindo, {profile?.firstName || profile?.email}
           </Typography>
 
-          <Box mt={'xxxs'}>
+          <Box mt={"xxxs"}>
             <ItemList
-              title={'Meus pedidos'}
-              descr={'Acompanhe seus pedidos'}
-              icon={'Handbag'}
+              title={"Meus pedidos"}
+              descr={"Acompanhe seus pedidos"}
+              icon={"Handbag"}
               onPress={() => {
-                navigation.navigate('OrderList');
+                navigation.navigate("OrderList");
               }}
             />
 
             <ItemList
-              title={'Favoritos'}
-              descr={'Veja os produtos que você curtiu'}
-              icon={'Heart'}
+              title={"Favoritos"}
+              descr={"Veja os produtos que você curtiu"}
+              icon={"Heart"}
               onPress={() => {
-                navigation.navigate('WishList');
+                navigation.navigate("WishList");
               }}
             />
 
             <ItemList
-              title={'Meus dados'}
-              descr={'Visualize e edite suas informações'}
-              icon={'Profile'}
+              title={"Meus dados"}
+              descr={"Visualize e edite suas informações"}
+              icon={"Profile"}
               onPress={() => {
-                navigation.navigate('EditProfile');
+                navigation.navigate("EditProfile");
               }}
             />
 
@@ -125,20 +124,20 @@ const MenuScreen: React.FC<{}> = ({}) => {
             /> */}
 
             <ItemList
-              title={'Meus endereços'}
-              descr={'Consulte e adicione seus endereços'}
-              icon={'Pin'}
+              title={"Meus endereços"}
+              descr={"Consulte e adicione seus endereços"}
+              icon={"Pin"}
               onPress={() => {
-                navigation.navigate('AddressList');
+                navigation.navigate("AddressList");
               }}
             />
 
             <ItemList
-              title={'Alterar senha'}
-              descr={'Altere a senha da sua conta'}
-              icon={'Lock'}
+              title={"Alterar senha"}
+              descr={"Altere a senha da sua conta"}
+              icon={"Lock"}
               onPress={() => {
-                navigation.navigate('EditPassword');
+                navigation.navigate("EditPassword");
               }}
             />
 
@@ -151,13 +150,13 @@ const MenuScreen: React.FC<{}> = ({}) => {
               }}
             /> */}
 
-            <Box marginY={'xs'} justifyContent={'flex-end'}>
+            <Box marginY={"xs"} justifyContent={"flex-end"}>
               <Button
                 width={150}
                 disabled={loading}
                 onPress={() => logout()}
                 title="LOGOUT"
-                variant={'primarioEstreitoOutline'}
+                variant={"primarioEstreitoOutline"}
               ></Button>
             </Box>
           </Box>
@@ -167,4 +166,4 @@ const MenuScreen: React.FC<{}> = ({}) => {
   );
 };
 
-export const MenuProfile = withAuthentication(MenuScreen, 'Profile');
+export const MenuProfile = withAuthentication(MenuScreen, "Profile");
