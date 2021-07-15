@@ -145,21 +145,7 @@ export const ProductDetail: React.FC<Props> = ({
       },
     });
 
-  // const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING,
-  //   {
-  //     variables: {
-  //       ShippingItem: [
-  //         {
-  //           quantity: "1",
-  //           id: "62050",
-  //           seller: "1"
-  //         }
-  //       ],
-  //       postalCode: "29141851"
-  //     }
-  //   }
-  // );
-  const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING);
+  const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING, { fetchPolicy: "no-cache" });
 
   const [imageSelected, setImageSelected] = useState<any>([]);
   const [itemsSKU, setItemsSKU] = useState<any>([]);
@@ -391,17 +377,19 @@ export const ProductDetail: React.FC<Props> = ({
   }
 
   const consultZipCode = () => {
+    console.log('cep', cep)
+    console.log('selectedVariant', selectedVariant)
     getShippingData({
       variables: {
         ShippingItem: [
           {
             quantity: "1",
-            id: "62050",
+            id: selectedVariant?.itemId,
             seller: "1"
           }
         ],
         postalCode: cep
-      }
+      },
     })
   }
 
