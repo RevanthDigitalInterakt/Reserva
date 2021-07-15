@@ -25,7 +25,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     firstName: '',
     lastName: '',
     birthDate: '',
-    documentType: 'CPF',
+    documentType: 'cpf',
     document: '',
     phone: '',
     postalCode: '',
@@ -35,6 +35,9 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     number: '',
     complement: '',
     city: '',
+    addressType: 'residential',
+    country: 'BR',
+    receiverName: '',
   });
 
   const cepHandler = async (postalCode: string) => {
@@ -52,6 +55,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         neighborhood,
         city,
         state,
+        receiverName: fields.firstName,
       });
       setLoading(false);
     } else {

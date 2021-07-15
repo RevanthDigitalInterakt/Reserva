@@ -36,7 +36,6 @@ const MenuScreen: React.FC<{}> = ({}) => {
   // const { profile } = useSelector((state: ApplicationState) => state);
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
-  const isFocused = useIsFocused();
   const logout = () => {
     AsyncStorage.removeItem("@RNAuth:cookie");
     setCookie(null);
@@ -44,10 +43,14 @@ const MenuScreen: React.FC<{}> = ({}) => {
   };
 
   useFocusEffect(() => {
+    if (data) {
+      refetch();
+    }
     if (cookie === null) {
       navigation.navigate("Login", { comeFrom: "Profile" });
     }
   });
+
   useEffect(() => {
     if (data) {
       const { profile } = data;
