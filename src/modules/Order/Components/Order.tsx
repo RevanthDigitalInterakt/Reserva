@@ -54,6 +54,11 @@ const Order = ({ data }: IOrder) => {
     status: data.state || data.status,
   });
 
+  const getTime = () => {
+    const date = new Date(order.creationDate);
+    return `${date.getHours() + 3}:${date.getMinutes()}`;
+  };
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -108,7 +113,11 @@ const Order = ({ data }: IOrder) => {
                 mt={'micro'}
                 fontSize={14}
                 fontFamily="nunitoBold"
-                color="preto"
+                color={
+                  ['payment-pending', 'canceled'].includes(order.status)
+                    ? 'vermelhoAlerta'
+                    : 'verdeSucesso'
+                }
               >
                 Pagamento pendente
               </Typography>
@@ -116,7 +125,7 @@ const Order = ({ data }: IOrder) => {
                 <Box marginRight="nano">
                   <Icon name="Clock" size={15} />
                 </Box>
-                <Typography>21:30</Typography>
+                <Typography>{getTime()}</Typography>
               </Box>
             </Box>
           )}
@@ -128,25 +137,9 @@ const Order = ({ data }: IOrder) => {
               fontFamily="nunitoBold"
               color="verdeSucesso"
             >
-              Produto entregue!
+              Produto confirmado!
             </Typography>
           )}
-          {['payment-pending', 'canceled'].includes(order.status) && (
-            <Typography
-              style={{ marginTop: 5, marginBottom: 5 }}
-              mt={'micro'}
-              fontSize={14}
-              fontFamily="nunitoBold"
-              color={
-                ['payment-pending', 'canceled'].includes(order.status)
-                  ? 'vermelhoAlerta'
-                  : 'verdeSucesso'
-              }
-            >
-              {order.status}
-            </Typography>
-          )}
-
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
             Endereço de entrega:{' '}
             {` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}`}

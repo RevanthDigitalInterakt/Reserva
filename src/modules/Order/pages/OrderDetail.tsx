@@ -27,6 +27,44 @@ const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation();
 
+  const getDeliveryPreview = () => {
+    const { shippingData } = order;
+    const { selectedSla, slas } = shippingData.logisticsInfo[0];
+    const sla = slas.find(({ name }: any) => name === selectedSla);
+
+    if (sla) {
+      const { shippingEstimate } = sla;
+      const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
+      const estimatedDeliveryDay = new Date();
+      estimatedDeliveryDay.setDate(
+        estimatedDeliveryDay.getDate() + +businessDaysAmount
+      );
+
+      // cant do this right now, too much logic
+
+      // if (estimatedDeliveryDay.getDay() === 0) {
+      //   console.log('AQUI');
+      //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 3);
+      // }
+
+      // if (estimatedDeliveryDay.getDay() === 7) {
+      //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
+      // }
+
+      const day =
+        estimatedDeliveryDay.getDate() < 10
+          ? `0${estimatedDeliveryDay.getDate()}`
+          : estimatedDeliveryDay.getDate();
+
+      const month =
+        estimatedDeliveryDay.getMonth() + 1 < 10
+          ? `0${estimatedDeliveryDay.getMonth() + 1}`
+          : estimatedDeliveryDay.getMonth() + 1;
+
+      return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
+    }
+  };
+
   return (
     <>
       <SafeAreaView flex={1} backgroundColor={'white'}>
@@ -42,12 +80,12 @@ const OrderList: React.FC<any> = ({ route }) => {
                   Rastreamento de entrega
                 </Typography>
               </Box>
-              <Box paddingX="xxs" paddingY="xs">
+              {/* <Box paddingX="xxs" paddingY="xs">
                 <Stepper
                   steps={['Pedido feito', 'Confirmação', 'Envio', 'Entrega']}
                   actualStepIndex={2}
                 />
-              </Box>
+              </Box> */}
 
               <Box
                 marginY="micro"
@@ -55,7 +93,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                 borderBottomColor={'divider'}
               >
                 <Typography fontSize={14} fontFamily="nunitoBold">
-                  Previsão: 04 de abril de 2021
+                  {getDeliveryPreview()}
                 </Typography>
                 <Typography
                   style={{ marginBottom: 17 }}

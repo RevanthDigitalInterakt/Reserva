@@ -41,14 +41,22 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
   const onGoToPayment = async () => {
     setLoading(true);
-    if (
-      orderForm &&
-      orderForm.shippingData.selectedAddresses[0].addressId !==
-        selectedAddress.addressId
-    ) {
-      await addShippingData(selectedAddress);
-      setLoading(false);
-    }
+
+    await addShippingData(selectedAddress);
+
+    setLoading(false);
+
+    // if (
+    //   orderForm &&
+    //   orderForm.shippingData.selectedAddresses.length > 0 &&
+    //   orderForm.shippingData.selectedAddresses[0].addressId !==
+    //     selectedAddress.addressId
+    // ) {
+    //   setLoading(false);
+    // } else {
+    //   await addShippingData(selectedAddress);
+    //   setLoading(false);
+    // }
 
     navigation.navigate('Checkout');
   };
@@ -146,7 +154,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={profile.addresses}
+            data={
+              orderForm?.shippingData
+                ? orderForm?.shippingData.availableAddresses.filter(
+                    ({ geoCoordinates }) => geoCoordinates.length > 0
+                  )
+                : profile.addresses
+            }
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               const {
@@ -158,7 +172,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 state,
                 street,
                 neighborhood,
+                addressId,
               } = item;
+
               return (
                 <AddressSelector
                   addressData={{
@@ -168,7 +184,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   }}
                   deleteAddress={() => {
                     setDeleteModal(true);
-                    setAddressId(id);
+                    setAddressId(id || addressId);
                   }}
                   edit={() => {
                     navigation.navigate('NewAddress', {

@@ -152,7 +152,8 @@ const MenuItem: React.FC<IMenuItem> = ({
                     console.log(subType, subcategories)
                     console.log(facetInput)
                     navigation.navigate('ProductCatalog', {
-                      facetInput
+                      facetInput,
+                      referenceId: item.referenceId
                     })
                   }}
                 />

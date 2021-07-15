@@ -74,7 +74,7 @@ export const HomeScreen: React.FC<{
                     })
                   }
                   console.log(facetInput)
-                  navigation.navigate('ProductCatalog', { facetInput });
+                  navigation.navigate('ProductCatalog', { facetInput, refecenceId: item.reference });
                 }}
               >
                 <Image

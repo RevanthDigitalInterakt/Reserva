@@ -21,7 +21,7 @@ import {
   removeCouponToOder,
   validateSellerCoupon,
   addToSellerCoupon,
-  removeSellerCouponToOder
+  removeSellerCouponToOder,
 } from '../services/vtexService';
 
 interface ClientPreferencesData {
@@ -54,7 +54,7 @@ interface MarketingData {
   utmiPart: any;
   utmiCampaign: any;
   coupon: any;
-  marketingTags: string[]
+  marketingTags: string[];
 }
 interface Message {
   code: any;
@@ -457,60 +457,57 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     try {
       const { data } = await addToCoupon(orderForm?.orderFormId, coupon);
       setOrderForm(data);
-      return !!data
+
+      const { messages } = data;
+      const isCouponInValid = messages
+        .map(({ text }: any) => text)
+        .find((t: string) => t.includes(coupon));
+
+
+      return !!isCouponInValid;
     } catch (error) {
       console.log('error', error.response.data);
     }
-  }
+  };
 
   const addSellerCoupon = async (coupon: string) => {
     try {
       const { data } = await validateSellerCoupon(coupon);
-      console.log('!!data', data)
       if (data.length > 0 && data[0].ativo) {
-        await addToSellerCoupon(orderForm?.orderFormId,
-          {
-            ...orderForm?.marketingData,
-            marketingTags: [
-              "CodigoVendedor",
-              `code_CodigoVendedor=${coupon}`
-            ]
-          })
-        return !!data
+        await addToSellerCoupon(orderForm?.orderFormId, {
+          ...orderForm?.marketingData,
+          marketingTags: ['CodigoVendedor', `code_CodigoVendedor=${coupon}`],
+        });
+        return !!data;
       } else {
         return false;
       }
-
     } catch (error) {
       console.log('error', error.response.data);
     }
-  }
+  };
   const removeCoupon = async (coupon: string) => {
     try {
       const { data } = await removeCouponToOder(orderForm?.orderFormId, coupon);
       setOrderForm(data);
-      return !!data
+      return !!data;
     } catch (error) {
       console.log('error', error.response.data);
     }
-  }
+  };
 
   const removeSellerCoupon = async (coupon: string) => {
     try {
-      const { data } = await removeSellerCouponToOder(orderForm?.orderFormId,
-        {
-          ...orderForm?.marketingData,
-          marketingTags: [
-            "CodigoVendedor",
-            `code_CodigoVendedor=${coupon}`
-          ]
-        })
+      const { data } = await removeSellerCouponToOder(orderForm?.orderFormId, {
+        ...orderForm?.marketingData,
+        marketingTags: ['CodigoVendedor', `code_CodigoVendedor=${coupon}`],
+      });
       setOrderForm(data);
-      return !!data
+      return !!data;
     } catch (error) {
       console.log('error', error.response.data);
     }
-  }
+  };
   useEffect(() => {
     orderform();
   }, []);
@@ -560,7 +557,7 @@ export const useCart = () => {
     addCoupon,
     addSellerCoupon,
     removeCoupon,
-    removeSellerCoupon
+    removeSellerCoupon,
   } = cartContext;
   return {
     orderForm,
@@ -575,6 +572,6 @@ export const useCart = () => {
     addCoupon,
     addSellerCoupon,
     removeCoupon,
-    removeSellerCoupon
+    removeSellerCoupon,
   };
 };
