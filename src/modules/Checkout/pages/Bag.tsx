@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import React, { useEffect, useState, useCallback } from "react";
+import { Platform, SafeAreaView, ScrollView } from "react-native";
 import {
   Typography,
   Box,
@@ -12,27 +12,27 @@ import {
   Toggle,
   TextField,
   ProductVerticalListCard,
-} from 'reserva-ui';
-import { PriceCustom } from '../components/PriceCustom';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useNavigation } from '@react-navigation/native';
-import { createAnimatableComponent } from 'react-native-animatable';
-import { CouponBadge } from '../components/CouponBadge';
+} from "reserva-ui";
+import { PriceCustom } from "../components/PriceCustom";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { useNavigation } from "@react-navigation/native";
+import { createAnimatableComponent } from "react-native-animatable";
+import { CouponBadge } from "../components/CouponBadge";
 import {
   CouponsOrders,
   OrderItems,
   OrderRequest,
   PaymentType,
-} from '../../../store/ducks/orders/types';
-import { ApplicationState } from '../../../store';
-import { useDispatch, useSelector } from 'react-redux';
+} from "../../../store/ducks/orders/types";
+import { ApplicationState } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
 import {
   appendCoupons,
   increaseOrderCount,
   removeOrders,
-} from '../../../store/ducks/orders/actions';
-import { Product } from '../../../store/ducks/product/types';
-import { useCart } from '../../../context/CartContext';
+} from "../../../store/ducks/orders/actions";
+import { Product } from "../../../store/ducks/product/types";
+import { useCart } from "../../../context/CartContext";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -52,9 +52,9 @@ export const BagScreen = () => {
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
-  const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
-  const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
-  const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
+  const [sellerCoupon, setSellerCoupon] = React.useState<string>("");
+  const [discountCoupon, setDiscountCoupon] = React.useState<string>("");
+  const [sellerCode, setSellerCode] = React.useState<string | undefined>("");
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
 
@@ -72,13 +72,13 @@ export const BagScreen = () => {
 
   useEffect(() => {
     const totalItensPrice =
-      (orderForm?.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
+      (orderForm?.totalizers.find((x) => x.id === "Items")?.value || 0) / 100;
     const totalDiscountPrice =
-      (orderForm?.totalizers.find((x) => x.id === 'Discounts')?.value || 0) /
+      (orderForm?.totalizers.find((x) => x.id === "Discounts")?.value || 0) /
       100;
 
     const sellerCode =
-      orderForm?.marketingData?.marketingTags[1]?.split('=')[1];
+      orderForm?.marketingData?.marketingTags[1]?.split("=")[1];
 
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
@@ -88,14 +88,14 @@ export const BagScreen = () => {
   const handleAddCoupons = async () => {
     const isCouponInvalid = await addCoupon(discountCoupon);
     setCouponIsInvalid(isCouponInvalid);
-    setDiscountCoupon('');
+    setDiscountCoupon("");
     orderform();
   };
 
   const handleAddSellerCoupons = async () => {
     const dataSellerCoupon = await addSellerCoupon(sellerCoupon);
     setSellerCouponIsValid(dataSellerCoupon);
-    setSellerCoupon('');
+    setSellerCoupon("");
     orderform();
   };
 
@@ -111,9 +111,9 @@ export const BagScreen = () => {
         shippingData && shippingData.availableAddresses.length > 0;
 
       if (!hasCustomer && !hasAddress) {
-        navigate('EnterYourEmail');
+        navigate("EnterYourEmail");
       } else {
-        navigate('DeliveryScreen');
+        navigate("DeliveryScreen");
       }
     }
   };
@@ -121,31 +121,31 @@ export const BagScreen = () => {
   return (
     <SafeAreaView
       style={{
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: "#FFFFFF",
       }}
     >
       <TopBarBackButton showShadow loading={false} />
       <ScrollView>
-        <Box paddingX={'xxxs'} paddingY={'xxs'}>
-          <Box bg={'white'} marginTop={'xxs'}>
+        <Box paddingX={"xxxs"} paddingY={"xxs"}>
+          <Box bg={"white"} marginTop={"xxs"}>
             <Typography variant="tituloSessoes">
               Sacola ({orderForm?.items.length})
             </Typography>
           </Box>
 
           {orderForm?.items.map((item, index) => (
-            <Box key={index} bg={'white'} marginTop={'xxxs'}>
+            <Box key={index} bg={"white"} marginTop={"xxxs"}>
               <ProductHorizontalListCard
                 isBag
-                currency={'R$'}
+                currency={"R$"}
                 discountTag={
                   item.sellingPrice > 0 ? item.sellingPrice / 100 : undefined
                 }
-                itemColor={item.skuName.split('-')[0] || ''}
-                ItemSize={item.skuName.split('-')[1] || ''}
-                productTitle={item.name.split(' - ')[0]}
+                itemColor={item.skuName.split("-")[0] || ""}
+                ItemSize={item.skuName.split("-")[1] || ""}
+                productTitle={item.name.split(" - ")[0]}
                 // installmentsNumber={item.installmentNumber}
                 // installmentsPrice={item.installmentPrice}
                 price={item.listPrice / 100}
@@ -166,9 +166,9 @@ export const BagScreen = () => {
                   await removeItem(item.id, index, item.seller, 0);
                 }}
                 imageSource={item.imageUrl
-                  .replace('http', 'https')
-                  .split('-55-55')
-                  .join('')}
+                  .replace("http", "https")
+                  .split("-55-55")
+                  .join("")}
               />
             </Box>
           ))}
@@ -238,49 +238,49 @@ export const BagScreen = () => {
           </BoxAnimated>
         )} */}
 
-        <Box paddingX={'xxxs'}>
+        <Box paddingX={"xxxs"}>
           {showLikelyProducts && (
-            <Divider marginTop={'xs'} variant={'fullWidth'} />
+            <Divider marginTop={"xs"} variant={"fullWidth"} />
           )}
 
-          <Box flexDirection={'row'} marginY={'xxs'} alignItems={'center'}>
+          <Box flexDirection={"row"} marginY={"xxs"} alignItems={"center"}>
             <Box marginRight="micro">
-              <Icon name={'Presente'} size={20} />
+              <Icon name={"Presente"} size={20} />
             </Box>
             <Box flex={1}>
-              <Typography variant={'subtituloSessoes'}>
+              <Typography variant={"subtituloSessoes"}>
                 Embalagem para presente
               </Typography>
             </Box>
-            <Box marginLeft={'micro'}>
+            <Box marginLeft={"micro"}>
               <Toggle
                 onValueChange={setHasBagGift}
-                thumbColor={'vermelhoAlerta'}
-                color={'preto'}
+                thumbColor={"vermelhoAlerta"}
+                color={"preto"}
                 value={hasBagGift}
               />
             </Box>
           </Box>
 
-          <Divider variant={'fullWidth'} />
+          <Divider variant={"fullWidth"} />
 
           <Box
-            flexDirection={'row'}
-            marginTop={'xxs'}
-            marginBottom={'xxxs'}
-            alignItems={'center'}
+            flexDirection={"row"}
+            marginTop={"xxs"}
+            marginBottom={"xxxs"}
+            alignItems={"center"}
           >
             <Box marginRight="micro">
-              <Icon name={'Tag'} size={20} color="preto" />
+              <Icon name={"Tag"} size={20} color="preto" />
             </Box>
             <Box flex={1}>
-              <Typography variant={'subtituloSessoes'}>
-                Código promocional{' '}
+              <Typography variant={"subtituloSessoes"}>
+                Código promocional{" "}
               </Typography>
             </Box>
           </Box>
           <Box>
-            <Typography variant={'tituloSessao'}>
+            <Typography variant={"tituloSessao"}>
               Insira aqui o código do vendedor(a) e/ou cupom de desconto.
             </Typography>
           </Box>
@@ -290,7 +290,7 @@ export const BagScreen = () => {
               <CouponBadge
                 value={sellerCode}
                 onPress={async () => {
-                  await removeSellerCoupon(''); //remove passando ''
+                  await removeSellerCoupon(""); //remove passando ''
                 }}
               />
             )}
@@ -299,14 +299,14 @@ export const BagScreen = () => {
               <CouponBadge
                 value={orderForm?.marketingData?.coupon}
                 onPress={async () => {
-                  await removeCoupon(''); //remove passando ''
+                  await removeCoupon(""); //remove passando ''
                 }}
               />
             )}
           </Box>
 
           <Box marginTop="nano" flexDirection="row">
-            <Box flex={1} marginRight={'micro'}>
+            <Box flex={1} marginRight={"micro"}>
               <TextField
                 height={50}
                 value={sellerCoupon}
@@ -325,8 +325,8 @@ export const BagScreen = () => {
             </Box>
           </Box>
           {!sellerCouponIsValid && (
-            <Box marginRight={'micro'}>
-              <Typography color="vermelhoAlerta" variant={'precoAntigo3'}>
+            <Box marginRight={"micro"}>
+              <Typography color="vermelhoAlerta" variant={"precoAntigo3"}>
                 Digite um código válido
               </Typography>
             </Box>
@@ -351,40 +351,40 @@ export const BagScreen = () => {
             </Box>
           </Box>
           {couponIsInvalid && (
-            <Box marginRight={'micro'}>
-              <Typography color="vermelhoAlerta" variant={'precoAntigo3'}>
+            <Box marginRight={"micro"}>
+              <Typography color="vermelhoAlerta" variant={"precoAntigo3"}>
                 Digite um código válido
               </Typography>
             </Box>
           )}
 
-          <Divider variant={'fullWidth'} marginY={'xs'} />
+          <Divider variant={"fullWidth"} marginY={"xs"} />
           {totalDiscountPrice != 0 && (
             <>
               <Box
-                marginBottom={'micro'}
-                flexDirection={'row'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
+                marginBottom={"micro"}
+                flexDirection={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
               >
-                <Typography variant={'precoAntigo3'}>Subtotal</Typography>
+                <Typography variant={"precoAntigo3"}>Subtotal</Typography>
                 <PriceCustom
-                  fontFamily={'nunitoSemiBold'}
+                  fontFamily={"nunitoSemiBold"}
                   sizeInterger={15}
                   sizeDecimal={11}
                   num={totalBag}
                 />
               </Box>
               <Box
-                marginBottom={'micro'}
-                flexDirection={'row'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
+                marginBottom={"micro"}
+                flexDirection={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
               >
-                <Typography variant={'precoAntigo3'}>Descontos</Typography>
+                <Typography variant={"precoAntigo3"}>Descontos</Typography>
 
                 <PriceCustom
-                  fontFamily={'nunitoSemiBold'}
+                  fontFamily={"nunitoSemiBold"}
                   negative={true}
                   sizeInterger={15}
                   sizeDecimal={11}
@@ -394,14 +394,14 @@ export const BagScreen = () => {
             </>
           )}
           <Box
-            marginBottom={'micro'}
-            flexDirection={'row'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
+            marginBottom={"micro"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
           >
-            <Typography variant={'precoAntigo3'}>Total</Typography>
+            <Typography variant={"precoAntigo3"}>Total</Typography>
             <PriceCustom
-              fontFamily={'nunitoBold'}
+              fontFamily={"nunitoBold"}
               sizeInterger={20}
               sizeDecimal={11}
               num={totalBag + totalDiscountPrice}
@@ -411,12 +411,12 @@ export const BagScreen = () => {
       </ScrollView>
 
       <Box
-        width={'100%'}
+        width={"100%"}
         height={145}
         px="xxs"
         bg="white"
-        style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
-        boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+        style={{ elevation: Platform.OS == "android" ? 10 : 0 }}
+        boxShadow={Platform.OS == "android" ? null : "bottomBarShadow"}
       >
         <Box flexDirection="row" justifyContent="space-between" py="xxs">
           <Box>
@@ -425,7 +425,7 @@ export const BagScreen = () => {
             </Typography>
 
             <PriceCustom
-              fontFamily={'nunitoBold'}
+              fontFamily={"nunitoBold"}
               sizeInterger={15}
               sizeDecimal={11}
               num={totalBag + totalDiscountPrice}
@@ -441,11 +441,11 @@ export const BagScreen = () => {
                 fontSize={15}
                 color="vermelhoRSV"
               >
-                10x de{' '}
+                10x de{" "}
               </Typography>
 
               <PriceCustom
-                fontFamily={'nunitoBold'}
+                fontFamily={"nunitoBold"}
                 color="vermelhoRSV"
                 sizeInterger={15}
                 sizeDecimal={11}
