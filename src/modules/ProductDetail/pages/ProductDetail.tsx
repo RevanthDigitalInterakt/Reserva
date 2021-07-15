@@ -21,7 +21,6 @@ import { ModalBag } from '../components/ModalBag';
 import Share from 'react-native-share';
 import { useDispatch, useSelector } from 'react-redux';
 import { load } from '../../../store/ducks/shippingMethod/actions';
-import { shippingMethodStateSelector } from '../../../store/ducks/shippingMethod';
 import { add, addDays, format } from 'date-fns';
 
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
@@ -128,7 +127,15 @@ type ItemsSKU = {
     available: boolean
   ]
 }
-
+type ShippingCost = {
+  selectedSla?: string;
+  slas: {
+    name: string;
+    friendlyName: string;
+    price: number;
+    shippingEstimate: string;
+  }[];
+}
 export const ProductDetail: React.FC<Props> = ({
   route,
   recomendedProducts,
@@ -145,7 +152,7 @@ export const ProductDetail: React.FC<Props> = ({
       },
     });
 
-  const [shippingCost, setShippingCost] = useState('');
+  const [shippingCost, setShippingCost] = useState<ShippingCost[]>([]);
 
   const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING, { fetchPolicy: "no-cache" });
 
@@ -160,7 +167,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isVisible, setIsVisible] = useState(false);
   const { addItem } = useCart();
   const dispatch = useDispatch();
-  const shippingMethodState = useSelector(shippingMethodStateSelector);
+
   const [cep, setCep] = useState('');
 
   /***
@@ -395,7 +402,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     if (shippingData) {
-      console.log('shippingData', shippingData)
+      setShippingCost(shippingData.shipping.logisticsInfo)
     }
   }, [shippingData]);
 
@@ -521,42 +528,64 @@ export const ProductDetail: React.FC<Props> = ({
                     keyboardAppearance="light"
                     maskType="zip-code"
                     onPressIcon={consultZipCode}
-                  // onPressIcon={() => {
-                  //   dispatch(load({ cep }));
-                  // }}
                   />
                 </Box>
-
-                {shippingMethodState.shippingMethods && cep
-                  ? shippingMethodState.shippingMethods.map((method) => {
-                    return (
-                      <Box flexDirection="row" justifyContent="space-between">
-                        <Box flexDirection="row">
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={14}
-                          >
-                            R$ {method.shippingCost}{' '}
-                          </Typography>
-
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={14}
-                          >
-                            {method.displayName}
-                          </Typography>
-                        </Box>
-                        <Typography fontFamily="nunitoRegular" fontSize={14}>
+                {shippingCost?.length > 0 &&
+                  shippingCost[0]?.slas.map((item) => (
+                    <Box
+                      flexDirection="row"
+                      justifyContent="space-between"
+                      marginTop="nano"
+                    >
+                      <Box
+                        width="50%"
+                        justifyContent="center"
+                        borderColor="divider"
+                      >
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={14}
+                        >
+                          {item.friendlyName}
+                        </Typography>
+                      </Box>
+                      <Box
+                        width="20%"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderColor="divider"
+                      >
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={14}
+                        >
                           {format(
-                            addDays(Date.now(), method.deliveryDays),
+                            addDays(Date.now(), parseInt(item.shippingEstimate.split('bd')[0])),
                             'dd/MM'
                           )}
                         </Typography>
                       </Box>
-                    );
-                  })
-                  : null}
 
+                      <Box
+                        width="30%"
+                        alignItems="flex-end"
+                        justifyContent="center"
+                      >
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={14}
+                          color="verdeSucesso"
+                        >
+                          {item.price > 0 ?
+                            `R$ ${(item.price) / 100}`
+                            :
+                            `GRÁTIS`
+                          }
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ))
+                }
                 <Divider variant="fullWidth" my="xs" />
 
                 <Box>
