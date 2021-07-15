@@ -203,28 +203,34 @@ export const ProductDetail: React.FC<Props> = ({
   }, [data]);
 
   useEffect(() => {
-    setImageSelected(
-      itemsSKU
-        .map(p => p.color === selectedColor && p.images)
-        .filter(a => a !== false)
-    );
-    setSizeFilters(
-      itemsSKU
-        .map(p => p.color === selectedColor && p.sizeList.map( sizes => sizes.size))
-        .filter(a => a !== false)[0]
-    );
-    setUnavailableSizes(
-      itemsSKU
-        .map(p => p.color === selectedColor && p.sizeList.map( sizes => !sizes.available && sizes.size))
-        .filter(a => a !== false)[0]
-    );
-    
+    if(itemsSKU.length > 0){
+      setImageSelected(
+        itemsSKU
+          .map(p => p.color === selectedColor && p.images)
+          .filter(a => a !== false)
+      );
+      setSizeFilters(
+        new ProductUtils().orderSizes(
+          itemsSKU
+          .map(p => p.color === selectedColor && p.sizeList.map( sizes => sizes.size))
+          .filter(a => a !== false)[0]
+        )
+        
+      );
+      setUnavailableSizes(
+        itemsSKU
+          .map(p => p.color === selectedColor && p.sizeList.map( sizes => !sizes.available && sizes.size))
+          .filter(a => a !== false)[0]
+      );
+      
+      setSelectedSize(null);
+    }
   }, [selectedColor])
 
   useEffect(() => {
-    console.log("imageSelected",imageSelected[0]);
+    console.log("selectedSize", selectedSize);
     
-  }, [ imageSelected])
+  }, [ selectedSize])
 
   // change sku effect
   useEffect(() => {
@@ -447,7 +453,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <RadioButtons
                       size={44}
                       fontSize={14}
-                      disbledOptions={unavailableSizes > 0 ? unavailableSizes : []}
+                      disbledOptions={unavailableSizes ? unavailableSizes : []}
                       onSelectedChange={(item) => {
                         setSelectedSize(item);
                       }}
@@ -462,6 +468,7 @@ export const ProductDetail: React.FC<Props> = ({
                   mt="xxs"
                   title="ADICIONAR À SACOLA"
                   variant="primarioEstreito"
+                  disabled={!!!selectedSize}
                   onPress={() => {
                     onProductAdd();
                     setIsVisible(true);
