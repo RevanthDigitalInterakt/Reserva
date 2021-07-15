@@ -24,18 +24,17 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const modalRef = useRef(false);
   const { isCheckout } = route.params;
-  const [addressDelete, { error: deleteAddressError }] =
-    useMutation(deleteAddress);
+  const [
+    addressDelete,
+    { error: deleteAddressError, loading: loadingAddressDelete },
+  ] = useMutation(deleteAddress);
   const [loading, setLoading] = useState(false);
   const { orderForm, addShippingData } = useCart();
   const { loading: loadingProfile, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<any>({});
-
-  const isFocused = useIsFocused();
+  const [addresses, setAddresses] = useState<any[]>([]);
 
   const onAddressChosen = (item: any) => {
-    setSelected(true);
-
     setSelectedAddress(item);
   };
 
@@ -62,6 +61,27 @@ const AddressList: React.FC<Props> = ({ route }) => {
   };
 
   useEffect(() => {
+    const availableAddressesOrderForm =
+      orderForm &&
+      orderForm?.shippingData &&
+      orderForm?.shippingData.availableAddresses
+        .filter(({ geoCoordinates }) => geoCoordinates.length > 0)
+        .map((a) => ({ ...a, country: 'BRA' }));
+
+    if (
+      availableAddressesOrderForm &&
+      availableAddressesOrderForm?.length > 0
+    ) {
+      setAddresses(availableAddressesOrderForm);
+    } else {
+      const { addresses } = profile;
+
+      setAddresses(addresses);
+    }
+  }, [orderForm, profile]);
+
+  useEffect(() => {
+    console.log(data);
     if (data) {
       const { profile } = data;
       if (profile) {
@@ -70,12 +90,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      refetch();
-    });
+  navigation.addListener('focus', () => {
+    console.log('aqui');
     refetch();
-  }, [navigation]);
+  });
+  // useEffect(() => {
+  //   refetch();
+  // }, [loadingAddressDelete]);
 
   return (
     <>
@@ -136,7 +157,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
       <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton
-          loading={loading || loadingProfile}
+          loading={loading || loadingProfile || loadingAddressDelete}
           showShadow
           backButtonPress={() => navigation.goBack()}
         />
@@ -152,63 +173,69 @@ const AddressList: React.FC<Props> = ({ route }) => {
             <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={
-              orderForm?.shippingData
-                ? orderForm?.shippingData.availableAddresses.filter(
-                    ({ geoCoordinates }) => geoCoordinates.length > 0
-                  )
-                : profile.addresses
-            }
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => {
-              const {
-                id,
-                city,
-                complement,
-                number,
-                postalCode,
-                state,
-                street,
-                neighborhood,
-                addressId,
-              } = item;
+          {addresses && addresses.length > 0 ? (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={addresses}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => {
+                let selected;
+                const {
+                  id,
+                  city,
+                  complement,
+                  number,
+                  postalCode,
+                  state,
+                  street,
+                  neighborhood,
+                  addressId,
+                } = item;
 
-              return (
-                <AddressSelector
-                  addressData={{
-                    address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
-                    title: street,
-                    zipcode: postalCode,
-                  }}
-                  deleteAddress={() => {
-                    setDeleteModal(true);
-                    setAddressId(id || addressId);
-                  }}
-                  edit={() => {
-                    navigation.navigate('NewAddress', {
-                      edit: true,
-                      editAddress: {
-                        id,
-                        postalCode,
-                        state,
-                        city,
-                        street,
-                        neighborhood,
-                        number,
-                        complement,
-                      },
-                    });
-                  }}
-                  selected={selected}
-                  select={() => {
-                    onAddressChosen(item);
-                  }}
-                />
-              );
-            }}
-          />
+                if (selectedAddress) {
+                  selected = id === selectedAddress.id && item;
+                }
+
+                return (
+                  <AddressSelector
+                    addressData={{
+                      address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
+                      title: street,
+                      zipcode: postalCode,
+                    }}
+                    deleteAddress={() => {
+                      setDeleteModal(true);
+                      setAddressId(id || addressId);
+                    }}
+                    edit={() => {
+                      navigation.navigate('NewAddress', {
+                        edit: true,
+                        editAddress: {
+                          id,
+                          postalCode,
+                          state,
+                          city,
+                          street,
+                          neighborhood,
+                          number,
+                          complement,
+                        },
+                      });
+                    }}
+                    selected={selected}
+                    select={() => {
+                      onAddressChosen(item);
+                    }}
+                  />
+                );
+              }}
+            />
+          ) : (
+            <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+              Você ainda não tem endereços cadastrados, clique em Novo Endereço
+              e cadastre
+            </Typography>
+          )}
         </Box>
 
         {isCheckout ? (
