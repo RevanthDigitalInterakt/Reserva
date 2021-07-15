@@ -145,6 +145,8 @@ export const ProductDetail: React.FC<Props> = ({
       },
     });
 
+  const [shippingCost, setShippingCost] = useState('');
+
   const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING, { fetchPolicy: "no-cache" });
 
   const [imageSelected, setImageSelected] = useState<any>([]);
@@ -377,11 +379,9 @@ export const ProductDetail: React.FC<Props> = ({
   }
 
   const consultZipCode = () => {
-    console.log('cep', cep)
-    console.log('selectedVariant', selectedVariant)
     getShippingData({
       variables: {
-        ShippingItem: [
+        items: [
           {
             quantity: "1",
             id: selectedVariant?.itemId,
@@ -392,6 +392,12 @@ export const ProductDetail: React.FC<Props> = ({
       },
     })
   }
+
+  useEffect(() => {
+    if (shippingData) {
+      console.log('shippingData', shippingData)
+    }
+  }, [shippingData]);
 
   return (
     <SafeAreaView>
