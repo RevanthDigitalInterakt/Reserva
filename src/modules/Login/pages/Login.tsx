@@ -43,31 +43,35 @@ export const LoginScreen: React.FC<Props> = ({
     useMutation(sendEmailVerificationMutation);
 
   const passwordChecker = () => {
-    const password = loginCredentials.password
-    return password.match(/[A-Z]/g) != null && password.match(/[a-z]/g) != null && password.match(/[0-9]/g) != null && password.length >= 8
-  }
+    const password = loginCredentials.password;
+    return (
+      password.match(/[A-Z]/g) != null &&
+      password.match(/[a-z]/g) != null &&
+      password.match(/[0-9]/g) != null &&
+      password.length >= 8
+    );
+  };
 
   const handleLogin = async () => {
-    console.log('login')
     const { data, errors } = await login({
       variables: {
         email: loginCredentials.username,
         password: loginCredentials.password,
       },
     });
-    console.log('data', data)
-    // ! verify login success 
+    // ! verify login success
     if (data['classicSignIn'] != 'Success' || !passwordChecker()) {
       setLoginCredentials({
         ...loginCredentials,
         password: '',
         showPasswordError: true,
         showUsernameError: true,
-        passwordError: 'Verifique os campos acima e digite um e-mail ou senha válidos'
-      })
+        passwordError:
+          'Verifique os campos acima e digite um e-mail ou senha válidos',
+      });
     } else {
       // console.log(data)
-      navigation.navigate('Home')
+      navigation.navigate('Home');
     }
   };
 
@@ -94,7 +98,7 @@ export const LoginScreen: React.FC<Props> = ({
 
   useEffect(() => {
     if (!loading && data?.cookie) {
-      console.log('cookie', data.cookie)
+      console.log('cookie', data.cookie);
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         navigation.navigate('Home');
@@ -125,6 +129,7 @@ export const LoginScreen: React.FC<Props> = ({
             <UnderlineInput
               placeholder="Digite seu e-mail"
               keyboardType="email-address"
+              isSecureText={false}
               value={loginCredentials.username}
               showError={loginCredentials.showUsernameError}
               errorMsg={loginCredentials.usernameError}
@@ -136,7 +141,6 @@ export const LoginScreen: React.FC<Props> = ({
               <Box mt="md" width="100%">
                 <UnderlineInput
                   placeholder="Digite sua senha"
-                  isSecureText={true}
                   value={loginCredentials.password}
                   showError={loginCredentials.showPasswordError}
                   errorMsg={loginCredentials.passwordError}

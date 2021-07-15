@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Platform, ScrollView } from 'react-native';
+import React, { useState } from "react";
+import { Platform, ScrollView } from "react-native";
 import {
   Box,
   Button,
@@ -14,19 +14,19 @@ import {
   RadioButtonsFilter,
   SelectColorFilter,
   CheckboxListFilter,
-} from 'reserva-ui';
-import Modal from 'react-native-modal';
-import { Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { createAnimatableComponent } from 'react-native-animatable';
-import { useSelector } from 'react-redux';
-import { ApplicationState } from '../../../store';
+} from "reserva-ui";
+import Modal from "react-native-modal";
+import { Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { createAnimatableComponent } from "react-native-animatable";
+import { useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
 import {
   ColorsToHexEnum,
   HexToColorsEnum,
-} from '../../../graphql/product/colorsToHexEnum';
-const deviceHeight = Dimensions.get('window').height;
-const deviceWidth = Dimensions.get('window').width;
+} from "../../../graphql/product/colorsToHexEnum";
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const BoxAnimation = createAnimatableComponent(Box);
 
@@ -45,6 +45,7 @@ export interface FilterModalProps {
   priceRange: any[];
   categories: string[];
   categoryId?: string;
+  title: string;
 }
 
 export const TitleFilter: React.FC<{
@@ -79,10 +80,10 @@ export const TitleFilter: React.FC<{
           <Icon
             style={
               showMore
-                ? { transform: [{ rotate: '-90deg' }] }
+                ? { transform: [{ rotate: "-90deg" }] }
                 : { transform: [{ translateY: 4 }] }
             }
-            name={showMore ? 'ChevronRight' : 'ArrowDown'}
+            name={showMore ? "ChevronRight" : "ArrowDown"}
             color="preto"
             marginY="quarck"
             marginX="nano"
@@ -122,7 +123,7 @@ export const FilterModal = ({
   const loadMoreProducts = () => {
     const colors = selectedColors
       .map((color) => ({
-        key: 'desc-cor-consolidada',
+        key: "desc-cor-consolidada",
         value: HexToColorsEnum[color],
       }))
       .filter(({ value }) => value !== undefined);
@@ -142,7 +143,7 @@ export const FilterModal = ({
   };
 
   const androidCloseButton = () => {
-    if (Platform.OS !== 'android') return;
+    if (Platform.OS !== "android") return;
     if (onAndroidBackButtonPress) {
       onAndroidBackButtonPress();
       return;
@@ -211,8 +212,8 @@ export const FilterModal = ({
             <ScrollView>
               <Box
                 paddingX="micro"
-                paddingTop={'xs'}
-                paddingBottom={'nano'}
+                paddingTop={"xs"}
+                paddingBottom={"nano"}
                 flexDirection="row"
                 justifyContent="space-between"
               >
@@ -301,7 +302,7 @@ export const FilterModal = ({
                     setSelectedSize(size);
                   }}
                   optionsList={showSizes ? sizes : sizes.slice(0, 6)}
-                  defaultSelectedItem={'M'}
+                  defaultSelectedItem={"M"}
                 />
               </BoxAnimation>
 
@@ -333,7 +334,7 @@ export const FilterModal = ({
 
                       setSelectedPriceRange([
                         {
-                          key: 'priceRange',
+                          key: "priceRange",
                           range: { from: minPrice, to: maxPrice },
                         },
                       ]);
@@ -357,7 +358,7 @@ export const FilterModal = ({
                     onPress={() => onClose()}
                     marginLeft="micro"
                     marginRight="nano"
-                    title={'VOLTAR'}
+                    title={"VOLTAR"}
                     variant="primarioEstreitoOutline"
                     inline={true}
                   />
@@ -368,7 +369,7 @@ export const FilterModal = ({
                     onPress={() => loadMoreProducts()}
                     marginRight="micro"
                     marginLeft="nano"
-                    title={'APLICAR'}
+                    title={"APLICAR"}
                     variant="primarioEstreito"
                     inline={true}
                   />
@@ -378,7 +379,7 @@ export const FilterModal = ({
                 <Typography
                   color="progressTextColor"
                   variant="precoAntigo3"
-                  style={{ textDecorationLine: 'underline' }}
+                  style={{ textDecorationLine: "underline" }}
                 >
                   Limpar filtros
                 </Typography>

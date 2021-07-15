@@ -28,6 +28,7 @@ interface IAddress {
   street: string;
   neighborhood: string;
   addressType: string;
+  country: string;
 }
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 
@@ -60,6 +61,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     street: edit ? editAddress.street : '',
     neighborhood: edit ? editAddress.neighborhood : '',
     addressType: 'residential',
+    country: 'BRA',
   });
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
