@@ -219,66 +219,68 @@ export const ProductDetail: React.FC<Props> = ({
         .filter(a => a !== false)[0]
     );
     
+    setSelectedSize(null);
+
   }, [selectedColor])
 
   useEffect(() => {
-    console.log("imageSelected",imageSelected[0]);
+    console.log("selectedSize", selectedSize);
     
-  }, [ imageSelected])
+  }, [ selectedSize])
 
   // change sku effect
-  useEffect(() => {
-    if (product && selectedColor && selectedSize) {
-      const { items } = product;
+  // useEffect(() => {
+  //   if (product && selectedColor && selectedSize) {
+  //     const { items } = product;
 
-      // map sku variant hex
-      const sizeColorSkuVariations = items.flatMap((i) => {
-        const variants = i.variations
-          ?.map((v) => {
-            if (['VALOR_HEX_ORIGINAL', 'TAMANHO'].includes(v.name)) return v;
-          })
-          .filter((a) => a !== undefined);
+  //     // map sku variant hex
+  //     const sizeColorSkuVariations = items.flatMap((i) => {
+  //       const variants = i.variations
+  //         ?.map((v) => {
+  //           if (['VALOR_HEX_ORIGINAL', 'TAMANHO'].includes(v.name)) return v;
+  //         })
+  //         .filter((a) => a !== undefined);
 
-        return {
-          ...i,
-          variations: variants,
-        };
-      });
+  //       return {
+  //         ...i,
+  //         variations: variants,
+  //       };
+  //     });
 
-      console.log("sizeColorSkuVariations");      
+  //     console.log("sizeColorSkuVariations");      
 
-      if (sizeColorSkuVariations) {
-        const selectedSkuVariations: Facets[] = [
-          {
-            name: 'TAMANHO',
-            originalName: null,
-            values: [selectedSize],
-          },
-          {
-            name: 'VALOR_HEX_ORIGINAL',
-            originalName: null,
-            values: [selectedColor],
-          },
-        ];
+  //     if (sizeColorSkuVariations) {
+  //       const selectedSkuVariations: Facets[] = [
+  //         {
+  //           name: 'TAMANHO',
+  //           originalName: null,
+  //           values: [selectedSize],
+  //         },
+  //         {
+  //           name: 'VALOR_HEX_ORIGINAL',
+  //           originalName: null,
+  //           values: [selectedColor],
+  //         },
+  //       ];
 
-        const variantToSelect = sizeColorSkuVariations.find((i) => {
-          if (i.variations) {
-            const a = i.variations.map(
-              ({ name, originalName, values }: any) => ({
-                name,
-                originalName,
-                values,
-              } as Facets)
-            );
+  //       const variantToSelect = sizeColorSkuVariations.find((i) => {
+  //         if (i.variations) {
+  //           const a = i.variations.map(
+  //             ({ name, originalName, values }: any) => ({
+  //               name,
+  //               originalName,
+  //               values,
+  //             } as Facets)
+  //           );
 
-            return JSON.stringify(a) === JSON.stringify(selectedSkuVariations);
-          }
-        });
+  //           return JSON.stringify(a) === JSON.stringify(selectedSkuVariations);
+  //         }
+  //       });
 
-        setSelectedVariant(variantToSelect);
-      }
-    }
-  }, [selectedColor, selectedSize]);
+  //       setSelectedVariant(variantToSelect);
+  //     }
+  //   }
+  // }, [selectedColor, selectedSize]);
 
   const getInstallments = () => {
     const chosenInstallment =
@@ -449,7 +451,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <RadioButtons
                       size={44}
                       fontSize={14}
-                      disbledOptions={unavailableSizes > 0 ? unavailableSizes : []}
+                      disbledOptions={unavailableSizes ? unavailableSizes : []}
                       onSelectedChange={(item) => {
                         setSelectedSize(item);
                       }}
@@ -464,6 +466,7 @@ export const ProductDetail: React.FC<Props> = ({
                   mt="xxs"
                   title="ADICIONAR À SACOLA"
                   variant="primarioEstreito"
+                  disabled={!!!selectedSize}
                   onPress={() => {
                     onProductAdd();
                     setIsVisible(true);
