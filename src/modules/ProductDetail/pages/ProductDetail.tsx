@@ -203,24 +203,28 @@ export const ProductDetail: React.FC<Props> = ({
   }, [data]);
 
   useEffect(() => {
-    setImageSelected(
-      itemsSKU
-        .map(p => p.color === selectedColor && p.images)
-        .filter(a => a !== false)
-    );
-    setSizeFilters(
-      itemsSKU
-        .map(p => p.color === selectedColor && p.sizeList.map( sizes => sizes.size))
-        .filter(a => a !== false)[0]
-    );
-    setUnavailableSizes(
-      itemsSKU
-        .map(p => p.color === selectedColor && p.sizeList.map( sizes => !sizes.available && sizes.size))
-        .filter(a => a !== false)[0]
-    );
-    
-    setSelectedSize(null);
-
+    if(itemsSKU.length > 0){
+      setImageSelected(
+        itemsSKU
+          .map(p => p.color === selectedColor && p.images)
+          .filter(a => a !== false)
+      );
+      setSizeFilters(
+        new ProductUtils().orderSizes(
+          itemsSKU
+          .map(p => p.color === selectedColor && p.sizeList.map( sizes => sizes.size))
+          .filter(a => a !== false)[0]
+        )
+        
+      );
+      setUnavailableSizes(
+        itemsSKU
+          .map(p => p.color === selectedColor && p.sizeList.map( sizes => !sizes.available && sizes.size))
+          .filter(a => a !== false)[0]
+      );
+      
+      setSelectedSize(null);
+    }
   }, [selectedColor])
 
   useEffect(() => {
