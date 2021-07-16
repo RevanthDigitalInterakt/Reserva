@@ -1,4 +1,4 @@
-package com.reserva;
+package com.usereserva;
 
 import com.facebook.react.ReactActivity;
 
