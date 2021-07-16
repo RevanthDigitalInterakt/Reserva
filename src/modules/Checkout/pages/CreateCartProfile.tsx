@@ -1,18 +1,18 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, TextField, Typography } from 'reserva-ui';
-import { CepResponse } from '../../../config/brasilApi';
-import { useCart } from '../../../context/CartContext';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { CepVerify } from '../../../services/vtexService';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { StackScreenProps } from "@react-navigation/stack";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Box, Button, TextField, Typography } from "reserva-ui";
+import { CepResponse } from "../../../config/brasilApi";
+import { useCart } from "../../../context/CartContext";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { CepVerify } from "../../../services/vtexService";
+import { TopBarDefault } from "../../Menu/components/TopBarDefault";
+import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 
 interface CreateCartProfileProfile
-  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> {}
+  extends StackScreenProps<RootStackParamList, "CreateCartProfile"> {}
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   navigation,
@@ -22,22 +22,22 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   const [loading, setLoading] = useState(false);
   const [showCepDescrption, setShowCepDescrption] = useState(false);
   const [fields, setFields] = useState({
-    firstName: '',
-    lastName: '',
-    birthDate: '',
-    documentType: 'cpf',
-    document: '',
-    phone: '',
-    postalCode: '',
-    neighborhood: '',
-    state: '',
-    street: '',
-    number: '',
-    complement: '',
-    city: '',
-    addressType: 'residential',
-    country: 'BR',
-    receiverName: '',
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    documentType: "cpf",
+    document: "",
+    phone: "",
+    postalCode: "",
+    neighborhood: "",
+    state: "",
+    street: "",
+    number: "",
+    complement: "",
+    city: "",
+    addressType: "residential",
+    country: "BR",
+    receiverName: "",
   });
 
   const cepHandler = async (postalCode: string) => {
@@ -94,8 +94,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         number,
         receiverName,
         neighborhood,
-        addressType: 'residential',
-        country: 'BRA',
+        addressType: "residential",
+        country: "BRA",
         complement,
         city,
         street,
@@ -103,13 +103,13 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       setLoading(false);
 
       if (isAddressSaved) {
-        navigation.navigate('DeliveryScreen');
+        navigation.navigate("DeliveryScreen");
       }
     }
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: "#ffffff" }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
       <ScrollView>
         <Box mx={20}>
@@ -189,7 +189,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
             <Typography fontFamily="nunitoRegular" fontSize={13}>
               {showCepDescrption
                 ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
-                : ''}
+                : ""}
             </Typography>
           </Box>
           <Box mt={15} flexDirection="row" justifyContent="space-between">
@@ -219,7 +219,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               placeholder="Numero"
             />
           </Box>
-          <Box mt={15}>
+          <Box mt={15} marginBottom={35}>
             <TextField
               value={fields.complement}
               onChangeText={(text) =>
