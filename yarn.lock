@@ -7510,10 +7510,10 @@ requires-port@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reserva-ui@0.0.155:
-  version "0.0.155"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.155.tgz#7f14759897fb3c5b0b44e12dbba72d02d82bd1df"
-  integrity sha1-fxR1mJf7PFsLROEtu6ctAtgr0d8=
+reserva-ui@0.0.157:
+  version "0.0.157"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.157.tgz#62907341c865e0271ff8365d66aacb21380b3074"
+  integrity sha1-YpBzQchl4Ccf+DZdZqrLITgLMHQ=
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
