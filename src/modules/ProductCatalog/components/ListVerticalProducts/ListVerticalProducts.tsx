@@ -61,16 +61,19 @@ export const ListVerticalProducts = ({
         onEndReachedThreshold={0.5}
         ListHeaderComponent={listHeader}
         renderItem={({ index, item }) => {
-          const installments =
-            item.items[0].sellers[0].commertialOffer.Installments;
-          const installmentsNumber =
-            installments.length > 0 ? installments[0].NumberOfInstallments : 1;
 
-          const installmentPrice =
-            installments.length > 0
-              ? installments[0].Value
-              : item.priceRange?.listPrice?.lowPrice;
+          const installments = item?.items[0]?.sellers[0]?.commertialOffer?.Installments;
+          let installmentsNumber;
+          let installmentPrice;
+          if (installments) {
+            installmentsNumber =
+              installments.length > 0 ? installments[0].NumberOfInstallments : 1;
 
+            installmentPrice =
+              installments.length > 0
+                ? installments[0].Value
+                : item.priceRange?.listPrice?.lowPrice;
+          }
           const colors = new ProductUtils().getColorsArray(item);
           return (
             <Box
