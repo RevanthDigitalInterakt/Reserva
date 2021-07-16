@@ -1,3 +1,4 @@
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
@@ -6,7 +7,7 @@ import { ProductQL } from '../../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { Product } from '../../../../store/ducks/product/types';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
-
+import wishListQueries from '../../../../graphql/wishlist/wishList'
 interface ListProductsProps {
   products: ProductQL[];
   loadMoreProducts: (offSet: number) => void;
@@ -40,6 +41,8 @@ export const ListVerticalProducts = ({
     //dispatch(setWishlist([]))
   }, []);
 
+  const { data: isInWishListResponse, refetch: refetchIsInWishList } = useQuery(wishListQueries.CHECK_LIST)
+
   const handleOnFavorite = (prod: Product) => {
     setFavoritedProduct(prod);
     setIsVisible(true);
@@ -72,6 +75,16 @@ export const ListVerticalProducts = ({
               : item.priceRange?.listPrice?.lowPrice;
 
           const colors = new ProductUtils().getColorsArray(item);
+
+          const isFavorite = async () => {
+            refetchIsInWishList({
+              variables: {
+                shopperId: 'erick.fraga@globalsys.com.br',
+                productId: item.productId
+              }
+            }).then(x => console.log(x))
+          }
+
           return (
             <Box
               flex={1}
@@ -80,6 +93,7 @@ export const ListVerticalProducts = ({
               height={353}
             >
               <ProductVerticalListCard
+                isFavorited={isFavorite() == undefined}
                 colors={colors}
                 imageSource={item.items[0].images[0].imageUrl}
                 installmentsNumber={installmentsNumber} //numero de parcelas
