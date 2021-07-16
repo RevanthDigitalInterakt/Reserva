@@ -59,3 +59,26 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
+
+export const GET_SHIPPING = gql`
+  query Shipping(
+    $items: [ShippingItem],
+    $postalCode: String
+  ){
+    shipping(
+      items: $items,
+      country: "BRA",
+      postalCode: $postalCode
+    )@context(provider: "vtex.store-graphql"){
+      logisticsInfo{
+        selectedSla
+        slas{
+          name
+          friendlyName
+          price
+          shippingEstimate
+        }
+      }
+    }
+  }
+`;

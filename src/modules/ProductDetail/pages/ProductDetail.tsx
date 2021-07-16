@@ -21,15 +21,14 @@ import { ModalBag } from '../components/ModalBag';
 import Share from 'react-native-share';
 import { useDispatch, useSelector } from 'react-redux';
 import { load } from '../../../store/ducks/shippingMethod/actions';
-import { shippingMethodStateSelector } from '../../../store/ducks/shippingMethod';
 import { add, addDays, format } from 'date-fns';
 
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { ApplicationState } from '../../../store';
 import { useCart } from '../../../context/CartContext';
-import { QueryResult, useQuery } from '@apollo/client';
-import { GET_PRODUCTS } from '../../../graphql/product/productQuery';
+import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
+import { GET_PRODUCTS, GET_SHIPPING } from '../../../graphql/product/productQuery';
 import {
   Installment,
   ProductQL,
@@ -128,7 +127,15 @@ type ItemsSKU = {
     available: boolean
   ]
 }
-
+type ShippingCost = {
+  selectedSla?: string;
+  slas: {
+    name: string;
+    friendlyName: string;
+    price: number;
+    shippingEstimate: string;
+  }[];
+}
 export const ProductDetail: React.FC<Props> = ({
   route,
   recomendedProducts,
@@ -144,8 +151,13 @@ export const ProductDetail: React.FC<Props> = ({
         id: route.params.productId.split('-')[0],
       },
     });
-  const [imageSelected, setImageSelected ] = useState<any>([]);
-  const [itemsSKU, setItemsSKU ] = useState<any>([]);
+
+  const [shippingCost, setShippingCost] = useState<ShippingCost[]>([]);
+
+  const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING, { fetchPolicy: "no-cache" });
+
+  const [imageSelected, setImageSelected] = useState<any>([]);
+  const [itemsSKU, setItemsSKU] = useState<any>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
@@ -155,7 +167,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isVisible, setIsVisible] = useState(false);
   const { addItem } = useCart();
   const dispatch = useDispatch();
-  const shippingMethodState = useSelector(shippingMethodStateSelector);
+
   const [cep, setCep] = useState('');
 
   /***
@@ -179,11 +191,11 @@ export const ProductDetail: React.FC<Props> = ({
       // set colors filter
       const colorList = getColorsList(product);
       console.log("colorList", colorList);
-      
+
       setColorFilters(colorList);
 
       // set initial selected color
-      setSelectedColor(colorList ? colorList[0] : '');      
+      setSelectedColor(colorList ? colorList[0] : '');
 
       // set size filter
       const sizeList = getSizeList(product);
@@ -198,12 +210,12 @@ export const ProductDetail: React.FC<Props> = ({
       });
       setItemsSKU(itemList);
       console.log(itemList);
-      
+
     }
   }, [data]);
 
   useEffect(() => {
-    if(itemsSKU.length > 0){
+    if (itemsSKU.length > 0) {
       setImageSelected(
         itemsSKU
           .map(p => p.color === selectedColor && p.images)
@@ -212,25 +224,25 @@ export const ProductDetail: React.FC<Props> = ({
       setSizeFilters(
         new ProductUtils().orderSizes(
           itemsSKU
-          .map(p => p.color === selectedColor && p.sizeList.map( sizes => sizes.size))
-          .filter(a => a !== false)[0]
+            .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+            .filter(a => a !== false)[0]
         )
-        
+
       );
       setUnavailableSizes(
         itemsSKU
-          .map(p => p.color === selectedColor && p.sizeList.map( sizes => !sizes.available && sizes.size))
+          .map(p => p.color === selectedColor && p.sizeList.map(sizes => !sizes.available && sizes.size))
           .filter(a => a !== false)[0]
       );
-      
+
       setSelectedSize(null);
     }
   }, [selectedColor])
 
   useEffect(() => {
     console.log("selectedSize", selectedSize);
-    
-  }, [ selectedSize])
+
+  }, [selectedSize])
 
   // change sku effect
   useEffect(() => {
@@ -336,15 +348,15 @@ export const ProductDetail: React.FC<Props> = ({
       .find(({ field }) => field.name === 'TAMANHO')
       ?.values.map(({ name }) => name);
 
-  const getImagesPerColor  = ({ items }: Product, color: string) => {
+  const getImagesPerColor = ({ items }: Product, color: string) => {
     return items.flatMap((item) => {
       const images = item.variations
         ?.map((v) => {
-          if (['VALOR_HEX_ORIGINAL'].includes(v.name)){
-            if(v.values[0] === color){
+          if (['VALOR_HEX_ORIGINAL'].includes(v.name)) {
+            if (v.values[0] === color) {
               return item.images
             }
-          } 
+          }
         })
         .filter((a) => a !== undefined);
 
@@ -356,23 +368,44 @@ export const ProductDetail: React.FC<Props> = ({
     return items.flatMap((item) => {
       const variants = item.variations
         ?.map((v) => {
-          if (['VALOR_HEX_ORIGINAL'].includes(v.name)){
-            if(v.values[0] === color){
+          if (['VALOR_HEX_ORIGINAL'].includes(v.name)) {
+            if (v.values[0] === color) {
               return {
                 item,
                 size: item.variations?.filter(i => i.name === "TAMANHO")[0].values[0],
                 available: item.sellers[0].commertialOffer.AvailableQuantity > 0
               };
             }
-            
-          } 
+
+          }
         })
         .filter((a) => a !== undefined);
 
       return variants;
     });
   }
-  
+
+  const consultZipCode = () => {
+    getShippingData({
+      variables: {
+        items: [
+          {
+            quantity: "1",
+            id: selectedVariant?.itemId,
+            seller: "1"
+          }
+        ],
+        postalCode: cep
+      },
+    })
+  }
+
+  useEffect(() => {
+    if (shippingData) {
+      setShippingCost(shippingData.shipping.logisticsInfo)
+    }
+  }, [shippingData]);
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -494,42 +527,65 @@ export const ProductDetail: React.FC<Props> = ({
                     keyboardType="number-pad"
                     keyboardAppearance="light"
                     maskType="zip-code"
-                    onPressIcon={() => {
-                      dispatch(load({ cep }));
-                    }}
+                    onPressIcon={consultZipCode}
                   />
                 </Box>
-
-                {shippingMethodState.shippingMethods && cep
-                  ? shippingMethodState.shippingMethods.map((method) => {
-                    return (
-                      <Box flexDirection="row" justifyContent="space-between">
-                        <Box flexDirection="row">
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={14}
-                          >
-                            R$ {method.shippingCost}{' '}
-                          </Typography>
-
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={14}
-                          >
-                            {method.displayName}
-                          </Typography>
-                        </Box>
-                        <Typography fontFamily="nunitoRegular" fontSize={14}>
+                {shippingCost?.length > 0 &&
+                  shippingCost[0]?.slas.map((item) => (
+                    <Box
+                      flexDirection="row"
+                      justifyContent="space-between"
+                      marginTop="nano"
+                    >
+                      <Box
+                        width="50%"
+                        justifyContent="center"
+                        borderColor="divider"
+                      >
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={14}
+                        >
+                          {item.friendlyName}
+                        </Typography>
+                      </Box>
+                      <Box
+                        width="20%"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderColor="divider"
+                      >
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={14}
+                        >
                           {format(
-                            addDays(Date.now(), method.deliveryDays),
+                            addDays(Date.now(), parseInt(item.shippingEstimate.split('bd')[0])),
                             'dd/MM'
                           )}
                         </Typography>
                       </Box>
-                    );
-                  })
-                  : null}
 
+                      <Box
+                        width="30%"
+                        alignItems="flex-end"
+                        justifyContent="center"
+                      >
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={14}
+                          color="verdeSucesso"
+                        >
+                          {item.price > 0 ?
+                            `R$ ${(item.price) / 100}`
+                            :
+                            `GRÁTIS`
+                          }
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ))
+                }
                 <Divider variant="fullWidth" my="xs" />
 
                 <Box>
