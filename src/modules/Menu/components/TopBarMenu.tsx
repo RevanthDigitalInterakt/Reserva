@@ -11,7 +11,6 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
   const { orderForm } = useCart()
   return (
     <TopBar
-      itemQuantity={orderForm?.items.length}
       loading={loading}
       paddingX="quarck"
       bg="white"
@@ -38,6 +37,7 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
           // Alert.alert('button right 2');
           navigation.navigate("BagScreen");
         },
+        badgeCount: orderForm?.items.length
       }}
       height={50}
     />

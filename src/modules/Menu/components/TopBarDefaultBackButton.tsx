@@ -12,7 +12,6 @@ export const TopBarDefaultBackButton: React.FC<{
   const { orderForm } = useCart()
   return (
     <TopBar
-      itemQuantity={orderForm?.items.length}
       loading={loading}
       paddingX="quarck"
       bg="white"
@@ -39,6 +38,7 @@ export const TopBarDefaultBackButton: React.FC<{
           // Alert.alert('button right 2');
           navigation.navigate("BagScreen");
         },
+        badgeCount: orderForm?.items.length
       }}
       height={50}
     />
