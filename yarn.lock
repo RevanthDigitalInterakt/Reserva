@@ -7149,6 +7149,11 @@ react-native-share@^6.0.1:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-share/-/react-native-share-6.2.3.tgz#12d0396b8332687dc5fcc82ddf82f11ad7e671c7"
   integrity sha1-EtA5a4MyaH3F/Mgt34LxGtfmccc=
 
+react-native-splash-screen@^3.2.0:
+  version "3.2.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
+  integrity sha1-1H7IVXsbqYjuPqmNAUYwgbYP/0U=
+
 react-native-svg@^12.1.0:
   version "12.1.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"

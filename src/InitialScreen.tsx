@@ -12,11 +12,16 @@ import { restoreSession } from "./store/ducks/authentication/actions";
 import { useDispatch } from "react-redux";
 import { gql, useQuery } from '@apollo/client';
 import { productSearchQuery } from "./store/ducks/products/types";
+import SplashScreen from "react-native-splash-screen";
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
   const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
+
+  useEffect(() => {
+    SplashScreen.hide()
+  }, [])
 
   useEffect(() => {
     animation?.play();
@@ -57,9 +62,10 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   );
   console.log(data);
 
+
   return (
     <>
-      {!loaded ? (
+      {/* {!loaded ? (
         <LottieView
           style={{ flex: 1 }}
           onAnimationFinish={() => {
@@ -72,17 +78,17 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
           loop={false}
           source={animations.splash}
         />
-      ) : (
-        <SafeAreaView style={{ flex: 1 }}>
-          <StatusBar
-            animated={true}
-            barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
-          />
-          <Animatable.View animation="fadeIn" style={{ height: "100%" }}>
-            {children}
-          </Animatable.View>
-        </SafeAreaView>
-      )}
+      ) : ( */}
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar
+          animated={true}
+          barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
+        />
+        <Animatable.View animation="fadeIn" style={{ height: "100%" }}>
+          {children}
+        </Animatable.View>
+      </SafeAreaView>
+      {/* // )} */}
     </>
   );
 };
