@@ -61,6 +61,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         selectedFacets: [facetInput, filterRequestList].flat(),
         orderBy: selectedOrder,
         to: pageSize - 1,
+        simulationBehavior: "default",
+        productOriginVtex: false
       },
     }
   );
@@ -119,9 +121,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
 
       // SIZE
@@ -129,9 +131,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -141,9 +143,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // PRICE
@@ -151,9 +153,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
