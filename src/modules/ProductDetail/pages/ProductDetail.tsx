@@ -27,7 +27,7 @@ import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/typ
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { ApplicationState } from '../../../store';
 import { useCart } from '../../../context/CartContext';
-import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
+import { QueryResult, useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS, GET_SHIPPING } from '../../../graphql/product/productQuery';
 import {
   Installment,
@@ -39,6 +39,9 @@ import {
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { id } from 'date-fns/locale';
 import { ProductUtils } from '../../../shared/utils/productUtils';
+import wishListQueries from '../../../graphql/wishlist/wishList';
+
+
 const screenWidth = Dimensions.get('window').width;
 
 let recomendedScroll = createRef<ScrollView>();
@@ -165,10 +168,22 @@ export const ProductDetail: React.FC<Props> = ({
   const [unavailableSizes, setUnavailableSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
+  const [skip, setSkip] = useState(false)
+  const [wishInfo, setWishInfo] = useState({
+    listIds: [''],
+    inList: false
+  })
   const { addItem } = useCart();
   const dispatch = useDispatch();
 
   const [cep, setCep] = useState('');
+
+  const { refetch: checkListRefetch } = useQuery(wishListQueries.CHECK_LIST, { skip })
+
+  const [addWishList, { data: addWishListData, error: addWishListError, loading: addWishLoading }] = useMutation(wishListQueries.ADD_WISH_LIST)
+  const [removeWishList, { data: removeWishListData, error: removeWishListError, loading: removeWishLoading }] = useMutation(wishListQueries.REMOVE_WISH_LIST)
+
+
 
   /***
    * Effects
@@ -176,6 +191,10 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     refetch();
   }, []);
+
+  useEffect(() => {
+    refetchChecklist();
+  }, [product])
 
   useEffect(() => {
     if (data) {
@@ -295,6 +314,39 @@ export const ProductDetail: React.FC<Props> = ({
       }
     }
   }, [selectedColor, selectedSize]);
+
+  const refetchChecklist = async () => {
+    setSkip(true)
+    if (product && product.productId) {
+      const { data: { checkList } } = await checkListRefetch({
+        shopperId: 'erick.fraga@globalsys.com.br',
+        productId: product.productId.split('-')[0],
+      })
+      setWishInfo({ ...checkList })
+    }
+  }
+
+  const handleOnFavorite = async (favorite: boolean) => {
+    if (product && product.productId) {
+      if (favorite) {
+        const { data } = await addWishList({
+          variables: {
+            shopperId: 'erick.fraga@globalsys.com.br',
+            productId: product.productId.split('-')[0]
+          }
+        })
+        console.log('add data', data)
+      } else {
+        await removeWishList({
+          variables: {
+            shopperId: 'erick.fraga@globalsys.com.br',
+            id: wishInfo.listIds[0]
+          }
+        })
+      }
+      await refetchChecklist()
+    }
+  }
 
   const getInstallments = () => {
     const chosenInstallment =
@@ -423,6 +475,8 @@ export const ProductDetail: React.FC<Props> = ({
               <ProductDetailCard
                 {...product}
                 title={product.productName}
+                isFavorited={wishInfo.inList}
+                onClickFavorite={handleOnFavorite}
                 price={product.priceRange.listPrice.lowPrice || 0}
                 priceWithDiscount={
                   product.priceRange.sellingPrice.lowPrice || 0
@@ -475,10 +529,10 @@ export const ProductDetail: React.FC<Props> = ({
                     </Typography>
                     {/* <Button>
                       <Box flexDirection="row" alignItems="center">
-                        <Icon name="Ruler" size={35} />
-                        <Typography fontFamily="nunitoRegular" fontSize={11}>
-                          Guia de medidas
-                        </Typography>
+                      <Icon name="Ruler" size={35} />
+                      <Typography fontFamily="nunitoRegular" fontSize={11}>
+                      Guia de medidas
+                      </Typography>
                       </Box>
                     </Button> */}
                   </Box>

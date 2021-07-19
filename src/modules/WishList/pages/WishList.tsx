@@ -26,6 +26,7 @@ import wishListQueries from '../../../graphql/wishlist/wishList'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '../../../context/AuthContext'
 import { profileQuery } from '../../../store/ducks/profile/types'
+import { Alert } from 'react-native'
 
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>
@@ -43,7 +44,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   const { data: productIds, loading, error, refetch } = useQuery(wishListQueries.GET_WISH_LIST, {
     variables: {
-      shopperId: 'erick.fraga@globalsys.com.br'//email
+      shopperId: email
     }
   })
 
@@ -55,18 +56,22 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   })
 
   const handleFavorite = async (wishId: any) => {
-    if (!!wishId) {
+    if (!!email) {
 
-      console.log('wishId', wishId)
-      await removeFromWishList({
-        variables: {
-          id: wishId.id,
+      if (!!wishId) {
+        console.log('wishId', wishId)
+        await removeFromWishList({
+          variables: {
+            id: wishId.id,
+            shopperId: 'erick.fraga@globalsys.com.br'
+          }
+        })
+        await refetch({
           shopperId: 'erick.fraga@globalsys.com.br'
-        }
-      })
-      await refetch({
-        shopperId: 'erick.fraga@globalsys.com.br'
-      })
+        })
+      }
+    } else {
+      Alert.alert('Você precisa se identificar para favoritar um produto!')
     }
   }
 
@@ -77,7 +82,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     setWishIds(productIds?.viewList.data)
-    const idArray = productIds?.viewList.data.map(x => x.productId) || []
+    const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
     console.log(idArray)
     refetch()
     refetchProducts(
