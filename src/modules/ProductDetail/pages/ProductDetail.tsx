@@ -40,6 +40,7 @@ import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts
 import { id } from 'date-fns/locale';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import wishListQueries from '../../../graphql/wishlist/wishList';
+import { useAuth } from '../../../context/AuthContext';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -183,7 +184,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [addWishList, { data: addWishListData, error: addWishListError, loading: addWishLoading }] = useMutation(wishListQueries.ADD_WISH_LIST)
   const [removeWishList, { data: removeWishListData, error: removeWishListError, loading: removeWishLoading }] = useMutation(wishListQueries.REMOVE_WISH_LIST)
 
-
+  const { email } = useAuth()
 
   /***
    * Effects
@@ -319,7 +320,7 @@ export const ProductDetail: React.FC<Props> = ({
     setSkip(true)
     if (product && product.productId) {
       const { data: { checkList } } = await checkListRefetch({
-        shopperId: 'erick.fraga@globalsys.com.br',
+        shopperId: email,
         productId: product.productId.split('-')[0],
       })
       setWishInfo({ ...checkList })
@@ -327,24 +328,28 @@ export const ProductDetail: React.FC<Props> = ({
   }
 
   const handleOnFavorite = async (favorite: boolean) => {
-    if (product && product.productId) {
-      if (favorite) {
-        const { data } = await addWishList({
-          variables: {
-            shopperId: 'erick.fraga@globalsys.com.br',
-            productId: product.productId.split('-')[0]
-          }
-        })
-        console.log('add data', data)
-      } else {
-        await removeWishList({
-          variables: {
-            shopperId: 'erick.fraga@globalsys.com.br',
-            id: wishInfo.listIds[0]
-          }
-        })
+    if (!!email) {
+      if (product && product.productId) {
+        if (favorite) {
+          const { data } = await addWishList({
+            variables: {
+              shopperId: email,
+              productId: product.productId.split('-')[0]
+            }
+          })
+          console.log('add data', data)
+        } else {
+          await removeWishList({
+            variables: {
+              shopperId: email,
+              id: wishInfo.listIds[0]
+            }
+          })
+        }
+        await refetchChecklist()
       }
-      await refetchChecklist()
+    } else {
+
     }
   }
 

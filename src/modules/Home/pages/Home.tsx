@@ -1,6 +1,7 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
+import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
@@ -29,7 +30,12 @@ export const HomeScreen: React.FC<{
       variables: { limit: 0 } // quantidade de itens que iram renderizar
     }
   );
+
+  useEffect(() => {
+    console.log('cookie', cookie)
+  }, [cookie])
   console.log(data)
+
   useEffect(() => {
     console.log('data', data)
     let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription: any) => {
@@ -46,7 +52,7 @@ export const HomeScreen: React.FC<{
     setImages(arrayImages)
   }, [data]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (cookie !== null) {
       getProfile()
     }
@@ -56,7 +62,7 @@ export const HomeScreen: React.FC<{
     if (profileData) {
       setEmail(profileData?.profile?.email);
     }
-  }, [data])
+  }, [profileData])
 
 
   useEffect(() => {

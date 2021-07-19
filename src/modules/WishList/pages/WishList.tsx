@@ -198,7 +198,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
                 const wishId = wishIds.find(x => x.productId == item.productId)
 
-                return <Box marginTop='xxxs' height={147}>
+                return <Box marginTop='xxxs' height={150}>
                   <ProductHorizontalListCard
                     isFavorited
                     itemColor={''}
@@ -210,7 +210,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                     price={item.items[0].sellers[0].commertialOffer.Price}
                     onClickFavorite={() => handleFavorite(wishId)}
                     onClickBagButton={() => {
-
+                      // navigation.navigate(')
+                      navigation.navigate('ProductDetail', {
+                        productId: item.productId,
+                      })
                     }}
                     imageSource={item.items[0].images[0].imageUrl
                       // .replace("http", "https")
