@@ -10,7 +10,9 @@ import React, {
 
 interface AuthContextProps {
   cookie: Promise<string | null>;
-  setCookie: Dispatch<SetStateAction<Promise<string | null> | string | null>>;
+  setCookie: Dispatch<SetStateAction<Promise<string | null>>>;
+  email?: string | null;
+  setEmail?: Dispatch<SetStateAction<string>>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -23,6 +25,7 @@ interface AuthContextProviderProps {
 }
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
+  const [email, setEmail] = useState("");
   const [cookie, setCookie] = useState(
     AsyncStorage.getItem('@RNAuth:cookie') || '',
   );
@@ -30,6 +33,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     <AuthContext.Provider
       value={{
         cookie,
+        email,
+        setEmail,
         setCookie
       }}
     >
@@ -45,8 +50,10 @@ export const useAuth = () => {
   if (!authContext) {
     throw new Error('use Auth must be used within a AuthContextProvider');
   }
-  const { cookie, setCookie } = authContext;
+  const { cookie, setCookie, email, setEmail } = authContext;
   return {
+    email,
+    setEmail,
     cookie,
     setCookie
   };
