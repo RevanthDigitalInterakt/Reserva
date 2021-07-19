@@ -172,10 +172,10 @@ android {
             keyPassword 'rsvglobalapp'
         }
         release {
-            storeFile file('reserva-app-upload-key.keystore')
-            storePassword 'rsvglobalapp'
-            keyAlias 'reserva-app-key'
-            keyPassword 'rsvglobalapp'
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
         }
     }
     buildTypes {

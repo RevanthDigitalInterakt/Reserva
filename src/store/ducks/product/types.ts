@@ -24,6 +24,7 @@ export interface Product {
   title: string;
   imageUrl?: string;
   isFavorite: boolean;
+  listId?: string;
   fullPrice: number;
   discountPrice: number;
   currency: string;
