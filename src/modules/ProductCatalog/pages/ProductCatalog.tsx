@@ -61,6 +61,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         selectedFacets: [facetInput, filterRequestList].flat(),
         orderBy: selectedOrder,
         to: pageSize - 1,
+        simulationBehavior: "default",
+        productOriginVtex: false
       },
     }
   );
