@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { Box, ProductVerticalListCard, Typography } from 'reserva-ui';
-import { ProductQL } from '../../../../graphql/products/productSearch';
+import { ProductQL, Property, SKU } from '../../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { Product } from '../../../../store/ducks/product/types';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
@@ -98,6 +98,7 @@ export const ListVerticalProducts = ({
                 onClickImage={() => {
                   navigation.navigate('ProductDetail', {
                     productId: item.productId,
+                    colorSelected: item.items[0].variations[2].values[0]
                   });
                 }}
               />

@@ -195,7 +195,7 @@ export const ProductDetail: React.FC<Props> = ({
       setColorFilters(colorList);
 
       // set initial selected color
-      setSelectedColor(colorList ? colorList[0] : '');
+      setSelectedColor(colorList ? route.params.colorSelected : '');
 
       // set size filter
       const sizeList = getSizeList(product);
