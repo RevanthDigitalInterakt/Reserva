@@ -73,11 +73,12 @@ export const ListVerticalProducts = ({
             id: listId
           }
         })
-        loadingHandler && loadingHandler(false)
       }
+      loadingHandler && loadingHandler(false)
       await populateListWithFavorite()
     } else {
-      Alert.alert('Você precisa se identificar para favoritar um produto!')
+      navigation.navigate('Login', { comeFrom: 'Menu' })
+      //Alert.alert('Você precisa se identificar para favoritar um produto!')
     }
   }
 
@@ -107,9 +108,7 @@ export const ListVerticalProducts = ({
       }
       loadingHandler && loadingHandler(false)
     } else {
-      loadingHandler && loadingHandler(true)
       Promise.all(products).then((res) => setProductList(res));
-      loadingHandler && loadingHandler(false)
     }
   };
 

@@ -142,6 +142,7 @@ type ShippingCost = {
 }
 export const ProductDetail: React.FC<Props> = ({
   route,
+  navigation,
   recomendedProducts,
 }) => {
   /**
@@ -349,7 +350,7 @@ export const ProductDetail: React.FC<Props> = ({
         await refetchChecklist()
       }
     } else {
-
+      navigation.navigate('Login', { comeFrom: 'Favorite' })
     }
   }
 

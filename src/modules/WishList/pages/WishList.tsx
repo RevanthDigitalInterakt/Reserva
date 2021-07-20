@@ -27,6 +27,7 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '../../../context/AuthContext'
 import { profileQuery } from '../../../store/ducks/profile/types'
 import { Alert } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>
@@ -38,7 +39,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [wishIds, setWishIds] = useState<any[]>([])
   const [wishProducts, setWishProducts] = useState<any[]>([])
 
-  const { email } = useAuth()
+  const { email, cookie } = useAuth()
 
   const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST)
 
@@ -70,8 +71,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
           shopperId: 'erick.fraga@globalsys.com.br'
         })
       }
-    } else {
-      Alert.alert('Você precisa se identificar para favoritar um produto!')
     }
   }
 
@@ -97,13 +96,29 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     //     productId: '2213'
     //   }
     // })
+
+    // if (!!email) {
+
+
     const idArray = productIds?.viewList.data.map(x => x.productId) || []
     console.log(idArray)
     refetch()
     refetchProducts(
       { idArray }
     )
+    // } else {
+    //   navigation.navigate('Login', { comeFrom: 'Profile' })
+    // }
   }, [])
+
+  useFocusEffect(() => {
+    if (data) {
+      refetch();
+    }
+    if (cookie === null) {
+      navigation.navigate("Login", { comeFrom: "Profile" });
+    }
+  });
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
@@ -196,7 +211,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                     ? installments[0].Value
                     : item.priceRange?.listPrice?.lowPrice;
 
-                const wishId = wishIds.find(x => x.productId == item.productId)
+                const wishId = wishIds?.find(x => x.productId == item.productId)
 
                 return <Box marginTop='xxxs' height={150}>
                   <ProductHorizontalListCard

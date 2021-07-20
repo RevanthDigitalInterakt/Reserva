@@ -51,6 +51,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [filterList, setFilterList] = useState<string[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<string>();
   const [loadingFetchMore, setLoadingFetchMore] = useState(false);
+  const [loadingHandlerState, setLoadingHandlerState] = useState(false)
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
     productSearch,
@@ -178,6 +179,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       },
     });
     refetchFacets();
+    // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
 
     setProducts(data.productSearch);
@@ -202,9 +204,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
-        <TopBarDefaultBackButton loading={loading || loadingFetchMore} />
+        <TopBarDefaultBackButton loading={loading || loadingFetchMore || loadingHandlerState} />
       ) : (
-        <TopBarDefault loading={loading || loadingFetchMore} />
+        <TopBarDefault loading={loading || loadingFetchMore || loadingHandlerState} />
       )}
       {search && (
         <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
@@ -265,7 +267,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}
         products={productsQuery.products}
-        loadingHandler={(loadingState) => { setLoadingFetchMore(loadingState) }}
+        loadingHandler={(loadingState) => { setLoadingHandlerState(loadingState) }}
         listHeader={
           <>
             <Image height={200} source={bannerIamge} width={1 / 1} />
