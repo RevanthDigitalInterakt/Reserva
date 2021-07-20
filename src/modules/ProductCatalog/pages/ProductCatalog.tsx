@@ -23,7 +23,7 @@ import {
   ProductSearchData,
 } from '../../../graphql/products/productSearch';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { bannerQuery } from '../../../store/ducks/HomePage/types';
+import { bannerDefaultQuery, bannerQuery } from '../../../store/ducks/HomePage/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
@@ -41,7 +41,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   let categoryId = 'camisetas';
 
   const dispatch = useDispatch();
-  const [bannerIamge, setBannerImage] = useState(images.bannerOffer);
+  const [bannerImage, setBannerImage] = useState(images.bannerOffer);
+  // const [bannerDefault, setBannerDefault] = useState();
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -91,10 +92,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     },
   });
 
+  const { data: defaultBanner, refetch: refetchDefaultBanner } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } })
+  const setBannerDefaultImage = async () => {
+    await refetchDefaultBanner()
+    const url = defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url
+    setBannerImage(url);
+  }
+
   useEffect(() => {
     refetch();
     refetchFacets();
     refetchBanner({ category: referenceId });
+    //refetchDefaultBanner()
   }, []);
 
   useEffect(() => {
@@ -103,9 +112,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     if (!!bannerUrl) {
       setBannerImage(bannerUrl);
     } else {
-      setBannerImage(images.bannerOffer);
+      setBannerDefaultImage()
     }
   }, [bannerData]);
+
+  // useEffect(()=>{},[bannerImage])
 
   useEffect(() => {
     if (!lodingFacets) {
@@ -270,7 +281,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         loadingHandler={(loadingState) => { setLoadingHandlerState(loadingState) }}
         listHeader={
           <>
-            <Image height={200} source={bannerIamge} width={1 / 1} />
+            <Image height={200} source={bannerImage} width={1 / 1} />
             <Box bg="dropDownBorderColor">
               <Button p="nano" onPress={onClickWhatsappButton}>
                 <Box flexDirection="row">

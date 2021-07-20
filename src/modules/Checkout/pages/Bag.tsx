@@ -86,7 +86,6 @@ export const BagScreen = () => {
       orderForm?.marketingData?.marketingTags[1]?.split("=")[1];
 
     const installmentInfo = orderForm?.paymentData?.installmentOptions.find(x => x.paymentSystem == 4).installments.reverse()[0]
-    console.log(installmentInfo)
 
     setInstallmentInfo({
       installmentPrice: installmentInfo.value,
