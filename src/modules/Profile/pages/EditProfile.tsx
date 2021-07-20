@@ -125,8 +125,8 @@ export const EditProfile: React.FC<{
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <TopBarBackButton loading={loading || updateLoading || newsLetterLoading} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Box alignContent={'flex-start'} pt={'xs'} paddingX={'xxxs'}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ height: "100%" }} >
+          <Box alignContent={'flex-start'} pt={'xs'} paddingX={'xxxs'} pb="xxl">
             <Box alignItems={'center'}>
               <Avatar
                 buttonEdit={true}
