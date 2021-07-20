@@ -111,7 +111,11 @@ export const LoginScreen: React.FC<Props> = ({
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={() => {
-          navigation.navigate('Home');
+          if (comeFrom === 'Profile') {
+            navigation.navigate('Home');
+          } else {
+            navigation.goBack()
+          }
         }}
       />
       <ScrollView>

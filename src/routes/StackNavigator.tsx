@@ -74,6 +74,7 @@ export type RootStackParamList = {
   ProductDetail: { productId: string, colorSelected: string };
   RegisterSuccess: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
+  Login: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   ProductCatalog: {
     safeArea: boolean;
     search: boolean;

@@ -22,22 +22,100 @@ import ItemList from '../../Profile/Components/ItemList'
 import { Product } from '../../../store/ducks/product/types'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/StackNavigator'
+import wishListQueries from '../../../graphql/wishlist/wishList'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useAuth } from '../../../context/AuthContext'
+import { profileQuery } from '../../../store/ducks/profile/types'
+import { Alert } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
+
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>
 
 export const WishList: React.FC<Props> = ({ navigation }) => {
   const [showWishListCategory, setShowWishListCategory] = useState(true)
-  const [sorterVisible, setSorterVisible] = React.useState(false)
+  const [sorterVisible, setSorterVisible] = useState(false)
 
-  let dispatch = useDispatch()
+  const [wishIds, setWishIds] = useState<any[]>([])
+  const [wishProducts, setWishProducts] = useState<any[]>([])
 
-  let wishlist: Product[] = useSelector(
-    (state: ApplicationState) => state.wishlist.data
-  )
+  const { email, cookie } = useAuth()
+
+  const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST)
+
+  const { data: productIds, loading, error, refetch } = useQuery(wishListQueries.GET_WISH_LIST, {
+    variables: {
+      shopperId: email
+    }
+  })
+
+  const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST)
+  const { data: products, refetch: refetchProducts } = useQuery(wishListQueries.GET_PRODUCT_BY_IDENTIFIER, {
+    variables: {
+      idArray: []
+    }
+  })
+
+  const handleFavorite = async (wishId: any) => {
+    if (!!email) {
+
+      if (!!wishId) {
+        console.log('wishId', wishId)
+        await removeFromWishList({
+          variables: {
+            id: wishId.id,
+            shopperId: 'erick.fraga@globalsys.com.br'
+          }
+        })
+        await refetch({
+          shopperId: 'erick.fraga@globalsys.com.br'
+        })
+      }
+    }
+  }
 
   useEffect(() => {
-    console.log(wishlist)
+    if (!!products?.productsByIdentifier)
+      setWishProducts(products.productsByIdentifier)
+  }, [products])
+
+  useEffect(() => {
+    setWishIds(productIds?.viewList.data)
+    const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
+    console.log(idArray)
+    refetch()
+    refetchProducts(
+      { idArray }
+    )
+  }, [productIds])
+
+  useEffect(() => {
+    // addWish({
+    //   variables: {
+    //     shopperId: 'erick.fraga@globalsys.com.br',
+    //     productId: '2213'
+    //   }
+    // })
+
+    // if (!!email) {
+
+
+    const idArray = productIds?.viewList.data.map(x => x.productId) || []
+    console.log(idArray)
+    refetch()
+    refetchProducts(
+      { idArray }
+    )
+    // } else {
+    //   navigation.navigate('Login', { comeFrom: 'Profile' })
+    // }
   }, [])
+
+  useFocusEffect(() => {
+    if (!email) {
+      navigation.navigate("Login", { comeFrom: "Profile" });
+    }
+  });
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
@@ -78,7 +156,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
           <Box paddingX='xxxs'>
             <Typography variant='tituloSessoes'>Favoritos</Typography>
           </Box>
-          <Box paddingX='xxxs' marginTop='xxxs' flexDirection='row'>
+          {/* <Box paddingX='xxxs' marginTop='xxxs' flexDirection='row'>
             <Box width={1 / 2}>
               <Button
                 onPress={() => {
@@ -113,42 +191,56 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                 inline
               />
             </Box>
-          </Box>
-          {!showWishListCategory ? (
-            <Box paddingX='xxxs'>
-              <FlatList
-                data={wishlist}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <Box marginTop='xxxs' height={147}>
-                    <ProductHorizontalListCard
-                      isFavorited
-                      currency={item.currency}
-                      itemColor={item.colorsHex && item.colorsHex[0]}
-                      ItemSize={item.sizes && item.sizes[0]}
-                      productTitle={`${item.title.slice(0, 30)}${
-                        item.title.length > 30 ? '...' : ''
+          </Box> */}
+          {/* {!showWishListCategory ? ( */}
+          <Box paddingX='xxxs'>
+            <FlatList
+              data={wishProducts}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => {
+                const installments =
+                  item.items[0].sellers[0].commertialOffer.Installments;
+                const installmentsNumber =
+                  installments.length > 0 ? installments[0].NumberOfInstallments : 1;
+
+                const installmentPrice =
+                  installments.length > 0
+                    ? installments[0].Value
+                    : item.priceRange?.listPrice?.lowPrice;
+
+                const wishId = wishIds?.find(x => x.productId == item.productId)
+
+                return <Box marginTop='xxxs' height={150}>
+                  <ProductHorizontalListCard
+                    isFavorited
+                    itemColor={''}
+                    ItemSize={''}
+                    productTitle={`${item.productName.slice(0, 30)}${item.productName.length > 30 ? '...' : ''
                       }`}
-                      installmentsNumber={item.installmentNumber}
-                      installmentsPrice={item.installmentPrice}
-                      price={item.fullPrice}
-                      onClickFavorite={() => {
-                        dispatch(removeWishlist(item.id ? item.id : ''))
-                      }}
-                      onClickBagButton={() => {
-                        navigation.navigate('ProductDetail', {
-                          productId: item.id ? item.id : '',
-                        })
-                      }}
-                      imageSource={item.imageUrl || ''}
-                    />
-                  </Box>
-                )}
-              />
-            </Box>
-          ) : (
+                    installmentsNumber={installmentsNumber}
+                    installmentsPrice={installmentPrice}
+                    price={item.items[0].sellers[0].commertialOffer.Price}
+                    onClickFavorite={() => handleFavorite(wishId)}
+                    onClickBagButton={() => {
+                      // navigation.navigate(')
+                      navigation.navigate('ProductDetail', {
+                        productId: item.productId,
+                      })
+                    }}
+                    imageSource={item.items[0].images[0].imageUrl
+                      // .replace("http", "https")
+                      // .split("-55-55")
+                      // .join("")
+                    }
+                  />
+                </Box>
+              }
+              }
+            />
+          </Box>
+          {/* ) : (
             <WishListCategory />
-          )}
+          )} */}
         </Box>
       </Box>
     </SafeAreaView>
