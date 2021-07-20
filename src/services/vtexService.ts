@@ -9,7 +9,7 @@ const vtexConfig2 = instance2;
 const CreateCart = async () => {
   // cria o carrinho
   // retorna um payload gigante pra ser preenchido de acordo.
-  const response = await vtexConfig.get(`/checkout/pub/orderForm/?sc=1`);
+  const response = await vtexConfig.get(`/checkout/pub/orderForm/?sc=4`);
   return response;
 };
 
@@ -34,7 +34,7 @@ const AddItemToCart = async (
   seller: string
 ) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/items?sc=1`,
+    `/checkout/pub/orderForm/${orderFormId}/items?sc=4`,
     {
       // modificar esse item de acordo com o modelo do carrinho
       orderItems: [
@@ -59,7 +59,7 @@ const RemoveItemFromCart = async (
   quantity: number
 ) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/items/update?sc=1`,
+    `/checkout/pub/orderForm/${orderFormId}/items/update?sc=4`,
     {
       // modificar esse item de acordo com o modelo do carrinho
       orderItems: [
@@ -79,7 +79,7 @@ const RemoveItemFromCart = async (
 
 const AddCouponToCart = async (orderFormId: any) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/coupons?sc=1
+    `/checkout/pub/orderForm/${orderFormId}/coupons?sc=4
   `,
     {
       text: 'testeapp',
@@ -107,7 +107,7 @@ const AddCouponToCart = async (orderFormId: any) => {
 
 const RemoveCoupon = async (orderFormId: any) => {
   const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/coupons?sc=1
+    `/checkout/pub/orderForm/${orderFormId}/coupons?sc=4
     `,
     {
       text: '',
@@ -136,7 +136,7 @@ const RemoveCoupon = async (orderFormId: any) => {
 const AddAddressToCart = async (orderFormId: any, address: any) => {
   //APENAS adiciona endereço ao carrinho(orderForm)
   const { data } = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData?sc=1`,
+    `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData?sc=4`,
     address
   );
 
@@ -146,7 +146,7 @@ const AddAddressToCart = async (orderFormId: any, address: any) => {
 const DeliveryType = async (orderFormId: any) => {
   // deve enviar o endereço junto do array de tipo de entrega de CADA produto. ai o vtex irá calcular as entregas possiveis.
   const response = await vtexConfig.post(
-    `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData?sc=1
+    `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData?sc=4
         `,
     {
       selectedAddresses: [
@@ -187,7 +187,7 @@ const DeliveryType = async (orderFormId: any) => {
 
 const GetPurchaseData = async (orderGroup: any) => {
   const response = await vtexConfig.get(
-    `/checkout/pub/orders/order-group/${orderGroup}?sc=1`
+    `/checkout/pub/orders/order-group/${orderGroup}?sc=4`
   );
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
@@ -200,7 +200,7 @@ const IdentifyCustomer = async (
 ) => {
   try {
     const { data } = await vtexConfig.post(
-      `/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData?sc=1`,
+      `/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData?sc=4`,
       { email }
     );
 
