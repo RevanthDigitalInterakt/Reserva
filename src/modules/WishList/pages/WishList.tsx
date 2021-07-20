@@ -112,10 +112,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }, [])
 
   useFocusEffect(() => {
-    if (data) {
-      refetch();
-    }
-    if (cookie === null) {
+    if (!email) {
       navigation.navigate("Login", { comeFrom: "Profile" });
     }
   });
