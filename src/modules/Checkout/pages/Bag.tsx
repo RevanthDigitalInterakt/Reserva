@@ -85,13 +85,19 @@ export const BagScreen = () => {
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split("=")[1];
 
-    const installmentInfo = orderForm?.paymentData?.installmentOptions.find(x => x.paymentSystem == 4).installments.reverse()[0]
+    const installment = orderForm?.paymentData?.installmentOptions?.find(x => x.paymentSystem == 4)?.installments?.reverse()[0] || null
 
-    setInstallmentInfo({
-      installmentPrice: installmentInfo.value,
-      installmentsNumber: installmentInfo.count,
-      totalPrice: installmentInfo.total
-    })
+    setInstallmentInfo(
+      !!installment ?
+        {
+          installmentPrice: installment.value,
+          installmentsNumber: installment.count,
+          totalPrice: installment.total
+        } : {
+          ...installmentInfo
+        }
+
+    )
 
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
