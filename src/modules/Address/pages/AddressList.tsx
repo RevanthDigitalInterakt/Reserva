@@ -1,24 +1,24 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
-import { Typography, Box, Button, Alert } from 'reserva-ui';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/core';
+import React, { useEffect, useState, useRef } from "react";
+import { SafeAreaView, FlatList } from "react-native";
+import { Typography, Box, Button, Alert } from "reserva-ui";
+import { StackScreenProps } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/core";
 
-import AddressSelector from '../Components/AddressSelector';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
-import { deleteAddress } from '../../../graphql/address/addressMutations';
-import { useCart } from '../../../context/CartContext';
-import { profileQuery } from '../../../store/ducks/profile/types';
-import { useIsFocused, useFocusEffect } from '@react-navigation/native';
+import AddressSelector from "../Components/AddressSelector";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { deleteAddress } from "../../../graphql/address/addressMutations";
+import { useCart } from "../../../context/CartContext";
+import { profileQuery } from "../../../store/ducks/profile/types";
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 
-type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
+type Props = StackScreenProps<RootStackParamList, "AddressList">;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [deleteModal, setDeleteModal] = React.useState(false);
-  const [addressId, setAddressId] = React.useState('');
+  const [addressId, setAddressId] = React.useState("");
   const [successModal, setSuccessModal] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
@@ -57,7 +57,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     //   setLoading(false);
     // }
 
-    navigation.navigate('Checkout');
+    navigation.navigate("Checkout");
   };
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
       orderForm?.shippingData &&
       orderForm?.shippingData.availableAddresses
         .filter(({ geoCoordinates }) => geoCoordinates.length > 0)
-        .map((a) => ({ ...a, country: 'BRA' }));
+        .map((a) => ({ ...a, country: "BRA" }));
 
     if (
       availableAddressesOrderForm &&
@@ -90,8 +90,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
     }
   }, [data]);
 
-  navigation.addListener('focus', () => {
-    console.log('aqui');
+  navigation.addListener("focus", () => {
+    console.log("aqui");
     refetch();
   });
   // useEffect(() => {
@@ -105,10 +105,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
           modalRef.current && setSuccessModal(true);
         }}
         isVisible={deleteModal}
-        title={'Excluir endereço'}
-        subtitle={'Tem certeza que deseja excluir o endereço salvo?'}
-        confirmText={'SIM'}
-        cancelText={'NÃO'}
+        title={"Excluir endereço"}
+        subtitle={"Tem certeza que deseja excluir o endereço salvo?"}
+        confirmText={"SIM"}
+        cancelText={"NÃO"}
         onConfirm={async () => {
           modalRef.current = true;
           const { data } = await addressDelete({
@@ -130,8 +130,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       {deleteAddressError ? (
         <Alert
           isVisible={successModal}
-          title={'Não foi possível excluir o endereço'}
-          confirmText={'OK'}
+          title={"Não foi possível excluir o endereço"}
+          confirmText={"OK"}
           onConfirm={() => {
             setSuccessModal(false);
           }}
@@ -142,8 +142,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       ) : (
         <Alert
           isVisible={successModal}
-          title={'Seu endereço foi excluído com sucesso.'}
-          confirmText={'OK'}
+          title={"Seu endereço foi excluído com sucesso."}
+          confirmText={"OK"}
           onConfirm={() => {
             setSuccessModal(false);
             refetch();
@@ -163,13 +163,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
         />
 
         <Box
-          overflow={'hidden'}
-          height={'80%'}
+          overflow={"hidden"}
+          height={"80%"}
           paddingHorizontal={20}
           justifyContent="flex-start"
-          pt={'md'}
+          pt={"md"}
         >
-          <Box alignSelf={'flex-start'} mb={'xxxs'}>
+          <Box alignSelf={"flex-start"} mb={"xxxs"}>
             <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
@@ -208,7 +208,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                       setAddressId(id || addressId);
                     }}
                     edit={() => {
-                      navigation.navigate('NewAddress', {
+                      navigation.navigate("NewAddress", {
                         edit: true,
                         editAddress: {
                           id,
@@ -249,16 +249,15 @@ const AddressList: React.FC<Props> = ({ route }) => {
             />
           </Box>
         ) : (
-          <Box marginX={'md'}>
+          <Box marginX={"md"}>
             <Button
-              mt="xs"
               onPress={() =>
-                navigation.navigate('NewAddress', {
+                navigation.navigate("NewAddress", {
                   isCheckout,
                   id: null,
                 })
               }
-              title={'NOVO ENDEREÇO'}
+              title={"NOVO ENDEREÇO"}
               variant="primarioEstreitoOutline"
               padding="xl"
             />
