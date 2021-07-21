@@ -474,7 +474,7 @@ export const ProductDetail: React.FC<Props> = ({
           }}
         />
         <TopBarDefaultBackButton loading={loading} />
-        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100, }}>
           {product && selectedVariant && (
             <>
               {/* PRODUCT CARD SECTION */}
@@ -650,8 +650,12 @@ export const ProductDetail: React.FC<Props> = ({
 
                 <Box>
                   <ExpansePanel
+                    style={{
+                      fontFamily: "reservaSerifRegular",
+                      fontSize: 20
+                    }}
                     information={{
-                      title: 'Descrição do produto',
+                      title: 'Sobre este produto',
                       content: product.description || '',
                     }}
                   />
