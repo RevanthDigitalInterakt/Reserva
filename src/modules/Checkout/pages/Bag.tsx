@@ -57,6 +57,11 @@ export const BagScreen = () => {
   const [sellerCode, setSellerCode] = React.useState<string | undefined>("");
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
+  const [installmentInfo, setInstallmentInfo] = useState({
+    installmentsNumber: 0,
+    installmentPrice: 0,
+    totalPrice: 0,
+  })
 
   const hasSellerCoupon = useCallback((): boolean => {
     return sellerCoupon.length > 0;
@@ -79,6 +84,14 @@ export const BagScreen = () => {
 
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split("=")[1];
+
+    const installmentInfo = orderForm?.paymentData?.installmentOptions.find(x => x.paymentSystem == 4).installments.reverse()[0]
+
+    setInstallmentInfo({
+      installmentPrice: installmentInfo.value,
+      installmentsNumber: installmentInfo.count,
+      totalPrice: installmentInfo.total
+    })
 
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
@@ -441,7 +454,7 @@ export const BagScreen = () => {
                 fontSize={15}
                 color="vermelhoRSV"
               >
-                10x de{" "}
+                {installmentInfo.installmentsNumber}x de{" "}
               </Typography>
 
               <PriceCustom
@@ -449,7 +462,7 @@ export const BagScreen = () => {
                 color="vermelhoRSV"
                 sizeInterger={15}
                 sizeDecimal={11}
-                num={totalBag / 10}
+                num={installmentInfo.installmentPrice / 100}
               />
             </Box>
           </Box>

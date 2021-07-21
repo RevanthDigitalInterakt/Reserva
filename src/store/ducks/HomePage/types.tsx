@@ -45,3 +45,17 @@ export const bannerQuery = gql`
     }
   }
 `
+export const bannerDefaultQuery = gql`
+  query BannerCategoryCollection {
+    bannerCategoryCollection(where:{item: {reference: "default"}}) {
+      items {
+        name
+        item {
+          image {
+            url
+          }
+        }
+      }
+    }
+  }
+`

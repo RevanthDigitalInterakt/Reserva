@@ -2,8 +2,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import { Box, ProductVerticalListCard } from 'reserva-ui';
-import { ProductQL } from '../../../../graphql/products/productSearch';
+import { Box, ProductVerticalListCard, Typography } from 'reserva-ui';
+import { ProductQL, Property, SKU } from '../../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { Product } from '../../../../store/ducks/product/types';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
@@ -73,11 +73,12 @@ export const ListVerticalProducts = ({
             id: listId
           }
         })
-        loadingHandler && loadingHandler(false)
       }
+      loadingHandler && loadingHandler(false)
       await populateListWithFavorite()
     } else {
-      Alert.alert('Você precisa se identificar para favoritar um produto!')
+      navigation.navigate('Login', { comeFrom: 'Menu' })
+      //Alert.alert('Você precisa se identificar para favoritar um produto!')
     }
   }
 
@@ -107,9 +108,7 @@ export const ListVerticalProducts = ({
       }
       loadingHandler && loadingHandler(false)
     } else {
-      loadingHandler && loadingHandler(true)
       Promise.all(products).then((res) => setProductList(res));
-      loadingHandler && loadingHandler(false)
     }
   };
 
@@ -128,7 +127,6 @@ export const ListVerticalProducts = ({
         isVisible={isVisible}
         favoritedProduct={favoritedProduct}
       />
-
       {productList.length > 0 && (
         <FlatList
           data={productList}
@@ -149,41 +147,40 @@ export const ListVerticalProducts = ({
               installments.length > 0
                 ? installments[0].Value
                 : item.priceRange?.listPrice?.lowPrice;
-
-            const colors = new ProductUtils().getColorsArray(item);
-
-            return (
-              <Box
-                flex={1}
-                alignItems="center"
-                justifyContent="center"
-                height={353}
-              >
-                <ProductVerticalListCard
-                  isFavorited={item.isFavorite}
-                  onClickFavorite={(isFavorite) => { handleOnFavorite(isFavorite, item) }}
-                  colors={colors}
-                  imageSource={item.items[0].images[0].imageUrl}
-                  installmentsNumber={installmentsNumber} //numero de parcelas
-                  installmentsPrice={installmentPrice || 0} //valor das parcelas
-                  currency="R$"
-                  discountTag={getPercent(
-                    item.priceRange?.sellingPrice.lowPrice,
-                    item.priceRange?.listPrice.lowPrice
-                  )}
-                  priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                  price={item.priceRange?.listPrice?.lowPrice || 0}
-                  productTitle={item.productName}
-                  onClickImage={() => {
-                    navigation.navigate('ProductDetail', {
-                      productId: item.productId,
-                    });
-                  }}
-                />
-              </Box>
-            );
-          }}
-        />
+          const colors = new ProductUtils().getColorsArray(item);
+          return (
+            <Box
+              flex={1}
+              alignItems="center"
+              justifyContent="center"
+              height={353}
+            >
+              <ProductVerticalListCard
+                isFavorited={item.isFavorite}
+                onClickFavorite={(isFavorite) => { handleOnFavorite(isFavorite, item) }}
+                colors={colors}
+                imageSource={item.items[0].images[0].imageUrl}
+                installmentsNumber={installmentsNumber} //numero de parcelas
+                installmentsPrice={installmentPrice || 0} //valor das parcelas
+                currency="R$"
+                discountTag={getPercent(
+                  item.priceRange?.sellingPrice.lowPrice,
+                  item.priceRange?.listPrice.lowPrice
+                )}
+                priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+                price={item.priceRange?.listPrice?.lowPrice || 0}
+                productTitle={item.productName}
+                onClickImage={() => {
+                  navigation.navigate('ProductDetail', {
+                    productId: item.productId,
+                    colorSelected: item.items[0].variations[2].values[0]
+                  });
+                }}
+              />
+            </Box>
+          );
+        }}
+      />
       )}
     </>
   );

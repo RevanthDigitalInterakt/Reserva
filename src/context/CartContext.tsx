@@ -189,7 +189,7 @@ interface OrderForm {
   marketingData: MarketingData;
   messages: Message[];
   orderFormId: string;
-  paymentData: string;
+  paymentData: any;
   salesChannel: string;
   sellers: Seller[];
   shippingData: ShippingData;

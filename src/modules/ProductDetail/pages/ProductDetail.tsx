@@ -142,6 +142,7 @@ type ShippingCost = {
 }
 export const ProductDetail: React.FC<Props> = ({
   route,
+  navigation,
   recomendedProducts,
 }) => {
   /**
@@ -215,7 +216,7 @@ export const ProductDetail: React.FC<Props> = ({
       setColorFilters(colorList);
 
       // set initial selected color
-      setSelectedColor(colorList ? colorList[0] : '');
+      setSelectedColor(colorList ? route.params.colorSelected : '');
 
       // set size filter
       const sizeList = getSizeList(product);
@@ -349,7 +350,7 @@ export const ProductDetail: React.FC<Props> = ({
         await refetchChecklist()
       }
     } else {
-
+      navigation.navigate('Login', { comeFrom: 'Favorite' })
     }
   }
 
