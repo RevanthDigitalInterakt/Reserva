@@ -475,6 +475,7 @@ export const BagScreen = () => {
         </Box>
 
         <Button
+          disabled={orderForm && orderForm?.items?.length === 0 ? true : false}
           onPress={onGoToDelivery}
           title="IR PARA ENTREGA"
           variant="primarioEstreito"
