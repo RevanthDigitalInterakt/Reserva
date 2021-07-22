@@ -16,7 +16,8 @@ import { useAuth } from '../../../context/AuthContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
-
+// import { string } from "yup";
+import * as Yup from "yup";
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export const LoginScreen: React.FC<Props> = ({
@@ -37,6 +38,8 @@ export const LoginScreen: React.FC<Props> = ({
   });
   const [isSecureText, setIsSecureText] = useState(true);
   const [showError, setShowError] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true);
   const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
@@ -53,6 +56,7 @@ export const LoginScreen: React.FC<Props> = ({
   };
 
   const handleLogin = async () => {
+    console.log('valid', emailIsValid)
     const { data, errors } = await login({
       variables: {
         email: loginCredentials.username,
@@ -137,20 +141,34 @@ export const LoginScreen: React.FC<Props> = ({
               value={loginCredentials.username}
               showError={loginCredentials.showUsernameError}
               errorMsg={loginCredentials.usernameError}
-              onChangeText={(text) =>
+              onChangeText={(text) => {
                 setLoginCredentials({ ...loginCredentials, username: text })
+                setEmailIsValid(
+                  Yup.string()
+                    // .required()
+                    .email()
+                    .isValidSync(text)
+                );
+              }
               }
             />
             {!loginWithCode && (
               <Box mt="md" width="100%">
                 <UnderlineInput
+                  isSecureText={true}
                   placeholder="Digite sua senha"
                   value={loginCredentials.password}
                   showError={loginCredentials.showPasswordError}
                   errorMsg={loginCredentials.passwordError}
-                  onChangeText={(text) =>
+                  onChangeText={(text) => {
                     setLoginCredentials({ ...loginCredentials, password: text })
-                  }
+                    // setPasswordIsValid(
+                    //   Yup.string()
+                    //     .required()
+                    //     .matches(/^(?=.{6,})/)
+                    //     .isValidSync(text)
+                    // );
+                  }}
                 />
 
                 <Box mt="micro">
