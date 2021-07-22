@@ -167,7 +167,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     Editar endereço
                   </Typography>
                 ) : (
-                  <Typography variant="tituloSessoes">Endereço</Typography>
+                  <Typography variant="tituloSessoes">
+                    Adicionar endereço
+                  </Typography>
                 )}
               </Box>
               <InputOption
