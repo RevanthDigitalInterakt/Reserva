@@ -35,6 +35,9 @@ export const LoginScreen: React.FC<Props> = ({
     passwordError: '',
     showUsernameError: false,
     usernameError: '',
+    hasError: false,
+    showMessageError: '',
+
   });
   const [isSecureText, setIsSecureText] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -42,53 +45,66 @@ export const LoginScreen: React.FC<Props> = ({
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true);
+
   const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
     useMutation(sendEmailVerificationMutation);
 
-  const passwordChecker = () => {
-    const password = loginCredentials.password;
-    return (
-      password.match(/[A-Z]/g) != null &&
-      password.match(/[a-z]/g) != null &&
-      password.match(/[0-9]/g) != null &&
-      password.length >= 8
-    );
-  };
-
-  const handleLogin = async () => {
-    console.log('valid', emailIsValid)
-    const { data, errors } = await login({
-      variables: {
-        email: loginCredentials.username,
-        password: loginCredentials.password,
-      },
+  const validateCredentials = () => {
+    setLoginCredentials({
+      ...loginCredentials,
+      showPasswordError: true,
+      showUsernameError: true,
+      hasError: true,
+      showMessageError: 'Verifique os campos acima e digite um e-mail ou senha válidos'
     });
-    // ! verify login success
-    if (data['classicSignIn'] != 'Success' || !passwordChecker()) {
-      setLoginCredentials({
-        ...loginCredentials,
-        password: '',
-        showPasswordError: true,
-        showUsernameError: true,
-        passwordError:
-          'Verifique os campos acima e digite um e-mail ou senha válidos',
+  }
+
+  const removeMessageErrorEmail = () => {
+    setLoginCredentials({
+      ...loginCredentials,
+      showUsernameError: false,
+      usernameError: ''
+    });
+  }
+    ;
+  const handleLogin = async () => {
+    if (emailIsValid && passwordIsValid) {
+      const { data, errors } = await login({
+        variables: {
+          email: loginCredentials.username,
+          password: loginCredentials.password,
+        },
       });
+      if (data['classicSignIn'] === 'Success') {
+        navigation.navigate('Home');
+      } else {
+        validateCredentials();
+      }
     } else {
-      // console.log(data)
-      navigation.navigate('Home');
+      validateCredentials();
     }
   };
 
   const handleLoginCode = () => {
-    sendEmail({
-      variables: {
-        email: loginCredentials.username,
-      },
-    }).then((data) => {
-      navigation.navigate('AccessCode', {
-        email: loginCredentials.username,
+    if (emailIsValid) {
+      removeMessageErrorEmail();
+      sendEmail({
+        variables: {
+          email: loginCredentials.username,
+        },
+      }).then((data) => {
+        navigation.navigate('AccessCode', {
+          email: loginCredentials.username,
+        });
       });
-    });
+    } else {
+      setLoginCredentials({
+        ...loginCredentials,
+        showUsernameError: true,
+        usernameError: 'Digite um e-mail válido'
+      });
+    }
+
   };
 
   useEffect(() => {
@@ -145,13 +161,14 @@ export const LoginScreen: React.FC<Props> = ({
                 setLoginCredentials({ ...loginCredentials, username: text })
                 setEmailIsValid(
                   Yup.string()
-                    // .required()
+                    .required()
                     .email()
                     .isValidSync(text)
                 );
               }
               }
             />
+
             {!loginWithCode && (
               <Box mt="md" width="100%">
                 <UnderlineInput
@@ -159,19 +176,20 @@ export const LoginScreen: React.FC<Props> = ({
                   placeholder="Digite sua senha"
                   value={loginCredentials.password}
                   showError={loginCredentials.showPasswordError}
-                  errorMsg={loginCredentials.passwordError}
                   onChangeText={(text) => {
                     setLoginCredentials({ ...loginCredentials, password: text })
-                    // setPasswordIsValid(
-                    //   Yup.string()
-                    //     .required()
-                    //     .matches(/^(?=.{6,})/)
-                    //     .isValidSync(text)
-                    // );
+                    setPasswordIsValid(
+                      Yup.string()
+                        .required()
+                        .matches(/^(?=.{8,})/) // 8 caracteres
+                        .matches(/^(?=.*[A-Z])/) //pelo menos uma maiuscula
+                        .matches(/^(?=.*[a-z])/) // pelo menos uma minuscula
+                        .matches(/^(?=.*[0-9])/) // pelo menos um nuemro
+                        .isValidSync(text)
+                    );
                   }}
                 />
-
-                <Box mt="micro">
+                <Box mt="micro" mb="quarck">
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate('ForgotEmail', {});
@@ -182,6 +200,15 @@ export const LoginScreen: React.FC<Props> = ({
                     </Typography>
                   </TouchableOpacity>
                 </Box>
+                {loginCredentials.hasError && (
+                  <Typography
+                    color="vermelhoAlerta"
+                    fontFamily="nunitoRegular"
+                    fontSize={13}
+                  >
+                    {loginCredentials.showMessageError}
+                  </Typography>
+                )}
               </Box>
             )}
           </Box>
@@ -206,7 +233,12 @@ export const LoginScreen: React.FC<Props> = ({
             }
             inline
             variant="primarioEstreitoOutline"
-            onPress={() => setLoginWithCode(!loginWithCode)}
+            onPress={() => {
+              setLoginWithCode(!loginWithCode)
+
+              //remove a mensagem de erro do campo email
+              removeMessageErrorEmail()
+            }}
           />
           {/* <Box
             flexDirection="row"

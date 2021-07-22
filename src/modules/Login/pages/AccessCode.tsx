@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Button, Typography } from 'reserva-ui';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import { accessKeySignInMutation } from '../../../graphql/login/loginMutations';
+import { accessKeySignInMutation, sendEmailVerificationMutation } from '../../../graphql/login/loginMutations';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../components/CodeInput';
@@ -28,7 +28,15 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
     accessKeySignInMutation
   );
 
+  const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
+    useMutation(sendEmailVerificationMutation);
+
   const handleLogin = () => {
+    if (accessCode.length < 6) {
+      setShowError(true)
+    } else {
+      setShowError(false)
+    }
     loginWithCode({
       variables: {
         email: email,
@@ -37,6 +45,13 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
     });
   };
 
+  const handleResendCode = () => {
+    sendEmail({
+      variables: {
+        email
+      },
+    })
+  }
   useEffect(() => {
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
@@ -73,7 +88,10 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
             onPress={() => handleLogin()}
             inline
           />
-          <Button mt="xs">
+          <Button
+            mt="xs"
+            onPress={handleResendCode}
+          >
             <Typography
               fontSize={14}
               fontFamily="nunitoRegular"
