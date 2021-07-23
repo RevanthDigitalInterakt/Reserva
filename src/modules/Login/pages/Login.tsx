@@ -25,7 +25,7 @@ export const LoginScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { comeFrom } = route.params;
-  const { cookie, setCookie } = useAuth();
+  const { cookie, setCookie, setEmail } = useAuth();
   //const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: '',
@@ -71,6 +71,7 @@ export const LoginScreen: React.FC<Props> = ({
       });
     } else {
       // console.log(data)
+      setEmail(loginCredentials.username)
       navigation.navigate('Home');
     }
   };
@@ -81,6 +82,7 @@ export const LoginScreen: React.FC<Props> = ({
         email: loginCredentials.username,
       },
     }).then((data) => {
+      setEmail(loginCredentials.username)
       navigation.navigate('AccessCode', {
         email: loginCredentials.username,
       });
