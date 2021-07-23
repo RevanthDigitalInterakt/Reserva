@@ -125,7 +125,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       state.length > 0 &&
       city.length > 0 &&
       number.length > 0 &&
-      complement.length > 0 &&
       street.length > 0 &&
       neighborhood.length > 0
     ) {
