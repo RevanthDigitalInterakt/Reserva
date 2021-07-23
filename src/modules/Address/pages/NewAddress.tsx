@@ -167,7 +167,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     Editar endereço
                   </Typography>
                 ) : (
-                  <Typography variant="tituloSessoes">
+                  <Typography variant="tituloSessoes" fontSize={20}>
                     Adicionar endereço
                   </Typography>
                 )}
@@ -182,26 +182,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   cepHandler(text.replace("-", ""));
                 }}
               />
-
-              <Box flexDirection={"row"} justifyContent="space-between">
-                <Box flex={1} marginRight={"micro"}>
-                  <InputOption
-                    placeholder={"Digite seu estado"}
-                    value={initialValues.state}
-                    field={"state"}
-                    editable={initialValues.state.length <= 0}
-                  />
-                </Box>
-
-                <Box flex={1}>
-                  <InputOption
-                    placeholder={"Digite sua cidade"}
-                    field={"city"}
-                    value={initialValues.city}
-                    editable={initialValues.city.length <= 0}
-                  />
-                </Box>
-              </Box>
 
               <InputOption
                 placeholder={"Endereço"}
@@ -222,16 +202,24 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                 <Box flex={1}>
                   <InputOption
-                    placeholder={"Número"}
-                    value={initialValues.number}
-                    onChangeText={(text) =>
-                      setInitialValues({ ...initialValues, number: text })
-                    }
-                    field={"number"}
+                    placeholder={"Digite seu estado"}
+                    value={initialValues.state}
+                    field={"state"}
+                    editable={initialValues.state.length <= 0}
                   />
                 </Box>
               </Box>
 
+              <Box flex={1}>
+                <InputOption
+                  placeholder={"Número"}
+                  value={initialValues.number}
+                  onChangeText={(text) =>
+                    setInitialValues({ ...initialValues, number: text })
+                  }
+                  field={"number"}
+                />
+              </Box>
               <InputOption
                 placeholder={"Complemento"}
                 value={initialValues.complement}
@@ -266,10 +254,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               {!isCheckout && (
                 <Button
                   disabled={loading || !buttonEnabled}
-                  width="200px"
+                  width="240px"
                   mt={"xs"}
                   onPress={handleSaveAddress}
-                  title={"SALVAR"}
+                  title={"INCLUIR NOVO ENDEREÇO"}
                   variant="primarioEstreitoOutline"
                 />
               )}
