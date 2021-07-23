@@ -214,7 +214,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               <InputOption
                 placeholder={"Endereço"}
                 value={initialValues.street}
-                editable={initialValues.street.length <= 0}
+                // editable={initialValues.street.length <= 0}
+                onChangeText={(text) =>
+                  setInitialValues({ ...initialValues, street: text })
+                }
                 field={"street"}
               />
 
@@ -224,7 +227,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     placeholder={"Digite seu bairro"}
                     field={"neighborhood"}
                     value={initialValues.neighborhood}
-                    editable={initialValues.neighborhood.length <= 0}
+                    // editable={initialValues.neighborhood.length <= 0}
+                    onChangeText={(text) =>
+                      setInitialValues({ ...initialValues, neighborhood: text })
+                    }
                   />
                 </Box>
 
@@ -233,7 +239,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     placeholder={"Digite seu estado"}
                     value={initialValues.state}
                     field={"state"}
-                    editable={initialValues.state.length <= 0}
+                    // editable={initialValues.state.length <= 0}
+                    onChangeText={(text) =>
+                      setInitialValues({ ...initialValues, state: text })
+                    }
                   />
                 </Box>
               </Box>
