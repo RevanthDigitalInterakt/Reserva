@@ -1,5 +1,5 @@
+import React, { useState, useRef } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useState } from "react";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +11,10 @@ import { CepVerify } from "../../../services/vtexService";
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
 
+import * as Yup from "yup";
+import { Formik } from "formik";
+import { FormikTextInput } from "../../../shared/componentes/FormikTextInput";
+
 interface CreateCartProfileProfile
   extends StackScreenProps<RootStackParamList, "CreateCartProfile"> {}
 
@@ -19,6 +23,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   route,
 }) => {
   const { addCustomer, addShippingData, getCepData } = useCart();
+  const formRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
   const [showCepDescrption, setShowCepDescrption] = useState(false);
   const [fields, setFields] = useState({
@@ -38,6 +43,34 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     addressType: "residential",
     country: "BR",
     receiverName: "",
+  });
+
+  const handleSubmit = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit();
+    }
+  };
+
+  const validation = Yup.object().shape({
+    firstName: Yup.string()
+      .required("Insira seu nome.")
+      .matches(
+        /^[aA-zZ\s]+$/,
+        "Apenas alfabetos são permitidos para este campo."
+      )
+      .max(10),
+    lastName: Yup.string()
+      .required("Insira seu sobrenome.")
+      .matches(
+        /^[aA-zZ\s]+$/,
+        "Apenas alfabetos são permitidos para este campo."
+      )
+      .max(10),
+    birthDate: Yup.string().required(
+      "Por favor, insira sua data de nascimento."
+    ),
+    document: Yup.string().required("Por favor, insira o seu cpf"),
+    phone: Yup.string().required("Por favor, insira o seu telefone"),
   });
 
   const cepHandler = async (postalCode: string) => {
@@ -63,9 +96,15 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     }
   };
 
-  const saveCustomer = async () => {
+  const saveCustomer = async (
+    firstName: string,
+    lastName: string,
+    documentType: string,
+    document: string,
+    phone: string
+  ) => {
     setLoading(true);
-    const { firstName, lastName, document, documentType, phone } = fields;
+    // const { firstName, lastName, birthDate, document, documentType, phone,  } = fields;
 
     const isCustomerSave = await addCustomer({
       firstName,
@@ -124,116 +163,152 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
             </Typography>
           </Box>
 
-          <Box mt={10} flexDirection="row" justifyContent="space-between">
-            <Box flex={1} marginRight="micro">
-              <TextField
-                placeholder="Nome"
-                value={fields.firstName}
-                onChangeText={(text) =>
-                  setFields({ ...fields, firstName: text })
-                }
-              />
-            </Box>
-            <Box flex={1}>
-              <TextField
-                value={fields.lastName}
-                onChangeText={(text) =>
-                  setFields({ ...fields, lastName: text })
-                }
-                placeholder="Sobrenome"
-              />
-            </Box>
-          </Box>
-          <Box mt={15}>
-            <TextField
-              value={fields.birthDate}
-              maskType="datetime"
-              onChangeText={(text) => setFields({ ...fields, birthDate: text })}
-              placeholder="Data de Nascimento"
-            />
-          </Box>
-          <Box mt={15}>
-            <TextField
-              value={fields.document}
-              maskType="cpf"
-              onChangeText={(text) => setFields({ ...fields, document: text })}
-              placeholder="CPF"
-            />
-          </Box>
-          <Box mt={15}>
-            <TextField
-              value={fields.phone}
-              maskType="cel-phone"
-              onChangeText={(text) => setFields({ ...fields, phone: text })}
-              placeholder="Telefone"
-            />
-          </Box>
+          <Formik
+            initialValues={fields}
+            validationSchema={validation}
+            innerRef={formRef}
+            onSubmit={(values) => {
+              const {
+                firstName,
+                lastName,
+                birthDate,
+                document,
+                documentType,
+                phone,
+                postalCode,
+                neighborhood,
+                state,
+                number,
+                complement,
+              } = values;
+              saveCustomer(
+                firstName,
+                lastName,
+                document,
+                documentType,
+                phone,
+                postalCode,
+                neighborhood,
+                state,
+                number,
+                complement
+              );
+            }}
+          >
+            {() => (
+              <>
+                <Box mt={10} flexDirection="row" justifyContent="space-between">
+                  <Box flex={1} marginRight="micro">
+                    <FormikTextInput placeholder="Nome" field={"firstName"} />
+                  </Box>
 
-          <Box mt={20}>
-            <Typography fontFamily="nunitoRegular" fontSize={15}>
-              Insira o endereço do destinatário:
-            </Typography>
-          </Box>
+                  <Box flex={1}>
+                    <FormikTextInput
+                      placeholder="Sobrenome"
+                      field={"lastName"}
+                    />
+                  </Box>
+                </Box>
+                <Box mt={15}>
+                  <FormikTextInput
+                    maskType="datetime"
+                    placeholder="Data de Nascimento"
+                    maskOptions={{
+                      format: "DD/MM/YYYY",
+                    }}
+                    field={"birthDate"}
+                    keyboardType="number-pad"
+                  />
+                </Box>
+                <Box mt={15}>
+                  <FormikTextInput
+                    field={"document"}
+                    maskType="cpf"
+                    keyboardType="number-pad"
+                    placeholder="CPF"
+                  />
+                </Box>
+                <Box mt={15}>
+                  <FormikTextInput
+                    field={"phone"}
+                    maskType="cel-phone"
+                    keyboardType="number-pad"
+                    placeholder="Telefone"
+                  />
+                </Box>
 
-          <Box mt={15}>
-            <TextField
-              value={fields.postalCode}
-              onChangeText={(text) => {
-                setFields({ ...fields, postalCode: text });
-                cepHandler(text);
-              }}
-              placeholder="CEP"
-            />
-          </Box>
-          <Box>
-            <Typography fontFamily="nunitoRegular" fontSize={13}>
-              {showCepDescrption
-                ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
-                : ""}
-            </Typography>
-          </Box>
-          <Box mt={15} flexDirection="row" justifyContent="space-between">
-            <Box flex={1} marginRight="micro">
-              <TextField
-                editable={false}
-                value={fields.neighborhood}
-                onChangeText={(text) =>
-                  setFields({ ...fields, neighborhood: text })
-                }
-                placeholder="Bairro"
-              />
-            </Box>
-            <Box flex={1}>
-              <TextField
-                editable={false}
-                value={fields.state}
-                onChangeText={(text) => setFields({ ...fields, state: text })}
-                placeholder="Estado"
-              />
-            </Box>
-          </Box>
-          <Box mt={15}>
-            <TextField
-              value={fields.number}
-              onChangeText={(text) => setFields({ ...fields, number: text })}
-              placeholder="Numero"
-            />
-          </Box>
-          <Box mt={15} marginBottom={35}>
-            <TextField
-              value={fields.complement}
-              onChangeText={(text) =>
-                setFields({ ...fields, complement: text })
-              }
-              placeholder="Complemento"
-            />
-          </Box>
+                <Box mt={20}>
+                  <Typography fontFamily="nunitoRegular" fontSize={15}>
+                    Insira o endereço do destinatário:
+                  </Typography>
+                </Box>
+
+                <Box mt={15}>
+                  <TextField
+                    value={fields.postalCode}
+                    onChangeText={(text) => {
+                      setFields({ ...fields, postalCode: text });
+                      cepHandler(text);
+                    }}
+                    placeholder="CEP"
+                  />
+                </Box>
+                <Box>
+                  <Typography fontFamily="nunitoRegular" fontSize={13}>
+                    {showCepDescrption
+                      ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
+                      : ""}
+                  </Typography>
+                </Box>
+                <Box mt={15} flexDirection="row" justifyContent="space-between">
+                  <Box flex={1} marginRight="micro">
+                    <TextField
+                      editable={false}
+                      value={fields.neighborhood}
+                      onChangeText={(text) =>
+                        setFields({ ...fields, neighborhood: text })
+                      }
+                      placeholder="Bairro"
+                    />
+                  </Box>
+                  <Box flex={1}>
+                    <TextField
+                      editable={false}
+                      value={fields.state}
+                      onChangeText={(text) =>
+                        setFields({ ...fields, state: text })
+                      }
+                      placeholder="Estado"
+                    />
+                  </Box>
+                </Box>
+                <Box mt={15}>
+                  <TextField
+                    value={fields.number}
+                    onChangeText={(text) =>
+                      setFields({ ...fields, number: text })
+                    }
+                    placeholder="Numero"
+                  />
+                </Box>
+                <Box mt={15} marginBottom={35}>
+                  <TextField
+                    value={fields.complement}
+                    onChangeText={(text) =>
+                      setFields({ ...fields, complement: text })
+                    }
+                    placeholder="Complemento"
+                  />
+                </Box>
+              </>
+            )}
+          </Formik>
         </Box>
       </ScrollView>
 
       <Button
         variant="primarioEstreito"
-        onPress={saveCustomer}
+        onPress={handleSubmit}
         title="ESCOLHER TIPO DE ENTREGA"
         inline
         disabled={loading}

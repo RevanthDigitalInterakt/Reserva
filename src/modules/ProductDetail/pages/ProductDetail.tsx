@@ -552,6 +552,7 @@ export const ProductDetail: React.FC<Props> = ({
                       }}
                       optionsList={sizeFilters || []}
                       defaultSelectedItem=""
+                      selectedItem={selectedSize}
                     />
                   </Box>
                 </Box>
