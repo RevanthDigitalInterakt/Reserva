@@ -1,23 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
-import {
-  TextInputMaskTypeProp,
-  TextInputMaskOptionProp,
-} from "react-native-masked-text";
-import { useFormikContext } from "formik";
-import { Formik } from "formik";
-
 import { useMutation } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import React, { useEffect, useRef, useState } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
+import {
+  TextInputMaskOptionProp,
+  TextInputMaskTypeProp,
+} from "react-native-masked-text";
+import { Box, Button, TextField, Typography } from "reserva-ui";
 import {
   saveAddressMutation,
   updateAddress,
 } from "../../../graphql/address/addressMutations";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 import { CepVerify } from "../../../services/vtexService";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 interface IAddress {
   postalCode: string;
