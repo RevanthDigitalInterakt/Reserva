@@ -16,7 +16,7 @@ import { Formik } from "formik";
 import { FormikTextInput } from "../../../shared/componentes/FormikTextInput";
 
 interface CreateCartProfileProfile
-  extends StackScreenProps<RootStackParamList, "CreateCartProfile"> {}
+  extends StackScreenProps<RootStackParamList, "CreateCartProfile"> { }
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   navigation,

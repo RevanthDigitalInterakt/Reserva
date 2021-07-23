@@ -11,7 +11,7 @@ import {
 } from "react-native-masked-text";
 import { useFormikContext } from "formik";
 import { Formik } from "formik";
-
+import { useCart } from "../../../context/CartContext";
 import { useMutation } from "@apollo/client";
 import {
   saveAddressMutation,
@@ -51,6 +51,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
+  const { addShippingData, } = useCart();
   const { isCheckout } = route.params;
   const [initialValues, setInitialValues] = useState<IAddress>({
     postalCode: edit ? editAddress.postalCode : "",
@@ -70,20 +71,48 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
     edit
       ? await addressUpdate({
-          variables: {
-            id: addressId,
-            fields: initialValues,
-          },
-        })
+        variables: {
+          id: addressId,
+          fields: initialValues,
+        },
+      })
       : await saveAddress({
-          variables: {
-            fields: initialValues,
-          },
-        });
+        variables: {
+          fields: initialValues,
+        },
+      });
 
     setLoading(false);
     navigation.goBack();
   };
+
+  const handlePaymentMethodScreen = async () => {
+    setLoading(true);
+    const {
+      postalCode,
+      state,
+      number,
+      neighborhood,
+      complement,
+      city,
+      street,
+    } = initialValues;
+    const isAddressSaved = await addShippingData({
+      postalCode,
+      state,
+      number,
+      neighborhood,
+      addressType: "residential",
+      country: "BRA",
+      complement,
+      city,
+      street,
+    });
+    setLoading(false);
+    if (isAddressSaved) {
+      navigation.navigate("Checkout");
+    }
+  }
 
   const cepHandler = async (postalCode: string) => {
     setLoading(true);
@@ -278,7 +307,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         </ScrollView>
         {isCheckout && (
           <Button
-            onPress={() => navigation.navigate("PaymentMethodScreen")}
+            // onPress={() => navigation.navigate("PaymentMethodScreen")}
+            onPress={handlePaymentMethodScreen}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"
             inline
@@ -333,8 +363,8 @@ const InputOption = ({
           placeholder={placeholder}
           value={value}
           editable={editable}
-          // touched={touched[field]}
-          // error={errors[field] && touched[field] ? `${errors[field]}` : null}
+        // touched={touched[field]}
+        // error={errors[field] && touched[field] ? `${errors[field]}` : null}
         />
       </Box>
     </>
