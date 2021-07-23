@@ -65,7 +65,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
       orderForm &&
       orderForm?.shippingData &&
       orderForm?.shippingData.availableAddresses
-        .filter(({ geoCoordinates }) => geoCoordinates.length > 0)
         .map((a) => ({ ...a, country: "BRA" }));
 
     if (
