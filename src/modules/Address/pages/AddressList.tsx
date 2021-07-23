@@ -238,7 +238,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
           )}
         </Box>
 
-        {isCheckout ? (
+        {isCheckout && addresses ? (
           <Box justifyContent="flex-end" flex={1}>
             <Button
               disabled={loading}
