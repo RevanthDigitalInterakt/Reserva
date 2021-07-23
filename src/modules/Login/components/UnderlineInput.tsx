@@ -41,7 +41,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
         justifyContent="space-between"
         style={{ overflow: 'hidden' }}
       >
-        <Box flexGrow={4}>
+        <Box flexGrow={4} >
           <TextInput
             secureTextEntry={isSecureText && revelPassword}
             placeholder={placeholder}
@@ -59,7 +59,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
           />
         </Box>
         {isSecureText && (
-          <Box justifyContent="center">
+          <Box justifyContent="center" mr="xxxs">
             <Button
               onPress={() => {
                 setRevelPassword(!revelPassword);
