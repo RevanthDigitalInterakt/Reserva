@@ -1,23 +1,23 @@
-import React, { useRef, useState, useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { useMutation } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { Typography, TextField, Box, Button, Toggle } from "reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import React, { useEffect, useRef, useState } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
 import {
-  TextInputMaskTypeProp,
   TextInputMaskOptionProp,
+  TextInputMaskTypeProp,
 } from "react-native-masked-text";
 import { useFormikContext } from "formik";
 import { Formik } from "formik";
 import { useCart } from "../../../context/CartContext";
-import { useMutation } from "@apollo/client";
+import { Box, Button, TextField, Typography } from "reserva-ui";
 import {
   saveAddressMutation,
   updateAddress,
 } from "../../../graphql/address/addressMutations";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 import { CepVerify } from "../../../services/vtexService";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 interface IAddress {
   postalCode: string;
@@ -154,7 +154,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       state.length > 0 &&
       city.length > 0 &&
       number.length > 0 &&
-      complement.length > 0 &&
       street.length > 0 &&
       neighborhood.length > 0
     ) {
@@ -196,7 +195,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     Editar endereço
                   </Typography>
                 ) : (
-                  <Typography variant="tituloSessoes">
+                  <Typography variant="tituloSessoes" fontSize={20}>
                     Adicionar endereço
                   </Typography>
                 )}
@@ -211,26 +210,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   cepHandler(text.replace("-", ""));
                 }}
               />
-
-              <Box flexDirection={"row"} justifyContent="space-between">
-                <Box flex={1} marginRight={"micro"}>
-                  <InputOption
-                    placeholder={"Digite seu estado"}
-                    value={initialValues.state}
-                    field={"state"}
-                    editable={initialValues.state.length <= 0}
-                  />
-                </Box>
-
-                <Box flex={1}>
-                  <InputOption
-                    placeholder={"Digite sua cidade"}
-                    field={"city"}
-                    value={initialValues.city}
-                    editable={initialValues.city.length <= 0}
-                  />
-                </Box>
-              </Box>
 
               <InputOption
                 placeholder={"Endereço"}
@@ -251,16 +230,24 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                 <Box flex={1}>
                   <InputOption
-                    placeholder={"Número"}
-                    value={initialValues.number}
-                    onChangeText={(text) =>
-                      setInitialValues({ ...initialValues, number: text })
-                    }
-                    field={"number"}
+                    placeholder={"Digite seu estado"}
+                    value={initialValues.state}
+                    field={"state"}
+                    editable={initialValues.state.length <= 0}
                   />
                 </Box>
               </Box>
 
+              <Box flex={1}>
+                <InputOption
+                  placeholder={"Número"}
+                  value={initialValues.number}
+                  onChangeText={(text) =>
+                    setInitialValues({ ...initialValues, number: text })
+                  }
+                  field={"number"}
+                />
+              </Box>
               <InputOption
                 placeholder={"Complemento"}
                 value={initialValues.complement}
@@ -295,10 +282,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               {!isCheckout && (
                 <Button
                   disabled={loading || !buttonEnabled}
-                  width="200px"
+                  width="240px"
                   mt={"xs"}
                   onPress={handleSaveAddress}
-                  title={"SALVAR"}
+                  title={"INCLUIR NOVO ENDEREÇO"}
                   variant="primarioEstreitoOutline"
                 />
               )}
@@ -307,7 +294,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         </ScrollView>
         {isCheckout && (
           <Button
-            // onPress={() => navigation.navigate("PaymentMethodScreen")}
             onPress={handlePaymentMethodScreen}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"
