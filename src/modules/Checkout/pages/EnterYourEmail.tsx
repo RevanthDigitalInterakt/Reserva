@@ -30,6 +30,11 @@ export const EnterYourEmail = () => {
     navigation.navigate('DeliveryScreen');
   };
 
+  const validateEmail = (email: string) => {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
       <TopBarBackButton showShadow loading={loading} />
@@ -57,7 +62,7 @@ export const EnterYourEmail = () => {
             variant="primarioEstreito"
             inline
             marginX="xxl"
-            disabled={loading}
+            disabled={loading || !validateEmail(email)}
           />
         </Box>
       </ScrollView>
