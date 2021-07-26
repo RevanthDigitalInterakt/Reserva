@@ -151,7 +151,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
     if (
       postalCode.length > 0 &&
-      state.length > 0 &&
+      state?.length > 0 &&
       city.length > 0 &&
       number.length > 0 &&
       street.length > 0 &&
@@ -203,7 +203,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               <InputOption
                 placeholder={"Digite seu CEP"}
                 maskType={"zip-code"}
-                field={"postalCode"}
                 value={initialValues.postalCode}
                 onChangeText={(text) => {
                   setInitialValues({ ...initialValues, postalCode: text });
@@ -218,14 +217,12 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 onChangeText={(text) =>
                   setInitialValues({ ...initialValues, street: text })
                 }
-                field={"street"}
               />
 
               <Box flexDirection={"row"} justifyContent="space-between">
                 <Box flex={1} marginRight={"micro"}>
                   <InputOption
                     placeholder={"Digite seu bairro"}
-                    field={"neighborhood"}
                     value={initialValues.neighborhood}
                     // editable={initialValues.neighborhood.length <= 0}
                     onChangeText={(text) =>
@@ -238,7 +235,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   <InputOption
                     placeholder={"Digite seu estado"}
                     value={initialValues.state}
-                    field={"state"}
                     // editable={initialValues.state.length <= 0}
                     onChangeText={(text) =>
                       setInitialValues({ ...initialValues, state: text })
@@ -254,7 +250,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   onChangeText={(text) =>
                     setInitialValues({ ...initialValues, number: text })
                   }
-                  field={"number"}
                 />
               </Box>
               <InputOption
@@ -263,27 +258,23 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 onChangeText={(text) =>
                   setInitialValues({ ...initialValues, complement: text })
                 }
-                field={"complement"}
               />
 
               {toggleActivated && (
                 <Box mb={"sm"}>
                   <InputOption
                     placeholder={"Nome do destinatário"}
-                    field={"recipientName"}
                   />
 
                   <InputOption
                     maskType={"cel-phone"}
                     placeholder={"Telefone para contato"}
-                    field={"phoneNumber"}
                   />
 
                   <InputOption
                     height={135}
                     textAlignVertical={"top"}
                     placeholder={"Deseja enviar algum recado junto?"}
-                    field={"sendMenssage"}
                   />
                 </Box>
               )}
@@ -325,7 +316,6 @@ interface IInputOption {
   height?: number;
   error?: any;
   touch?: string;
-  field: string;
   touched?: any;
   textAlignVertical?: "auto" | "top" | "bottom" | "center" | undefined;
   editable?: boolean;
@@ -340,7 +330,6 @@ const InputOption = ({
   height,
   error,
   touch,
-  field,
   textAlignVertical,
   onChangeText,
   editable = true,
