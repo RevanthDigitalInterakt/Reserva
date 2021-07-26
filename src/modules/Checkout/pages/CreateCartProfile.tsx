@@ -66,9 +66,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         "Apenas alfabetos são permitidos para este campo."
       )
       .max(10),
-    birthDate: Yup.string().required(
-      "Por favor, insira sua data de nascimento."
-    ),
+    birthDate: Yup.string(),
     document: Yup.string().required("Por favor, insira o seu cpf"),
     phone: Yup.string().required("Por favor, insira o seu telefone"),
   });
@@ -246,6 +244,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                 <Box mt={15}>
                   <TextField
                     value={fields.postalCode}
+                    keyboardType='number-pad'
                     onChangeText={(text) => {
                       setFields({ ...fields, postalCode: text });
                       cepHandler(text);
@@ -285,6 +284,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                 <Box mt={15}>
                   <TextField
                     value={fields.number}
+                    keyboardType='number-pad'
                     onChangeText={(text) =>
                       setFields({ ...fields, number: text })
                     }
