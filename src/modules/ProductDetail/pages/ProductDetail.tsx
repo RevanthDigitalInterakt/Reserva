@@ -668,7 +668,7 @@ export const ProductDetail: React.FC<Props> = ({
                   Receba novidades e promoções
                 </Typography>
 
-                <Box flexDirection="column" mt="xxxs">
+                <Box flexDirection="column" mt="xxxs" mb="xxs">
                   <OutlineInput
                     placeholder="Digite seu e-mail"
                     iconName="ChevronRight"
