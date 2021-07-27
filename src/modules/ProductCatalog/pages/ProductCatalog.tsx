@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from "@thevsstech/react-native-skeleton";
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -277,51 +277,50 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         title="Ordenar Por"
       />
       {!false ?
-        <></>
-        // <SkeletonPlaceholder>
-        //   <SkeletonPlaceholder.Item>
+        <SkeletonPlaceholder>
+          <SkeletonPlaceholder.Item>
 
-        //     <SkeletonPlaceholder.Item width='100%' height={200} />
+            <SkeletonPlaceholder.Item width='100%' height={200} />
 
-        //     <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={34} >
-        //       <SkeletonPlaceholder.Item width='50%'>
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
-        //       </SkeletonPlaceholder.Item>
+            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={34} >
+              <SkeletonPlaceholder.Item width='50%'>
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
+              </SkeletonPlaceholder.Item>
 
-        //       <SkeletonPlaceholder.Item width='50%'>
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
-        //       </SkeletonPlaceholder.Item>
-        //     </SkeletonPlaceholder.Item >
+              <SkeletonPlaceholder.Item width='50%'>
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder.Item >
 
-        //     <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={45}>
+            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={45}>
 
-        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-        //         <SkeletonPlaceholder.Item />
-        //       </SkeletonPlaceholder.Item>
+              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+                <SkeletonPlaceholder.Item />
+              </SkeletonPlaceholder.Item>
 
-        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-        //       </SkeletonPlaceholder.Item>
+              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+              </SkeletonPlaceholder.Item>
 
-        //     </SkeletonPlaceholder.Item>
-        //     <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center'>
+            </SkeletonPlaceholder.Item>
+            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center'>
 
-        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-        //         <SkeletonPlaceholder.Item />
-        //       </SkeletonPlaceholder.Item>
+              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+                <SkeletonPlaceholder.Item />
+              </SkeletonPlaceholder.Item>
 
-        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-        //       </SkeletonPlaceholder.Item>
+              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+              </SkeletonPlaceholder.Item>
 
-        //     </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder.Item>
 
-        //   </SkeletonPlaceholder.Item>
-        // </SkeletonPlaceholder>
+          </SkeletonPlaceholder.Item>
+        </SkeletonPlaceholder>
 
         :
         <ListVerticalProducts

@@ -1615,6 +1615,11 @@
     "@styled-system/core" "^5.1.2"
     "@styled-system/css" "^5.1.5"
 
+"@thevsstech/react-native-skeleton@^2.0.11":
+  version "2.0.11"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@thevsstech/react-native-skeleton/-/react-native-skeleton-2.0.11.tgz#20b0640b8420b016c51ddbabc8806b8dcc441dc6"
+  integrity sha1-ILBkC4QgsBbFHduryIBrjcxEHcY=
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
