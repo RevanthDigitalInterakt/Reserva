@@ -106,7 +106,7 @@ export const EditProfile: React.FC<{
       lastName: lastName,
       email: userData.email,
       document: userData.document,
-      birthDate: splittedBirthDate.reverse().join("-"),
+      birthDate: splittedBirthDate?.reverse().join("-"),
       homePhone: userData.homePhone,
     };
 
@@ -114,6 +114,12 @@ export const EditProfile: React.FC<{
       key: "isNewsletterOptIn",
       value: `${subscribed}`,
     };
+
+    if (user.birthDate === '') {
+      user.birthDate = null;
+    }
+
+    console.log('user', user)
     updateUserdata({
       variables: {
         fields: user,
