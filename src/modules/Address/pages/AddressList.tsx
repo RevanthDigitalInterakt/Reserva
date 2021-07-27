@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { SafeAreaView, FlatList } from "react-native";
 import { Typography, Box, Button, Alert } from "reserva-ui";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -12,11 +12,13 @@ import { deleteAddress } from "../../../graphql/address/addressMutations";
 import { useCart } from "../../../context/CartContext";
 import { profileQuery } from "../../../store/ducks/profile/types";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
+import { useAuth } from "../../../context/AuthContext";
 
 type Props = StackScreenProps<RootStackParamList, "AddressList">;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
+  const { cookie } = useAuth();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [addressId, setAddressId] = React.useState("");
   const [successModal, setSuccessModal] = React.useState(false);
@@ -33,6 +35,19 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const { loading: loadingProfile, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<any>({});
   const [addresses, setAddresses] = useState<any[]>([]);
+  const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
+
+  console.log('cookie', cookie)
+
+  useEffect(() => {
+    if (cookie !== null) {
+      setEditAndDelete(true);
+    }
+  }, [cookie]);
+
+  useEffect(() => {
+    console.log('editAndDelete', editAndDelete)
+  }, [editAndDelete]);
 
   const onAddressChosen = (item: any) => {
     setSelectedAddress(item);
@@ -206,6 +221,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                       setDeleteModal(true);
                       setAddressId(id || addressId);
                     }}
+                    editAndDelete={editAndDelete}
                     edit={() => {
                       navigation.navigate("NewAddress", {
                         edit: true,
