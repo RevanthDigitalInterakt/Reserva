@@ -1,6 +1,6 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import * as React from 'react';
+import React from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
@@ -12,6 +12,10 @@ import { homeQuery, HomeQuery } from '../../../store/ducks/HomePage/types';
 import { load } from '../../../store/ducks/nearbyStores/actions';
 import { profileQuery } from '../../../store/ducks/profile/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
+import { View } from 'react-native-animatable';
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -72,45 +76,57 @@ export const HomeScreen: React.FC<{
   return (
     <Box flex={1}>
       <TopBarDefault loading={loading} />
-      <FlatList
-        data={images}
-        renderItem={({ item }) => (
-          <Box alignItems="flex-start">
-            <Box mb="quarck" width={1 / 1}>
-              <TouchableHighlight
-                onPress={() => {
-                  let facetInput = []
-                  const [categoryType, categoryData] = item.reference.split(':')
-                  console.log(categoryType, categoryData)
-                  if (categoryType === 'category') {
 
-                    categoryData.split('|').forEach((cat: string) => {
-                      facetInput.push({
-                        key: 'c',
-                        value: cat
+      {loading ?
+        <></>
+        // <Box flex={1}>
+        //   <SkeletonPlaceholder>
+        //     <SkeletonPlaceholder.Item width={screenWidth} height={screenHeight}>
+        //     </SkeletonPlaceholder.Item>
+        //   </SkeletonPlaceholder>
+        // </Box>
+        :
+        <FlatList
+          data={images}
+          renderItem={({ item }) => (
+            <Box alignItems="flex-start">
+              <Box mb="quarck" width={1 / 1}>
+                <TouchableHighlight
+                  onPress={() => {
+                    let facetInput = []
+                    const [categoryType, categoryData] = item.reference.split(':')
+                    console.log(categoryType, categoryData)
+                    if (categoryType === 'category') {
+
+                      categoryData.split('|').forEach((cat: string) => {
+                        facetInput.push({
+                          key: 'c',
+                          value: cat
+                        })
                       })
-                    })
-                  } else {
-                    facetInput.push({
-                      key: 'productClusterIds',
-                      value: categoryData
-                    })
-                  }
-                  console.log('item.reference', item.reference)
-                  navigation.navigate('ProductCatalog', { facetInput, referenceId: item.reference });
-                }}
-              >
-                <Image
-                  autoHeight={true}
-                  width={deviceWidth}
-                  source={{ uri: item.url }}
-                />
-              </TouchableHighlight>
+                    } else {
+                      facetInput.push({
+                        key: 'productClusterIds',
+                        value: categoryData
+                      })
+                    }
+                    console.log('item.reference', item.reference)
+                    navigation.navigate('ProductCatalog', { facetInput, referenceId: item.reference });
+                  }}
+                >
+                  <Image
+                    autoHeight={true}
+                    width={deviceWidth}
+                    source={{ uri: item.url }}
+                  />
+                </TouchableHighlight>
+              </Box>
             </Box>
-          </Box>
-        )}
-        keyExtractor={item => item.id}
-      />
+          )}
+          keyExtractor={item => item.id}
+        />
+      }
+
     </Box>
   );
 };

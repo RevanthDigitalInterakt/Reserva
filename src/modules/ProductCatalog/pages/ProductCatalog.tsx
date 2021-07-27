@@ -2,7 +2,9 @@ import { QueryResult, useQuery } from '@apollo/client';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -274,103 +276,151 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
+      {!false ?
+        <></>
+        // <SkeletonPlaceholder>
+        //   <SkeletonPlaceholder.Item>
 
-      <ListVerticalProducts
-        loadMoreProducts={loadMoreProducts}
-        products={productsQuery.products}
-        loadingHandler={(loadingState) => { setLoadingHandlerState(loadingState) }}
-        listHeader={
-          <>
-            <Image height={200} source={bannerImage} width={1 / 1} />
-            <Box bg="dropDownBorderColor">
-              <Button p="nano" onPress={onClickWhatsappButton}>
-                <Box flexDirection="row">
-                  <Icon name="Whatsapp" size={16} color="preto"></Icon>
-                  <Box marginX="nano">
+        //     <SkeletonPlaceholder.Item width='100%' height={200} />
+
+        //     <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={34} >
+        //       <SkeletonPlaceholder.Item width='50%'>
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
+        //       </SkeletonPlaceholder.Item>
+
+        //       <SkeletonPlaceholder.Item width='50%'>
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
+        //       </SkeletonPlaceholder.Item>
+        //     </SkeletonPlaceholder.Item >
+
+        //     <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={45}>
+
+        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+        //         <SkeletonPlaceholder.Item />
+        //       </SkeletonPlaceholder.Item>
+
+        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+        //       </SkeletonPlaceholder.Item>
+
+        //     </SkeletonPlaceholder.Item>
+        //     <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center'>
+
+        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+        //         <SkeletonPlaceholder.Item />
+        //       </SkeletonPlaceholder.Item>
+
+        //       <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+        //         <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
+        //       </SkeletonPlaceholder.Item>
+
+        //     </SkeletonPlaceholder.Item>
+
+        //   </SkeletonPlaceholder.Item>
+        // </SkeletonPlaceholder>
+
+        :
+        <ListVerticalProducts
+          loadMoreProducts={loadMoreProducts}
+          products={productsQuery.products}
+          loadingHandler={(loadingState) => { setLoadingHandlerState(loadingState) }}
+          listHeader={
+            <>
+              <Image height={200} source={bannerImage} width={1 / 1} />
+              <Box bg="dropDownBorderColor">
+                <Button p="nano" onPress={onClickWhatsappButton}>
+                  <Box flexDirection="row">
+                    <Icon name="Whatsapp" size={16} color="preto"></Icon>
+                    <Box marginX="nano">
+                      <Typography
+                        color="preto"
+                        fontFamily="nunitoSemiBold"
+                        fontSize={11}
+                      >
+                        Chama no Whats! Seja atendido sem sair de casa.{' '}
+                        <Typography style={{ textDecorationLine: 'underline' }}>
+                          Clique aqui!
+                        </Typography>
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Button>
+              </Box>
+              <Box paddingY="micro" flexDirection="row" justifyContent="center">
+                <Box width={1 / 2}>
+                  <Button
+                    onPress={() => setFilterVisible(true)}
+                    marginRight="nano"
+                    marginLeft="micro"
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline={true}
+                    height={40}
+                  >
                     <Typography
                       color="preto"
                       fontFamily="nunitoSemiBold"
-                      fontSize={11}
+                      fontSize="14px"
                     >
-                      Chama no Whats! Seja atendido sem sair de casa.{' '}
-                      <Typography style={{ textDecorationLine: 'underline' }}>
-                        Clique aqui!
-                      </Typography>
+                      Filtrar
                     </Typography>
-                  </Box>
+                  </Button>
                 </Box>
-              </Button>
-            </Box>
-            <Box paddingY="micro" flexDirection="row" justifyContent="center">
-              <Box width={1 / 2}>
-                <Button
-                  onPress={() => setFilterVisible(true)}
-                  marginRight="nano"
-                  marginLeft="micro"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
-                  inline={true}
-                  height={40}
-                >
-                  <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
-                  >
-                    Filtrar
-                  </Typography>
-                </Button>
-              </Box>
 
-              <Box width={1 / 2}>
-                <Button
-                  marginRight="micro"
-                  marginLeft="nano"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
-                  inline={true}
-                  height={40}
-                  onPress={() => {
-                    setSorterVisible(true);
-                  }}
-                >
-                  <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
+                <Box width={1 / 2}>
+                  <Button
+                    marginRight="micro"
+                    marginLeft="nano"
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline={true}
+                    height={40}
+                    onPress={() => {
+                      setSorterVisible(true);
+                    }}
                   >
-                    Ordenar
-                  </Typography>
-                </Button>
+                    <Typography
+                      color="preto"
+                      fontFamily="nunitoSemiBold"
+                      fontSize="14px"
+                    >
+                      Ordenar
+                    </Typography>
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-            <Box
-              paddingX="micro"
-              paddingY="quarck"
-              flexDirection="row"
-              justifyContent="space-between"
-            >
-              <Typography fontFamily="nunitoRegular" fontSize="13px">
-                {productsQuery.recordsFiltered} produtos encontrados
-              </Typography>
-
-              <Button onPress={() => setFilterRequestList([])}>
-                <Typography
-                  color="progressTextColor"
-                  variant="precoAntigo3"
-                  style={{ textDecorationLine: 'underline' }}
-                >
-                  Limpar tudo
+              <Box
+                paddingX="micro"
+                paddingY="quarck"
+                flexDirection="row"
+                justifyContent="space-between"
+              >
+                <Typography fontFamily="nunitoRegular" fontSize="13px">
+                  {productsQuery.recordsFiltered} produtos encontrados
                 </Typography>
-              </Button>
-            </Box>
-          </>
-        }
-      />
+
+                <Button onPress={() => setFilterRequestList([])}>
+                  <Typography
+                    color="progressTextColor"
+                    variant="precoAntigo3"
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    Limpar tudo
+                  </Typography>
+                </Button>
+              </Box>
+            </>
+          }
+        />
+      }
     </DynamicComponent>
   );
 };
