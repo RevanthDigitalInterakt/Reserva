@@ -157,63 +157,63 @@ export const BagScreen = () => {
       {loading ?
         <ScrollView scrollEnabled={false}>
 
-          <SkeletonPlaceholder>
-            <SkeletonPlaceholder.Item marginRight={15} marginLeft={21} >
+          <Box>
+            <Box marginRight={15} marginLeft={21} >
 
-              <SkeletonPlaceholder.Item height={35} width={175} marginTop={23} />
+              <Box bg='neutroFrio1' height={35} width={175} marginTop={23} />
 
-              <SkeletonPlaceholder.Item flexDirection='row' marginTop={30} >
+              <Box flexDirection='row' marginTop={30} >
 
-                <SkeletonPlaceholder.Item width={99} height={148} marginRight={8} />
+                <Box bg='neutroFrio1' width={99} height={148} marginRight={8} />
 
-                <SkeletonPlaceholder.Item width={217} height={148} >
+                <Box width={217} height={148} >
 
-                  <SkeletonPlaceholder.Item width={217} height={22} />
+                  <Box bg='neutroFrio1' width={217} height={22} />
 
-                  <SkeletonPlaceholder.Item width='100%' flexDirection='row' >
+                  <Box width='100%' flexDirection='row' >
 
-                    <SkeletonPlaceholder.Item width={79} height={18} marginTop={7} marginRight={9} />
-                    <SkeletonPlaceholder.Item width={79} height={18} marginTop={7} />
+                    <Box bg='neutroFrio1' width={79} height={18} marginTop={7} marginRight={9} />
+                    <Box bg='neutroFrio1' width={79} height={18} marginTop={7} />
 
-                  </SkeletonPlaceholder.Item>
+                  </Box>
 
-                  <SkeletonPlaceholder.Item width={167} height={18} marginTop={7} />
-                  <SkeletonPlaceholder.Item width={221} height={18} marginTop={7} />
-                  <SkeletonPlaceholder.Item width={115} height={22} marginTop={7} />
+                  <Box bg='neutroFrio1' width={167} height={18} marginTop={7} />
+                  <Box bg='neutroFrio1' width={221} height={18} marginTop={7} />
+                  <Box bg='neutroFrio1' width={115} height={22} marginTop={7} />
 
-                </SkeletonPlaceholder.Item>
-              </SkeletonPlaceholder.Item>
+                </Box>
+              </Box>
 
-              <SkeletonPlaceholder.Item width='100%' height={2} marginTop={28} marginBottom={23} />
+              <Box bg='neutroFrio1' width='100%' height={2} marginTop={28} marginBottom={23} />
 
-              <SkeletonPlaceholder.Item flexDirection='row'>
-                <SkeletonPlaceholder.Item width={232} height={22} marginRight={15} />
-                <SkeletonPlaceholder.Item width={77} height={22} />
-              </SkeletonPlaceholder.Item>
+              <Box flexDirection='row'>
+                <Box bg='neutroFrio1' width={232} height={22} marginRight={15} />
+                <Box bg='neutroFrio1' width={77} height={22} />
+              </Box>
 
-              <SkeletonPlaceholder.Item width='100%' height={2} marginTop={19} marginBottom={19} />
+              <Box bg='neutroFrio1' width='100%' height={2} marginTop={19} marginBottom={19} />
 
-              <SkeletonPlaceholder.Item width={232} height={22} />
+              <Box bg='neutroFrio1' width={232} height={22} />
 
-              <SkeletonPlaceholder.Item width='100%' height={47} marginTop={19} />
+              <Box bg='neutroFrio1' width='100%' height={47} marginTop={19} />
 
-              <SkeletonPlaceholder.Item flexDirection='row' marginTop={19} width='100%'>
-                <SkeletonPlaceholder.Item width={200} height={50} marginRight={12} />
-                <SkeletonPlaceholder.Item width={122} height={50} />
-              </SkeletonPlaceholder.Item>
+              <Box flexDirection='row' marginTop={19} width='100%'>
+                <Box bg='neutroFrio1' width={200} height={50} marginRight={12} />
+                <Box bg='neutroFrio1' width={122} height={50} />
+              </Box>
 
-              <SkeletonPlaceholder.Item flexDirection='row' marginTop={19} width='100%'>
-                <SkeletonPlaceholder.Item width={200} height={50} marginRight={12} />
-                <SkeletonPlaceholder.Item width={122} height={50} />
-              </SkeletonPlaceholder.Item>
+              <Box flexDirection='row' marginTop={19} width='100%'>
+                <Box bg='neutroFrio1' width={200} height={50} marginRight={12} />
+                <Box bg='neutroFrio1' width={122} height={50} />
+              </Box>
 
-              <SkeletonPlaceholder.Item flexDirection='row' marginTop={19} width='100%'>
-                <SkeletonPlaceholder.Item width={200} height={50} marginRight={12} />
-                <SkeletonPlaceholder.Item width={122} height={50} />
-              </SkeletonPlaceholder.Item>
+              <Box flexDirection='row' marginTop={19} width='100%'>
+                <Box bg='neutroFrio1' width={200} height={50} marginRight={12} />
+                <Box bg='neutroFrio1' width={122} height={50} />
+              </Box>
 
-            </SkeletonPlaceholder.Item>
-          </SkeletonPlaceholder>
+            </Box>
+          </Box>
         </ScrollView>
         :
         <ScrollView>
@@ -241,6 +241,7 @@ export const BagScreen = () => {
                   priceWithDiscount={item.sellingPrice / 100}
                   count={item.quantity}
                   onClickAddCount={async (count) => {
+                    console.log(count)
                     await addItem(count, item.id, item.seller);
                   }}
                   onClickSubCount={async (count) =>
@@ -513,26 +514,26 @@ export const BagScreen = () => {
       >
         {
           loading ?
-            <SkeletonPlaceholder>
-              <SkeletonPlaceholder.Item>
+            <Box>
+              <Box>
 
-                <SkeletonPlaceholder.Item flexDirection='row' justifyContent='space-between' marginTop={15}>
+                <Box flexDirection='row' justifyContent='space-between' marginTop={15}>
 
-                  <SkeletonPlaceholder.Item >
-                    <SkeletonPlaceholder.Item width={63} height={22} />
-                    <SkeletonPlaceholder.Item width={95} height={22} marginTop={6} />
-                  </SkeletonPlaceholder.Item>
+                  <Box >
+                    <Box bg='neutroFrio1' width={63} height={22} />
+                    <Box bg='neutroFrio1' width={95} height={22} marginTop={6} />
+                  </Box>
 
-                  <SkeletonPlaceholder.Item alignItems="flex-end">
-                    <SkeletonPlaceholder.Item width={63} height={22} />
-                    <SkeletonPlaceholder.Item width={95} height={22} marginTop={6} />
-                  </SkeletonPlaceholder.Item>
+                  <Box alignItems="flex-end">
+                    <Box bg='neutroFrio1' width={63} height={22} />
+                    <Box bg='neutroFrio1' width={95} height={22} marginTop={6} />
+                  </Box>
 
-                </SkeletonPlaceholder.Item>
+                </Box>
 
-                <SkeletonPlaceholder.Item width='100%' height={50} marginTop={10} />
-              </SkeletonPlaceholder.Item>
-            </SkeletonPlaceholder>
+                <Box bg='neutroFrio1' width='100%' height={50} marginTop={10} />
+              </Box>
+            </Box>
             :
             <>
               <Box flexDirection="row" justifyContent="space-between" py="xxs">

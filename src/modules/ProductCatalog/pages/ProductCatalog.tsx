@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SkeletonPlaceholder from "@thevsstech/react-native-skeleton";
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -30,6 +29,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
+import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated'
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -283,50 +283,49 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         title="Ordenar Por"
       />
       {(skeletonLoading) ?
-        <SkeletonPlaceholder>
-          <SkeletonPlaceholder.Item>
+        <Box>
+          <Box>
+            <Box bg='neutroFrio1' width='100%' height={200} />
 
-            <SkeletonPlaceholder.Item width='100%' height={200} />
+            <Box flexDirection='row' justifyContent='center' marginTop={34} >
+              <Box width='50%'>
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
+              </Box>
 
-            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={34} >
-              <SkeletonPlaceholder.Item width='50%'>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
-              </SkeletonPlaceholder.Item>
+              <Box width='50%'>
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
+              </Box>
+            </Box >
 
-              <SkeletonPlaceholder.Item width='50%'>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
-              </SkeletonPlaceholder.Item>
-            </SkeletonPlaceholder.Item >
+            <Box flexDirection='row' justifyContent='center' marginTop={45}>
 
-            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={45}>
+              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+                <Box />
+              </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-                <SkeletonPlaceholder.Item />
-              </SkeletonPlaceholder.Item>
+              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+              </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-              </SkeletonPlaceholder.Item>
+            </Box>
+            <Box flexDirection='row' justifyContent='center'>
 
-            </SkeletonPlaceholder.Item>
-            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center'>
+              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+                <Box />
+              </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-                <SkeletonPlaceholder.Item />
-              </SkeletonPlaceholder.Item>
+              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+              </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-              </SkeletonPlaceholder.Item>
+            </Box>
 
-            </SkeletonPlaceholder.Item>
-
-          </SkeletonPlaceholder.Item>
-        </SkeletonPlaceholder>
+          </Box>
+        </Box>
         :
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
