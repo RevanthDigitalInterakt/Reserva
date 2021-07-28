@@ -128,7 +128,9 @@ const MenuScreen: React.FC<{}> = ({}) => {
               descr={"Consulte e adicione seus endereços"}
               icon={"Pin"}
               onPress={() => {
-                navigation.navigate("AddressList");
+                navigation.navigate("AddressList", {
+                  comeFrom: "Home"
+                });
               }}
             />
 

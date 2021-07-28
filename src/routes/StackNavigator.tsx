@@ -123,7 +123,7 @@ export type RootStackParamList = {
   Home: undefined
   CancelOrder: {};
   Cashback: {};
-  AddressList: { isCheckout: boolean };
+  AddressList: { isCheckout: boolean, comeFrom: string };
   ListCards: {
     isCheckout: boolean;
     cashback: boolean;

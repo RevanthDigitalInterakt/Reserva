@@ -25,7 +25,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [selected, setSelected] = React.useState(false);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const modalRef = useRef(false);
-  const { isCheckout } = route.params;
+  const { isCheckout, comeFrom } = route.params;
   const [
     addressDelete,
     { error: deleteAddressError, loading: loadingAddressDelete },
@@ -37,13 +37,14 @@ const AddressList: React.FC<Props> = ({ route }) => {
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
 
-  console.log('cookie', cookie)
 
   useEffect(() => {
-    if (cookie !== null) {
+    if (comeFrom === "Home") {
       setEditAndDelete(true);
+    }else{
+      setEditAndDelete(false);
     }
-  }, [cookie]);
+  }, []);
 
   useEffect(() => {
     console.log('editAndDelete', editAndDelete)
