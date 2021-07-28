@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { SafeAreaView, FlatList } from "react-native";
-import { Typography, Box, Button, Alert, Icon, Image } from "reserva-ui";
+import React from "react";
+import { Typography, Box, Button, Image } from "reserva-ui";
 import { images } from "../../assets";
 
 interface IWithoutInternet {
@@ -10,7 +9,7 @@ interface IWithoutInternet {
 const WithoutInternet = ({ onPress }: IWithoutInternet) => {
     return (
         <Box
-            bg="pink"
+            bg="white"
             flex={1}
             alignItems="center"
             justifyContent="center">

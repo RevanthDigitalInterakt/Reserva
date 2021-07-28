@@ -3,7 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
-import { Dimensions, NetInfo, Platform, } from 'react-native';
+import { Dimensions } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { Box, Image } from 'reserva-ui';
@@ -80,72 +81,71 @@ export const HomeScreen: React.FC<{
   }, [])
 
   const checkConnectivity = () => {
-    if (Platform.OS === "android") {
-      NetInfo.isConnected.fetch().then(isConnected => {
-        if (isConnected) {
-          setHasInternet(false);
-        } else {
-          setHasInternet(true);
-        }
-      });
-    }
+    NetInfo?.fetch().then(state => {
+      console.log("Is connected?", state.isConnected);
+      if (state.isConnected) {
+        setHasInternet(false);
+      } else {
+        setHasInternet(true);
+      }
+    });
   }
 
   return (
     <Box flex={1}>
       <TopBarDefault loading={loading} />
-      {loading ?
-        <></>
-        // <Box flex={1}>
-        //   <SkeletonPlaceholder>
-        //     <SkeletonPlaceholder.Item width={screenWidth} height={screenHeight}>
-        //     </SkeletonPlaceholder.Item>
-        //   </SkeletonPlaceholder>
-        // </Box>
-        :
-        <FlatList
-          data={images}
-          renderItem={({ item }) => (
-            <Box alignItems="flex-start">
-              <Box mb="quarck" width={1 / 1}>
-                <TouchableHighlight
-                  onPress={() => {
-                    let facetInput = []
-                    const [categoryType, categoryData] = item.reference.split(':')
-                    console.log(categoryType, categoryData)
-                    if (categoryType === 'category') {
+      {
+        // hasInternet ?
+        //   <WithoutInternet onPress={checkConnectivity} />
+        //   :
+        loading ?
+          <></>
+          // <Box flex={1}>
+          //   <SkeletonPlaceholder>
+          //     <SkeletonPlaceholder.Item width={screenWidth} height={screenHeight}>
+          //     </SkeletonPlaceholder.Item>
+          //   </SkeletonPlaceholder>
+          // </Box>
+          :
+          <FlatList
+            data={images}
+            renderItem={({ item }) => (
+              <Box alignItems="flex-start">
+                <Box mb="quarck" width={1 / 1}>
+                  <TouchableHighlight
+                    onPress={() => {
+                      let facetInput = []
+                      const [categoryType, categoryData] = item.reference.split(':')
+                      console.log(categoryType, categoryData)
+                      if (categoryType === 'category') {
 
-                      categoryData.split('|').forEach((cat: string) => {
-                        facetInput.push({
-                          key: 'c',
-                          value: cat
+                        categoryData.split('|').forEach((cat: string) => {
+                          facetInput.push({
+                            key: 'c',
+                            value: cat
+                          })
                         })
-                      })
-                    } else {
-                      facetInput.push({
-                        key: 'productClusterIds',
-                        value: categoryData
-                      })
-                    }
-                    console.log('item.reference', item.reference)
-                    navigation.navigate('ProductCatalog', { facetInput, referenceId: item.reference });
-                  }}
-                >
-                  <Image
-                    autoHeight={true}
-                    width={deviceWidth}
-                    source={{ uri: item.url }}
-                  />
-                </TouchableHighlight>
+                      } else {
+                        facetInput.push({
+                          key: 'productClusterIds',
+                          value: categoryData
+                        })
+                      }
+                      console.log('item.reference', item.reference)
+                      navigation.navigate('ProductCatalog', { facetInput, referenceId: item.reference });
+                    }}
+                  >
+                    <Image
+                      autoHeight={true}
+                      width={deviceWidth}
+                      source={{ uri: item.url }}
+                    />
+                  </TouchableHighlight>
+                </Box>
               </Box>
-            </Box>
-          )}
-          keyExtractor={item => item.id}
-        />
-
-      }
-      {hasInternet &&
-        <WithoutInternet onPress={checkConnectivity} />
+            )}
+            keyExtractor={item => item.id}
+          />
       }
     </Box>
   );
