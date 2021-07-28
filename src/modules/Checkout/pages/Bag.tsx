@@ -34,6 +34,7 @@ import {
 import { Product } from "../../../store/ducks/product/types";
 import { useCart } from "../../../context/CartContext";
 import SkeletonPlaceholder from "@thevsstech/react-native-skeleton";
+import { Skeleton } from "../components/Skeleton";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -157,7 +158,7 @@ export const BagScreen = () => {
       {loading ?
         <ScrollView scrollEnabled={false}>
 
-          <Box>
+          <Skeleton>
             <Box marginRight={15} marginLeft={21} >
 
               <Box bg='neutroFrio1' height={35} width={175} marginTop={23} />
@@ -213,7 +214,7 @@ export const BagScreen = () => {
               </Box>
 
             </Box>
-          </Box>
+          </Skeleton>
         </ScrollView>
         :
         <ScrollView>

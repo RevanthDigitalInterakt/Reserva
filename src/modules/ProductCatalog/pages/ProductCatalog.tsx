@@ -1,7 +1,7 @@
 import { QueryResult, useQuery } from '@apollo/client';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import { Linking } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Linking, Animated } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
@@ -29,7 +29,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
-import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated'
+import { Skeleton } from '../../Checkout/components/Skeleton';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -112,6 +112,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     firstLoad()
+    animationSkeletonLoading()
   }, []);
 
   useEffect(() => {
@@ -215,6 +216,29 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     refetch();
   }, [selectedOrder]);
 
+  const skeletonOpacity = useRef(new Animated.Value(0)).current
+  const animationSkeletonLoading = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(skeletonOpacity, {
+          useNativeDriver: true,
+          toValue: 1,
+          duration: 1200,
+          delay: 300
+        }),
+        Animated.timing(skeletonOpacity, {
+          useNativeDriver: true,
+          toValue: 0.3,
+          duration: 600,
+        })
+      ]),
+      {
+        iterations: -1
+      }
+    ).start()
+  }
+
+
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');
   };
@@ -282,50 +306,46 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {(skeletonLoading) ?
-        <Box>
-          <Box>
-            <Box bg='neutroFrio1' width='100%' height={200} />
+      {(skeletonLoading || loadingBanner || loadingBanner || loadingHandlerState) ?
+        <Skeleton>
+          <Box bg='neutroFrio1' width='100%' height={200} />
 
-            <Box flexDirection='row' justifyContent='center' marginTop={34} >
-              <Box width='50%'>
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
-              </Box>
-
-              <Box width='50%'>
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
-              </Box>
-            </Box >
-
-            <Box flexDirection='row' justifyContent='center' marginTop={45}>
-
-              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-                <Box />
-              </Box>
-
-              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-              </Box>
-
+          <Box flexDirection='row' justifyContent='center' marginTop={34} >
+            <Box width='50%'>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
             </Box>
-            <Box flexDirection='row' justifyContent='center'>
 
-              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
-                <Box />
-              </Box>
+            <Box width='50%'>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
+            </Box>
+          </Box >
 
-              <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
-              </Box>
+          <Box flexDirection='row' justifyContent='center' marginTop={45}>
 
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+              <Box />
+            </Box>
+
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
             </Box>
 
           </Box>
-        </Box>
+          <Box flexDirection='row' justifyContent='center'>
+
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+            </Box>
+
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+            </Box>
+
+          </Box>
+        </Skeleton>
         :
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
