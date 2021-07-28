@@ -276,7 +276,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {(loadingHandlerState || loading || loadingFetchMore || loadingBanner) ?
+      {(loadingHandlerState || loading || loadingBanner) ?
         <SkeletonPlaceholder>
           <SkeletonPlaceholder.Item>
 
