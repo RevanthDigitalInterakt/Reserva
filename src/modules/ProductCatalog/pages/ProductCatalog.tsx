@@ -45,6 +45,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
   const [bannerImage, setBannerImage] = useState(images.bannerOffer);
   // const [bannerDefault, setBannerDefault] = useState();
+  const [skeletonLoading, setSkeletonLoading] = useState(true)
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -101,11 +102,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     setBannerImage(url);
   }
 
+  const firstLoad = async () => {
+    setSkeletonLoading(true)
+    await refetch();
+    await refetchFacets();
+    await refetchBanner({ category: referenceId });
+    setSkeletonLoading(false)
+  }
+
   useEffect(() => {
-    refetch();
-    refetchFacets();
-    refetchBanner({ category: referenceId });
-    //refetchDefaultBanner()
+    firstLoad()
   }, []);
 
   useEffect(() => {
@@ -276,7 +282,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {(loadingHandlerState || loading || loadingBanner) ?
+      {(skeletonLoading) ?
         <SkeletonPlaceholder>
           <SkeletonPlaceholder.Item>
 
