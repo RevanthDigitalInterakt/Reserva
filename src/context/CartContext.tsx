@@ -499,7 +499,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     try {
       const { data } = await removeSellerCouponToOder(orderForm?.orderFormId, {
         ...orderForm?.marketingData,
-        marketingTags: null,
+        marketingTags: [""],
       });
       setOrderForm(data);
       return !!data;
