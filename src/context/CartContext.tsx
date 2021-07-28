@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import React, {
   useState,
   createContext,
@@ -6,9 +6,9 @@ import React, {
   useContext,
   SetStateAction,
   Dispatch,
-} from 'react';
-import { useEffect } from 'react';
-import { CepResponse } from '../config/brasilApi';
+} from "react";
+import { useEffect } from "react";
+import { CepResponse } from "../config/brasilApi";
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -22,7 +22,7 @@ import {
   validateSellerCoupon,
   addToSellerCoupon,
   removeSellerCouponToOder,
-} from '../services/vtexService';
+} from "../services/vtexService";
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -301,7 +301,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await CreateCart();
       setOrderForm(data);
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -318,20 +318,20 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       // check produt availability
       const index = data.items.findIndex(({ id }: any) => id === itemId);
       const product = data.items[index];
-      if (product.availability !== 'available') {
+      if (product.availability !== "available") {
         const productRemoved = await removeUnavailableProduct(
           product.id,
           index
         );
 
-        if (productRemoved) return { message: 'O produto não está disponível' };
+        if (productRemoved) return { message: "O produto não está disponível" };
       }
 
       // set new order form
       setOrderForm(data);
       return { ok: true };
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -375,7 +375,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -387,7 +387,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       // TODO - change this later, find a better way to check if theres's no user
       return !!data.clientProfileData.firstName;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -402,7 +402,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -432,7 +432,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -449,7 +449,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -463,10 +463,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         .map(({ text }: any) => text)
         .find((t: string) => t.includes(coupon));
 
-
       return !!isCouponInValid;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -476,14 +475,14 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       if (data.length > 0 && data[0].ativo) {
         await addToSellerCoupon(orderForm?.orderFormId, {
           ...orderForm?.marketingData,
-          marketingTags: ['CodigoVendedor', `code_CodigoVendedor=${coupon}`],
+          marketingTags: ["CodigoVendedor", `code_CodigoVendedor=${coupon}`],
         });
         return !!data;
       } else {
         return false;
       }
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
   const removeCoupon = async (coupon: string) => {
@@ -492,7 +491,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
 
@@ -500,12 +499,12 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     try {
       const { data } = await removeSellerCouponToOder(orderForm?.orderFormId, {
         ...orderForm?.marketingData,
-        marketingTags: ['CodigoVendedor', `code_CodigoVendedor=${coupon}`],
+        marketingTags: [""],
       });
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      console.log("error", error.response.data);
     }
   };
   useEffect(() => {
@@ -541,7 +540,7 @@ export default CartContextProvider;
 export const useCart = () => {
   const cartContext = useContext(CartContext);
   if (!cartContext) {
-    throw new Error('use Auth must be used within a AuthContextProvider');
+    throw new Error("use Auth must be used within a AuthContextProvider");
   }
 
   const {

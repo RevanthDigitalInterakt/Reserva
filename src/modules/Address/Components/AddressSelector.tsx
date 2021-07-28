@@ -15,7 +15,7 @@ interface IAddressesSelector {
   edit?: () => void;
   deleteAddress?: () => void;
   addressData: Address;
-
+  editAndDelete?: boolean;
   selected: boolean;
 }
 
@@ -24,6 +24,7 @@ const AddressSelector = ({
   select,
   edit,
   deleteAddress,
+  editAndDelete,
   addressData,
 }: IAddressesSelector) => {
   const { address, title, zipcode, id } = addressData;
@@ -65,22 +66,26 @@ const AddressSelector = ({
               justifyContent="flex-end"
               alignItems="flex-end"
             >
-              <Button
-                onPress={edit}
-                pb={'quarck'}
-                hitSlop={{ top: 10, left: 10, bottom: 30, right: 10 }}
-              >
-                <Typography style={{ textDecorationLine: 'underline' }}>
-                  editar
-                </Typography>
-              </Button>
+              {editAndDelete &&
+                <>
+                  <Button
+                    onPress={edit}
+                    pb={'quarck'}
+                    hitSlop={{ top: 10, left: 10, bottom: 30, right: 10 }}
+                  >
+                    <Typography style={{ textDecorationLine: 'underline' }}>
+                      editar
+                    </Typography>
+                  </Button>
 
-              <Button
-                hitSlop={{ top: 10, left: -10, bottom: 30, right: 10 }}
-                onPress={deleteAddress}
-              >
-                <Icon ml={'xxs'} name="Trash" color="preto" size={24} />
-              </Button>
+                  <Button
+                    hitSlop={{ top: 10, left: -10, bottom: 30, right: 10 }}
+                    onPress={deleteAddress}
+                  >
+                    <Icon ml={'xxs'} name="Trash" color="preto" size={24} />
+                  </Button>
+                </>
+              }
             </Box>
           </Box>
         </Box>
