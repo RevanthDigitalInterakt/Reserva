@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, NetInfo, Platform, } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { Box, Image } from 'reserva-ui';
@@ -14,6 +14,7 @@ import { profileQuery } from '../../../store/ducks/profile/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { View } from 'react-native-animatable';
+import WithoutInternet from '../../../shared/componentes/WithoutInternet';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
@@ -26,6 +27,7 @@ export const HomeScreen: React.FC<{
 
   const dispatch = useDispatch();
   const [images, setImages] = React.useState<HomeQuery[]>([])
+  const [hasInternet, setHasInternet] = React.useState<boolean>(false)
   const deviceWidth = Dimensions.get('screen').width;
   const { loading, error, data, } = useQuery(
     homeQuery,
@@ -73,10 +75,25 @@ export const HomeScreen: React.FC<{
     dispatch(load({ UF: 'RJ' }));
   }, []);
 
+  useEffect(() => {
+    checkConnectivity()
+  }, [])
+
+  const checkConnectivity = () => {
+    if (Platform.OS === "android") {
+      NetInfo.isConnected.fetch().then(isConnected => {
+        if (isConnected) {
+          setHasInternet(false);
+        } else {
+          setHasInternet(true);
+        }
+      });
+    }
+  }
+
   return (
     <Box flex={1}>
       <TopBarDefault loading={loading} />
-
       {loading ?
         <></>
         // <Box flex={1}>
@@ -125,8 +142,11 @@ export const HomeScreen: React.FC<{
           )}
           keyExtractor={item => item.id}
         />
-      }
 
+      }
+      {hasInternet &&
+        <WithoutInternet onPress={checkConnectivity} />
+      }
     </Box>
   );
 };
