@@ -5666,7 +5666,7 @@ lottie-ios@3.1.8:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lottie-ios/-/lottie-ios-3.1.8.tgz#2e9b1f4eae0dfc10bf4c0b3ab6b402c1d590d0fa"
   integrity sha1-LpsfTq4N/BC/TAs6trQCwdWQ0Po=
 
-lottie-react-native@^4.0.2:
+lottie-react-native@^4.0.2, lottie-react-native@^4.0.3:
   version "4.0.3"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lottie-react-native/-/lottie-react-native-4.0.3.tgz#2a2548b8fb6d30e45b55714ec57e986e4af6fcb0"
   integrity sha1-KiVIuPttMORbVXFOxX6Ybkr2/LA=
@@ -7520,10 +7520,12 @@ requires-port@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reserva-ui@0.0.166:
-  version "0.0.166"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.166.tgz#586fd800e582db8c9d3ab575c3826d5baffd35d1"
-  integrity sha1-WG/YAOWC24ydOrV1w4JtW6/9NdE=
+reserva-ui@0.0.167:
+  version "0.0.167"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.167.tgz#b7e0153e9fc4f886dcc64dd46de90d5be3000e07"
+  integrity sha1-t+AVPp/E+Ibcxk3UbekNW+MADgc=
+  dependencies:
+    lottie-react-native "^4.0.3"
 
 resolve-cwd@^3.0.0:
   version "3.0.0"

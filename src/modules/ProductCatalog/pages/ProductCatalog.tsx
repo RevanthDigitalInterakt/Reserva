@@ -43,7 +43,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   let categoryId = 'camisetas';
 
   const dispatch = useDispatch();
-  const [bannerImage, setBannerImage] = useState(images.bannerOffer);
+  const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
   const [skeletonLoading, setSkeletonLoading] = useState(true)
   const [colorsfilters, setColorsFilters] = useState([]);
@@ -97,7 +97,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     },
   });
 
-  const { data: defaultBanner, refetch: refetchDefaultBanner } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } })
+  const { data: defaultBanner, refetch: refetchDefaultBanner, loading: loadingDefaultBanner } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } })
   const setBannerDefaultImage = async () => {
     await refetchDefaultBanner()
     const url = defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url
@@ -308,7 +308,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {(skeletonLoading || loadingBanner || loadingBanner || loadingHandlerState) ?
+      {(skeletonLoading || loadingHandlerState) ?
         <Skeleton>
           <Box bg='neutroFrio1' width='100%' height={200} />
 
