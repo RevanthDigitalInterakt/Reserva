@@ -42,7 +42,7 @@ export const ListVerticalProducts = ({
   const navigation = useNavigation();
   const [favoritedProduct, setFavoritedProduct] = useState<Product>();
   const [isVisible, setIsVisible] = useState(false);
-  const [productList, setProductList] = useState<Product[]>([]);
+  const [productList, setProductList] = useState<ProductQL[]>([]);
   const [skip, setSkip] = useState(false);
 
   const { refetch: refetchFavorite } = useQuery(wishListQueries.CHECK_LIST, {
@@ -130,7 +130,7 @@ export const ListVerticalProducts = ({
       {productList.length > 0 && (
         <FlatList
           data={productList}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.productId}
           numColumns={2}
           onEndReached={() => loadMoreProducts(products.length)}
           onEndReachedThreshold={0.5}

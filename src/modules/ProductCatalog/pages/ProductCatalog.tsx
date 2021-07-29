@@ -69,6 +69,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         simulationBehavior: "default",
         productOriginVtex: false
       },
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache'
     }
   );
 
