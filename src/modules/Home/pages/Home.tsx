@@ -4,7 +4,6 @@ import React from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import NetInfo from "@react-native-community/netinfo";
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { Box, Image } from 'reserva-ui';
@@ -15,7 +14,8 @@ import { profileQuery } from '../../../store/ducks/profile/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { View } from 'react-native-animatable';
-import WithoutInternet from '../../../shared/componentes/WithoutInternet';
+import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
@@ -24,20 +24,20 @@ export const HomeScreen: React.FC<{
 }> = ({ children, title }) => {
   const navigation = useNavigation();
   const { cookie, setEmail } = useAuth()
-  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
 
+  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const dispatch = useDispatch();
   const [images, setImages] = React.useState<HomeQuery[]>([])
   const [hasInternet, setHasInternet] = React.useState<boolean>(false)
   const deviceWidth = Dimensions.get('screen').width;
-  const { loading, error, data, } = useQuery(
+  const { loading, error, data, refetch } = useQuery(
     homeQuery,
     {
       context: { clientName: 'contentful' },
       variables: { limit: 0 } // quantidade de itens que iram renderizar
     }
   );
-
+  const { WithoutInternet } = useCheckConnection({ refetch: refetch })
   useEffect(() => {
     console.log('cookie', cookie)
   }, [cookie])
@@ -76,28 +76,11 @@ export const HomeScreen: React.FC<{
     dispatch(load({ UF: 'RJ' }));
   }, []);
 
-  useEffect(() => {
-    checkConnectivity()
-  }, [])
-
-  const checkConnectivity = () => {
-    NetInfo?.fetch().then(state => {
-      console.log("Is connected?", state.isConnected);
-      if (state.isConnected) {
-        setHasInternet(false);
-      } else {
-        setHasInternet(true);
-      }
-    });
-  }
-
   return (
     <Box flex={1}>
       <TopBarDefault loading={loading} />
+      <WithoutInternet />
       {
-        // hasInternet ?
-        //   <WithoutInternet onPress={checkConnectivity} />
-        //   :
         loading ?
           <></>
           // <Box flex={1}>
