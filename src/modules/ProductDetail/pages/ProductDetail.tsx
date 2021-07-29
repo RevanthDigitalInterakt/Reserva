@@ -207,11 +207,9 @@ export const ProductDetail: React.FC<Props> = ({
       setSelectedVariant(product.items[0]);
 
       const disabledColors = getUnavailableColors(product)
-      console.log(disabledColors)
 
       // set colors filter
       const colorList = getColorsList(product);
-      console.log("colorList", colorList);
 
       setColorFilters(colorList);
 
@@ -230,7 +228,6 @@ export const ProductDetail: React.FC<Props> = ({
         }
       });
       setItemsSKU(itemList);
-      console.log(itemList);
 
     }
   }, [data]);
@@ -260,10 +257,6 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }, [selectedColor])
 
-  useEffect(() => {
-    console.log("selectedSize", selectedSize);
-
-  }, [selectedSize])
 
   // change sku effect
   useEffect(() => {
@@ -338,7 +331,6 @@ export const ProductDetail: React.FC<Props> = ({
               productId: product.productId.split('-')[0]
             }
           })
-          console.log('add data', data)
         } else {
           await removeWishList({
             variables: {
@@ -388,11 +380,9 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const getUnavailableColors = ({ items, skuSpecifications }: Product) => {
-    console.log('lengths', items.length, skuSpecifications.length)
     return items.map(item => {
-      console.log('getUnavailableColors', item.sellers[0])
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
-        console.log(item.variations?.find(variant => variant.name === 'VALOR_HEX_ORIGINAL'))
+        return item.variations?.find(variant => variant.name === 'VALOR_HEX_ORIGINAL')
     })
   }
 

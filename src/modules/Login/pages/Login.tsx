@@ -144,7 +144,7 @@ export const LoginScreen: React.FC<Props> = ({
       <ScrollView>
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily="reservaSerifRegular" fontSize={22}>
-            Seja bem-vindo novamente!
+            Seja bem-vindo!
           </Typography>
 
           <Box mt="xxs">
