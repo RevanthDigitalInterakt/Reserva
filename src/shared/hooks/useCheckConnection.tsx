@@ -24,17 +24,6 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
             setShowScreen(true);
         }
     }
-    // const checkConnectivity = () => {
-    //     NetInfo?.fetch().then(state => {
-    //         if (state.isConnected) {
-    //             setShowScreen(false);
-    //             if (refetch) refetch()
-    //         } else {
-    //             setShowScreen(true);
-    //         }
-    //     });
-    // }
-
 
     const WithoutInternet = () => {
         if (!showScreen) {

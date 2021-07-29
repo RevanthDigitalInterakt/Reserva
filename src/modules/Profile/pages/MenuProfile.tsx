@@ -19,6 +19,7 @@ import { profileQuery } from "../../../store/ducks/profile/types";
 import { useState, useEffect } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
+import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 
 type Profile = {
   birthDate: string | null;
@@ -30,12 +31,13 @@ type Profile = {
   userId: string;
 };
 
-const MenuScreen: React.FC<{}> = ({}) => {
+const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const { cookie, setCookie } = useAuth();
   // const { profile } = useSelector((state: ApplicationState) => state);
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
+  const { WithoutInternet } = useCheckConnection({})
   const logout = () => {
     AsyncStorage.removeItem("@RNAuth:cookie");
     setCookie(null);
@@ -67,6 +69,9 @@ const MenuScreen: React.FC<{}> = ({}) => {
   return (
     <Box flex={1} backgroundColor="white">
       <TopBarDefault loading={loading} />
+
+      <WithoutInternet />
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"xxs"}>

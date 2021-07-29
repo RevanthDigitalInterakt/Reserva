@@ -30,6 +30,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
+import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -100,7 +101,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     const url = defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url
     setBannerImage(url);
   }
-
+  const { WithoutInternet } = useCheckConnection({})
   useEffect(() => {
     refetch();
     refetchFacets();
@@ -215,6 +216,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
+
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
         <TopBarDefaultBackButton loading={loading || loadingFetchMore || loadingHandlerState} />
@@ -226,6 +228,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <SearchBar height={36} placeholder="Buscar" />
         </Box>
       )}
+
+      <WithoutInternet />
+
       <FilterModal
         setFilterRequestList={setFilterRequestList}
         categoryId={categoryId}
