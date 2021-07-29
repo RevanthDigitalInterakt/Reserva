@@ -464,7 +464,7 @@ export const ProductDetail: React.FC<Props> = ({
           }}
         />
         <TopBarDefaultBackButton loading={loading} />
-        <ScrollView contentContainerStyle={{ paddingBottom: 100, }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
           {product && selectedVariant && (
             <>
               {/* PRODUCT CARD SECTION */}
@@ -654,17 +654,17 @@ export const ProductDetail: React.FC<Props> = ({
 
                 <Divider variant="fullWidth" my="xs" />
 
-                <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                  Receba novidades e promoções
-                </Typography>
-
-                <Box flexDirection="column" mt="xxxs" mb="xxs">
-                  <OutlineInput
-                    placeholder="Digite seu e-mail"
-                    iconName="ChevronRight"
-                    keyboardType="email-address"
-                  />
+                <Box mb="xxxs">
+                  <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                    Receba novidades e promoções
+                  </Typography>
                 </Box>
+
+                <OutlineInput
+                  placeholder="Digite seu e-mail"
+                  iconName="ChevronRight"
+                  keyboardType="email-address"
+                />
               </Box>
             </>
           )}
