@@ -262,8 +262,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Box>
       )}
 
-      <WithoutInternet />
-
       <FilterModal
         setFilterRequestList={setFilterRequestList}
         categoryId={categoryId}
