@@ -149,8 +149,6 @@ const MenuItem: React.FC<IMenuItem> = ({
                         value: subcategories
                       })
                     }
-                    console.log(subType, subcategories)
-                    console.log(facetInput)
                     navigation.navigate('ProductCatalog', {
                       facetInput,
                       referenceId: item.referenceId
@@ -210,8 +208,6 @@ export const Menu: React.FC<{}> = () => {
   const { loading, error, data } = useQuery(categoriesQuery, {
     context: { clientName: 'contentful' }
   });
-
-  console.log(data)
 
   let categoryItems = data?.appMenuCollection.items[0].itemsCollection.items || []
 

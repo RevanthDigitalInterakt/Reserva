@@ -18,7 +18,6 @@ interface IOrderProduct {
 }
 
 const OrderProduct = ({ orderItem }: IOrderProduct) => {
-  console.log(orderItem.imageUrl);
   //TODO: repassar nesse componente. se possivel trocar com o que ja foi feito anteriormente.
   return (
     <>

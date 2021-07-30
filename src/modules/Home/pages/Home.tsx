@@ -12,7 +12,6 @@ import { homeQuery, HomeQuery } from '../../../store/ducks/HomePage/types';
 import { load } from '../../../store/ducks/nearbyStores/actions';
 import { profileQuery } from '../../../store/ducks/profile/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { View } from 'react-native-animatable';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 
@@ -38,13 +37,8 @@ export const HomeScreen: React.FC<{
     }
   );
   const { WithoutInternet } = useCheckConnection({ refetch: refetch })
-  useEffect(() => {
-    console.log('cookie', cookie)
-  }, [cookie])
-  console.log(data)
 
   useEffect(() => {
-    console.log('data', data)
     let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription: any) => {
       return {
         fileName: imageDescription.image.fileName,
@@ -99,7 +93,6 @@ export const HomeScreen: React.FC<{
                     onPress={() => {
                       let facetInput = []
                       const [categoryType, categoryData] = item.reference.split(':')
-                      console.log(categoryType, categoryData)
                       if (categoryType === 'category') {
 
                         categoryData.split('|').forEach((cat: string) => {
@@ -114,7 +107,6 @@ export const HomeScreen: React.FC<{
                           value: categoryData
                         })
                       }
-                      console.log('item.reference', item.reference)
                       navigation.navigate('ProductCatalog', { facetInput, referenceId: item.reference });
                     }}
                   >

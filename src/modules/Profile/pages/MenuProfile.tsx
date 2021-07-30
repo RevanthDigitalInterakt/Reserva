@@ -58,7 +58,6 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   useEffect(() => {
     if (data) {
       const { profile } = data;
-      console.log(profile);
       if (profile) {
         const { profile } = data;
         setProfile(profile);

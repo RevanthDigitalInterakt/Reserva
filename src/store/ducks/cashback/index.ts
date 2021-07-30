@@ -8,7 +8,6 @@ const INITIAL_STATE: CashbackState = {
 const reducer: Reducer<CashbackState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case CashbackTypes.ADD_CASHBACK:
-      console.log(action, state)
       return {
         ...state,
         value:

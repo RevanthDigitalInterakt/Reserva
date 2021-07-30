@@ -66,7 +66,6 @@ interface IOrderDetailComponent {
 }
 
 const OrderDetailComponent = ({ data }: IOrderDetailComponent) => {
-  console.log(data);
   // const deliveryStateToStyle = () => {
   //   switch (data.status) {
   //     case 1:

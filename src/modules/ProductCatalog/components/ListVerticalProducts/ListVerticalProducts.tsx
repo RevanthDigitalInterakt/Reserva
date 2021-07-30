@@ -54,6 +54,12 @@ export const ListVerticalProducts = ({
 
   const { email } = useAuth()
 
+  const resizeImage = (imageUrl: string) => {
+    let urlArray = imageUrl.split("/")
+    urlArray[urlArray.length - 2] = `${urlArray[urlArray.length - 2]}-500-750`;    
+    return urlArray.join("/")
+  } 
+
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     if (!!email) {
       const { productId, listId } = item
@@ -65,7 +71,6 @@ export const ListVerticalProducts = ({
             productId: productId?.split('-')[0]
           }
         })
-        console.log('add data', data)
       } else {
         await removeWishList({
           variables: {
@@ -159,7 +164,7 @@ export const ListVerticalProducts = ({
                 isFavorited={item.isFavorite}
                 onClickFavorite={(isFavorite) => { handleOnFavorite(isFavorite, item) }}
                 colors={colors}
-                imageSource={item.items[0].images[0].imageUrl}
+                imageSource={resizeImage(item.items[0].images[0].imageUrl)}
                 installmentsNumber={installmentsNumber} //numero de parcelas
                 installmentsPrice={installmentPrice || 0} //valor das parcelas
                 currency="R$"

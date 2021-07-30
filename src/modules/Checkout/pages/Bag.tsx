@@ -50,7 +50,7 @@ export const BagScreen = () => {
     removeCoupon,
     removeSellerCoupon,
   } = useCart();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [totalBag, setTotalBag] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
@@ -64,7 +64,7 @@ export const BagScreen = () => {
     installmentsNumber: 0,
     installmentPrice: 0,
     totalPrice: 0,
-  })
+  });
 
   const hasSellerCoupon = useCallback((): boolean => {
     return sellerCoupon.length > 0;
@@ -75,13 +75,13 @@ export const BagScreen = () => {
   }, [discountCoupon]);
 
   const firstLoadOrderForm = async () => {
-    setLoading(true)
-    await orderform()
-    setLoading(false)
-  }
+    setLoading(true);
+    await orderform();
+    setLoading(false);
+  };
 
   useEffect(() => {
-    firstLoadOrderForm()
+    firstLoadOrderForm();
   }, []);
 
   useEffect(() => {
@@ -94,19 +94,22 @@ export const BagScreen = () => {
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split("=")[1];
 
-    const installment = orderForm?.paymentData?.installmentOptions?.find(x => x.paymentSystem == 4)?.installments?.reverse()[0] || null
+    const installment =
+      orderForm?.paymentData?.installmentOptions
+        ?.find((x) => x.paymentSystem == 4)
+        ?.installments?.reverse()[0] || null;
 
     setInstallmentInfo(
-      !!installment ?
-        {
-          installmentPrice: installment.value,
-          installmentsNumber: installment.count,
-          totalPrice: installment.total
-        } : {
-          ...installmentInfo
-        }
-
-    )
+      !!installment
+        ? {
+            installmentPrice: installment.value,
+            installmentsNumber: installment.count,
+            totalPrice: installment.total,
+          }
+        : {
+            ...installmentInfo,
+          }
+    );
 
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
@@ -159,60 +162,96 @@ export const BagScreen = () => {
         <Box >
 
           <Skeleton>
-            <Box marginRight={15} marginLeft={21} >
+            <Box marginRight={15} marginLeft={21}>
+              <Box bg="neutroFrio1" height={35} width={175} marginTop={23} />
 
-              <Box bg='neutroFrio1' height={35} width={175} marginTop={23} />
+              <Box flexDirection="row" marginTop={30}>
+                <Box bg="neutroFrio1" width={99} height={148} marginRight={8} />
 
-              <Box flexDirection='row' marginTop={30} >
+                <Box width={217} height={148}>
+                  <Box bg="neutroFrio1" width={217} height={22} />
 
-                <Box bg='neutroFrio1' width={99} height={148} marginRight={8} />
-
-                <Box width={217} height={148} >
-
-                  <Box bg='neutroFrio1' width={217} height={22} />
-
-                  <Box width='100%' flexDirection='row' >
-
-                    <Box bg='neutroFrio1' width={79} height={18} marginTop={7} marginRight={9} />
-                    <Box bg='neutroFrio1' width={79} height={18} marginTop={7} />
-
+                  <Box width="100%" flexDirection="row">
+                    <Box
+                      bg="neutroFrio1"
+                      width={79}
+                      height={18}
+                      marginTop={7}
+                      marginRight={9}
+                    />
+                    <Box
+                      bg="neutroFrio1"
+                      width={79}
+                      height={18}
+                      marginTop={7}
+                    />
                   </Box>
 
-                  <Box bg='neutroFrio1' width={167} height={18} marginTop={7} />
-                  <Box bg='neutroFrio1' width={221} height={18} marginTop={7} />
-                  <Box bg='neutroFrio1' width={115} height={22} marginTop={7} />
-
+                  <Box bg="neutroFrio1" width={167} height={18} marginTop={7} />
+                  <Box bg="neutroFrio1" width={221} height={18} marginTop={7} />
+                  <Box bg="neutroFrio1" width={115} height={22} marginTop={7} />
                 </Box>
               </Box>
 
-              <Box bg='neutroFrio1' width='100%' height={2} marginTop={28} marginBottom={23} />
+              <Box
+                bg="neutroFrio1"
+                width="100%"
+                height={2}
+                marginTop={28}
+                marginBottom={23}
+              />
 
-              <Box flexDirection='row'>
-                <Box bg='neutroFrio1' width={232} height={22} marginRight={15} />
-                <Box bg='neutroFrio1' width={77} height={22} />
+              <Box flexDirection="row">
+                <Box
+                  bg="neutroFrio1"
+                  width={232}
+                  height={22}
+                  marginRight={15}
+                />
+                <Box bg="neutroFrio1" width={77} height={22} />
               </Box>
 
-              <Box bg='neutroFrio1' width='100%' height={2} marginTop={19} marginBottom={19} />
+              <Box
+                bg="neutroFrio1"
+                width="100%"
+                height={2}
+                marginTop={19}
+                marginBottom={19}
+              />
 
-              <Box bg='neutroFrio1' width={232} height={22} />
+              <Box bg="neutroFrio1" width={232} height={22} />
 
-              <Box bg='neutroFrio1' width='100%' height={47} marginTop={19} />
+              <Box bg="neutroFrio1" width="100%" height={47} marginTop={19} />
 
-              <Box flexDirection='row' marginTop={19} width='100%'>
-                <Box bg='neutroFrio1' width={200} height={50} marginRight={12} />
-                <Box bg='neutroFrio1' width={122} height={50} />
+              <Box flexDirection="row" marginTop={19} width="100%">
+                <Box
+                  bg="neutroFrio1"
+                  width={200}
+                  height={50}
+                  marginRight={12}
+                />
+                <Box bg="neutroFrio1" width={122} height={50} />
               </Box>
 
-              <Box flexDirection='row' marginTop={19} width='100%'>
-                <Box bg='neutroFrio1' width={200} height={50} marginRight={12} />
-                <Box bg='neutroFrio1' width={122} height={50} />
+              <Box flexDirection="row" marginTop={19} width="100%">
+                <Box
+                  bg="neutroFrio1"
+                  width={200}
+                  height={50}
+                  marginRight={12}
+                />
+                <Box bg="neutroFrio1" width={122} height={50} />
               </Box>
 
-              <Box flexDirection='row' marginTop={19} width='100%'>
-                <Box bg='neutroFrio1' width={200} height={50} marginRight={12} />
-                <Box bg='neutroFrio1' width={122} height={50} />
+              <Box flexDirection="row" marginTop={19} width="100%">
+                <Box
+                  bg="neutroFrio1"
+                  width={200}
+                  height={50}
+                  marginRight={12}
+                />
+                <Box bg="neutroFrio1" width={122} height={50} />
               </Box>
-
             </Box>
           </Skeleton>
         </Box>
@@ -242,7 +281,6 @@ export const BagScreen = () => {
                   priceWithDiscount={item.sellingPrice / 100}
                   count={item.quantity}
                   onClickAddCount={async (count) => {
-                    console.log(count)
                     await addItem(count, item.id, item.seller);
                   }}
                   onClickSubCount={async (count) =>
@@ -381,9 +419,9 @@ export const BagScreen = () => {
                 <CouponBadge
                   value={sellerCode}
                   onPress={async () => {
-                    setLoading(true)
+                    setLoading(true);
                     await removeSellerCoupon(""); //remove passando ''
-                    setLoading(false)
+                    setLoading(false);
                   }}
                 />
               )}
@@ -392,9 +430,9 @@ export const BagScreen = () => {
                 <CouponBadge
                   value={orderForm?.marketingData?.coupon}
                   onPress={async () => {
-                    setLoading(true)
+                    setLoading(true);
                     await removeCoupon(""); //remove passando ''
-                    setLoading(false)
+                    setLoading(false);
                   }}
                 />
               )}
@@ -513,43 +551,44 @@ export const BagScreen = () => {
         style={{ elevation: Platform.OS == "android" ? 10 : 0 }}
         boxShadow={Platform.OS == "android" ? null : "bottomBarShadow"}
       >
-        {
-          loading ?
+        {loading ? (
+          <Box>
             <Box>
-              <Box>
-
-                <Box flexDirection='row' justifyContent='space-between' marginTop={15}>
-
-                  <Box >
-                    <Box bg='neutroFrio1' width={63} height={22} />
-                    <Box bg='neutroFrio1' width={95} height={22} marginTop={6} />
-                  </Box>
-
-                  <Box alignItems="flex-end">
-                    <Box bg='neutroFrio1' width={63} height={22} />
-                    <Box bg='neutroFrio1' width={95} height={22} marginTop={6} />
-                  </Box>
-
-                </Box>
-
-                <Box bg='neutroFrio1' width='100%' height={50} marginTop={10} />
-              </Box>
-            </Box>
-            :
-            <>
-              <Box flexDirection="row" justifyContent="space-between" py="xxs">
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                marginTop={15}
+              >
                 <Box>
-                  <Typography fontFamily="nunitoRegular" fontSize={13}>
-                    Total:
-                  </Typography>
-
-                  <PriceCustom
-                    fontFamily={"nunitoBold"}
-                    sizeInterger={15}
-                    sizeDecimal={11}
-                    num={totalBag + totalDiscountPrice}
-                  />
+                  <Box bg="neutroFrio1" width={63} height={22} />
+                  <Box bg="neutroFrio1" width={95} height={22} marginTop={6} />
                 </Box>
+
+                <Box alignItems="flex-end">
+                  <Box bg="neutroFrio1" width={63} height={22} />
+                  <Box bg="neutroFrio1" width={95} height={22} marginTop={6} />
+                </Box>
+              </Box>
+
+              <Box bg="neutroFrio1" width="100%" height={50} marginTop={10} />
+            </Box>
+          </Box>
+        ) : (
+          <>
+            <Box flexDirection="row" justifyContent="space-between" py="xxs">
+              <Box>
+                <Typography fontFamily="nunitoRegular" fontSize={13}>
+                  Total:
+                </Typography>
+
+                <PriceCustom
+                  fontFamily={"nunitoBold"}
+                  sizeInterger={15}
+                  sizeDecimal={11}
+                  num={totalBag + totalDiscountPrice}
+                />
+              </Box>
+              {totalBag > 0 && (
                 <Box alignItems="flex-end">
                   <Typography fontFamily="nunitoRegular" fontSize={13}>
                     em até
@@ -572,17 +611,20 @@ export const BagScreen = () => {
                     />
                   </Box>
                 </Box>
-              </Box>
+              )}
+            </Box>
 
-              <Button
-                disabled={orderForm && orderForm?.items?.length === 0 ? true : false}
-                onPress={onGoToDelivery}
-                title="IR PARA ENTREGA"
-                variant="primarioEstreito"
-                inline
-              />
-            </>
-        }
+            <Button
+              disabled={
+                orderForm && orderForm?.items?.length === 0 ? true : false
+              }
+              onPress={onGoToDelivery}
+              title="IR PARA ENTREGA"
+              variant="primarioEstreito"
+              inline
+            />
+          </>
+        )}
       </Box>
     </SafeAreaView>
   );

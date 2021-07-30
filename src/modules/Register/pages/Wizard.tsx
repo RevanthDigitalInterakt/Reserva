@@ -35,10 +35,6 @@ export const Wizard: React.FC<{
     setPercentStep(children.length);
   }, []);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
   const handleNextStep = () => {
     if (currentStep !== children.length - 1) {
       setCurrentStep(currentStep + 1);
