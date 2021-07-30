@@ -37,7 +37,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   // const { profile } = useSelector((state: ApplicationState) => state);
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
-  const { WithoutInternet } = useCheckConnection({})
+  const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({})
   const logout = () => {
     AsyncStorage.removeItem("@RNAuth:cookie");
     setCookie(null);
@@ -49,7 +49,9 @@ const MenuScreen: React.FC<{}> = ({ }) => {
       refetch();
     }
     if (cookie === null) {
-      navigation.navigate("Login", { comeFrom: "Profile" });
+      if (!hasConnection) { // check internet connection
+        navigation.navigate("Login", { comeFrom: "Profile" });
+      }
     }
   });
 

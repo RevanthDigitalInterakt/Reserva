@@ -71,6 +71,7 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
     };
 
     return {
+        showScreen,
         WithoutInternet
     }
 }
