@@ -5661,12 +5661,12 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-ios@3.1.8:
-  version "3.1.8"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lottie-ios/-/lottie-ios-3.1.8.tgz#2e9b1f4eae0dfc10bf4c0b3ab6b402c1d590d0fa"
-  integrity sha1-LpsfTq4N/BC/TAs6trQCwdWQ0Po=
+lottie-ios@3.2.3:
+  version "3.2.3"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lottie-ios/-/lottie-ios-3.2.3.tgz#d5a029ccce611603d178ea7ba725c1446f2310b4"
+  integrity sha1-1aApzM5hFgPReOp7pyXBRG8jELQ=
 
-lottie-react-native@^4.0.2, lottie-react-native@^4.0.3:
+lottie-react-native@^4.0.3:
   version "4.0.3"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lottie-react-native/-/lottie-react-native-4.0.3.tgz#2a2548b8fb6d30e45b55714ec57e986e4af6fcb0"
   integrity sha1-KiVIuPttMORbVXFOxX6Ybkr2/LA=
