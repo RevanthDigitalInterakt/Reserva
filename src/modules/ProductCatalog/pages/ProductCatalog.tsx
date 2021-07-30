@@ -1,10 +1,9 @@
 import { QueryResult, useQuery } from '@apollo/client';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import { Linking } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Linking, Animated } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SkeletonPlaceholder from "@thevsstech/react-native-skeleton";
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -31,6 +30,7 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+import { Skeleton } from '../../Checkout/components/Skeleton';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -44,8 +44,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   let categoryId = 'camisetas';
 
   const dispatch = useDispatch();
-  const [bannerImage, setBannerImage] = useState(images.bannerOffer);
+  const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
+  const [skeletonLoading, setSkeletonLoading] = useState(true)
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -69,6 +70,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         simulationBehavior: "default",
         productOriginVtex: false
       },
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache'
     }
   );
 
@@ -95,18 +98,25 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     },
   });
 
-  const { data: defaultBanner, refetch: refetchDefaultBanner } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } })
+  const { data: defaultBanner, refetch: refetchDefaultBanner, loading: loadingDefaultBanner } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } })
   const setBannerDefaultImage = async () => {
     await refetchDefaultBanner()
     const url = defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url
     setBannerImage(url);
   }
   const { WithoutInternet } = useCheckConnection({})
+
+  const firstLoad = async () => {
+    setSkeletonLoading(true)
+    await refetch();
+    await refetchFacets();
+    await refetchBanner({ category: referenceId });
+    setSkeletonLoading(false)
+  }
+
   useEffect(() => {
-    refetch();
-    refetchFacets();
-    refetchBanner({ category: referenceId });
-    //refetchDefaultBanner()
+    firstLoad()
+    animationSkeletonLoading()
   }, []);
 
   useEffect(() => {
@@ -210,6 +220,29 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     refetch();
   }, [selectedOrder]);
 
+  const skeletonOpacity = useRef(new Animated.Value(0)).current
+  const animationSkeletonLoading = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(skeletonOpacity, {
+          useNativeDriver: true,
+          toValue: 1,
+          duration: 1200,
+          delay: 300
+        }),
+        Animated.timing(skeletonOpacity, {
+          useNativeDriver: true,
+          toValue: 0.3,
+          duration: 600,
+        })
+      ]),
+      {
+        iterations: -1
+      }
+    ).start()
+  }
+
+
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');
   };
@@ -281,51 +314,46 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {(loadingHandlerState || loading || loadingBanner) ?
-        <SkeletonPlaceholder>
-          <SkeletonPlaceholder.Item>
+      {(skeletonLoading || loadingHandlerState) ?
+        <Skeleton>
+          <Box bg='neutroFrio1' width='100%' height={200} />
 
-            <SkeletonPlaceholder.Item width='100%' height={200} />
+          <Box flexDirection='row' justifyContent='center' marginTop={34} >
+            <Box width='50%'>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
+            </Box>
 
-            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={34} >
-              <SkeletonPlaceholder.Item width='50%'>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
-              </SkeletonPlaceholder.Item>
+            <Box width='50%'>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
+            </Box>
+          </Box >
 
-              <SkeletonPlaceholder.Item width='50%'>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
-              </SkeletonPlaceholder.Item>
-            </SkeletonPlaceholder.Item >
+          <Box flexDirection='row' justifyContent='center' marginTop={45}>
 
-            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center' marginTop={45}>
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+              <Box />
+            </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-                <SkeletonPlaceholder.Item />
-              </SkeletonPlaceholder.Item>
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+            </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={24} marginTop={8} />
-              </SkeletonPlaceholder.Item>
+          </Box>
+          <Box flexDirection='row' justifyContent='center'>
 
-            </SkeletonPlaceholder.Item>
-            <SkeletonPlaceholder.Item flexDirection='row' justifyContent='center'>
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+            </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-                <SkeletonPlaceholder.Item />
-              </SkeletonPlaceholder.Item>
+            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
+              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+            </Box>
 
-              <SkeletonPlaceholder.Item width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-                <SkeletonPlaceholder.Item flexGrow={1} borderRadius={8} height={250} />
-              </SkeletonPlaceholder.Item>
-
-            </SkeletonPlaceholder.Item>
-
-          </SkeletonPlaceholder.Item>
-        </SkeletonPlaceholder>
+          </Box>
+        </Skeleton>
         :
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}

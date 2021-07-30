@@ -57,15 +57,13 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       .matches(
         /^[aA-zZ\s]+$/,
         "Apenas alfabetos são permitidos para este campo."
-      )
-      .max(10),
+      ),
     lastName: Yup.string()
       .required("Insira seu sobrenome.")
       .matches(
         /^[aA-zZ\s]+$/,
         "Apenas alfabetos são permitidos para este campo."
-      )
-      .max(10),
+      ),
     birthDate: Yup.string(),
     document: Yup.string().required("Por favor, insira o seu cpf"),
     phone: Yup.string().required("Por favor, insira o seu telefone"),

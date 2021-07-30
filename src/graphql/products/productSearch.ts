@@ -207,7 +207,7 @@ export interface ProductQL {
     skuSpecifications: SkuSpecification[]
     link?: string
     linkText?: string
-    productId?: string
+    productId: string
     productName: string
     properties?: Property[]
     propertyGroups?: PropertyGroup[]
