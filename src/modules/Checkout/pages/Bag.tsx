@@ -156,7 +156,7 @@ export const BagScreen = () => {
     >
       <TopBarBackButton showShadow loading={loading} />
       {loading ?
-        <ScrollView scrollEnabled={false}>
+        <Box >
 
           <Skeleton>
             <Box marginRight={15} marginLeft={21} >
@@ -215,7 +215,7 @@ export const BagScreen = () => {
 
             </Box>
           </Skeleton>
-        </ScrollView>
+        </Box>
         :
         <ScrollView>
           <Box paddingX={"xxxs"} paddingY={"xxs"}>
