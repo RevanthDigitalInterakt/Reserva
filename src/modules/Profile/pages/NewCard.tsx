@@ -328,7 +328,7 @@ export const NewCard = ({ navigation, route }: Props) => {
               }
               variant="primarioEstreito"
               fontFamily="nunitoRegular"
-              onPress={() => console.log("prin")}
+              onPress={() => {}}
               fontSize={13}
               inline
             />

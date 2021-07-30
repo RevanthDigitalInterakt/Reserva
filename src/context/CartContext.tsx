@@ -313,8 +313,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         itemId,
         seller
       );
-
-      console.log(data);
       // check produt availability
       const index = data.items.findIndex(({ id }: any) => id === itemId);
       const product = data.items[index];
@@ -349,8 +347,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         seller,
         qty
       );
-
-      console.log(data);
       setOrderForm(data);
 
       return { ok: true };
@@ -443,7 +439,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         logisticsInfo,
       });
 
-      console.log(data);
       // set new order form
       setOrderForm(data);
 

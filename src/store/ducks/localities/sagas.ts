@@ -7,7 +7,6 @@ import { loadLocalitiesSuccess, loadLocalitiesFailure, loadCountySuccess, loadCo
 export function* loadLocalities() {
     try {
         const { data } = yield call(api.get, 'localidades/estados');
-        console.log('localidades', data)
         yield put(loadLocalitiesSuccess(data));
     } catch (err) {
         yield put(loadLocalitiesFailure());
@@ -17,9 +16,7 @@ export function* loadLocalities() {
 export function* loadCounty({ ...action }) {
     try {
         const county = action.payload.county;
-        console.log('action', county)
         const { data } = yield call(api.get, `localidades/estados/${county}/distritos`);
-        console.log('dataStatezzz', data)
         yield put(loadCountySuccess(data));
     } catch (err) {
         yield put(loadCountyFailure());

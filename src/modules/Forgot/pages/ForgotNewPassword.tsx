@@ -43,7 +43,6 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
       code,
       newPassword: passwords.confirm
     }
-    console.log('variables', variables)
     recoveryPassword({
       variables
     }).then(x => {

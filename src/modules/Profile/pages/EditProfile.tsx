@@ -59,7 +59,6 @@ export const EditProfile: React.FC<{
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setUserData({
         userId: data?.profile?.userId,
         firstName: data?.profile?.firstName || "",
@@ -119,7 +118,6 @@ export const EditProfile: React.FC<{
       user.birthDate = null;
     }
 
-    console.log('user', user)
     updateUserdata({
       variables: {
         fields: user,
@@ -151,7 +149,6 @@ export const EditProfile: React.FC<{
               <Avatar
                 buttonEdit={true}
                 onPress={() => {
-                  console.log("okx");
                 }}
               ></Avatar>
 

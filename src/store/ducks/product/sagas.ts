@@ -10,16 +10,13 @@ export function* loadProduct({
   ...action
 }): Generator<CallEffect<any> | PutEffect<AnyAction>, void, { data: Product }> {
   try {
-    console.log('request params product', action)
     const { productId } = action.payload
 
-    console.log(productId);
     const { data } = yield call(apiBffProducts.get, `product/${productId}`)
 
     let colors = data.skuList?.map((x) => x.color) || []
     let sizes = data.skuList?.map((x) => x.size) || []
 
-    console.log('response product', data)
     yield put(
       loadProductSuccess({
         colors: colors.filter(unique),

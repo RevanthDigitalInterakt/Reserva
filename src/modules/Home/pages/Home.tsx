@@ -35,13 +35,8 @@ export const HomeScreen: React.FC<{
     }
   );
 
-  useEffect(() => {
-    console.log('cookie', cookie)
-  }, [cookie])
-  console.log(data)
 
   useEffect(() => {
-    console.log('data', data)
     let arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map((imageDescription: any) => {
       return {
         fileName: imageDescription.image.fileName,
@@ -95,7 +90,6 @@ export const HomeScreen: React.FC<{
                   onPress={() => {
                     let facetInput = []
                     const [categoryType, categoryData] = item.reference.split(':')
-                    console.log(categoryType, categoryData)
                     if (categoryType === 'category') {
 
                       categoryData.split('|').forEach((cat: string) => {
@@ -110,7 +104,6 @@ export const HomeScreen: React.FC<{
                         value: categoryData
                       })
                     }
-                    console.log('item.reference', item.reference)
                     navigation.navigate('ProductCatalog', { facetInput, referenceId: item.reference });
                   }}
                 >

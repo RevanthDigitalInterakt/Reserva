@@ -60,7 +60,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       context: { clientName: 'contentful' }
     }
   );
-  console.log(data);
 
 
   return (

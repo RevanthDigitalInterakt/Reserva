@@ -23,7 +23,6 @@ export function* loadAddressRequest() {
 export function* createAddressRequest({ ...action }) {
   try {
     const dataAddress = action.payload.dataAddress;
-    console.log("param", dataAddress);
     yield call(api.post, "profiles/current/addresses", dataAddress);
     yield put(loadAddress());
   } catch (err) {

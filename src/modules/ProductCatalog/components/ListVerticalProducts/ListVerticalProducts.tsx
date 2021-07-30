@@ -71,7 +71,6 @@ export const ListVerticalProducts = ({
             productId: productId?.split('-')[0]
           }
         })
-        console.log('add data', data)
       } else {
         await removeWishList({
           variables: {

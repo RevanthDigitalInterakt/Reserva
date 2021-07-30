@@ -281,7 +281,6 @@ export const BagScreen = () => {
                   priceWithDiscount={item.sellingPrice / 100}
                   count={item.quantity}
                   onClickAddCount={async (count) => {
-                    console.log(count);
                     await addItem(count, item.id, item.seller);
                   }}
                   onClickSubCount={async (count) =>
@@ -601,7 +600,6 @@ export const BagScreen = () => {
                       color="vermelhoRSV"
                     >
                       {installmentInfo.installmentsNumber}x de{" "}
-                      {console.log("preço", installmentInfo.totalPrice)}
                     </Typography>
 
                     <PriceCustom

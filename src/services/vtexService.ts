@@ -228,7 +228,6 @@ const AddCustomerToOrder = async (
 const CepVerify = async (cep: string) => {
   try {
     const { data } = await brasilApi.get(`/cep/v2/${cep}`);
-    console.log(data);
     return data;
   } catch (err) {
     console.log(err);

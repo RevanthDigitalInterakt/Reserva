@@ -94,7 +94,6 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
     dispatch(appendCoupons(coupon))
     setCoupon({ value: '' })
   }
-  console.log('productsFinal', products)
   useEffect(() => {
     if (showLottie) {
       lottieRef.current?.play();
