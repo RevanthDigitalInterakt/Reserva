@@ -37,6 +37,7 @@ export const images = {
   bannerLogin: require('./img/banner-login.png'),
   headerLogin: require('./img/headerLogin.png'),
   purchaseConfirmation: require('./img/purchaseConfirmation.png'),
+  withoutInternet: require('./img/withoutInternet.png'),
 };
 
 export const animations = {
