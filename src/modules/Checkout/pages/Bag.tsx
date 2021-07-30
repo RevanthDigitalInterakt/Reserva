@@ -543,7 +543,7 @@ export const BagScreen = () => {
             </Box>
           </Box>
         </ScrollView>
-      )}
+      }
       <Box
         width={"100%"}
         height={145}
