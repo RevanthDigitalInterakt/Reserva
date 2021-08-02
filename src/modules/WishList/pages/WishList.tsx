@@ -60,7 +60,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     if (!!email) {
 
       if (!!wishId) {
-        console.log('wishId', wishId)
         await removeFromWishList({
           variables: {
             id: wishId.id,
@@ -82,7 +81,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     setWishIds(productIds?.viewList.data)
     const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
-    console.log(idArray)
     refetch()
     refetchProducts(
       { idArray }
@@ -101,7 +99,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
 
     const idArray = productIds?.viewList.data.map(x => x.productId) || []
-    console.log(idArray)
     refetch()
     refetchProducts(
       { idArray }

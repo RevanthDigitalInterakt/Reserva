@@ -3,7 +3,6 @@ import { Product } from '../product/types'
 import { CouponsOrders, OrderItems, OrderRequest, OrdersTypes } from './types'
 
 export const loadRequest = (orderRequestParams: OrderRequest) => {
-  console.log(orderRequestParams)
   action(OrdersTypes.ORDER_REQUEST)
 }
 

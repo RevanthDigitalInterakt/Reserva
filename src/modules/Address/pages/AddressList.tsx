@@ -46,10 +46,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log('editAndDelete', editAndDelete)
-  }, [editAndDelete]);
-
   const onAddressChosen = (item: any) => {
     setSelectedAddress(item);
   };
@@ -96,7 +92,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
   }, [orderForm, profile]);
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       const { profile } = data;
       if (profile) {
@@ -106,7 +101,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
   }, [data]);
 
   navigation.addListener("focus", () => {
-    console.log("aqui");
     refetch();
   });
   // useEffect(() => {
@@ -131,8 +125,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
               id: addressId,
             },
           });
-
-          console.log(data);
           setDeleteModal(false);
         }}
         onCancel={() => {

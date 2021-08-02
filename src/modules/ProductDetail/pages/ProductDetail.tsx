@@ -719,7 +719,6 @@ export const ProductDetail: React.FC<Props> = ({
                           variant="icone"
                           onPress={() => {
                             let width = (138 + theme.space.micro) * 2;
-                            console.log(`k/2: ${k / 2}`);
                             recomendedScroll.current?.scrollTo({
                               x: width * (k / 2),
                             });

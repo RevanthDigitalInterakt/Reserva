@@ -121,7 +121,6 @@ export const LoginScreen: React.FC<Props> = ({
 
   useEffect(() => {
     if (!loading && data?.cookie) {
-      console.log('cookie', data.cookie);
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         navigation.navigate('Home');

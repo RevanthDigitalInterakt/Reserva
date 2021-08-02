@@ -18,7 +18,6 @@ export function* restoreSessionToken({ payload }: any) {
     const { authentication }: ApplicationState = yield select(
       (state: ApplicationState) => state
     );
-    console.log("Entrou", authentication);
 
     if (authentication.data?.access_token) {
       setAuthorizationToken(authentication.data?.access_token);

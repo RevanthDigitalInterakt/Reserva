@@ -59,6 +59,12 @@ export const ListVerticalProducts = ({
 
   const { email } = useAuth()
 
+  const resizeImage = (imageUrl: string) => {
+    let urlArray = imageUrl.split("/")
+    urlArray[urlArray.length - 2] = `${urlArray[urlArray.length - 2]}-500-750`;
+    return urlArray.join("/")
+  }
+
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     if (!!email) {
       const { productId, listId } = item
@@ -70,7 +76,6 @@ export const ListVerticalProducts = ({
             productId: productId?.split('-')[0]
           }
         })
-        console.log('add data', data)
       } else {
         await removeWishList({
           variables: {

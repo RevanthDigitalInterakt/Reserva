@@ -7,6 +7,7 @@ import { Box, SearchBar, Typography } from 'reserva-ui';
 import { bottom } from 'styled-system';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { Product } from '../../../store/ducks/product/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
@@ -29,7 +30,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
       },
     }
   );
-
+  const { WithoutInternet } = useCheckConnection({})
   useEffect(() => {
     if (!loading) {
       setProducts(data.productSearch.products);
@@ -81,6 +82,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
   return (
     <Box backgroundColor="white" flex={1}>
       <TopBarDefault loading={loading} />
+      <WithoutInternet />
       <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
         <SearchBar
           onValueChange={(text) => {

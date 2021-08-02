@@ -94,7 +94,6 @@ export const RegisterStep5: React.FC<{
             fontFamily="nunitoRegular"
             title="CONTINUAR"
             onPress={() => {
-              console.log(userData);
               handleSubmit();
               // navigation.navigate("RegisterSuccess", { comeFrom })
             }}
