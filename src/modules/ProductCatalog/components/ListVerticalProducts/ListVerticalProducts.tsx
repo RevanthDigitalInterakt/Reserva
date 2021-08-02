@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import { Box, ProductVerticalListCard, Typography } from 'reserva-ui';
+import { Box, Button, ProductVerticalListCard, Typography } from 'reserva-ui';
 import { ProductQL, Property, SKU } from '../../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { Product } from '../../../../store/ducks/product/types';
@@ -44,6 +44,11 @@ export const ListVerticalProducts = ({
   const [isVisible, setIsVisible] = useState(false);
   const [productList, setProductList] = useState<ProductQL[]>([]);
   const [skip, setSkip] = useState(false);
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(loading)
+  }, [loading])
 
   const { refetch: refetchFavorite } = useQuery(wishListQueries.CHECK_LIST, {
     skip,
@@ -56,14 +61,14 @@ export const ListVerticalProducts = ({
 
   const resizeImage = (imageUrl: string) => {
     let urlArray = imageUrl.split("/")
-    urlArray[urlArray.length - 2] = `${urlArray[urlArray.length - 2]}-500-750`;    
+    urlArray[urlArray.length - 2] = `${urlArray[urlArray.length - 2]}-500-750`;
     return urlArray.join("/")
-  } 
+  }
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     if (!!email) {
       const { productId, listId } = item
-      loadingHandler && loadingHandler(true)
+      setLoading(true)
       if (favorite) {
         const { data } = await addWishList({
           variables: {
@@ -79,7 +84,7 @@ export const ListVerticalProducts = ({
           }
         })
       }
-      loadingHandler && loadingHandler(false)
+      setLoading(false)
       await populateListWithFavorite()
     } else {
       navigation.navigate('Login', { comeFrom: 'Menu' })
@@ -89,7 +94,7 @@ export const ListVerticalProducts = ({
 
   const populateListWithFavorite = async () => {
     if (!!email) {
-      loadingHandler && loadingHandler(true)
+      setLoading(true)
       if (products && products.length > 0) {
         const productList = products.map(async (p) => {
           setSkip(true);
@@ -111,7 +116,7 @@ export const ListVerticalProducts = ({
 
         Promise.all(productList).then((res) => setProductList(res));
       }
-      loadingHandler && loadingHandler(false)
+      setLoading(false)
     } else {
       Promise.all(products).then((res) => setProductList(res));
     }
@@ -132,7 +137,7 @@ export const ListVerticalProducts = ({
         isVisible={isVisible}
         favoritedProduct={favoritedProduct}
       />
-      {productList.length > 0 && (
+      {productList.length > 0 || loading ? (
         <FlatList
           data={productList}
           keyExtractor={(item) => item.productId}
@@ -152,41 +157,68 @@ export const ListVerticalProducts = ({
               installments.length > 0
                 ? installments[0].Value
                 : item.priceRange?.listPrice?.lowPrice;
-          const colors = new ProductUtils().getColorsArray(item);
-          return (
-            <Box
-              flex={1}
-              alignItems="center"
-              justifyContent="center"
-              height={353}
-            >
-              <ProductVerticalListCard
-                isFavorited={item.isFavorite}
-                onClickFavorite={(isFavorite) => { handleOnFavorite(isFavorite, item) }}
-                colors={colors}
-                imageSource={resizeImage(item.items[0].images[0].imageUrl)}
-                installmentsNumber={installmentsNumber} //numero de parcelas
-                installmentsPrice={installmentPrice || 0} //valor das parcelas
-                currency="R$"
-                discountTag={getPercent(
-                  item.priceRange?.sellingPrice.lowPrice,
-                  item.priceRange?.listPrice.lowPrice
-                )}
-                priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                price={item.priceRange?.listPrice?.lowPrice || 0}
-                productTitle={item.productName}
-                onClickImage={() => {
-                  navigation.navigate('ProductDetail', {
-                    productId: item.productId,
-                    colorSelected: item.items[0].variations[2].values[0]
-                  });
-                }}
-              />
-            </Box>
-          );
-        }}
-      />
-      )}
+            const colors = new ProductUtils().getColorsArray(item);
+            return (
+              <Box
+                flex={1}
+                alignItems="center"
+                justifyContent="center"
+                height={353}
+              >
+                <ProductVerticalListCard
+                  isFavorited={item.isFavorite}
+                  onClickFavorite={(isFavorite) => { handleOnFavorite(isFavorite, item) }}
+                  colors={colors}
+                  imageSource={item.items[0].images[0].imageUrl}
+                  installmentsNumber={installmentsNumber} //numero de parcelas
+                  installmentsPrice={installmentPrice || 0} //valor das parcelas
+                  currency="R$"
+                  discountTag={getPercent(
+                    item.priceRange?.sellingPrice.lowPrice,
+                    item.priceRange?.listPrice.lowPrice
+                  )}
+                  priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+                  price={item.priceRange?.listPrice?.lowPrice || 0}
+                  productTitle={item.productName}
+                  onClickImage={() => {
+                    navigation.navigate('ProductDetail', {
+                      productId: item.productId,
+                      colorSelected: item.items[0].variations[2].values[0]
+                    });
+                  }}
+                />
+              </Box>
+            );
+          }}
+        />
+      )
+        :
+        <Box justifyContent='center' alignContent='center' mt={163}>
+          <Typography
+            textAlign='center'
+            fontFamily='reservaSerifMedium'
+            fontSize={20}>
+            Ops...desculpe
+          </Typography>
+          <Box mx={39} mt='nano'>
+            <Typography
+              textAlign='center'
+              fontFamily='nunitoSemiBold'
+              fontSize={13}>
+              A página que você procura está temporariamente indisponível ou foi removida
+            </Typography>
+          </Box>
+          <Button
+            title='VOLTAR'
+            onPress={() => {
+              navigation.goBack()
+            }}
+            variant='primarioEstreitoOutline'
+            mx={22}
+            mt={49}
+            inline />
+        </Box>
+      }
     </>
   );
 };
