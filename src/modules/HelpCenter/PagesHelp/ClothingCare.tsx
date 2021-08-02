@@ -13,7 +13,7 @@ export const ClothingCare: React.FC<{}> = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView
@@ -23,15 +23,15 @@ export const ClothingCare: React.FC<{}> = () => {
     >
       <TopBarBackButton />
 
-      <ScrollView >
-        <Box variant="container" pt={"xs"} paddingX={"xxxs"} >
+      <ScrollView>
+        <Box variant="container" pt={"xs"} paddingX={"xxxs"}>
           <Box mb={"nano"} alignSelf={"flex-start"}>
             <Typography variant={"tituloSessoes"}>
               Cuidados com a roupa
             </Typography>
           </Box>
 
-          <Box mb={"xxxs"} >
+          <Box mb={"xxxs"}>
             <Typography fontFamily={"nunitoRegular"} fontSize={13}>
               Joga na máquina e tá tudo certo!" Na, na, ni, na, não! Saiba aqui
               o que fazer para manter a qualidade da sua peça reserva e
@@ -39,7 +39,7 @@ export const ClothingCare: React.FC<{}> = () => {
               carinho!
             </Typography>
           </Box>
-          <Box >
+          <Box>
             <Image
               source={images.clothingCareWash}
               // resizeMode={"contain"}
@@ -60,7 +60,7 @@ export const ClothingCare: React.FC<{}> = () => {
             <Image
               source={images.clothingCarePass}
               // resizeMode={"contain"}
-              resizeMode={"contain"}
+              // resizeMode={"contain"}
               height={windowWidth - 150}
               width={windowWidth - 20}
             />
