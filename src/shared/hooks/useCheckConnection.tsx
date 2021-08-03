@@ -17,11 +17,11 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
     }, [netInfo])
 
     const checkConnectivity = () => {
-        if (netInfo.isConnected) {
+        if (!netInfo.isConnected && netInfo.isConnected != null) {
+            setShowScreen(true);
+        } else {
             setShowScreen(false);
             if (refetch) refetch()
-        } else {
-            setShowScreen(true);
         }
     }
 
