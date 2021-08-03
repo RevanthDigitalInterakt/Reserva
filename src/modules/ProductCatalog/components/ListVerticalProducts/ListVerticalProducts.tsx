@@ -45,6 +45,10 @@ export const ListVerticalProducts = ({
   const [productList, setProductList] = useState<ProductQL[]>([]);
   const [skip, setSkip] = useState(false);
   const [loading, setLoading] = useState(true)
+  const [loadingFavorite, setLoadingFavorite] = useState<string[]>([])
+  const [favorites, setFavorites] = useState<any[]>([])
+
+  const { email } = useAuth()
 
   useEffect(() => {
     setLoading(loading)
@@ -54,10 +58,15 @@ export const ListVerticalProducts = ({
     skip,
   });
 
+  const { data: productIds, loading: loadingWishlist, error, refetch: refetchWishlist } = useQuery(wishListQueries.GET_WISH_LIST, {
+    variables: {
+      shopperId: email
+    },
+    skip
+  })
+
   const [addWishList, { data: addWishListData, error: addWishListError, loading: addWishLoading }] = useMutation(wishListQueries.ADD_WISH_LIST)
   const [removeWishList, { data: removeWishListData, error: removeWishListError, loading: removeWishLoading }] = useMutation(wishListQueries.REMOVE_WISH_LIST)
-
-  const { email } = useAuth()
 
   const resizeImage = (imageUrl: string) => {
     let urlArray = imageUrl.split("/")
@@ -66,63 +75,56 @@ export const ListVerticalProducts = ({
   }
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
+    setLoadingFavorite([...loadingFavorite, item.productId])
+    const { productId, listId } = item
     if (!!email) {
-      const { productId, listId } = item
-      setLoading(true)
       if (favorite) {
         const { data } = await addWishList({
           variables: {
             shopperId: email,
-            productId: productId?.split('-')[0]
+            productId: productId
           }
         })
+        setFavorites([...favorites, { productId, listId: data.addToList }])
       } else {
+
         await removeWishList({
           variables: {
             shopperId: email,
-            id: listId
+            id: favorites.find(x => x.productId == productId).listId
           }
         })
+        setFavorites([...favorites.filter(x => x.productId != productId)])
       }
       setLoading(false)
       await populateListWithFavorite()
     } else {
       navigation.navigate('Login', { comeFrom: 'Menu' })
-      //Alert.alert('Você precisa se identificar para favoritar um produto!')
     }
+    setLoadingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+  }
+
+  const populateWishlist = async () => {
+    setSkip(true);
+
+    const { data: { viewList: { data: wishlist } } } = await refetchWishlist({ shopperId: email })
+    setFavorites([...wishlist.map((x: any) => { return { productId: x.productId, listId: x.id } })])
+
   }
 
   const populateListWithFavorite = async () => {
+    setLoading(true)
     if (!!email) {
-      setLoading(true)
       if (products && products.length > 0) {
-        const productList = products.map(async (p) => {
-          setSkip(true);
-          const { productId } = p;
-          const {
-            data: { checkList },
-          } = await refetchFavorite({
-            shopperId: email,
-            productId: productId?.split('-')[0],
-          });
-
-          return {
-            ...p,
-            productId: productId,
-            listId: checkList.listIds[0],
-            isFavorite: checkList.inList,
-          };
-        });
-
-        Promise.all(productList).then((res) => setProductList(res));
+        await populateWishlist()
       }
-      setLoading(false)
-    } else {
-      Promise.all(products).then((res) => setProductList(res));
     }
+    Promise.all(products).then((res) => setProductList(res));
+    setLoading(false)
   };
 
   useEffect(() => {
+
     populateListWithFavorite();
   }, [products]);
 
@@ -166,8 +168,14 @@ export const ListVerticalProducts = ({
                 height={353}
               >
                 <ProductVerticalListCard
-                  isFavorited={item.isFavorite}
-                  onClickFavorite={(isFavorite) => { handleOnFavorite(isFavorite, item) }}
+                  loadingFavorite={!!loadingFavorite.find(x => x == item.productId)}
+                  isFavorited={!!favorites.find(x => x.productId == item.productId)}//item.isFavorite}
+                  onClickFavorite={(isFavorite) => {
+                    // setLoafingFavorite([...loadingFavorite, item.productId])
+                    handleOnFavorite(isFavorite, item)
+                    // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+
+                  }}
                   colors={colors}
                   imageSource={item.items[0].images[0].imageUrl}
                   installmentsNumber={installmentsNumber} //numero de parcelas
