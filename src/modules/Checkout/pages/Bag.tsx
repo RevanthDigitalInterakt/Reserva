@@ -35,10 +35,12 @@ import { Product } from "../../../store/ducks/product/types";
 import { useCart } from "../../../context/CartContext";
 import SkeletonPlaceholder from "@thevsstech/react-native-skeleton";
 import { Skeleton } from "../components/Skeleton";
+import { useAuth } from "../../../context/AuthContext";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
 export const BagScreen = () => {
+  const { email } = useAuth();
   const { navigate } = useNavigation();
   const {
     orderForm,
@@ -133,15 +135,8 @@ export const BagScreen = () => {
   const onGoToDelivery = () => {
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
-      const hasCustomer =
-        clientProfileData &&
-        clientProfileData.email &&
-        clientProfileData.firstName;
 
-      const hasAddress =
-        shippingData && shippingData.availableAddresses.length > 0;
-
-      if (!hasCustomer && !hasAddress) {
+      if (!email) {
         navigate("EnterYourEmail");
       } else {
         navigate("DeliveryScreen");
