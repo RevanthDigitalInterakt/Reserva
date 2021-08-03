@@ -199,6 +199,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   addressId,
                 } = item;
 
+                // console.log(`ID=${id} --- SELECTED=${selectedAddress.id}`);
+                
+
                 if (selectedAddress) {
                   selected = id === selectedAddress.id && item;
                 }
