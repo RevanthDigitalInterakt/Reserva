@@ -59,3 +59,14 @@ export const bannerDefaultQuery = gql`
     }
   }
 `
+export const configCollection = gql`
+query ConfigCollection{
+  configCollection(where:{name: "MainConfig"}) {
+    items {
+      name
+      online
+      searchCollection
+    }
+  }
+}
+`
