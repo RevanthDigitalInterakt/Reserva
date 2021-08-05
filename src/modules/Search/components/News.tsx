@@ -4,8 +4,9 @@ import { Box, Button, Typography, Image, } from 'reserva-ui';
 
 interface INews {
     data: any;
+    onPress: (value: string) => void;
 }
-export const News = ({ data }: INews) => {
+export const News = ({ data, onPress }: INews) => {
     return (
         <>
             <Box mt="sm" marginX="nano" mb="micro">
@@ -25,7 +26,7 @@ export const News = ({ data }: INews) => {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <Button
-                            onPress={() => console.log(item)}
+                            onPress={() => onPress(item.url)}
                             ml="nano"
                             mr="nano"
                             width={286}

@@ -238,6 +238,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
             searchTerm.length === 0 &&
             <News
               data={productNews}
+              onPress={(item) => console.log('item', item)}
             />
           }
           {
