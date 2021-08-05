@@ -139,7 +139,10 @@ export const BagScreen = () => {
     orderform();
   };
 
-  const onGoToDelivery = () => {
+
+  //! ALTERAR PARA O FLUXO CORRETO
+
+  const onGoToDelivery = async () => {
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
       const hasCustomer =
@@ -150,9 +153,10 @@ export const BagScreen = () => {
       const hasAddress =
         shippingData && shippingData.availableAddresses.length > 0;
 
-      if (!hasCustomer && !hasAddress) {
+      if (!email) {
         navigate("EnterYourEmail");
       } else {
+        await identifyCustomer(email);
         navigate("DeliveryScreen");
       }
     }
