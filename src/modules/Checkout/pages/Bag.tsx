@@ -85,8 +85,11 @@ export const BagScreen = () => {
     setLoading(false);
   };
 
+  const setCustomer = async (email: string) => identifyCustomer(email)
+
   useEffect(() => {
     firstLoadOrderForm();
+    setCustomer(email);
   }, []);
 
   useEffect(() => {
@@ -156,7 +159,6 @@ export const BagScreen = () => {
       if (!email) {
         navigate("EnterYourEmail");
       } else {
-        await identifyCustomer(email);
         navigate("DeliveryScreen");
       }
     }
