@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const urlBase = 'https://applojausereserva.vtexcommercestable.com.br/api/';
+const urlBase = 'https://applojausereserva.myvtex.com/api/';
 
-const urlBase2 = 'https://lojausereserva.vtexcommercestable.com.br/api/';
+const urlBase2 = 'https://lojausereserva.myvtex.com/api/';
 
 const url = urlBase;
 

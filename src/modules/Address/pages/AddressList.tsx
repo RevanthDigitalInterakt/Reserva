@@ -47,7 +47,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   }, []);
 
   const onAddressChosen = (item: any) => {
-    setSelectedAddress(item);
+    setSelectedAddress({...item, addressType: "residential"});
   };
 
   const onGoToPayment = async () => {
@@ -103,9 +103,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
   navigation.addListener("focus", () => {
     refetch();
   });
-  // useEffect(() => {
-  //   refetch();
-  // }, [loadingAddressDelete]);
+
+  useEffect(() => {
+    console.log(selectedAddress);    
+  }, [selectedAddress]);
 
   return (
     <>

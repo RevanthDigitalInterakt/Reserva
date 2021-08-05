@@ -49,6 +49,7 @@ export const BagScreen = () => {
     orderform,
     removeItem,
     addCoupon,
+    identifyCustomer,
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
@@ -136,8 +137,15 @@ export const BagScreen = () => {
   const onGoToDelivery = () => {
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
+      const hasCustomer =
+        clientProfileData &&
+        clientProfileData.email &&
+        clientProfileData.firstName;
 
-      if (!email) {
+      const hasAddress =
+        shippingData && shippingData.availableAddresses.length > 0;
+
+      if (!hasCustomer && !hasAddress) {
         navigate("EnterYourEmail");
       } else {
         navigate("DeliveryScreen");

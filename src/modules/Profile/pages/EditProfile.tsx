@@ -104,7 +104,7 @@ export const EditProfile: React.FC<{
       firstName: firstName,
       lastName: lastName,
       email: userData.email,
-      document: userData.document,
+      document: userData.document.replace(/[^\d]+/g,''),
       birthDate: splittedBirthDate?.reverse().join("-"),
       homePhone: userData.homePhone,
     };
