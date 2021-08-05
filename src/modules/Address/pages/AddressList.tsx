@@ -104,10 +104,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
     refetch();
   });
 
-  useEffect(() => {
-    console.log(selectedAddress);    
-  }, [selectedAddress]);
-
   return (
     <>
       <Alert
@@ -198,13 +194,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   street,
                   neighborhood,
                   addressId,
-                } = item;
-
-                // console.log(`ID=${id} --- SELECTED=${selectedAddress.id}`);
-                
+                } = item;                
 
                 if (selectedAddress) {
-                  selected = id === selectedAddress.id && item;
+                  selected = addressId === selectedAddress.addressId && item;
                 }
 
                 return (
