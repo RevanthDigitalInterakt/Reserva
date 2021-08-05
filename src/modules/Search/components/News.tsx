@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Platform } from 'react-native';
+import { FlatList, Platform, Dimensions } from 'react-native';
 import { Box, Button, Typography, Image, } from 'reserva-ui';
 
 interface INews {
@@ -18,7 +18,7 @@ export const News = ({ data }: INews) => {
                 </Typography>
             </Box>
 
-            <Box height={200} pt="quarck">
+            <Box height={170} pt="quarck">
                 <FlatList
                     horizontal={true}
                     data={data}
@@ -28,16 +28,19 @@ export const News = ({ data }: INews) => {
                             onPress={() => console.log(item)}
                             ml="nano"
                             mr="nano"
-                            bg='white'
-                            height={154}
                             width={286}
+                            height={154}
                             borderRadius="nano"
                             style={{ elevation: Platform.OS == "android" ? 4 : 0 }}
                             boxShadow={Platform.OS == "android" ? null : "topBarShadow"}
                         >
-                            <Box >
-                                <Typography>imagem 1</Typography>
-                            </Box>
+                            <Image
+                                borderRadius={8}
+                                autoHeight={true}
+                                height={154}
+                                width={286}
+                                source={{ uri: item.url }}
+                            />
                         </Button>
                     )}
                     keyExtractor={item => item.id}

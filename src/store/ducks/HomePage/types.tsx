@@ -9,6 +9,10 @@ export interface HomeQuery {
   url: string;
 }
 
+export interface ConfigCollection {
+  url: string[];
+}
+
 export const homeQuery = gql`
   query homePageCollection($limit:Int!){
     homePageCollection{
@@ -66,6 +70,14 @@ query ConfigCollection{
       name
       online
       searchCollection
+      searchMedia {
+        title
+        imagesCollection (limit: 10) {
+          items {
+            url
+          }
+        }
+      }
     }
   }
 }
