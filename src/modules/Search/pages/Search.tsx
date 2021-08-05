@@ -118,6 +118,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
       setFeaturedProducts(featuredData.productSearch.products);
     }
   }, [featuredData]);
+
   useEffect(() => {
     setShowResults(false);
   }, []);
@@ -182,6 +183,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
 
         {
           !showResults &&
+          searchTerm.length === 0 &&
           <Box
             marginX="nano"
             mt="micro"
@@ -201,7 +203,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
                 mostSearched.map((item) => (
                   <Button onPress={() => {
                     setSearchTerm(item.term)
-                    handleSearch(item.term)
+                    // handleSearch(item.term)
                   }}>
                     <Box
                       bg={"divider"}
@@ -222,13 +224,15 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
           </Box>
         }
         {!showResults &&
+          searchTerm.length === 0 &&
           productNews.length > 0 &&
           <News
             data={productNews}
           />
         }
-        {/* {
+        {
           !showResults &&
+          searchTerm.length === 0 &&
           featuredProducts && featuredProducts?.length > 0 &&
           <>
             <Box mt="xs" marginX="nano" mb="micro">
@@ -249,19 +253,20 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
               />
             </Animatable.View>
           </>
-        } */}
+        }
 
         {
           suggestions.length > 0 &&
+          searchTerm.length > 0 &&
           !showResults &&
           <Box
             bg="white"
             marginX="nano"
-            position="absolute"
-            top={99}
-            right={0}
-            left={0}
-            zIndex={1}
+            // position="absolute"
+            // top={99}
+            // right={0}
+            // left={0}
+            // zIndex={1}
             justifyContent="center"
           >
             {
@@ -272,7 +277,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
                       width="100%"
                       onPress={() => {
                         setSearchTerm(suggestion.term)
-                        handleSearch(searchTerm)
+                        // handleSearch(searchTerm)
                       }}
                     >
                       <Box
@@ -296,33 +301,42 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
               })}
           </Box>
         }
-        <Box mt="xs" marginX="nano" mb="micro">
-          <Box flexDirection="row" justifyContent="space-between" alignItems="center">
-            <Typography
-              fontFamily="nunitoBold"
-              fontSize={13}
-              color="neutroFrio2"
-            >
-              PRODUTOS RELACIONADOS
-            </Typography>
-            <Button
-              bg="white"
-              borderRadius="pico"
-              borderWidth={1}
-              borderColor="divider"
-              px="nano"
-              py="quarck"
-            >
+        {relatedProducts &&
+          searchTerm.length > 0 &&
+          relatedProducts.length > 0 &&
+          <Box mt="xs" marginX="nano" mb="micro">
+            <Box flexDirection="row" justifyContent="space-between" alignItems="center" mb="xxxs">
               <Typography
-                fontFamily="reservaSansMedium"
-                fontSize={14}
+                fontFamily="nunitoBold"
+                fontSize={13}
+                color="neutroFrio2"
               >
-                Ver todos
+                PRODUTOS RELACIONADOS
               </Typography>
-            </Button>
+              <Button
+                bg="white"
+                borderRadius="pico"
+                borderWidth={1}
+                borderColor="divider"
+                px="nano"
+                py="quarck"
+              >
+                <Typography
+                  fontFamily="reservaSansMedium"
+                  fontSize={14}
+                >
+                  Ver todos
+                </Typography>
+              </Button>
+            </Box>
+            <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
+              <ListVerticalProducts
+                horizontal
+                products={relatedProducts ? relatedProducts : []}
+              />
+            </Animatable.View>
           </Box>
-
-        </Box>
+        }
         {
           showResults && (
 

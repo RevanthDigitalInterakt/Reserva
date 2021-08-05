@@ -16,7 +16,7 @@ query SearchSuggestionsAndProductSearch(
     $fullText: String!
     $hideUnavailableItems: Boolean = true
     $orderBy: String = "OrderByReviewRateDESC"
-    $to: Int = 10
+    $to: Int = 4
     $simulationBehavior: SimulationBehavior = default
     $productOriginVtex: Boolean = false
     ) {

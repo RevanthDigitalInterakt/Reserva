@@ -18,7 +18,7 @@ export const News = ({ data }: INews) => {
                 </Typography>
             </Box>
 
-            <Box height={160}>
+            <Box height={200} pt="quarck">
                 <FlatList
                     horizontal={true}
                     data={data}
@@ -33,7 +33,7 @@ export const News = ({ data }: INews) => {
                             width={286}
                             borderRadius="nano"
                             style={{ elevation: Platform.OS == "android" ? 4 : 0 }}
-                            boxShadow={Platform.OS == "android" ? null : "bottomBarShadow"}
+                            boxShadow={Platform.OS == "android" ? null : "topBarShadow"}
                         >
                             <Box >
                                 <Typography>imagem 1</Typography>
