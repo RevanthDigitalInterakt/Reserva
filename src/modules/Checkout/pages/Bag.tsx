@@ -281,9 +281,8 @@ export const BagScreen = () => {
           </Skeleton>
         </Box>
         :
-        orderForm?.items.length === 0 ?
-          <EmptyBag onPress={() => navigate('Offers')} />
-          :
+        orderForm && orderForm?.items.length > 0 ?
+
           <ScrollView>
             <Alert
               onModalHide={() => {
@@ -623,6 +622,9 @@ export const BagScreen = () => {
               </Box>
             </Box>
           </ScrollView>
+          :
+          <EmptyBag onPress={() => navigate('Offers')} />
+
       }
 
       <Box
