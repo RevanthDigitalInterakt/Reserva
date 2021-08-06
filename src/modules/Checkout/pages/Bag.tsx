@@ -69,6 +69,7 @@ export const BagScreen = () => {
   const [sellerCode, setSellerCode] = React.useState<string | undefined>("");
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
+  const [optimistQuantities, setOptimistQuantities] = useState(orderForm?.items.map(x => x.quantity) || [])
   const [installmentInfo, setInstallmentInfo] = useState({
     installmentsNumber: 0,
     installmentPrice: 0,
@@ -111,6 +112,8 @@ export const BagScreen = () => {
         ?.find((x) => x.paymentSystem == 4)
         ?.installments?.reverse()[0] || null;
 
+    const quantities = orderForm?.items.map(x => x.quantity) || []
+
     setInstallmentInfo(
       !!installment
         ? {
@@ -122,6 +125,8 @@ export const BagScreen = () => {
           ...installmentInfo,
         }
     );
+
+    setOptimistQuantities(quantities)
 
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
@@ -163,6 +168,12 @@ export const BagScreen = () => {
       }
     }
   };
+
+  useEffect(() => {
+    console.log('optimistQuantities', optimistQuantities)
+    console.log('orderForm items', orderForm?.items)
+
+  }, [optimistQuantities])
 
   return (
     <SafeAreaView
@@ -303,7 +314,8 @@ export const BagScreen = () => {
                 </Typography>
               </Box>
 
-              {orderForm?.items.map((item, index) => (
+              {orderForm?.items.map((item, index, array) => (
+
                 <Box key={index} bg={"white"} marginTop={"xxxs"}>
                   <ProductHorizontalListCard
                     isBag
@@ -318,9 +330,18 @@ export const BagScreen = () => {
                     // installmentsPrice={item.installmentPrice}
                     price={item.listPrice / 100}
                     priceWithDiscount={item.sellingPrice / 100}
-                    count={item.quantity}
+                    count={optimistQuantities[index]}
                     onClickAddCount={async (count) => {
-                      await addItem(count, item.id, item.seller);
+                      const firstItemIndex = array.findIndex(x => x.productId == item.productId)
+                      console.log(firstItemIndex)
+                      const prevCont = optimistQuantities[firstItemIndex]
+                      await setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), count, ...optimistQuantities.slice(firstItemIndex + 1)])
+                      const { ok } = await addItem(count, item.id, item.seller);
+
+                      if (!ok)
+                        setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), prevCont, ...optimistQuantities.slice(firstItemIndex + 1)])
+                      //console.log('ok addCount', ok)
+
                     }}
                     onClickSubCount={async (count) => {
                       const prevCont = optimistQuantities[index]
