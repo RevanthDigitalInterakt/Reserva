@@ -49,6 +49,7 @@ export const BagScreen = () => {
     orderform,
     removeItem,
     addCoupon,
+    identifyCustomer,
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
@@ -84,8 +85,11 @@ export const BagScreen = () => {
     setLoading(false);
   };
 
+  const setCustomer = async (email: string) => identifyCustomer(email)
+
   useEffect(() => {
     firstLoadOrderForm();
+    setCustomer(email);
   }, []);
 
   useEffect(() => {
@@ -138,9 +142,19 @@ export const BagScreen = () => {
     orderform();
   };
 
-  const onGoToDelivery = () => {
+
+  //! ALTERAR PARA O FLUXO CORRETO
+
+  const onGoToDelivery = async () => {
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
+      const hasCustomer =
+        clientProfileData &&
+        clientProfileData.email &&
+        clientProfileData.firstName;
+
+      const hasAddress =
+        shippingData && shippingData.availableAddresses.length > 0;
 
       if (!email) {
         navigate("EnterYourEmail");
