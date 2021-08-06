@@ -1,11 +1,18 @@
 import React from 'react';
 import { FlatList, Platform, Dimensions } from 'react-native';
 import { Box, Button, Typography, Image, } from 'reserva-ui';
+import { ConfigCollection } from '../../../store/ducks/HomePage/types';
 
 interface INews {
-    data: any;
+    data: {
+        reference: string;
+        image: {
+            url: string;
+        };
+    }[];
     onPress: (value: string) => void;
 }
+
 export const News = ({ data, onPress }: INews) => {
     return (
         <>
@@ -26,7 +33,7 @@ export const News = ({ data, onPress }: INews) => {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <Button
-                            onPress={() => onPress(item.url)}
+                            onPress={() => onPress(item.reference)}
                             ml="nano"
                             mr="nano"
                             width={286}
@@ -40,7 +47,7 @@ export const News = ({ data, onPress }: INews) => {
                                 autoHeight={true}
                                 height={154}
                                 width={286}
-                                source={{ uri: item.url }}
+                                source={{ uri: item.image.url }}
                             />
                         </Button>
                     )}

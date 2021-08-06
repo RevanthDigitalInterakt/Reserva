@@ -3,6 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
 import * as Animatable from 'react-native-animatable';
 import { Box, Button, Divider, SearchBar, Typography, Image, ProductVerticalListCard, Icon } from 'reserva-ui';
 import { configCollection, ConfigCollection } from '../../../store/ducks/HomePage/types';
@@ -19,7 +20,8 @@ import { News } from '../components/News';
 
 type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 
-export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
+export const SearchScreen: React.FC<Props> = ({ route, }) => {
+  const navigation = useNavigation()
   const [searchTerm, setSearchTerm] = React.useState('');
   const [showResults, setShowResults] = React.useState(true);
   const [showAllProducts, setShowAllProducts] = React.useState(false);
@@ -105,7 +107,7 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     if (collectionData) {
-      setProductNews(collectionData?.configCollection?.items[0].searchMedia.imagesCollection.items)
+      setProductNews(collectionData?.configCollection?.items[0].searchMedia.secionMediaCollection.items)
     }
   }, [collectionData])
 
@@ -237,8 +239,21 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
 
               <News
                 data={productNews}
-                onPress={(item) => console.log('item', item)}
+                onPress={
+                  (item) => {
+                    let facetInput: any[] = [];
+                    let [collecion, valueCollecion] = item.split(':')
+                    facetInput.push({
+                      key: 'productClusterIds',
+                      value: valueCollecion
+                    })
+                    navigation.navigate('ProductCatalog', {
+                      facetInput,
+                      referenceId: item
+                    })
+                  }}
               />
+
               {featuredProducts && featuredProducts?.length > 0 &&
                 <>
                   <Box mt="xs" marginX="nano" mb="micro">

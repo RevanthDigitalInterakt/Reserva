@@ -10,7 +10,10 @@ export interface HomeQuery {
 }
 
 export interface ConfigCollection {
-  url: string[];
+  reference: string;
+  image: {
+    url: string;
+  };
 }
 
 export const homeQuery = gql`
@@ -72,13 +75,37 @@ query ConfigCollection{
       searchCollection
       searchMedia {
         title
-        imagesCollection (limit: 10) {
-          items {
-            url
+       	secionMediaCollection(limit: 10) {
+        	items {
+            reference
+            image {
+              url
+            }
           }
-        }
+      	}
       }
     }
   }
 }
 `
+// query {
+//   # add your query
+//   configCollection(where:{name: "MainConfig"}) {
+//     items {
+//       name
+//       online
+//       searchCollection
+//       searchMedia {
+//         title
+//        	secionMediaCollection(limit: 10) {
+//         	items {
+//             reference
+//             image {
+//               url
+//             }
+//           }
+//       	}
+//       }
+//     }
+//   }
+// }
