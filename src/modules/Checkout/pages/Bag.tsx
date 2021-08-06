@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Platform, SafeAreaView, ScrollView } from "react-native";
 import {
   Typography,
@@ -11,6 +11,7 @@ import {
   Icon,
   Toggle,
   TextField,
+  Alert,
   ProductVerticalListCard,
 } from "reserva-ui";
 import { PriceCustom } from "../components/PriceCustom";
@@ -54,8 +55,12 @@ export const BagScreen = () => {
     removeCoupon,
     removeSellerCoupon,
   } = useCart();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [successModal, setSuccessModal] = useState(false);
+  const modalRef = useRef(false);
   const [totalBag, setTotalBag] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [removeProduct, setRemoveProduct] = useState<{ id: string, index: number, seller: string, quantity: number } | undefined>();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
@@ -280,6 +285,29 @@ export const BagScreen = () => {
           <EmptyBag onPress={() => navigate('Offers')} />
           :
           <ScrollView>
+            <Alert
+              onModalHide={() => {
+                modalRef.current && setSuccessModal(true);
+              }}
+              isVisible={showModal}
+              title={"Excluir produto"}
+              subtitle={"Tem certeza que deseja excluir o produto salvo em sua sacola?"}
+              confirmText={"SIM"}
+              cancelText={"NÃO"}
+              onConfirm={async () => {
+                modalRef.current = true;
+                if (removeProduct) {
+                  await removeItem(removeProduct?.id, removeProduct?.index, removeProduct?.seller, 0);
+                }
+                setShowModal(false);
+              }}
+              onCancel={() => {
+                setShowModal(false);
+              }}
+              onClose={() => {
+                setShowModal(false);
+              }}
+            />
             <Box paddingX={"xxxs"} paddingY={"xxs"}>
               <Box bg={"white"} marginTop={"xxs"}>
                 <Typography variant="tituloSessoes">
@@ -318,20 +346,34 @@ export const BagScreen = () => {
                     }}
                     onClickSubCount={async (count) => {
                       const prevCont = optimistQuantities[index]
-                      setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
-                      const { ok } = await removeItem(
-                        item.id,
-                        index,
-                        item.seller,
-                        item.quantity - 1
-                      )
-                      if (!ok)
-                        setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
-                      console.log('ok subCount', ok)
+                      if (prevCont <= 1) {
+                        setShowModal(true)
+                        setRemoveProduct({
+                          id: item.id,
+                          index: index,
+                          seller: item.seller
+                        })
+                      } else {
+                        setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
+                        const { ok } = await removeItem(
+                          item.id,
+                          index,
+                          item.seller,
+                          item.quantity - 1
+                        )
+                        if (!ok)
+                          setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
+                        console.log('ok subCount', ok)
 
+                      }
                     }}
-                    onClickClose={async () => {
-                      await removeItem(item.id, index, item.seller, 0);
+                    onClickClose={() => {
+                      setShowModal(true)
+                      setRemoveProduct({
+                        id: item.id,
+                        index: index,
+                        seller: item.seller
+                      })
                     }}
                     imageSource={item.imageUrl
                       .replace("http", "https")
