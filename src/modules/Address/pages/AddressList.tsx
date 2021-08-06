@@ -41,13 +41,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     if (comeFrom === "Home") {
       setEditAndDelete(true);
-    }else{
+    } else {
       setEditAndDelete(false);
     }
   }, []);
 
   const onAddressChosen = (item: any) => {
-    setSelectedAddress({...item, addressType: "residential"});
+    setSelectedAddress({ ...item, addressType: "residential" });
   };
 
   const onGoToPayment = async () => {
@@ -194,7 +194,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   street,
                   neighborhood,
                   addressId,
-                } = item;                
+                } = item;
 
                 if (selectedAddress) {
                   selected = addressId === selectedAddress.addressId && item;
@@ -243,31 +243,57 @@ const AddressList: React.FC<Props> = ({ route }) => {
           )}
         </Box>
 
-        {isCheckout && addresses ? (
-          <Box justifyContent="flex-end" flex={1}>
-            <Button
-              disabled={loading}
-              onPress={onGoToPayment}
-              title="FORMA DE PAGAMENTO"
-              variant="primarioEstreito"
-              inline={true}
-            />
-          </Box>
-        ) : (
-          <Box marginX={"md"}>
-            <Button
-              onPress={() =>
-                navigation.navigate("NewAddress", {
-                  isCheckout,
-                  id: null,
-                })
-              }
-              title={"NOVO ENDEREÇO"}
-              variant="primarioEstreitoOutline"
-              padding="xl"
-            />
-          </Box>
-        )}
+        <Box bg="white"
+          position="absolute"
+          bottom={0}
+          right={0}
+          left={0}
+          height={130}
+        >
+          {comeFrom != "Home" &&
+            < Box marginX={"md"}>
+              <Button
+                onPress={() =>
+                  navigation.navigate("NewAddress", {
+                    isCheckout,
+                    id: null,
+                  })
+                }
+                title={"NOVO ENDEREÇO"}
+                variant="primarioEstreitoOutline"
+                padding="xl"
+              />
+            </Box>
+          }
+
+          {isCheckout && addresses ? (
+            <Box justifyContent="flex-end" flex={1}>
+              <Button
+                disabled={loading}
+                onPress={onGoToPayment}
+                title="FORMA DE PAGAMENTO"
+                variant="primarioEstreito"
+                inline={true}
+              />
+            </Box>
+          ) : (
+            <Box marginX={"md"}>
+              <Button
+                onPress={() =>
+                  navigation.navigate("NewAddress", {
+                    isCheckout,
+                    id: null,
+                  })
+                }
+                title={"NOVO ENDEREÇO"}
+                variant="primarioEstreitoOutline"
+                padding="xl"
+              />
+            </Box>
+          )}
+        </Box>
+
+
       </SafeAreaView>
     </>
   );
