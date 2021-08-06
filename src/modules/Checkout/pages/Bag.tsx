@@ -624,7 +624,6 @@ export const BagScreen = () => {
           </ScrollView>
           :
           <EmptyBag onPress={() => navigate('Offers')} />
-
       }
 
       <Box
