@@ -196,74 +196,71 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
           {
             !showResults &&
             searchTerm.length === 0 &&
-            <Box
-              marginX="nano"
-              mt="micro"
-            >
-              <Box>
-                <Typography
-                  fontFamily="nunitoBold"
-                  fontSize={13}
-                  color="neutroFrio2"
-                >
-                  OS MAIS PROCURADOS
-                </Typography>
-              </Box>
-
-              <Box flexDirection={"row"} flexWrap="wrap">
-                {
-                  mostSearched.map((item) => (
-                    <Button onPress={() => {
-                      setSearchTerm(item.term)
-                    }}>
-                      <Box
-                        bg={"divider"}
-                        justifyContent="center"
-                        px={"micro"}
-                        height={26}
-                        borderRadius={"pico"}
-                        marginTop="micro"
-                        mr="micro"
-                      >
-                        <Typography fontFamily={"nunitoRegular"} fontSize={13}>
-                          {item.term}
-                        </Typography>
-                      </Box>
-                    </Button>
-                  ))}
-              </Box>
-            </Box>
-          }
-          {!showResults &&
-            searchTerm.length === 0 &&
-            <News
-              data={productNews}
-              onPress={(item) => console.log('item', item)}
-            />
-          }
-          {
-            !showResults &&
-            searchTerm?.length === 0 &&
-            featuredProducts && featuredProducts?.length > 0 &&
             <>
-              <Box mt="xs" marginX="nano" mb="micro">
-                <Typography
-                  fontFamily="nunitoBold"
-                  fontSize={13}
-                  color="neutroFrio2"
-                >
-                  DESTAQUES
-                </Typography>
+              <Box
+                marginX="nano"
+                mt="micro"
+              >
+                <Box>
+                  <Typography
+                    fontFamily="nunitoBold"
+                    fontSize={13}
+                    color="neutroFrio2"
+                  >
+                    OS MAIS PROCURADOS
+                  </Typography>
+                </Box>
+
+                <Box flexDirection={"row"} flexWrap="wrap">
+                  {
+                    mostSearched.map((item) => (
+                      <Button onPress={() => {
+                        setSearchTerm(item.term)
+                      }}>
+                        <Box
+                          bg={"divider"}
+                          justifyContent="center"
+                          px={"micro"}
+                          height={26}
+                          borderRadius={"pico"}
+                          marginTop="micro"
+                          mr="micro"
+                        >
+                          <Typography fontFamily={"nunitoRegular"} fontSize={13}>
+                            {item.term}
+                          </Typography>
+                        </Box>
+                      </Button>
+                    ))}
+                </Box>
               </Box>
 
-              <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-                <ListVerticalProducts
-                  products={featuredProducts ? featuredProducts : []}
-                  loadMoreProducts={(offset) => {
-                    loadMoreProducts(offset, '');
-                  }}
-                />
-              </Animatable.View>
+              <News
+                data={productNews}
+                onPress={(item) => console.log('item', item)}
+              />
+              {featuredProducts && featuredProducts?.length > 0 &&
+                <>
+                  <Box mt="xs" marginX="nano" mb="micro">
+                    <Typography
+                      fontFamily="nunitoBold"
+                      fontSize={13}
+                      color="neutroFrio2"
+                    >
+                      DESTAQUES
+                    </Typography>
+                  </Box>
+
+                  <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
+                    <ListVerticalProducts
+                      products={featuredProducts ? featuredProducts : []}
+                      loadMoreProducts={(offset) => {
+                        loadMoreProducts(offset, '');
+                      }}
+                    />
+                  </Animatable.View>
+                </>
+              }
             </>
           }
 
@@ -271,133 +268,87 @@ export const SearchScreen: React.FC<Props> = ({ route, navigation }) => {
             suggestions?.length > 0 &&
             searchTerm.length > 0 &&
             !showResults &&
-            <Box
-              bg="white"
-              marginX="nano"
-              justifyContent="center"
-            >
-              {
-                suggestions.map((suggestion) => {
-                  return (
-                    <>
-                      <Button
-                        width="100%"
-                        onPress={() => {
-                          setSearchTerm(suggestion.term)
-                        }}
-                      >
-                        <Box
-                          width="100%"
-                          paddingX="micro"
-                          minHeight={40}
-                          justifyContent="center"
-                        >
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={12}
-                            color="searchBarTextColor"
-                          >
-                            {suggestion.term}
-                          </Typography>
-                        </Box>
-                      </Button>
-                      <Divider variant="fullWidth" />
-                    </>
-                  )
-                })}
-            </Box>
-          }
-          {relatedProducts &&
-            searchTerm.length > 0 &&
-            relatedProducts.length > 0 &&
-            <Box mt="xs" marginX="nano" mb="micro">
-              <Box flexDirection="row" justifyContent="space-between" alignItems="center" mb="xxxs">
-                <Typography
-                  fontFamily="nunitoBold"
-                  fontSize={13}
-                  color="neutroFrio2"
-                >
-                  PRODUTOS RELACIONADOS
-                </Typography>
-                <Button
-                  onPress={() => {
-                    setShowAllProducts(true)
-                    handleSearch(searchTerm)
-                  }}
-                  bg="white"
-                  borderRadius="pico"
-                  borderWidth={1}
-                  borderColor="divider"
-                  px="nano"
-                  py="quarck"
-                >
-                  <Typography
-                    fontFamily="reservaSansMedium"
-                    fontSize={14}
-                  >
-                    Ver todos
-                  </Typography>
-                </Button>
-              </Box>
-              <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-                <ListVerticalProducts
-                  horizontal
-                  products={relatedProducts ? relatedProducts : []}
-                  loadMoreProducts={(offset) => {
-                    loadMoreProducts(offset, '');
-                  }}
-                />
-              </Animatable.View>
-            </Box>
-          }
-          {/* {
-          showResults && (
-
-            products && products?.length > 0 ?
-              <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-                <ListVerticalProducts
-                  products={products ? products : []}
-                  loadMoreProducts={(offset) => {
-                    loadMoreProducts(offset, searchTerm);
-                  }}
-                />
-              </Animatable.View>
-              :
+            <>
               <Box
-                height="100%"
-                justifyContent="center"
-                alignItems="center"
                 bg="white"
+                marginX="nano"
+                justifyContent="center"
               >
-                <Box mx="sm">
-                  <Typography
-                    textAlign="center"
-                    fontFamily="reservaSansRegular"
-                    fontSize={16}
-                  >
-                    Opss, infelizmente não encontramos nenhum resultado para a sua pesquisa.
-                  </Typography>
+                {
+                  suggestions.map((suggestion) => {
+                    return (
+                      <>
+                        <Button
+                          width="100%"
+                          onPress={() => {
+                            setSearchTerm(suggestion.term)
+                          }}
+                        >
+                          <Box
+                            width="100%"
+                            paddingX="micro"
+                            minHeight={40}
+                            justifyContent="center"
+                          >
+                            <Typography
+                              fontFamily="nunitoRegular"
+                              fontSize={12}
+                              color="searchBarTextColor"
+                            >
+                              {suggestion.term}
+                            </Typography>
+                          </Box>
+                        </Button>
+                        <Divider variant="fullWidth" />
+                      </>
+                    )
+                  })}
+              </Box>
+              {relatedProducts && relatedProducts.length > 0 ?
+                <Box mt="xs" marginX="nano" mb="micro">
+                  <Box flexDirection="row" justifyContent="space-between" alignItems="center" mb="xxxs">
+                    <Typography
+                      fontFamily="nunitoBold"
+                      fontSize={13}
+                      color="neutroFrio2"
+                    >
+                      PRODUTOS RELACIONADOS
+                    </Typography>
+                    <Button
+                      onPress={() => {
+                        setShowAllProducts(true)
+                        handleSearch(searchTerm)
+                      }}
+                      bg="white"
+                      borderRadius="pico"
+                      borderWidth={1}
+                      borderColor="divider"
+                      px="nano"
+                      py="quarck"
+                    >
+                      <Typography
+                        fontFamily="reservaSansMedium"
+                        fontSize={14}
+                      >
+                        Ver todos
+                      </Typography>
+                    </Button>
+                  </Box>
+                  <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
+                    <ListVerticalProducts
+                      horizontal
+                      products={relatedProducts ? relatedProducts : []}
+                      loadMoreProducts={(offset) => {
+                        loadMoreProducts(offset, '');
+                      }}
+                    />
+                  </Animatable.View>
                 </Box>
-              </Box>
-          )
-        } */}
-          {
-            waiting &&
-            <Box
-              bg="white"
-              opacity={0.5}
-              position="absolute"
-              right={0}
-              left={0}
-              top={110}
-              bottom={0}
-              zIndex={2}
-            >
-              <Box marginLeft="nano">
-                <Typography>Carregando...</Typography>
-              </Box>
-            </Box>
+                : null
+              }
+            </>
           }
+
         </ScrollView>
         :
         showResults && (
