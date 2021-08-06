@@ -15,6 +15,7 @@ import { useAuth } from '../../../../context/AuthContext';
 import { Alert } from 'react-native';
 interface ListProductsProps {
   products: ProductQL[];
+  horizontal?: boolean;
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
@@ -35,6 +36,7 @@ export const getPercent = (
 
 export const ListVerticalProducts = ({
   products,
+  horizontal,
   listHeader,
   loadMoreProducts,
   loadingHandler
@@ -141,9 +143,10 @@ export const ListVerticalProducts = ({
       />
       {productList.length > 0 || loading ? (
         <FlatList
+          horizontal={horizontal}
           data={productList}
           keyExtractor={(item) => item.productId}
-          numColumns={2}
+          numColumns={horizontal ? 1 : 2}
           onEndReached={() => loadMoreProducts(products.length)}
           onEndReachedThreshold={0.5}
           ListHeaderComponent={listHeader}
@@ -166,6 +169,7 @@ export const ListVerticalProducts = ({
                 alignItems="center"
                 justifyContent="center"
                 height={353}
+                mr={horizontal && "xxxs"}
               >
                 <ProductVerticalListCard
                   loadingFavorite={!!loadingFavorite.find(x => x == item.productId)}
