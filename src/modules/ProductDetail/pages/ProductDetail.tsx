@@ -204,7 +204,8 @@ export const ProductDetail: React.FC<Props> = ({
       setProduct(product);
 
       // set default first selected variant
-      setSelectedVariant(product.items[0]);
+      //console.log(product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0))
+      setSelectedVariant(product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0));
 
       const disabledColors = getUnavailableColors(product)
 
@@ -356,7 +357,7 @@ export const ProductDetail: React.FC<Props> = ({
           prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
         { NumberOfInstallments: 0, Value: 0 }
       );
-
+    console.log(selectedVariant)
     return chosenInstallment;
   };
 
@@ -482,7 +483,7 @@ export const ProductDetail: React.FC<Props> = ({
                 installmentsNumber={
                   getInstallments()?.NumberOfInstallments || 1
                 }
-                installmentsPrice={getInstallments()?.Value || product.priceRange.listPrice.lowPrice || 0}
+                installmentsPrice={getInstallments()?.Value || product.priceRange.sellingPrice.lowPrice || 0}
                 onClickShare={onShare}
                 discountTag={
                   getPercent(
