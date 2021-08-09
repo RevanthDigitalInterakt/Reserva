@@ -248,4 +248,4 @@ const SelectOption = ({ title, subtitle, divider, onPress }: ISelectOption) => {
   );
 };
 
-export const DeliveryScreen = withAuthentication(Delivery, "Checkout");
+export const DeliveryScreen = Delivery;

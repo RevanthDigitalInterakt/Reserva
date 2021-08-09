@@ -51,7 +51,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { addShippingData, } = useCart();
+  const { addShippingData, orderForm } = useCart();
   const { isCheckout } = route.params;
   const [initialValues, setInitialValues] = useState<IAddress>({
     postalCode: edit ? editAddress.postalCode : "",
@@ -100,6 +100,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     const isAddressSaved = await addShippingData({
       postalCode,
       state,
+      receiverName: orderForm?.clientProfileData?.firstName,
       number,
       neighborhood,
       addressType: "residential",

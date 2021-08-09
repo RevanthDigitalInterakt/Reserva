@@ -46,6 +46,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('cookie', cookie)
+  }, [cookie])
+
+
+
+
   const onAddressChosen = (item: any) => {
     setSelectedAddress({ ...item, addressType: "residential" });
   };
@@ -248,10 +255,11 @@ const AddressList: React.FC<Props> = ({ route }) => {
           bottom={0}
           right={0}
           left={0}
-          height={130}
+          height={140}
+          pt="xxxs"
         >
-          {comeFrom != "Home" &&
-            < Box marginX={"md"}>
+          {cookie &&
+            <Box marginX={"md"}>
               <Button
                 onPress={() =>
                   navigation.navigate("NewAddress", {
@@ -276,21 +284,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 inline={true}
               />
             </Box>
-          ) : (
-            <Box marginX={"md"}>
-              <Button
-                onPress={() =>
-                  navigation.navigate("NewAddress", {
-                    isCheckout,
-                    id: null,
-                  })
-                }
-                title={"NOVO ENDEREÇO"}
-                variant="primarioEstreitoOutline"
-                padding="xl"
-              />
-            </Box>
-          )}
+          ) : null
+          }
         </Box>
 
 
