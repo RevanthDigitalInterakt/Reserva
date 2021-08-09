@@ -94,7 +94,9 @@ export const BagScreen = () => {
 
   useEffect(() => {
     firstLoadOrderForm();
-    setCustomer(email);
+    if (email) {
+      setCustomer(email);
+    }
   }, []);
 
   useEffect(() => {

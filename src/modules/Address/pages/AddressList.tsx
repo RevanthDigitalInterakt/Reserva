@@ -32,7 +32,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   ] = useMutation(deleteAddress);
   const [loading, setLoading] = useState(false);
   const { orderForm, addShippingData } = useCart();
-  const { loading: loadingProfile, data, refetch } = useQuery(profileQuery);
+  const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
   const [profile, setProfile] = useState<any>({});
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
@@ -45,13 +45,6 @@ const AddressList: React.FC<Props> = ({ route }) => {
       setEditAndDelete(false);
     }
   }, []);
-
-  useEffect(() => {
-    console.log('cookie', cookie)
-  }, [cookie])
-
-
-
 
   const onAddressChosen = (item: any) => {
     setSelectedAddress({ ...item, addressType: "residential" });
@@ -86,15 +79,25 @@ const AddressList: React.FC<Props> = ({ route }) => {
       orderForm?.shippingData.availableAddresses
         .map((a) => ({ ...a, country: "BRA" }));
 
-    if (
-      availableAddressesOrderForm &&
-      availableAddressesOrderForm?.length > 0
-    ) {
-      setAddresses(availableAddressesOrderForm);
-    } else {
-      const { addresses } = profile;
+    // if (
+    //   availableAddressesOrderForm &&
+    //   availableAddressesOrderForm?.length > 0
+    // ) {
+    //   setAddresses(availableAddressesOrderForm);
+    // } else {
+    //   const { addresses } = profile;
 
+    //   setAddresses(addresses);
+    // }
+
+    if (cookie) {
+      const { addresses } = profile;
       setAddresses(addresses);
+    } else {
+      if (availableAddressesOrderForm &&
+        availableAddressesOrderForm?.length > 0) {
+        setAddresses(availableAddressesOrderForm);
+      }
     }
   }, [orderForm, profile]);
 
