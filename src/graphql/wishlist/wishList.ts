@@ -68,7 +68,12 @@ query ProductByIdentifier($idArray: [ID!]){
         itemId,
         images{
           imageUrl,
-        }
+        },
+        variations{
+                    originalName
+                    name
+                    values
+                },
         sellers{
           sellerId
           commertialOffer{
