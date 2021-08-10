@@ -39,47 +39,302 @@ export const ClothingCare: React.FC<{}> = () => {
               carinho!
             </Typography>
           </Box>
-          <Box>
-            <Image
-              source={images.clothingCareWash}
-              // resizeMode={"contain"}
-              height={windowWidth - 20}
+          <Box mb={"md"}>
+            <Box
+              backgroundColor="#000000"
+              alignItems="center"
+              justifyContent="center"
               width={windowWidth - 20}
-            />
+              height={28}
+            >
+              <Typography
+                fontFamily={"nunitoBold"}
+                fontSize={4}
+                textAlign="center"
+                color="offWhite"
+              >
+                Lavar:
+              </Typography>
+            </Box>
+            <Box mt="micro">
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  NÃO DEVEM SER LAVADOS
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 40°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 60°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 90°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO NORMAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO CURTO
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM MANUAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"} marginTop={"micro"}>
+                <Typography fontFamily="reservaSansBlack">
+                  ROUPAS COLORIDAS DEVEM SER LAVADAS SEPARADAMENTE, JAMAIS JUNTO
+                  COM ROUPAS BRANCAS!
+                </Typography>
+              </Box>
+            </Box>
           </Box>
 
-          <Box marginTop="quarck">
-            <Image
-              source={images.clothingCareDrying}
-              // resizeMode={"contain"}
-              height={windowWidth - 20}
+          {/* {} */}
+
+          <Box>
+            <Box
+              backgroundColor="#000000"
+              alignItems="center"
+              justifyContent="center"
               width={windowWidth - 20}
-            />
+              height={28}
+            >
+              <Typography
+                fontFamily={"nunitoBold"}
+                fontSize={4}
+                textAlign="center"
+                color="offWhite"
+              >
+                SECAGEM:
+              </Typography>
+            </Box>
+            <Box mt="micro">
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  NÃO DEVEM SER LAVADOS
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 40°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 60°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 90°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO NORMAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO CURTO
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM MANUAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}></Box>
+            </Box>
           </Box>
-          <Box marginTop="quarck">
-            <Image
-              source={images.clothingCarePass}
-              // resizeMode={"contain"}
-              // resizeMode={"contain"}
-              height={windowWidth - 150}
+
+          {/* {} */}
+
+          <Box>
+            <Box
+              backgroundColor="#000000"
+              alignItems="center"
+              justifyContent="center"
               width={windowWidth - 20}
-            />
+              height={28}
+            >
+              <Typography
+                fontFamily={"nunitoBold"}
+                fontSize={4}
+                textAlign="center"
+                color="offWhite"
+              >
+                PASSAR:
+              </Typography>
+            </Box>
+            <Box mt="micro">
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  NÃO DEVEM SER LAVADOS
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 40°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 60°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 90°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO NORMAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO CURTO
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM MANUAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}></Box>
+            </Box>
           </Box>
-          <Box marginTop="quarck">
-            <Image
-              source={images.clothingCareBleach}
-              resizeMode={"contain"}
-              height={windowWidth - 250}
+
+          {/* {} */}
+
+          <Box>
+            <Box
+              backgroundColor="#000000"
+              alignItems="center"
+              justifyContent="center"
               width={windowWidth - 20}
-            />
+              height={28}
+            >
+              <Typography
+                fontFamily={"nunitoBold"}
+                fontSize={4}
+                textAlign="center"
+                color="offWhite"
+              >
+                ALVEJAR:
+              </Typography>
+            </Box>
+            <Box mt="micro">
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  NÃO DEVEM SER LAVADOS
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 40°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 60°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 90°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO NORMAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO CURTO
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM MANUAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}></Box>
+            </Box>
           </Box>
-          <Box marginTop="quarck" marginBottom="quarck">
-            <Image
-              source={images.clothingCareProfessionalWashing}
-              // resizeMode={"contain"}
-              height={windowWidth - 20}
+
+          {/* {} */}
+
+          <Box mb={"md"}>
+            <Box
+              backgroundColor="#000000"
+              alignItems="center"
+              justifyContent="center"
               width={windowWidth - 20}
-            />
+              height={28}
+            >
+              <Typography
+                fontFamily={"nunitoBold"}
+                fontSize={4}
+                textAlign="center"
+                color="offWhite"
+              >
+                LAVAGEM PROFISSIONAL:
+              </Typography>
+            </Box>
+            <Box mt="micro">
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  NÃO DEVEM SER LAVADOS
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 40°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 60°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  TEMPERATURA MÁXIMA DE 90°C
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO NORMAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM EM CICLO CURTO
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}>
+                <Typography fontFamily="nunitoRegular">
+                  LAVAGEM MANUAL
+                </Typography>
+              </Box>
+              <Box marginLeft={"sm"}></Box>
+            </Box>
           </Box>
         </Box>
       </ScrollView>
