@@ -41,6 +41,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [wishIds, setWishIds] = useState<any[]>([])
   const [wishProducts, setWishProducts] = useState<any[]>([])
 
+  useEffect(() => {
+    console.log('wishIds', wishIds)
+  }, [wishIds])
   const { email, cookie } = useAuth()
 
   const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST)
@@ -76,17 +79,23 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    if (!!products?.productsByIdentifier)
+    console.log('products', products)
+    if (!!products?.productsByIdentifier && !!wishIds.length)
       setWishProducts(products.productsByIdentifier)
   }, [products])
 
   useEffect(() => {
+    console.log('productIds', productIds)
+    console.log(email)
     setWishIds(productIds?.viewList.data)
     const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
-    refetch()
-    refetchProducts(
-      { idArray }
-    )
+    if (!!idArray.length) {
+      refetch()
+
+      refetchProducts(
+        { idArray }
+      )
+    }
   }, [productIds])
 
   useEffect(() => {
@@ -192,7 +201,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       {/* <Box paddingX='xxxs'> */}
 
       {
-        loading || loadingProducts || wishProducts.length <= 0 ?
+        loading || loadingProducts ?//|| wishProducts.length <= 0 ?
           <Box>
             <Box paddingX='xxxs' paddingTop='md' mb={37}>
               <Typography variant='tituloSessoes'>Favoritos</Typography>
