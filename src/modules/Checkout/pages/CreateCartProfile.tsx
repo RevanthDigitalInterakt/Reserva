@@ -13,7 +13,7 @@ import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBack
 
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { FormikTextInput } from "../../../shared/componentes/FormikTextInput";
+import { FormikTextInput } from "../../../shared/components/FormikTextInput";
 
 interface CreateCartProfileProfile
   extends StackScreenProps<RootStackParamList, "CreateCartProfile"> { }

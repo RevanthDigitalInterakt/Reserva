@@ -14,7 +14,7 @@ import {
   profileMutationPassword,
   profileQuery,
 } from "../../../store/ducks/profile/types";
-import { FormikTextInput } from "../../../shared/componentes/FormikTextInput";
+import { FormikTextInput } from "../../../shared/components/FormikTextInput";
 import { redefinePasswordMutation } from "../../../graphql/profile/redefinePassword";
 
 type Props = StackScreenProps<RootStackParamList, "EditPassword">;
