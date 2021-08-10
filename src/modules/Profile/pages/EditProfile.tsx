@@ -100,13 +100,14 @@ export const EditProfile: React.FC<{
     const splittedBirthDate = userData.birthDate?.split("/");
     const [firstName, ...rest] = userData.fullName.trim().split(" ");
     const lastName = rest.join(" ");
+    const newPhone = `+55${userData.homePhone}`
     const user = {
       firstName: firstName,
       lastName: lastName,
       email: userData.email,
-      document: userData.document.replace(/[^\d]+/g,''),
+      document: userData.document.replace(/[^\d]+/g, ''),
       birthDate: splittedBirthDate?.reverse().join("-"),
-      homePhone: userData.homePhone,
+      homePhone: newPhone,
     };
 
     const newsletterCustomField: ProfileCustomFieldsInput = {

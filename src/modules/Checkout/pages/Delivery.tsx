@@ -9,10 +9,12 @@ import { ApplicationState } from "../../../store";
 import { request, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
 import { useCart } from "../../../context/CartContext";
 import { useAuth } from "../../../context/AuthContext";
+import { add, addDays, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
-  // const {orderForm} = useCart();
+  const { orderForm } = useCart();
   const { cookie, setCookie } = useAuth()
   const { authentication } = useSelector((state: ApplicationState) => state);
   const [Permission, setPermission] = useState(false)
@@ -115,7 +117,7 @@ const Delivery: React.FC<{}> = () => {
                   justifyContent={"space-between"}
                 >
                   <Box flex={2}>
-                    <Typography fontFamily="nunitoRegular" fontSize={11} >
+                    <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
                       Ao escolher esta opção vamos apresentar opções de lojas próximas a você
                     </Typography>
                   </Box>
@@ -162,24 +164,37 @@ const Delivery: React.FC<{}> = () => {
                   flex={1}
                   justifyContent={"space-between"}
                 >
-                  <Box flex={2}>
-                    <Typography fontFamily="nunitoRegular" fontSize={11} >
-                      Ao escolher esta opção vamos apresentar opções de lojas próximas a você
-                    </Typography>
-                  </Box>
+                  {orderForm?.shippingData?.address &&
+                    <Box flex={2}>
+                      <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
+                        Rua {orderForm?.shippingData?.address?.street} - {orderForm?.shippingData?.address?.neighborhood}
+                      </Typography>
+                      <Box mt="quarck">
+                        <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
+                          CEP {orderForm?.shippingData?.address?.postalCode}
+                        </Typography>
+                      </Box>
+
+                    </Box>
+                  }
                   <Box flex={1} alignItems="flex-end">
                     <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
                   </Box>
                 </Box>
-                {/* <Box alignSelf="flex-start" mt="quarck">
-                  <Typography
-                    fontFamily={"nunitoSemiBold"}
-                    fontSize={13}
-                    color={"verdeSucesso"}
-                  >
-                    Segunda-feira, 05 de abril de 2021
-                  </Typography>
-                </Box> */}
+                {orderForm && orderForm?.shippingData?.logisticsInfo[0].slas.length > 0 &&
+                  <Box alignSelf="flex-start" mt="quarck">
+                    <Typography
+                      fontFamily={"nunitoSemiBold"}
+                      fontSize={13}
+                      color={"verdeSucesso"}
+                    >
+                      {format(
+                        addDays(Date.now(), parseInt(orderForm?.shippingData?.logisticsInfo[0]?.slas[0]?.shippingEstimate?.split('bd')[0])),
+                        "iiii, dd 'de' MMMM 'de' yyyy", { locale: ptBR }
+                      )}
+                    </Typography>
+                  </Box>
+                }
               </>
             </Button>
           </Box>

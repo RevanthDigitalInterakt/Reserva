@@ -15,6 +15,8 @@ import {
   saveAddressMutation,
   updateAddress,
 } from "../../../graphql/address/addressMutations";
+import { useQuery } from "@apollo/client";
+import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { CepVerify } from "../../../services/vtexService";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -27,6 +29,7 @@ interface IAddress {
   complement: string;
   street: string;
   neighborhood: string;
+  receiverName: string;
   addressType: string;
   country: string;
 }
@@ -53,6 +56,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [addressUpdate] = useMutation(updateAddress);
   const { addShippingData, orderForm } = useCart();
   const { isCheckout } = route.params;
+  const { loading: loadingProfile, error, data: profileData, refetch } = useQuery(profileQuery);
+
+  const [profile, setProfile] = useState<ProfileVars>();
   const [initialValues, setInitialValues] = useState<IAddress>({
     postalCode: edit ? editAddress.postalCode : "",
     state: edit ? editAddress.state : "",
@@ -61,6 +67,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     complement: edit ? editAddress.complement : "",
     street: edit ? editAddress.street : "",
     neighborhood: edit ? editAddress.neighborhood : "",
+    receiverName: "",
     addressType: "residential",
     country: "BRA",
   });
@@ -73,12 +80,18 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       ? await addressUpdate({
         variables: {
           id: addressId,
-          fields: initialValues,
+          fields: {
+            ...initialValues,
+            receiverName: `${profile?.firstName} ${profile?.lastName}`
+          }
         },
       })
       : await saveAddress({
         variables: {
-          fields: initialValues,
+          fields: {
+            ...initialValues,
+            receiverName: `${profile?.firstName} ${profile?.lastName}`
+          },
         },
       });
 
@@ -88,6 +101,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const handlePaymentMethodScreen = async () => {
     setLoading(true);
+    const receiverName = `${profile?.firstName} ${profile?.lastName}`;
     const {
       postalCode,
       state,
@@ -100,8 +114,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     const isAddressSaved = await addShippingData({
       postalCode,
       state,
-      receiverName: orderForm?.clientProfileData?.firstName,
       number,
+      receiverName: receiverName,
       neighborhood,
       addressType: "residential",
       country: "BRA",
@@ -138,6 +152,16 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (profileData) {
+      const { profile } = profileData;
+      if (profile) {
+        const { profile } = profileData;
+        setProfile(profile);
+      }
+    }
+  }, [profileData]);
+
   // form validation effect
   useEffect(() => {
     const {
@@ -153,7 +177,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     if (
       postalCode.length > 0 &&
       state?.length > 0 &&
-      city.length > 0 &&
+      city?.length > 0 &&
       number.length > 0 &&
       street.length > 0 &&
       neighborhood.length > 0
