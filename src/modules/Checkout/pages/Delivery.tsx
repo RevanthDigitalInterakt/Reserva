@@ -76,7 +76,7 @@ const Delivery: React.FC<{}> = () => {
               Escolha a forma de envio
             </Typography>
           </Box>
-          <Box>
+          <Box flex={1}>
             <Button
               flex={1}
               width="100%"
@@ -87,9 +87,9 @@ const Delivery: React.FC<{}> = () => {
                   navigation.navigate("WithdrawInStore", { isCheckout: true, })
               }
             >
-              <>
+              <Box width="100%" >
                 <Box
-                  width="100%"
+                  flex={1}
                   flexDirection={"row"}
                   alignItems={"center"}
                   justifyContent="space-between"
@@ -115,6 +115,7 @@ const Delivery: React.FC<{}> = () => {
                   alignItems={"center"}
                   flex={1}
                   justifyContent={"space-between"}
+
                 >
                   <Box flex={2}>
                     <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
@@ -134,12 +135,13 @@ const Delivery: React.FC<{}> = () => {
                     Segunda-feira, 05 de abril de 2021
                   </Typography>
                 </Box> */}
-              </>
+              </Box>
             </Button>
             <Divider variant={"fullWidth"} marginY={"micro"} />
             <Button
               flex={1}
               width="100%"
+              height={80}
               onPress={() =>
                 navigation.navigate("AddressList", { isCheckout: true })
               }
@@ -224,7 +226,7 @@ const Delivery: React.FC<{}> = () => {
           /> */}
         </Box>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
