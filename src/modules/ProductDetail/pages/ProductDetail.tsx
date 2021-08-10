@@ -171,6 +171,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [skip, setSkip] = useState(false)
+  const [loadingFavorite, setLoadingFavorite] = useState(false)
   const [wishInfo, setWishInfo] = useState({
     listIds: [''],
     inList: false
@@ -324,7 +325,9 @@ export const ProductDetail: React.FC<Props> = ({
 
   const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
+
       if (product && product.productId) {
+        setLoadingFavorite(true)
         if (favorite) {
           const { data } = await addWishList({
             variables: {
@@ -341,6 +344,8 @@ export const ProductDetail: React.FC<Props> = ({
           })
         }
         await refetchChecklist()
+        setLoadingFavorite(false)
+
       }
     } else {
       navigation.navigate('Login', { comeFrom: 'Favorite' })
@@ -471,6 +476,7 @@ export const ProductDetail: React.FC<Props> = ({
               {/* PRODUCT CARD SECTION */}
               <ProductDetailCard
                 {...product}
+                loadingFavorite={loadingFavorite}
                 title={product.productName}
                 isFavorited={wishInfo.inList}
                 onClickFavorite={handleOnFavorite}
