@@ -539,7 +539,7 @@ export const ProductDetail: React.FC<Props> = ({
                       </Box>
                     </Button> */}
                   </Box>
-                  <Box alignItems="center" mt="xxxs">
+                  <Box alignItems="flex-start" mt="xxxs">
                     <RadioButtons
                       size={44}
                       fontSize={14}
