@@ -103,7 +103,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
           {/* {} */}
 
-          <Box>
+          <Box mb={"md"}>
             <Box
               backgroundColor="#000000"
               alignItems="center"
@@ -162,7 +162,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
           {/* {} */}
 
-          <Box>
+          <Box mb={"md"}>
             <Box
               backgroundColor="#000000"
               alignItems="center"
@@ -221,7 +221,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
           {/* {} */}
 
-          <Box>
+          <Box mb={"md"}>
             <Box
               backgroundColor="#000000"
               alignItems="center"
