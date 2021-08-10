@@ -476,6 +476,7 @@ export const ProductDetail: React.FC<Props> = ({
               {/* PRODUCT CARD SECTION */}
               <ProductDetailCard
                 {...product}
+                imagesHeight={3 * (screenWidth / 2)}
                 loadingFavorite={loadingFavorite}
                 title={product.productName}
                 isFavorited={wishInfo.inList}
@@ -508,7 +509,7 @@ export const ProductDetail: React.FC<Props> = ({
                   <ScrollView horizontal>
                     <SelectColor
                       onPress={(color) => setSelectedColor(color)}
-                      size={40}
+                      size={30}
                       disabledColors={[]}
                       listColors={itemsSKU.map(p => p.color) || []}
                       selectedColors={
@@ -541,7 +542,7 @@ export const ProductDetail: React.FC<Props> = ({
                   </Box>
                   <Box alignItems="flex-start" mt="xxxs">
                     <RadioButtons
-                      size={44}
+                      size={38}
                       fontSize={14}
                       disbledOptions={unavailableSizes ? unavailableSizes : []}
                       onSelectedChange={(item) => {
