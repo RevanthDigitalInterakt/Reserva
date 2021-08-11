@@ -114,7 +114,7 @@ export const EditProfile: React.FC<{
       value: `${subscribed}`,
     };
 
-    if (user.birthDate === '') {
+    if (user.birthDate === "") {
       user.birthDate = null;
     }
 
@@ -146,29 +146,11 @@ export const EditProfile: React.FC<{
         >
           <Box alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"} pb="xxl">
             <Box alignItems={"center"}>
-              <Avatar
+              {/* <Avatar
                 buttonEdit={true}
                 onPress={() => {
                 }}
-              ></Avatar>
-
-              <Button
-                inline
-                onPress={() => {
-                  navigation.navigate("EditPassword", {
-                    email: userData.email,
-                  });
-                }}
-                title="Alterar senha"
-              >
-                <Typography
-                  style={{ textDecorationLine: "underline" }}
-                  fontSize="12px"
-                  fontFamily="nunitoRegular"
-                >
-                  Alterar senha
-                </Typography>
-              </Button>
+              ></Avatar> */}
             </Box>
 
             <Box mt={"xxxs"}>
@@ -268,7 +250,29 @@ export const EditProfile: React.FC<{
                   }}
                 />
               </Box>
-
+              <Box
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                marginTop={"micro"}
+              >
+                <Button
+                  inline
+                  onPress={() => {
+                    navigation.navigate("EditPassword", {
+                      email: userData.email,
+                    });
+                  }}
+                  title="Alterar senha"
+                >
+                  <Typography
+                    style={{ textDecorationLine: "underline" }}
+                    fontSize="13px"
+                    fontFamily="nunitoRegular"
+                  >
+                    Alterar senha
+                  </Typography>
+                </Button>
+              </Box>
               <Box mb={"xs"} mt={"micro"} flexDirection="row">
                 <Checkbox
                   color="dropDownBorderColor"

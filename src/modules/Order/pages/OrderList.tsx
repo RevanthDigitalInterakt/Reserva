@@ -47,7 +47,7 @@ const OrderList = () => {
             backgroundColor="white"
             width="100%"
           >
-            {orders.length > 0 ? (
+            {orders.length > 0 && !loading ? (
               orders.map((order) => <Order data={order} />)
             ) : (
               <Typography variant="tituloSessoes" fontSize={16}>

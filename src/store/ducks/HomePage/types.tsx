@@ -9,6 +9,13 @@ export interface HomeQuery {
   url: string;
 }
 
+export interface ConfigCollection {
+  reference: string;
+  image: {
+    url: string;
+  };
+}
+
 export const homeQuery = gql`
   query homePageCollection($limit:Int!){
     homePageCollection{
@@ -59,3 +66,46 @@ export const bannerDefaultQuery = gql`
     }
   }
 `
+export const configCollection = gql`
+query ConfigCollection{
+  configCollection(where:{name: "MainConfig"}) {
+    items {
+      name
+      online
+      searchCollection
+      searchMedia {
+        title
+       	secionMediaCollection(limit: 10) {
+        	items {
+            reference
+            image {
+              url
+            }
+          }
+      	}
+      }
+    }
+  }
+}
+`
+// query {
+//   # add your query
+//   configCollection(where:{name: "MainConfig"}) {
+//     items {
+//       name
+//       online
+//       searchCollection
+//       searchMedia {
+//         title
+//        	secionMediaCollection(limit: 10) {
+//         	items {
+//             reference
+//             image {
+//               url
+//             }
+//           }
+//       	}
+//       }
+//     }
+//   }
+// }

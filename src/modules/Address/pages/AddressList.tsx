@@ -41,13 +41,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     if (comeFrom === "Home") {
       setEditAndDelete(true);
-    }else{
+    } else {
       setEditAndDelete(false);
     }
   }, []);
 
   const onAddressChosen = (item: any) => {
-    setSelectedAddress({...item, addressType: "residential"});
+    setSelectedAddress({ ...item, addressType: "residential" });
   };
 
   const onGoToPayment = async () => {
@@ -194,7 +194,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   street,
                   neighborhood,
                   addressId,
-                } = item;                
+                } = item;
 
                 if (selectedAddress) {
                   selected = addressId === selectedAddress.addressId && item;
@@ -243,7 +243,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
           )}
         </Box>
 
-        {isCheckout && addresses ? (
+        {isCheckout && !!addresses.length ? (
           <Box justifyContent="flex-end" flex={1}>
             <Button
               disabled={loading}

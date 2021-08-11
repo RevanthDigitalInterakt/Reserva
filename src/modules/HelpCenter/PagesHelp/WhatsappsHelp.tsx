@@ -113,7 +113,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
               title={"FALE COM O SAC"}
               width={"80%"}
               onPress={() => {
-                Linking.openURL(`whatsapp://send?phone=+5502121084990`);
+                Linking.openURL(`whatsapp://send?phone=+5502139007052`);
               }}
             />
           </Box>

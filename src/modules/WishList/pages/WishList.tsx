@@ -28,6 +28,8 @@ import { useAuth } from '../../../context/AuthContext'
 import { profileQuery } from '../../../store/ducks/profile/types'
 import { Alert } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
+import { paddingBottom } from 'styled-system'
+import { Skeleton } from '../../Checkout/components/Skeleton'
 
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>
@@ -39,6 +41,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [wishIds, setWishIds] = useState<any[]>([])
   const [wishProducts, setWishProducts] = useState<any[]>([])
 
+  useEffect(() => {
+    console.log('wishIds', wishIds)
+  }, [wishIds])
   const { email, cookie } = useAuth()
 
   const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST)
@@ -50,7 +55,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   })
 
   const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST)
-  const { data: products, refetch: refetchProducts } = useQuery(wishListQueries.GET_PRODUCT_BY_IDENTIFIER, {
+  const { data: products, refetch: refetchProducts, loading: loadingProducts } = useQuery(wishListQueries.GET_PRODUCT_BY_IDENTIFIER, {
     variables: {
       idArray: []
     }
@@ -74,17 +79,23 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    if (!!products?.productsByIdentifier)
+    console.log('products', products)
+    if (!!products?.productsByIdentifier && !!wishIds.length)
       setWishProducts(products.productsByIdentifier)
   }, [products])
 
   useEffect(() => {
+    console.log('productIds', productIds)
+    console.log(email)
     setWishIds(productIds?.viewList.data)
     const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
-    refetch()
-    refetchProducts(
-      { idArray }
-    )
+    if (!!idArray.length) {
+      refetch()
+
+      refetchProducts(
+        { idArray }
+      )
+    }
   }, [productIds])
 
   useEffect(() => {
@@ -115,45 +126,42 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   });
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+    <Box style={{ backgroundColor: 'white' }} flex={1}>
       <TopBarBackButton loading={false} showShadow />
-      <Box>
-        <Picker
-          onSelect={() => {
-            setSorterVisible(false)
-          }}
-          isVisible={sorterVisible}
-          items={[
-            {
-              text: '38',
-            },
-            {
-              text: '40',
-            },
-            {
-              text: '41',
-            },
-            {
-              text: '42',
-            },
-            {
-              text: '43',
-            },
-          ]}
-          onConfirm={() => {
-            setSorterVisible(false)
-          }}
-          onClose={() => {
-            setSorterVisible(false)
-          }}
-          title='Tamanho'
-        />
+      {/* <Box> */}
+      <Picker
+        onSelect={() => {
+          setSorterVisible(false)
+        }}
+        isVisible={sorterVisible}
+        items={[
+          {
+            text: '38',
+          },
+          {
+            text: '40',
+          },
+          {
+            text: '41',
+          },
+          {
+            text: '42',
+          },
+          {
+            text: '43',
+          },
+        ]}
+        onConfirm={() => {
+          setSorterVisible(false)
+        }}
+        onClose={() => {
+          setSorterVisible(false)
+        }}
+        title='Tamanho'
+      />
 
-        <Box marginTop='md' paddingBottom='xxxs'>
-          <Box paddingX='xxxs'>
-            <Typography variant='tituloSessoes'>Favoritos</Typography>
-          </Box>
-          {/* <Box paddingX='xxxs' marginTop='xxxs' flexDirection='row'>
+      {/* <Box marginTop='md' paddingBottom='xxxs'> */}
+      {/* <Box paddingX='xxxs' marginTop='xxxs' flexDirection='row'>
             <Box width={1 / 2}>
               <Button
                 onPress={() => {
@@ -189,11 +197,76 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
               />
             </Box>
           </Box> */}
-          {/* {!showWishListCategory ? ( */}
-          <Box paddingX='xxxs'>
+      {/* {!showWishListCategory ? ( */}
+      {/* <Box paddingX='xxxs'> */}
+
+      {
+        loading || loadingProducts ?//|| wishProducts.length <= 0 ?
+          <Box>
+            <Box paddingX='xxxs' paddingTop='md' mb={37}>
+              <Typography variant='tituloSessoes'>Favoritos</Typography>
+            </Box>
+            <Skeleton>
+              <Box flexDirection='row' ml={20} mb={26}>
+                <Box width={96} height={146} bg='neutroFrio2' />
+                <Box marginLeft='xxxs'>
+                  <Box width={180} height={25} bg='neutroFrio2' />
+                  <Box width={127} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={102} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={180} height={32} bg='neutroFrio2' mt={17} />
+                </Box>
+              </Box>
+              <Box flexDirection='row' ml={20} mb={26}>
+                <Box width={96} height={146} bg='neutroFrio2' />
+                <Box marginLeft='xxxs'>
+                  <Box width={180} height={25} bg='neutroFrio2' />
+                  <Box width={127} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={102} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={180} height={32} bg='neutroFrio2' mt={17} />
+                </Box>
+              </Box>
+              <Box flexDirection='row' ml={20} mb={26}>
+                <Box width={96} height={146} bg='neutroFrio2' />
+                <Box marginLeft='xxxs'>
+                  <Box width={180} height={25} bg='neutroFrio2' />
+                  <Box width={127} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={102} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={180} height={32} bg='neutroFrio2' mt={17} />
+                </Box>
+              </Box>
+              <Box flexDirection='row' ml={20} mb={26}>
+                <Box width={96} height={146} bg='neutroFrio2' />
+                <Box marginLeft='xxxs'>
+                  <Box width={180} height={25} bg='neutroFrio2' />
+                  <Box width={127} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={102} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={180} height={32} bg='neutroFrio2' mt={17} />
+                </Box>
+              </Box>
+              <Box flexDirection='row' ml={20} mb={26}>
+                <Box width={96} height={146} bg='neutroFrio2' />
+                <Box marginLeft='xxxs'>
+                  <Box width={180} height={25} bg='neutroFrio2' />
+                  <Box width={127} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={102} height={25} bg='neutroFrio2' mt={11} />
+                  <Box width={180} height={32} bg='neutroFrio2' mt={17} />
+                </Box>
+              </Box>
+            </Skeleton>
+          </Box>
+          :
+          <Box flex={1} >
             <FlatList
               data={wishProducts}
               keyExtractor={(item, index) => index.toString()}
+              style={{
+                paddingHorizontal: 16
+              }}
+              ListHeaderComponent={
+                <Box paddingX='xxxs' paddingTop='md' pb={36}>
+                  <Typography variant='tituloSessoes'>Favoritos</Typography>
+                </Box>
+              }
               renderItem={({ item }) => {
                 const installments =
                   item.items[0].sellers[0].commertialOffer.Installments;
@@ -207,7 +280,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
                 const wishId = wishIds?.find(x => x.productId == item.productId)
 
-                return <Box marginTop='xxxs' height={150}>
+                return <Box marginBottom='xxxs' height={150}>
                   <ProductHorizontalListCard
                     isFavorited
                     itemColor={''}
@@ -220,8 +293,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                     onClickFavorite={() => handleFavorite(wishId)}
                     onClickBagButton={() => {
                       // navigation.navigate(')
+                      // console.log('item', item.items[0].variations[2].values[0])
                       navigation.navigate('ProductDetail', {
                         productId: item.productId,
+                        colorSelected: item.items[0].variations[2].values[0]
                       })
                     }}
                     imageSource={item.items[0].images[0].imageUrl
@@ -231,15 +306,16 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                     }
                   />
                 </Box>
-              }
-              }
+              }}
             />
           </Box>
-          {/* ) : (
-            <WishListCategory />
-          )} */}
-        </Box>
-      </Box>
-    </SafeAreaView>
+      }
+      {/* </Box> */}
+      {/* ) : (
+        <WishListCategory />
+      )} */}
+      {/* </Box> */}
+      {/* </Box> */}
+    </Box >
   )
 }

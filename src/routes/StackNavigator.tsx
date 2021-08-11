@@ -64,6 +64,7 @@ import AccessCode from "../modules/Login/pages/AccessCode";
 import { IdentifyEmail } from "../modules/LoginCheckout/pages/IdentifyEmail";
 import { ForgotAccessCode } from "../modules/Forgot/pages/ForgotAccessCode";
 import { CreateCartProfile } from "../modules/Checkout/pages/CreateCartProfile";
+import CallCenter from "../modules/CallCenter";
 
 export type RootStackParamList = {
   Register: {
@@ -71,7 +72,7 @@ export type RootStackParamList = {
     comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite";
   };
   SearchScreen: { searchterm?: string };
-  ProductDetail: { productId: string, colorSelected: string };
+  ProductDetail: { productId: string; colorSelected: string };
   RegisterSuccess: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   LoginAlternative: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
   Login: { comeFrom: "Profile" | "Menu" | "Checkout" | "Favorite" };
@@ -84,7 +85,7 @@ export type RootStackParamList = {
         key: string;
         value: string;
       }
-    ]
+    ];
   };
   WishList: {};
   OrderDetail: {
@@ -95,10 +96,10 @@ export type RootStackParamList = {
   IdentifyEmail: {};
   AccessCode: {
     email: string;
-  },
-  ForgotPassword: {} | undefined
-  ForgotNewPassword: { email: string, code: string }
-  ForgotEmailSuccess: {} | undefined
+  };
+  ForgotPassword: {} | undefined;
+  ForgotNewPassword: { email: string; code: string };
+  ForgotEmailSuccess: {} | undefined;
   NewAddress: {
     id?: number;
     isCheckout: boolean;
@@ -120,10 +121,10 @@ export type RootStackParamList = {
     };
   };
   ForgotEmail: {};
-  Home: undefined
+  Home: undefined;
   CancelOrder: {};
   Cashback: {};
-  AddressList: { isCheckout: boolean, comeFrom: string };
+  AddressList: { isCheckout: boolean; comeFrom: string };
   ListCards: {
     isCheckout: boolean;
     cashback: boolean;
@@ -131,28 +132,28 @@ export type RootStackParamList = {
   EditPassword: {
     email: string;
   };
-  CreateCartProfile: {},
+  CreateCartProfile: {};
   NewCard: { isCheckout: boolean };
   NearbyStores: { UF: string };
   MapScreen: { geolocation: number; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-    | "PIX"
-    | "Credit"
-    | "Debit"
-    | "Boleto"
-    | "GiftCard"
-    | "Cashback";
+      | "PIX"
+      | "Credit"
+      | "Debit"
+      | "Boleto"
+      | "GiftCard"
+      | "Cashback";
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-    | "PIX"
-    | "Credit"
-    | "Debit"
-    | "Boleto"
-    | "GiftCard"
-    | "Cashback";
+      | "PIX"
+      | "Credit"
+      | "Debit"
+      | "Boleto"
+      | "GiftCard"
+      | "Cashback";
   };
   PixScreen: {
     cashback: boolean;
@@ -195,7 +196,10 @@ const MainStackScreen = () => {
         }}
       />
       <MainStack.Screen name="WishList" component={WishList} />
-      <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
+      <MainStack.Screen
+        name="CreateCartProfile"
+        component={CreateCartProfile}
+      />
       <MainStack.Screen name="WishListCategory" component={WishListCategory} />
       <MainStack.Screen name="IdentifyEmail" component={IdentifyEmail} />
       <MainStack.Screen
@@ -305,6 +309,7 @@ const MainStackScreen = () => {
         initialParams={{ isCheckout: false }}
       />
       <MainStack.Screen name="CancelOrder" component={CancelOrder} />
+      <MainStack.Screen name="CallCenter" component={CallCenter} />
     </MainStack.Navigator>
   );
 };

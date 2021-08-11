@@ -19,6 +19,7 @@ import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 import { MenuProfile } from "../modules/Profile/pages/MenuProfile";
 import { Search, SearchScreen } from "../modules/Search/pages/Search";
+import CallCenter from "../modules/CallCenter";
 
 type OnPressType = {
   key: string;
@@ -82,16 +83,17 @@ export const Tabs = () => {
             facetInput: [
               {
                 key: "category-2",
-                value: "masculino"
+                value: "masculino",
               },
               {
                 key: "productClusterIds",
-                value: "326"
-              }
-            ]
+                value: "326",
+              },
+            ],
           }}
         />
         <Tab.Screen name="Profile" component={MenuProfile} />
+        {/* <Tab.Screen name="Call" component={CallCenter} /> */}
       </Tab.Navigator>
     </SafeAreaView>
   );

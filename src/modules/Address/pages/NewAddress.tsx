@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect, useRef, useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView, KeyboardAvoidingView } from "react-native";
 import {
   TextInputMaskOptionProp,
   TextInputMaskTypeProp,
@@ -51,7 +51,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { addShippingData, } = useCart();
+  const { addShippingData } = useCart();
   const { isCheckout } = route.params;
   const [initialValues, setInitialValues] = useState<IAddress>({
     postalCode: edit ? editAddress.postalCode : "",
@@ -71,16 +71,16 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
     edit
       ? await addressUpdate({
-        variables: {
-          id: addressId,
-          fields: initialValues,
-        },
-      })
+          variables: {
+            id: addressId,
+            fields: initialValues,
+          },
+        })
       : await saveAddress({
-        variables: {
-          fields: initialValues,
-        },
-      });
+          variables: {
+            fields: initialValues,
+          },
+        });
 
     setLoading(false);
     navigation.goBack();
@@ -112,7 +112,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     if (isAddressSaved) {
       navigation.navigate("Checkout");
     }
-  }
+  };
 
   const cepHandler = async (postalCode: string) => {
     setLoading(true);
@@ -186,111 +186,118 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         backgroundColor="white"
       >
         <TopBarBackButton loading={loading} showShadow />
-        <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
-          <Box pb="sm">
-            <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
-              <Box alignSelf={"flex-start"} mb={"nano"}>
-                {edit ? (
-                  <Typography variant="tituloSessoes">
-                    Editar endereço
-                  </Typography>
-                ) : (
-                  <Typography variant="tituloSessoes" fontSize={20}>
-                    Adicionar endereço
-                  </Typography>
-                )}
-              </Box>
-              <InputOption
-                placeholder={"Digite seu CEP"}
-                maskType={"zip-code"}
-                value={initialValues.postalCode}
-                onChangeText={(text) => {
-                  setInitialValues({ ...initialValues, postalCode: text });
-                  cepHandler(text.replace("-", ""));
-                }}
-              />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          ref={scrollViewRef}
+          style={{ marginBottom: 30 }}
+        >
+          <KeyboardAvoidingView>
+            <Box pb="sm">
+              <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
+                <Box alignSelf={"flex-start"} mb={"nano"}>
+                  {edit ? (
+                    <Typography variant="tituloSessoes">
+                      Editar endereço
+                    </Typography>
+                  ) : (
+                    <Typography variant="tituloSessoes" fontSize={20}>
+                      Adicionar endereço
+                    </Typography>
+                  )}
+                </Box>
+                <InputOption
+                  placeholder={"Digite seu CEP"}
+                  maskType={"zip-code"}
+                  value={initialValues.postalCode}
+                  onChangeText={(text) => {
+                    setInitialValues({ ...initialValues, postalCode: text });
+                    cepHandler(text.replace("-", ""));
+                  }}
+                />
 
-              <InputOption
-                placeholder={"Endereço"}
-                value={initialValues.street}
-                // editable={initialValues.street.length <= 0}
-                onChangeText={(text) =>
-                  setInitialValues({ ...initialValues, street: text })
-                }
-              />
+                <InputOption
+                  placeholder={"Endereço"}
+                  value={initialValues.street}
+                  // editable={initialValues.street.length <= 0}
+                  onChangeText={(text) =>
+                    setInitialValues({ ...initialValues, street: text })
+                  }
+                />
 
-              <Box flexDirection={"row"} justifyContent="space-between">
-                <Box flex={1} marginRight={"micro"}>
-                  <InputOption
-                    placeholder={"Digite seu bairro"}
-                    value={initialValues.neighborhood}
-                    // editable={initialValues.neighborhood.length <= 0}
-                    onChangeText={(text) =>
-                      setInitialValues({ ...initialValues, neighborhood: text })
-                    }
-                  />
+                <Box flexDirection={"row"} justifyContent="space-between">
+                  <Box flex={1} marginRight={"micro"}>
+                    <InputOption
+                      placeholder={"Digite seu bairro"}
+                      value={initialValues.neighborhood}
+                      // editable={initialValues.neighborhood.length <= 0}
+                      onChangeText={(text) =>
+                        setInitialValues({
+                          ...initialValues,
+                          neighborhood: text,
+                        })
+                      }
+                    />
+                  </Box>
+
+                  <Box flex={1}>
+                    <InputOption
+                      placeholder={"Digite seu estado"}
+                      value={initialValues.state}
+                      // editable={initialValues.state.length <= 0}
+                      onChangeText={(text) =>
+                        setInitialValues({ ...initialValues, state: text })
+                      }
+                    />
+                  </Box>
                 </Box>
 
                 <Box flex={1}>
                   <InputOption
-                    placeholder={"Digite seu estado"}
-                    value={initialValues.state}
-                    // editable={initialValues.state.length <= 0}
+                    placeholder={"Número"}
+                    value={initialValues.number}
                     onChangeText={(text) =>
-                      setInitialValues({ ...initialValues, state: text })
+                      setInitialValues({ ...initialValues, number: text })
                     }
                   />
                 </Box>
-              </Box>
-
-              <Box flex={1}>
                 <InputOption
-                  placeholder={"Número"}
-                  value={initialValues.number}
+                  placeholder={"Complemento"}
+                  value={initialValues.complement}
                   onChangeText={(text) =>
-                    setInitialValues({ ...initialValues, number: text })
+                    setInitialValues({ ...initialValues, complement: text })
                   }
                 />
+
+                {toggleActivated && (
+                  <Box mb={"sm"}>
+                    <InputOption placeholder={"Nome do destinatário"} />
+
+                    <InputOption
+                      maskType={"cel-phone"}
+                      placeholder={"Telefone para contato"}
+                    />
+
+                    <InputOption
+                      height={135}
+                      textAlignVertical={"top"}
+                      placeholder={"Deseja enviar algum recado junto?"}
+                    />
+                  </Box>
+                )}
+
+                {!isCheckout && (
+                  <Button
+                    disabled={loading || !buttonEnabled}
+                    width="240px"
+                    mt={"xs"}
+                    onPress={handleSaveAddress}
+                    title={"INCLUIR NOVO ENDEREÇO"}
+                    variant="primarioEstreitoOutline"
+                  />
+                )}
               </Box>
-              <InputOption
-                placeholder={"Complemento"}
-                value={initialValues.complement}
-                onChangeText={(text) =>
-                  setInitialValues({ ...initialValues, complement: text })
-                }
-              />
-
-              {toggleActivated && (
-                <Box mb={"sm"}>
-                  <InputOption
-                    placeholder={"Nome do destinatário"}
-                  />
-
-                  <InputOption
-                    maskType={"cel-phone"}
-                    placeholder={"Telefone para contato"}
-                  />
-
-                  <InputOption
-                    height={135}
-                    textAlignVertical={"top"}
-                    placeholder={"Deseja enviar algum recado junto?"}
-                  />
-                </Box>
-              )}
-
-              {!isCheckout && (
-                <Button
-                  disabled={loading || !buttonEnabled}
-                  width="240px"
-                  mt={"xs"}
-                  onPress={handleSaveAddress}
-                  title={"INCLUIR NOVO ENDEREÇO"}
-                  variant="primarioEstreitoOutline"
-                />
-              )}
             </Box>
-          </Box>
+          </KeyboardAvoidingView>
         </ScrollView>
         {isCheckout && (
           <Button
@@ -333,11 +340,13 @@ const InputOption = ({
   textAlignVertical,
   onChangeText,
   editable = true,
+  ...rest
 }: IInputOption) => {
   return (
     <>
       <Box mt={"xxxs"}>
         <TextField
+          {...rest}
           // label={"Nome do titular"}
           textAlignVertical={textAlignVertical}
           height={height}
@@ -347,8 +356,9 @@ const InputOption = ({
           placeholder={placeholder}
           value={value}
           editable={editable}
-        // touched={touched[field]}
-        // error={errors[field] && touched[field] ? `${errors[field]}` : null}
+
+          // touched={touched[field]}
+          // error={errors[field] && touched[field] ? `${errors[field]}` : null}
         />
       </Box>
     </>
