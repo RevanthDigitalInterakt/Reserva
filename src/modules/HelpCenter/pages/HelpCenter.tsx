@@ -57,8 +57,10 @@ export const HelpCenter: React.FC<{}> = () => {
             onValueChange={(text) => {
               setSearch(text);
               const newFilter = data.filter((item) => {
-                return item.title.indexOf(text) > -1;
+                const regex = new RegExp(text,"gi");
+                return item.title.match(regex) != null;
               });
+              
               setFilter(newFilter);
             }}
           />
