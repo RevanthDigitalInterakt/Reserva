@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ApplicationState } from '../../../store'
 import { categoriesQuery, CategoryQuery } from '../../../store/ducks/categories/types'
 import { TopBarMenu } from '../components/TopBarMenu'
+import { profileQuery } from "../../../store/ducks/profile/types";
+import { useAuth } from '../../../context/AuthContext'
 
 interface IBreadCrumbs {
   title: string
@@ -169,16 +171,17 @@ export const FixedMenuItem: React.FC<{
   title: JSX.Element
   onPress: Function
   underline: boolean
-}> = ({ iconName, title, onPress, underline }) => {
+  disabled?: boolean
+}> = ({ iconName, title, onPress, disabled, underline }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <Box
         justifyContent='flex-start'
-        alignItems='flex-end'
+        alignItems='center'
         marginY='micro'
         flexDirection='row'
         marginX='xxxs'>
-        <Icon mb='quarck' name={iconName} color='preto' size={18} />
+        <Icon name={iconName} color='preto' size={18} />
         <Box marginX='micro'>{title}</Box>
       </Box>
     </TouchableOpacity>
@@ -199,11 +202,22 @@ export interface Category {
   highlight: boolean,
   referenceId: string
 }
+type Profile = {
+  birthDate: string | null;
+  document: string;
+  email: string;
+  firstName: string;
+  homePhone: string;
+  lastName: string;
+  userId: string;
+};
 
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation()
-  const dispatch = useDispatch()
+  const { cookie } = useAuth();
   const [categories, setCategories] = useState<Category[]>([])
+  const { loading: loadingProfile, error: errorProfile, data: dataProfile, refetch } = useQuery(profileQuery);
+  const [profile, setProfile] = useState<Profile>()
 
   const { loading, error, data } = useQuery(categoriesQuery, {
     context: { clientName: 'contentful' }
@@ -223,6 +237,16 @@ export const Menu: React.FC<{}> = () => {
     )
   }, [data])
 
+  useEffect(() => {
+    if (dataProfile) {
+      refetch();
+      const { profile } = dataProfile;
+      if (profile) {
+        const { profile } = dataProfile;
+        setProfile(profile);
+      }
+    }
+  }, [dataProfile]);
 
   const { authentication } = useSelector((state: ApplicationState) => state)
 
@@ -264,25 +288,30 @@ export const Menu: React.FC<{}> = () => {
                 marginBottom='nano'
                 marginTop='nano'
               />
-              {!authentication.data?.access_token && (
-                <FixedMenuItem
-                  iconName='Profile'
-                  title={
-                    <Typography
-                      alignSelf='flex-end'
-                      color='preto'
-                      fontSize={15}
-                      fontFamily='nunitoBold'>
+              <FixedMenuItem
+                iconName='Profile'
+                disabled={cookie ? true : false}
+                title={
+                  <Typography
+                    alignSelf='flex-end'
+                    color='preto'
+                    fontSize={15}
+                    fontFamily='nunitoBold'>
+                    {cookie ?
+                      <Typography>
+                        Olá, {profile?.firstName || profile?.email}
+                      </Typography>
+                      :
                       <Typography>
                         Acessar Conta
                       </Typography>
-                    </Typography>
-                  }
-                  onPress={() => {
-                    navigation.navigate('Login', { comefrom: 'Home' })
-                  }}
-                  underline></FixedMenuItem>
-              )}
+                    }
+                  </Typography>
+                }
+                onPress={() => {
+                  navigation.navigate('Login', { comefrom: 'Home' })
+                }}
+                underline></FixedMenuItem>
               <FixedMenuItem
                 iconName='Heart'
                 title={
