@@ -48,6 +48,16 @@ export type ProfileCustomFieldsInput = {
   value: string;
 };
 
+export type ProfileVars = {
+  birthDate: string | null;
+  document: string;
+  email: string;
+  firstName: string;
+  homePhone: string;
+  lastName: string;
+  userId: string;
+};
+
 export const profileQuery = gql`
   query Profile {
     profile(customFields: "isNewsletterOptIn")
@@ -74,6 +84,7 @@ export const profileQuery = gql`
         number
         complement
         neighborhood
+        receiverName
       }
       payments {
         id

@@ -7,6 +7,7 @@ import React, {
   SetStateAction,
   Dispatch,
 } from 'react';
+import { useEffect } from 'react';
 
 interface AuthContextProps {
   cookie: Promise<string | null>;
@@ -26,9 +27,14 @@ interface AuthContextProviderProps {
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [email, setEmail] = useState("");
-  const [cookie, setCookie] = useState(
-    AsyncStorage.getItem('@RNAuth:cookie') || '',
-  );
+  const [cookie, setCookie] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('@RNAuth:cookie').then((value) => {
+      setCookie(value);
+    })
+  }, [])
+
   return (
     <AuthContext.Provider
       value={{

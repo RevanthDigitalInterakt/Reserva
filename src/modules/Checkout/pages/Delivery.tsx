@@ -9,10 +9,12 @@ import { ApplicationState } from "../../../store";
 import { request, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
 import { useCart } from "../../../context/CartContext";
 import { useAuth } from "../../../context/AuthContext";
+import { add, addDays, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
-  // const {orderForm} = useCart();
+  const { orderForm } = useCart();
   const { cookie, setCookie } = useAuth()
   const { authentication } = useSelector((state: ApplicationState) => state);
   const [Permission, setPermission] = useState(false)
@@ -74,7 +76,7 @@ const Delivery: React.FC<{}> = () => {
               Escolha a forma de envio
             </Typography>
           </Box>
-          <Box>
+          <Box flex={1}>
             <Button
               flex={1}
               width="100%"
@@ -85,9 +87,9 @@ const Delivery: React.FC<{}> = () => {
                   navigation.navigate("WithdrawInStore", { isCheckout: true, })
               }
             >
-              <>
+              <Box width="100%" >
                 <Box
-                  width="100%"
+                  flex={1}
                   flexDirection={"row"}
                   alignItems={"center"}
                   justifyContent="space-between"
@@ -113,9 +115,10 @@ const Delivery: React.FC<{}> = () => {
                   alignItems={"center"}
                   flex={1}
                   justifyContent={"space-between"}
+
                 >
                   <Box flex={2}>
-                    <Typography fontFamily="nunitoRegular" fontSize={11} >
+                    <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
                       Ao escolher esta opção vamos apresentar opções de lojas próximas a você
                     </Typography>
                   </Box>
@@ -132,12 +135,13 @@ const Delivery: React.FC<{}> = () => {
                     Segunda-feira, 05 de abril de 2021
                   </Typography>
                 </Box> */}
-              </>
+              </Box>
             </Button>
             <Divider variant={"fullWidth"} marginY={"micro"} />
             <Button
               flex={1}
               width="100%"
+              height={80}
               onPress={() =>
                 navigation.navigate("AddressList", { isCheckout: true })
               }
@@ -162,24 +166,37 @@ const Delivery: React.FC<{}> = () => {
                   flex={1}
                   justifyContent={"space-between"}
                 >
-                  <Box flex={2}>
-                    <Typography fontFamily="nunitoRegular" fontSize={11} >
-                      Ao escolher esta opção vamos apresentar opções de lojas próximas a você
-                    </Typography>
-                  </Box>
+                  {orderForm?.shippingData?.address &&
+                    <Box flex={2}>
+                      <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
+                        Rua {orderForm?.shippingData?.address?.street} - {orderForm?.shippingData?.address?.neighborhood}
+                      </Typography>
+                      <Box mt="quarck">
+                        <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
+                          CEP {orderForm?.shippingData?.address?.postalCode}
+                        </Typography>
+                      </Box>
+
+                    </Box>
+                  }
                   <Box flex={1} alignItems="flex-end">
                     <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
                   </Box>
                 </Box>
-                {/* <Box alignSelf="flex-start" mt="quarck">
-                  <Typography
-                    fontFamily={"nunitoSemiBold"}
-                    fontSize={13}
-                    color={"verdeSucesso"}
-                  >
-                    Segunda-feira, 05 de abril de 2021
-                  </Typography>
-                </Box> */}
+                {orderForm && orderForm?.shippingData?.logisticsInfo[0].slas.length > 0 &&
+                  <Box alignSelf="flex-start" mt="quarck">
+                    <Typography
+                      fontFamily={"nunitoSemiBold"}
+                      fontSize={13}
+                      color={"verdeSucesso"}
+                    >
+                      {format(
+                        addDays(Date.now(), parseInt(orderForm?.shippingData?.logisticsInfo[0]?.slas[0]?.shippingEstimate?.split('bd')[0])),
+                        "iiii, dd 'de' MMMM 'de' yyyy", { locale: ptBR }
+                      )}
+                    </Typography>
+                  </Box>
+                }
               </>
             </Button>
           </Box>
@@ -209,7 +226,7 @@ const Delivery: React.FC<{}> = () => {
           /> */}
         </Box>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -248,4 +265,4 @@ const SelectOption = ({ title, subtitle, divider, onPress }: ISelectOption) => {
   );
 };
 
-export const DeliveryScreen = withAuthentication(Delivery, "Checkout");
+export const DeliveryScreen = Delivery;
