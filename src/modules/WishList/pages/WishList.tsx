@@ -6,6 +6,7 @@ import {
   ProductHorizontalListCard,
   Typography,
   Picker,
+  Icon,
 } from 'reserva-ui'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
 import { images } from '../../../assets'
@@ -80,7 +81,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     console.log('products', products)
-    if (!!products?.productsByIdentifier && !!wishIds.length)
+    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
       setWishProducts(products.productsByIdentifier)
   }, [products])
 
@@ -255,60 +256,67 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
             </Skeleton>
           </Box>
           :
-          <Box flex={1} >
-            <FlatList
-              data={wishProducts}
-              keyExtractor={(item, index) => index.toString()}
-              style={{
-                paddingHorizontal: 16
-              }}
-              ListHeaderComponent={
-                <Box paddingX='xxxs' paddingTop='md' pb={36}>
-                  <Typography variant='tituloSessoes'>Favoritos</Typography>
-                </Box>
-              }
-              renderItem={({ item }) => {
-                const installments =
-                  item.items[0].sellers[0].commertialOffer.Installments;
-                const installmentsNumber =
-                  installments.length > 0 ? installments[0].NumberOfInstallments : 1;
-
-                const installmentPrice =
-                  installments.length > 0
-                    ? installments[0].Value
-                    : item.priceRange?.listPrice?.lowPrice;
-
-                const wishId = wishIds?.find(x => x.productId == item.productId)
-
-                return <Box marginBottom='xxxs' height={150}>
-                  <ProductHorizontalListCard
-                    isFavorited
-                    itemColor={''}
-                    ItemSize={''}
-                    productTitle={`${item.productName.slice(0, 30)}${item.productName.length > 30 ? '...' : ''
-                      }`}
-                    installmentsNumber={installmentsNumber}
-                    installmentsPrice={installmentPrice}
-                    price={item.items[0].sellers[0].commertialOffer.Price}
-                    onClickFavorite={() => handleFavorite(wishId)}
-                    onClickBagButton={() => {
-                      // navigation.navigate(')
-                      // console.log('item', item.items[0].variations[2].values[0])
-                      navigation.navigate('ProductDetail', {
-                        productId: item.productId,
-                        colorSelected: item.items[0].variations[2].values[0]
-                      })
+          <>
+            {
+              wishProducts.length <= 0 ?
+                <EmptyWishList />
+                :
+                <Box flex={1} >
+                  <FlatList
+                    data={wishProducts}
+                    keyExtractor={(item, index) => index.toString()}
+                    style={{
+                      paddingHorizontal: 16
                     }}
-                    imageSource={item.items[0].images[0].imageUrl
-                      // .replace("http", "https")
-                      // .split("-55-55")
-                      // .join("")
+                    ListHeaderComponent={
+                      <Box paddingX='xxxs' paddingTop='md' pb={36}>
+                        <Typography variant='tituloSessoes'>Favoritos</Typography>
+                      </Box>
                     }
+                    renderItem={({ item }) => {
+                      const installments =
+                        item.items[0].sellers[0].commertialOffer.Installments;
+                      const installmentsNumber =
+                        installments.length > 0 ? installments[0].NumberOfInstallments : 1;
+
+                      const installmentPrice =
+                        installments.length > 0
+                          ? installments[0].Value
+                          : item.priceRange?.listPrice?.lowPrice;
+
+                      const wishId = wishIds?.find(x => x.productId == item.productId)
+
+                      return <Box marginBottom='xxxs' height={150}>
+                        <ProductHorizontalListCard
+                          isFavorited
+                          itemColor={''}
+                          ItemSize={''}
+                          productTitle={`${item.productName.slice(0, 30)}${item.productName.length > 30 ? '...' : ''
+                            }`}
+                          installmentsNumber={installmentsNumber}
+                          installmentsPrice={installmentPrice}
+                          price={item.items[0].sellers[0].commertialOffer.Price}
+                          onClickFavorite={() => handleFavorite(wishId)}
+                          onClickBagButton={() => {
+                            // navigation.navigate(')
+                            // console.log('item', item.items[0].variations[2].values[0])
+                            navigation.navigate('ProductDetail', {
+                              productId: item.productId,
+                              colorSelected: item.items[0].variations[2].values[0]
+                            })
+                          }}
+                          imageSource={item.items[0].images[0].imageUrl
+                            // .replace("http", "https")
+                            // .split("-55-55")
+                            // .join("")
+                          }
+                        />
+                      </Box>
+                    }}
                   />
                 </Box>
-              }}
-            />
-          </Box>
+            }
+          </>
       }
       {/* </Box> */}
       {/* ) : (
@@ -318,4 +326,27 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       {/* </Box> */}
     </Box >
   )
+}
+
+
+const EmptyWishList = () => {
+  return <Box flex={1} alignItems='center' paddingTop={124}>
+    <Icon name='Heartbroken' color='preto' size={86} />
+    <Box mx={37} mt={47}>
+      <Typography
+        fontFamily='reservaSerifRegular'
+        fontSize={24} >
+        Você ainda não tem favoritos :(
+      </Typography>
+    </Box>
+    <Box mx={58} my={28}>
+      <Typography
+        fontFamily='nunitoRegular'
+        fontSize={14}
+        textAlign='center'>
+        Navegue pelo nosso app e favorite produtos que são a sua cara!
+      </Typography>
+    </Box>
+    <Button title='NAVEGAR' variant='primarioEstreito' width={258} />
+  </Box>
 }
