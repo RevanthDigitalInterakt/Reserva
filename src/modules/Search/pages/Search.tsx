@@ -187,7 +187,8 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
             setSearchTerm(text);
           }}
           onClickIcon={() => {
-            handleDebouncedSearchTerm()
+            suggestionsData &&
+              handleDebouncedSearchTerm()
           }}
           height={36}
           placeholder="Buscar"
