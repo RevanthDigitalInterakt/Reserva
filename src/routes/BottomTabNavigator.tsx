@@ -20,6 +20,7 @@ import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 import { MenuProfile } from "../modules/Profile/pages/MenuProfile";
 import { Search, SearchScreen } from "../modules/Search/pages/Search";
 import CallCenter from "../modules/CallCenter";
+import { ContactUs } from "../modules/HelpCenter/PagesHelp/ContactUs";
 
 type OnPressType = {
   key: string;
@@ -93,7 +94,7 @@ export const Tabs = () => {
           }}
         />
         <Tab.Screen name="Profile" component={MenuProfile} />
-        {/* <Tab.Screen name="Call" component={CallCenter} /> */}
+        <Tab.Screen name="Call" component={ContactUs} />
       </Tab.Navigator>
     </SafeAreaView>
   );

@@ -8,7 +8,7 @@ import { useCart } from "../../../context/CartContext";
 
 export const TopBarDefault: React.FC<{
   showShadow?: Boolean;
-  loading: Boolean;
+  loading?: Boolean;
 }> = ({ showShadow = true, loading = false }) => {
   const navigation = useNavigation();
   const { orderForm } = useCart();
@@ -41,7 +41,7 @@ export const TopBarDefault: React.FC<{
           // Alert.alert('button right 2');
           navigation.navigate("BagScreen");
         },
-        badgeCount: orderForm?.items.length
+        badgeCount: orderForm?.items.length,
       }}
       height={50}
     />
