@@ -378,13 +378,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const identifyCustomer = async (email: string) => {
     try {
-      const validateProfile = await ValidateProfile(email);
-      if (validateProfile.userProfileId) {
-        const data = await IdentifyCustomer(orderForm?.orderFormId, email);
-        setOrderForm(data);
-        // TODO - change this later, find a better way to check if theres's no user
-        return !!data.clientProfileData.firstName;
-      }
+      const data = await IdentifyCustomer(orderForm?.orderFormId, email);
+      setOrderForm(data);
+      // TODO - change this later, find a better way to check if theres's no user
+      return !!data.clientProfileData.firstName;
 
     } catch (error) {
       console.log("error", error.response.data);
