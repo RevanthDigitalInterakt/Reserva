@@ -15,6 +15,8 @@ import {
   saveAddressMutation,
   updateAddress,
 } from "../../../graphql/address/addressMutations";
+import { useQuery } from "@apollo/client";
+import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { CepVerify } from "../../../services/vtexService";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -27,6 +29,7 @@ interface IAddress {
   complement: string;
   street: string;
   neighborhood: string;
+  receiverName: string;
   addressType: string;
   country: string;
 }
@@ -51,8 +54,11 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { addShippingData } = useCart();
+  const { addShippingData, orderForm } = useCart();
   const { isCheckout } = route.params;
+  const { loading: loadingProfile, error, data: profileData, refetch } = useQuery(profileQuery);
+
+  const [profile, setProfile] = useState<ProfileVars>();
   const [initialValues, setInitialValues] = useState<IAddress>({
     postalCode: edit ? editAddress.postalCode : "",
     state: edit ? editAddress.state : "",
@@ -61,6 +67,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     complement: edit ? editAddress.complement : "",
     street: edit ? editAddress.street : "",
     neighborhood: edit ? editAddress.neighborhood : "",
+    receiverName: "",
     addressType: "residential",
     country: "BRA",
   });
@@ -71,16 +78,22 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
     edit
       ? await addressUpdate({
-          variables: {
-            id: addressId,
-            fields: initialValues,
-          },
-        })
+        variables: {
+          id: addressId,
+          fields: {
+            ...initialValues,
+            receiverName: `${profile?.firstName} ${profile?.lastName}`
+          }
+        },
+      })
       : await saveAddress({
-          variables: {
-            fields: initialValues,
+        variables: {
+          fields: {
+            ...initialValues,
+            receiverName: `${profile?.firstName} ${profile?.lastName}`
           },
-        });
+        },
+      });
 
     setLoading(false);
     navigation.goBack();
@@ -88,6 +101,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const handlePaymentMethodScreen = async () => {
     setLoading(true);
+    const receiverName = `${profile?.firstName} ${profile?.lastName}`;
     const {
       postalCode,
       state,
@@ -101,6 +115,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       postalCode,
       state,
       number,
+      receiverName: receiverName,
       neighborhood,
       addressType: "residential",
       country: "BRA",
@@ -137,6 +152,16 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (profileData) {
+      const { profile } = profileData;
+      if (profile) {
+        const { profile } = profileData;
+        setProfile(profile);
+      }
+    }
+  }, [profileData]);
+
   // form validation effect
   useEffect(() => {
     const {
@@ -152,7 +177,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     if (
       postalCode.length > 0 &&
       state?.length > 0 &&
-      city.length > 0 &&
+      city?.length > 0 &&
       number.length > 0 &&
       street.length > 0 &&
       neighborhood.length > 0
@@ -357,8 +382,8 @@ const InputOption = ({
           value={value}
           editable={editable}
 
-          // touched={touched[field]}
-          // error={errors[field] && touched[field] ? `${errors[field]}` : null}
+        // touched={touched[field]}
+        // error={errors[field] && touched[field] ? `${errors[field]}` : null}
         />
       </Box>
     </>

@@ -32,7 +32,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   ] = useMutation(deleteAddress);
   const [loading, setLoading] = useState(false);
   const { orderForm, addShippingData } = useCart();
-  const { loading: loadingProfile, data, refetch } = useQuery(profileQuery);
+  const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
   const [profile, setProfile] = useState<any>({});
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
@@ -79,15 +79,25 @@ const AddressList: React.FC<Props> = ({ route }) => {
       orderForm?.shippingData.availableAddresses
         .map((a) => ({ ...a, country: "BRA" }));
 
-    if (
-      availableAddressesOrderForm &&
-      availableAddressesOrderForm?.length > 0
-    ) {
-      setAddresses(availableAddressesOrderForm);
-    } else {
-      const { addresses } = profile;
+    // if (
+    //   availableAddressesOrderForm &&
+    //   availableAddressesOrderForm?.length > 0
+    // ) {
+    //   setAddresses(availableAddressesOrderForm);
+    // } else {
+    //   const { addresses } = profile;
 
+    //   setAddresses(addresses);
+    // }
+
+    if (cookie) {
+      const { addresses } = profile;
       setAddresses(addresses);
+    } else {
+      if (availableAddressesOrderForm &&
+        availableAddressesOrderForm?.length > 0) {
+        setAddresses(availableAddressesOrderForm);
+      }
     }
   }, [orderForm, profile]);
 
@@ -196,9 +206,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   addressId,
                 } = item;
 
-                if (selectedAddress) {
-                  selected = addressId === selectedAddress.addressId && item;
+                if (cookie) {
+                  if (selectedAddress) {
+                    selected = id === selectedAddress.id && item;
+                  }
+                } else {
+                  if (selectedAddress) {
+                    selected = addressId === selectedAddress.addressId && item;
+                  }
                 }
+
 
                 return (
                   <AddressSelector
@@ -243,31 +260,45 @@ const AddressList: React.FC<Props> = ({ route }) => {
           )}
         </Box>
 
-        {isCheckout && !!addresses.length ? (
-          <Box justifyContent="flex-end" flex={1}>
-            <Button
-              disabled={loading}
-              onPress={onGoToPayment}
-              title="FORMA DE PAGAMENTO"
-              variant="primarioEstreito"
-              inline={true}
-            />
-          </Box>
-        ) : (
-          <Box marginX={"md"}>
-            <Button
-              onPress={() =>
-                navigation.navigate("NewAddress", {
-                  isCheckout,
-                  id: null,
-                })
-              }
-              title={"NOVO ENDEREÇO"}
-              variant="primarioEstreitoOutline"
-              padding="xl"
-            />
-          </Box>
-        )}
+        <Box bg="white"
+          position="absolute"
+          bottom={0}
+          right={0}
+          left={0}
+          height={140}
+          pt="xxxs"
+        >
+          {cookie &&
+            <Box marginX={"md"}>
+              <Button
+                onPress={() =>
+                  navigation.navigate("NewAddress", {
+                    isCheckout,
+                    id: null,
+                  })
+                }
+                title={"NOVO ENDEREÇO"}
+                variant="primarioEstreitoOutline"
+                padding="xl"
+              />
+            </Box>
+          }
+
+          {isCheckout && addresses ? (
+            <Box justifyContent="flex-end" flex={1}>
+              <Button
+                disabled={loading}
+                onPress={onGoToPayment}
+                title="FORMA DE PAGAMENTO"
+                variant="primarioEstreito"
+                inline={true}
+              />
+            </Box>
+          ) : null
+          }
+        </Box>
+
+
       </SafeAreaView>
     </>
   );

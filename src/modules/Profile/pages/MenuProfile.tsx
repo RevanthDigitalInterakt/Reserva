@@ -15,28 +15,19 @@ import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import ItemList from "../Components/ItemList";
 import { withAuthentication } from "../HOC/withAuthentication";
 import { useQuery } from "@apollo/client";
-import { profileQuery } from "../../../store/ducks/profile/types";
+import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
 import { useState, useEffect } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 
-type Profile = {
-  birthDate: string | null;
-  document: string;
-  email: string;
-  firstName: string;
-  homePhone: string;
-  lastName: string;
-  userId: string;
-};
 
 const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const { cookie, setCookie } = useAuth();
   // const { profile } = useSelector((state: ApplicationState) => state);
   const { loading, error, data, refetch } = useQuery(profileQuery);
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<ProfileVars>();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({})
   const logout = () => {
     AsyncStorage.removeItem("@RNAuth:cookie");

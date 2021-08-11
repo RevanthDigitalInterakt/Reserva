@@ -101,13 +101,12 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   ) => {
     setLoading(true);
     // const { firstName, lastName, birthDate, document, documentType, phone,  } = fields;
-
     const isCustomerSave = await addCustomer({
       firstName,
       lastName,
       document,
       documentType,
-      phone,
+      phone: `+55${phone}`,
     });
 
     if (isCustomerSave) {
@@ -180,7 +179,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               saveCustomer(
                 firstName,
                 lastName,
-                document.replace(/[^\d]+/g,''),
+                document.replace(/[^\d]+/g, ''),
                 documentType,
                 phone,
                 postalCode,

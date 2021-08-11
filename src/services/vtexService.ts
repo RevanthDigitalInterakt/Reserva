@@ -194,6 +194,17 @@ const GetPurchaseData = async (orderGroup: any) => {
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
 };
 
+const ValidateProfile = async (
+  email: string
+) => {
+  try {
+    const { data } = await vtexConfig.get(`/checkout/pub/profiles/?email=${email}&sc=4`);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 const IdentifyCustomer = async (
   orderFormId: string | undefined,
   email: string
@@ -296,6 +307,7 @@ export {
   AddAddressToCart,
   DeliveryType,
   GetPurchaseData,
+  ValidateProfile,
   IdentifyCustomer,
   AddCustomerToOrder,
   RemoveItemFromCart,
