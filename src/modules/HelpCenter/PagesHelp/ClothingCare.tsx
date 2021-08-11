@@ -1,18 +1,11 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Dimensions, SafeAreaView, ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
-import { Typography, Box, Button, TextField, Icon, Image } from "reserva-ui";
-import { images } from "../../../assets";
-
+import { Box, Icon, Typography } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+
 const windowWidth = Dimensions.get("window").width;
 const windowheight = Dimensions.get("window").height;
 export const ClothingCare: React.FC<{}> = () => {
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-
   useEffect(() => {}, []);
 
   return (
@@ -57,7 +50,8 @@ export const ClothingCare: React.FC<{}> = () => {
               </Typography>
             </Box>
             <Box mt="micro">
-              <Box marginLeft={"sm"}>
+              <Box marginLeft={"sm"} flexDirection="row">
+                <Icon name="Alvejar" size={20} />
                 <Typography fontFamily="nunitoRegular">
                   NÃO DEVEM SER LAVADOS
                 </Typography>
