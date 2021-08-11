@@ -206,9 +206,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   addressId,
                 } = item;
 
-                if (selectedAddress) {
-                  selected = addressId === selectedAddress.addressId && item;
+                if (cookie) {
+                  if (selectedAddress) {
+                    selected = id === selectedAddress.id && item;
+                  }
+                } else {
+                  if (selectedAddress) {
+                    selected = addressId === selectedAddress.addressId && item;
+                  }
                 }
+
 
                 return (
                   <AddressSelector
