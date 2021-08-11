@@ -93,7 +93,7 @@ export const Tabs = () => {
           }}
         />
         <Tab.Screen name="Profile" component={MenuProfile} />
-        {/* <Tab.Screen name="Call" component={CallCenter} /> */}
+        <Tab.Screen name="Call" component={CallCenter} />
       </Tab.Navigator>
     </SafeAreaView>
   );
