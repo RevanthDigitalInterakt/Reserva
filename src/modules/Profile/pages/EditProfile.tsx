@@ -252,7 +252,7 @@ export const EditProfile: React.FC<{
                 <TextField
                   maskType={"custom"}
                   maskOptions={{
-                    mask: "+99 (99) 9 9999-9999",
+                    mask: "+55 (99) 9 9999-9999",
                   }}
                   label={"Telefone (opcional)"}
                   value={userData.homePhone}
