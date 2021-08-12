@@ -131,7 +131,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       variables: {
         fields: {
           ...initialValues,
-          receiverName: `${profile?.firstName} ${profile?.lastName}`
+          receiverName: receiverName
         },
       },
     });
