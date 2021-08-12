@@ -259,11 +259,11 @@ PODS:
   - react-native-onesignal (4.2.0):
     - OneSignalXCFramework (= 3.5.3)
     - React (< 1.0.0, >= 0.13.0)
-  - react-native-safe-area-context (3.2.0):
+  - react-native-safe-area-context (3.3.0):
     - React-Core
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-webview (11.6.5):
+  - react-native-webview (11.13.0):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -335,7 +335,7 @@ PODS:
     - React
   - RNCPicker (1.8.1):
     - React-Core
-  - RNDeviceInfo (8.1.4):
+  - RNDeviceInfo (8.1.7):
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
@@ -370,19 +370,19 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.4.0):
+  - RNScreens (3.5.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (2.6.0):
+  - RNSentry (2.6.2):
     - React-Core
-    - Sentry (= 7.0.0)
-  - RNShare (6.4.0):
+    - Sentry (= 7.1.4)
+  - RNShare (6.5.0):
     - React-Core
   - RNSVG (12.1.1):
     - React
-  - Sentry (7.0.0):
-    - Sentry/Core (= 7.0.0)
-  - Sentry/Core (7.0.0)
+  - Sentry (7.1.4):
+    - Sentry/Core (= 7.1.4)
+  - Sentry/Core (7.1.4)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
 
@@ -573,7 +573,7 @@ SPEC CHECKSUMS:
   CodePush: 9bb93f52a44ee80b72739d89dead9c7e86c3bd3a
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 4bc4b20ce82ebfd8458333f258b5e952cef7738d
+  FBReactNativeSpec: e8b4e821aaa9b3c37c91a7821febc7c19d006970
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
@@ -601,9 +601,9 @@ SPEC CHECKSUMS:
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
   react-native-onesignal: a7e433eec906c928954de4f124b6886418386bb4
-  react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
+  react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
+  react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -619,15 +619,15 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
-  RNDeviceInfo: 0b3e0154c1c659ea9779cb3e883e66ece92326a9
+  RNDeviceInfo: ace1442cd0f7d01292a39a3b587666177eaf8cb0
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
-  RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
-  RNSentry: a2b02b326ae4fce91ce7c57d3f7dcf8df4f72269
-  RNShare: 129b187a54301c9f32ec7249fb4431e30a8d6ab8
+  RNScreens: 01ab149b5dd5c27f5ff26741b1d2bdf2cee1af35
+  RNSentry: 68644ef607b780551cc555f084869764f2566652
+  RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
-  Sentry: 89d26e036063b9cb9caa59b6951dd2f8277aa13b
+  Sentry: 1d3eb1a25f8c5333c88dd5603904a6d461cd9fcf
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
