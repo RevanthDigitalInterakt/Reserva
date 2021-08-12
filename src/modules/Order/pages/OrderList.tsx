@@ -47,13 +47,15 @@ const OrderList = () => {
             backgroundColor="white"
             width="100%"
           >
-            {orders.length > 0 && !loading ? (
+            {orders.length > 0 && !loading && (
               orders.map((order) => <Order data={order} />)
-            ) : (
+            )}
+
+            {!loading && orders.length === 0 &&
               <Typography variant="tituloSessoes" fontSize={16}>
                 Você ainda não tem pedidos!
               </Typography>
-            )}
+            }
           </Box>
         </ScrollView>
       </SafeAreaView>
