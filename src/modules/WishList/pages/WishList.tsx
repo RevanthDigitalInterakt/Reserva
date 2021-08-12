@@ -28,9 +28,10 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '../../../context/AuthContext'
 import { profileQuery } from '../../../store/ducks/profile/types'
 import { Alert } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { paddingBottom } from 'styled-system'
 import { Skeleton } from '../../Checkout/components/Skeleton'
+import { TopBarDefault } from '../../Menu/components/TopBarDefault'
 
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>
@@ -128,7 +129,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
-      <TopBarBackButton loading={false} showShadow />
+      <TopBarDefault loading={false} showShadow />
       {/* <Box> */}
       <Picker
         onSelect={() => {
@@ -330,6 +331,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
 
 const EmptyWishList = () => {
+  const navigation = useNavigation()
   return <Box flex={1} alignItems='center' paddingTop={124}>
     <Icon name='Heartbroken' color='preto' size={86} />
     <Box mx={37} mt={47}>
@@ -347,6 +349,6 @@ const EmptyWishList = () => {
         Navegue pelo nosso app e favorite produtos que são a sua cara!
       </Typography>
     </Box>
-    <Button title='NAVEGAR' variant='primarioEstreito' width={258} />
+    <Button title='NAVEGAR' variant='primarioEstreito' width={258} onPress={() => navigation.navigate('Home')} />
   </Box>
 }
