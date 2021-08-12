@@ -106,7 +106,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       lastName,
       document,
       documentType,
-      phone: `+55${phone}`,
+      phone: phone.replace(/[^\d\+]+/g, ''),
     });
 
     if (isCustomerSave) {
@@ -226,7 +226,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                 <Box mt={15}>
                   <FormikTextInput
                     field={"phone"}
-                    maskType="cel-phone"
+                    maskType="custom"
+                    maskOptions={{
+                      mask: "+55 (99) 9 9999-9999",
+                    }}
                     keyboardType="number-pad"
                     placeholder="Telefone"
                   />

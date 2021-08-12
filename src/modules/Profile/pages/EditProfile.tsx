@@ -120,7 +120,7 @@ export const EditProfile: React.FC<{
         value: "cpf"
       }
     ];
-    
+
 
     if (user.birthDate === "") {
       user.birthDate = null;
@@ -236,7 +236,7 @@ export const EditProfile: React.FC<{
               <Box mb={"xxs"}>
                 <TextField
                   keyboardType="number-pad"
-                  label={"Digite sua data de nascimento"}
+                  label={"Digite sua data de nascimento (opcional)"}
                   maskType={"custom"}
                   maskOptions={{
                     mask: "99/99/9999",
@@ -254,7 +254,7 @@ export const EditProfile: React.FC<{
                   maskOptions={{
                     mask: "+55 (99) 9 9999-9999",
                   }}
-                  label={"Telefone (opcional)"}
+                  label={"Telefone"}
                   value={userData.homePhone}
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ homePhone: text } });
