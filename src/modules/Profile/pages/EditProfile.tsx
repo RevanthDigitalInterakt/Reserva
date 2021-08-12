@@ -100,20 +100,27 @@ export const EditProfile: React.FC<{
     const splittedBirthDate = userData.birthDate?.split("/");
     const [firstName, ...rest] = userData.fullName.trim().split(" ");
     const lastName = rest.join(" ");
-    const newPhone = `+55${userData.homePhone}`
+    const newPhone = userData.homePhone;
     const user = {
       firstName: firstName,
       lastName: lastName,
       email: userData.email,
       document: userData.document.replace(/[^\d]+/g, ''),
       birthDate: splittedBirthDate?.reverse().join("-"),
-      homePhone: newPhone,
+      homePhone: newPhone.replace(/[^\d\+]+/g, ''),
     };
 
-    const newsletterCustomField: ProfileCustomFieldsInput = {
-      key: "isNewsletterOptIn",
-      value: `${subscribed}`,
-    };
+    const customField: ProfileCustomFieldsInput[] = [
+      {
+        key: "isNewsletterOptIn",
+        value: `${subscribed}`,
+      },
+      {
+        key: "documentType",
+        value: "cpf"
+      }
+    ];
+    
 
     if (user.birthDate === "") {
       user.birthDate = null;
@@ -122,7 +129,7 @@ export const EditProfile: React.FC<{
     updateUserdata({
       variables: {
         fields: user,
-        customFields: [newsletterCustomField],
+        customFields: customField,
       },
     });
   };
@@ -243,7 +250,10 @@ export const EditProfile: React.FC<{
 
               <Box mb={"nano"}>
                 <TextField
-                  maskType="cel-phone"
+                  maskType={"custom"}
+                  maskOptions={{
+                    mask: "+55 (99) 9 9999-9999",
+                  }}
                   label={"Telefone (opcional)"}
                   value={userData.homePhone}
                   onChangeText={(text) => {
