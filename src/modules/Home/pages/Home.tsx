@@ -88,7 +88,7 @@ export const HomeScreen: React.FC<{
             data={images}
             renderItem={({ item }) => (
               <Box alignItems="flex-start">
-                <Box mb="quarck" width={1 / 1}>
+                <Box mb="quarck" width={1 / 1} >
                   <TouchableHighlight
                     onPress={() => {
                       let facetInput = []
@@ -111,6 +111,7 @@ export const HomeScreen: React.FC<{
                     }}
                   >
                     <Image
+                      height={item.height}
                       autoHeight={true}
                       width={deviceWidth}
                       source={{ uri: item.url }}

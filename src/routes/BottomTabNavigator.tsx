@@ -73,7 +73,7 @@ export const Tabs = () => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.white }} flex={1}>
       <Tab.Navigator tabBar={(props) => <DefaultRoutes {...props} />}>
-        <Tab.Screen name="Home" component={HomeScreen} initialParams={{ label: 'Inicío' }} />
+        <Tab.Screen name="Home" component={HomeScreen} initialParams={{ label: 'Início' }} />
         {/* <Tab.Screen
           name="SearchMenu"
           initialParams={{ safeArea: false, search: true, label: 'Inicío' }}

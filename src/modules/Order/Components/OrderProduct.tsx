@@ -25,7 +25,11 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
         <Box>
           <Image
             variant="sm"
-            source={{ uri: orderItem.imageUrl.replace('http', 'https') }}
+            source={{
+              uri: orderItem.imageUrl.replace('http', 'https')
+                .split("-55-55")
+                .join("")
+            }}
           />
         </Box>
 
