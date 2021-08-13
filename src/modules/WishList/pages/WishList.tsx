@@ -70,11 +70,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
         await removeFromWishList({
           variables: {
             id: wishId.id,
-            shopperId: 'erick.fraga@globalsys.com.br'
+            shopperId: email
           }
         })
         await refetch({
-          shopperId: 'erick.fraga@globalsys.com.br'
+          shopperId: email
         })
       }
     }
