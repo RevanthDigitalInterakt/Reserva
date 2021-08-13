@@ -43,7 +43,7 @@ const Checkout: React.FC<{}> = () => {
                 setNavState(navState.url);
               }}
               source={{
-                uri: `https://applojausereserva.myvtex.com/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
+                uri: `https://applojausereserva.vtexcommercestable.com.br/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
               }}
             />
           </View>

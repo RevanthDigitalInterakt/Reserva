@@ -111,6 +111,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       city,
       street,
     } = initialValues;
+
+    //salvar endereço do usuário no orderform
     const isAddressSaved = await addShippingData({
       postalCode,
       state,
@@ -122,6 +124,16 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       complement,
       city,
       street,
+    });
+
+    //salvar endereço se estiver logado
+    await saveAddress({
+      variables: {
+        fields: {
+          ...initialValues,
+          receiverName: receiverName
+        },
+      },
     });
     setLoading(false);
     if (isAddressSaved) {

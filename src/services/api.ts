@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
+//app-vtex.usereserva.com
+
 const api = axios.create({
   baseURL: "https://reserva-gateway.gateway.linkapi.solutions/v1/",
   headers: {

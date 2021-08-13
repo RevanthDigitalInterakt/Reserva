@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const urlBase = 'https://applojausereserva.myvtex.com/api/';
+const urlBase = 'https://app-vtex.usereserva.com/api/';
 
 const urlBase2 = 'https://lojausereserva.myvtex.com/api/';
 

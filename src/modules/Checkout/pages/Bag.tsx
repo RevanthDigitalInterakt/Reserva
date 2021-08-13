@@ -94,7 +94,7 @@ export const BagScreen = () => {
 
   useEffect(() => {
     firstLoadOrderForm();
-    if (email) {
+    if (email && orderForm?.clientProfileData === null) {
       setCustomer(email);
     }
   }, []);
