@@ -71,7 +71,7 @@ export const HomeScreen: React.FC<{
   }, []);
 
   return (
-    <Box flex={1}>
+    <Box flex={1} bg='white'>
       <TopBarDefault loading={loading} />
       <WithoutInternet />
       {
