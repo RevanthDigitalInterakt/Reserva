@@ -48,7 +48,9 @@ const App = () => {
 
   useEffect(() => {
     codePush.sync(
-      {},
+      {
+        
+      },
       (status) => {
         switch (status) {
           case codePush.SyncStatus.DOWNLOADING_PACKAGE:
