@@ -437,16 +437,17 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               <Typography fontFamily="nunitoRegular" fontSize="13px">
                 {productsQuery.recordsFiltered} produtos encontrados
               </Typography>
-
-              <Button onPress={() => setFilterRequestList([])}>
-                <Typography
-                  color="progressTextColor"
-                  variant="precoAntigo3"
-                  style={{ textDecorationLine: 'underline' }}
-                >
-                  Limpar tudo
-                </Typography>
-              </Button>
+              {filterRequestList.length > 0 &&
+                <Button onPress={() => setFilterRequestList([])}>
+                  <Typography
+                    color="progressTextColor"
+                    variant="precoAntigo3"
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    Limpar tudo
+                  </Typography>
+                </Button>
+              }
             </Box>
           </>
         }

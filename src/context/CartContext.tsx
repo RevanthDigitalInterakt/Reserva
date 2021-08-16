@@ -471,7 +471,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       if (data.length > 0 && data[0].ativo) {
         await addToSellerCoupon(orderForm?.orderFormId, {
           ...orderForm?.marketingData,
-          marketingTags: ["CodigoVendedor", `code_CodigoVendedor=${coupon}`],
+          marketingTags: [
+            "CodigoVendedor",
+            `code_CodigoVendedor=${coupon}`,
+            "ron=false"
+          ],
         });
         return !!data;
       } else {
