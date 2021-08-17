@@ -100,7 +100,7 @@ export const Tabs = () => {
         />
         <Tab.Screen name='Heart' component={WishList} initialParams={{ label: 'Favoritos' }} />
         <Tab.Screen name="Profile" component={MenuProfile} initialParams={{ label: 'Perfil' }} />
-        <Tab.Screen name="Call" component={CallCenter} initialParams={{ label: 'Atendimento' }} />
+        <Tab.Screen name="Call" component={CallCenter} initialParams={{ label: 'Central' }} />
       </Tab.Navigator>
     </SafeAreaView>
   );
