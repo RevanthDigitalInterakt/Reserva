@@ -179,8 +179,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               saveCustomer(
                 firstName,
                 lastName,
-                document.replace(/[^\d]+/g, ''),
                 documentType,
+                document.replace(/[^\d]+/g, ''),
                 phone,
                 postalCode,
                 neighborhood,
