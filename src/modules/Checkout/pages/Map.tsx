@@ -76,6 +76,7 @@ export const MapScreen = ({ route }: Props) => {
   const onSelectPickupPoint = async (item: any) => {
     setLoading(true);
     if (orderForm) {
+      
       const slas = orderForm.shippingData.logisticsInfo[0].slas.find(
         ({ pickupPointId }) => pickupPointId === item.id
       );
@@ -94,7 +95,19 @@ export const MapScreen = ({ route }: Props) => {
           }
         );
 
-        const data = await addShippingOrPickupInfo(logisticInfo);
+        delete item.address.addressType;
+        delete item.address.receiverName;
+
+        const data = await addShippingOrPickupInfo(
+          logisticInfo, 
+          [ 
+            {
+              addressType: 'search',
+              receiverName: `${orderForm.clientProfileData.firstName} ${orderForm.clientProfileData.lastName}`,
+              ...item?.address
+            } 
+          ]
+        );
 
         setLoading(false);
         // case when update orderform has succeeded, must open payment webview

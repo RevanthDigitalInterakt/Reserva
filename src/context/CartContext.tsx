@@ -278,7 +278,8 @@ interface CartContextProps {
   addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
   getCepData: (postalCode: string) => Promise<CepResponse | undefined>;
   addShippingOrPickupInfo: (
-    logisticInfo: any[]
+    logisticInfo: any[],
+    selectedAddresses: any[]
   ) => Promise<boolean | undefined>; //todo - type later,
   orderform: () => void;
   removeItem: () => Promise<{ ok: boolean }>;
@@ -433,10 +434,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const addShippingOrPickupInfo = async (logisticsInfo: any[]) => {
+  const addShippingOrPickupInfo = async (logisticsInfo: any[], selectedAddresses: any[]) => {
     try {
       const data = await AddAddressToCart(orderForm?.orderFormId, {
-        selectedAddresses: orderForm?.shippingData.selectedAddresses,
+        selectedAddresses,
         logisticsInfo,
       });
 

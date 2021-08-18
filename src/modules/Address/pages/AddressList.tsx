@@ -31,7 +31,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     { error: deleteAddressError, loading: loadingAddressDelete },
   ] = useMutation(deleteAddress);
   const [loading, setLoading] = useState(false);
-  const { orderForm, addShippingData } = useCart();
+  const { orderForm, addShippingData, addShippingOrPickupInfo } = useCart();
   const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
   const [profile, setProfile] = useState<any>({});
   const [addresses, setAddresses] = useState<any[]>([]);
@@ -51,11 +51,32 @@ const AddressList: React.FC<Props> = ({ route }) => {
   };
 
   const onGoToPayment = async () => {
-    setLoading(true);
+    
+    if (orderForm) {
+      setLoading(true);
 
-    await addShippingData(selectedAddress);
+      const slas = orderForm.shippingData.logisticsInfo[0].slas[0];
 
-    setLoading(false);
+      if (slas) {
+        const { deliveryChannel, id } = slas;
+
+        // save selected logistc info
+        const logisticInfo = orderForm.shippingData.logisticsInfo.map(
+          ({ itemIndex }) => {
+            return {
+              itemIndex,
+              selectedDeliveryChannel: deliveryChannel,
+              selectedSla: id,
+            };
+          }
+        );
+        
+        await addShippingOrPickupInfo(logisticInfo, [selectedAddress]);
+        
+      }
+      setLoading(false);
+    }
+
 
     // if (
     //   orderForm &&
