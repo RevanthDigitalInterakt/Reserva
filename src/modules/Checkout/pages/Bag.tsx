@@ -18,6 +18,7 @@ import { PriceCustom } from "../components/PriceCustom";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 import { createAnimatableComponent } from "react-native-animatable";
+import * as Animatable from "react-native-animatable";
 import { CouponBadge } from "../components/CouponBadge";
 import {
   CouponsOrders,
@@ -38,6 +39,7 @@ import SkeletonPlaceholder from "@thevsstech/react-native-skeleton";
 import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../../../context/AuthContext";
 import { EmptyBag } from "../components/EmptyBag";
+import Modal from "react-native-modal";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -58,6 +60,7 @@ export const BagScreen = () => {
   const [loading, setLoading] = useState(false)
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
+  const viewRef = useRef(null);
   const [totalBag, setTotalBag] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<{ id: string, index: number, seller: string, quantity: number } | undefined>();
@@ -69,6 +72,8 @@ export const BagScreen = () => {
   const [sellerCode, setSellerCode] = React.useState<string | undefined>("");
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
+  const [noProduct, setNoProduct] = useState<any>('');
+  const [errorsMessages, setErrorsMessages] = useState<any>([]);
   const [optimistQuantities, setOptimistQuantities] = useState(orderForm?.items.map(x => x.quantity) || [])
   const [installmentInfo, setInstallmentInfo] = useState({
     installmentsNumber: 0,
@@ -106,6 +111,10 @@ export const BagScreen = () => {
       (orderForm?.totalizers.find((x) => x.id === "Discounts")?.value || 0) /
       100;
 
+
+    const errorMessages = orderForm?.messages.map(({ text }: any) => text)
+    setErrorsMessages(errorMessages)
+
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split("=")[1];
 
@@ -134,6 +143,12 @@ export const BagScreen = () => {
     setTotalDiscountPrice(totalDiscountPrice);
     setSellerCode(sellerCode);
   }, [orderForm]);
+
+  useEffect(() => {
+    if (viewRef.current) {
+      viewRef?.current?.slideInDown()
+    }
+  }, [noProduct])
 
   const handleAddCoupons = async () => {
     const isCouponInvalid = await addCoupon(discountCoupon);
@@ -170,6 +185,8 @@ export const BagScreen = () => {
       }
     }
   };
+
+
 
   useEffect(() => {
     console.log('optimistQuantities', optimistQuantities)
@@ -284,108 +301,147 @@ export const BagScreen = () => {
         </Box>
         :
         orderForm && orderForm?.items.length > 0 ?
+          <>
+            {noProduct.length > 0 &&
+              <Animatable.View ref={viewRef} animation="slideInDown" style={{ position: "absolute", right: 0, left: 0, zIndex: 2 }}>
+                <Box
+                  minHeight={60}
+                  bg="white"
+                  paddingLeft="xxxs"
+                  py="micro"
+                  flexDirection="row"
+                  alignItems="center"
+                  paddingRight="xxxs"
+                  boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+                  style={{ elevation: 5 }}
+                >
+                  <Box flex={1}>
+                    <Typography
+                      fontFamily="nunitoRegular"
+                      fontSize={13}
+                      color="preto"
+                    >
+                      {noProduct}
+                    </Typography>
+                  </Box>
+                  <Button
+                    flex={1}
+                    onPress={() => setNoProduct('')}
+                  >
+                    <Icon name='Close' size={15} color='preto' ml="xxxs" />
+                  </Button>
+                </Box>
+              </Animatable.View>
+            }
 
-          <ScrollView>
-            <Alert
-              onModalHide={() => {
-                modalRef.current && setSuccessModal(true);
-              }}
-              isVisible={showModal}
-              title={"Excluir produto"}
-              subtitle={"Tem certeza que deseja excluir o produto salvo em sua sacola?"}
-              confirmText={"SIM"}
-              cancelText={"NÃO"}
-              onConfirm={async () => {
-                modalRef.current = true;
-                if (removeProduct) {
-                  await removeItem(removeProduct?.id, removeProduct?.index, removeProduct?.seller, 0);
-                }
-                setShowModal(false);
-              }}
-              onCancel={() => {
-                setShowModal(false);
-              }}
-              onClose={() => {
-                setShowModal(false);
-              }}
-            />
-            <Box paddingX={"xxxs"} paddingY={"xxs"}>
-              <Box bg={"white"} marginTop={"xxs"}>
-                <Typography variant="tituloSessoes">
-                  Sacola ({orderForm?.items.length})
-                </Typography>
-              </Box>
+            <ScrollView>
 
-              {orderForm?.items.map((item, index, array) => (
+              <Alert
+                onModalHide={() => {
+                  modalRef.current && setSuccessModal(true);
+                }}
+                isVisible={showModal}
+                title={"Excluir produto"}
+                subtitle={"Tem certeza que deseja excluir o produto salvo em sua sacola?"}
+                confirmText={"SIM"}
+                cancelText={"NÃO"}
+                onConfirm={async () => {
+                  modalRef.current = true;
+                  if (removeProduct) {
+                    await removeItem(removeProduct?.id, removeProduct?.index, removeProduct?.seller, 0);
+                  }
+                  setShowModal(false);
+                }}
+                onCancel={() => {
+                  setShowModal(false);
+                }}
+                onClose={() => {
+                  setShowModal(false);
+                }}
+              />
+              <Box paddingX={"xxxs"} paddingY={"xxs"}>
+                <Box bg={"white"} marginTop={"xxs"}>
+                  <Typography variant="tituloSessoes">
+                    Sacola ({orderForm?.items.length})
+                  </Typography>
+                </Box>
 
-                <Box key={index} bg={"white"} marginTop={"xxxs"}>
-                  <ProductHorizontalListCard
-                    isBag
-                    currency={"R$"}
-                    discountTag={
-                      item.sellingPrice > 0 ? item.sellingPrice / 100 : undefined
-                    }
-                    itemColor={item.skuName.split("-")[0] || ""}
-                    ItemSize={item.skuName.split("-")[1] || ""}
-                    productTitle={item.name.split(" - ")[0]}
-                    // installmentsNumber={item.installmentNumber}
-                    // installmentsPrice={item.installmentPrice}
-                    price={item.listPrice / 100}
-                    priceWithDiscount={item.sellingPrice / 100}
-                    count={optimistQuantities[index]}
-                    onClickAddCount={async (count) => {
-                      const firstItemIndex = array.findIndex(x => x.productId == item.productId)
-                      console.log(firstItemIndex)
-                      const prevCont = optimistQuantities[firstItemIndex]
-                      await setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), count, ...optimistQuantities.slice(firstItemIndex + 1)])
-                      const { ok } = await addItem(count, item.id, item.seller);
+                {orderForm?.items.map((item, index, array) => (
 
-                      if (!ok)
-                        setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), prevCont, ...optimistQuantities.slice(firstItemIndex + 1)])
-                      //console.log('ok addCount', ok)
+                  <Box key={index} bg={"white"} marginTop={"xxxs"}>
+                    <ProductHorizontalListCard
+                      isBag
+                      currency={"R$"}
+                      discountTag={
+                        item.sellingPrice > 0 ? item.sellingPrice / 100 : undefined
+                      }
+                      itemColor={item.skuName.split("-")[0] || ""}
+                      ItemSize={item.skuName.split("-")[1] || ""}
+                      productTitle={item.name.split(" - ")[0]}
+                      // installmentsNumber={item.installmentNumber}
+                      // installmentsPrice={item.installmentPrice}
+                      price={item.listPrice / 100}
+                      priceWithDiscount={item.sellingPrice / 100}
+                      count={optimistQuantities[index]}
+                      onClickAddCount={async (count) => {
 
-                    }}
-                    onClickSubCount={async (count) => {
-                      const prevCont = optimistQuantities[index]
-                      if (prevCont <= 1) {
+
+                        const firstItemIndex = array.findIndex(x => x.productId == item.productId)
+                        console.log(firstItemIndex)
+                        const prevCont = optimistQuantities[firstItemIndex]
+                        await setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), count, ...optimistQuantities.slice(firstItemIndex + 1)])
+                        const { ok } = await addItem(count, item.id, item.seller);
+
+                        if (!ok)
+                          setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), prevCont, ...optimistQuantities.slice(firstItemIndex + 1)])
+                        //console.log('ok addCount', ok)
+
+                        const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
+                        if (ok && item.quantity != count) {
+                          setNoProduct(erros[0])
+                        }
+                      }}
+                      onClickSubCount={async (count) => {
+                        const prevCont = optimistQuantities[index]
+                        if (prevCont <= 1) {
+                          setShowModal(true)
+                          setRemoveProduct({
+                            id: item.id,
+                            index: index,
+                            seller: item.seller
+                          })
+                        } else {
+                          setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
+                          const { ok } = await removeItem(
+                            item.id,
+                            index,
+                            item.seller,
+                            item.quantity - 1
+                          )
+                          if (!ok)
+                            setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
+                          console.log('ok subCount', ok)
+
+                        }
+                      }}
+                      onClickClose={() => {
                         setShowModal(true)
                         setRemoveProduct({
                           id: item.id,
                           index: index,
                           seller: item.seller
                         })
-                      } else {
-                        setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
-                        const { ok } = await removeItem(
-                          item.id,
-                          index,
-                          item.seller,
-                          item.quantity - 1
-                        )
-                        if (!ok)
-                          setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
-                        console.log('ok subCount', ok)
+                      }}
+                      imageSource={item.imageUrl
+                        .replace("http", "https")
+                        .split("-55-55")
+                        .join("")}
+                    />
+                  </Box>
+                ))}
+              </Box>
 
-                      }
-                    }}
-                    onClickClose={() => {
-                      setShowModal(true)
-                      setRemoveProduct({
-                        id: item.id,
-                        index: index,
-                        seller: item.seller
-                      })
-                    }}
-                    imageSource={item.imageUrl
-                      .replace("http", "https")
-                      .split("-55-55")
-                      .join("")}
-                  />
-                </Box>
-              ))}
-            </Box>
-
-            {/* <Box paddingX={'xxxs'}>
+              {/* <Box paddingX={'xxxs'}>
           <Divider variant={'fullWidth'} />
           <Button onPress={() => setShowLikelyProducts(!showLikelyProducts)}>
             <Box flexDirection={'row'} marginY={'xxs'} alignItems={'center'}>
@@ -415,7 +471,7 @@ export const BagScreen = () => {
           <Divider variant={'fullWidth'} />
         </Box> */}
 
-            {/* {showLikelyProducts && (
+              {/* {showLikelyProducts && (
           <BoxAnimated
             paddingX={'xxxs'}
             bg={'whiteSecondary'}
@@ -449,181 +505,182 @@ export const BagScreen = () => {
           </BoxAnimated>
         )} */}
 
-            <Box paddingX={"xxxs"}>
-              {showLikelyProducts && (
-                <Divider marginTop={"xs"} variant={"fullWidth"} />
-              )}
-
-              <Box flexDirection={"row"} marginY={"xxs"} alignItems={"center"}>
-                <Box marginRight="micro">
-                  <Icon name={"Presente"} size={20} />
-                </Box>
-                <Box flex={1}>
-                  <Typography variant={"subtituloSessoes"}>
-                    Embalagem para presente
-                  </Typography>
-                </Box>
-                <Box marginLeft={"micro"}>
-                  <Toggle
-                    onValueChange={setHasBagGift}
-                    thumbColor={"vermelhoAlerta"}
-                    color={"preto"}
-                    value={hasBagGift}
-                  />
-                </Box>
-              </Box>
-
-              <Divider variant={"fullWidth"} />
-
-              <Box
-                flexDirection={"row"}
-                marginTop={"xxs"}
-                marginBottom={"xxxs"}
-                alignItems={"center"}
-              >
-                <Box marginRight="micro">
-                  <Icon name={"Tag"} size={20} color="preto" />
-                </Box>
-                <Box flex={1}>
-                  <Typography variant={"subtituloSessoes"}>
-                    Código promocional{" "}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box>
-                <Typography variant={"tituloSessao"}>
-                  Insira aqui o código do vendedor(a) e/ou cupom de desconto.
-                </Typography>
-              </Box>
-              <Box flexDirection="row">
-                {/* cupom vendedor */}
-                {!!sellerCode && (
-                  <CouponBadge
-                    value={sellerCode}
-                    onPress={async () => {
-                      setLoading(true);
-                      await removeSellerCoupon(""); //remove passando ''
-                      setLoading(false);
-                    }}
-                  />
+              <Box paddingX={"xxxs"}>
+                {showLikelyProducts && (
+                  <Divider marginTop={"xs"} variant={"fullWidth"} />
                 )}
-                {/* cupom desconto */}
-                {orderForm?.marketingData?.coupon && (
-                  <CouponBadge
-                    value={orderForm?.marketingData?.coupon}
-                    onPress={async () => {
-                      setLoading(true);
-                      await removeCoupon(""); //remove passando ''
-                      setLoading(false);
-                    }}
-                  />
-                )}
-              </Box>
 
-              <Box marginTop="nano" flexDirection="row">
-                <Box flex={1} marginRight={"micro"}>
-                  <TextField
-                    height={50}
-                    value={sellerCoupon}
-                    onChangeText={(text) => setSellerCoupon(text)}
-                    placeholder="Código do vendedor"
-                  />
-                </Box>
-                <Box>
-                  <Button
-                    width="100%"
-                    title="APLICAR"
-                    onPress={handleAddSellerCoupons}
-                    variant="primarioEstreito"
-                    disabled={!hasSellerCoupon()}
-                  />
-                </Box>
-              </Box>
-              {!sellerCouponIsValid && (
-                <Box marginRight={"micro"}>
-                  <Typography color="vermelhoAlerta" variant={"precoAntigo3"}>
-                    Digite um código válido
-                  </Typography>
-                </Box>
-              )}
-              <Box marginTop="xxxs" flexDirection="row">
-                <Box flex={1} marginRight="micro">
-                  <TextField
-                    height={50}
-                    value={discountCoupon}
-                    onChangeText={(text) => setDiscountCoupon(text)}
-                    placeholder="Cupom de desconto"
-                  />
-                </Box>
-                <Box>
-                  <Button
-                    width="100%"
-                    title="APLICAR"
-                    onPress={handleAddCoupons}
-                    variant="primarioEstreito"
-                    disabled={!hasDiscountCoupon()}
-                  />
-                </Box>
-              </Box>
-              {couponIsInvalid && (
-                <Box marginRight={"micro"}>
-                  <Typography color="vermelhoAlerta" variant={"precoAntigo3"}>
-                    Digite um código válido
-                  </Typography>
-                </Box>
-              )}
-
-              <Divider variant={"fullWidth"} marginY={"xs"} />
-              {totalDiscountPrice != 0 && (
-                <>
-                  <Box
-                    marginBottom={"micro"}
-                    flexDirection={"row"}
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                  >
-                    <Typography variant={"precoAntigo3"}>Subtotal</Typography>
-                    <PriceCustom
-                      fontFamily={"nunitoSemiBold"}
-                      sizeInterger={15}
-                      sizeDecimal={11}
-                      num={totalBag}
+                <Box flexDirection={"row"} marginY={"xxs"} alignItems={"center"}>
+                  <Box marginRight="micro">
+                    <Icon name={"Presente"} size={20} />
+                  </Box>
+                  <Box flex={1}>
+                    <Typography variant={"subtituloSessoes"}>
+                      Embalagem para presente
+                    </Typography>
+                  </Box>
+                  <Box marginLeft={"micro"}>
+                    <Toggle
+                      onValueChange={setHasBagGift}
+                      thumbColor={"vermelhoAlerta"}
+                      color={"preto"}
+                      value={hasBagGift}
                     />
                   </Box>
-                  <Box
-                    marginBottom={"micro"}
-                    flexDirection={"row"}
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                  >
-                    <Typography variant={"precoAntigo3"}>Descontos</Typography>
+                </Box>
 
-                    <PriceCustom
-                      fontFamily={"nunitoSemiBold"}
-                      negative={true}
-                      sizeInterger={15}
-                      sizeDecimal={11}
-                      num={Math.abs(totalDiscountPrice)}
+                <Divider variant={"fullWidth"} />
+
+                <Box
+                  flexDirection={"row"}
+                  marginTop={"xxs"}
+                  marginBottom={"xxxs"}
+                  alignItems={"center"}
+                >
+                  <Box marginRight="micro">
+                    <Icon name={"Tag"} size={20} color="preto" />
+                  </Box>
+                  <Box flex={1}>
+                    <Typography variant={"subtituloSessoes"}>
+                      Código promocional{" "}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box>
+                  <Typography variant={"tituloSessao"}>
+                    Insira aqui o código do vendedor(a) e/ou cupom de desconto.
+                  </Typography>
+                </Box>
+                <Box flexDirection="row">
+                  {/* cupom vendedor */}
+                  {!!sellerCode && (
+                    <CouponBadge
+                      value={sellerCode}
+                      onPress={async () => {
+                        setLoading(true);
+                        await removeSellerCoupon(""); //remove passando ''
+                        setLoading(false);
+                      }}
+                    />
+                  )}
+                  {/* cupom desconto */}
+                  {orderForm?.marketingData?.coupon && (
+                    <CouponBadge
+                      value={orderForm?.marketingData?.coupon}
+                      onPress={async () => {
+                        setLoading(true);
+                        await removeCoupon(""); //remove passando ''
+                        setLoading(false);
+                      }}
+                    />
+                  )}
+                </Box>
+
+                <Box marginTop="nano" flexDirection="row">
+                  <Box flex={1} marginRight={"micro"}>
+                    <TextField
+                      height={50}
+                      value={sellerCoupon}
+                      onChangeText={(text) => setSellerCoupon(text)}
+                      placeholder="Código do vendedor"
                     />
                   </Box>
-                </>
-              )}
-              <Box
-                marginBottom={"micro"}
-                flexDirection={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-              >
-                <Typography variant={"precoAntigo3"}>Total</Typography>
-                <PriceCustom
-                  fontFamily={"nunitoBold"}
-                  sizeInterger={20}
-                  sizeDecimal={11}
-                  num={totalBag + totalDiscountPrice}
-                />
+                  <Box>
+                    <Button
+                      width="100%"
+                      title="APLICAR"
+                      onPress={handleAddSellerCoupons}
+                      variant="primarioEstreito"
+                      disabled={!hasSellerCoupon()}
+                    />
+                  </Box>
+                </Box>
+                {!sellerCouponIsValid && (
+                  <Box marginRight={"micro"}>
+                    <Typography color="vermelhoAlerta" variant={"precoAntigo3"}>
+                      Digite um código válido
+                    </Typography>
+                  </Box>
+                )}
+                <Box marginTop="xxxs" flexDirection="row">
+                  <Box flex={1} marginRight="micro">
+                    <TextField
+                      height={50}
+                      value={discountCoupon}
+                      onChangeText={(text) => setDiscountCoupon(text)}
+                      placeholder="Cupom de desconto"
+                    />
+                  </Box>
+                  <Box>
+                    <Button
+                      width="100%"
+                      title="APLICAR"
+                      onPress={handleAddCoupons}
+                      variant="primarioEstreito"
+                      disabled={!hasDiscountCoupon()}
+                    />
+                  </Box>
+                </Box>
+                {couponIsInvalid && (
+                  <Box marginRight={"micro"}>
+                    <Typography color="vermelhoAlerta" variant={"precoAntigo3"}>
+                      Digite um código válido
+                    </Typography>
+                  </Box>
+                )}
+
+                <Divider variant={"fullWidth"} marginY={"xs"} />
+                {totalDiscountPrice != 0 && (
+                  <>
+                    <Box
+                      marginBottom={"micro"}
+                      flexDirection={"row"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Typography variant={"precoAntigo3"}>Subtotal</Typography>
+                      <PriceCustom
+                        fontFamily={"nunitoSemiBold"}
+                        sizeInterger={15}
+                        sizeDecimal={11}
+                        num={totalBag}
+                      />
+                    </Box>
+                    <Box
+                      marginBottom={"micro"}
+                      flexDirection={"row"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Typography variant={"precoAntigo3"}>Descontos</Typography>
+
+                      <PriceCustom
+                        fontFamily={"nunitoSemiBold"}
+                        negative={true}
+                        sizeInterger={15}
+                        sizeDecimal={11}
+                        num={Math.abs(totalDiscountPrice)}
+                      />
+                    </Box>
+                  </>
+                )}
+                <Box
+                  marginBottom={"micro"}
+                  flexDirection={"row"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Typography variant={"precoAntigo3"}>Total</Typography>
+                  <PriceCustom
+                    fontFamily={"nunitoBold"}
+                    sizeInterger={20}
+                    sizeDecimal={11}
+                    num={totalBag + totalDiscountPrice}
+                  />
+                </Box>
               </Box>
-            </Box>
-          </ScrollView>
+            </ScrollView>
+          </>
           :
           <EmptyBag onPress={() => navigate('Offers')} />
       }
