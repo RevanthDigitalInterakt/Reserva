@@ -25,10 +25,10 @@ export const TopBarDefaultBackButton: React.FC<{
         },
       }}
       rightButton1={{
-        name: "Heart",
+        name: "Search",
         size: 24,
         onPress: () => {
-          navigation.navigate("WishList");
+          navigation.navigate("SearchMenu");
         },
       }}
       rightButton2={{
