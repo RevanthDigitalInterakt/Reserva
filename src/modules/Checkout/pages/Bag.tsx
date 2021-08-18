@@ -302,8 +302,8 @@ export const BagScreen = () => {
         :
         orderForm && orderForm?.items.length > 0 ?
           <>
-            {noProduct.length > 0 &&
-              <Animatable.View ref={viewRef} animation="slideInDown" style={{ position: "absolute", right: 0, left: 0, zIndex: 2 }}>
+            {noProduct?.length > 0 &&
+              <Animatable.View ref={viewRef} animation="slideInDown" style={{ elevation: 10, position: "absolute", right: 0, left: 0, zIndex: 2 }}>
                 <Box
                   minHeight={60}
                   bg="white"
@@ -313,7 +313,7 @@ export const BagScreen = () => {
                   alignItems="center"
                   paddingRight="xxxs"
                   boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-                  style={{ elevation: 5 }}
+                  style={{ elevation: 10 }}
                 >
                   <Box flex={1}>
                     <Typography
@@ -397,7 +397,7 @@ export const BagScreen = () => {
                         //console.log('ok addCount', ok)
 
                         const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
-                        if (ok && item.quantity != count) {
+                        if (item.quantity != count) {
                           setNoProduct(erros[0])
                         }
                       }}
@@ -775,6 +775,6 @@ export const BagScreen = () => {
         )}
       </Box>
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
