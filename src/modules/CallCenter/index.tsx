@@ -92,29 +92,19 @@ const CallCenter = ({
             </Typography>
           </Box>
 
-          {/* <ItemContact
+          <ItemContact
             divider={true}
             icon="Mail"
             label="sac@usereserva.com"
             onPress={onClickMail}
-          /> */}
+          />
 
           <ItemContact
             divider={true}
-            icon={"Phone"}
-            local={"(Rio de Janeiro capital)"}
-            label={"(21) 2108-4990"}
+            icon={'Phone'}
+            label={'(21) 3900-7052'}
             onPress={() => {
-              Linking.openURL(`tel: (21) 2108-4990`);
-            }}
-          />
-          <ItemContact
-            divider={true}
-            icon={"Phone"}
-            local={"(Demais localidades)"}
-            label={"(11) 2388-8280"}
-            onPress={() => {
-              Linking.openURL(`tel: (11) 2388-8280`);
+              Linking.openURL(`tel: (21) 3900-7052`);
             }}
           />
           <ItemContact

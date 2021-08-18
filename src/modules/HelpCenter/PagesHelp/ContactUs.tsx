@@ -95,7 +95,6 @@ export const ContactUs: React.FC<{}> = () => {
           <ItemContact
             divider={true}
             icon={'Phone'}
-            local={'(Rio de Janeiro capital)'}
             label={'(21) 3900-7052'}
             onPress={() => {
               Linking.openURL(`tel: (21) 3900-7052`);
