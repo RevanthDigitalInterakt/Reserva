@@ -143,7 +143,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         ({ name }: any) => name === 'DESC_COR_CONSOLIDADA'
       );
       const colorFacetValues =
-        colorFacets.length > 0
+        !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
             key,
             value: ColorsToHexEnum[value],
@@ -153,7 +153,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       // SIZE
       const sizeFacets = facets.filter(({ name }: any) => name === 'TAMANHO');
       const sizeFacetValues =
-        sizeFacets.length > 0
+        !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
             key,
             value,
@@ -165,7 +165,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         ({ name }: any) => name === 'Categoria'
       );
       const categoryFacetValues =
-        categoryFacets.length > 0
+        !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
             key,
             value,
@@ -175,7 +175,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       // PRICE
       const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
       const priceFacetValues =
-        priceFacets.length > 0
+        !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
             key,
             range,
@@ -190,7 +190,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [facetsData]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !!data) {
       setProducts(data.productSearch);
     }
   }, [data]);
@@ -441,7 +441,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               <Typography fontFamily="nunitoRegular" fontSize="13px">
                 {productsQuery.recordsFiltered} produtos encontrados
               </Typography>
-              {filterRequestList.length > 0 &&
+              {!!filterRequestList && filterRequestList.length > 0 &&
                 <Button onPress={() => setFilterRequestList([])}>
                   <Typography
                     color="progressTextColor"
