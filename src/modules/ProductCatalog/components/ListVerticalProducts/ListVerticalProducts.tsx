@@ -135,6 +135,10 @@ export const ListVerticalProducts = ({
   }, [])
   )
 
+  useEffect(() => {
+    console.log('productList', productList)
+  }, [productList])
+
   return (
     <>
       <CreateCategoryModal
@@ -145,7 +149,7 @@ export const ListVerticalProducts = ({
         <FlatList
           horizontal={horizontal}
           data={productList}
-          keyExtractor={(item) => item.productId}
+          keyExtractor={(item, index) => `${item.productId} ${index}`}
           numColumns={horizontal ? 1 : 2}
           onEndReached={() => loadMoreProducts(products.length)}
           onEndReachedThreshold={0.5}

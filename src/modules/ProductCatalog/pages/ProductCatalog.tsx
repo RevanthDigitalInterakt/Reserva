@@ -58,9 +58,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [loadingFetchMore, setLoadingFetchMore] = useState(false);
   const [loadingHandlerState, setLoadingHandlerState] = useState(false)
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
+  const [skip, setSkip] = useState(false)
   const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
     productSearch,
     {
+      skip,
       variables: {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
@@ -108,6 +110,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const firstLoad = async () => {
     setSkeletonLoading(true)
+    setSkip(true)
     await refetch();
     setSkeletonLoading(false)
     await refetchFacets();
@@ -193,6 +196,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [data]);
 
   const loadMoreProducts = async (offset: number) => {
+    console.log('offSet', offset)
     setLoadingFetchMore(true);
     let { data, loading } = await fetchMore({
       variables: {
