@@ -49,7 +49,14 @@ const App = () => {
   useEffect(() => {
     codePush.sync(
       {
-        
+        installMode: codePush.InstallMode.ON_NEXT_RESTART,
+        updateDialog: {
+          title: 'An OTA update is available',
+        },
+        rollbackRetryOptions: {
+          delayInHours: 0.1,
+          maxRetryAttempts: 1,
+        },
       },
       (status) => {
         switch (status) {
