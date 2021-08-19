@@ -3,10 +3,10 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-import { Box, Image } from 'reserva-ui';
+import { Box, Image, Typography, Button, Icon } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import { homeQuery, HomeQuery } from '../../../store/ducks/HomePage/types';
 import { load } from '../../../store/ducks/nearbyStores/actions';
@@ -73,6 +73,33 @@ export const HomeScreen: React.FC<{
   return (
     <Box flex={1} bg='white'>
       <TopBarDefault loading={loading} />
+      <Box
+        minHeight={40}
+        bg="verdeSucesso"
+        paddingLeft="xxxs"
+        py="micro"
+        flexDirection="row"
+        alignItems="center"
+        paddingRight="xxxs"
+        boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+        style={{ elevation: 10 }}
+      >
+        <Box flex={1}>
+          <Typography
+            fontFamily="reservaSansRegular"
+            fontSize={13}
+            color="white"
+          >
+            Aproveite o desconto de R$ 50 em sua primeira compra no app.
+          </Typography>
+        </Box>
+        <Button
+          flex={1}
+        // onPress={() => ('')}
+        >
+          <Icon name='Close' size={15} color='white' ml="xxxs" />
+        </Button>
+      </Box>
       <WithoutInternet />
       {
         loading ?
