@@ -28,6 +28,9 @@ export const GET_PRODUCTS = gql`
         }
         itemId
         sellers {
+          sellerName
+          sellerId
+          sellerDefault
           commertialOffer {
             AvailableQuantity
             Price

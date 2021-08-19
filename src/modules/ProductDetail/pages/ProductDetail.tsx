@@ -169,6 +169,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
   const [unavailableSizes, setUnavailableSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [skip, setSkip] = useState(false)
   const [loadingFavorite, setLoadingFavorite] = useState(false)
@@ -312,6 +313,22 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }, [selectedColor, selectedSize]);
 
+
+  const getSeller = (sellers: Seller[]) => {
+    sellers.map((seller) => {
+      if(seller.commertialOffer.AvailableQuantity > 0){
+        setSelectedSellerId(seller.sellerId);
+        console.log("SELLER_ID=", seller.sellerId);
+        
+      }
+    })
+  }
+
+  useEffect(() => {
+    if(selectedVariant)
+      getSeller(selectedVariant?.sellers)
+  }, [selectedVariant])
+
   const refetchChecklist = async () => {
     setSkip(true)
     if (product && product.productId) {
@@ -377,7 +394,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const onProductAdd = async () => {
     if (selectedVariant) {
-      const { message, ok } = await addItem(1, selectedVariant?.itemId, '1');
+      const { message, ok } = await addItem(1, selectedVariant?.itemId, selectedSellerId);
 
       if (!ok) {
         Alert.alert('Produto sem estoque', message);
@@ -446,7 +463,7 @@ export const ProductDetail: React.FC<Props> = ({
           {
             quantity: "1",
             id: selectedVariant?.itemId,
-            seller: "1"
+            seller: selectedSellerId
           }
         ],
         postalCode: cep
