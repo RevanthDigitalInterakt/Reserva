@@ -19,8 +19,11 @@ const OrderList = () => {
   useEffect(() => {
     if (!loading && data) {
       const { orders } = data;
-
-      setOrders(orders);
+      const completedOrders = orders.filter((x) => {
+        if (x.state === 'payment-approved' || x.status === 'payment-approved') return true;
+        return false
+      })
+      setOrders(completedOrders);
     }
   }, [data]);
 

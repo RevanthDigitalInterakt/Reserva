@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
 import { Typography, Box, Button, Icon } from 'reserva-ui';
-import { string } from 'yup';
 import { stringToReal } from '../../../utils/stringToReal';
 import { useState } from 'react';
 
@@ -129,7 +128,7 @@ const Order = ({ data }: IOrder) => {
               </Box>
             </Box>
           )}
-          {order.status === 'confirmed' && (
+          {order.status === 'payment-approved' && (
             <Typography
               style={{ marginTop: 5, marginBottom: 5 }}
               mt={'micro'}
@@ -137,7 +136,7 @@ const Order = ({ data }: IOrder) => {
               fontFamily="nunitoBold"
               color="verdeSucesso"
             >
-              Produto confirmado!
+              Pagamento aprovado!
             </Typography>
           )}
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">

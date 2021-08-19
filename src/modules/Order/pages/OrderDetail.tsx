@@ -102,7 +102,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                 >
                   Endereço de entrega:
                   {order.shippingData &&
-                    `${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}
+                    ` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}
                   `}
                 </Typography>
               </Box>
@@ -132,14 +132,14 @@ const OrderList: React.FC<any> = ({ route }) => {
               </Typography>
               {order.paymentData.transactions[0].payments[0].paymentSystem ===
                 'Cartão de crédito' && (
-                <Typography
-                  style={{ marginLeft: 10 }}
-                  fontSize={12}
-                  fontFamily="nunitoRegular"
-                >
-                  {order.paymentData.transactions[0].payments[0].firstDigits}
-                </Typography>
-              )}
+                  <Typography
+                    style={{ marginLeft: 10 }}
+                    fontSize={12}
+                    fontFamily="nunitoRegular"
+                  >
+                    {order.paymentData.transactions[0].payments[0].firstDigits}
+                  </Typography>
+                )}
             </Box>
             <Box flexDirection="row" alignItems="center">
               <Typography fontSize={14} fontFamily="nunitoSemiBold">
