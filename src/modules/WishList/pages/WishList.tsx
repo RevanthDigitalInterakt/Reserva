@@ -122,7 +122,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }, [])
 
   useFocusEffect(() => {
-    if (!email) {
+    if (cookie === null) {
       navigation.navigate("Login", { comeFrom: "Profile" });
     }
   });
