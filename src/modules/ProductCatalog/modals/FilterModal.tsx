@@ -120,6 +120,11 @@ export const FilterModal = ({
   const [selectedSize, setSelectedSize] = useState<any>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState<any[]>([]);
 
+  sizes = sizes.map((size: any) => ({
+    ...size,
+    value: size.value.toUpperCase()
+  }))
+
   const loadMoreProducts = () => {
     const colors = selectedColors
       .map((color) => ({
@@ -339,7 +344,7 @@ export const FilterModal = ({
                         },
                       ]);
                     }}
-                    originalType={() => {}}
+                    originalType={() => { }}
                     prefix="R$ "
                     value={[getMinPrice(), getMaxPrice()]}
                     width={deviceWidth - 95}
