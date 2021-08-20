@@ -19,15 +19,23 @@ export const EnterYourEmail = () => {
 
   const onCheckCustomerMail = async () => {
     setLoading(true);
-    const hasCustomer = await identifyCustomer(email);
-
-    setLoading(false);
-    if (!hasCustomer) {
-      navigation.navigate('CreateCartProfile');
-      return;
+    if(
+      email === orderForm?.clientProfileData.email &&
+      orderForm?.clientProfileData.firstName && orderForm?.clientProfileData.lastName
+      ){
+        navigation.navigate('DeliveryScreen');
+    }else{
+      const hasCustomer = await identifyCustomer(email);
+  
+      setLoading(false);
+      if (!hasCustomer) {
+        navigation.navigate('CreateCartProfile');
+        return;
+      }
+      navigation.navigate('DeliveryScreen');
     }
+    setLoading(false);
 
-    navigation.navigate('DeliveryScreen');
   };
 
   const validateEmail = (email: string) => {
