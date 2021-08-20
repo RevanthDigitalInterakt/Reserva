@@ -580,8 +580,12 @@ export const ProductDetail: React.FC<Props> = ({
                   </Box>
                 </Box>
                 {outOfStock &&
-                  <Box mt="xxs" flexDirection="row">
-                    <Icon name="Call" size={20} color="vermelhoRSV" mr="nano" />
+                  <Box
+                    mt="xxs"
+                    flexDirection="row"
+                    alignItems="center"
+                  >
+                    <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
                     <Typography
                       fontFamily="reservaSansBold"
                       fontSize={15}
