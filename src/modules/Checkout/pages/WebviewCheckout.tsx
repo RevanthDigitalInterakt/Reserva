@@ -5,11 +5,15 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { WebView } from 'react-native-webview';
 import { useCart } from '../../../context/CartContext';
 import { useNavigation } from '@react-navigation/native';
+import LottieView from 'lottie-react-native'
+import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { orderForm, orderform } = useCart();
   const [navState, setNavState] = useState('');
+
+  const [loading, setLoading] = useState(true)
 
   const goToHome = () => {
     const check = navState.includes('/checkout/orderPlaced');
@@ -25,8 +29,17 @@ const Checkout: React.FC<{}> = () => {
 
   return (
     <View flex={1} backgroundColor={'white'}>
+      {loading && <Box zIndex={5} height='100%' width='100%' backgroundColor='white' position='absolute' justifyContent='center' alignItems='center'>
+        <LottieView
+          source={loadingSpinner}
+          style={{
+            width: 60,
+          }}
+          autoPlay
+          loop
+        />
+      </Box>}
       <TopBarBackButton showShadow />
-
       <Box>
         {orderForm?.orderFormId !== '' && (
           <View
@@ -39,6 +52,15 @@ const Checkout: React.FC<{}> = () => {
             }}
           >
             <WebView
+              onLoadStart={() => {
+                setLoading(true)
+              }}
+
+              onLoadEnd={() => {
+                setTimeout(() => setLoading(false),
+                  1500)
+              }}
+
               onNavigationStateChange={(navState) => {
                 setNavState(navState.url);
               }}
