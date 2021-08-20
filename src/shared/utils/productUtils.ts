@@ -1,7 +1,7 @@
 import { ProductQL, SKU } from "../../graphql/products/productSearch";
 
-export class ProductUtils{
-  getColorsArray(products: ProductQL){
+export class ProductUtils {
+  getColorsArray(products: ProductQL) {
     let colors: any[] = [];
     products.items.forEach(item => {
       item.variations?.forEach((variation) => {
@@ -13,10 +13,10 @@ export class ProductUtils{
     return colors;
   }
 
-  orderSizes(sizes: string[]){
+  orderSizes(sizes: string[]) {
     return sizes.sort((itemA, itemB) => {
       const b = itemA;
-      const a = itemB; 
+      const a = itemB;
       if (parseInt(a) > 0) {
         return a > b ? -1 : 1;
       } else {
@@ -32,6 +32,6 @@ export class ProductUtils{
           return a < b ? -1 : 1;
         }
       }
-    });
+    }).filter((value, index, self) => self.indexOf(value) === index)
   }
 }
