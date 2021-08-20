@@ -73,7 +73,7 @@ export const HomeScreen: React.FC<{
   return (
     <Box flex={1} bg='white'>
       <TopBarDefault loading={loading} />
-      <Box
+      {/* <Box
         minHeight={40}
         bg="verdeSucesso"
         paddingLeft="xxxs"
@@ -99,7 +99,7 @@ export const HomeScreen: React.FC<{
         >
           <Icon name='Close' size={15} color='white' ml="xxxs" />
         </Button>
-      </Box>
+      </Box> */}
       <WithoutInternet />
       {
         loading ?
