@@ -25,6 +25,8 @@ import {
   ColorsToHexEnum,
   HexToColorsEnum,
 } from "../../../graphql/product/colorsToHexEnum";
+import { useEffect } from "react";
+import { ProductUtils } from "../../../shared/utils/productUtils";
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
@@ -178,7 +180,7 @@ export const FilterModal = ({
     if (priceRange.length > 0) {
       const smallestPrice = priceRange
         .map(({ range }) => range.to)
-        .sort((p, n) => p - n)[0]; // asc
+        .sort((p, n) => p - n)[0];
 
       return smallestPrice;
     }
@@ -190,6 +192,10 @@ export const FilterModal = ({
     setSelectedSize([]);
     setFilterList([]);
   };
+
+  useEffect(() => {
+    console.log(selectedColors)
+  }, [selectedColors])
 
   return (
     <Box>
@@ -264,21 +270,20 @@ export const FilterModal = ({
                   listColors={showColors ? colors : colors.slice(0, 6)}
                   onPress={(color) => {
                     const mappedSelectedColor = selectedColors.map(
-                      ({ value }) => value
+                      (color) => color
                     );
-
+                    console.log('mappedSelectedColor', mappedSelectedColor)
                     if (mappedSelectedColor.includes(color)) {
                       const newColors = selectedColors.filter(
-                        ({ value }) => value !== color
+                        (value) => value !== color
                       );
-
+                      console.log('newColors', newColors)
                       setSelectedColors(newColors);
-                      return;
+                    } else {
+                      setSelectedColors((preview) => {
+                        return [...preview, color];
+                      });
                     }
-
-                    setSelectedColors((preview) => {
-                      return [...preview, color];
-                    });
                   }}
                   selectedColors={selectedColors}
                   size={23}
