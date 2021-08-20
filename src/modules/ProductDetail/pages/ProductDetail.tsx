@@ -164,6 +164,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [imageSelected, setImageSelected] = useState<any>([]);
   const [itemsSKU, setItemsSKU] = useState<any>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [outOfStock, setoutOfStock] = useState(false);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
@@ -248,13 +249,20 @@ export const ProductDetail: React.FC<Props> = ({
             .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
             .filter(a => a !== false)[0]
         )
+      );
 
-      );
-      setUnavailableSizes(
-        itemsSKU
-          .map(p => p.color === selectedColor && p.sizeList.map(sizes => !sizes.available && sizes.size))
-          .filter(a => a !== false)[0]
-      );
+      const availableSizes = itemsSKU
+        .map(p => p.color === selectedColor && p.sizeList.map(sizes => !sizes.available && sizes.size))
+        .filter(a => a !== false)[0]
+
+      setUnavailableSizes(availableSizes);
+
+      const index = availableSizes.findIndex((x) => x === false)
+      if (index === -1) {
+        setoutOfStock(true)
+      } else {
+        setoutOfStock(false)
+      }
 
       setSelectedSize(null);
     }
@@ -316,16 +324,16 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSeller = (sellers: Seller[]) => {
     sellers.map((seller) => {
-      if(seller.commertialOffer.AvailableQuantity > 0){
+      if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
         console.log("SELLER_ID=", seller.sellerId);
-        
+
       }
     })
   }
 
   useEffect(() => {
-    if(selectedVariant)
+    if (selectedVariant)
       getSeller(selectedVariant?.sellers)
   }, [selectedVariant])
 
@@ -571,7 +579,22 @@ export const ProductDetail: React.FC<Props> = ({
                     />
                   </Box>
                 </Box>
-
+                {outOfStock &&
+                  <Box
+                    mt="xxs"
+                    flexDirection="row"
+                    alignItems="center"
+                  >
+                    <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+                    <Typography
+                      fontFamily="reservaSansBold"
+                      fontSize={15}
+                      color="vermelhoRSV"
+                    >
+                      Produto Esgotado
+                    </Typography>
+                  </Box>
+                }
                 {/* ADD TO CART BUTTON */}
                 <Button
                   mt="xxs"

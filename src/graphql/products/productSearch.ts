@@ -17,7 +17,7 @@ $salesChannel: String = ""
 $orderBy: String = "OrderByReviewRateDESC"
 $from: Int = 0
 $to: Int = 9
-$hideUnavailableItems: Boolean = false
+$hideUnavailableItems: Boolean = true
 $simulationBehavior: SimulationBehavior = default
 $productOriginVtex: Boolean = false
 $operator: Operator
@@ -544,13 +544,13 @@ export interface GiftImage {
     imageText: string
 }
 
-export enum OrderByEnum  {
+export enum OrderByEnum {
     OrderByPriceDESC = "OrderByPriceDESC",
-    OrderByPriceASC = "OrderByPriceASC", 
-    OrderByTopSaleDESC = "OrderByTopSaleDESC", 
-    OrderByReviewRateDESC = "OrderByReviewRateDESC", 
+    OrderByPriceASC = "OrderByPriceASC",
+    OrderByTopSaleDESC = "OrderByTopSaleDESC",
+    OrderByReviewRateDESC = "OrderByReviewRateDESC",
     OrderByNameASC = "OrderByNameASC",
-    OrderByNameDESC = "OrderByNameDESC", 
-    OrderByReleaseDateDESC = "OrderByReleaseDateDESC", 
+    OrderByNameDESC = "OrderByNameDESC",
+    OrderByReleaseDateDESC = "OrderByReleaseDateDESC",
     OrderByBestDiscountDESC = "OrderByBestDiscountDESC"
-} 
+}
