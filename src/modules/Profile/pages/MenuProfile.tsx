@@ -54,8 +54,6 @@ const MenuScreen: React.FC<{}> = ({ }) => {
       if (profile) {
         const { profile } = data;
         setProfile(profile);
-      } else {
-        logout();
       }
     }
   }, [data]);

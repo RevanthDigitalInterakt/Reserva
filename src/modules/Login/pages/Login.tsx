@@ -16,7 +16,6 @@ import { useAuth } from '../../../context/AuthContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
-// import { string } from "yup";
 import * as Yup from "yup";
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
