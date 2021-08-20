@@ -14,6 +14,7 @@ import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBack
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { FormikTextInput } from "../../../shared/components/FormikTextInput";
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 interface CreateCartProfileProfile
   extends StackScreenProps<RootStackParamList, "CreateCartProfile"> { }
@@ -146,164 +147,170 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     <SafeAreaView style={{ backgroundColor: "#ffffff" }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
       <ScrollView>
-        <Box mx={20}>
-          <Box mt={49}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
-              Informe seus dados para continuar
-            </Typography>
-          </Box>
-          <Box mt={20}>
-            <Typography fontFamily="nunitoRegular" fontSize={15}>
-              Insira os dados do destinatario
-            </Typography>
-          </Box>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : ""}
+          style={{ flex: 1 }}
+        >
 
-          <Formik
-            initialValues={fields}
-            validationSchema={validation}
-            innerRef={formRef}
-            onSubmit={(values) => {
-              const {
-                firstName,
-                lastName,
-                birthDate,
-                document,
-                documentType,
-                phone,
-                postalCode,
-                neighborhood,
-                state,
-                number,
-                complement,
-              } = values;
-              saveCustomer(
-                firstName,
-                lastName,
-                documentType,
-                document.replace(/[^\d]+/g, ''),
-                phone,
-                postalCode,
-                neighborhood,
-                state,
-                number,
-                complement
-              );
-            }}
-          >
-            {() => (
-              <>
-                <Box mt={10} flexDirection="row" justifyContent="space-between">
-                  <Box flex={1} marginRight="micro">
-                    <FormikTextInput placeholder="Nome" field={"firstName"} />
+          <Box mx={20}>
+            <Box mt={49}>
+              <Typography fontFamily="reservaSerifRegular" fontSize={20}>
+                Informe seus dados para continuar
+              </Typography>
+            </Box>
+            <Box mt={20}>
+              <Typography fontFamily="nunitoRegular" fontSize={15}>
+                Insira os dados do destinatario
+              </Typography>
+            </Box>
+
+            <Formik
+              initialValues={fields}
+              validationSchema={validation}
+              innerRef={formRef}
+              onSubmit={(values) => {
+                const {
+                  firstName,
+                  lastName,
+                  birthDate,
+                  document,
+                  documentType,
+                  phone,
+                  postalCode,
+                  neighborhood,
+                  state,
+                  number,
+                  complement,
+                } = values;
+                saveCustomer(
+                  firstName,
+                  lastName,
+                  documentType,
+                  document.replace(/[^\d]+/g, ''),
+                  phone,
+                  postalCode,
+                  neighborhood,
+                  state,
+                  number,
+                  complement
+                );
+              }}
+            >
+              {() => (
+                <>
+                  <Box mt={10} flexDirection="row" justifyContent="space-between">
+                    <Box flex={1} marginRight="micro">
+                      <FormikTextInput placeholder="Nome" field={"firstName"} />
+                    </Box>
+
+                    <Box flex={1}>
+                      <FormikTextInput
+                        placeholder="Sobrenome"
+                        field={"lastName"}
+                      />
+                    </Box>
                   </Box>
-
-                  <Box flex={1}>
+                  <Box mt={15}>
                     <FormikTextInput
-                      placeholder="Sobrenome"
-                      field={"lastName"}
+                      maskType="datetime"
+                      placeholder="Data de Nascimento"
+                      maskOptions={{
+                        format: "DD/MM/YYYY",
+                      }}
+                      field={"birthDate"}
+                      keyboardType="number-pad"
                     />
                   </Box>
-                </Box>
-                <Box mt={15}>
-                  <FormikTextInput
-                    maskType="datetime"
-                    placeholder="Data de Nascimento"
-                    maskOptions={{
-                      format: "DD/MM/YYYY",
-                    }}
-                    field={"birthDate"}
-                    keyboardType="number-pad"
-                  />
-                </Box>
-                <Box mt={15}>
-                  <FormikTextInput
-                    field={"document"}
-                    maskType="cpf"
-                    keyboardType="number-pad"
-                    placeholder="CPF"
-                  />
-                </Box>
-                <Box mt={15}>
-                  <FormikTextInput
-                    field={"phone"}
-                    maskType="custom"
-                    maskOptions={{
-                      mask: "+55 (99) 9 9999-9999",
-                    }}
-                    keyboardType="number-pad"
-                    placeholder="Telefone"
-                  />
-                </Box>
+                  <Box mt={15}>
+                    <FormikTextInput
+                      field={"document"}
+                      maskType="cpf"
+                      keyboardType="number-pad"
+                      placeholder="CPF"
+                    />
+                  </Box>
+                  <Box mt={15}>
+                    <FormikTextInput
+                      field={"phone"}
+                      maskType="custom"
+                      maskOptions={{
+                        mask: "+55 (99) 9 9999-9999",
+                      }}
+                      keyboardType="number-pad"
+                      placeholder="Telefone"
+                    />
+                  </Box>
 
-                <Box mt={20}>
-                  <Typography fontFamily="nunitoRegular" fontSize={15}>
-                    Insira o endereço do destinatário:
-                  </Typography>
-                </Box>
+                  <Box mt={20}>
+                    <Typography fontFamily="nunitoRegular" fontSize={15}>
+                      Insira o endereço do destinatário:
+                    </Typography>
+                  </Box>
 
-                <Box mt={15}>
-                  <TextField
-                    value={fields.postalCode}
-                    keyboardType='number-pad'
-                    onChangeText={(text) => {
-                      setFields({ ...fields, postalCode: text });
-                      cepHandler(text);
-                    }}
-                    placeholder="CEP"
-                  />
-                </Box>
-                <Box>
-                  <Typography fontFamily="nunitoRegular" fontSize={13}>
-                    {showCepDescrption
-                      ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
-                      : ""}
-                  </Typography>
-                </Box>
-                <Box mt={15} flexDirection="row" justifyContent="space-between">
-                  <Box flex={1} marginRight="micro">
+                  <Box mt={15}>
                     <TextField
-                      editable={false}
-                      value={fields.neighborhood}
-                      onChangeText={(text) =>
-                        setFields({ ...fields, neighborhood: text })
-                      }
-                      placeholder="Bairro"
+                      value={fields.postalCode}
+                      keyboardType='number-pad'
+                      onChangeText={(text) => {
+                        setFields({ ...fields, postalCode: text });
+                        cepHandler(text);
+                      }}
+                      placeholder="CEP"
                     />
                   </Box>
-                  <Box flex={1}>
+                  <Box>
+                    <Typography fontFamily="nunitoRegular" fontSize={13}>
+                      {showCepDescrption
+                        ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
+                        : ""}
+                    </Typography>
+                  </Box>
+                  <Box mt={15} flexDirection="row" justifyContent="space-between">
+                    <Box flex={1} marginRight="micro">
+                      <TextField
+                        editable={false}
+                        value={fields.neighborhood}
+                        onChangeText={(text) =>
+                          setFields({ ...fields, neighborhood: text })
+                        }
+                        placeholder="Bairro"
+                      />
+                    </Box>
+                    <Box flex={1}>
+                      <TextField
+                        editable={false}
+                        value={fields.state}
+                        onChangeText={(text) =>
+                          setFields({ ...fields, state: text })
+                        }
+                        placeholder="Estado"
+                      />
+                    </Box>
+                  </Box>
+                  <Box mt={15}>
                     <TextField
-                      editable={false}
-                      value={fields.state}
+                      value={fields.number}
+                      keyboardType='number-pad'
                       onChangeText={(text) =>
-                        setFields({ ...fields, state: text })
+                        setFields({ ...fields, number: text })
                       }
-                      placeholder="Estado"
+                      placeholder="Numero"
                     />
                   </Box>
-                </Box>
-                <Box mt={15}>
-                  <TextField
-                    value={fields.number}
-                    keyboardType='number-pad'
-                    onChangeText={(text) =>
-                      setFields({ ...fields, number: text })
-                    }
-                    placeholder="Numero"
-                  />
-                </Box>
-                <Box mt={15} marginBottom={35}>
-                  <TextField
-                    value={fields.complement}
-                    onChangeText={(text) =>
-                      setFields({ ...fields, complement: text })
-                    }
-                    placeholder="Complemento"
-                  />
-                </Box>
-              </>
-            )}
-          </Formik>
-        </Box>
+                  <Box mt={15} marginBottom={35}>
+                    <TextField
+                      value={fields.complement}
+                      onChangeText={(text) =>
+                        setFields({ ...fields, complement: text })
+                      }
+                      placeholder="Complemento"
+                    />
+                  </Box>
+                </>
+              )}
+            </Formik>
+          </Box>
+        </KeyboardAvoidingView>
       </ScrollView>
 
       <Button
