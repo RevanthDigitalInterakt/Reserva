@@ -39,6 +39,7 @@ export const images = {
   purchaseConfirmation: require('./img/purchaseConfirmation.png'),
   withoutInternet: require('./img/withoutInternet.png'),
   update: require('./img/update.png'),
+  searchNotFound: require('./img/searchNotFound.png')
 };
 
 export const animations = {
