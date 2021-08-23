@@ -44,8 +44,8 @@ PODS:
   - lottie-react-native (4.0.3):
     - lottie-ios (~> 3.2.3)
     - React-Core
-  - OneSignal (3.5.3)
-  - OneSignalXCFramework (3.5.3)
+  - OneSignal (3.6.1)
+  - OneSignalXCFramework (3.6.1)
   - Permission-LocationAlways (3.0.5):
     - RNPermissions
   - Permission-LocationWhenInUse (3.0.5):
@@ -256,8 +256,8 @@ PODS:
     - React-Core
   - react-native-netinfo (6.0.0):
     - React-Core
-  - react-native-onesignal (4.2.0):
-    - OneSignalXCFramework (= 3.5.3)
+  - react-native-onesignal (4.3.0):
+    - OneSignalXCFramework (= 3.6.1)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.3.0):
     - React-Core
@@ -335,7 +335,7 @@ PODS:
     - React
   - RNCPicker (1.8.1):
     - React-Core
-  - RNDeviceInfo (8.1.7):
+  - RNDeviceInfo (8.3.0):
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
@@ -580,8 +580,8 @@ SPEC CHECKSUMS:
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: 96361a9891cf651534ea35c4f85f33d4cf14ed13
-  OneSignal: e12773ef3dfc68f42103c8cd28ad50660209528f
-  OneSignalXCFramework: 4e08d8353adec161c3d9174e2572c849e1225c9f
+  OneSignal: ce8d6dd77450aa653dc2f6a22f3372570030260a
+  OneSignalXCFramework: 674dd48705d0e1842a7c950177ae7569dbfc261c
   Permission-LocationAlways: 0704c3bcce11f98f8d6ddf34c49c65893ec64b09
   Permission-LocationWhenInUse: e1168a583654f1d2d34d3a18c4c6518ce409ad2a
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
@@ -600,7 +600,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 46dea4aa4acb7300beff508f64d9f8c84e9fb106
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
-  react-native-onesignal: a7e433eec906c928954de4f124b6886418386bb4
+  react-native-onesignal: f829833463ec574cad5e83d1a3e3eed607a3bc3c
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
@@ -619,7 +619,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
-  RNDeviceInfo: ace1442cd0f7d01292a39a3b587666177eaf8cb0
+  RNDeviceInfo: 1c15bd65d0555a4246107dd9b5b9d9095aa6ad76
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
