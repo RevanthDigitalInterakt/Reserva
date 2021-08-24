@@ -404,15 +404,36 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
         </ScrollView>
         :
         showResults && (
-          products && products?.length > 0 &&
-          <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-            <ListVerticalProducts
-              products={products ? products : []}
-              loadMoreProducts={(offset) => {
-                loadMoreProducts(offset, searchTerm);
-              }}
-            />
-          </Animatable.View>
+          products && products?.length > 0 ?
+            <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
+              <ListVerticalProducts
+                products={products ? products : []}
+                loadMoreProducts={(offset) => {
+                  loadMoreProducts(offset, searchTerm);
+                }}
+              />
+            </Animatable.View>
+            :
+            <Box
+              bg="white"
+              height={deviceHeight}
+              mt="xxl"
+              alignItems="center"
+              // justifyContent="center"
+              px="micro"
+            >
+              <Box mb="sm">
+                <Image
+                  source={images.searchNotFound}
+                  resizeMode={'contain'}
+                />
+              </Box>
+              <Box>
+                <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">
+                  Não encontramos produtos que corresponde a sua busca.
+                </Typography>
+              </Box>
+            </Box>
         )
       }
 
