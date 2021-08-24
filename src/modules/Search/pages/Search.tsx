@@ -380,26 +380,7 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
 
           }
           {!suggestionsFound &&
-            <Box
-              bg="white"
-              height={deviceHeight}
-              mt="xxl"
-              alignItems="center"
-              // justifyContent="center"
-              px="micro"
-            >
-              <Box mb="sm">
-                <Image
-                  source={images.searchNotFound}
-                  resizeMode={'contain'}
-                />
-              </Box>
-              <Box>
-                <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">
-                  Não encontramos produtos que corresponde a sua busca.
-                </Typography>
-              </Box>
-            </Box>
+            <ProductNotFound />
           }
         </ScrollView>
         :
@@ -414,29 +395,35 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
               />
             </Animatable.View>
             :
-            <Box
-              bg="white"
-              height={deviceHeight}
-              mt="xxl"
-              alignItems="center"
-              // justifyContent="center"
-              px="micro"
-            >
-              <Box mb="sm">
-                <Image
-                  source={images.searchNotFound}
-                  resizeMode={'contain'}
-                />
-              </Box>
-              <Box>
-                <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">
-                  Não encontramos produtos que corresponde a sua busca.
-                </Typography>
-              </Box>
-            </Box>
+            <ProductNotFound />
         )
       }
 
     </Box >
   );
 };
+
+const ProductNotFound = () => {
+  return (
+    <Box
+      bg="white"
+      height={deviceHeight}
+      mt="xxl"
+      alignItems="center"
+      // justifyContent="center"
+      px="micro"
+    >
+      <Box mb="sm">
+        <Image
+          source={images.searchNotFound}
+          resizeMode={'contain'}
+        />
+      </Box>
+      <Box>
+        <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">
+          Não encontramos produtos que corresponde a sua busca.
+        </Typography>
+      </Box>
+    </Box>
+  )
+}
