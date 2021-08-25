@@ -2,7 +2,7 @@ import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
 import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import * as Animatable from 'react-native-animatable';
 import { Box, Button, Divider, SearchBar, Typography, Image, ProductVerticalListCard, Icon } from 'reserva-ui';
@@ -17,6 +17,9 @@ import { Product } from '../../../store/ducks/product/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
+import { images } from '../../../assets';
+
+const deviceHeight = Dimensions.get("window").height;
 
 type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 
@@ -34,6 +37,8 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
   const [suggestions, setSuggestions] = useState<SearchSuggestionsVars[]>([]);
   const [mostSearched, setMostSearched] = useState<TopSearches[]>([]);
   const [productNews, setProductNews] = useState<ConfigCollection[]>([]);
+  const [suggestionsFound, setSuggestionsFound] = useState(true);
+  const [selectedTerm, setSelectedTerm] = useState(false);
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
@@ -84,7 +89,7 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
   const { WithoutInternet } = useCheckConnection({})
 
   useEffect(() => {
-    if (debouncedSearchTerm) {
+    if (!selectedTerm && debouncedSearchTerm) {
       setRelatedProducts([])
       handleDebouncedSearchTerm();
     }
@@ -95,8 +100,13 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
     if (suggestionsData) {
       setSuggestions(suggestionsData.searchSuggestions.searches);
       setRelatedProducts(suggestionsData.productSearch.products);
-    }
 
+      if (suggestionsData?.searchSuggestions?.searches.length > 0) {
+        setSuggestionsFound(true);
+      } else {
+        setSuggestionsFound(false);
+      }
+    }
   }, [suggestionsData]);
 
   useEffect(() => {
@@ -142,6 +152,7 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
     setWaiting(false)
 
     setShowResults(true);
+    setSelectedTerm(false);
   };
 
   const handleDebouncedSearchTerm = () => {
@@ -178,7 +189,7 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
 
   return (
     <Box backgroundColor="white" flex={1}>
-      <TopBarDefault loading={loading || topSearchesLoading || loadingFeatured} />
+      <TopBarDefault loading={loading || topSearchesLoading || loadingFeatured || selectedTerm} />
       <WithoutInternet />
       <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
         <SearchBar
@@ -188,16 +199,17 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
           }}
           onClickIcon={() => {
             suggestionsData &&
-              handleDebouncedSearchTerm()
+              setSelectedTerm(true)
+            handleSearch(searchTerm)
           }}
           height={36}
           placeholder="Buscar"
         />
       </Box>
-      {!showAllProducts ?
+      {!showResults ?
         <ScrollView>
           {
-            !showResults &&
+            // !showResults &&
             searchTerm.length === 0 &&
             <>
               <Box
@@ -283,7 +295,7 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
           {
             suggestions?.length > 0 &&
             searchTerm.length > 0 &&
-            !showResults &&
+            // !showResults &&
             <>
               <Box
                 bg="white"
@@ -298,6 +310,8 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
                           width="100%"
                           onPress={() => {
                             setSearchTerm(suggestion.term)
+                            setSelectedTerm(true)
+                            handleSearch(suggestion.term)
                           }}
                         >
                           <Box
@@ -320,7 +334,7 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
                     )
                   })}
               </Box>
-              {relatedProducts && relatedProducts.length > 0 ?
+              {/* {relatedProducts && relatedProducts.length > 0 ?
                 <Box mt="xs" marginX="nano" mb="micro">
                   <Box flexDirection="row" justifyContent="space-between" alignItems="center" mb="xxxs">
                     <Typography
@@ -361,10 +375,13 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
                   </Animatable.View>
                 </Box>
                 : null
-              }
+              } */}
             </>
-          }
 
+          }
+          {!suggestionsFound &&
+            <ProductNotFound />
+          }
         </ScrollView>
         :
         showResults && (
@@ -378,24 +395,35 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
               />
             </Animatable.View>
             :
-            <Box
-              height="100%"
-              justifyContent="center"
-              alignItems="center"
-              bg="white"
-            >
-              <Box mx="sm">
-                <Typography
-                  textAlign="center"
-                  fontFamily="reservaSansRegular"
-                  fontSize={16}
-                >
-                  Opss, infelizmente não encontramos nenhum resultado para a sua pesquisa.
-                </Typography>
-              </Box>
-            </Box>
+            <ProductNotFound />
         )
       }
+
     </Box >
   );
 };
+
+const ProductNotFound = () => {
+  return (
+    <Box
+      bg="white"
+      height={deviceHeight}
+      mt="xxl"
+      alignItems="center"
+      // justifyContent="center"
+      px="micro"
+    >
+      <Box mb="sm">
+        <Image
+          source={images.searchNotFound}
+          resizeMode={'contain'}
+        />
+      </Box>
+      <Box>
+        <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">
+          Não encontramos produtos que corresponde a sua busca.
+        </Typography>
+      </Box>
+    </Box>
+  )
+}
