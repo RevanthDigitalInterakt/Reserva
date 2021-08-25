@@ -312,7 +312,7 @@ export const FilterModal = ({
                     setSelectedSize(size);
                   }}
                   optionsList={showSizes ? sizes : sizes.slice(0, 6)}
-                  defaultSelectedItem={"M"}
+                //defaultSelectedItem={"M"}
                 />
               </BoxAnimation>
 

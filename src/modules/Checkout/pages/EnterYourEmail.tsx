@@ -19,14 +19,14 @@ export const EnterYourEmail = () => {
 
   const onCheckCustomerMail = async () => {
     setLoading(true);
-    if(
-      email === orderForm?.clientProfileData.email &&
-      orderForm?.clientProfileData.firstName && orderForm?.clientProfileData.lastName
-      ){
-        navigation.navigate('DeliveryScreen');
-    }else{
+    if (
+      email === orderForm?.clientProfileData?.email &&
+      orderForm?.clientProfileData?.firstName && orderForm?.clientProfileData?.lastName
+    ) {
+      navigation.navigate('DeliveryScreen');
+    } else {
       const hasCustomer = await identifyCustomer(email);
-  
+
       setLoading(false);
       if (!hasCustomer) {
         navigation.navigate('CreateCartProfile');
