@@ -221,15 +221,22 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [filterRequestList]);
 
   useEffect(() => {
-    refetch({
-      skusFilter: 'ALL_AVAILABLE',
-      hideUnavailableItems: true,
-      selectedFacets: [facetInput, filterRequestList].flat(),
-      orderBy: selectedOrder,
-      to: pageSize - 1,
-      simulationBehavior: "default",
-      productOriginVtex: false
-    });
+    const fetch = async () => {
+        const { data, loading} = await refetch({
+        skusFilter: 'ALL_AVAILABLE',
+        hideUnavailableItems: true,
+        selectedFacets: [facetInput, filterRequestList].flat(),
+        orderBy: selectedOrder,
+        to: pageSize - 1,
+        simulationBehavior: "default",
+        productOriginVtex: false
+      });
+      if (!loading && !!data) {
+        setProducts(data.productSearch);
+      }
+    }
+    fetch();
+    
   }, [selectedOrder]);
 
   const skeletonOpacity = useRef(new Animated.Value(0)).current
