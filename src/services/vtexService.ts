@@ -1,10 +1,11 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
-import { instance, instance2 } from '../config/vtexConfig';
+import { instance, instance2, instance3 } from '../config/vtexConfig';
 
 
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
+const vtexConfig3 = instance3;
 
 const CreateCart = async () => {
   // cria o carrinho
@@ -296,6 +297,19 @@ const removeSellerCouponToOder = async (
     `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
   return response;
 }
+
+
+//reset user checkout
+const ResetUserCheckout = async (
+  orderFormId?: string,
+) => {
+  const response = await vtexConfig3.get(
+    `/checkout/changeToAnonymousUser/${orderFormId}`);
+  console.log('orderFormId', orderFormId)
+  return response;
+}
+
+
 export {
   CreateCart,
   CreateSession,
@@ -315,5 +329,6 @@ export {
   removeCouponToOder,
   validateSellerCoupon,
   addToSellerCoupon,
-  removeSellerCouponToOder
+  removeSellerCouponToOder,
+  ResetUserCheckout
 };

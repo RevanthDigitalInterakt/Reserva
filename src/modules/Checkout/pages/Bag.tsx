@@ -56,6 +56,7 @@ export const BagScreen = () => {
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
+    resetUserCheckout
   } = useCart();
   const [loading, setLoading] = useState(false)
   const [successModal, setSuccessModal] = useState(false);
@@ -95,12 +96,20 @@ export const BagScreen = () => {
     setLoading(false);
   };
 
-  const setCustomer = async (email: string) => identifyCustomer(email)
+  const setCustomer = async (email: string) => await identifyCustomer(email)
 
   useEffect(() => {
     firstLoadOrderForm();
-    if (email && orderForm?.clientProfileData === null) {
-      setCustomer(email);
+    if (orderForm) {
+      const { clientProfileData, shippingData } = orderForm;
+      const hasCustomer =
+        clientProfileData &&
+        clientProfileData.email &&
+        clientProfileData.firstName;
+
+      if (email && !hasCustomer) {
+        setCustomer(email);
+      }
     }
   }, []);
 

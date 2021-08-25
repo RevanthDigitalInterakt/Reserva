@@ -4,6 +4,8 @@ const urlBase = 'https://app-vtex.usereserva.com/api/';
 
 const urlBase2 = 'https://lojausereserva.myvtex.com/api/';
 
+const urlUser = 'https://www.usereserva.com/';
+
 const url = urlBase;
 
 const AppKey = 'vtexappkey-lojausereserva-SJLOOC';
@@ -29,4 +31,14 @@ const instance2 = axios.create({
   headers: headers,
 });
 
-export { instance, url, urlBase, instance2 };
+const instance3 = axios.create({
+  baseURL: urlUser,
+  timeout: 30000,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+});
+
+
+export { instance, url, urlBase, instance2, instance3 };

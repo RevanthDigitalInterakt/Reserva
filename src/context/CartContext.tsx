@@ -22,7 +22,8 @@ import {
   removeCouponToOder,
   validateSellerCoupon,
   addToSellerCoupon,
-  removeSellerCouponToOder,
+  removeSellerCouponToOder,  
+  ResetUserCheckout,
 } from "../services/vtexService";
 
 interface ClientPreferencesData {
@@ -283,6 +284,7 @@ interface CartContextProps {
   ) => Promise<boolean | undefined>; //todo - type later,
   orderform: () => void;
   removeItem: () => Promise<{ ok: boolean }>;
+  resetUserCheckout: () => Promise<boolean | undefined>;
   addCoupon: (coupon: string) => Promise<boolean | undefined>;
   addSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   removeCoupon: (coupon: string) => Promise<boolean | undefined>;
@@ -377,8 +379,21 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
+  
+  const resetUserCheckout = async () => {
+    try {
+      const { data } = await ResetUserCheckout(orderForm?.orderFormId);
+      console.log('resetUserCheckout', data)
+      return !!data;
+    } catch (error) {
+      console.log("error", error.response.data);
+    }
+  }
+
+
   const identifyCustomer = async (email: string) => {
     try {
+      await ResetUserCheckout(orderForm?.orderFormId);
       const data = await IdentifyCustomer(orderForm?.orderFormId, email);
       setOrderForm(data);
       // TODO - change this later, find a better way to check if theres's no user
@@ -528,6 +543,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         addSellerCoupon,
         removeCoupon,
         removeSellerCoupon,
+        resetUserCheckout
       }}
     >
       {children}
@@ -558,6 +574,7 @@ export const useCart = () => {
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
+    resetUserCheckout
   } = cartContext;
   return {
     orderForm,
@@ -573,5 +590,6 @@ export const useCart = () => {
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
+    resetUserCheckout
   };
 };

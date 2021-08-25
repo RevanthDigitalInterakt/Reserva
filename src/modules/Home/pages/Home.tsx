@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
-import { Dimensions, Platform } from 'react-native';
+import { AsyncStorage, Dimensions, Platform } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { Box, Image, Typography, Button, Icon } from 'reserva-ui';
@@ -61,7 +61,7 @@ export const HomeScreen: React.FC<{
 
   useEffect(() => {
     if (profileData) {
-      setEmail(profileData?.profile?.email);
+      AsyncStorage.setItem('@RNAuth:email', profileData?.email)
     }
   }, [profileData])
 
