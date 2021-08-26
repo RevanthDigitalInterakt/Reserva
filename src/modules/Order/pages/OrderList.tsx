@@ -10,7 +10,7 @@ import { GET_ORDERS } from '../../../store/ducks/orders/gql';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
-  const { data, loading, refetch } = useQuery(GET_ORDERS);
+  const { data, loading, refetch } = useQuery(GET_ORDERS, { fetchPolicy: "no-cache" });
 
   useEffect(() => {
     refetch();

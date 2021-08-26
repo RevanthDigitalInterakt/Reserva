@@ -211,15 +211,13 @@ const OrderDetailComponent = ({ data }: IOrderDetailComponent) => {
         </Box>
         <Box mt="micro" flexDirection="row" justifyContent="space-between">
           <Typography variant="precoAntigo3">Descontos</Typography>
+
           <PriceCustom
             fontFamily={'nunitoSemiBold'}
             sizeInterger={15}
             negative={true}
             sizeDecimal={11}
-            num={
-              data.totals?.find(({ id }) => id === 'Discounts')?.value / 100 ||
-              0
-            }
+            num={Math.abs(data.totals?.find(({ id }) => id === 'Discounts')?.value / 100 || 0)}
           />
         </Box>
         <Box
