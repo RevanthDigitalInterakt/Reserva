@@ -51,7 +51,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
   };
 
   const onGoToPayment = async () => {
-    
+
     if (orderForm) {
       setLoading(true);
 
@@ -70,9 +70,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
             };
           }
         );
-        
+
         await addShippingOrPickupInfo(logisticInfo, [selectedAddress]);
-        
+
       }
       setLoading(false);
     }
@@ -199,8 +199,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
         <Box
           overflow={"hidden"}
-          height={"80%"}
           paddingHorizontal={20}
+          flex={1}
           justifyContent="flex-start"
           pt={"md"}
         >
@@ -210,6 +210,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
           {addresses && addresses.length > 0 ? (
             <FlatList
+              style={{ marginBottom: 20 }}
               showsVerticalScrollIndicator={false}
               data={addresses}
               keyExtractor={(item, index) => index.toString()}
@@ -281,16 +282,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
           )}
         </Box>
 
-        <Box bg="white"
-          position="absolute"
-          bottom={0}
-          right={0}
-          left={0}
-          height={140}
-          pt="xxxs"
-        >
+        <Box>
           {cookie &&
-            <Box marginX={"md"}>
+            <Box marginX={"md"} justifyContent="flex-end" mb="xxxs">
               <Button
                 onPress={() =>
                   navigation.navigate("NewAddress", {
@@ -306,7 +300,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
           }
 
           {isCheckout && addresses ? (
-            <Box justifyContent="flex-end" flex={1}>
+            <Box justifyContent="flex-end" >
               <Button
                 disabled={loading}
                 onPress={onGoToPayment}
