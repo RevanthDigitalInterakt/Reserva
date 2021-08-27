@@ -16,7 +16,7 @@ const ItemList = ({ onPress, icon, title, descr }: ItemListProps) => {
   return (
     <>
       <TouchableOpacity onPress={onPress}>
-        <Box mb={"micro"} mt={"micro"} flexDirection={"row"}>
+        <Box mb={"micro"} mt={"micro"} flexDirection={"row"} alignItems="center">
           <Box pr={"micro"} justifyContent="flex-start">
             {icon != undefined && <Icon name={icon} size={20}></Icon>}
           </Box>

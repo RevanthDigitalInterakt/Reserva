@@ -30,8 +30,8 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
   const passwordCheckHandler = () => ({
     equal: passwords.first === passwords.confirm,
     digitsCount: passwords.first.length >= 8,
-    uppercase: passwords.first.match(/[A-Z]/g) != null,
-    lowercase: passwords.first.match(/[a-z]/g) != null,
+    uppercase: passwords.first.match(/[a-z]/g) != null,
+    lowercase: passwords.first.match(/[A-Z]/g) != null,
     number: passwords.first.match(/[0-9]/g) != null,
   })
 

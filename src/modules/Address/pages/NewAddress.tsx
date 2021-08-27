@@ -328,7 +328,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     width="240px"
                     mt={"xs"}
                     onPress={handleSaveAddress}
-                    title={"INCLUIR NOVO ENDEREÇO"}
+                    title={!edit ? "INCLUIR NOVO ENDEREÇO" : "SALVAR ALTERAÇÕES"}
                     variant="primarioEstreitoOutline"
                   />
                 )}
