@@ -89,6 +89,19 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     fetchPolicy: 'no-cache',
   });
 
+  // useEffect(() => {
+  //   console.log('filterRequestList', filterRequestList)
+  //   console.log('flat', [facetInput, filterRequestList].flat())
+  //   console.log('concat', [].concat(facetInput, filterRequestList))
+  //   console.log('reduce', [facetInput, filterRequestList].reduce((acc, val) => acc.concat(val), []))
+
+
+  // }, [filterRequestList])
+
+  // useEffect(() => {
+  //   console.log('facetInput', facetInput)
+  // }, [facetInput])
+
   const {
     data: bannerData,
     loading: loadingBanner,
@@ -222,7 +235,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     const fetch = async () => {
-        const { data, loading} = await refetch({
+      const { data, loading } = await refetch({
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
         selectedFacets: [facetInput, filterRequestList].flat(),
@@ -236,7 +249,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       }
     }
     fetch();
-    
+
   }, [selectedOrder]);
 
   const skeletonOpacity = useRef(new Animated.Value(0)).current
