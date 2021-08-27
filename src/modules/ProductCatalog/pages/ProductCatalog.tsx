@@ -66,7 +66,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       variables: {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        selectedFacets: [facetInput, filterRequestList].flat(),
+        // selectedFacets: [facetInput, filterRequestList].flat(),
+        selectedFacets: [].concat(facetInput, filterRequestList),
         orderBy: selectedOrder,
         to: pageSize - 1,
         simulationBehavior: "default",
@@ -84,23 +85,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }: QueryResult = useQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets: [facetInput, filterRequestList].flat(),
+      // selectedFacets: [facetInput, filterRequestList].flat(),
+      selectedFacets: [].concat(facetInput, filterRequestList),
     },
     fetchPolicy: 'no-cache',
   });
-
-  // useEffect(() => {
-  //   console.log('filterRequestList', filterRequestList)
-  //   console.log('flat', [facetInput, filterRequestList].flat())
-  //   console.log('concat', [].concat(facetInput, filterRequestList))
-  //   console.log('reduce', [facetInput, filterRequestList].reduce((acc, val) => acc.concat(val), []))
-
-
-  // }, [filterRequestList])
-
-  // useEffect(() => {
-  //   console.log('facetInput', facetInput)
-  // }, [facetInput])
 
   const {
     data: bannerData,
@@ -216,7 +205,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         orderBy: selectedOrder,
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
-        selectedFacets: [facetInput, filterRequestList].flat(),
+        // selectedFacets: [facetInput, filterRequestList].flat(),
+        selectedFacets: [].concat(facetInput, filterRequestList),
       },
     });
     refetchFacets();
@@ -238,7 +228,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const { data, loading } = await refetch({
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        selectedFacets: [facetInput, filterRequestList].flat(),
+        // selectedFacets: [facetInput, filterRequestList].flat(),
+        selectedFacets: [].concat(facetInput, filterRequestList),
         orderBy: selectedOrder,
         to: pageSize - 1,
         simulationBehavior: "default",
