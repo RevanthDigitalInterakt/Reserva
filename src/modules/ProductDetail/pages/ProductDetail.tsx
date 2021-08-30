@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useState } from 'react';
-import { Alert, Dimensions } from 'react-native';
+import { Alert, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -487,6 +487,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   return (
     <SafeAreaView>
+
       <Box bg="white">
         <ModalBag
           isVisible={isVisible}
@@ -495,68 +496,72 @@ export const ProductDetail: React.FC<Props> = ({
           }}
         />
         <TopBarDefaultBackButton loading={loading} />
-        <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
-          {product && selectedVariant && (
-            <>
-              {/* PRODUCT CARD SECTION */}
-              <ProductDetailCard
-                {...product}
-                imagesHeight={3 * (screenWidth / 2)}
-                loadingFavorite={loadingFavorite}
-                title={product.productName}
-                isFavorited={wishInfo.inList}
-                onClickFavorite={handleOnFavorite}
-                price={product.priceRange.listPrice.lowPrice || 0}
-                priceWithDiscount={
-                  product.priceRange.sellingPrice.lowPrice || 0
-                }
-                imagesWidth={screenWidth}
-                images={imageSelected.length > 0 ? imageSelected[0][0].map(image => image.imageUrl) : []}
-                installmentsNumber={
-                  getInstallments()?.NumberOfInstallments || 1
-                }
-                installmentsPrice={getInstallments()?.Value || product.priceRange.sellingPrice.lowPrice || 0}
-                onClickShare={onShare}
-                discountTag={
-                  getPercent(
-                    product.priceRange.sellingPrice.lowPrice,
-                    product.priceRange.listPrice.lowPrice
-                  ) || 0
-                }
-              />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ marginBottom: 100 }}
+        >
+          <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
+            {product && selectedVariant && (
+              <>
+                {/* PRODUCT CARD SECTION */}
+                <ProductDetailCard
+                  {...product}
+                  imagesHeight={3 * (screenWidth / 2)}
+                  loadingFavorite={loadingFavorite}
+                  title={product.productName}
+                  isFavorited={wishInfo.inList}
+                  onClickFavorite={handleOnFavorite}
+                  price={product.priceRange.listPrice.lowPrice || 0}
+                  priceWithDiscount={
+                    product.priceRange.sellingPrice.lowPrice || 0
+                  }
+                  imagesWidth={screenWidth}
+                  images={imageSelected.length > 0 ? imageSelected[0][0].map(image => image.imageUrl) : []}
+                  installmentsNumber={
+                    getInstallments()?.NumberOfInstallments || 1
+                  }
+                  installmentsPrice={getInstallments()?.Value || product.priceRange.sellingPrice.lowPrice || 0}
+                  onClickShare={onShare}
+                  discountTag={
+                    getPercent(
+                      product.priceRange.sellingPrice.lowPrice,
+                      product.priceRange.listPrice.lowPrice
+                    ) || 0
+                  }
+                />
 
-              {/* COLORS SECTION */}
-              <Box mt="xs">
-                <Box px="xxxs" mb="xxxs">
-                  <Typography variant="subtituloSessoes">Cores:</Typography>
+                {/* COLORS SECTION */}
+                <Box mt="xs">
+                  <Box px="xxxs" mb="xxxs">
+                    <Typography variant="subtituloSessoes">Cores:</Typography>
+                  </Box>
+                  <Box>
+                    <ScrollView horizontal>
+                      <SelectColor
+                        onPress={(color) => setSelectedColor(color)}
+                        size={30}
+                        disabledColors={[]}
+                        listColors={itemsSKU.map(p => p.color) || []}
+                        selectedColors={
+                          selectedColor || (colorFilters && colorFilters[0])
+                        }
+                      />
+                    </ScrollView>
+                  </Box>
                 </Box>
-                <Box>
-                  <ScrollView horizontal>
-                    <SelectColor
-                      onPress={(color) => setSelectedColor(color)}
-                      size={30}
-                      disabledColors={[]}
-                      listColors={itemsSKU.map(p => p.color) || []}
-                      selectedColors={
-                        selectedColor || (colorFilters && colorFilters[0])
-                      }
-                    />
-                  </ScrollView>
-                </Box>
-              </Box>
 
-              {/* SIZE SELECTION */}
-              <Box px="xxxs">
-                <Box mt="xxxs">
-                  <Box
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography variant={'subtituloSessoes'}>
-                      Tamanhos:
-                    </Typography>
-                    {/* <Button>
+                {/* SIZE SELECTION */}
+                <Box px="xxxs">
+                  <Box mt="xxxs">
+                    <Box
+                      flexDirection="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Typography variant={'subtituloSessoes'}>
+                        Tamanhos:
+                      </Typography>
+                      {/* <Button>
                       <Box flexDirection="row" alignItems="center">
                       <Icon name="Ruler" size={35} />
                       <Typography fontFamily="nunitoRegular" fontSize={11}>
@@ -564,160 +569,159 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
+                    </Box>
+                    <Box alignItems="flex-start" mt="xxxs">
+                      <RadioButtons
+                        size={38}
+                        fontSize={14}
+                        disbledOptions={unavailableSizes ? unavailableSizes : []}
+                        onSelectedChange={(item) => {
+                          setSelectedSize(item);
+                        }}
+                        optionsList={sizeFilters || []}
+                        defaultSelectedItem=""
+                        selectedItem={selectedSize}
+                      />
+                    </Box>
                   </Box>
-                  <Box alignItems="flex-start" mt="xxxs">
-                    <RadioButtons
-                      size={38}
-                      fontSize={14}
-                      disbledOptions={unavailableSizes ? unavailableSizes : []}
-                      onSelectedChange={(item) => {
-                        setSelectedSize(item);
+                  {outOfStock &&
+                    <Box
+                      mt="xxs"
+                      flexDirection="row"
+                      alignItems="center"
+                    >
+                      <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+                      <Typography
+                        fontFamily="reservaSansBold"
+                        fontSize={15}
+                        color="vermelhoRSV"
+                      >
+                        Produto Esgotado
+                      </Typography>
+                    </Box>
+                  }
+                  {/* ADD TO CART BUTTON */}
+                  <Button
+                    mt="xxs"
+                    title="ADICIONAR À SACOLA"
+                    variant="primarioEstreito"
+                    disabled={!!!selectedSize}
+                    onPress={() => {
+                      onProductAdd();
+                      setIsVisible(true);
+                    }}
+                    inline
+                  />
+                  <Box mt="nano" flexDirection="row"></Box>
+                  <Divider variant="fullWidth" my="xs" />
+
+                  {/* DELIVERY INFO */}
+                  <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                    Consultar prazo e valor do frete
+                  </Typography>
+
+                  <Box flexDirection="row" mt="xxxs">
+                    <OutlineInput
+                      onChangeText={(text) => {
+                        setCep(text);
                       }}
-                      optionsList={sizeFilters || []}
-                      defaultSelectedItem=""
-                      selectedItem={selectedSize}
+                      value={cep}
+                      placeholder="Digite seu CEP"
+                      iconName="Search"
+                      keyboardType="number-pad"
+                      keyboardAppearance="light"
+                      maskType="zip-code"
+                      onPressIcon={consultZipCode}
                     />
                   </Box>
-                </Box>
-                {outOfStock &&
-                  <Box
-                    mt="xxs"
-                    flexDirection="row"
-                    alignItems="center"
-                  >
-                    <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
-                    <Typography
-                      fontFamily="reservaSansBold"
-                      fontSize={15}
-                      color="vermelhoRSV"
-                    >
-                      Produto Esgotado
+                  {shippingCost?.length > 0 &&
+                    shippingCost[0]?.slas.map((item) => (
+                      <Box
+                        flexDirection="row"
+                        justifyContent="space-between"
+                        marginTop="nano"
+                      >
+                        <Box
+                          width="50%"
+                          justifyContent="center"
+                          borderColor="divider"
+                        >
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={14}
+                          >
+                            {item.friendlyName}
+                          </Typography>
+                        </Box>
+                        <Box
+                          width="20%"
+                          alignItems="center"
+                          justifyContent="center"
+                          borderColor="divider"
+                        >
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={14}
+                          >
+                            {format(
+                              addDays(Date.now(), parseInt(item.shippingEstimate.split('bd')[0])),
+                              'dd/MM'
+                            )}
+                          </Typography>
+                        </Box>
+
+                        <Box
+                          width="30%"
+                          alignItems="flex-end"
+                          justifyContent="center"
+                        >
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={14}
+                            color="verdeSucesso"
+                          >
+                            {item.price > 0 ?
+                              `R$ ${(item.price) / 100}`
+                              :
+                              `GRÁTIS`
+                            }
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ))
+                  }
+                  <Divider variant="fullWidth" my="xs" />
+
+                  <Box>
+                    <ExpansePanel
+                      style={{
+                        fontFamily: "reservaSerifRegular",
+                        fontSize: 20
+                      }}
+                      information={{
+                        title: 'Sobre este produto',
+                        content: product.description || '',
+                      }}
+                    />
+                  </Box>
+
+                  <Divider variant="fullWidth" my="xs" />
+
+                  <Box mb="xxxs">
+                    <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                      Receba novidades e promoções
                     </Typography>
                   </Box>
-                }
-                {/* ADD TO CART BUTTON */}
-                <Button
-                  mt="xxs"
-                  title="ADICIONAR À SACOLA"
-                  variant="primarioEstreito"
-                  disabled={!!!selectedSize}
-                  onPress={() => {
-                    onProductAdd();
-                    setIsVisible(true);
-                  }}
-                  inline
-                />
-                <Box mt="nano" flexDirection="row"></Box>
-                <Divider variant="fullWidth" my="xs" />
-
-                {/* DELIVERY INFO */}
-                <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                  Consultar prazo e valor do frete
-                </Typography>
-
-                <Box flexDirection="row" mt="xxxs">
                   <OutlineInput
-                    onChangeText={(text) => {
-                      setCep(text);
-                    }}
-                    value={cep}
-                    placeholder="Digite seu CEP"
-                    iconName="Search"
-                    keyboardType="number-pad"
-                    keyboardAppearance="light"
-                    maskType="zip-code"
-                    onPressIcon={consultZipCode}
+                    placeholder="Digite seu e-mail"
+                    iconName="ChevronRight"
+                    keyboardType="email-address"
                   />
                 </Box>
-                {shippingCost?.length > 0 &&
-                  shippingCost[0]?.slas.map((item) => (
-                    <Box
-                      flexDirection="row"
-                      justifyContent="space-between"
-                      marginTop="nano"
-                    >
-                      <Box
-                        width="50%"
-                        justifyContent="center"
-                        borderColor="divider"
-                      >
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={14}
-                        >
-                          {item.friendlyName}
-                        </Typography>
-                      </Box>
-                      <Box
-                        width="20%"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderColor="divider"
-                      >
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={14}
-                        >
-                          {format(
-                            addDays(Date.now(), parseInt(item.shippingEstimate.split('bd')[0])),
-                            'dd/MM'
-                          )}
-                        </Typography>
-                      </Box>
+              </>
+            )}
 
-                      <Box
-                        width="30%"
-                        alignItems="flex-end"
-                        justifyContent="center"
-                      >
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={14}
-                          color="verdeSucesso"
-                        >
-                          {item.price > 0 ?
-                            `R$ ${(item.price) / 100}`
-                            :
-                            `GRÁTIS`
-                          }
-                        </Typography>
-                      </Box>
-                    </Box>
-                  ))
-                }
-                <Divider variant="fullWidth" my="xs" />
-
-                <Box>
-                  <ExpansePanel
-                    style={{
-                      fontFamily: "reservaSerifRegular",
-                      fontSize: 20
-                    }}
-                    information={{
-                      title: 'Sobre este produto',
-                      content: product.description || '',
-                    }}
-                  />
-                </Box>
-
-                <Divider variant="fullWidth" my="xs" />
-
-                <Box mb="xxxs">
-                  <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                    Receba novidades e promoções
-                  </Typography>
-                </Box>
-
-                <OutlineInput
-                  placeholder="Digite seu e-mail"
-                  iconName="ChevronRight"
-                  keyboardType="email-address"
-                />
-              </Box>
-            </>
-          )}
-
-          {/*
+            {/*
         
             <Box mt="xs" mb="xxl">
               <Box mb="xxxs">
@@ -790,8 +794,10 @@ export const ProductDetail: React.FC<Props> = ({
             </Box>
           </Box>
          */}
-        </ScrollView>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Box>
+
     </SafeAreaView>
   );
 };
