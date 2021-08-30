@@ -66,7 +66,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       variables: {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        selectedFacets: [facetInput, filterRequestList].flat(),
+        // selectedFacets: [facetInput, filterRequestList].flat(),
+        selectedFacets: [].concat(facetInput, filterRequestList),
         orderBy: selectedOrder,
         to: pageSize - 1,
         simulationBehavior: "default",
@@ -84,7 +85,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }: QueryResult = useQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets: [facetInput, filterRequestList].flat(),
+      // selectedFacets: [facetInput, filterRequestList].flat(),
+      selectedFacets: [].concat(facetInput, filterRequestList),
     },
     fetchPolicy: 'no-cache',
   });
@@ -203,7 +205,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         orderBy: selectedOrder,
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
-        selectedFacets: [facetInput, filterRequestList].flat(),
+        // selectedFacets: [facetInput, filterRequestList].flat(),
+        selectedFacets: [].concat(facetInput, filterRequestList),
       },
     });
     refetchFacets();
@@ -222,10 +225,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     const fetch = async () => {
-        const { data, loading} = await refetch({
+      const { data, loading } = await refetch({
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        selectedFacets: [facetInput, filterRequestList].flat(),
+        // selectedFacets: [facetInput, filterRequestList].flat(),
+        selectedFacets: [].concat(facetInput, filterRequestList),
         orderBy: selectedOrder,
         to: pageSize - 1,
         simulationBehavior: "default",
@@ -236,7 +240,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       }
     }
     fetch();
-    
+
   }, [selectedOrder]);
 
   const skeletonOpacity = useRef(new Animated.Value(0)).current
