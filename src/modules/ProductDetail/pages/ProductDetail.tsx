@@ -41,6 +41,7 @@ import { id } from 'date-fns/locale';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import { useAuth } from '../../../context/AuthContext';
+import { images } from '../../../assets';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -109,6 +110,7 @@ type Product = {
   categoryTree: any[]; // doesnt matter
   productId: string;
   productName: string;
+  clusterHighlights?: ClusterHighlight[]
   skuSpecifications: Specification[];
   priceRange: {
     sellingPrice: Price;
@@ -121,6 +123,10 @@ type Product = {
 type ProductQueryResponse = {
   product: Product;
 };
+export interface ClusterHighlight {
+  id?: string
+  name?: string
+}
 
 type ItemsSKU = {
   color: string;
@@ -528,6 +534,9 @@ export const ProductDetail: React.FC<Props> = ({
                       product.priceRange.listPrice.lowPrice
                     ) || 0
                   }
+                  saleOff={
+                    product.clusterHighlights
+                    && product.clusterHighlights.length > 0 && images.saleOff}
                 />
 
                 {/* COLORS SECTION */}
