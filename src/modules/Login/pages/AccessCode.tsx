@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { useRef } from 'react';
@@ -14,6 +14,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../components/CodeInput';
 import AsyncStorage from '@react-native-community/async-storage';
+import { profileQuery } from '../../../store/ducks/profile/types';
 
 export interface AccessCodeProps
   extends StackScreenProps<RootStackParamList, 'AccessCode'> { }
@@ -23,6 +24,7 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
   const { email } = route.params;
   const [accessCode, setAccessCode] = useState('');
   const [showError, setShowError] = useState(false);
+  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
 
   const [loginWithCode, { data, loading }] = useMutation(
     accessKeySignInMutation
@@ -56,10 +58,18 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        navigation.navigate('HomeTabs');
+        getProfile()
       });
     }
   }, [data]);
+
+  useEffect(() => {    
+    if (profileData) {
+      AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email).then(() => {
+        navigation.navigate('Home');
+      })
+    }
+  }, [profileData])
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>

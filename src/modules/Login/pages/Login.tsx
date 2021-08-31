@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -17,6 +17,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 import * as Yup from "yup";
+import { profileQuery } from '../../../store/ducks/profile/types';
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export const LoginScreen: React.FC<Props> = ({
@@ -44,6 +45,7 @@ export const LoginScreen: React.FC<Props> = ({
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true);
+  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
 
   const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
     useMutation(sendEmailVerificationMutation);
@@ -76,7 +78,7 @@ export const LoginScreen: React.FC<Props> = ({
       });
       if (data['classicSignIn'] === 'Success') {
         setEmail(loginCredentials.username)
-        navigation.navigate('Home');
+        // navigation.navigate('Home');
       } else {
         validateCredentials();
       }
@@ -122,10 +124,18 @@ export const LoginScreen: React.FC<Props> = ({
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        navigation.navigate('Home');
+        getProfile()
       });
     }
   }, [data]);
+  
+  useEffect(() => {    
+    if (profileData) {
+      AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email).then(() => {
+        navigation.navigate('Home');
+      })
+    }
+  }, [profileData])
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>

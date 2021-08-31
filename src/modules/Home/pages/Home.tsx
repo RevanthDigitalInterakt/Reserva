@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
-import { AsyncStorage, Dimensions, Platform } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { Box, Image, Typography, Button, Icon } from 'reserva-ui';
@@ -14,6 +14,7 @@ import { profileQuery } from '../../../store/ducks/profile/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { View } from 'react-native-animatable';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
@@ -61,7 +62,7 @@ export const HomeScreen: React.FC<{
 
   useEffect(() => {
     if (profileData) {
-      AsyncStorage.setItem('@RNAuth:email', profileData?.email)
+      AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email)
     }
   }, [profileData])
 
