@@ -40,6 +40,7 @@ import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../../../context/AuthContext";
 import { EmptyBag } from "../components/EmptyBag";
 import Modal from "react-native-modal";
+import { getPercent } from "../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -374,15 +375,28 @@ export const BagScreen = () => {
                     Sacola ({orderForm?.items.length})
                   </Typography>
                 </Box>
-
                 {orderForm?.items.map((item, index, array) => (
-
                   <Box key={index} bg={"white"} marginTop={"xxxs"}>
+                    {item.priceTags.length > 0 && <Box>
+                      <Typography fontFamily='nunitoRegular' fontSize={11} color='verdeSucesso'>
+                        Desconto aplicado neste produto!
+                      </Typography>
+                    </Box>}
+                    {item.priceTags.length > 0 && <Box position='absolute' zIndex={5} top={84} right={21}>
+                      <Typography color='verdeSucesso' fontFamily='nunitoRegular' fontSize={11}>
+                        -R$ 50
+                      </Typography>
+                    </Box>}
                     <ProductHorizontalListCard
                       isBag
+                      discountApi={item.priceTags.length > 0 ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
+                      disableCounter={item.priceTags.length > 0 && array.length > 1}
                       currency={"R$"}
                       discountTag={
-                        item.sellingPrice > 0 ? item.sellingPrice / 100 : undefined
+                        getPercent(
+                          item.sellingPrice,
+                          item.listPrice
+                        )
                       }
                       itemColor={item.skuName.split("-")[0] || ""}
                       ItemSize={item.skuName.split("-")[1] || ""}
@@ -393,8 +407,6 @@ export const BagScreen = () => {
                       priceWithDiscount={item.sellingPrice / 100}
                       count={optimistQuantities[index]}
                       onClickAddCount={async (count) => {
-
-
                         const firstItemIndex = array.findIndex(x => x.productId == item.productId)
                         console.log(firstItemIndex)
                         const prevCont = optimistQuantities[firstItemIndex]
@@ -410,29 +422,30 @@ export const BagScreen = () => {
                           setNoProduct(erros[0])
                         }
                       }}
-                      onClickSubCount={async (count) => {
-                        const prevCont = optimistQuantities[index]
-                        if (prevCont <= 1) {
-                          setShowModal(true)
-                          setRemoveProduct({
-                            id: item.id,
-                            index: index,
-                            seller: item.seller
-                          })
-                        } else {
-                          setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
-                          const { ok } = await removeItem(
-                            item.id,
-                            index,
-                            item.seller,
-                            item.quantity - 1
-                          )
-                          if (!ok)
-                            setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
-                          console.log('ok subCount', ok)
+                      onClickSubCount={
+                        async (count) => {
+                          const prevCont = optimistQuantities[index]
+                          if (prevCont <= 1) {
+                            setShowModal(true)
+                            setRemoveProduct({
+                              id: item.id,
+                              index: index,
+                              seller: item.seller
+                            })
+                          } else {
+                            setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
+                            const { ok } = await removeItem(
+                              item.id,
+                              index,
+                              item.seller,
+                              item.quantity - 1
+                            )
+                            if (!ok)
+                              setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
+                            console.log('ok subCount', ok)
 
-                        }
-                      }}
+                          }
+                        }}
                       onClickClose={() => {
                         setShowModal(true)
                         setRemoveProduct({
