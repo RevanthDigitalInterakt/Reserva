@@ -18,8 +18,8 @@ interface AuthContextProps {
 
 export const AuthContext = createContext<AuthContextProps>({
   cookie: AsyncStorage.getItem('@RNAuth:cookie') || '',
-  setCookie: () => AsyncStorage.getItem('@RNAuth:cookie') || '',
-  setEmail: () => AsyncStorage.getItem('@RNAuth:email') || '',
+  setCookie: async () => await AsyncStorage.getItem('@RNAuth:cookie') || '',
+  setEmail: async () => await AsyncStorage.getItem('@RNAuth:email') || '',
 });
 
 interface AuthContextProviderProps {
