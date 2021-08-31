@@ -58,8 +58,12 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        getProfile()
+      setShowError(false);
+      getProfile()
       });
+    }
+    if(data?.accessKeySignIn === "WrongCredentials"){
+      setShowError(true);
     }
   }, [data]);
 
