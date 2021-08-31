@@ -136,7 +136,8 @@ export const FilterModal = ({
       .filter(({ value }) => value !== undefined);
 
     const filterRequestList = [
-      selectedSize && [selectedSize].flat(),
+      // selectedSize && [selectedSize].flat(),
+      selectedSize && [].concat(selectedSize),
       [...new Set(colors)],
       filterList,
       selectedPriceRange.map(({ key, range }) => ({
@@ -145,7 +146,9 @@ export const FilterModal = ({
       })),
     ];
 
-    setFilterRequestList(filterRequestList.flat());
+    // setFilterRequestList(filterRequestList.flat());
+    setFilterRequestList([].concat(...filterRequestList));
+
     onClose();
   };
 
