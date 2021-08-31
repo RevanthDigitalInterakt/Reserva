@@ -22,8 +22,9 @@ import {
   removeCouponToOder,
   validateSellerCoupon,
   addToSellerCoupon,
-  removeSellerCouponToOder,  
+  removeSellerCouponToOder,
   ResetUserCheckout,
+  SendUserEmail
 } from "../services/vtexService";
 
 interface ClientPreferencesData {
@@ -289,6 +290,7 @@ interface CartContextProps {
   addSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   removeCoupon: (coupon: string) => Promise<boolean | undefined>;
   removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
+  sendUserEmail: (email: string) => Promise<boolean | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -379,7 +381,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  
+
   const resetUserCheckout = async () => {
     try {
       const { data } = await ResetUserCheckout(orderForm?.orderFormId);
@@ -527,6 +529,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     orderform();
   }, []);
 
+  const sendUserEmail = async (email: string) => {
+    try {
+      const { data } = await SendUserEmail(email);
+      return !!data;
+    } catch (error) {
+      console.log("error", error.response.data);
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -543,7 +554,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         addSellerCoupon,
         removeCoupon,
         removeSellerCoupon,
-        resetUserCheckout
+        resetUserCheckout,
+        sendUserEmail
       }}
     >
       {children}
@@ -574,7 +586,8 @@ export const useCart = () => {
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
-    resetUserCheckout
+    resetUserCheckout,
+    sendUserEmail
   } = cartContext;
   return {
     orderForm,
@@ -590,6 +603,7 @@ export const useCart = () => {
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
-    resetUserCheckout
+    resetUserCheckout,
+    sendUserEmail
   };
 };
