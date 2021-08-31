@@ -377,7 +377,7 @@ export const BagScreen = () => {
                 </Box>
                 {orderForm?.items.map((item, index, array) => (
                   <Box key={index} bg={"white"} marginTop={"xxxs"}>
-                    {item.priceTags.length > 0 && <Box>
+                    {/* {item.priceTags.length > 0 && <Box>
                       <Typography fontFamily='nunitoRegular' fontSize={11} color='verdeSucesso'>
                         Desconto aplicado neste produto!
                       </Typography>
@@ -386,11 +386,11 @@ export const BagScreen = () => {
                       <Typography color='verdeSucesso' fontFamily='nunitoRegular' fontSize={11}>
                         -R$ 50
                       </Typography>
-                    </Box>}
+                    </Box>} */}
                     <ProductHorizontalListCard
                       isBag
-                      discountApi={item.priceTags.length > 0 ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
-                      disableCounter={item.priceTags.length > 0 && array.length > 1}
+                      // discountApi={item.priceTags.length > 0 ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
+                      // disableCounter={item.priceTags.length > 0 && array.length > 1}
                       currency={"R$"}
                       discountTag={
                         getPercent(
