@@ -451,7 +451,7 @@ export const ProductDetail: React.FC<Props> = ({
             if (v.values[0] === color) {
               return {
                 item,
-                size: item.variations?.filter(i => i.name === "TAMANHO")[0].values[0],
+                size: item.variations?.filter(i => i.name === "Tamanho")[0].values[0],
                 available: item.sellers[0].commertialOffer.AvailableQuantity > 0
               };
             }
