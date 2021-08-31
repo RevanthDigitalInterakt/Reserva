@@ -153,7 +153,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           : [];
 
       // SIZE
-      const sizeFacets = facets.filter(({ name }: any) => name === 'TAMANHO');
+      const sizeFacets = facets.filter(({ name }: any) => name === 'TAMANHO' || name === 'Tamanho');
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
