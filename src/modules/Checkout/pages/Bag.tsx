@@ -390,7 +390,7 @@ export const BagScreen = () => {
                     <ProductHorizontalListCard
                       isBag
                       discountApi={item.priceTags.length > 0 ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
-                      disableCounter={item.priceTags.length > 0 && array.length > 1}
+                      disableCounter={item.priceTags.length > 0 && array.filter(x => x.uniqueId == item.uniqueId).length > 1}
                       currency={"R$"}
                       discountTag={
                         getPercent(
