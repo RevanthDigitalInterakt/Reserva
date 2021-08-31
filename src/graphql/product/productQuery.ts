@@ -17,6 +17,10 @@ export const GET_PRODUCTS = gql`
           originalName
         }
       }
+      clusterHighlights {
+        id,
+        name
+      }
       items {
         variations {
           originalName

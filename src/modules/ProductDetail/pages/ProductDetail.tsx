@@ -17,7 +17,7 @@ import {
 } from 'reserva-ui';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ModalBag } from '../components/ModalBag';
-
+import * as Yup from "yup";
 import Share from 'react-native-share';
 import { useDispatch, useSelector } from 'react-redux';
 import { load } from '../../../store/ducks/shippingMethod/actions';
@@ -41,6 +41,7 @@ import { id } from 'date-fns/locale';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import { useAuth } from '../../../context/AuthContext';
+import { images } from '../../../assets';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -109,6 +110,7 @@ type Product = {
   categoryTree: any[]; // doesnt matter
   productId: string;
   productName: string;
+  clusterHighlights?: ClusterHighlight[]
   skuSpecifications: Specification[];
   priceRange: {
     sellingPrice: Price;
@@ -121,6 +123,10 @@ type Product = {
 type ProductQueryResponse = {
   product: Product;
 };
+export interface ClusterHighlight {
+  id?: string
+  name?: string
+}
 
 type ItemsSKU = {
   color: string;
@@ -178,11 +184,13 @@ export const ProductDetail: React.FC<Props> = ({
     listIds: [''],
     inList: false
   })
-  const { addItem } = useCart();
+  const { addItem, sendUserEmail } = useCart();
   const dispatch = useDispatch();
 
   const [cep, setCep] = useState('');
-
+  const [emailPromotions, setEmailPromotions] = useState('');
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [showMessageError, setShowMessageError] = useState(false);
   const { refetch: checkListRefetch } = useQuery(wishListQueries.CHECK_LIST, { skip })
 
   const [addWishList, { data: addWishListData, error: addWishListError, loading: addWishLoading }] = useMutation(wishListQueries.ADD_WISH_LIST)
@@ -479,6 +487,14 @@ export const ProductDetail: React.FC<Props> = ({
     })
   }
 
+  const newsAndPromotions = async () => {
+    if (emailIsValid) {
+      const response = await sendUserEmail(emailPromotions)
+    } else {
+      setShowMessageError(true)
+    }
+  }
+
   useEffect(() => {
     if (shippingData) {
       setShippingCost(shippingData.shipping.logisticsInfo)
@@ -528,6 +544,9 @@ export const ProductDetail: React.FC<Props> = ({
                       product.priceRange.listPrice.lowPrice
                     ) || 0
                   }
+                  saleOff={
+                    product.clusterHighlights
+                    && product.clusterHighlights.length > 0 && images.saleOff}
                 />
 
                 {/* COLORS SECTION */}
@@ -714,9 +733,32 @@ export const ProductDetail: React.FC<Props> = ({
                   </Box>
                   <OutlineInput
                     placeholder="Digite seu e-mail"
+                    value={emailPromotions}
+                    onChangeText={(email) => {
+                      setEmailPromotions(email)
+                      setEmailIsValid(
+                        Yup.string()
+                          .required()
+                          .email()
+                          .isValidSync(email)
+                      );
+                    }}
                     iconName="ChevronRight"
+                    autoCapitalize="none"
                     keyboardType="email-address"
+                    onPressIcon={newsAndPromotions}
                   />
+                  {showMessageError && !emailIsValid &&
+                    <Box mt="quarck">
+                      <Typography
+                        color="vermelhoAlerta"
+                        fontFamily="nunitoRegular"
+                        fontSize={13}
+                      >
+                        E-mail invalido
+                      </Typography>
+                    </Box>
+                  }
                 </Box>
               </>
             )}

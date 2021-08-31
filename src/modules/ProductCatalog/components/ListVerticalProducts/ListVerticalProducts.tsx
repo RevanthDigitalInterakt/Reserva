@@ -13,6 +13,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useAuth } from '../../../../context/AuthContext';
 import { Alert } from 'react-native';
+import { images } from '../../../../assets';
 interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
@@ -189,10 +190,14 @@ export const ListVerticalProducts = ({
                   installmentsNumber={installmentsNumber} //numero de parcelas
                   installmentsPrice={installmentPrice || 0} //valor das parcelas
                   currency="R$"
-                  discountTag={getPercent(
-                    item.priceRange?.sellingPrice.lowPrice,
-                    item.priceRange?.listPrice.lowPrice
-                  )}
+                  discountTag={
+                    getPercent(
+                      item.priceRange?.sellingPrice.lowPrice,
+                      item.priceRange?.listPrice.lowPrice
+                    )}
+                  saleOff={
+                    item.clusterHighlights
+                    && item.clusterHighlights.length > 0 && images.saleOff}
                   priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
                   price={item.priceRange?.listPrice?.lowPrice || 0}
                   productTitle={item.productName}

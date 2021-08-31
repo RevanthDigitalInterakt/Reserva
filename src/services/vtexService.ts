@@ -1,11 +1,12 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
-import { instance, instance2, instance3 } from '../config/vtexConfig';
+import { instance, instance2, instance3, instance4 } from '../config/vtexConfig';
 
 
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
 const vtexConfig3 = instance3;
+const vtexConfig4 = instance4;
 
 const CreateCart = async () => {
   // cria o carrinho
@@ -305,10 +306,15 @@ const ResetUserCheckout = async (
 ) => {
   const response = await vtexConfig3.get(
     `/checkout/changeToAnonymousUser/${orderFormId}`);
-  console.log('orderFormId', orderFormId)
   return response;
 }
 
+const SendUserEmail = async (
+  email?: string,
+) => {
+  const response = await vtexConfig4.get(`/contactlist/${email}/true/newsletter/reserva`);
+  return response;
+}
 
 export {
   CreateCart,
@@ -330,5 +336,6 @@ export {
   validateSellerCoupon,
   addToSellerCoupon,
   removeSellerCouponToOder,
-  ResetUserCheckout
+  ResetUserCheckout,
+  SendUserEmail
 };

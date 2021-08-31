@@ -51,6 +51,10 @@ $options: Options
             categoryTree {
             href
             }
+            clusterHighlights {
+                id,
+              	name
+            }
             items(filter: FIRST_AVAILABLE){
                 images{
                     imageUrl
