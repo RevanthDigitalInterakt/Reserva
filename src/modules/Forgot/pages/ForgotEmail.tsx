@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
@@ -29,7 +30,8 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
         email
       }
     }).then(x => {
-      setCookie(`${cookie} ${x.data.cookie}`);
+      setCookie(x?.data?.cookie);
+      AsyncStorage.setItem('@RNAuth:cookie', x?.data?.cookie);
       navigation.navigate('ForgotAccessCode', { email })
     }
     )
