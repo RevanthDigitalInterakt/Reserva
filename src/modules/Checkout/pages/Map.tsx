@@ -20,59 +20,16 @@ import { useCart, PickupPoints } from '../../../context/CartContext';
 type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
 export const MapScreen = ({ route }: Props) => {
   const { geolocation, locationPermission } = route?.params;
-  const { orderForm, addShippingOrPickupInfo } = useCart();
+  const { orderForm, addShippingOrPickupInfo, convertZipCode } = useCart();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-
+  const [loadingMap, setLoadingMap] = useState(false);
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
-
-  const [positionCep, setPositionCep] = useState({
-    latitude: -20.3559106,
-    longitude: -40.3202333,
-    latitudeDelta: 0.05,
-    longitudeDelta: 0.05,
-  });
-
-  const [markers, setMarkers] = useState([
-    {
-      latitude: -20.312225246494084,
-      longitude: -40.28799595837181,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.05,
-    },
-    {
-      latitude: -22.99146412201489,
-      longitude: -43.383208321806656,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.05,
-    },
-    {
-      latitude: -22.98577509792866,
-      longitude: -43.36054902034232,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.05,
-    },
-  ]);
-
-  const getGeolocation = () => {
-    if (locationPermission) {
-      Geolocation.getCurrentPosition((pos) => {
-        const coords = pos.coords;
-        setPosition({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        });
-      });
-    } else {
-      setPosition(geolocation)
-    }
-  };
 
   //Pega a posição do usuário
   useEffect(() => {
     if (locationPermission) {
+      setLoadingMap(true);
       Geolocation.getCurrentPosition((pos) => {
         const coords = pos.coords;
         setPosition({
@@ -82,10 +39,26 @@ export const MapScreen = ({ route }: Props) => {
           longitudeDelta: 0.05,
         });
       });
+      setLoadingMap(false);
     } else {
-      setPosition(geolocation)
+      getGeolocation(geolocation)
     }
   }, []);
+
+  const getGeolocation = async (geolocation: string) => {
+    setLoadingMap(true)
+    const data = await convertZipCode(geolocation)
+    if (data) {
+      const [longitude, latitude] = data?.geoCoordinates
+      setPosition({
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
+      setLoadingMap(false)
+    }
+  }
 
   const onSelectPickupPoint = async (item: any) => {
     setLoading(true);
@@ -137,7 +110,7 @@ export const MapScreen = ({ route }: Props) => {
 
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
-      <TopBarBackButton loading={loading} showShadow />
+      <TopBarBackButton loading={loading || loadingMap} showShadow />
 
       <Box flex={2}>
         {position &&
@@ -158,15 +131,18 @@ export const MapScreen = ({ route }: Props) => {
                 />
               </Box>
             </Marker>
-            {markers?.map((marker, index) => (
-              <Marker key={index} coordinate={marker}>
-                <Image
-                  height={40}
-                  source={images.localReserva}
-                  resizeMode={'contain'}
-                />
-              </Marker>
-            ))}
+            {orderForm?.shippingData.pickupPoints.map((coordinate, index) => {
+              const [longitude, latitude] = coordinate.address.geoCoordinates
+              return (
+                <Marker key={index} coordinate={{ latitude: latitude, longitude: longitude }}>
+                  <Image
+                    height={40}
+                    source={images.localReserva}
+                    resizeMode={'contain'}
+                  />
+                </Marker>
+              )
+            })}
           </MapView>
         }
         <Box position={'absolute'} right={20} bottom={20}>
