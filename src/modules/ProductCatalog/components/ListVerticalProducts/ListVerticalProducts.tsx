@@ -140,6 +140,11 @@ export const ListVerticalProducts = ({
     console.log('productList', productList)
   }, [productList])
 
+  const getSaleOff = (salOff) => {
+    const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
+    if (idImage) return images.saleOff
+  }
+
   return (
     <>
       <CreateCategoryModal
@@ -195,9 +200,7 @@ export const ListVerticalProducts = ({
                       item.priceRange?.sellingPrice.lowPrice,
                       item.priceRange?.listPrice.lowPrice
                     )}
-                  saleOff={
-                    item.clusterHighlights
-                    && item.clusterHighlights.length > 0 && images.saleOff}
+                  saleOff={getSaleOff(item)}
                   priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
                   price={item.priceRange?.listPrice?.lowPrice || 0}
                   productTitle={item.productName}
