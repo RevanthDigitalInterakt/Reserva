@@ -32,6 +32,4 @@ if (__DEV__) {
     console.tron.setAsyncStorageHandler(AsyncStorage);
     console.tron.clear?.();
   }
-
-  console.error("CARAIO O MULEKE É BRABO")
 }
