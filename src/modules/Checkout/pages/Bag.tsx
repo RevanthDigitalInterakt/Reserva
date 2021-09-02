@@ -41,6 +41,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { EmptyBag } from "../components/EmptyBag";
 import Modal from "react-native-modal";
 import { getPercent } from "../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts";
+import { ModalBook } from "../components/ModalBook";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -59,6 +60,9 @@ export const BagScreen = () => {
     removeSellerCoupon,
     resetUserCheckout
   } = useCart();
+
+  const [isVisibleModalBook, setIsVisibleModalBook] = useState(false)
+  const [WasBookOffered, setWasBookOffered] = useState(false)
   const [loading, setLoading] = useState(false)
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
@@ -98,6 +102,7 @@ export const BagScreen = () => {
   };
 
   const setCustomer = async (email: string) => await identifyCustomer(email)
+
 
   useEffect(() => {
     firstLoadOrderForm();
@@ -178,20 +183,25 @@ export const BagScreen = () => {
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
-    if (orderForm) {
-      const { clientProfileData, shippingData } = orderForm;
-      const hasCustomer =
-        clientProfileData &&
-        clientProfileData.email &&
-        clientProfileData.firstName;
+    if (!WasBookOffered) {
+      setIsVisibleModalBook(true)
+    } else {
 
-      const hasAddress =
-        shippingData && shippingData.availableAddresses.length > 0;
+      if (orderForm) {
+        const { clientProfileData, shippingData } = orderForm;
+        const hasCustomer =
+          clientProfileData &&
+          clientProfileData.email &&
+          clientProfileData.firstName;
 
-      if (!email) {
-        navigate("EnterYourEmail");
-      } else {
-        navigate("DeliveryScreen");
+        const hasAddress =
+          shippingData && shippingData.availableAddresses.length > 0;
+
+        if (!email) {
+          navigate("EnterYourEmail");
+        } else {
+          navigate("DeliveryScreen");
+        }
       }
     }
   };
@@ -212,6 +222,12 @@ export const BagScreen = () => {
         backgroundColor: "#FFFFFF",
       }}
     >
+      <ModalBook
+        isVisible={isVisibleModalBook}
+        onClose={() => {
+          setIsVisibleModalBook(false)
+          setWasBookOffered(true)
+        }} />
       <TopBarBackButton showShadow loading={loading} />
       {loading ?
         <Box >
