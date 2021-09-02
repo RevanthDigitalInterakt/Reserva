@@ -71,11 +71,11 @@ const Order = ({ data }: IOrder) => {
         boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
         mt="xxxs"
         width={'100%'}
-        height={180}
+        minHeight={180}
         backgroundColor={'white'}
       >
         <Box
-          height={150}
+          minHeight={150}
           borderBottomWidth="hairline"
           borderColor={'backgroundMenuOpened'}
           paddingY={'micro'}

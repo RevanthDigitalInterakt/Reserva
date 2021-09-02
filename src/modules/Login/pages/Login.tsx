@@ -124,18 +124,10 @@ export const LoginScreen: React.FC<Props> = ({
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        getProfile()
+        navigation.navigate('Home');
       });
     }
   }, [data]);
-  
-  useEffect(() => {    
-    if (profileData) {
-      AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email).then(() => {
-        navigation.navigate('Home');
-      })
-    }
-  }, [profileData])
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
