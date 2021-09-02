@@ -246,7 +246,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     if (itemsSKU.length > 0) {
-      
+
       setImageSelected(
         itemsSKU
           .map(p => p.color === selectedColor && p.images)
@@ -433,7 +433,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSizeList = ({ skuSpecifications }: Product) =>
     skuSpecifications
-      .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho' )
+      .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho')
       ?.values.map(({ name }) => name);
 
   const getImagesPerColor = ({ items }: Product, color: string) => {
@@ -514,7 +514,7 @@ export const ProductDetail: React.FC<Props> = ({
         />
         <TopBarDefaultBackButton loading={loading} />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={{ marginBottom: 100 }}
         >
           <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
@@ -595,7 +595,7 @@ export const ProductDetail: React.FC<Props> = ({
                         size={38}
                         fontSize={14}
                         disbledOptions={unavailableSizes ? unavailableSizes : []}
-                        onSelectedChange={(item) => {                          
+                        onSelectedChange={(item) => {
                           setSelectedSize(item);
                         }}
                         optionsList={sizeFilters || []}
