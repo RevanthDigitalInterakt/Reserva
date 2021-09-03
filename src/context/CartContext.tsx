@@ -322,13 +322,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         itemId,
         seller
       );
+      console.log('data', data)
       // check produt availability
       const index = data.items.findIndex(({ id }: any) => id === itemId);
       const product = data.items[index];
       if (product.availability !== "available") {
         const productRemoved = await removeUnavailableProduct(
           product.id,
-          index
+          index,
+          seller
         );
 
         if (productRemoved) return { message: "O produto não está disponível" };
