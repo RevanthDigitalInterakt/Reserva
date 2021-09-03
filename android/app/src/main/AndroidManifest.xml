@@ -12,8 +12,10 @@
       android:theme="@style/AppTheme">
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBBQ8q0Cysb1tpKZEfx0Vwu9IXnu-FH074"/>
+        android:value="AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"/>
 
+     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+     
       <!-- Adicionamos a nossa SplashActivity -->
       <activity
         android:name=".SplashActivity"
