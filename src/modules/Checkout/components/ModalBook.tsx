@@ -16,7 +16,7 @@ export const ModalBook: React.FC<ModalBookProps> = ({ isVisible, onAddBag, onClo
 
   const onPressAddToBag = async () => {
     console.log('foi')
-    const { message, ok } = await addItem(1, "202207", '4')
+    const { message, ok } = await addItem(1, "202207", '1')
     console.log(ok, message)
     //onClose()
   }
