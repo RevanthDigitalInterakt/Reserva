@@ -56,8 +56,7 @@ export const BagScreen = () => {
     identifyCustomer,
     addSellerCoupon,
     removeCoupon,
-    removeSellerCoupon,
-    resetUserCheckout
+    removeSellerCoupon
   } = useCart();
   const [loading, setLoading] = useState(false)
   const [successModal, setSuccessModal] = useState(false);

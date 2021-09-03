@@ -20,47 +20,16 @@ import { useCart, PickupPoints } from '../../../context/CartContext';
 type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
 export const MapScreen = ({ route }: Props) => {
   const { geolocation, locationPermission } = route?.params;
-  const { orderForm, addShippingOrPickupInfo } = useCart();
+  const { orderForm, addShippingOrPickupInfo, convertZipCode } = useCart();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const [loadingMap, setLoadingMap] = useState(false);
+  const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
 
-  const [position, setPosition] = useState({
-    latitude: 10,
-    longitude: 10,
-    latitudeDelta: 0.001,
-    longitudeDelta: 0.001,
-  });
-
-  const [positionCep, setPositionCep] = useState({
-    latitude: -20.3559106,
-    longitude: -40.3202333,
-    latitudeDelta: 0.05,
-    longitudeDelta: 0.05,
-  });
-
-  const [markers, setMarkers] = useState([
-    {
-      latitude: -20.312225246494084,
-      longitude: -40.28799595837181,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.05,
-    },
-    {
-      latitude: -22.99146412201489,
-      longitude: -43.383208321806656,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.05,
-    },
-    {
-      latitude: -22.98577509792866,
-      longitude: -43.36054902034232,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.05,
-    },
-  ]);
-
-  const getGeolocation = () => {
+  //Pega a posição do usuário
+  useEffect(() => {
     if (locationPermission) {
+      setLoadingMap(true);
       Geolocation.getCurrentPosition((pos) => {
         const coords = pos.coords;
         setPosition({
@@ -70,13 +39,31 @@ export const MapScreen = ({ route }: Props) => {
           longitudeDelta: 0.05,
         });
       });
+      setLoadingMap(false);
+    } else {
+      getGeolocation(geolocation)
     }
-  };
+  }, []);
+
+  const getGeolocation = async (geolocation: string) => {
+    setLoadingMap(true)
+    const data = await convertZipCode(geolocation)
+    if (data) {
+      const [longitude, latitude] = data?.geoCoordinates
+      setPosition({
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
+      setLoadingMap(false)
+    }
+  }
 
   const onSelectPickupPoint = async (item: any) => {
     setLoading(true);
     if (orderForm) {
-      
+
       const slas = orderForm.shippingData.logisticsInfo[0].slas.find(
         ({ pickupPointId }) => pickupPointId === item.id
       );
@@ -99,13 +86,13 @@ export const MapScreen = ({ route }: Props) => {
         delete item.address.receiverName;
 
         const data = await addShippingOrPickupInfo(
-          logisticInfo, 
-          [ 
+          logisticInfo,
+          [
             {
               addressType: 'search',
               receiverName: `${orderForm.clientProfileData.firstName} ${orderForm.clientProfileData.lastName}`,
               ...item?.address
-            } 
+            }
           ]
         );
 
@@ -120,43 +107,44 @@ export const MapScreen = ({ route }: Props) => {
     }
   };
 
-  //Pega a posição do usuário
-  useEffect(() => {
-    getGeolocation();
-  }, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
-      <TopBarBackButton loading={loading} showShadow />
+      <TopBarBackButton loading={loading || loadingMap} showShadow />
 
       <Box flex={2}>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={{ flex: 2 }}
-          initialRegion={geolocation?.toString() != '' ? positionCep : position}
-        >
-          <Marker
-            coordinate={geolocation?.toString() != '' ? positionCep : position}
+        {position &&
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={{ flex: 2 }}
+            initialRegion={position}
           >
-            {/* Posição do usuário */}
-            <Box>
-              <Image
-                height={40}
-                source={images.pinYou}
-                resizeMode={'contain'}
-              />
-            </Box>
-          </Marker>
-          {markers?.map((marker, index) => (
-            <Marker key={index} coordinate={marker}>
-              <Image
-                height={40}
-                source={images.localReserva}
-                resizeMode={'contain'}
-              />
+            <Marker
+              coordinate={{ latitude: position?.latitude, longitude: position?.longitude }}
+            >
+              {/* Posição do usuário */}
+              <Box>
+                <Image
+                  height={40}
+                  source={images.pinYou}
+                  resizeMode={'contain'}
+                />
+              </Box>
             </Marker>
-          ))}
-        </MapView>
+            {orderForm?.shippingData.pickupPoints.map((coordinate, index) => {
+              const [longitude, latitude] = coordinate.address.geoCoordinates
+              return (
+                <Marker key={index} coordinate={{ latitude: latitude, longitude: longitude }}>
+                  <Image
+                    height={40}
+                    source={images.localReserva}
+                    resizeMode={'contain'}
+                  />
+                </Marker>
+              )
+            })}
+          </MapView>
+        }
         <Box position={'absolute'} right={20} bottom={20}>
           <Button
             height={40}

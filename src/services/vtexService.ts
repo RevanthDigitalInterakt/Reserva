@@ -315,6 +315,12 @@ const SendUserEmail = async (
   const response = await vtexConfig4.get(`/contactlist/${email}/true/newsletter/reserva`);
   return response;
 }
+const ConvertZipCode = async (
+  postalCode?: string,
+) => {
+  const response = await vtexConfig3.get(`/api/checkout/pub/postal-code/BRA/${postalCode}`);
+  return response;
+}
 
 export {
   CreateCart,
@@ -337,5 +343,6 @@ export {
   addToSellerCoupon,
   removeSellerCouponToOder,
   ResetUserCheckout,
-  SendUserEmail
+  SendUserEmail,
+  ConvertZipCode
 };
