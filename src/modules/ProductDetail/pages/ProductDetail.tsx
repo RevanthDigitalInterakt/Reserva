@@ -519,7 +519,7 @@ export const ProductDetail: React.FC<Props> = ({
         />
         <TopBarDefaultBackButton loading={loading} />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={{ marginBottom: 100 }}
         >
           <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
