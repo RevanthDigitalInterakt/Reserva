@@ -89,6 +89,7 @@ export const WithdrawInStore = () => {
             </Box>
             <Box>
               <Button
+                height={60}
                 disabled={!activateMapButton()}
                 onPress={() => navigation.navigate('MapScreen', { geolocation: cep })}
                 title="MAPA"

@@ -24,7 +24,8 @@ import {
   addToSellerCoupon,
   removeSellerCouponToOder,
   ResetUserCheckout,
-  SendUserEmail
+  SendUserEmail,
+  ConvertZipCode
 } from "../services/vtexService";
 
 interface ClientPreferencesData {
@@ -89,6 +90,7 @@ interface Address {
   number: string;
   neighborhood: string;
   complement: string;
+  geoCoordinates: number[];
   reference: any;
 }
 
@@ -291,6 +293,7 @@ interface CartContextProps {
   removeCoupon: (coupon: string) => Promise<boolean | undefined>;
   removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   sendUserEmail: (email: string) => Promise<boolean | undefined>;
+  convertZipCode: (postalCode: string) => Promise<Address | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -319,13 +322,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         itemId,
         seller
       );
+      console.log('data', data)
       // check produt availability
       const index = data.items.findIndex(({ id }: any) => id === itemId);
       const product = data.items[index];
       if (product.availability !== "available") {
         const productRemoved = await removeUnavailableProduct(
           product.id,
-          index
+          index,
+          seller
         );
 
         if (productRemoved) return { message: "O produto não está disponível" };
@@ -538,6 +543,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
+  const convertZipCode = async (postalCode: string) => {
+    try {
+      const { data } = await ConvertZipCode(postalCode);
+      return data;
+    } catch (error) {
+      console.log("error", error.response.data);
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -555,7 +569,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         removeCoupon,
         removeSellerCoupon,
         resetUserCheckout,
-        sendUserEmail
+        sendUserEmail,
+        convertZipCode
       }}
     >
       {children}
@@ -587,7 +602,8 @@ export const useCart = () => {
     removeCoupon,
     removeSellerCoupon,
     resetUserCheckout,
-    sendUserEmail
+    sendUserEmail,
+    convertZipCode
   } = cartContext;
   return {
     orderForm,
@@ -604,6 +620,7 @@ export const useCart = () => {
     removeCoupon,
     removeSellerCoupon,
     resetUserCheckout,
-    sendUserEmail
+    sendUserEmail,
+    convertZipCode
   };
 };

@@ -246,7 +246,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     if (itemsSKU.length > 0) {
-      
+
       setImageSelected(
         itemsSKU
           .map(p => p.color === selectedColor && p.images)
@@ -433,7 +433,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSizeList = ({ skuSpecifications }: Product) =>
     skuSpecifications
-      .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho' )
+      .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho')
       ?.values.map(({ name }) => name);
 
   const getImagesPerColor = ({ items }: Product, color: string) => {
@@ -502,6 +502,11 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }, [shippingData]);
 
+  const getSaleOff = (salOff) => {
+    const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
+    if (idImage) return images.saleOff
+  }
+
   return (
     <SafeAreaView>
 
@@ -514,7 +519,7 @@ export const ProductDetail: React.FC<Props> = ({
         />
         <TopBarDefaultBackButton loading={loading} />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={{ marginBottom: 100 }}
         >
           <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
@@ -545,9 +550,7 @@ export const ProductDetail: React.FC<Props> = ({
                       product.priceRange.listPrice.lowPrice
                     ) || 0
                   }
-                  saleOff={
-                    product.clusterHighlights
-                    && product.clusterHighlights.length > 0 && images.saleOff}
+                  saleOff={getSaleOff(product)}
                 />
 
                 {/* COLORS SECTION */}
@@ -595,7 +598,7 @@ export const ProductDetail: React.FC<Props> = ({
                         size={38}
                         fontSize={14}
                         disbledOptions={unavailableSizes ? unavailableSizes : []}
-                        onSelectedChange={(item) => {                          
+                        onSelectedChange={(item) => {
                           setSelectedSize(item);
                         }}
                         optionsList={sizeFilters || []}
