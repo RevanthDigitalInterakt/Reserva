@@ -112,14 +112,14 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 navigation.navigate('ListCards');
               }}
             /> */}
-            <ItemList
+            {/* <ItemList
               title={'Meus créditos'}
               descr={'Visualize seus créditos e cashbacks'}
               icon={'Card'}
               onPress={() => {
                 navigation.navigate('Credits');
               }}
-            />
+            /> */}
 
             <ItemList
               title={"Meus endereços"}
