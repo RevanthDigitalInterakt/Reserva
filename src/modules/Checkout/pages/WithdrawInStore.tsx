@@ -98,7 +98,7 @@ export const WithdrawInStore = () => {
             </Box>
           </Box>
 
-          <Box mt="sm">
+          {/* <Box mt="sm">
             <Typography variant={'tituloSessao'}>
               Ou selecione seu estado e cidade:
             </Typography>
@@ -173,7 +173,7 @@ export const WithdrawInStore = () => {
                 </Button>
               </Box>
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </ScrollView>
 
