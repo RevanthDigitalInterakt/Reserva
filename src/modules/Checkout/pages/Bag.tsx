@@ -671,8 +671,8 @@ export const BagScreen = () => {
                 )}
 
                 <Divider variant={"fullWidth"} marginY={"xs"} />
-                {totalDiscountPrice != 0 && (
-                  <>
+                <>
+                  {totalDiscountPrice != 0 || totalDelivery ?
                     <Box
                       marginBottom={"micro"}
                       flexDirection={"row"}
@@ -687,6 +687,9 @@ export const BagScreen = () => {
                         num={totalBag}
                       />
                     </Box>
+                    : null
+                  }
+                  {totalDiscountPrice != 0 &&
                     <Box
                       marginBottom={"micro"}
                       flexDirection={"row"}
@@ -703,25 +706,26 @@ export const BagScreen = () => {
                         num={Math.abs(totalDiscountPrice)}
                       />
                     </Box>
-                    {totalDelivery > 0 &&
-                      <Box
-                        marginBottom={"micro"}
-                        flexDirection={"row"}
-                        justifyContent={"space-between"}
-                        alignItems={"center"}
-                      >
-                        <Typography variant={"precoAntigo3"}>Entrega</Typography>
+                  }
+                  {totalDelivery > 0 &&
+                    <Box
+                      marginBottom={"micro"}
+                      flexDirection={"row"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Typography variant={"precoAntigo3"}>Entrega</Typography>
 
-                        <PriceCustom
-                          fontFamily={"nunitoSemiBold"}
-                          sizeInterger={15}
-                          sizeDecimal={11}
-                          num={Math.abs(totalDelivery)}
-                        />
-                      </Box>
-                    }
-                  </>
-                )}
+                      <PriceCustom
+                        fontFamily={"nunitoSemiBold"}
+                        sizeInterger={15}
+                        sizeDecimal={11}
+                        num={Math.abs(totalDelivery)}
+                      />
+                    </Box>
+                  }
+                </>
+
                 <Box
                   marginBottom={"micro"}
                   flexDirection={"row"}
