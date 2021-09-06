@@ -7257,7 +7257,7 @@ react-native-credit-card-input-view@^0.0.7:
     prop-types "^15.7.2"
     react-native-flip-card-plus "^1.0.4"
 
-react-native-device-info@^8.1.2:
+react-native-device-info@^8.3.1:
   version "8.3.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-device-info/-/react-native-device-info-8.3.1.tgz#f32cbb22a74e51b05b896c03649fcbfd0a0da513"
   integrity sha1-8yy7IqdOUbBbiWwDZJ/L/QoNpRM=
