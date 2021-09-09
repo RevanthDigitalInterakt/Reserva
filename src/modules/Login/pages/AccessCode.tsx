@@ -58,22 +58,14 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-      setShowError(false);
-      getProfile()
+        setShowError(false);
+        navigation.navigate('Home');
       });
     }
     if(data?.accessKeySignIn === "WrongCredentials"){
       setShowError(true);
     }
   }, [data]);
-
-  useEffect(() => {    
-    if (profileData) {
-      AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email).then(() => {
-        navigation.navigate('Home');
-      })
-    }
-  }, [profileData])
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>

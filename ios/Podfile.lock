@@ -1,8 +1,12 @@
 PODS:
+  - AppsFlyerFramework (6.3.5):
+    - AppsFlyerFramework/Main (= 6.3.5)
+  - AppsFlyerFramework/Main (6.3.5)
   - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
   - CardScan (2.0.9)
-  - CodePush (7.0.1):
+  - CocoaAsyncSocket (7.6.5)
+  - CodePush (7.0.2):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.12)
     - React-Core
@@ -16,6 +20,66 @@ PODS:
     - React-Core (= 0.64.0)
     - React-jsi (= 0.64.0)
     - ReactCommon/turbomodule/core (= 0.64.0)
+  - Flipper (0.105.0):
+    - Flipper-Folly (~> 2.6)
+    - Flipper-RSocket (~> 1.4)
+  - Flipper-Boost-iOSX (1.76.0.1.11)
+  - Flipper-DoubleConversion (1.1.7)
+  - Flipper-Fmt (7.1.7)
+  - Flipper-Folly (2.6.9):
+    - Flipper-Boost-iOSX
+    - Flipper-DoubleConversion
+    - Flipper-Fmt (= 7.1.7)
+    - Flipper-Glog
+    - libevent (~> 2.1.12)
+    - OpenSSL-Universal (= 1.1.1100)
+  - Flipper-Glog (0.3.6)
+  - Flipper-PeerTalk (0.0.4)
+  - Flipper-RSocket (1.4.3):
+    - Flipper-Folly (~> 2.6)
+  - FlipperKit (0.105.0):
+    - FlipperKit/Core (= 0.105.0)
+  - FlipperKit/Core (0.105.0):
+    - Flipper (~> 0.105.0)
+    - FlipperKit/CppBridge
+    - FlipperKit/FBCxxFollyDynamicConvert
+    - FlipperKit/FBDefines
+    - FlipperKit/FKPortForwarding
+  - FlipperKit/CppBridge (0.105.0):
+    - Flipper (~> 0.105.0)
+  - FlipperKit/FBCxxFollyDynamicConvert (0.105.0):
+    - Flipper-Folly (~> 2.6)
+  - FlipperKit/FBDefines (0.105.0)
+  - FlipperKit/FKPortForwarding (0.105.0):
+    - CocoaAsyncSocket (~> 7.6)
+    - Flipper-PeerTalk (~> 0.0.4)
+  - FlipperKit/FlipperKitHighlightOverlay (0.105.0)
+  - FlipperKit/FlipperKitLayoutHelpers (0.105.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitHighlightOverlay
+    - FlipperKit/FlipperKitLayoutTextSearchable
+  - FlipperKit/FlipperKitLayoutIOSDescriptors (0.105.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitHighlightOverlay
+    - FlipperKit/FlipperKitLayoutHelpers
+    - YogaKit (~> 1.18)
+  - FlipperKit/FlipperKitLayoutPlugin (0.105.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitHighlightOverlay
+    - FlipperKit/FlipperKitLayoutHelpers
+    - FlipperKit/FlipperKitLayoutIOSDescriptors
+    - FlipperKit/FlipperKitLayoutTextSearchable
+    - YogaKit (~> 1.18)
+  - FlipperKit/FlipperKitLayoutTextSearchable (0.105.0)
+  - FlipperKit/FlipperKitNetworkPlugin (0.105.0):
+    - FlipperKit/Core
+  - FlipperKit/FlipperKitReactPlugin (0.105.0):
+    - FlipperKit/Core
+  - FlipperKit/FlipperKitUserDefaultsPlugin (0.105.0):
+    - FlipperKit/Core
+  - FlipperKit/SKIOSNetworkPlugin (0.105.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitNetworkPlugin
   - glog (0.3.5)
   - Google-Maps-iOS-Utils (2.1.0):
     - Google-Maps-iOS-Utils/Clustering (= 2.1.0)
@@ -40,12 +104,14 @@ PODS:
     - GoogleMaps/Base
   - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
+  - libevent (2.1.12)
   - lottie-ios (3.2.3)
   - lottie-react-native (4.0.3):
     - lottie-ios (~> 3.2.3)
     - React-Core
   - OneSignal (3.6.1)
   - OneSignalXCFramework (3.6.1)
+  - OpenSSL-Universal (1.1.1100)
   - Permission-LocationAlways (3.0.5):
     - RNPermissions
   - Permission-LocationWhenInUse (3.0.5):
@@ -243,9 +309,14 @@ PODS:
     - React-jsi (= 0.64.0)
     - React-perflogger (= 0.64.0)
   - React-jsinspector (0.64.0)
+  - react-native-appsflyer (6.3.50):
+    - AppsFlyerFramework (= 6.3.5)
+    - React
   - react-native-cardscan (1.1.30):
     - CardScan (~> 2.0.9)
     - React
+  - react-native-flipper (0.104.0):
+    - React-Core
   - react-native-geolocation (2.0.2):
     - React
   - react-native-google-maps (0.28.0):
@@ -259,7 +330,7 @@ PODS:
   - react-native-onesignal (4.3.0):
     - OneSignalXCFramework (= 3.6.1)
     - React (< 1.0.0, >= 0.13.0)
-  - react-native-safe-area-context (3.3.0):
+  - react-native-safe-area-context (3.3.1):
     - React-Core
   - react-native-splash-screen (3.2.0):
     - React
@@ -385,6 +456,8 @@ PODS:
   - Sentry/Core (7.1.4)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
+  - YogaKit (1.18.1):
+    - Yoga (~> 1.14)
 
 DEPENDENCIES:
   - CardScan
@@ -392,6 +465,25 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - Flipper (= 0.105.0)
+  - Flipper-DoubleConversion (= 1.1.7)
+  - Flipper-Folly (~> 2.5)
+  - Flipper-Glog (= 0.3.6)
+  - Flipper-PeerTalk (~> 0.0.4)
+  - Flipper-RSocket (~> 1.3)
+  - FlipperKit (= 0.105.0)
+  - FlipperKit/Core (= 0.105.0)
+  - FlipperKit/CppBridge (= 0.105.0)
+  - FlipperKit/FBCxxFollyDynamicConvert (= 0.105.0)
+  - FlipperKit/FBDefines (= 0.105.0)
+  - FlipperKit/FKPortForwarding (= 0.105.0)
+  - FlipperKit/FlipperKitHighlightOverlay (= 0.105.0)
+  - FlipperKit/FlipperKitLayoutPlugin (= 0.105.0)
+  - FlipperKit/FlipperKitLayoutTextSearchable (= 0.105.0)
+  - FlipperKit/FlipperKitNetworkPlugin (= 0.105.0)
+  - FlipperKit/FlipperKitReactPlugin (= 0.105.0)
+  - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.105.0)
+  - FlipperKit/SKIOSNetworkPlugin (= 0.105.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
@@ -411,7 +503,9 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
   - react-native-cardscan (from `../node_modules/react-native-cardscan/react-native-cardscan.podspec`)
+  - react-native-flipper (from `../node_modules/react-native-flipper`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -447,16 +541,30 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppsFlyerFramework
     - Base64
     - boost-for-react-native
     - CardScan
+    - CocoaAsyncSocket
+    - Flipper
+    - Flipper-Boost-iOSX
+    - Flipper-DoubleConversion
+    - Flipper-Fmt
+    - Flipper-Folly
+    - Flipper-Glog
+    - Flipper-PeerTalk
+    - Flipper-RSocket
+    - FlipperKit
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - JWT
+    - libevent
     - OneSignal
     - OneSignalXCFramework
+    - OpenSSL-Universal
     - Sentry
     - SSZipArchive
+    - YogaKit
 
 EXTERNAL SOURCES:
   CodePush:
@@ -499,8 +607,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-appsflyer:
+    :path: "../node_modules/react-native-appsflyer"
   react-native-cardscan:
     :path: "../node_modules/react-native-cardscan/react-native-cardscan.podspec"
+  react-native-flipper:
+    :path: "../node_modules/react-native-flipper"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-google-maps:
@@ -567,21 +679,34 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppsFlyerFramework: fa7e2e8234e6d285256bcb948eb2b77aee84ba81
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CardScan: 2f7a3b39a37c0e2c67a9502b3a61a59f007c0710
-  CodePush: 9bb93f52a44ee80b72739d89dead9c7e86c3bd3a
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  CodePush: 71915cd671d09614848cd5515f71d9cb4e88b3f7
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
   FBReactNativeSpec: 4bc4b20ce82ebfd8458333f258b5e952cef7738d
+  Flipper: 661539922ab3878f6cc78356be4fdcbd8b60563b
+  Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
+  Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
+  Flipper-Fmt: 60cbdd92fc254826e61d669a5d87ef7015396a9b
+  Flipper-Folly: 4c7cf530a9038ae25b0fa37e00b00491c467aaea
+  Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
+  Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
+  Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
+  FlipperKit: 059e4269afdca0ba6bb41314bfd2d621c0dece8d
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
+  libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: 96361a9891cf651534ea35c4f85f33d4cf14ed13
   OneSignal: ce8d6dd77450aa653dc2f6a22f3372570030260a
   OneSignalXCFramework: 674dd48705d0e1842a7c950177ae7569dbfc261c
+  OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-LocationAlways: 0704c3bcce11f98f8d6ddf34c49c65893ec64b09
   Permission-LocationWhenInUse: e1168a583654f1d2d34d3a18c4c6518ce409ad2a
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
@@ -595,13 +720,15 @@ SPEC CHECKSUMS:
   React-jsi: 74341196d9547cbcbcfa4b3bbbf03af56431d5a1
   React-jsiexecutor: 06a9c77b56902ae7ffcdd7a4905f664adc5d237b
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
+  react-native-appsflyer: becd1233abeb7ecfbade87b17aca152033554f83
   react-native-cardscan: 8592ae8d474e4b1254ea7a4968caa00e559c8677
+  react-native-flipper: 58bc8d50ff7b97cc461cdaf3639fa7f076dbfa76
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-google-maps: 46dea4aa4acb7300beff508f64d9f8c84e9fb106
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
   react-native-netinfo: 7cb7877ff31ebeb3d03ce0b4fbb616f121ddd859
   react-native-onesignal: f829833463ec574cad5e83d1a3e3eed607a3bc3c
-  react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
+  react-native-safe-area-context: ca9f3b49266e56b1d841ccdde7cfe2e076f529b6
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
@@ -630,7 +757,8 @@ SPEC CHECKSUMS:
   Sentry: 1d3eb1a25f8c5333c88dd5603904a6d461cd9fcf
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
+  YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 292343a13fee21e5389e665edfd85f4eec19c463
+PODFILE CHECKSUM: 65c3793e218a864aa0ce50ece301e44057db7576
 
 COCOAPODS: 1.10.1

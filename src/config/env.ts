@@ -5,6 +5,10 @@ const dev = {
   BASE_URL_IMAGE: 'https://www.usereserva.com',
   BASE_URL_COLLECTION_IMAGE:
     'https://www.usereserva.com/ccstore/v1/images/?source=/file',
+  APPSFLYER: {
+    DEV_KEY: "t2ftFUHavfa3SdZbztC6EK",
+    APP_ID: "1566861458"
+  }
 };
 
 const production: typeof dev = {
@@ -16,6 +20,10 @@ const production: typeof dev = {
     BASE_URL_IMAGE: 'https://www.usereserva.com',
     BASE_URL_COLLECTION_IMAGE:
       'https://www.usereserva.com/ccstore/v1/images/?source=/file',
+    APPSFLYER: {
+      DEV_KEY: "t2ftFUHavfa3SdZbztC6EK",
+      APP_ID: "1566861458"
+    }
   },
 };
 

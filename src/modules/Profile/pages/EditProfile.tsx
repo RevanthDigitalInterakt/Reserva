@@ -193,21 +193,14 @@ export const EditProfile: React.FC<{
 
               <Box mb={"xxs"}>
                 <TextField
+                  style={{ color: "#8A8C8E" }}
+                  editable={false}
                   label={"Digite seu e-mail"}
                   value={userData.email}
+
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ email: text } });
                   }}
-                  iconRight={
-                    <Box ml="nano">
-                      <Icon
-                        color="preto"
-                        name="Check"
-                        size={18}
-                        marginX="micro"
-                      ></Icon>
-                    </Box>
-                  }
                 />
               </Box>
 
