@@ -246,6 +246,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     if (itemsSKU.length > 0) {
+
       setImageSelected(
         itemsSKU
           .map(p => p.color === selectedColor && p.images)
@@ -286,7 +287,7 @@ export const ProductDetail: React.FC<Props> = ({
       const sizeColorSkuVariations = items.flatMap((i) => {
         const variants = i.variations
           ?.map((v) => {
-            if (['VALOR_HEX_ORIGINAL', 'TAMANHO'].includes(v.name)) return v;
+            if (['VALOR_HEX_ORIGINAL', 'Tamanho'].includes(v.name)) return v;
           })
           .filter((a) => a !== undefined);
 
@@ -299,7 +300,7 @@ export const ProductDetail: React.FC<Props> = ({
       if (sizeColorSkuVariations) {
         const selectedSkuVariations: Facets[] = [
           {
-            name: 'TAMANHO',
+            name: 'Tamanho',
             originalName: null,
             values: [selectedSize],
           },
@@ -432,7 +433,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSizeList = ({ skuSpecifications }: Product) =>
     skuSpecifications
-      .find(({ field }) => field.name === 'TAMANHO')
+      .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho')
       ?.values.map(({ name }) => name);
 
   const getImagesPerColor = ({ items }: Product, color: string) => {
@@ -459,7 +460,7 @@ export const ProductDetail: React.FC<Props> = ({
             if (v.values[0] === color) {
               return {
                 item,
-                size: item.variations?.filter(i => i.name === "Tamanho")[0].values[0],
+                size: item.variations?.filter(i => i.name === "TAMANHO" || i.name === "Tamanho")[0].values[0],
                 available: item.sellers[0].commertialOffer.AvailableQuantity > 0
               };
             }
@@ -501,6 +502,11 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }, [shippingData]);
 
+  const getSaleOff = (salOff) => {
+    const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
+    if (idImage) return images.saleOff
+  }
+
   return (
     <SafeAreaView>
 
@@ -513,7 +519,7 @@ export const ProductDetail: React.FC<Props> = ({
         />
         <TopBarDefaultBackButton loading={loading} />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={{ marginBottom: 100 }}
         >
           <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
@@ -544,9 +550,7 @@ export const ProductDetail: React.FC<Props> = ({
                       product.priceRange.listPrice.lowPrice
                     ) || 0
                   }
-                  saleOff={
-                    product.clusterHighlights
-                    && product.clusterHighlights.length > 0 && images.saleOff}
+                  saleOff={getSaleOff(product)}
                 />
 
                 {/* COLORS SECTION */}

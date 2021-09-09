@@ -52,10 +52,8 @@ const Delivery: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    if (cookie != null) {
-      requestMap();
-    }
-  }, [cookie])
+    requestMap();
+  }, [])
 
 
   useEffect(() => {

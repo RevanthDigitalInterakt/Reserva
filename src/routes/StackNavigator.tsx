@@ -135,25 +135,25 @@ export type RootStackParamList = {
   CreateCartProfile: {};
   NewCard: { isCheckout: boolean };
   NearbyStores: { UF: string };
-  MapScreen: { geolocation: number; locationPermission: boolean };
+  MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | "PIX"
-      | "Credit"
-      | "Debit"
-      | "Boleto"
-      | "GiftCard"
-      | "Cashback";
+    | "PIX"
+    | "Credit"
+    | "Debit"
+    | "Boleto"
+    | "GiftCard"
+    | "Cashback";
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | "PIX"
-      | "Credit"
-      | "Debit"
-      | "Boleto"
-      | "GiftCard"
-      | "Cashback";
+    | "PIX"
+    | "Credit"
+    | "Debit"
+    | "Boleto"
+    | "GiftCard"
+    | "Cashback";
   };
   PixScreen: {
     cashback: boolean;

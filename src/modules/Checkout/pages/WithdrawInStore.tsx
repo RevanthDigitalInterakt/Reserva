@@ -89,6 +89,7 @@ export const WithdrawInStore = () => {
             </Box>
             <Box>
               <Button
+                height={60}
                 disabled={!activateMapButton()}
                 onPress={() => navigation.navigate('MapScreen', { geolocation: cep })}
                 title="MAPA"
@@ -97,7 +98,7 @@ export const WithdrawInStore = () => {
             </Box>
           </Box>
 
-          <Box mt="sm">
+          {/* <Box mt="sm">
             <Typography variant={'tituloSessao'}>
               Ou selecione seu estado e cidade:
             </Typography>
@@ -172,7 +173,7 @@ export const WithdrawInStore = () => {
                 </Button>
               </Box>
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </ScrollView>
 

@@ -41,6 +41,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { EmptyBag } from "../components/EmptyBag";
 import Modal from "react-native-modal";
 import { getPercent } from "../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts";
+import { ModalBook } from "../components/ModalBook";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -56,9 +57,11 @@ export const BagScreen = () => {
     identifyCustomer,
     addSellerCoupon,
     removeCoupon,
-    removeSellerCoupon,
-    resetUserCheckout
+    removeSellerCoupon
   } = useCart();
+
+  const [isVisibleModalBook, setIsVisibleModalBook] = useState(false)
+  const [WasBookOffered, setWasBookOffered] = useState(false)
   const [loading, setLoading] = useState(false)
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
@@ -67,6 +70,7 @@ export const BagScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<{ id: string, index: number, seller: string, quantity: number } | undefined>();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
+  const [totalDelivery, setTotalDelivery] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
   const [sellerCoupon, setSellerCoupon] = React.useState<string>("");
@@ -99,6 +103,7 @@ export const BagScreen = () => {
 
   const setCustomer = async (email: string) => await identifyCustomer(email)
 
+
   useEffect(() => {
     firstLoadOrderForm();
     if (orderForm) {
@@ -120,7 +125,9 @@ export const BagScreen = () => {
     const totalDiscountPrice =
       (orderForm?.totalizers.find((x) => x.id === "Discounts")?.value || 0) /
       100;
-
+    const totalDelivery =
+      (orderForm?.totalizers.find((x) => x.id === "Shipping")?.value || 0) /
+      100;
 
     const errorMessages = orderForm?.messages.map(({ text }: any) => text)
     setErrorsMessages(errorMessages)
@@ -151,6 +158,7 @@ export const BagScreen = () => {
 
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
+    setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
   }, [orderForm]);
 
@@ -178,20 +186,25 @@ export const BagScreen = () => {
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
-    if (orderForm) {
-      const { clientProfileData, shippingData } = orderForm;
-      const hasCustomer =
-        clientProfileData &&
-        clientProfileData.email &&
-        clientProfileData.firstName;
+    if (!WasBookOffered) {
+      setIsVisibleModalBook(true)
+    } else {
 
-      const hasAddress =
-        shippingData && shippingData.availableAddresses.length > 0;
+      if (orderForm) {
+        const { clientProfileData, shippingData } = orderForm;
+        const hasCustomer =
+          clientProfileData &&
+          clientProfileData.email &&
+          clientProfileData.firstName;
 
-      if (!email) {
-        navigate("EnterYourEmail");
-      } else {
-        navigate("DeliveryScreen");
+        const hasAddress =
+          shippingData && shippingData.availableAddresses.length > 0;
+
+        if (!email) {
+          navigate("EnterYourEmail");
+        } else {
+          navigate("DeliveryScreen");
+        }
       }
     }
   };
@@ -212,6 +225,12 @@ export const BagScreen = () => {
         backgroundColor: "#FFFFFF",
       }}
     >
+      <ModalBook
+        isVisible={isVisibleModalBook}
+        onClose={() => {
+          setIsVisibleModalBook(false)
+          setWasBookOffered(true)
+        }} />
       <TopBarBackButton showShadow loading={loading} />
       {loading ?
         <Box >
@@ -652,8 +671,8 @@ export const BagScreen = () => {
                 )}
 
                 <Divider variant={"fullWidth"} marginY={"xs"} />
-                {totalDiscountPrice != 0 && (
-                  <>
+                <>
+                  {totalDiscountPrice != 0 || totalDelivery ?
                     <Box
                       marginBottom={"micro"}
                       flexDirection={"row"}
@@ -668,6 +687,9 @@ export const BagScreen = () => {
                         num={totalBag}
                       />
                     </Box>
+                    : null
+                  }
+                  {totalDiscountPrice != 0 &&
                     <Box
                       marginBottom={"micro"}
                       flexDirection={"row"}
@@ -684,8 +706,26 @@ export const BagScreen = () => {
                         num={Math.abs(totalDiscountPrice)}
                       />
                     </Box>
-                  </>
-                )}
+                  }
+                  {totalDelivery > 0 &&
+                    <Box
+                      marginBottom={"micro"}
+                      flexDirection={"row"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Typography variant={"precoAntigo3"}>Entrega</Typography>
+
+                      <PriceCustom
+                        fontFamily={"nunitoSemiBold"}
+                        sizeInterger={15}
+                        sizeDecimal={11}
+                        num={Math.abs(totalDelivery)}
+                      />
+                    </Box>
+                  }
+                </>
+
                 <Box
                   marginBottom={"micro"}
                   flexDirection={"row"}
@@ -697,7 +737,7 @@ export const BagScreen = () => {
                     fontFamily={"nunitoBold"}
                     sizeInterger={20}
                     sizeDecimal={11}
-                    num={totalBag + totalDiscountPrice}
+                    num={totalBag + totalDiscountPrice + totalDelivery}
                   />
                 </Box>
               </Box>
@@ -755,7 +795,7 @@ export const BagScreen = () => {
                   fontFamily={"nunitoBold"}
                   sizeInterger={15}
                   sizeDecimal={11}
-                  num={totalBag + totalDiscountPrice}
+                  num={totalBag + totalDiscountPrice + totalDelivery}
                 />
               </Box>
               {totalBag > 0 && (

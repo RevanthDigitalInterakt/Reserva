@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
-import { Typography, Box, Button, Icon } from 'reserva-ui';
+import { Typography, Box, Button, Icon, Divider } from 'reserva-ui';
 import { stringToReal } from '../../../utils/stringToReal';
 import { useState } from 'react';
 
@@ -71,13 +71,11 @@ const Order = ({ data }: IOrder) => {
         boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
         mt="xxxs"
         width={'100%'}
-        height={180}
+        minHeight={180}
         backgroundColor={'white'}
       >
         <Box
-          height={150}
-          borderBottomWidth="hairline"
-          borderColor={'backgroundMenuOpened'}
+          minHeight={138}
           paddingY={'micro'}
           paddingX={'micro'}
         >
@@ -144,10 +142,13 @@ const Order = ({ data }: IOrder) => {
             {` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}`}
           </Typography>
         </Box>
-
-        <Button pt={'xxxs'} backgroundColor={'white'} height={20} width={100}>
+        <Divider variant="fullWidth" mt="micro" />
+        <Box
+          alignItems="center"
+          pt={'micro'}
+        >
           <Icon name="ArrowDown" size={20} />
-        </Button>
+        </Box>
       </Box>
     </TouchableOpacity>
   );

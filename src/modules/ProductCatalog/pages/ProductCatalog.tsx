@@ -142,7 +142,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
       // COLOR
       const colorFacets = facets.filter(
-        ({ name }: any) => name === 'DESC_COR_CONSOLIDADA'
+        ({ name }: any) => name.toUpperCase() === 'COR' || name.toUpperCase() === 'DESC_COR_CONSOLIDADA'
       );
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
@@ -151,9 +151,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             value: ColorsToHexEnum[value],
           }))
           : [];
-
       // SIZE
-      const sizeFacets = facets.filter(({ name }: any) => name === 'TAMANHO');
+      const sizeFacets = facets.filter(({ name }: any) => name.toUpperCase() === 'TAMANHO' || name === 'Tamanho');
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
