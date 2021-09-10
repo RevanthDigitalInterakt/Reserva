@@ -3,12 +3,12 @@ import qs from 'qs';
 const unicoConfig = instance;
 
 const GenerateToken = async () => {
-    const data = qs.stringify({
-        'username': 'dev.reserva@unicosistemas.com.br',
-        'password': 'i3YpaQZHUX',
+    const dataUser = qs.stringify({
+        'username': 'app.reserva@usereserva.com',
+        'password': 'appreserva2021',
         'grant_type': 'password'
     });
-    const response = await unicoConfig.post(`/token`, data);
+    const response = await unicoConfig.post(`/token`, dataUser);
     return response;
 };
 

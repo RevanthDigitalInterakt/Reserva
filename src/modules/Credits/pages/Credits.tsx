@@ -2,28 +2,49 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
-import { Box, Button, Divider, Typography } from 'reserva-ui'
+import { Box, Divider, Typography } from 'reserva-ui'
 import { RootStackParamList } from '../../../routes/StackNavigator'
-import { ApplicationState } from '../../../store'
-import {
-    addCashback,
-    setCashback,
-    subCashback,
-} from '../../../store/ducks/cashback/actions'
+import { FetchCredit } from '../../../services/unicoService'
+import { useQuery } from "@apollo/client";
+import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
 import { PriceCustom } from '../../Checkout/components/PriceCustom'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
 
 type Props = StackScreenProps<RootStackParamList, 'Credits'>
 
 export const Credits: React.FC<Props> = ({ navigation, route }) => {
-    const [loading, setLoading] = useState(false)
-    const { cashback } = useSelector((state: ApplicationState) => state)
+    const { loading, error, data, refetch } = useQuery(profileQuery);
+    const [loadingCredit, setLoadingCredit] = useState(false)
+    const [profile, setProfile] = useState<ProfileVars>();
+    const [credit, SetCredit] = useState(0);
+
+    useEffect(() => {
+        if (data) {
+            const { profile } = data;
+            if (profile) {
+                const { profile } = data;
+                setProfile(profile);
+            }
+        }
+    }, [data]);
+
+    const fetchCredit = async () => {
+        setLoadingCredit(true)
+        if (profile) {
+            const { data } = await FetchCredit(profile.document)
+            SetCredit(data.BalanceValue)
+        }
+        setLoadingCredit(false)
+    }
+
+    useEffect(() => {
+        fetchCredit()
+    }, [profile])
 
     return (
         <SafeAreaView flex={1} backgroundColor='white'>
             <TopBarBackButton
-                loading={loading}
+                loading={loading || loadingCredit}
                 showShadow
                 backButtonPress={() => navigation.goBack()}
             />
@@ -43,7 +64,7 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
                         </Typography>
                         <PriceCustom
                             fontFamily='nunitoBold'
-                            num={cashback.value}
+                            num={credit}
                             sizeDecimal={13}
                             sizeInterger={20}
                         />

@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-const urlBase = 'https://www.unicocallback.com.br/';
+const urlProd = 'https://www.unicocallback.com.br/';
 
-const url = urlBase;
+const urlDev = 'https://unicostage.azurewebsites.net/';
+
+const url = urlDev;
 
 const headers = {
     Accept: 'application/json',

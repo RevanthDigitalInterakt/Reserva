@@ -156,7 +156,6 @@ const OrderList: React.FC<any> = ({ route }) => {
 
                 </Box>
               </Box>
-
             </>
           )}
 
