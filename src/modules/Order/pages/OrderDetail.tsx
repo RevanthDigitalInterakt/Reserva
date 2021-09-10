@@ -2,7 +2,8 @@ import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, Linking } from 'react-native';
+import { SafeAreaView, ScrollView, Linking, Platform } from 'react-native';
+import { useClipboard } from '@react-native-clipboard/clipboard';
 
 import {
   Typography,
@@ -31,6 +32,8 @@ const OrderList: React.FC<any> = ({ route }) => {
   const { cookie } = useAuth();
   const { tracking } = useCart();
   const [trackingDescription, setTrackingDescription] = useState<ITracking>();
+  const [copiedText, setCopiedText] = useClipboard();
+  const [clickedIcon, setClickedIcon] = useState(false);
 
   const deliveryTracking = async () => {
     if (cookie != null) {
@@ -48,6 +51,11 @@ const OrderList: React.FC<any> = ({ route }) => {
   useEffect(() => {
     console.log('trackingDescription', trackingDescription?.packageAttachment.packages[0]?.trackingUrl)
   }, [trackingDescription]);
+
+  useEffect(() => {
+    console.log('copiedTextsss', copiedText)
+  }, [copiedText]);
+
 
   const getDeliveryPreview = () => {
     const { shippingData } = order;
@@ -87,6 +95,15 @@ const OrderList: React.FC<any> = ({ route }) => {
     }
   };
 
+  const handleCopiedText = () => {
+    setClickedIcon(true)
+    if (trackingDescription) {
+      setCopiedText(trackingDescription?.packageAttachment?.packages[0].trackingNumber)
+
+    }
+    setTimeout(() => setClickedIcon(false), 1000);
+  }
+
   return (
     <>
       <SafeAreaView flex={1} backgroundColor={'white'}>
@@ -118,7 +135,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                   {getDeliveryPreview()}
                 </Typography>
                 <Typography
-                  style={{ marginBottom: 17 }}
+                  style={{ marginBottom: 5 }}
                   fontSize={14}
                   fontFamily="nunitoRegular"
                 >
@@ -128,33 +145,66 @@ const OrderList: React.FC<any> = ({ route }) => {
                   `}
                 </Typography>
 
-                <Box flexDirection="row">
-                  <Typography
-                    fontFamily="nunitoRegular"
-                    fontSize={13}
-                  >
-                    Código de rastreio:
+                {trackingDescription &&
+                  trackingDescription?.packageAttachment?.packages.length > 0 &&
+                  <>
 
-                  </Typography>
-                  <Box ml="quarck">
-                    <Typography
-                      fontFamily="nunitoExtraBold"
-                      fontSize={13}
-                    >
-                      E2501000
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box>
-                  <Typography
-                    fontFamily="nunitoRegular"
-                    fontSize={13}
-                    onPress={() => Linking.openURL('http://google.com')}
-                  >
-                    Ver rastreio no site da transportadora
-                  </Typography>
+                    <Box flexDirection="row">
+                      {clickedIcon &&
+                        <Box
+                          position="absolute"
+                          right={"30%"}
+                          bottom={30}
+                          bg="white"
+                          boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
+                          style={{ elevation: 5 }}
+                          width={107}
+                          height={30}
+                          alignItems="center"
+                          justifyContent="center"
+                          borderRadius="nano"
+                        >
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={13}>
+                            Código copiado!
+                          </Typography>
+                        </Box>
+                      }
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={13}
+                      >
+                        Código de rastreio:
 
-                </Box>
+                      </Typography>
+                      <Box ml="quarck">
+                        <Typography
+                          selectable={true}
+                          fontFamily="nunitoExtraBold"
+                          fontSize={13}
+                        >
+                          {trackingDescription?.packageAttachment?.packages[0].trackingNumber}
+                        </Typography>
+                      </Box>
+                      <Button ml="xxxs" onPress={() => handleCopiedText()}>
+                        <Icon name="Add" size={20} color="neutroFrio2" />
+                      </Button>
+                    </Box>
+
+                    <Box mt="micro" mb="xxs">
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={13}
+                        style={{ textDecorationLine: 'underline' }}
+                        onPress={() => Linking.openURL(trackingDescription?.packageAttachment?.packages[0]?.trackingUrl)}
+                      >
+                        Ver rastreio no site da transportadora
+                      </Typography>
+
+                    </Box>
+                  </>
+                }
               </Box>
             </>
           )}
