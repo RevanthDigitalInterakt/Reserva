@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, Linking } from 'react-native';
 
 import {
   Typography,
@@ -127,7 +127,36 @@ const OrderList: React.FC<any> = ({ route }) => {
                     ` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}
                   `}
                 </Typography>
+
+                <Box flexDirection="row">
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize={13}
+                  >
+                    Código de rastreio:
+
+                  </Typography>
+                  <Box ml="quarck">
+                    <Typography
+                      fontFamily="nunitoExtraBold"
+                      fontSize={13}
+                    >
+                      E2501000
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box>
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize={13}
+                    onPress={() => Linking.openURL('http://google.com')}
+                  >
+                    Ver rastreio no site da transportadora
+                  </Typography>
+
+                </Box>
               </Box>
+
             </>
           )}
 
