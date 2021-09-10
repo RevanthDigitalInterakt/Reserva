@@ -50,5 +50,13 @@ const instance4 = axios.create({
   },
 });
 
+const instance5 = axios.create({
+  baseURL: urlBase2,
+  timeout: 30000,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+});
 
-export { instance, url, urlBase, instance2, instance3, instance4 };
+export { instance, url, urlBase, instance2, instance3, instance4, instance5 };

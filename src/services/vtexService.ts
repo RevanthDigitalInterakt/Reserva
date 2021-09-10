@@ -1,12 +1,13 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
-import { instance, instance2, instance3, instance4 } from '../config/vtexConfig';
-
+import { instance, instance2, instance3, instance4, instance5 } from '../config/vtexConfig';
 
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
 const vtexConfig3 = instance3;
 const vtexConfig4 = instance4;
+const vtexConfig5 = instance5;
+
 
 const CreateCart = async () => {
   // cria o carrinho
@@ -322,6 +323,18 @@ const ConvertZipCode = async (
   return response;
 }
 
+const Tracking = async (
+  cookie: string,
+  order?: string,
+) => {
+  const response = await vtexConfig5.get(`/oms/user/orders/${order}`, {
+    headers: {
+      Cookie: cookie,
+    }
+  });
+  return response;
+}
+
 export {
   CreateCart,
   CreateSession,
@@ -344,5 +357,6 @@ export {
   removeSellerCouponToOder,
   ResetUserCheckout,
   SendUserEmail,
-  ConvertZipCode
+  ConvertZipCode,
+  Tracking
 };
