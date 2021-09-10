@@ -302,7 +302,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
           {isCheckout && addresses ? (
             <Box justifyContent="flex-end" >
               <Button
-                disabled={loading}
+                disabled={loading || !selectedAddress}
                 onPress={onGoToPayment}
                 title="FORMA DE PAGAMENTO"
                 variant="primarioEstreito"
