@@ -388,28 +388,28 @@ export const BagScreen = () => {
                   setShowModal(false);
                 }}
               />
-              <Box paddingX={"xxxs"} paddingY={"xxs"}>
-                <Box bg={"white"} marginTop={"xxs"}>
+              <Box paddingX="xxxs" paddingY="xxs">
+                <Box bg="white" marginTop="xxs">
                   <Typography variant="tituloSessoes">
                     Sacola ({orderForm?.items.length})
                   </Typography>
                 </Box>
                 {orderForm?.items.map((item, index, array) => (
-                  <Box key={index} bg={"white"} marginTop={"xxxs"}>
-                    {/* {item.priceTags.length > 0 && <Box>
+                  <Box key={index} bg="white" marginTop="xxxs">
+                    {item.priceTags.length > 0 && <Box paddingBottom="nano">
                       <Typography fontFamily='nunitoRegular' fontSize={11} color='verdeSucesso'>
-                        Desconto aplicado neste produto!
+                        Desconto de 1° compra aplicado neste produto!
                       </Typography>
                     </Box>}
                     {item.priceTags.length > 0 && <Box position='absolute' zIndex={5} top={84} right={21}>
                       <Typography color='verdeSucesso' fontFamily='nunitoRegular' fontSize={11}>
                         -R$ 50
                       </Typography>
-                    </Box>} */}
+                    </Box>}
                     <ProductHorizontalListCard
                       isBag
-                      // discountApi={item.priceTags.length > 0 ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
-                      // disableCounter={item.priceTags.length > 0 && array.length > 1}
+                      discountApi={item.priceTags.length > 0 ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
+                      disableCounter={item.priceTags.length > 0 && array.filter(x => x.uniqueId == item.uniqueId).length > 1}
                       currency={"R$"}
                       discountTag={
                         getPercent(
