@@ -167,7 +167,7 @@ const Delivery: React.FC<{}> = () => {
                   {orderForm?.shippingData?.address &&
                     <Box flex={2}>
                       <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
-                        Rua {orderForm?.shippingData?.address?.street} - {orderForm?.shippingData?.address?.neighborhood}
+                        {orderForm?.shippingData?.address?.street} - {orderForm?.shippingData?.address?.neighborhood}
                       </Typography>
                       <Box mt="quarck">
                         <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
