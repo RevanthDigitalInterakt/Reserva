@@ -271,6 +271,41 @@ interface PriceDefinition {
   sellingPrices: { value: number; quantity: number }[];
 }
 
+export interface ITracking {
+  packageAttachment: {
+    packages: {
+      items: {
+        itemIndex: number;
+        quantity: number;
+        price: number;
+        description: number;
+        unitMultiplier: number;
+      }[];
+      courier: string;
+      invoiceNumber: string;
+      invoiceValue: number;
+      invoiceUrl: string;
+      issuanceDate: string;
+      trackingNumber: string;
+      invoiceKey: string;
+      trackingUrl: string;
+      embeddedInvoice: string;
+      type: string;
+      courierStatus: {
+        status: string;
+        finished: boolean;
+        deliveredDate: string;
+        data: {
+          lastChange: string;
+          city: null;
+          state: null;
+          description: string;
+          createDate: string;
+        }[];
+      }
+    }[];
+  }
+}
 interface CartContextProps {
   orderForm: OrderForm | undefined;
   addItem: (
@@ -295,7 +330,7 @@ interface CartContextProps {
   removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   sendUserEmail: (email: string) => Promise<boolean | undefined>;
   convertZipCode: (postalCode: string) => Promise<Address | undefined>;
-  tracking: (cookie: string, order: string) => Promise<boolean | undefined>;
+  tracking: (cookie: string, order: string) => Promise<ITracking | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -555,10 +590,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   }
   const tracking = async (cookie: string, order: string) => {
     try {
-      // console.log('cookie', cookie)
-      // console.log('order', order)
       const { data } = await Tracking(cookie, order);
-      console.log('tracking', data)
       return data;
     } catch (error) {
       console.log("error", error.response.data);

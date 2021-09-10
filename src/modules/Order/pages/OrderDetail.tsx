@@ -13,6 +13,8 @@ import {
   Stepper,
   Image,
 } from 'reserva-ui';
+import { useAuth } from '../../../context/AuthContext';
+import { ITracking, useCart } from '../../../context/CartContext';
 import { orderQuery } from '../../../graphql/orders/ordersQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -26,6 +28,26 @@ type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation();
+  const { cookie } = useAuth();
+  const { tracking } = useCart();
+  const [trackingDescription, setTrackingDescription] = useState<ITracking>();
+
+  const deliveryTracking = async () => {
+    if (cookie != null) {
+      console.log('cookie', cookie)
+      const data = await tracking(cookie, order.orderId);
+      setTrackingDescription(data)
+      console.log('cookieData', data?.packageAttachment)
+    }
+  }
+
+  useEffect(() => {
+    deliveryTracking()
+  }, []);
+
+  useEffect(() => {
+    console.log('trackingDescription', trackingDescription?.packageAttachment.packages[0]?.trackingUrl)
+  }, [trackingDescription]);
 
   const getDeliveryPreview = () => {
     const { shippingData } = order;
