@@ -596,7 +596,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons
                         size={38}
-                        fontSize={14}
+                        fontSize={12}
                         disbledOptions={unavailableSizes ? unavailableSizes : []}
                         onSelectedChange={(item) => {
                           setSelectedSize(item);
