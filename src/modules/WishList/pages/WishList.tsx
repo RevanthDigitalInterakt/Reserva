@@ -1,35 +1,16 @@
-import React, { useDebugValue, useEffect, useState } from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
+import { useMutation, useQuery } from '@apollo/client'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { StackScreenProps } from '@react-navigation/stack'
+import React, { useEffect, useState } from 'react'
+import { FlatList } from 'react-native'
 import {
   Box,
-  Button,
-  ProductHorizontalListCard,
-  Typography,
-  Picker,
-  Icon,
+  Button, Icon, Picker, ProductHorizontalListCard,
+  Typography
 } from 'reserva-ui'
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
-import { images } from '../../../assets'
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton'
-import { WishListCategory } from './WishListCategory'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  removeWishlist,
-  setWishlist,
-} from '../../../store/ducks/wishlist/actions'
-import { ApplicationState } from '../../../store'
-import { FlatList } from 'react-native'
-import ItemList from '../../Profile/Components/ItemList'
-import { Product } from '../../../store/ducks/product/types'
-import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamList } from '../../../routes/StackNavigator'
-import wishListQueries from '../../../graphql/wishlist/wishList'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useAuth } from '../../../context/AuthContext'
-import { profileQuery } from '../../../store/ducks/profile/types'
-import { Alert } from 'react-native'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { paddingBottom } from 'styled-system'
+import wishListQueries from '../../../graphql/wishlist/wishList'
+import { RootStackParamList } from '../../../routes/StackNavigator'
 import { Skeleton } from '../../Checkout/components/Skeleton'
 import { TopBarDefault } from '../../Menu/components/TopBarDefault'
 
@@ -43,12 +24,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [wishIds, setWishIds] = useState<any[]>([])
   const [wishProducts, setWishProducts] = useState<any[]>([])
 
-  useEffect(() => {
-    console.log('wishIds', wishIds)
-  }, [wishIds])
+
+
   const { email, cookie } = useAuth()
 
-  const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST)
+  const [removeFromWishList, { loading: loadingIds }] = useMutation(wishListQueries.REMOVE_WISH_LIST)
 
   const { data: productIds, loading, error, refetch } = useQuery(wishListQueries.GET_WISH_LIST, {
     variables: {
@@ -65,11 +45,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   const handleFavorite = async (wishId: any) => {
     if (!!email) {
-
+      console.log(wishId)
       if (!!wishId) {
         await removeFromWishList({
           variables: {
-            id: wishId.id,
+            id: wishId,
             shopperId: email
           }
         })
@@ -81,7 +61,17 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    console.log('products', products)
+    console.log('wishIds', wishIds)
+    if (!!wishIds) {
+      const idArray = wishIds.map(x => x.productId.split('-')[0]) || []
+      refetchProducts(
+        { idArray }
+      )
+    }
+  }, [wishIds])
+
+  useEffect(() => {
+    console.log('productsddd', products)
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
       setWishProducts(products.productsByIdentifier)
   }, [products])
@@ -91,12 +81,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     console.log(email)
     setWishIds(productIds?.viewList.data)
     const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
+    console.log(idArray)
     if (!!idArray.length) {
       refetch()
 
-      refetchProducts(
-        { idArray }
-      )
+      // refetchProducts(
+      //   { idArray }
+      // )
     }
   }, [productIds])
 
@@ -203,7 +194,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       {/* <Box paddingX='xxxs'> */}
 
       {
-        loading || loadingProducts ?//|| wishProducts.length <= 0 ?
+        loading || loadingProducts || loadingIds ?//|| wishProducts.length <= 0 ?
           <Box>
             <Box paddingX='xxxs' paddingTop='md' mb={37}>
               <Typography variant='tituloSessoes'>Favoritos</Typography>
@@ -264,7 +255,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                 :
                 <Box flex={1} >
                   <FlatList
-                    data={wishProducts}
+                    data={wishIds}
                     keyExtractor={(item, index) => index.toString()}
                     style={{
                       paddingHorizontal: 16
@@ -275,38 +266,40 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       </Box>
                     }
                     renderItem={({ item }) => {
-                      const installments =
-                        item.items[0].sellers[0].commertialOffer.Installments;
-                      const installmentsNumber =
-                        installments.length > 0 ? installments[0].NumberOfInstallments : 1;
+                      const product = wishProducts.find(prod => prod.productId == item.productId)
+                      const productSku = product?.items.find(i => i.itemId == item.sku)
+
+                      const installments = productSku?.sellers[0].commertialOffer.Installments;
+
+                      const installmentsNumber = installments?.length > 0 ? installments[0].NumberOfInstallments : 1;
 
                       const installmentPrice =
-                        installments.length > 0
+                        !!installments && installments.length > 0
                           ? installments[0].Value
-                          : item.priceRange?.listPrice?.lowPrice;
+                          : product?.priceRange?.listPrice?.lowPrice;
 
-                      const wishId = wishIds?.find(x => x.productId == item.productId)
+                      // const wishId = wishIds?.find(x => x.productId == product?.productId)
 
                       return <Box marginBottom='xxxs' height={150}>
                         <ProductHorizontalListCard
                           isFavorited
                           itemColor={''}
                           ItemSize={''}
-                          productTitle={`${item.productName.slice(0, 30)}${item.productName.length > 30 ? '...' : ''
+                          productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
                             }`}
                           installmentsNumber={installmentsNumber}
                           installmentsPrice={installmentPrice}
-                          price={item.items[0].sellers[0].commertialOffer.Price}
-                          onClickFavorite={() => handleFavorite(wishId)}
+                          price={productSku?.sellers[0].commertialOffer.Price}
+                          onClickFavorite={() => handleFavorite(item.id)}
                           onClickBagButton={() => {
                             // navigation.navigate(')
-                            // console.log('item', item.items[0].variations[2].values[0])
+                            // console.log('item', productSku?.variations[2].values[0])
                             navigation.navigate('ProductDetail', {
-                              productId: item.productId,
-                              colorSelected: item.items[0].variations[2].values[0]
+                              productId: product?.productId,
+                              colorSelected: productSku?.variations[2].values[0]
                             })
                           }}
-                          imageSource={item.items[0].images[0].imageUrl
+                          imageSource={productSku?.images[0].imageUrl
                             // .replace("http", "https")
                             // .split("-55-55")
                             // .join("")
