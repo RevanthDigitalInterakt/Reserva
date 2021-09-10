@@ -117,7 +117,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
               descr={'Visualize seus créditos e cashbacks'}
               icon={'Card'}
               onPress={() => {
-                navigation.navigate('Cashback');
+                navigation.navigate('Credits');
               }}
             /> */}
 
