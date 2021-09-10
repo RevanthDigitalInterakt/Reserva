@@ -130,14 +130,23 @@ export const FilterModal = ({
   const loadMoreProducts = () => {
     const colors = selectedColors
       .map((color) => ({
-        key: "desc-cor-consolidada",
+        key: "cor",
         value: HexToColorsEnum[color],
       }))
       .filter(({ value }) => value !== undefined);
 
+    const sizes = selectedSize && [].concat(selectedSize);
+
     const filterRequestList = [
       // selectedSize && [selectedSize].flat(),
-      selectedSize && [].concat(selectedSize),
+      sizes.map((item: any) => {
+        if(item){
+          return {
+            key: 'tamanho',
+            value: item
+          }
+        }
+      }).filter((item: any) => item),
       [...new Set(colors)],
       filterList,
       selectedPriceRange.map(({ key, range }) => ({
@@ -145,6 +154,9 @@ export const FilterModal = ({
         value: `${range.from} TO ${range.to}`,
       })),
     ];
+
+    console.tron.log(filterRequestList);
+    
 
     // setFilterRequestList(filterRequestList.flat());
     setFilterRequestList([].concat(...filterRequestList));

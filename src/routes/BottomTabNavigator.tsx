@@ -86,6 +86,7 @@ export const Tabs = () => {
             safeArea: false,
             categoryId: "reserva-bazar-camisetas",
             label: 'Promoções',
+            referenceId: 'collection:371',
             facetInput: [
               {
                 key: "category-2",

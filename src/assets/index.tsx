@@ -18,6 +18,8 @@ export const images = {
   cardFront: require('./img/cardFront.png'),
   cardVerso: require('./img/cardVerso.png'),
 
+  modalLivro: require('./img/modal-livro.png'),
+
   helpSizeGuide1: require('./img/help-size-guide1.png'),
   helpSizeGuide2: require('./img/help-size-guide2.png'),
   helpSizeGuide3: require('./img/help-size-guide3.png'),
