@@ -114,18 +114,27 @@ const OrderList: React.FC<any> = ({ route }) => {
         >
           {order.status !== 'canceled' && (
             <>
-              <Box mb="xxxs" justifyContent="flex-start" paddingTop={'md'}>
-                <Typography variant={'tituloSessoes'}>
-                  Rastreamento de entrega
-                </Typography>
-              </Box>
-              {/* <Box paddingX="xxs" paddingY="xs">
-                <Stepper
-                  steps={['Pedido feito', 'Confirmação', 'Envio', 'Entrega']}
-                  actualStepIndex={2}
-                />
-              </Box> */}
+              {trackingDescription &&
+                trackingDescription?.packageAttachment?.packages.length > 0 &&
+                <>
 
+                  <Box mb="xxxs" justifyContent="flex-start" paddingTop={'md'}>
+                    <Typography variant={'tituloSessoes'}>
+                      Rastreamento de entrega
+                    </Typography>
+                  </Box>
+                  {/* {trackingDescription &&
+                    trackingDescription?.packageAttachment?.packages[0].courierStatus != null &&
+                    trackingDescription?.packageAttachment?.packages[0].courierStatus.data.length > 0 &&
+                    <Box paddingX="xxs" paddingY="xs">
+                      <Stepper
+                        steps={['Pedido Entregue a Transportadora', 'Confirmação', 'Envio', 'Entrega']}
+                        actualStepIndex={2}
+                      />
+                    </Box>
+                  } */}
+                </>
+              }
               <Box
                 marginY="micro"
                 borderBottomWidth={'hairline'}
@@ -188,7 +197,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                         </Typography>
                       </Box>
                       <Button ml="xxxs" onPress={() => handleCopiedText()}>
-                        <Icon name="Add" size={20} color="neutroFrio2" />
+                        <Icon name="Copy" size={20} color="neutroFrio2" />
                       </Button>
                     </Box>
 
