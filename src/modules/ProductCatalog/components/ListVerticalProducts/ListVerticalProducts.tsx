@@ -78,17 +78,20 @@ export const ListVerticalProducts = ({
   }
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
-    setLoadingFavorite([...loadingFavorite, item.productId])
+    const skuId = item.items[0].itemId
+    setLoadingFavorite([...loadingFavorite, skuId])
     const { productId, listId } = item
+    console.log('item', item)
     if (!!email) {
       if (favorite) {
         const { data } = await addWishList({
           variables: {
             shopperId: email,
-            productId: productId
+            productId: productId,
+            sku: skuId
           }
         })
-        setFavorites([...favorites, { productId, listId: data.addToList }])
+        setFavorites([...favorites, { productId, listId: data.addToList, sku: skuId }])
       } else {
 
         await removeWishList({
@@ -97,21 +100,21 @@ export const ListVerticalProducts = ({
             id: favorites.find(x => x.productId == productId).listId
           }
         })
-        setFavorites([...favorites.filter(x => x.productId != productId)])
+        setFavorites([...favorites.filter(x => x.sku != skuId)])
       }
       setLoading(false)
       await populateListWithFavorite()
     } else {
       navigation.navigate('Login', { comeFrom: 'Menu' })
     }
-    setLoadingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+    setLoadingFavorite([...loadingFavorite.filter(x => x != skuId)])
   }
 
   const populateWishlist = async () => {
     setSkip(true);
 
     const { data: { viewList: { data: wishlist } } } = await refetchWishlist({ shopperId: email })
-    setFavorites([...wishlist.map((x: any) => { return { productId: x.productId, listId: x.id } })])
+    setFavorites([...wishlist.map((x: any) => { return { productId: x.productId, listId: x.id, sku: x.sku } })])
 
   }
 
@@ -182,8 +185,8 @@ export const ListVerticalProducts = ({
                 mr={horizontal && "xxxs"}
               >
                 <ProductVerticalListCard
-                  loadingFavorite={!!loadingFavorite.find(x => x == item.productId)}
-                  isFavorited={!!favorites.find(x => x.productId == item.productId)}//item.isFavorite}
+                  loadingFavorite={!!loadingFavorite.find(x => x == item.items[0].itemId)}
+                  isFavorited={!!favorites.find(x => x.sku == item.items[0].itemId)}//item.isFavorite}
                   onClickFavorite={(isFavorite) => {
                     // setLoafingFavorite([...loadingFavorite, item.productId])
                     handleOnFavorite(isFavorite, item)

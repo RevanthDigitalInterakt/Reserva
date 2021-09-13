@@ -98,7 +98,7 @@ export const WithdrawInStore = () => {
             </Box>
           </Box>
 
-          <Box mt="sm">
+          {/* <Box mt="sm">
             <Typography variant={'tituloSessao'}>
               Ou selecione seu estado e cidade:
             </Typography>
@@ -173,11 +173,11 @@ export const WithdrawInStore = () => {
                 </Button>
               </Box>
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </ScrollView>
 
-      <Button
+      {/* <Button
         onPress={() => navigation.navigate('NearbyStores', { UF: state })}
         title="CONTINUAR"
         variant="primarioEstreito"
@@ -212,7 +212,7 @@ export const WithdrawInStore = () => {
         }) : []}
         onBackDropPress={() => setOpenCity(false)}
         title="Selecione a cidade"
-      />
+      /> */}
     </SafeAreaView>
   );
 };

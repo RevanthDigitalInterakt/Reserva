@@ -24,7 +24,7 @@ import { categoriesQuery, CategoryQuery } from '../../../store/ducks/categories/
 import { TopBarMenu } from '../components/TopBarMenu'
 import { profileQuery } from "../../../store/ducks/profile/types";
 import { useAuth } from '../../../context/AuthContext'
-
+import DeviceInfo from 'react-native-device-info';
 interface IBreadCrumbs {
   title: string
 }
@@ -356,6 +356,14 @@ export const Menu: React.FC<{}> = () => {
                 }}></FixedMenuItem>
             </Animatable.View>
           )}
+          <Box mt="xs" alignItems="center">
+            <Typography
+              color="neutroFrio2"
+              fontFamily="nunitoRegular"
+              fontSize={11}>
+              Versão {DeviceInfo.getVersion()}
+            </Typography>
+          </Box>
         </ScrollView>
       </Box>
     </SafeAreaView>

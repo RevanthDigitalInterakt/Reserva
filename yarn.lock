@@ -7223,6 +7223,11 @@ react-native-animatable@1.3.3, react-native-animatable@^1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-appsflyer@^6.3.50:
+  version "6.3.50"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-appsflyer/-/react-native-appsflyer-6.3.50.tgz#543654c9ae9e470e1dca66e720f9047debf48d3c"
+  integrity sha1-VDZUya6eRw4dymbnIPkEfev0jTw=
+
 react-native-cardscan@^1.1.30:
   version "1.1.30"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-cardscan/-/react-native-cardscan-1.1.30.tgz#34bff02a93815d07f784ebe86fc2fdc4412ca5ae"
@@ -7270,7 +7275,7 @@ react-native-credit-card-input-view@^0.0.7:
     prop-types "^15.7.2"
     react-native-flip-card-plus "^1.0.4"
 
-react-native-device-info@^8.1.2:
+react-native-device-info@^8.3.1:
   version "8.3.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-device-info/-/react-native-device-info-8.3.1.tgz#f32cbb22a74e51b05b896c03649fcbfd0a0da513"
   integrity sha1-8yy7IqdOUbBbiWwDZJ/L/QoNpRM=
@@ -7794,10 +7799,10 @@ requires-port@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reserva-ui@0.0.199:
-  version "0.0.199"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.199.tgz#681635b43e51850db56cc96aabe3bc249e607148"
-  integrity sha1-aBY1tD5RhQ21bMlqq+O8JJ5gcUg=
+reserva-ui@0.0.200:
+  version "0.0.200"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.200.tgz#7a6abe1e6ac7c6d580b88741f8a89e9986e6e3e4"
+  integrity sha1-emq+HmrHxtWAuIdB+KiemYbm4+Q=
   dependencies:
     lottie-react-native "^4.0.3"
 
