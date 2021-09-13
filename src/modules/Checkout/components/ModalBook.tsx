@@ -43,7 +43,6 @@ export const ModalBook: React.FC<ModalBookProps> = ({ isVisible, onAddBag, onClo
       mx={16}
       pb={20}
       bg='white'
-    // height={520}
     >
       <Box position='absolute' top={16} right={20} zIndex={4}>
         <Button
