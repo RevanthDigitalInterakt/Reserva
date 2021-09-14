@@ -370,20 +370,20 @@ export const BagScreen = () => {
             <ScrollView>
 
 
-              {loadingModal &&
-                <Modal isVisible={true}>
-                  <Box zIndex={5} height='100%' width='100%' opacity={.65} position='absolute' justifyContent='center' alignItems='center'>
-                    <LottieView
-                      source={loadingSpinner}
-                      style={{
-                        width: 60,
-                      }}
-                      autoPlay
-                      loop
-                    />
-                  </Box>
-                </Modal>
-              }
+
+              <Modal isVisible={loadingModal}>
+                <Box zIndex={5} height='100%' width='100%' opacity={.65} position='absolute' justifyContent='center' alignItems='center'>
+                  <LottieView
+                    source={loadingSpinner}
+                    style={{
+                      width: 60,
+                    }}
+                    autoPlay
+                    loop
+                  />
+                </Box>
+              </Modal>
+
               <Alert
                 onModalHide={() => {
                   modalRef.current && setSuccessModal(true);
@@ -393,13 +393,14 @@ export const BagScreen = () => {
                 subtitle={"Tem certeza que deseja excluir o produto salvo em sua sacola?"}
                 confirmText={"SIM"}
                 cancelText={"NÃO"}
+                disabled={loadingModal}
                 onConfirm={async () => {
                   modalRef.current = true;
                   if (removeProduct) {
                     setShowModal(false)
                     setLoadingModal(true)
-                    await setTimeout(() => { }, 100000)
-                    //await removeItem(removeProduct?.id, removeProduct?.index, removeProduct?.seller, 0);
+                    await removeItem(removeProduct?.id, removeProduct?.index, removeProduct?.seller, 0);
+                    setRemoveProduct(undefined)
                     setLoadingModal(false)
                   }
                   setShowModal(false);
