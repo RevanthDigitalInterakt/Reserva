@@ -14,6 +14,8 @@ import {
   Alert,
   ProductVerticalListCard,
 } from "reserva-ui";
+import LottieView from "lottie-react-native"
+import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 import { PriceCustom } from "../components/PriceCustom";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
@@ -42,6 +44,7 @@ import { EmptyBag } from "../components/EmptyBag";
 import Modal from "react-native-modal";
 import { getPercent } from "../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts";
 import { ModalBook } from "../components/ModalBook";
+import AnimatedLottieView from "lottie-react-native";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -68,6 +71,7 @@ export const BagScreen = () => {
   const viewRef = useRef(null);
   const [totalBag, setTotalBag] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [loadingModal, setLoadingModal] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<{ id: string, index: number, seller: string, quantity: number } | undefined>();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [totalDelivery, setTotalDelivery] = useState(0);
@@ -365,6 +369,21 @@ export const BagScreen = () => {
 
             <ScrollView>
 
+
+
+              <Modal isVisible={loadingModal}>
+                <Box zIndex={5} height='100%' width='100%' opacity={.65} position='absolute' justifyContent='center' alignItems='center'>
+                  <LottieView
+                    source={loadingSpinner}
+                    style={{
+                      width: 60,
+                    }}
+                    autoPlay
+                    loop
+                  />
+                </Box>
+              </Modal>
+
               <Alert
                 onModalHide={() => {
                   modalRef.current && setSuccessModal(true);
@@ -374,10 +393,15 @@ export const BagScreen = () => {
                 subtitle={"Tem certeza que deseja excluir o produto salvo em sua sacola?"}
                 confirmText={"SIM"}
                 cancelText={"NÃO"}
+                disabled={loadingModal}
                 onConfirm={async () => {
                   modalRef.current = true;
                   if (removeProduct) {
+                    setShowModal(false)
+                    setLoadingModal(true)
                     await removeItem(removeProduct?.id, removeProduct?.index, removeProduct?.seller, 0);
+                    setRemoveProduct(undefined)
+                    setLoadingModal(false)
                   }
                   setShowModal(false);
                 }}
