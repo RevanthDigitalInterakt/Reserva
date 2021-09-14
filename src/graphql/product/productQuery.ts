@@ -7,6 +7,7 @@ export const GET_PRODUCTS = gql`
       productId
       productName
       description
+      link
       skuSpecifications {
         field {
           name

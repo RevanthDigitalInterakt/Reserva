@@ -42,6 +42,7 @@ import { ProductUtils } from '../../../shared/utils/productUtils';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import { useAuth } from '../../../context/AuthContext';
 import { images } from '../../../assets';
+import { url } from '../../../config/vtexConfig';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -400,10 +401,15 @@ export const ProductDetail: React.FC<Props> = ({
     return chosenInstallment;
   };
 
-  const onShare = async () => {
+  const onShare = async (url: string) => {
+    const domain = url.match(/^[^:]+:\/\/[^/?#]+/g)
+    const path = url.replace(`${domain ? domain[0] : ''}`, '')
+
+
     const options = {
-      message: 'Aqui está um produto que você pode gostar',
+      message: 'Aqui está um produto que você pode gostar: \n',
       title: 'Compartilhar',
+      url: `https://www.usereserva.com${path}`,
     };
 
     Share.open(options);
@@ -543,7 +549,9 @@ export const ProductDetail: React.FC<Props> = ({
                     getInstallments()?.NumberOfInstallments || 1
                   }
                   installmentsPrice={getInstallments()?.Value || product.priceRange.sellingPrice.lowPrice || 0}
-                  onClickShare={onShare}
+                  onClickShare={() => onShare(
+                    product.link
+                  )}
                   discountTag={
                     getPercent(
                       product.priceRange.sellingPrice.lowPrice,
