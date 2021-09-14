@@ -14,7 +14,7 @@ const GenerateToken = async () => {
 
 const FetchCredit = async (customerDocument: string) => {
     const { data } = await GenerateToken();
-    const response = await unicoConfig.get(`/api/Credit/GetCreditBalance?customerDocument=${customerDocument}&storeCode=TLVLM`, {
+    const response = await unicoConfig.get(`/api/Credit/GetCreditBalance?customerDocument=${customerDocument}&storeCode=TSCR06`, {
         headers: {
             'Authorization': `Bearer ${data.access_token}`
         }
