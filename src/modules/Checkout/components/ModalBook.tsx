@@ -46,7 +46,7 @@ export const ModalBook: React.FC<ModalBookProps> = ({ isVisible, onAddBag, onClo
     >
       <Box position='absolute' top={16} right={20} zIndex={4}>
         <Button
-          onPress={() => { onPressClose }}
+          onPress={onPressClose}
           variant='icone'
           icon={
             <Icon size={12} name='Close' />
