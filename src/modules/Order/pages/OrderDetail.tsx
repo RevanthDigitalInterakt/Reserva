@@ -2,7 +2,8 @@ import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, Linking, Platform } from 'react-native';
+import { useClipboard } from '@react-native-clipboard/clipboard';
 
 import {
   Typography,
@@ -13,6 +14,8 @@ import {
   Stepper,
   Image,
 } from 'reserva-ui';
+import { useAuth } from '../../../context/AuthContext';
+import { ITracking, useCart } from '../../../context/CartContext';
 import { orderQuery } from '../../../graphql/orders/ordersQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -26,6 +29,33 @@ type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation();
+  const { cookie } = useAuth();
+  const { tracking } = useCart();
+  const [trackingDescription, setTrackingDescription] = useState<ITracking>();
+  const [copiedText, setCopiedText] = useClipboard();
+  const [clickedIcon, setClickedIcon] = useState(false);
+
+  const deliveryTracking = async () => {
+    if (cookie != null) {
+      console.log('cookie', cookie)
+      const data = await tracking(cookie, order.orderId);
+      setTrackingDescription(data)
+      console.log('cookieData', data?.packageAttachment)
+    }
+  }
+
+  useEffect(() => {
+    deliveryTracking()
+  }, []);
+
+  useEffect(() => {
+    console.log('trackingDescription', trackingDescription?.packageAttachment.packages[0]?.trackingUrl)
+  }, [trackingDescription]);
+
+  useEffect(() => {
+    console.log('copiedTextsss', copiedText)
+  }, [copiedText]);
+
 
   const getDeliveryPreview = () => {
     const { shippingData } = order;
@@ -65,6 +95,15 @@ const OrderList: React.FC<any> = ({ route }) => {
     }
   };
 
+  const handleCopiedText = () => {
+    setClickedIcon(true)
+    if (trackingDescription) {
+      setCopiedText(trackingDescription?.packageAttachment?.packages[0].trackingNumber)
+
+    }
+    setTimeout(() => setClickedIcon(false), 1000);
+  }
+
   return (
     <>
       <SafeAreaView flex={1} backgroundColor={'white'}>
@@ -75,18 +114,27 @@ const OrderList: React.FC<any> = ({ route }) => {
         >
           {order.status !== 'canceled' && (
             <>
-              <Box mb="xxxs" justifyContent="flex-start" paddingTop={'md'}>
-                <Typography variant={'tituloSessoes'}>
-                  Rastreamento de entrega
-                </Typography>
-              </Box>
-              {/* <Box paddingX="xxs" paddingY="xs">
-                <Stepper
-                  steps={['Pedido feito', 'Confirmação', 'Envio', 'Entrega']}
-                  actualStepIndex={2}
-                />
-              </Box> */}
+              {trackingDescription &&
+                trackingDescription?.packageAttachment?.packages.length > 0 &&
+                <>
 
+                  <Box mb="xxxs" justifyContent="flex-start" paddingTop={'md'}>
+                    <Typography variant={'tituloSessoes'}>
+                      Rastreamento de entrega
+                    </Typography>
+                  </Box>
+                  {/* {trackingDescription &&
+                    trackingDescription?.packageAttachment?.packages[0].courierStatus != null &&
+                    trackingDescription?.packageAttachment?.packages[0].courierStatus.data.length > 0 &&
+                    <Box paddingX="xxs" paddingY="xs">
+                      <Stepper
+                        steps={['Pedido Entregue a Transportadora', 'Confirmação', 'Envio', 'Entrega']}
+                        actualStepIndex={2}
+                      />
+                    </Box>
+                  } */}
+                </>
+              }
               <Box
                 marginY="micro"
                 borderBottomWidth={'hairline'}
@@ -96,7 +144,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                   {getDeliveryPreview()}
                 </Typography>
                 <Typography
-                  style={{ marginBottom: 17 }}
+                  style={{ marginBottom: 5 }}
                   fontSize={14}
                   fontFamily="nunitoRegular"
                 >
@@ -105,6 +153,67 @@ const OrderList: React.FC<any> = ({ route }) => {
                     ` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}
                   `}
                 </Typography>
+
+                {trackingDescription &&
+                  trackingDescription?.packageAttachment?.packages.length > 0 &&
+                  <>
+
+                    <Box flexDirection="row">
+                      {clickedIcon &&
+                        <Box
+                          position="absolute"
+                          right={"30%"}
+                          bottom={30}
+                          bg="white"
+                          boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
+                          style={{ elevation: 5 }}
+                          width={107}
+                          height={30}
+                          alignItems="center"
+                          justifyContent="center"
+                          borderRadius="nano"
+                        >
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={13}>
+                            Código copiado!
+                          </Typography>
+                        </Box>
+                      }
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={13}
+                      >
+                        Código de rastreio:
+
+                      </Typography>
+                      <Box ml="quarck">
+                        <Typography
+                          selectable={true}
+                          fontFamily="nunitoExtraBold"
+                          fontSize={13}
+                        >
+                          {trackingDescription?.packageAttachment?.packages[0].trackingNumber}
+                        </Typography>
+                      </Box>
+                      <Button ml="xxxs" onPress={() => handleCopiedText()}>
+                        <Icon name="Copy" size={20} color="neutroFrio2" />
+                      </Button>
+                    </Box>
+
+                    <Box mt="micro" mb="xxs">
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={13}
+                        style={{ textDecorationLine: 'underline' }}
+                        onPress={() => Linking.openURL(trackingDescription?.packageAttachment?.packages[0]?.trackingUrl)}
+                      >
+                        Ver rastreio no site da transportadora
+                      </Typography>
+
+                    </Box>
+                  </>
+                }
               </Box>
             </>
           )}

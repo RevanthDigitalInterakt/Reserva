@@ -402,6 +402,8 @@ PODS:
     - React-perflogger (= 0.64.0)
   - RNCAsyncStorage (1.12.1):
     - React-Core
+  - RNCClipboard (1.8.4):
+    - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNCPicker (1.8.1):
@@ -527,6 +529,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -655,6 +658,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNCPicker:
@@ -744,6 +749,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: cad74a1eaa53ee6e7a3620231939d8fe2c6afcf0
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
+  RNCClipboard: ddd4d291537f1667209c9c405aaa4307297e252e
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9

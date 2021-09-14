@@ -60,6 +60,7 @@ import { Tabs } from "./BottomTabNavigator";
 import { horizontalAnimationBackwards } from "./utils/utils";
 import { CancelOrder } from "../modules/CancelOrder/pages/CancelOrder";
 import { Cashback } from "../modules/Cashback/pages/Cashback";
+import { Credits } from "../modules/Credits/pages/Credits";
 import AccessCode from "../modules/Login/pages/AccessCode";
 import { IdentifyEmail } from "../modules/LoginCheckout/pages/IdentifyEmail";
 import { ForgotAccessCode } from "../modules/Forgot/pages/ForgotAccessCode";
@@ -124,6 +125,7 @@ export type RootStackParamList = {
   Home: undefined;
   CancelOrder: {};
   Cashback: {};
+  Credits: {};
   AddressList: { isCheckout: boolean; comeFrom: string };
   ListCards: {
     isCheckout: boolean;
@@ -153,7 +155,7 @@ export type RootStackParamList = {
     | "Debit"
     | "Boleto"
     | "GiftCard"
-    | "Cashback";
+    | "Cashback"
   };
   PixScreen: {
     cashback: boolean;
@@ -230,6 +232,7 @@ const MainStackScreen = () => {
         component={PurchaseConfirmationScreen}
       />
       <MainStack.Screen name="Cashback" component={Cashback} />
+      <MainStack.Screen name="Credits" component={Credits} />
       <MainStack.Screen
         name="VirtualDebitCardCaixaScreen"
         component={VirtualDebitCardCaixaScreen}

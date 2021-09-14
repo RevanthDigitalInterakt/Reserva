@@ -137,6 +137,17 @@ const Order = ({ data }: IOrder) => {
               Pagamento aprovado!
             </Typography>
           )}
+          {order.status === 'invoiced' && (
+            <Typography
+              style={{ marginTop: 5, marginBottom: 5 }}
+              mt={'micro'}
+              fontSize={14}
+              fontFamily="nunitoBold"
+              color="verdeSucesso"
+            >
+              Faturado!
+            </Typography>
+          )}
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
             Endereço de entrega:{' '}
             {` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}`}

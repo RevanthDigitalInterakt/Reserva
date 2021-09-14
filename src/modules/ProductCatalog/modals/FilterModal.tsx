@@ -140,7 +140,7 @@ export const FilterModal = ({
     const filterRequestList = [
       // selectedSize && [selectedSize].flat(),
       sizes.map((item: any) => {
-        if(item){
+        if (item) {
           return {
             key: 'tamanho',
             value: item
@@ -156,7 +156,7 @@ export const FilterModal = ({
     ];
 
     console.tron.log(filterRequestList);
-    
+
 
     // setFilterRequestList(filterRequestList.flat());
     setFilterRequestList([].concat(...filterRequestList));
@@ -215,6 +215,7 @@ export const FilterModal = ({
   return (
     <Box>
       <Modal
+        style={{ margin: 0 }}
         animationIn="slideInRight"
         animationOut="slideOutRight"
         onBackButtonPress={() => {
@@ -229,8 +230,8 @@ export const FilterModal = ({
       >
         <Box
           height={deviceHeight}
-          marginRight={-20}
-          marginLeft="sm"
+          // marginRight={-20}
+          marginLeft="xl"
           marginY="micro"
           bg="white"
         >
@@ -350,6 +351,7 @@ export const FilterModal = ({
                   alignSelf="center"
                 >
                   <Range
+
                     max={getMaxPrice()}
                     mdxType="Range"
                     min={getMinPrice()}
@@ -367,7 +369,7 @@ export const FilterModal = ({
                     originalType={() => { }}
                     prefix="R$ "
                     value={[getMinPrice(), getMaxPrice()]}
-                    width={deviceWidth - 95}
+                    width={deviceWidth - 100}
                   />
                 </BoxAnimation>
               )}
