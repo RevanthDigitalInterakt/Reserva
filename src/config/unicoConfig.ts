@@ -2,9 +2,7 @@ import axios from 'axios';
 
 const urlProd = 'https://www.unicocallback.com.br/';
 
-const urlDev = 'https://unicostage.azurewebsites.net/';
-
-const url = urlDev;
+const url = urlProd;
 
 const headers = {
     Accept: 'application/json',
