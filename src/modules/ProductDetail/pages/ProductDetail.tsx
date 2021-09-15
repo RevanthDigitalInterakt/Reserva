@@ -405,11 +405,10 @@ export const ProductDetail: React.FC<Props> = ({
     const domain = url.match(/^[^:]+:\/\/[^/?#]+/g)
     const path = url.replace(`${domain ? domain[0] : ''}`, '')
 
-
     const options = {
       message: 'Aqui está um produto que você pode gostar: \n',
       title: 'Compartilhar',
-      url: `https://www.usereserva.com${path}`,
+      url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
     };
 
     Share.open(options);
