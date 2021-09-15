@@ -32,7 +32,7 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
         setLoadingCredit(true)
         if (profile) {
             const { data } = await FetchCredit(profile.document)
-            SetCredit(data.BalanceValue)
+            SetCredit(data.SaldoMonetario)
         }
         setLoadingCredit(false)
     }
