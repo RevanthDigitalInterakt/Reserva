@@ -9,31 +9,35 @@ import { setLocale } from "yup";
 import { apolloClient } from "../../../services/apolloClient";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
 
-import { images } from '../../../assets/'
+import { images } from "../../../assets/";
 import HeaderBanner from "../componet/HeaderBanner";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-const width = Dimensions.get('window').width
+const width = Dimensions.get("window").width;
 
-export interface ForgotPasswordProps extends StackScreenProps<RootStackParamList, "ForgotPassword"> { }
-
+export interface ForgotPasswordProps
+  extends StackScreenProps<RootStackParamList, "ForgotPassword"> {}
 
 export const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState<string>('')
+  const [email, setEmail] = useState<string>("");
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-
       <HeaderBanner imageHeader={images.headerLogin} />
-      <Box paddingX="micro" marginTop="xxl" >
+      <Box paddingX="micro" marginTop="xxl">
         <Box justifyContent="flex-start" marginTop="xxxs">
-          <Typography variant={"tituloSessoes"} >Esqueci minha senha</Typography>
+          <Typography variant={"tituloSessoes"}>Esqueci minha senha</Typography>
         </Box>
       </Box>
 
       <Box paddingX="micro" flex={1}>
         <Box marginTop="sm" marginBottom="nano">
-          <TextField value={email} onChangeText={(value) => setEmail(value)} height={55} placeholder="Digite seu e-mail" />
+          <TextField
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+            height={55}
+            placeholder="Digite seu e-mail"
+          />
         </Box>
         <Box marginTop="xs" alignItems="center">
           <Button
@@ -42,8 +46,8 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
             width={258}
             variant="primarioEstreitoOutline"
             onPress={() => {
-              AsyncStorage.setItem('recoveryEmail', email)
-              navigation.navigate("ForgotNewPassword")
+              AsyncStorage.setItem("recoveryEmail", email);
+              navigation.navigate("ForgotAccessCode");
             }}
             mb="nano"
           />
