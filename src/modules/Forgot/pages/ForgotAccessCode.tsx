@@ -51,7 +51,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     { data: dataRecoveryPassword, loading: loadingRecoveryPassword },
   ] = useMutation(recoveryPasswordMutation);
 
-  const handleUpdaePassword = () => {
+  const handleUpdatePassword = () => {
     let variables = {
       email,
       code,
@@ -183,7 +183,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                 mt={28}
                 variant="primarioEstreito"
                 title="ALTERAR SENHA"
-                onPress={handleUpdaePassword}
+                onPress={handleUpdatePassword}
                 disabled={!enabledButton()}
                 inline
               />
