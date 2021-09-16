@@ -94,7 +94,7 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
           // onClose();
         }}
         // backdropColor={theme.colors.modalBackDropColor}
-        isVisible={true}
+        isVisible={false}
       >
 
         <Box
