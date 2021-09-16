@@ -12,16 +12,27 @@ const GenerateToken = async () => {
     return response;
 };
 
+// const FetchCredit = async (customerDocument: string) => {
+//     const { data } = await GenerateToken();
+//     const response = await unicoConfig.get(`/api/Credit/GetCreditBalance?customerDocument=${customerDocument}&storeCode=TSCR06`, {
+//         headers: {
+//             'Authorization': `Bearer ${data.access_token}`
+//         }
+//     });
+//     return response;
+// };
+
 const FetchCredit = async (customerDocument: string) => {
     const { data } = await GenerateToken();
-    const response = await unicoConfig.get(`/api/Credit/GetCreditBalance?customerDocument=${customerDocument}&storeCode=TSCR06`, {
+    const storeCode = "TSCR06"
+    const response = await unicoConfig.get(`/api/fidelidade/ConsultaCliente?documentoFidelidade=${customerDocument}&codigoLoja=${storeCode}&codigoVendedor&consulaCompleta=false&categoria&numeroFidelidade
+    `, {
         headers: {
             'Authorization': `Bearer ${data.access_token}`
         }
     });
     return response;
 };
-
 export {
     GenerateToken,
     FetchCredit

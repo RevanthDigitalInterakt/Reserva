@@ -124,7 +124,7 @@ export type RootStackParamList = {
   ForgotEmail: {};
   Home: undefined;
   CancelOrder: {};
-  Cashback: {};
+  Cashback: { credits: number };
   Credits: {};
   AddressList: { isCheckout: boolean; comeFrom: string };
   ListCards: {

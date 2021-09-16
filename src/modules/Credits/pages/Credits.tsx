@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Box, Divider, Typography } from 'reserva-ui'
+import { Box, Divider, Typography, Icon, Button } from 'reserva-ui'
 import { RootStackParamList } from '../../../routes/StackNavigator'
 import { FetchCredit } from '../../../services/unicoService'
 import { useQuery } from "@apollo/client";
@@ -17,7 +17,6 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
     const [loadingCredit, setLoadingCredit] = useState(false)
     const [profile, setProfile] = useState<ProfileVars>();
     const [credit, SetCredit] = useState(0);
-
     useEffect(() => {
         if (data) {
             const { profile } = data;
@@ -32,7 +31,7 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
         setLoadingCredit(true)
         if (profile) {
             const { data } = await FetchCredit(profile.document)
-            SetCredit(data.BalanceValue)
+            SetCredit(data.SaldoMonetario)
         }
         setLoadingCredit(false)
     }
@@ -70,6 +69,20 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
                         />
                     </Box>
                     <Divider variant='fullWidth' />
+                    {/* <Box flexDirection="row" mt="xxs">
+                        <Button flexDirection="row" onPress={() => { navigation.navigate('Cashback', { credits: credit }) }}>
+                            <>
+                                <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
+
+                                <Typography
+                                    fontFamily='nunitoBold'
+                                    fontSize={16}
+                                >
+                                    Cashback em Lojas
+                                </Typography>
+                            </>
+                        </Button>
+                    </Box> */}
                 </Box>
             </Box>
         </SafeAreaView>
