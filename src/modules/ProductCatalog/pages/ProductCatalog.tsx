@@ -1,10 +1,10 @@
-import { QueryResult, useQuery } from '@apollo/client';
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useRef, useState } from 'react';
-import { Linking, Animated } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import { QueryResult, useQuery } from "@apollo/client";
+import { StackScreenProps } from "@react-navigation/stack";
+import React, { useEffect, useRef, useState } from "react";
+import { Linking, Animated, Text } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -14,25 +14,31 @@ import {
   SearchBar,
   theme,
   Typography,
-} from 'reserva-ui';
-import { images } from '../../../assets';
-import { facetsQuery } from '../../../graphql/facets/facetsQuery';
-import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
+} from "reserva-ui";
+import { images } from "../../../assets";
+import { facetsQuery } from "../../../graphql/facets/facetsQuery";
+import { ColorsToHexEnum } from "../../../graphql/product/colorsToHexEnum";
 import {
   OrderByEnum,
   productSearch,
   ProductSearchData,
-} from '../../../graphql/products/productSearch';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { bannerDefaultQuery, bannerQuery } from '../../../store/ducks/HomePage/types';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
-import { FilterModal } from '../modals/FilterModal';
-import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
-import { Skeleton } from '../../Checkout/components/Skeleton';
+} from "../../../graphql/products/productSearch";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import {
+  bannerDefaultQuery,
+  bannerQuery,
+} from "../../../store/ducks/HomePage/types";
+import { TopBarDefault } from "../../Menu/components/TopBarDefault";
+import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
+import { ListVerticalProducts } from "../components/ListVerticalProducts/ListVerticalProducts";
+import { FilterModal } from "../modals/FilterModal";
+import { useCheckConnection } from "../../../shared/hooks/useCheckConnection";
+import { Skeleton } from "../../Checkout/components/Skeleton";
+import LottieView from "lottie-react-native";
+import { loadingSpinner } from "reserva-ui/src/assets/animations";
+import Modal from "react-native-modal";
 
-type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
+type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
 
 export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [productsQuery, setProducts] = useState<ProductSearchData>(
@@ -41,12 +47,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   let pageSize = 12;
   const { safeArea, search, facetInput, referenceId } = route.params;
 
-  let categoryId = 'camisetas';
+  let categoryId = "camisetas";
 
   const dispatch = useDispatch();
   const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
-  const [skeletonLoading, setSkeletonLoading] = useState(true)
+  const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -56,27 +62,29 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [filterList, setFilterList] = useState<string[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<string>();
   const [loadingFetchMore, setLoadingFetchMore] = useState(false);
-  const [loadingHandlerState, setLoadingHandlerState] = useState(false)
+  const [loadingHandlerState, setLoadingHandlerState] = useState(false);
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
-  const [skip, setSkip] = useState(false)
+  const [skip, setSkip] = useState(false);
   const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
     productSearch,
     {
       skip,
       variables: {
-        skusFilter: 'ALL_AVAILABLE',
+        skusFilter: "ALL_AVAILABLE",
         hideUnavailableItems: true,
         // selectedFacets: [facetInput, filterRequestList].flat(),
         selectedFacets: [].concat(facetInput, filterRequestList),
         orderBy: selectedOrder,
         to: pageSize - 1,
         simulationBehavior: "default",
-        productOriginVtex: false
+        productOriginVtex: false,
       },
-      fetchPolicy: 'no-cache',
-      nextFetchPolicy: 'no-cache'
+      fetchPolicy: "no-cache",
+      nextFetchPolicy: "no-cache",
     }
   );
+  const [loadingModal, setLoadingModal] = useState(false);
+  const [firstLoading, setFirstLoading] = useState(true);
 
   const {
     data: facetsData,
@@ -88,7 +96,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       // selectedFacets: [facetInput, filterRequestList].flat(),
       selectedFacets: [].concat(facetInput, filterRequestList),
     },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
   });
 
   const {
@@ -96,32 +104,37 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     loading: loadingBanner,
     refetch: refetchBanner,
   } = useQuery(bannerQuery, {
-    context: { clientName: 'contentful' },
+    context: { clientName: "contentful" },
     variables: {
       category: referenceId,
     },
   });
 
-  const { data: defaultBanner, refetch: refetchDefaultBanner, loading: loadingDefaultBanner } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } })
+  const {
+    data: defaultBanner,
+    refetch: refetchDefaultBanner,
+    loading: loadingDefaultBanner,
+  } = useQuery(bannerDefaultQuery, { context: { clientName: "contentful" } });
   const setBannerDefaultImage = async () => {
-    await refetchDefaultBanner()
-    const url = defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url
+    await refetchDefaultBanner();
+    const url =
+      defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url;
     setBannerImage(url);
-  }
-  const { WithoutInternet } = useCheckConnection({})
+  };
+  const { WithoutInternet } = useCheckConnection({});
 
   const firstLoad = async () => {
-    setSkeletonLoading(true)
-    setSkip(true)
+    setSkeletonLoading(true);
+    setSkip(true);
     await refetch();
-    setSkeletonLoading(false)
+    setSkeletonLoading(false);
     await refetchFacets();
     await refetchBanner({ category: referenceId });
-  }
+  };
 
   useEffect(() => {
-    firstLoad()
-    animationSkeletonLoading()
+    firstLoad();
+    animationSkeletonLoading();
   }, []);
 
   useEffect(() => {
@@ -130,7 +143,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     if (!!bannerUrl) {
       setBannerImage(bannerUrl);
     } else {
-      setBannerDefaultImage()
+      setBannerDefaultImage();
     }
   }, [bannerData]);
 
@@ -142,45 +155,50 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
       // COLOR
       const colorFacets = facets.filter(
-        ({ name }: any) => name.toUpperCase() === 'COR' || name.toUpperCase() === 'DESC_COR_CONSOLIDADA'
+        ({ name }: any) =>
+          name.toUpperCase() === "COR" ||
+          name.toUpperCase() === "DESC_COR_CONSOLIDADA"
       );
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value: ColorsToHexEnum[value],
-          }))
+              key,
+              value: ColorsToHexEnum[value],
+            }))
           : [];
       // SIZE
-      const sizeFacets = facets.filter(({ name }: any) => name.toUpperCase() === 'TAMANHO' || name === 'Tamanho');
+      const sizeFacets = facets.filter(
+        ({ name }: any) =>
+          name.toUpperCase() === "TAMANHO" || name === "Tamanho"
+      );
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // CATEGORY
       const categoryFacets = facets.filter(
-        ({ name }: any) => name === 'Categoria'
+        ({ name }: any) => name === "Categoria"
       );
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // PRICE
-      const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
+      const priceFacets = facets.filter(({ name }: any) => name === "Preço");
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-            key,
-            range,
-          }))
+              key,
+              range,
+            }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -197,8 +215,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [data]);
 
   const loadMoreProducts = async (offset: number) => {
-    console.log('offSet', offset)
+    console.log("offSet", offset);
     setLoadingFetchMore(true);
+    if (!firstLoading) {
+      setLoadingModal(true);
+    } else {
+      setLoadingModal(false);
+    }
     let { data, loading } = await fetchMore({
       variables: {
         orderBy: selectedOrder,
@@ -211,6 +234,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     refetchFacets();
     // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
+    setLoadingModal(loading);
+    setFirstLoading(false);
 
     setProducts(data.productSearch);
   };
@@ -225,24 +250,23 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     const fetch = async () => {
       const { data, loading } = await refetch({
-        skusFilter: 'ALL_AVAILABLE',
+        skusFilter: "ALL_AVAILABLE",
         hideUnavailableItems: true,
         // selectedFacets: [facetInput, filterRequestList].flat(),
         selectedFacets: [].concat(facetInput, filterRequestList),
         orderBy: selectedOrder,
         to: pageSize - 1,
         simulationBehavior: "default",
-        productOriginVtex: false
+        productOriginVtex: false,
       });
       if (!loading && !!data) {
         setProducts(data.productSearch);
       }
-    }
+    };
     fetch();
-
   }, [selectedOrder]);
 
-  const skeletonOpacity = useRef(new Animated.Value(0)).current
+  const skeletonOpacity = useRef(new Animated.Value(0)).current;
   const animationSkeletonLoading = () => {
     Animated.loop(
       Animated.sequence([
@@ -250,33 +274,35 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           useNativeDriver: true,
           toValue: 1,
           duration: 1200,
-          delay: 300
+          delay: 300,
         }),
         Animated.timing(skeletonOpacity, {
           useNativeDriver: true,
           toValue: 0.3,
           duration: 600,
-        })
+        }),
       ]),
       {
-        iterations: -1
+        iterations: -1,
       }
-    ).start()
-  }
-
+    ).start();
+  };
 
   const onClickWhatsappButton = () => {
-    Linking.openURL('https://whts.co/reserva');
+    Linking.openURL("https://whts.co/reserva");
   };
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
-
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
-        <TopBarDefaultBackButton loading={loading || loadingFetchMore || loadingHandlerState} />
+        <TopBarDefaultBackButton
+          loading={loading || loadingFetchMore || loadingHandlerState}
+        />
       ) : (
-        <TopBarDefault loading={loading || loadingFetchMore || loadingHandlerState} />
+        <TopBarDefault
+          loading={loading || loadingFetchMore || loadingHandlerState}
+        />
       )}
       {search && (
         <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
@@ -309,19 +335,19 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: 'Menor Preço',
+            text: "Menor Preço",
             value: OrderByEnum.OrderByPriceASC,
           },
           {
-            text: 'Maior Preço',
+            text: "Maior Preço",
             value: OrderByEnum.OrderByPriceDESC,
           },
           {
-            text: 'Mais Recentes',
+            text: "Mais Recentes",
             value: OrderByEnum.OrderByReleaseDateDESC,
           },
           {
-            text: 'Relevante',
+            text: "Relevante",
             value: OrderByEnum.OrderByReviewRateDESC,
           },
         ]}
@@ -334,53 +360,138 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {skeletonLoading || loadingHandlerState ?
-        (<Skeleton>
-          <Box bg='neutroFrio1' width='100%' height={200} />
+      {skeletonLoading || loadingHandlerState ? (
+        <Skeleton>
+          <Box bg="neutroFrio1" width="100%" height={200} />
 
-          <Box flexDirection='row' justifyContent='center' marginTop={34} >
-            <Box width='50%'>
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={8} marginLeft={12} />
+          <Box flexDirection="row" justifyContent="center" marginTop={34}>
+            <Box width="50%">
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={40}
+                marginRight={8}
+                marginLeft={12}
+              />
             </Box>
 
-            <Box width='50%'>
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={40} marginRight={12} marginLeft={8} />
+            <Box width="50%">
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={40}
+                marginRight={12}
+                marginLeft={8}
+              />
             </Box>
-          </Box >
+          </Box>
 
-          <Box flexDirection='row' justifyContent='center' marginTop={45}>
-
-            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+          <Box flexDirection="row" justifyContent="center" marginTop={45}>
+            <Box
+              width="50%"
+              paddingRight={12}
+              paddingLeft={8}
+              marginBottom={33}
+            >
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={250}
+              />
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={24}
+                marginTop={8}
+              />
               <Box />
             </Box>
 
-            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={24} marginTop={8} />
+            <Box
+              width="50%"
+              paddingRight={12}
+              paddingLeft={8}
+              marginBottom={33}
+            >
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={250}
+              />
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={24}
+                marginTop={8}
+              />
             </Box>
-
           </Box>
-          <Box flexDirection='row' justifyContent='center'>
-
-            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+          <Box flexDirection="row" justifyContent="center">
+            <Box
+              width="50%"
+              paddingRight={12}
+              paddingLeft={8}
+              marginBottom={33}
+            >
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={250}
+              />
             </Box>
 
-            <Box width='50%' paddingRight={12} paddingLeft={8} marginBottom={33}>
-              <Box bg='neutroFrio1' flexGrow={1} borderRadius={8} height={250} />
+            <Box
+              width="50%"
+              paddingRight={12}
+              paddingLeft={8}
+              marginBottom={33}
+            >
+              <Box
+                bg="neutroFrio1"
+                flexGrow={1}
+                borderRadius={8}
+                height={250}
+              />
             </Box>
-
           </Box>
-        </Skeleton>)
-        :
-        null
-      }
+        </Skeleton>
+      ) : null}
+
+      <Modal isVisible={loadingModal}>
+        <Box
+          zIndex={5}
+          height="100%"
+          width="100%"
+          opacity={0.65}
+          position="absolute"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <LottieView
+            source={loadingSpinner}
+            style={{
+              width: 60,
+            }}
+            autoPlay
+            loop
+          />
+          <Text>Carregando...</Text>
+        </Box>
+      </Modal>
+
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}
         products={productsQuery.products}
-        loadingHandler={(loadingState) => { setLoadingHandlerState(loadingState) }}
+        loadingHandler={(loadingState) => {
+          setLoadingHandlerState(loadingState);
+        }}
         listHeader={
           <>
             <Image height={200} source={bannerImage} width={1 / 1} />
@@ -394,8 +505,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontFamily="nunitoSemiBold"
                       fontSize={11}
                     >
-                      Chama no Whats! Seja atendido sem sair de casa.{' '}
-                      <Typography style={{ textDecorationLine: 'underline' }}>
+                      Chama no Whats! Seja atendido sem sair de casa.{" "}
+                      <Typography style={{ textDecorationLine: "underline" }}>
                         Clique aqui!
                       </Typography>
                     </Typography>
@@ -459,17 +570,17 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               <Typography fontFamily="nunitoRegular" fontSize="13px">
                 {productsQuery.recordsFiltered} produtos encontrados
               </Typography>
-              {!!filterRequestList && filterRequestList.length > 0 &&
+              {!!filterRequestList && filterRequestList.length > 0 && (
                 <Button onPress={() => setFilterRequestList([])}>
                   <Typography
                     color="progressTextColor"
                     variant="precoAntigo3"
-                    style={{ textDecorationLine: 'underline' }}
+                    style={{ textDecorationLine: "underline" }}
                   >
                     Limpar tudo
                   </Typography>
                 </Button>
-              }
+              )}
             </Box>
           </>
         }
