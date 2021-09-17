@@ -44,6 +44,7 @@ export const images = {
   searchNotFound: require('./img/searchNotFound.png'),
   saleOff: require('./img/saleOff.png'),
   logoQRCode: require('./img/logoQRCode.png'),
+  imageNotFound: require('./img/imageNotFound.png'),
 };
 
 export const animations = {
