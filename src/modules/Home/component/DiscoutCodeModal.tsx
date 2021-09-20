@@ -1,11 +1,12 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Box, Button, Icon, theme, Typography } from "reserva-ui"
 import Modal from 'react-native-modal'
-import { Dimensions, ImageBackground } from "react-native"
+import { Animated, Dimensions, ImageBackground } from "react-native"
 import { images } from "../../../assets"
 import Share from 'react-native-share';
-import { left, right } from "styled-system"
+import { left, opacity, right } from "styled-system"
 import Clipboard from "@react-native-clipboard/clipboard"
+import { View } from "react-native-animatable"
 
 interface DiscoutCodeModalProps {
   isVisible: boolean,
@@ -23,9 +24,12 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
 
   const [isVisibleModal, setIsVisibleModal] = useState(false)
 
+  const toastOpacity = useRef(new Animated.Value(0)).current
+
   const modalWidth = screenWidth - (20 * 2)
   const modalHeight = modalWidth - 45
   console.log('ModalImage', images.cupomModalBackground)
+
 
   const closeModal = () => {
     setIsVisibleModal(false)
@@ -33,6 +37,20 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
 
   const onClickCopy = () => {
     Clipboard.setString(code)
+
+    Animated.sequence([
+      Animated.timing(toastOpacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.delay(2000),
+      Animated.timing(toastOpacity, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => { });
   }
   const onClickShare = () => {
     Share.open({
@@ -45,6 +63,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
 
     })
   }
+
 
   return isVisible && <>
 
@@ -83,27 +102,33 @@ https://play.google.com/store/apps/details?id=com.usereserva
           paddingHorizontal: 15
         }}
       >
-        <Box
-          style={{
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.16,
-            shadowRadius: 2,
+        <Animated.View style={{
+          opacity: toastOpacity
+        }}>
+          <Box
+            style={
+              {
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0,
+                shadowRadius: 2,
 
-            elevation: 5,
-          }}
-          borderRadius='nano'
-          backgroundColor='white'
-          position='absolute'
-          alignSelf='center'
-          zIndex={5}
-          p={6}
-          top={modalHeight / 2} >
-          <Typography fontFamily='nunitoRegular' fontSize={13}>Código copiado!</Typography>
-        </Box>
+                elevation: 5,
+              }}
+            borderRadius='nano'
+            backgroundColor='white'
+            position='absolute'
+            alignSelf='center'
+            zIndex={5}
+            p={6}
+            top={modalHeight / 2} >
+            <Typography fontFamily='nunitoRegular' fontSize={13}>Código copiado!</Typography>
+          </Box>
+        </Animated.View>
+
         <Box position='absolute' top={13} right={13}>
           <Button
             onPress={closeModal}
