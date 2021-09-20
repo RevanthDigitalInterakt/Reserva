@@ -19,10 +19,6 @@ const OrderList = () => {
   useEffect(() => {
     if (!loading && data) {
       const { orders } = data;
-      // const completedOrders = orders.filter((x) => {
-      //   if (x.state === 'payment-approved' || x.status === 'payment-approved') return true;
-      //   return false
-      // })
       const completedOrders = orders.filter((x) => {
         if (x.state != 'canceled' && x.isCompleted === true) return true;
         return false
