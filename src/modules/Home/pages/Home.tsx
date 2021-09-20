@@ -1,6 +1,6 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
 import { Dimensions, Platform } from 'react-native';
@@ -15,6 +15,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { View } from 'react-native-animatable';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import AsyncStorage from '@react-native-community/async-storage';
+import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
@@ -24,7 +25,7 @@ export const HomeScreen: React.FC<{
 }> = ({ children, title }) => {
   const navigation = useNavigation();
   const { cookie, setEmail } = useAuth()
-
+  const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true)
   const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const dispatch = useDispatch();
   const [images, setImages] = React.useState<HomeQuery[]>([])
@@ -101,6 +102,7 @@ export const HomeScreen: React.FC<{
           <Icon name='Close' size={15} color='white' ml="xxxs" />
         </Button>
       </Box> */}
+      <DiscoutCodeModal isVisible={modalCodeIsVisible} code={'RSVCÓDIGOXXX'} onClose={() => { setModalCodeIsVisible(false) }} />
       <WithoutInternet />
       {
         loading ?
