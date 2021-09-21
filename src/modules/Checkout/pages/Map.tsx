@@ -16,11 +16,13 @@ import Geolocation from '@react-native-community/geolocation';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCart, PickupPoints } from '../../../context/CartContext';
+import { EmptyBag } from '../components/EmptyBag';
 
 type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
 export const MapScreen = ({ route }: Props) => {
   const { geolocation, locationPermission } = route?.params;
-  const { orderForm, addShippingOrPickupInfo, convertZipCode } = useCart();
+  const [pickupPoints, setPickupPoints] = useState<PickupPoints[] | undefined>([])
+  const { orderForm, addShippingOrPickupInfo, convertZipCode, pickupPoint } = useCart();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [loadingMap, setLoadingMap] = useState(false);
@@ -111,100 +113,143 @@ export const MapScreen = ({ route }: Props) => {
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
       <TopBarBackButton loading={loading || loadingMap} showShadow />
-
-      <Box flex={2}>
-        {position &&
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={{ flex: 2 }}
-            initialRegion={position}
-          >
-            <Marker
-              coordinate={{ latitude: position?.latitude, longitude: position?.longitude }}
-            >
-              {/* Posição do usuário */}
-              <Box>
-                <Image
-                  height={40}
-                  source={images.pinYou}
-                  resizeMode={'contain'}
-                />
-              </Box>
-            </Marker>
-            {orderForm?.shippingData.pickupPoints.map((coordinate, index) => {
-              const [longitude, latitude] = coordinate.address.geoCoordinates
-              return (
-                <Marker key={index} coordinate={{ latitude: latitude, longitude: longitude }}>
-                  <Image
-                    height={40}
-                    source={images.localReserva}
-                    resizeMode={'contain'}
-                  />
-                </Marker>
-              )
-            })}
-          </MapView>
-        }
-        <Box position={'absolute'} right={20} bottom={20}>
-          <Button
-            height={40}
-            width={40}
-            bg="white"
-            borderRadius={'infinity'}
-            alignItems={'center'}
-            justifyContent={'center'}
-          >
-            <Icon name={'Crosshair'} size={30} color={'preto'} />
-          </Button>
-        </Box>
-      </Box>
-
-      <Box flex={1}>
-        <FlatList
-          data={orderForm?.shippingData.pickupPoints}
-          renderItem={({ item }) => (
-            <>
-              <Button
-                width={'100%'}
-                onPress={() => {
-                  onSelectPickupPoint(item);
-                }}
-                disabled={loading}
+      {orderForm?.shippingData.pickupPoints.length > 0 ?
+        <>
+          <Box flex={2}>
+            {position &&
+              <MapView
+                provider={PROVIDER_GOOGLE}
+                style={{ flex: 2 }}
+                initialRegion={position}
               >
-                <Box width={'100%'} backgroundColor={'white'} my={'micro'}>
-                  <Box borderColor={'backgroundMenuOpened'}>
-                    <Box flexDirection="row">
-                      <Box>
-                        <Image
-                          height={40}
-                          source={images.localReserva}
-                          resizeMode={'contain'}
-                        />
-                      </Box>
-                      <Box>
-                        <Box mb={'quarck'}>
-                          <Typography
-                            fontFamily="reservaSerifRegular"
-                            fontSize={16}
-                          >
-                            {item.friendlyName}
-                          </Typography>
-                        </Box>
-                        <Typography fontFamily="nunitoRegular" fontSize={14}>
-                          {`${item.address.street}, ${item.address.number}
+                <Marker
+                  coordinate={{ latitude: position?.latitude, longitude: position?.longitude }}
+                >
+                  {/* Posição do usuário */}
+                  <Box>
+                    <Image
+                      height={40}
+                      source={images.pinYou}
+                      resizeMode={'contain'}
+                    />
+                  </Box>
+                </Marker>
+                {orderForm?.shippingData.pickupPoints.map((coordinate, index) => {
+                  const [longitude, latitude] = coordinate.address.geoCoordinates
+                  return (
+                    <Marker key={index} coordinate={{ latitude: latitude, longitude: longitude }}>
+                      <Image
+                        height={40}
+                        source={images.localReserva}
+                        resizeMode={'contain'}
+                      />
+                    </Marker>
+                  )
+                })}
+              </MapView>
+            }
+            <Box position={'absolute'} right={20} bottom={20}>
+              <Button
+                height={40}
+                width={40}
+                bg="white"
+                borderRadius={'infinity'}
+                alignItems={'center'}
+                justifyContent={'center'}
+              >
+                <Icon name={'Crosshair'} size={30} color={'preto'} />
+              </Button>
+            </Box>
+          </Box>
+
+          <Box flex={1}>
+            <FlatList
+              data={orderForm?.shippingData.pickupPoints}
+              renderItem={({ item }) => (
+                <>
+                  <Button
+                    width={'100%'}
+                    onPress={() => {
+                      onSelectPickupPoint(item);
+                    }}
+                    disabled={loading}
+                  >
+                    <Box width={'100%'} backgroundColor={'white'} my={'micro'}>
+                      <Box borderColor={'backgroundMenuOpened'}>
+                        <Box flexDirection="row">
+                          <Box>
+                            <Image
+                              height={40}
+                              source={images.localReserva}
+                              resizeMode={'contain'}
+                            />
+                          </Box>
+                          <Box>
+                            <Box mb={'quarck'}>
+                              <Typography
+                                fontFamily="reservaSerifRegular"
+                                fontSize={16}
+                              >
+                                {item.friendlyName}
+                              </Typography>
+                            </Box>
+                            <Typography fontFamily="nunitoRegular" fontSize={14}>
+                              {`${item.address.street}, ${item.address.number}
 ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`}
-                        </Typography>
+                            </Typography>
+                          </Box>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                </Box>
-              </Button>
-              <Divider variant={'fullWidth'} />
-            </>
-          )}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      </Box>
+                  </Button>
+                  <Divider variant={'fullWidth'} />
+                </>
+              )}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          </Box>
+        </>
+        :
+        <Box
+          bg="white"
+          alignItems="center"
+          height="100%"
+          px="micro"
+          mt="xxl"
+        >
+          <Image
+            source={images.noStoresFound}
+            resizeMode={'contain'}
+          />
+          <Box mb="xxs" mt="md">
+            <Typography
+              fontFamily="reservaSerifRegular"
+              fontSize={24}
+            >
+              Nenhuma loja encontrada
+            </Typography>
+          </Box>
+          <Box mb="xs">
+            <Typography
+              textAlign="center"
+              fontFamily="nunitoRegular"
+              fontSize={14}
+            >
+              Desculpe, mas não encontramos lojas próximas a sua região.
+            </Typography>
+          </Box>
+
+          <Box width="100%">
+            <Button
+              onPress={() => navigation.goBack()}
+              marginX="md"
+              inline
+              title='VOLTAR'
+              variant='primarioEstreito'
+            />
+          </Box>
+        </Box>
+      }
     </SafeAreaView>
   );
 };
