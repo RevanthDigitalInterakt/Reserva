@@ -18,14 +18,16 @@ import { useCallback } from "react";
 import { useAuth } from "../../../../context/AuthContext";
 import { Alert } from "react-native";
 import { images } from "../../../../assets";
+import LottieView from "lottie-react-native"
+import { loadingSpinner } from "reserva-ui/src/assets/animations";
 interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 
 export const getPercent = (
@@ -53,7 +55,7 @@ export const ListVerticalProducts = ({
   const [loading, setLoading] = useState(true);
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
-
+  const [isLoadingMore, setIsLoadingMore] = useState(true)
   const { email } = useAuth();
 
   useEffect(() => {
@@ -182,71 +184,93 @@ export const ListVerticalProducts = ({
         favoritedProduct={favoritedProduct}
       />
       {productList.length > 0 || loading ? (
-        <FlatList
-          horizontal={horizontal}
-          data={productList}
-          keyExtractor={(item, index) => `${item.productId} ${index}`}
-          numColumns={horizontal ? 1 : 2}
-          onEndReached={() => loadMoreProducts(products.length)}
-          onEndReachedThreshold={0.5}
-          ListHeaderComponent={listHeader}
-          renderItem={({ item, index }) => {
-            const installments =
-              item.items[0].sellers[0].commertialOffer.Installments;
-            const installmentsNumber =
-              installments.length > 0
-                ? installments[0].NumberOfInstallments
-                : 1;
+        <>
+          <FlatList
+            horizontal={horizontal}
+            data={productList}
+            keyExtractor={(item, index) => `${item.productId} ${index}`}
+            numColumns={horizontal ? 1 : 2}
+            onEndReached={async () => {
+              setIsLoadingMore(true)
+              await loadMoreProducts(products.length)
+              setIsLoadingMore(false)
+            }}
+            ListFooterComponent={() => {
 
-            const installmentPrice =
-              installments.length > 0
-                ? installments[0].Value
-                : item.priceRange?.listPrice?.lowPrice;
-            const colors = new ProductUtils().getColorsArray(item);
-            return (
-              <Box
-                flex={1}
-                alignItems="center"
-                justifyContent="center"
-                height={353}
-                mr={horizontal && "xxxs"}
-              >
-                <ProductVerticalListCard
-                  loadingFavorite={
-                    !!loadingFavorite.find((x) => x == item.items[0].itemId)
-                  }
-                  isFavorited={
-                    !!favorites.find((x) => x.sku == item.items[0].itemId)
-                  } //item.isFavorite}
-                  onClickFavorite={(isFavorite) => {
-                    // setLoafingFavorite([...loadingFavorite, item.productId])
-                    handleOnFavorite(isFavorite, item);
-                    // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+              if (!isLoadingMore) return null
+
+              return <Box width='100%' height={80} color='verdeSucesso' justifyContent='center' alignItems='center'>
+                <LottieView
+                  source={loadingSpinner}
+                  style={{
+                    width: 40,
                   }}
-                  colors={colors}
-                  imageSource={item.items[0].images[0].imageUrl}
-                  installmentsNumber={installmentsNumber} //numero de parcelas
-                  installmentsPrice={installmentPrice || 0} //valor das parcelas
-                  currency="R$"
-                  discountTag={getPercent(
-                    item.priceRange?.sellingPrice.lowPrice,
-                    item.priceRange?.listPrice.lowPrice
-                  )}
-                  saleOff={getSaleOff(item)}
-                  priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                  price={item.priceRange?.listPrice?.lowPrice || 0}
-                  productTitle={item.productName}
-                  onClickImage={() => {
-                    navigation.navigate("ProductDetail", {
-                      productId: item.productId,
-                      colorSelected: item.items[0].variations[2].values[0],
-                    });
-                  }}
+                  autoPlay
+                  loop
                 />
               </Box>
-            );
-          }}
-        />
+            }}
+            onEndReachedThreshold={0.5}
+            ListHeaderComponent={listHeader}
+            renderItem={({ item, index }) => {
+              const installments =
+                item.items[0].sellers[0].commertialOffer.Installments;
+              const installmentsNumber =
+                installments.length > 0
+                  ? installments[0].NumberOfInstallments
+                  : 1;
+
+              const installmentPrice =
+                installments.length > 0
+                  ? installments[0].Value
+                  : item.priceRange?.listPrice?.lowPrice;
+              const colors = new ProductUtils().getColorsArray(item);
+              return (
+                <Box
+                  flex={1}
+                  alignItems="center"
+                  justifyContent="center"
+                  height={353}
+                  mr={horizontal && "xxxs"}
+                >
+                  <ProductVerticalListCard
+                    loadingFavorite={
+                      !!loadingFavorite.find((x) => x == item.items[0].itemId)
+                    }
+                    isFavorited={
+                      !!favorites.find((x) => x.sku == item.items[0].itemId)
+                    } //item.isFavorite}
+                    onClickFavorite={(isFavorite) => {
+                      // setLoafingFavorite([...loadingFavorite, item.productId])
+                      handleOnFavorite(isFavorite, item);
+                      // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+                    }}
+                    colors={colors}
+                    imageSource={item.items[0].images[0].imageUrl}
+                    installmentsNumber={installmentsNumber} //numero de parcelas
+                    installmentsPrice={installmentPrice || 0} //valor das parcelas
+                    currency="R$"
+                    discountTag={getPercent(
+                      item.priceRange?.sellingPrice.lowPrice,
+                      item.priceRange?.listPrice.lowPrice
+                    )}
+                    saleOff={getSaleOff(item)}
+                    priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+                    price={item.priceRange?.listPrice?.lowPrice || 0}
+                    productTitle={item.productName}
+                    onClickImage={() => {
+                      navigation.navigate("ProductDetail", {
+                        productId: item.productId,
+                        colorSelected: item.items[0].variations[2].values[0],
+                      });
+                    }}
+                  />
+                </Box>
+              );
+            }}
+          />
+
+        </>
       ) : (
         <Box justifyContent="center" alignContent="center" mt={163}>
           <Typography
