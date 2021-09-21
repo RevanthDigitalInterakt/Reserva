@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import * as React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
   Button,
@@ -9,84 +9,87 @@ import {
   SearchBar,
   theme,
   Typography,
-} from 'reserva-ui'
-import * as Animatable from 'react-native-animatable'
+} from "reserva-ui";
+import * as Animatable from "react-native-animatable";
+import { Linking, ScrollView, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { useDispatch, useSelector } from "react-redux";
+import { ApplicationState } from "../../../store";
 import {
-  Linking,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
-import { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
-import { useDispatch, useSelector } from 'react-redux'
-import { ApplicationState } from '../../../store'
-import { categoriesQuery, CategoryQuery } from '../../../store/ducks/categories/types'
-import { TopBarMenu } from '../components/TopBarMenu'
+  categoriesQuery,
+  CategoryQuery,
+} from "../../../store/ducks/categories/types";
+import { TopBarMenu } from "../components/TopBarMenu";
 import { profileQuery } from "../../../store/ducks/profile/types";
-import { useAuth } from '../../../context/AuthContext'
-import DeviceInfo from 'react-native-device-info';
+import { useAuth } from "../../../context/AuthContext";
+import DeviceInfo from "react-native-device-info";
 interface IBreadCrumbs {
-  title: string
+  title: string;
 }
 
 interface IMenuSubItem {
-  title: string
-  onPress?: Function
-  highlight?: boolean
+  title: string;
+  onPress?: Function;
+  highlight?: boolean;
 }
 interface IMenuItem {
-  title: string
-  subItemList: Subcategory
-  opened?: boolean
-  onPress?: Function
-  index?: number
-  highlight?: boolean
+  title: string;
+  subItemList: Subcategory;
+  opened?: boolean;
+  onPress?: Function;
+  index?: number;
+  highlight?: boolean;
 }
 
 const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
-    <Button onPress={() => navigation.navigate('Home')} alignSelf='flex-start'>
+    <Button onPress={() => navigation.navigate("Home")} alignSelf="flex-start">
       <Box
-        alignSelf='flex-start'
-        paddingX='micro'
-        paddingTop='nano'
-        alignItems='center'
-        flexDirection='row'>
-        <Icon name='MenuArrowBack' color='preto' size={22} />
-        <Box paddingX='micro'>
-          <Typography fontSize={12} fontFamily='nunitoRegular'>
+        alignSelf="flex-start"
+        paddingX="micro"
+        paddingTop="nano"
+        alignItems="center"
+        flexDirection="row"
+      >
+        <Icon name="MenuArrowBack" color="preto" size={22} />
+        <Box paddingX="micro">
+          <Typography fontSize={12} fontFamily="nunitoRegular">
             Pagina Inicial
           </Typography>
         </Box>
       </Box>
     </Button>
-  )
-}
+  );
+};
 
 const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       onPress={() => {
-        onPress && onPress()
-      }}>
+        onPress && onPress();
+      }}
+    >
       <Box
-        bg='backgroundMenuOpened'
-        justifyContent='space-between'
-        paddingY='micro'
-        flexDirection='row'
-        paddingX='xxs'>
+        bg="backgroundMenuOpened"
+        justifyContent="space-between"
+        paddingY="micro"
+        flexDirection="row"
+        paddingX="xxs"
+      >
         <Typography
           fontSize={13}
-          fontFamily={highlight ? 'nunitoBold' : 'nunitoRegular'}>
+          fontFamily={highlight ? "nunitoBold" : "nunitoRegular"}
+        >
           {title}
         </Typography>
       </Box>
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 const MenuItem: React.FC<IMenuItem> = ({
   title,
@@ -97,26 +100,28 @@ const MenuItem: React.FC<IMenuItem> = ({
   highlight,
 }) => {
   //console.log(subItemList)
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <Box>
       <TouchableOpacity onPress={() => onPress(index)}>
         <Box
-          justifyContent='space-between'
-          marginY='micro'
-          flexDirection='row'
-          marginX='xxxs'>
+          justifyContent="space-between"
+          marginY="micro"
+          flexDirection="row"
+          marginX="xxxs"
+        >
           <Typography
-            color={highlight ? 'vermelhoAlerta' : 'preto'}
+            color={highlight ? "vermelhoAlerta" : "preto"}
             fontSize={13}
-            fontFamily='nunitoBold'>
+            fontFamily="nunitoBold"
+          >
             {title.toUpperCase()}
           </Typography>
           <Box>
             <Icon
-              style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
-              name='ChevronRight'
-              color='preto'
+              style={{ transform: [{ rotate: opened ? "90deg" : "0deg" }] }}
+              name="ChevronRight"
+              color="preto"
               size={12}
             />
           </Box>
@@ -124,8 +129,8 @@ const MenuItem: React.FC<IMenuItem> = ({
       </TouchableOpacity>
       {opened && (
         <>
-          <Divider variant='fullWidth' marginTop='micro' />
-          <Animatable.View animation='fadeIn'>
+          <Divider variant="fullWidth" marginTop="micro" />
+          <Animatable.View animation="fadeIn">
             {subItemList.items.map((item, index) => {
               return (
                 <MenuSubItem
@@ -134,73 +139,74 @@ const MenuItem: React.FC<IMenuItem> = ({
                   title={item.name}
                   onPress={() => {
                     let facetInput: any[] = [];
-                    let [subType, subcategories] = item.referenceId.split(':')
+                    let [subType, subcategories] = item.referenceId.split(":");
 
-                    if (subType == 'category') {
-                      subcategories.split('|').forEach((sub) => {
+                    if (subType == "category") {
+                      subcategories.split("|").forEach((sub) => {
                         if (sub !== "") {
                           facetInput.push({
-                            key: 'c',
-                            value: sub
-                          })
+                            key: "c",
+                            value: sub,
+                          });
                         }
                       });
                     } else {
                       facetInput.push({
-                        key: 'productClusterIds',
-                        value: subcategories
-                      })
+                        key: "productClusterIds",
+                        value: subcategories,
+                      });
                     }
-                    navigation.navigate('ProductCatalog', {
+                    navigation.navigate("ProductCatalog", {
                       facetInput,
-                      referenceId: item.referenceId
-                    })
+                      referenceId: item.referenceId,
+                    });
                   }}
                 />
-              )
+              );
             })}
           </Animatable.View>
         </>
       )}
     </Box>
-  )
-}
+  );
+};
 
 export const FixedMenuItem: React.FC<{
-  iconName: string
-  title: JSX.Element
-  onPress: Function
-  underline: boolean
-  disabled?: boolean
+  iconName: string;
+  title: JSX.Element;
+  onPress: Function;
+  underline: boolean;
+  disabled?: boolean;
 }> = ({ iconName, title, onPress, disabled, underline }) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <Box
-        justifyContent='flex-start'
-        alignItems='center'
-        marginY='micro'
-        flexDirection='row'
-        marginX='xxxs'>
-        <Icon name={iconName} color='preto' size={18} />
-        <Box marginX='micro'>{title}</Box>
+        justifyContent="flex-start"
+        alignItems="center"
+        marginY="micro"
+        flexDirection="row"
+        marginX="xxxs"
+      >
+        <Icon name={iconName} color="preto" size={18} />
+        <Box marginX="micro">{title}</Box>
       </Box>
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 export interface Subcategory {
   items: {
-    name: string,
-    referenceId: string,
-    highlight: boolean
-  }[]
+    name: string;
+    referenceId: string;
+    highlight: boolean;
+  }[];
 }
 export interface Category {
-  name: string,
-  children: Subcategory[],
-  opened: boolean,
-  highlight: boolean,
-  referenceId: string
+  name: string;
+  children: Subcategory[];
+  opened: boolean;
+  highlight: boolean;
+  referenceId: string;
 }
 type Profile = {
   birthDate: string | null;
@@ -213,17 +219,23 @@ type Profile = {
 };
 
 export const Menu: React.FC<{}> = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const { cookie } = useAuth();
-  const [categories, setCategories] = useState<Category[]>([])
-  const { loading: loadingProfile, error: errorProfile, data: dataProfile, refetch } = useQuery(profileQuery);
-  const [profile, setProfile] = useState<Profile>()
+  const [categories, setCategories] = useState<Category[]>([]);
+  const {
+    loading: loadingProfile,
+    error: errorProfile,
+    data: dataProfile,
+    refetch,
+  } = useQuery(profileQuery);
+  const [profile, setProfile] = useState<Profile>();
 
   const { loading, error, data } = useQuery(categoriesQuery, {
-    context: { clientName: 'contentful' }
+    context: { clientName: "contentful" },
   });
 
-  let categoryItems = data?.appMenuCollection.items[0].itemsCollection.items || []
+  let categoryItems =
+    data?.appMenuCollection.items[0].itemsCollection.items || [];
 
   useEffect(() => {
     setCategories(
@@ -234,8 +246,8 @@ export const Menu: React.FC<{}> = () => {
         opened: false,
         highlight: false,
       }))
-    )
-  }, [data])
+    );
+  }, [data]);
 
   useEffect(() => {
     if (dataProfile) {
@@ -248,7 +260,7 @@ export const Menu: React.FC<{}> = () => {
     }
   }, [dataProfile]);
 
-  const { authentication } = useSelector((state: ApplicationState) => state)
+  const { authentication } = useSelector((state: ApplicationState) => state);
 
   const openMenuItem = (index: number) => {
     setCategories(
@@ -256,20 +268,19 @@ export const Menu: React.FC<{}> = () => {
         ...item,
         opened: index === i && !item.opened,
       }))
-    )
-  }
+    );
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
-      <Box flex={1} backgroundColor='backgroundApp'>
+      <Box flex={1} backgroundColor="backgroundApp">
         <TopBarMenu loading={loading} />
         <ScrollView>
-          <Box paddingX='nano' paddingTop='micro'>
-          </Box>
-          <Breadcrumbs title='Página Inicial' />
-          <Divider variant='fullWidth' marginBottom='nano' marginTop='nano' />
+          <Box paddingX="nano" paddingTop="micro"></Box>
+          <Breadcrumbs title="Página Inicial" />
+          <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           {categories && (
-            <Animatable.View animation='fadeIn'>
+            <Animatable.View animation="fadeIn">
               {categories.map((item, index) => {
                 return (
                   <MenuItem
@@ -281,91 +292,104 @@ export const Menu: React.FC<{}> = () => {
                     index={index}
                     title={item.name}
                   />
-                )
+                );
               })}
               <Divider
-                variant='fullWidth'
-                marginBottom='nano'
-                marginTop='nano'
+                variant="fullWidth"
+                marginBottom="nano"
+                marginTop="nano"
               />
               <FixedMenuItem
-                iconName='Profile'
+                iconName="Profile"
                 disabled={cookie ? true : false}
                 title={
                   <Typography
-                    alignSelf='flex-end'
-                    color='preto'
+                    alignSelf="flex-end"
+                    color="preto"
                     fontSize={15}
-                    fontFamily='nunitoBold'>
-                    {cookie ?
-                      <Typography>
+                    fontFamily="nunitoBold"
+                  >
+                    {cookie ? (
+                      <Typography
+                        onPress={() => {
+                          navigation.navigate("Profile");
+                        }}
+                      >
                         Olá, {profile?.firstName || profile?.email}
                       </Typography>
-                      :
-                      <Typography>
+                    ) : (
+                      <Typography
+                        onPress={() => {
+                          navigation.navigate("Login", { comeFrom: "Profile" });
+                        }}
+                      >
                         Acessar Conta
                       </Typography>
-                    }
+                    )}
                   </Typography>
                 }
-                onPress={() => {
-                  navigation.navigate('Login', { comefrom: 'Home' })
-                }}
-                underline></FixedMenuItem>
+              ></FixedMenuItem>
               <FixedMenuItem
-                iconName='Heart'
+                iconName="Heart"
                 title={
                   <Typography
-                    alignSelf='flex-end'
-                    color='preto'
+                    alignSelf="flex-end"
+                    color="preto"
                     fontSize={15}
-                    fontFamily='nunitoBold'>
+                    fontFamily="nunitoBold"
+                  >
                     Favoritos
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate('WishList')
-                }}></FixedMenuItem>
+                  navigation.navigate("WishList");
+                }}
+              ></FixedMenuItem>
               <FixedMenuItem
-                iconName='Message'
+                iconName="Message"
                 title={
                   <Typography
-                    alignSelf='flex-end'
-                    color='preto'
+                    alignSelf="flex-end"
+                    color="preto"
                     fontSize={15}
-                    fontFamily='nunitoBold'>
+                    fontFamily="nunitoBold"
+                  >
                     Central de Ajuda
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate('HelpCenter')
-                }}></FixedMenuItem>
+                  navigation.navigate("HelpCenter");
+                }}
+              ></FixedMenuItem>
               <FixedMenuItem
-                iconName='Pin'
+                iconName="Pin"
                 title={
                   <Typography
-                    alignSelf='flex-end'
-                    color='preto'
+                    alignSelf="flex-end"
+                    color="preto"
                     fontSize={15}
-                    fontFamily='nunitoBold'>
+                    fontFamily="nunitoBold"
+                  >
                     Lojas
                   </Typography>
                 }
                 onPress={() => {
-                  Linking.openURL('https://whts.co/reserva');
-                }}></FixedMenuItem>
+                  Linking.openURL("https://whts.co/reserva");
+                }}
+              ></FixedMenuItem>
             </Animatable.View>
           )}
           <Box mt="xs" alignItems="center">
             <Typography
               color="neutroFrio2"
               fontFamily="nunitoRegular"
-              fontSize={11}>
+              fontSize={11}
+            >
               Versão {DeviceInfo.getVersion()}
             </Typography>
           </Box>
         </ScrollView>
       </Box>
     </SafeAreaView>
-  )
-}
+  );
+};
