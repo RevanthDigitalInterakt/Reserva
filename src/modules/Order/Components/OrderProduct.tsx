@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { Typography, Box, Button, Icon, Image } from 'reserva-ui';
+import { images } from '../../../assets';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 
 type IOrderItemData = {
@@ -24,6 +25,7 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
       <Box flexDirection="row" mt={'xxs'}>
         <Box>
           <Image
+            imageDefault={images.imageNotFound}
             variant="sm"
             source={{
               uri: orderItem.imageUrl.replace('http', 'https')
