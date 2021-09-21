@@ -15,6 +15,8 @@ export const images = {
   americanExpress: require('./img/americanExpress.png'),
   elo: require('./img/elo.png'),
 
+  cupomModalBackground: require('./img/cupomModalBackground.png'),
+
   cardFront: require('./img/cardFront.png'),
   cardVerso: require('./img/cardVerso.png'),
 

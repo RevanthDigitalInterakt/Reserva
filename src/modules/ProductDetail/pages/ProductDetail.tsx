@@ -406,7 +406,7 @@ export const ProductDetail: React.FC<Props> = ({
     const path = url.replace(`${domain ? domain[0] : ''}`, '')
 
     const options = {
-      message: 'Aqui está um produto que você pode gostar: \n',
+      message: 'Olha o que acabei de encontrar na Reserva: \n',
       title: 'Compartilhar',
       url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
     };

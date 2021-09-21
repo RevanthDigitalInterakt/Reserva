@@ -25,7 +25,7 @@ export const EditPassword = ({ route }: Props) => {
   const [email, setEmail] = useState();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
-  const [showRepetPassword, setShowRepetPassword] = useState(true);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(true);
   const [newPassword, { data: dataMutation, loading: loadingMutation }] =
     useMutation(redefinePasswordMutation);
 
@@ -91,13 +91,38 @@ export const EditPassword = ({ route }: Props) => {
               initialValues={initialValues}
               validationSchema={validation}
               innerRef={formRef}
-              onSubmit={(values) => {
+              onSubmit={(values: any) => {
                 const { password, current_password } = values;
                 changePassword(password, current_password);
               }}
             >
               {() => (
                 <>
+                  <Box mb={"micro"}>
+                    <FormikTextInput
+                      label={"Digite sua senha atual"}
+                      secureTextEntry={showCurrentPassword}
+                      field={"current_password"}
+                      iconRight={
+                        <Button
+                          mr="xxxs"
+                          onPress={() =>
+                            setShowCurrentPassword(!showCurrentPassword)
+                          }
+                        >
+                          {showCurrentPassword ? (
+                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                          ) : (
+                            <Icon
+                              color="neutroFrio2"
+                              name="EyeOpen"
+                              size={25}
+                            />
+                          )}
+                        </Button>
+                      }
+                    />
+                  </Box>
                   <Box mb={"micro"}>
                     <FormikTextInput
                       label={"Digite sua nova senha"}
@@ -125,40 +150,15 @@ export const EditPassword = ({ route }: Props) => {
                     <FormikTextInput
                       label={"Repita a senha"}
                       field={"password_confirm"}
-                      secureTextEntry={showRepetPassword}
+                      secureTextEntry={showRepeatPassword}
                       iconRight={
                         <Button
                           mr="xxxs"
                           onPress={() =>
-                            setShowRepetPassword(!showRepetPassword)
+                            setShowRepeatPassword(!showRepeatPassword)
                           }
                         >
-                          {showRepetPassword ? (
-                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                          ) : (
-                            <Icon
-                              color="neutroFrio2"
-                              name="EyeOpen"
-                              size={25}
-                            />
-                          )}
-                        </Button>
-                      }
-                    />
-                  </Box>
-                  <Box mb={"micro"}>
-                    <FormikTextInput
-                      label={"Digite sua senha atual"}
-                      secureTextEntry={showCurrentPassword}
-                      field={"current_password"}
-                      iconRight={
-                        <Button
-                          mr="xxxs"
-                          onPress={() =>
-                            setShowCurrentPassword(!showCurrentPassword)
-                          }
-                        >
-                          {showCurrentPassword ? (
+                          {showRepeatPassword ? (
                             <Icon color="neutroFrio2" name="EyeOff" size={25} />
                           ) : (
                             <Icon
