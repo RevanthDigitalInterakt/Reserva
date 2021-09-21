@@ -48,7 +48,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
 
   const [
     recoveryPassword,
-    { data: dataRecoveryPassword, loading: loadingRecoveryPassword },
+    { data: dataRecoveryPassword, loading: loadingRecoveryPassword, error },
   ] = useMutation(recoveryPasswordMutation);
 
   const handleUpdatePassword = () => {
@@ -57,6 +57,11 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       code,
       newPassword: passwords.confirm,
     };
+    if (error != null || code.length < 6) {
+      setShowError(true);
+    } else {
+      setShowError(false);
+    }
     recoveryPassword({
       variables,
     }).then((x) => {
