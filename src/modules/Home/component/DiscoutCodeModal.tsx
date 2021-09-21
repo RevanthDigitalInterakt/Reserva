@@ -98,7 +98,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
         source={images.cupomModalBackground}
         style={{
           width: modalWidth,
-          height: modalHeight,
+          // height: modalHeight,
           paddingHorizontal: 15
         }}
       >
@@ -158,7 +158,6 @@ https://play.google.com/store/apps/details?id=com.usereserva
           <Box
             backgroundColor='backgroundMenuOpened'
             borderRadius={2}
-            height={72.32}
             px={7.5}
             py={10.5}
             mt={15.2}
@@ -175,7 +174,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
           </Box>
         </Box>
 
-        <Box position='absolute' bottom={13} left={15} width={modalWidth - (15 * 2)} justifyContent='center'>
+        <Box mb={13} mt={35} width={modalWidth - (15 * 2)} justifyContent='center'>
           <Button
             onPress={onClickCopy}
             inline>
