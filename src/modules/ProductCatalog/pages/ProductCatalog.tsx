@@ -162,9 +162,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -174,9 +174,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -186,9 +186,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // PRICE
@@ -196,9 +196,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -464,7 +464,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Skeleton>
       ) : null}
 
-      <Modal isVisible={loadingModal}>
+      {/* <Modal isVisible={loadingModal}>
         <Box
           zIndex={5}
           height="100%"
@@ -484,7 +484,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           />
           <Text>Carregando...</Text>
         </Box>
-      </Modal>
+      </Modal> */}
 
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}
