@@ -57,6 +57,8 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
       title: 'Compartilhar',
       message: `Estou te dando R$ 50 em créditos* na Reserva! Pra resgatar, é só baixar o app e inserir na sacola o meu código ${code}. Eu não ia te deixar de fora dessa, né? 
 
+https://apps.apple.com/br/app/reserva-ar-co/id1566861458
+
 https://play.google.com/store/apps/details?id=com.usereserva
 
 *Válido apenas na 1ª compra no app, com valor acima de R$ 150.`,
@@ -98,7 +100,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
         source={images.cupomModalBackground}
         style={{
           width: modalWidth,
-          height: modalHeight,
+          // height: modalHeight,
           paddingHorizontal: 15
         }}
       >
@@ -158,7 +160,6 @@ https://play.google.com/store/apps/details?id=com.usereserva
           <Box
             backgroundColor='backgroundMenuOpened'
             borderRadius={2}
-            height={72.32}
             px={7.5}
             py={10.5}
             mt={15.2}
@@ -175,7 +176,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
           </Box>
         </Box>
 
-        <Box position='absolute' bottom={13} left={15} width={modalWidth - (15 * 2)} justifyContent='center'>
+        <Box mb={13} mt={35} width={modalWidth - (15 * 2)} justifyContent='center'>
           <Button
             onPress={onClickCopy}
             inline>
