@@ -57,6 +57,8 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
       title: 'Compartilhar',
       message: `Estou te dando R$ 50 em créditos* na Reserva! Pra resgatar, é só baixar o app e inserir na sacola o meu código ${code}. Eu não ia te deixar de fora dessa, né? 
 
+https://apps.apple.com/br/app/reserva-ar-co/id1566861458
+
 https://play.google.com/store/apps/details?id=com.usereserva
 
 *Válido apenas na 1ª compra no app, com valor acima de R$ 150.`,
