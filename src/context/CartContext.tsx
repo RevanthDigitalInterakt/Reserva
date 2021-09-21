@@ -26,7 +26,8 @@ import {
   ResetUserCheckout,
   SendUserEmail,
   ConvertZipCode,
-  Tracking
+  Tracking,
+  PickupPoint
 } from "../services/vtexService";
 
 interface ClientPreferencesData {
@@ -83,6 +84,7 @@ interface Address {
   addressType: string;
   receiverName: string;
   addressId: string;
+  isDisposable: string;
   postalCode: string;
   city: string;
   state: string;
@@ -151,6 +153,13 @@ export interface PickupPoints {
   additionalInfo: string;
   id: string;
   businessHours: BusinessHours[];
+}
+
+export interface items {
+  items: {
+    distance?: number;
+    pickupPoint: PickupPoints;
+  }[]
 }
 
 interface ShippingData {
@@ -331,6 +340,7 @@ interface CartContextProps {
   sendUserEmail: (email: string) => Promise<boolean | undefined>;
   convertZipCode: (postalCode: string) => Promise<Address | undefined>;
   tracking: (cookie: string, order: string) => Promise<ITracking | undefined>;
+  pickupPoint: (longitude: string, latitude: string) => Promise<items | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -597,6 +607,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
+  const pickupPoint = async (longitude: string, latitude: string) => {
+    try {
+      const { data } = await PickupPoint(longitude, latitude);
+      return data;
+    } catch (error) {
+      console.log('error', error.response.data)
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -616,7 +635,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         resetUserCheckout,
         sendUserEmail,
         convertZipCode,
-        tracking
+        tracking,
+        pickupPoint
       }}
     >
       {children}
@@ -650,7 +670,8 @@ export const useCart = () => {
     resetUserCheckout,
     sendUserEmail,
     convertZipCode,
-    tracking
+    tracking,
+    pickupPoint
   } = cartContext;
   return {
     orderForm,
@@ -669,6 +690,7 @@ export const useCart = () => {
     resetUserCheckout,
     sendUserEmail,
     convertZipCode,
-    tracking
+    tracking,
+    pickupPoint
   };
 };

@@ -334,6 +334,13 @@ const Tracking = async (
   });
   return response;
 }
+const PickupPoint = async (
+  longitude: string,
+  latitude: string
+) => {
+  const response = await instance2.get(`/checkout/pub/pickup-points?geoCoordinates=${longitude};${latitude}`);
+  return response;
+}
 
 export {
   CreateCart,
@@ -358,5 +365,6 @@ export {
   ResetUserCheckout,
   SendUserEmail,
   ConvertZipCode,
-  Tracking
+  Tracking,
+  PickupPoint
 };
