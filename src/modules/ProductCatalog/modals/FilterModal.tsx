@@ -155,9 +155,6 @@ export const FilterModal = ({
       })),
     ];
 
-    console.tron.log(filterRequestList);
-
-
     // setFilterRequestList(filterRequestList.flat());
     setFilterRequestList([].concat(...filterRequestList));
 

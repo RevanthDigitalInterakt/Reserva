@@ -128,7 +128,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     setSkip(true);
     await refetch();
     setSkeletonLoading(false);
-    await refetchFacets();
     await refetchBanner({ category: referenceId });
   };
 
@@ -231,7 +230,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         selectedFacets: [].concat(facetInput, filterRequestList),
       },
     });
-    refetchFacets();
     // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
     setLoadingModal(loading);
@@ -242,7 +240,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (filterRequestList) {
-      setProducts([]);
+      setProducts({
+        products: []
+      });
       loadMoreProducts(0);
     }
   }, [filterRequestList]);
@@ -464,7 +464,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Skeleton>
       ) : null}
 
-      <Modal isVisible={loadingModal}>
+      {/* <Modal isVisible={loadingModal}>
         <Box
           zIndex={5}
           height="100%"
@@ -484,8 +484,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           />
           <Text>Carregando...</Text>
         </Box>
-      </Modal>
-
+      </Modal> */}
       <ListVerticalProducts
         loadMoreProducts={loadMoreProducts}
         products={productsQuery.products}
