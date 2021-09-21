@@ -98,7 +98,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
         source={images.cupomModalBackground}
         style={{
           width: modalWidth,
-          height: modalHeight,
+          // height: modalHeight,
           paddingHorizontal: 15
         }}
       >
@@ -174,7 +174,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
           </Box>
         </Box>
 
-        <Box position='absolute' bottom={13} left={15} width={modalWidth - (15 * 2)} justifyContent='center'>
+        <Box mb={13} mt={35} width={modalWidth - (15 * 2)} justifyContent='center'>
           <Button
             onPress={onClickCopy}
             inline>
