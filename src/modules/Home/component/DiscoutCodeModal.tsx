@@ -158,7 +158,6 @@ https://play.google.com/store/apps/details?id=com.usereserva
           <Box
             backgroundColor='backgroundMenuOpened'
             borderRadius={2}
-            height={72.32}
             px={7.5}
             py={10.5}
             mt={15.2}
