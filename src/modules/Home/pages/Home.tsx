@@ -16,6 +16,7 @@ import { View } from 'react-native-animatable';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import AsyncStorage from '@react-native-community/async-storage';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
@@ -26,6 +27,7 @@ export const HomeScreen: React.FC<{
   const navigation = useNavigation();
   const { cookie, setEmail } = useAuth()
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true)
+  const [isVisibleUpdateStore, setIsVisibleUpdateStore] = useState(false)
   const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const dispatch = useDispatch();
   const [images, setImages] = React.useState<HomeQuery[]>([])
@@ -102,6 +104,7 @@ export const HomeScreen: React.FC<{
           <Icon name='Close' size={15} color='white' ml="xxxs" />
         </Button>
       </Box> */}
+      <StoreUpdate isVisible={true} />
       <DiscoutCodeModal isVisible={modalCodeIsVisible} code={'RSVAPP50'} onClose={() => { setModalCodeIsVisible(false) }} />
       <WithoutInternet />
       {

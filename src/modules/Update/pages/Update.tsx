@@ -9,7 +9,11 @@ const Update = () => {
     const [currentStep, setCurrentStep] = useState(40);
     const [percentStep, setPercentStep] = useState(100);
     return (
-        <ScrollView>
+        <ScrollView
+            style={{
+                backgroundColor: '#fff'
+            }}
+        >
             <Box
                 bg="white"
                 height="100%"
