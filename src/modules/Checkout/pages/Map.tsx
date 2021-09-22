@@ -113,7 +113,7 @@ export const MapScreen = ({ route }: Props) => {
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
       <TopBarBackButton loading={loading || loadingMap} showShadow />
-      {orderForm?.shippingData.pickupPoints.length > 0 ?
+      {orderForm && orderForm?.shippingData.pickupPoints.length > 0 ?
         <>
           <Box flex={2}>
             {position &&
