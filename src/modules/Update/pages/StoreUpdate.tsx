@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core"
 import { useLinkTo } from "@react-navigation/native"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Linking, NativeModules, Platform } from 'react-native'
 import { ScrollView } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -8,32 +8,36 @@ import { Box, Button, Image, Typography } from "reserva-ui"
 import { images } from "../../../assets"
 import Modal from 'react-native-modal'
 import { padding } from "styled-system"
+import DeviceInfo from "react-native-device-info";
 // import { getAppstoreAppMetadata } from 'react-native-appstore-version-checker'
-
-var { getAppstoreAppVersion } = require('react-native-appstore-version-checker')
+import { version } from '../../../../package.json'
+var { getAppstoreAppMetadata } = require('react-native-appstore-version-checker')
 
 interface StoreUpdateProps {
-  isVisible: boolean
 }
 
-export const StoreUpdate: React.FC<StoreUpdateProps> = ({ isVisible }) => {
+export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
   const linkTo = useLinkTo()
   const navigation = useNavigation()
+  const [isVisible, setIsVisible] = useState(false)
 
+  const [ignore, setIgnore] = useState(false)
 
   const hasNewVersion = async () => {
-    const id = Platform.OS == 'ios' ? '1566861458' : 'com.usereserva'
-    const data = await getAppstoreAppVersion(id, {
-      jquerySelector: "[itemprop='softwareVersion']",
-      country: 'br',
-      typeOfId: "id"
-    })
-    console.log('store data: ', data)
+    if (!ignore) {
+
+      const id = Platform.OS == 'ios' ? '1566861458' : 'com.usereserva'
+
+      const { version: storeVersion } = await getAppstoreAppMetadata(id)
+      console.log('store data: ', storeVersion, DeviceInfo.getVersion())
+      storeVersion != DeviceInfo.getVersion() ? setIsVisible(true) : setIsVisible(false)
+    }
   }
 
-  // useEffect(() => {
-  //   getAppStoreVersion()
-  // }, [])
+  useEffect(() => {
+
+    hasNewVersion()
+  }, [])
 
   return <Modal isVisible={isVisible} style={{ margin: 0 }}
   >
@@ -96,8 +100,8 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ isVisible }) => {
         <Box width="100%">
           <Button
             onPress={() => {
-              hasNewVersion()
-              // navigation.navigate('')
+              setIgnore(true)
+              setIsVisible(false)
             }}
             inline
             title='CONTINUAR'

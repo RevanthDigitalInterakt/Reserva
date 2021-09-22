@@ -104,7 +104,7 @@ export const HomeScreen: React.FC<{
           <Icon name='Close' size={15} color='white' ml="xxxs" />
         </Button>
       </Box> */}
-      <StoreUpdate isVisible={true} />
+      <StoreUpdate />
       <DiscoutCodeModal isVisible={modalCodeIsVisible} code={'RSVAPP50'} onClose={() => { setModalCodeIsVisible(false) }} />
       <WithoutInternet />
       {
