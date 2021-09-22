@@ -66,6 +66,7 @@ import { IdentifyEmail } from "../modules/LoginCheckout/pages/IdentifyEmail";
 import { ForgotAccessCode } from "../modules/Forgot/pages/ForgotAccessCode";
 import { CreateCartProfile } from "../modules/Checkout/pages/CreateCartProfile";
 import CallCenter from "../modules/CallCenter";
+import { StoreUpdate } from "../modules/Update/pages/StoreUpdate";
 
 export type RootStackParamList = {
   Register: {
@@ -134,6 +135,7 @@ export type RootStackParamList = {
   EditPassword: {
     email: string;
   };
+  StoreUpdate: {} | undefined;
   CreateCartProfile: {};
   NewCard: { isCheckout: boolean };
   NearbyStores: { UF: string };
@@ -178,7 +180,7 @@ const MainStackScreen = () => {
   // Here you put normal navigation
   return (
     <MainStack.Navigator
-      //initialRouteName='CreateCartProfile'
+      initialRouteName='StoreUpdate'
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
     >
@@ -210,6 +212,7 @@ const MainStackScreen = () => {
       />
 
       <MainStack.Screen name="BagScreen" component={BagScreen} />
+      <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
       <MainStack.Screen
         name="SummaryScreen"
         component={SummaryScreen}
