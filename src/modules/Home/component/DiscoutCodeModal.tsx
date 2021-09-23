@@ -104,32 +104,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
           paddingHorizontal: 15
         }}
       >
-        <Animated.View style={{
-          opacity: toastOpacity
-        }}>
-          <Box
-            style={
-              {
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0,
-                shadowRadius: 2,
 
-                elevation: 5,
-              }}
-            borderRadius='nano'
-            backgroundColor='white'
-            position='absolute'
-            alignSelf='center'
-            zIndex={5}
-            p={6}
-            top={modalHeight / 2} >
-            <Typography fontFamily='nunitoRegular' fontSize={13}>Código copiado!</Typography>
-          </Box>
-        </Animated.View>
 
         <Box position='absolute' top={13} right={13}>
           <Button
@@ -175,7 +150,32 @@ https://play.google.com/store/apps/details?id=com.usereserva
             </Typography>
           </Box>
         </Box>
+        <Animated.View style={{
+          opacity: toastOpacity
+        }}>
+          <Box
+            style={
+              {
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0,
+                shadowRadius: 2,
 
+                elevation: 5,
+              }}
+            borderRadius='nano'
+            backgroundColor='white'
+            position='absolute'
+            alignSelf='center'
+            zIndex={5}
+            p={6}
+            top={-7} >
+            <Typography fontFamily='nunitoRegular' fontSize={13}>Código copiado!</Typography>
+          </Box>
+        </Animated.View>
         <Box mb={13} mt={35} width={modalWidth - (15 * 2)} justifyContent='center'>
           <Button
             onPress={onClickCopy}
