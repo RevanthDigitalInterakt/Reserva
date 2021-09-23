@@ -1,16 +1,36 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Typography, Box, Button, Image, ProgressBar } from "reserva-ui";
 import { images } from "../../../assets";
 import * as Animatable from "react-native-animatable";
 import { ScrollView } from 'react-native';
+import Modal from 'react-native-modal'
 
-const Update = () => {
+
+interface UpdateProps {
+    isVisible: boolean,
+    receivedBytes: number,
+    totalBytes: number
+}
+
+const Update: React.FC<UpdateProps> = ({
+    isVisible,
+    receivedBytes,
+    totalBytes
+}) => {
     const [updateConfirmed, setUpdateConfirmed] = useState<boolean>(false)
     const [currentStep, setCurrentStep] = useState(40);
-    const [percentStep, setPercentStep] = useState(100);
+    const percentStep = 100;
+
+    useEffect(() => {
+        const actualPercent = (receivedBytes * 100) / totalBytes
+        setCurrentStep(actualPercent)
+    }, [receivedBytes])
+
     return (
-        <ScrollView
+        <Modal
+            isVisible={isVisible}
             style={{
+                margin: 0,
                 backgroundColor: '#fff'
             }}
         >
@@ -96,7 +116,7 @@ const Update = () => {
                     </Box>
                 }
             </Box>
-        </ScrollView>
+        </Modal>
     );
 };
 

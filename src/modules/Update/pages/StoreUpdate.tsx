@@ -18,7 +18,7 @@ interface StoreUpdateProps {
 
 export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
   const linkTo = useLinkTo()
-  const navigation = useNavigation()
+
   const [isVisible, setIsVisible] = useState(false)
 
   const [ignore, setIgnore] = useState(false)
@@ -81,9 +81,9 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
               Linking.openURL(
                 Platform.OS === 'ios' ?
                   'itms-apps://itunes.apple.com/app/apple-store/id1566861458'
-                  //'https://appstoreconnect.apple.com/apps/1566861458/appstore'
                   :
                   'market://details?id=com.usereserva')
+              // Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1566861458')
             }}
             inline
             title='ATUALIZAR'
