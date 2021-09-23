@@ -78,7 +78,12 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
         <Box width="100%">
           <Button
             onPress={() => {
-              Linking.openURL('market://details?id=com.usereserva')
+              Linking.openURL(
+                Platform.OS === 'ios' ?
+                  'itms-apps://itunes.apple.com/app/apple-store/id1566861458'
+                  //'https://appstoreconnect.apple.com/apps/1566861458/appstore'
+                  :
+                  'market://details?id=com.usereserva')
             }}
             inline
             title='ATUALIZAR'
