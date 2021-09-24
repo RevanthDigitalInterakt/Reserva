@@ -30,8 +30,31 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
 
       const { version: storeVersion } = await getAppstoreAppMetadata(id)
       console.log('store data: ', storeVersion, DeviceInfo.getVersion())
-      storeVersion != DeviceInfo.getVersion() ? setIsVisible(true) : setIsVisible(false)
+
+      needUpdate(DeviceInfo.getVersion(), storeVersion) ? setIsVisible(true) : setIsVisible(false)
     }
+  }
+
+  const needUpdate = (appVersion: string, storeVersion: string) => {
+
+    const appVersionParsed = appVersion.split('-')[0].split('.')
+    const storeVersionParsed = storeVersion.split('-')[0].split('.')
+
+
+    const isAppVersionLower = appVersionParsed.find((value, index) => {
+      // if find app version is lower then store version (in any dot)
+      console.log(parseInt(value), parseInt(storeVersionParsed[index]))
+      return (parseInt(value) < parseInt(storeVersionParsed[index]))
+    })
+
+    if (isAppVersionLower)
+      return true
+
+    if (!appVersion.includes('beta') && storeVersion.includes('beta'))
+      return true
+
+    return false
+
   }
 
   useEffect(() => {
