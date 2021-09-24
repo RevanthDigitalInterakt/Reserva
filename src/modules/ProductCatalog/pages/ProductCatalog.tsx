@@ -83,6 +83,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       nextFetchPolicy: "no-cache",
     }
   );
+
   const [loadingModal, setLoadingModal] = useState(false);
   const [firstLoading, setFirstLoading] = useState(true);
 
@@ -207,20 +208,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
   }, [facetsData]);
 
+
   useEffect(() => {
     if (!loading && !!data) {
       setProducts(data.productSearch);
     }
   }, [data]);
 
+
   const loadMoreProducts = async (offset: number) => {
     console.log("offSet", offset);
     setLoadingFetchMore(true);
-    if (!firstLoading) {
-      setLoadingModal(true);
-    } else {
-      setLoadingModal(false);
-    }
+
     let { data, loading } = await fetchMore({
       variables: {
         orderBy: selectedOrder,
@@ -232,8 +231,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     });
     // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
-    setLoadingModal(loading);
-    setFirstLoading(false);
 
     setProducts(data.productSearch);
   };
@@ -491,6 +488,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         loadingHandler={(loadingState) => {
           setLoadingHandlerState(loadingState);
         }}
+        totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
             <Image height={200} source={bannerImage} width={1 / 1} />
