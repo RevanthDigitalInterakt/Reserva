@@ -5877,6 +5877,11 @@ lodash.pick@^4.4.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
   integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
 
+lodash.result@^4.5.2:
+  version "4.5.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lodash.result/-/lodash.result-4.5.2.tgz#cb45b27fb914eaa8d8ee6f0ce7b2870b87cb70aa"
+  integrity sha1-y0Wyf7kU6qjY7m8M57KHC4fLcKo=
+
 lodash.throttle@^4.1.1:
   version "4.1.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
@@ -7403,6 +7408,13 @@ react-native-appsflyer@^6.3.50:
   version "6.4.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-appsflyer/-/react-native-appsflyer-6.4.0.tgz#8003e02295e8853a1b8367af803948a66553c2bf"
   integrity sha1-gAPgIpXohTobg2evgDlIpmVTwr8=
+
+react-native-appstore-version-checker@^3.0.0:
+  version "3.0.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-appstore-version-checker/-/react-native-appstore-version-checker-3.0.0.tgz#0c471402a09cb3fee4b0e2d031ffece5135d2009"
+  integrity sha1-DEcUAqCcs/7ksOLQMf/s5RNdIAk=
+  dependencies:
+    lodash.result "^4.5.2"
 
 react-native-cardscan@^1.1.30:
   version "1.1.30"
