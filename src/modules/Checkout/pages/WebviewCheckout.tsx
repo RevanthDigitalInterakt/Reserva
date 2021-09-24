@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Dimensions } from 'react-native';
 import { Box, Button } from 'reserva-ui';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -7,12 +7,13 @@ import { useCart } from '../../../context/CartContext';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native'
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { orderForm, orderform } = useCart();
   const [navState, setNavState] = useState('');
-
+  const [checkoutCompleted, setCheckoutCompleted] = useState(false)
   const [loading, setLoading] = useState(true)
 
   const goToHome = () => {
@@ -20,12 +21,19 @@ const Checkout: React.FC<{}> = () => {
 
     if (check) {
       orderform();
-
       setTimeout(() => {
         navigation.navigate('Home');
       }, 500);
     }
   };
+
+  useEffect(() => {
+    const check = navState.includes('/checkout/orderPlaced');
+    if (check) {
+      orderform();
+      setCheckoutCompleted(true)
+    }
+  }, [navState])
 
   return (
     <View flex={1} backgroundColor={'white'}>
@@ -39,7 +47,11 @@ const Checkout: React.FC<{}> = () => {
           loop
         />
       </Box>}
-      <TopBarBackButton showShadow />
+      {checkoutCompleted ?
+        <TopBarCheckoutCompleted showShadow />
+        :
+        <TopBarBackButton showShadow />
+      }
       <Box>
         {orderForm?.orderFormId !== '' && (
           <View

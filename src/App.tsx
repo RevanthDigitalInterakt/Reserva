@@ -1,5 +1,5 @@
 import { ThemeProvider } from "styled-components/native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { theme } from "reserva-ui";
@@ -22,6 +22,8 @@ import configureStore from "./store/index";
 
 import './config/ReactotronConfig'
 import "react-native-gesture-handler";
+import Update from "./modules/Update/pages/Update";
+import { StoreUpdate } from "./modules/Update/pages/StoreUpdate";
 
 Sentry.init({
   dsn: env.SENTRY_KEY,
@@ -36,17 +38,17 @@ const DefaultTheme = {
 
 var onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
-      if (JSON.parse(res.data.is_first_launch) == true) {
-          if (res.data.af_status === 'Non-organic') {
-              var media_source = res.data.media_source;
-              var campaign = res.data.campaign;
-              console.log('This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign);
-          } else if (res.data.af_status === 'Organic') {
-              console.log('This is first launch and a Organic Install');
-          }
-      } else {
-          console.log('This is not first launch');
+    if (JSON.parse(res.data.is_first_launch) == true) {
+      if (res.data.af_status === 'Non-organic') {
+        var media_source = res.data.media_source;
+        var campaign = res.data.campaign;
+        console.log('This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign);
+      } else if (res.data.af_status === 'Organic') {
+        console.log('This is first launch and a Organic Install');
       }
+    } else {
+      console.log('This is not first launch');
+    }
   },
 );
 
@@ -72,14 +74,20 @@ appsFlyer.initSdk(
 );
 
 const App = () => {
+
+  const [codePushReceivedBytes, setCodePushReceivedBytes] = useState(1)
+  const [codePushTotalBytes, setCodePushTotalBytes] = useState(1)
+
+  const [isVisibleCodePush, setIsVisibleCodePush] = useState(false)
+
   useEffect(() => {
     return () => {
-      if(onInstallConversionDataCanceller) {
+      if (onInstallConversionDataCanceller) {
         onInstallConversionDataCanceller();
         console.log('unregister onInstallConversionDataCanceller');
         onInstallConversionDataCanceller = null;
       }
-      
+
       if (onAppOpenAttributionCanceller) {
         onAppOpenAttributionCanceller();
         console.log('unregister onAppOpenAttributionCanceller');
@@ -102,20 +110,26 @@ const App = () => {
       (status) => {
         switch (status) {
           case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-            Alert.alert("Uma atualização foi encontrada e está sendo baixada");
+            setIsVisibleCodePush(true)
+            // Alert.alert("Uma atualização foi encontrada e está sendo baixada");
             break;
           case codePush.SyncStatus.INSTALLING_UPDATE:
-          // Hide "downloading" modal
+            setIsVisibleCodePush(false)
+            // Hide "downloading" modal
+            break;
           case codePush.SyncStatus.UPDATE_INSTALLED:
             Alert.alert(
               "Atualização instalada com sucesso!",
               "Favor reiniciar o aplicativo"
             );
+            setIsVisibleCodePush(false)
             // Hide "downloading" modal
             break;
         }
       },
       ({ receivedBytes, totalBytes }) => {
+        setCodePushReceivedBytes(receivedBytes)
+        setCodePushTotalBytes(totalBytes)
         /* Update download modal progress */
       }
     );
@@ -123,9 +137,12 @@ const App = () => {
     oneSignalConfig();
   }, []);
 
+
+
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer theme={DefaultTheme}>
+        <Update isVisible={isVisibleCodePush} receivedBytes={codePushReceivedBytes} totalBytes={codePushTotalBytes} />
         <CartContextProvider>
           <AuthContextProvider>
             <ApolloProvider client={apolloClient}>
