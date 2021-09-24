@@ -240,6 +240,11 @@ export const ProductDetail: React.FC<Props> = ({
           sizeList: getSizePerColor(product, color)
         }
       });
+
+      let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
+      defaultSize?.size && setSelectedSize(defaultSize?.size)
+
+
       setItemsSKU(itemList);
 
     }
@@ -261,20 +266,19 @@ export const ProductDetail: React.FC<Props> = ({
         )
       );
 
-      const availableSizes = itemsSKU
+      const unavailableSizes = itemsSKU
         .map(p => p.color === selectedColor && p.sizeList.map(sizes => !sizes.available && sizes.size))
         .filter(a => a !== false)[0]
 
-      setUnavailableSizes(availableSizes);
+      setUnavailableSizes(unavailableSizes);
 
-      const index = availableSizes.findIndex((x) => x === false)
+
+      const index = unavailableSizes.findIndex((x) => x === false)
       if (index === -1) {
         setoutOfStock(true)
       } else {
         setoutOfStock(false)
       }
-
-      setSelectedSize(null);
     }
   }, [selectedColor])
 
