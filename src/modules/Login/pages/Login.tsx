@@ -77,8 +77,8 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data['classicSignIn'] === 'Success') {
-        setEmail(loginCredentials.username)
-        // navigation.navigate('Home');
+        setEmail(loginCredentials.username);
+        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(() => { });
       } else {
         validateCredentials();
       }
