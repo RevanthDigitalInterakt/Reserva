@@ -132,6 +132,10 @@ export const ListVerticalProducts = ({
     setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
   };
 
+  const getVariant = (variants: any, getVariantId: string) => {
+    return variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+  } 
+
   const populateWishlist = async () => {
     setSkip(true);
 
@@ -261,7 +265,7 @@ export const ListVerticalProducts = ({
                     onClickImage={() => {
                       navigation.navigate("ProductDetail", {
                         productId: item.productId,
-                        colorSelected: item.items[0].variations[2].values[0],
+                        colorSelected: getVariant(item.items[0].variations, "VALOR_HEX_CONSOLIDADA"),
                       });
                     }}
                   />
