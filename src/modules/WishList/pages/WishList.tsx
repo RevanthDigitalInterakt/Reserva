@@ -43,6 +43,19 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   })
 
+  useEffect(() => {
+    console.log('products', products)
+  }, [products])
+
+  useEffect(() => {
+    console.log('email', email)
+    console.log('cookie', cookie)
+  }, [email, cookie])
+
+  useEffect(() => {
+    console.log('wishIds', wishIds)
+  }, [wishIds])
+
   const handleFavorite = async (wishId: any) => {
     if (!!email) {
       console.log(wishId)
@@ -71,13 +84,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }, [wishIds])
 
   useEffect(() => {
-    console.log('productsddd', products)
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
       setWishProducts(products.productsByIdentifier)
   }, [products])
 
   useEffect(() => {
-    console.log('productIds', productIds)
     console.log(email)
     setWishIds(productIds?.viewList.data)
     const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
@@ -266,7 +277,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       </Box>
                     }
                     renderItem={({ item }) => {
-                      const product = wishProducts.find(prod => prod.productId == item.productId)
+                      const product = wishProducts.find(prod => prod.productId == item.productId.split("-")[0])
                       const productSku = product?.items.find(i => i.itemId == item.sku)
 
                       const installments = productSku?.sellers[0].commertialOffer.Installments;
