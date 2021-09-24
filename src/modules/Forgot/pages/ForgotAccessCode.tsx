@@ -17,7 +17,7 @@ import HeaderBanner from "../componet/HeaderBanner";
 import UnderlineInput from "../../Login/components/UnderlineInput";
 
 export interface ForgotAccessCodeProps
-  extends StackScreenProps<RootStackParamList, "ForgotAccessCode"> {}
+  extends StackScreenProps<RootStackParamList, "ForgotAccessCode"> { }
 
 export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   navigation,
@@ -57,7 +57,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       code,
       newPassword: passwords.confirm,
     };
-    if (error != null || code.length < 6) {
+    if (error != null || code.length < 6 || code == `${code}`) {
       setShowError(true);
     } else {
       setShowError(false);
