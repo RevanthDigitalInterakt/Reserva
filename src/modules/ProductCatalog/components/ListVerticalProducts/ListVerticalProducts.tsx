@@ -20,6 +20,8 @@ import { Alert } from "react-native";
 import { images } from "../../../../assets";
 import LottieView from "lottie-react-native"
 import { loadingSpinner } from "reserva-ui/src/assets/animations";
+import Modal from 'react-native-modal'
+
 interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
@@ -154,7 +156,7 @@ export const ListVerticalProducts = ({
   const populateListWithFavorite = async () => {
     setLoading(true);
     if (!!email) {
-      if (products && products.length > 0) {
+      if (products && products.length <= 0) {
         await populateWishlist();
       }
     }
@@ -187,96 +189,11 @@ export const ListVerticalProducts = ({
         isVisible={isVisible}
         favoritedProduct={favoritedProduct}
       />
-      {productList.length > 0 || loading ? (
-        <>
-          <FlatList
-            horizontal={horizontal}
-            data={productList}
-            keyExtractor={(item, index) => `${item.productId} ${index}`}
-            numColumns={horizontal ? 1 : 2}
-            onEndReached={async () => {
-              setIsLoadingMore(true)
-              await loadMoreProducts(products.length)
-              setIsLoadingMore(false)
-            }}
-            ListFooterComponent={() => {
+      {/* {(productList.length > 0 || loading) && !error ? ( */}
 
-              if (!isLoadingMore) return null
-
-              return <Box width='100%' height={80} color='verdeSucesso' justifyContent='center' alignItems='center'>
-                <LottieView
-                  source={loadingSpinner}
-                  style={{
-                    width: 40,
-                  }}
-                  autoPlay
-                  loop
-                />
-              </Box>
-            }}
-            onEndReachedThreshold={0.5}
-            ListHeaderComponent={listHeader}
-            renderItem={({ item, index }) => {
-              const installments =
-                item.items[0].sellers[0].commertialOffer.Installments;
-              const installmentsNumber =
-                installments.length > 0
-                  ? installments[0].NumberOfInstallments
-                  : 1;
-
-              const installmentPrice =
-                installments.length > 0
-                  ? installments[0].Value
-                  : item.priceRange?.listPrice?.lowPrice;
-              const colors = new ProductUtils().getColorsArray(item);
-              return (
-                <Box
-                  flex={1}
-                  alignItems="center"
-                  justifyContent="center"
-                  height={353}
-                  mr={horizontal && "xxxs"}
-                >
-                  <ProductVerticalListCard
-                    loadingFavorite={
-                      !!loadingFavorite.find((x) => x == item.items[0].itemId)
-                    }
-                    isFavorited={
-                      !!favorites.find((x) => x.sku == item.items[0].itemId)
-                    } //item.isFavorite}
-                    onClickFavorite={(isFavorite) => {
-                      // setLoafingFavorite([...loadingFavorite, item.productId])
-                      handleOnFavorite(isFavorite, item);
-                      // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
-                    }}
-                    colors={colors}
-                    imageSource={item.items[0].images[0].imageUrl}
-                    installmentsNumber={installmentsNumber} //numero de parcelas
-                    installmentsPrice={installmentPrice || 0} //valor das parcelas
-                    currency="R$"
-                    discountTag={getPercent(
-                      item.priceRange?.sellingPrice.lowPrice,
-                      item.priceRange?.listPrice.lowPrice
-                    )}
-                    saleOff={getSaleOff(item)}
-                    priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                    price={item.priceRange?.listPrice?.lowPrice || 0}
-                    productTitle={item.productName}
-                    onClickImage={() => {
-                      navigation.navigate("ProductDetail", {
-                        productId: item.productId,
-                        colorSelected: getVariant(item.items[0].variations, "VALOR_HEX_CONSOLIDADA"),
-                      });
-                    }}
-                  />
-                </Box>
-              );
-            }}
-          />
-
-        </>
-      ) : (
-        <Box justifyContent="center" alignContent="center" mt={163}>
+      {
+        (error && productList.length <= 0) &&
+        <Box position='absolute' flex={1} height="100%" width='100%' zIndex={5} justifyContent="center" bg='white' alignContent="center" pt={163}>
           <Typography
             textAlign="center"
             fontFamily="reservaSerifMedium"
@@ -305,7 +222,99 @@ export const ListVerticalProducts = ({
             inline
           />
         </Box>
-      )}
+      }
+
+
+      <>
+        <FlatList
+          horizontal={horizontal}
+          data={productList}
+          keyExtractor={(item, index) => `${item.productId} ${index}`}
+          numColumns={horizontal ? 1 : 2}
+          onEndReached={async () => {
+            setIsLoadingMore(true)
+            await loadMoreProducts(products.length)
+            setIsLoadingMore(false)
+          }}
+          ListFooterComponent={() => {
+
+            if (!isLoadingMore) return null
+
+            return <Box width='100%' height={80} color='verdeSucesso' justifyContent='center' alignItems='center'>
+              <LottieView
+                source={loadingSpinner}
+                style={{
+                  width: 40,
+                }}
+                autoPlay
+                loop
+              />
+            </Box>
+          }}
+          onEndReachedThreshold={0.5}
+          ListHeaderComponent={listHeader}
+          renderItem={({ item, index }) => {
+            const installments =
+              item.items[0].sellers[0].commertialOffer.Installments;
+            const installmentsNumber =
+              installments.length > 0
+                ? installments[0].NumberOfInstallments
+                : 1;
+
+            const installmentPrice =
+              installments.length > 0
+                ? installments[0].Value
+                : item.priceRange?.listPrice?.lowPrice;
+            const colors = new ProductUtils().getColorsArray(item);
+            return (
+              <Box
+                flex={1}
+                alignItems="center"
+                justifyContent="center"
+                height={353}
+                mr={horizontal && "xxxs"}
+              >
+                <ProductVerticalListCard
+                  loadingFavorite={
+                    !!loadingFavorite.find((x) => x == item.items[0].itemId)
+                  }
+                  isFavorited={
+                    !!favorites.find((x) => x.sku == item.items[0].itemId)
+                  } //item.isFavorite}
+                  onClickFavorite={(isFavorite) => {
+                    // setLoafingFavorite([...loadingFavorite, item.productId])
+                    handleOnFavorite(isFavorite, item);
+                    // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+                  }}
+                  colors={colors}
+                  imageSource={item.items[0].images[0].imageUrl}
+                  installmentsNumber={installmentsNumber} //numero de parcelas
+                  installmentsPrice={installmentPrice || 0} //valor das parcelas
+                  currency="R$"
+                  discountTag={getPercent(
+                    item.priceRange?.sellingPrice.lowPrice,
+                    item.priceRange?.listPrice.lowPrice
+                  )}
+                  saleOff={getSaleOff(item)}
+                  priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+                  price={item.priceRange?.listPrice?.lowPrice || 0}
+                  productTitle={item.productName}
+                  onClickImage={() => {
+                    navigation.navigate("ProductDetail", {
+                      productId: item.productId,
+                      colorSelected: item.items[0].variations[2].values[0],
+                    });
+                  }}
+                />
+              </Box>
+            );
+          }}
+        />
+
+      </>
+      {/* ) : ( */}
+
+      {/* )} */}
     </>
   );
 };
