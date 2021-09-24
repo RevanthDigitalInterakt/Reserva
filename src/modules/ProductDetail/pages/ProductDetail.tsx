@@ -288,6 +288,9 @@ export const ProductDetail: React.FC<Props> = ({
     if (product && selectedColor && selectedSize) {
       const { items } = product;
 
+      console.error(selectedColor);
+      
+
       // map sku variant hex
       const sizeColorSkuVariations = items.flatMap((i) => {
         const variants = i.variations
