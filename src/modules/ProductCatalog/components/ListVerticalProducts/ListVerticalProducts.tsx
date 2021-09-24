@@ -30,6 +30,7 @@ interface ListProductsProps {
   listHeader?:
   | React.ComponentType<any>
   | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  totalProducts?: number;
 }
 
 export const getPercent = (
@@ -48,6 +49,7 @@ export const ListVerticalProducts = ({
   listHeader,
   loadMoreProducts,
   loadingHandler,
+  totalProducts,
 }: ListProductsProps) => {
   const navigation = useNavigation();
   const [favoritedProduct, setFavoritedProduct] = useState<Product>();
@@ -233,7 +235,8 @@ export const ListVerticalProducts = ({
           numColumns={horizontal ? 1 : 2}
           onEndReached={async () => {
             setIsLoadingMore(true)
-            await loadMoreProducts(products.length)
+            if (totalProducts > products.length)
+              await loadMoreProducts(products.length)
             setIsLoadingMore(false)
           }}
           ListFooterComponent={() => {
