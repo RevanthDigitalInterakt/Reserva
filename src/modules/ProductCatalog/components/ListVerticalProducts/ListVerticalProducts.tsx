@@ -305,7 +305,7 @@ export const ListVerticalProducts = ({
                   onClickImage={() => {
                     navigation.navigate("ProductDetail", {
                       productId: item.productId,
-                      colorSelected: getVariant(item.items[0].variations, "VALOR_HEX_CONSOLIDADA"),
+                      colorSelected: getVariant(item.items[0].variations, "VALOR_HEX_ORIGINAL"),
                     });
                   }}
                 />
