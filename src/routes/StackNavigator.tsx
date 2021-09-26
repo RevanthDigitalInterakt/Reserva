@@ -178,7 +178,7 @@ export type RootStackParamList = {
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
 
-const MainStackScreen = () => {
+export const MainStackScreen = () => {
   // Here you put normal navigation
   return (
     <MainStack.Navigator

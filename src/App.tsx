@@ -4,7 +4,6 @@ import { Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { theme } from "reserva-ui";
 import { ApolloProvider } from '@apollo/client';
-import AppRouting from "./routes/StackNavigator";
 import { Provider } from "react-redux";
 import * as Sentry from "@sentry/react-native";
 import codePush from "react-native-code-push";
@@ -24,6 +23,8 @@ import './config/ReactotronConfig'
 import "react-native-gesture-handler";
 import Update from "./modules/Update/pages/Update";
 import { StoreUpdate } from "./modules/Update/pages/StoreUpdate";
+
+import { AppRouting } from "./routes/AppRouting";
 
 Sentry.init({
   dsn: env.SENTRY_KEY,
