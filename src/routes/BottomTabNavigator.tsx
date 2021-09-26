@@ -1,10 +1,6 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert,
-} from "react-native";
+import * as React from "react";
+import { SafeAreaView } from "react-native";
+import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
 
 import {
   BottomTabBarProps,
@@ -12,13 +8,9 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { HomeScreen } from "../modules/Home/pages/Home";
 
-import * as React from "react";
-import { BottomBar, BottomBarButton, Box, theme } from "reserva-ui";
-import { ExampleScreen } from "../modules/Example/pages/Example";
 import { ProductCatalog } from "../modules/ProductCatalog/pages/ProductCatalog";
 
 import { MenuProfile } from "../modules/Profile/pages/MenuProfile";
-import { Search, SearchScreen } from "../modules/Search/pages/Search";
 import CallCenter from "../modules/CallCenter";
 import { ContactUs } from "../modules/HelpCenter/PagesHelp/ContactUs";
 import { WishList } from "../modules/WishList/pages/WishList";
