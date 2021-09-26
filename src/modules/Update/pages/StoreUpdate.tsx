@@ -43,14 +43,16 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
 
     const isAppVersionLower = appVersionParsed.find((value, index) => {
       // if find app version is lower then store version (in any dot)
-      console.log(parseInt(value), parseInt(storeVersionParsed[index]))
-      return (parseInt(value) < parseInt(storeVersionParsed[index]))
+
+      const intValue = parseInt(value)
+      const intStoreValue = parseInt(storeVersionParsed[index])
+
+      const previousCheck = index > 0 ? parseInt(appVersionParsed[index - 1]) == parseInt(storeVersionParsed[index - 1]) : true
+
+      return intValue < intStoreValue && previousCheck
     })
 
     if (isAppVersionLower)
-      return true
-
-    if (!appVersion.includes('beta') && storeVersion.includes('beta'))
       return true
 
     return false
