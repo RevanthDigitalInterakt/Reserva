@@ -3,9 +3,6 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { horizontalAnimationBackwards } from '../animations/animations';
-import AddressList from '../modules/Address/pages/AddressList';
-import NewAddress from '../modules/Address/pages/NewAddress';
 import CallCenter from '../modules/CallCenter';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
 import { Cashback } from '../modules/Cashback/pages/Cashback';
@@ -26,32 +23,9 @@ import Checkout from '../modules/Checkout/pages/WebviewCheckout';
 import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
 import { Credits } from '../modules/Credits/pages/Credits';
 import { ExampleScreen } from '../modules/Example/pages/Example';
-import { ForgotAccessCode } from '../modules/Forgot/pages/ForgotAccessCode';
-import { ForgotEmail } from '../modules/Forgot/pages/ForgotEmail';
-import { ForgotEmailSuccess } from '../modules/Forgot/pages/ForgotEmailSuccess';
-import { ForgotNewPassword } from '../modules/Forgot/pages/ForgotNewPassword';
-import { ForgotPassword } from '../modules/Forgot/pages/ForgotPassword';
-//--
-import { HelpCenter } from '../modules/HelpCenter/pages/HelpCenter';
-import { ClothingCare } from '../modules/HelpCenter/PagesHelp/ClothingCare';
-import { ContactUs } from '../modules/HelpCenter/PagesHelp/ContactUs';
-import { Exchanges } from '../modules/HelpCenter/PagesHelp/Exchanges';
-import { FrequentDoubts } from '../modules/HelpCenter/PagesHelp/FrequentDoubts';
-import { HelpPaymentMethods } from '../modules/HelpCenter/PagesHelp/HelpPaymentMethods';
-import { OrdersAndDeliveries } from '../modules/HelpCenter/PagesHelp/OrdersAndDeliveries';
-import { PrivacyPolicy } from '../modules/HelpCenter/PagesHelp/PrivacyPolicy';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
-import AccessCode from '../modules/Login/pages/AccessCode';
-import { LoginScreen } from '../modules/Login/pages/Login';
-import { LoginAlternative } from '../modules/Login/pages/LoginAlternative';
 import { IdentifyEmail } from '../modules/LoginCheckout/pages/IdentifyEmail';
-import { Menu } from '../modules/Menu/modals/Menu';
-import OrderCancel from '../modules/Order/pages/OrderCancel';
-import OrderDetail from '../modules/Order/pages/OrderDetail';
-import OrderList from '../modules/Order/pages/OrderList';
-import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
-import { ProductDetail } from '../modules/ProductDetail/pages/ProductDetail';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
@@ -68,7 +42,16 @@ import { WishList } from '../modules/WishList/pages/WishList';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
 import { Wish } from '../store/ducks/wishlist/types';
 
-import { Tabs } from './BottomTabNavigator';
+import {
+  AddressFlow,
+  ForgotFlow,
+  HelpCenterFLow,
+  LoginFlow,
+  OrderFlow,
+  ProductFlow,
+} from './flows';
+import { HomeTabs } from './HomeTabs';
+import { Flow } from './types/flow.type';
 
 export type RootStackParamList = {
   Register: {
@@ -176,31 +159,34 @@ export type RootStackParamList = {
   };
 };
 
-const MainStack = createStackNavigator();
-const RootStack = createStackNavigator();
+const flows: Flow[] = [
+  ...AddressFlow,
+  ...HelpCenterFLow,
+  ...ForgotFlow,
+  ...OrderFlow,
+  ...LoginFlow,
+  ...ProductFlow,
+];
+
+export const MainStack = createStackNavigator();
 
 export const MainStackScreen = () => (
-  // Here you put normal navigation
   <MainStack.Navigator
-    // initialRouteName='Update'
     detachInactiveScreens
     screenOptions={{ headerShown: false }}
   >
-    <MainStack.Screen name="HomeTabs" component={Tabs} />
+    <MainStack.Screen name="Home" component={HomeTabs} />
+
+    {flows.map((flow: Flow) => (
+      <MainStack.Screen
+        name={flow.name}
+        component={flow.component}
+        initialParams={flow.initialParams}
+      />
+    ))}
+
     <MainStack.Screen name="Example" component={ExampleScreen} />
     <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-    <MainStack.Screen
-      name="AddressList"
-      component={AddressList}
-      initialParams={{ isCheckout: false }}
-    />
-    <MainStack.Screen
-      name="NewAddress"
-      component={NewAddress}
-      initialParams={{
-        isCheckout: false,
-      }}
-    />
     <MainStack.Screen name="WishList" component={WishList} />
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
     <MainStack.Screen name="WishListCategory" component={WishListCategory} />
@@ -243,8 +229,6 @@ export const MainStackScreen = () => (
     <MainStack.Screen name="PixScreen" component={PixScreen} />
     <MainStack.Screen name="GiftVoucherScreen" component={GiftVoucherScreen} />
     <MainStack.Screen name="BarCodePayment" component={BarCodePayment} />
-    <MainStack.Screen name="Login" component={LoginScreen} />
-    <MainStack.Screen name="AccessCode" component={AccessCode} />
     <MainStack.Screen
       name="Register"
       component={Register}
@@ -255,40 +239,8 @@ export const MainStackScreen = () => (
       component={RegisterSuccess}
       initialParams={{ comefrom: 'Profile' }}
     />
-    <MainStack.Screen name="ForgotEmail" component={ForgotEmail} />
-    <MainStack.Screen
-      name="ForgotEmailSuccess"
-      component={ForgotEmailSuccess}
-    />
-    <MainStack.Screen name="ForgotPassword" component={ForgotPassword} />
-    <MainStack.Screen name="ForgotAccessCode" component={ForgotAccessCode} />
-    <MainStack.Screen name="ForgotNewPassword" component={ForgotNewPassword} />
-    <MainStack.Screen
-      name="ProductCatalog"
-      initialParams={{ safeArea: true, search: false }}
-      component={ProductCatalog}
-    />
 
-    <MainStack.Screen name="ProductDetail" component={ProductDetail} />
-    <MainStack.Screen name="OrderList" component={OrderList} />
-    <MainStack.Screen name="OrderDetail" component={OrderDetail} />
-    <MainStack.Screen name="OrderCancel" component={OrderCancel} />
-
-    <MainStack.Screen name="HelpCenter" component={HelpCenter} />
     <MainStack.Screen name="SizeGuide" component={SizeGuide} />
-    <MainStack.Screen name="ClothingCare" component={ClothingCare} />
-    <MainStack.Screen name="ContactUs" component={ContactUs} />
-    <MainStack.Screen name="Exchanges" component={Exchanges} />
-    <MainStack.Screen
-      name="OrdersAndDeliveries"
-      component={OrdersAndDeliveries}
-    />
-    <MainStack.Screen
-      name="HelpPaymentMethods"
-      component={HelpPaymentMethods}
-    />
-    <MainStack.Screen name="FrequentDoubts" component={FrequentDoubts} />
-    <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
     <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
 
     <MainStack.Screen name="EditProfile" component={EditProfile} />
@@ -312,31 +264,3 @@ export const MainStackScreen = () => (
     <MainStack.Screen name="CallCenter" component={CallCenter} />
   </MainStack.Navigator>
 );
-
-const AppRouting = () => (
-  <RootStack.Navigator
-    mode="modal"
-    initialRouteName="Home"
-    screenOptions={{ headerShown: false }}
-  >
-    <RootStack.Screen
-      name="Main"
-      component={MainStackScreen}
-      options={{ headerShown: false }}
-    />
-    {/* After that you put modal Screens */}
-    <RootStack.Screen
-      name="Menu"
-      options={horizontalAnimationBackwards}
-      component={Menu}
-    />
-    <RootStack.Screen name="Login" component={LoginScreen} />
-    <RootStack.Screen
-      name="LoginAlternative"
-      component={LoginAlternative}
-      initialParams={{ comeFrom: 'Profile' }}
-    />
-  </RootStack.Navigator>
-);
-
-export default AppRouting;

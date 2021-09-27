@@ -1,6 +1,13 @@
-import * as React from "react";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+
+import { useQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
+import { Linking, ScrollView, TouchableOpacity } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import DeviceInfo from 'react-native-device-info';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -9,21 +16,17 @@ import {
   SearchBar,
   theme,
   Typography,
-} from "reserva-ui";
-import * as Animatable from "react-native-animatable";
-import { Linking, ScrollView, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
-import { useDispatch, useSelector } from "react-redux";
-import { ApplicationState } from "../../../store";
+} from 'reserva-ui';
+
+import { useAuth } from '../../../context/AuthContext';
+import { ApplicationState } from '../../../store';
 import {
   categoriesQuery,
   CategoryQuery,
-} from "../../../store/ducks/categories/types";
-import { TopBarMenu } from "../components/TopBarMenu";
-import { profileQuery } from "../../../store/ducks/profile/types";
-import { useAuth } from "../../../context/AuthContext";
-import DeviceInfo from "react-native-device-info";
+} from '../../../store/ducks/categories/types';
+import { profileQuery } from '../../../store/ducks/profile/types';
+import { TopBarMenu } from '../components/TopBarMenu';
+
 interface IBreadCrumbs {
   title: string;
 }
@@ -45,7 +48,7 @@ interface IMenuItem {
 const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
   const navigation = useNavigation();
   return (
-    <Button onPress={() => navigation.navigate("Home")} alignSelf="flex-start">
+    <Button onPress={() => navigation.navigate('Home')} alignSelf="flex-start">
       <Box
         alignSelf="flex-start"
         paddingX="micro"
@@ -82,7 +85,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
       >
         <Typography
           fontSize={13}
-          fontFamily={highlight ? "nunitoBold" : "nunitoRegular"}
+          fontFamily={highlight ? 'nunitoBold' : 'nunitoRegular'}
         >
           {title}
         </Typography>
@@ -99,7 +102,7 @@ const MenuItem: React.FC<IMenuItem> = ({
   subItemList,
   highlight,
 }) => {
-  //console.log(subItemList)
+  // console.log(subItemList)
   const navigation = useNavigation();
   return (
     <Box>
@@ -111,7 +114,7 @@ const MenuItem: React.FC<IMenuItem> = ({
           marginX="xxxs"
         >
           <Typography
-            color={highlight ? "vermelhoAlerta" : "preto"}
+            color={highlight ? 'vermelhoAlerta' : 'preto'}
             fontSize={13}
             fontFamily="nunitoBold"
           >
@@ -119,7 +122,7 @@ const MenuItem: React.FC<IMenuItem> = ({
           </Typography>
           <Box>
             <Icon
-              style={{ transform: [{ rotate: opened ? "90deg" : "0deg" }] }}
+              style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
               name="ChevronRight"
               color="preto"
               size={12}
@@ -131,39 +134,37 @@ const MenuItem: React.FC<IMenuItem> = ({
         <>
           <Divider variant="fullWidth" marginTop="micro" />
           <Animatable.View animation="fadeIn">
-            {subItemList.items.map((item, index) => {
-              return (
-                <MenuSubItem
-                  key={index}
-                  highlight={item.highlight}
-                  title={item.name}
-                  onPress={() => {
-                    let facetInput: any[] = [];
-                    let [subType, subcategories] = item.referenceId.split(":");
+            {subItemList.items.map((item, index) => (
+              <MenuSubItem
+                key={index}
+                highlight={item.highlight}
+                title={item.name}
+                onPress={() => {
+                  const facetInput: any[] = [];
+                  const [subType, subcategories] = item.referenceId.split(':');
 
-                    if (subType == "category") {
-                      subcategories.split("|").forEach((sub) => {
-                        if (sub !== "") {
-                          facetInput.push({
-                            key: "c",
-                            value: sub,
-                          });
-                        }
-                      });
-                    } else {
-                      facetInput.push({
-                        key: "productClusterIds",
-                        value: subcategories,
-                      });
-                    }
-                    navigation.navigate("ProductCatalog", {
-                      facetInput,
-                      referenceId: item.referenceId,
+                  if (subType == 'category') {
+                    subcategories.split('|').forEach((sub) => {
+                      if (sub !== '') {
+                        facetInput.push({
+                          key: 'c',
+                          value: sub,
+                        });
+                      }
                     });
-                  }}
-                />
-              );
-            })}
+                  } else {
+                    facetInput.push({
+                      key: 'productClusterIds',
+                      value: subcategories,
+                    });
+                  }
+                  navigation.navigate('ProductCatalog', {
+                    facetInput,
+                    referenceId: item.referenceId,
+                  });
+                }}
+              />
+            ))}
           </Animatable.View>
         </>
       )}
@@ -177,22 +178,20 @@ export const FixedMenuItem: React.FC<{
   onPress: Function;
   underline: boolean;
   disabled?: boolean;
-}> = ({ iconName, title, onPress, disabled, underline }) => {
-  return (
-    <TouchableOpacity onPress={onPress} disabled={disabled}>
-      <Box
-        justifyContent="flex-start"
-        alignItems="center"
-        marginY="micro"
-        flexDirection="row"
-        marginX="xxxs"
-      >
-        <Icon name={iconName} color="preto" size={18} />
-        <Box marginX="micro">{title}</Box>
-      </Box>
-    </TouchableOpacity>
-  );
-};
+}> = ({ iconName, title, onPress, disabled, underline }) => (
+  <TouchableOpacity onPress={onPress} disabled={disabled}>
+    <Box
+      justifyContent="flex-start"
+      alignItems="center"
+      marginY="micro"
+      flexDirection="row"
+      marginX="xxxs"
+    >
+      <Icon name={iconName} color="preto" size={18} />
+      <Box marginX="micro">{title}</Box>
+    </Box>
+  </TouchableOpacity>
+);
 
 export interface Subcategory {
   items: {
@@ -231,10 +230,10 @@ export const Menu: React.FC<{}> = () => {
   const [profile, setProfile] = useState<Profile>();
 
   const { loading, error, data } = useQuery(categoriesQuery, {
-    context: { clientName: "contentful" },
+    context: { clientName: 'contentful' },
   });
 
-  let categoryItems =
+  const categoryItems =
     data?.appMenuCollection.items[0].itemsCollection.items || [];
 
   useEffect(() => {
@@ -276,24 +275,22 @@ export const Menu: React.FC<{}> = () => {
       <Box flex={1} backgroundColor="backgroundApp">
         <TopBarMenu loading={loading} />
         <ScrollView>
-          <Box paddingX="nano" paddingTop="micro"></Box>
+          <Box paddingX="nano" paddingTop="micro" />
           <Breadcrumbs title="Página Inicial" />
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           {categories && (
             <Animatable.View animation="fadeIn">
-              {categories.map((item, index) => {
-                return (
-                  <MenuItem
-                    key={index}
-                    highlight={item.highlight}
-                    subItemList={item.children}
-                    onPress={openMenuItem}
-                    opened={item.opened}
-                    index={index}
-                    title={item.name}
-                  />
-                );
-              })}
+              {categories.map((item, index) => (
+                <MenuItem
+                  key={index}
+                  highlight={item.highlight}
+                  subItemList={item.children}
+                  onPress={openMenuItem}
+                  opened={item.opened}
+                  index={index}
+                  title={item.name}
+                />
+              ))}
               <Divider
                 variant="fullWidth"
                 marginBottom="nano"
@@ -301,7 +298,7 @@ export const Menu: React.FC<{}> = () => {
               />
               <FixedMenuItem
                 iconName="Profile"
-                disabled={cookie ? true : false}
+                disabled={!!cookie}
                 title={
                   <Typography
                     alignSelf="flex-end"
@@ -312,7 +309,7 @@ export const Menu: React.FC<{}> = () => {
                     {cookie ? (
                       <Typography
                         onPress={() => {
-                          navigation.navigate("Profile");
+                          navigation.navigate('Profile');
                         }}
                       >
                         Olá, {profile?.firstName || profile?.email}
@@ -320,7 +317,7 @@ export const Menu: React.FC<{}> = () => {
                     ) : (
                       <Typography
                         onPress={() => {
-                          navigation.navigate("Login", { comeFrom: "Profile" });
+                          navigation.navigate('Login', { comeFrom: 'Profile' });
                         }}
                       >
                         Acessar Conta
@@ -328,7 +325,7 @@ export const Menu: React.FC<{}> = () => {
                     )}
                   </Typography>
                 }
-              ></FixedMenuItem>
+              />
               <FixedMenuItem
                 iconName="Heart"
                 title={
@@ -342,9 +339,9 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate("WishList");
+                  navigation.navigate('WishList');
                 }}
-              ></FixedMenuItem>
+              />
               <FixedMenuItem
                 iconName="Message"
                 title={
@@ -358,9 +355,9 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate("HelpCenter");
+                  navigation.navigate('HelpCenter');
                 }}
-              ></FixedMenuItem>
+              />
               <FixedMenuItem
                 iconName="Pin"
                 title={
@@ -374,9 +371,9 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  Linking.openURL("https://whts.co/reserva");
+                  Linking.openURL('https://whts.co/reserva');
                 }}
-              ></FixedMenuItem>
+              />
             </Animatable.View>
           )}
           <Box mt="xs" alignItems="center">
