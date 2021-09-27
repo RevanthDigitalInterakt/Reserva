@@ -280,17 +280,13 @@ export const ProductDetail: React.FC<Props> = ({
         setoutOfStock(false)
       }
     }
-  }, [selectedColor])
+  }, [selectedColor, route.params.productId])
 
 
   // change sku effect
   useEffect(() => {
     if (product && selectedColor && selectedSize) {
       const { items } = product;
-
-      console.error(selectedColor);
-      
-
       // map sku variant hex
       const sizeColorSkuVariations = items.flatMap((i) => {
         const variants = i.variations
@@ -782,7 +778,7 @@ export const ProductDetail: React.FC<Props> = ({
             )}
 
             {/*
-        
+
             <Box mt="xs" mb="xxl">
               <Box mb="xxxs">
                 <Typography fontFamily="nunitoBold" fontSize={14}>

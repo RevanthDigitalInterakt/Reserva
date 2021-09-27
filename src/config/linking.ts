@@ -17,6 +17,9 @@ const routesConfig = {
         ProductCatalog: {
           path: 'catalog/:referenceId',
         },
+        ProductDetail: {
+          path: 'product/:productId/:colorSelected',
+        },
       },
     },
   },
