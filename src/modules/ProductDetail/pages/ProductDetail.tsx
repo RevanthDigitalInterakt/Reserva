@@ -289,7 +289,6 @@ export const ProductDetail: React.FC<Props> = ({
       const { items } = product;
 
       console.error(selectedColor);
-      
 
       // map sku variant hex
       const sizeColorSkuVariations = items.flatMap((i) => {
@@ -374,7 +373,8 @@ export const ProductDetail: React.FC<Props> = ({
           const { data } = await addWishList({
             variables: {
               shopperId: email,
-              productId: product.productId.split('-')[0]
+              productId: product.productId.split('-')[0],
+              sku: selectedVariant?.itemId
             }
           })
         } else {
