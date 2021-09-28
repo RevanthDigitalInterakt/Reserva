@@ -248,6 +248,9 @@ export const ProductDetail: React.FC<Props> = ({
       let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
       defaultSize?.size && setSelectedSize(defaultSize?.size)
 
+      console.log("item", itemList);
+
+
 
       setItemsSKU(itemList);
 
@@ -262,6 +265,13 @@ export const ProductDetail: React.FC<Props> = ({
           .map(p => p.color === selectedColor && p.images)
           .filter(a => a !== false)
       );
+
+      console.log("selectedCOlor", selectedColor);
+
+      console.log("sku", itemsSKU
+      .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+      .filter(a => a !== false)[0]);
+
       setSizeFilters(
         new ProductUtils().orderSizes(
           itemsSKU
@@ -284,14 +294,13 @@ export const ProductDetail: React.FC<Props> = ({
         setoutOfStock(false)
       }
     }
-  }, [selectedColor])
+  }, [selectedColor, route.params.productId])
 
 
   // change sku effect
   useEffect(() => {
     if (product && selectedColor && selectedSize) {
       const { items } = product;
-
       // map sku variant hex
       const sizeColorSkuVariations = items.flatMap((i) => {
         const variants = i.variations
@@ -319,6 +328,20 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
+        const getVariant =  (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+
+        const isSkuEqual = (sku1: any, sku2: any) => {
+          console.log("sku1", sku1);
+          console.log("sku2", sku2);
+          if(sku1 && sku2){
+            const size1 = getVariant(sku1, "Tamanho");
+            const color1 = getVariant(sku1, "VALOR_HEX_ORIGINAL");
+            const size2 = getVariant(sku2, "Tamanho");
+            const color2 = getVariant(sku2, "VALOR_HEX_ORIGINAL");
+
+            return size1 === size2 && color1 === color2;
+          }
+        }
 
         const variantToSelect = sizeColorSkuVariations.find((i) => {
           if (i.variations) {
@@ -326,14 +349,12 @@ export const ProductDetail: React.FC<Props> = ({
               ({ name, originalName, values }: any) => ({
                 name,
                 originalName,
-                values,
-              } as Facets)
+                values: values,
+              })
             );
-
-            return JSON.stringify(a) === JSON.stringify(selectedSkuVariations);
+            return isSkuEqual(a, selectedSkuVariations);
           }
         });
-
         setSelectedVariant(variantToSelect);
       }
     }
@@ -344,8 +365,6 @@ export const ProductDetail: React.FC<Props> = ({
     sellers.map((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
-        console.log("SELLER_ID=", seller.sellerId);
-
       }
     })
   }
@@ -543,7 +562,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton loading={loading} />
+        <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={{ marginBottom: 100 }}
@@ -796,7 +815,7 @@ export const ProductDetail: React.FC<Props> = ({
             )}
 
             {/*
-        
+
             <Box mt="xs" mb="xxl">
               <Box mb="xxxs">
                 <Typography fontFamily="nunitoBold" fontSize={14}>
@@ -875,3 +894,5 @@ export const ProductDetail: React.FC<Props> = ({
     </SafeAreaView>
   );
 };
+
+

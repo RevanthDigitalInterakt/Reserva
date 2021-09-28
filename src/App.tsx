@@ -1,29 +1,31 @@
-import { ThemeProvider } from "styled-components/native";
-import React, { useEffect, useState } from "react";
-import { Alert } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { theme } from "reserva-ui";
+import React, { useEffect, useState } from 'react';
+
 import { ApolloProvider } from '@apollo/client';
-import AppRouting from "./routes/StackNavigator";
-import { Provider } from "react-redux";
-import * as Sentry from "@sentry/react-native";
-import codePush from "react-native-code-push";
+import { NavigationContainer } from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
+import { Alert } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
+import codePush from 'react-native-code-push';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { theme } from 'reserva-ui';
+import { ThemeProvider } from 'styled-components/native';
 
+import { oneSignalConfig } from './config/pushNotification';
+import { apolloClient } from './services/apolloClient';
+import AuthContextProvider from './context/AuthContext';
+import CartContextProvider from './context/CartContext';
+import { env } from './config/env';
+import InitialScreen from './InitialScreen';
+import configureStore from './store/index';
 
-import { PersistGate } from "redux-persist/integration/react";
-import { oneSignalConfig } from "./config/pushNotification";
-import { apolloClient } from "./services/apolloClient";
-import AuthContextProvider from "./context/AuthContext";
-import CartContextProvider from "./context/CartContext";
-import { env } from "./config/env";
-import InitialScreen from "./InitialScreen";
-import configureStore from "./store/index";
+import './config/ReactotronConfig';
+import 'react-native-gesture-handler';
 
-import './config/ReactotronConfig'
-import "react-native-gesture-handler";
-import Update from "./modules/Update/pages/Update";
-import { StoreUpdate } from "./modules/Update/pages/StoreUpdate";
+import { linkingConfig } from './config/linking';
+import { StoreUpdate } from './modules/Update/pages/StoreUpdate';
+import Update from './modules/Update/pages/Update';
+import { AppRouting } from './routes/AppRouting';
 
 Sentry.init({
   dsn: env.SENTRY_KEY,
@@ -36,23 +38,25 @@ const DefaultTheme = {
   },
 };
 
-var onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
+let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
     if (JSON.parse(res.data.is_first_launch) == true) {
       if (res.data.af_status === 'Non-organic') {
-        var media_source = res.data.media_source;
-        var campaign = res.data.campaign;
-        console.log('This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign);
+        const { media_source } = res.data;
+        const { campaign } = res.data;
+        console.log(
+          `This is first launch and a Non-Organic install. Media source: ${media_source} Campaign: ${campaign}`
+        );
       } else if (res.data.af_status === 'Organic') {
         console.log('This is first launch and a Organic Install');
       }
     } else {
       console.log('This is not first launch');
     }
-  },
+  }
 );
 
-var onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
+let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
   console.log(res);
 });
 
@@ -61,40 +65,37 @@ appsFlyer.initSdk(
     devKey: env.APPSFLYER.DEV_KEY,
     isDebug: false,
     appId: env.APPSFLYER.APP_ID,
-    onInstallConversionDataListener: true, //Optional
-    onDeepLinkListener: true, //Optional
-    timeToWaitForATTUserAuthorization: 10 //for iOS 14.5
+    onInstallConversionDataListener: true, // Optional
+    onDeepLinkListener: true, // Optional
+    timeToWaitForATTUserAuthorization: 10, // for iOS 14.5
   },
   (result) => {
-    console.log("AAPPFLYERS", result);
+    console.log('AAPPFLYERS', result);
   },
   (error) => {
-    console.log("AAPPFLYERS", error);
+    console.log('AAPPFLYERS', error);
   }
 );
 
 const App = () => {
+  const [codePushReceivedBytes, setCodePushReceivedBytes] = useState(1);
+  const [codePushTotalBytes, setCodePushTotalBytes] = useState(1);
 
-  const [codePushReceivedBytes, setCodePushReceivedBytes] = useState(1)
-  const [codePushTotalBytes, setCodePushTotalBytes] = useState(1)
+  const [isVisibleCodePush, setIsVisibleCodePush] = useState(false);
 
-  const [isVisibleCodePush, setIsVisibleCodePush] = useState(false)
-
-  useEffect(() => {
-    return () => {
-      if (onInstallConversionDataCanceller) {
-        onInstallConversionDataCanceller();
-        console.log('unregister onInstallConversionDataCanceller');
-        onInstallConversionDataCanceller = null;
-      }
-
-      if (onAppOpenAttributionCanceller) {
-        onAppOpenAttributionCanceller();
-        console.log('unregister onAppOpenAttributionCanceller');
-        onAppOpenAttributionCanceller = null;
-      }
+  useEffect(() => () => {
+    if (onInstallConversionDataCanceller) {
+      onInstallConversionDataCanceller();
+      console.log('unregister onInstallConversionDataCanceller');
+      onInstallConversionDataCanceller = null;
     }
-  })
+
+    if (onAppOpenAttributionCanceller) {
+      onAppOpenAttributionCanceller();
+      console.log('unregister onAppOpenAttributionCanceller');
+      onAppOpenAttributionCanceller = null;
+    }
+  });
   useEffect(() => {
     codePush.sync(
       {
@@ -110,26 +111,26 @@ const App = () => {
       (status) => {
         switch (status) {
           case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-            setIsVisibleCodePush(true)
+            setIsVisibleCodePush(true);
             // Alert.alert("Uma atualização foi encontrada e está sendo baixada");
             break;
           case codePush.SyncStatus.INSTALLING_UPDATE:
-            setIsVisibleCodePush(false)
+            setIsVisibleCodePush(false);
             // Hide "downloading" modal
             break;
           case codePush.SyncStatus.UPDATE_INSTALLED:
             Alert.alert(
-              "Atualização instalada com sucesso!",
-              "Favor reiniciar o aplicativo"
+              'Atualização instalada com sucesso!',
+              'Favor reiniciar o aplicativo'
             );
-            setIsVisibleCodePush(false)
+            setIsVisibleCodePush(false);
             // Hide "downloading" modal
             break;
         }
       },
       ({ receivedBytes, totalBytes }) => {
-        setCodePushReceivedBytes(receivedBytes)
-        setCodePushTotalBytes(totalBytes)
+        setCodePushReceivedBytes(receivedBytes);
+        setCodePushTotalBytes(totalBytes);
         /* Update download modal progress */
       }
     );
@@ -137,12 +138,14 @@ const App = () => {
     oneSignalConfig();
   }, []);
 
-
-
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer theme={DefaultTheme}>
-        <Update isVisible={isVisibleCodePush} receivedBytes={codePushReceivedBytes} totalBytes={codePushTotalBytes} />
+      <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+        <Update
+          isVisible={isVisibleCodePush}
+          receivedBytes={codePushReceivedBytes}
+          totalBytes={codePushTotalBytes}
+        />
         <CartContextProvider>
           <AuthContextProvider>
             <ApolloProvider client={apolloClient}>
