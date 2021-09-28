@@ -244,6 +244,9 @@ export const ProductDetail: React.FC<Props> = ({
       let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
       defaultSize?.size && setSelectedSize(defaultSize?.size)
 
+      console.log("item", itemList);
+
+
 
       setItemsSKU(itemList);
 
@@ -258,6 +261,13 @@ export const ProductDetail: React.FC<Props> = ({
           .map(p => p.color === selectedColor && p.images)
           .filter(a => a !== false)
       );
+
+      console.log("selectedCOlor", selectedColor);
+
+      console.log("sku", itemsSKU
+      .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+      .filter(a => a !== false)[0]);
+
       setSizeFilters(
         new ProductUtils().orderSizes(
           itemsSKU
@@ -525,7 +535,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton loading={loading} />
+        <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={{ marginBottom: 100 }}

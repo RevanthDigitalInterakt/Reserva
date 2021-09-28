@@ -22,10 +22,6 @@ import { Product } from '../../../../store/ducks/product/types';
 import { removeWishlist } from '../../../../store/ducks/wishlist/actions';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 
-
-
-
-
 interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
@@ -327,7 +323,7 @@ export const ListVerticalProducts = ({
                       productId: item.productId,
                       colorSelected: getVariant(
                         item.items[0].variations,
-                        'VALOR_HEX_CONSOLIDADA'
+                        'VALOR_HEX_ORIGINAL'
                       ),
                     });
                   }}

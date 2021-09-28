@@ -7,9 +7,10 @@ import { TopBar } from 'reserva-ui';
 import { useCart } from '../../../context/CartContext';
 
 export const TopBarDefaultBackButton: React.FC<{
-  showShadow?: Boolean;
   loading: Boolean;
-}> = ({ showShadow = true, loading = false }) => {
+  showShadow?: Boolean;
+  navigateGoBack?: Boolean;
+}> = ({ showShadow = true, loading = false, navigateGoBack }) => {
   const navigation = useNavigation();
   const { orderForm } = useCart();
   return (
@@ -23,7 +24,7 @@ export const TopBarDefaultBackButton: React.FC<{
         name: 'ArrowBack',
         size: 24,
         onPress: () => {
-          navigation.navigate('Home');
+          navigateGoBack ? navigation.goBack() : navigation.navigate('Home');
         },
       }}
       rightButton1={{
