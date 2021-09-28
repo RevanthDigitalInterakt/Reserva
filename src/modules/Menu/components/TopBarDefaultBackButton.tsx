@@ -24,7 +24,7 @@ export const TopBarDefaultBackButton: React.FC<{
         name: 'ArrowBack',
         size: 24,
         onPress: () => {
-          navigateGoBack ? navigation.goBack() : navigation.navigate('Home');
+          navigation.goBack();
         },
       }}
       rightButton1={{
