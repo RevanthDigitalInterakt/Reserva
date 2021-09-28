@@ -7,25 +7,52 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
 import { useEffect, useState } from 'react';
 import { GET_ORDERS } from '../../../store/ducks/orders/gql';
+import { IOrder, useCart } from '../../../context/CartContext';
 
 const OrderList = () => {
-  const [orders, setOrders] = useState([]);
-  const { data, loading, refetch } = useQuery(GET_ORDERS, { fetchPolicy: "no-cache" });
+  const { orders } = useCart()
+  // const [ordersList, setOrdersList] = useState<IOrder[]>([]);
+  const [ordersList, setOrdersList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // const { data, loading, refetch } = useQuery(GET_ORDERS, { fetchPolicy: "no-cache" });
 
-  useEffect(() => {
-    refetch();
-  }, []);
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
 
-  useEffect(() => {
-    if (!loading && data) {
-      const { orders } = data;
-      const completedOrders = orders.filter((x) => {
-        if (x.state != 'canceled' && x.isCompleted === true) return true;
+  const fetchOrders = async () => {
+    setLoading(true)
+    const list = await orders()
+    console.log('dataorders', list)
+    if (list) {
+      const completedOrders = list.filter((x) => {
+        if (x.status != 'canceled') return true;
         return false
       })
-      setOrders(completedOrders);
+      console.log('completedOrders', completedOrders)
+      setOrdersList(completedOrders)
     }
-  }, [data]);
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchOrders()
+  }, [])
+
+  useEffect(() => {
+    console.log('ordersList', ordersList)
+  }, [ordersList])
+
+  // useEffect(() => {
+  //   if (!loading && data) {
+  //     const { orders } = data;
+  //     const completedOrders = orders.filter((x) => {
+  //       if (x.state != 'canceled' && x.isCompleted === true) return true;
+  //       return false
+  //     })
+  //     setOrdersList(completedOrders);
+  //   }
+  // }, [data]);
 
   return (
     <>
@@ -50,11 +77,11 @@ const OrderList = () => {
             backgroundColor="white"
             width="100%"
           >
-            {orders.length > 0 && !loading && (
-              orders.map((order) => <Order data={order} />)
+            {ordersList && ordersList.length > 0 && !loading && (
+              ordersList.map((order) => <Order data={order} />)
             )}
 
-            {!loading && orders.length === 0 &&
+            {!loading && ordersList.length === 0 &&
               <Typography variant="tituloSessoes" fontSize={16}>
                 Você ainda não tem pedidos!
               </Typography>

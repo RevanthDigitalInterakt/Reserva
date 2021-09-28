@@ -1,7 +1,7 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
 import { instance, instance2, instance3, instance4, instance5 } from '../config/vtexConfig';
-
+import axios from 'axios';
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
 const vtexConfig3 = instance3;
@@ -342,6 +342,21 @@ const PickupPoint = async (
   return response;
 }
 
+const Orders = async () => {
+  const response = await instance2.get(`/oms/user/orders/?pages=2`, {
+    headers: {
+      'X-VTEX-API-APPKEY': '',
+    }
+  });
+  return response;
+}
+const OrdersId = async (
+  orderId: string
+) => {
+  const response = await instance2.get(`/oms/user/orders/${orderId}`);
+  return response;
+}
+
 export {
   CreateCart,
   CreateSession,
@@ -366,5 +381,7 @@ export {
   SendUserEmail,
   ConvertZipCode,
   Tracking,
-  PickupPoint
+  PickupPoint,
+  Orders,
+  OrdersId
 };

@@ -27,7 +27,8 @@ import {
   SendUserEmail,
   ConvertZipCode,
   Tracking,
-  PickupPoint
+  PickupPoint,
+  Orders
 } from "../services/vtexService";
 
 interface ClientPreferencesData {
@@ -315,6 +316,48 @@ export interface ITracking {
     }[];
   }
 }
+
+export interface IOrder {
+  // list: {
+  orderId: string;
+  creationDate: string;
+  clientName: string;
+  items: null;
+  totalValue: number;
+  paymentNames: string;
+  status: string;
+  statusDescription: string;
+  marketPlaceOrderId: null;
+  sequence: string;
+  salesChannel: string;
+  affiliateId: string;
+  origin: string;
+  workflowInErrorState: boolean;
+  workflowInRetry: boolean;
+  lastMessageUnread: string;
+  ShippingEstimatedDate: null;
+  ShippingEstimatedDateMax: null;
+  ShippingEstimatedDateMin: null;
+  orderIsComplete: boolean,
+  listId: null;
+  listType: null;
+  authorizedDate: null;
+  callCenterOperatorName: null;
+  totalItems: number;
+  currencyCode: string;
+  hostname: string;
+  invoiceOutput: null;
+  invoiceInput: null;
+  lastChange: string;
+  isAllDelivered: boolean;
+  isAnyDelivered: boolean;
+  giftCardProviders: null;
+  orderFormId: string;
+  paymentApprovedDate: null;
+  readyForHandlingDate: null;
+  deliveryDates: null
+  // }[],
+}
 interface CartContextProps {
   orderForm: OrderForm | undefined;
   addItem: (
@@ -341,6 +384,7 @@ interface CartContextProps {
   convertZipCode: (postalCode: string) => Promise<Address | undefined>;
   tracking: (cookie: string, order: string) => Promise<ITracking | undefined>;
   pickupPoint: (longitude: string, latitude: string) => Promise<items | undefined>;
+  orders: () => Promise<IOrder[] | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -616,6 +660,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
+  const orders = async () => {
+    try {
+      const { data } = await Orders();
+      return data?.list || [];
+    } catch (error) {
+      console.log('error', error.response.data)
+    }
+  }
+
+
   return (
     <CartContext.Provider
       value={{
@@ -636,7 +690,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         sendUserEmail,
         convertZipCode,
         tracking,
-        pickupPoint
+        pickupPoint,
+        orders
       }}
     >
       {children}
@@ -671,7 +726,8 @@ export const useCart = () => {
     sendUserEmail,
     convertZipCode,
     tracking,
-    pickupPoint
+    pickupPoint,
+    orders
   } = cartContext;
   return {
     orderForm,
@@ -691,6 +747,7 @@ export const useCart = () => {
     sendUserEmail,
     convertZipCode,
     tracking,
-    pickupPoint
+    pickupPoint,
+    orders
   };
 };

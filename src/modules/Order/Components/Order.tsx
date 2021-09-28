@@ -50,7 +50,7 @@ const Order = ({ data }: IOrder) => {
   const navigation = useNavigation();
   const [order, setOrder] = useState({
     ...data,
-    status: data.state || data.status,
+    status: data.status,
   });
 
   const getTime = () => {
@@ -150,7 +150,7 @@ const Order = ({ data }: IOrder) => {
           )}
           <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
             Endereço de entrega:{' '}
-            {` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}`}
+            {/* {` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}`} */}
           </Typography>
         </Box>
         <Divider variant="fullWidth" mt="micro" />
