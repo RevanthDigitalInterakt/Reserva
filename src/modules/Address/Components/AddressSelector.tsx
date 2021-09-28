@@ -33,7 +33,8 @@ const AddressSelector = ({
       <TouchableOpacity onPress={select}>
         <Box
           bg="white"
-          borderBottomWidth={'hairline'}
+          /* borderBottomWidth={'hairline'} */
+          borderWidth="hairline"
           borderColor={'divider'}
           width="100%"
           flexDirection="row"
@@ -60,7 +61,7 @@ const AddressSelector = ({
               {zipcode}
             </Typography>
 
-            <Box
+            {/* <Box
               flexDirection="row"
               mb={'xxxs'}
               justifyContent="flex-end"
@@ -86,7 +87,7 @@ const AddressSelector = ({
                   </Button>
                 </>
               }
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </TouchableOpacity>

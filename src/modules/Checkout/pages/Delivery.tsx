@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { SafeAreaView, ScrollView, Platform } from "react-native";
+import { SafeAreaView, ScrollView, Platform, FlatList } from "react-native";
 import { Typography, Box, Button, Icon, Divider } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
@@ -11,6 +11,10 @@ import { useCart } from "../../../context/CartContext";
 import { useAuth } from "../../../context/AuthContext";
 import { add, addDays, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import AddressSelector from "../../Address/Components/AddressSelector";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { profileQuery } from "../../../store/ducks/profile/types";
+import { AddressTypes } from "../../../store/ducks/address/types";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -19,6 +23,11 @@ const Delivery: React.FC<{}> = () => {
   const { authentication } = useSelector((state: ApplicationState) => state);
   const [Permission, setPermission] = useState(false)
   const [mapPermission, setMapPermission] = useState(false)
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [selectedAddress, setSelectedAddress] = useState<any>(null);
+  const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
+  const [profile, setProfile] = useState<any>({});
+  const [typesOfDelivery, setTypesOfDelivery] = useState<any>([]);
 
   const requestMap = async () => {
     try {
@@ -55,10 +64,37 @@ const Delivery: React.FC<{}> = () => {
     requestMap();
   }, [])
 
+  useEffect(() => {
+    const typeOfDeliveries = orderForm?.shippingData?.logisticsInfo[0].slas.filter((x) => {
+      if (x.deliveryChannel === 'delivery') return true;
+      return false
+    })
+    console.log("Types", typeOfDeliveries)
+    setTypesOfDelivery(typeOfDeliveries)
+  }, [])
+
 
   useEffect(() => {
     CkeckmapPermission();
   }, [Permission])
+
+  useEffect(() => {
+    const availableAddressesOrderForm =
+      orderForm &&
+      orderForm?.shippingData &&
+      orderForm?.shippingData.availableAddresses
+        .map((a) => ({ ...a, country: "BRA" }));
+
+    if (cookie) {
+      const { addresses } = profile;
+      setAddresses(addresses);
+    } else {
+      if (availableAddressesOrderForm &&
+        availableAddressesOrderForm?.length > 0) {
+        setAddresses(availableAddressesOrderForm);
+      }
+    }
+  }, [orderForm, profile]);
 
   return (
     <SafeAreaView flex={1} backgroundColor={"white"}>
@@ -69,159 +105,229 @@ const Delivery: React.FC<{}> = () => {
             <Typography variant={"tituloSessoes"}>Entrega</Typography>
           </Box>
 
-          <Box marginTop={"xs"} marginBottom={"xxxs"}>
-            <Typography variant={"subtituloSessoes"}>
-              Escolha a forma de envio
+          <Box marginTop={"nano"} marginBottom={"xxxs"}>
+            <Typography
+              variant={"subtituloSessoes"}
+              color="preto"
+              fontFamily="nunitoExtraBold"
+              fontSize="14px"
+            >
+              Escolha abaixo se você prefere receber no conforto do seu lar ou retirar em uma de nossas lojas. Nesta opção o frete é grátis.
             </Typography>
           </Box>
-          <Box flex={1}>
-            <Button
-              flex={1}
-              width="100%"
-              onPress={() =>
-                mapPermission ?
-                  navigation.navigate('MapScreen', { geolocation: "", locationPermission: mapPermission })
-                  :
-                  navigation.navigate("WithdrawInStore", { isCheckout: true, })
-              }
-            >
-              <Box width="100%" >
-                <Box
-                  flex={1}
-                  flexDirection={"row"}
-                  alignItems={"center"}
-                  justifyContent="space-between"
+
+          <Box paddingY="micro" flexDirection="row" justifyContent="center">
+            <Box width={1 / 2} >
+              <Button
+                onPress={() => { }}
+                marginRight="nano"
+                marginLeft="micro"
+                borderRadius="nano"
+                borderColor="dropDownBorderColor"
+                borderWidth="hairline"
+                flexDirection="row"
+                inline={true}
+                height={40}
+                bg="dropDownBorderColor"
+              >
+                <Typography
+                  color="preto"
+                  fontFamily="nunitoSemiBold"
+                  fontSize="14px"
+                  style={{ textTransform: "uppercase" }}
                 >
-                  <Box>
-                    <Typography>Retirar na loja</Typography>
-                  </Box>
-                  <Box height={20} bg="#EF1E1E" borderRadius="pico">
-                    <Box marginLeft="nano" marginRight="sm">
-                      <Typography
-                        fontFamily="reservaSerifRegular"
-                        fontSize={15}
-                        color="white">
-                        Recomendado: sem frete!
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
+                  Receber em casa
+                </Typography>
+              </Button>
+            </Box>
 
-                <Box
-                  mt="nano"
-                  flexDirection={"row"}
-                  alignItems={"center"}
-                  flex={1}
-                  justifyContent={"space-between"}
-
+            <Box width={1 / 2}>
+              <Button
+                marginRight="micro"
+                marginLeft="nano"
+                borderRadius="nano"
+                borderColor="dropDownBorderColor"
+                borderWidth="hairline"
+                flexDirection="row"
+                inline={true}
+                height={40}
+                onPress={() => { }}
+              >
+                <Typography
+                  color="preto"
+                  fontFamily="nunitoSemiBold"
+                  fontSize="14px"
+                  style={{ textTransform: "uppercase" }}
                 >
-                  <Box flex={2}>
-                    <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
-                      Ao escolher esta opção vamos apresentar opções de lojas próximas a você
-                    </Typography>
-                  </Box>
-                  <Box flex={1} alignItems="flex-end">
-                    <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
-                  </Box>
-                </Box>
-                {/* <Box alignSelf="flex-start" mt="quarck">
-                  <Typography
-                    fontFamily={"nunitoSemiBold"}
-                    fontSize={13}
-                    color={"verdeSucesso"}
-                  >
-                    Segunda-feira, 05 de abril de 2021
-                  </Typography>
-                </Box> */}
-              </Box>
-            </Button>
-            <Divider variant={"fullWidth"} marginY={"micro"} />
-            <Button
-              flex={1}
-              width="100%"
-              height={80}
-              onPress={() =>
-                navigation.navigate("AddressList", { isCheckout: true })
-              }
-            >
-              <>
-                <Box
-                  width="100%"
-                  flexDirection={"row"}
-                  alignItems={"center"}
-                  justifyContent="space-between"
-                >
-                  <Box>
-                    <Typography>Receber em casa</Typography>
-                  </Box>
-
-                </Box>
-
-                <Box
-                  mt="nano"
-                  flexDirection={"row"}
-                  alignItems={"center"}
-                  flex={1}
-                  justifyContent={"space-between"}
-                >
-                  {orderForm?.shippingData?.address &&
-                    <Box flex={2}>
-                      <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
-                        {orderForm?.shippingData?.address?.street} - {orderForm?.shippingData?.address?.neighborhood}
-                      </Typography>
-                      <Box mt="quarck">
-                        <Typography fontFamily="nunitoRegular" fontSize={11} color="neutroFrio2">
-                          CEP {orderForm?.shippingData?.address?.postalCode}
-                        </Typography>
-                      </Box>
-
-                    </Box>
-                  }
-                  <Box flex={1} alignItems="flex-end">
-                    <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
-                  </Box>
-                </Box>
-                {orderForm && orderForm?.shippingData?.logisticsInfo[0].slas.length > 0 &&
-                  <Box alignSelf="flex-start" mt="quarck">
-                    <Typography
-                      fontFamily={"nunitoSemiBold"}
-                      fontSize={13}
-                      color={"verdeSucesso"}
-                    >
-                      {format(
-                        addDays(Date.now(), parseInt(orderForm?.shippingData?.logisticsInfo[0]?.slas[0]?.shippingEstimate?.split('bd')[0])),
-                        "iiii, dd 'de' MMMM 'de' yyyy", { locale: ptBR }
-                      )}
-                    </Typography>
-                  </Box>
-                }
-              </>
-            </Button>
+                  Retirar na loja
+                </Typography>
+              </Button>
+            </Box>
           </Box>
-          {/* <SelectOption
-            title={"Retirar na loja"}
-            subtitle={mapPermission ? "Segunda-feira, 06 de maio de 2021" : ""}
-            onPress={() =>
-              mapPermission ?
-                navigation.navigate('MapScreen', { geolocation: "", locationPermission: mapPermission })
-                :
-                navigation.navigate("WithdrawInStore", { isCheckout: true, })
-            }
-            divider
-          /> */}
-          {/* <SelectOption
-            title={"Receber em casa"}
-            subtitle={mapPermission ? "Segunda-feira, 7 de maio de 2021" : ""}
-            onPress={() =>
-              navigation.navigate("AddressList", { isCheckout: true })
-            }
-          /> */}
 
-          {/* <SelectOption
-            title={"wbeview"}
-            subtitle={"S123123123"}
-            onPress={() => navigation.navigate("Checkout")}
-          /> */}
+          <Box marginTop={"xs"}>
+            <Typography
+              variant={"subtituloSessoes"}
+              color="preto"
+              fontFamily="nunitoSemiBold"
+              fontSize="14px"
+              style={{ textTransform: "uppercase" }}
+            >
+              Selecione o tipo de entrega
+            </Typography>
+          </Box>
+
+          <Box
+            pt={"micro"}
+            overflow={"hidden"}
+            flex={1}
+            justifyContent="flex-start"
+          >
+            {typesOfDelivery && typesOfDelivery.length > 0 ? (
+              <FlatList
+                style={{ marginBottom: 20 }}
+                showsVerticalScrollIndicator={false}
+                data={typesOfDelivery}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => {
+                  let selected;
+                  const {
+                    id,
+                    name,
+                    shippingEstimate,
+                    price
+                  } = item;
+
+                  return (
+                    <Box
+                      borderWidth="hairline"
+                      width="100%"
+                      flex={1}
+                      mt='nano'
+                      flexDirection="row"
+                    >
+                      <Box
+                        width="100"
+                      >
+
+                      </Box>
+                      <Box alignContent={"center"} bg="dropDownBorderColor">
+                        <Typography>
+                          {name}
+                        </Typography>
+                        <Typography>
+                          Em até {shippingEstimate?.split('bd')[0]} dias úteis</Typography>
+                      </Box>
+                      {price > 0 ?
+                        <Box>
+                          <Typography>
+                            R$ {price / 100}
+                          </Typography>
+                        </Box>
+                        : <Box>
+                          <Typography>Grátis</Typography>
+                        </Box>
+                      }
+                    </Box>
+                  )
+                }}
+              />
+            ) : null}
+          </Box>
+
+          <Box marginTop={"xs"} marginBottom={"xxxs"}>
+            <Typography
+              variant={"subtituloSessoes"}
+              color="preto"
+              fontFamily="nunitoSemiBold"
+              fontSize="14px"
+              style={{ textTransform: "uppercase" }}
+            >
+              Selecione o tipo de entrega
+            </Typography>
+          </Box>
+
+          <Box
+            overflow={"hidden"}
+            paddingHorizontal={20}
+            flex={1}
+            justifyContent="flex-start"
+            pt={"md"}
+          >
+            {addresses && addresses.length > 0 ? (
+
+              <FlatList
+                style={{ marginBottom: 20 }}
+                showsVerticalScrollIndicator={false}
+                data={addresses}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => {
+                  let selected;
+                  const {
+                    id,
+                    city,
+                    complement,
+                    number,
+                    postalCode,
+                    state,
+                    street,
+                    neighborhood,
+                    addressId,
+                    addressType,
+                  } = item;
+
+                  if (cookie) {
+                    if (selectedAddress) {
+                      selected = id === selectedAddress.id && item;
+                    }
+                  } else {
+                    if (selectedAddress) {
+                      selected = addressId === selectedAddress.addressId && item;
+                    }
+                  }
+
+                  return (
+                    <AddressSelector
+                      addressData={{
+                        address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
+                        title: street,
+                        zipcode: postalCode,
+                      }}
+                      deleteAddress={() => {
+
+                      }}
+                      editAndDelete={() => { }}
+                      edit={() => {
+                        navigation.navigate("NewAddress", {
+                          edit: true,
+                          editAddress: {
+                            id,
+                            postalCode,
+                            state,
+                            city,
+                            street,
+                            neighborhood,
+                            number,
+                            complement,
+                            addressType
+                          },
+                        });
+                      }}
+                      selected={selected}
+                      select={() => {
+
+                      }}
+                    />
+                  );
+                }}
+              />
+            ) : (
+              <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                Você ainda não tem endereços cadastrados, clique em Novo Endereço
+                e cadastre
+              </Typography>
+            )}
+          </Box>
         </Box>
       </ScrollView>
     </SafeAreaView >
