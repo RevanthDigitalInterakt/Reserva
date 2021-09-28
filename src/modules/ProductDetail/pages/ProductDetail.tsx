@@ -324,6 +324,20 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
+        const getVariant =  (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+
+        const isSkuEqual = (sku1: any, sku2: any) => {
+          console.log("sku1", sku1);
+          console.log("sku2", sku2);
+          if(sku1 && sku2){
+            const size1 = getVariant(sku1, "Tamanho");
+            const color1 = getVariant(sku1, "VALOR_HEX_ORIGINAL");
+            const size2 = getVariant(sku2, "Tamanho");
+            const color2 = getVariant(sku2, "VALOR_HEX_ORIGINAL");
+
+            return size1 === size2 && color1 === color2;
+          }
+        }
 
         const variantToSelect = sizeColorSkuVariations.find((i) => {
           if (i.variations) {
@@ -331,14 +345,12 @@ export const ProductDetail: React.FC<Props> = ({
               ({ name, originalName, values }: any) => ({
                 name,
                 originalName,
-                values,
-              } as Facets)
+                values: values,
+              })
             );
-
-            return JSON.stringify(a) === JSON.stringify(selectedSkuVariations);
+            return isSkuEqual(a, selectedSkuVariations);
           }
         });
-
         setSelectedVariant(variantToSelect);
       }
     }
@@ -349,8 +361,6 @@ export const ProductDetail: React.FC<Props> = ({
     sellers.map((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
-        console.log("SELLER_ID=", seller.sellerId);
-
       }
     })
   }
@@ -867,3 +877,5 @@ export const ProductDetail: React.FC<Props> = ({
     </SafeAreaView>
   );
 };
+
+
