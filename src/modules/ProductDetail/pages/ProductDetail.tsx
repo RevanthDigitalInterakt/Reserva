@@ -28,7 +28,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { ApplicationState } from '../../../store';
 import { useCart } from '../../../context/CartContext';
 import { QueryResult, useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import { GET_PRODUCTS, GET_SHIPPING } from '../../../graphql/product/productQuery';
+import { GET_PRODUCTS, GET_SHIPPING, SUBSCRIBE_NEWSLETTER } from '../../../graphql/product/productQuery';
 import {
   Installment,
   ProductQL,
@@ -43,6 +43,7 @@ import wishListQueries from '../../../graphql/wishlist/wishList';
 import { useAuth } from '../../../context/AuthContext';
 import { images } from '../../../assets';
 import { url } from '../../../config/vtexConfig';
+import { Tooltip } from '../components/Tooltip';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -164,6 +165,8 @@ export const ProductDetail: React.FC<Props> = ({
       },
     });
 
+  const [subscribeNewsletter, { loading: newsletterLoading, data: newsletterData, error: newsletterError }] = useMutation(SUBSCRIBE_NEWSLETTER)
+
   const [shippingCost, setShippingCost] = useState<ShippingCost[]>([]);
 
   const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING, { fetchPolicy: "no-cache" });
@@ -172,6 +175,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [itemsSKU, setItemsSKU] = useState<any>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [outOfStock, setoutOfStock] = useState(false);
+  const [toolTipIsVisible, setToolTipIsVisible] = useState(false)
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
@@ -500,7 +504,19 @@ export const ProductDetail: React.FC<Props> = ({
 
   const newsAndPromotions = async () => {
     if (emailIsValid) {
-      const response = await sendUserEmail(emailPromotions)
+      console.log('asdasd')
+      const { data } = await subscribeNewsletter({
+        variables: {
+          email: emailPromotions,
+          isNewsletterOptIn: true
+        }
+      })
+      console.log('passou do newsletter!!', data)
+
+      if (!!data && data.subscribeNewsletter) {
+        setToolTipIsVisible(true)
+      }
+
     } else {
       setShowMessageError(true)
     }
@@ -741,8 +757,8 @@ export const ProductDetail: React.FC<Props> = ({
                   </Box>
 
                   <Divider variant="fullWidth" my="xs" />
-
                   <Box mb="xxxs">
+                    <Tooltip tooltipText='Email Cadastrado!' isVisible={toolTipIsVisible} setIsVisible={(isVisible) => setToolTipIsVisible(isVisible)} />
                     <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                       Receba novidades e promoções
                     </Typography>
