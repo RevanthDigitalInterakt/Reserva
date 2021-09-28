@@ -371,7 +371,8 @@ export const ProductDetail: React.FC<Props> = ({
           const { data } = await addWishList({
             variables: {
               shopperId: email,
-              productId: product.productId.split('-')[0]
+              productId: product.productId.split('-')[0],
+              sku: selectedVariant?.itemId
             }
           })
         } else {
