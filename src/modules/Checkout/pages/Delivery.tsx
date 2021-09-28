@@ -201,17 +201,40 @@ const Delivery: React.FC<{}> = () => {
                   return (
                     <Box
                       borderWidth="hairline"
-                      width="100%"
                       flex={1}
                       mt='nano'
                       flexDirection="row"
+                      alignItems="center"
+                      justifyContent="space-around"
+                      p="xxxs"
+                      borderColor={'divider'}
                     >
-                      <Box
-                        width="100"
-                      >
-
+                      <Box width="10%">
+                        <Box
+                          height={20}
+                          width={20}
+                          borderRadius="infinity"
+                          borderWidth="thin"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <Box
+                            height={10}
+                            width={10}
+                            borderRadius="nano"
+                            bg="preto"
+                          />
+                        </Box>
                       </Box>
-                      <Box alignContent={"center"} bg="dropDownBorderColor">
+                      <Box
+                        alignContent={"center"}
+                        // bg="dropDownBorderColor"
+                        flex={1}
+                        width="70%"
+                        marginX="micro"
+                        borderRightWidth="hairline"
+                        borderColor="divider"
+                      >
                         <Typography>
                           {name}
                         </Typography>
@@ -219,12 +242,12 @@ const Delivery: React.FC<{}> = () => {
                           Em até {shippingEstimate?.split('bd')[0]} dias úteis</Typography>
                       </Box>
                       {price > 0 ?
-                        <Box>
+                        <Box width="20%">
                           <Typography>
                             R$ {price / 100}
                           </Typography>
                         </Box>
-                        : <Box>
+                        : <Box width="20%">
                           <Typography>Grátis</Typography>
                         </Box>
                       }
