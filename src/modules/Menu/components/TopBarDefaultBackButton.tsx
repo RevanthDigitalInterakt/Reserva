@@ -10,7 +10,7 @@ export const TopBarDefaultBackButton: React.FC<{
   loading: Boolean;
   showShadow?: Boolean;
   navigateGoBack?: Boolean;
-}> = ({ showShadow = true, loading = false, navigateGoBack }) => {
+}> = ({ showShadow = true, loading = false, navigateGoBack = false }) => {
   const navigation = useNavigation();
   const { orderForm } = useCart();
   return (
