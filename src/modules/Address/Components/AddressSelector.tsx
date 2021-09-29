@@ -37,11 +37,52 @@ const AddressSelector = ({
           borderWidth="hairline"
           borderColor={'divider'}
           width="100%"
+          height={"auto"}
           flexDirection="row"
-          mt={'xxxs'}
+          p="nano"
+          mt={'nano'}
+          alignItems="center"
         >
-          <Box width={24} mr={'micro'}>
-            {selected && <Icon name="Check" color="preto" size={24} />}
+          <Box
+            height={50}
+            width={50}
+            alignItems="center"
+          >
+            <Box m={'nano'} alignItems="center">
+              {selected ? <Box width="10%">
+                <Box
+                  height={20}
+                  width={20}
+                  borderRadius="infinity"
+                  borderWidth="thin"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Box
+                    height={10}
+                    width={10}
+                    borderRadius="nano"
+                    bg="preto"
+                  />
+                </Box>
+              </Box> :
+                <Box
+                  height={20}
+                  width={20}
+                  borderRadius="infinity"
+                  borderWidth="thin"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Box
+                    height={10}
+                    width={10}
+                    borderRadius="nano"
+                  >
+                  </Box>
+                </Box>
+              }
+            </Box>
           </Box>
           <Box paddingX="micro" flex={1}>
             <Typography fontFamily="reservaSerifRegular" fontSize={16}>
