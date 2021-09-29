@@ -17,6 +17,7 @@ import { profileQuery } from "../../../store/ducks/profile/types";
 import { AddressTypes } from "../../../store/ducks/address/types";
 import { images } from '../../../assets';
 import Modal from "react-native-modal";
+import DeliverySelector from "../components/DeliverySelector";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ const Delivery: React.FC<{}> = () => {
   const [mapPermission, setMapPermission] = useState(false)
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
+  const [selectedDelivery, setSelectedDelivery] = useState<any>(null);
   const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
   const [profile, setProfile] = useState<any>({});
   const [typeOfDelivery, setTypeOfDelivery] = useState<any>([]);
@@ -67,6 +69,10 @@ const Delivery: React.FC<{}> = () => {
 
   const onAddressChosen = (item: any) => {
     setSelectedAddress({ ...item, addressType: "residential" });
+  };
+
+  const onDeliveryChosen = (item: any) => {
+    setSelectedDelivery(item);
   };
 
   const onGoToPayment = async () => {
@@ -238,74 +244,100 @@ const Delivery: React.FC<{}> = () => {
                         id,
                         name,
                         shippingEstimate,
-                        price
+                        price,
+                        deliveryId,
                       } = item;
 
+                      if (cookie) {
+                        if (selected) {
+                          selected = id === selectedDelivery.id && item;
+                        }
+                      } else {
+                        if (selectedDelivery) {
+                          selected = deliveryId === selectedDelivery.deliveryId && item;
+                        }
+                      }
+
                       return (
-                        <Box
-                          borderWidth="hairline"
-                          flex={1}
-                          mt='nano'
-                          flexDirection="row"
-                          alignItems="center"
-                          justifyContent="space-around"
-                          p="xxxs"
-                          borderColor={'divider'}
-                        >
-                          <Box width="10%">
-                            <Box
-                              height={20}
-                              width={20}
-                              borderRadius="infinity"
-                              borderWidth="thin"
-                              alignItems="center"
-                              justifyContent="center"
-                            >
-                              <Box
-                                height={10}
-                                width={10}
-                                borderRadius="nano"
-                                bg="preto"
-                              />
-                            </Box>
-                          </Box>
+                        <Box>
+                          <DeliverySelector
+                            deliveryData={{
+                              name: name,
+                              price: price,
+                              shippingEstimate: shippingEstimate,
+                            }}
+                            selected={selected}
+                            select={() => {
+                              onDeliveryChosen(item)
+                              console.log(item)
+                            }}
+                          />
+                          {/* 
                           <Box
-                            alignContent={"center"}
+                            borderWidth="hairline"
                             flex={1}
-                            width="70%"
-                            marginX="micro"
-                            borderRightWidth="hairline"
-                            borderColor="divider"
+                            mt='nano'
+                            flexDirection="row"
+                            alignItems="center"
+                            justifyContent="space-around"
+                            p="xxxs"
+                            borderColor={'divider'}
                           >
-                            <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                              {name}
-                            </Typography>
-                            <Typography
-                              style={{ flexWrap: 'wrap' }}
-                              fontFamily="nunitoRegular"
-                              fontSize={12}
-                            >
-                              Em até {shippingEstimate?.split('bd')[0]} dias úteis</Typography>
-                          </Box>
-                          {price > 0 ?
-                            <Box width="20%" alignItems="center">
-                              <Typography>
-                                R$ {(price / 100).toFixed(2).replace(".", ",")}
-                              </Typography>
-                            </Box>
-                            : <Box width="20%">
+                            <Box width="10%">
                               <Box
+                                height={20}
+                                width={20}
                                 borderRadius="infinity"
-                                bg="verdeSucesso"
-                                borderColor="verdeSucesso"
-                                height="100%"
+                                borderWidth="thin"
                                 alignItems="center"
-                                p="nano"
+                                justifyContent="center"
                               >
-                                <Typography color="white" style={{ textTransform: "uppercase" }}>Grátis</Typography>
+                                <Box
+                                  height={10}
+                                  width={10}
+                                  borderRadius="nano"
+                                  bg="preto"
+                                />
                               </Box>
                             </Box>
-                          }
+                            <Box
+                              alignContent={"center"}
+                              flex={1}
+                              width="70%"
+                              marginX="micro"
+                              borderRightWidth="hairline"
+                              borderColor="divider"
+                            >
+                              <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                                {name}
+                              </Typography>
+                              <Typography
+                                style={{ flexWrap: 'wrap' }}
+                                fontFamily="nunitoRegular"
+                                fontSize={12}
+                              >
+                                Em até {shippingEstimate?.split('bd')[0]} dias úteis</Typography>
+                            </Box>
+                            {price > 0 ?
+                              <Box width="20%" alignItems="center">
+                                <Typography>
+                                  R$ {(price / 100).toFixed(2).replace(".", ",")}
+                                </Typography>
+                              </Box>
+                              : <Box width="20%">
+                                <Box
+                                  borderRadius="infinity"
+                                  bg="verdeSucesso"
+                                  borderColor="verdeSucesso"
+                                  height="100%"
+                                  alignItems="center"
+                                  p="nano"
+                                >
+                                  <Typography color="white" style={{ textTransform: "uppercase" }}>Grátis</Typography>
+                                </Box>
+                              </Box>
+                            } */}
+                          {/*  </Box> */}
                         </Box>
                       )
                     }}
