@@ -16,6 +16,7 @@ import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { profileQuery } from "../../../store/ducks/profile/types";
 import { AddressTypes } from "../../../store/ducks/address/types";
 import { images } from '../../../assets';
+import Modal from "react-native-modal";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -171,7 +172,7 @@ const Delivery: React.FC<{}> = () => {
             </Box>
           </Box>
 
-          {selectMethodDelivery ? Store() :
+          {selectMethodDelivery ? <Store /> :
             <>
               <Box marginTop={"xs"}>
                 <Typography
@@ -382,7 +383,7 @@ const Delivery: React.FC<{}> = () => {
     </SafeAreaView >
   );
 };
-
+export const DeliveryScreen = Delivery;
 interface ISelectOption {
   title: string;
   subtitle?: string;
@@ -418,7 +419,10 @@ const SelectOption = ({ title, subtitle, divider, onPress }: ISelectOption) => {
   );
 };
 
+
+
 const Store = () => {
+  const [showModalStore, setShowModalStore] = useState(false)
   return (
     <Box mt="xxs">
       <Typography
@@ -467,10 +471,10 @@ const Store = () => {
                 <Typography fontFamily="reservaSansRegular" fontSize={13}>
                   AV DOUTOR OLIVIO LIRA 353, LOJA 302 K/L PRAIA DA COSTA - VILA VELHA - ES.
                   {/* {`${item.address.street}, ${item.address.number}
-${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`} */}
+                   ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`} */}
                 </Typography>
               </Box>
-              <Box flexDirection="row">
+              <Box flexDirection="row" mb="nano">
                 <Box mr="xxs">
                   <Typography
                     fontFamily="reservaSansMedium"
@@ -488,19 +492,88 @@ ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state
                   Pronto em até 2 dias
                 </Typography>
               </Box>
-
-              <Typography
-                style={{ textDecorationLine: "underline" }}
-                fontFamily="nunitoRegular"
-                fontSize={12}>
-                Detalhes da loja
-              </Typography>
+              <Button
+                flex={1}
+                alignSelf="flex-start"
+                onPress={() => setShowModalStore(true)}
+              >
+                <Box
+                  flex={1}
+                  alignSelf="flex-start"
+                >
+                  <Typography
+                    style={{ textDecorationLine: "underline" }}
+                    fontFamily="nunitoRegular"
+                    fontSize={12}>
+                    Detalhes da loja
+                  </Typography>
+                </Box>
+              </Button>
             </Box>
           </Box>
         </Box>
       </Box>
+      <Modal
+        isVisible={showModalStore}
+      >
+        <Box
+          bg='white'
+          height={200}
+          p="xxxs"
+        >
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box>
+              <Typography
+                fontFamily="reservaSerifRegular"
+                fontSize={20}
+              >
+                Detalhes da Loja
+              </Typography>
+            </Box>
+            <Button
+              hitSlop={{
+                top: 30,
+                bottom: 30,
+                right: 30,
+                left: 30,
+              }}
+              onPress={() => setShowModalStore(false)}
+              variant='icone'
+              icon={
+                <Icon size={12} name='Close' />
+              }
+            />
+          </Box>
+          <Box mt="xxs" mb="micro">
+            <Typography fontFamily="reservaSansMedium" fontSize={14}>
+              Horários de funcionamento
+            </Typography>
+          </Box>
+          {
+            ["Segunda a Sexta-feira", "Sábado",].map((item) => (
+              <>
+                <Box
+                  py="nano"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                >
+                  <Typography fontFamily="reservaSansLight" fontSize={14}>
+                    {item}
+                  </Typography>
+                  <Typography fontFamily="reservaSansRegular" fontSize={14}>10:00 às 22:00</Typography>
+                </Box>
+                <Divider variant="fullWidth" />
+              </>
+            ))
+          }
+        </Box>
+      </Modal>
     </Box>
   );
 }
 
-export const DeliveryScreen = Delivery;
+
