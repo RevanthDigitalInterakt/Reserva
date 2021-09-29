@@ -17,6 +17,7 @@ import { profileQuery } from "../../../store/ducks/profile/types";
 import { AddressTypes } from "../../../store/ducks/address/types";
 import { images } from '../../../assets';
 import Modal from "react-native-modal";
+import closestIndexTo from "date-fns/esm/fp/closestIndexTo/index.js";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -30,6 +31,7 @@ const Delivery: React.FC<{}> = () => {
   const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
   const [profile, setProfile] = useState<any>({});
   const [typeOfDelivery, setTypeOfDelivery] = useState<any>([]);
+  const [pickupPoint, setPickupPoint] = useState<any>([]);
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false)
   const [addressId, setAddressId] = React.useState("");
   const [loading, setLoading] = useState(false);
@@ -107,8 +109,21 @@ const Delivery: React.FC<{}> = () => {
       if (x.deliveryChannel === 'delivery') return true;
       return false
     })
-    console.log("Types", typeOfDeliveries)
-    setTypeOfDelivery(typeOfDeliveries)
+
+    const pickupPoint = orderForm?.shippingData?.logisticsInfo[0].slas.filter((x) => {
+      if (x.deliveryChannel === 'pickup-in-point') return true;
+      return false
+    })
+
+    //loja mais próxima
+    if (pickupPoint) {
+      const closer = pickupPoint.reduce((prev: any, curr: any) => {
+        return prev.pickupDistance < curr.pickupDistance ? prev : curr;
+      }, 0);
+      setPickupPoint(closer);
+    }
+    setTypeOfDelivery(typeOfDeliveries);
+
   }, [])
 
 
