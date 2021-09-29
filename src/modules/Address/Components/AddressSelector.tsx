@@ -102,7 +102,7 @@ const AddressSelector = ({
               {zipcode}
             </Typography>
 
-            {/* <Box
+            <Box
               flexDirection="row"
               mb={'xxxs'}
               justifyContent="flex-end"
@@ -128,7 +128,7 @@ const AddressSelector = ({
                   </Button>
                 </>
               }
-            </Box> */}
+            </Box>
           </Box>
         </Box>
       </TouchableOpacity>

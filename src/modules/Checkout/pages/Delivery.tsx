@@ -20,7 +20,7 @@ import Modal from "react-native-modal";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
-  const { orderForm } = useCart();
+  const { orderForm, addShippingOrPickupInfo } = useCart();
   const { cookie, setCookie } = useAuth()
   const { authentication } = useSelector((state: ApplicationState) => state);
   const [Permission, setPermission] = useState(false)
@@ -31,6 +31,8 @@ const Delivery: React.FC<{}> = () => {
   const [profile, setProfile] = useState<any>({});
   const [typeOfDelivery, setTypeOfDelivery] = useState<any>([]);
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false)
+  const [addressId, setAddressId] = React.useState("");
+  const [loading, setLoading] = useState(false);
 
   const requestMap = async () => {
     try {
@@ -65,6 +67,35 @@ const Delivery: React.FC<{}> = () => {
 
   const onAddressChosen = (item: any) => {
     setSelectedAddress({ ...item, addressType: "residential" });
+  };
+
+  const onGoToPayment = async () => {
+
+    if (orderForm) {
+      setLoading(true);
+
+      const slas = orderForm.shippingData.logisticsInfo[0].slas[0];
+
+      if (slas) {
+        const { deliveryChannel, id } = slas;
+
+        // save selected logistc info
+        const logisticInfo = orderForm.shippingData.logisticsInfo.map(
+          ({ itemIndex }) => {
+            return {
+              itemIndex,
+              selectedDeliveryChannel: deliveryChannel,
+              selectedSla: id,
+            };
+          }
+        );
+
+        await addShippingOrPickupInfo(logisticInfo, [selectedAddress]);
+
+      }
+      setLoading(false);
+    }
+    navigation.navigate("Checkout");
   };
 
   useEffect(() => {
@@ -135,7 +166,7 @@ const Delivery: React.FC<{}> = () => {
                 flexDirection="row"
                 inline={true}
                 height={40}
-                bg="dropDownBorderColor"
+                bg={!selectMethodDelivery ? "dropDownBorderColor" : null}
               >
                 <Typography
                   color="preto"
@@ -159,6 +190,7 @@ const Delivery: React.FC<{}> = () => {
                 inline={true}
                 height={40}
                 onPress={() => { setSelectMethodDelivery(true) }}
+                bg={selectMethodDelivery ? "dropDownBorderColor" : null}
               >
                 <Typography
                   color="preto"
@@ -239,7 +271,6 @@ const Delivery: React.FC<{}> = () => {
                           </Box>
                           <Box
                             alignContent={"center"}
-                            // bg="dropDownBorderColor"
                             flex={1}
                             width="70%"
                             marginX="micro"
@@ -320,7 +351,6 @@ const Delivery: React.FC<{}> = () => {
                         street,
                         neighborhood,
                         addressId,
-                        addressType,
                       } = item;
 
                       if (cookie) {
@@ -334,36 +364,16 @@ const Delivery: React.FC<{}> = () => {
                       }
 
                       return (
-
                         <AddressSelector
                           addressData={{
                             address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
                             title: street,
                             zipcode: postalCode,
                           }}
-                          deleteAddress={() => {
-
-                          }}
-                          editAndDelete={true}
-                          edit={() => {
-                            navigation.navigate("NewAddress", {
-                              edit: true,
-                              editAddress: {
-                                id,
-                                postalCode,
-                                state,
-                                city,
-                                street,
-                                neighborhood,
-                                number,
-                                complement,
-                                addressType
-                              },
-                            });
-                          }}
                           selected={selected}
                           select={() => {
                             onAddressChosen(item);
+                            console.log("DEBUGGGGGGGGGGGG", item)
                           }}
                         />
                       );
@@ -375,10 +385,32 @@ const Delivery: React.FC<{}> = () => {
                     e cadastre
                   </Typography>
                 )}
+                <Box>
+                  <Button
+                    onPress={() => navigation.navigate("NewAddress")}
+                    borderColor="modalBackDropColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline={true}
+                    height={40}
+                    title="ADICIONAR ENDEREÇO"
+                  />
+                </Box>
               </Box>
             </>
           }
         </Box>
+
+        {!selectMethodDelivery ?
+          <Box justifyContent="flex-end" >
+            <Button
+              disabled={loading || !selectedAddress}
+              onPress={onGoToPayment}
+              title="FORMA DE PAGAMENTO"
+              variant="primarioEstreito"
+              inline={true}
+            />
+          </Box> : null}
       </ScrollView>
     </SafeAreaView >
   );
