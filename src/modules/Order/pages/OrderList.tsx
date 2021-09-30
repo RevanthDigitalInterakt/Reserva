@@ -11,8 +11,8 @@ import { IOrder, useCart } from '../../../context/CartContext';
 
 const OrderList = () => {
   const { orders } = useCart()
-  // const [ordersList, setOrdersList] = useState<IOrder[]>([]);
-  const [ordersList, setOrdersList] = useState([]);
+  const [ordersList, setOrdersList] = useState<IOrder[]>([]);
+  // const [ordersList, setOrdersList] = useState([]);
   const [loading, setLoading] = useState(false);
   // const { data, loading, refetch } = useQuery(GET_ORDERS, { fetchPolicy: "no-cache" });
 
@@ -22,15 +22,15 @@ const OrderList = () => {
 
   const fetchOrders = async () => {
     setLoading(true)
-    const list = await orders()
+    const list = await orders("1")
     console.log('dataorders', list)
     if (list) {
-      const completedOrders = list.filter((x) => {
-        if (x.status != 'canceled') return true;
-        return false
-      })
-      console.log('completedOrders', completedOrders)
-      setOrdersList(completedOrders)
+      // const completedOrders = list.filter((x) => {
+      //   if (x.status != 'canceled') return true;
+      //   return false
+      // })
+      // console.log('completedOrders', completedOrders)
+      setOrdersList(list)
     }
     setLoading(false)
   }

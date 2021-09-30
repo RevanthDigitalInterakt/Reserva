@@ -384,7 +384,7 @@ interface CartContextProps {
   convertZipCode: (postalCode: string) => Promise<Address | undefined>;
   tracking: (cookie: string, order: string) => Promise<ITracking | undefined>;
   pickupPoint: (longitude: string, latitude: string) => Promise<items | undefined>;
-  orders: () => Promise<IOrder[] | undefined>;
+  orders: (pages: string) => Promise<IOrder[] | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -660,9 +660,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
-  const orders = async () => {
+  const orders = async (pages: string) => {
     try {
-      const { data } = await Orders();
+      const { data } = await Orders(pages);
       return data?.list || [];
     } catch (error) {
       console.log('error', error.response.data)

@@ -342,8 +342,10 @@ const PickupPoint = async (
   return response;
 }
 
-const Orders = async () => {
-  const response = await instance2.get(`/oms/user/orders/?pages=2`, {
+const Orders = async (
+  pages: string
+) => {
+  const response = await instance2.get(`/oms/user/orders/?pages=${pages}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
     }
