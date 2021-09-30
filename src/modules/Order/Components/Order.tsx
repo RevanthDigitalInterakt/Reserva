@@ -4,40 +4,48 @@ import { Platform, TouchableOpacity } from 'react-native';
 import { Typography, Box, Button, Icon, Divider } from 'reserva-ui';
 import { stringToReal } from '../../../utils/stringToReal';
 import { useState } from 'react';
+import { add, addDays, format, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 type IOrderData = {
   orderId: string;
-  shippingData: {
-    logisticsInfo: {
-      itemIndex: string;
-      selectedSla: string;
-      slas: {
-        shippingEstimate: string;
-        shippingEstimateDate: string;
-      };
-    };
-    address: {
-      street: string;
-      number: string;
-      neighborhood: string;
-      city: string;
-      state: string;
-      postalCode: string;
-    };
-  };
+  creationDate: string;
+  clientName: string;
+  items: null;
+  totalValue: number;
+  paymentNames: string;
   status: string;
-  value: string;
-  totals: {
-    id: string;
-    name: string;
-    value: string;
-  };
-  items: {
-    id: string;
-    name: string;
-  };
-};
-
+  statusDescription: string;
+  marketPlaceOrderId: null;
+  sequence: string;
+  salesChannel: string;
+  affiliateId: string;
+  origin: string;
+  workflowInErrorState: boolean;
+  workflowInRetry: boolean;
+  lastMessageUnread: string;
+  ShippingEstimatedDate: null;
+  ShippingEstimatedDateMax: null;
+  ShippingEstimatedDateMin: null;
+  orderIsComplete: boolean,
+  listId: null;
+  listType: null;
+  authorizedDate: null;
+  callCenterOperatorName: null;
+  totalItems: number;
+  currencyCode: string;
+  hostname: string;
+  invoiceOutput: null;
+  invoiceInput: null;
+  lastChange: string;
+  isAllDelivered: boolean;
+  isAnyDelivered: boolean;
+  giftCardProviders: null;
+  orderFormId: string;
+  paymentApprovedDate: null;
+  readyForHandlingDate: null;
+  deliveryDates: null
+}
 interface IOrder {
   onPress?: () => void;
   delivered?: boolean;
@@ -53,11 +61,6 @@ const Order = ({ data }: IOrder) => {
     status: data.status,
   });
 
-  const getTime = () => {
-    const date = new Date(order.creationDate);
-    return `${date.getHours() + 3}:${date.getMinutes()}`;
-  };
-
   return (
     <TouchableOpacity
       onPress={() => {
@@ -69,13 +72,13 @@ const Order = ({ data }: IOrder) => {
       <Box
         style={{ elevation: 6 }}
         boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-        mt="xxxs"
+        mb="xxxs"
         width={'100%'}
-        minHeight={180}
+        minHeight={132}
         backgroundColor={'white'}
       >
         <Box
-          minHeight={138}
+          // minHeight={138}
           paddingY={'micro'}
           paddingX={'micro'}
         >
@@ -89,7 +92,7 @@ const Order = ({ data }: IOrder) => {
             </Typography>
 
             <Typography fontSize={20} fontFamily="nunitoBold" color="preto">
-              {stringToReal(String(order.value))}
+              {stringToReal(String(order.totalValue))}
             </Typography>
           </Box>
           <Typography
@@ -99,7 +102,34 @@ const Order = ({ data }: IOrder) => {
           >
             {data.orderId}
           </Typography>
-          {order.status === 'payment-pending' && (
+          <Box mt="nano">
+            <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
+              Entrega prevista:{' '}
+              {format(new Date(order.ShippingEstimatedDateMax), 'dd/MM/yy', { locale: ptBR })}
+            </Typography>
+          </Box>
+          {/* {order.status === 'canceled' && (
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Typography
+                style={{ marginTop: 5, marginBottom: 5 }}
+                mt={'micro'}
+                fontSize={14}
+                fontFamily="nunitoBold"
+                color={
+                  ['payment-pending', 'canceled'].includes(order.status)
+                    ? 'vermelhoAlerta'
+                    : 'verdeSucesso'
+                }
+              >
+                Cancelado
+              </Typography>
+            </Box>
+          )} */}
+          {/* {order.status === 'payment-pending' && (
             <Box
               flexDirection="row"
               alignItems="center"
@@ -118,15 +148,9 @@ const Order = ({ data }: IOrder) => {
               >
                 Pagamento pendente
               </Typography>
-              <Box flexDirection="row" alignItems="center">
-                <Box marginRight="nano">
-                  <Icon name="Clock" size={15} />
-                </Box>
-                <Typography>{getTime()}</Typography>
-              </Box>
             </Box>
-          )}
-          {order.status === 'payment-approved' && (
+          )} */}
+          {/* {order.status === 'payment-approved' && (
             <Typography
               style={{ marginTop: 5, marginBottom: 5 }}
               mt={'micro'}
@@ -136,8 +160,8 @@ const Order = ({ data }: IOrder) => {
             >
               Pagamento aprovado!
             </Typography>
-          )}
-          {order.status === 'invoiced' && (
+          )} */}
+          {/* {order.status === 'invoiced' && (
             <Typography
               style={{ marginTop: 5, marginBottom: 5 }}
               mt={'micro'}
@@ -147,11 +171,26 @@ const Order = ({ data }: IOrder) => {
             >
               Faturado!
             </Typography>
-          )}
-          <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
-            Endereço de entrega:{' '}
-            {/* {` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}`} */}
-          </Typography>
+          )} */}
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography
+              style={{ marginTop: 5, marginBottom: 5 }}
+              mt={'micro'}
+              fontSize={14}
+              fontFamily="nunitoBold"
+              color={
+                ['payment-pending', 'canceled'].includes(order.status)
+                  ? 'vermelhoAlerta'
+                  : 'verdeSucesso'
+              }
+            >
+              {order.statusDescription}
+            </Typography>
+          </Box>
         </Box>
         <Divider variant="fullWidth" mt="micro" />
         <Box

@@ -343,16 +343,16 @@ const PickupPoint = async (
 }
 
 const Orders = async (
-  pages: string
+  page: string
 ) => {
-  const response = await instance2.get(`/oms/user/orders/?pages=${pages}`, {
+  const response = await instance2.get(`/oms/user/orders/?page=${page}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
     }
   });
   return response;
 }
-const OrdersId = async (
+const OrderDetail = async (
   orderId: string
 ) => {
   const response = await instance2.get(`/oms/user/orders/${orderId}`);
@@ -385,5 +385,5 @@ export {
   Tracking,
   PickupPoint,
   Orders,
-  OrdersId
+  OrderDetail
 };
