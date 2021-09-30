@@ -18,14 +18,14 @@ import { AddressTypes } from "../../../store/ducks/address/types";
 import { images } from '../../../assets';
 import Modal from "react-native-modal";
 import DeliverySelector from "../components/DeliverySelector";
+import Geolocation from '@react-native-community/geolocation';
+import ItemList from "../../HelpCenter/Components/ItemListHelp";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { orderForm, addShippingOrPickupInfo } = useCart();
   const { cookie, setCookie } = useAuth()
   const { authentication } = useSelector((state: ApplicationState) => state);
-  const [Permission, setPermission] = useState(false)
-  const [mapPermission, setMapPermission] = useState(false)
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [selectedDelivery, setSelectedDelivery] = useState<any>(null);
@@ -36,36 +36,7 @@ const Delivery: React.FC<{}> = () => {
   const [addressId, setAddressId] = React.useState("");
   const [loading, setLoading] = useState(false);
 
-  const requestMap = async () => {
-    try {
-      const lacationAlways = await request(
-        PERMISSIONS.IOS.LOCATION_ALWAYS);
-      const lacationInUse = await request(
-        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-      );
-      const fineLoation = await request(
-        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-      )
-      if (lacationAlways === 'granted' || lacationInUse === 'granted' || fineLoation === 'granted') {
-        setPermission(true)
-      }
-    } catch (error) {
-    }
-  }
 
-  const CkeckmapPermission = async () => {
-    try {
-      const check = await checkMultiple([
-        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-        PERMISSIONS.IOS.LOCATION_ALWAYS,
-        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-      ]);
-      if (check["ios.permission.LOCATION_WHEN_IN_USE"] === 'granted' || check["ios.permission.LOCATION_ALWAYS"] === 'granted' || check["android.permission.ACCESS_FINE_LOCATION"] === "granted") {
-        setMapPermission(true)
-      }
-    } catch (err) {
-    }
-  }
 
   const onAddressChosen = (item: any) => {
     setSelectedAddress({ ...item, addressType: "residential" });
@@ -94,9 +65,10 @@ const Delivery: React.FC<{}> = () => {
               selectedSla: id,
             };
           }
+
         );
 
-        await addShippingOrPickupInfo(logisticInfo, [selectedAddress]);
+        await addShippingOrPickupInfo(logisticInfo, [selectedAddress],);
 
       }
       setLoading(false);
@@ -104,9 +76,7 @@ const Delivery: React.FC<{}> = () => {
     navigation.navigate("Checkout");
   };
 
-  useEffect(() => {
-    requestMap();
-  }, [])
+
 
   useEffect(() => {
     const typeOfDeliveries = orderForm?.shippingData?.logisticsInfo[0].slas.filter((x) => {
@@ -118,9 +88,7 @@ const Delivery: React.FC<{}> = () => {
   }, [])
 
 
-  useEffect(() => {
-    CkeckmapPermission();
-  }, [Permission])
+
 
   useEffect(() => {
     const availableAddressesOrderForm =
@@ -227,7 +195,7 @@ const Delivery: React.FC<{}> = () => {
 
 
               <Box
-                pt={"micro"}
+
                 overflow={"hidden"}
                 flex={1}
                 justifyContent="flex-start"
@@ -249,17 +217,17 @@ const Delivery: React.FC<{}> = () => {
                       } = item;
 
                       if (cookie) {
-                        if (selected) {
-                          selected = id === selectedDelivery.id && item;
+                        if (selectedDelivery) {
+                          selected = id === selectedDelivery.id;
                         }
                       } else {
                         if (selectedDelivery) {
-                          selected = deliveryId === selectedDelivery.deliveryId && item;
+                          selected = id === selectedDelivery.id;
                         }
                       }
 
                       return (
-                        <Box>
+                        <>
                           <DeliverySelector
                             deliveryData={{
                               name: name,
@@ -269,76 +237,9 @@ const Delivery: React.FC<{}> = () => {
                             selected={selected}
                             select={() => {
                               onDeliveryChosen(item)
-                              console.log(item)
                             }}
                           />
-                          {/* 
-                          <Box
-                            borderWidth="hairline"
-                            flex={1}
-                            mt='nano'
-                            flexDirection="row"
-                            alignItems="center"
-                            justifyContent="space-around"
-                            p="xxxs"
-                            borderColor={'divider'}
-                          >
-                            <Box width="10%">
-                              <Box
-                                height={20}
-                                width={20}
-                                borderRadius="infinity"
-                                borderWidth="thin"
-                                alignItems="center"
-                                justifyContent="center"
-                              >
-                                <Box
-                                  height={10}
-                                  width={10}
-                                  borderRadius="nano"
-                                  bg="preto"
-                                />
-                              </Box>
-                            </Box>
-                            <Box
-                              alignContent={"center"}
-                              flex={1}
-                              width="70%"
-                              marginX="micro"
-                              borderRightWidth="hairline"
-                              borderColor="divider"
-                            >
-                              <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                                {name}
-                              </Typography>
-                              <Typography
-                                style={{ flexWrap: 'wrap' }}
-                                fontFamily="nunitoRegular"
-                                fontSize={12}
-                              >
-                                Em até {shippingEstimate?.split('bd')[0]} dias úteis</Typography>
-                            </Box>
-                            {price > 0 ?
-                              <Box width="20%" alignItems="center">
-                                <Typography>
-                                  R$ {(price / 100).toFixed(2).replace(".", ",")}
-                                </Typography>
-                              </Box>
-                              : <Box width="20%">
-                                <Box
-                                  borderRadius="infinity"
-                                  bg="verdeSucesso"
-                                  borderColor="verdeSucesso"
-                                  height="100%"
-                                  alignItems="center"
-                                  p="nano"
-                                >
-                                  <Typography color="white" style={{ textTransform: "uppercase" }}>Grátis</Typography>
-                                </Box>
-                              </Box>
-                            } */}
-                          {/*  </Box> */}
-                        </Box>
+                        </>
                       )
                     }}
                   />
@@ -436,7 +337,7 @@ const Delivery: React.FC<{}> = () => {
         {!selectMethodDelivery ?
           <Box justifyContent="flex-end" >
             <Button
-              disabled={loading || !selectedAddress}
+              disabled={loading || !selectedAddress || !selectedDelivery}
               onPress={onGoToPayment}
               title="FORMA DE PAGAMENTO"
               variant="primarioEstreito"
@@ -486,157 +387,266 @@ const SelectOption = ({ title, subtitle, divider, onPress }: ISelectOption) => {
 
 
 const Store = () => {
+  const [mapPermission, setMapPermission] = useState(false)
+  const navigation = useNavigation();
   const [showModalStore, setShowModalStore] = useState(false)
+  const [Permission, setPermission] = useState(false)
+  const [pickupPoints, setPickupPoints] = useState([])
+  const [loading, setLoading] = useState(true)
+  const { orderForm, pickupPoint, convertZipCode } = useCart();
+  const [profile, setProfile] = useState<any>({});
+  const { cookie, setCookie } = useAuth()
+
+  const requestMap = async () => {
+    try {
+      const lacationAlways = await request(
+        PERMISSIONS.IOS.LOCATION_ALWAYS);
+      const lacationInUse = await request(
+        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+      );
+      const fineLoation = await request(
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+      )
+      if (lacationAlways === 'granted' || lacationInUse === 'granted' || fineLoation === 'granted') {
+        setPermission(true)
+      }
+    } catch (error) {
+    }
+  }
+
+  const CkeckmapPermission = async () => {
+    try {
+      const check = await checkMultiple([
+        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        PERMISSIONS.IOS.LOCATION_ALWAYS,
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+      ]);
+      if (check["ios.permission.LOCATION_WHEN_IN_USE"] === 'granted' || check["ios.permission.LOCATION_ALWAYS"] === 'granted' || check["android.permission.ACCESS_FINE_LOCATION"] === "granted") {
+        setMapPermission(true)
+      }
+    } catch (err) {
+    }
+  }
+
+  useEffect(() => {
+    const availableAddressesOrderForm =
+      orderForm &&
+      orderForm?.shippingData &&
+      orderForm?.shippingData.availableAddresses
+        .map((a) => ({ ...a, country: "BRA" }));
+
+    if (cookie) {
+      const { addresses } = profile;
+      console.log("ADRREsss", addresses);
+    } else {
+      if (availableAddressesOrderForm &&
+        availableAddressesOrderForm?.length > 0) {
+        console.log("AVAIBLE", availableAddressesOrderForm);
+      }
+    }
+  }, [orderForm, profile]);
+
+  useEffect(() => {
+    const pickupInPoint = orderForm?.shippingData?.logisticsInfo[0].slas.filter((x) => {
+      if (x.deliveryChannel === 'pickup-in-point') return true;
+      return false
+    })
+    console.log("PICKUP_IN_POINT", pickupInPoint)
+    setPickupPoints(pickupInPoint)
+  }, [])
+
+  useEffect(() => {
+    CkeckmapPermission();
+  }, [Permission])
+
+  useEffect(() => {
+    requestMap();
+  }, [])
+
   return (
-    <Box mt="xxs">
-      <Typography
-        fontFamily="reservaSansBold"
-        fontSize={12}
-        color="neutroFrio2"
-      >
-        LOJA MAIS PRÓXIMA
-      </Typography>
-      <Box
-        flex={1}
-        backgroundColor={'white'}
-        my={'micro'}
-        borderWidth="hairline"
-        borderColor="divider"
-        pt="micro"
-        pb="xxxs"
-        px="nano"
-      >
-        <Box borderColor={'backgroundMenuOpened'}>
-          <Box flexDirection="row">
-            <Box alignItems="center">
-              <Image
-                height={40}
-                source={images.localReserva}
-                resizeMode={'contain'}
-              />
-              <Typography
-                fontFamily="reservaSansMedium"
-                fontSize={12}
-              >
-                1km
-              </Typography>
-            </Box>
-            <Box flex={1}>
-              <Box mb={'quarck'}>
-                <Typography
-                  fontFamily="reservaSansBold"
-                  fontSize={14}
-                >
-                  {/* {item.friendlyName} */}
-                  RESERVA VILA VELHA
-                </Typography>
-              </Box>
-              <Box>
-                <Typography fontFamily="reservaSansRegular" fontSize={13}>
-                  AV DOUTOR OLIVIO LIRA 353, LOJA 302 K/L PRAIA DA COSTA - VILA VELHA - ES.
-                  {/* {`${item.address.street}, ${item.address.number}
-                   ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`} */}
-                </Typography>
-              </Box>
-              <Box flexDirection="row" mb="nano">
-                <Box mr="xxs">
-                  <Typography
-                    fontFamily="reservaSansMedium"
-                    fontSize={12}
-                    color="verdeSucesso"
-                  >
-                    Grátis
-                  </Typography>
-                </Box>
-                <Typography
-                  fontFamily="reservaSansMedium"
-                  fontSize={12}
-                  color="verdeSucesso"
-                >
-                  Pronto em até 2 dias
-                </Typography>
-              </Box>
-              <Button
-                flex={1}
-                alignSelf="flex-start"
-                onPress={() => setShowModalStore(true)}
-              >
-                <Box
-                  flex={1}
-                  alignSelf="flex-start"
-                >
-                  <Typography
-                    style={{ textDecorationLine: "underline" }}
-                    fontFamily="nunitoRegular"
-                    fontSize={12}>
-                    Detalhes da loja
-                  </Typography>
-                </Box>
-              </Button>
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-      <Modal
-        isVisible={showModalStore}
-      >
-        <Box
-          bg='white'
-          height={200}
-          p="xxxs"
-        >
-          <Box
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
+    <SafeAreaView>
+      <ScrollView>
+        <Box mt="xxs">
+          <Typography
+            fontFamily="reservaSansBold"
+            fontSize={12}
+            color="neutroFrio2"
           >
-            <Box>
-              <Typography
-                fontFamily="reservaSerifRegular"
-                fontSize={20}
+            LOJA MAIS PRÓXIMA
+          </Typography>
+          <Box
+            flex={1}
+            backgroundColor={'white'}
+            my={'micro'}
+            borderWidth="hairline"
+            borderColor="divider"
+            pt="micro"
+            pb="xxxs"
+            px="nano"
+          >
+            {pickupPoints ?
+              <Box borderColor={'backgroundMenuOpened'}>
+                <Box flexDirection="row">
+                  <Box alignItems="center">
+                    <Image
+                      height={40}
+                      source={images.localReserva}
+                      resizeMode={'contain'}
+                    />
+                    <Typography
+                      fontFamily="reservaSansMedium"
+                      fontSize={12}
+                    >
+                      1km
+                    </Typography>
+                  </Box>
+                  <Box flex={1}>
+                    <Box mb={'quarck'}>
+                      <Typography
+                        fontFamily="reservaSansBold"
+                        fontSize={14}
+                      >
+                        {/* {item.friendlyName} */}
+                        {console.log("teste", pickupPoints)}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography fontFamily="reservaSansRegular" fontSize={13}>
+                        AV DOUTOR OLIVIO LIRA 353, LOJA 302 K/L PRAIA DA COSTA - VILA VELHA - ES.
+                        {/* {`${item.address.street}, ${item.address.number}
+                   ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`} */}
+                      </Typography>
+                    </Box>
+                    <Box flexDirection="row" mb="nano">
+                      <Box mr="xxs">
+                        <Typography
+                          fontFamily="reservaSansMedium"
+                          fontSize={12}
+                          color="verdeSucesso"
+                        >
+                          Grátis
+                        </Typography>
+                      </Box>
+                      <Typography
+                        fontFamily="reservaSansMedium"
+                        fontSize={12}
+                        color="verdeSucesso"
+                      >
+                        Pronto em até 2 dias
+                      </Typography>
+                    </Box>
+                    <Button
+                      flex={1}
+                      alignSelf="flex-start"
+                      onPress={() => setShowModalStore(true)}
+                    >
+                      <Box
+                        flex={1}
+                        alignSelf="flex-start"
+                      >
+                        <Typography
+                          style={{ textDecorationLine: "underline" }}
+                          fontFamily="nunitoRegular"
+                          fontSize={12}>
+                          Detalhes da loja
+                        </Typography>
+                      </Box>
+                    </Button>
+                  </Box>
+                </Box>
+              </Box> : null}
+          </Box>
+          <Modal
+            isVisible={showModalStore}
+          >
+            <Box
+              bg='white'
+              height={200}
+              p="xxxs"
+            >
+              <Box
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="space-between"
               >
-                Detalhes da Loja
-              </Typography>
-            </Box>
-            <Button
-              hitSlop={{
-                top: 30,
-                bottom: 30,
-                right: 30,
-                left: 30,
-              }}
-              onPress={() => setShowModalStore(false)}
-              variant='icone'
-              icon={
-                <Icon size={12} name='Close' />
+                <Box>
+                  <Typography
+                    fontFamily="reservaSerifRegular"
+                    fontSize={20}
+                  >
+                    Detalhes da Loja
+                  </Typography>
+                </Box>
+                <Button
+                  hitSlop={{
+                    top: 30,
+                    bottom: 30,
+                    right: 30,
+                    left: 30,
+                  }}
+                  onPress={() => setShowModalStore(false)}
+                  variant='icone'
+                  icon={
+                    <Icon size={12} name='Close' />
+                  }
+                />
+              </Box>
+              <Box mt="xxs" mb="micro">
+                <Typography fontFamily="reservaSansMedium" fontSize={14}>
+                  Horários de funcionamento
+                </Typography>
+              </Box>
+              {
+                ["Segunda a Sexta-feira", "Sábado",].map((item) => (
+                  <>
+                    <Box
+                      py="nano"
+                      flexDirection="row"
+                      justifyContent="space-between"
+                    >
+                      <Typography fontFamily="reservaSansLight" fontSize={14}>
+                        {item}
+                      </Typography>
+                      <Typography fontFamily="reservaSansRegular" fontSize={14}>10:00 às 22:00</Typography>
+                    </Box>
+                    <Divider variant="fullWidth" />
+                  </>
+                ))
               }
+            </Box>
+          </Modal>
+          <Box mt="xxl" pb="xxl">
+            <Button
+              onPress={() =>
+                mapPermission ?
+                  navigation.navigate('MapScreen', { geolocation: "", locationPermission: mapPermission })
+                  :
+                  navigation.navigate("WithdrawInStore", { isCheckout: true, })
+              }
+              borderColor="modalBackDropColor"
+              borderWidth="hairline"
+              flexDirection="row"
+              inline={true}
+              height={40}
+
+              title="LOJAS PRÓXIMAS A SUA REGIÃO"
             />
           </Box>
-          <Box mt="xxs" mb="micro">
-            <Typography fontFamily="reservaSansMedium" fontSize={14}>
-              Horários de funcionamento
-            </Typography>
-          </Box>
-          {
-            ["Segunda a Sexta-feira", "Sábado",].map((item) => (
-              <>
-                <Box
-                  py="nano"
-                  flexDirection="row"
-                  justifyContent="space-between"
-                >
-                  <Typography fontFamily="reservaSansLight" fontSize={14}>
-                    {item}
-                  </Typography>
-                  <Typography fontFamily="reservaSansRegular" fontSize={14}>10:00 às 22:00</Typography>
-                </Box>
-                <Divider variant="fullWidth" />
-              </>
-            ))
-          }
+
         </Box>
-      </Modal>
-    </Box>
+        <Box justifyContent="flex-end" >
+          <Button
+            disabled={false}
+            onPress={() => { }}
+            title="FORMA DE PAGAMENTO"
+            variant="primarioEstreito"
+            inline={true}
+          />
+        </Box>
+
+      </ScrollView>
+
+    </SafeAreaView>
   );
 }
 

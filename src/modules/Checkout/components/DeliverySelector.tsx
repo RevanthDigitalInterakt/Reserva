@@ -29,7 +29,7 @@ const DeliverySelector = ({
                     borderWidth="hairline"
                     borderColor={'divider'}
                     width="100%"
-                    height={"auto"}
+                    height={100}
                     flexDirection="row"
                     p="nano"
                     mt={'nano'}
@@ -100,7 +100,7 @@ const DeliverySelector = ({
                                 R$ {(price / 100).toFixed(2).replace(".", ",")}
                             </Typography>
                         </Box>
-                        : <Box width="20%">
+                        : <Box width={80} height={35}>
                             <Box
                                 borderRadius="infinity"
                                 bg="verdeSucesso"
