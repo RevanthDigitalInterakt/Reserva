@@ -148,13 +148,13 @@ android {
     aaptOptions {
         noCompress "tflite"
     }
-    
+
     defaultConfig {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20
-        versionName "1.1.4-beta"
+        versionCode 22
+        versionName "1.1.5-beta"
     }
     splits {
         abi {
@@ -237,7 +237,7 @@ dependencies {
     }
     implementation 'com.google.android.gms:play-services-base:17.2.1'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    
+
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

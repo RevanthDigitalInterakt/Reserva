@@ -90,3 +90,12 @@ export const GET_SHIPPING = gql`
     }
   }
 `;
+
+export const SUBSCRIBE_NEWSLETTER = gql`
+  mutation SubscribeNewsletter(
+    $email: String!,
+    $isNewsletterOptIn: Boolean!
+  ) {
+  subscribeNewsletter(email: $email, isNewsletterOptIn: $isNewsletterOptIn)
+}
+`
