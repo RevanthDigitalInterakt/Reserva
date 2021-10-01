@@ -15,7 +15,7 @@ import {
   Image,
 } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
-import { ITracking, useCart } from '../../../context/CartContext';
+import { PackageAttachment, IOrderId, useCart } from '../../../context/CartContext';
 import { orderQuery } from '../../../graphql/orders/ordersQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -30,8 +30,9 @@ const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation();
   const { cookie } = useAuth();
-  const { tracking } = useCart();
-  const [trackingDescription, setTrackingDescription] = useState<ITracking>();
+  const { tracking, orderDetail } = useCart();
+  const [orderDetails, setOrderDetails] = useState<IOrderId>();
+  const [trackingDescription, setTrackingDescription] = useState<PackageAttachment>();
   const [copiedText, setCopiedText] = useClipboard();
   const [clickedIcon, setClickedIcon] = useState(false);
 
@@ -45,12 +46,29 @@ const OrderList: React.FC<any> = ({ route }) => {
   }
 
   useEffect(() => {
+    console.log('order', order)
+    fetchOrderDetail();
+  }, []);
+
+  const fetchOrderDetail = async () => {
+    if (cookie != null) {
+      const data = await orderDetail(order.orderId);
+      setOrderDetails(data);
+      console.log('fetchOrderDetail', data);
+    }
+  }
+
+  useEffect(() => {
+    console.log('orderDetails', orderDetails);
+  }, [orderDetails]);
+
+  useEffect(() => {
     deliveryTracking()
   }, []);
 
-  useEffect(() => {
-    console.log('trackingDescription', trackingDescription?.packageAttachment.packages[0]?.trackingUrl)
-  }, [trackingDescription]);
+  // useEffect(() => {
+  //   console.log('trackingDescription', trackingDescription?.packageAttachment.packages[0]?.trackingUrl)
+  // }, [trackingDescription]);
 
   useEffect(() => {
     console.log('copiedTextsss', copiedText)
@@ -141,7 +159,8 @@ const OrderList: React.FC<any> = ({ route }) => {
                 borderBottomColor={'divider'}
               >
                 <Typography fontSize={14} fontFamily="nunitoBold">
-                  {getDeliveryPreview()}
+                  {/* {getDeliveryPreview()} */}
+                  getDeliveryPreview
                 </Typography>
                 <Typography
                   style={{ marginBottom: 5 }}
@@ -149,12 +168,12 @@ const OrderList: React.FC<any> = ({ route }) => {
                   fontFamily="nunitoRegular"
                 >
                   Endereço de entrega:
-                  {order.shippingData &&
+                  {/* {order.shippingData &&
                     ` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}
-                  `}
+                  `} */}
                 </Typography>
 
-                {trackingDescription &&
+                {/* {trackingDescription &&
                   trackingDescription?.packageAttachment?.packages.length > 0 &&
                   <>
 
@@ -213,7 +232,7 @@ const OrderList: React.FC<any> = ({ route }) => {
 
                     </Box>
                   </>
-                }
+                } */}
               </Box>
             </>
           )}
@@ -230,16 +249,16 @@ const OrderList: React.FC<any> = ({ route }) => {
 
           <Box mt={'xxs'} flexDirection="row" justifyContent="space-between">
             <Box flexDirection="row" alignItems="center">
-              {order.paymentData.transactions[0].payments[0].paymentSystem ===
-                'Cartão de crédito' && <Icon name="Card" size={20} mr="nano" />}
+              {/* {order.paymentData.transactions[0].payments[0].paymentSystem ===
+                'Cartão de crédito' && <Icon name="Card" size={20} mr="nano" />} */}
 
-              <Typography fontSize={12} fontFamily="nunitoRegular">
+              {/* <Typography fontSize={12} fontFamily="nunitoRegular">
                 {
                   order.paymentData.transactions[0].payments[0]
                     .paymentSystemName
                 }
-              </Typography>
-              {order.paymentData.transactions[0].payments[0].paymentSystem ===
+              </Typography> */}
+              {/* {order.paymentData.transactions[0].payments[0].paymentSystem ===
                 'Cartão de crédito' && (
                   <Typography
                     style={{ marginLeft: 10 }}
@@ -248,15 +267,15 @@ const OrderList: React.FC<any> = ({ route }) => {
                   >
                     {order.paymentData.transactions[0].payments[0].firstDigits}
                   </Typography>
-                )}
+                )} */}
             </Box>
             <Box flexDirection="row" alignItems="center">
-              <Typography fontSize={14} fontFamily="nunitoSemiBold">
+              {/* <Typography fontSize={14} fontFamily="nunitoSemiBold">
                 {order.paymentData.transactions[0].payments[0].installments}x{' '}
               </Typography>
               <Typography fontSize={14} fontFamily="nunitoSemiBold">
                 R$ {order.paymentData.transactions[0].payments[0].value / 100}
-              </Typography>
+              </Typography> */}
             </Box>
           </Box>
 

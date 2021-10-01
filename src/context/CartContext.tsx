@@ -28,7 +28,8 @@ import {
   ConvertZipCode,
   Tracking,
   PickupPoint,
-  Orders
+  Orders,
+  OrderDetail
 } from "../services/vtexService";
 
 interface ClientPreferencesData {
@@ -281,7 +282,7 @@ interface PriceDefinition {
   sellingPrices: { value: number; quantity: number }[];
 }
 
-export interface ITracking {
+export interface PackageAttachment {
   packageAttachment: {
     packages: {
       items: {
@@ -318,7 +319,6 @@ export interface ITracking {
 }
 
 export interface IOrder {
-  // list: {
   orderId: string;
   creationDate: string;
   clientName: string;
@@ -356,7 +356,87 @@ export interface IOrder {
   paymentApprovedDate: null;
   readyForHandlingDate: null;
   deliveryDates: null
-  // }[],
+}
+
+export interface IOrderId {
+  orderId: string;
+  sequence: string;
+  marketplaceOrderId: string;
+  marketplaceServicesEndpoint: string;
+  sellerOrderId: string;
+  origin: string;
+  affiliateId: string;
+  salesChannel: string;
+  merchantName: null;
+  status: string;
+  statusDescription: string;
+  value: number;
+  creationDate: string;
+  lastChange: string;
+  orderGroup: string;
+  totals: {
+    id: string;
+    name: string;
+    value: number;
+  }[]
+  items: Item[];
+  marketplaceItems: any[];
+  clientProfileData: ClientProfileData;
+  giftRegistryData: null;
+  marketingData: MarketingData;
+  ratesAndBenefitsData: {
+    id: string;
+    rateAndBenefitsIdentifiers: any[]
+  },
+  shippingData: ShippingData;
+  paymentData: any;
+  packageAttachment: PackageAttachment;
+  sellers: Seller[];
+  callCenterOperatorData: null;
+  followUpEmail: string;
+  lastMessage: null;
+  hostname: string;
+  invoiceData: {
+    address: null;
+    userPaymentInfo: null;
+  },
+  changesAttachment: null;
+  openTextField: null;
+  roundingError: number;
+  orderFormId: string;
+  commercialConditionData: null;
+  isCompleted: boolean;
+  customData: string;
+  storePreferencesData: StorePreferencesData;
+  allowCancellation: boolean;
+  allowEdition: boolean;
+  isCheckedIn: boolean;
+  marketplace: {
+    baseURL: boolean;
+    isCertified: null;
+    name: boolean;
+  },
+  authorizedDate: boolean;
+  invoicedDate: boolean;
+  cancelReason: null;
+  itemMetadata: {
+    Items: {
+      Id: string;
+      Seller: string;
+      Name: string;
+      SkuName: string;
+      ProductId: string;
+      RefId: string;
+      Ean: string;
+      ImageUrl: string;
+      DetailUrl: string;
+      AssemblyOptions: any[];
+    }[]
+  },
+  subscriptionData: null;
+  taxData: null;
+  checkedInPickupPointId: null;
+  cancellationData: null;
 }
 interface CartContextProps {
   orderForm: OrderForm | undefined;
@@ -382,9 +462,10 @@ interface CartContextProps {
   removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   sendUserEmail: (email: string) => Promise<boolean | undefined>;
   convertZipCode: (postalCode: string) => Promise<Address | undefined>;
-  tracking: (cookie: string, order: string) => Promise<ITracking | undefined>;
+  tracking: (cookie: string, order: string) => Promise<PackageAttachment | undefined>;
   pickupPoint: (longitude: string, latitude: string) => Promise<items | undefined>;
-  orders: (pages: string) => Promise<IOrder[] | undefined>;
+  orders: (page: string) => Promise<IOrder[] | undefined>;
+  orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -660,10 +741,18 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
-  const orders = async (pages: string) => {
+  const orders = async (page: string) => {
     try {
-      const { data } = await Orders(pages);
+      const { data } = await Orders(page);
       return data?.list || [];
+    } catch (error) {
+      console.log('error', error.response.data)
+    }
+  }
+  const orderDetail = async (orderId: string) => {
+    try {
+      const { data } = await OrderDetail(orderId);
+      return data || [];
     } catch (error) {
       console.log('error', error.response.data)
     }
@@ -691,7 +780,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         convertZipCode,
         tracking,
         pickupPoint,
-        orders
+        orders,
+        orderDetail
       }}
     >
       {children}
@@ -727,7 +817,8 @@ export const useCart = () => {
     convertZipCode,
     tracking,
     pickupPoint,
-    orders
+    orders,
+    orderDetail
   } = cartContext;
   return {
     orderForm,
@@ -748,6 +839,7 @@ export const useCart = () => {
     convertZipCode,
     tracking,
     pickupPoint,
-    orders
+    orders,
+    orderDetail
   };
 };

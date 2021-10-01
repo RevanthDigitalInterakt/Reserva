@@ -11,36 +11,25 @@ import { IOrder, useCart } from '../../../context/CartContext';
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 const OrderList = () => {
-  const { orders } = useCart()
+  const { orders } = useCart();
   const [ordersList, setOrdersList] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
-  const fetchOrders = async (page: number) => {
-    const value = page;
-    setLoading(true);
-    const list = await orders(value.toString());
-    console.log('dataorders', list)
-    if (list) {
-      setOrdersList([...ordersList, ...list]);
-    }
-    setLoading(false)
-  }
   useEffect(() => {
-    fetchOrders(1)
+    fetchOrders();
   }, [])
 
-  useEffect(() => {
-    console.log('ordersList', ordersList)
-  }, [ordersList])
-
-  const loadMoreOrders = () => {
-    setPage(page + 1)
+  const fetchOrders = async () => {
+    if (loading) return;
+    setLoading(true);
+    const list = await orders(page.toString());
+    if (list) {
+      setOrdersList([...ordersList, ...list]);
+      setPage(page + 1)
+      setLoading(false)
+    }
   }
-  useEffect(() => {
-    console.log('page', page)
-    fetchOrders(page)
-  }, [page])
 
   return (
     <>
@@ -52,11 +41,9 @@ const OrderList = () => {
             )} */}
         {ordersList && ordersList.length > 0 && (
           <FlatList
-            onEndReached={() => {
-              loadMoreOrders()
-            }}
+            onEndReached={fetchOrders}
 
-            onEndReachedThreshold={0.5}
+            onEndReachedThreshold={0.1}
             ListHeaderComponent={() => (
               <Box
                 mb="xs"
@@ -69,28 +56,28 @@ const OrderList = () => {
                 </Typography>
               </Box>
             )}
-            // ListFooterComponent={() => {
-            //   if (!loading) return null;
+            ListFooterComponent={() => {
+              if (!loading) return null;
 
-            //   return (
-            //     <Box
-            //       width="100%"
-            //       height={80}
-            //       color="verdeSucesso"
-            //       justifyContent="center"
-            //       alignItems="center"
-            //     >
-            //       <LottieView
-            //         source={loadingSpinner}
-            //         style={{
-            //           width: 40,
-            //         }}
-            //         autoPlay
-            //         loop
-            //       />
-            //     </Box>
-            //   );
-            // }}
+              return (
+                <Box
+                  width="100%"
+                  height={80}
+                  color="verdeSucesso"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <LottieView
+                    source={loadingSpinner}
+                    style={{
+                      width: 40,
+                    }}
+                    autoPlay
+                    loop
+                  />
+                </Box>
+              );
+            }}
             data={ordersList}
             renderItem={({ item }) => (
               <Box

@@ -355,7 +355,11 @@ const Orders = async (
 const OrderDetail = async (
   orderId: string
 ) => {
-  const response = await instance2.get(`/oms/user/orders/${orderId}`);
+  const response = await instance2.get(`/oms/user/orders/${orderId}`, {
+    headers: {
+      'X-VTEX-API-APPKEY': '',
+    }
+  });
   return response;
 }
 
