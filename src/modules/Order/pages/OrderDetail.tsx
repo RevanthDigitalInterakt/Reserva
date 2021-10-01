@@ -148,88 +148,90 @@ const OrderList: React.FC<any> = ({ route }) => {
                   }
                 </>
               }
-              <Box
-                marginY="micro"
-                borderBottomWidth={'hairline'}
-                borderBottomColor={'divider'}
-              >
-                <Typography fontSize={14} fontFamily="nunitoBold">
-                  Previsão: {getDeliveryPreview()}
-                </Typography>
-                <Box mt="nano">
-                  <Typography
-                    style={{ marginBottom: 5 }}
-                    fontSize={14}
-                    fontFamily="nunitoRegular"
-                  >
-                    Endereço de entrega:
-                    {orderDetails &&
-                      ` ${orderDetails.shippingData.address.street}, ${orderDetails.shippingData.address.number}, ${orderDetails.shippingData.address.neighborhood} - ${orderDetails.shippingData.address.city} - ${orderDetails.shippingData.address.state} - ${orderDetails.shippingData.address.postalCode}
-                  `}
+              {orderDetails &&
+                <Box
+                  marginY="micro"
+                  borderBottomWidth={'hairline'}
+                  borderBottomColor={'divider'}
+                >
+                  <Typography fontSize={14} fontFamily="nunitoBold">
+                    Previsão: {getDeliveryPreview()}
                   </Typography>
-                </Box>
+                  <Box mt="nano">
+                    <Typography
+                      style={{ marginBottom: 5 }}
+                      fontSize={14}
+                      fontFamily="nunitoRegular"
+                    >
+                      Endereço de entrega:
+                      {orderDetails &&
+                        ` ${orderDetails.shippingData.address.street}, ${orderDetails.shippingData.address.number}, ${orderDetails.shippingData.address.neighborhood} - ${orderDetails.shippingData.address.city} - ${orderDetails.shippingData.address.state} - ${orderDetails.shippingData.address.postalCode}
+                  `}
+                    </Typography>
+                  </Box>
 
-                {orderDetails &&
-                  orderDetails?.packageAttachment?.packages.length > 0 &&
-                  <>
+                  {orderDetails &&
+                    orderDetails?.packageAttachment?.packages.length > 0 &&
+                    <>
 
-                    <Box flexDirection="row">
-                      {clickedIcon &&
-                        <Box
-                          position="absolute"
-                          right={"30%"}
-                          bottom={30}
-                          bg="white"
-                          boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
-                          style={{ elevation: 5 }}
-                          width={107}
-                          height={30}
-                          alignItems="center"
-                          justifyContent="center"
-                          borderRadius="nano"
-                        >
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={13}>
-                            Código copiado!
-                          </Typography>
-                        </Box>
-                      }
-                      <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={13}
-                      >
-                        Código de rastreio:
-
-                      </Typography>
-                      <Box ml="quarck">
+                      <Box flexDirection="row">
+                        {clickedIcon &&
+                          <Box
+                            position="absolute"
+                            right={"30%"}
+                            bottom={30}
+                            bg="white"
+                            boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
+                            style={{ elevation: 5 }}
+                            width={107}
+                            height={30}
+                            alignItems="center"
+                            justifyContent="center"
+                            borderRadius="nano"
+                          >
+                            <Typography
+                              fontFamily="nunitoRegular"
+                              fontSize={13}>
+                              Código copiado!
+                            </Typography>
+                          </Box>
+                        }
                         <Typography
-                          selectable={true}
-                          fontFamily="nunitoExtraBold"
+                          fontFamily="nunitoRegular"
                           fontSize={13}
                         >
-                          {orderDetails?.packageAttachment?.packages[0].trackingNumber}
+                          Código de rastreio:
+
                         </Typography>
+                        <Box ml="quarck">
+                          <Typography
+                            selectable={true}
+                            fontFamily="nunitoExtraBold"
+                            fontSize={13}
+                          >
+                            {orderDetails?.packageAttachment?.packages[0].trackingNumber}
+                          </Typography>
+                        </Box>
+                        <Button ml="xxxs" onPress={() => handleCopiedText()}>
+                          <Icon name="Copy" size={20} color="neutroFrio2" />
+                        </Button>
                       </Box>
-                      <Button ml="xxxs" onPress={() => handleCopiedText()}>
-                        <Icon name="Copy" size={20} color="neutroFrio2" />
-                      </Button>
-                    </Box>
 
-                    <Box mt="micro" mb="xxs">
-                      <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={13}
-                        style={{ textDecorationLine: 'underline' }}
-                        onPress={() => Linking.openURL(orderDetails?.packageAttachment?.packages[0]?.trackingUrl)}
-                      >
-                        Ver rastreio no site da transportadora
-                      </Typography>
+                      <Box mt="micro" mb="xxs">
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={13}
+                          style={{ textDecorationLine: 'underline' }}
+                          onPress={() => Linking.openURL(orderDetails?.packageAttachment?.packages[0]?.trackingUrl)}
+                        >
+                          Ver rastreio no site da transportadora
+                        </Typography>
 
-                    </Box>
-                  </>
-                }
-              </Box>
+                      </Box>
+                    </>
+                  }
+                </Box>
+              }
             </>
           )}
 
@@ -271,12 +273,12 @@ const OrderList: React.FC<any> = ({ route }) => {
                   )}
               </Box>
               <Box flexDirection="row" alignItems="center">
-                {/* <Typography fontSize={14} fontFamily="nunitoSemiBold">
-                {order.paymentData.transactions[0].payments[0].installments}x{' '}
-              </Typography>
-              <Typography fontSize={14} fontFamily="nunitoSemiBold">
-                R$ {order.paymentData.transactions[0].payments[0].value / 100}
-              </Typography> */}
+                <Typography fontSize={14} fontFamily="nunitoSemiBold">
+                  {orderDetails.paymentData.transactions[0].payments[0].installments}x{' '}
+                </Typography>
+                <Typography fontSize={14} fontFamily="nunitoSemiBold">
+                  R$ {orderDetails.paymentData.transactions[0].payments[0].value / 100}
+                </Typography>
               </Box>
             </Box>
           }
