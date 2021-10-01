@@ -78,7 +78,6 @@ const Order = ({ data }: IOrder) => {
         backgroundColor={'white'}
       >
         <Box
-          // minHeight={138}
           paddingY={'micro'}
           paddingX={'micro'}
         >

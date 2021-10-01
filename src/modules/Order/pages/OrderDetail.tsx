@@ -30,23 +30,12 @@ const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation();
   const { cookie } = useAuth();
-  const { tracking, orderDetail } = useCart();
+  const { orderDetail } = useCart();
   const [orderDetails, setOrderDetails] = useState<IOrderId>();
-  const [trackingDescription, setTrackingDescription] = useState<PackageAttachment>();
   const [copiedText, setCopiedText] = useClipboard();
   const [clickedIcon, setClickedIcon] = useState(false);
 
-  // const deliveryTracking = async () => {
-  //   if (cookie != null) {
-  //     console.log('cookie', cookie)
-  //     const data = await tracking(cookie, order.orderId);
-  //     setTrackingDescription(data)
-  //     console.log('cookieData', data?.packageAttachment)
-  //   }
-  // }
-
   useEffect(() => {
-    console.log('order', order)
     fetchOrderDetail();
   }, []);
 
@@ -54,26 +43,8 @@ const OrderList: React.FC<any> = ({ route }) => {
     if (cookie != null) {
       const data = await orderDetail(order.orderId);
       setOrderDetails(data);
-      console.log('fetchOrderDetail', data);
     }
   }
-
-  useEffect(() => {
-    console.log('orderDetails', orderDetails);
-  }, [orderDetails]);
-
-  // useEffect(() => {
-  //   deliveryTracking()
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('trackingDescription', trackingDescription?.packageAttachment.packages[0]?.trackingUrl)
-  // }, [trackingDescription]);
-
-  useEffect(() => {
-    console.log('copiedTextsss', copiedText)
-  }, [copiedText]);
-
 
   const getDeliveryPreview = () => {
     if (orderDetails) {
