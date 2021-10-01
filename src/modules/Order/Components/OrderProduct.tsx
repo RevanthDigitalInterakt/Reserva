@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { Typography, Box, Button, Icon, Image } from 'reserva-ui';
 import { images } from '../../../assets';
@@ -24,15 +24,17 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
     <>
       <Box flexDirection="row" mt={'xxs'}>
         <Box>
-          <Image
-            imageDefault={images.imageNotFound}
-            variant="sm"
-            source={{
-              uri: orderItem.imageUrl.replace('http', 'https')
-                .split("-55-55")
-                .join("")
-            }}
-          />
+          {orderItem &&
+            <Image
+              imageDefault={images.imageNotFound}
+              variant="sm"
+              source={{
+                uri: orderItem.imageUrl
+                  .split("-55-55")
+                  .join("")
+              }}
+            />
+          }
         </Box>
 
         <Box ml="micro" flex={1}>

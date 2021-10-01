@@ -233,7 +233,10 @@ const OrderList: React.FC<any> = ({ route }) => {
             </>
           )}
 
-          <OrderDetailComponent data={order} deliveryState={3} />
+          {/* <OrderDetailComponent data={order} deliveryState={3} /> */}
+          {orderDetails &&
+            <OrderDetailComponent data={orderDetails} deliveryState={3} />
+          }
 
           <Typography
             style={{ marginTop: 45 }}
@@ -243,38 +246,40 @@ const OrderList: React.FC<any> = ({ route }) => {
             Forma de pagamento
           </Typography>
 
-          <Box mt={'xxs'} flexDirection="row" justifyContent="space-between">
-            <Box flexDirection="row" alignItems="center">
-              {/* {order.paymentData.transactions[0].payments[0].paymentSystem ===
-                'Cartão de crédito' && <Icon name="Card" size={20} mr="nano" />} */}
+          {orderDetails &&
+            <Box mt={'xxs'} flexDirection="row" justifyContent="space-between">
+              <Box flexDirection="row" alignItems="center">
+                {orderDetails.paymentData.transactions[0].payments[0].paymentSystem ===
+                  'Cartão de crédito' && <Icon name="Card" size={20} mr="nano" />}
 
-              {/* <Typography fontSize={12} fontFamily="nunitoRegular">
-                {
-                  order.paymentData.transactions[0].payments[0]
-                    .paymentSystemName
-                }
-              </Typography> */}
-              {/* {order.paymentData.transactions[0].payments[0].paymentSystem ===
-                'Cartão de crédito' && (
-                  <Typography
-                    style={{ marginLeft: 10 }}
-                    fontSize={12}
-                    fontFamily="nunitoRegular"
-                  >
-                    {order.paymentData.transactions[0].payments[0].firstDigits}
-                  </Typography>
-                )} */}
-            </Box>
-            <Box flexDirection="row" alignItems="center">
-              {/* <Typography fontSize={14} fontFamily="nunitoSemiBold">
+                <Typography fontSize={12} fontFamily="nunitoRegular">
+                  {
+                    orderDetails.paymentData.transactions[0].payments[0]
+                      .paymentSystemName
+                  }
+                </Typography>
+
+                {orderDetails.paymentData.transactions[0].payments[0].paymentSystem ===
+                  'Cartão de crédito' && (
+                    <Typography
+                      style={{ marginLeft: 10 }}
+                      fontSize={12}
+                      fontFamily="nunitoRegular"
+                    >
+                      {orderDetails.paymentData.transactions[0].payments[0].firstDigits}
+                    </Typography>
+                  )}
+              </Box>
+              <Box flexDirection="row" alignItems="center">
+                {/* <Typography fontSize={14} fontFamily="nunitoSemiBold">
                 {order.paymentData.transactions[0].payments[0].installments}x{' '}
               </Typography>
               <Typography fontSize={14} fontFamily="nunitoSemiBold">
                 R$ {order.paymentData.transactions[0].payments[0].value / 100}
               </Typography> */}
+              </Box>
             </Box>
-          </Box>
-
+          }
           <Box mb={'md'} mt="md">
             <Box width="100%">
               <Button
