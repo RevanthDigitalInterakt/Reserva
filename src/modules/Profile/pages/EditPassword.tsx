@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
 import { Alert, SafeAreaView, ScrollView } from "react-native";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
@@ -26,10 +26,12 @@ export const EditPassword = ({ route }: Props) => {
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
   const [showRepeatPassword, setShowRepeatPassword] = useState(true);
-  const [newPassword, { data: dataMutation, loading: loadingMutation }] =
+  const [newPassword, { data: dataMutation, loading: loadingMutation, error: newPasswordError }] =
     useMutation(redefinePasswordMutation);
 
   const { loading, error, data, refetch } = useQuery(profileQuery);
+  const [changeSuccess, setChangeSuccess] = useState(false);
+  const [resultChangePassword, setResultChangePassword] = useState<any>([]);
 
   useEffect(() => {
     if (!loading) {
@@ -38,9 +40,9 @@ export const EditPassword = ({ route }: Props) => {
   }, [data]);
 
   //acessa a função handleSubmit do formik
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formRef.current) {
-      formRef.current.handleSubmit();
+      await formRef.current.handleSubmit();
     }
   };
 
@@ -73,116 +75,153 @@ export const EditPassword = ({ route }: Props) => {
 
   useEffect(() => {
     if (dataMutation?.redefinePassword === "Success") {
-      navigation.goBack();
+      setChangeSuccess(true)
     }
   }, [dataMutation]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
-      <TopBarBackButton loading={loadingMutation} />
-      <ScrollView>
-        <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"nano"} alignSelf={"flex-start"}>
-            <Typography variant="tituloSessoes">Alterar senha</Typography>
-          </Box>
+      {!changeSuccess ?
+        <>
+          <TopBarBackButton loading={loadingMutation} />
+          <ScrollView>
+            <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
+              <Box mb={"nano"} alignSelf={"flex-start"}>
+                <Typography variant="tituloSessoes">Alterar senha</Typography>
+              </Box>
 
-          <Box mt={"xxxs"}>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validation}
-              innerRef={formRef}
-              onSubmit={(values: any) => {
-                const { password, current_password } = values;
-                changePassword(password, current_password);
-              }}
-            >
-              {() => (
-                <>
-                  <Box mb={"micro"}>
-                    <FormikTextInput
-                      label={"Digite sua senha atual"}
-                      secureTextEntry={showCurrentPassword}
-                      field={"current_password"}
-                      iconRight={
-                        <Button
-                          mr="xxxs"
-                          onPress={() =>
-                            setShowCurrentPassword(!showCurrentPassword)
+              <Box mt={"xxxs"}>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validation}
+                  innerRef={formRef}
+                  onSubmit={(values: any) => {
+                    const { password, current_password } = values;
+                    changePassword(password, current_password);
+                  }}
+                >
+                  {() => (
+                    <>
+                      <Box mb={"micro"}>
+                        <FormikTextInput
+                          label={"Digite sua senha atual"}
+                          secureTextEntry={showCurrentPassword}
+                          field={"current_password"}
+                          iconRight={
+                            <Button
+                              mr="xxxs"
+                              onPress={() =>
+                                setShowCurrentPassword(!showCurrentPassword)
+                              }
+                            >
+                              {showCurrentPassword ? (
+                                <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                              ) : (
+                                <Icon
+                                  color="neutroFrio2"
+                                  name="EyeOpen"
+                                  size={25}
+                                />
+                              )}
+                            </Button>
                           }
-                        >
-                          {showCurrentPassword ? (
-                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                          ) : (
-                            <Icon
-                              color="neutroFrio2"
-                              name="EyeOpen"
-                              size={25}
-                            />
-                          )}
-                        </Button>
-                      }
-                    />
-                  </Box>
-                  <Box mb={"micro"}>
-                    <FormikTextInput
-                      label={"Digite sua nova senha"}
-                      secureTextEntry={showNewPassword}
-                      field={"password"}
-                      iconRight={
-                        <Button
-                          mr="xxxs"
-                          onPress={() => setShowNewPassword(!showNewPassword)}
-                        >
-                          {showNewPassword ? (
-                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                          ) : (
-                            <Icon
-                              color="neutroFrio2"
-                              name="EyeOpen"
-                              size={25}
-                            />
-                          )}
-                        </Button>
-                      }
-                    />
-                  </Box>
-                  <Box mb={"nano"}>
-                    <FormikTextInput
-                      label={"Repita a senha"}
-                      field={"password_confirm"}
-                      secureTextEntry={showRepeatPassword}
-                      iconRight={
-                        <Button
-                          mr="xxxs"
-                          onPress={() =>
-                            setShowRepeatPassword(!showRepeatPassword)
+                        />
+                      </Box>
+                      <Box mb={"micro"}>
+                        <FormikTextInput
+                          label={"Digite sua nova senha"}
+                          secureTextEntry={showNewPassword}
+                          field={"password"}
+                          iconRight={
+                            <Button
+                              mr="xxxs"
+                              onPress={() => setShowNewPassword(!showNewPassword)}
+                            >
+                              {showNewPassword ? (
+                                <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                              ) : (
+                                <Icon
+                                  color="neutroFrio2"
+                                  name="EyeOpen"
+                                  size={25}
+                                />
+                              )}
+                            </Button>
                           }
-                        >
-                          {showRepeatPassword ? (
-                            <Icon color="neutroFrio2" name="EyeOff" size={25} />
-                          ) : (
-                            <Icon
-                              color="neutroFrio2"
-                              name="EyeOpen"
-                              size={25}
-                            />
-                          )}
-                        </Button>
-                      }
-                    />
-                  </Box>
-                </>
-              )}
-            </Formik>
-          </Box>
-        </Box>
-      </ScrollView>
-      <Button
-        onPress={handleSubmit}
-        title="CONFIRMAR"
-        variant="primarioEstreito"
-        inline
-      />
+                        />
+                      </Box>
+                      <Box mb={"nano"}>
+                        <FormikTextInput
+                          label={"Repita a senha"}
+                          field={"password_confirm"}
+                          secureTextEntry={showRepeatPassword}
+                          iconRight={
+                            <Button
+                              mr="xxxs"
+                              onPress={() =>
+                                setShowRepeatPassword(!showRepeatPassword)
+                              }
+                            >
+                              {showRepeatPassword ? (
+                                <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                              ) : (
+                                <Icon
+                                  color="neutroFrio2"
+                                  name="EyeOpen"
+                                  size={25}
+                                />
+                              )}
+                            </Button>
+                          }
+                        />
+                      </Box>
+                    </>
+                  )}
+                </Formik>
+              </Box>
+              {/* {newPasswordError &&
+                <Box>
+                  <Typography>{newPasswordError.message.toString()}</Typography>
+                </Box>} */}
+            </Box>
+          </ScrollView>
+          <Button
+            onPress={handleSubmit}
+            title="CONFIRMAR"
+            variant="primarioEstreito"
+            inline
+          />
+        </> :
+        <EditPasswordSuccessful />}
     </SafeAreaView>
   );
 };
+
+const EditPasswordSuccessful = () => {
+  const navigation = useNavigation();
+
+  return (
+    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
+      <ScrollView>
+        <>
+          <Box
+            mx={20}
+            mt={"60%"}
+            p={20}
+          >
+            <Typography fontFamily='reservaSerifRegular' fontSize={35} textAlign="center">Senha alterada com sucesso!</Typography>
+            <Button
+              mt={"100%"}
+              variant='primarioEstreito'
+              title='VOLTAR PARA HOME'
+              onPress={() => {
+                navigation.navigate("Home")
+              }}
+              inline
+            />
+          </Box>
+        </>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
