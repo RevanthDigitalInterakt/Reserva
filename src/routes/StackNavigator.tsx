@@ -25,6 +25,7 @@ import { Credits } from '../modules/Credits/pages/Credits';
 import { ExampleScreen } from '../modules/Example/pages/Example';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
+import { HomeScreen } from '../modules/Home/pages/Home';
 import { IdentifyEmail } from '../modules/LoginCheckout/pages/IdentifyEmail';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
@@ -175,7 +176,7 @@ export const MainStackScreen = () => (
     detachInactiveScreens
     screenOptions={{ headerShown: false }}
   >
-    <MainStack.Screen name="Home" component={HomeTabs} />
+    <MainStack.Screen name="HomeTabs" component={HomeTabs} />
 
     {flows.map((flow: Flow) => (
       <MainStack.Screen
@@ -184,7 +185,6 @@ export const MainStackScreen = () => (
         initialParams={flow.initialParams}
       />
     ))}
-
     <MainStack.Screen name="Example" component={ExampleScreen} />
     <MainStack.Screen name="SearchMenu" component={SearchScreen} />
     <MainStack.Screen name="WishList" component={WishList} />
