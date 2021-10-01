@@ -76,85 +76,43 @@ const OrderList: React.FC<any> = ({ route }) => {
 
 
   const getDeliveryPreview = () => {
-    // const { shippingData } = order;
-    // const { selectedSla, slas } = shippingData.logisticsInfo[0];
-    // const sla = slas.find(({ name }: any) => name === selectedSla);
-
-    // if (sla) {
-    //   const { shippingEstimate } = sla;
-    //   const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
-    //   const estimatedDeliveryDay = new Date();
-    //   estimatedDeliveryDay.setDate(
-    //     estimatedDeliveryDay.getDate() + +businessDaysAmount
-    //   );
-
-    // cant do this right now, too much logic
-
-    // if (estimatedDeliveryDay.getDay() === 0) {
-    //   console.log('AQUI');
-    //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 3);
-    // }
-
-    // if (estimatedDeliveryDay.getDay() === 7) {
-    //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
-    // }
-
-    //   const day =
-    //     estimatedDeliveryDay.getDate() < 10
-    //       ? `0${estimatedDeliveryDay.getDate()}`
-    //       : estimatedDeliveryDay.getDate();
-
-    //   const month =
-    //     estimatedDeliveryDay.getMonth() + 1 < 10
-    //       ? `0${estimatedDeliveryDay.getMonth() + 1}`
-    //       : estimatedDeliveryDay.getMonth() + 1;
-
-    //   return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
-    // }
     if (orderDetails) {
       const { shippingData } = orderDetails;
-      console.log('shippingData', shippingData)
       const { selectedSla, slas } = shippingData.logisticsInfo[0];
       const sla = slas.find(({ name }: any) => name === selectedSla);
       if (sla) {
         const { shippingEstimate } = sla;
         const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
-        console.log('shippingEstimate', shippingEstimate)
-        console.log('businessDaysAmount', businessDaysAmount)
         const estimatedDeliveryDay = new Date();
         estimatedDeliveryDay.setDate(
           estimatedDeliveryDay.getDate() + +businessDaysAmount
         );
 
         if (estimatedDeliveryDay.getDay() === 0) {
-          console.log('AQUI');
           estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 3);
         }
 
         if (estimatedDeliveryDay.getDay() === 7) {
           estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
-
-          const day =
-            estimatedDeliveryDay.getDate() < 10
-              ? `0${estimatedDeliveryDay.getDate()}`
-              : estimatedDeliveryDay.getDate();
-
-          const month =
-            estimatedDeliveryDay.getMonth() + 1 < 10
-              ? `0${estimatedDeliveryDay.getMonth() + 1}`
-              : estimatedDeliveryDay.getMonth() + 1;
-
-          return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
         }
+        const day =
+          estimatedDeliveryDay.getDate() < 10
+            ? `0${estimatedDeliveryDay.getDate()}`
+            : estimatedDeliveryDay.getDate();
 
+        const month =
+          estimatedDeliveryDay.getMonth() + 1 < 10
+            ? `0${estimatedDeliveryDay.getMonth() + 1}`
+            : estimatedDeliveryDay.getMonth() + 1;
+
+        return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
       }
     };
   }
   const handleCopiedText = () => {
     setClickedIcon(true)
-    if (trackingDescription) {
-      setCopiedText(trackingDescription?.packages[0].trackingNumber)
-
+    if (orderDetails) {
+      setCopiedText(orderDetails?.packageAttachment?.packages[0].trackingNumber)
     }
     setTimeout(() => setClickedIcon(false), 1000);
   }
@@ -178,16 +136,16 @@ const OrderList: React.FC<any> = ({ route }) => {
                       Rastreamento de entrega
                     </Typography>
                   </Box>
-                  {/* {trackingDescription &&
-                    trackingDescription?.packageAttachment?.packages[0].courierStatus != null &&
-                    trackingDescription?.packageAttachment?.packages[0].courierStatus.data.length > 0 &&
+                  {orderDetails &&
+                    orderDetails?.packageAttachment?.packages[0].courierStatus != null &&
+                    orderDetails?.packageAttachment?.packages[0].courierStatus.data.length > 0 &&
                     <Box paddingX="xxs" paddingY="xs">
                       <Stepper
                         steps={['Pedido Entregue a Transportadora', 'Confirmação', 'Envio', 'Entrega']}
                         actualStepIndex={2}
                       />
                     </Box>
-                  } */}
+                  }
                 </>
               }
               <Box
@@ -196,22 +154,23 @@ const OrderList: React.FC<any> = ({ route }) => {
                 borderBottomColor={'divider'}
               >
                 <Typography fontSize={14} fontFamily="nunitoBold">
-                  {getDeliveryPreview()}
-                  {/* getDeliveryPreview */}
+                  Previsão: {getDeliveryPreview()}
                 </Typography>
-                <Typography
-                  style={{ marginBottom: 5 }}
-                  fontSize={14}
-                  fontFamily="nunitoRegular"
-                >
-                  Endereço de entrega:
-                  {/* {order.shippingData &&
-                    ` ${order.shippingData.address.street}, ${order.shippingData.address.number}, ${order.shippingData.address.neighborhood} - ${order.shippingData.address.city} - ${order.shippingData.address.state} - ${order.shippingData.address.postalCode}
-                  `} */}
-                </Typography>
+                <Box mt="nano">
+                  <Typography
+                    style={{ marginBottom: 5 }}
+                    fontSize={14}
+                    fontFamily="nunitoRegular"
+                  >
+                    Endereço de entrega:
+                    {orderDetails &&
+                      ` ${orderDetails.shippingData.address.street}, ${orderDetails.shippingData.address.number}, ${orderDetails.shippingData.address.neighborhood} - ${orderDetails.shippingData.address.city} - ${orderDetails.shippingData.address.state} - ${orderDetails.shippingData.address.postalCode}
+                  `}
+                  </Typography>
+                </Box>
 
-                {/* {trackingDescription &&
-                  trackingDescription?.packageAttachment?.packages.length > 0 &&
+                {orderDetails &&
+                  orderDetails?.packageAttachment?.packages.length > 0 &&
                   <>
 
                     <Box flexDirection="row">
@@ -249,7 +208,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                           fontFamily="nunitoExtraBold"
                           fontSize={13}
                         >
-                          {trackingDescription?.packageAttachment?.packages[0].trackingNumber}
+                          {orderDetails?.packageAttachment?.packages[0].trackingNumber}
                         </Typography>
                       </Box>
                       <Button ml="xxxs" onPress={() => handleCopiedText()}>
@@ -262,14 +221,14 @@ const OrderList: React.FC<any> = ({ route }) => {
                         fontFamily="nunitoRegular"
                         fontSize={13}
                         style={{ textDecorationLine: 'underline' }}
-                        onPress={() => Linking.openURL(trackingDescription?.packageAttachment?.packages[0]?.trackingUrl)}
+                        onPress={() => Linking.openURL(orderDetails?.packageAttachment?.packages[0]?.trackingUrl)}
                       >
                         Ver rastreio no site da transportadora
                       </Typography>
 
                     </Box>
                   </>
-                } */}
+                }
               </Box>
             </>
           )}
