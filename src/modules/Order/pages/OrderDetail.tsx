@@ -36,14 +36,14 @@ const OrderList: React.FC<any> = ({ route }) => {
   const [copiedText, setCopiedText] = useClipboard();
   const [clickedIcon, setClickedIcon] = useState(false);
 
-  const deliveryTracking = async () => {
-    if (cookie != null) {
-      console.log('cookie', cookie)
-      const data = await tracking(cookie, order.orderId);
-      setTrackingDescription(data)
-      console.log('cookieData', data?.packageAttachment)
-    }
-  }
+  // const deliveryTracking = async () => {
+  //   if (cookie != null) {
+  //     console.log('cookie', cookie)
+  //     const data = await tracking(cookie, order.orderId);
+  //     setTrackingDescription(data)
+  //     console.log('cookieData', data?.packageAttachment)
+  //   }
+  // }
 
   useEffect(() => {
     console.log('order', order)
@@ -62,9 +62,9 @@ const OrderList: React.FC<any> = ({ route }) => {
     console.log('orderDetails', orderDetails);
   }, [orderDetails]);
 
-  useEffect(() => {
-    deliveryTracking()
-  }, []);
+  // useEffect(() => {
+  //   deliveryTracking()
+  // }, []);
 
   // useEffect(() => {
   //   console.log('trackingDescription', trackingDescription?.packageAttachment.packages[0]?.trackingUrl)
@@ -76,47 +76,84 @@ const OrderList: React.FC<any> = ({ route }) => {
 
 
   const getDeliveryPreview = () => {
-    const { shippingData } = order;
-    const { selectedSla, slas } = shippingData.logisticsInfo[0];
-    const sla = slas.find(({ name }: any) => name === selectedSla);
+    // const { shippingData } = order;
+    // const { selectedSla, slas } = shippingData.logisticsInfo[0];
+    // const sla = slas.find(({ name }: any) => name === selectedSla);
 
-    if (sla) {
-      const { shippingEstimate } = sla;
-      const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
-      const estimatedDeliveryDay = new Date();
-      estimatedDeliveryDay.setDate(
-        estimatedDeliveryDay.getDate() + +businessDaysAmount
-      );
+    // if (sla) {
+    //   const { shippingEstimate } = sla;
+    //   const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
+    //   const estimatedDeliveryDay = new Date();
+    //   estimatedDeliveryDay.setDate(
+    //     estimatedDeliveryDay.getDate() + +businessDaysAmount
+    //   );
 
-      // cant do this right now, too much logic
+    // cant do this right now, too much logic
 
-      // if (estimatedDeliveryDay.getDay() === 0) {
-      //   console.log('AQUI');
-      //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 3);
-      // }
+    // if (estimatedDeliveryDay.getDay() === 0) {
+    //   console.log('AQUI');
+    //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 3);
+    // }
 
-      // if (estimatedDeliveryDay.getDay() === 7) {
-      //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
-      // }
+    // if (estimatedDeliveryDay.getDay() === 7) {
+    //   estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
+    // }
 
-      const day =
-        estimatedDeliveryDay.getDate() < 10
-          ? `0${estimatedDeliveryDay.getDate()}`
-          : estimatedDeliveryDay.getDate();
+    //   const day =
+    //     estimatedDeliveryDay.getDate() < 10
+    //       ? `0${estimatedDeliveryDay.getDate()}`
+    //       : estimatedDeliveryDay.getDate();
 
-      const month =
-        estimatedDeliveryDay.getMonth() + 1 < 10
-          ? `0${estimatedDeliveryDay.getMonth() + 1}`
-          : estimatedDeliveryDay.getMonth() + 1;
+    //   const month =
+    //     estimatedDeliveryDay.getMonth() + 1 < 10
+    //       ? `0${estimatedDeliveryDay.getMonth() + 1}`
+    //       : estimatedDeliveryDay.getMonth() + 1;
 
-      return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
-    }
-  };
+    //   return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
+    // }
+    if (orderDetails) {
+      const { shippingData } = orderDetails;
+      console.log('shippingData', shippingData)
+      const { selectedSla, slas } = shippingData.logisticsInfo[0];
+      const sla = slas.find(({ name }: any) => name === selectedSla);
+      if (sla) {
+        const { shippingEstimate } = sla;
+        const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
+        console.log('shippingEstimate', shippingEstimate)
+        console.log('businessDaysAmount', businessDaysAmount)
+        const estimatedDeliveryDay = new Date();
+        estimatedDeliveryDay.setDate(
+          estimatedDeliveryDay.getDate() + +businessDaysAmount
+        );
 
+        if (estimatedDeliveryDay.getDay() === 0) {
+          console.log('AQUI');
+          estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 3);
+        }
+
+        if (estimatedDeliveryDay.getDay() === 7) {
+          estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
+
+          const day =
+            estimatedDeliveryDay.getDate() < 10
+              ? `0${estimatedDeliveryDay.getDate()}`
+              : estimatedDeliveryDay.getDate();
+
+          const month =
+            estimatedDeliveryDay.getMonth() + 1 < 10
+              ? `0${estimatedDeliveryDay.getMonth() + 1}`
+              : estimatedDeliveryDay.getMonth() + 1;
+
+          return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
+        }
+
+      }
+    };
+  }
   const handleCopiedText = () => {
     setClickedIcon(true)
     if (trackingDescription) {
-      setCopiedText(trackingDescription?.packageAttachment?.packages[0].trackingNumber)
+      setCopiedText(trackingDescription?.packages[0].trackingNumber)
 
     }
     setTimeout(() => setClickedIcon(false), 1000);
@@ -130,10 +167,10 @@ const OrderList: React.FC<any> = ({ route }) => {
           contentContainerStyle={{ paddingHorizontal: 20 }}
           showsVerticalScrollIndicator={false}
         >
-          {order.status !== 'canceled' && (
+          {orderDetails?.status !== 'canceled' && (
             <>
-              {trackingDescription &&
-                trackingDescription?.packageAttachment?.packages.length > 0 &&
+              {orderDetails &&
+                orderDetails?.packageAttachment.packages.length > 0 &&
                 <>
 
                   <Box mb="xxxs" justifyContent="flex-start" paddingTop={'md'}>
@@ -159,8 +196,8 @@ const OrderList: React.FC<any> = ({ route }) => {
                 borderBottomColor={'divider'}
               >
                 <Typography fontSize={14} fontFamily="nunitoBold">
-                  {/* {getDeliveryPreview()} */}
-                  getDeliveryPreview
+                  {getDeliveryPreview()}
+                  {/* getDeliveryPreview */}
                 </Typography>
                 <Typography
                   style={{ marginBottom: 5 }}

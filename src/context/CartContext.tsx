@@ -283,39 +283,37 @@ interface PriceDefinition {
 }
 
 export interface PackageAttachment {
-  packageAttachment: {
-    packages: {
-      items: {
-        itemIndex: number;
-        quantity: number;
-        price: number;
-        description: number;
-        unitMultiplier: number;
-      }[];
-      courier: string;
-      invoiceNumber: string;
-      invoiceValue: number;
-      invoiceUrl: string;
-      issuanceDate: string;
-      trackingNumber: string;
-      invoiceKey: string;
-      trackingUrl: string;
-      embeddedInvoice: string;
-      type: string;
-      courierStatus: {
-        status: string;
-        finished: boolean;
-        deliveredDate: string;
-        data: {
-          lastChange: string;
-          city: null;
-          state: null;
-          description: string;
-          createDate: string;
-        }[];
-      }
+  packages: {
+    items: {
+      itemIndex: number;
+      quantity: number;
+      price: number;
+      description: number;
+      unitMultiplier: number;
     }[];
-  }
+    courier: string;
+    invoiceNumber: string;
+    invoiceValue: number;
+    invoiceUrl: string;
+    issuanceDate: string;
+    trackingNumber: string;
+    invoiceKey: string;
+    trackingUrl: string;
+    embeddedInvoice: string;
+    type: string;
+    courierStatus: {
+      status: string;
+      finished: boolean;
+      deliveredDate: string;
+      data: {
+        lastChange: string;
+        city: null;
+        state: null;
+        description: string;
+        createDate: string;
+      }[];
+    }
+  }[];
 }
 
 export interface IOrder {
