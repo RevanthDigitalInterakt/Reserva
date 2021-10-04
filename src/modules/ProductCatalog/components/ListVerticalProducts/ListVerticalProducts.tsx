@@ -28,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
 }
 
@@ -154,6 +154,7 @@ export const ListVerticalProducts = ({
         sku: x.sku,
       })),
     ]);
+    await populateListWithFavorite();
   };
 
   const populateListWithFavorite = async () => {

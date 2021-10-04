@@ -52,10 +52,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     console.log('cookie', cookie)
   }, [email, cookie])
 
-  useEffect(() => {
-    console.log('wishIds', wishIds)
-  }, [wishIds])
-
+  /*  useEffect(() => {
+     console.log('wishIds', wishIds)
+   }, [wishIds])
+  */
   const handleFavorite = async (wishId: any) => {
     if (!!email) {
       console.log(wishId)
