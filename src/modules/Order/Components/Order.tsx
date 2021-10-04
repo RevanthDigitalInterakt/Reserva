@@ -4,7 +4,7 @@ import { Platform, TouchableOpacity } from 'react-native';
 import { Typography, Box, Button, Icon, Divider } from 'reserva-ui';
 import { stringToReal } from '../../../utils/stringToReal';
 import { useState } from 'react';
-import { add, addDays, format, parseISO } from 'date-fns';
+import { format, } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 type IOrderData = {
@@ -103,8 +103,8 @@ const Order = ({ data }: IOrder) => {
           </Typography>
           <Box mt="nano">
             <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
-              Entrega prevista:{' '}
-              {format(new Date(order.ShippingEstimatedDateMax), 'dd/MM/yy', { locale: ptBR })}
+              Data do Pedido:{' '}
+              {format(new Date(order.creationDate), 'dd/MM/yy', { locale: ptBR })}
             </Typography>
           </Box>
           {/* {order.status === 'canceled' && (

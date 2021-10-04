@@ -23,6 +23,8 @@ import Order from '../Components/Order';
 import OrderDetailComponent, {
   IOrderData,
 } from '../Components/OrderDetailComponent';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 
@@ -126,7 +128,8 @@ const OrderList: React.FC<any> = ({ route }) => {
                   borderBottomColor={'divider'}
                 >
                   <Typography fontSize={14} fontFamily="nunitoBold">
-                    Previsão: {getDeliveryPreview()}
+                    Previsão: {format(new Date(orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate), 'dd/MM/yy', { locale: ptBR })}
+                    {/* {getDeliveryPreview()} */}
                   </Typography>
                   <Box mt="nano">
                     <Typography
@@ -134,8 +137,9 @@ const OrderList: React.FC<any> = ({ route }) => {
                       fontSize={14}
                       fontFamily="nunitoRegular"
                     >
-                      Endereço de entrega:
-                      {orderDetails &&
+
+                      {orderDetails.shippingData.logisticsInfo[0].deliveryChannel === "pickup-in-point" ? `Endereço de retirada` : `Endereço de entrega`}:
+                      {
                         ` ${orderDetails.shippingData.address.street}, ${orderDetails.shippingData.address.number}, ${orderDetails.shippingData.address.neighborhood} - ${orderDetails.shippingData.address.city} - ${orderDetails.shippingData.address.state} - ${orderDetails.shippingData.address.postalCode}
                   `}
                     </Typography>

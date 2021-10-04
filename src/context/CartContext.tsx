@@ -141,6 +141,8 @@ interface LogisticsInfo {
   selectedSla: string;
   selectedDeliveryChannel: string;
   slas: Slas[];
+  shippingEstimateDate: string;
+  deliveryChannel: string;
 }
 
 interface BusinessHours {
@@ -742,7 +744,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const orders = async (page: string) => {
     try {
       const { data } = await Orders(page);
-      return data?.list || [];
+      return data || [];
     } catch (error) {
       console.log('error', error.response.data)
     }

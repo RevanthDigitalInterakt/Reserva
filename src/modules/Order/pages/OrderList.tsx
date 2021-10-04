@@ -14,6 +14,7 @@ const OrderList = () => {
   const { orders } = useCart();
   const [ordersList, setOrdersList] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(false);
+  const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -21,27 +22,35 @@ const OrderList = () => {
   }, [])
 
   const fetchOrders = async () => {
-    if (loading) return;
     setLoading(true);
-    const list = await orders(page.toString());
-    if (list) {
-      setOrdersList([...ordersList, ...list]);
-      setPage(page + 1)
-      setLoading(false)
+    const data = await orders(page.toString());
+    if (data) {
+      setOrdersList([...ordersList, ...data.list]);
+      setTotalOrders(data.paging.total);
+      setPage(page + 1);
+      setLoading(false);
     }
   }
+  useEffect(() => {
+    console.log('totalOrders', totalOrders)
+  }, [totalOrders])
+
+  useEffect(() => {
+    console.log('ordersList', ordersList)
+  }, [ordersList])
 
   return (
     <>
       <SafeAreaView flex={1} backgroundColor={'white'}>
         <TopBarBackButton loading={loading} showShadow />
 
-        {/* {ordersList && ordersList.length > 0 && !loading && (
-              ordersList.map((order) => <Order data={order} />)
-            )} */}
         {ordersList && ordersList.length > 0 && (
           <FlatList
-            onEndReached={fetchOrders}
+            onEndReached={() => {
+              if (ordersList.length != totalOrders) {
+                fetchOrders();
+              }
+            }}
 
             onEndReachedThreshold={0.1}
             ListHeaderComponent={() => (
