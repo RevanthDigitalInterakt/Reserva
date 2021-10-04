@@ -6,7 +6,7 @@ PODS:
   - boost-for-react-native (1.63.0)
   - CardScan (2.0.9)
   - CocoaAsyncSocket (7.6.5)
-  - CodePush (7.0.2):
+  - CodePush (7.0.3):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.12)
     - React-Core
@@ -106,11 +106,11 @@ PODS:
     - Base64 (~> 1.1.2)
   - libevent (2.1.12)
   - lottie-ios (3.2.3)
-  - lottie-react-native (4.0.3):
+  - lottie-react-native (4.1.3):
     - lottie-ios (~> 3.2.3)
     - React-Core
   - OneSignal (3.6.1)
-  - OneSignalXCFramework (3.6.1)
+  - OneSignalXCFramework (3.8.1)
   - OpenSSL-Universal (1.1.1100)
   - Permission-LocationAlways (3.0.5):
     - RNPermissions
@@ -327,14 +327,14 @@ PODS:
     - React-Core
   - react-native-netinfo (6.0.2):
     - React-Core
-  - react-native-onesignal (4.3.0):
-    - OneSignalXCFramework (= 3.6.1)
+  - react-native-onesignal (4.3.1):
+    - OneSignalXCFramework (= 3.8.1)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.3.2):
     - React-Core
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-webview (11.13.0):
+  - react-native-webview (11.13.1):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -408,13 +408,13 @@ PODS:
     - React
   - RNCPicker (1.8.1):
     - React-Core
-  - RNDeviceInfo (8.3.1):
+  - RNDeviceInfo (8.3.3):
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
   - RNPermissions (3.0.5):
     - React-Core
-  - RNReanimated (2.2.1):
+  - RNReanimated (2.2.2):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -443,7 +443,7 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.7.2):
+  - RNScreens (3.8.0):
     - React-Core
     - React-RCTImage
   - RNSentry (2.6.2):
@@ -689,7 +689,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CardScan: 2f7a3b39a37c0e2c67a9502b3a61a59f007c0710
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  CodePush: 71915cd671d09614848cd5515f71d9cb4e88b3f7
+  CodePush: f509246638a5ebe5209b08351e48a95093d1f307
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
   FBReactNativeSpec: 4bc4b20ce82ebfd8458333f258b5e952cef7738d
@@ -708,9 +708,9 @@ SPEC CHECKSUMS:
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
-  lottie-react-native: 96361a9891cf651534ea35c4f85f33d4cf14ed13
+  lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
   OneSignal: ce8d6dd77450aa653dc2f6a22f3372570030260a
-  OneSignalXCFramework: 674dd48705d0e1842a7c950177ae7569dbfc261c
+  OneSignalXCFramework: cd6290d43d4f7dd0443d34e7be8b95996417644e
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-LocationAlways: 0704c3bcce11f98f8d6ddf34c49c65893ec64b09
   Permission-LocationWhenInUse: e1168a583654f1d2d34d3a18c4c6518ce409ad2a
@@ -732,10 +732,10 @@ SPEC CHECKSUMS:
   react-native-google-maps: 46dea4aa4acb7300beff508f64d9f8c84e9fb106
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
   react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a
-  react-native-onesignal: f829833463ec574cad5e83d1a3e3eed607a3bc3c
+  react-native-onesignal: d8d59d8df1e47231aec95e6392fea53eb0bcbac1
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
+  react-native-webview: 3680f8b7d2b62e97b781efdc5e74a39179b2a5e2
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -752,11 +752,11 @@ SPEC CHECKSUMS:
   RNCClipboard: ddd4d291537f1667209c9c405aaa4307297e252e
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
-  RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9
+  RNDeviceInfo: cc7de0772378f85d8f36ae439df20f05c590a651
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
-  RNReanimated: 66013afeb6cb6f234e32aaaf26222b7629417e51
-  RNScreens: 0591543e343c7444ea1756b6265d81a4295922c9
+  RNReanimated: 241c586663f44f19a53883c63375fdd041253960
+  RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
   RNSentry: 68644ef607b780551cc555f084869764f2566652
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

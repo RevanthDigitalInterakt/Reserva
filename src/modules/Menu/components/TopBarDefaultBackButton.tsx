@@ -1,44 +1,47 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { Alert, Platform } from "react-native";
-import { TopBar } from "reserva-ui";
-import { useCart } from "../../../context/CartContext";
+import * as React from 'react';
+
+import { useNavigation } from '@react-navigation/native';
+import { Alert, Platform } from 'react-native';
+import { TopBar } from 'reserva-ui';
+
+import { useCart } from '../../../context/CartContext';
 
 export const TopBarDefaultBackButton: React.FC<{
-  showShadow?: Boolean;
   loading: Boolean;
-}> = ({ showShadow = true, loading = false }) => {
+  showShadow?: Boolean;
+  navigateGoBack?: Boolean;
+}> = ({ showShadow = true, loading = false, navigateGoBack = false }) => {
   const navigation = useNavigation();
-  const { orderForm } = useCart()
+  const { orderForm } = useCart();
   return (
     <TopBar
       loading={loading}
       paddingX="quarck"
       bg="white"
       style={{ elevation: showShadow ? 10 : 0 }}
-      boxShadow={showShadow && Platform.OS === "ios" ? "topBarShadow" : null}
+      boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
       leftButton={{
-        name: "ArrowBack",
+        name: 'ArrowBack',
         size: 24,
         onPress: () => {
-          navigation.goBack();
+          navigateGoBack ? navigation.goBack() : navigation.navigate('Home');
         },
       }}
       rightButton1={{
-        name: "Search",
+        name: 'Search',
         size: 24,
         onPress: () => {
-          navigation.navigate("SearchMenu");
+          navigation.navigate('SearchMenu');
         },
       }}
       rightButton2={{
-        name: "Handbag",
+        name: 'Handbag',
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
-          navigation.navigate("BagScreen");
+          navigation.navigate('BagScreen');
         },
-        badgeCount: orderForm?.items.length
+        badgeCount: orderForm?.items.length,
       }}
       height={50}
     />

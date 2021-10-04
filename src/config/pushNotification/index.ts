@@ -1,6 +1,7 @@
-import { Alert } from "react-native";
-import OneSignal from "react-native-onesignal";
-import { env } from "../env";
+import { Alert } from 'react-native';
+import OneSignal from 'react-native-onesignal';
+
+import { env } from '../env';
 
 export const oneSignalConfig = async () => {
   /* O N E S I G N A L   S E T U P */
@@ -8,30 +9,32 @@ export const oneSignalConfig = async () => {
     OneSignal.setLogLevel(6, 0);
   }
 
+  console.log(OneSignal.getDeviceState());
+
   OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
 
   OneSignal.promptForPushNotificationsWithUserResponse((response) => {
-    console.log("Prompt response:", response);
+    console.log('Prompt response:', response);
   });
   OneSignal.setNotificationWillShowInForegroundHandler(
     (notificationReceivedEvent) => {
       console.log(
-        "OneSignal: notification will show in foreground:",
+        'OneSignal: notification will show in foreground:',
         notificationReceivedEvent
       );
-      let notification = notificationReceivedEvent.getNotification();
-      console.log("notification: ", notification);
+      const notification = notificationReceivedEvent.getNotification();
+      console.log('notification: ', notification);
       const data = notification.additionalData;
-      console.log("additionalData: ", data);
+      console.log('additionalData: ', data);
       const button1 = {
-        text: "Cancel",
+        text: 'Cancel',
         onPress: () => {
           notificationReceivedEvent.complete();
         },
-        style: "cancel",
+        style: 'cancel',
       };
       const button2 = {
-        text: "Complete",
+        text: 'Complete',
         onPress: () => {
           notificationReceivedEvent.complete(notification);
         },
@@ -47,7 +50,7 @@ export const oneSignalConfig = async () => {
     //   "OneSignal: notification opened:",
     //   JSON.stringify(notification)
     // );
-    console.log("OneSignal: notification opened:", notification);
+    console.log('OneSignal: notification opened:', notification);
   });
   const deviceState = await OneSignal.getDeviceState();
 
