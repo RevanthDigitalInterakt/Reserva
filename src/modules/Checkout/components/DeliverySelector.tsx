@@ -25,7 +25,6 @@ const DeliverySelector = ({
             <TouchableOpacity onPress={select}>
                 <Box
                     bg="white"
-                    /* borderBottomWidth={'hairline'} */
                     borderWidth="hairline"
                     borderColor={'divider'}
                     width="100%"
@@ -38,10 +37,11 @@ const DeliverySelector = ({
                     <Box
                         height={50}
                         width={50}
+                        justifyContent="center"
                         alignItems="center"
                     >
                         <Box m={'nano'} alignItems="center">
-                            {selected ? <Box width="10%">
+                            <Box width="10%">
                                 <Box
                                     height={20}
                                     width={20}
@@ -50,30 +50,16 @@ const DeliverySelector = ({
                                     alignItems="center"
                                     justifyContent="center"
                                 >
-                                    <Box
-                                        height={10}
-                                        width={10}
-                                        borderRadius="nano"
-                                        bg="preto"
-                                    />
+                                    {selected &&
+                                        <Box
+                                            height={10}
+                                            width={10}
+                                            borderRadius="nano"
+                                            bg="preto"
+                                        />
+                                    }
                                 </Box>
-                            </Box> :
-                                <Box
-                                    height={20}
-                                    width={20}
-                                    borderRadius="infinity"
-                                    borderWidth="thin"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                >
-                                    <Box
-                                        height={10}
-                                        width={10}
-                                        borderRadius="nano"
-                                    >
-                                    </Box>
-                                </Box>
-                            }
+                            </Box>
                         </Box>
                     </Box>
                     <Box
@@ -94,26 +80,30 @@ const DeliverySelector = ({
                         >
                             Em até {shippingEstimate?.split('bd')[0]} dias úteis</Typography>
                     </Box>
-                    {price > 0 ?
+                    {price && price > 0 ?
                         <Box width="20%" alignItems="center">
                             <Typography>
                                 R$ {(price / 100).toFixed(2).replace(".", ",")}
                             </Typography>
                         </Box>
-                        : <Box width={80} height={35}>
-                            <Box
-                                borderRadius="infinity"
-                                bg="verdeSucesso"
-                                borderColor="verdeSucesso"
-                                height="100%"
-                                alignItems="center"
-                                p="nano"
+                        :
+                        <Box
+                            borderRadius="infinity"
+                            bg="verdeSucesso"
+                            borderColor="verdeSucesso"
+                            px="micro"
+                            py="nano"
+                            alignItems="center"
+                        >
+                            <Typography
+                                color="white"
+                                fontFamily="reservaSansMedium"
+                                fontSize={11}
                             >
-                                <Typography color="white" style={{ textTransform: "uppercase" }}>Grátis</Typography>
-                            </Box>
+                                GRÁTIS
+                            </Typography>
                         </Box>
                     }
-
                 </Box>
             </TouchableOpacity>
         </>

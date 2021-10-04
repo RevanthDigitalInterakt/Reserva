@@ -33,7 +33,6 @@ const AddressSelector = ({
       <TouchableOpacity onPress={select}>
         <Box
           bg="white"
-          /* borderBottomWidth={'hairline'} */
           borderWidth="hairline"
           borderColor={'divider'}
           width="100%"
@@ -47,9 +46,10 @@ const AddressSelector = ({
             height={50}
             width={50}
             alignItems="center"
+            justifyContent="center"
           >
             <Box m={'nano'} alignItems="center">
-              {selected ? <Box width="10%">
+              <Box width="10%">
                 <Box
                   height={20}
                   width={20}
@@ -58,30 +58,16 @@ const AddressSelector = ({
                   alignItems="center"
                   justifyContent="center"
                 >
-                  <Box
-                    height={10}
-                    width={10}
-                    borderRadius="nano"
-                    bg="preto"
-                  />
+                  {selected &&
+                    <Box
+                      height={10}
+                      width={10}
+                      borderRadius="nano"
+                      bg="preto"
+                    />
+                  }
                 </Box>
-              </Box> :
-                <Box
-                  height={20}
-                  width={20}
-                  borderRadius="infinity"
-                  borderWidth="thin"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <Box
-                    height={10}
-                    width={10}
-                    borderRadius="nano"
-                  >
-                  </Box>
-                </Box>
-              }
+              </Box>
             </Box>
           </Box>
           <Box paddingX="micro" flex={1}>
