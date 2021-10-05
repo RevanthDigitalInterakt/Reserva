@@ -34,7 +34,9 @@ const Delivery: React.FC<{}> = () => {
   const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
   const [profile, setProfile] = useState<any>({});
   const [typeOfDelivery, setTypeOfDelivery] = useState<any>([]);
-  const [pickupPoint, setPickupPoint] = useState<any>([]);
+  const [pickupPoint, setPickupPoint] = useState<any>();
+  const [businessHours, setBusinessHours] = useState<any>([]);
+
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false)
   const [addressId, setAddressId] = React.useState("");
   const [loading, setLoading] = useState(false);
@@ -108,7 +110,9 @@ const Delivery: React.FC<{}> = () => {
       const closer = pickupPoint.reduce((prev: any, curr: any) => {
         return prev.pickupDistance < curr.pickupDistance ? prev : curr;
       }, 0);
+      const businessHours = orderForm?.shippingData?.pickupPoints.find((x) => x.id === closer.pickupPointId);
       setPickupPoint(closer);
+      setBusinessHours(businessHours?.businessHours)
     }
     setTypeOfDelivery(typeOfDeliveries);
 
@@ -132,11 +136,15 @@ const Delivery: React.FC<{}> = () => {
     }
   }, [orderForm, profile]);
 
+  useEffect(() => {
+    console.log('pickupPoint', pickupPoint)
+  }, [pickupPoint]);
+
   return (
     <SafeAreaView flex={1} backgroundColor={"white"}>
       <TopBarBackButton showShadow loading={loadingProfile || loading} />
-      <ScrollView>
-        <Box paddingX={"xxxs"} paddingY={"sm"}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
+        <Box paddingX="xxxs" pt="sm" pb="xxs">
           <Box>
             <Typography variant={"tituloSessoes"}>Entrega</Typography>
           </Box>
@@ -196,7 +204,11 @@ const Delivery: React.FC<{}> = () => {
             </Box>
           </Box>
 
-          {selectMethodDelivery ? <Store /> :
+          {selectMethodDelivery ?
+            <Store
+              data={pickupPoint}
+              storeDetail={businessHours}
+            /> :
             <>
               <Box mt="xs" mb="nano">
                 <Typography
@@ -307,338 +319,250 @@ const Delivery: React.FC<{}> = () => {
               </Box>
             </>
           }
-          {cookie != null &&
-            <Box justifyContent="flex-end" mb="xxxs" mt="md">
-              <Button
-                onPress={() =>
-                  navigation.navigate("NewAddress", {
-                    isCheckout: true,
-                    id: null,
-                  })
-                }
-                inline={true}
-                title={"ADICIONAR ENDEREÇO"}
-                variant="primarioEstreitoOutline"
-                padding="xl"
-              />
-            </Box>
-          }
         </Box>
-
-        {!selectMethodDelivery ?
-          <Box justifyContent="flex-end">
+        {cookie != null && !selectMethodDelivery &&
+          <Box justifyContent="flex-end" mt="xxs" mb="xxs" paddingX={"xxxs"}>
             <Button
-              disabled={loading || !selectedAddress || !selectedDelivery}
-              onPress={onGoToPayment}
-              title="FORMA DE PAGAMENTO"
-              variant="primarioEstreito"
+              onPress={() =>
+                navigation.navigate("NewAddress", {
+                  isCheckout: true,
+                  id: null,
+                })
+              }
               inline={true}
+              title={"ADICIONAR ENDEREÇO"}
+              variant="primarioEstreitoOutline"
+              padding="xl"
             />
-          </Box> : null}
+          </Box>
+        }
+        {selectMethodDelivery &&
+          <Box flex={1} justifyContent="flex-end" paddingX={"xxxs"} pb="xxs">
+            <Button
+              justifyContent="flex-end"
+              onPress={() =>
+                navigation.navigate("NewAddress", {
+                  isCheckout: true,
+                  id: null,
+                })
+              }
+              inline={true}
+              title={"LOJAS PRÓXIMAS A SUA REGIÃO"}
+              variant="primarioEstreitoOutline"
+              padding="xl"
+            />
+          </Box>
+          // <Box justifyContent="flex-end" mb="xxxs" mt="md">
+          //   <Button
+          //     // onPress={() =>
+          //     //   mapPermission ?
+          //     //     navigation.navigate('MapScreen', { geolocation: "", locationPermission: mapPermission })
+          //     //     :
+          //     //     navigation.navigate("WithdrawInStore", { isCheckout: true, })
+          //     // }
+          //     borderColor="modalBackDropColor"
+          //     borderWidth="hairline"
+          //     flexDirection="row"
+          //     inline={true}
+          //     height={50}
+          //     title="LOJAS PRÓXIMAS A SUA REGIÃO"
+          //   />
+          // </Box>
+        }
+        {/* {!selectMethodDelivery ? */}
+        <Box justifyContent="flex-end">
+          <Button
+            disabled={loading || !selectedAddress || !selectedDelivery}
+            onPress={onGoToPayment}
+            title="FORMA DE PAGAMENTO"
+            variant="primarioEstreito"
+            inline={true}
+          />
+        </Box>
+        {/* : null} */}
       </ScrollView>
     </SafeAreaView >
   );
 };
 export const DeliveryScreen = Delivery;
-interface ISelectOption {
-  title: string;
-  subtitle?: string;
-  divider?: boolean;
-  onPress?: () => void;
+
+interface IStore {
+  storeDetail: any[];
+  data: any[];
 }
-const SelectOption = ({ title, subtitle, divider, onPress }: ISelectOption) => {
+
+const Store = ({ storeDetail, data }: IStore) => {
+  const [mapPermission, setMapPermission] = useState(false)
+  const navigation = useNavigation();
+  const [showModalStore, setShowModalStore] = useState(false)
+  const [pickupPoints, setPickupPoints] = useState([])
+  const diasDaSemana = [
+    'Segunda-feira',
+    'Terça-feira',
+    'Quarta-feira',
+    'Quinta-feira',
+    'Sexta-feira',
+    'Sábado',
+    'Domingo',
+  ]
+  // console.log('storeDetail', storeDetail)
+  useEffect(() => {
+    console.log('storeDetail', storeDetail)
+  }, [storeDetail])
+
   return (
-    <>
-      <Button flexDirection={"row"} onPress={onPress}>
-        <Box
-          flexDirection={"row"}
-          alignItems={"center"}
-          flex={1}
-          justifyContent={"space-between"}
+    <Box>
+      <Box mt="xxs">
+        <Typography
+          fontFamily="reservaSansBold"
+          fontSize={12}
+          color="neutroFrio2"
         >
+          LOJA MAIS PRÓXIMA
+        </Typography>
+        <Box
+          flex={1}
+          backgroundColor={'white'}
+          my={'micro'}
+          borderWidth="hairline"
+          borderColor="divider"
+          pt="micro"
+          pb="xxxs"
+          px="nano"
+        >
+          {pickupPoints ?
+            <Box borderColor={'backgroundMenuOpened'}>
+              <Box flexDirection="row">
+                <Box alignItems="center">
+                  <Image
+                    height={40}
+                    source={images.localReserva}
+                    resizeMode={'contain'}
+                  />
+                  <Typography
+                    fontFamily="reservaSansMedium"
+                    fontSize={12}
+                  >
+                    {+data.pickupDistance.toFixed(1)} km
+                  </Typography>
+                </Box>
+                <Box flex={1}>
+                  <Box mb={'quarck'}>
+                    <Typography
+                      fontFamily="reservaSansBold"
+                      fontSize={14}
+                    >
+                      {data.pickupStoreInfo.friendlyName}
 
-          <Box>
-            <Typography variant={"tituloSessao"}>{title}</Typography>
-            <Typography
-              fontFamily={"nunitoSemiBold"}
-              fontSize={13}
-              color={"verdeSucesso"}
-            >
-              {subtitle}
-            </Typography>
-          </Box>
-          <Icon name={"ArrowProcced"} color={"preto"} size={"20"} />
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography fontFamily="reservaSansRegular" fontSize={13}>
+                      AV DOUTOR OLIVIO LIRA 353, LOJA 302 K/L PRAIA DA COSTA - VILA VELHA - ES.
+                      {/* {`${item.address.street}, ${item.address.number}
+                   ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`} */}
+                    </Typography>
+                  </Box>
+                  <Box flexDirection="row" mb="nano">
+                    <Box mr="xxs">
+                      <Typography
+                        fontFamily="reservaSansMedium"
+                        fontSize={12}
+                        color="verdeSucesso"
+                      >
+                        Grátis
+                      </Typography>
+                    </Box>
+                    <Typography
+                      fontFamily="reservaSansMedium"
+                      fontSize={12}
+                      color="verdeSucesso"
+                    >
+                      Pronto em até {data.shippingEstimate?.split('bd')[0]} dias
+                    </Typography>
+                  </Box>
+                  <Button
+                    flex={1}
+                    alignSelf="flex-start"
+                    onPress={() => setShowModalStore(true)}
+                  >
+                    <Box
+                      flex={1}
+                      alignSelf="flex-start"
+                    >
+                      <Typography
+                        style={{ textDecorationLine: "underline" }}
+                        fontFamily="nunitoRegular"
+                        fontSize={12}>
+                        Detalhes da loja
+                      </Typography>
+                    </Box>
+                  </Button>
+                </Box>
+              </Box>
+            </Box> : null}
         </Box>
-      </Button>
-      {divider && <Divider variant={"fullWidth"} marginY={"micro"} />}
-    </>
+        <Modal
+          isVisible={showModalStore}
+        >
+          <Box
+            bg='white'
+            p="xxxs"
+          >
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Box>
+                <Typography
+                  fontFamily="reservaSerifRegular"
+                  fontSize={20}
+                >
+                  Detalhes da Loja
+                </Typography>
+              </Box>
+              <Button
+                hitSlop={{
+                  top: 30,
+                  bottom: 30,
+                  right: 30,
+                  left: 30,
+                }}
+                onPress={() => setShowModalStore(false)}
+                variant='icone'
+                icon={
+                  <Icon size={12} name='Close' />
+                }
+              />
+            </Box>
+            <Box mt="xxs" mb="micro">
+              <Typography fontFamily="reservaSansMedium" fontSize={14}>
+                Horários de funcionamento
+              </Typography>
+            </Box>
+            {storeDetail &&
+              storeDetail.map((item) => (
+                <>
+                  <Box
+                    py="nano"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                  >
+                    <Typography fontFamily="reservaSansLight" fontSize={14}>
+                      {diasDaSemana[item.DayOfWeek]}
+                    </Typography>
+                    <Typography fontFamily="reservaSansRegular" fontSize={14}>
+                      {item.OpeningTime} às {item.ClosingTime}
+                    </Typography>
+                  </Box>
+                  <Divider variant="fullWidth" />
+                </>
+              ))
+            }
+          </Box>
+        </Modal>
+      </Box>
+    </Box>
   );
-};
-
-
-
-// const Store = () => {
-//   const [mapPermission, setMapPermission] = useState(false)
-//   const navigation = useNavigation();
-//   const [showModalStore, setShowModalStore] = useState(false)
-//   const [Permission, setPermission] = useState(false)
-//   const [pickupPoints, setPickupPoints] = useState([])
-//   const [loading, setLoading] = useState(true)
-//   const { orderForm, pickupPoint, convertZipCode } = useCart();
-//   const [profile, setProfile] = useState<any>({});
-//   const { cookie, setCookie } = useAuth()
-
-//   const requestMap = async () => {
-//     try {
-//       const lacationAlways = await request(
-//         PERMISSIONS.IOS.LOCATION_ALWAYS);
-//       const lacationInUse = await request(
-//         PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-//       );
-//       const fineLoation = await request(
-//         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-//       )
-//       if (lacationAlways === 'granted' || lacationInUse === 'granted' || fineLoation === 'granted') {
-//         setPermission(true)
-//       }
-//     } catch (error) {
-//     }
-//   }
-
-//   const CkeckmapPermission = async () => {
-//     try {
-//       const check = await checkMultiple([
-//         PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-//         PERMISSIONS.IOS.LOCATION_ALWAYS,
-//         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-//       ]);
-//       if (check["ios.permission.LOCATION_WHEN_IN_USE"] === 'granted' || check["ios.permission.LOCATION_ALWAYS"] === 'granted' || check["android.permission.ACCESS_FINE_LOCATION"] === "granted") {
-//         setMapPermission(true)
-//       }
-//     } catch (err) {
-//     }
-//   }
-
-//   useEffect(() => {
-//     const availableAddressesOrderForm =
-//       orderForm &&
-//       orderForm?.shippingData &&
-//       orderForm?.shippingData.availableAddresses
-//         .map((a) => ({ ...a, country: "BRA" }));
-
-//     if (cookie !== null) {
-//       const { addresses } = profile;
-//       console.log("ADRREsss", addresses);
-//     } else {
-//       if (availableAddressesOrderForm &&
-//         availableAddressesOrderForm?.length > 0) {
-//         console.log("AVAIBLE", availableAddressesOrderForm);
-//       }
-//     }
-//   }, [orderForm, profile]);
-
-//   useEffect(() => {
-//     const pickupInPoint = orderForm?.shippingData?.logisticsInfo[0].slas.filter((x) => {
-//       if (x.deliveryChannel === 'pickup-in-point') return true;
-//       return false
-//     })
-//     console.log("PICKUP_IN_POINT", pickupInPoint)
-//     setPickupPoints(pickupInPoint)
-//   }, [])
-
-//   useEffect(() => {
-//     CkeckmapPermission();
-//   }, [Permission])
-
-//   useEffect(() => {
-//     requestMap();
-//   }, [])
-
-//   return (
-//     <SafeAreaView>
-//       <ScrollView>
-//         <Box mt="xxs">
-//           <Typography
-//             fontFamily="reservaSansBold"
-//             fontSize={12}
-//             color="neutroFrio2"
-//           >
-//             LOJA MAIS PRÓXIMA
-//           </Typography>
-//           <Box
-//             flex={1}
-//             backgroundColor={'white'}
-//             my={'micro'}
-//             borderWidth="hairline"
-//             borderColor="divider"
-//             pt="micro"
-//             pb="xxxs"
-//             px="nano"
-//           >
-//             {pickupPoints ?
-//               <Box borderColor={'backgroundMenuOpened'}>
-//                 <Box flexDirection="row">
-//                   <Box alignItems="center">
-//                     <Image
-//                       height={40}
-//                       source={images.localReserva}
-//                       resizeMode={'contain'}
-//                     />
-//                     <Typography
-//                       fontFamily="reservaSansMedium"
-//                       fontSize={12}
-//                     >
-//                       1km
-//                     </Typography>
-//                   </Box>
-//                   <Box flex={1}>
-//                     <Box mb={'quarck'}>
-//                       <Typography
-//                         fontFamily="reservaSansBold"
-//                         fontSize={14}
-//                       >
-//                         {/* {item.friendlyName} */}
-//                         {console.log("teste", pickupPoints)}
-//                       </Typography>
-//                     </Box>
-//                     <Box>
-//                       <Typography fontFamily="reservaSansRegular" fontSize={13}>
-//                         AV DOUTOR OLIVIO LIRA 353, LOJA 302 K/L PRAIA DA COSTA - VILA VELHA - ES.
-//                         {/* {`${item.address.street}, ${item.address.number}
-//                    ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`} */}
-//                       </Typography>
-//                     </Box>
-//                     <Box flexDirection="row" mb="nano">
-//                       <Box mr="xxs">
-//                         <Typography
-//                           fontFamily="reservaSansMedium"
-//                           fontSize={12}
-//                           color="verdeSucesso"
-//                         >
-//                           Grátis
-//                         </Typography>
-//                       </Box>
-//                       <Typography
-//                         fontFamily="reservaSansMedium"
-//                         fontSize={12}
-//                         color="verdeSucesso"
-//                       >
-//                         Pronto em até 2 dias
-//                       </Typography>
-//                     </Box>
-//                     <Button
-//                       flex={1}
-//                       alignSelf="flex-start"
-//                       onPress={() => setShowModalStore(true)}
-//                     >
-//                       <Box
-//                         flex={1}
-//                         alignSelf="flex-start"
-//                       >
-//                         <Typography
-//                           style={{ textDecorationLine: "underline" }}
-//                           fontFamily="nunitoRegular"
-//                           fontSize={12}>
-//                           Detalhes da loja
-//                         </Typography>
-//                       </Box>
-//                     </Button>
-//                   </Box>
-//                 </Box>
-//               </Box> : null}
-//           </Box>
-//           <Modal
-//             isVisible={showModalStore}
-//           >
-//             <Box
-//               bg='white'
-//               height={200}
-//               p="xxxs"
-//             >
-//               <Box
-//                 flexDirection="row"
-//                 alignItems="center"
-//                 justifyContent="space-between"
-//               >
-//                 <Box>
-//                   <Typography
-//                     fontFamily="reservaSerifRegular"
-//                     fontSize={20}
-//                   >
-//                     Detalhes da Loja
-//                   </Typography>
-//                 </Box>
-//                 <Button
-//                   hitSlop={{
-//                     top: 30,
-//                     bottom: 30,
-//                     right: 30,
-//                     left: 30,
-//                   }}
-//                   onPress={() => setShowModalStore(false)}
-//                   variant='icone'
-//                   icon={
-//                     <Icon size={12} name='Close' />
-//                   }
-//                 />
-//               </Box>
-//               <Box mt="xxs" mb="micro">
-//                 <Typography fontFamily="reservaSansMedium" fontSize={14}>
-//                   Horários de funcionamento
-//                 </Typography>
-//               </Box>
-//               {
-//                 ["Segunda a Sexta-feira", "Sábado",].map((item) => (
-//                   <>
-//                     <Box
-//                       py="nano"
-//                       flexDirection="row"
-//                       justifyContent="space-between"
-//                     >
-//                       <Typography fontFamily="reservaSansLight" fontSize={14}>
-//                         {item}
-//                       </Typography>
-//                       <Typography fontFamily="reservaSansRegular" fontSize={14}>10:00 às 22:00</Typography>
-//                     </Box>
-//                     <Divider variant="fullWidth" />
-//                   </>
-//                 ))
-//               }
-//             </Box>
-//           </Modal>
-//           <Box mt="xxl" pb="xxl">
-//             <Button
-//               onPress={() =>
-//                 mapPermission ?
-//                   navigation.navigate('MapScreen', { geolocation: "", locationPermission: mapPermission })
-//                   :
-//                   navigation.navigate("WithdrawInStore", { isCheckout: true, })
-//               }
-//               borderColor="modalBackDropColor"
-//               borderWidth="hairline"
-//               flexDirection="row"
-//               inline={true}
-//               height={40}
-
-//               title="LOJAS PRÓXIMAS A SUA REGIÃO"
-//             />
-//           </Box>
-
-//         </Box>
-//         <Box justifyContent="flex-end" >
-//           <Button
-//             disabled={false}
-//             onPress={() => { }}
-//             title="FORMA DE PAGAMENTO"
-//             variant="primarioEstreito"
-//             inline={true}
-//           />
-//         </Box>
-
-//       </ScrollView>
-
-//     </SafeAreaView>
-//   );
-// }
-
-
+}
