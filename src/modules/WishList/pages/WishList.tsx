@@ -250,7 +250,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
           :
           <>
             {
-              wishProducts.length <= 0 ?
+              (wishProducts.length <= 0 && !!wishIds && wishIds.length <= 0) ?
                 <EmptyWishList />
                 :
                 <Box flex={1} >
