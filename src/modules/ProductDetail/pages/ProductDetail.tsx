@@ -249,6 +249,9 @@ export const ProductDetail: React.FC<Props> = ({
       let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
       defaultSize?.size && setSelectedSize(defaultSize?.size)
 
+      console.log("item", itemList);
+
+
 
       setItemsSKU(itemList);
 
@@ -292,17 +295,13 @@ export const ProductDetail: React.FC<Props> = ({
         setoutOfStock(false)
       }
     }
-  }, [selectedColor])
+  }, [selectedColor, route.params.productId])
 
 
   // change sku effect
   useEffect(() => {
     if (product && selectedColor && selectedSize) {
       const { items } = product;
-
-      console.error(selectedColor);
-
-
       // map sku variant hex
       const sizeColorSkuVariations = items.flatMap((i) => {
         const variants = i.variations
@@ -351,14 +350,12 @@ export const ProductDetail: React.FC<Props> = ({
               ({ name, originalName, values }: any) => ({
                 name,
                 originalName,
-                values,
-              } as Facets)
+                values: values,
+              })
             );
-
-            return JSON.stringify(a) === JSON.stringify(selectedSkuVariations);
+            return isSkuEqual(a, selectedSkuVariations);
           }
         });
-
         setSelectedVariant(variantToSelect);
       }
     }
@@ -369,8 +366,6 @@ export const ProductDetail: React.FC<Props> = ({
     sellers.map((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
-        console.log("SELLER_ID=", seller.sellerId);
-
       }
     })
   }
@@ -400,7 +395,8 @@ export const ProductDetail: React.FC<Props> = ({
           const { data } = await addWishList({
             variables: {
               shopperId: email,
-              productId: product.productId.split('-')[0]
+              productId: product.productId.split('-')[0],
+              sku: selectedVariant?.itemId
             }
           })
         } else {
@@ -569,7 +565,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton loading={loading} />
+        <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           style={{ marginBottom: 100 }}
@@ -823,7 +819,7 @@ export const ProductDetail: React.FC<Props> = ({
             )}
 
             {/*
-        
+
             <Box mt="xs" mb="xxl">
               <Box mb="xxxs">
                 <Typography fontFamily="nunitoBold" fontSize={14}>
@@ -902,3 +898,5 @@ export const ProductDetail: React.FC<Props> = ({
     </SafeAreaView>
   );
 };
+
+
