@@ -45,6 +45,8 @@ import Modal from "react-native-modal";
 import { getPercent } from "../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts";
 import { ModalBook } from "../components/ModalBook";
 import AnimatedLottieView from "lottie-react-native";
+import { ShippingBar } from "../components/ShippingBar";
+import { orderQuery } from "../../../graphql/orders/ordersQuery";
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -72,6 +74,7 @@ export const BagScreen = () => {
   const [totalBag, setTotalBag] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
+  const [loadingShippingBar, setLoadingShippingBar] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<{ id: string, index: number, seller: string, quantity: number } | undefined>();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [totalDelivery, setTotalDelivery] = useState(0);
@@ -218,7 +221,6 @@ export const BagScreen = () => {
   useEffect(() => {
     console.log('optimistQuantities', optimistQuantities)
     console.log('orderForm items', orderForm?.items)
-
   }, [optimistQuantities])
 
   return (
@@ -418,6 +420,9 @@ export const BagScreen = () => {
                     Sacola ({orderForm?.items.length})
                   </Typography>
                 </Box>
+
+                <ShippingBar loading={loadingShippingBar} sumPriceShipping={totalBag} isFreeShipping={totalDelivery != 0 ? totalDelivery : 0} />
+
                 {orderForm?.items.map((item, index, array) => (
                   <Box key={index} bg="white" marginTop="xxxs">
                     {item.priceTags.find(x => x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368') && <Box paddingBottom="nano">
@@ -486,7 +491,6 @@ export const BagScreen = () => {
                             if (!ok)
                               setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
                             console.log('ok subCount', ok)
-
                           }
                         }}
                       onClickClose={() => {
