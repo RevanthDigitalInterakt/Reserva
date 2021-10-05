@@ -1,10 +1,13 @@
-import { QueryResult, useQuery } from "@apollo/client";
-import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect, useRef, useState } from "react";
-import { Linking, Animated, Text } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from 'react';
+
+import { QueryResult, useQuery } from '@apollo/client';
+import { StackScreenProps } from '@react-navigation/stack';
+import LottieView from 'lottie-react-native';
+import { Linking, Animated, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import Modal from 'react-native-modal';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   Button,
@@ -14,40 +17,41 @@ import {
   SearchBar,
   theme,
   Typography,
-} from "reserva-ui";
-import { images } from "../../../assets";
-import { facetsQuery } from "../../../graphql/facets/facetsQuery";
-import { ColorsToHexEnum } from "../../../graphql/product/colorsToHexEnum";
+} from 'reserva-ui';
+import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+
+import { images } from '../../../assets';
+import { facetsQuery } from '../../../graphql/facets/facetsQuery';
+import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
   productSearch,
   ProductSearchData,
-} from "../../../graphql/products/productSearch";
-import { RootStackParamList } from "../../../routes/StackNavigator";
+} from '../../../graphql/products/productSearch';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import {
   bannerDefaultQuery,
   bannerQuery,
-} from "../../../store/ducks/HomePage/types";
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
-import { ListVerticalProducts } from "../components/ListVerticalProducts/ListVerticalProducts";
-import { FilterModal } from "../modals/FilterModal";
-import { useCheckConnection } from "../../../shared/hooks/useCheckConnection";
-import { Skeleton } from "../../Checkout/components/Skeleton";
-import LottieView from "lottie-react-native";
-import { loadingSpinner } from "reserva-ui/src/assets/animations";
-import Modal from "react-native-modal";
+} from '../../../store/ducks/HomePage/types';
+import { Skeleton } from '../../Checkout/components/Skeleton';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
+import { FilterModal } from '../modals/FilterModal';
 
-type Props = StackScreenProps<RootStackParamList, "ProductCatalog">;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route }) => {
+  console.log(route);
+
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData
   );
-  let pageSize = 12;
-  const { safeArea, search, facetInput, referenceId } = route.params;
+  const pageSize = 12;
+  const { safeArea, search, referenceId } = route.params;
 
-  let categoryId = "camisetas";
+  const categoryId = 'camisetas';
 
   const dispatch = useDispatch();
   const [bannerImage, setBannerImage] = useState();
@@ -65,24 +69,50 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [loadingHandlerState, setLoadingHandlerState] = useState(false);
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const [skip, setSkip] = useState(false);
+
+  const generateFacets = (reference: string) => {
+    const facetInput: any[] = [];
+    const [subType, subcategories] = reference.split(':');
+
+    if (subType === 'category') {
+      subcategories.split('|').forEach((sub) => {
+        if (sub !== '') {
+          facetInput.push({
+            key: 'c',
+            value: sub,
+          });
+        }
+      });
+    } else {
+      facetInput.push({
+        key: 'productClusterIds',
+        value: subcategories,
+      });
+    }
+    return facetInput;
+  };
+
   const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
     productSearch,
     {
       skip,
       variables: {
-        skusFilter: "ALL_AVAILABLE",
+        skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        // selectedFacets: [facetInput, filterRequestList].flat(),
-        selectedFacets: [].concat(facetInput, filterRequestList),
+        selectedFacets: [].concat(
+          generateFacets(referenceId),
+          filterRequestList
+        ),
         orderBy: selectedOrder,
         to: pageSize - 1,
-        simulationBehavior: "default",
+        simulationBehavior: 'default',
         productOriginVtex: false,
       },
-      fetchPolicy: "no-cache",
-      nextFetchPolicy: "no-cache",
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache',
     }
   );
+
   const [loadingModal, setLoadingModal] = useState(false);
   const [firstLoading, setFirstLoading] = useState(true);
 
@@ -93,10 +123,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }: QueryResult = useQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      // selectedFacets: [facetInput, filterRequestList].flat(),
-      selectedFacets: [].concat(facetInput, filterRequestList),
+      selectedFacets: [].concat(generateFacets(referenceId), filterRequestList),
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
 
   const {
@@ -104,7 +133,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     loading: loadingBanner,
     refetch: refetchBanner,
   } = useQuery(bannerQuery, {
-    context: { clientName: "contentful" },
+    context: { clientName: 'contentful' },
     variables: {
       category: referenceId,
     },
@@ -114,7 +143,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     data: defaultBanner,
     refetch: refetchDefaultBanner,
     loading: loadingDefaultBanner,
-  } = useQuery(bannerDefaultQuery, { context: { clientName: "contentful" } });
+  } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } });
   const setBannerDefaultImage = async () => {
     await refetchDefaultBanner();
     const url =
@@ -139,7 +168,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     const bannerUrl =
       bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.url;
-    if (!!bannerUrl) {
+    if (bannerUrl) {
       setBannerImage(bannerUrl);
     } else {
       setBannerDefaultImage();
@@ -150,54 +179,54 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (!lodingFacets) {
-      const facets = facetsData.facets.facets;
+      const { facets } = facetsData.facets;
 
       // COLOR
       const colorFacets = facets.filter(
         ({ name }: any) =>
-          name.toUpperCase() === "COR" ||
-          name.toUpperCase() === "DESC_COR_CONSOLIDADA"
+          name.toUpperCase() === 'COR' ||
+          name.toUpperCase() === 'DESC_COR_CONSOLIDADA'
       );
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value: ColorsToHexEnum[value],
-          }))
+              key,
+              value: ColorsToHexEnum[value],
+            }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
         ({ name }: any) =>
-          name.toUpperCase() === "TAMANHO" || name === "Tamanho"
+          name.toUpperCase() === 'TAMANHO' || name === 'Tamanho'
       );
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // CATEGORY
       const categoryFacets = facets.filter(
-        ({ name }: any) => name === "Categoria"
+        ({ name }: any) => name === 'Categoria'
       );
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // PRICE
-      const priceFacets = facets.filter(({ name }: any) => name === "Preço");
+      const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-            key,
-            range,
-          }))
+              key,
+              range,
+            }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -214,26 +243,22 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [data]);
 
   const loadMoreProducts = async (offset: number) => {
-    console.log("offSet", offset);
+    console.log('offSet', offset);
     setLoadingFetchMore(true);
-    if (!firstLoading) {
-      setLoadingModal(true);
-    } else {
-      setLoadingModal(false);
-    }
-    let { data, loading } = await fetchMore({
+
+    const { data, loading } = await fetchMore({
       variables: {
         orderBy: selectedOrder,
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
-        // selectedFacets: [facetInput, filterRequestList].flat(),
-        selectedFacets: [].concat(facetInput, filterRequestList),
+        selectedFacets: [].concat(
+          generateFacets(referenceId),
+          filterRequestList
+        ),
       },
     });
     // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
-    setLoadingModal(loading);
-    setFirstLoading(false);
 
     setProducts(data.productSearch);
   };
@@ -241,7 +266,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     if (filterRequestList) {
       setProducts({
-        products: []
+        products: [],
       });
       loadMoreProducts(0);
     }
@@ -250,13 +275,15 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     const fetch = async () => {
       const { data, loading } = await refetch({
-        skusFilter: "ALL_AVAILABLE",
+        skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        // selectedFacets: [facetInput, filterRequestList].flat(),
-        selectedFacets: [].concat(facetInput, filterRequestList),
+        selectedFacets: [].concat(
+          generateFacets(referenceId),
+          filterRequestList
+        ),
         orderBy: selectedOrder,
         to: pageSize - 1,
-        simulationBehavior: "default",
+        simulationBehavior: 'default',
         productOriginVtex: false,
       });
       if (!loading && !!data) {
@@ -289,7 +316,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   };
 
   const onClickWhatsappButton = () => {
-    Linking.openURL("https://whts.co/reserva");
+    Linking.openURL('https://whts.co/reserva');
   };
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
@@ -380,19 +407,19 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: "Menor Preço",
+            text: 'Menor Preço',
             value: OrderByEnum.OrderByPriceASC,
           },
           {
-            text: "Maior Preço",
+            text: 'Maior Preço',
             value: OrderByEnum.OrderByPriceDESC,
           },
           {
-            text: "Mais Recentes",
+            text: 'Mais Recentes',
             value: OrderByEnum.OrderByReleaseDateDESC,
           },
           {
-            text: "Relevante",
+            text: 'Relevante',
             value: OrderByEnum.OrderByReviewRateDESC,
           },
         ]}
@@ -536,21 +563,22 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         loadingHandler={(loadingState) => {
           setLoadingHandlerState(loadingState);
         }}
+        totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
             <Image height={200} source={bannerImage} width={1 / 1} />
             <Box bg="dropDownBorderColor">
               <Button p="nano" onPress={onClickWhatsappButton}>
                 <Box flexDirection="row">
-                  <Icon name="Whatsapp" size={16} color="preto"></Icon>
+                  <Icon name="Whatsapp" size={16} color="preto" />
                   <Box marginX="nano">
                     <Typography
                       color="preto"
                       fontFamily="nunitoSemiBold"
                       fontSize={11}
                     >
-                      Chama no Whats! Seja atendido sem sair de casa.{" "}
-                      <Typography style={{ textDecorationLine: "underline" }}>
+                      Chama no Whats! Seja atendido sem sair de casa.{' '}
+                      <Typography style={{ textDecorationLine: 'underline' }}>
                         Clique aqui!
                       </Typography>
                     </Typography>
@@ -568,7 +596,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                   borderColor="dropDownBorderColor"
                   borderWidth="hairline"
                   flexDirection="row"
-                  inline={true}
+                  inline
                   height={40}
                 >
                   <Typography
@@ -589,7 +617,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                   borderColor="dropDownBorderColor"
                   borderWidth="hairline"
                   flexDirection="row"
-                  inline={true}
+                  inline
                   height={40}
                   onPress={() => {
                     setSorterVisible(true);
@@ -619,7 +647,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                   <Typography
                     color="progressTextColor"
                     variant="precoAntigo3"
-                    style={{ textDecorationLine: "underline" }}
+                    style={{ textDecorationLine: 'underline' }}
                   >
                     Limpar tudo
                   </Typography>

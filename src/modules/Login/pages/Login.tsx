@@ -1,23 +1,26 @@
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+
 import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
+import * as Yup from 'yup';
+
 import { images } from '../../../assets';
+import { useAuth } from '../../../context/AuthContext';
 import {
   classicSignInMutation,
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
-import { useAuth } from '../../../context/AuthContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { profileQuery } from '../../../store/ducks/profile/types';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
-import * as Yup from "yup";
-import { profileQuery } from '../../../store/ducks/profile/types';
+
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export const LoginScreen: React.FC<Props> = ({
@@ -27,7 +30,7 @@ export const LoginScreen: React.FC<Props> = ({
 }) => {
   const { comeFrom } = route.params;
   const { cookie, setCookie, setEmail } = useAuth();
-  //const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: '',
     password: '',
@@ -37,7 +40,6 @@ export const LoginScreen: React.FC<Props> = ({
     usernameError: '',
     hasError: false,
     showMessageError: '',
-
   });
   const [isSecureText, setIsSecureText] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -45,7 +47,8 @@ export const LoginScreen: React.FC<Props> = ({
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
   const [loginWithCode, setLoginWithCode] = useState(true);
-  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
+  const [getProfile, { data: profileData, loading: profileLoading }] =
+    useLazyQuery(profileQuery);
 
   const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
     useMutation(sendEmailVerificationMutation);
@@ -56,18 +59,18 @@ export const LoginScreen: React.FC<Props> = ({
       showPasswordError: true,
       showUsernameError: true,
       hasError: true,
-      showMessageError: 'Verifique os campos acima e digite um e-mail ou senha válidos'
+      showMessageError:
+        'Verifique os campos acima e digite um e-mail ou senha válidos',
     });
-  }
+  };
 
   const removeMessageErrorEmail = () => {
     setLoginCredentials({
       ...loginCredentials,
       showUsernameError: false,
-      usernameError: ''
+      usernameError: '',
     });
-  }
-    ;
+  };
   const handleLogin = async () => {
     if (emailIsValid && passwordIsValid) {
       const { data, errors } = await login({
@@ -76,16 +79,17 @@ export const LoginScreen: React.FC<Props> = ({
           password: loginCredentials.password,
         },
       });
-      if (data['classicSignIn'] === 'Success') {
-        setEmail(loginCredentials.username)
-        // navigation.navigate('Home');
+      if (data.classicSignIn === 'Success') {
+        setEmail(loginCredentials.username);
+        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(
+          () => {}
+        );
       } else {
         validateCredentials();
       }
     } else {
       validateCredentials();
     }
-
   };
 
   const handleLoginCode = () => {
@@ -96,7 +100,7 @@ export const LoginScreen: React.FC<Props> = ({
           email: loginCredentials.username,
         },
       }).then((data) => {
-        setEmail(loginCredentials.username)
+        setEmail(loginCredentials.username);
         navigation.navigate('AccessCode', {
           email: loginCredentials.username,
         });
@@ -105,10 +109,9 @@ export const LoginScreen: React.FC<Props> = ({
       setLoginCredentials({
         ...loginCredentials,
         showUsernameError: true,
-        usernameError: 'Digite um e-mail válido'
+        usernameError: 'Digite um e-mail válido',
       });
     }
-
   };
 
   useEffect(() => {
@@ -134,11 +137,7 @@ export const LoginScreen: React.FC<Props> = ({
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={() => {
-          if (comeFrom === 'Profile') {
-            navigation.navigate('Home');
-          } else {
-            navigation.goBack()
-          }
+          navigation.navigate('Home');
         }}
       />
       <ScrollView>
@@ -161,31 +160,30 @@ export const LoginScreen: React.FC<Props> = ({
               showError={loginCredentials.showUsernameError}
               errorMsg={loginCredentials.usernameError}
               onChangeText={(text) => {
-                setLoginCredentials({ ...loginCredentials, username: text })
+                setLoginCredentials({ ...loginCredentials, username: text });
                 setEmailIsValid(
-                  Yup.string()
-                    .required()
-                    .email()
-                    .isValidSync(text)
+                  Yup.string().required().email().isValidSync(text)
                 );
-              }
-              }
+              }}
             />
 
             {!loginWithCode && (
               <Box mt="md" width="100%">
                 <UnderlineInput
-                  isSecureText={true}
+                  isSecureText
                   placeholder="Digite sua senha"
                   value={loginCredentials.password}
                   showError={loginCredentials.showPasswordError}
                   onChangeText={(text) => {
-                    setLoginCredentials({ ...loginCredentials, password: text })
+                    setLoginCredentials({
+                      ...loginCredentials,
+                      password: text,
+                    });
                     setPasswordIsValid(
                       Yup.string()
                         .required()
                         .matches(/^(?=.{8,})/) // 8 caracteres
-                        .matches(/^(?=.*[A-Z])/) //pelo menos uma maiuscula
+                        .matches(/^(?=.*[A-Z])/) // pelo menos uma maiuscula
                         .matches(/^(?=.*[a-z])/) // pelo menos uma minuscula
                         .matches(/^(?=.*[0-9])/) // pelo menos um nuemro
                         .isValidSync(text)
@@ -237,10 +235,10 @@ export const LoginScreen: React.FC<Props> = ({
             inline
             variant="primarioEstreitoOutline"
             onPress={() => {
-              setLoginWithCode(!loginWithCode)
+              setLoginWithCode(!loginWithCode);
 
-              //remove a mensagem de erro do campo email
-              removeMessageErrorEmail()
+              // remove a mensagem de erro do campo email
+              removeMessageErrorEmail();
             }}
           />
           {/* <Box

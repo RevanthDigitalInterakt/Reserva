@@ -43,6 +43,19 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   })
 
+  useEffect(() => {
+    console.log('products', products)
+  }, [products])
+
+  useEffect(() => {
+    console.log('email', email)
+    console.log('cookie', cookie)
+  }, [email, cookie])
+
+  useEffect(() => {
+    console.log('wishIds', wishIds)
+  }, [wishIds])
+
   const handleFavorite = async (wishId: any) => {
     if (!!email) {
       console.log(wishId)
@@ -71,13 +84,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }, [wishIds])
 
   useEffect(() => {
-    console.log('productsddd', products)
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
       setWishProducts(products.productsByIdentifier)
   }, [products])
 
   useEffect(() => {
-    console.log('productIds', productIds)
     console.log(email)
     setWishIds(productIds?.viewList.data)
     const idArray = productIds?.viewList.data.map(x => x.productId.split('-')[0]) || []
@@ -112,11 +123,20 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     // }
   }, [])
 
-  useFocusEffect(() => {
-    if (cookie === null) {
-      navigation.navigate("Login", { comeFrom: "Profile" });
-    }
-  });
+  useFocusEffect(
+    React.useCallback(() => {
+      if (cookie === null) {
+        navigation.navigate("Login", { comeFrom: "Profile" });
+      }
+
+      // const idArray = productIds?.viewList.data.map(x => x.productId) || []
+      refetch()
+      // refetchProducts(
+      //   { idArray }
+      // )
+
+
+    }, []));
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
@@ -194,7 +214,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       {/* <Box paddingX='xxxs'> */}
 
       {
-        loading || loadingProducts || loadingIds ?//|| wishProducts.length <= 0 ?
+        (loading || loadingProducts || loadingIds) ?//|| wishProducts.length <= 0 ?
           <Box>
             <Box paddingX='xxxs' paddingTop='md' mb={37}>
               <Typography variant='tituloSessoes'>Favoritos</Typography>
@@ -266,7 +286,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       </Box>
                     }
                     renderItem={({ item }) => {
-                      const product = wishProducts.find(prod => prod.productId == item.productId)
+                      const product = wishProducts.find(prod => prod.productId == item.productId.split("-")[0])
                       const productSku = product?.items.find(i => i.itemId == item.sku)
 
                       const installments = productSku?.sellers[0].commertialOffer.Installments;
