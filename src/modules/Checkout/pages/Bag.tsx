@@ -63,8 +63,6 @@ export const BagScreen = () => {
     removeSellerCoupon
   } = useCart();
 
-  const [isVisibleModalBook, setIsVisibleModalBook] = useState(false)
-  const [WasBookOffered, setWasBookOffered] = useState(false)
   const [loading, setLoading] = useState(false)
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
@@ -190,25 +188,20 @@ export const BagScreen = () => {
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
-    if (!WasBookOffered) {
-      setIsVisibleModalBook(true)
-    } else {
+    if (orderForm) {
+      const { clientProfileData, shippingData } = orderForm;
+      const hasCustomer =
+        clientProfileData &&
+        clientProfileData.email &&
+        clientProfileData.firstName;
 
-      if (orderForm) {
-        const { clientProfileData, shippingData } = orderForm;
-        const hasCustomer =
-          clientProfileData &&
-          clientProfileData.email &&
-          clientProfileData.firstName;
+      const hasAddress =
+        shippingData && shippingData.availableAddresses.length > 0;
 
-        const hasAddress =
-          shippingData && shippingData.availableAddresses.length > 0;
-
-        if (!email) {
-          navigate("EnterYourEmail");
-        } else {
-          navigate("DeliveryScreen");
-        }
+      if (!email) {
+        navigate("EnterYourEmail");
+      } else {
+        navigate("DeliveryScreen");
       }
     }
   };
@@ -229,12 +222,6 @@ export const BagScreen = () => {
         backgroundColor: "#FFFFFF",
       }}
     >
-      <ModalBook
-        isVisible={isVisibleModalBook}
-        onClose={() => {
-          setIsVisibleModalBook(false)
-          setWasBookOffered(true)
-        }} />
       <TopBarBackButton showShadow loading={loading} />
       {loading ?
         <Box >
