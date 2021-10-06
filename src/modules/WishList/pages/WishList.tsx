@@ -270,7 +270,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
           :
           <>
             {
-              wishProducts.length <= 0 ?
+              (wishProducts.length <= 0 && !!wishIds && wishIds.length <= 0) ?
                 <EmptyWishList />
                 :
                 <Box flex={1} >
@@ -300,7 +300,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
                       // const wishId = wishIds?.find(x => x.productId == product?.productId)
 
-                      return <Box marginBottom='xxxs' height={150}>
+                      return !product ? <></> : <Box marginBottom='xxxs' height={150}>
                         <ProductHorizontalListCard
                           isFavorited
                           itemColor={''}

@@ -129,22 +129,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -187,7 +187,7 @@ export const MainStackScreen = () => (
     ))}
     <MainStack.Screen name="Example" component={ExampleScreen} />
     <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-    <MainStack.Screen name="WishList" component={WishList} />
+    {/* <MainStack.Screen name="WishList" component={WishList} /> */}
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
     <MainStack.Screen name="WishListCategory" component={WishListCategory} />
     <MainStack.Screen name="IdentifyEmail" component={IdentifyEmail} />
