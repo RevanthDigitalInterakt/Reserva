@@ -14,7 +14,7 @@ export const images = {
   mastercard: require('./img/mastercard.png'),
   americanExpress: require('./img/americanExpress.png'),
   elo: require('./img/elo.png'),
-
+  heartBroken: require('./img/heartBroken.png'),
   cupomModalBackground: require('./img/cupomModalBackground.png'),
 
   cardFront: require('./img/cardFront.png'),
