@@ -185,6 +185,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isVisible, setIsVisible] = useState(false);
   const [skip, setSkip] = useState(false)
   const [loadingFavorite, setLoadingFavorite] = useState(false)
+  const [loadingNewsLetter, setLoadingNewsLetter] = useState(false)
   const [wishInfo, setWishInfo] = useState({
     listIds: [''],
     inList: false
@@ -269,8 +270,8 @@ export const ProductDetail: React.FC<Props> = ({
       console.log("selectedCOlor", selectedColor);
 
       console.log("sku", itemsSKU
-      .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-      .filter(a => a !== false)[0]);
+        .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+        .filter(a => a !== false)[0]);
 
       setSizeFilters(
         new ProductUtils().orderSizes(
@@ -328,12 +329,12 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
-        const getVariant =  (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
         const isSkuEqual = (sku1: any, sku2: any) => {
           console.log("sku1", sku1);
           console.log("sku2", sku2);
-          if(sku1 && sku2){
+          if (sku1 && sku2) {
             const size1 = getVariant(sku1, "Tamanho");
             const color1 = getVariant(sku1, "VALOR_HEX_ORIGINAL");
             const size2 = getVariant(sku2, "Tamanho");
@@ -523,6 +524,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const newsAndPromotions = async () => {
     if (emailIsValid) {
+      setLoadingNewsLetter(true)
       console.log('asdasd')
       const { data } = await subscribeNewsletter({
         variables: {
@@ -531,6 +533,7 @@ export const ProductDetail: React.FC<Props> = ({
         }
       })
       console.log('passou do newsletter!!', data)
+      setLoadingNewsLetter(false)
 
       if (!!data && data.subscribeNewsletter) {
         setToolTipIsVisible(true)
@@ -785,6 +788,7 @@ export const ProductDetail: React.FC<Props> = ({
                   <OutlineInput
                     placeholder="Digite seu e-mail"
                     value={emailPromotions}
+                    loading={loadingNewsLetter}
                     onChangeText={(email) => {
                       setEmailPromotions(email)
                       setEmailIsValid(
