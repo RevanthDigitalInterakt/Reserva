@@ -1,27 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView, Alert } from "react-native";
 import { Typography, Box, Button } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { withAuthentication } from "../../Profile/HOC/withAuthentication";
 import { useSelector } from "react-redux";
 import { ApplicationState } from "../../../store";
 import { request, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
 import { useCart } from "../../../context/CartContext";
 import { useAuth } from "../../../context/AuthContext";
-import { add, addDays, format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import AddressSelector from "../../Address/Components/AddressSelector";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { profileQuery } from "../../../store/ducks/profile/types";
-import { AddressTypes } from "../../../store/ducks/address/types";
-import { images } from '../../../assets';
-import Modal from "react-native-modal";
 import ReceiveHome from "../components/ReceiveHome"
-import closestIndexTo from "date-fns/esm/fp/closestIndexTo/index.js";
-import DeliverySelector from "../components/DeliverySelector";
-import Geolocation from '@react-native-community/geolocation';
-import ItemList from "../../HelpCenter/Components/ItemListHelp";
 import Store from "../components/Store";
 
 
@@ -114,30 +103,71 @@ const Delivery: React.FC<{}> = () => {
     if (orderForm) {
       setLoading(true);
 
-      if (selectedDelivery) {
-        const { deliveryChannel, id } = selectedDelivery;
+      if (selectMethodDelivery) {
+        if (pickupPoint) {
+          const { deliveryChannel, id, pickupStoreInfo } = pickupPoint;
 
-        // save selected logistc info
-        const logisticInfo = orderForm.shippingData.logisticsInfo.map(
-          ({ itemIndex }) => {
-            return {
-              itemIndex,
-              selectedDeliveryChannel: deliveryChannel,
-              selectedSla: id,
-            };
+          // save selected logistc info
+          const logisticInfo = orderForm.shippingData.logisticsInfo.map(
+            ({ itemIndex }) => {
+              return {
+                itemIndex,
+                selectedDeliveryChannel: deliveryChannel,
+                selectedSla: id,
+              };
+            }
+          );
+
+          delete pickupStoreInfo.address.addressType;
+          delete pickupStoreInfo.address.receiverName;
+
+          const data = await addShippingOrPickupInfo(
+            logisticInfo,
+            [
+              {
+                addressType: 'search',
+                receiverName: `${orderForm.clientProfileData.firstName} ${orderForm.clientProfileData.lastName}`,
+                ...pickupStoreInfo?.address
+              }
+            ]
+          );
+
+          setLoading(false);
+          // case when update orderform has succeeded, must open payment webview
+          if (data) {
+            navigation.navigate('Checkout');
+          } else {
+            Alert.alert('Ocorreu um problema', 'Problema ao atualizar o pedido');
           }
+        }
+      } else {
+        if (selectedDelivery) {
+          const { deliveryChannel, id } = selectedDelivery;
 
-        );
+          // save selected logistc info
+          const logisticInfo = orderForm.shippingData.logisticsInfo.map(
+            ({ itemIndex }) => {
+              return {
+                itemIndex,
+                selectedDeliveryChannel: deliveryChannel,
+                selectedSla: id,
+              };
+            }
+          );
 
-        await addShippingOrPickupInfo(logisticInfo, [selectedAddress],);
+          const data = await addShippingOrPickupInfo(logisticInfo, [selectedAddress],);
 
+          setLoading(false);
+
+          if (data) {
+            navigation.navigate("Checkout");
+          } else {
+            Alert.alert('Ocorreu um problema', 'Problema ao atualizar o pedido');
+          }
+        }
       }
-      setLoading(false);
     }
-    navigation.navigate("Checkout");
   };
-
-
 
   useEffect(() => {
     const typeOfDeliveries = orderForm?.shippingData?.logisticsInfo[0].slas.filter((x) => {
@@ -161,7 +191,7 @@ const Delivery: React.FC<{}> = () => {
     }
     setTypeOfDelivery(typeOfDeliveries);
 
-  }, [])
+  }, [orderForm])
 
   useEffect(() => {
     const availableAddressesOrderForm =
@@ -182,7 +212,7 @@ const Delivery: React.FC<{}> = () => {
   }, [orderForm, profile]);
 
   useEffect(() => {
-    console.log('pickupPoint', pickupPoint)
+    console.log('pickupPointsss', pickupPoint)
   }, [pickupPoint]);
 
   useEffect(() => {
@@ -268,123 +298,9 @@ const Delivery: React.FC<{}> = () => {
               selectedDelivery={selectedDelivery}
               addresses={addresses}
               selectedAddress={selectedAddress}
-              onDeliveryChosen={(item) => {
-                // console.log('onDeliveryChosen', item)
-                onDeliveryChosen(item)
-              }}
-              onAddressChosen={
-                onAddressChosen
-              }
+              onDeliveryChosen={onDeliveryChosen}
+              onAddressChosen={onAddressChosen}
             />
-            // <>
-            //   <Box mt="xs" mb="nano">
-            //     <Typography
-            //       color="preto"
-            //       fontFamily="reservaSansBold"
-            //       fontSize={12}
-            //     >
-            //       SELECIONE O TIPO DE ENTREGA
-            //     </Typography>
-            //   </Box>
-
-            //   {typeOfDelivery && typeOfDelivery.length > 0 ? (
-            //     typeOfDelivery.map((item: any) => {
-            //       let selected;
-            //       const {
-            //         id,
-            //         name,
-            //         shippingEstimate,
-            //         price,
-            //       } = item;
-
-            //       if (cookie != null) {
-            //         if (selectedDelivery) {
-            //           selected = id === selectedDelivery.id && item;
-            //         }
-            //       } else {
-            //         if (selectedDelivery) {
-            //           selected = id === selectedDelivery.id && item;
-            //         }
-            //       }
-
-            //       return (
-            //         <DeliverySelector
-            //           deliveryData={{
-            //             name: name,
-            //             price: price,
-            //             shippingEstimate: shippingEstimate,
-            //           }}
-            //           selected={selected}
-            //           select={() => {
-            //             onDeliveryChosen(item)
-            //           }}
-            //         />
-            //       );
-            //     })
-            //   ) : null}
-
-            //   <Box mt="xs">
-            //     <Typography
-            //       color="preto"
-            //       fontFamily="reservaSansBold"
-            //       fontSize={12}
-            //     >
-            //       ESCOLHA SEU ENDEREÇO
-            //     </Typography>
-            //   </Box>
-
-            //   <Box
-            //     pt={"micro"}
-            //     flex={1}
-            //   >
-            //     {addresses && addresses.length > 0 ? (
-            //       addresses.map((item) => {
-            //         let selected;
-            //         const {
-            //           id,
-            //           city,
-            //           complement,
-            //           number,
-            //           postalCode,
-            //           state,
-            //           street,
-            //           neighborhood,
-            //           addressId,
-            //         } = item;
-
-            //         if (cookie != null) {
-            //           if (selectedAddress) {
-            //             selected = id === selectedAddress.id && item;
-            //           }
-            //         } else {
-            //           if (selectedAddress) {
-            //             selected = addressId === selectedAddress.addressId && item;
-            //           }
-            //         }
-
-            //         return (
-            //           <AddressSelector
-            //             addressData={{
-            //               address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
-            //               title: street,
-            //               zipcode: postalCode,
-            //             }}
-            //             selected={selected}
-            //             select={() => {
-            //               onAddressChosen(item);
-            //             }}
-            //           />
-            //         );
-            //       })
-            //     ) : (
-            //       <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-            //         Você ainda não tem endereços cadastrados, clique em Novo Endereço
-            //         e cadastre
-            //       </Typography>
-            //     )}
-
-            //   </Box>
-            // </>
           }
         </Box>
         {cookie != null && !selectMethodDelivery &&
@@ -404,6 +320,8 @@ const Delivery: React.FC<{}> = () => {
           </Box>
         }
         {selectMethodDelivery &&
+          businessHours &&
+          businessHours.length > 0 &&
           <Box flex={1} justifyContent="flex-end" paddingX={"xxxs"} pb="xxs">
             <Button
               justifyContent="flex-end"
@@ -423,7 +341,7 @@ const Delivery: React.FC<{}> = () => {
 
         <Box justifyContent="flex-end">
           <Button
-            disabled={loading || !selectedAddress || !selectedDelivery}
+            disabled={!selectMethodDelivery ? loading || !selectedAddress || !selectedDelivery : businessHours?.length > 0 ? false : true}
             onPress={onGoToPayment}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"

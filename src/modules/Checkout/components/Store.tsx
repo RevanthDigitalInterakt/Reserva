@@ -34,7 +34,7 @@ interface IStore {
 const Store = ({ storeDetail, data }: IStore) => {
     const [showModalStore, setShowModalStore] = useState(false)
     const [pickupPoints, setPickupPoints] = useState([])
-    const diasDaSemana = [
+    const dayOfWeek = [
         'Segunda-feira',
         'Terça-feira',
         'Quarta-feira',
@@ -44,158 +44,188 @@ const Store = ({ storeDetail, data }: IStore) => {
         'Domingo',
     ]
     return (
-        <Box>
-            <Box mt="xxs">
-                <Typography
-                    fontFamily="reservaSansBold"
-                    fontSize={12}
-                    color="neutroFrio2"
-                >
-                    LOJA MAIS PRÓXIMA
-                </Typography>
-                <Box
-                    flex={1}
-                    backgroundColor={'white'}
-                    my={'micro'}
-                    borderWidth="hairline"
-                    borderColor="divider"
-                    pt="micro"
-                    pb="xxxs"
-                    px="nano"
-                >
-                    {pickupPoints ?
-                        <Box borderColor={'backgroundMenuOpened'}>
-                            <Box flexDirection="row">
-                                <Box alignItems="center">
-                                    <Image
-                                        height={40}
-                                        source={images.localReserva}
-                                        resizeMode={'contain'}
-                                    />
-                                    <Typography
-                                        fontFamily="reservaSansMedium"
-                                        fontSize={12}
-                                    >
-                                        {+data.pickupDistance.toFixed(1)} km
-                                    </Typography>
-                                </Box>
-                                <Box flex={1}>
-                                    <Box mb={'quarck'}>
-                                        <Typography
-                                            fontFamily="reservaSansBold"
-                                            fontSize={14}
-                                        >
-                                            {data.pickupStoreInfo.friendlyName}
 
+        <Box>
+            {data && storeDetail.length > 0 ?
+                <Box mt="xxs">
+                    <Typography
+                        fontFamily="reservaSansBold"
+                        fontSize={12}
+                        color="neutroFrio2"
+                    >
+                        LOJA MAIS PRÓXIMA
+                    </Typography>
+                    <Box
+                        flex={1}
+                        backgroundColor={'white'}
+                        my={'micro'}
+                        borderWidth="hairline"
+                        borderColor="divider"
+                        pt="micro"
+                        pb="xxxs"
+                        px="nano"
+                    >
+                        {pickupPoints ?
+                            <Box borderColor={'backgroundMenuOpened'}>
+                                <Box flexDirection="row">
+                                    <Box alignItems="center">
+                                        <Image
+                                            height={40}
+                                            source={images.localReserva}
+                                            resizeMode={'contain'}
+                                        />
+                                        <Typography
+                                            fontFamily="reservaSansMedium"
+                                            fontSize={12}
+                                        >
+                                            {+data.pickupDistance.toFixed(1)} km
                                         </Typography>
                                     </Box>
-                                    <Box>
-                                        <Typography fontFamily="reservaSansRegular" fontSize={13}>
-                                            AV DOUTOR OLIVIO LIRA 353, LOJA 302 K/L PRAIA DA COSTA - VILA VELHA - ES.
-                                            {/* {`${item.address.street}, ${item.address.number}
-                     ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state}, ${item.address.postalCode}`} */}
-                                        </Typography>
-                                    </Box>
-                                    <Box flexDirection="row" mb="nano">
-                                        <Box mr="xxs">
+                                    <Box flex={1}>
+                                        <Box mb={'quarck'}>
+                                            <Typography
+                                                fontFamily="reservaSansBold"
+                                                fontSize={14}
+                                            >
+                                                {data.pickupStoreInfo.friendlyName}
+
+                                            </Typography>
+                                        </Box>
+                                        <Box>
+                                            <Typography fontFamily="reservaSansRegular" fontSize={13}>
+                                                {`${data.pickupStoreInfo.address.street}, ${data.pickupStoreInfo.address.complement} ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.city} - ${data.pickupStoreInfo.address.state}`}
+                                            </Typography>
+                                        </Box>
+                                        <Box flexDirection="row" mb="nano">
+                                            <Box mr="xxs">
+                                                <Typography
+                                                    fontFamily="reservaSansMedium"
+                                                    fontSize={12}
+                                                    color="verdeSucesso"
+                                                >
+                                                    Grátis
+                                                </Typography>
+                                            </Box>
                                             <Typography
                                                 fontFamily="reservaSansMedium"
                                                 fontSize={12}
                                                 color="verdeSucesso"
                                             >
-                                                Grátis
+                                                Pronto em até {data.shippingEstimate?.split('bd')[0]} dias
                                             </Typography>
                                         </Box>
-                                        <Typography
-                                            fontFamily="reservaSansMedium"
-                                            fontSize={12}
-                                            color="verdeSucesso"
-                                        >
-                                            Pronto em até {data.shippingEstimate?.split('bd')[0]} dias
-                                        </Typography>
-                                    </Box>
-                                    <Button
-                                        flex={1}
-                                        alignSelf="flex-start"
-                                        onPress={() => setShowModalStore(true)}
-                                    >
-                                        <Box
+                                        <Button
                                             flex={1}
                                             alignSelf="flex-start"
+                                            onPress={() => setShowModalStore(true)}
                                         >
-                                            <Typography
-                                                style={{ textDecorationLine: "underline" }}
-                                                fontFamily="nunitoRegular"
-                                                fontSize={12}>
-                                                Detalhes da loja
-                                            </Typography>
-                                        </Box>
-                                    </Button>
+                                            <Box
+                                                flex={1}
+                                                alignSelf="flex-start"
+                                            >
+                                                <Typography
+                                                    style={{ textDecorationLine: "underline" }}
+                                                    fontFamily="nunitoRegular"
+                                                    fontSize={12}>
+                                                    Detalhes da loja
+                                                </Typography>
+                                            </Box>
+                                        </Button>
+                                    </Box>
                                 </Box>
-                            </Box>
-                        </Box> : null}
-                </Box>
-                <Modal
-                    isVisible={showModalStore}
-                >
-                    <Box
-                        bg='white'
-                        p="xxxs"
+                            </Box> : null}
+                    </Box>
+                    <Modal
+                        isVisible={showModalStore}
                     >
                         <Box
-                            flexDirection="row"
-                            alignItems="center"
-                            justifyContent="space-between"
+                            bg='white'
+                            p="xxxs"
                         >
-                            <Box>
-                                <Typography
-                                    fontFamily="reservaSerifRegular"
-                                    fontSize={20}
-                                >
-                                    Detalhes da Loja
+                            <Box
+                                flexDirection="row"
+                                alignItems="center"
+                                justifyContent="space-between"
+                            >
+                                <Box>
+                                    <Typography
+                                        fontFamily="reservaSerifRegular"
+                                        fontSize={20}
+                                    >
+                                        Detalhes da Loja
+                                    </Typography>
+                                </Box>
+                                <Button
+                                    hitSlop={{
+                                        top: 30,
+                                        bottom: 30,
+                                        right: 30,
+                                        left: 30,
+                                    }}
+                                    onPress={() => setShowModalStore(false)}
+                                    variant='icone'
+                                    icon={
+                                        <Icon size={12} name='Close' />
+                                    }
+                                />
+                            </Box>
+                            <Box mt="xxs" mb="micro">
+                                <Typography fontFamily="reservaSansMedium" fontSize={14}>
+                                    Horários de funcionamento
                                 </Typography>
                             </Box>
-                            <Button
-                                hitSlop={{
-                                    top: 30,
-                                    bottom: 30,
-                                    right: 30,
-                                    left: 30,
-                                }}
-                                onPress={() => setShowModalStore(false)}
-                                variant='icone'
-                                icon={
-                                    <Icon size={12} name='Close' />
-                                }
-                            />
+                            {storeDetail &&
+                                storeDetail.map((item) => (
+                                    <>
+                                        <Box
+                                            py="nano"
+                                            flexDirection="row"
+                                            justifyContent="space-between"
+                                        >
+                                            <Typography fontFamily="reservaSansLight" fontSize={14}>
+                                                {dayOfWeek[item.DayOfWeek]}
+                                            </Typography>
+                                            <Typography fontFamily="reservaSansRegular" fontSize={14}>
+                                                {item.OpeningTime} às {item.ClosingTime}
+                                            </Typography>
+                                        </Box>
+                                        <Divider variant="fullWidth" />
+                                    </>
+                                ))
+                            }
                         </Box>
-                        <Box mt="xxs" mb="micro">
-                            <Typography fontFamily="reservaSansMedium" fontSize={14}>
-                                Horários de funcionamento
-                            </Typography>
-                        </Box>
-                        {storeDetail &&
-                            storeDetail.map((item) => (
-                                <>
-                                    <Box
-                                        py="nano"
-                                        flexDirection="row"
-                                        justifyContent="space-between"
-                                    >
-                                        <Typography fontFamily="reservaSansLight" fontSize={14}>
-                                            {diasDaSemana[item.DayOfWeek]}
-                                        </Typography>
-                                        <Typography fontFamily="reservaSansRegular" fontSize={14}>
-                                            {item.OpeningTime} às {item.ClosingTime}
-                                        </Typography>
-                                    </Box>
-                                    <Divider variant="fullWidth" />
-                                </>
-                            ))
-                        }
+                    </Modal>
+                </Box>
+                :
+                <Box
+                    bg="white"
+                    alignItems="center"
+                    px="micro"
+                    mt="xxl"
+                >
+                    <Image
+                        source={images.noStoresFound}
+                        resizeMode={'contain'}
+                    />
+                    <Box mb="xxs" mt="md">
+                        <Typography
+                            fontFamily="reservaSerifRegular"
+                            fontSize={24}
+                        >
+                            Nenhuma loja encontrada
+                        </Typography>
                     </Box>
-                </Modal>
-            </Box>
+                    <Box mb="xs">
+                        <Typography
+                            textAlign="center"
+                            fontFamily="nunitoRegular"
+                            fontSize={14}
+                        >
+                            Desculpe, mas não encontramos lojas próximas a sua região.
+                        </Typography>
+                    </Box>
+                </Box>
+            }
         </Box>
     );
 }
