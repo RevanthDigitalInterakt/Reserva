@@ -23,8 +23,8 @@ export const ShippingBar = ({
   const isShippingFree = () => {
     setLoadingBar(true);
     if (isFreeShipping > 0) {
-      setTrueFreeShipping(false);
       if (sumPriceShipping <= PRICE_SHIPPING_FREE) {
+        setTrueFreeShipping(false);
         setSumPrice(sumPriceShipping - PRICE_SHIPPING_FREE);
       }
     } else {
@@ -35,13 +35,13 @@ export const ShippingBar = ({
 
   useEffect(() => {
     isShippingFree();
-  }, [loadingBar, sumPriceShipping]);
+  }, [sumPriceShipping]);
 
   return (
     <>
       {loadingBar && (
         <Box mt="micro">
-          {!trueFreeShipping ? (
+          {sumPriceShipping <= PRICE_SHIPPING_FREE ? (
             <Box flexDirection="row">
               <Typography>Faltam apenas </Typography>
               <PriceCustom
