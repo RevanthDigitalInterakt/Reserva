@@ -24,50 +24,6 @@ const ReceiveHome = ({
     const { cookie, setCookie } = useAuth();
     return (
         <>
-            <Box mt="xs" mb="nano">
-                <Typography
-                    color="preto"
-                    fontFamily="reservaSansBold"
-                    fontSize={12}
-                >
-                    SELECIONE O TIPO DE ENTREGA
-                </Typography>
-            </Box>
-
-            {typeOfDelivery && typeOfDelivery.length > 0 ? (
-                typeOfDelivery.map((item: any) => {
-                    let selected;
-                    const {
-                        id,
-                        name,
-                        shippingEstimate,
-                        price,
-                    } = item;
-
-                    if (cookie != null) {
-                        if (selectedDelivery) {
-                            selected = id === selectedDelivery.id && item;
-                        }
-                    } else {
-                        if (selectedDelivery) {
-                            selected = id === selectedDelivery.id && item;
-                        }
-                    }
-
-                    return (
-                        <DeliverySelector
-                            deliveryData={{
-                                name: name,
-                                price: price,
-                                shippingEstimate: shippingEstimate,
-                            }}
-                            selected={selected}
-                            select={() => { onDeliveryChosen(item) }}
-                        />
-                    );
-                })
-            ) : null}
-
             <Box mt="xs">
                 <Typography
                     color="preto"
@@ -127,6 +83,50 @@ const ReceiveHome = ({
                 )}
 
             </Box>
+
+            <Box mt="xs" mb="nano">
+                <Typography
+                    color="preto"
+                    fontFamily="reservaSansBold"
+                    fontSize={12}
+                >
+                    SELECIONE O TIPO DE ENTREGA
+                </Typography>
+            </Box>
+
+            {typeOfDelivery && typeOfDelivery.length > 0 ? (
+                typeOfDelivery.map((item: any) => {
+                    let selected;
+                    const {
+                        id,
+                        name,
+                        shippingEstimate,
+                        price,
+                    } = item;
+
+                    if (cookie != null) {
+                        if (selectedDelivery) {
+                            selected = id === selectedDelivery.id && item;
+                        }
+                    } else {
+                        if (selectedDelivery) {
+                            selected = id === selectedDelivery.id && item;
+                        }
+                    }
+
+                    return (
+                        <DeliverySelector
+                            deliveryData={{
+                                name: name,
+                                price: price,
+                                shippingEstimate: shippingEstimate,
+                            }}
+                            selected={selected}
+                            select={() => { onDeliveryChosen(item) }}
+                        />
+                    );
+                })
+            ) : null}
         </>
     )
 }
