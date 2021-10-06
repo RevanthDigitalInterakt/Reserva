@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { SafeAreaView, ScrollView, Alert } from "react-native";
 import { Typography, Box, Button } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -42,11 +42,13 @@ const Delivery: React.FC<{}> = () => {
     }
   }, [data]);
 
-  useFocusEffect(() => {
-    if (data) {
-      refetch();
-    }
-  });
+  useFocusEffect(
+    useCallback(() => {
+      if (data) {
+        refetch();
+      }
+    }, [data])
+  );
 
   //permissão para acessar o mapa
   const requestMap = async () => {

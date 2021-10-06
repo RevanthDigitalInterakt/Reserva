@@ -18,7 +18,8 @@ type Props = StackScreenProps<RootStackParamList, "AddressList">;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
-  const { cookie } = useAuth();
+  const { cookie, email } = useAuth();
+  const { identifyCustomer } = useCart();
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [addressId, setAddressId] = React.useState("");
   const [successModal, setSuccessModal] = React.useState(false);
@@ -148,12 +149,19 @@ const AddressList: React.FC<Props> = ({ route }) => {
         cancelText={"NÃO"}
         onConfirm={async () => {
           modalRef.current = true;
-          const { data } = await addressDelete({
+          const data = await addressDelete({
             variables: {
               id: addressId,
             },
           });
           setDeleteModal(false);
+
+          //reset shippingData of orderform
+          if (data) {
+            if (email) {
+              await identifyCustomer(email)
+            }
+          }
         }}
         onCancel={() => {
           setDeleteModal(false);
