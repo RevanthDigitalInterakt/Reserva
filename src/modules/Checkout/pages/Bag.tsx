@@ -450,8 +450,7 @@ export const BagScreen = () => {
                       priceWithDiscount={item.sellingPrice / 100}
                       count={optimistQuantities[index]}
                       onClickAddCount={async (count) => {
-                        const firstItemIndex = array.findIndex(x => x.productId == item.productId)
-                        console.log(firstItemIndex)
+                        const firstItemIndex = array.findIndex(x => x.refId == item.refId)
                         const prevCont = optimistQuantities[firstItemIndex]
                         await setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), count, ...optimistQuantities.slice(firstItemIndex + 1)])
                         const { ok } = await addItem(count, item.id, item.seller);
@@ -460,7 +459,7 @@ export const BagScreen = () => {
                           setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), prevCont, ...optimistQuantities.slice(firstItemIndex + 1)])
                         //console.log('ok addCount', ok)
 
-                        const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
+                          const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
                         if (item.quantity != count) {
                           setNoProduct(erros[0])
                         }
