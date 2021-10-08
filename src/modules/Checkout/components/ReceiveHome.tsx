@@ -11,6 +11,7 @@ interface IReceiveHome {
     selectedAddress: any;
     onDeliveryChosen: (item: any) => void;
     onAddressChosen: (item: any) => void;
+    loading: boolean;
 }
 
 const ReceiveHome = ({
@@ -19,7 +20,8 @@ const ReceiveHome = ({
     addresses,
     selectedAddress,
     onDeliveryChosen,
-    onAddressChosen
+    onAddressChosen,
+    loading
 }: IReceiveHome) => {
     const { cookie, setCookie } = useAuth();
     return (
@@ -52,6 +54,9 @@ const ReceiveHome = ({
                             neighborhood,
                             addressId,
                         } = item;
+                        if (id === selectedAddress.id) {
+                            selected = true
+                        }
 
                         if (cookie != null) {
                             if (selectedAddress) {
@@ -93,8 +98,7 @@ const ReceiveHome = ({
                     SELECIONE O TIPO DE ENTREGA
                 </Typography>
             </Box>
-
-            {typeOfDelivery && typeOfDelivery.length > 0 ? (
+            {typeOfDelivery && typeOfDelivery.length > 0 && !loading ? (
                 typeOfDelivery.map((item: any) => {
                     let selected;
                     const {

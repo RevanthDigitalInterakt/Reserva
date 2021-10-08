@@ -16,8 +16,8 @@ import Store from "../components/Store";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
-  const { orderForm, addShippingOrPickupInfo } = useCart();
-  const { cookie, setCookie } = useAuth();
+  const { orderForm, addShippingOrPickupInfo, addShippingData, identifyCustomer } = useCart();
+  const { cookie, setCookie, email } = useAuth();
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
   const { authentication } = useSelector((state: ApplicationState) => state);
@@ -49,6 +49,12 @@ const Delivery: React.FC<{}> = () => {
       }
     }, [data])
   );
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     updateAddress();
+  //   }, [])
+  // );
 
   //permissão para acessar o mapa
   const requestMap = async () => {
@@ -92,8 +98,30 @@ const Delivery: React.FC<{}> = () => {
     CkeckmapPermission();
   }, [Permission])
 
+
+  const selectShippingAddress = async (item: any) => {
+    if (orderForm) {
+      setLoading(true)
+      // save selected logistc info
+      const logisticInfo = orderForm.shippingData.logisticsInfo.map(
+        ({ itemIndex }) => {
+          return {
+            addressId: item.id,
+            itemIndex,
+            selectedDeliveryChannel: "delivery",
+            selectedSla: "Padrão",
+          };
+        }
+      );
+      const data = await addShippingOrPickupInfo(logisticInfo, [{ ...item, addressType: "residential" }],);
+      setLoading(false)
+    }
+
+  }
+
   const onAddressChosen = (item: any) => {
     setSelectedAddress({ ...item, addressType: "residential" });
+    selectShippingAddress(item)
   };
 
   const onDeliveryChosen = (item: any) => {
@@ -202,6 +230,10 @@ const Delivery: React.FC<{}> = () => {
       orderForm?.shippingData.availableAddresses
         .map((a) => ({ ...a, country: "BRA" }));
 
+    const selectedAddress = orderForm &&
+      orderForm?.shippingData &&
+      orderForm?.shippingData.selectedAddresses[0]
+
     if (cookie != null) {
       const { addresses } = profile;
       setAddresses(addresses);
@@ -211,19 +243,10 @@ const Delivery: React.FC<{}> = () => {
         setAddresses(availableAddressesOrderForm);
       }
     }
+
+    setSelectedAddress(selectedAddress)
   }, [orderForm, profile]);
 
-  useEffect(() => {
-    console.log('pickupPointsss', pickupPoint)
-  }, [pickupPoint]);
-
-  useEffect(() => {
-    console.log('selectedDelivery', selectedDelivery)
-  }, [selectedDelivery]);
-
-  useEffect(() => {
-    console.log('selectedAddress', selectedAddress)
-  }, [selectedAddress]);
 
 
   return (
@@ -295,14 +318,17 @@ const Delivery: React.FC<{}> = () => {
               data={pickupPoint}
               storeDetail={businessHours}
             /> :
-            <ReceiveHome
-              typeOfDelivery={typeOfDelivery}
-              selectedDelivery={selectedDelivery}
-              addresses={addresses}
-              selectedAddress={selectedAddress}
-              onDeliveryChosen={onDeliveryChosen}
-              onAddressChosen={onAddressChosen}
-            />
+            (
+              <ReceiveHome
+                loading={loading}
+                typeOfDelivery={typeOfDelivery}
+                selectedDelivery={selectedDelivery}
+                addresses={addresses}
+                selectedAddress={selectedAddress}
+                onDeliveryChosen={onDeliveryChosen}
+                onAddressChosen={onAddressChosen}
+              />
+            )
           }
         </Box>
         {cookie != null && !selectMethodDelivery &&
