@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import * as React from 'react';
 import { Platform } from 'react-native';
 import { Typography, Box, Button, Icon, Image } from 'reserva-ui';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import OrderProduct from './OrderProduct';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { IOrderId } from '../../../context/CartContext';
 
 export type IOrderData = {
   orderId: string;
@@ -61,7 +61,7 @@ export type IOrderData = {
 };
 
 interface IOrderDetailComponent {
-  data: IOrderData;
+  data: IOrderId;
   deliveryState: number;
 }
 
@@ -179,61 +179,69 @@ const OrderDetailComponent = ({ data }: IOrderDetailComponent) => {
             fontSize={20}
             color="vermelhoRSV"
           >
-            {data.orderId}
+            {data && data.orderId}
           </Typography>
         </Box>
         {/* {deliveryStateToMsg()} */}
-        {data.items &&
+        {data && data.items &&
           data.items.map((item) => <OrderProduct orderItem={item} />)}
 
         {/* //preços */}
-        <Box mt="xs" flexDirection="row" justifyContent="space-between">
-          <Typography variant="precoAntigo3">Subtotal</Typography>
-          <PriceCustom
-            fontFamily={'nunitoSemiBold'}
-            sizeInterger={15}
-            sizeDecimal={11}
-            num={
-              data.totals?.find(({ id }) => id === 'Items')?.value / 100 || 0
-            }
-          />
-        </Box>
-        <Box mt="micro" flexDirection="row" justifyContent="space-between">
-          <Typography variant="precoAntigo3">Frete</Typography>
-          <PriceCustom
-            fontFamily={'nunitoSemiBold'}
-            sizeInterger={15}
-            sizeDecimal={11}
-            num={
-              data.totals?.find(({ id }) => id === 'Shipping')?.value / 100 || 0
-            }
-          />
-        </Box>
-        <Box mt="micro" flexDirection="row" justifyContent="space-between">
-          <Typography variant="precoAntigo3">Descontos</Typography>
+        {data &&
+          <Box mt="xs" flexDirection="row" justifyContent="space-between">
+            <Typography variant="precoAntigo3">Subtotal</Typography>
+            <PriceCustom
+              fontFamily={'nunitoSemiBold'}
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={
+                data?.totals?.find(({ id }) => id === 'Items')?.value / 100 || 0
+              }
+            />
+          </Box>
+        }
+        {data &&
+          <Box mt="micro" flexDirection="row" justifyContent="space-between">
+            <Typography variant="precoAntigo3">Frete</Typography>
 
-          <PriceCustom
-            fontFamily={'nunitoSemiBold'}
-            sizeInterger={15}
-            negative={true}
-            sizeDecimal={11}
-            num={Math.abs(data.totals?.find(({ id }) => id === 'Discounts')?.value / 100 || 0)}
-          />
-        </Box>
-        <Box
-          mt="xxxs"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography variant="precoAntigo3">Total</Typography>
-          <PriceCustom
-            fontFamily={'nunitoBold'}
-            sizeInterger={20}
-            sizeDecimal={11}
-            num={data.value / 100}
-          />
-        </Box>
+            <PriceCustom
+              fontFamily={'nunitoSemiBold'}
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={
+                data.totals?.find(({ id }) => id === 'Shipping')?.value / 100 || 0
+              }
+            />
+          </Box>
+        }
+        {data &&
+          <Box mt="micro" flexDirection="row" justifyContent="space-between">
+            <Typography variant="precoAntigo3">Descontos</Typography>
+            <PriceCustom
+              fontFamily={'nunitoSemiBold'}
+              sizeInterger={15}
+              negative={true}
+              sizeDecimal={11}
+              num={Math.abs(data.totals?.find(({ id }) => id === 'Discounts')?.value / 100 || 0)}
+            />
+          </Box>
+        }
+        {data &&
+          <Box
+            mt="xxxs"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="precoAntigo3">Total</Typography>
+            <PriceCustom
+              fontFamily={'nunitoBold'}
+              sizeInterger={20}
+              sizeDecimal={11}
+              num={data.value / 100}
+            />
+          </Box>
+        }
       </Box>
     </>
   );

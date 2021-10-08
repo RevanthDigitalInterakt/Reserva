@@ -5,15 +5,19 @@ import React, { useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
 import {
   Box,
-  Button, Icon, Picker, ProductHorizontalListCard,
-  Typography
+  Button,
+  Icon,
+  Picker,
+  ProductHorizontalListCard,
+  Typography,
+  Image
 } from 'reserva-ui'
 import { useAuth } from '../../../context/AuthContext'
 import wishListQueries from '../../../graphql/wishlist/wishList'
 import { RootStackParamList } from '../../../routes/StackNavigator'
 import { Skeleton } from '../../Checkout/components/Skeleton'
 import { TopBarDefault } from '../../Menu/components/TopBarDefault'
-
+import { images } from '../../../assets'
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>
 
@@ -52,10 +56,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     console.log('cookie', cookie)
   }, [email, cookie])
 
-  useEffect(() => {
-    console.log('wishIds', wishIds)
-  }, [wishIds])
-
+  /*  useEffect(() => {
+     console.log('wishIds', wishIds)
+   }, [wishIds])
+  */
   const handleFavorite = async (wishId: any) => {
     if (!!email) {
       console.log(wishId)
@@ -270,7 +274,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
           :
           <>
             {
-              wishProducts.length <= 0 ?
+              (wishProducts.length <= 0 && !!wishIds && wishIds.length <= 0) ?
                 <EmptyWishList />
                 :
                 <Box flex={1} >
@@ -300,7 +304,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
                       // const wishId = wishIds?.find(x => x.productId == product?.productId)
 
-                      return <Box marginBottom='xxxs' height={150}>
+                      return !product ? <></> : <Box marginBottom='xxxs' height={150}>
                         <ProductHorizontalListCard
                           isFavorited
                           itemColor={''}
@@ -345,9 +349,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
 const EmptyWishList = () => {
   const navigation = useNavigation()
-  return <Box flex={1} alignItems='center' paddingTop={124}>
-    <Icon name='Heartbroken' color='preto' size={86} />
-    <Box mx={37} mt={47}>
+  return <Box flex={1} alignItems='center' paddingTop={110}>
+    <Image source={images.heartBroken} height={200} width={200} />
+    <Box mx={37}>
       <Typography
         fontFamily='reservaSerifRegular'
         fontSize={24} >

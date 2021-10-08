@@ -321,6 +321,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
+
+
+
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
         <TopBarDefaultBackButton
@@ -334,6 +337,48 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       {search && (
         <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
           <SearchBar height={36} placeholder="Buscar" />
+        </Box>
+      )}
+
+      {error && productsQuery.products.length <= 0 && (
+        <Box
+          position="absolute"
+          flex={1}
+          height="100%"
+          width="100%"
+          zIndex={5}
+          justifyContent="center"
+          bg="white"
+          alignContent="center"
+          pt={163}
+        >
+          <Typography
+            textAlign="center"
+            fontFamily="reservaSerifMedium"
+            fontSize={20}
+          >
+            Ops...desculpe
+          </Typography>
+          <Box mx={39} mt="nano">
+            <Typography
+              textAlign="center"
+              fontFamily="nunitoSemiBold"
+              fontSize={13}
+            >
+              A página que você procura está temporariamente indisponível ou foi
+              removida
+            </Typography>
+          </Box>
+          <Button
+            title="VOLTAR"
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            variant="primarioEstreitoOutline"
+            mx={22}
+            mt={49}
+            inline
+          />
         </Box>
       )}
 

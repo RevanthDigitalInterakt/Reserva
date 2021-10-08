@@ -5,7 +5,7 @@ const routesConfig = {
     Main: {
       screens: {
         WishList: 'wishlist',
-        Home: {
+        HomeTabs: {
           path: 'home-tabs',
           screens: {
             Offers: 'offers',
