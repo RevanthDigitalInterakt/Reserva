@@ -143,6 +143,7 @@ export const BagScreen = () => {
 
     const errorMessages = orderForm?.messages.map(({ text }: any) => text);
     setErrorsMessages(errorMessages);
+    console.log('ERROR', errorMessages);
 
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split('=')[1];
@@ -753,7 +754,7 @@ export const BagScreen = () => {
               {couponIsInvalid && (
                 <Box marginRight="micro">
                   <Typography color="vermelhoAlerta" variant="precoAntigo3">
-                    Digite um código válido
+                    Digite um cupom válido
                   </Typography>
                 </Box>
               )}
