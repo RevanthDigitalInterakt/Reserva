@@ -27,14 +27,17 @@ export const ShippingBar = ({
         setTrueFreeShipping(false);
         setSumPrice(sumPriceShipping - PRICE_SHIPPING_FREE);
       }
-    } else {
-      setTrueFreeShipping(true);
+    } else if (sumPriceShipping >= PRICE_SHIPPING_FREE) {
       setSumPrice(PRICE_SHIPPING_FREE);
+    } else {
+      setSumPrice(sumPriceShipping - PRICE_SHIPPING_FREE);
     }
   };
 
   useEffect(() => {
     isShippingFree();
+    console.log('sumPriceShipping :>> ', sumPriceShipping);
+    console.log('isFreeShipping :>> ', isFreeShipping);
   }, [sumPriceShipping]);
 
   return (
