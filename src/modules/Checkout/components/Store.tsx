@@ -175,23 +175,28 @@ const Store = ({ storeDetail, data }: IStore) => {
                                 </Typography>
                             </Box>
                             {storeDetail &&
-                                storeDetail.map((item) => (
-                                    <>
-                                        <Box
-                                            py="nano"
-                                            flexDirection="row"
-                                            justifyContent="space-between"
-                                        >
-                                            <Typography fontFamily="reservaSansLight" fontSize={14}>
-                                                {dayOfWeek[item.DayOfWeek]}
-                                            </Typography>
-                                            <Typography fontFamily="reservaSansRegular" fontSize={14}>
-                                                {item.OpeningTime} às {item.ClosingTime}
-                                            </Typography>
-                                        </Box>
-                                        <Divider variant="fullWidth" />
-                                    </>
-                                ))
+                                storeDetail.map((item) => {
+                                    const [hoursOpeningTime, minuteOpeningTime, secondsOpeningTime] = item.OpeningTime.split(":")
+                                    const [hoursClosingTime, minuteClosingTime, secondsClosingTime] = item.ClosingTime.split(":")
+
+                                    return (
+                                        <>
+                                            <Box
+                                                py="nano"
+                                                flexDirection="row"
+                                                justifyContent="space-between"
+                                            >
+                                                <Typography fontFamily="reservaSansLight" fontSize={14}>
+                                                    {dayOfWeek[item.DayOfWeek]}
+                                                </Typography>
+                                                <Typography fontFamily="reservaSansRegular" fontSize={14}>
+                                                    {`${hoursOpeningTime}:${minuteOpeningTime}`} às {`${hoursClosingTime}:${minuteClosingTime}`}
+                                                </Typography>
+                                            </Box>
+                                            <Divider variant="fullWidth" />
+                                        </>
+                                    )
+                                })
                             }
                         </Box>
                     </Modal>
