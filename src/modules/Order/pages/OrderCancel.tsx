@@ -95,54 +95,22 @@ const OrderList = () => {
           >
             <Box flexDirection={"row"} mb={"xxs"}>
               <Box
-                width={"50%"}
-                borderRightWidth={1}
-                borderRightColor={"divider"}
+                width={"100%"}
+                justifyContent="center"
               >
                 <Typography
                   fontFamily={"nunitoRegular"}
                   fontSize={15}
                   textAlign={"center"}
                 >
-                  Rio de Janeiro
-                </Typography>
-                <Typography
-                  fontFamily={"nunitoRegular"}
-                  fontSize={15}
-                  textAlign={"center"}
-                >
-                  e regiões:
-                </Typography>
-              </Box>
-
-              <Box width={"50%"}>
-                <Typography
-                  fontFamily={"nunitoRegular"}
-                  fontSize={15}
-                  textAlign={"center"}
-                >
-                  São Paulo e
-                </Typography>
-
-                <Typography
-                  fontFamily={"nunitoRegular"}
-                  fontSize={15}
-                  textAlign={"center"}
-                >
-                  demais estados:
+                  SAC
                 </Typography>
               </Box>
             </Box>
 
-            <Box flexDirection={"row"} justifyContent={"space-between"}>
+            <Box flexDirection={"row"} justifyContent={"center"} >
               <Box width={"43%"}>
-                <ItemContact number={"2108-4990"} type={"wp"} />
-                <ItemContact number={"2108-4990"} type={"phone"} />
-              </Box>
-
-              <Box width={"43%"}>
-                <ItemContact number={"2108-4990"} type={"wp"} />
-                <ItemContact number={"2108-4990"} type={"phone"} />
+                <ItemContact number={"(21) 3900-7052"} type={"phone"} />
               </Box>
             </Box>
           </Box>
