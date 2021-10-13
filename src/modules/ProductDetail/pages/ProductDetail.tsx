@@ -203,6 +203,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [removeWishList, { data: removeWishListData, error: removeWishListError, loading: removeWishLoading }] = useMutation(wishListQueries.REMOVE_WISH_LIST)
 
   const { email } = useAuth()
+  const [isLastUnits, setIsLastUnits] = useState(false)
 
   /***
    * Effects
@@ -251,8 +252,6 @@ export const ProductDetail: React.FC<Props> = ({
 
       console.log("item", itemList);
 
-
-
       setItemsSKU(itemList);
 
     }
@@ -286,7 +285,6 @@ export const ProductDetail: React.FC<Props> = ({
         .filter(a => a !== false)[0]
 
       setUnavailableSizes(unavailableSizes);
-
 
       const index = unavailableSizes.findIndex((x) => x === false)
       if (index === -1) {
@@ -555,6 +553,21 @@ export const ProductDetail: React.FC<Props> = ({
     if (idImage) return images.saleOff
   }
 
+  const getLastUnits = () => {
+    const lastUnits = data?.product.items[0].sellers[0].commertialOffer.AvailableQuantity;
+    if(lastUnits <= 5){
+      setIsLastUnits(true)
+    } else {
+      setIsLastUnits(false)
+    }
+    console.log("LASTUNITS", isLastUnits)
+    console.log("LASTUNITSQTD", lastUnits)
+  }
+
+  useEffect(()=> {
+    getLastUnits();
+  }, [selectedColor, selectedSize])
+
   return (
     <SafeAreaView>
 
@@ -573,6 +586,7 @@ export const ProductDetail: React.FC<Props> = ({
           <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
             {product && selectedVariant && (
               <>
+
                 {/* PRODUCT CARD SECTION */}
                 <ProductDetailCard
                   {...product}
@@ -602,6 +616,13 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   saleOff={getSaleOff(product)}
                 />
+
+                {isLastUnits && !outOfStock ?
+                <Box position='absolute' top={650} right={20} zIndex={4}>
+                  <Typography color="vermelhoAlerta" fontWeight="SemiBold" fontFamily="nunitoRegular" fontSize={18} textAlign="center" style={{textTransform: "uppercase"}}>Últimas unidades!</Typography>
+                </Box>
+                : null }
+
 
                 {/* COLORS SECTION */}
                 <Box mt="xs">
