@@ -217,16 +217,10 @@ export const BagScreen = () => {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
-    console.log('MUDOUUUUU')
-    console.log('optimistQuantities', optimistQuantities)
-  }, [optimistQuantities])
-=======
     console.log('optimistQuantities', optimistQuantities);
     console.log('orderForm items', orderForm?.items);
     setLoadingShippingBar(true);
   }, [optimistQuantities]);
->>>>>>> remotes/origin/develop
 
   return (
     <SafeAreaView
@@ -448,30 +442,30 @@ export const BagScreen = () => {
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box paddingBottom="nano">
-                      <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                        color="verdeSucesso"
-                      >
-                        Desconto de 1° compra aplicado neste produto!
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box paddingBottom="nano">
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                          color="verdeSucesso"
+                        >
+                          Desconto de 1° compra aplicado neste produto!
+                        </Typography>
+                      </Box>
+                    )}
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box position="absolute" zIndex={5} top={84} right={21}>
-                      <Typography
-                        color="verdeSucesso"
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                      >
-                        -R$ 50
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box position="absolute" zIndex={5} top={84} right={21}>
+                        <Typography
+                          color="verdeSucesso"
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                        >
+                          -R$ 50
+                        </Typography>
+                      </Box>
+                    )}
                   <ProductHorizontalListCard
                     isBag
                     discountApi={
@@ -490,7 +484,7 @@ export const BagScreen = () => {
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
                       array.filter((x) => x.uniqueId == item.uniqueId).length >
-                        1
+                      1
                     }
                     currency="R$"
                     discountTag={getPercent(item.sellingPrice, item.listPrice)}
@@ -529,52 +523,11 @@ export const BagScreen = () => {
                       if (item.quantity != count) {
                         setNoProduct(erros[0]);
                       }
-                      itemColor={item.skuName.split("-")[0] || ""}
-                      ItemSize={item.skuName.split("-")[1] || ""}
-                      productTitle={item.name.split(" - ")[0]}
-                      // installmentsNumber={item.installmentNumber}
-                      // installmentsPrice={item.installmentPrice}
-                      price={item.listPrice / 100}
-                      priceWithDiscount={item.sellingPrice / 100}
-                      count={optimistQuantities[index]}
-                      onClickAddCount={async (countUpdated) => {
-                        const itemIndex = array.findIndex(x => x.refId == item.refId)
-
-                        const { ok } = await addItem(countUpdated, item.id, item.seller);
-
-                        if (!ok) {
-                          const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
-                          setNoProduct(erros[0])
-                        } else {
-                          setOptimistQuantities([...optimistQuantities.slice(0, itemIndex), countUpdated, ...optimistQuantities.slice(itemIndex + 1)])
-                        }
-                      }}
-                      onClickSubCount={
-                        async (count) => {
-                          const prevCont = optimistQuantities[index]
-                          if (prevCont <= 1) {
-                            setShowModal(true)
-                            setRemoveProduct({
-                              id: item.id,
-                              index: index,
-                              seller: item.seller
-                            })
-                          } else {
-                            setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
-                            const { ok } = await removeItem(
-                              item.id,
-                              index,
-                              item.seller,
-                              item.quantity - 1
-                            )
-                            if (!ok)
-                              setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
-                            console.log('ok subCount', ok)
-
-                          }
-                        }}
-                      onClickClose={() => {
-                        setShowModal(true)
+                    }}
+                    onClickSubCount={async (count) => {
+                      const prevCont = optimistQuantities[index];
+                      if (prevCont <= 1) {
+                        setShowModal(true);
                         setRemoveProduct({
                           id: item.id,
                           index,
