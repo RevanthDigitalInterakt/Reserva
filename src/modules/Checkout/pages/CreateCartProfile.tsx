@@ -146,11 +146,11 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   return (
     <SafeAreaView style={{ backgroundColor: "#ffffff" }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
-      <ScrollView>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : ""}
-          style={{ flex: 1 }}
-        >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : ""}
+        style={{ flex: 1 }}
+      >
+        <ScrollView>
 
           <Box mx={20}>
             <Box mt={49}>
@@ -310,8 +310,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               )}
             </Formik>
           </Box>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <Button
         variant="primarioEstreito"
