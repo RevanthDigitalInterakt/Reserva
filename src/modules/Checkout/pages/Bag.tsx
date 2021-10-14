@@ -217,10 +217,16 @@ export const BagScreen = () => {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
+    console.log('MUDOUUUUU')
+    console.log('optimistQuantities', optimistQuantities)
+  }, [optimistQuantities])
+=======
     console.log('optimistQuantities', optimistQuantities);
     console.log('orderForm items', orderForm?.items);
     setLoadingShippingBar(true);
   }, [optimistQuantities]);
+>>>>>>> remotes/origin/develop
 
   return (
     <SafeAreaView
@@ -523,11 +529,52 @@ export const BagScreen = () => {
                       if (item.quantity != count) {
                         setNoProduct(erros[0]);
                       }
-                    }}
-                    onClickSubCount={async (count) => {
-                      const prevCont = optimistQuantities[index];
-                      if (prevCont <= 1) {
-                        setShowModal(true);
+                      itemColor={item.skuName.split("-")[0] || ""}
+                      ItemSize={item.skuName.split("-")[1] || ""}
+                      productTitle={item.name.split(" - ")[0]}
+                      // installmentsNumber={item.installmentNumber}
+                      // installmentsPrice={item.installmentPrice}
+                      price={item.listPrice / 100}
+                      priceWithDiscount={item.sellingPrice / 100}
+                      count={optimistQuantities[index]}
+                      onClickAddCount={async (countUpdated) => {
+                        const itemIndex = array.findIndex(x => x.refId == item.refId)
+
+                        const { ok } = await addItem(countUpdated, item.id, item.seller);
+
+                        if (!ok) {
+                          const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
+                          setNoProduct(erros[0])
+                        } else {
+                          setOptimistQuantities([...optimistQuantities.slice(0, itemIndex), countUpdated, ...optimistQuantities.slice(itemIndex + 1)])
+                        }
+                      }}
+                      onClickSubCount={
+                        async (count) => {
+                          const prevCont = optimistQuantities[index]
+                          if (prevCont <= 1) {
+                            setShowModal(true)
+                            setRemoveProduct({
+                              id: item.id,
+                              index: index,
+                              seller: item.seller
+                            })
+                          } else {
+                            setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
+                            const { ok } = await removeItem(
+                              item.id,
+                              index,
+                              item.seller,
+                              item.quantity - 1
+                            )
+                            if (!ok)
+                              setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
+                            console.log('ok subCount', ok)
+
+                          }
+                        }}
+                      onClickClose={() => {
+                        setShowModal(true)
                         setRemoveProduct({
                           id: item.id,
                           index,
