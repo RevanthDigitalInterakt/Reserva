@@ -46,6 +46,7 @@ import { CouponBadge } from '../components/CouponBadge';
 import { EmptyBag } from '../components/EmptyBag';
 import { ModalBook } from '../components/ModalBook';
 import { PriceCustom } from '../components/PriceCustom';
+import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 
 const BoxAnimated = createAnimatableComponent(Box);
@@ -76,6 +77,7 @@ export const BagScreen = () => {
     { id: string; index: number; seller: string; quantity: number } | undefined
   >();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
+  const [loadingShippingBar, setLoadingShippingBar] = useState(false);
   const [totalDelivery, setTotalDelivery] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
@@ -214,6 +216,7 @@ export const BagScreen = () => {
 
   useEffect(() => {
     console.log('optimistQuantities', optimistQuantities);
+    setLoadingShippingBar(true);
   }, [optimistQuantities]);
 
   return (
@@ -423,6 +426,13 @@ export const BagScreen = () => {
                   Sacola ({orderForm?.items.length})
                 </Typography>
               </Box>
+
+              <ShippingBar
+                loading={loadingShippingBar}
+                sumPriceShipping={totalBag}
+                isFreeShipping={totalDelivery != 0 ? totalDelivery : 0}
+              />
+
               {orderForm?.items.map((item, index, array) => (
                 <Box key={index} bg="white" marginTop="xxxs">
                   {item.priceTags.find(

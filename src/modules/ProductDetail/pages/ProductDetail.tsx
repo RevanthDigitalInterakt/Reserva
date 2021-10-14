@@ -555,7 +555,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getLastUnits = () => {
     const lastUnits = data?.product.items[0].sellers[0].commertialOffer.AvailableQuantity;
-    if(lastUnits <= 5){
+    if (lastUnits <= 5) {
       setIsLastUnits(true)
     } else {
       setIsLastUnits(false)
@@ -564,7 +564,7 @@ export const ProductDetail: React.FC<Props> = ({
     console.log("LASTUNITSQTD", lastUnits)
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getLastUnits();
   }, [selectedColor, selectedSize])
 
@@ -617,11 +617,15 @@ export const ProductDetail: React.FC<Props> = ({
                   saleOff={getSaleOff(product)}
                 />
 
-                {isLastUnits && !outOfStock ?
-                <Box position='absolute' top={650} right={20} zIndex={4}>
-                  <Typography color="vermelhoAlerta" fontWeight="SemiBold" fontFamily="nunitoRegular" fontSize={18} textAlign="center" style={{textTransform: "uppercase"}}>Últimas unidades!</Typography>
-                </Box>
-                : null }
+                {
+                  /*
+                    isLastUnits && !outOfStock ?
+                    <Box position='absolute' top={650} right={20} zIndex={4}>
+                      <Typography color="vermelhoAlerta" fontWeight="SemiBold" fontFamily="nunitoRegular" fontSize={18} textAlign="center" style={{textTransform: "uppercase"}}>Últimas unidades!</Typography>
+                    </Box>
+                    : null 
+                    */
+                }
 
 
                 {/* COLORS SECTION */}
