@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
 import { NavigationContainer } from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
 import { Alert } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import codePush from 'react-native-code-push';
@@ -26,10 +25,6 @@ import { linkingConfig } from './config/linking';
 import { StoreUpdate } from './modules/Update/pages/StoreUpdate';
 import Update from './modules/Update/pages/Update';
 import { AppRouting } from './routes/AppRouting';
-
-Sentry.init({
-  dsn: env.SENTRY_KEY,
-});
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {

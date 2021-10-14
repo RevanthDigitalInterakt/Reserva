@@ -322,13 +322,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   </Box>
                 )}
 
-                {!isCheckout && (
+                {edit && (
                   <Button
                     disabled={loading || !buttonEnabled}
-                    width="240px"
+                    // width="240px"
                     mt={"xs"}
                     onPress={handleSaveAddress}
-                    title={!edit ? "INCLUIR NOVO ENDEREÇO" : "SALVAR ALTERAÇÕES"}
+                    title={"SALVAR ALTERAÇÕES"}
                     variant="primarioEstreitoOutline"
                   />
                 )}
@@ -336,10 +336,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             </Box>
           </KeyboardAvoidingView>
         </ScrollView>
-        {isCheckout && (
+        {!edit && (
           <Button
-            onPress={handlePaymentMethodScreen}
-            title="INCLUIR ENDEREÇO"
+            onPress={!isCheckout ? handleSaveAddress : handlePaymentMethodScreen}
+            title={"INCLUIR ENDEREÇO"}
             variant="primarioEstreito"
             inline
           />
