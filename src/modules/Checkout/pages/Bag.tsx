@@ -25,30 +25,28 @@ import {
 } from 'reserva-ui';
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
+import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { ApplicationState } from '../../../store';
+import {
+  appendCoupons,
+  increaseOrderCount,
+  removeOrders,
+} from '../../../store/ducks/orders/actions';
 import {
   CouponsOrders,
   OrderItems,
   OrderRequest,
   PaymentType,
 } from '../../../store/ducks/orders/types';
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { PriceCustom } from "../components/PriceCustom";
-
-import { CouponBadge } from '../components/CouponBadge';
-
-import {
-  appendCoupons,
-  increaseOrderCount,
-  removeOrders,
-} from '../../../store/ducks/orders/actions';
 import { Product } from '../../../store/ducks/product/types';
-import { Skeleton } from '../components/Skeleton';
-import { useAuth } from '../../../context/AuthContext';
-import { EmptyBag } from '../components/EmptyBag';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
+import { CouponBadge } from '../components/CouponBadge';
+import { EmptyBag } from '../components/EmptyBag';
 import { ModalBook } from '../components/ModalBook';
+import { PriceCustom } from '../components/PriceCustom';
+import { Skeleton } from '../components/Skeleton';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -215,7 +213,6 @@ export const BagScreen = () => {
   };
 
   useEffect(() => {
-    console.log('MUDOUUUUU');
     console.log('optimistQuantities', optimistQuantities);
   }, [optimistQuantities]);
 
