@@ -213,12 +213,9 @@ export const BagScreen = () => {
     }
   };
 
-
-
   useEffect(() => {
+    console.log('MUDOUUUUU')
     console.log('optimistQuantities', optimistQuantities)
-    console.log('orderForm items', orderForm?.items)
-
   }, [optimistQuantities])
 
   return (
@@ -449,19 +446,16 @@ export const BagScreen = () => {
                       price={item.listPrice / 100}
                       priceWithDiscount={item.sellingPrice / 100}
                       count={optimistQuantities[index]}
-                      onClickAddCount={async (count) => {
-                        const firstItemIndex = array.findIndex(x => x.refId == item.refId)
-                        const prevCont = optimistQuantities[firstItemIndex]
-                        await setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), count, ...optimistQuantities.slice(firstItemIndex + 1)])
-                        const { ok } = await addItem(count, item.id, item.seller);
+                      onClickAddCount={async (countUpdated) => {
+                        const itemIndex = array.findIndex(x => x.refId == item.refId)
 
-                        if (!ok)
-                          setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), prevCont, ...optimistQuantities.slice(firstItemIndex + 1)])
-                        //console.log('ok addCount', ok)
+                        const { ok } = await addItem(countUpdated, item.id, item.seller);
 
+                        if (!ok) {
                           const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
-                        if (item.quantity != count) {
                           setNoProduct(erros[0])
+                        } else {
+                          setOptimistQuantities([...optimistQuantities.slice(0, itemIndex), countUpdated, ...optimistQuantities.slice(itemIndex + 1)])
                         }
                       }}
                       onClickSubCount={

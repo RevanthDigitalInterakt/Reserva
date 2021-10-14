@@ -369,10 +369,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         itemId,
         seller
       );
-      console.log('data', data)
+
       // check produt availability
       const index = data.items.findIndex(({ id }: any) => id === itemId);
       const product = data.items[index];
+
       if (product.availability !== "available") {
         const productRemoved = await removeUnavailableProduct(
           product.id,
@@ -385,7 +386,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       // set new order form
       setOrderForm(data);
-      return { ok: true };
+      return { ok: product.quantity < quantity ? false : true };
     } catch (error) {
       console.log("error", error.response.data);
     }
