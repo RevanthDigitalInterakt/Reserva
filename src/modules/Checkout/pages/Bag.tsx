@@ -27,7 +27,6 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
-import { orderQuery } from '../../../graphql/orders/ordersQuery';
 import { ApplicationState } from '../../../store';
 import {
   appendCoupons,
@@ -74,11 +73,11 @@ export const BagScreen = () => {
   const [totalBag, setTotalBag] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
-  const [loadingShippingBar, setLoadingShippingBar] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<
     { id: string; index: number; seller: string; quantity: number } | undefined
   >();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
+  const [loadingShippingBar, setLoadingShippingBar] = useState(false);
   const [totalDelivery, setTotalDelivery] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
@@ -217,7 +216,6 @@ export const BagScreen = () => {
 
   useEffect(() => {
     console.log('optimistQuantities', optimistQuantities);
-    console.log('orderForm items', orderForm?.items);
     setLoadingShippingBar(true);
   }, [optimistQuantities]);
 
@@ -441,30 +439,30 @@ export const BagScreen = () => {
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box paddingBottom="nano">
-                      <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                        color="verdeSucesso"
-                      >
-                        Desconto de 1° compra aplicado neste produto!
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box paddingBottom="nano">
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                          color="verdeSucesso"
+                        >
+                          Desconto de 1° compra aplicado neste produto!
+                        </Typography>
+                      </Box>
+                    )}
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box position="absolute" zIndex={5} top={84} right={21}>
-                      <Typography
-                        color="verdeSucesso"
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                      >
-                        -R$ 50
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box position="absolute" zIndex={5} top={84} right={21}>
+                        <Typography
+                          color="verdeSucesso"
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                        >
+                          -R$ 50
+                        </Typography>
+                      </Box>
+                    )}
                   <ProductHorizontalListCard
                     isBag
                     discountApi={
@@ -483,7 +481,7 @@ export const BagScreen = () => {
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
                       array.filter((x) => x.uniqueId == item.uniqueId).length >
-                        1
+                      1
                     }
                     currency="R$"
                     discountTag={getPercent(item.sellingPrice, item.listPrice)}
@@ -495,32 +493,28 @@ export const BagScreen = () => {
                     price={item.listPrice / 100}
                     priceWithDiscount={item.sellingPrice / 100}
                     count={optimistQuantities[index]}
-                    onClickAddCount={async (count) => {
-                      const firstItemIndex = array.findIndex(
-                        (x) => x.productId == item.productId
+                    onClickAddCount={async (countUpdated) => {
+                      const itemIndex = array.findIndex(
+                        (x) => x.refId == item.refId
                       );
-                      console.log(firstItemIndex);
-                      const prevCont = optimistQuantities[firstItemIndex];
-                      await setOptimistQuantities([
-                        ...optimistQuantities.slice(0, firstItemIndex),
-                        count,
-                        ...optimistQuantities.slice(firstItemIndex + 1),
-                      ]);
-                      const { ok } = await addItem(count, item.id, item.seller);
 
-                      if (!ok)
-                        setOptimistQuantities([
-                          ...optimistQuantities.slice(0, firstItemIndex),
-                          prevCont,
-                          ...optimistQuantities.slice(firstItemIndex + 1),
-                        ]);
-                      // console.log('ok addCount', ok)
-
-                      const erros = errorsMessages?.filter((erro) =>
-                        erro.includes(item.name)
+                      const { ok } = await addItem(
+                        countUpdated,
+                        item.id,
+                        item.seller
                       );
-                      if (item.quantity != count) {
+
+                      if (!ok) {
+                        const erros = errorsMessages?.filter((erro) =>
+                          erro.includes(item.name)
+                        );
                         setNoProduct(erros[0]);
+                      } else {
+                        setOptimistQuantities([
+                          ...optimistQuantities.slice(0, itemIndex),
+                          countUpdated,
+                          ...optimistQuantities.slice(itemIndex + 1),
+                        ]);
                       }
                     }}
                     onClickSubCount={async (count) => {
