@@ -83,7 +83,6 @@
     "styled-components": "^5.2.3",
     "styled-system": "5.1.5",
     "typesafe-actions": "^5.1.0",
-    "vtex.search-graphql": "vtex-apps/search-graphql",
     "yarn": "^1.22.10",
     "yup": "^0.32.9"
   },
