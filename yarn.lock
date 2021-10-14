@@ -8963,10 +8963,6 @@ vm2@^3.9.3:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/vm2/-/vm2-3.9.3.tgz#29917f6cc081cc43a3f580c26c5b553fd3c91f40"
   integrity sha1-KZF/bMCBzEOj9YDCbFtVP9PJH0A=
 
-vtex.search-graphql@vtex-apps/search-graphql:
-  version "0.0.0"
-  resolved "https://codeload.github.com/vtex-apps/search-graphql/tar.gz/fd496e8f16b7d0e4ea371390b2d012be047f0e08"
-
 w3c-hr-time@^1.0.2:
   version "1.0.2"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/w3c-hr-time/-/w3c-hr-time-1.0.2.tgz#0a89cdf5cc15822df9c360543676963e0cc308cd"
