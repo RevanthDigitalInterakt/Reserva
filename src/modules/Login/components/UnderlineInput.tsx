@@ -31,7 +31,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
 }) => {
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
-  const [revelPassword, setRevelPassword] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
   return (
     <Box width={width}>
       <Box
@@ -43,7 +43,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
       >
         <Box flexGrow={4} >
           <TextInput
-            secureTextEntry={isSecureText && revelPassword}
+            secureTextEntry={isSecureText && hidePassword}
             placeholder={placeholder}
             onChangeText={(value) => onChangeText(value)}
             keyboardType={keyboardType}
@@ -62,11 +62,11 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
           <Box justifyContent="center" mr="xxxs">
             <Button
               onPress={() => {
-                setRevelPassword(!revelPassword);
+                setHidePassword(!hidePassword);
               }}
             >
               <Icon
-                name={!revelPassword ? 'EyeOpen' : 'EyeOff'}
+                name={hidePassword ? 'EyeOff' : 'EyeOpen'}
                 size={iconSize}
               />
             </Button>

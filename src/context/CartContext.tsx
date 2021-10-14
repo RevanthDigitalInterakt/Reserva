@@ -27,7 +27,9 @@ import {
   SendUserEmail,
   ConvertZipCode,
   Tracking,
-  PickupPoint
+  PickupPoint,
+  Orders,
+  OrderDetail
 } from "../services/vtexService";
 
 interface ClientPreferencesData {
@@ -139,6 +141,8 @@ interface LogisticsInfo {
   selectedSla: string;
   selectedDeliveryChannel: string;
   slas: Slas[];
+  shippingEstimateDate: string;
+  deliveryChannel: string;
 }
 
 interface BusinessHours {
@@ -280,40 +284,159 @@ interface PriceDefinition {
   sellingPrices: { value: number; quantity: number }[];
 }
 
-export interface ITracking {
-  packageAttachment: {
-    packages: {
-      items: {
-        itemIndex: number;
-        quantity: number;
-        price: number;
-        description: number;
-        unitMultiplier: number;
-      }[];
-      courier: string;
-      invoiceNumber: string;
-      invoiceValue: number;
-      invoiceUrl: string;
-      issuanceDate: string;
-      trackingNumber: string;
-      invoiceKey: string;
-      trackingUrl: string;
-      embeddedInvoice: string;
-      type: string;
-      courierStatus: {
-        status: string;
-        finished: boolean;
-        deliveredDate: string;
-        data: {
-          lastChange: string;
-          city: null;
-          state: null;
-          description: string;
-          createDate: string;
-        }[];
-      }
+export interface PackageAttachment {
+  packages: {
+    items: {
+      itemIndex: number;
+      quantity: number;
+      price: number;
+      description: number;
+      unitMultiplier: number;
     }[];
-  }
+    courier: string;
+    invoiceNumber: string;
+    invoiceValue: number;
+    invoiceUrl: string;
+    issuanceDate: string;
+    trackingNumber: string;
+    invoiceKey: string;
+    trackingUrl: string;
+    embeddedInvoice: string;
+    type: string;
+    courierStatus: {
+      status: string;
+      finished: boolean;
+      deliveredDate: string;
+      data: {
+        lastChange: string;
+        city: null;
+        state: null;
+        description: string;
+        createDate: string;
+      }[];
+    }
+  }[];
+}
+
+export interface IOrder {
+  orderId: string;
+  creationDate: string;
+  clientName: string;
+  items: null;
+  totalValue: number;
+  paymentNames: string;
+  status: string;
+  statusDescription: string;
+  marketPlaceOrderId: null;
+  sequence: string;
+  salesChannel: string;
+  affiliateId: string;
+  origin: string;
+  workflowInErrorState: boolean;
+  workflowInRetry: boolean;
+  lastMessageUnread: string;
+  ShippingEstimatedDate: null;
+  ShippingEstimatedDateMax: null;
+  ShippingEstimatedDateMin: null;
+  orderIsComplete: boolean,
+  listId: null;
+  listType: null;
+  authorizedDate: null;
+  callCenterOperatorName: null;
+  totalItems: number;
+  currencyCode: string;
+  hostname: string;
+  invoiceOutput: null;
+  invoiceInput: null;
+  lastChange: string;
+  isAllDelivered: boolean;
+  isAnyDelivered: boolean;
+  giftCardProviders: null;
+  orderFormId: string;
+  paymentApprovedDate: null;
+  readyForHandlingDate: null;
+  deliveryDates: null
+}
+
+export interface IOrderId {
+  orderId: string;
+  sequence: string;
+  marketplaceOrderId: string;
+  marketplaceServicesEndpoint: string;
+  sellerOrderId: string;
+  origin: string;
+  affiliateId: string;
+  salesChannel: string;
+  merchantName: null;
+  status: string;
+  statusDescription: string;
+  value: number;
+  creationDate: string;
+  lastChange: string;
+  orderGroup: string;
+  totals: {
+    id: string;
+    name: string;
+    value: number;
+  }[]
+  items: Item[];
+  marketplaceItems: any[];
+  clientProfileData: ClientProfileData;
+  giftRegistryData: null;
+  marketingData: MarketingData;
+  ratesAndBenefitsData: {
+    id: string;
+    rateAndBenefitsIdentifiers: any[]
+  },
+  shippingData: ShippingData;
+  paymentData: any;
+  packageAttachment: PackageAttachment;
+  sellers: Seller[];
+  callCenterOperatorData: null;
+  followUpEmail: string;
+  lastMessage: null;
+  hostname: string;
+  invoiceData: {
+    address: null;
+    userPaymentInfo: null;
+  },
+  changesAttachment: null;
+  openTextField: null;
+  roundingError: number;
+  orderFormId: string;
+  commercialConditionData: null;
+  isCompleted: boolean;
+  customData: string;
+  storePreferencesData: StorePreferencesData;
+  allowCancellation: boolean;
+  allowEdition: boolean;
+  isCheckedIn: boolean;
+  marketplace: {
+    baseURL: boolean;
+    isCertified: null;
+    name: boolean;
+  },
+  authorizedDate: boolean;
+  invoicedDate: boolean;
+  cancelReason: null;
+  itemMetadata: {
+    Items: {
+      Id: string;
+      Seller: string;
+      Name: string;
+      SkuName: string;
+      ProductId: string;
+      RefId: string;
+      Ean: string;
+      ImageUrl: string;
+      DetailUrl: string;
+      AssemblyOptions: any[];
+    }[]
+  },
+  subscriptionData: null;
+  taxData: null;
+  checkedInPickupPointId: null;
+  cancellationData: null;
 }
 interface CartContextProps {
   orderForm: OrderForm | undefined;
@@ -339,8 +462,10 @@ interface CartContextProps {
   removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   sendUserEmail: (email: string) => Promise<boolean | undefined>;
   convertZipCode: (postalCode: string) => Promise<Address | undefined>;
-  tracking: (cookie: string, order: string) => Promise<ITracking | undefined>;
+  tracking: (cookie: string, order: string) => Promise<PackageAttachment | undefined>;
   pickupPoint: (longitude: string, latitude: string) => Promise<items | undefined>;
+  orders: (page: string) => Promise<IOrder[] | undefined>;
+  orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -617,6 +742,24 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
+  const orders = async (page: string) => {
+    try {
+      const { data } = await Orders(page);
+      return data || [];
+    } catch (error) {
+      console.log('error', error.response.data)
+    }
+  }
+  const orderDetail = async (orderId: string) => {
+    try {
+      const { data } = await OrderDetail(orderId);
+      return data || [];
+    } catch (error) {
+      console.log('error', error.response.data)
+    }
+  }
+
+
   return (
     <CartContext.Provider
       value={{
@@ -637,7 +780,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         sendUserEmail,
         convertZipCode,
         tracking,
-        pickupPoint
+        pickupPoint,
+        orders,
+        orderDetail
       }}
     >
       {children}
@@ -672,7 +817,9 @@ export const useCart = () => {
     sendUserEmail,
     convertZipCode,
     tracking,
-    pickupPoint
+    pickupPoint,
+    orders,
+    orderDetail
   } = cartContext;
   return {
     orderForm,
@@ -692,6 +839,8 @@ export const useCart = () => {
     sendUserEmail,
     convertZipCode,
     tracking,
-    pickupPoint
+    pickupPoint,
+    orders,
+    orderDetail
   };
 };

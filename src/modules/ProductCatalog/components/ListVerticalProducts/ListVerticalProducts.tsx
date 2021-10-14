@@ -28,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
 }
 
@@ -154,6 +154,7 @@ export const ListVerticalProducts = ({
         sku: x.sku,
       })),
     ]);
+    await populateListWithFavorite();
   };
 
   const populateListWithFavorite = async () => {
@@ -239,9 +240,16 @@ export const ListVerticalProducts = ({
       <>
         <FlatList
           horizontal={horizontal}
-          data={productList}
+          data={products}
           keyExtractor={(item, index) => `${item.productId} ${index}`}
           numColumns={horizontal ? 1 : 2}
+          ListEmptyComponent={() => {
+            return <Box height='100%'>
+              <Typography textAlign='center' fontFamily='nunitoRegular' fontSize={16}>
+                Produtos não encontrados
+              </Typography>
+            </Box>
+          }}
           onEndReached={async () => {
             setIsLoadingMore(true);
             if (totalProducts > products.length)
