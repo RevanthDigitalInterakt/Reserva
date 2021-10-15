@@ -124,7 +124,7 @@ export const BagScreen = () => {
         clientProfileData.email &&
         clientProfileData.firstName;
 
-      if (email && !hasCustomer) {
+      if (email) {
         setCustomer(email);
       }
     }
