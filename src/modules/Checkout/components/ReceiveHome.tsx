@@ -54,13 +54,10 @@ const ReceiveHome = ({
                             neighborhood,
                             addressId,
                         } = item;
-                        if (id === selectedAddress.id) {
-                            selected = true
-                        }
 
                         if (cookie != null) {
                             if (selectedAddress) {
-                                selected = id === selectedAddress.id && item;
+                                selected = addressId === selectedAddress.addressId;
                             }
                         } else {
                             if (selectedAddress) {

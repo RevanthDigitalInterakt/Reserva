@@ -50,12 +50,6 @@ const Delivery: React.FC<{}> = () => {
     }, [data])
   );
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     updateAddress();
-  //   }, [])
-  // );
-
   //permissão para acessar o mapa
   const requestMap = async () => {
     try {
@@ -102,21 +96,22 @@ const Delivery: React.FC<{}> = () => {
   const selectShippingAddress = async (item: any) => {
     if (orderForm) {
       setLoading(true)
+
       // save selected logistc info
       const logisticInfo = orderForm.shippingData.logisticsInfo.map(
         ({ itemIndex }) => {
           return {
-            addressId: item.id,
+            addressId: item.addressId,
             itemIndex,
             selectedDeliveryChannel: "delivery",
             selectedSla: "Padrão",
           };
         }
       );
+
       const data = await addShippingOrPickupInfo(logisticInfo, [{ ...item, addressType: "residential" }],);
       setLoading(false)
     }
-
   }
 
   const onAddressChosen = (item: any) => {
@@ -221,6 +216,10 @@ const Delivery: React.FC<{}> = () => {
     }
     setTypeOfDelivery(typeOfDeliveries);
 
+    if (typeOfDeliveries) {
+      setSelectedDelivery(typeOfDeliveries[0])
+    }
+
   }, [orderForm])
 
   useEffect(() => {
@@ -234,16 +233,23 @@ const Delivery: React.FC<{}> = () => {
       orderForm?.shippingData &&
       orderForm?.shippingData.selectedAddresses[0]
 
-    if (cookie != null) {
-      const { addresses } = profile;
-      setAddresses(addresses);
-    } else {
-      if (availableAddressesOrderForm &&
-        availableAddressesOrderForm?.length > 0) {
-        setAddresses(availableAddressesOrderForm);
-      }
+    // if (cookie != null) {
+    //   const { addresses } = profile;
+    //   const newAddresses = addresses?.map((item: any) => {
+    //     const addressId = item.id;
+    //     return ({ ...item, addressId })
+    //   })
+    //   setAddresses(newAddresses);
+    // } else {
+    //   if (availableAddressesOrderForm &&
+    //     availableAddressesOrderForm?.length > 0) {
+    //     setAddresses(availableAddressesOrderForm);
+    //   }
+    // }
+    if (availableAddressesOrderForm &&
+      availableAddressesOrderForm?.length > 0) {
+      setAddresses(availableAddressesOrderForm);
     }
-
     setSelectedAddress(selectedAddress)
   }, [orderForm, profile]);
 
