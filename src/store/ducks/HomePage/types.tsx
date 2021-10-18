@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export interface HomeQuery {
   fileName: string;
@@ -7,6 +7,7 @@ export interface HomeQuery {
   height: number;
   size: number;
   url: string;
+  reference: string;
 }
 
 export interface ConfigCollection {
@@ -17,13 +18,13 @@ export interface ConfigCollection {
 }
 
 export const homeQuery = gql`
-  query homePageCollection($limit:Int!){
-    homePageCollection{
-      items{
-        mediasCollection(limit:$limit){
-          items{
+  query homePageCollection($limit: Int!) {
+    homePageCollection {
+      items {
+        mediasCollection(limit: $limit) {
+          items {
             reference
-            image{
+            image {
               fileName
               title
               width
@@ -40,7 +41,7 @@ export const homeQuery = gql`
 
 export const bannerQuery = gql`
   query BannerCategoryCollection($category: String) {
-    bannerCategoryCollection(where:{item: {reference: $category}}) {
+    bannerCategoryCollection(where: { item: { reference: $category } }) {
       items {
         name
         item {
@@ -51,10 +52,10 @@ export const bannerQuery = gql`
       }
     }
   }
-`
+`;
 export const bannerDefaultQuery = gql`
   query BannerCategoryCollection {
-    bannerCategoryCollection(where:{item: {reference: "default"}}) {
+    bannerCategoryCollection(where: { item: { reference: "default" } }) {
       items {
         name
         item {
@@ -65,29 +66,29 @@ export const bannerDefaultQuery = gql`
       }
     }
   }
-`
+`;
 export const configCollection = gql`
-query ConfigCollection{
-  configCollection(where:{name: "MainConfig"}) {
-    items {
-      name
-      online
-      searchCollection
-      searchMedia {
-        title
-       	secionMediaCollection(limit: 10) {
-        	items {
-            reference
-            image {
-              url
+  query ConfigCollection {
+    configCollection(where: { name: "MainConfig" }) {
+      items {
+        name
+        online
+        searchCollection
+        searchMedia {
+          title
+          secionMediaCollection(limit: 10) {
+            items {
+              reference
+              image {
+                url
+              }
             }
           }
-      	}
+        }
       }
     }
   }
-}
-`
+`;
 // query {
 //   # add your query
 //   configCollection(where:{name: "MainConfig"}) {
