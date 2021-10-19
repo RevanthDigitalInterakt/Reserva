@@ -1,14 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView, Linking } from "react-native";
-import { useDispatch } from "react-redux";
 import { Typography, Box, ExpansePanel, Divider } from "reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const OrdersAndDeliveries = () => {
-    const dispatch = useDispatch();
-
     useEffect(() => { }, []);
 
     const data = [
@@ -113,7 +110,7 @@ export const OrdersAndDeliveries = () => {
                     <Box mb={"nano"} alignSelf={"flex-start"}>
                         <Typography variant={"tituloSessoes"}>
                             Pedidos e Entregas
-                         </Typography>
+                        </Typography>
                     </Box>
 
                     {data.map((item, key) => {

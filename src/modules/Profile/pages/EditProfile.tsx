@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,

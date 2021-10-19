@@ -3,7 +3,6 @@ import * as React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -14,7 +13,6 @@ import {
   Icon,
   Image,
 } from "reserva-ui";
-import { ApplicationState } from "../../../store";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
@@ -29,11 +27,10 @@ type Props = StackScreenProps<RootStackParamList, "RegisterSuccess">;
 
 export const RegisterSuccess: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const { comeFrom } = route.params;
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <SafeAreaView
