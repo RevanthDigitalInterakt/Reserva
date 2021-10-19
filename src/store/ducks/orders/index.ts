@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+
 import { Value } from 'react-native-reanimated'
 import { Reducer } from 'redux'
 import { order } from 'styled-system'
@@ -12,7 +12,6 @@ const INITIAL_STATE: OrdersState = {
   loading: false,
 }
 const reducer: Reducer<OrdersState> = (state = INITIAL_STATE, action) => {
-  //const dispatch = useDispatch()
   switch (action.type) {
     case OrdersTypes.ORDER_REQUEST:
       return { ...state, loading: true }

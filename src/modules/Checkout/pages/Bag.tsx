@@ -8,7 +8,6 @@ import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
   Box,

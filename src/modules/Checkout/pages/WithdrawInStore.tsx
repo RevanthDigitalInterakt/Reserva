@@ -13,18 +13,10 @@ import {
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
-import { ApplicationState } from "../../../store";
-import { useDispatch, useSelector } from "react-redux";
-import { loadLocalitiesRequest, loadCountyResquest } from "../../../store/ducks/localities/actions";
 import { useFocusEffect } from '@react-navigation/native';
 
 export const WithdrawInStore = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  const {
-    localities: { dataState: states, dataCounty, loading, error },
-  } = useSelector((state: ApplicationState) => state);
   const [openState, setOpenState] = useState(false);
   const [opencity, setOpenCity] = useState(false);
   const [selectedValue, setSelectedValue] = useState('java');
@@ -32,10 +24,6 @@ export const WithdrawInStore = () => {
   const [cep, setCep] = useState('');
   const [city, setCity] = useState('Cidade');
   const hairline = Platform.OS == 'android' ? 'hairline' : null;
-
-  useEffect(() => {
-    dispatch(loadLocalitiesRequest());
-  }, []);
 
   // limpar o state e city quando focar na tela
   useFocusEffect(
@@ -61,7 +49,7 @@ export const WithdrawInStore = () => {
 
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
-      <TopBarBackButton loading={loading} showShadow />
+      <TopBarBackButton showShadow />
       <ScrollView>
         <Box paddingX={'xxxs'} paddingY={'sm'}>
           <Box marginBottom={'xxs'}>
