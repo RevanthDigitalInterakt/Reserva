@@ -70,9 +70,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
             };
           }
         );
-
-        await addShippingOrPickupInfo(logisticInfo, [selectedAddress]);
-
+        const addressId = selectedAddress.id
+        delete selectedAddress.id
+        await addShippingOrPickupInfo(logisticInfo, [{ ...selectedAddress, addressId }]);
       }
       setLoading(false);
     }
