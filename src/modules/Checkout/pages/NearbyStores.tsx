@@ -8,28 +8,16 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Box, Image, Button, Picker } from 'reserva-ui';
 import { images } from '../../../assets';
-import { load } from '../../../store/ducks/nearbyStores/actions';
-import { nearbyStoresStateSelector } from '../../../store/ducks/nearbyStores';
-
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { FlatList } from 'react-native-gesture-handler';
-import { NearbyStores as NearbyStoresProps } from '../../../store/ducks/nearbyStores/types';
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-
 type Props = StackScreenProps<RootStackParamList, "NearbyStores">;
+
 export const NearbyStores = ({ route }: Props) => {
   const { UF } = route?.params;
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const { data } = useSelector(nearbyStoresStateSelector);
-  const { stores } = data;
-  useEffect(() => {
-    dispatch(load({ UF: UF }));
-  }, []);
 
   return (
     <SafeAreaView
@@ -46,7 +34,7 @@ export const NearbyStores = ({ route }: Props) => {
           </Typography>
         </Box>
 
-        <Box paddingX={'xxxs'} bg="divider" flex={1}>
+        {/* <Box paddingX={'xxxs'} bg="divider" flex={1}>
           <FlatList
             data={stores}
             renderItem={({ item }: { item: NearbyStoresProps }) => {
@@ -61,7 +49,7 @@ export const NearbyStores = ({ route }: Props) => {
               );
             }}
           />
-        </Box>
+        </Box> */}
       </Box>
       {/* <Picker
         onAndroidBackButtonPress={() => setOpenState(false)}

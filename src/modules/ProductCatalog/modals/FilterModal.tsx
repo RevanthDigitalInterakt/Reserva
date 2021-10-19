@@ -41,7 +41,6 @@ export interface FilterModalProps {
   onAndroidBackButtonPress?: () => void;
   setFilterList: Function;
   filterList: string[];
-  dispatch: Function;
   colors: string[];
   sizes: string[];
   priceRange: any[];
@@ -106,7 +105,6 @@ export const FilterModal = ({
   onAndroidBackButtonPress,
   setFilterList,
   filterList,
-  dispatch,
   categoryId,
   colors,
   sizes,
