@@ -70,8 +70,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
             };
           }
         );
-        const addressId = selectedAddress.id
-        delete selectedAddress.id
+        let addressId
+        if (selectedAddress.id) {
+          addressId = selectedAddress.id
+          delete selectedAddress.id
+        } else {
+          addressId = selectedAddress.addressId
+        }
         await addShippingOrPickupInfo(logisticInfo, [{ ...selectedAddress, addressId }]);
       }
       setLoading(false);
@@ -111,7 +116,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     //   setAddresses(addresses);
     // }
 
-    if (cookie) {
+    if (cookie != null) {
       const { addresses } = profile;
       setAddresses(addresses);
     } else {
