@@ -21,7 +21,7 @@ import { useAuth } from '../../../context/AuthContext';
 import {
   categoriesQuery,
   CategoryQuery,
-} from '../../../store/ducks/categories/types';
+} from '../../../graphql/categories/categoriesQuery';
 import { profileQuery } from '../../../store/ducks/profile/types';
 import { TopBarMenu } from '../components/TopBarMenu';
 
