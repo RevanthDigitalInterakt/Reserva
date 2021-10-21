@@ -7,7 +7,7 @@ import { Dimensions, Platform } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image, Typography, Button, Icon } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
-import { homeQuery, HomeQuery } from '../../../store/ducks/HomePage/types';
+import { homeQuery, HomeQuery } from '../../../graphql/homePage/HomeQuery';
 import { profileQuery } from '../../../store/ducks/profile/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { View } from 'react-native-animatable';
