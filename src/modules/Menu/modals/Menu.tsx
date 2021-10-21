@@ -18,7 +18,6 @@ import {
 } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
-import { ApplicationState } from '../../../store';
 import {
   categoriesQuery,
   CategoryQuery,
