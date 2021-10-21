@@ -10,7 +10,7 @@ import { RootStackParamList } from "../../../routes/StackNavigator";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { deleteAddress } from "../../../graphql/address/addressMutations";
 import { useCart } from "../../../context/CartContext";
-import { profileQuery } from "../../../store/ducks/profile/types";
+import { profileQuery } from "../../../graphql/profile/profileQuery";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import { useAuth } from "../../../context/AuthContext";
 

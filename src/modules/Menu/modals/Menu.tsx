@@ -22,7 +22,7 @@ import {
   categoriesQuery,
   CategoryQuery,
 } from '../../../graphql/categories/categoriesQuery';
-import { profileQuery } from '../../../store/ducks/profile/types';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarMenu } from '../components/TopBarMenu';
 
 interface IBreadCrumbs {

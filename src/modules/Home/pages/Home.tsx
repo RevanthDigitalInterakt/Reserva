@@ -8,7 +8,7 @@ import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image, Typography, Button, Icon } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import { homeQuery, HomeQuery } from '../../../graphql/homePage/HomeQuery';
-import { profileQuery } from '../../../store/ducks/profile/types';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { View } from 'react-native-animatable';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';

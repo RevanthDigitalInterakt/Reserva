@@ -12,7 +12,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
   profileMutationPassword,
   profileQuery,
-} from "../../../store/ducks/profile/types";
+} from "../../../graphql/profile/profileQuery";
 import { FormikTextInput } from "../../../shared/components/FormikTextInput";
 import { redefinePasswordMutation } from "../../../graphql/profile/redefinePassword";
 

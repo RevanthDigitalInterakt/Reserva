@@ -19,13 +19,11 @@ import {
 import { addHours, format, parseISO } from "date-fns";
 import { useQuery, useMutation } from "@apollo/client";
 import {
-  Profile,
-  ProfileState,
   profileQuery,
   ProfileQuery,
   profileMutation,
   ProfileCustomFieldsInput,
-} from "../../../store/ducks/profile/types";
+} from "../../../graphql/profile/profileQuery";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { subscribeNewsLetter } from "../../../graphql/profile/newsLetter";

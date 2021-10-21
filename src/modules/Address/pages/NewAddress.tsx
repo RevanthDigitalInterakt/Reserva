@@ -16,7 +16,7 @@ import {
   updateAddress,
 } from "../../../graphql/address/addressMutations";
 import { useQuery } from "@apollo/client";
-import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
+import { profileQuery, ProfileVars } from "../../../graphql/profile/profileQuery";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { CepVerify } from "../../../services/vtexService";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";

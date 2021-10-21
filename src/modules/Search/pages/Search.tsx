@@ -30,9 +30,9 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
 
   const [waiting, setWaiting] = React.useState(false);
 
-  const [products, setProducts] = useState<Product[]>();
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>();
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>();
+  const [products, setProducts] = useState<any[]>();
+  const [relatedProducts, setRelatedProducts] = useState<any[]>();
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>();
   const [suggestions, setSuggestions] = useState<SearchSuggestionsVars[]>([]);
   const [mostSearched, setMostSearched] = useState<TopSearches[]>([]);
   const [productNews, setProductNews] = useState<ConfigCollection[]>([]);

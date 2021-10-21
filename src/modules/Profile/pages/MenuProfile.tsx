@@ -13,7 +13,7 @@ import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import ItemList from "../Components/ItemList";
 import { withAuthentication } from "../HOC/withAuthentication";
 import { useQuery } from "@apollo/client";
-import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
+import { profileQuery, ProfileVars } from "../../../graphql/profile/profileQuery";
 import { useState, useEffect } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
