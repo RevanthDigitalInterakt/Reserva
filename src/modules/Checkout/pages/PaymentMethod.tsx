@@ -4,7 +4,6 @@ import { Typography, Box, Button, Icon, Divider, Checkbox, theme } from 'reserva
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
 import { PriceCustom } from '../components/PriceCustom';
-import { ApplicationState } from '../../../store';
 export const PaymentMethodScreen = () => {
   const navigation = useNavigation();
   const [cashBack, setCashBack] = useState(1000)

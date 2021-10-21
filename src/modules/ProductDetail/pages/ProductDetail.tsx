@@ -22,7 +22,6 @@ import Share from 'react-native-share';
 
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { ApplicationState } from '../../../store';
 import { useCart } from '../../../context/CartContext';
 import { QueryResult, useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS, GET_SHIPPING, SUBSCRIBE_NEWSLETTER } from '../../../graphql/product/productQuery';

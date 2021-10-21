@@ -41,7 +41,6 @@ import Update from '../modules/Update/pages/Update';
 import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
 import { WishList } from '../modules/WishList/pages/WishList';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
-import { Wish } from '../store/ducks/wishlist/types';
 
 import {
   AddressFlow,
@@ -80,7 +79,7 @@ export type RootStackParamList = {
     orderId?: string;
   };
   ForgotAccessCode: { email: string };
-  ShowListByCategory: { categoryName: string; products: Wish[] };
+  ShowListByCategory: { categoryName: string; products: any[] };
   IdentifyEmail: {};
   AccessCode: {
     email: string;
