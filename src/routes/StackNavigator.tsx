@@ -161,7 +161,6 @@ export const MainStack = createStackNavigator();
 
 export const MainStackScreen = () => (
   <MainStack.Navigator
-    // initialRouteName="IdentifyEmail"
     detachInactiveScreens
     screenOptions={{ headerShown: false }}
   >
