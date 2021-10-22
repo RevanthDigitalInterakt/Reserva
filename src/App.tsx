@@ -8,20 +8,20 @@ import codePush from 'react-native-code-push';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 
-import { oneSignalConfig } from './config/pushNotification';
-import { apolloClient } from './services/apolloClient';
+import { env } from './config/env';
+import { linkingConfig } from './config/linking';
 import AuthContextProvider from './context/AuthContext';
 import CartContextProvider from './context/CartContext';
-import { env } from './config/env';
 import InitialScreen from './InitialScreen';
 
 import './config/ReactotronConfig';
 import 'react-native-gesture-handler';
 
-import { linkingConfig } from './config/linking';
+import { oneSignalConfig } from './config/pushNotification';
 import { StoreUpdate } from './modules/Update/pages/StoreUpdate';
 import Update from './modules/Update/pages/Update';
 import { AppRouting } from './routes/AppRouting';
+import { apolloClient } from './services/apolloClient';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
