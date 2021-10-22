@@ -7,7 +7,6 @@ import { Linking, ScrollView, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -259,7 +258,6 @@ export const Menu: React.FC<{}> = () => {
     }
   }, [dataProfile]);
 
-  const { authentication } = useSelector((state: ApplicationState) => state);
 
   const openMenuItem = (index: number) => {
     setCategories(

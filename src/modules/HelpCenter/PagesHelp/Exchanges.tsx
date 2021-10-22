@@ -1,13 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
 import { Typography, Box, ExpansePanel, Divider } from "reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const Exchanges = () => {
-  const dispatch = useDispatch();
 
   useEffect(() => { }, []);
 

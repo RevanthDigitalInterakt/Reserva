@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Linking, SafeAreaView, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useDispatch } from "react-redux";
+
 import { Typography, Box, Icon, Divider } from "reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -18,7 +18,6 @@ type ItemContactProps = {
 
 export const ContactUs: React.FC<{}> = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const onClickWhatsappButton = () => {
     Linking.openURL("https://whts.co/reserva");

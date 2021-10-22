@@ -8,7 +8,6 @@ import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
   Box,
@@ -27,19 +26,6 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
-import { ApplicationState } from '../../../store';
-import {
-  appendCoupons,
-  increaseOrderCount,
-  removeOrders,
-} from '../../../store/ducks/orders/actions';
-import {
-  CouponsOrders,
-  OrderItems,
-  OrderRequest,
-  PaymentType,
-} from '../../../store/ducks/orders/types';
-import { Product } from '../../../store/ducks/product/types';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';

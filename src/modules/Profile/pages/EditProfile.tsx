@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -18,8 +17,6 @@ import {
   Checkbox,
 } from "reserva-ui";
 import { addHours, format, parseISO } from "date-fns";
-import { ApplicationState } from "../../../store";
-import { profileLoad } from "../../../store/ducks/profile/actions";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   Profile,

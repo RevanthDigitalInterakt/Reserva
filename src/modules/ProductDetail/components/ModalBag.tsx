@@ -21,10 +21,6 @@ import DeviceInfo, { hasNotch } from "react-native-device-info";
 
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { ApplicationState } from "../../../store";
-import { Product } from "../../../store/ducks/product/types";
-import { OrderItems } from "../../../store/ducks/orders/types";
 
 const haveNotch = DeviceInfo.hasNotch();
 
@@ -36,20 +32,8 @@ export interface ModalBagProps {
 export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
   const [animationFinished, setAnimationFinished] = useState(false);
   const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
-  const [products, setProducts] = React.useState<[Product & OrderItems]>();
-  const { orders } = useSelector((state: ApplicationState) => state);
-
+  const [products, setProducts] = React.useState<any>([]);
   const [count, setCount] = useState(1);
-  
-  useEffect(() => {
-    setProducts(orders.orders);
-    setCount(orders.orders.reduce(
-      (acc, currentValue) => {
-        return acc + (currentValue.quantity ? currentValue.quantity : 0)
-      }, 0
-    ));
-  }, [orders])
-
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -57,89 +41,6 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
       animation?.play();
     }
   }, [animation, isVisible]);
-
-  const bagProducts: ProductHorizontalListCardProps[] = [
-    {
-      currency: "R$",
-      discountTag: 18,
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "Camiseta Básica Reserva",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      count: count,
-      onClickAddCount: (count) => {
-        setCount(count);
-      },
-      onClickSubCount: (count) => {
-        setCount(count);
-      },
-      imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "Camiseta Básica Reserva",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      count: count,
-      onClickAddCount: (count) => {
-        setCount(count);
-      },
-      onClickSubCount: (count) => {
-        setCount(count);
-      },
-      imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "Camiseta Básica Reserva",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      count: count,
-      onClickAddCount: (count) => {
-        setCount(count);
-      },
-      onClickSubCount: (count) => {
-        setCount(count);
-      },
-      imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
-    },
-    {
-      currency: "R$",
-      discountTag: 18,
-      itemColor: "Branca",
-      ItemSize: "41",
-      productTitle: "Camiseta Básica Reserva",
-      installmentsNumber: 3,
-      installmentsPrice: 99.9,
-      price: 345.0,
-      priceWithDiscount: 297.0,
-      count: count,
-      onClickAddCount: (count) => {
-        setCount(count);
-      },
-      onClickSubCount: (count) => {
-        setCount(count);
-      },
-      imageSource:
-        "https://media.discordapp.net/attachments/488087473348542486/834798298182189087/unknown.png",
-    },
-  ];
 
   return (
     <Box>
@@ -168,7 +69,7 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
             loop={false}
             source={animations.bag}
           />
-        // ) : (
+          // ) : (
           // <Box flex={1} alignSelf={animationFinished ? "center" : "flex-end"}>
           //   <Box
           //     width={321}

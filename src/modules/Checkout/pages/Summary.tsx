@@ -21,24 +21,9 @@ import LottieView from "lottie-react-native";
 import AnimatedLottieView from "lottie-react-native";
 import ReactNativeModal from "react-native-modal";
 
-import {
-  CouponsOrders,
-  OrderItems,
-  OrderRequest,
-  PaymentType,
-} from '../../../store/ducks/orders/types'
-import { ApplicationState } from '../../../store'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  appendCoupons,
-  increaseOrderCount,
-  removeOrders,
-} from '../../../store/ducks/orders/actions'
-import { Product } from '../../../store/ducks/product/types'
 type Props = StackScreenProps<RootStackParamList, "SummaryScreen">;
 
 export const SummaryScreen = ({ navigation, route }: Props) => {
-  const dispatch = useDispatch()
   const { paymentType, cashback } = route?.params;
   const [quantity, setQuantity] = useState(1);
   const lottieRef = useRef<AnimatedLottieView | null>(null);
@@ -47,53 +32,41 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0)
 
-  const [coupons, setCoupons] = React.useState<CouponsOrders[]>([])
-  const [coupon, setCoupon] = React.useState<CouponsOrders>({} as CouponsOrders)
-  const [products, setProducts] = React.useState<[Product & OrderItems]>()
-  const {
-    orders,
-    profile,
-    address,
-    shippingMethod,
-
-    authentication,
-  } = useSelector((state: ApplicationState) => state)
+  const [coupons, setCoupons] = React.useState<any>([])
+  const [coupon, setCoupon] = React.useState<any>()
+  const [products, setProducts] = React.useState<any>()
 
   useEffect(() => {
-    setCoupons(orders.coupons)
-    setProducts(orders.orders)
-    setTotalBag(
-      orders.orders.reduce((acc, currentValue) => {
-        return acc + (currentValue.quantity ? currentValue.quantity : 0)
-      }, 0)
-    )
+    // setCoupons(orders.coupons)
+    // setProducts(orders.orders)
+    // setTotalBag(
+    //   orders.orders.reduce((acc, currentValue) => {
+    //     return acc + (currentValue.quantity ? currentValue.quantity : 0)
+    //   }, 0)
+    // )
 
-    setTotalPrice(
-      orders.orders.reduce((acc, currentValue) => {
-        return (
-          acc +
-          (currentValue.fullPrice
-            ? currentValue.fullPrice * (currentValue.quantity || 1)
-            : 0)
-        )
-      }, 0)
-    )
-    setTotalDiscountPrice(
-      orders.orders.reduce((acc, currentValue) => {
-        return (
-          acc +
-          (currentValue.discountPrice
-            ? currentValue.discountPrice * (currentValue.quantity || 1)
-            : 0)
-        )
-      }, 0)
-    )
-  }, [orders])
+    // setTotalPrice(
+    //   orders.orders.reduce((acc, currentValue) => {
+    //     return (
+    //       acc +
+    //       (currentValue.fullPrice
+    //         ? currentValue.fullPrice * (currentValue.quantity || 1)
+    //         : 0)
+    //     )
+    //   }, 0)
+    // )
+    // setTotalDiscountPrice(
+    //   orders.orders.reduce((acc, currentValue) => {
+    //     return (
+    //       acc +
+    //       (currentValue.discountPrice
+    //         ? currentValue.discountPrice * (currentValue.quantity || 1)
+    //         : 0)
+    //     )
+    //   }, 0)
+    // )
+  }, [])
 
-  const addCoupons = () => {
-    dispatch(appendCoupons(coupon))
-    setCoupon({ value: '' })
-  }
   useEffect(() => {
     if (showLottie) {
       lottieRef.current?.play();
@@ -134,15 +107,15 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
                 price={item.fullPrice}
                 priceWithDiscount={item.discountPrice}
                 count={item.quantity}
-                onClickAddCount={(count) =>
-                  dispatch(item.sku && increaseOrderCount(item.sku, 1))
-                }
-                onClickSubCount={(count) =>
-                  dispatch(item.sku && increaseOrderCount(item.sku, -1))
-                }
-                onClickClose={() => {
-                  dispatch(removeOrders(item.id ? item.id : ''))
-                }}
+                // onClickAddCount={(count) =>
+
+                // }
+                // onClickSubCount={(count) =>
+
+                // }
+                // onClickClose={() => {
+
+                // }}
                 imageSource={
                   (item.imagesUrls?.length && item.imagesUrls[0]) || ''
                 }

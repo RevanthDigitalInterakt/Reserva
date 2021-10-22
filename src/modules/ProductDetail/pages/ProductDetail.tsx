@@ -19,9 +19,6 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ModalBag } from '../components/ModalBag';
 import * as Yup from "yup";
 import Share from 'react-native-share';
-import { useDispatch, useSelector } from 'react-redux';
-import { load } from '../../../store/ducks/shippingMethod/actions';
-import { add, addDays, format } from 'date-fns';
 
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootStackParamList } from '../../../routes/StackNavigator';
@@ -191,7 +188,6 @@ export const ProductDetail: React.FC<Props> = ({
     inList: false
   })
   const { addItem, sendUserEmail } = useCart();
-  const dispatch = useDispatch();
 
   const [cep, setCep] = useState('');
   const [emailPromotions, setEmailPromotions] = useState('');

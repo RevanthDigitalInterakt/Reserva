@@ -7,7 +7,6 @@ import { Linking, Animated, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
 import {
   Box,
   Button,
@@ -53,7 +52,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const categoryId = 'camisetas';
 
-  const dispatch = useDispatch();
   const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
   const [skeletonLoading, setSkeletonLoading] = useState(true);
@@ -190,9 +188,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -202,9 +200,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -214,9 +212,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // PRICE
@@ -224,9 +222,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -385,7 +383,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       <FilterModal
         setFilterRequestList={setFilterRequestList}
         categoryId={categoryId}
-        dispatch={dispatch}
         filterList={filterList}
         setFilterList={setFilterList}
         isVisible={filterVisible}
@@ -395,9 +392,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         priceRange={priceRangefilters}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
-        title="Excluir endereço"
+        title=""
         // confirmText={"Ok"}
-        subtitle="Tem certeza que deseja excluir o endereço salvo?"
+        subtitle=""
       />
       <Picker
         onSelect={(item) => {
