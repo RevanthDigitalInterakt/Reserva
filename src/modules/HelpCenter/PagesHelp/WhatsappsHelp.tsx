@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
 import { Typography, Box, Image, Button } from "reserva-ui";
 import { images } from "../../../assets";
 
@@ -21,9 +20,8 @@ type ItemWhatsappProps = {
 };
 
 export const WhatsappsHelp: React.FC<{}> = () => {
-  const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const ItemWhatsapp = ({ local, address, whatsapp }: ItemWhatsappProps) => {
     return (

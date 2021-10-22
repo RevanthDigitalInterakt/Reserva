@@ -7,7 +7,6 @@ import { Linking, ScrollView, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -19,12 +18,11 @@ import {
 } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
-import { ApplicationState } from '../../../store';
 import {
   categoriesQuery,
   CategoryQuery,
-} from '../../../store/ducks/categories/types';
-import { profileQuery } from '../../../store/ducks/profile/types';
+} from '../../../graphql/categories/categoriesQuery';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarMenu } from '../components/TopBarMenu';
 
 interface IBreadCrumbs {
@@ -259,7 +257,6 @@ export const Menu: React.FC<{}> = () => {
     }
   }, [dataProfile]);
 
-  const { authentication } = useSelector((state: ApplicationState) => state);
 
   const openMenuItem = (index: number) => {
     setCategories(

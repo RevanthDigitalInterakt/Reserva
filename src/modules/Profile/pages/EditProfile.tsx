@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -18,17 +17,13 @@ import {
   Checkbox,
 } from "reserva-ui";
 import { addHours, format, parseISO } from "date-fns";
-import { ApplicationState } from "../../../store";
-import { profileLoad } from "../../../store/ducks/profile/actions";
 import { useQuery, useMutation } from "@apollo/client";
 import {
-  Profile,
-  ProfileState,
   profileQuery,
   ProfileQuery,
   profileMutation,
   ProfileCustomFieldsInput,
-} from "../../../store/ducks/profile/types";
+} from "../../../graphql/profile/profileQuery";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { subscribeNewsLetter } from "../../../graphql/profile/newsLetter";

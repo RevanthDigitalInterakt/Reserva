@@ -5,8 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import codePush from 'react-native-code-push';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 
@@ -16,7 +14,6 @@ import AuthContextProvider from './context/AuthContext';
 import CartContextProvider from './context/CartContext';
 import { env } from './config/env';
 import InitialScreen from './InitialScreen';
-import configureStore from './store/index';
 
 import './config/ReactotronConfig';
 import 'react-native-gesture-handler';
@@ -144,13 +141,9 @@ const App = () => {
         <CartContextProvider>
           <AuthContextProvider>
             <ApolloProvider client={apolloClient}>
-              <Provider store={configureStore().store}>
-                <PersistGate persistor={configureStore().persistor}>
-                  <InitialScreen>
-                    <AppRouting />
-                  </InitialScreen>
-                </PersistGate>
-              </Provider>
+              <InitialScreen>
+                <AppRouting />
+              </InitialScreen>
             </ApolloProvider>
           </AuthContextProvider>
         </CartContextProvider>

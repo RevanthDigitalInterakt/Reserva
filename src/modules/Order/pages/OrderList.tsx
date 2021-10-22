@@ -6,7 +6,6 @@ import { Typography, Box } from 'reserva-ui';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
 import { useEffect, useState } from 'react';
-import { GET_ORDERS } from '../../../store/ducks/orders/gql';
 import { IOrder, useCart } from '../../../context/CartContext';
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 

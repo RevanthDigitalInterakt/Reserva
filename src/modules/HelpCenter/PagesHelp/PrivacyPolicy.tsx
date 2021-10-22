@@ -1,13 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
 import { Typography, Box, ExpansePanel, Divider } from "reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const PrivacyPolicy = () => {
-    const dispatch = useDispatch();
 
     useEffect(() => { }, []);
 
@@ -49,7 +47,7 @@ export const PrivacyPolicy = () => {
                     <Box mb={"nano"} alignSelf={"flex-start"}>
                         <Typography variant={"tituloSessoes"}>
                             Política de privacidade
-                         </Typography>
+                        </Typography>
                     </Box>
 
                     {data.map((item, key) => {

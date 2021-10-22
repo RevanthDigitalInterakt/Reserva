@@ -11,6 +11,8 @@ import { padding } from "styled-system"
 import DeviceInfo from "react-native-device-info";
 // import { getAppstoreAppMetadata } from 'react-native-appstore-version-checker'
 import { version } from '../../../../package.json'
+import AsyncStorage from "@react-native-community/async-storage"
+import fi from "date-fns/esm/locale/fi/index.js"
 var { getAppstoreAppMetadata } = require('react-native-appstore-version-checker')
 
 interface StoreUpdateProps {
@@ -23,6 +25,11 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
 
   const [ignore, setIgnore] = useState(false)
 
+  const DateToUpdate = () => {
+    const dateNow = new Date()
+    return new Date(dateNow.getTime() + 12 * 60 * 60 * 1000) // actual date plus 12 hours
+  }
+
   const hasNewVersion = async () => {
     if (!ignore) {
 
@@ -30,8 +37,29 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
 
       const { version: storeVersion } = await getAppstoreAppMetadata(id)
       console.log('store data: ', storeVersion, DeviceInfo.getVersion())
+      setIsVisible(true)
 
-      needUpdate(DeviceInfo.getVersion(), storeVersion) ? setIsVisible(true) : setIsVisible(false)
+      const storeUpdateAsyncStorageKey = 'store-update-date-time'
+
+      let storeUpdateDateTime = await AsyncStorage.getItem(storeUpdateAsyncStorageKey)
+      console.log('storeUpdateDateTime', storeUpdateDateTime)
+      await AsyncStorage.setItem(storeUpdateAsyncStorageKey, '')
+
+      if (needUpdate(DeviceInfo.getVersion(), storeVersion)) {
+        if (!storeUpdateDateTime) {
+          await AsyncStorage.setItem(storeUpdateAsyncStorageKey, `${DateToUpdate()}`)
+        } else {
+          if (Date.now() >= new Date(storeUpdateDateTime).getTime()) {
+            setIsVisible(true)
+          } else {
+            setIsVisible(false)
+          }
+        }
+      } else {
+        setIsVisible(false)
+        await AsyncStorage.setItem(storeUpdateAsyncStorageKey, '')
+      }
+
     }
   }
 
@@ -56,6 +84,16 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
       return true
 
     return false
+
+  }
+
+  const update = () => {
+    Linking.openURL(
+      Platform.OS === 'ios' ?
+        'itms-apps://itunes.apple.com/app/apple-store/id1566861458'
+        :
+        'market://details?id=com.usereserva')
+    // Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1566861458')
 
   }
 
@@ -102,14 +140,7 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
       <Box mt={19} width='100%' px={20} alignItems='center'>
         <Box width="100%">
           <Button
-            onPress={() => {
-              Linking.openURL(
-                Platform.OS === 'ios' ?
-                  'itms-apps://itunes.apple.com/app/apple-store/id1566861458'
-                  :
-                  'market://details?id=com.usereserva')
-              // Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1566861458')
-            }}
+            onPress={update}
             inline
             title='ATUALIZAR'
             variant='primarioEstreito'

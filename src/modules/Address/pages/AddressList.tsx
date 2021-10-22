@@ -10,7 +10,7 @@ import { RootStackParamList } from "../../../routes/StackNavigator";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { deleteAddress } from "../../../graphql/address/addressMutations";
 import { useCart } from "../../../context/CartContext";
-import { profileQuery } from "../../../store/ducks/profile/types";
+import { profileQuery } from "../../../graphql/profile/profileQuery";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import { useAuth } from "../../../context/AuthContext";
 
@@ -70,9 +70,14 @@ const AddressList: React.FC<Props> = ({ route }) => {
             };
           }
         );
-
-        await addShippingOrPickupInfo(logisticInfo, [selectedAddress]);
-
+        let addressId
+        if (selectedAddress.id) {
+          addressId = selectedAddress.id
+          delete selectedAddress.id
+        } else {
+          addressId = selectedAddress.addressId
+        }
+        await addShippingOrPickupInfo(logisticInfo, [{ ...selectedAddress, addressId }]);
       }
       setLoading(false);
     }
@@ -111,7 +116,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     //   setAddresses(addresses);
     // }
 
-    if (cookie) {
+    if (cookie != null) {
       const { addresses } = profile;
       setAddresses(addresses);
     } else {

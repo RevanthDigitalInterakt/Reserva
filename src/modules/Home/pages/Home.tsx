@@ -5,12 +5,10 @@ import { useLayoutEffect } from 'react';
 import { useEffect } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
 import { Box, Image, Typography, Button, Icon } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
-import { homeQuery, HomeQuery } from '../../../store/ducks/HomePage/types';
-import { load } from '../../../store/ducks/nearbyStores/actions';
-import { profileQuery } from '../../../store/ducks/profile/types';
+import { homeQuery, HomeQuery } from '../../../graphql/homePage/HomeQuery';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { View } from 'react-native-animatable';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
@@ -29,7 +27,6 @@ export const HomeScreen: React.FC<{
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true)
   const [isVisibleUpdateStore, setIsVisibleUpdateStore] = useState(false)
   const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
-  const dispatch = useDispatch();
   const [images, setImages] = React.useState<HomeQuery[]>([])
   const [hasInternet, setHasInternet] = React.useState<boolean>(false)
   const deviceWidth = Dimensions.get('screen').width;
@@ -69,10 +66,6 @@ export const HomeScreen: React.FC<{
     }
   }, [profileData])
 
-
-  useEffect(() => {
-    dispatch(load({ UF: 'RJ' }));
-  }, []);
 
   return (
     <Box flex={1} bg='white'>
