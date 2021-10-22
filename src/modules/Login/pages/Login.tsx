@@ -17,7 +17,7 @@ import {
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { profileQuery } from '../../../store/ducks/profile/types';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 
@@ -82,7 +82,7 @@ export const LoginScreen: React.FC<Props> = ({
       if (data.classicSignIn === 'Success') {
         setEmail(loginCredentials.username);
         AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(
-          () => {}
+          () => { }
         );
       } else {
         validateCredentials();

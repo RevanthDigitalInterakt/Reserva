@@ -14,7 +14,6 @@ import {
 } from "reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
-import { ApplicationState } from "../../../store";
 import ProgressBar from "react-native-progress/Bar";
 import { useEffect } from "react";
 import { useMutation } from "@apollo/client";
@@ -26,8 +25,8 @@ type Props = StackScreenProps<RootStackParamList, "LoginAlternative">;
 export const LoginAlternative: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
-    username: "danilo.sousa@globalsys.com.br",
-    password: "Danilo123",
+    username: "",
+    password: "",
   });
   const [isVisible, setIsVisible] = React.useState(false);
   const imageTranslation = React.useRef(new Animated.Value(0)).current;

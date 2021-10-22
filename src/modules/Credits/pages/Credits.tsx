@@ -6,7 +6,7 @@ import { Box, Divider, Typography, Icon, Button } from 'reserva-ui'
 import { RootStackParamList } from '../../../routes/StackNavigator'
 import { FetchCredit } from '../../../services/unicoService'
 import { useQuery } from "@apollo/client";
-import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
+import { profileQuery, ProfileVars } from "../../../graphql/profile/profileQuery";
 import { PriceCustom } from '../../Checkout/components/PriceCustom'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
 

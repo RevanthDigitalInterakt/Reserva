@@ -14,7 +14,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../components/CodeInput';
 import AsyncStorage from '@react-native-community/async-storage';
-import { profileQuery } from '../../../store/ducks/profile/types';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 
 export interface AccessCodeProps
   extends StackScreenProps<RootStackParamList, 'AccessCode'> { }
@@ -62,7 +62,7 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
         navigation.navigate('Home');
       });
     }
-    if(data?.accessKeySignIn === "WrongCredentials"){
+    if (data?.accessKeySignIn === "WrongCredentials") {
       setShowError(true);
     }
   }, [data]);

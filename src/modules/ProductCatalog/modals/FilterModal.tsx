@@ -19,7 +19,6 @@ import Modal from "react-native-modal";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createAnimatableComponent } from "react-native-animatable";
-import { ApplicationState } from "../../../store";
 import {
   ColorsToHexEnum,
   HexToColorsEnum,

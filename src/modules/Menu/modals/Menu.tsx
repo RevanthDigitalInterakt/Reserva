@@ -18,12 +18,11 @@ import {
 } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
-import { ApplicationState } from '../../../store';
 import {
   categoriesQuery,
   CategoryQuery,
-} from '../../../store/ducks/categories/types';
-import { profileQuery } from '../../../store/ducks/profile/types';
+} from '../../../graphql/categories/categoriesQuery';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarMenu } from '../components/TopBarMenu';
 
 interface IBreadCrumbs {

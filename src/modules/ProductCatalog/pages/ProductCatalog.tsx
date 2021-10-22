@@ -32,7 +32,7 @@ import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import {
   bannerDefaultQuery,
   bannerQuery,
-} from '../../../store/ducks/HomePage/types';
+} from '../../../graphql/homePage/HomeQuery';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';

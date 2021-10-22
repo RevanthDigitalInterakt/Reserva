@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Picker, TextField, Typography } from 'reserva-ui';
-import { Product } from '../../../../store/ducks/product/types';
 interface CreateCategoryModalProps {
   isVisible: boolean;
-  favoritedProduct?: Product;
+  favoritedProduct?: any;
 }
 
 export const CreateCategoryModal = ({

@@ -18,8 +18,6 @@ import {
 } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
-import { Product } from '../../../../store/ducks/product/types';
-import { removeWishlist } from '../../../../store/ducks/wishlist/actions';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 
 interface ListProductsProps {
@@ -52,7 +50,7 @@ export const ListVerticalProducts = ({
   totalProducts,
 }: ListProductsProps) => {
   const navigation = useNavigation();
-  const [favoritedProduct, setFavoritedProduct] = useState<Product>();
+  const [favoritedProduct, setFavoritedProduct] = useState<any>();
   const [isVisible, setIsVisible] = useState(false);
   const [productList, setProductList] = useState<ProductQL[]>([]);
   const [skip, setSkip] = useState(false);
