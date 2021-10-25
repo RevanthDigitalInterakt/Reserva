@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/client";
 import { profileQuery, ProfileVars } from "../../../graphql/profile/profileQuery";
 import { PriceCustom } from '../../Checkout/components/PriceCustom'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
+import { useAuth } from '../../../context/AuthContext'
 
 type Props = StackScreenProps<RootStackParamList, 'Credits'>
 
@@ -17,12 +18,18 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
     const [loadingCredit, setLoadingCredit] = useState(false)
     const [profile, setProfile] = useState<ProfileVars>();
     const [credit, SetCredit] = useState(0);
+    const { cleanEmailAndCookie } = useAuth()
+
     useEffect(() => {
         if (data) {
             const { profile } = data;
             if (profile) {
                 const { profile } = data;
                 setProfile(profile);
+            } else {
+                if (!loading) {
+                    cleanEmailAndCookie()
+                }
             }
         }
     }, [data]);

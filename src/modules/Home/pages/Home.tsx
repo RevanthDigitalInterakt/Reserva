@@ -23,7 +23,7 @@ export const HomeScreen: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
-  const { cookie, setEmail } = useAuth()
+  const { cookie, setCookie, setEmail, cleanEmailAndCookie, isCookieEmpty } = useAuth()
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true)
   const [isVisibleUpdateStore, setIsVisibleUpdateStore] = useState(false)
   const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
@@ -55,14 +55,18 @@ export const HomeScreen: React.FC<{
   }, [data]);
 
   useLayoutEffect(() => {
-    if (cookie !== null) {
+    if (!isCookieEmpty()) {
       getProfile()
     }
   }, [])
 
   useEffect(() => {
-    if (profileData) {
+    if (!!profileData) {
       AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email)
+    } else {
+      if (!profileLoading) {
+        cleanEmailAndCookie()
+      }
     }
   }, [profileData])
 

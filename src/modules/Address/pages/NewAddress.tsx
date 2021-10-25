@@ -20,6 +20,8 @@ import { profileQuery, ProfileVars } from "../../../graphql/profile/profileQuery
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import { CepVerify } from "../../../services/vtexService";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { useAuth } from "../../../context/AuthContext";
+import { profileLoad } from "../../../store/ducks/profile/sagas";
 
 interface IAddress {
   postalCode: string;
@@ -55,6 +57,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
   const { addShippingData, orderForm } = useCart();
+  const { cleanEmailAndCookie } = useAuth()
   const { isCheckout } = route.params;
   const { loading: loadingProfile, error, data: profileData, refetch } = useQuery(profileQuery);
 
@@ -170,6 +173,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       if (profile) {
         const { profile } = profileData;
         setProfile(profile);
+      } else {
+        if (!loadingProfile) {
+          cleanEmailAndCookie()
+        }
       }
     }
   }, [profileData]);

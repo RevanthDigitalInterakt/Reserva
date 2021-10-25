@@ -24,7 +24,6 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
   const { email } = route.params;
   const [accessCode, setAccessCode] = useState('');
   const [showError, setShowError] = useState(false);
-  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
 
   const [loginWithCode, { data, loading }] = useMutation(
     accessKeySignInMutation

@@ -217,7 +217,7 @@ type Profile = {
 
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation();
-  const { cookie } = useAuth();
+  const { cookie, cleanEmailAndCookie } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
   const {
     loading: loadingProfile,
@@ -253,6 +253,10 @@ export const Menu: React.FC<{}> = () => {
       if (profile) {
         const { profile } = dataProfile;
         setProfile(profile);
+      } else {
+        if (!loadingProfile) {
+          cleanEmailAndCookie()
+        }
       }
     }
   }, [dataProfile]);
