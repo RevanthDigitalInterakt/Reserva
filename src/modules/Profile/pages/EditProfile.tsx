@@ -27,11 +27,13 @@ import {
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { subscribeNewsLetter } from "../../../graphql/profile/newsLetter";
+import { useAuth } from "../../../context/AuthContext";
 
 export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
+  const { cleanEmailAndCookie } = useAuth()
   const [subscribed, setSubscribed] = useState(false);
   const [userData, setUserData] = useState<ProfileQuery>({
     userId: "",
@@ -76,6 +78,10 @@ export const EditProfile: React.FC<{
           (x: any) => x.key == "isNewsletterOptIn"
         ).value === "true" || subscribed
       );
+    } else {
+      if (!loading) {
+        cleanEmailAndCookie()
+      }
     }
   }, [data]);
 
