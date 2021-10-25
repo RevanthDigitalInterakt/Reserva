@@ -72,7 +72,7 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
 
   return isVisible && <>
 
-    <Box position='absolute' zIndex={12} top={50} backgroundColor='verdeSucesso' width='100%' height={37} flexDirection='row'>
+    <Box position='absolute' zIndex={12} top={50} backgroundColor={data.colorBar} width='100%' height={37} flexDirection='row'>
       <Box flex={1} justifyContent='center' alignItems='center'>
         <Button onPress={() => setIsVisibleModal(true)}>
           <Typography
