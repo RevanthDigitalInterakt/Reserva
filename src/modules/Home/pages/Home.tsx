@@ -7,7 +7,7 @@ import { Dimensions, Platform } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image, Typography, Button, Icon } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
-import { homeQuery, HomeQuery } from '../../../graphql/homePage/HomeQuery';
+import { homeQuery, HomeQuery, configCollection, ConfigCollection } from '../../../graphql/homePage/HomeQuery';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { View } from 'react-native-animatable';
@@ -28,6 +28,7 @@ export const HomeScreen: React.FC<{
   const [isVisibleUpdateStore, setIsVisibleUpdateStore] = useState(false)
   const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([])
+  const [modalDiscount, setModalDiscount] = React.useState<any>()
   const [hasInternet, setHasInternet] = React.useState<boolean>(false)
   const deviceWidth = Dimensions.get('screen').width;
   const { loading, error, data, refetch } = useQuery(
@@ -37,6 +38,12 @@ export const HomeScreen: React.FC<{
       variables: { limit: 0 } // quantidade de itens que iram renderizar
     }
   );
+
+  const { data: collectionData, loading: loadingCollection, } = useQuery(
+    configCollection, {
+    context: { clientName: 'contentful' },
+  });
+
   const { WithoutInternet } = useCheckConnection({ refetch: refetch })
 
   useEffect(() => {
@@ -53,6 +60,12 @@ export const HomeScreen: React.FC<{
     })
     setImages(arrayImages)
   }, [data]);
+
+  useEffect(() => {
+    if (collectionData) {
+      setModalDiscount(collectionData?.configCollection?.items[0].discoutCodeBar)
+    }
+  }, [collectionData])
 
   useLayoutEffect(() => {
     if (!isCookieEmpty()) {
@@ -102,7 +115,9 @@ export const HomeScreen: React.FC<{
         </Button>
       </Box> */}
       <StoreUpdate />
-      <DiscoutCodeModal isVisible={modalCodeIsVisible} code={'RSVAPP50'} onClose={() => { setModalCodeIsVisible(false) }} />
+      {modalDiscount &&
+        <DiscoutCodeModal data={modalDiscount} isVisible={modalCodeIsVisible} onClose={() => { setModalCodeIsVisible(false) }} />
+      }
       <WithoutInternet />
       {
         loading ?

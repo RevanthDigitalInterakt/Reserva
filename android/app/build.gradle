@@ -153,8 +153,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 25
-        versionName "1.1.7-beta"
+        versionCode 26
+        versionName "1.1.8-beta"
     }
     splits {
         abi {
@@ -218,19 +218,19 @@ dependencies {
     implementation "com.getbouncer:scan-payment-card-detect:2.0.0084"
     implementation "com.getbouncer:scan-payment-ocr:2.0.0084"
     implementation "com.getbouncer:tensorflow-lite:2.0.0084"
-    
+
     // If your app supports Android versions before Ice Cream Sandwich (API level 14)
-    implementation 'com.facebook.fresco:animated-base-support:1+'
+    implementation 'com.facebook.fresco:animated-base-support:1.3.0'
 
     // For animated GIF support
-    implementation 'com.facebook.fresco:animated-gif:2+'
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
 
     // For WebP support, including animated WebP
-    implementation 'com.facebook.fresco:animated-webp:2+'
-    implementation 'com.facebook.fresco:webpsupport:2+'
+    implementation 'com.facebook.fresco:animated-webp:2.1.0'
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
 
     // For WebP support, without animations
-    implementation 'com.facebook.fresco:webpsupport:2+'
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
