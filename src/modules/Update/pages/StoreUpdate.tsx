@@ -37,7 +37,7 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
 
       const { version: storeVersion } = await getAppstoreAppMetadata(id)
       console.log('store data: ', storeVersion, DeviceInfo.getVersion())
-      setIsVisible(true)
+      // setIsVisible(true)
 
       const storeUpdateAsyncStorageKey = 'store-update-date-time'
 
