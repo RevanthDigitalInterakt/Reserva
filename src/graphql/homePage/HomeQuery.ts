@@ -1,19 +1,19 @@
 import { gql } from "@apollo/client";
 
 export interface HomeQuery {
-    fileName: string;
-    title: string;
-    width: number;
-    height: number;
-    size: number;
-    url: string;
+  fileName: string;
+  title: string;
+  width: number;
+  height: number;
+  size: number;
+  url: string;
 }
 
 export interface ConfigCollection {
-    reference: string;
-    image: {
-        url: string;
-    };
+  reference: string;
+  image: {
+    url: string;
+  };
 }
 
 export const homeQuery = gql`
@@ -83,6 +83,16 @@ query ConfigCollection{
             }
           }
       	}
+      }
+      discoutCodeBar{
+        titleBar
+        colorBar
+        titleModal
+        descriptionModal
+        titleButton
+        colorButton
+        shareMessage
+        coupon
       }
     }
   }
