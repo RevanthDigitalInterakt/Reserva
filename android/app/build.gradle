@@ -153,8 +153,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 25
-        versionName "1.1.7-beta"
+        versionCode 26
+        versionName "1.1.8-beta"
     }
     splits {
         abi {
@@ -218,7 +218,7 @@ dependencies {
     implementation "com.getbouncer:scan-payment-card-detect:2.0.0084"
     implementation "com.getbouncer:scan-payment-ocr:2.0.0084"
     implementation "com.getbouncer:tensorflow-lite:2.0.0084"
-    
+
     // If your app supports Android versions before Ice Cream Sandwich (API level 14)
     implementation 'com.facebook.fresco:animated-base-support:1+'
 
