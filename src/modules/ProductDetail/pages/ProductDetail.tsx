@@ -993,18 +993,36 @@ export const ProductDetail: React.FC<Props> = ({
                           </Box>
                         </TouchableOpacity>
 
-                        <Typography variant='precoAntigo3' color='preto'>Ao adquirir a assinatura você aceita os </Typography>
+                        <Box>
+                          <Box
+                            flexDirection='row'
+                            alignItems='center'
+                          >
+                            <Typography variant='precoAntigo3' color='preto'>Ao adquirir a assinatura você aceita os </Typography>
 
-                        <TouchableOpacity
-                          onPress={() => setModalTermsAndConditionsisVisible(true)}
-                        >
-                          <Typography
-                            variant='precoAntigo3'
-                            color='preto'
-                            fontWeight='bold'
-                            style={{ textDecorationLine: 'underline' }}
-                          >termos e condições.</Typography>
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={() => setModalTermsAndConditionsisVisible(true)}
+                            >
+                              <Typography
+                                variant='precoAntigo3'
+                                color='preto'
+                                fontWeight='bold'
+                                style={{ textDecorationLine: 'underline' }}
+                              >termos e</Typography>
+                            </TouchableOpacity>
+                          </Box>
+
+                          <TouchableOpacity
+                            onPress={() => setModalTermsAndConditionsisVisible(true)}
+                          >
+                            <Typography
+                              variant='precoAntigo3'
+                              color='preto'
+                              fontWeight='bold'
+                              style={{ textDecorationLine: 'underline' }}
+                            >condições.</Typography>
+                          </TouchableOpacity>
+                        </Box>
                       </Box>
 
                       <Divider variant="fullWidth" my="xs" />
