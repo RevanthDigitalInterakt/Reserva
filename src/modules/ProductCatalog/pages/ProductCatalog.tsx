@@ -4,6 +4,7 @@ import { QueryResult, useQuery } from '@apollo/client';
 import { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import { Linking, Animated, Text } from 'react-native';
+import appsFlyer from 'react-native-appsflyer';
 import { ScrollView } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -42,8 +43,6 @@ import { FilterModal } from '../modals/FilterModal';
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route }) => {
-  console.log(route);
-
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData
   );
@@ -113,6 +112,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const [loadingModal, setLoadingModal] = useState(false);
   const [firstLoading, setFirstLoading] = useState(true);
+
+  useEffect(() => {
+    appsFlyer.logEvent('af_list_view', {
+      af_content_type: referenceId,
+    });
+  }, []);
 
   const {
     data: facetsData,
