@@ -34,6 +34,8 @@ import { ModalBook } from '../components/ModalBook';
 import { PriceCustom } from '../components/PriceCustom';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import appsFlyer from 'react-native-appsflyer';
+import { CategoriesParserString } from '../../../utils/categoriesParserString';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -189,8 +191,22 @@ export const BagScreen = () => {
         clientProfileData.email &&
         clientProfileData.firstName;
 
-      const hasAddress =
-        shippingData && shippingData.availableAddresses.length > 0;
+      const hasAddress = shippingData && shippingData.availableAddresses.length > 0;
+
+      const af_content_id = orderForm.items.map(i => i.productId)
+      const af_content_type = orderForm.items.map(i => CategoriesParserString(i.productCategories))
+      const af_quantity = orderForm.items.map(i => i.quantity)
+
+      appsFlyer.logEvent(
+        'af_initiated_checkout',
+        {
+          af_price: totalBag + totalDiscountPrice + totalDelivery,
+          af_content_id,
+          af_content_type,
+          af_currency: 'BRL',
+          af_quantity
+        }
+      )
 
       if (!email) {
         navigate('EnterYourEmail');

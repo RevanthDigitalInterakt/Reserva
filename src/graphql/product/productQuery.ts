@@ -8,6 +8,10 @@ export const GET_PRODUCTS = gql`
       productName
       description
       link
+      categoryTree {
+        name
+        id
+      }
       skuSpecifications {
         field {
           name
