@@ -17,6 +17,29 @@ export interface ConfigCollection {
   };
 }
 
+export interface Carrousel {
+  type: string
+  title: string
+  itemsCollection: {
+    items: CarrouselCard[]
+  }
+}
+
+export interface CarrouselCard {
+  image: {
+    fileName: string
+    size: any
+    title: any
+    url: any
+    width: any
+    height: any
+  }
+  name: string
+  description: string
+  reference: any
+
+}
+
 export const homeQuery = gql`
   query homePageCollection($limit: Int!) {
     homePageCollection {
@@ -34,6 +57,28 @@ export const homeQuery = gql`
             }
           }
         }
+        carrouselHomeCollection(limit: 5){
+        items{
+          type
+          title
+          itemsCollection(limit: 10){
+            items{
+              image{
+                fileName
+                size
+                title
+                url
+                width
+                height
+              }
+              name
+              description
+              reference
+
+            }
+          }
+        }
+      }
       }
     }
   }

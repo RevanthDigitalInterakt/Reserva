@@ -9,6 +9,8 @@ import { Box, Image } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import {
+  Carrousel,
+  CarrouselCard,
   configCollection,
   homeQuery,
   HomeQuery,
@@ -28,6 +30,7 @@ export const HomeScreen: React.FC<{
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([]);
+  const [carrousels, setCarrousels] = React.useState<[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
   const deviceWidth = Dimensions.get('screen').width;
   const { loading, data, refetch } = useQuery(homeQuery, {
@@ -47,6 +50,26 @@ export const HomeScreen: React.FC<{
   const DOT_SIZE = 8;
 
   useEffect(() => {
+    const carrousels = data?.homePageCollection.items[0].carrouselHomeCollection.items.map(
+      (carrousel: Carrousel) => {
+        const parsedCarrousel = carrousel.itemsCollection.items.map(x => {
+          return {
+            fileName: x.image.fileName,
+            title: x.image.title,
+            width: x.image.width,
+            height: x.image.height,
+            size: x.image.size,
+            url: x.image.url,
+            reference: x.reference
+          }
+        })
+
+        return parsedCarrousel
+      }
+    )
+    console.log('carrousels', carrousels)
+    setCarrousels(carrousels)
+
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
         (imageDescription: any) => ({
@@ -147,58 +170,60 @@ export const HomeScreen: React.FC<{
                 overflow: 'hidden',
               }}
             >
-              <Animated.FlatList
-                data={images}
-                style={{ position: 'relative' }}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                decelerationRate="fast"
-                snapToInterval={DEVICE_WIDTH}
-                bounces={false}
-                onScroll={Animated.event(
-                  [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                  { useNativeDriver: true }
-                )}
-                renderItem={({ item }) => (
-                  <Box alignItems="flex-start">
-                    <Box mb="quarck" width={1 / 1}>
-                      <TouchableHighlight
-                        onPress={() => {
-                          const facetInput = [];
-                          const [categoryType, categoryData] =
-                            item.reference.split(':');
-                          if (categoryType === 'category') {
-                            categoryData.split('|').forEach((cat: string) => {
-                              facetInput.push({
-                                key: 'c',
-                                value: cat,
+              {carrousels.map((carrousel: any) =>
+                <Animated.FlatList
+                  data={carrousel}
+                  style={{ position: 'relative' }}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  decelerationRate="fast"
+                  snapToInterval={DEVICE_WIDTH}
+                  bounces={false}
+                  onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                    { useNativeDriver: true }
+                  )}
+                  renderItem={({ item }) => (
+                    <Box alignItems="flex-start">
+                      <Box mb="quarck" width={1 / 1}>
+                        <TouchableHighlight
+                          onPress={() => {
+                            const facetInput = [];
+                            const [categoryType, categoryData] =
+                              item.reference.split(':');
+                            if (categoryType === 'category') {
+                              categoryData.split('|').forEach((cat: string) => {
+                                facetInput.push({
+                                  key: 'c',
+                                  value: cat,
+                                });
                               });
+                            } else {
+                              facetInput.push({
+                                key: 'productClusterIds',
+                                value: categoryData,
+                              });
+                            }
+                            navigation.navigate('ProductCatalog', {
+                              facetInput,
+                              referenceId: item.reference,
                             });
-                          } else {
-                            facetInput.push({
-                              key: 'productClusterIds',
-                              value: categoryData,
-                            });
-                          }
-                          navigation.navigate('ProductCatalog', {
-                            facetInput,
-                            referenceId: item.reference,
-                          });
-                        }}
-                      >
-                        <Image
-                          resizeMode="cover"
-                          height={item.height}
-                          autoHeight
-                          width={DEVICE_WIDTH}
-                          source={{ uri: item.url }}
-                        />
-                      </TouchableHighlight>
+                          }}
+                        >
+                          <Image
+                            resizeMode="cover"
+                            height={item.height}
+                            autoHeight
+                            width={DEVICE_WIDTH}
+                            source={{ uri: item.url }}
+                          />
+                        </TouchableHighlight>
+                      </Box>
                     </Box>
-                  </Box>
-                )}
-                keyExtractor={(_, index) => index.toString()}
-              />
+                  )}
+                  keyExtractor={(_, index) => index.toString()}
+                />
+              )}
               {images && (
                 <Box
                   style={{
