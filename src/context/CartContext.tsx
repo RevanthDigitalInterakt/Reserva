@@ -520,7 +520,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       }
 
       const categories = CategoriesParserString(product.productCategories);
-      console.log(categories);
 
       // set new order form
       setOrderForm(data);
@@ -555,7 +554,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     qty: number
   ) => {
     try {
-      console.log(orderForm);
+      const productRemoved = orderForm?.items.find(
+        (item: any) => item.id === itemId
+      );
       const { data } = await RemoveItemFromCart(
         orderForm?.orderFormId,
         itemId,
@@ -566,9 +567,12 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
 
       appsFlyer.logEvent(
-        'af_add_to_cart',
+        'remove_from_cart',
         {
           af_content_id: itemId,
+          af_content_type: CategoriesParserString(
+            productRemoved?.productCategories
+          ),
         },
         (res) => {
           console.log('AppsFlyer', res);
@@ -631,6 +635,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const data = await AddCustomerToOrder(orderForm?.orderFormId, {
         ...customer,
         email: orderForm?.clientProfileData.email,
+      });
+
+      appsFlyer.logEvent('af_complete_registration', {
+        af_registration_method: 'email',
       });
 
       setOrderForm(data);
