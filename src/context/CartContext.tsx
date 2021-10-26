@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-community/async-storage";
 import React, {
   useState,
   createContext,
@@ -6,9 +5,13 @@ import React, {
   useContext,
   SetStateAction,
   Dispatch,
-} from "react";
-import { useEffect } from "react";
-import { CepResponse } from "../config/brasilApi";
+  useEffect,
+} from 'react';
+
+import AsyncStorage from '@react-native-community/async-storage';
+import appsFlyer from 'react-native-appsflyer';
+
+import { CepResponse } from '../config/brasilApi';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -29,8 +32,9 @@ import {
   Tracking,
   PickupPoint,
   Orders,
-  OrderDetail
-} from "../services/vtexService";
+  OrderDetail,
+} from '../services/vtexService';
+import { CategoriesParserString } from '../utils/categoriesParserString';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -163,7 +167,7 @@ export interface items {
   items: {
     distance?: number;
     pickupPoint: PickupPoints;
-  }[]
+  }[];
 }
 
 interface ShippingData {
@@ -314,7 +318,7 @@ export interface PackageAttachment {
         description: string;
         createDate: string;
       }[];
-    }
+    };
   }[];
 }
 
@@ -338,7 +342,7 @@ export interface IOrder {
   ShippingEstimatedDate: null;
   ShippingEstimatedDateMax: null;
   ShippingEstimatedDateMin: null;
-  orderIsComplete: boolean,
+  orderIsComplete: boolean;
   listId: null;
   listType: null;
   authorizedDate: null;
@@ -355,7 +359,7 @@ export interface IOrder {
   orderFormId: string;
   paymentApprovedDate: null;
   readyForHandlingDate: null;
-  deliveryDates: null
+  deliveryDates: null;
 }
 
 export interface IOrderId {
@@ -378,7 +382,7 @@ export interface IOrderId {
     id: string;
     name: string;
     value: number;
-  }[]
+  }[];
   items: Item[];
   marketplaceItems: any[];
   clientProfileData: ClientProfileData;
@@ -386,8 +390,8 @@ export interface IOrderId {
   marketingData: MarketingData;
   ratesAndBenefitsData: {
     id: string;
-    rateAndBenefitsIdentifiers: any[]
-  },
+    rateAndBenefitsIdentifiers: any[];
+  };
   shippingData: ShippingData;
   paymentData: any;
   packageAttachment: PackageAttachment;
@@ -399,7 +403,7 @@ export interface IOrderId {
   invoiceData: {
     address: null;
     userPaymentInfo: null;
-  },
+  };
   changesAttachment: null;
   openTextField: null;
   roundingError: number;
@@ -415,7 +419,7 @@ export interface IOrderId {
     baseURL: boolean;
     isCertified: null;
     name: boolean;
-  },
+  };
   authorizedDate: boolean;
   invoicedDate: boolean;
   cancelReason: null;
@@ -431,8 +435,8 @@ export interface IOrderId {
       ImageUrl: string;
       DetailUrl: string;
       AssemblyOptions: any[];
-    }[]
-  },
+    }[];
+  };
   subscriptionData: null;
   taxData: null;
   checkedInPickupPointId: null;
@@ -452,7 +456,7 @@ interface CartContextProps {
   addShippingOrPickupInfo: (
     logisticInfo: any[],
     selectedAddresses: any[]
-  ) => Promise<boolean | undefined>; //todo - type later,
+  ) => Promise<boolean | undefined>; // todo - type later,
   orderform: () => void;
   removeItem: () => Promise<{ ok: boolean }>;
   resetUserCheckout: () => Promise<boolean | undefined>;
@@ -462,8 +466,14 @@ interface CartContextProps {
   removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   sendUserEmail: (email: string) => Promise<boolean | undefined>;
   convertZipCode: (postalCode: string) => Promise<Address | undefined>;
-  tracking: (cookie: string, order: string) => Promise<PackageAttachment | undefined>;
-  pickupPoint: (longitude: string, latitude: string) => Promise<items | undefined>;
+  tracking: (
+    cookie: string,
+    order: string
+  ) => Promise<PackageAttachment | undefined>;
+  pickupPoint: (
+    longitude: string,
+    latitude: string
+  ) => Promise<items | undefined>;
   orders: (page: string) => Promise<IOrder[] | undefined>;
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
 }
@@ -482,7 +492,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await CreateCart();
       setOrderForm(data);
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
@@ -499,21 +509,42 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const index = data.items.findIndex(({ id }: any) => id === itemId);
       const product = data.items[index];
 
-      if (product.availability !== "available") {
+      if (product.availability !== 'available') {
         const productRemoved = await removeUnavailableProduct(
           product.id,
           index,
           seller
         );
 
-        if (productRemoved) return { message: "O produto não está disponível" };
+        if (productRemoved) return { message: 'O produto não está disponível' };
       }
+
+      const categories = CategoriesParserString(product.productCategories);
+      console.log(categories);
 
       // set new order form
       setOrderForm(data);
-      return { ok: product.quantity < quantity ? false : true };
+      appsFlyer.logEvent(
+        'af_add_to_cart',
+        {
+          af_price: product.price,
+          af_content: product.name,
+          af_content_id: itemId,
+          af_content_type: categories,
+          af_currency: 'BRL',
+          af_quantity: quantity,
+          af_seller: seller,
+        },
+        (res) => {
+          console.log('AppsFlyer', res);
+        },
+        (err) => {
+          console.error('AppsFlyer Error', err);
+        }
+      );
+      return { ok: !(product.quantity < quantity) };
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
@@ -524,6 +555,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     qty: number
   ) => {
     try {
+      console.log(orderForm);
       const { data } = await RemoveItemFromCart(
         orderForm?.orderFormId,
         itemId,
@@ -532,6 +564,19 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         qty
       );
       setOrderForm(data);
+
+      appsFlyer.logEvent(
+        'af_add_to_cart',
+        {
+          af_content_id: itemId,
+        },
+        (res) => {
+          console.log('AppsFlyer', res);
+        },
+        (err) => {
+          console.error('AppsFlyer Error', err);
+        }
+      );
 
       return { ok: true };
     } catch (err) {
@@ -555,21 +600,19 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
-
 
   const resetUserCheckout = async () => {
     try {
       const { data } = await ResetUserCheckout(orderForm?.orderFormId);
-      console.log('resetUserCheckout', data)
+      console.log('resetUserCheckout', data);
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
-  }
-
+  };
 
   const identifyCustomer = async (email: string) => {
     try {
@@ -578,9 +621,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       // TODO - change this later, find a better way to check if theres's no user
       return !!data.clientProfileData.firstName;
-
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
@@ -595,7 +637,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
@@ -625,11 +667,14 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
-  const addShippingOrPickupInfo = async (logisticsInfo: any[], selectedAddresses: any[]) => {
+  const addShippingOrPickupInfo = async (
+    logisticsInfo: any[],
+    selectedAddresses: any[]
+  ) => {
     try {
       const data = await AddAddressToCart(orderForm?.orderFormId, {
         selectedAddresses,
@@ -641,7 +686,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
@@ -657,7 +702,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!isCouponInValid;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
@@ -668,17 +713,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         await addToSellerCoupon(orderForm?.orderFormId, {
           ...orderForm?.marketingData,
           marketingTags: [
-            "CodigoVendedor",
+            'CodigoVendedor',
             `code_CodigoVendedor=${coupon}`,
-            "ron=false"
+            'ron=false',
           ],
         });
         return !!data;
-      } else {
-        return false;
       }
+      return false;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
   const removeCoupon = async (coupon: string) => {
@@ -687,7 +731,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
 
@@ -695,12 +739,12 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     try {
       const { data } = await removeSellerCouponToOder(orderForm?.orderFormId, {
         ...orderForm?.marketingData,
-        marketingTags: [""],
+        marketingTags: [''],
       });
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
   };
   useEffect(() => {
@@ -712,53 +756,52 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SendUserEmail(email);
       return !!data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
-  }
+  };
 
   const convertZipCode = async (postalCode: string) => {
     try {
       const { data } = await ConvertZipCode(postalCode);
       return data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
-  }
+  };
   const tracking = async (cookie: string, order: string) => {
     try {
       const { data } = await Tracking(cookie, order);
       return data;
     } catch (error) {
-      console.log("error", error.response.data);
+      console.log('error', error.response.data);
     }
-  }
+  };
 
   const pickupPoint = async (longitude: string, latitude: string) => {
     try {
       const { data } = await PickupPoint(longitude, latitude);
       return data;
     } catch (error) {
-      console.log('error', error.response.data)
+      console.log('error', error.response.data);
     }
-  }
+  };
 
   const orders = async (page: string) => {
     try {
       const { data } = await Orders(page);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data)
+      console.log('error', error.response.data);
     }
-  }
+  };
   const orderDetail = async (orderId: string) => {
     try {
       const { data } = await OrderDetail(orderId);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data)
+      console.log('error', error.response.data);
     }
-  }
-
+  };
 
   return (
     <CartContext.Provider
@@ -782,7 +825,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         tracking,
         pickupPoint,
         orders,
-        orderDetail
+        orderDetail,
       }}
     >
       {children}
@@ -796,7 +839,7 @@ export default CartContextProvider;
 export const useCart = () => {
   const cartContext = useContext(CartContext);
   if (!cartContext) {
-    throw new Error("use Auth must be used within a AuthContextProvider");
+    throw new Error('use Auth must be used within a AuthContextProvider');
   }
 
   const {
@@ -819,7 +862,7 @@ export const useCart = () => {
     tracking,
     pickupPoint,
     orders,
-    orderDetail
+    orderDetail,
   } = cartContext;
   return {
     orderForm,
@@ -841,6 +884,6 @@ export const useCart = () => {
     tracking,
     pickupPoint,
     orders,
-    orderDetail
+    orderDetail,
   };
 };

@@ -21,6 +21,10 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { images } from '../../../assets';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
+import {
+  bannerDefaultQuery,
+  bannerQuery,
+} from '../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
@@ -29,10 +33,6 @@ import {
 } from '../../../graphql/products/productSearch';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
-import {
-  bannerDefaultQuery,
-  bannerQuery,
-} from '../../../graphql/homePage/HomeQuery';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
@@ -319,9 +319,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
-
-
-
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
         <TopBarDefaultBackButton
