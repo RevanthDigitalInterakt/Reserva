@@ -9,6 +9,8 @@ import { Box, Image } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import {
+  Carrousel,
+  CarrouselCard,
   configCollection,
   homeQuery,
   HomeQuery,
@@ -28,6 +30,7 @@ export const HomeScreen: React.FC<{
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([]);
+  const [carrousels, setCarrousels] = React.useState<[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
   const deviceWidth = Dimensions.get('screen').width;
   const { loading, data, refetch } = useQuery(homeQuery, {
@@ -47,6 +50,26 @@ export const HomeScreen: React.FC<{
   const DOT_SIZE = 8;
 
   useEffect(() => {
+    const carrousels = data?.homePageCollection.items[0].carrouselHomeCollection.items.map(
+      (carrousel: Carrousel) => {
+        const parsedCarrousel = carrousel.itemsCollection.items.map(x => {
+          return {
+            fileName: x.image.fileName,
+            title: x.image.title,
+            width: x.image.width,
+            height: x.image.height,
+            size: x.image.size,
+            url: x.image.url,
+            reference: x.reference
+          }
+        })
+
+        return parsedCarrousel
+      }
+    )
+    console.log('carrousels', carrousels)
+    setCarrousels(carrousels)
+
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
         (imageDescription: any) => ({
@@ -147,108 +170,112 @@ export const HomeScreen: React.FC<{
                 overflow: 'hidden',
               }}
             >
-              <Animated.FlatList
-                data={images}
-                style={{ position: 'relative' }}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                decelerationRate="fast"
-                snapToInterval={DEVICE_WIDTH}
-                bounces={false}
-                onScroll={Animated.event(
-                  [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                  { useNativeDriver: true }
-                )}
-                renderItem={({ item }) => (
-                  <Box alignItems="flex-start">
-                    <Box mb="quarck" width={1 / 1}>
-                      <TouchableHighlight
-                        onPress={() => {
-                          const facetInput = [];
-                          const [categoryType, categoryData] =
-                            item.reference.split(':');
-                          if (categoryType === 'category') {
-                            categoryData.split('|').forEach((cat: string) => {
-                              facetInput.push({
-                                key: 'c',
-                                value: cat,
+              {carrousels.map((carrousel: any) =>
+                <>
+                  <Animated.FlatList
+                    data={carrousel}
+                    style={{ position: 'relative' }}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    decelerationRate="fast"
+                    snapToInterval={DEVICE_WIDTH}
+                    bounces={false}
+                    onScroll={Animated.event(
+                      [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                      { useNativeDriver: true }
+                    )}
+                    renderItem={({ item }) => (
+                      <Box alignItems="flex-start">
+                        <Box mb="quarck" width={1 / 1}>
+                          <TouchableHighlight
+                            onPress={() => {
+                              const facetInput = [];
+                              const [categoryType, categoryData] =
+                                item.reference.split(':');
+                              if (categoryType === 'category') {
+                                categoryData.split('|').forEach((cat: string) => {
+                                  facetInput.push({
+                                    key: 'c',
+                                    value: cat,
+                                  });
+                                });
+                              } else {
+                                facetInput.push({
+                                  key: 'productClusterIds',
+                                  value: categoryData,
+                                });
+                              }
+                              navigation.navigate('ProductCatalog', {
+                                facetInput,
+                                referenceId: item.reference,
                               });
-                            });
-                          } else {
-                            facetInput.push({
-                              key: 'productClusterIds',
-                              value: categoryData,
-                            });
-                          }
-                          navigation.navigate('ProductCatalog', {
-                            facetInput,
-                            referenceId: item.reference,
-                          });
-                        }}
-                      >
-                        <Image
-                          resizeMode="cover"
-                          height={item.height}
-                          autoHeight
-                          width={DEVICE_WIDTH}
-                          source={{ uri: item.url }}
-                        />
-                      </TouchableHighlight>
-                    </Box>
-                  </Box>
-                )}
-                keyExtractor={(_, index) => index.toString()}
-              />
-              {images && (
-                <Box
-                  style={{
-                    paddingTop: 20,
-                    flexDirection: 'row',
-                    position: 'relative',
-                    alignSelf: 'center',
-                    bottom: 15,
-                  }}
-                >
-                  {images.map((_, index) => (
-                    <Box
-                      key={index}
-                      style={{
-                        height: DOT_SIZE,
-                        width: DOT_SIZE,
-                        borderRadius: DOT_SIZE,
-                        backgroundColor: '#D8D9DA',
-                        marginRight: DOT_SIZE,
-                      }}
-                    />
-                  ))}
-                  <Animated.View
-                    style={[
-                      {
-                        height: DOT_SIZE,
-                        width: DOT_SIZE,
-                        borderRadius: DOT_SIZE,
-
-                        backgroundColor: '#333333',
-                        position: 'absolute',
-                        bottom: -DOT_SIZE / 20,
-                        left: -DOT_SIZE / 20,
-                      },
-                      {
-                        transform: [
-                          {
-                            translateX: Animated.divide(
-                              scrollX,
-                              DEVICE_WIDTH
-                            ).interpolate({
-                              inputRange: [0, 1],
-                              outputRange: [0, DOT_SIZE + DOT_SIZE],
-                            }),
-                          },
-                        ],
-                      },
-                    ]}
+                            }}
+                          >
+                            <Image
+                              resizeMode="cover"
+                              height={item.height}
+                              autoHeight
+                              width={DEVICE_WIDTH}
+                              source={{ uri: item.url }}
+                            />
+                          </TouchableHighlight>
+                        </Box>
+                      </Box>
+                    )}
+                    keyExtractor={(_, index) => index.toString()}
                   />
-                </Box>
+                  {carrousel && (
+                    <Box
+                      style={{
+                        paddingTop: 20,
+                        flexDirection: 'row',
+                        position: 'relative',
+                        alignSelf: 'center',
+                        bottom: 15,
+                      }}
+                    >
+                      {carrousel.map((_, index) => (
+                        <Box
+                          key={index}
+                          style={{
+                            height: DOT_SIZE,
+                            width: DOT_SIZE,
+                            borderRadius: DOT_SIZE,
+                            backgroundColor: '#D8D9DA',
+                            marginRight: DOT_SIZE,
+                          }}
+                        />
+                      ))}
+                      <Animated.View
+                        style={[
+                          {
+                            height: DOT_SIZE,
+                            width: DOT_SIZE,
+                            borderRadius: DOT_SIZE,
+
+                            backgroundColor: '#333333',
+                            position: 'absolute',
+                            bottom: -DOT_SIZE / 20,
+                            left: -DOT_SIZE / 20,
+                          },
+                          {
+                            transform: [
+                              {
+                                translateX: Animated.divide(
+                                  scrollX,
+                                  DEVICE_WIDTH
+                                ).interpolate({
+                                  inputRange: [0, 1],
+                                  outputRange: [0, DOT_SIZE + DOT_SIZE],
+                                }),
+                              },
+                            ],
+                          },
+                        ]}
+                      />
+                    </Box>
+                  )}
+                </>
               )}
             </Box>
             <FlatList
