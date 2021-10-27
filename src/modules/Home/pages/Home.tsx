@@ -30,7 +30,7 @@ export const HomeScreen: React.FC<{
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([]);
-  const [carrousels, setCarrousels] = React.useState<[]>([]);
+  const [carrousels, setCarrousels] = React.useState<any[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
   const deviceWidth = Dimensions.get('screen').width;
   const { loading, data, refetch } = useQuery(homeQuery, {
@@ -50,7 +50,7 @@ export const HomeScreen: React.FC<{
   const DOT_SIZE = 8;
 
   useEffect(() => {
-    const carrousels = data?.homePageCollection.items[0].carrouselHomeCollection.items.map(
+    const carrousels: any[] = data?.homePageCollection.items[0].carrouselHomeCollection.items.map(
       (carrousel: Carrousel) => {
         const parsedCarrousel = carrousel.itemsCollection.items.map(x => {
           return {
@@ -66,7 +66,7 @@ export const HomeScreen: React.FC<{
 
         return parsedCarrousel
       }
-    )
+    ) || []
     console.log('carrousels', carrousels)
     setCarrousels(carrousels)
 
