@@ -17,6 +17,8 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
 import { images } from '../../../assets';
+import appsFlyer from 'react-native-appsflyer';
+import { paraiso } from 'base16';
 
 const deviceHeight = Dimensions.get("window").height;
 
@@ -55,6 +57,8 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
       },
     }
   );
+
+
 
   //DESTAQUES
   const { data: featuredData, loading: loadingFeatured, }: QueryResult = useQuery(
@@ -152,6 +156,14 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
 
     setShowResults(true);
     setSelectedTerm(false);
+
+    console.log('productSearchIds', data.productSearch.products.map(x => x.productId))
+    const searchIds = data.productSearch.products.map((x: any) => x.productId)
+
+    appsFlyer.logEvent('af_search', {
+      af_search_string: text,
+      af_content_list: searchIds,
+    })
   };
 
   const handleDebouncedSearchTerm = () => {

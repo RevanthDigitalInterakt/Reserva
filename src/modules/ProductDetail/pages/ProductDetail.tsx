@@ -43,6 +43,7 @@ import { Tooltip } from '../components/Tooltip';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 
 import axios from "axios";
+import appsFlyer from 'react-native-appsflyer';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -252,7 +253,16 @@ export const ProductDetail: React.FC<Props> = ({
       console.log("item", itemList);
 
       setItemsSKU(itemList);
-
+      appsFlyer.logEvent(
+        'af_content_view',
+        {
+          af_price: product.priceRange.listPrice.lowPrice,
+          af_content: product.productName,
+          af_content_id: product.productId,
+          af_content_type: product.categoryTree.map(x => x.name).join(),
+          af_currency: 'BRL'
+        }
+      )
     }
   }, [data]);
 
@@ -582,6 +592,7 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     getLastUnits();
   }, [selectedColor, selectedSize])
+
   const addAttachmentsInProducts = async () => {
     try {
       const orderFormId = orderForm?.orderFormId
