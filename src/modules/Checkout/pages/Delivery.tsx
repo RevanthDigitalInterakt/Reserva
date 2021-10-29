@@ -127,7 +127,7 @@ const Delivery: React.FC<{}> = () => {
     if (orderForm) {
       setLoading(true);
 
-      if (selectMethodDelivery) {
+      if (selectMethodDelivery) { // se for igual a true, retirar na loja
         if (pickupPoint) {
           const { deliveryChannel, id, pickupStoreInfo } = pickupPoint;
 
@@ -222,51 +222,54 @@ const Delivery: React.FC<{}> = () => {
   }, [orderForm])
 
   useEffect(() => {
-    const availableAddressesOrderForm =
-      orderForm &&
-      orderForm?.shippingData &&
-      orderForm?.shippingData.availableAddresses
-        .map((a) => ({ ...a, country: "BRA" }));
+    if (!selectMethodDelivery) {// se for para entregar em casa
 
-    const selectedAddressOrderFom = orderForm &&
-      orderForm?.shippingData &&
-      orderForm?.shippingData.selectedAddresses[0]
 
-    console.log('selectedAddressOrderFom', selectedAddressOrderFom)
-    // if (selectedAddressOrderFom?.addressType === "search") {
-    //   selectShippingAddress(selectedAddressOrderFom)
-    // }
-    // if (cookie != null) {
-    //   const { addresses } = profile;
-    //   const newAddresses = addresses?.map((item: any) => {
-    //     const addressId = item.id;
-    //     return ({ ...item, addressId })
-    //   })
-    //   setAddresses(newAddresses);
-    // } else {
-    //   if (availableAddressesOrderForm &&
-    //     availableAddressesOrderForm?.length > 0) {
-    //     setAddresses(availableAddressesOrderForm);
-    //   }
-    // }
-    if (availableAddressesOrderForm &&
-      availableAddressesOrderForm?.length > 0) {
-      const addresses = availableAddressesOrderForm?.filter((x) => {
-        return x.addressType != "search"
-      })
+      const availableAddressesOrderForm =
+        orderForm &&
+        orderForm?.shippingData &&
+        orderForm?.shippingData.availableAddresses
+          .map((a) => ({ ...a, country: "BRA" }));
 
-      if (selectedAddressOrderFom?.addressType === "search") {
-        selectShippingAddress(addresses[0])
+      const selectedAddressOrderFom = orderForm &&
+        orderForm?.shippingData &&
+        orderForm?.shippingData.selectedAddresses[0]
+
+      console.log('selectedAddressOrderFom', selectedAddressOrderFom)
+      // if (selectedAddressOrderFom?.addressType === "search") {
+      //   selectShippingAddress(selectedAddressOrderFom)
+      // }
+      // if (cookie != null) {
+      //   const { addresses } = profile;
+      //   const newAddresses = addresses?.map((item: any) => {
+      //     const addressId = item.id;
+      //     return ({ ...item, addressId })
+      //   })
+      //   setAddresses(newAddresses);
+      // } else {
+      //   if (availableAddressesOrderForm &&
+      //     availableAddressesOrderForm?.length > 0) {
+      //     setAddresses(availableAddressesOrderForm);
+      //   }
+      // }
+      if (availableAddressesOrderForm &&
+        availableAddressesOrderForm?.length > 0) {
+        const addresses = availableAddressesOrderForm?.filter((x) => {
+          return x.addressType != "search"
+        })
+
+        if (selectedAddressOrderFom?.addressType === "search") {
+          selectShippingAddress(addresses[0])
+        }
+        console.log('addresses', addresses)
+        setAddresses(addresses);
+        setSelectedAddress(selectedAddressOrderFom)
       }
-      console.log('addresses', addresses)
-      setAddresses(addresses);
-      setSelectedAddress(selectedAddressOrderFom)
+      // console.log('selectedAddress', selectedAddressOrderFom)
+      // console.log('availableAddressesOrderForm', availableAddressesOrderForm)
+
+      // console.log('addresses', addresses)
     }
-    // console.log('selectedAddress', selectedAddressOrderFom)
-    // console.log('availableAddressesOrderForm', availableAddressesOrderForm)
-
-    // console.log('addresses', addresses)
-
   }, [orderForm, profile]);
 
 
