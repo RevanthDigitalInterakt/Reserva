@@ -4,16 +4,18 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Box, Image, neutroFrio2, theme, Typography } from 'reserva-ui';
 import { marginRight } from 'styled-system';
+import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
 
 interface DefaultCarrouselProps {
-  carrousel: any[]
+  carrousel: CarrouselCard[],
+  showtimeCard: number
 }
 
 const { width } = Dimensions.get('screen');
 
 
-export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel }) => {
+export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, showtimeCard }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const [flatListRef, setFlatListRef] = useState<FlatList<any> | null>(null)
@@ -23,7 +25,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
 
   const navigation = useNavigation();
 
-  const onPressImage = (item: any) => {
+  const onPressImage = (item: CarrouselCard) => {
     const facetInput = [];
     const [categoryType, categoryData] =
       item.reference.split(':');
@@ -73,14 +75,14 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
         <Box alignItems="flex-start">
           <Box mb="quarck" width={1 / 1}>
             <TouchableHighlight
-              onPress={onPressImage}
+              onPress={() => onPressImage(item)}
             >
               <Image
                 resizeMode="cover"
-                height={item.height}
+                height={item.image.height}
                 autoHeight
                 width={DEVICE_WIDTH}
-                source={{ uri: item.url }}
+                source={{ uri: item.image.url }}
               />
             </TouchableHighlight>
           </Box>
@@ -91,18 +93,21 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
     <CarrouselScrollIndicator
       carrouselRef={flatListRef}
       actualPosition={actualPosition}
+      showtime={showtimeCard}
     />
   </>
 }
 
 interface CarrouselScrollIndicatorProps {
   actualPosition: number,
-  carrouselRef: FlatList<any> | null
+  carrouselRef: FlatList<any> | null,
+  showtime: number
 }
 
 const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
   actualPosition,
-  carrouselRef
+  carrouselRef,
+  showtime
 }) => {
   const [width, setWidth] = useState<number>(0)
 
@@ -116,7 +121,7 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
     animatedValue.setValue(5 - width)
     Animated.timing(animatedValue, {
       toValue: 0,
-      duration: 10000,
+      duration: showtime * 1000,
       useNativeDriver: true,
       easing: Easing.linear
     }).start(
@@ -156,7 +161,7 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
             }}
             flex={1}
             backgroundColor='neutroFrio2'
-            height={5}
+            height={2}
             marginRight='quarck'
             marginLeft={index == 0 ? 'quarck' : null}
           >

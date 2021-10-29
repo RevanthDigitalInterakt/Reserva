@@ -29,10 +29,9 @@ export const HomeScreen: React.FC<{
   const navigation = useNavigation();
   const { cleanEmailAndCookie, isCookieEmpty } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
-  const [getProfile, { data: profileData, loading: profileLoading }] =
-    useLazyQuery(profileQuery);
+  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([]);
-  const [carrousels, setCarrousels] = React.useState<any[]>([]);
+  const [carrousels, setCarrousels] = React.useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
   const deviceWidth = Dimensions.get('screen').width;
   const { loading, data, refetch } = useQuery(homeQuery, {
@@ -54,24 +53,7 @@ export const HomeScreen: React.FC<{
   const DOT_SIZE = 8;
 
   useEffect(() => {
-    const carrousels: any[] = data?.homePageCollection.items[0].carrouselHomeCollection.items.map(
-      (carrousel: Carrousel) => {
-        const parsedCarrousel = carrousel.itemsCollection.items.map(x => {
-          return {
-            fileName: x.image.fileName,
-            title: x.image.title,
-            width: x.image.width,
-            height: x.image.height,
-            size: x.image.size,
-            url: x.image.url,
-            reference: x.reference
-          }
-        })
-
-        return parsedCarrousel
-      }
-    ) || []
-
+    const carrousels: Carrousel[] = data?.homePageCollection.items[0].carrouselHomeCollection.items || []
     setCarrousels(carrousels)
 
     const arrayImages =
@@ -175,8 +157,8 @@ export const HomeScreen: React.FC<{
                 overflow: 'hidden',
               }}
             >
-              {carrousels.map((carrousel: any) =>
-                <DefaultCarrousel carrousel={carrousel} />
+              {carrousels.map((carrousel) =>
+                <DefaultCarrousel carrousel={carrousel.itemsCollection.items} showtimeCard={carrousel.showtime} />
               )}
             </Box>
             <FlatList
