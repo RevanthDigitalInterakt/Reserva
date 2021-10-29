@@ -749,7 +749,7 @@ export const BagScreen = () => {
               {couponIsInvalid && (
                 <Box marginRight="micro">
                   <Typography color="vermelhoAlerta" variant="precoAntigo3">
-                    Digite um código válido
+                    Digite um coupom válido
                   </Typography>
                 </Box>
               )}
