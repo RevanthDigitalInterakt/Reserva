@@ -222,8 +222,9 @@ const Delivery: React.FC<{}> = () => {
   }, [orderForm])
 
   useEffect(() => {
+    console.log('teste1')
     if (!selectMethodDelivery) {// se for para entregar em casa
-
+      console.log('teste2')
 
       const availableAddressesOrderForm =
         orderForm &&
@@ -270,7 +271,7 @@ const Delivery: React.FC<{}> = () => {
 
       // console.log('addresses', addresses)
     }
-  }, [orderForm, profile]);
+  }, [orderForm, profile, selectMethodDelivery]);
 
 
 
