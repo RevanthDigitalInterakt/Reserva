@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/core';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import { SafeAreaView, ScrollView, Linking, Platform } from 'react-native';
 import { useClipboard } from '@react-native-clipboard/clipboard';
 
@@ -23,7 +24,6 @@ import Order from '../Components/Order';
 import OrderDetailComponent, {
   IOrderData,
 } from '../Components/OrderDetailComponent';
-import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
@@ -44,9 +44,10 @@ const OrderList: React.FC<any> = ({ route }) => {
   const fetchOrderDetail = async () => {
     if (cookie != null) {
       const data = await orderDetail(order.orderId);
+      console.tron.log(data);
       setOrderDetails(data);
     }
-  }
+  };
 
   const getDeliveryPreview = () => {
     if (orderDetails) {
@@ -80,19 +81,21 @@ const OrderList: React.FC<any> = ({ route }) => {
 
         return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
       }
-    };
-  }
+    }
+  };
   const handleCopiedText = () => {
-    setClickedIcon(true)
+    setClickedIcon(true);
     if (orderDetails) {
-      setCopiedText(orderDetails?.packageAttachment?.packages[0].trackingNumber)
+      setCopiedText(
+        orderDetails?.packageAttachment?.packages[0].trackingNumber
+      );
     }
     setTimeout(() => setClickedIcon(false), 1000);
-  }
+  };
 
   return (
     <>
-      <SafeAreaView flex={1} backgroundColor={'white'}>
+      <SafeAreaView flex={1} backgroundColor="white">
         <TopBarBackButton showShadow />
         <ScrollView
           contentContainerStyle={{ paddingHorizontal: 20 }}
@@ -101,34 +104,51 @@ const OrderList: React.FC<any> = ({ route }) => {
           {orderDetails?.status !== 'canceled' && (
             <>
               {orderDetails &&
-                orderDetails?.packageAttachment.packages.length > 0 &&
-                <>
-
-                  <Box mb="xxxs" justifyContent="flex-start" paddingTop={'md'}>
-                    <Typography variant={'tituloSessoes'}>
-                      Rastreamento de entrega
-                    </Typography>
-                  </Box>
-                  {orderDetails &&
-                    orderDetails?.packageAttachment?.packages[0].courierStatus != null &&
-                    orderDetails?.packageAttachment?.packages[0].courierStatus.data.length > 0 &&
-                    <Box paddingX="xxs" paddingY="xs">
-                      <Stepper
-                        steps={['Pedido Entregue a Transportadora', 'Confirmação', 'Envio', 'Entrega']}
-                        actualStepIndex={2}
-                      />
+                orderDetails?.packageAttachment.packages.length > 0 && (
+                  <>
+                    <Box
+                      mb="xxxs"
+                      justifyContent="flex-start"
+                      paddingTop={'md'}
+                    >
+                      <Typography variant={'tituloSessoes'}>
+                        Rastreamento de entrega
+                      </Typography>
                     </Box>
-                  }
-                </>
-              }
-              {orderDetails &&
+                    {orderDetails &&
+                      orderDetails?.packageAttachment?.packages[0]
+                        .courierStatus != null &&
+                      orderDetails?.packageAttachment?.packages[0].courierStatus
+                        .data.length > 0 && (
+                        <Box paddingX="xxs" paddingY="xs">
+                          <Stepper
+                            steps={[
+                              'Pedido Entregue a Transportadora',
+                              'Confirmação',
+                              'Envio',
+                              'Entrega',
+                            ]}
+                            actualStepIndex={2}
+                          />
+                        </Box>
+                      )}
+                  </>
+                )}
+              {orderDetails && (
                 <Box
                   marginY="micro"
-                  borderBottomWidth={'hairline'}
-                  borderBottomColor={'divider'}
+                  borderBottomWidth="hairline"
+                  borderBottomColor="divider"
                 >
                   <Typography fontSize={14} fontFamily="nunitoBold">
-                    Previsão: {format(new Date(orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate), 'dd/MM/yy', { locale: ptBR })}
+                    Previsão:{' '}
+                    {format(
+                      new Date(
+                        orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate
+                      ),
+                      'dd/MM/yy',
+                      { locale: ptBR }
+                    )}
                     {/* {getDeliveryPreview()} */}
                   </Typography>
                   <Box mt="nano">
@@ -137,83 +157,93 @@ const OrderList: React.FC<any> = ({ route }) => {
                       fontSize={14}
                       fontFamily="nunitoRegular"
                     >
-
-                      {orderDetails.shippingData.logisticsInfo[0].deliveryChannel === "pickup-in-point" ? `Endereço de retirada` : `Endereço de entrega`}:
-                      {
-                        ` ${orderDetails.shippingData.address.street}, ${orderDetails.shippingData.address.number}, ${orderDetails.shippingData.address.neighborhood} - ${orderDetails.shippingData.address.city} - ${orderDetails.shippingData.address.state} - ${orderDetails.shippingData.address.postalCode}
+                      {orderDetails.shippingData.logisticsInfo[0]
+                        .deliveryChannel === 'pickup-in-point'
+                        ? `Endereço de retirada`
+                        : `Endereço de entrega`}
+                      :
+                      {` ${orderDetails.shippingData.address.street}, ${orderDetails.shippingData.address.number}, ${orderDetails.shippingData.address.neighborhood} - ${orderDetails.shippingData.address.city} - ${orderDetails.shippingData.address.state} - ${orderDetails.shippingData.address.postalCode}
                   `}
                     </Typography>
                   </Box>
 
                   {orderDetails &&
-                    orderDetails?.packageAttachment?.packages.length > 0 &&
-                    <>
-
-                      <Box flexDirection="row">
-                        {clickedIcon &&
-                          <Box
-                            position="absolute"
-                            right={"30%"}
-                            bottom={30}
-                            bg="white"
-                            boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
-                            style={{ elevation: 5 }}
-                            width={107}
-                            height={30}
-                            alignItems="center"
-                            justifyContent="center"
-                            borderRadius="nano"
-                          >
+                    orderDetails?.packageAttachment?.packages.length > 0 && (
+                      <>
+                        <Box flexDirection="row" mb="micro">
+                          {clickedIcon && (
+                            <Box
+                              position="absolute"
+                              right={'30%'}
+                              bottom={30}
+                              bg="white"
+                              boxShadow={
+                                Platform.OS === 'ios' ? 'topBarShadow' : null
+                              }
+                              style={{ elevation: 5 }}
+                              width={107}
+                              height={30}
+                              alignItems="center"
+                              justifyContent="center"
+                              borderRadius="nano"
+                            >
+                              <Typography
+                                fontFamily="nunitoRegular"
+                                fontSize={13}
+                              >
+                                Código copiado!
+                              </Typography>
+                            </Box>
+                          )}
+                          <Typography fontFamily="nunitoRegular" fontSize={13}>
+                            Código de rastreio:
+                          </Typography>
+                          <Box ml="quarck">
                             <Typography
-                              fontFamily="nunitoRegular"
-                              fontSize={13}>
-                              Código copiado!
+                              selectable={true}
+                              fontFamily="nunitoExtraBold"
+                              fontSize={13}
+                            >
+                              {
+                                orderDetails?.packageAttachment?.packages[0]
+                                  .trackingNumber
+                              }
                             </Typography>
                           </Box>
-                        }
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={13}
-                        >
-                          Código de rastreio:
-
-                        </Typography>
-                        <Box ml="quarck">
-                          <Typography
-                            selectable={true}
-                            fontFamily="nunitoExtraBold"
-                            fontSize={13}
-                          >
-                            {orderDetails?.packageAttachment?.packages[0].trackingNumber}
-                          </Typography>
+                          <Button ml="xxxs" onPress={() => handleCopiedText()}>
+                            <Icon name="Copy" size={20} color="neutroFrio2" />
+                          </Button>
                         </Box>
-                        <Button ml="xxxs" onPress={() => handleCopiedText()}>
-                          <Icon name="Copy" size={20} color="neutroFrio2" />
-                        </Button>
-                      </Box>
 
-                      <Box mt="micro" mb="xxs">
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={13}
-                          style={{ textDecorationLine: 'underline' }}
-                          onPress={() => Linking.openURL(orderDetails?.packageAttachment?.packages[0]?.trackingUrl)}
-                        >
-                          Ver rastreio no site da transportadora
-                        </Typography>
-
-                      </Box>
-                    </>
-                  }
+                        {orderDetails?.packageAttachment?.packages[0]
+                          ?.trackingUrl != null && (
+                            <Box mb="xxs">
+                              <Typography
+                                fontFamily="nunitoRegular"
+                                fontSize={13}
+                                style={{ textDecorationLine: 'underline' }}
+                                onPress={() =>
+                                  Linking.openURL(
+                                    orderDetails?.packageAttachment?.packages[0]
+                                      ?.trackingUrl
+                                  )
+                                }
+                              >
+                                Ver rastreio no site da transportadora
+                              </Typography>
+                            </Box>
+                          )}
+                      </>
+                    )}
                 </Box>
-              }
+              )}
             </>
           )}
 
           {/* <OrderDetailComponent data={order} deliveryState={3} /> */}
-          {orderDetails &&
+          {orderDetails && (
             <OrderDetailComponent data={orderDetails} deliveryState={3} />
-          }
+          )}
 
           <Typography
             style={{ marginTop: 45 }}
@@ -223,11 +253,13 @@ const OrderList: React.FC<any> = ({ route }) => {
             Forma de pagamento
           </Typography>
 
-          {orderDetails &&
-            <Box mt={'xxs'} flexDirection="row" justifyContent="space-between">
+          {orderDetails && (
+            <Box mt="xxs" flexDirection="row" justifyContent="space-between">
               <Box flexDirection="row" alignItems="center">
-                {orderDetails.paymentData.transactions[0].payments[0].paymentSystem ===
-                  'Cartão de crédito' && <Icon name="Card" size={20} mr="nano" />}
+                {orderDetails.paymentData.transactions[0].payments[0]
+                  .paymentSystem === 'Cartão de crédito' && (
+                    <Icon name="Card" size={20} mr="nano" />
+                  )}
 
                 <Typography fontSize={12} fontFamily="nunitoRegular">
                   {
@@ -236,28 +268,36 @@ const OrderList: React.FC<any> = ({ route }) => {
                   }
                 </Typography>
 
-                {orderDetails.paymentData.transactions[0].payments[0].paymentSystem ===
-                  'Cartão de crédito' && (
+                {orderDetails.paymentData.transactions[0].payments[0]
+                  .paymentSystem === 'Cartão de crédito' && (
                     <Typography
                       style={{ marginLeft: 10 }}
                       fontSize={12}
                       fontFamily="nunitoRegular"
                     >
-                      {orderDetails.paymentData.transactions[0].payments[0].firstDigits}
+                      orderDetails.paymentData.transactions[0].payments[0]
+                      .firstDigits
+                  }
                     </Typography>
                   )}
               </Box>
               <Box flexDirection="row" alignItems="center">
                 <Typography fontSize={14} fontFamily="nunitoSemiBold">
-                  {orderDetails.paymentData.transactions[0].payments[0].installments}x{' '}
+                  {
+                    orderDetails.paymentData.transactions[0].payments[0]
+                      .installments
+                  }
+                  x{' '}
                 </Typography>
                 <Typography fontSize={14} fontFamily="nunitoSemiBold">
-                  R$ {orderDetails.paymentData.transactions[0].payments[0].value / 100}
+                  R${' '}
+                  {orderDetails.paymentData.transactions[0].payments[0].value /
+                    100}
                 </Typography>
               </Box>
             </Box>
-          }
-          <Box mb={'md'} mt="md">
+          )}
+          <Box mb="md" mt="md">
             <Box width="100%">
               <Button
                 inline
