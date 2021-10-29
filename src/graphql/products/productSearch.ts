@@ -3,109 +3,52 @@ import { recoveryPassword } from './../login/recoveryPassword';
 import { gql } from "@apollo/client"
 import { number } from 'yup/lib/locale';
 
-export const productSearch = gql`
-query ProductSearch (
-$query: String = ""
-$fullText: String = ""
-$map: String = ""
-$selectedFacets: [SelectedFacetInput]
-$category: String = ""
-$specificationFilters: [String]
-$priceRange: String = ""
-$collection: String = ""
-$salesChannel: String = ""
-$orderBy: String = "OrderByReviewRateDESC"
-$from: Int = 0
-$to: Int = 9
-$hideUnavailableItems: Boolean = true
-$simulationBehavior: SimulationBehavior = default
-$productOriginVtex: Boolean = false
-$operator: Operator
-$fuzzy: String
-$searchState: String
-$options: Options
-) {
-  productSearch(
-    query: $query
-    fullText: $fullText
-    map: $map
-    selectedFacets: $selectedFacets
-    category: $category
-    specificationFilters: $specificationFilters
-    priceRange: $priceRange
-    collection: $collection
-    salesChannel: $salesChannel
-    orderBy: $orderBy
-    from: $from
-    to: $to
-    hideUnavailableItems: $hideUnavailableItems
-    simulationBehavior: $simulationBehavior
-    productOriginVtex: $productOriginVtex
-    operator: $operator
-    fuzzy: $fuzzy
-    searchState: $searchState
-    options: $options
-  ) @context(provider: "vtex.search-graphql") 
-    {
-        products {
-            categoryTree {
-            href
-            }
-            clusterHighlights {
-                id,
-              	name
-            }
-            items(filter: FIRST_AVAILABLE){
-                images{
-                    imageUrl
-                }
-				itemId
-                variations{
-                    originalName
-                    name
-                    values
-                }
-                sellers{
-                    sellerId
-                    commertialOffer{
-                        Tax
-                        taxPercentage
-                        AvailableQuantity
-                        Price
-                        PriceWithoutDiscount
-                        discountHighlights {
-                            name
-                        }
-                        Installments{
-                            Value
-                            TotalValuePlusInterestRate
-                            NumberOfInstallments
-                            
-                        }
-                    }
-                }
-            }
-            productId
-            productName
-            priceRange {
-                sellingPrice {
-                    highPrice
-                    lowPrice
-                }
-                listPrice {
-                    highPrice
-                    lowPrice
-                }
-            }
-        }
-        recordsFiltered
-        breadcrumb {
+export const productSearch = gql`query {
+    productSearch(
+    hideUnavailableItems: false
+    from: 0
+    to: 49
+    fullText: "MASCARA FACIAL REMOVEDORA DE CRAVOS"
+    selectedFacets:[
+    {key: "trade-policy" value: "4"}
+      ])
+  {
+    products {
+        items {
+        itemId
+        name
+        nameComplete
+        complementName
+        ean
+        measurementUnit
+        unitMultiplier
+        estimatedDateArrival
+          variations {
+            originalName
             name
-            href
+            values
+          }
+              sellers {
+          sellerId
+          sellerName
+          addToCartLink
+          sellerDefault
+                commertialOffer {
+                  Price
+                  ListPrice
+                  spotPrice
+                  PriceWithoutDiscount
+                  RewardValue
+                  PriceValidUntil
+                  AvailableQuantity
+                  Tax
+                  taxPercentage
+                  CacheVersionUsedToCallCheckout
+                }
         }
+      }
     }
-}
-`
+    }}`
 
 export interface ProductSearchVars {
     query?: string

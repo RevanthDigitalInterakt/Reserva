@@ -20,6 +20,8 @@ import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+import { productSearch } from '../../../graphql/products/productSearch';
+import { DefaultCarrousel } from '../component/Carroussel';
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -46,6 +48,8 @@ export const HomeScreen: React.FC<{
   const { width } = Dimensions.get('screen');
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
+  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {})
+
   const DEVICE_WIDTH = width;
   const DOT_SIZE = 8;
 
@@ -67,7 +71,7 @@ export const HomeScreen: React.FC<{
         return parsedCarrousel
       }
     ) || []
-    console.log('carrousels', carrousels)
+
     setCarrousels(carrousels)
 
     const arrayImages =
@@ -111,6 +115,7 @@ export const HomeScreen: React.FC<{
     async function getStorage() {
       const wishListData = await AsyncStorage.getItem('@WishList');
     }
+    refetchTeste()
     getStorage();
   }, []);
   return (
@@ -171,111 +176,7 @@ export const HomeScreen: React.FC<{
               }}
             >
               {carrousels.map((carrousel: any) =>
-                <>
-                  <Animated.FlatList
-                    data={carrousel}
-                    style={{ position: 'relative' }}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    decelerationRate="fast"
-                    snapToInterval={DEVICE_WIDTH}
-                    bounces={false}
-                    onScroll={Animated.event(
-                      [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                      { useNativeDriver: true }
-                    )}
-                    renderItem={({ item }) => (
-                      <Box alignItems="flex-start">
-                        <Box mb="quarck" width={1 / 1}>
-                          <TouchableHighlight
-                            onPress={() => {
-                              const facetInput = [];
-                              const [categoryType, categoryData] =
-                                item.reference.split(':');
-                              if (categoryType === 'category') {
-                                categoryData.split('|').forEach((cat: string) => {
-                                  facetInput.push({
-                                    key: 'c',
-                                    value: cat,
-                                  });
-                                });
-                              } else {
-                                facetInput.push({
-                                  key: 'productClusterIds',
-                                  value: categoryData,
-                                });
-                              }
-                              navigation.navigate('ProductCatalog', {
-                                facetInput,
-                                referenceId: item.reference,
-                              });
-                            }}
-                          >
-                            <Image
-                              resizeMode="cover"
-                              height={item.height}
-                              autoHeight
-                              width={DEVICE_WIDTH}
-                              source={{ uri: item.url }}
-                            />
-                          </TouchableHighlight>
-                        </Box>
-                      </Box>
-                    )}
-                    keyExtractor={(_, index) => index.toString()}
-                  />
-                  {carrousel && (
-                    <Box
-                      style={{
-                        paddingTop: 20,
-                        flexDirection: 'row',
-                        position: 'relative',
-                        alignSelf: 'center',
-                        bottom: 15,
-                      }}
-                    >
-                      {carrousel.map((_, index) => (
-                        <Box
-                          key={index}
-                          style={{
-                            height: DOT_SIZE,
-                            width: DOT_SIZE,
-                            borderRadius: DOT_SIZE,
-                            backgroundColor: '#D8D9DA',
-                            marginRight: DOT_SIZE,
-                          }}
-                        />
-                      ))}
-                      <Animated.View
-                        style={[
-                          {
-                            height: DOT_SIZE,
-                            width: DOT_SIZE,
-                            borderRadius: DOT_SIZE,
-
-                            backgroundColor: '#333333',
-                            position: 'absolute',
-                            bottom: -DOT_SIZE / 20,
-                            left: -DOT_SIZE / 20,
-                          },
-                          {
-                            transform: [
-                              {
-                                translateX: Animated.divide(
-                                  scrollX,
-                                  DEVICE_WIDTH
-                                ).interpolate({
-                                  inputRange: [0, 1],
-                                  outputRange: [0, DOT_SIZE + DOT_SIZE],
-                                }),
-                              },
-                            ],
-                          },
-                        ]}
-                      />
-                    </Box>
-                  )}
-                </>
+                <DefaultCarrousel carrousel={carrousel} />
               )}
             </Box>
             <FlatList

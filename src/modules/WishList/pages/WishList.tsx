@@ -33,6 +33,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   const { email, cookie } = useAuth();
 
+  const [skip, setSkip] = useState(false);
+
   const [removeFromWishList, { loading: loadingIds }] = useMutation(
     wishListQueries.REMOVE_WISH_LIST
   );
@@ -46,6 +48,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     variables: {
       shopperId: email,
     },
+    skip,
   });
 
   const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
@@ -59,8 +62,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     },
   });
 
-  const [storeWish, setStoreWish] = useState<any>([]);
-
   useEffect(() => {
     console.log('products', products);
   }, [products]);
@@ -70,10 +71,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     console.log('cookie', cookie);
   }, [email, cookie]);
 
-  /*  useEffect(() => {
-     console.log('wishIds', wishIds)
-   }, [wishIds])
-  */
+  /* useEffect(() => {
+    console.log('wishIds', wishIds);
+  }, [wishIds]); */
+
   const handleFavorite = async (wishId: any) => {
     if (email) {
       console.log(wishId);
@@ -91,61 +92,32 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   };
 
-  async function getStorage() {
-    const wishListData = await AsyncStorage.getItem('@WishList');
-
-    setStoreWish(JSON.parse(wishListData));
-
-    console.log('SAVED WISH LIST>>>>', JSON.parse(wishListData));
-  }
-
-  useEffect(() => {
-    getStorage();
-  }, []);
-
   useEffect(() => {
     console.log('wishIds', wishIds);
-    if (wishIds.length) {
+    if (wishIds) {
       const idArray = wishIds.map((x) => x.productId.split('-')[0]) || [];
-      refetchProducts({ idArray });
-    } else {
-      console.log('AQUI?');
-      getStorage();
-      const idArray = storeWish.map((x) => x.productId.split('-')[0]) || [];
       refetchProducts({ idArray });
     }
   }, [wishIds]);
 
   useEffect(() => {
-    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
+    if (products?.productsByIdentifier) {
       setWishProducts(products.productsByIdentifier);
+      setSkip(true);
+    }
   }, [products]);
 
   useEffect(() => {
     console.log(email);
-    if (productIds?.viewList.data) {
-      AsyncStorage.setItem(
-        '@WishList',
-        JSON.stringify(productIds?.viewList.data)
-      );
-      setWishIds(productIds?.viewList.data);
-
-      const idArray =
-        productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
-      console.log(idArray);
-      if (idArray.length) {
-        refetch();
-      }
-    } else {
-      getStorage();
-      setWishIds(storeWish);
-
-      const idArray = storeWish.map((x) => x.productId.split('-')[0]) || [];
-      console.log(idArray);
-      if (idArray.length) {
-        refetch();
-      }
-    }
+    setWishIds(productIds?.viewList.data);
+    setSkip(false);
+    /* const idArray =
+      productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
+    console.log(idArray);
+    if (idArray.length) {
+      refetchProducts({ idArray });
+      // refetch();
+    } */
   }, [productIds]);
 
   useEffect(() => {
@@ -158,9 +130,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
     // if (!!email) {
 
-    const idArray = productIds?.viewList.data.map((x) => x.productId) || [];
+    // const idArray = productIds?.viewList.data.map((x) => x.productId) || [];
+
     refetch();
-    refetchProducts({ idArray });
+    // refetchProducts({ idArray });
     // } else {
     //   navigation.navigate('Login', { comeFrom: 'Profile' })
     // }
