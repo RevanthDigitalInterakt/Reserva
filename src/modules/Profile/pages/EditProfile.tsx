@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -18,25 +17,23 @@ import {
   Checkbox,
 } from "reserva-ui";
 import { addHours, format, parseISO } from "date-fns";
-import { ApplicationState } from "../../../store";
-import { profileLoad } from "../../../store/ducks/profile/actions";
 import { useQuery, useMutation } from "@apollo/client";
 import {
-  Profile,
-  ProfileState,
   profileQuery,
   ProfileQuery,
   profileMutation,
   ProfileCustomFieldsInput,
-} from "../../../store/ducks/profile/types";
+} from "../../../graphql/profile/profileQuery";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { subscribeNewsLetter } from "../../../graphql/profile/newsLetter";
+import { useAuth } from "../../../context/AuthContext";
 
 export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
+  const { cleanEmailAndCookie } = useAuth()
   const [subscribed, setSubscribed] = useState(false);
   const [userData, setUserData] = useState<ProfileQuery>({
     userId: "",
@@ -81,6 +78,10 @@ export const EditProfile: React.FC<{
           (x: any) => x.key == "isNewsletterOptIn"
         ).value === "true" || subscribed
       );
+    } else {
+      if (!loading) {
+        cleanEmailAndCookie()
+      }
     }
   }, [data]);
 

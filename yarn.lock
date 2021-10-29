@@ -7683,10 +7683,10 @@ requires-port@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reserva-ui@0.0.209:
-  version "0.0.209"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.209.tgz#7ae66cbad8300203ec2143b21a2eed9e70776515"
-  integrity sha1-euZsutgwAgPsIUOyGi7tnnB3ZRU=
+reserva-ui@0.0.211:
+  version "0.0.211"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.211.tgz#7d9ab94a17f8a5cfc7781ceebbd738af9cd33147"
+  integrity sha1-fZq5Shf4pc/HeBzuu9c4r5zTMUc=
   dependencies:
     lottie-react-native "^4.0.3"
 
@@ -8962,10 +8962,6 @@ vm2@^3.9.3:
   version "3.9.3"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/vm2/-/vm2-3.9.3.tgz#29917f6cc081cc43a3f580c26c5b553fd3c91f40"
   integrity sha1-KZF/bMCBzEOj9YDCbFtVP9PJH0A=
-
-vtex.search-graphql@vtex-apps/search-graphql:
-  version "0.0.0"
-  resolved "https://codeload.github.com/vtex-apps/search-graphql/tar.gz/fd496e8f16b7d0e4ea371390b2d012be047f0e08"
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

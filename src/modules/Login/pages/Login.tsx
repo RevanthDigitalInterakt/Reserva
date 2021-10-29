@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
+import appsFlyer from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
 import * as Yup from 'yup';
@@ -16,8 +16,8 @@ import {
   classicSignInMutation,
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { profileQuery } from '../../../store/ducks/profile/types';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 
@@ -80,9 +80,19 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
+        appsFlyer.logEvent(
+          'af_login',
+          {},
+          (res) => {
+            console.log('AppsFlyer', res);
+          },
+          (err) => {
+            console.error('AppsFlyer Error', err);
+          }
+        );
         setEmail(loginCredentials.username);
         AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(
-          () => {}
+          () => { }
         );
       } else {
         validateCredentials();

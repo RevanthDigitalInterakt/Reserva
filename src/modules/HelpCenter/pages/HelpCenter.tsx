@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
 import {
   Typography,
   Box,
@@ -17,7 +16,6 @@ import ItemListHelp from "../Components/ItemListHelp";
 
 export const HelpCenter: React.FC<{}> = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const [search, setSearch] = useState("");
   const data = [
@@ -57,10 +55,10 @@ export const HelpCenter: React.FC<{}> = () => {
             onValueChange={(text) => {
               setSearch(text);
               const newFilter = data.filter((item) => {
-                const regex = new RegExp(text,"gi");
+                const regex = new RegExp(text, "gi");
                 return item.title.match(regex) != null;
               });
-              
+
               setFilter(newFilter);
             }}
           />

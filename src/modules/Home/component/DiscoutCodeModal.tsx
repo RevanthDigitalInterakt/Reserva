@@ -8,17 +8,27 @@ import { left, opacity, right } from "styled-system"
 import Clipboard from "@react-native-clipboard/clipboard"
 import { View } from "react-native-animatable"
 
+interface IData {
+  coupon: string;
+  colorButton: string;
+  titleButton: string;
+  descriptionModal: string;
+  shareMessage: string;
+  titleModal: string;
+  colorBar: string;
+  titleBar: string;
+}
 interface DiscoutCodeModalProps {
-  isVisible: boolean,
-  code: string,
-  onClose: () => void,
+  data: IData;
+  isVisible: boolean;
+  onClose: () => void;
 }
 
 const { width: screenWidth } = Dimensions.get('screen')
 
 export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
+  data,
   isVisible,
-  code,
   onClose
 }) => {
 
@@ -36,7 +46,7 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
   }
 
   const onClickCopy = () => {
-    Clipboard.setString(code)
+    Clipboard.setString(data.coupon)
 
     Animated.sequence([
       Animated.timing(toastOpacity, {
@@ -55,28 +65,21 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
   const onClickShare = () => {
     Share.open({
       title: 'Compartilhar',
-      message: `Estou te dando R$ 50 em créditos* na Reserva! Pra resgatar, é só baixar o app e inserir na sacola o meu código ${code}. Eu não ia te deixar de fora dessa, né? 
-
-https://apps.apple.com/br/app/reserva-ar-co/id1566861458
-
-https://play.google.com/store/apps/details?id=com.usereserva
-
-*Válido apenas na 1ª compra no app, com valor acima de R$ 150.`,
-
+      message: data.shareMessage
     })
   }
 
 
   return isVisible && <>
 
-    <Box position='absolute' zIndex={12} top={50} backgroundColor='verdeSucesso' width='100%' height={37} flexDirection='row'>
+    <Box position='absolute' zIndex={12} top={50} backgroundColor={data.colorBar} width='100%' height={37} flexDirection='row'>
       <Box flex={1} justifyContent='center' alignItems='center'>
         <Button onPress={() => setIsVisibleModal(true)}>
           <Typography
             color='white'
             fontFamily='reservaSansRegular'
             fontSize={13}
-          >Dê R$ 50 em créditos pra quem você quiser!</Typography>
+          >{data.titleBar}</Typography>
         </Button>
       </Box>
       <Box width={28} justifyContent='center' alignItems='center'>
@@ -128,7 +131,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
               textAlign='center'
               lineHeight={25}
             >
-              Divulgue seu código e chame todo mundo para baixar o app
+              {data.titleModal}
             </Typography>
           </Box>
 
@@ -146,7 +149,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
               textAlign='center'
               lineHeight={18}
             >
-              Para ganhar, o(a) convidado(a) deve inserir o código na sacola no fechamento da sua 1ª compra no app, com valor acima de R$ 150.
+              {data.descriptionModal}
             </Typography>
           </Box>
         </Box>
@@ -186,7 +189,7 @@ https://play.google.com/store/apps/details?id=com.usereserva
                 fontFamily='reservaSerifBold'
                 fontSize={20}
               >
-                {code}
+                {data.coupon}
               </Typography>
               <Box position='absolute' right={17.5} >
                 <Icon name='Copy' size={16} color='neutroFrio2' />
@@ -198,14 +201,14 @@ https://play.google.com/store/apps/details?id=com.usereserva
             onPress={onClickShare}
             mt={10.3}
             inline>
-            <Box backgroundColor='verdeSucesso' width='100%' alignItems='center' justifyContent='center' height={50}>
+            <Box backgroundColor={data.colorButton} width='100%' alignItems='center' justifyContent='center' height={50}>
               <Typography
                 color='white'
                 fontFamily='nunitoSemiBold'
                 fontSize={13}
                 letterSpacing={1.6}
               >
-                COMPARTILHAR
+                {data.titleButton}
               </Typography>
             </Box>
           </Button>

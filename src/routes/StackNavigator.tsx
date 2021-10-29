@@ -22,26 +22,21 @@ import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDe
 import Checkout from '../modules/Checkout/pages/WebviewCheckout';
 import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
 import { Credits } from '../modules/Credits/pages/Credits';
-import { ExampleScreen } from '../modules/Example/pages/Example';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
 import { HomeScreen } from '../modules/Home/pages/Home';
-import { IdentifyEmail } from '../modules/LoginCheckout/pages/IdentifyEmail';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
 import { ListCards } from '../modules/Profile/pages/ListCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
-import { Register } from '../modules/Register/pages/Register';
-import { RegisterSuccess } from '../modules/Register/pages/RegisterSuccess';
 import { SearchScreen } from '../modules/Search/pages/Search';
 import { StoreUpdate } from '../modules/Update/pages/StoreUpdate';
 import Update from '../modules/Update/pages/Update';
 import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
 import { WishList } from '../modules/WishList/pages/WishList';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
-import { Wish } from '../store/ducks/wishlist/types';
 
 import {
   AddressFlow,
@@ -55,14 +50,8 @@ import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
 
 export type RootStackParamList = {
-  Register: {
-    reset: Boolean;
-    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite';
-  };
   SearchScreen: { searchterm?: string };
   ProductDetail: { productId: string; colorSelected: string };
-  RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
-  LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   ProductCatalog: {
     safeArea: boolean;
@@ -80,8 +69,7 @@ export type RootStackParamList = {
     orderId?: string;
   };
   ForgotAccessCode: { email: string };
-  ShowListByCategory: { categoryName: string; products: Wish[] };
-  IdentifyEmail: {};
+  ShowListByCategory: { categoryName: string; products: any[] };
   AccessCode: {
     email: string;
   };
@@ -185,12 +173,10 @@ export const MainStackScreen = () => (
         initialParams={flow.initialParams}
       />
     ))}
-    <MainStack.Screen name="Example" component={ExampleScreen} />
     <MainStack.Screen name="SearchMenu" component={SearchScreen} />
     {/* <MainStack.Screen name="WishList" component={WishList} /> */}
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
     <MainStack.Screen name="WishListCategory" component={WishListCategory} />
-    <MainStack.Screen name="IdentifyEmail" component={IdentifyEmail} />
     <MainStack.Screen
       name="ShowListByCategory"
       component={ShowListByCategory}
@@ -229,16 +215,6 @@ export const MainStackScreen = () => (
     <MainStack.Screen name="PixScreen" component={PixScreen} />
     <MainStack.Screen name="GiftVoucherScreen" component={GiftVoucherScreen} />
     <MainStack.Screen name="BarCodePayment" component={BarCodePayment} />
-    <MainStack.Screen
-      name="Register"
-      component={Register}
-      initialParams={{ reset: false }}
-    />
-    <MainStack.Screen
-      name="RegisterSuccess"
-      component={RegisterSuccess}
-      initialParams={{ comefrom: 'Profile' }}
-    />
 
     <MainStack.Screen name="SizeGuide" component={SizeGuide} />
     <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />

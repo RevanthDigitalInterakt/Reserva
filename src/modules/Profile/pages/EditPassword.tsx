@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { Alert, SafeAreaView, ScrollView } from "react-native";
 import { ErrorMessage, Formik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
 import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -13,15 +12,15 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
   profileMutationPassword,
   profileQuery,
-} from "../../../store/ducks/profile/types";
+} from "../../../graphql/profile/profileQuery";
 import { FormikTextInput } from "../../../shared/components/FormikTextInput";
 import { redefinePasswordMutation } from "../../../graphql/profile/redefinePassword";
+import { useAuth } from "../../../context/AuthContext";
 
 type Props = StackScreenProps<RootStackParamList, "EditPassword">;
 export const EditPassword = ({ route }: Props) => {
   const navigation = useNavigation();
   const formRef = useRef<any>(null);
-  const dispatch = useDispatch();
   const [email, setEmail] = useState();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
@@ -29,11 +28,14 @@ export const EditPassword = ({ route }: Props) => {
   const [newPassword, { data: dataMutation, loading: loadingMutation, error: newPasswordError }] =
     useMutation(redefinePasswordMutation);
 
+  // const { cleanEmailAndCookie } = useAuth()
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [changeSuccess, setChangeSuccess] = useState(false);
   const [resultChangePassword, setResultChangePassword] = useState<any>([]);
 
   useEffect(() => {
+    // if (!data && !loading) cleanEmailAndCookie()
+
     if (!loading) {
       setEmail(data?.profile?.email);
     }

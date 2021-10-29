@@ -6,16 +6,14 @@ import {
 } from "@react-navigation/native";
 import * as React from "react";
 import { ScrollView } from "react-native";
-import { useSelector } from "react-redux";
 import { Typography, Box, Button } from "reserva-ui";
 import { useAuth } from "../../../context/AuthContext";
-import { ApplicationState } from "../../../store";
 
 import { TopBarDefault } from "../../Menu/components/TopBarDefault";
 import ItemList from "../Components/ItemList";
 import { withAuthentication } from "../HOC/withAuthentication";
 import { useQuery } from "@apollo/client";
-import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
+import { profileQuery, ProfileVars } from "../../../graphql/profile/profileQuery";
 import { useState, useEffect } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../routes/StackNavigator";
@@ -25,7 +23,6 @@ import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const { cookie, setCookie, setEmail } = useAuth();
-  // const { profile } = useSelector((state: ApplicationState) => state);
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<ProfileVars>();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({})

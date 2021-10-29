@@ -2,17 +2,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import { SafeAreaView, ScrollView, Alert } from "react-native";
 import { Typography, Box, Button } from "reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { ApplicationState } from "../../../store";
+import { useNavigation } from "@react-navigation/native";
+import { withAuthentication } from "../../Profile/HOC/withAuthentication";
 import { request, checkMultiple, PERMISSIONS, RESULTS, } from 'react-native-permissions';
 import { useCart } from "../../../context/CartContext";
 import { useAuth } from "../../../context/AuthContext";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
-import { profileQuery } from "../../../store/ducks/profile/types";
+import { profileQuery } from "../../../graphql/profile/profileQuery";
 import ReceiveHome from "../components/ReceiveHome"
 import Store from "../components/Store";
-
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -20,7 +19,6 @@ const Delivery: React.FC<{}> = () => {
   const { cookie, setCookie, email } = useAuth();
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
-  const { authentication } = useSelector((state: ApplicationState) => state);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [selectedDelivery, setSelectedDelivery] = useState<any>(null);
@@ -110,6 +108,7 @@ const Delivery: React.FC<{}> = () => {
       );
 
       const data = await addShippingOrPickupInfo(logisticInfo, [{ ...item, addressType: "residential" }],);
+      console.log('addShippingOrPickupInfo', addShippingOrPickupInfo)
       setLoading(false)
     }
   }
@@ -229,10 +228,14 @@ const Delivery: React.FC<{}> = () => {
       orderForm?.shippingData.availableAddresses
         .map((a) => ({ ...a, country: "BRA" }));
 
-    const selectedAddress = orderForm &&
+    const selectedAddressOrderFom = orderForm &&
       orderForm?.shippingData &&
       orderForm?.shippingData.selectedAddresses[0]
 
+    console.log('selectedAddressOrderFom', selectedAddressOrderFom)
+    // if (selectedAddressOrderFom?.addressType === "search") {
+    //   selectShippingAddress(selectedAddressOrderFom)
+    // }
     // if (cookie != null) {
     //   const { addresses } = profile;
     //   const newAddresses = addresses?.map((item: any) => {
@@ -248,9 +251,22 @@ const Delivery: React.FC<{}> = () => {
     // }
     if (availableAddressesOrderForm &&
       availableAddressesOrderForm?.length > 0) {
-      setAddresses(availableAddressesOrderForm);
+      const addresses = availableAddressesOrderForm?.filter((x) => {
+        return x.addressType != "search"
+      })
+
+      if (selectedAddressOrderFom?.addressType === "search") {
+        selectShippingAddress(addresses[0])
+      }
+      console.log('addresses', addresses)
+      setAddresses(addresses);
+      setSelectedAddress(selectedAddressOrderFom)
     }
-    setSelectedAddress(selectedAddress)
+    // console.log('selectedAddress', selectedAddressOrderFom)
+    // console.log('availableAddressesOrderForm', availableAddressesOrderForm)
+
+    // console.log('addresses', addresses)
+
   }, [orderForm, profile]);
 
 

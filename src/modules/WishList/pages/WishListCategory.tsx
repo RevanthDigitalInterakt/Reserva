@@ -1,21 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { Box, Icon, Typography, Image, Button } from 'reserva-ui';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { images } from '../../../assets';
-import { useSelector } from 'react-redux';
-import { ApplicationState } from '../../../store';
-import { Wish } from '../../../store/ducks/wishlist/types';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 
 const screenWidth = Dimensions.get('window').width;
 
 export const WishListCategory: React.FC<{}> = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const wishlist = useSelector(
-    (state: ApplicationState) => state.wishlist.data
-  );
+  const [wishlist, setWishlist] = useState<any>([]);
   let categories: string[] = [];
   wishlist.forEach((val, idx, self) => {
     if (!categories.find((x) => x == val.category))

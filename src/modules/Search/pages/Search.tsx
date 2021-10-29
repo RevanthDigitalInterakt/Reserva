@@ -6,18 +6,19 @@ import { ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import * as Animatable from 'react-native-animatable';
 import { Box, Button, Divider, SearchBar, Typography, Image, ProductVerticalListCard, Icon } from 'reserva-ui';
-import { configCollection, ConfigCollection } from '../../../store/ducks/HomePage/types';
+import { configCollection, ConfigCollection } from '../../../graphql/homePage/HomeQuery';
 import { topSearches, TopSearches } from '../../../graphql/products/topSearches';
 import { searchSuggestions, SearchSuggestionsVars, searchSuggestionsAndProductSearch } from '../../../graphql/products/searchSuggestions';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import useDebounce from '../../../shared/hooks/useDebounce';
-import { Product } from '../../../store/ducks/product/types';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
 import { images } from '../../../assets';
+import appsFlyer from 'react-native-appsflyer';
+import { paraiso } from 'base16';
 
 const deviceHeight = Dimensions.get("window").height;
 
@@ -31,9 +32,9 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
 
   const [waiting, setWaiting] = React.useState(false);
 
-  const [products, setProducts] = useState<Product[]>();
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>();
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>();
+  const [products, setProducts] = useState<any[]>();
+  const [relatedProducts, setRelatedProducts] = useState<any[]>();
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>();
   const [suggestions, setSuggestions] = useState<SearchSuggestionsVars[]>([]);
   const [mostSearched, setMostSearched] = useState<TopSearches[]>([]);
   const [productNews, setProductNews] = useState<ConfigCollection[]>([]);
@@ -56,6 +57,8 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
       },
     }
   );
+
+
 
   //DESTAQUES
   const { data: featuredData, loading: loadingFeatured, }: QueryResult = useQuery(
@@ -153,6 +156,14 @@ export const SearchScreen: React.FC<Props> = ({ route, }) => {
 
     setShowResults(true);
     setSelectedTerm(false);
+
+    console.log('productSearchIds', data.productSearch.products.map(x => x.productId))
+    const searchIds = data.productSearch.products.map((x: any) => x.productId)
+
+    appsFlyer.logEvent('af_search', {
+      af_search_string: text,
+      af_content_list: searchIds,
+    })
   };
 
   const handleDebouncedSearchTerm = () => {

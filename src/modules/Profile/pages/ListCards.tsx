@@ -7,9 +7,9 @@ import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useQuery } from '@apollo/client';
-import { profileQuery } from '../../../store/ducks/profile/types';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 
-interface ListCardsScreenProps {}
+interface ListCardsScreenProps { }
 interface CardProps {
   cardNumber: string;
   id: string;

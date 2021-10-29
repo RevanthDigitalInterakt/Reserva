@@ -2,20 +2,18 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button, Checkbox } from "reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const NotificationProfile: React.FC<{}> = () => {
-  const dispatch = useDispatch();
   const [data, setData] = useState({
     whatsapp: true,
     email: false,
     phone: true,
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">

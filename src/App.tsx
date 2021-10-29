@@ -5,26 +5,23 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import codePush from 'react-native-code-push';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 
-import { oneSignalConfig } from './config/pushNotification';
-import { apolloClient } from './services/apolloClient';
+import { env } from './config/env';
+import { linkingConfig } from './config/linking';
 import AuthContextProvider from './context/AuthContext';
 import CartContextProvider from './context/CartContext';
-import { env } from './config/env';
 import InitialScreen from './InitialScreen';
-import configureStore from './store/index';
 
 import './config/ReactotronConfig';
 import 'react-native-gesture-handler';
 
-import { linkingConfig } from './config/linking';
+import { oneSignalConfig } from './config/pushNotification';
 import { StoreUpdate } from './modules/Update/pages/StoreUpdate';
 import Update from './modules/Update/pages/Update';
 import { AppRouting } from './routes/AppRouting';
+import { apolloClient } from './services/apolloClient';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -144,13 +141,9 @@ const App = () => {
         <CartContextProvider>
           <AuthContextProvider>
             <ApolloProvider client={apolloClient}>
-              <Provider store={configureStore().store}>
-                <PersistGate persistor={configureStore().persistor}>
-                  <InitialScreen>
-                    <AppRouting />
-                  </InitialScreen>
-                </PersistGate>
-              </Provider>
+              <InitialScreen>
+                <AppRouting />
+              </InitialScreen>
             </ApolloProvider>
           </AuthContextProvider>
         </CartContextProvider>

@@ -8,7 +8,6 @@ import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
   Box,
@@ -27,19 +26,6 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
-import { ApplicationState } from '../../../store';
-import {
-  appendCoupons,
-  increaseOrderCount,
-  removeOrders,
-} from '../../../store/ducks/orders/actions';
-import {
-  CouponsOrders,
-  OrderItems,
-  OrderRequest,
-  PaymentType,
-} from '../../../store/ducks/orders/types';
-import { Product } from '../../../store/ducks/product/types';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
@@ -48,6 +34,8 @@ import { ModalBook } from '../components/ModalBook';
 import { PriceCustom } from '../components/PriceCustom';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import appsFlyer from 'react-native-appsflyer';
+import { CategoriesParserString } from '../../../utils/categoriesParserString';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -203,8 +191,22 @@ export const BagScreen = () => {
         clientProfileData.email &&
         clientProfileData.firstName;
 
-      const hasAddress =
-        shippingData && shippingData.availableAddresses.length > 0;
+      const hasAddress = shippingData && shippingData.availableAddresses.length > 0;
+
+      const af_content_id = orderForm.items.map(i => i.productId)
+      const af_content_type = orderForm.items.map(i => CategoriesParserString(i.productCategories))
+      const af_quantity = orderForm.items.map(i => i.quantity)
+
+      appsFlyer.logEvent(
+        'af_initiated_checkout',
+        {
+          af_price: totalBag + totalDiscountPrice + totalDelivery,
+          af_content_id,
+          af_content_type,
+          af_currency: 'BRL',
+          af_quantity
+        }
+      )
 
       if (!email) {
         navigate('EnterYourEmail');
