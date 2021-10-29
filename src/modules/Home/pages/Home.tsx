@@ -50,10 +50,6 @@ export const HomeScreen: React.FC<{
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {})
 
-  useEffect(() => {
-    console.log('teste', teste)
-  }, [teste])
-
   const DEVICE_WIDTH = width;
   const DOT_SIZE = 8;
 
@@ -75,7 +71,7 @@ export const HomeScreen: React.FC<{
         return parsedCarrousel
       }
     ) || []
-    console.log('carrousels', carrousels)
+
     setCarrousels(carrousels)
 
     const arrayImages =
