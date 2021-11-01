@@ -7116,10 +7116,10 @@ react-native-cardscan@^1.1.30:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-cardscan/-/react-native-cardscan-1.1.30.tgz#34bff02a93815d07f784ebe86fc2fdc4412ca5ae"
   integrity sha1-NL/wKpOBXQf3hOvob8L9xEEspa4=
 
-react-native-code-push@^7.0.1:
-  version "7.0.3"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-code-push/-/react-native-code-push-7.0.3.tgz#e13e1b0d89f84872550ffe989a576524280f1a26"
-  integrity sha1-4T4bDYn4SHJVD/6YmldlJCgPGiY=
+react-native-code-push@7.0.4:
+  version "7.0.4"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-code-push/-/react-native-code-push-7.0.4.tgz#13a9d3cc12bee24cb317defb6560caddcb937b71"
+  integrity sha1-E6nTzBK+4kyzF977ZWDK3cuTe3E=
   dependencies:
     code-push "^4.0.5"
     glob "^7.1.7"

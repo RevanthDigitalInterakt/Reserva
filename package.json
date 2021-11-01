@@ -46,7 +46,7 @@
     "react-native-appsflyer": "^6.3.50",
     "react-native-appstore-version-checker": "^3.0.0",
     "react-native-cardscan": "^1.1.30",
-    "react-native-code-push": "^7.0.1",
+    "react-native-code-push": "7.0.4",
     "react-native-credit-card-display": "https://github.com/ebellumat/react-native-credit-card-display",
     "react-native-credit-card-input-view": "^0.0.7",
     "react-native-device-info": "^8.3.1",

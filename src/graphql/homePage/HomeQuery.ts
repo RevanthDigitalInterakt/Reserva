@@ -20,6 +20,7 @@ export interface ConfigCollection {
 export interface Carrousel {
   type: string
   title: string
+  showtime: number
   itemsCollection: {
     items: CarrouselCard[]
   }
@@ -61,6 +62,7 @@ export const homeQuery = gql`
         items{
           type
           title
+          showtime
           itemsCollection(limit: 10){
             items{
               image{
