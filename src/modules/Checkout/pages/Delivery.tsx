@@ -108,7 +108,6 @@ const Delivery: React.FC<{}> = () => {
       );
 
       const data = await addShippingOrPickupInfo(logisticInfo, [{ ...item, addressType: "residential" }],);
-      console.log('addShippingOrPickupInfo', addShippingOrPickupInfo)
       setLoading(false)
     }
   }
@@ -222,9 +221,7 @@ const Delivery: React.FC<{}> = () => {
   }, [orderForm])
 
   useEffect(() => {
-    console.log('teste1')
     if (!selectMethodDelivery) {// se for para entregar em casa
-      console.log('teste2')
 
       const availableAddressesOrderForm =
         orderForm &&
@@ -236,7 +233,6 @@ const Delivery: React.FC<{}> = () => {
         orderForm?.shippingData &&
         orderForm?.shippingData.selectedAddresses[0]
 
-      console.log('selectedAddressOrderFom', selectedAddressOrderFom)
       // if (selectedAddressOrderFom?.addressType === "search") {
       //   selectShippingAddress(selectedAddressOrderFom)
       // }
@@ -262,14 +258,10 @@ const Delivery: React.FC<{}> = () => {
         if (selectedAddressOrderFom?.addressType === "search") {
           selectShippingAddress(addresses[0])
         }
-        console.log('addresses', addresses)
+
         setAddresses(addresses);
         setSelectedAddress(selectedAddressOrderFom)
       }
-      // console.log('selectedAddress', selectedAddressOrderFom)
-      // console.log('availableAddressesOrderForm', availableAddressesOrderForm)
-
-      // console.log('addresses', addresses)
     }
   }, [orderForm, profile, selectMethodDelivery]);
 
