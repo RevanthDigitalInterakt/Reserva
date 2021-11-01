@@ -140,7 +140,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     });
     setLoading(false);
     if (isAddressSaved) {
-      navigation.navigate("Checkout");
+      navigation.goBack();
     }
   };
 
@@ -346,7 +346,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         {!edit && (
           <Button
             onPress={!isCheckout ? handleSaveAddress : handlePaymentMethodScreen}
-            title={!isCheckout ? "INCLUIR ENDEREÇO" : "FORMA DE PAGAMENTO"}
+            title={"INCLUIR ENDEREÇO"}
             variant="primarioEstreito"
             inline
           />

@@ -23,6 +23,7 @@ export const EnterYourEmail = () => {
       email === orderForm?.clientProfileData?.email &&
       orderForm?.clientProfileData?.firstName && orderForm?.clientProfileData?.lastName
     ) {
+      await identifyCustomer(email);
       navigation.navigate('DeliveryScreen');
     } else {
       const hasCustomer = await identifyCustomer(email);
