@@ -137,6 +137,7 @@ const Store = ({ storeDetail, data }: IStore) => {
                     </Box>
                     <Modal
                         isVisible={showModalStore}
+                        onBackdropPress={() => setShowModalStore(false)}
                     >
                         <Box
                             bg='white'
