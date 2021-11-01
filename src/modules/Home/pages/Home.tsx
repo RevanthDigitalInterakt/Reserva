@@ -27,7 +27,7 @@ export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
-  const { cleanEmailAndCookie, isCookieEmpty } = useAuth();
+  const { cleanEmailAndCookie, isCookieEmpty, setCookie } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([]);
