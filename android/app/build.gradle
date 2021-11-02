@@ -153,8 +153,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 32
-        versionName "1.1.11"
+        versionCode 29
+        versionName "1.1.9"
     }
     splits {
         abi {

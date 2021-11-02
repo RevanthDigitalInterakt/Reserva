@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "app-reserva-324612",
+  "private_key_id": "61a79ce0a1f6f7b3c57e9d799781132754783a23",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDB/2oaachsdiJC\naaJSnuQrrAU/6Ywl9qXqiwlvX6uHUxCUn9Mjj6igdgwdJNX+PAYCWh3Xa0UOtnfC\n57OuZXmABpLWvz5Oy1bvEQ5TiMe96SFxJIKtU1Nla0Bs1TBpnZqYUENrCpZViUbQ\nT4P26QYLG3EC/Bk9vS8xyemNjftSjKi12+YgkAdmCBfpACEzIKq/Pt1OGVNla+Kz\nQtDnyNCwtxewbTLUljaXd8rZ2hWxauIo0krvMm/7JdTXJj2djc3W7LPUiukWRhdU\nCvu2QmQ/N5S8WgTq7lDyJDBGLWgZJYqbz51CUEhzXIo/qhUG60Jciye6OLHwCWbV\n2J0VoLhxAgMBAAECggEAU+/zNKJ4eZVTlXCnLyBYkRzI2LJwVSy29RhbaLj4OoES\nN3w/mq9ZwrPQ4ftCK9JEt1fOeZqMMqV4g/hEojx9qYsulYQBrY4Fe0Lh8/rGkcEB\nGzc041GeT89r/KrxW4E5lpWD1hiqmy/eV9tPudFxL/UbnLL/KNtmRCCc0QaRq1E2\nuHTYwE8L3WeW96GN5fC4pLH7WEQ3BjiPJcq+gCqCfFitLIWgTagqCSH8NHLfanGG\nGHrtZz2U+y/R6tU5NcrwzJZhIlSO7+E2K9ikIRkDiJpbhwHSrqPdqVCwR9ZSloHN\nUCHQ6O7psvcVVSIK7S9RqIKqtmfN7hgiu+pBBLpOkQKBgQD6RefDVqTeyC8ga3Fg\neufHs4mTz+WIug+rwe6EEgPgEwCvO66b6VnLp+QHHbvCxSF5gJagV5lr8OIw+cwZ\n0bwz2dym1/Fwb871GTC5CGPD0j2glhCnvP7UL0/7wNvyEnKKRIsljhrDSVnzdGAw\nz9trquLvnCN+2oK1LvHC1IPP7wKBgQDGb9lm4taAOI63by4jfcTVtR+Qr6TdmzjG\nrzoLOpXvEtUNuyydwCZbG2GXsSYNnJQVi3E9cPd7yBArjPlSiMsBdFlX11D7hGj+\ny0/8mwt48LuoqZ1hzDFRPC5c9jfDaEVm9F0fdPEixvuwXBGFB7LJqLLFYQxilzkL\niPSs1ZOdnwKBgADb9pS8GmrNYyQIWmZLZbpQynsgbphOkzkyvD/l0++UAR+Y49uT\nLIS/ec/wcTGU/a1uHJZGVreBJzWl1eaMysmeyNwlx6VsLNi4kmtANR95/E4t1bbN\ntk5CL1Mc8WReXdhNrfCeEUd0XAOy9ZWVURqIhqjt701DMMmwdJIHqsAvAoGAeVON\nsvBiggcSi2k45o5ROPEDGa2quavcLO6aKJ9raL808K5Oey0uxmmZY+v1/kCL8hhN\n5mkZh98ss9P/5Myqgnsm3SRS6VVt9MtOXn5Vp15Y/qimB1OXm7mWB1Srh5hLRsWF\n4mPXw5Gx9YR1Wcb5M38nvrK1pdocEMduAfabyLUCgYEAsFCmqAJjprtk8hMIonlN\nf9+XCPX5tHiO25J+CzxqqjzzdD2NeodNYbFuLjXtN5khKv088ciKlXWZTnyyS6vN\ne9tH+IiVTOd72uZ6feP+h0AKH1gWof6jgBmrhfrNQUdLwiVXmAwGiFNTqRWgWmyN\nx2ZrCQI8mI68xVP5EYwQEsY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "fastlane-integration@app-reserva-324612.iam.gserviceaccount.com",
+  "client_id": "105073798053209711945",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fastlane-integration%40app-reserva-324612.iam.gserviceaccount.com"
+}
