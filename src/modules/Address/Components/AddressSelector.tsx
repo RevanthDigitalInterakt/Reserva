@@ -17,11 +17,13 @@ interface IAddressesSelector {
   addressData: Address;
   editAndDelete?: boolean;
   selected: boolean;
+  disabled?: boolean;
 }
 
 const AddressSelector = ({
   selected,
   select,
+  disabled,
   edit,
   deleteAddress,
   editAndDelete,
@@ -30,7 +32,9 @@ const AddressSelector = ({
   const { address, title, zipcode, id } = addressData;
   return (
     <>
-      <TouchableOpacity onPress={select}>
+      <TouchableOpacity
+        disabled={disabled}
+        onPress={select}>
         <Box
           bg="white"
           borderWidth="hairline"
