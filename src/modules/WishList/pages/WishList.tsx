@@ -363,12 +363,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
+                        onClickAddCount={() => { }}
                         isFavorited
-                        itemColor=""
-                        ItemSize=""
-                        productTitle={`${product?.productName.slice(0, 30)}${
-                          product?.productName.length > 30 ? '...' : ''
-                        }`}
+                        itemColor={productSku?.name.split('-')[0] || ''}
+                        ItemSize={productSku?.name.split('-')[1] || ''}
+                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
+                          }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}

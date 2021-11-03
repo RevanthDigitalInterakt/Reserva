@@ -391,14 +391,23 @@ export const ProductDetail: React.FC<Props> = ({
         shopperId: email,
         productId: product.productId.split('-')[0],
       }) */
+      // const wishListData = await AsyncStorage.getItem('@WishData');
       const wishListData = await AsyncStorage.getItem('@WishData');
-      const {productId} = JSON.parse(wishListData);
+      if (wishListData) {
+        const newWishIds = JSON.parse(wishListData).some((x) => x.sku !== selectedVariant?.itemId);
+        console.log('some', newWishIds)
+        setWishInfo({
+          ...wishInfo,
+          inList: newWishIds
+        })
+      }
+
       //setWishInfo({ ...checkList })
-      setWishInfo({ ...productId.split('-')[0]})
+
     }
   }
 
-  const handleOnFavorite = async (favorite: boolean ) => {
+  const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
 
       const wishListData = await AsyncStorage.getItem('@WishData');
@@ -416,14 +425,16 @@ export const ProductDetail: React.FC<Props> = ({
             }
           }) */
 
-          const handleFavorites = [ {productId: product.productId.split('-')[0],
-          sku: selectedVariant?.itemId}];
+          const handleFavorites = {
+            productId: product.productId.split('-')[0],
+            sku: selectedVariant?.itemId
+          };
 
           await AsyncStorage.setItem(
             '@WishData',
-            JSON.stringify({...JSON.parse(wishListData), ...handleFavorites})
+            JSON.stringify([...JSON.parse(wishListData), handleFavorites])
           );
-          console.log('handler', handleFavorites);
+
         } else {
           /* await removeWishList({
             variables: {
@@ -432,8 +443,8 @@ export const ProductDetail: React.FC<Props> = ({
             }
           }) */
 
-        const newWishIds = JSON.parse(wishListData).filter((x) => x.sku !== selectedVariant?.itemId);
-        await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+          const newWishIds = JSON.parse(wishListData).filter((x) => x.sku !== selectedVariant?.itemId);
+          await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
 
         }
         await refetchChecklist()
