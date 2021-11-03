@@ -1,0 +1,89 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    # Get the last version code and increment it.
+    increment_version_code(gradle_file_path: "app/build.gradle")
+    # Build the app.
+    project = UI.select("Select your version type: ", ["patch", "minor", "major"])
+    version_type = ""
+    version_name = get_version_name(gradle_file_path: "app/build.gradle", ext_constant_name: "versionName")
+
+    if project == "patch"
+      version_type = "patch"
+    elsif project == "minor"
+      version_type = "minor"
+    elsif project == "major"
+      version_type = "major"
+    end
+
+    increment_version_name(
+      gradle_file_path: "app/build.gradle",
+      bump_type: version_type
+    )
+    # Build the release version of the Android App
+    gradle(
+      task: "assemble",
+      build_type: "Release",
+      project_dir: "./",
+    )
+    # Upload the release version of the Android App to Firebase App Distribution
+    firebase_app_distribution(
+      app: "1:1006567395453:android:e4058770626505e34d2114",
+      service_credentials_file: "app/fastlane-app-distribution.json",
+      apk_path: "app/build/outputs/apk/release/app-release.apk",
+    )
+    slack(
+      message: "Release Criada com sucesso",
+      channel: "#build-fastlane",  # Optional, by default will post to the default channel configured for the POST URL.
+      success: true,        # Optional, defaults to true.
+      payload: {  # Optional, lets you specify any number of your own Slack attachments.
+        "Build Date" => Time.new.to_s,
+        "Built by" => "Jenkins",
+      },
+      default_payloads: [:git_branch, :git_author], # Optional, lets you specify default payloads to include. Pass an empty array to suppress all the default payloads.
+      attachment_properties: { # Optional, lets you specify any other properties available for attachments in the slack API (see https://api.slack.com/docs/attachments).
+          # This hash is deep merged with the existing properties set using the other properties above. This allows your own fields properties to be appended to the existing fields that were created using the `payload` property for instance.
+        thumb_url: "https://fastlane.tools/assets/img/fastlane_icon.png",
+        fields: [{
+          title: "Versão",
+          value: version_name,
+          short: true
+        }]
+      },
+      slack_url: "https://hooks.slack.com/services/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"
+    )
+    git_commit(path: ["*"], message: "chore: version bump #{version_name}")
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+end

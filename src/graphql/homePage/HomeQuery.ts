@@ -18,27 +18,26 @@ export interface ConfigCollection {
 }
 
 export interface Carrousel {
-  type: string
-  title: string
-  showtime: number
+  type: string;
+  title: string;
+  showtime: number;
   itemsCollection: {
-    items: CarrouselCard[]
-  }
+    items: CarrouselCard[];
+  };
 }
 
 export interface CarrouselCard {
   image: {
-    fileName: string
-    size: any
-    title: any
-    url: any
-    width: any
-    height: any
-  }
-  name: string
-  description: string
-  reference: any
-
+    fileName: string;
+    size: any;
+    title: any;
+    url: any;
+    width: any;
+    height: any;
+  };
+  name: string;
+  description: string;
+  reference: any;
 }
 
 export const homeQuery = gql`
@@ -58,29 +57,28 @@ export const homeQuery = gql`
             }
           }
         }
-        carrouselHomeCollection(limit: 5){
-        items{
-          type
-          title
-          showtime
-          itemsCollection(limit: 10){
-            items{
-              image{
-                fileName
-                size
-                title
-                url
-                width
-                height
+        carrouselHomeCollection(limit: 5) {
+          items {
+            type
+            title
+            showtime
+            itemsCollection(limit: 10) {
+              items {
+                image {
+                  fileName
+                  size
+                  title
+                  url
+                  width
+                  height
+                }
+                name
+                description
+                reference
               }
-              name
-              description
-              reference
-
             }
           }
         }
-      }
       }
     }
   }
@@ -121,6 +119,16 @@ export const configCollection = gql`
         name
         online
         searchCollection
+        discountCodeBar {
+          titleBar
+          colorBar
+          titleModal
+          descriptionModal
+          titleButton
+          colorButton
+          shareMessage
+          coupon
+        }
         searchMedia {
           title
           secionMediaCollection(limit: 10) {
@@ -132,16 +140,6 @@ export const configCollection = gql`
             }
           }
         }
-      }
-      discoutCodeBar{
-        titleBar
-        colorBar
-        titleModal
-        descriptionModal
-        titleButton
-        colorButton
-        shareMessage
-        coupon
       }
     }
   }

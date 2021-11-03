@@ -44,7 +44,6 @@ const OrderList: React.FC<any> = ({ route }) => {
   const fetchOrderDetail = async () => {
     if (cookie != null) {
       const data = await orderDetail(order.orderId);
-      console.tron.log(data);
       setOrderDetails(data);
     }
   };
@@ -111,7 +110,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                       justifyContent="flex-start"
                       paddingTop={'md'}
                     >
-                      <Typography variant={'tituloSessoes'}>
+                      <Typography variant="tituloSessoes">
                         Rastreamento de entrega
                       </Typography>
                     </Box>
@@ -170,7 +169,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                   {orderDetails &&
                     orderDetails?.packageAttachment?.packages.length > 0 && (
                       <>
-                        <Box flexDirection="row" mb="micro">
+                        <Box mb="micro" flexDirection="row">
                           {clickedIcon && (
                             <Box
                               position="absolute"
@@ -200,7 +199,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                           </Typography>
                           <Box ml="quarck">
                             <Typography
-                              selectable={true}
+                              selectable
                               fontFamily="nunitoExtraBold"
                               fontSize={13}
                             >
@@ -214,25 +213,25 @@ const OrderList: React.FC<any> = ({ route }) => {
                             <Icon name="Copy" size={20} color="neutroFrio2" />
                           </Button>
                         </Box>
-
-                        {orderDetails?.packageAttachment?.packages[0]
-                          ?.trackingUrl != null && (
-                            <Box mb="xxs">
-                              <Typography
-                                fontFamily="nunitoRegular"
-                                fontSize={13}
-                                style={{ textDecorationLine: 'underline' }}
-                                onPress={() =>
-                                  Linking.openURL(
-                                    orderDetails?.packageAttachment?.packages[0]
-                                      ?.trackingUrl
-                                  )
-                                }
-                              >
-                                Ver rastreio no site da transportadora
-                              </Typography>
-                            </Box>
-                          )}
+                        {
+                          orderDetails?.packageAttachment?.packages[0]
+                            ?.trackingUrl &&
+                          <Box mb="xxs">
+                            <Typography
+                              fontFamily="nunitoRegular"
+                              fontSize={13}
+                              style={{ textDecorationLine: 'underline' }}
+                              onPress={() =>
+                                Linking.openURL(
+                                  orderDetails?.packageAttachment?.packages[0]
+                                    ?.trackingUrl
+                                )
+                              }
+                            >
+                              Ver rastreio no site da transportadora
+                            </Typography>
+                          </Box>
+                        }
                       </>
                     )}
                 </Box>
@@ -277,7 +276,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                     >
                       orderDetails.paymentData.transactions[0].payments[0]
                       .firstDigits
-                  }
+                    }
                     </Typography>
                   )}
               </Box>
