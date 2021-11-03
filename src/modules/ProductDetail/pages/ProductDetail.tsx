@@ -41,6 +41,7 @@ import { images } from '../../../assets';
 import { url } from '../../../config/vtexConfig';
 import { Tooltip } from '../components/Tooltip';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import axios from "axios";
 import appsFlyer from 'react-native-appsflyer';
@@ -385,34 +386,55 @@ export const ProductDetail: React.FC<Props> = ({
   const refetchChecklist = async () => {
     setSkip(true)
     if (product && product.productId) {
-      const { data: { checkList } } = await checkListRefetch({
+
+      /* const { data: { checkList } } = await checkListRefetch({
         shopperId: email,
         productId: product.productId.split('-')[0],
-      })
-      setWishInfo({ ...checkList })
+      }) */
+      const wishListData = await AsyncStorage.getItem('@WishData');
+      const {productId} = JSON.parse(wishListData);
+      //setWishInfo({ ...checkList })
+      setWishInfo({ ...productId.split('-')[0]})
     }
   }
 
-  const handleOnFavorite = async (favorite: boolean) => {
+  const handleOnFavorite = async (favorite: boolean ) => {
     if (!!email) {
 
+      const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
         setLoadingFavorite(true)
+
+        console.log('WISHLISTDAT', wishListData);
+
         if (favorite) {
-          const { data } = await addWishList({
+          /* const { data } = await addWishList({
             variables: {
               shopperId: email,
               productId: product.productId.split('-')[0],
               sku: selectedVariant?.itemId
             }
-          })
+          }) */
+
+          const handleFavorites = [ {productId: product.productId.split('-')[0],
+          sku: selectedVariant?.itemId}];
+
+          await AsyncStorage.setItem(
+            '@WishData',
+            JSON.stringify({...JSON.parse(wishListData), ...handleFavorites})
+          );
+          console.log('handler', handleFavorites);
         } else {
-          await removeWishList({
+          /* await removeWishList({
             variables: {
               shopperId: email,
               id: wishInfo.listIds[0]
             }
-          })
+          }) */
+
+        const newWishIds = JSON.parse(wishListData).filter((x) => x.sku !== selectedVariant?.itemId);
+        await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+
         }
         await refetchChecklist()
         setLoadingFavorite(false)

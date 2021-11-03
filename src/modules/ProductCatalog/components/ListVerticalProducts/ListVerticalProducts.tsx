@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 
 import { useMutation, useQuery } from '@apollo/client';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
@@ -26,8 +27,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-  | React.ComponentType<any>
-  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
 }
 
@@ -99,6 +100,17 @@ export const ListVerticalProducts = ({
     return urlArray.join('/');
   };
 
+  const populateListWithFavorite = async () => {
+    setLoading(true);
+    /*  if (email) {
+      if (products && products.length <= 0) {
+        await populateWishlist();
+      }
+    } */
+    // Promise.all(products).then((res) => setProductList(res));
+    setLoading(false);
+  };
+
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
@@ -106,25 +118,35 @@ export const ListVerticalProducts = ({
     console.log('item', item);
     if (email) {
       if (favorite) {
-        const { data } = await addWishList({
+        /* const { data } = await addWishList({
           variables: {
             shopperId: email,
             productId,
             sku: skuId,
           },
-        });
-        setFavorites([
+        }); */
+        /* setFavorites([
           ...favorites,
           { productId, listId: data.addToList, sku: skuId },
-        ]);
+        ]); */
+        const handleFavorites = [...favorites, { productId, sku: skuId }];
+        await AsyncStorage.setItem(
+          '@WishData',
+          JSON.stringify(handleFavorites)
+        );
+        setFavorites(handleFavorites);
+
+        console.log('handler', handleFavorites);
       } else {
-        await removeWishList({
+        /*   await removeWishList({
           variables: {
             shopperId: email,
             id: favorites.find((x) => x.productId == productId).listId,
           },
-        });
-        setFavorites([...favorites.filter((x) => x.sku != skuId)]);
+        }); */
+        const newWishIds = favorites.filter((x) => x.sku !== skuId);
+        AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+        setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
       }
       setLoading(false);
       await populateListWithFavorite();
@@ -140,39 +162,39 @@ export const ListVerticalProducts = ({
   const populateWishlist = async () => {
     setSkip(true);
 
-    const {
+    /* const {
       data: {
         viewList: { data: wishlist },
       },
-    } = await refetchWishlist({ shopperId: email });
-    setFavorites([
-      ...wishlist.map((x: any) => ({
-        productId: x.productId,
-        listId: x.id,
-        sku: x.sku,
-      })),
-    ]);
-    await populateListWithFavorite();
-  };
+    } = await refetchWishlist({ shopperId: email }); */
 
-  const populateListWithFavorite = async () => {
-    setLoading(true);
-    if (email) {
-      if (products && products.length <= 0) {
-        await populateWishlist();
-      }
-    }
-    Promise.all(products).then((res) => setProductList(res));
-    setLoading(false);
+    const wishData: any = await AsyncStorage.getItem('@WishData');
+    console.log('WISHDATA::::::>>>>', JSON.parse(wishData));
+
+    if (wishData)
+      setFavorites([
+        ...JSON.parse(wishData).map((x: any) => ({
+          productId: x.productId,
+          listId: x.id,
+          sku: x.sku,
+        })),
+      ]);
+    // await populateListWithFavorite();
   };
 
   useEffect(() => {
+    console.log('FAVORITES::::: >>>> ', favorites);
+  }, [favorites]);
+
+  useEffect(() => {
     populateListWithFavorite();
+    populateWishlist();
   }, [products]);
 
   useFocusEffect(
     useCallback(() => {
       populateListWithFavorite();
+      populateWishlist();
     }, [])
   );
 
@@ -241,13 +263,17 @@ export const ListVerticalProducts = ({
           data={products}
           keyExtractor={(item, index) => `${item.productId} ${index}`}
           numColumns={horizontal ? 1 : 2}
-          ListEmptyComponent={() => {
-            return <Box height='100%'>
-              <Typography textAlign='center' fontFamily='nunitoRegular' fontSize={16}>
+          ListEmptyComponent={() => (
+            <Box height="100%">
+              <Typography
+                textAlign="center"
+                fontFamily="nunitoRegular"
+                fontSize={16}
+              >
                 Produtos não encontrados
               </Typography>
             </Box>
-          }}
+          )}
           onEndReached={async () => {
             setIsLoadingMore(true);
             if (totalProducts > products.length)

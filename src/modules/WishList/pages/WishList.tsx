@@ -71,53 +71,82 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     console.log('cookie', cookie);
   }, [email, cookie]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     console.log('wishIds', wishIds);
-  }, [wishIds]); */
+  }, [wishIds]);
+
+  const getStorage = async () => {
+    const wishListData = await AsyncStorage.getItem('@WishData');
+    if (wishListData) {
+      setWishIds(JSON.parse(wishListData));
+    }
+  };
 
   const handleFavorite = async (wishId: any) => {
+    console.log('WISHIDS HANDLER', wishId);
     if (email) {
-      console.log(wishId);
       if (wishId) {
-        await removeFromWishList({
+        // remove wishlist
+        const newWishIds = wishIds.filter((x) => x.sku !== wishId);
+        AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+        getStorage();
+
+        /*  await removeFromWishList({
           variables: {
             id: wishId,
             shopperId: email,
           },
-        });
-        await refetch({
+        }); */
+        /*  await refetch({
           shopperId: email,
-        });
+        }); */
       }
     }
   };
 
+  // useEffect(() => {
+  //   if (wishDataStorage) {
+  //     setWishIds(wishDataStorage);
+  //   }
+  // }, [wishDataStorage])
+
   useEffect(() => {
-    console.log('wishIds', wishIds);
     if (wishIds) {
       const idArray = wishIds.map((x) => x.productId.split('-')[0]) || [];
       refetchProducts({ idArray });
     }
   }, [wishIds]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (productIds?.viewList.data.length <= 0) {
+        getStorage();
+      }
+    }, [productIds])
+  );
+
   useEffect(() => {
-    if (products?.productsByIdentifier) {
+    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
       setWishProducts(products.productsByIdentifier);
-      setSkip(true);
-    }
   }, [products]);
 
   useEffect(() => {
-    console.log(email);
     setWishIds(productIds?.viewList.data);
-    setSkip(false);
-    /* const idArray =
+    if (productIds?.viewList.data.length > 0) {
+      AsyncStorage.setItem(
+        '@WishData',
+        JSON.stringify(productIds?.viewList.data)
+      );
+    }
+    const idArray =
       productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
-    console.log(idArray);
     if (idArray.length) {
-      refetchProducts({ idArray });
-      // refetch();
-    } */
+      refetch();
+
+      // refetchProducts(
+      //   { idArray }
+      // )
+    }
   }, [productIds]);
 
   useEffect(() => {
@@ -138,6 +167,14 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     //   navigation.navigate('Login', { comeFrom: 'Profile' })
     // }
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      /* const idArray = wishIds.map((x) => x.productId) || [];
+      refetchProducts({ idArray }); */
+      refetch();
+    }, [])
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -335,7 +372,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
-                        onClickFavorite={() => handleFavorite(item.id)}
+                        onClickFavorite={() => handleFavorite(item.sku)}
                         onClickBagButton={() => {
                           // navigation.navigate(')
                           // console.log('item', productSku?.variations[2].values[0])
