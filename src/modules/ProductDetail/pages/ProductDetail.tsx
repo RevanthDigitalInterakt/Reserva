@@ -391,11 +391,9 @@ export const ProductDetail: React.FC<Props> = ({
         shopperId: email,
         productId: product.productId.split('-')[0],
       }) */
-      // const wishListData = await AsyncStorage.getItem('@WishData');
       const wishListData = await AsyncStorage.getItem('@WishData');
       if (wishListData) {
-        const newWishIds = JSON.parse(wishListData).some((x) => x.sku !== selectedVariant?.itemId);
-        console.log('some', newWishIds)
+        const newWishIds = JSON.parse(wishListData).some((x) => x.sku === selectedVariant?.itemId);
         setWishInfo({
           ...wishInfo,
           inList: newWishIds
