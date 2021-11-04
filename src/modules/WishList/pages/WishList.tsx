@@ -83,7 +83,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   };
 
   const handleFavorite = async (wishId: any) => {
-    console.log('WISHIDS HANDLER', wishId);
     if (email) {
       if (wishId) {
         // remove wishlist
@@ -343,8 +342,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                     (i) => i.itemId == item.sku
                   );
 
-                  console.log('product?.productId', product?.productId)
-
                   const installments =
                     productSku?.sellers[0].commertialOffer.Installments;
 
@@ -365,12 +362,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        onClickAddCount={() => { }}
+                        onClickAddCount={() => {}}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
-                          }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${
+                          product?.productName.length > 30 ? '...' : ''
+                        }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
@@ -381,7 +379,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           navigation.navigate('ProductDetail', {
                             productId: product?.productId,
                             colorSelected: productSku?.variations[2].values[0],
-                            sizeSelected: productSku?.name.split('-')[1]
+                            sizeSelected: productSku?.name.split('-')[1],
                           });
                         }}
                         imageSource={

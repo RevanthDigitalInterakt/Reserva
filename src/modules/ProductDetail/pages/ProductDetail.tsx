@@ -281,10 +281,6 @@ export const ProductDetail: React.FC<Props> = ({
   }, [data]);
 
   useEffect(() => {
-    console.log('selectedSizessss', selectedSize)
-  }, [selectedSize])
-
-  useEffect(() => {
     if (itemsSKU.length > 0) {
 
       setImageSelected(
@@ -431,8 +427,6 @@ export const ProductDetail: React.FC<Props> = ({
       const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
         setLoadingFavorite(true)
-
-        console.log('WISHLISTDAT', wishListData);
 
         if (favorite) {
           /* const { data } = await addWishList({
@@ -606,14 +600,14 @@ export const ProductDetail: React.FC<Props> = ({
   const newsAndPromotions = async () => {
     if (emailIsValid) {
       setLoadingNewsLetter(true)
-      console.log('asdasd')
+      //console.log('asdasd')
       const { data } = await subscribeNewsletter({
         variables: {
           email: emailPromotions,
           isNewsletterOptIn: true
         }
       })
-      console.log('passou do newsletter!!', data)
+      //console.log('passou do newsletter!!', data)
       setLoadingNewsLetter(false)
 
       if (!!data && data.subscribeNewsletter) {
@@ -643,8 +637,8 @@ export const ProductDetail: React.FC<Props> = ({
     } else {
       setIsLastUnits(false)
     }
-    console.log("LASTUNITS", isLastUnits)
-    console.log("LASTUNITSQTD", lastUnits)
+    //console.log("LASTUNITS", isLastUnits)
+    //console.log("LASTUNITSQTD", lastUnits)
   }
 
   useEffect(() => {

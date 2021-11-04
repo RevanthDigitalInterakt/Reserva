@@ -135,8 +135,6 @@ export const ListVerticalProducts = ({
           JSON.stringify(handleFavorites)
         );
         setFavorites(handleFavorites);
-
-        console.log('handler', handleFavorites);
       } else {
         /*   await removeWishList({
           variables: {
@@ -169,7 +167,6 @@ export const ListVerticalProducts = ({
     } = await refetchWishlist({ shopperId: email }); */
 
     const wishData: any = await AsyncStorage.getItem('@WishData');
-    console.log('WISHDATA::::::>>>>', JSON.parse(wishData));
 
     if (wishData)
       setFavorites([
@@ -181,10 +178,6 @@ export const ListVerticalProducts = ({
       ]);
     // await populateListWithFavorite();
   };
-
-  useEffect(() => {
-    console.log('FAVORITES::::: >>>> ', favorites);
-  }, [favorites]);
 
   useEffect(() => {
     populateListWithFavorite();
