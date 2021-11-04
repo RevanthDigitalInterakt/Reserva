@@ -215,7 +215,15 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     refetchChecklist();
+    console.log('product:::>>', product)
   }, [product])
+
+  useEffect(() => {
+    refetchChecklist();
+    console.log('selectedVariant:::>>', selectedVariant)
+  }, [selectedVariant])
+
+  // selectedVariant?.itemId
 
   useEffect(() => {
     if (data) {
@@ -249,8 +257,13 @@ export const ProductDetail: React.FC<Props> = ({
       });
 
       let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
-      defaultSize?.size && setSelectedSize(defaultSize?.size)
 
+      if (route.params?.sizeSelected) {
+        const favoritedSize = route.params?.sizeSelected;
+        setSelectedSize(favoritedSize.trim()) //item favorite
+      } else {
+        defaultSize?.size && setSelectedSize(defaultSize?.size)
+      }
       console.log("item", itemList);
 
       setItemsSKU(itemList);
@@ -266,6 +279,10 @@ export const ProductDetail: React.FC<Props> = ({
       )
     }
   }, [data]);
+
+  useEffect(() => {
+    console.log('selectedSizessss', selectedSize)
+  }, [selectedSize])
 
   useEffect(() => {
     if (itemsSKU.length > 0) {
@@ -391,13 +408,16 @@ export const ProductDetail: React.FC<Props> = ({
         shopperId: email,
         productId: product.productId.split('-')[0],
       }) */
+
       const wishListData = await AsyncStorage.getItem('@WishData');
-      if (wishListData) {
-        const newWishIds = JSON.parse(wishListData).some((x) => x.sku === selectedVariant?.itemId);
-        setWishInfo({
-          ...wishInfo,
-          inList: newWishIds
-        })
+      if (selectedVariant) {
+        if (wishListData) {
+          const newWishIds = JSON.parse(wishListData).some((x) => x.sku === selectedVariant?.itemId);
+          setWishInfo({
+            ...wishInfo,
+            inList: newWishIds
+          })
+        }
       }
 
       //setWishInfo({ ...checkList })
@@ -428,10 +448,17 @@ export const ProductDetail: React.FC<Props> = ({
             sku: selectedVariant?.itemId
           };
 
-          await AsyncStorage.setItem(
-            '@WishData',
-            JSON.stringify([...JSON.parse(wishListData), handleFavorites])
-          );
+          if (wishListData) {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([...JSON.parse(wishListData), handleFavorites])
+            );
+          } else {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([handleFavorites])
+            );
+          }
 
         } else {
           /* await removeWishList({
@@ -678,7 +705,8 @@ export const ProductDetail: React.FC<Props> = ({
                   imagesHeight={3 * (screenWidth / 2)}
                   loadingFavorite={loadingFavorite}
                   title={product.productName}
-                  isFavorited={wishInfo.inList}
+                  // selectedVariant?.itemId
+                  isFavorited={wishInfo.inList && product.items.some((x) => x.itemId === selectedVariant?.itemId)}
                   onClickFavorite={handleOnFavorite}
                   price={product.priceRange.listPrice.lowPrice || 0}
                   priceWithDiscount={

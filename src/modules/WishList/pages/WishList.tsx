@@ -343,6 +343,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                     (i) => i.itemId == item.sku
                   );
 
+                  console.log('product?.productId', product?.productId)
+
                   const installments =
                     productSku?.sellers[0].commertialOffer.Installments;
 
@@ -379,6 +381,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           navigation.navigate('ProductDetail', {
                             productId: product?.productId,
                             colorSelected: productSku?.variations[2].values[0],
+                            sizeSelected: productSku?.name.split('-')[1]
                           });
                         }}
                         imageSource={
