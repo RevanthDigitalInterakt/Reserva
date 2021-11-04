@@ -20,8 +20,9 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
-import { DefaultCarrousel } from '../component/Carroussel';
+import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+import { CardsCarrousel } from '../component/CardsCarroussel';
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -52,6 +53,10 @@ export const HomeScreen: React.FC<{
 
   const DEVICE_WIDTH = width;
   const DOT_SIZE = 8;
+
+  useEffect(() => {
+    console.log('images', images)
+  }, [images])
 
   useEffect(() => {
     const carrousels: Carrousel[] =
@@ -154,6 +159,7 @@ export const HomeScreen: React.FC<{
         // </Box>
         <SafeAreaView>
           <ScrollView>
+            <CardsCarrousel cards={carrousels} />
             <Box
               style={{
                 overflow: 'hidden',
