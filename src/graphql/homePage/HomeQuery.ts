@@ -17,10 +17,15 @@ export interface ConfigCollection {
   };
 }
 
+export enum CarrouselTypes {
+  mainCarrousel = 'main-carrousel',
+  cardsCarrousel = 'cards-carrousel',
+}
+
 export interface Carrousel {
-  type: string;
+  type: CarrouselTypes;
   title: string;
-  showtime: number;
+  showtime?: number;
   itemsCollection: {
     items: CarrouselCard[];
   };
@@ -37,7 +42,8 @@ export interface CarrouselCard {
   };
   name: string;
   description: string;
-  reference: any;
+  reference: string;
+  referenceLabel?: string
 }
 
 export const homeQuery = gql`

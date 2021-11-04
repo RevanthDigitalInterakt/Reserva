@@ -8,14 +8,15 @@ import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
 
 interface DefaultCarrouselProps {
-  carrousel: CarrouselCard[],
-  showtimeCard: number
+  carrousel: Carrousel
+  // CarrouselCard[],
+  // showtimeCard: number
 }
 
 const { width } = Dimensions.get('screen');
 
 
-export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, showtimeCard }) => {
+export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const [flatListRef, setFlatListRef] = useState<FlatList<any> | null>(null)
@@ -24,6 +25,8 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, s
   const DEVICE_WIDTH = width;
 
   const navigation = useNavigation();
+
+  const carrouselCards = carrousel.itemsCollection.items
 
   const onPressImage = (item: CarrouselCard) => {
     const facetInput = [];
@@ -62,7 +65,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, s
   return <>
     <FlatList
       ref={(reference) => setFlatListRef(reference)}
-      data={carrousel}
+      data={carrouselCards}
       style={{ position: 'relative' }}
       horizontal
       showsHorizontalScrollIndicator={false}
@@ -93,7 +96,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, s
     <CarrouselScrollIndicator
       carrouselRef={flatListRef}
       actualPosition={actualPosition}
-      showtime={showtimeCard}
+      showtime={carrousel.showtime || 10}
     />
   </>
 }
