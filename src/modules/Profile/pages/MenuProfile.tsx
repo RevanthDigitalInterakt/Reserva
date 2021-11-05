@@ -25,7 +25,7 @@ import { withAuthentication } from '../HOC/withAuthentication';
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
-  const { cookie, setCookie, setEmail } = useAuth();
+  const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [profile, setProfile] = useState<ProfileVars>();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
@@ -42,7 +42,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
     if (data) {
       refetch();
     }
-    if (cookie === null) {
+    if (isCookieEmpty()) {
       if (!hasConnection) {
         // check internet connection
         navigation.navigate('Login', { comeFrom: 'Profile' });

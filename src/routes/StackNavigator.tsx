@@ -51,7 +51,7 @@ import { Flow } from './types/flow.type';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
-  ProductDetail: { productId: string; colorSelected: string };
+  ProductDetail: { productId: string; colorSelected: string, sizeSelected: string };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   ProductCatalog: {
     safeArea: boolean;

@@ -15,13 +15,13 @@ import {
   homeQuery,
   HomeQuery,
 } from '../../../graphql/homePage/HomeQuery';
+import { productSearch } from '../../../graphql/products/productSearch';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
-import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
-import { productSearch } from '../../../graphql/products/productSearch';
 import { DefaultCarrousel } from '../component/Carroussel';
+import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -29,7 +29,8 @@ export const HomeScreen: React.FC<{
   const navigation = useNavigation();
   const { cleanEmailAndCookie, isCookieEmpty } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
-  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
+  const [getProfile, { data: profileData, loading: profileLoading }] =
+    useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([]);
   const [carrousels, setCarrousels] = React.useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
@@ -47,14 +48,15 @@ export const HomeScreen: React.FC<{
   const { width } = Dimensions.get('screen');
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {})
+  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
   const DEVICE_WIDTH = width;
   const DOT_SIZE = 8;
 
   useEffect(() => {
-    const carrousels: Carrousel[] = data?.homePageCollection.items[0].carrouselHomeCollection.items || []
-    setCarrousels(carrousels)
+    const carrousels: Carrousel[] =
+      data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
+    setCarrousels(carrousels);
 
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
@@ -74,7 +76,7 @@ export const HomeScreen: React.FC<{
   useEffect(() => {
     if (collectionData) {
       setModalDiscount(
-        collectionData?.configCollection?.items[0].discoutCodeBar
+        collectionData?.configCollection?.items[0].discountCodeBar
       );
     }
   }, [collectionData]);
@@ -97,7 +99,7 @@ export const HomeScreen: React.FC<{
     async function getStorage() {
       const wishListData = await AsyncStorage.getItem('@WishList');
     }
-    refetchTeste()
+    refetchTeste();
     getStorage();
   }, []);
   return (
@@ -157,9 +159,12 @@ export const HomeScreen: React.FC<{
                 overflow: 'hidden',
               }}
             >
-              {carrousels.map((carrousel) =>
-                <DefaultCarrousel carrousel={carrousel.itemsCollection.items} showtimeCard={carrousel.showtime} />
-              )}
+              {carrousels.map((carrousel) => (
+                <DefaultCarrousel
+                  carrousel={carrousel.itemsCollection.items}
+                  showtimeCard={carrousel.showtime}
+                />
+              ))}
             </Box>
             <FlatList
               data={images}
