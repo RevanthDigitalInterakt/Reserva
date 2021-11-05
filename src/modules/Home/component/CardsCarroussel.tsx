@@ -1,7 +1,8 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { Dimensions, FlatList } from 'react-native'
 import { View } from "react-native-animatable"
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler'
 import { Box, Typography, Image, Button } from 'reserva-ui'
 import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery'
 import { marginLeft } from 'styled-system'
@@ -52,6 +53,32 @@ interface CardProps extends CarrouselCard {
 const width = Dimensions.get('window').width * .75
 
 const Card: React.FC<CardProps> = ({ image, referenceLabel, reference, description, name }) => {
+
+    const navigation = useNavigation()
+
+    const handleNavigation = () => {
+        const facetInput = [];
+        const [categoryType, categoryData] =
+            reference.split(':');
+        if (categoryType === 'category') {
+            categoryData.split('|').forEach((cat: string) => {
+                facetInput.push({
+                    key: 'c',
+                    value: cat,
+                });
+            });
+        } else {
+            facetInput.push({
+                key: 'productClusterIds',
+                value: categoryData,
+            });
+        }
+        navigation.navigate('ProductCatalog', {
+            facetInput,
+            referenceId: reference,
+        });
+    }
+
     return <Box
         marginTop={5}
         marginBottom={15}
@@ -59,7 +86,7 @@ const Card: React.FC<CardProps> = ({ image, referenceLabel, reference, descripti
         justifyContent='space-between'
     >
         <Box>
-            <Button>
+            <Button onPress={handleNavigation}>
                 <Image
                     autoHeight
                     width={width}
@@ -93,10 +120,10 @@ const Card: React.FC<CardProps> = ({ image, referenceLabel, reference, descripti
 
             </Box>
         </Box>
-        <TouchableHighlight style={{ bottom: 0, marginLeft: 10 }}>
+        <TouchableOpacity onPress={handleNavigation} style={{ bottom: 0, marginLeft: 10 }}>
             <Typography fontSize={14} fontFamily='nunitoBold'>
                 {referenceLabel}
             </Typography>
-        </TouchableHighlight>
+        </TouchableOpacity>
     </Box>
 }
