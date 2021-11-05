@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
 import * as Yup from 'yup';
 
+
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -29,7 +30,7 @@ export const LoginScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { comeFrom } = route.params;
-  const { cookie, setCookie, setEmail } = useAuth();
+  const { cookie, setCookie, setEmail, saveCredentials } = useAuth();
   // const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: '',
@@ -80,6 +81,11 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
+        console.log('dataaaaaa', data)
+        saveCredentials({
+          email: loginCredentials.username,
+          password: loginCredentials.password,
+        })
         appsFlyer.logEvent(
           'af_login',
           {},
@@ -110,10 +116,11 @@ export const LoginScreen: React.FC<Props> = ({
           email: loginCredentials.username,
         },
       }).then((data) => {
-        setEmail(loginCredentials.username);
+        saveCredentials(null)
         navigation.navigate('AccessCode', {
           email: loginCredentials.username,
         });
+
       });
     } else {
       setLoginCredentials({
