@@ -41,6 +41,7 @@ import { images } from '../../../assets';
 import { url } from '../../../config/vtexConfig';
 import { Tooltip } from '../components/Tooltip';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import axios from "axios";
 import appsFlyer from 'react-native-appsflyer';
@@ -214,7 +215,15 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     refetchChecklist();
+    console.log('product:::>>', product)
   }, [product])
+
+  useEffect(() => {
+    refetchChecklist();
+    console.log('selectedVariant:::>>', selectedVariant)
+  }, [selectedVariant])
+
+  // selectedVariant?.itemId
 
   useEffect(() => {
     if (data) {
@@ -248,8 +257,13 @@ export const ProductDetail: React.FC<Props> = ({
       });
 
       let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
-      defaultSize?.size && setSelectedSize(defaultSize?.size)
 
+      if (route.params?.sizeSelected) {
+        const favoritedSize = route.params?.sizeSelected;
+        setSelectedSize(favoritedSize.trim()) //item favorite
+      } else {
+        defaultSize?.size && setSelectedSize(defaultSize?.size)
+      }
       console.log("item", itemList);
 
       setItemsSKU(itemList);
@@ -385,34 +399,72 @@ export const ProductDetail: React.FC<Props> = ({
   const refetchChecklist = async () => {
     setSkip(true)
     if (product && product.productId) {
-      const { data: { checkList } } = await checkListRefetch({
+
+      /* const { data: { checkList } } = await checkListRefetch({
         shopperId: email,
         productId: product.productId.split('-')[0],
-      })
-      setWishInfo({ ...checkList })
+      }) */
+
+      const wishListData = await AsyncStorage.getItem('@WishData');
+      if (selectedVariant) {
+        if (wishListData) {
+          const newWishIds = JSON.parse(wishListData).some((x) => x.sku === selectedVariant?.itemId);
+          setWishInfo({
+            ...wishInfo,
+            inList: newWishIds
+          })
+        }
+      }
+
+      //setWishInfo({ ...checkList })
+
     }
   }
 
   const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
 
+      const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
         setLoadingFavorite(true)
+
         if (favorite) {
-          const { data } = await addWishList({
+          /* const { data } = await addWishList({
             variables: {
               shopperId: email,
               productId: product.productId.split('-')[0],
               sku: selectedVariant?.itemId
             }
-          })
+          }) */
+
+          const handleFavorites = {
+            productId: product.productId.split('-')[0],
+            sku: selectedVariant?.itemId
+          };
+
+          if (wishListData) {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([...JSON.parse(wishListData), handleFavorites])
+            );
+          } else {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([handleFavorites])
+            );
+          }
+
         } else {
-          await removeWishList({
+          /* await removeWishList({
             variables: {
               shopperId: email,
               id: wishInfo.listIds[0]
             }
-          })
+          }) */
+
+          const newWishIds = JSON.parse(wishListData).filter((x) => x.sku !== selectedVariant?.itemId);
+          await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+
         }
         await refetchChecklist()
         setLoadingFavorite(false)
@@ -548,14 +600,14 @@ export const ProductDetail: React.FC<Props> = ({
   const newsAndPromotions = async () => {
     if (emailIsValid) {
       setLoadingNewsLetter(true)
-      console.log('asdasd')
+      //console.log('asdasd')
       const { data } = await subscribeNewsletter({
         variables: {
           email: emailPromotions,
           isNewsletterOptIn: true
         }
       })
-      console.log('passou do newsletter!!', data)
+      //console.log('passou do newsletter!!', data)
       setLoadingNewsLetter(false)
 
       if (!!data && data.subscribeNewsletter) {
@@ -585,8 +637,8 @@ export const ProductDetail: React.FC<Props> = ({
     } else {
       setIsLastUnits(false)
     }
-    console.log("LASTUNITS", isLastUnits)
-    console.log("LASTUNITSQTD", lastUnits)
+    //console.log("LASTUNITS", isLastUnits)
+    //console.log("LASTUNITSQTD", lastUnits)
   }
 
   useEffect(() => {
@@ -647,7 +699,8 @@ export const ProductDetail: React.FC<Props> = ({
                   imagesHeight={3 * (screenWidth / 2)}
                   loadingFavorite={loadingFavorite}
                   title={product.productName}
-                  isFavorited={wishInfo.inList}
+                  // selectedVariant?.itemId
+                  isFavorited={wishInfo.inList && product.items.some((x) => x.itemId === selectedVariant?.itemId)}
                   onClickFavorite={handleOnFavorite}
                   price={product.priceRange.listPrice.lowPrice || 0}
                   priceWithDiscount={
