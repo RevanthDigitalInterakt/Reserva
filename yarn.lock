@@ -1324,6 +1324,11 @@
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/analytics/-/analytics-13.0.0.tgz#31a0d0a45f9b6a2ba68d2917eb18e263eee7d198"
   integrity sha1-MaDQpF+baiumjSkX6xjiY+7n0Zg=
 
+"@react-native-firebase/app-check@^13.0.1":
+  version "13.0.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/app-check/-/app-check-13.0.1.tgz#c4ceaea18fe831eb0acf2478936469e689fd01f6"
+  integrity sha1-xM6uoY/oMesKzyR4k2Rp5on9AfY=
+
 "@react-native-firebase/app@^13.0.0":
   version "13.0.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/app/-/app-13.0.0.tgz#101dbc087fdb15e136c5c816d71f3baecc01ba85"
@@ -1333,12 +1338,37 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
+"@react-native-firebase/dynamic-links@^13.0.1":
+  version "13.0.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/dynamic-links/-/dynamic-links-13.0.1.tgz#d14fbb3af304c6a7dfeb183d7cbe43e840cf07a9"
+  integrity sha1-0U+7OvMExqff6xg9fL5D6EDPB6k=
+
+"@react-native-firebase/in-app-messaging@^13.0.1":
+  version "13.0.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/in-app-messaging/-/in-app-messaging-13.0.1.tgz#4840a6bb9118479bd0f709127c8d4b64bea538a1"
+  integrity sha1-SECmu5EYR5vQ9wkSfI1LZL6lOKE=
+
+"@react-native-firebase/installations@^13.0.1":
+  version "13.0.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/installations/-/installations-13.0.1.tgz#9f0b8eb49b952628b953d560d79d9141a684aa0a"
+  integrity sha1-nwuOtJuVJii5U9Vg152RQaaEqgo=
+
+"@react-native-firebase/messaging@^13.0.0":
+  version "13.0.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/messaging/-/messaging-13.0.0.tgz#ba0017938b352d95d9a6f0493630f6443bbdca84"
+  integrity sha1-ugAXk4s1LZXZpvBJNjD2RDu9yoQ=
+
 "@react-native-firebase/perf@^13.0.0":
   version "13.0.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/perf/-/perf-13.0.0.tgz#2cccfaa55093b149e169bb6305998940305b2ad2"
   integrity sha1-LMz6pVCTsUnhabtjBZmJQDBbKtI=
   dependencies:
     "@expo/config-plugins" "^4.0.3"
+
+"@react-native-firebase/remote-config@^13.0.1":
+  version "13.0.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/remote-config/-/remote-config-13.0.1.tgz#eb51c5e128e3a8a291dc830bfea2488bdecb0c88"
+  integrity sha1-61HF4SjjqKKR3IML/qJIi97LDIg=
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
