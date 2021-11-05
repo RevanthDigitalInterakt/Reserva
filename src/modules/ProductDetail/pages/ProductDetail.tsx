@@ -1,6 +1,8 @@
 import React, { createRef, useEffect, useMemo, useState } from 'react';
 import { Alert, Dimensions, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import analytics from '@react-native-firebase/analytics';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
@@ -147,6 +149,8 @@ type ShippingCost = {
     shippingEstimate: string;
   }[];
 }
+
+
 export const ProductDetail: React.FC<Props> = ({
   route,
   navigation,
@@ -263,6 +267,13 @@ export const ProductDetail: React.FC<Props> = ({
           af_currency: 'BRL'
         }
       )
+      analytics().logEvent('product_view', {
+        product_id: product.productId,
+        product_name: product.productName,
+        product_category: product.categoryTree.map(x => x.name).join(),
+        product_price: product.priceRange.listPrice.lowPrice,
+        product_currency: 'BRL',
+      })
     }
   }, [data]);
 
