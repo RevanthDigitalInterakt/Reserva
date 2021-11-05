@@ -46,6 +46,8 @@ import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 
 import axios from "axios";
 import appsFlyer from 'react-native-appsflyer';
+import remoteConfig from '@react-native-firebase/remote-config';
+
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -150,7 +152,6 @@ type ShippingCost = {
   }[];
 }
 
-
 export const ProductDetail: React.FC<Props> = ({
   route,
   navigation,
@@ -187,6 +188,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [skip, setSkip] = useState(false)
+  const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false)
   const [loadingNewsLetter, setLoadingNewsLetter] = useState(false)
   const [acceptConditions, setAcceptConditions] = useState(false)
@@ -213,6 +215,11 @@ export const ProductDetail: React.FC<Props> = ({
    * Effects
    */
   useEffect(() => {
+    remoteConfig()
+      .fetchAndActivate();
+    const value = remoteConfig().getValue('sale_off_tag');
+    setSaleOffTag(saleOffTag.asBoolean());
+
     refetch();
   }, []);
 
@@ -586,6 +593,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSaleOff = (salOff) => {
     const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
+    if (!saleOffTag) return null
     if (idImage) return images.saleOff
   }
 
