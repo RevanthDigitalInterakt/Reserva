@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
+import analytics from '@react-native-firebase/analytics';
 import { NavigationContainer } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
@@ -47,6 +48,14 @@ let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
   console.log(res);
 });
 
+const logAppOpenAnalytics = async () => {
+  try {
+    await analytics().logAppOpen();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 appsFlyer.initSdk(
   {
     devKey: env.APPSFLYER.DEV_KEY,
@@ -66,6 +75,7 @@ appsFlyer.initSdk(
 
 const App = () => {
   useEffect(() => () => {
+    logAppOpenAnalytics();
     if (onInstallConversionDataCanceller) {
       onInstallConversionDataCanceller();
       console.log('unregister onInstallConversionDataCanceller');
