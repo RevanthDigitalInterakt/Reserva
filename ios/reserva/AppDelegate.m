@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 @import CardScan;
+#import <Firebase.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -31,6 +32,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [FIRApp configure];
   [GMSServices provideAPIKey:@"AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"];
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
