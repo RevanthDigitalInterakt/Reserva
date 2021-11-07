@@ -59,7 +59,7 @@ platform :android do
         }]
       },
       slack_url: "https://hooks.slack.com/services/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"
-
+    )
     git_commit(path: ["*"], message: "chore: version bump #{version_name}")
   end
 
