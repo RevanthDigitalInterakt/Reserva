@@ -218,7 +218,7 @@ export const ProductDetail: React.FC<Props> = ({
     remoteConfig()
       .fetchAndActivate();
     const value = remoteConfig().getValue('sale_off_tag');
-    setSaleOffTag(saleOffTag.asBoolean());
+    setSaleOffTag(value.asBoolean());
 
     refetch();
   }, []);
