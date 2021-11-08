@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 
+import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
-import SkeletonPlaceholder from '@thevsstech/react-native-skeleton';
 import LottieView from 'lottie-react-native';
-import AnimatedLottieView from 'lottie-react-native';
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
+import appsFlyer from 'react-native-appsflyer';
 import Modal from 'react-native-modal';
 import {
   Typography,
@@ -26,6 +26,7 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
+import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
@@ -34,8 +35,6 @@ import { ModalBook } from '../components/ModalBook';
 import { PriceCustom } from '../components/PriceCustom';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import appsFlyer from 'react-native-appsflyer';
-import { CategoriesParserString } from '../../../utils/categoriesParserString';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -191,22 +190,30 @@ export const BagScreen = () => {
         clientProfileData.email &&
         clientProfileData.firstName;
 
-      const hasAddress = shippingData && shippingData.availableAddresses.length > 0;
+      const hasAddress =
+        shippingData && shippingData.availableAddresses.length > 0;
 
-      const af_content_id = orderForm.items.map(i => i.productId)
-      const af_content_type = orderForm.items.map(i => CategoriesParserString(i.productCategories))
-      const af_quantity = orderForm.items.map(i => i.quantity)
+      const af_content_id = orderForm.items.map((i) => i.productId);
+      const af_content_type = orderForm.items.map((i) =>
+        CategoriesParserString(i.productCategories)
+      );
+      const af_quantity = orderForm.items.map((i) => i.quantity);
 
-      appsFlyer.logEvent(
-        'af_initiated_checkout',
-        {
-          af_price: totalBag + totalDiscountPrice + totalDelivery,
-          af_content_id,
-          af_content_type,
-          af_currency: 'BRL',
-          af_quantity
-        }
-      )
+      appsFlyer.logEvent('af_initiated_checkout', {
+        af_price: totalBag + totalDiscountPrice + totalDelivery,
+        af_content_id,
+        af_content_type,
+        af_currency: 'BRL',
+        af_quantity,
+      });
+
+      analytics().logEvent('checkout_initiated', {
+        price: totalBag + totalDiscountPrice + totalDelivery,
+        content_type: af_content_type,
+        content_ids: af_content_id,
+        currency: 'BRL',
+        quantity: af_quantity,
+      });
 
       if (!email) {
         navigate('EnterYourEmail');

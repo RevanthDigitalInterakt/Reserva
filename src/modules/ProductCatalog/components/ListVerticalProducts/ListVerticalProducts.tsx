@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 
 import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
+import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
@@ -27,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
 }
 
@@ -55,6 +56,7 @@ export const ListVerticalProducts = ({
   const [isVisible, setIsVisible] = useState(false);
   const [productList, setProductList] = useState<ProductQL[]>([]);
   const [skip, setSkip] = useState(false);
+  const [saleOffTag, setSaleOffTag] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -192,11 +194,14 @@ export const ListVerticalProducts = ({
   );
 
   useEffect(() => {
-    console.log('productList', productList);
-  }, [productList]);
+    remoteConfig().fetchAndActivate();
+    const value = remoteConfig().getValue('sale_off_tag');
+    setSaleOffTag(value.asBoolean());
+  }, []);
 
   const getSaleOff = (salOff) => {
     const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');
+    if (!saleOffTag) return null;
     if (idImage) return images.saleOff;
   };
 

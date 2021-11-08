@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
+import analytics from '@react-native-firebase/analytics';
 import { StackScreenProps } from '@react-navigation/stack';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
@@ -90,6 +91,11 @@ export const LoginScreen: React.FC<Props> = ({
             console.error('AppsFlyer Error', err);
           }
         );
+
+        analytics().logEvent('login', {
+          login_type: 'classic',
+        });
+
         setEmail(loginCredentials.username);
         AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(
           () => { }

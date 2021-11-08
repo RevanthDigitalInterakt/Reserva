@@ -1,6 +1,8 @@
 import React, { createRef, useEffect, useMemo, useState } from 'react';
 import { Alert, Dimensions, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import analytics from '@react-native-firebase/analytics';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
@@ -45,6 +47,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import axios from "axios";
 import appsFlyer from 'react-native-appsflyer';
+import remoteConfig from '@react-native-firebase/remote-config';
+
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -148,6 +152,7 @@ type ShippingCost = {
     shippingEstimate: string;
   }[];
 }
+
 export const ProductDetail: React.FC<Props> = ({
   route,
   navigation,
@@ -184,6 +189,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [skip, setSkip] = useState(false)
+  const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false)
   const [loadingNewsLetter, setLoadingNewsLetter] = useState(false)
   const [acceptConditions, setAcceptConditions] = useState(false)
@@ -210,6 +216,11 @@ export const ProductDetail: React.FC<Props> = ({
    * Effects
    */
   useEffect(() => {
+    remoteConfig()
+      .fetchAndActivate();
+    const value = remoteConfig().getValue('sale_off_tag');
+    setSaleOffTag(value.asBoolean());
+
     refetch();
   }, []);
 
@@ -277,6 +288,13 @@ export const ProductDetail: React.FC<Props> = ({
           af_currency: 'BRL'
         }
       )
+      analytics().logEvent('product_view', {
+        product_id: product.productId,
+        product_name: product.productName,
+        product_category: product.categoryTree.map(x => x.name).join(),
+        product_price: product.priceRange.listPrice.lowPrice,
+        product_currency: 'BRL',
+      })
     }
   }, [data]);
 
@@ -627,6 +645,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSaleOff = (salOff) => {
     const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
+    if (!saleOffTag) return null
     if (idImage) return images.saleOff
   }
 
