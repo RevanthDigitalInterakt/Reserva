@@ -62,7 +62,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
     setActualPosition(0)
   }, [])
 
-  return <>
+  return <Box>
     <FlatList
       ref={(reference) => setFlatListRef(reference)}
       data={carrouselCards}
@@ -93,17 +93,19 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
       )}
       keyExtractor={(_, index) => index.toString()}
     />
+
     <CarrouselScrollIndicator
       carrouselRef={flatListRef}
       actualPosition={actualPosition}
       showtime={carrousel.showtime || 10}
     />
-  </>
+
+  </Box>
 }
 
 interface CarrouselScrollIndicatorProps {
-  actualPosition: number,
-  carrouselRef: FlatList<any> | null,
+  actualPosition: number
+  carrouselRef: FlatList<any> | null
   showtime: number
 }
 
@@ -115,27 +117,28 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
   const [width, setWidth] = useState<number>(0)
 
   const [finishedAnimation, setFinishedAnimation] = useState<boolean>(false)
-
   const carrouselLength = carrouselRef?.props.data?.length || 1
   const animatedValue = useRef(new Animated.Value(-10000)).current
 
   const progressAnimation = () => {
     setFinishedAnimation(false)
-    animatedValue.setValue(5 - width)
-    Animated.timing(animatedValue, {
-      toValue: 0,
-      duration: showtime * 1000,
-      useNativeDriver: true,
-      easing: Easing.linear
-    }).start(
-      ({ finished }) => {
-        setFinishedAnimation(finished)
-      }
-    )
+    if (carrouselLength > 1 && !!showtime) {
+      animatedValue.setValue(5 - width)
+      Animated.timing(animatedValue, {
+        toValue: 0,
+        duration: showtime * 1000,
+        useNativeDriver: true,
+        easing: Easing.linear
+      }).start(
+        ({ finished }) => {
+          setFinishedAnimation(finished)
+        }
+      )
+    }
   }
 
   useEffect(() => {
-    if (finishedAnimation) {
+    if (finishedAnimation && carrouselLength > 1) {
       carrouselRef?.scrollToIndex({ index: (actualPosition + 1) % carrouselLength })
     }
   }, [finishedAnimation])
@@ -144,7 +147,7 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
     progressAnimation()
   }, [actualPosition])
 
-  return <Box
+  return carrouselRef?.props.data?.length ? <Box
     position='absolute'
     zIndex={3}
     bottom={10}
@@ -189,4 +192,6 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
       )
     }
   </Box>
+    :
+    <Box />
 }

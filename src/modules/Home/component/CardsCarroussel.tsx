@@ -74,7 +74,7 @@ const Card: React.FC<CardProps> = ({ image, referenceLabel, reference, descripti
             });
         }
         navigation.navigate('ProductCatalog', {
-            facetInput,
+            // facetInput,
             referenceId: reference,
         });
     }

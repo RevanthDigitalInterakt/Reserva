@@ -56,78 +56,12 @@ export const HomeScreen: React.FC<{
   const DOT_SIZE = 8;
 
   useEffect(() => {
-    console.log('images', images)
+    // console.log('images', images)
   }, [images])
 
   useEffect(() => {
-    let carrousels: Carrousel[] =
-      data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
-
-    // carrousels = [{
-    //   title: 'É Tendência',
-    //   type: CarrouselTypes.cardsCarrousel,
-    //   itemsCollection: {
-    //     items: [
-    //       {
-    //         image: {
-    //           url: 'https://images.ctfassets.net/6jsfqc13oxv4/5nfwryIUnC9SIE7JgDR4ir/000fae8650281bd44814db7f73051225/calc__as__1_.jpeg',
-    //           size: 1,
-    //           width: 1114,
-    //           height: 914,
-    //           title: 'aaaaa',
-    //           fileName: 'aaaa'
-    //         },
-    //         name: 'Camiseta Estampada de Bob I',
-    //         description: 'um otima camiseta asdoansfjnoasjndfoasjndfoasn as aisdnb aisjn dais jndai sjnd iasjn ias jnai sjndai sjdn iasjn iasj niasj ndai jsnd iasjn diajs ndi jsndi ajsnd isqjn diaj sndia jsad isjnd aisjn aisjdndjfnaso djnao jnaso djfna osjdn aojs nao jn ojansd ofjn ojn oasnd foan jns oasjnd oajns ',
-    //         reference: '',
-    //         referenceLabel: 'Confira o porduto!',
-    //       },
-    //       {
-    //         image: {
-    //           url: 'https://images.ctfassets.net/6jsfqc13oxv4/4I8z9FewuPHocvQAjpnnWo/3974c92cdef628b4f9bd9afcb1af1906/polos__1_.jpeg',
-    //           size: 1,
-    //           width: 1114,
-    //           height: 914,
-    //           title: 'aaaaa',
-    //           fileName: 'aaaa'
-    //         },
-    //         name: 'Camiseta Estampada de Bob II',
-    //         description: 'um otima camiseta',
-    //         reference: '',
-    //         referenceLabel: 'Confira o porduto!',
-    //       },
-    //       {
-    //         image: {
-    //           url: 'https://images.ctfassets.net/6jsfqc13oxv4/6VELhA65LjYAucPGWbZkkI/40ce72a85630e9bd7963c26dc007fb5c/camisas.jpg',
-    //           size: 1,
-    //           width: 1114,
-    //           height: 914,
-    //           title: 'aaaaa',
-    //           fileName: 'aaaa'
-    //         },
-    //         name: 'Camiseta Estampada de Bob III',
-    //         description: 'um otima camiseta',
-    //         reference: '',
-    //         referenceLabel: 'Confira o porduto!',
-    //       },
-    //       {
-    //         image: {
-    //           url: 'https://images.ctfassets.net/6jsfqc13oxv4/1oDURfQOjMbcdEh8tnZkqR/93d70a17683a536fb37cfcc866c0d5d6/calc__ados__1_.jpeg',
-    //           size: 1,
-    //           width: 1114,
-    //           height: 914,
-    //           title: 'aaaaa',
-    //           fileName: 'aaaa'
-    //         },
-    //         name: 'Camiseta Estampada de Bob III',
-    //         description: 'um otima camiseta',
-    //         reference: '',
-    //         referenceLabel: 'Confira o porduto!',
-    //       },
-    //     ]
-    //   }
-    // }]
-
+    let carrousels: Carrousel[] = data?.carrouselBannersCollection.items || []
+    console.log('carrousels', carrousels)
     setCarrousels(carrousels);
 
     const arrayImages =
@@ -234,7 +168,8 @@ export const HomeScreen: React.FC<{
             >
               {carrousels.map((carrousel) => {
 
-                switch (carrousel.type) {
+                // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
+                switch (carrousel?.type) {
                   case CarrouselTypes.mainCarrousel: {
                     return (<DefaultCarrousel carrousel={carrousel} />)
                     break;

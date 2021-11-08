@@ -18,8 +18,16 @@ export interface ConfigCollection {
 }
 
 export enum CarrouselTypes {
-  mainCarrousel = 'main-carrousel',
-  cardsCarrousel = 'cards-carrousel',
+  mainCarrousel = 'principal',
+  cardsCarrousel = 'cards',
+}
+
+export interface TextProps {
+  text: string,
+  fontSize: string,
+  fontFamily: string,
+  fontWeight: string,
+  color: string
 }
 
 export interface Carrousel {
@@ -43,32 +51,18 @@ export interface CarrouselCard {
   name: string;
   description: string;
   reference: string;
+
   referenceLabel?: string
 }
 
 export const homeQuery = gql`
   query homePageCollection($limit: Int!) {
-    homePageCollection {
-      items {
-        mediasCollection(limit: $limit) {
-          items {
-            reference
-            image {
-              fileName
-              title
-              width
-              height
-              size
-              url
-            }
-          }
-        }
-        carrouselHomeCollection(limit: 5) {
+    carrouselBannersCollection(limit: $limit) {
           items {
             type
             title
             showtime
-            itemsCollection(limit: 10) {
+            itemsCollection(limit: $limit) {
               items {
                 image {
                   fileName
@@ -81,7 +75,23 @@ export const homeQuery = gql`
                 name
                 description
                 reference
+                referenceLabel
               }
+            }
+          }
+    }          
+    homePageCollection(limit: $limit) {
+      items {
+        mediasCollection(limit: $limit) {
+          items {
+            reference
+            image {
+              fileName
+              title
+              width
+              height
+              size
+              url
             }
           }
         }

@@ -12,7 +12,7 @@ const directionalLink = new RetryLink().split(
   (operation) => operation.getContext().clientName === "contentful",
   new HttpLink(
     {
-      uri: "https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4",
+      uri: "https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4", //environments/testing
       headers: {
         "Authorization": "Bearer e7GuVP-T2J7zqAR8NWZK6IhteMokbshJIx1_c16TG6U"
       }
@@ -27,8 +27,8 @@ const authAfterware = new ApolloLink((operation, forward) => {
   return forward(operation).map(response => {
     const { data } = response;
 
-    if(
-      data?.classicSignIn === 'Success' || 
+    if (
+      data?.classicSignIn === 'Success' ||
       data?.accessKeySignIn === 'Success' ||
       data?.sendEmailVerification === true
     ) {
