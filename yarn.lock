@@ -1544,6 +1544,14 @@
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
   integrity sha1-MHRK/bOF4pReIvOwM/iX92sfEso=
 
+"@types/gl-react@^3.15.4":
+  version "3.15.4"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/gl-react/-/gl-react-3.15.4.tgz#97efb07f721b55c6543421487d0240a463cdefc5"
+  integrity sha1-l++wf3IbVcZUNCFIfQJApGPN78U=
+  dependencies:
+    "@types/react" "*"
+    csstype "^3.0.2"
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
@@ -7325,6 +7333,11 @@ react-native-toast-message@^1.4.9:
   integrity sha1-hjRm/3hCmQLHGCvAjdjYeUdsCjs=
   dependencies:
     prop-types "^15.7.2"
+
+react-native-view-shot@^3.1.2:
+  version "3.1.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
+  integrity sha1-jI6ExnpLyLYD5pfbvVnbybT4SCU=
 
 react-native-webview@^11.6.4:
   version "11.13.1"

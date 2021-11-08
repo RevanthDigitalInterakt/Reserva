@@ -45,13 +45,18 @@ import {
   LoginFlow,
   OrderFlow,
   ProductFlow,
+  TimeRaceFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
-  ProductDetail: { productId: string; colorSelected: string, sizeSelected: string };
+  ProductDetail: {
+    productId: string;
+    colorSelected: string;
+    sizeSelected: string;
+  };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   ProductCatalog: {
     safeArea: boolean;
@@ -155,6 +160,7 @@ const flows: Flow[] = [
   ...OrderFlow,
   ...LoginFlow,
   ...ProductFlow,
+  ...TimeRaceFlow,
 ];
 
 export const MainStack = createStackNavigator();
