@@ -32,6 +32,8 @@
 		566ACDC8859A4A58B615C21C /* ReservaSerif-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F532457949E4248830466C4 /* ReservaSerif-Light.otf */; };
 		59B3E92030BA4908B413E8C4 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */; };
 		5D2D02C9278446D69B17BE6D /* ReservaSerif-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 291EAA4AEC5D48D792C9DF75 /* ReservaSerif-Regular.otf */; };
+		675379EC273B04F700FB2439 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675379EA273B048E00FB2439 /* AdSupport.framework */; };
+		675379ED273B04F700FB2439 /* AdSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 675379EA273B048E00FB2439 /* AdSupport.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67D475692735B77D00D1346C /* GoogleService-Info.plist */; };
 		729B4915FCFA4AECBCEF48CE /* ReservaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE4F8D24C39437BB5F4E7CD /* ReservaSans-Medium.ttf */; };
 		7301E4D7CA284B718DF410FB /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */; };
@@ -92,6 +94,17 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		675379EE273B04F700FB2439 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				675379ED273B04F700FB2439 /* AdSupport.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -131,6 +144,7 @@
 		55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-ThinItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		5F532457949E4248830466C4 /* ReservaSerif-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Light.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Light.otf"; sourceTree = "<group>"; };
+		675379EA273B048E00FB2439 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		67D475692735B77D00D1346C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-MediumItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-MediumItalic.otf"; sourceTree = "<group>"; };
@@ -183,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				390DCAAA2639E4FB00070997 /* liblottie-ios.a in Frameworks */,
+				675379EC273B04F700FB2439 /* AdSupport.framework in Frameworks */,
 				390DCA9C2639E46700070997 /* liblottie-react-native.a in Frameworks */,
 				39C607C2264A0F9A0030C19F /* libCodePush.a in Frameworks */,
 				E92E1CCA01D6A99196B18D66 /* libPods-reserva.a in Frameworks */,
@@ -236,6 +251,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				675379EA273B048E00FB2439 /* AdSupport.framework */,
 				39C607C1264A0F9A0030C19F /* libCodePush.a */,
 				390DCAA92639E4FB00070997 /* liblottie-ios.a */,
 				390DCAA12639E4CA00070997 /* liblottie-ios.a */,
@@ -392,6 +408,7 @@
 				139D48AC554CE23A915CD3FF /* [CP] Copy Pods Resources */,
 				ECECCE00BED32E8D6BD207D8 /* [CP-User] [RNFB] Core Configuration */,
 				59914F94E3560BB3D45B1F58 /* [CP-User] [RNFB] Crashlytics Configuration */,
+				675379EE273B04F700FB2439 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
