@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import analytics from '@react-native-firebase/analytics';
 import { StackScreenProps } from '@react-navigation/stack';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
@@ -30,7 +29,7 @@ export const LoginScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { comeFrom } = route.params;
-  const { cookie, setCookie, setEmail } = useAuth();
+  const { cookie, setCookie, setEmail, saveCredentials } = useAuth();
   // const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: '',
@@ -81,6 +80,11 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
+        console.log('dataaaaaa', data);
+        saveCredentials({
+          email: loginCredentials.username,
+          password: loginCredentials.password,
+        });
         appsFlyer.logEvent(
           'af_login',
           {},
@@ -91,11 +95,6 @@ export const LoginScreen: React.FC<Props> = ({
             console.error('AppsFlyer Error', err);
           }
         );
-
-        analytics().logEvent('login', {
-          login_type: 'classic',
-        });
-
         setEmail(loginCredentials.username);
         AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(
           () => { }
@@ -116,7 +115,7 @@ export const LoginScreen: React.FC<Props> = ({
           email: loginCredentials.username,
         },
       }).then((data) => {
-        setEmail(loginCredentials.username);
+        saveCredentials(null);
         navigation.navigate('AccessCode', {
           email: loginCredentials.username,
         });
