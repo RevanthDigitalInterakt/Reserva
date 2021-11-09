@@ -65,6 +65,7 @@ query ProductByIdentifier($idArray: [ID!]){
           }
       }
       items{
+        name,
         itemId,
         images{
           imageUrl,

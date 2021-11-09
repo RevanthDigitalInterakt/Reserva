@@ -10,7 +10,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
 import * as Yup from 'yup';
 
-
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -81,11 +80,11 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
-        console.log('dataaaaaa', data)
+        console.log('dataaaaaa', data);
         saveCredentials({
           email: loginCredentials.username,
           password: loginCredentials.password,
-        })
+        });
         appsFlyer.logEvent(
           'af_login',
           {},
@@ -116,11 +115,10 @@ export const LoginScreen: React.FC<Props> = ({
           email: loginCredentials.username,
         },
       }).then((data) => {
-        saveCredentials(null)
+        saveCredentials(null);
         navigation.navigate('AccessCode', {
           email: loginCredentials.username,
         });
-
       });
     } else {
       setLoginCredentials({

@@ -1,6 +1,8 @@
 import React, { createRef, useEffect, useMemo, useState } from 'react';
 import { Alert, Dimensions, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import analytics from '@react-native-firebase/analytics';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
@@ -41,9 +43,12 @@ import { images } from '../../../assets';
 import { url } from '../../../config/vtexConfig';
 import { Tooltip } from '../components/Tooltip';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import axios from "axios";
 import appsFlyer from 'react-native-appsflyer';
+import remoteConfig from '@react-native-firebase/remote-config';
+
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -147,6 +152,7 @@ type ShippingCost = {
     shippingEstimate: string;
   }[];
 }
+
 export const ProductDetail: React.FC<Props> = ({
   route,
   navigation,
@@ -183,6 +189,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [skip, setSkip] = useState(false)
+  const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false)
   const [loadingNewsLetter, setLoadingNewsLetter] = useState(false)
   const [acceptConditions, setAcceptConditions] = useState(false)
@@ -209,12 +216,25 @@ export const ProductDetail: React.FC<Props> = ({
    * Effects
    */
   useEffect(() => {
+    remoteConfig()
+      .fetchAndActivate();
+    const value = remoteConfig().getValue('sale_off_tag');
+    setSaleOffTag(value.asBoolean());
+
     refetch();
   }, []);
 
   useEffect(() => {
     refetchChecklist();
+    console.log('product:::>>', product)
   }, [product])
+
+  useEffect(() => {
+    refetchChecklist();
+    console.log('selectedVariant:::>>', selectedVariant)
+  }, [selectedVariant])
+
+  // selectedVariant?.itemId
 
   useEffect(() => {
     if (data) {
@@ -248,8 +268,13 @@ export const ProductDetail: React.FC<Props> = ({
       });
 
       let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
-      defaultSize?.size && setSelectedSize(defaultSize?.size)
 
+      if (route.params?.sizeSelected) {
+        const favoritedSize = route.params?.sizeSelected;
+        setSelectedSize(favoritedSize.trim()) //item favorite
+      } else {
+        defaultSize?.size && setSelectedSize(defaultSize?.size)
+      }
       console.log("item", itemList);
 
       setItemsSKU(itemList);
@@ -263,6 +288,13 @@ export const ProductDetail: React.FC<Props> = ({
           af_currency: 'BRL'
         }
       )
+      analytics().logEvent('product_view', {
+        product_id: product.productId,
+        product_name: product.productName,
+        product_category: product.categoryTree.map(x => x.name).join(),
+        product_price: product.priceRange.listPrice.lowPrice,
+        product_currency: 'BRL',
+      })
     }
   }, [data]);
 
@@ -385,34 +417,72 @@ export const ProductDetail: React.FC<Props> = ({
   const refetchChecklist = async () => {
     setSkip(true)
     if (product && product.productId) {
-      const { data: { checkList } } = await checkListRefetch({
+
+      /* const { data: { checkList } } = await checkListRefetch({
         shopperId: email,
         productId: product.productId.split('-')[0],
-      })
-      setWishInfo({ ...checkList })
+      }) */
+
+      const wishListData = await AsyncStorage.getItem('@WishData');
+      if (selectedVariant) {
+        if (wishListData) {
+          const newWishIds = JSON.parse(wishListData).some((x) => x.sku === selectedVariant?.itemId);
+          setWishInfo({
+            ...wishInfo,
+            inList: newWishIds
+          })
+        }
+      }
+
+      //setWishInfo({ ...checkList })
+
     }
   }
 
   const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
 
+      const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
         setLoadingFavorite(true)
+
         if (favorite) {
-          const { data } = await addWishList({
+          /* const { data } = await addWishList({
             variables: {
               shopperId: email,
               productId: product.productId.split('-')[0],
               sku: selectedVariant?.itemId
             }
-          })
+          }) */
+
+          const handleFavorites = {
+            productId: product.productId.split('-')[0],
+            sku: selectedVariant?.itemId
+          };
+
+          if (wishListData) {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([...JSON.parse(wishListData), handleFavorites])
+            );
+          } else {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([handleFavorites])
+            );
+          }
+
         } else {
-          await removeWishList({
+          /* await removeWishList({
             variables: {
               shopperId: email,
               id: wishInfo.listIds[0]
             }
-          })
+          }) */
+
+          const newWishIds = JSON.parse(wishListData).filter((x) => x.sku !== selectedVariant?.itemId);
+          await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+
         }
         await refetchChecklist()
         setLoadingFavorite(false)
@@ -548,14 +618,14 @@ export const ProductDetail: React.FC<Props> = ({
   const newsAndPromotions = async () => {
     if (emailIsValid) {
       setLoadingNewsLetter(true)
-      console.log('asdasd')
+      //console.log('asdasd')
       const { data } = await subscribeNewsletter({
         variables: {
           email: emailPromotions,
           isNewsletterOptIn: true
         }
       })
-      console.log('passou do newsletter!!', data)
+      //console.log('passou do newsletter!!', data)
       setLoadingNewsLetter(false)
 
       if (!!data && data.subscribeNewsletter) {
@@ -575,6 +645,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSaleOff = (salOff) => {
     const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
+    if (!saleOffTag) return null
     if (idImage) return images.saleOff
   }
 
@@ -585,8 +656,8 @@ export const ProductDetail: React.FC<Props> = ({
     } else {
       setIsLastUnits(false)
     }
-    console.log("LASTUNITS", isLastUnits)
-    console.log("LASTUNITSQTD", lastUnits)
+    //console.log("LASTUNITS", isLastUnits)
+    //console.log("LASTUNITSQTD", lastUnits)
   }
 
   useEffect(() => {
@@ -647,7 +718,8 @@ export const ProductDetail: React.FC<Props> = ({
                   imagesHeight={3 * (screenWidth / 2)}
                   loadingFavorite={loadingFavorite}
                   title={product.productName}
-                  isFavorited={wishInfo.inList}
+                  // selectedVariant?.itemId
+                  isFavorited={wishInfo.inList && product.items.some((x) => x.itemId === selectedVariant?.itemId)}
                   onClickFavorite={handleOnFavorite}
                   price={product.priceRange.listPrice.lowPrice || 0}
                   priceWithDiscount={

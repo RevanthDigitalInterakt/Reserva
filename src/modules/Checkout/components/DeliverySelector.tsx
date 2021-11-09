@@ -12,17 +12,21 @@ interface IDeliverySelector {
     select?: () => void;
     deliveryData: Delivery;
     selected: boolean;
+    disabled?: boolean;
 }
 
 const DeliverySelector = ({
     selected,
     select,
     deliveryData,
+    disabled
 }: IDeliverySelector) => {
     const { name, price, shippingEstimate, id } = deliveryData;
     return (
         <>
-            <TouchableOpacity onPress={select}>
+            <TouchableOpacity
+                disabled={disabled}
+                onPress={select}>
                 <Box
                     bg="white"
                     borderWidth="hairline"

@@ -4,6 +4,7 @@ import { HelpCenterFLow } from './help-center.flow';
 import { LoginFlow } from './login.flow';
 import { OrderFlow } from './order.flow';
 import { ProductFlow } from './product.flow';
+import { TimeRaceFlow } from './time-racer.flow';
 
 export {
   AddressFlow,
@@ -12,4 +13,5 @@ export {
   LoginFlow,
   OrderFlow,
   ProductFlow,
+  TimeRaceFlow,
 };
