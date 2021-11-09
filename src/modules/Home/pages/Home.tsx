@@ -1,10 +1,20 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { Animated, Dimensions, SafeAreaView, ScrollView } from 'react-native';
-import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {
+  Animated,
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  Text,
+} from 'react-native';
+import {
+  FlatList,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -16,6 +26,7 @@ import {
   homeQuery,
   HomeQuery,
 } from '../../../graphql/homePage/HomeQuery';
+import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
@@ -24,12 +35,19 @@ import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
 import { CardsCarrousel } from '../component/CardsCarroussel';
+import moment from 'moment';
 
 export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
-  const { cleanEmailAndCookie, isCookieEmpty } = useAuth();
+  const {
+    cleanEmailAndCookie,
+    isCookieEmpty,
+    getCredentials,
+    setCookie,
+    cookie,
+  } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -41,6 +59,11 @@ export const HomeScreen: React.FC<{
     context: { clientName: 'contentful' },
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
+
+  const [login, { data: loginData, loading: loginLoading }] = useMutation(
+    classicSignInMutation
+  );
+
   const { data: collectionData } = useQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
@@ -93,15 +116,58 @@ export const HomeScreen: React.FC<{
     }
   }, []);
 
+  const loginWithSavedCredentials = async () => {
+
+    const LastLoginAsyncStorageKey = 'lastLogin'
+
+
+    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey)
+
+    const lastLoginDate = moment(lastLogin)//'Tue Nov 04 2021 12:26:27 GMT-0300 (Horário Padrão de Brasília)') //lastLogin)
+
+    const nowDate = moment(new Date())
+
+    const hourToNextLogin = 20
+
+    // console.log('lastLogin', lastLoginDate)
+    // console.log('nowDate', nowDate)
+    // console.log('dateDiff', nowDate.diff(lastLoginDate))
+    // console.log('dateDiff', nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000))
+
+    if (nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000)) {
+
+      await AsyncStorage.setItem(LastLoginAsyncStorageKey, `${moment.now()}`)
+      const { email, password } = await getCredentials()
+      // console.log('credentials : ', email, password)
+      const { data: loginData, errors } = await login({
+        variables: {
+          email,
+          password
+        },
+      });
+      // console.log('loginData', loginData)
+      if (!loginLoading && loginData?.cookie) {
+        setCookie(data.cookie)
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log('new cookie', cookie);
+  }, [cookie]);
+
   useEffect(() => {
     if (profileData) {
       AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email);
     } else if (!profileLoading) {
-      cleanEmailAndCookie();
+      loginWithSavedCredentials();
+      // cleanEmailAndCookie();
     }
   }, [profileData]);
 
   useEffect(() => {
+    // setCookie('asdasdasdasd')
+    loginWithSavedCredentials()
     async function getStorage() {
       const wishListData = await AsyncStorage.getItem('@WishList');
     }

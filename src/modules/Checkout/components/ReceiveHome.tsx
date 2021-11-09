@@ -72,6 +72,7 @@ const ReceiveHome = ({
                                     title: street,
                                     zipcode: postalCode,
                                 }}
+                                disabled={addressId === selectedAddress.addressId}
                                 selected={selected}
                                 select={() => onAddressChosen(item)}
                             />
@@ -123,6 +124,7 @@ const ReceiveHome = ({
                                 shippingEstimate: shippingEstimate,
                             }}
                             selected={selected}
+                            disabled={selected = id === selectedDelivery.id}
                             select={() => { onDeliveryChosen(item) }}
                         />
                     );

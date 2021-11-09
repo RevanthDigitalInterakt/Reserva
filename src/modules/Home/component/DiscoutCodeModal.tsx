@@ -4,7 +4,7 @@ import Modal from 'react-native-modal'
 import { Animated, Dimensions, ImageBackground } from "react-native"
 import { images } from "../../../assets"
 import Share from 'react-native-share';
-import { left, opacity, right } from "styled-system"
+import { left, opacity, padding, paddingBottom, right } from "styled-system"
 import Clipboard from "@react-native-clipboard/clipboard"
 import { View } from "react-native-animatable"
 
@@ -104,7 +104,8 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
         style={{
           width: modalWidth,
           // height: modalHeight,
-          paddingHorizontal: 15
+          paddingHorizontal: !!data.coupon ? 15 : 20,
+          paddingBottom: !!data.coupon ? 0 : 15
         }}
       >
 
@@ -153,66 +154,69 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
             </Typography>
           </Box>
         </Box>
-        <Animated.View style={{
-          opacity: toastOpacity
-        }}>
-          <Box
-            style={
-              {
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0,
-                shadowRadius: 2,
+        {!!data.coupon && <>
+          <Animated.View style={{
+            opacity: toastOpacity
+          }}>
+            <Box
+              style={
+                {
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0,
+                  shadowRadius: 2,
 
-                elevation: 5,
-              }}
-            borderRadius='nano'
-            backgroundColor='white'
-            position='absolute'
-            alignSelf='center'
-            zIndex={5}
-            p={6}
-            top={-7} >
-            <Typography fontFamily='nunitoRegular' fontSize={13}>Código copiado!</Typography>
-          </Box>
-        </Animated.View>
-        <Box mb={13} mt={35} width={modalWidth - (15 * 2)} justifyContent='center'>
-          <Button
-            onPress={onClickCopy}
-            inline>
-            <Box backgroundColor='backgroundMenuOpened' width='100%' alignItems='center' justifyContent='center' height={50}>
-              <Typography
-                color='preto'
-                fontFamily='reservaSerifBold'
-                fontSize={20}
-              >
-                {data.coupon}
-              </Typography>
-              <Box position='absolute' right={17.5} >
-                <Icon name='Copy' size={16} color='neutroFrio2' />
+                  elevation: 5,
+                }}
+              borderRadius='nano'
+              backgroundColor='white'
+              position='absolute'
+              alignSelf='center'
+              zIndex={5}
+              p={6}
+              top={-7} >
+              <Typography fontFamily='nunitoRegular' fontSize={13}>Código copiado!</Typography>
+            </Box>
+          </Animated.View>
+          <Box mb={13} mt={35} width={modalWidth - (15 * 2)} justifyContent='center'>
+            <Button
+              onPress={onClickCopy}
+              inline>
+              <Box backgroundColor='backgroundMenuOpened' width='100%' alignItems='center' justifyContent='center' height={50}>
+                <Typography
+                  color='preto'
+                  fontFamily='reservaSerifBold'
+                  fontSize={20}
+                >
+                  {data.coupon}
+                </Typography>
+                <Box position='absolute' right={17.5} >
+                  <Icon name='Copy' size={16} color='neutroFrio2' />
+                </Box>
               </Box>
-            </Box>
-          </Button>
+            </Button>
 
-          <Button
-            onPress={onClickShare}
-            mt={10.3}
-            inline>
-            <Box backgroundColor={data.colorButton} width='100%' alignItems='center' justifyContent='center' height={50}>
-              <Typography
-                color='white'
-                fontFamily='nunitoSemiBold'
-                fontSize={13}
-                letterSpacing={1.6}
-              >
-                {data.titleButton}
-              </Typography>
-            </Box>
-          </Button>
-        </Box>
+            <Button
+              onPress={onClickShare}
+              mt={10.3}
+              inline>
+              <Box backgroundColor={data.colorButton} width='100%' alignItems='center' justifyContent='center' height={50}>
+                <Typography
+                  color='white'
+                  fontFamily='nunitoSemiBold'
+                  fontSize={13}
+                  letterSpacing={1.6}
+                >
+                  {data.titleButton}
+                </Typography>
+              </Box>
+            </Button>
+          </Box>
+        </>
+        }
       </ImageBackground>
 
     </Modal>

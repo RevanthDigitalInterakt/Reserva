@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import analytics from '@react-native-firebase/analytics';
 import appsFlyer from 'react-native-appsflyer';
 
 import { CepResponse } from '../config/brasilApi';
@@ -541,6 +542,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
           console.error('AppsFlyer Error', err);
         }
       );
+      analytics().logEvent('add_to_cart', {
+        item_id: itemId,
+        item_name: product.name,
+        item_price: product.price,
+        item_quantity: quantity,
+        item_category: categories,
+        currency: 'BRL',
+        seller,
+      });
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
       console.log('error', error.response.data);
@@ -581,6 +591,13 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
           console.error('AppsFlyer Error', err);
         }
       );
+
+      analytics().logEvent('remove_from_cart', {
+        item_id: itemId,
+        item_categories: CategoriesParserString(
+          productRemoved?.productCategories
+        ),
+      });
 
       return { ok: true };
     } catch (err) {
@@ -639,6 +656,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       appsFlyer.logEvent('af_complete_registration', {
         af_registration_method: 'email',
+      });
+
+      analytics().logEvent('complete_registration', {
+        registration_method: 'email',
+        custumer_email: orderForm?.clientProfileData.email,
       });
 
       setOrderForm(data);

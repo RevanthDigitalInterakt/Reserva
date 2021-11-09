@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { FlatList } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import {
   Box,
   Button,
@@ -71,53 +71,81 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     console.log('cookie', cookie);
   }, [email, cookie]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     console.log('wishIds', wishIds);
-  }, [wishIds]); */
+  }, [wishIds]);
+
+  const getStorage = async () => {
+    const wishListData = await AsyncStorage.getItem('@WishData');
+    if (wishListData) {
+      setWishIds(JSON.parse(wishListData));
+    }
+  };
 
   const handleFavorite = async (wishId: any) => {
     if (email) {
-      console.log(wishId);
       if (wishId) {
-        await removeFromWishList({
+        // remove wishlist
+        const newWishIds = wishIds.filter((x) => x.sku !== wishId);
+        AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+        getStorage();
+
+        /*  await removeFromWishList({
           variables: {
             id: wishId,
             shopperId: email,
           },
-        });
-        await refetch({
+        }); */
+        /*  await refetch({
           shopperId: email,
-        });
+        }); */
       }
     }
   };
 
+  // useEffect(() => {
+  //   if (wishDataStorage) {
+  //     setWishIds(wishDataStorage);
+  //   }
+  // }, [wishDataStorage])
+
   useEffect(() => {
-    console.log('wishIds', wishIds);
     if (wishIds) {
       const idArray = wishIds.map((x) => x.productId.split('-')[0]) || [];
       refetchProducts({ idArray });
     }
   }, [wishIds]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (productIds?.viewList.data.length <= 0) {
+        getStorage();
+      }
+    }, [productIds])
+  );
+
   useEffect(() => {
-    if (products?.productsByIdentifier) {
+    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
       setWishProducts(products.productsByIdentifier);
-      setSkip(true);
-    }
   }, [products]);
 
   useEffect(() => {
-    console.log(email);
-    setWishIds(productIds?.viewList.data);
-    setSkip(false);
-    /* const idArray =
+    // setWishIds(productIds?.viewList.data);
+    // if (productIds?.viewList.data.length > 0) {
+    //   AsyncStorage.setItem(
+    //     '@WishData',
+    //     JSON.stringify(productIds?.viewList.data)
+    //   );
+    // }
+    const idArray =
       productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
-    console.log(idArray);
     if (idArray.length) {
-      refetchProducts({ idArray });
-      // refetch();
-    } */
+      refetch();
+
+      // refetchProducts(
+      //   { idArray }
+      // )
+    }
   }, [productIds]);
 
   useEffect(() => {
@@ -141,6 +169,14 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      /* const idArray = wishIds.map((x) => x.productId) || [];
+      refetchProducts({ idArray }); */
+      refetch();
+    }, [])
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
       if (cookie === null) {
         navigation.navigate('Login', { comeFrom: 'Profile' });
       }
@@ -150,9 +186,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       // refetchProducts(
       //   { idArray }
       // )
-    }, [])
+    }, [cookie])
   );
-
+  useEffect(() => {
+    console.log('wishProducts', wishProducts)
+  }, [wishProducts])
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
       <TopBarDefault loading={false} showShadow />
@@ -283,7 +321,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
         </Box>
       ) : (
         <>
-          {wishProducts.length <= 0 && !!wishIds && wishIds.length <= 0 ? (
+          {!!wishIds && wishIds.length <= 0 ? (
             <EmptyWishList />
           ) : (
             <Box flex={1}>
@@ -326,22 +364,23 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
+                        onClickAddCount={() => { }}
                         isFavorited
-                        itemColor=""
-                        ItemSize=""
-                        productTitle={`${product?.productName.slice(0, 30)}${
-                          product?.productName.length > 30 ? '...' : ''
-                        }`}
+                        itemColor={productSku?.name.split('-')[0] || ''}
+                        ItemSize={productSku?.name.split('-')[1] || ''}
+                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
+                          }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
-                        onClickFavorite={() => handleFavorite(item.id)}
+                        onClickFavorite={() => handleFavorite(item.sku)}
                         onClickBagButton={() => {
                           // navigation.navigate(')
                           // console.log('item', productSku?.variations[2].values[0])
                           navigation.navigate('ProductDetail', {
                             productId: product?.productId,
                             colorSelected: productSku?.variations[2].values[0],
+                            sizeSelected: productSku?.name.split('-')[1],
                           });
                         }}
                         imageSource={
@@ -372,24 +411,26 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 const EmptyWishList = () => {
   const navigation = useNavigation();
   return (
-    <Box flex={1} alignItems="center" paddingTop={110}>
-      <Image source={images.heartBroken} height={200} width={200} />
-      <Box mx={37}>
-        <Typography fontFamily="reservaSerifRegular" fontSize={24}>
-          Você ainda não tem favoritos :(
-        </Typography>
+    <ScrollView>
+      <Box flex={1} alignItems="center" paddingTop={110}>
+        <Image source={images.noWishList} />
+        <Box mx={37} mt="md">
+          <Typography fontFamily="reservaSerifRegular" fontSize={24}>
+            Você ainda não tem favoritos :(
+          </Typography>
+        </Box>
+        <Box mx={58} my={28}>
+          <Typography fontFamily="nunitoRegular" fontSize={14} textAlign="center">
+            Navegue pelo nosso app e favorite produtos que são a sua cara!
+          </Typography>
+        </Box>
+        <Button
+          title="NAVEGAR"
+          variant="primarioEstreito"
+          width={258}
+          onPress={() => navigation.navigate('Home')}
+        />
       </Box>
-      <Box mx={58} my={28}>
-        <Typography fontFamily="nunitoRegular" fontSize={14} textAlign="center">
-          Navegue pelo nosso app e favorite produtos que são a sua cara!
-        </Typography>
-      </Box>
-      <Button
-        title="NAVEGAR"
-        variant="primarioEstreito"
-        width={258}
-        onPress={() => navigation.navigate('Home')}
-      />
-    </Box>
+    </ScrollView>
   );
 };

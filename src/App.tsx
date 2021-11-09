@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
+import analytics from '@react-native-firebase/analytics';
+import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
@@ -47,6 +49,25 @@ let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
   console.log(res);
 });
 
+const logAppOpenAnalytics = async () => {
+  try {
+    await analytics().logAppOpen();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const requestUserPermission = async () => {
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    console.log('Authorization status:', authStatus);
+  }
+};
+
 appsFlyer.initSdk(
   {
     devKey: env.APPSFLYER.DEV_KEY,
@@ -80,6 +101,8 @@ const App = () => {
   });
 
   useEffect(() => {
+    requestUserPermission();
+    logAppOpenAnalytics();
     CodepushConfig();
     oneSignalConfig();
   }, []);
