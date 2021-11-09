@@ -46,6 +46,7 @@ export const images = {
   logoQRCode: require('./img/logoQRCode.png'),
   imageNotFound: require('./img/imageNotFound.png'),
   noStoresFound: require('./img/noStoresFound.png'),
+  QrcodeBackground: require('./img/QrcodeBackground.png'),
 };
 
 export const animations = {
