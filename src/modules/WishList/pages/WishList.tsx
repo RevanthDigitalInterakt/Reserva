@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { FlatList } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import {
   Box,
   Button,
@@ -130,13 +130,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   }, [products]);
 
   useEffect(() => {
-    setWishIds(productIds?.viewList.data);
-    if (productIds?.viewList.data.length > 0) {
-      AsyncStorage.setItem(
-        '@WishData',
-        JSON.stringify(productIds?.viewList.data)
-      );
-    }
+    // setWishIds(productIds?.viewList.data);
+    // if (productIds?.viewList.data.length > 0) {
+    //   AsyncStorage.setItem(
+    //     '@WishData',
+    //     JSON.stringify(productIds?.viewList.data)
+    //   );
+    // }
     const idArray =
       productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
     if (idArray.length) {
@@ -186,9 +186,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       // refetchProducts(
       //   { idArray }
       // )
-    }, [])
+    }, [cookie])
   );
-
+  useEffect(() => {
+    console.log('wishProducts', wishProducts)
+  }, [wishProducts])
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
       <TopBarDefault loading={false} showShadow />
@@ -319,7 +321,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
         </Box>
       ) : (
         <>
-          {wishProducts.length <= 0 && !!wishIds && wishIds.length <= 0 ? (
+          {!!wishIds && wishIds.length <= 0 ? (
             <EmptyWishList />
           ) : (
             <Box flex={1}>
@@ -362,13 +364,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        onClickAddCount={() => {}}
+                        onClickAddCount={() => { }}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${
-                          product?.productName.length > 30 ? '...' : ''
-                        }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
+                          }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
@@ -410,24 +411,26 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 const EmptyWishList = () => {
   const navigation = useNavigation();
   return (
-    <Box flex={1} alignItems="center" paddingTop={110}>
-      <Image source={images.heartBroken} height={200} width={200} />
-      <Box mx={37}>
-        <Typography fontFamily="reservaSerifRegular" fontSize={24}>
-          Você ainda não tem favoritos :(
-        </Typography>
+    <ScrollView>
+      <Box flex={1} alignItems="center" paddingTop={110}>
+        <Image source={images.noWishList} />
+        <Box mx={37} mt="md">
+          <Typography fontFamily="reservaSerifRegular" fontSize={24}>
+            Você ainda não tem favoritos :(
+          </Typography>
+        </Box>
+        <Box mx={58} my={28}>
+          <Typography fontFamily="nunitoRegular" fontSize={14} textAlign="center">
+            Navegue pelo nosso app e favorite produtos que são a sua cara!
+          </Typography>
+        </Box>
+        <Button
+          title="NAVEGAR"
+          variant="primarioEstreito"
+          width={258}
+          onPress={() => navigation.navigate('Home')}
+        />
       </Box>
-      <Box mx={58} my={28}>
-        <Typography fontFamily="nunitoRegular" fontSize={14} textAlign="center">
-          Navegue pelo nosso app e favorite produtos que são a sua cara!
-        </Typography>
-      </Box>
-      <Button
-        title="NAVEGAR"
-        variant="primarioEstreito"
-        width={258}
-        onPress={() => navigation.navigate('Home')}
-      />
-    </Box>
+    </ScrollView>
   );
 };

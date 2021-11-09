@@ -3,8 +3,18 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { Animated, Dimensions, SafeAreaView, ScrollView, Text } from 'react-native';
-import { FlatList, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  Animated,
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  Text,
+} from 'react-native';
+import {
+  FlatList,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -15,20 +25,27 @@ import {
   homeQuery,
   HomeQuery,
 } from '../../../graphql/homePage/HomeQuery';
+import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
+import { DefaultCarrousel } from '../component/Carroussel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
-import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import moment from 'moment';
 
 export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
-  const { cleanEmailAndCookie, isCookieEmpty, getCredentials, setCookie, cookie } = useAuth();
+  const {
+    cleanEmailAndCookie,
+    isCookieEmpty,
+    getCredentials,
+    setCookie,
+    cookie,
+  } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -41,7 +58,9 @@ export const HomeScreen: React.FC<{
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
 
-  const [login, { data: loginData, loading: loginLoading }] = useMutation(classicSignInMutation);
+  const [login, { data: loginData, loading: loginLoading }] = useMutation(
+    classicSignInMutation
+  );
 
   const { data: collectionData } = useQuery(configCollection, {
     context: { clientName: 'contentful' },
@@ -58,11 +77,11 @@ export const HomeScreen: React.FC<{
   const DOT_SIZE = 8;
 
   useEffect(() => {
-    console.log('images', images)
-  }, [images])
+    console.log('images', images);
+  }, [images]);
 
   useEffect(() => {
-    let carrousels: Carrousel[] =
+    const carrousels: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
 
     setCarrousels(carrousels);
@@ -96,7 +115,6 @@ export const HomeScreen: React.FC<{
     }
   }, []);
 
-
   const loginWithSavedCredentials = async () => {
 
     const LastLoginAsyncStorageKey = 'lastLogin'
@@ -110,36 +128,38 @@ export const HomeScreen: React.FC<{
 
     const hourToNextLogin = 20
 
-    console.log('lastLogin', lastLoginDate)
-    console.log('nowDate', nowDate)
-    console.log('dateDiff', nowDate.diff(lastLoginDate))
-    console.log('dateDiff', nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000))
+    // console.log('lastLogin', lastLoginDate)
+    // console.log('nowDate', nowDate)
+    // console.log('dateDiff', nowDate.diff(lastLoginDate))
+    // console.log('dateDiff', nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000))
 
     if (nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000)) {
 
       await AsyncStorage.setItem(LastLoginAsyncStorageKey, `${moment.now()}`)
       const { email, password } = await getCredentials()
-      console.log('credentials : ', email, password)
+      // console.log('credentials : ', email, password)
       const { data: loginData, errors } = await login({
         variables: {
           email,
           password
         },
       });
-      console.log('loginData', loginData)
+      // console.log('loginData', loginData)
       if (!loginLoading && loginData?.cookie) {
         setCookie(data.cookie)
       }
     }
-  }
+  };
 
-  useEffect(() => { console.log('new cookie', cookie) }, [cookie])
+  useEffect(() => {
+    console.log('new cookie', cookie);
+  }, [cookie]);
 
   useEffect(() => {
     if (profileData) {
       AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email);
     } else if (!profileLoading) {
-      loginWithSavedCredentials()
+      loginWithSavedCredentials();
       // cleanEmailAndCookie();
     }
   }, [profileData]);
