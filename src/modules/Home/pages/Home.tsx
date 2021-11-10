@@ -128,10 +128,10 @@ export const HomeScreen: React.FC<{
     const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey);
     const typeLogin = await AsyncStorage.getItem('@RNAuth:typeLogin');
     const nowDate = Date.now();
-    const hourToNextLogin = 1;
+    const hourToNextLogin = 10;
 
     if (typeLogin === 'classic') {
-      if (nowDate >= Number(lastLogin) + hourToNextLogin * 60 * 1000) {
+      if (nowDate >= Number(lastLogin) + hourToNextLogin * 60 * 60 * 1000) {
         const { email, password } = await getCredentials();
         const { data: loginData, errors } = await login({
           variables: {
