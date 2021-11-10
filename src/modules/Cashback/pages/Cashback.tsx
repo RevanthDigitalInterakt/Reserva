@@ -26,6 +26,10 @@ export const Cashback: React.FC<Props> = ({ navigation }) => {
     setToken(data.access_token);
   };
 
+  const termsAndConditions = () => {
+    setShowModalTermsAndConditions(false);
+    setAcceptConditions(true)
+  }
   return (
     <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton
@@ -76,6 +80,7 @@ export const Cashback: React.FC<Props> = ({ navigation }) => {
             <ModalTermsAndConditions
               isVisible={showModalTermsAndConditions}
               setIsVisible={() => setShowModalTermsAndConditions(false)}
+              setTermAndConditions={() => termsAndConditions()}
             />
             <Box
               flexDirection="row"
@@ -167,9 +172,10 @@ export const Cashback: React.FC<Props> = ({ navigation }) => {
 interface IModal {
   isVisible: boolean;
   setIsVisible: () => void;
+  setTermAndConditions: () => void;
 }
 
-const ModalTermsAndConditions = ({ isVisible, setIsVisible }: IModal) => (
+const ModalTermsAndConditions = ({ isVisible, setIsVisible, setTermAndConditions }: IModal) => (
   <Modal avoidKeyboard onBackdropPress={setIsVisible} isVisible={isVisible}>
     <Box bg="white" marginY="xxl" justifyContent="center" px="xxxs" py="xxxs">
       <Box position="absolute" top={16} right={20} zIndex={4}>
@@ -206,10 +212,10 @@ const ModalTermsAndConditions = ({ isVisible, setIsVisible }: IModal) => (
           bg="verdeSucesso"
           width="100%"
           height={50}
-          onPress={setIsVisible}
+          onPress={setTermAndConditions}
         >
           <Typography color="white" fontFamily="nunitoSemiBold" fontSize={13}>
-            OPA, VALEU!
+            ACEITO
           </Typography>
         </Button>
       </Box>
