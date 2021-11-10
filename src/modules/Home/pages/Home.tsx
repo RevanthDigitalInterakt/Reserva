@@ -3,6 +3,9 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
 import {
   Animated,
@@ -34,6 +37,9 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import { DefaultCarrousel } from '../component/Carroussel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -121,32 +127,28 @@ export const HomeScreen: React.FC<{
 
     const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey);
     const typeLogin = await AsyncStorage.getItem('@RNAuth:typeLogin');
-
-    const lastLoginDate = moment(lastLogin); // 'Tue Nov 04 2021 12:26:27 GMT-0300 (Horário Padrão de Brasília)') //lastLogin)
-
-    const nowDate = moment(new Date());
-
+    const nowDate = Date.now();
     const hourToNextLogin = 1;
 
-    // console.log('lastLogin', lastLoginDate)
-    // console.log('nowDate', nowDate)
-    // console.log('dateDiff', nowDate.diff(lastLoginDate))
-    // console.log('dateDiff', nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000))
-
     if (typeLogin === 'classic') {
-      if (nowDate.diff(lastLoginDate) >= hourToNextLogin * 60 * 1000) {
-        await AsyncStorage.setItem(LastLoginAsyncStorageKey, `${moment.now()}`);
+      if (nowDate >= Number(lastLogin) + hourToNextLogin * 60 * 1000) {
         const { email, password } = await getCredentials();
-        // console.log('credentials : ', email, password)
         const { data: loginData, errors } = await login({
           variables: {
             email,
             password,
           },
         });
-        // console.log('loginData', loginData)
         if (!loginLoading && loginData?.cookie) {
-          setCookie(data.cookie);
+          await AsyncStorage.setItem('@RNAuth:email', email);
+          await AsyncStorage.setItem(
+            LastLoginAsyncStorageKey,
+            `${moment.now()}`
+          );
+          await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
+          await AsyncStorage.setItem('@RNAuth:cookie', loginData.cookie);
+
+          setCookie(loginData.cookie);
           setEmail(email);
         }
       }
