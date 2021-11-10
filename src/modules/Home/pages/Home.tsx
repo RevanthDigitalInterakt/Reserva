@@ -3,6 +3,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import moment from 'moment';
 import {
   Animated,
   Dimensions,
@@ -33,7 +34,6 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import { DefaultCarrousel } from '../component/Carroussel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
-import moment from 'moment';
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -41,6 +41,7 @@ export const HomeScreen: React.FC<{
   const navigation = useNavigation();
   const {
     cleanEmailAndCookie,
+    setEmail,
     isCookieEmpty,
     getCredentials,
     setCookie,
@@ -116,57 +117,60 @@ export const HomeScreen: React.FC<{
   }, []);
 
   const loginWithSavedCredentials = async () => {
+    const LastLoginAsyncStorageKey = '@RNAuth:lastLogin';
 
-    const LastLoginAsyncStorageKey = 'lastLogin'
+    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey);
+    const typeLogin = await AsyncStorage.getItem('@RNAuth:typeLogin');
 
+    const lastLoginDate = moment(lastLogin); // 'Tue Nov 04 2021 12:26:27 GMT-0300 (Horário Padrão de Brasília)') //lastLogin)
 
-    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey)
+    const nowDate = moment(new Date());
 
-    const lastLoginDate = moment(lastLogin)//'Tue Nov 04 2021 12:26:27 GMT-0300 (Horário Padrão de Brasília)') //lastLogin)
-
-    const nowDate = moment(new Date())
-
-    const hourToNextLogin = 20
+    const hourToNextLogin = 1;
 
     // console.log('lastLogin', lastLoginDate)
     // console.log('nowDate', nowDate)
     // console.log('dateDiff', nowDate.diff(lastLoginDate))
     // console.log('dateDiff', nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000))
 
-    if (nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000)) {
-
-      await AsyncStorage.setItem(LastLoginAsyncStorageKey, `${moment.now()}`)
-      const { email, password } = await getCredentials()
-      // console.log('credentials : ', email, password)
-      const { data: loginData, errors } = await login({
-        variables: {
-          email,
-          password
-        },
-      });
-      // console.log('loginData', loginData)
-      if (!loginLoading && loginData?.cookie) {
-        setCookie(data.cookie)
+    if (typeLogin === 'classic') {
+      if (nowDate.diff(lastLoginDate) >= hourToNextLogin * 60 * 1000) {
+        await AsyncStorage.setItem(LastLoginAsyncStorageKey, `${moment.now()}`);
+        const { email, password } = await getCredentials();
+        // console.log('credentials : ', email, password)
+        const { data: loginData, errors } = await login({
+          variables: {
+            email,
+            password,
+          },
+        });
+        // console.log('loginData', loginData)
+        if (!loginLoading && loginData?.cookie) {
+          setCookie(data.cookie);
+          setEmail(email);
+        }
       }
+    } else if (typeLogin === 'code') {
+      AsyncStorage.removeItem('@RNAuth:cookie');
+      AsyncStorage.removeItem('@RNAuth:email');
+      AsyncStorage.removeItem('@RNAuth:typeLogin');
+      AsyncStorage.removeItem(LastLoginAsyncStorageKey);
+      setCookie(null);
+      setEmail(null);
     }
   };
-
-  useEffect(() => {
-    console.log('new cookie', cookie);
-  }, [cookie]);
 
   useEffect(() => {
     if (profileData) {
       AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email);
     } else if (!profileLoading) {
       loginWithSavedCredentials();
-      // cleanEmailAndCookie();
     }
   }, [profileData]);
 
   useEffect(() => {
     // setCookie('asdasdasdasd')
-    loginWithSavedCredentials()
+    loginWithSavedCredentials();
     async function getStorage() {
       const wishListData = await AsyncStorage.getItem('@WishList');
     }

@@ -101,6 +101,7 @@ export const LoginScreen: React.FC<Props> = ({
           () => { }
         );
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
+        await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
       } else {
         validateCredentials();
       }
