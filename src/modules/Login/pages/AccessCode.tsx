@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
+import moment from 'moment';
 import { Pressable, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -61,6 +62,7 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
       setCookie(data?.cookie);
 
       AsyncStorage.setItem('@RNAuth:typeLogin', 'code');
+      AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         setShowError(false);
         navigation.navigate('Home');

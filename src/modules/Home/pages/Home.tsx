@@ -2,29 +2,18 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
-import {
-  Animated,
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  Text,
-} from 'react-native';
-import {
-  FlatList,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
+import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import {
   Carrousel,
-  CarrouselCard,
   configCollection,
   homeQuery,
   HomeQuery,
@@ -45,14 +34,7 @@ export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
-  const {
-    cleanEmailAndCookie,
-    setEmail,
-    isCookieEmpty,
-    getCredentials,
-    setCookie,
-    cookie,
-  } = useAuth();
+  const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -76,12 +58,8 @@ export const HomeScreen: React.FC<{
   const { WithoutInternet } = useCheckConnection({ refetch });
 
   const { width } = Dimensions.get('screen');
-  const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
-
-  const DEVICE_WIDTH = width;
-  const DOT_SIZE = 8;
 
   useEffect(() => {
     console.log('images', images);
@@ -153,12 +131,14 @@ export const HomeScreen: React.FC<{
         }
       }
     } else if (typeLogin === 'code') {
-      AsyncStorage.removeItem('@RNAuth:cookie');
-      AsyncStorage.removeItem('@RNAuth:email');
-      AsyncStorage.removeItem('@RNAuth:typeLogin');
-      AsyncStorage.removeItem(LastLoginAsyncStorageKey);
-      setCookie(null);
-      setEmail(null);
+      if (nowDate >= Number(lastLogin) + 20 * 60 * 60 * 1000) {
+        AsyncStorage.removeItem('@RNAuth:cookie');
+        AsyncStorage.removeItem('@RNAuth:email');
+        AsyncStorage.removeItem('@RNAuth:typeLogin');
+        AsyncStorage.removeItem(LastLoginAsyncStorageKey);
+        setCookie(null);
+        setEmail(null);
+      }
     }
   };
 
@@ -182,33 +162,6 @@ export const HomeScreen: React.FC<{
   return (
     <Box flex={1} bg="white">
       <TopBarDefault loading={loading} />
-      {/* <Box
-        minHeight={40}
-        bg="verdeSucesso"
-        paddingLeft="xxxs"
-        py="micro"
-        flexDirection="row"
-        alignItems="center"
-        paddingRight="xxxs"
-        boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-        style={{ elevation: 10 }}
-      >
-        <Box flex={1}>
-          <Typography
-            fontFamily="reservaSansRegular"
-            fontSize={13}
-            color="white"
-          >
-            Aproveite o desconto de R$ 50 em sua primeira compra no app.
-          </Typography>
-        </Box>
-        <Button
-          flex={1}
-        // onPress={() => ('')}
-        >
-          <Icon name='Close' size={15} color='white' ml="xxxs" />
-        </Button>
-      </Box> */}
       <StoreUpdate />
       {modalDiscount && (
         <DiscoutCodeModal
@@ -223,12 +176,6 @@ export const HomeScreen: React.FC<{
       {loading ? (
         <></>
       ) : (
-        // <Box flex={1}>
-        //   <SkeletonPlaceholder>
-        //     <SkeletonPlaceholder.Item width={screenWidth} height={screenHeight}>
-        //     </SkeletonPlaceholder.Item>
-        //   </SkeletonPlaceholder>
-        // </Box>
         <SafeAreaView>
           <ScrollView>
             <Box
