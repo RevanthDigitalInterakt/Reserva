@@ -50,7 +50,8 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, s
   }
 
   const onViewRef = React.useRef(({ viewableItems }: any) => {
-    setActualPosition(viewableItems[0].index)
+    !!viewableItems && !!viewableItems[0] &&
+      setActualPosition(viewableItems[0].index)
   })
 
   const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 }
@@ -66,9 +67,11 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, s
       style={{ position: 'relative' }}
       horizontal
       showsHorizontalScrollIndicator={false}
-      decelerationRate="fast"
+      decelerationRate={0}
       snapToInterval={DEVICE_WIDTH}
+      snapToAlignment="center"
       bounces={false}
+      pagingEnabled
       onViewableItemsChanged={onViewRef.current}
       viewabilityConfig={viewabilityConfig}
       renderItem={({ item }) => (
