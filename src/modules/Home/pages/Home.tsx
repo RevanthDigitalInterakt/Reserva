@@ -34,6 +34,7 @@ import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import { DefaultCarrousel } from '../component/Carroussel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
 import moment from 'moment';
+import { CountDownBanner } from '../component/CountDown';
 
 export const HomeScreen: React.FC<{
   title: string;
@@ -175,6 +176,7 @@ export const HomeScreen: React.FC<{
   }, []);
   return (
     <Box flex={1} bg="white">
+      <CountDownBanner />
       <TopBarDefault loading={loading} />
       {/* <Box
         minHeight={40}
