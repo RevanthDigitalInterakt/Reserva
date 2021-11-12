@@ -25,6 +25,7 @@ type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'Race
 
 export const RaceDetail: React.FC = () => {
   const navigation = useNavigation<RaceDetailNavigator>()
+  const [isVisible, setIsVisible] = useState(false)
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
   const [newPosition, setNewPosition] = useState<any>();
   const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
@@ -99,15 +100,13 @@ export const RaceDetail: React.FC = () => {
   return (
     <SafeAreaView
       style={{
-        // justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 111,
         flex: 1
       }}
     >
 
-      <RegressiveCount isVisible={true} />
-      {/* <HeaderCorreReserva /> */}
+      <RegressiveCount visibility={isVisible} setVisibility={(value) => setIsVisible(value)} />
       <Box backgroundColor='#0F1113' zIndex={0} position='absolute' width='100%' height={DEVICE_HEIGHT / 2} mx="micro" />
       <Box width={DEVICE_WIDTH - 96} alignItems="center" >
 
@@ -119,52 +118,7 @@ export const RaceDetail: React.FC = () => {
           rhythm="0.0"
           plates="00"
         />
-        {/* <Box marginTop={34} >
-          <Typography
-            fontFamily='reservaSerifRegular'
-            fontSize={52}
-            color='white'
-            textAlign='center'
-          >
-            <Typography fontFamily='reservaSerifBold' color='white'>0</Typography>
-            <Typography fontFamily='reservaSerifLight' color="#808080" >h </Typography>
-            <Typography fontFamily='reservaSerifBold' color='white'>00</Typography>
-            <Typography fontFamily='reservaSerifLight' color="#808080" >m </Typography>
-            <Typography fontFamily='reservaSerifBold' color='white'>00</Typography>
-            <Typography fontFamily='reservaSerifLight' color="#808080" >s</Typography>
-          </Typography>
-        </Box> */}
-        {/* <Box px="micro" width="100%" >
-          <Box flexDirection="row" justifyContent="space-evenly">
-            <Box flexDirection="row"  >
-              <Box mt="quarck">
-                <IconDistance />
-              </Box>
-              <Box marginLeft="quarck">
-                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >00.0</Typography>
-                <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Distância</Typography>
-              </Box>
-            </Box>
-            <Box flexDirection="row" >
-              <Box mt="quarck">
-                <IconRhythm />
-              </Box>
-              <Box marginLeft="quarck">
-                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >0.0</Typography>
-                <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Ritmo</Typography>
-              </Box>
-            </Box>
-            <Box flexDirection="row" >
-              <Box mt="quarck">
-                <IconDish />
-              </Box>
-              <Box marginLeft="quarck">
-                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+00</Typography>
-                <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Pratos</Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box> */}
+
         <Box
           mt={"sm"}
           borderRadius="sm"
@@ -183,60 +137,54 @@ export const RaceDetail: React.FC = () => {
           </MapView>
         </Box>
 
-        <Box
-          mt="xs"
-          height={40}
-          width="100%"
-          bg="#29C94E"
-          borderRadius="infinity"
-          alignItems="center"
-          justifyContent="center"
+        <TouchableOpacity
+          onPress={() => setIsVisible(true)}
         >
-          <Typography
-            color="white"
-
+          <Box
+            mt="xs"
+            height={40}
+            width="100%"
+            bg="#29C94E"
+            borderRadius="infinity"
+            alignItems="center"
+            justifyContent="center"
           >
-            DESLIZE PRA INICIAR
-          </Typography>
-        </Box>
-
+            <Typography
+              color="white"
+            >
+              DESLIZE PRA INICIAR
+            </Typography>
+          </Box>
+        </TouchableOpacity>
       </Box>
     </SafeAreaView >
   )
 }
 
 
-const RegressiveCount: React.FC<{ isVisible?: boolean }> = ({ isVisible }) => {
+const RegressiveCount: React.FC<{ visibility?: boolean, setVisibility?: (value: boolean) => void }> = ({ visibility, setVisibility }) => {
 
   const [count, setCount] = useState<number>(3)
-  const [visibility, setVisibility] = useState(true)
-
-  // useEffect(() => {
-  //   setVisibility(!!isVisible ? isVisible : false)
-  // }, [isVisible])
+  // const [visibility, setVisibility] = useState(isVisible)
 
   useEffect(() => {
-    setCount(3)
-    const interval = setInterval(() => {
+    if (visibility) {
+      setCount(3)
+      const interval = setInterval(() => {
 
-      setCount((prevCount) => {
-        if (prevCount > 1) {
-          return prevCount - 1
-        }
-        setVisibility(false)
-        clearInterval(interval)
-        return prevCount
-      })
-    }, 1500)
+        setCount((prevCount) => {
+          if (prevCount > 1) {
+            return prevCount - 1
+          }
+          setVisibility && setVisibility(false)
+          clearInterval(interval)
+          return prevCount
+        })
+      }, 1000)
 
-    return () => clearInterval(interval)
-  }, [])
-
-  // useEffect(() => {
-  //   if (count < 3) {
-  //     setTimeout(setCount(count + 1), 1000)
-  //   }
-  // }, [count])
+      return () => clearInterval(interval)
+    }
+  }, [visibility])
 
   return (
     <Modal visible={visibility} transparent>
