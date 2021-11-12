@@ -32,6 +32,7 @@
 		566ACDC8859A4A58B615C21C /* ReservaSerif-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F532457949E4248830466C4 /* ReservaSerif-Light.otf */; };
 		59B3E92030BA4908B413E8C4 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */; };
 		5D2D02C9278446D69B17BE6D /* ReservaSerif-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 291EAA4AEC5D48D792C9DF75 /* ReservaSerif-Regular.otf */; };
+		676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675379EA273B048E00FB2439 /* AdSupport.framework */; };
 		67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67D475692735B77D00D1346C /* GoogleService-Info.plist */; };
 		729B4915FCFA4AECBCEF48CE /* ReservaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE4F8D24C39437BB5F4E7CD /* ReservaSans-Medium.ttf */; };
 		7301E4D7CA284B718DF410FB /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */; };
@@ -131,6 +132,7 @@
 		55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-ThinItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		5F532457949E4248830466C4 /* ReservaSerif-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Light.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-Light.otf"; sourceTree = "<group>"; };
+		675379EA273B048E00FB2439 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		67D475692735B77D00D1346C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../node_modules/reserva-ui/.storybook/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-MediumItalic.otf"; path = "../node_modules/reserva-ui/.storybook/fonts/ReservaSerif-MediumItalic.otf"; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				390DCAAA2639E4FB00070997 /* liblottie-ios.a in Frameworks */,
+				676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */,
 				390DCA9C2639E46700070997 /* liblottie-react-native.a in Frameworks */,
 				39C607C2264A0F9A0030C19F /* libCodePush.a in Frameworks */,
 				E92E1CCA01D6A99196B18D66 /* libPods-reserva.a in Frameworks */,
@@ -236,6 +239,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				675379EA273B048E00FB2439 /* AdSupport.framework */,
 				39C607C1264A0F9A0030C19F /* libCodePush.a */,
 				390DCAA92639E4FB00070997 /* liblottie-ios.a */,
 				390DCAA12639E4CA00070997 /* liblottie-ios.a */,
@@ -831,7 +835,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021102901;
+				CURRENT_PROJECT_VERSION = 2021111003;
 				DEVELOPMENT_TEAM = XRV2KKU74A;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = reserva/Info.plist;
@@ -886,7 +890,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.1.9;
+				MARKETING_VERSION = 1.1.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -909,7 +913,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
-				CURRENT_PROJECT_VERSION = 2021102901;
+				CURRENT_PROJECT_VERSION = 2021111003;
 				DEVELOPMENT_TEAM = XRV2KKU74A;
 				INFOPLIST_FILE = reserva/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -963,7 +967,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.1.9;
+				MARKETING_VERSION = 1.1.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -990,7 +994,7 @@
 				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021102901;
+				CURRENT_PROJECT_VERSION = 2021111003;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = XRV2KKU74A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1001,7 +1005,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.9;
+				MARKETING_VERSION = 1.1.10;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
@@ -1027,7 +1031,7 @@
 				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2021102901;
+				CURRENT_PROJECT_VERSION = 2021111003;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = XRV2KKU74A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1038,7 +1042,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.9;
+				MARKETING_VERSION = 1.1.10;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";

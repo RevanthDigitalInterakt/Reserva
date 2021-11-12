@@ -14,7 +14,6 @@ export const images = {
   mastercard: require('./img/mastercard.png'),
   americanExpress: require('./img/americanExpress.png'),
   elo: require('./img/elo.png'),
-  heartBroken: require('./img/heartBroken.png'),
   cupomModalBackground: require('./img/cupomModalBackground.png'),
   bagEmpty: require('./img/bagEmpty.png'),
   cardFront: require('./img/cardFront.png'),
@@ -46,6 +45,8 @@ export const images = {
   logoQRCode: require('./img/logoQRCode.png'),
   imageNotFound: require('./img/imageNotFound.png'),
   noStoresFound: require('./img/noStoresFound.png'),
+  QrcodeBackground: require('./img/QrcodeBackground.png'),
+  noWishList: require('./img/noWishList.png'),
 };
 
 export const animations = {

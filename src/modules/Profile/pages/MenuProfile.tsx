@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
+import remoteConfig from '@react-native-firebase/remote-config';
 import {
   useFocusEffect,
   useIsFocused,
@@ -27,18 +28,25 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
   const { loading, error, data, refetch } = useQuery(profileQuery);
+  const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
 
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
     AsyncStorage.removeItem('@RNAuth:email');
+    AsyncStorage.removeItem('@RNAuth:typeLogin');
+    AsyncStorage.removeItem('@RNAuth:lastLogin');
     setCookie(null);
     setEmail(null);
     navigation.navigate('Home');
   };
 
   useFocusEffect(() => {
+    remoteConfig().fetchAndActivate();
+    const response = remoteConfig().getValue('balance_cashback_in_app');
+
+    setBalanceCashbackInApp(response.asBoolean());
     if (data) {
       refetch();
     }
@@ -113,14 +121,16 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 navigation.navigate('ListCards');
               }}
             /> */}
-            <ItemList
-              title="Meus créditos"
-              descr="Visualize seus créditos e cashbacks"
-              icon="Cashback"
-              onPress={() => {
-                navigation.navigate('ShareableImage');
-              }}
-            />
+            {balanceCashbackInApp && (
+              <ItemList
+                title="Meus créditos"
+                descr="Visualize seus créditos e cashbacks"
+                icon="Cashback"
+                onPress={() => {
+                  navigation.navigate('Credits');
+                }}
+              />
+            )}
 
             <ItemList
               title="Meus endereços"

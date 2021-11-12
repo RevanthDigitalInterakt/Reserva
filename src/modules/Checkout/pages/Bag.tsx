@@ -501,7 +501,9 @@ export const BagScreen = () => {
                     // installmentsNumber={item.installmentNumber}
                     // installmentsPrice={item.installmentPrice}
                     price={item.listPrice / 100}
-                    priceWithDiscount={item.sellingPrice / 100}
+                    priceWithDiscount={
+                      item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
+                    }
                     count={optimistQuantities[index]}
                     onClickAddCount={async (countUpdated) => {
                       const itemIndex = array.findIndex(
