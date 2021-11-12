@@ -6,7 +6,7 @@ import { Box, Icon, Image } from "reserva-ui"
 
 export interface HeaderCorreReservaProps {
   isFullPage?: boolean,
-  onClickBackButton: () => void
+  onClickBackButton?: () => void
 }
 
 const DEVICE_HEIGHT = Dimensions.get('window').height
@@ -28,8 +28,9 @@ export const HeaderCorreReserva: React.FC<HeaderCorreReservaProps> = ({ isFullPa
         >
           <TouchableOpacity
             onPress={onClickBackButton}
+            disabled={!onClickBackButton}
           >
-            <Icon size={25} name='ArrowBack' color='white' />
+            <Icon size={25} name='ArrowBack' color={!!onClickBackButton ? 'white' : 'transparente'} />
           </TouchableOpacity>
         </Box>
         <Box

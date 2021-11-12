@@ -1,14 +1,16 @@
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack"
-import { ModalitySelector } from './pages/ModalitySelector'
+import { ModalitySelector, ModalitySelectorProps } from './pages/ModalitySelector'
 import { HeaderCorreReserva } from './components/HeaderCorreReserva'
 import { QrCodeScanner, QrCodeScannerProps } from './pages/QrCodeScanner'
-import { RaceDetail } from './pages/RaceDetail'
+import { RaceDetail, RaceDetailProps } from './pages/RaceDetail'
 import { useNavigation } from '@react-navigation/core'
+import { RaceFinalized, RaceFinalizedProps } from './pages/RaceFinalized'
 export type CorreReservaStackParamList = {
-  ModalitySelector: undefined;
-  QrCodeScanner: QrCodeScannerProps;
-  RaceDetail: undefined;
+  ModalitySelector?: ModalitySelectorProps;
+  QrCodeScanner?: QrCodeScannerProps;
+  RaceDetail?: RaceDetailProps;
+  RaceFinalized?: RaceFinalizedProps;
 }
 
 const CorreReservaStack = createStackNavigator<CorreReservaStackParamList>()
@@ -22,12 +24,19 @@ export const CorreReservaStackScreen = () => {
         header: () => <HeaderCorreReserva onClickBackButton={() => { navigation.goBack() }} />,
         headerTransparent: true,
       }}
-      initialRouteName='RaceDetail'
+      initialRouteName='RaceFinalized'
 
     >
       <CorreReservaStack.Screen name='ModalitySelector' component={ModalitySelector} />
       <CorreReservaStack.Screen name='QrCodeScanner' component={QrCodeScanner} />
       <CorreReservaStack.Screen name='RaceDetail' component={RaceDetail} />
+      <CorreReservaStack.Screen
+        name='RaceFinalized'
+        component={RaceFinalized}
+        options={{
+          headerShown: false
+        }}
+      />
     </CorreReservaStack.Navigator>
   )
 }

@@ -15,8 +15,11 @@ import { HeaderCorreReserva } from "../../components/HeaderCorreReserva"
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
-type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'RaceDetail'>
+export interface RaceDetailProps {
 
+}
+
+type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'RaceDetail'>
 
 export const RaceDetail: React.FC = () => {
   const navigation = useNavigation<RaceDetailNavigator>()

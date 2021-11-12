@@ -1,19 +1,24 @@
+import { useNavigation } from "@react-navigation/core"
+import { StackNavigationProp } from "@react-navigation/stack"
 import React from "react"
 import { Dimensions } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { backgroundApp, Box, theme, Typography } from "reserva-ui"
+import { CorreReservaStackParamList } from "../.."
 const DEVICE_WIDTH = Dimensions.get('window').width
 
 export interface QrCodeScannerProps {
   isFinalizingRace?: boolean,
-  onCLickBottom: () => void
 }
 
+type QrCodeScannerNavigator = StackNavigationProp<CorreReservaStackParamList, 'QrCodeScanner'>
+
 export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
-  onCLickBottom,
   isFinalizingRace
 }) => {
+
+  const navigation = useNavigation<QrCodeScannerNavigator>()
 
   const qrSize = DEVICE_WIDTH - (2 * 70)
 
@@ -21,6 +26,10 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
 
   const edgesSize = innerQrDetailSize / 4.8
   const edgesSpacing = edgesSize * ((innerQrDetailSize / edgesSize) - 2)
+
+  const HandleOnPressBottom = () => {
+    navigation.navigate('RaceDetail')
+  }
 
   return (
     <SafeAreaView
@@ -124,32 +133,34 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
         width='100%'
       >
 
-        {
-          isFinalizingRace ?
-            <TouchableOpacity
-              onPress={onCLickBottom}
-              style={{
-                // marginHorizontal: 28,
-                height: 50,
-                width: '100%',
-                backgroundColor: '#555555',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <Typography
-                fontSize={13}
-                fontFamily='nunitoSemiBold'
-                lineHeight={24}
-                color='white'
-                letterSpacing={1.6}
-                style={{ textTransform: 'uppercase' }}
+        <TouchableOpacity
+          onPress={HandleOnPressBottom}
+        >
+          {
+            isFinalizingRace ?
+              <Box
+                style={{
+                  // marginHorizontal: 28,
+                  height: 50,
+                  width: '100%',
+                  backgroundColor: '#555555',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
               >
-                Finalize sem LER o QR CODE
-              </Typography>
-            </TouchableOpacity>
-            :
-            <TouchableOpacity onPress={onCLickBottom}>
+                <Typography
+                  fontSize={13}
+                  fontFamily='nunitoSemiBold'
+                  lineHeight={24}
+                  color='white'
+                  letterSpacing={1.6}
+                  style={{ textTransform: 'uppercase' }}
+                >
+                  Finalize sem LER o QR CODE
+                </Typography>
+              </Box>
+              :
+
               <Typography
                 fontFamily='reservaSansRegular'
                 fontSize={16}
@@ -162,8 +173,8 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
                 >{`\nClique aqui`} </Typography>
                 e inicie agora mesmo.
               </Typography>
-            </TouchableOpacity>
-        }
+          }
+        </TouchableOpacity>
       </Box>
 
     </SafeAreaView>
