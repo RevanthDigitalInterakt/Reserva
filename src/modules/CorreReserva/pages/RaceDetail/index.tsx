@@ -13,7 +13,7 @@ import { CorreReservaStackParamList } from "../.."
 import { Counter } from "../../components/Counter"
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-
+import SwipeButton from 'rn-swipe-button';
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
 type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'RaceDetail'>
@@ -176,6 +176,22 @@ export const RaceDetail: React.FC = () => {
             initialRegion={position}
           >
           </MapView>
+        </Box>
+        <Box
+          mt="xs"
+          height={40}
+          width="100%"
+          bg="#29C94E"
+          borderRadius="infinity"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography
+            color="white"
+
+          >
+            DESLIZE PRA INICIAR
+          </Typography>
         </Box>
       </Box>
     </SafeAreaView >
