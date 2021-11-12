@@ -1,0 +1,71 @@
+import React from "react"
+import { Dimensions } from "react-native"
+import { View } from "react-native-animatable"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import { Box, Icon, Image, Typography } from "reserva-ui"
+import IconDistance from "./Icons/Svg/IconDistance"
+import IconRhythm from "./Icons/Svg/IconRhythm"
+import IconDish from "./Icons/Svg/IconDish"
+export interface CounterProps {
+    hours?: string;
+    minutes?: string;
+    seconds?: string;
+    distance?: string;
+    rhythm?: string;
+    plates?: string;
+}
+
+const DEVICE_HEIGHT = Dimensions.get('window').height
+
+export const Counter: React.FC<CounterProps> = ({ hours, minutes, seconds, distance, rhythm, plates }) => {
+    return (
+        <Box width="100%" >
+            <Box marginTop={34} >
+                <Typography
+                    fontFamily='reservaSerifRegular'
+                    fontSize={52}
+                    color='white'
+                    textAlign='center'
+                >
+                    <Typography fontFamily='reservaSerifBold' color='white'>{hours}</Typography>
+                    <Typography fontFamily='reservaSerifLight' color="#808080" >h </Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{minutes}</Typography>
+                    <Typography fontFamily='reservaSerifLight' color="#808080" >m </Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{seconds}</Typography>
+                    <Typography fontFamily='reservaSerifLight' color="#808080" >s</Typography>
+                </Typography>
+            </Box>
+            <Box px="micro" width="100%" >
+                <Box flexDirection="row" justifyContent="space-evenly">
+                    <Box flexDirection="row"  >
+                        <Box mt="quarck">
+                            <IconDistance />
+                        </Box>
+                        <Box marginLeft="quarck">
+                            <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >{distance}</Typography>
+                            <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Distância</Typography>
+                        </Box>
+                    </Box>
+                    <Box flexDirection="row" >
+                        <Box mt="quarck">
+                            <IconRhythm />
+                        </Box>
+                        <Box marginLeft="quarck">
+                            <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >{rhythm}</Typography>
+                            <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Ritmo</Typography>
+                        </Box>
+                    </Box>
+                    <Box flexDirection="row" >
+                        <Box mt="quarck">
+                            <IconDish />
+                        </Box>
+                        <Box marginLeft="quarck">
+                            <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+{plates}</Typography>
+                            <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Pratos</Typography>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+    )
+}
