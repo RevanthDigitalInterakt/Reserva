@@ -2,8 +2,9 @@
 import { useNavigation } from "@react-navigation/core"
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types"
 import React, { useState, useEffect } from "react"
-import { Platform, ScrollView } from 'react-native';
+import { Modal, Platform, ScrollView } from 'react-native';
 import { Dimensions, ImageBackground, InteractionManager, TouchableOpacity } from "react-native"
+import { PanGestureHandler } from "react-native-gesture-handler"
 import { View } from "react-native-animatable"
 import { TouchableHighlight } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -13,7 +14,7 @@ import { CorreReservaStackParamList } from "../.."
 import { Counter } from "../../components/Counter"
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import SwipeButton from 'rn-swipe-button';
+import { Text } from "react-native-svg";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
 export interface RaceDetailProps {
@@ -105,6 +106,7 @@ export const RaceDetail: React.FC = () => {
       }}
     >
 
+      <RegressiveCount isVisible={true} />
       {/* <HeaderCorreReserva /> */}
       <Box backgroundColor='#0F1113' zIndex={0} position='absolute' width='100%' height={DEVICE_HEIGHT / 2} mx="micro" />
       <Box width={DEVICE_WIDTH - 96} alignItems="center" >
@@ -180,6 +182,7 @@ export const RaceDetail: React.FC = () => {
           >
           </MapView>
         </Box>
+
         <Box
           mt="xs"
           height={40}
@@ -196,7 +199,63 @@ export const RaceDetail: React.FC = () => {
             DESLIZE PRA INICIAR
           </Typography>
         </Box>
+
       </Box>
     </SafeAreaView >
+  )
+}
+
+
+const RegressiveCount: React.FC<{ isVisible?: boolean }> = ({ isVisible }) => {
+
+  const [count, setCount] = useState<number>(3)
+  const [visibility, setVisibility] = useState(true)
+
+  // useEffect(() => {
+  //   setVisibility(!!isVisible ? isVisible : false)
+  // }, [isVisible])
+
+  useEffect(() => {
+    setCount(3)
+    const interval = setInterval(() => {
+
+      setCount((prevCount) => {
+        if (prevCount > 1) {
+          return prevCount - 1
+        }
+        setVisibility(false)
+        clearInterval(interval)
+        return prevCount
+      })
+    }, 1500)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // useEffect(() => {
+  //   if (count < 3) {
+  //     setTimeout(setCount(count + 1), 1000)
+  //   }
+  // }, [count])
+
+  return (
+    <Modal visible={visibility} transparent>
+      <Box
+        flex={1}
+        justifyContent='center'
+        alignItems='center'
+        backgroundColor={'#000'}
+        opacity={.85}
+        zIndex={5}
+      >
+        <Typography
+          color='white'
+          fontFamily='reservaSerifBold'
+          fontSize={200}
+        >
+          {count}
+        </Typography>
+      </Box>
+    </Modal>
   )
 }
