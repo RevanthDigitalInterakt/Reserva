@@ -61,7 +61,10 @@ export const ModalitySelector: React.FC = () => {
         mt={36}
       >
         <ModalityCard
-          onPress={() => navigation.navigate('QrCodeScanner')}
+          onPress={() => navigation.navigate('QrCodeScanner', {
+            isFinalizingRace: false,
+            onCLickBottom: () => console.log('chamar tela de corrida')
+          })}
           image='https://cdn-sharing.adobecc.com/content/storage/id/urn:aaid:sc:US:e838898b-0bb1-42e3-8486-3ce163ea0cd1;revision=0?component_id=2db6a30d-2a2d-4c16-8f97-cebc405baf28&api_key=CometServer1&access_token=1636693663_urn%3Aaaid%3Asc%3AUS%3Ae838898b-0bb1-42e3-8486-3ce163ea0cd1%3Bpublic_304bb878df72dad1c0113f3e1d8a7e8f08b3b115'
           title='Presencial'
           description={`Estou em um dos pontos de largada no \nRio de Janeiro e quero ler o QR Code.`}

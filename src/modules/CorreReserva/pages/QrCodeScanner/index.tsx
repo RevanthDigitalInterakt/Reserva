@@ -1,11 +1,19 @@
 import React from "react"
 import { Dimensions } from "react-native"
+import { TouchableOpacity } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { Box } from "reserva-ui"
-
+import { backgroundApp, Box, theme, Typography } from "reserva-ui"
 const DEVICE_WIDTH = Dimensions.get('window').width
 
-export const QrCodeScanner = () => {
+export interface QrCodeScannerProps {
+  isFinalizingRace?: boolean,
+  onCLickBottom: () => void
+}
+
+export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
+  onCLickBottom,
+  isFinalizingRace
+}) => {
 
   const qrSize = DEVICE_WIDTH - (2 * 70)
 
@@ -23,7 +31,6 @@ export const QrCodeScanner = () => {
         flex: 1
       }}
     >
-
       <Box
         width={qrSize}
         height={qrSize}
@@ -33,57 +40,127 @@ export const QrCodeScanner = () => {
         justifyContent='center'
         alignItems='center'
       >
+
         <Box
           width={innerQrDetailSize}
           height={innerQrDetailSize}
           flexDirection='row'
           flexWrap='wrap'
-
         >
           <Box
-            borderTopLeftRadius={10}
-            borderTopWidth={3}
-            borderLeftWidth={3}
-            borderLeftColor='vermelhoRSV'
-            borderTopColor='vermelhoRSV'
-            width={edgesSize}
-            height={edgesSize}
-
-            marginRight={edgesSpacing}
-            marginBottom={edgesSpacing}
-          />
-          <Box
-            borderTopRightRadius={10}
-            borderTopWidth={3}
-            borderRightWidth={3}
-            borderRightColor='vermelhoRSV'
-            borderTopColor='vermelhoRSV'
-            width={edgesSize}
-            height={edgesSize}
+            style={{
+              borderTopLeftRadius: 10,
+              borderTopWidth: 3,
+              borderLeftWidth: 3,
+              borderLeftColor: theme.colors.vermelhoAlerta,
+              borderTopColor: theme.colors.vermelhoAlerta,
+              width: edgesSize,
+              height: edgesSize,
+              marginRight: edgesSpacing,
+              marginBottom: edgesSpacing,
+            }}
 
           />
           <Box
-            borderBottomLeftRadius={10}
-            borderBottomWidth={3}
-            borderLeftWidth={3}
-            borderLeftColor='vermelhoRSV'
-            borderBottomColor='vermelhoRSV'
-            width={edgesSize}
-            height={edgesSize}
+            style={{
+              borderTopRightRadius: 10,
+              borderTopWidth: 3,
+              borderRightWidth: 3,
+              borderRightColor: theme.colors.vermelhoAlerta,
+              borderTopColor: theme.colors.vermelhoAlerta,
+              width: edgesSize,
+              height: edgesSize,
+            }}
 
           />
           <Box
-            borderBottomRightRadius={10}
-            borderBottomWidth={3}
-            borderRightWidth={3}
-            borderRightColor='vermelhoRSV'
-            borderBottomColor='vermelhoRSV'
-            width={edgesSize}
-            height={edgesSize}
+            style={{
+              borderBottomLeftRadius: 10,
+              borderBottomWidth: 3,
+              borderLeftWidth: 3,
+              borderLeftColor: theme.colors.vermelhoAlerta,
+              borderBottomColor: theme.colors.vermelhoAlerta,
+              width: edgesSize,
+              height: edgesSize,
+            }}
 
-            marginLeft={edgesSpacing}
+          />
+          <Box
+            style={{
+              borderBottomRightRadius: 10,
+              borderBottomWidth: 3,
+              borderRightWidth: 3,
+              borderRightColor: theme.colors.vermelhoAlerta,
+              borderBottomColor: theme.colors.vermelhoAlerta,
+              width: edgesSize,
+              height: edgesSize,
+              marginLeft: edgesSpacing,
+            }}
           />
         </Box>
+
+        <Box
+          position='absolute'
+          bottom={-56}
+        >
+          <Typography
+            color='white'
+            fontSize={16}
+            fontFamily='reservaSansRegular'
+            textAlign='center'
+            lineHeight={20}
+          >
+            {`Aponte a câmera do seu celular\npro QR Code da largada.`}
+          </Typography>
+        </Box>
+      </Box>
+
+
+      <Box
+        position='absolute'
+        bottom={49}
+        paddingLeft={28}
+        paddingRight={28}
+        width='100%'
+      >
+
+        {
+          isFinalizingRace ?
+            <TouchableOpacity
+              style={{
+                // marginHorizontal: 28,
+                height: 50,
+                width: '100%',
+                backgroundColor: '#555555',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography
+                fontSize={13}
+                fontFamily='nunitoSemiBold'
+                lineHeight={24}
+                color='white'
+                letterSpacing={1.6}
+                style={{ textTransform: 'uppercase' }}
+              >
+                Finalize sem LER o QR CODE
+              </Typography>
+            </TouchableOpacity>
+            :
+            <Typography
+              fontFamily='reservaSansRegular'
+              fontSize={16}
+              color='white'
+              textAlign='center'
+            >
+              Não deu pra ler o QR Code?
+              <Typography
+                fontFamily='reservaSansBold'
+              >{`\nClique aqui`} </Typography>
+              e inicie agora mesmo.
+            </Typography>
+        }
       </Box>
 
     </SafeAreaView>
