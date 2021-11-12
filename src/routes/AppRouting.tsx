@@ -9,6 +9,7 @@ import { MainStackScreen } from './StackNavigator';
 import { useAuth } from '../context/AuthContext';
 import { profileQuery } from '../graphql/profile/profileQuery';
 import { useQuery } from '@apollo/client';
+import { CorreReservaStackScreen } from '../modules/CorreReserva';
 
 const RootStack = createStackNavigator();
 
@@ -22,7 +23,7 @@ export const AppRouting = () => {
     !profileData && !profileLoading ? cleanEmailAndCookie() : null
   }, [])
 
-  return <RootStack.Navigator mode="modal" screenOptions={{ headerShown: false }}>
+  return <RootStack.Navigator initialRouteName='CorreReserva' mode="modal" screenOptions={{ headerShown: false }}>
     <RootStack.Screen
       name="Main"
       component={MainStackScreen}
@@ -33,6 +34,11 @@ export const AppRouting = () => {
       options={horizontalAnimationBackwards}
       component={Menu}
     />
+    <RootStack.Screen
+      name="CorreReserva"
+      component={CorreReservaStackScreen}
+    />
+
   </RootStack.Navigator>
 }
 
