@@ -15,6 +15,7 @@ import { Counter } from "../../components/Counter"
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Text } from "react-native-svg";
+
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
 export interface RaceDetailProps {
@@ -24,12 +25,17 @@ export interface RaceDetailProps {
 type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'RaceDetail'>
 
 export const RaceDetail: React.FC = () => {
+  const mapWidth = DEVICE_WIDTH - (48 * 2)
+  const mapHeight = (302 / 263) * mapWidth
+
   const navigation = useNavigation<RaceDetailNavigator>()
   const [isVisible, setIsVisible] = useState(false)
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
   const [newPosition, setNewPosition] = useState<any>();
   const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
   const [totalDistance, setTotalDistance] = useState(0)
+
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     const watchID = Geolocation.watchPosition((pos) => {
@@ -101,6 +107,7 @@ export const RaceDetail: React.FC = () => {
     <SafeAreaView
       style={{
         alignItems: 'center',
+        backgroundColor: '#fff',
         paddingTop: 111,
         flex: 1
       }}
@@ -108,7 +115,7 @@ export const RaceDetail: React.FC = () => {
 
       <RegressiveCount visibility={isVisible} setVisibility={(value) => setIsVisible(value)} />
       <Box backgroundColor='#0F1113' zIndex={0} position='absolute' width='100%' height={DEVICE_HEIGHT / 2} mx="micro" />
-      <Box width={DEVICE_WIDTH - 96} alignItems="center" >
+      <Box width={DEVICE_WIDTH - (48 * 2)} alignItems="center" >
 
         <Counter
           hours="0"
@@ -122,8 +129,8 @@ export const RaceDetail: React.FC = () => {
         <Box
           mt={"sm"}
           borderRadius="sm"
-          width={263}
-          height={302}
+          width={mapWidth}
+          height={mapHeight}
           boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
           style={{ elevation: 10, overflow: "hidden" }}
           bg="pink"
@@ -138,8 +145,15 @@ export const RaceDetail: React.FC = () => {
         </Box>
 
         <TouchableOpacity
+          onPress={() => {
+            if (hasStarted)
+              console.log('aaaa')
+            else {
+              setHasStarted(true)
+              setIsVisible(true)
+            }
 
-          onPress={() => setIsVisible(true)}
+          }}
         >
           <Box
             mt="xs"
@@ -147,15 +161,17 @@ export const RaceDetail: React.FC = () => {
             width="100%"
             paddingLeft={40}
             paddingRight={40}
-            bg="#29C94E"
+            bg={hasStarted ? '#F4F4F4' : '#29C94E'}
             borderRadius="infinity"
             alignItems="center"
             justifyContent="center"
           >
             <Typography
-              color="white"
+              color={hasStarted ? 'preto' : "white"}
+              letterSpacing={1.6}
+              fontFamily='nunitoBold'
             >
-              DESLIZE PRA INICIAR
+              CLIQUE PRA {hasStarted ? 'FINALIZAR' : 'INICIAR'}
             </Typography>
           </Box>
         </TouchableOpacity>
