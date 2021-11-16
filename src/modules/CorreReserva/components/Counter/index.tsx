@@ -14,11 +14,15 @@ export interface CounterProps {
     rhythm?: string;
     plates?: string;
     isPlate?: boolean;
+    timer?: string;
 }
 
 const DEVICE_HEIGHT = Dimensions.get('window').height
 
-export const Counter: React.FC<CounterProps> = ({ hours, minutes, seconds, distance, rhythm, plates, isPlate }) => {
+export const Counter: React.FC<CounterProps> = ({ timer, hours, minutes, seconds, distance, rhythm, plates, isPlate }) => {
+
+    // const [hourss,minutess,secondss]:string = timer?.split(":")
+
     return (
         <Box width="100%" >
             <Box marginTop={34} >
@@ -28,11 +32,11 @@ export const Counter: React.FC<CounterProps> = ({ hours, minutes, seconds, dista
                     color='white'
                     textAlign='center'
                 >
-                    <Typography fontFamily='reservaSerifBold' color='white'>{hours}</Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{timer?.split(":")[0]}</Typography>
                     <Typography fontFamily='reservaSerifLight' color="#808080" >h </Typography>
-                    <Typography fontFamily='reservaSerifBold' color='white'>{minutes}</Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{timer?.split(":")[1]}</Typography>
                     <Typography fontFamily='reservaSerifLight' color="#808080" >m </Typography>
-                    <Typography fontFamily='reservaSerifBold' color='white'>{seconds}</Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{timer?.split(":")[2]}</Typography>
                     <Typography fontFamily='reservaSerifLight' color="#808080" >s</Typography>
                 </Typography>
             </Box>

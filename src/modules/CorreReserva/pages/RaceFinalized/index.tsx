@@ -8,17 +8,32 @@ import { Box, Image, Typography } from "reserva-ui"
 import { images } from "../../../../assets";
 import { HeaderCorreReserva } from "../../components/HeaderCorreReserva"
 import { Counter } from "../../components/Counter"
+import { useChronometer } from "../../hooks/useChronometer";
 export interface RaceFinalizedProps {
 
 }
 
 export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
-
+  const { currentValue, start, stop } = useChronometer({ initial: "11:10:00", })
   const viewRef = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);
   const [hasWhatsApp, setHasWhatsApp] = useState(false);
   const [hasFacebook, setHasFacebook] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
+
+  // useEffect(() => {
+  //   start()
+  // }, [])
+
+  // useEffect(() => {
+  //   if (currentValue === "00:00:59")
+  //     stop()
+  // }, [currentValue])
+
+  useEffect(() => {
+    console.log('currentValue', currentValue)
+  }, [currentValue])
+
   useEffect(() => {
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('instagram://')

@@ -15,6 +15,7 @@ import { Counter } from "../../components/Counter"
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Text } from "react-native-svg";
+import { useChronometer } from "../../hooks/useChronometer";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
 export interface RaceDetailProps {
@@ -29,10 +30,39 @@ export const RaceDetail: React.FC = () => {
   const [newPosition, setNewPosition] = useState<any>();
   const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
   const [totalDistance, setTotalDistance] = useState(0)
+  const { currentValue, start, stop } = useChronometer({ initial: "00:00:00", })
+  const [count, setCount] = useState<number>(3)
+  const [visibility, setVisibility] = useState(true)
+  const [pace, setPace] = useState<string>("0:0")
+
+  useEffect(() => {
+    setCount(3)
+    const interval = setInterval(() => {
+
+      setCount((prevCount) => {
+        if (prevCount > 1) {
+          return prevCount - 1
+        }
+        setVisibility(false)
+        clearInterval(interval)
+        return prevCount
+      })
+    }, 1500)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    console.log('visibility', visibility)
+    if (!visibility) {
+      start()
+    } else {
+      stop()
+    }
+  }, [visibility])
 
   useEffect(() => {
     const watchID = Geolocation.watchPosition((pos) => {
-      // console.log('possss', pos)
       const coords = pos.coords;
       setPosition({
         latitude: coords.latitude,
@@ -52,7 +82,7 @@ export const RaceDetail: React.FC = () => {
     },
       {
         enableHighAccuracy: true,
-        distanceFilter: 2
+        distanceFilter: 1
       });
     return () => {
       Geolocation.clearWatch(watchID)
@@ -75,96 +105,73 @@ export const RaceDetail: React.FC = () => {
         d += R * c
       }
     }
-    // if (Math.trunc(d) > 0) {
-    //   setTotalDistance(d.toFixed(2))
-    // } else {
-    //   setTotalDistance(d.toFixed(2) * 1000)
-    // }
-    // console.log('d', d)
-    // console.log('dm', d.toFixed(2))
-    setTotalDistance(d.toFixed(2))
+    setTotalDistance(d.toFixed(3))
   }
 
   function deg2rad(deg) {
     return deg * (Math.PI / 180)
   }
 
+  function calculatePace(dist: any, timer: any) {
+    //console.log(dist, hrs, mins, secs);
+    console.log('timer', timer)
+    let [hrs, mins, secs]: any = timer.split(":")
+    dist = parseFloat(dist);
+    hrs = parseFloat(hrs);
+    mins = parseFloat(mins);
+    secs = parseFloat(secs);
+    //console.log(dist);
+    console.log('hrs', hrs)
+    console.log('mins', mins)
+    console.log('secs', secs)
+    let pace;
+    let timeElapsed = 0;
+    timeElapsed += hrs * 60 * 60;
+    timeElapsed += mins * 60;
+    timeElapsed += secs;
+    let calculatedPace = Math.floor(timeElapsed / dist);
+    //console.log(calculatedPace);
+    let paceMins = Math.floor(calculatedPace / 60) | 0;
+    let paceSecs = calculatedPace - (paceMins * 60) | 0;
+    pace = paceMins + ":" + paceSecs;
+    setPace(pace)
+  }
+
+  useEffect(() => {
+    calculatePace(totalDistance, currentValue)
+  }, [totalDistance])
+
   useEffect(() => {
     getDistanceFromLatLonInKm()
   }, [travelledDistance])
 
   useEffect(() => {
-    console.log('totalDistance', totalDistance)
+    // console.log('totalDistance', totalDistance)
   }, [totalDistance])
   return (
     <SafeAreaView
       style={{
-        // justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 111,
         flex: 1
       }}
     >
 
-      <RegressiveCount isVisible={true} />
+      <RegressiveCount
+        isVisible={visibility}
+        count={count}
+      />
       {/* <HeaderCorreReserva /> */}
       <Box backgroundColor='#0F1113' zIndex={0} position='absolute' width='100%' height={DEVICE_HEIGHT / 2} mx="micro" />
       <Box width={DEVICE_WIDTH - 96} alignItems="center" >
 
         <Counter
-          hours="0"
-          minutes="00"
-          seconds="00"
-          distance="00.0"
-          rhythm="0.0"
+          timer={currentValue}
+          isPlate
+          distance={totalDistance.toString()}
+          rhythm={pace}
           plates="00"
         />
-        {/* <Box marginTop={34} >
-          <Typography
-            fontFamily='reservaSerifRegular'
-            fontSize={52}
-            color='white'
-            textAlign='center'
-          >
-            <Typography fontFamily='reservaSerifBold' color='white'>0</Typography>
-            <Typography fontFamily='reservaSerifLight' color="#808080" >h </Typography>
-            <Typography fontFamily='reservaSerifBold' color='white'>00</Typography>
-            <Typography fontFamily='reservaSerifLight' color="#808080" >m </Typography>
-            <Typography fontFamily='reservaSerifBold' color='white'>00</Typography>
-            <Typography fontFamily='reservaSerifLight' color="#808080" >s</Typography>
-          </Typography>
-        </Box> */}
-        {/* <Box px="micro" width="100%" >
-          <Box flexDirection="row" justifyContent="space-evenly">
-            <Box flexDirection="row"  >
-              <Box mt="quarck">
-                <IconDistance />
-              </Box>
-              <Box marginLeft="quarck">
-                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >00.0</Typography>
-                <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Distância</Typography>
-              </Box>
-            </Box>
-            <Box flexDirection="row" >
-              <Box mt="quarck">
-                <IconRhythm />
-              </Box>
-              <Box marginLeft="quarck">
-                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >0.0</Typography>
-                <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Ritmo</Typography>
-              </Box>
-            </Box>
-            <Box flexDirection="row" >
-              <Box mt="quarck">
-                <IconDish />
-              </Box>
-              <Box marginLeft="quarck">
-                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+00</Typography>
-                <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Pratos</Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box> */}
         <Box
           mt={"sm"}
           borderRadius="sm"
@@ -205,41 +212,13 @@ export const RaceDetail: React.FC = () => {
   )
 }
 
-
-const RegressiveCount: React.FC<{ isVisible?: boolean }> = ({ isVisible }) => {
-
-  const [count, setCount] = useState<number>(3)
-  const [visibility, setVisibility] = useState(true)
-
-  // useEffect(() => {
-  //   setVisibility(!!isVisible ? isVisible : false)
-  // }, [isVisible])
-
-  useEffect(() => {
-    setCount(3)
-    const interval = setInterval(() => {
-
-      setCount((prevCount) => {
-        if (prevCount > 1) {
-          return prevCount - 1
-        }
-        setVisibility(false)
-        clearInterval(interval)
-        return prevCount
-      })
-    }, 1500)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  // useEffect(() => {
-  //   if (count < 3) {
-  //     setTimeout(setCount(count + 1), 1000)
-  //   }
-  // }, [count])
+const RegressiveCount: React.FC<{
+  isVisible?: boolean;
+  count?: number;
+}> = ({ isVisible, count }) => {
 
   return (
-    <Modal visible={visibility} transparent>
+    <Modal visible={isVisible} transparent>
       <Box
         flex={1}
         justifyContent='center'
