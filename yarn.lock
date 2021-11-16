@@ -7423,10 +7423,10 @@ react-native-flip-card@^3.5.6:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-flipper@^0.104.0:
-  version "0.104.0"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-flipper/-/react-native-flipper-0.104.0.tgz#f380a6b1c17f3d30dcefcb7767735beec16ede76"
-  integrity sha1-84CmscF/PTDc78t3Z3Nb7sFu3nY=
+react-native-flipper@^0.119.0:
+  version "0.119.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-flipper/-/react-native-flipper-0.119.0.tgz#28fd527892d8486ddb22260c373e1488d9aa3beb"
+  integrity sha1-KP1SeJLYSG3bIiYMNz4UiNmqO+s=
 
 react-native-flipper@^0.34.0:
   version "0.34.0"
