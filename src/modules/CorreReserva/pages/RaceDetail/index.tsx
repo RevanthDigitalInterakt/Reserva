@@ -26,6 +26,7 @@ type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'Race
 
 export const RaceDetail: React.FC = () => {
   const navigation = useNavigation<RaceDetailNavigator>()
+  const [isVisible, setIsVisible] = useState(false)
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
   const [newPosition, setNewPosition] = useState<any>();
   const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
@@ -190,23 +191,28 @@ export const RaceDetail: React.FC = () => {
           </MapView>
         </Box>
 
-        <Box
-          mt="xs"
-          height={40}
-          width="100%"
-          bg="#29C94E"
-          borderRadius="infinity"
-          alignItems="center"
-          justifyContent="center"
+        <TouchableOpacity
+
+          onPress={() => setIsVisible(true)}
         >
-          <Typography
-            color="white"
-
+          <Box
+            mt="xs"
+            height={40}
+            width="100%"
+            paddingLeft={40}
+            paddingRight={40}
+            bg="#29C94E"
+            borderRadius="infinity"
+            alignItems="center"
+            justifyContent="center"
           >
-            DESLIZE PRA INICIAR
-          </Typography>
-        </Box>
-
+            <Typography
+              color="white"
+            >
+              DESLIZE PRA INICIAR
+            </Typography>
+          </Box>
+        </TouchableOpacity>
       </Box>
     </SafeAreaView >
   )
