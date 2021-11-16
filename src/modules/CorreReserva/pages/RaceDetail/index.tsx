@@ -1,7 +1,7 @@
 
-import { useNavigation } from "@react-navigation/core"
+
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { Modal, Platform, ScrollView } from 'react-native';
 import { Dimensions, ImageBackground, InteractionManager, TouchableOpacity } from "react-native"
 import { PanGestureHandler } from "react-native-gesture-handler"
@@ -9,6 +9,7 @@ import { View } from "react-native-animatable"
 import { TouchableHighlight } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Box, Icon, Image, Typography } from "reserva-ui"
+import { useFocusEffect, useNavigation, useIsFocused } from '@react-navigation/native';
 import { height } from "styled-system"
 import { CorreReservaStackParamList } from "../.."
 import { Counter } from "../../components/Counter"
@@ -16,6 +17,7 @@ import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Text } from "react-native-svg";
 import { useChronometer } from "../../hooks/useChronometer";
+import { images } from "../../../../assets";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
 export interface RaceDetailProps {
@@ -26,6 +28,7 @@ type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'Race
 
 export const RaceDetail: React.FC = () => {
   const navigation = useNavigation<RaceDetailNavigator>()
+  const isFocused = useIsFocused();
   const [isVisible, setIsVisible] = useState(false)
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
   const [newPosition, setNewPosition] = useState<any>();
@@ -62,6 +65,7 @@ export const RaceDetail: React.FC = () => {
     }
   }, [visibility])
 
+
   useEffect(() => {
     const watchID = Geolocation.watchPosition((pos) => {
       const coords = pos.coords;
@@ -71,49 +75,52 @@ export const RaceDetail: React.FC = () => {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       });
-      setTravelledDistance([
-        ...travelledDistance,
-        {
-          latitude: coords.latitude, longitude: coords.longitude,
-        }
-      ])
+
+      setTravelledDistance((value) => {
+        return [
+          ...value,
+          {
+            latitude: coords.latitude, longitude: coords.longitude,
+          }
+        ]
+      })
     }, (suss) => {
       console.log('suss', suss)
 
     },
       {
         enableHighAccuracy: true,
-        distanceFilter: 1
+        distanceFilter: 2
       });
     return () => {
       Geolocation.clearWatch(watchID)
     }
   }, []);
 
-  function getDistanceFromLatLonInKm() {
-    var d = 0;
+  const getDistanceFromLatLonInKm = () => {
+    let d = 0;
     if (travelledDistance.length > 1) {
       for (let i = 0; i < travelledDistance.length - 1; i++) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = deg2rad(travelledDistance[i + 1].latitude - travelledDistance[i].latitude);  // deg2rad below
-        var dLon = deg2rad(travelledDistance[i + 1].longitude - travelledDistance[i].longitude);
-        var a =
+        let R = 6371; // Radius of the earth in km
+        let dLat = deg2rad(travelledDistance[i + 1].latitude - travelledDistance[i].latitude);  // deg2rad below
+        let dLon = deg2rad(travelledDistance[i + 1].longitude - travelledDistance[i].longitude);
+        let a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
           Math.cos(deg2rad(travelledDistance[i].latitude)) * Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
           Math.sin(dLon / 2) * Math.sin(dLon / 2)
           ;
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         d += R * c
       }
     }
-    setTotalDistance(d.toFixed(2))
+    setTotalDistance(d.toFixed(3))
   }
 
-  function deg2rad(deg) {
+  const deg2rad = (deg) => {
     return deg * (Math.PI / 180)
   }
 
-  function calculatePace(dist: any, timer: any) {
+  const calculatePace = (dist: any, timer: any) => {
     let [hrs, mins, secs]: any = timer.split(":")
     dist = parseFloat(dist);
     hrs = parseFloat(hrs);
@@ -176,12 +183,22 @@ export const RaceDetail: React.FC = () => {
           style={{ elevation: 10, overflow: "hidden" }}
           bg="white"
         >
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={{ flex: 2 }}
-            initialRegion={position}
-          >
-          </MapView>
+          {position &&
+            <MapView
+              provider={PROVIDER_GOOGLE}
+              style={{ flex: 2 }}
+              initialRegion={position}
+            >
+              <Marker coordinate={{ latitude: position?.latitude, longitude: position?.longitude }}>
+                <Typography>15 Km</Typography>
+                <Image
+                  height={40}
+                  source={images.localReserva}
+                  resizeMode={'contain'}
+                />
+              </Marker>
+            </MapView>
+          }
         </Box>
 
         <TouchableOpacity
