@@ -9,6 +9,7 @@ import { CorreReservaStackParamList } from "../.."
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 const DEVICE_WIDTH = Dimensions.get('window').width
+const DEVICE_HEIGHT = Dimensions.get('window').height
 
 export interface QrCodeScannerProps {
   isFinalizingRace?: boolean,
@@ -35,6 +36,8 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
 
   const onSuccess = (e) => {
     console.log(e)
+    if (e.data == "teste")
+      navigation.navigate('RaceDetail')
   }
 
   return (
@@ -49,91 +52,14 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
 
       <QRCodeScanner
         onRead={onSuccess}
+        showMarker
+        customMarker={<QrCodeMarker qrSize={qrSize} />}
+        cameraType='front'
+        cameraStyle={{
+          height: '100%',
+          width: DEVICE_WIDTH,
+        }}
       />
-      {/* <Box
-        width={qrSize}
-        height={qrSize}
-        backgroundColor='white'
-        borderWidth={1}
-        borderColor='neutroQuente2'
-        justifyContent='center'
-        alignItems='center'
-      >
-
-        <Box
-          width={innerQrDetailSize}
-          height={innerQrDetailSize}
-          flexDirection='row'
-          flexWrap='wrap'
-        >
-          <Box
-            style={{
-              borderTopLeftRadius: 10,
-              borderTopWidth: 3,
-              borderLeftWidth: 3,
-              borderLeftColor: theme.colors.vermelhoAlerta,
-              borderTopColor: theme.colors.vermelhoAlerta,
-              width: edgesSize,
-              height: edgesSize,
-              marginRight: edgesSpacing,
-              marginBottom: edgesSpacing,
-            }}
-
-          />
-          <Box
-            style={{
-              borderTopRightRadius: 10,
-              borderTopWidth: 3,
-              borderRightWidth: 3,
-              borderRightColor: theme.colors.vermelhoAlerta,
-              borderTopColor: theme.colors.vermelhoAlerta,
-              width: edgesSize,
-              height: edgesSize,
-            }}
-
-          />
-          <Box
-            style={{
-              borderBottomLeftRadius: 10,
-              borderBottomWidth: 3,
-              borderLeftWidth: 3,
-              borderLeftColor: theme.colors.vermelhoAlerta,
-              borderBottomColor: theme.colors.vermelhoAlerta,
-              width: edgesSize,
-              height: edgesSize,
-            }}
-
-          />
-          <Box
-            style={{
-              borderBottomRightRadius: 10,
-              borderBottomWidth: 3,
-              borderRightWidth: 3,
-              borderRightColor: theme.colors.vermelhoAlerta,
-              borderBottomColor: theme.colors.vermelhoAlerta,
-              width: edgesSize,
-              height: edgesSize,
-              marginLeft: edgesSpacing,
-            }}
-          />
-        </Box>
-
-        <Box
-          position='absolute'
-          bottom={-56}
-        >
-          <Typography
-            color='white'
-            fontSize={16}
-            fontFamily='reservaSansRegular'
-            textAlign='center'
-            lineHeight={20}
-          >
-            {`Aponte a câmera do seu celular\npro QR Code da largada.`}
-          </Typography>
-        </Box>
-      </Box>
-
 
       <Box
         position='absolute'
@@ -185,8 +111,123 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
               </Typography>
           }
         </TouchableOpacity>
-      </Box> */}
+      </Box>
 
     </SafeAreaView>
+  )
+}
+
+interface QrCodeMarkerProps {
+  qrSize: number
+}
+
+const QrCodeMarker: React.FC<QrCodeMarkerProps> = ({ qrSize }) => {
+
+  const innerQrDetailSize = qrSize - (28 * 2)
+
+  const edgesSize = innerQrDetailSize / 4.8
+  const edgesSpacing = edgesSize * ((innerQrDetailSize / edgesSize) - 2)
+
+  const sidingHeight = (DEVICE_HEIGHT - qrSize) / 2
+  const sidingWidth = (DEVICE_WIDTH - qrSize) / 2
+
+  return (
+    <Box
+      // backgroundColor='#000'
+      width={DEVICE_WIDTH}
+      justifyContent='center'
+      alignItems='center'
+      flex={1}
+    >
+      <Box
+        backgroundColor='#000'
+        height={sidingHeight}
+        width={DEVICE_WIDTH}
+      />
+      <Box flexDirection='row'>
+        <Box
+          width={sidingWidth}
+          height={qrSize}
+          backgroundColor='#000'
+        />
+        <Box
+          width={qrSize}
+          height={qrSize}
+          borderWidth={1}
+          borderColor='neutroQuente2'
+          justifyContent='center'
+          alignItems='center'
+        >
+
+          <Box
+            width={innerQrDetailSize}
+            height={innerQrDetailSize}
+            flexDirection='row'
+            flexWrap='wrap'
+          >
+            <Box
+              style={{
+                borderTopLeftRadius: 10,
+                borderTopWidth: 3,
+                borderLeftWidth: 3,
+                borderLeftColor: theme.colors.vermelhoAlerta,
+                borderTopColor: theme.colors.vermelhoAlerta,
+                width: edgesSize,
+                height: edgesSize,
+                marginRight: edgesSpacing,
+                marginBottom: edgesSpacing,
+              }}
+
+            />
+            <Box
+              style={{
+                borderTopRightRadius: 10,
+                borderTopWidth: 3,
+                borderRightWidth: 3,
+                borderRightColor: theme.colors.vermelhoAlerta,
+                borderTopColor: theme.colors.vermelhoAlerta,
+                width: edgesSize,
+                height: edgesSize,
+              }}
+
+            />
+            <Box
+              style={{
+                borderBottomLeftRadius: 10,
+                borderBottomWidth: 3,
+                borderLeftWidth: 3,
+                borderLeftColor: theme.colors.vermelhoAlerta,
+                borderBottomColor: theme.colors.vermelhoAlerta,
+                width: edgesSize,
+                height: edgesSize,
+              }}
+
+            />
+            <Box
+              style={{
+                borderBottomRightRadius: 10,
+                borderBottomWidth: 3,
+                borderRightWidth: 3,
+                borderRightColor: theme.colors.vermelhoAlerta,
+                borderBottomColor: theme.colors.vermelhoAlerta,
+                width: edgesSize,
+                height: edgesSize,
+                marginLeft: edgesSpacing,
+              }}
+            />
+          </Box>
+        </Box>
+        <Box
+          width={sidingWidth}
+          height={qrSize}
+          backgroundColor='#000'
+        />
+      </Box>
+      <Box
+        backgroundColor='#000'
+        height={sidingHeight}
+        width={DEVICE_WIDTH}
+      />
+    </Box>
   )
 }

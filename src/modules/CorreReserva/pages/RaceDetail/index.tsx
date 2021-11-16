@@ -138,12 +138,15 @@ export const RaceDetail: React.FC = () => {
         </Box>
 
         <TouchableOpacity
+
           onPress={() => setIsVisible(true)}
         >
           <Box
             mt="xs"
             height={40}
             width="100%"
+            paddingLeft={40}
+            paddingRight={40}
             bg="#29C94E"
             borderRadius="infinity"
             alignItems="center"
