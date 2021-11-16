@@ -1,20 +1,14 @@
 
-import { useNavigation } from "@react-navigation/core"
-import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types"
-import React, { useState, useEffect } from "react"
-import { Modal, Platform, ScrollView } from 'react-native';
-import { Dimensions, ImageBackground, InteractionManager, TouchableOpacity } from "react-native"
-import { PanGestureHandler } from "react-native-gesture-handler"
-import { View } from "react-native-animatable"
-import { TouchableHighlight } from "react-native-gesture-handler"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { Box, Icon, Image, Typography } from "reserva-ui"
-import { height } from "styled-system"
-import { CorreReservaStackParamList } from "../.."
-import { Counter } from "../../components/Counter"
 import Geolocation from '@react-native-community/geolocation';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { Text } from "react-native-svg";
+import { useNavigation } from "@react-navigation/core";
+import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
+import React, { useEffect, useState } from "react";
+import { Dimensions, Modal, Platform, TouchableOpacity } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Box, Typography } from "reserva-ui";
+import { CorreReservaStackParamList } from "../..";
+import { Counter } from "../../components/Counter";
 import { useChronometer } from "../../hooks/useChronometer";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
@@ -29,15 +23,14 @@ export const RaceDetail: React.FC = () => {
   const mapHeight = (302 / 263) * mapWidth
 
   const navigation = useNavigation<RaceDetailNavigator>()
-  const [isVisible, setIsVisible] = useState(false)
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
-  const [newPosition, setNewPosition] = useState<any>();
   const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
   const [totalDistance, setTotalDistance] = useState(0)
   const { currentValue, start, stop } = useChronometer({ initial: "00:00:00", })
   const [count, setCount] = useState<number>(3)
-  const [visibility, setVisibility] = useState(true)
+  const [visibility, setVisibility] = useState(false)
   const [pace, setPace] = useState<string>("0:0")
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     setCount(3)
@@ -51,21 +44,34 @@ export const RaceDetail: React.FC = () => {
         clearInterval(interval)
         return prevCount
       })
-    }, 1500)
+    }, 1000)
 
     return () => clearInterval(interval)
-  }, [])
-
-  useEffect(() => {
-    console.log('visibility', visibility)
-    if (!visibility) {
-      start()
-    } else {
-      stop()
-    }
   }, [visibility])
 
-  const [hasStarted, setHasStarted] = useState(false)
+  // useEffect(() => {
+  //   console.log('visibility', visibility)
+  //   if (hasStarted) {
+  //     start()
+  //   } else {
+  //     stop()
+  //   }
+  // }, [hasStarted])
+
+  const handleOnPress = () => {
+    if (hasStarted) {
+      stop()
+      navigation.navigate('RaceFinalized')
+    } else {
+      setVisibility(true)
+      setHasStarted(true)
+      setTimeout(() => {
+        start()
+      }, 3050)
+    }
+
+  }
+
 
   useEffect(() => {
     const watchID = Geolocation.watchPosition((pos) => {
@@ -191,15 +197,7 @@ export const RaceDetail: React.FC = () => {
         </Box>
 
         <TouchableOpacity
-          onPress={() => {
-            if (hasStarted)
-              console.log('aaaa')
-            else {
-              setHasStarted(true)
-              setIsVisible(true)
-            }
-
-          }}
+          onPress={handleOnPress}
         >
           <Box
             mt="xs"
