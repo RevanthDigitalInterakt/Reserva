@@ -7,18 +7,19 @@ import IconDistance from "./Icons/Svg/IconDistance"
 import IconRhythm from "./Icons/Svg/IconRhythm"
 import IconDish from "./Icons/Svg/IconDish"
 export interface CounterProps {
-    hours?: string;
-    minutes?: string;
-    seconds?: string;
     distance?: string;
     rhythm?: string;
     plates?: string;
     isPlate?: boolean;
+    timer?: string;
 }
 
 const DEVICE_HEIGHT = Dimensions.get('window').height
 
-export const Counter: React.FC<CounterProps> = ({ hours, minutes, seconds, distance, rhythm, plates, isPlate }) => {
+export const Counter: React.FC<CounterProps> = ({ timer, distance, rhythm, plates, isPlate }) => {
+
+    // const [hourss,minutess,secondss]:string = timer?.split(":")
+
     return (
         <Box width="100%" >
             <Box marginTop={34} >
@@ -28,11 +29,11 @@ export const Counter: React.FC<CounterProps> = ({ hours, minutes, seconds, dista
                     color='white'
                     textAlign='center'
                 >
-                    <Typography fontFamily='reservaSerifBold' color='white'>{hours}</Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{timer?.split(":")[0]}</Typography>
                     <Typography fontFamily='reservaSerifLight' color="#808080" >h </Typography>
-                    <Typography fontFamily='reservaSerifBold' color='white'>{minutes}</Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{timer?.split(":")[1]}</Typography>
                     <Typography fontFamily='reservaSerifLight' color="#808080" >m </Typography>
-                    <Typography fontFamily='reservaSerifBold' color='white'>{seconds}</Typography>
+                    <Typography fontFamily='reservaSerifBold' color='white'>{timer?.split(":")[2]}</Typography>
                     <Typography fontFamily='reservaSerifLight' color="#808080" >s</Typography>
                 </Typography>
             </Box>
@@ -62,7 +63,7 @@ export const Counter: React.FC<CounterProps> = ({ hours, minutes, seconds, dista
                                 <IconDish />
                             </Box>
                             <Box marginLeft="quarck">
-                                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+{plates}</Typography>
+                                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+{distance?.split(".")[0]}</Typography>
                                 <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Pratos</Typography>
                             </Box>
                         </Box>

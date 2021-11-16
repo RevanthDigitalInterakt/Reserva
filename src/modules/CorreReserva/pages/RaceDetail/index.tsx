@@ -15,7 +15,7 @@ import { Counter } from "../../components/Counter"
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Text } from "react-native-svg";
-
+import { useChronometer } from "../../hooks/useChronometer";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
 
 export interface RaceDetailProps {
@@ -34,12 +34,41 @@ export const RaceDetail: React.FC = () => {
   const [newPosition, setNewPosition] = useState<any>();
   const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
   const [totalDistance, setTotalDistance] = useState(0)
+  const { currentValue, start, stop } = useChronometer({ initial: "00:00:00", })
+  const [count, setCount] = useState<number>(3)
+  const [visibility, setVisibility] = useState(true)
+  const [pace, setPace] = useState<string>("0:0")
+
+  useEffect(() => {
+    setCount(3)
+    const interval = setInterval(() => {
+
+      setCount((prevCount) => {
+        if (prevCount > 1) {
+          return prevCount - 1
+        }
+        setVisibility(false)
+        clearInterval(interval)
+        return prevCount
+      })
+    }, 1500)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    console.log('visibility', visibility)
+    if (!visibility) {
+      start()
+    } else {
+      stop()
+    }
+  }, [visibility])
 
   const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     const watchID = Geolocation.watchPosition((pos) => {
-      // console.log('possss', pos)
       const coords = pos.coords;
       setPosition({
         latitude: coords.latitude,
@@ -59,7 +88,7 @@ export const RaceDetail: React.FC = () => {
     },
       {
         enableHighAccuracy: true,
-        distanceFilter: 2
+        distanceFilter: 1
       });
     return () => {
       Geolocation.clearWatch(watchID)
@@ -82,13 +111,6 @@ export const RaceDetail: React.FC = () => {
         d += R * c
       }
     }
-    // if (Math.trunc(d) > 0) {
-    //   setTotalDistance(d.toFixed(2))
-    // } else {
-    //   setTotalDistance(d.toFixed(2) * 1000)
-    // }
-    // console.log('d', d)
-    // console.log('dm', d.toFixed(2))
     setTotalDistance(d.toFixed(2))
   }
 
@@ -96,12 +118,35 @@ export const RaceDetail: React.FC = () => {
     return deg * (Math.PI / 180)
   }
 
+  function calculatePace(dist: any, timer: any) {
+    let [hrs, mins, secs]: any = timer.split(":")
+    dist = parseFloat(dist);
+    hrs = parseFloat(hrs);
+    mins = parseFloat(mins);
+    secs = parseFloat(secs);
+    let pace;
+    let timeElapsed = 0;
+    timeElapsed += hrs * 60 * 60;
+    timeElapsed += mins * 60;
+    timeElapsed += secs;
+    let calculatedPace = Math.floor(timeElapsed / dist);
+    //console.log(calculatedPace);
+    let paceMins = Math.floor(calculatedPace / 60) | 0;
+    let paceSecs = calculatedPace - (paceMins * 60) | 0;
+    pace = paceMins + ":" + paceSecs;
+    setPace(pace)
+  }
+
+  useEffect(() => {
+    calculatePace(totalDistance, currentValue)
+  }, [totalDistance])
+
   useEffect(() => {
     getDistanceFromLatLonInKm()
   }, [travelledDistance])
 
   useEffect(() => {
-    console.log('totalDistance', totalDistance)
+    // console.log('totalDistance', totalDistance)
   }, [totalDistance])
   return (
     <SafeAreaView
@@ -113,19 +158,21 @@ export const RaceDetail: React.FC = () => {
       }}
     >
 
-      <RegressiveCount visibility={isVisible} setVisibility={(value) => setIsVisible(value)} />
+      <RegressiveCount
+        isVisible={visibility}
+        count={count}
+      />
+      {/* <HeaderCorreReserva /> */}
       <Box backgroundColor='#0F1113' zIndex={0} position='absolute' width='100%' height={DEVICE_HEIGHT / 2} mx="micro" />
       <Box width={DEVICE_WIDTH - (48 * 2)} alignItems="center" >
 
         <Counter
-          hours="0"
-          minutes="00"
-          seconds="00"
-          distance="00.0"
-          rhythm="0.0"
+          timer={currentValue}
+          isPlate
+          distance={totalDistance.toString()}
+          rhythm={pace}
           plates="00"
         />
-
         <Box
           mt={"sm"}
           borderRadius="sm"
@@ -133,10 +180,9 @@ export const RaceDetail: React.FC = () => {
           height={mapHeight}
           boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
           style={{ elevation: 10, overflow: "hidden" }}
-          bg="pink"
+          bg="white"
         >
           <MapView
-
             provider={PROVIDER_GOOGLE}
             style={{ flex: 2 }}
             initialRegion={position}
@@ -180,33 +226,13 @@ export const RaceDetail: React.FC = () => {
   )
 }
 
-
-const RegressiveCount: React.FC<{ visibility?: boolean, setVisibility?: (value: boolean) => void }> = ({ visibility, setVisibility }) => {
-
-  const [count, setCount] = useState<number>(3)
-  // const [visibility, setVisibility] = useState(isVisible)
-
-  useEffect(() => {
-    if (visibility) {
-      setCount(3)
-      const interval = setInterval(() => {
-
-        setCount((prevCount) => {
-          if (prevCount > 1) {
-            return prevCount - 1
-          }
-          setVisibility && setVisibility(false)
-          clearInterval(interval)
-          return prevCount
-        })
-      }, 1000)
-
-      return () => clearInterval(interval)
-    }
-  }, [visibility])
+const RegressiveCount: React.FC<{
+  isVisible?: boolean;
+  count?: number;
+}> = ({ isVisible, count }) => {
 
   return (
-    <Modal visible={visibility} transparent>
+    <Modal visible={isVisible} transparent>
       <Box
         flex={1}
         justifyContent='center'
