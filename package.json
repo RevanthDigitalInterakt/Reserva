@@ -65,7 +65,7 @@
     "react-native-credit-card-display": "https://github.com/ebellumat/react-native-credit-card-display",
     "react-native-credit-card-input-view": "^0.0.7",
     "react-native-device-info": "^8.3.1",
-    "react-native-flipper": "^0.104.0",
+    "react-native-flipper": "^0.119.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-inset-shadow": "^1.0.3",
     "react-native-maps": "^0.28.0",
