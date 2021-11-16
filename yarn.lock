@@ -1130,6 +1130,13 @@
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@ptomasroos/react-native-multi-slider/-/react-native-multi-slider-2.2.2.tgz#35a97fb8c355627c6a2ded010b360ac5728b44ad"
   integrity sha1-Nal/uMNVYnxqLe0BCzYKxXKLRK0=
 
+"@react-native-async-storage/async-storage@^1.13.4":
+  version "1.15.11"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-async-storage/async-storage/-/async-storage-1.15.11.tgz#da625b906529076414c32fd337d813b565149858"
+  integrity sha1-2mJbkGUpB2QUwy/TN9gTtWUUmFg=
+  dependencies:
+    merge-options "^3.0.4"
+
 "@react-native-clipboard/clipboard@^1.8.4":
   version "1.8.4"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-clipboard/clipboard/-/clipboard-1.8.4.tgz#4bc1fb00643688e489d8220cd635844ab5c066f9"
@@ -4958,6 +4965,11 @@ is-obj@^1.0.0, is-obj@^1.0.1:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
   integrity sha1-PkcprB9f3gJc19g6iW2rn09n2w8=
 
+is-plain-obj@^2.1.0:
+  version "2.1.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/is-plain-obj/-/is-plain-obj-2.1.0.tgz#45e42e37fccf1f40da8e5f76ee21515840c09287"
+  integrity sha1-ReQuN/zPH0Dajl927iFRWEDAkoc=
+
 is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   version "2.0.4"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
@@ -5943,6 +5955,13 @@ mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/mdn-data/-/mdn-data-2.0.14.tgz#7113fc4281917d63ce29b43446f701e68c25ba50"
   integrity sha1-cRP8QoGRfWPOKbQ0RvcB5owlulA=
+
+merge-options@^3.0.4:
+  version "3.0.4"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/merge-options/-/merge-options-3.0.4.tgz#84709c2aa2a4b24c1981f66c179fe5565cc6dbb7"
+  integrity sha1-hHCcKqKkskwZgfZsF5/lVlzG27c=
+  dependencies:
+    is-plain-obj "^2.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -7356,6 +7375,13 @@ react-native-appstore-version-checker@^3.0.0:
   dependencies:
     lodash.result "^4.5.2"
 
+react-native-camera@^4.2.1:
+  version "4.2.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-camera/-/react-native-camera-4.2.1.tgz#caf74081f055e89d7e9b0cd5108965d808c60e90"
+  integrity sha1-yvdAgfBV6J1+mwzVEIll2AjGDpA=
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-cardscan@^1.1.30:
   version "1.1.30"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-cardscan/-/react-native-cardscan-1.1.30.tgz#34bff02a93815d07f784ebe86fc2fdc4412ca5ae"
@@ -7486,6 +7512,11 @@ react-native-onesignal@^4.1.0:
   dependencies:
     invariant "^2.2.2"
 
+react-native-permissions@^2.0.2:
+  version "2.2.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-permissions/-/react-native-permissions-2.2.2.tgz#3d2a63f6b7d6be52fc86e30f77412a9566283028"
+  integrity sha1-PSpj9rfWvlL8huMPd0EqlWYoMCg=
+
 react-native-permissions@^3.0.4:
   version "3.0.5"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-permissions/-/react-native-permissions-3.0.5.tgz#94542a343abdac801fa0a4593ea2c751cb45c41f"
@@ -7498,6 +7529,20 @@ react-native-progress@^4.1.2:
   dependencies:
     "@react-native-community/art" "^1.1.2"
     prop-types "^15.7.2"
+
+react-native-pure-jwt@^2.2.2:
+  version "2.2.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-pure-jwt/-/react-native-pure-jwt-2.2.2.tgz#cf8177c45b65baccc58d6f75af53748dc742f1b2"
+  integrity sha1-z4F3xFtluszFjW91r1N0jcdC8bI=
+
+react-native-qrcode-scanner@^1.5.4:
+  version "1.5.4"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-qrcode-scanner/-/react-native-qrcode-scanner-1.5.4.tgz#5e96189260942db3287739545eb3f6a16f7c0178"
+  integrity sha1-XpYYkmCULbModzlUXrP2oW98AXg=
+  dependencies:
+    "@react-native-async-storage/async-storage" "^1.13.4"
+    prop-types "^15.5.10"
+    react-native-permissions "^2.0.2"
 
 react-native-qrcode-svg@^6.1.1:
   version "6.1.1"

@@ -6,6 +6,8 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { backgroundApp, Box, theme, Typography } from "reserva-ui"
 import { CorreReservaStackParamList } from "../.."
+import QRCodeScanner from 'react-native-qrcode-scanner';
+
 const DEVICE_WIDTH = Dimensions.get('window').width
 
 export interface QrCodeScannerProps {
@@ -31,6 +33,10 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
     navigation.navigate('RaceDetail')
   }
 
+  const onSuccess = (e) => {
+    console.log(e)
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -40,7 +46,11 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
         flex: 1
       }}
     >
-      <Box
+
+      <QRCodeScanner
+        onRead={onSuccess}
+      />
+      {/* <Box
         width={qrSize}
         height={qrSize}
         backgroundColor='white'
@@ -175,7 +185,7 @@ export const QrCodeScanner: React.FC<QrCodeScannerProps> = ({
               </Typography>
           }
         </TouchableOpacity>
-      </Box>
+      </Box> */}
 
     </SafeAreaView>
   )
