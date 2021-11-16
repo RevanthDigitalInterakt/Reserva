@@ -212,9 +212,6 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
             </Box>
 
             <Counter
-              hours="0"
-              minutes="00"
-              seconds="00"
               distance="00.0"
               rhythm="0.0"
               plates="00"

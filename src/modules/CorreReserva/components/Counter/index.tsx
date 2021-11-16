@@ -7,9 +7,6 @@ import IconDistance from "./Icons/Svg/IconDistance"
 import IconRhythm from "./Icons/Svg/IconRhythm"
 import IconDish from "./Icons/Svg/IconDish"
 export interface CounterProps {
-    hours?: string;
-    minutes?: string;
-    seconds?: string;
     distance?: string;
     rhythm?: string;
     plates?: string;
@@ -19,7 +16,7 @@ export interface CounterProps {
 
 const DEVICE_HEIGHT = Dimensions.get('window').height
 
-export const Counter: React.FC<CounterProps> = ({ timer, hours, minutes, seconds, distance, rhythm, plates, isPlate }) => {
+export const Counter: React.FC<CounterProps> = ({ timer, distance, rhythm, plates, isPlate }) => {
 
     // const [hourss,minutess,secondss]:string = timer?.split(":")
 
@@ -66,7 +63,7 @@ export const Counter: React.FC<CounterProps> = ({ timer, hours, minutes, seconds
                                 <IconDish />
                             </Box>
                             <Box marginLeft="quarck">
-                                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+{plates}</Typography>
+                                <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+{distance?.split(".")[0]}</Typography>
                                 <Typography fontFamily='reservaSerifLight' fontSize={11} color='white'>Pratos</Typography>
                             </Box>
                         </Box>

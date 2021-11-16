@@ -106,7 +106,7 @@ export const RaceDetail: React.FC = () => {
         d += R * c
       }
     }
-    setTotalDistance(d.toFixed(3))
+    setTotalDistance(d.toFixed(2))
   }
 
   function deg2rad(deg) {
@@ -114,17 +114,11 @@ export const RaceDetail: React.FC = () => {
   }
 
   function calculatePace(dist: any, timer: any) {
-    //console.log(dist, hrs, mins, secs);
-    console.log('timer', timer)
     let [hrs, mins, secs]: any = timer.split(":")
     dist = parseFloat(dist);
     hrs = parseFloat(hrs);
     mins = parseFloat(mins);
     secs = parseFloat(secs);
-    //console.log(dist);
-    console.log('hrs', hrs)
-    console.log('mins', mins)
-    console.log('secs', secs)
     let pace;
     let timeElapsed = 0;
     timeElapsed += hrs * 60 * 60;
@@ -180,10 +174,9 @@ export const RaceDetail: React.FC = () => {
           height={302}
           boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
           style={{ elevation: 10, overflow: "hidden" }}
-          bg="pink"
+          bg="white"
         >
           <MapView
-
             provider={PROVIDER_GOOGLE}
             style={{ flex: 2 }}
             initialRegion={position}
