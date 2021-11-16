@@ -20,99 +20,119 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const [hasFacebook, setHasFacebook] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
   useEffect(() => {
-    // if (Platform.OS === 'ios') {
-    //   Linking.canOpenURL('instagram://')
-    //     .then((val) => setShowInstagramStory(val))
-    //     .catch((err) => console.error(err));
-    // } else {
-    //   Share.isPackageInstalled('com.instagram.android')
-    //     .then(({ isInstalled }) => setShowInstagramStory(isInstalled))
-    //     .catch((err) => console.error(err));
-    // }
+    if (Platform.OS === 'ios') {
+      Linking.canOpenURL('instagram://')
+        .then((val) => setShowInstagramStory(val))
+        .catch((err) => console.error(err));
+    } else {
+      Share.isPackageInstalled('com.instagram.android')
+        .then(({ isInstalled }) => setShowInstagramStory(isInstalled))
+        .catch((err) => console.error(err));
+    }
 
-    // if (Platform.OS === 'ios') {
-    //   Linking.canOpenURL('facebook://')
-    //     .then((val) => setHasWhatsApp(val))
-    //     .catch((err) => console.error(err));
-    // } else {
-    //   Share.isPackageInstalled('com.instagram.android')
-    //     .then(({ isInstalled }) => setShowInstagramStory(isInstalled))
-    //     .catch((err) => console.error(err));
-    // }
+    if (Platform.OS === 'ios') {
+      Linking.canOpenURL('whatsapp://')
+        .then((val) => setHasWhatsApp(val))
+        .catch((err) => console.error(err));
+    } else {
+      Share.isPackageInstalled('com.whatsapp.android')
+        .then(({ isInstalled }) => setHasWhatsApp(isInstalled))
+        .catch((err) => console.error(err));
+    }
+
+    if (Platform.OS === 'ios') {
+      Linking.canOpenURL('facebook://')
+        .then((val) => setHasFacebook(val))
+        .catch((err) => console.error(err));
+    } else {
+      Share.isPackageInstalled('com.facebook.android')
+        .then(({ isInstalled }) => setHasFacebook(isInstalled))
+        .catch((err) => console.error(err));
+    }
+
+    if (Platform.OS === 'ios') {
+      Linking.canOpenURL('twitter://')
+        .then((val) => setHasTwitter(val))
+        .catch((err) => console.error(err));
+    } else {
+      Share.isPackageInstalled('com.twitter.android')
+        .then(({ isInstalled }) => setHasTwitter(isInstalled))
+        .catch((err) => console.error(err));
+    }
 
   }, []);
 
   const shareImage = async (social: string) => {
-    // switch (social) {
-    //   case "instagram":
-    //     try {
-    //       const uri = await viewRef.current.capture();
-    //       console.log('uriuri', uri)
-    //       if (showInstagramStory) {
-    //         await Share.shareSingle({
-    //           title: '',
-    //           stickerImage: uri,
-    //           social: Share.Social.INSTAGRAM_STORIES,
-    //           backgroundBottomColor: '#000',
-    //           backgroundTopColor: '#000',
-    //         });
-    //       } else {
-    //         await Share.open({ url: uri });
-    //       }
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //     break;
-    //   case "whatsApp":
-    //     try {
-    //       const uri = await viewRef.current.capture();
-    //       if (showInstagramStory) {
-    //         await Share.shareSingle({
-    //           url: uri,
-    //           title: '',
-    //           message: '',
-    //           social: Share.Social.WHATSAPP,
-    //         });
-    //       } else {
-    //         await Share.open({ url: uri });
-    //       }
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //     break;
-    //   case "facebook":
-    //     try {
-    //       const uri = await viewRef.current.capture();
-    //       if (showInstagramStory) {
-    //         await Share.shareSingle({
-    //           title: '',
-    //           url: uri,
-    //           social: Share.Social.FACEBOOK,
-    //         });
-    //       } else {
-    //         await Share.open({ url: uri });
-    //       }
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //     break;
-    //   case "twitter":
-    //     try {
-    //       const uri = await viewRef.current.capture();
-    //       if (showInstagramStory) {
-    //         await Share.shareSingle({
-    //           title: '',
-    //           url: uri,
-    //           social: Share.Social.TWITTER,
-    //         });
-    //       } else {
-    //         await Share.open({ url: uri });
-    //       }
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //     break;
-    // }
+    switch (social) {
+      case "instagram":
+        try {
+          const uri = await viewRef.current.capture();
+          console.log('uriuri', uri)
+          if (showInstagramStory) {
+            await Share.shareSingle({
+              title: '',
+              stickerImage: uri,
+              social: Share.Social.INSTAGRAM_STORIES,
+              backgroundBottomColor: '#000',
+              backgroundTopColor: '#000',
+            });
+          } else {
+            await Share.open({ url: uri });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+        break;
+      case "whatsApp":
+        try {
+          const uri = await viewRef.current.capture();
+          if (hasWhatsApp) {
+            await Share.shareSingle({
+              url: uri,
+              title: '',
+              message: '',
+              social: Share.Social.WHATSAPP,
+            });
+          } else {
+            await Share.open({ url: uri });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+        break;
+      case "facebook":
+        try {
+          const uri = await viewRef.current.capture();
+          if (hasFacebook) {
+            await Share.shareSingle({
+              title: '',
+              url: uri,
+              social: Share.Social.FACEBOOK,
+            });
+          } else {
+            await Share.open({ url: uri });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+        break;
+      case "twitter":
+        try {
+          const uri = await viewRef.current.capture();
+          if (hasTwitter) {
+            await Share.shareSingle({
+              title: '',
+              url: uri,
+              social: Share.Social.TWITTER,
+            });
+          } else {
+            await Share.open({ url: uri });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+        break;
+    }
 
   }
 
