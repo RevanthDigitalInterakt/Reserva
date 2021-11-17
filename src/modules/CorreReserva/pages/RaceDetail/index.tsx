@@ -1,53 +1,63 @@
+import React, { useEffect, useState } from 'react';
 
 import Geolocation from '@react-native-community/geolocation';
-import { useNavigation } from "@react-navigation/core";
-import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
-import React, { useEffect, useState } from "react";
+import { useNavigation } from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { Dimensions, Modal, Platform, TouchableOpacity } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Box, Typography } from "reserva-ui";
-import { CorreReservaStackParamList } from "../..";
-import { Counter } from "../../components/Counter";
-import { useChronometer } from "../../hooks/useChronometer";
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Box, Typography } from 'reserva-ui';
 
-export interface RaceDetailProps {
+import { CorreReservaStackParamList } from '../..';
+import { Counter } from '../../components/Counter';
+import SwipeButton from '../../components/SwipeButton';
+import { useChronometer } from '../../hooks/useChronometer';
 
-}
+const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'RaceDetail'>
+export interface RaceDetailProps { }
+
+type RaceDetailNavigator = StackNavigationProp<
+  CorreReservaStackParamList,
+  'RaceDetail'
+>;
 
 export const RaceDetail: React.FC = () => {
-  const mapWidth = DEVICE_WIDTH - (48 * 2)
-  const mapHeight = (302 / 263) * mapWidth
+  const mapWidth = DEVICE_WIDTH - 48 * 2;
+  const mapHeight = (302 / 263) * mapWidth;
 
-  const navigation = useNavigation<RaceDetailNavigator>()
-  const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
-  const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
-  const [totalDistance, setTotalDistance] = useState(0)
-  const { currentValue, start, stop } = useChronometer({ initial: "00:00:00", })
-  const [count, setCount] = useState<number>(3)
-  const [visibility, setVisibility] = useState(false)
-  const [pace, setPace] = useState<string>("0:0")
-  const [hasStarted, setHasStarted] = useState(false)
+  const navigation = useNavigation<RaceDetailNavigator>();
+  const [position, setPosition] = useState<{
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  }>();
+  const [travelledDistance, setTravelledDistance] = useState<
+    { latitude: number; longitude: number }[]
+  >([]);
+  const [totalDistance, setTotalDistance] = useState(0);
+  const { currentValue, start, stop } = useChronometer({ initial: '00:00:00' });
+  const [count, setCount] = useState<number>(3);
+  const [visibility, setVisibility] = useState(false);
+  const [pace, setPace] = useState<string>('0:0');
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
-    setCount(3)
+    setCount(3);
     const interval = setInterval(() => {
-
       setCount((prevCount) => {
         if (prevCount > 1) {
-          return prevCount - 1
+          return prevCount - 1;
         }
-        setVisibility(false)
-        clearInterval(interval)
-        return prevCount
-      })
-    }, 1000)
+        setVisibility(false);
+        clearInterval(interval);
+        return prevCount;
+      });
+    }, 1000);
 
-    return () => clearInterval(interval)
-  }, [visibility])
+    return () => clearInterval(interval);
+  }, [visibility]);
 
   // useEffect(() => {
   //   console.log('visibility', visibility)
@@ -60,72 +70,78 @@ export const RaceDetail: React.FC = () => {
 
   const handleOnPress = () => {
     if (hasStarted) {
-      stop()
-      navigation.navigate('RaceFinalized')
+      stop();
+      navigation.navigate('RaceFinalized');
     } else {
-      setVisibility(true)
-      setHasStarted(true)
+      setVisibility(true);
+      setHasStarted(true);
       setTimeout(() => {
-        start()
-      }, 3050)
+        start();
+      }, 3050);
     }
-
-  }
-
+  };
 
   useEffect(() => {
-    const watchID = Geolocation.watchPosition((pos) => {
-      const coords = pos.coords;
-      setPosition({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      });
-      setTravelledDistance([
-        ...travelledDistance,
-        {
-          latitude: coords.latitude, longitude: coords.longitude,
-        }
-      ])
-    }, (suss) => {
-      console.log('suss', suss)
-
-    },
+    const watchID = Geolocation.watchPosition(
+      (pos) => {
+        const { coords } = pos;
+        setPosition({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        });
+        setTravelledDistance([
+          ...travelledDistance,
+          {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          },
+        ]);
+      },
+      (suss) => {
+        console.log('suss', suss);
+      },
       {
         enableHighAccuracy: true,
-        distanceFilter: 1
-      });
+        distanceFilter: 1,
+      }
+    );
     return () => {
-      Geolocation.clearWatch(watchID)
-    }
+      Geolocation.clearWatch(watchID);
+    };
   }, []);
 
   function getDistanceFromLatLonInKm() {
-    var d = 0;
+    let d = 0;
     if (travelledDistance.length > 1) {
       for (let i = 0; i < travelledDistance.length - 1; i++) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = deg2rad(travelledDistance[i + 1].latitude - travelledDistance[i].latitude);  // deg2rad below
-        var dLon = deg2rad(travelledDistance[i + 1].longitude - travelledDistance[i].longitude);
-        var a =
+        const R = 6371; // Radius of the earth in km
+        const dLat = deg2rad(
+          travelledDistance[i + 1].latitude - travelledDistance[i].latitude
+        ); // deg2rad below
+        const dLon = deg2rad(
+          travelledDistance[i + 1].longitude - travelledDistance[i].longitude
+        );
+        const a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(deg2rad(travelledDistance[i].latitude)) * Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
-          Math.sin(dLon / 2) * Math.sin(dLon / 2)
-          ;
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        d += R * c
+          Math.cos(deg2rad(travelledDistance[i].latitude)) *
+          Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        d += R * c;
       }
     }
-    setTotalDistance(d.toFixed(2))
+    setTotalDistance(d.toFixed(2));
   }
 
   function deg2rad(deg) {
-    return deg * (Math.PI / 180)
+    return deg * (Math.PI / 180);
   }
 
   function calculatePace(dist: any, timer: any) {
-    let [hrs, mins, secs]: any = timer.split(":")
+    let [hrs, mins, secs]: any = timer.split(':');
     dist = parseFloat(dist);
     hrs = parseFloat(hrs);
     mins = parseFloat(mins);
@@ -135,43 +151,45 @@ export const RaceDetail: React.FC = () => {
     timeElapsed += hrs * 60 * 60;
     timeElapsed += mins * 60;
     timeElapsed += secs;
-    let calculatedPace = Math.floor(timeElapsed / dist);
-    //console.log(calculatedPace);
-    let paceMins = Math.floor(calculatedPace / 60) | 0;
-    let paceSecs = calculatedPace - (paceMins * 60) | 0;
-    pace = paceMins + ":" + paceSecs;
-    setPace(pace)
+    const calculatedPace = Math.floor(timeElapsed / dist);
+    // console.log(calculatedPace);
+    const paceMins = Math.floor(calculatedPace / 60) | 0;
+    const paceSecs = (calculatedPace - paceMins * 60) | 0;
+    pace = `${paceMins}:${paceSecs}`;
+    setPace(pace);
   }
 
   useEffect(() => {
-    calculatePace(totalDistance, currentValue)
-  }, [totalDistance])
+    calculatePace(totalDistance, currentValue);
+  }, [totalDistance]);
 
   useEffect(() => {
-    getDistanceFromLatLonInKm()
-  }, [travelledDistance])
+    getDistanceFromLatLonInKm();
+  }, [travelledDistance]);
 
   useEffect(() => {
     // console.log('totalDistance', totalDistance)
-  }, [totalDistance])
+  }, [totalDistance]);
   return (
     <SafeAreaView
       style={{
         alignItems: 'center',
         backgroundColor: '#fff',
         paddingTop: 111,
-        flex: 1
+        flex: 1,
       }}
     >
-
-      <RegressiveCount
-        isVisible={visibility}
-        count={count}
-      />
+      <RegressiveCount isVisible={visibility} count={count} />
       {/* <HeaderCorreReserva /> */}
-      <Box backgroundColor='#0F1113' zIndex={0} position='absolute' width='100%' height={DEVICE_HEIGHT / 2} mx="micro" />
-      <Box width={DEVICE_WIDTH - (48 * 2)} alignItems="center" >
-
+      <Box
+        backgroundColor="#0F1113"
+        zIndex={0}
+        position="absolute"
+        width="100%"
+        height={DEVICE_HEIGHT / 2}
+        mx="micro"
+      />
+      <Box width={DEVICE_WIDTH - 48 * 2} alignItems="center">
         <Counter
           timer={currentValue}
           isPlate
@@ -180,25 +198,24 @@ export const RaceDetail: React.FC = () => {
           plates="00"
         />
         <Box
-          mt={"sm"}
+          mt="sm"
           borderRadius="sm"
           width={mapWidth}
           height={mapHeight}
           boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-          style={{ elevation: 10, overflow: "hidden" }}
+          style={{ elevation: 10, overflow: 'hidden' }}
           bg="white"
         >
           <MapView
             provider={PROVIDER_GOOGLE}
             style={{ flex: 2 }}
             initialRegion={position}
-          >
-          </MapView>
+          />
         </Box>
 
-        <TouchableOpacity
-          onPress={handleOnPress}
-        >
+        <SwipeButton onToggle={() => { }} />
+
+        <TouchableOpacity onPress={handleOnPress}>
           <Box
             mt="xs"
             height={40}
@@ -211,42 +228,35 @@ export const RaceDetail: React.FC = () => {
             justifyContent="center"
           >
             <Typography
-              color={hasStarted ? 'preto' : "white"}
+              color={hasStarted ? 'preto' : 'white'}
               letterSpacing={1.6}
-              fontFamily='nunitoBold'
+              fontFamily="nunitoBold"
             >
               CLIQUE PRA {hasStarted ? 'FINALIZAR' : 'INICIAR'}
             </Typography>
           </Box>
         </TouchableOpacity>
       </Box>
-    </SafeAreaView >
-  )
-}
+    </SafeAreaView>
+  );
+};
 
 const RegressiveCount: React.FC<{
   isVisible?: boolean;
   count?: number;
-}> = ({ isVisible, count }) => {
-
-  return (
-    <Modal visible={isVisible} transparent>
-      <Box
-        flex={1}
-        justifyContent='center'
-        alignItems='center'
-        backgroundColor={'#000'}
-        opacity={.85}
-        zIndex={5}
-      >
-        <Typography
-          color='white'
-          fontFamily='reservaSerifBold'
-          fontSize={200}
-        >
-          {count}
-        </Typography>
-      </Box>
-    </Modal>
-  )
-}
+}> = ({ isVisible, count }) => (
+  <Modal visible={isVisible} transparent>
+    <Box
+      flex={1}
+      justifyContent="center"
+      alignItems="center"
+      backgroundColor="#000"
+      opacity={0.85}
+      zIndex={5}
+    >
+      <Typography color="white" fontFamily="reservaSerifBold" fontSize={200}>
+        {count}
+      </Typography>
+    </Box>
+  </Modal>
+);
