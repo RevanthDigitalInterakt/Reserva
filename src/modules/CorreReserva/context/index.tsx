@@ -21,6 +21,7 @@ type Modalities = 'presential' | 'virtual';
 interface KitType {
   name: string;
   code: string;
+  km?: number;
 }
 
 const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
@@ -28,10 +29,10 @@ const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
   const [selectedKit, setSelectedKit] = useState<KitType>();
 
   const ValidCodes: KitType[] = [
-    { name: '15km', code: 'XtZ37QwhebAYPcp3' },
-    { name: '10km', code: 'G7ZFdVe4DxaZUZzN' },
-    { name: '5km', code: 'cTzstrjQHrPzfNJj' },
-    { name: '2km', code: 'EVghDLHTecGspLD4' },
+    { name: '15km', km: 15, code: 'XtZ37QwhebAYPcp3' },
+    { name: '10km', km: 10, code: 'G7ZFdVe4DxaZUZzN' },
+    { name: '5km', km: 5, code: 'cTzstrjQHrPzfNJj' },
+    { name: '2km', km: 2, code: 'EVghDLHTecGspLD4' },
     { name: 'finalizar', code: 'aTmGF7us8HBmzPvC' },
   ];
 

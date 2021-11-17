@@ -10,7 +10,12 @@ import {
   TouchableOpacity,
   Vibration,
 } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, {
+  PROVIDER_GOOGLE,
+  Marker,
+  Polyline,
+  LatLng,
+} from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Typography, Image } from 'reserva-ui';
 
@@ -20,6 +25,8 @@ import { Counter } from '../../components/Counter';
 import SwipeButton from '../../components/SwipeButton';
 import { useCorre } from '../../context';
 import { useChronometer } from '../../hooks/useChronometer';
+
+import { KM_15, KM_10, KM_5, KM_2 } from './polyline';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
@@ -34,7 +41,7 @@ export const RaceDetail: React.FC = () => {
   const mapWidth = DEVICE_WIDTH - 48 * 2;
   const mapHeight = (302 / 263) * mapWidth;
 
-  const { selectedModality } = useCorre();
+  const { selectedModality, selectedKit } = useCorre();
   const navigation = useNavigation<RaceDetailNavigator>();
   const [position, setPosition] = useState<{
     latitude: number;
@@ -206,6 +213,92 @@ export const RaceDetail: React.FC = () => {
     setPace(pace);
   };
 
+  const generateCoordinates = (selectedKitKm: number): LatLng[] => {
+    const coordinates: any[] = [];
+    if (selectedKitKm >= 15) {
+      coordinates.concat(KM_15);
+    }
+    if (selectedKitKm >= 10) {
+      coordinates.concat(KM_10);
+    }
+    if (selectedKitKm >= 5) {
+      coordinates.concat(KM_5);
+    }
+    if (selectedKitKm >= 2) {
+      coordinates.concat(KM_2);
+    }
+    return coordinates;
+  };
+
+  const getKmMarker = (selectedKitKm: number) => {
+    // eslint-disable-next-line default-case
+    switch (selectedKitKm) {
+      case 15: {
+        return (
+          <Marker coordinate={{ latitude: -22.97527, longitude: -43.21713 }}>
+            <Typography>15 Km</Typography>
+            <Image
+              height={40}
+              source={images.localReserva}
+              resizeMode="contain"
+            />
+          </Marker>
+        );
+      }
+      case 10: {
+        return (
+          <Marker
+            coordinate={{
+              latitude: -22.981829,
+              longitude: -43.189591,
+            }}
+          >
+            <Typography>10 Km</Typography>
+            <Image
+              height={40}
+              source={images.localReserva}
+              resizeMode="contain"
+            />
+          </Marker>
+        );
+      }
+      case 5: {
+        return (
+          <Marker
+            coordinate={{
+              latitude: -22.947746,
+              longitude: -43.181345,
+            }}
+          >
+            <Typography>5 Km</Typography>
+            <Image
+              height={40}
+              source={images.localReserva}
+              resizeMode="contain"
+            />
+          </Marker>
+        );
+      }
+      case 2: {
+        return (
+          <Marker
+            coordinate={{
+              latitude: -22.93532,
+              longitude: -43.172099,
+            }}
+          >
+            <Typography>2 Km</Typography>
+            <Image
+              height={40}
+              source={images.localReserva}
+              resizeMode="contain"
+            />
+          </Marker>
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     calculatePace(totalDistance, currentValue);
   }, [totalDistance]);
@@ -260,6 +353,18 @@ export const RaceDetail: React.FC = () => {
               style={{ flex: 2 }}
               initialRegion={position}
             >
+              {selectedModality === 'presential' && (
+                <>
+                  <Polyline
+                    coordinates={generateCoordinates(
+                      selectedKit && selectedKit.km ? selectedKit.km : 15
+                    )}
+                    strokeColor="#EF1E1E" // fallback for when `strokeColors` is not supported by the map-provider
+                    strokeWidth={6}
+                  />
+                  {selectedKit && selectedKit.km && getKmMarker(selectedKit.km)}
+                </>
+              )}
               <Marker
                 coordinate={{
                   latitude: position?.latitude,
