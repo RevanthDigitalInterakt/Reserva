@@ -1,21 +1,14 @@
 
-
-import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types"
-import React, { useState, useEffect, useCallback } from "react"
-import { Modal, Platform, ScrollView } from 'react-native';
-import { Dimensions, ImageBackground, InteractionManager, TouchableOpacity } from "react-native"
-import { PanGestureHandler } from "react-native-gesture-handler"
-import { View } from "react-native-animatable"
-import { TouchableHighlight } from "react-native-gesture-handler"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { Box, Icon, Image, Typography } from "reserva-ui"
-import { useFocusEffect, useNavigation, useIsFocused } from '@react-navigation/native';
-import { height } from "styled-system"
-import { CorreReservaStackParamList } from "../.."
-import { Counter } from "../../components/Counter"
 import Geolocation from '@react-native-community/geolocation';
+import { useNavigation } from "@react-navigation/core";
+import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
+import React, { useEffect, useState } from "react";
+import { Dimensions, Modal, Platform, TouchableOpacity } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { Text } from "react-native-svg";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Box, Typography, Image } from "reserva-ui";
+import { CorreReservaStackParamList } from "../..";
+import { Counter } from "../../components/Counter";
 import { useChronometer } from "../../hooks/useChronometer";
 import { images } from "../../../../assets";
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window')
@@ -27,17 +20,18 @@ export interface RaceDetailProps {
 type RaceDetailNavigator = StackNavigationProp<CorreReservaStackParamList, 'RaceDetail'>
 
 export const RaceDetail: React.FC = () => {
+  const mapWidth = DEVICE_WIDTH - (48 * 2)
+  const mapHeight = (302 / 263) * mapWidth
   const navigation = useNavigation<RaceDetailNavigator>()
-  const isFocused = useIsFocused();
   const [isVisible, setIsVisible] = useState(false)
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
-  const [newPosition, setNewPosition] = useState<any>();
   const [travelledDistance, setTravelledDistance] = useState<{ latitude: number, longitude: number }[]>([]);
   const [totalDistance, setTotalDistance] = useState(0)
   const { currentValue, start, stop } = useChronometer({ initial: "00:00:00", })
   const [count, setCount] = useState<number>(3)
-  const [visibility, setVisibility] = useState(true)
+  const [visibility, setVisibility] = useState(false)
   const [pace, setPace] = useState<string>("0:0")
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     setCount(3)
@@ -51,21 +45,48 @@ export const RaceDetail: React.FC = () => {
         clearInterval(interval)
         return prevCount
       })
-    }, 1500)
+    }, 1000)
 
     return () => clearInterval(interval)
-  }, [])
-
-  useEffect(() => {
-    console.log('visibility', visibility)
-    if (!visibility) {
-      start()
-    } else {
-      stop()
-    }
   }, [visibility])
 
+  // useEffect(() => {
+  //   console.log('visibility', visibility)
+  //   if (hasStarted) {
+  //     start()
+  //   } else {
+  //     stop()
+  //   }
+  // }, [hasStarted])
 
+  const handleOnPress = () => {
+    if (hasStarted) {
+      stop()
+      navigation.navigate('RaceFinalized')
+    } else {
+      setVisibility(true)
+      setHasStarted(true)
+      setTimeout(() => {
+        start()
+      }, 3050)
+    }
+
+  }
+
+  //Pega a posição do usuário
+  useEffect(() => {
+    Geolocation.getCurrentPosition((pos) => {
+      const coords = pos.coords;
+      setPosition({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
+    });
+  }, []);
+
+  //pega nova posicão do usuário quando ele andar
   useEffect(() => {
     const watchID = Geolocation.watchPosition((pos) => {
       const coords = pos.coords;
@@ -113,7 +134,7 @@ export const RaceDetail: React.FC = () => {
         d += R * c
       }
     }
-    setTotalDistance(d.toFixed(3))
+    setTotalDistance(d.toFixed(2))
   }
 
   const deg2rad = (deg) => {
@@ -145,6 +166,7 @@ export const RaceDetail: React.FC = () => {
 
   useEffect(() => {
     getDistanceFromLatLonInKm()
+    console.log('travelledDistance', travelledDistance)
   }, [travelledDistance])
 
   useEffect(() => {
@@ -154,6 +176,7 @@ export const RaceDetail: React.FC = () => {
     <SafeAreaView
       style={{
         alignItems: 'center',
+        backgroundColor: '#fff',
         paddingTop: 111,
         flex: 1
       }}
@@ -165,7 +188,7 @@ export const RaceDetail: React.FC = () => {
       />
       {/* <HeaderCorreReserva /> */}
       <Box backgroundColor='#0F1113' zIndex={0} position='absolute' width='100%' height={DEVICE_HEIGHT / 2} mx="micro" />
-      <Box width={DEVICE_WIDTH - 96} alignItems="center" >
+      <Box width={DEVICE_WIDTH - (48 * 2)} alignItems="center" >
 
         <Counter
           timer={currentValue}
@@ -177,8 +200,8 @@ export const RaceDetail: React.FC = () => {
         <Box
           mt={"sm"}
           borderRadius="sm"
-          width={263}
-          height={302}
+          width={mapWidth}
+          height={mapHeight}
           boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
           style={{ elevation: 10, overflow: "hidden" }}
           bg="white"
@@ -202,8 +225,7 @@ export const RaceDetail: React.FC = () => {
         </Box>
 
         <TouchableOpacity
-
-          onPress={() => setIsVisible(true)}
+          onPress={handleOnPress}
         >
           <Box
             mt="xs"
@@ -211,15 +233,17 @@ export const RaceDetail: React.FC = () => {
             width="100%"
             paddingLeft={40}
             paddingRight={40}
-            bg="#29C94E"
+            bg={hasStarted ? '#F4F4F4' : '#29C94E'}
             borderRadius="infinity"
             alignItems="center"
             justifyContent="center"
           >
             <Typography
-              color="white"
+              color={hasStarted ? 'preto' : "white"}
+              letterSpacing={1.6}
+              fontFamily='nunitoBold'
             >
-              DESLIZE PRA INICIAR
+              CLIQUE PRA {hasStarted ? 'FINALIZAR' : 'INICIAR'}
             </Typography>
           </Box>
         </TouchableOpacity>
