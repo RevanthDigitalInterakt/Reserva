@@ -8,15 +8,14 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Typography, Image } from 'reserva-ui';
 
-import { CorreReservaStackParamList, CorreReservaStackParamList } from '../..';
+import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
-import { Counter, Counter } from '../../components/Counter';
-import SwipeButton from '../../components/SwipeButton';
-import { useChronometer, useChronometer } from '../../hooks/useChronometer';
+import { Counter, } from '../../components/Counter';
+// import SwipeButton from '../../components/SwipeButton';
+import { useChronometer } from '../../hooks/useChronometer';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 export interface RaceDetailProps { }
 
@@ -245,7 +244,7 @@ export const RaceDetail: React.FC = () => {
           )}
         </Box>
 
-        <SwipeButton onToggle={() => { }} />
+        {/* <SwipeButton onToggle={() => { }} /> */}
 
         <TouchableOpacity onPress={handleOnPress}>
           <Box

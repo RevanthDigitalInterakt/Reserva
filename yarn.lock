@@ -7550,11 +7550,6 @@ react-native-progress@^4.1.2:
     "@react-native-community/art" "^1.1.2"
     prop-types "^15.7.2"
 
-react-native-pure-jwt@^2.2.2:
-  version "2.2.2"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-pure-jwt/-/react-native-pure-jwt-2.2.2.tgz#cf8177c45b65baccc58d6f75af53748dc742f1b2"
-  integrity sha1-z4F3xFtluszFjW91r1N0jcdC8bI=
-
 react-native-qrcode-scanner@^1.5.4:
   version "1.5.4"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-qrcode-scanner/-/react-native-qrcode-scanner-1.5.4.tgz#5e96189260942db3287739545eb3f6a16f7c0178"
