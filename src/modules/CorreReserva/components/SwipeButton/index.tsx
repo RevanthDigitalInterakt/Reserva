@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
@@ -14,20 +14,24 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 
-const BUTTON_WIDTH = 350;
-const BUTTON_HEIGHT = 100;
-const BUTTON_PADDING = 10;
-const SWIPEABLE_DIMENSIONS = BUTTON_HEIGHT - 2 * BUTTON_PADDING;
+import IconSwipe from '../../Icons/Svg/IconSwipe';
 
-const H_WAVE_RANGE = SWIPEABLE_DIMENSIONS + 2 * BUTTON_PADDING;
-const H_SWIPE_RANGE = BUTTON_WIDTH - 2 * BUTTON_PADDING - SWIPEABLE_DIMENSIONS;
+const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
+
+const BUTTON_WIDTH = DEVICE_WIDTH - 48 * 2;
+const BUTTON_HEIGHT = 40;
+const BUTTON_PADDING = 0;
+const SWIPEABLE_DIMENSIONS = BUTTON_HEIGHT * 1.45; // - 2 * BUTTON_PADDING;
+
+const H_WAVE_RANGE = SWIPEABLE_DIMENSIONS + SWIPEABLE_DIMENSIONS / 2;
+const H_SWIPE_RANGE = BUTTON_WIDTH - SWIPEABLE_DIMENSIONS / 2;
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
-const SwipeButton = ({ onToggle }) => {
+const SwipeButton = ({ onToggle, forceToggle, swipeText }) => {
   // Animated value for X translation
   const X = useSharedValue(0);
   // Toggled State
-  const [toggled, setToggled] = useState(false);
+  const [toggled, setToggled] = useState(forceToggle);
 
   // Fires when animation ends
   const handleComplete = (isToggled) => {
@@ -36,6 +40,16 @@ const SwipeButton = ({ onToggle }) => {
       onToggle(isToggled);
     }
   };
+  useEffect(() => {
+    console.log('toggled', forceToggle);
+    if (forceToggle) {
+      X.value = withSpring(0);
+      setToggled(true);
+    } else {
+      X.value = withSpring(0);
+      setToggled(false);
+    }
+  }, [forceToggle]);
 
   // Gesture Handler Events
   const animatedGestureHandler = useAnimatedGestureHandler({
@@ -67,17 +81,21 @@ const SwipeButton = ({ onToggle }) => {
 
   const InterpolateXInput = [0, H_SWIPE_RANGE];
   const AnimatedStyles = {
-    swipeCont: useAnimatedStyle(() => ({})),
+    swipeCont: useAnimatedStyle(() => ({
+      backgroundColor: interpolateColor(X.value, InterpolateXInput, [
+        '#29C94E',
+        '#E0E0E0',
+      ]),
+    })),
     colorWave: useAnimatedStyle(() => ({
       width: H_WAVE_RANGE + X.value,
-
       opacity: interpolate(X.value, InterpolateXInput, [0, 1]),
     })),
     swipeable: useAnimatedStyle(() => ({
       backgroundColor: interpolateColor(
         X.value,
         [0, BUTTON_WIDTH - SWIPEABLE_DIMENSIONS - BUTTON_PADDING],
-        ['#06d6a0', '#fff']
+        ['#efefef', '#efefef']
       ),
       transform: [{ translateX: X.value }],
     })),
@@ -104,10 +122,12 @@ const SwipeButton = ({ onToggle }) => {
   return (
     <Animated.View style={[styles.swipeCont, AnimatedStyles.swipeCont]}>
       <PanGestureHandler onGestureEvent={animatedGestureHandler}>
-        <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]} />
+        <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]}>
+          <IconSwipe color="#4B4B4B" />
+        </Animated.View>
       </PanGestureHandler>
       <Animated.Text style={[styles.swipeText, AnimatedStyles.swipeText]}>
-        Swipe Me
+        {swipeText}
       </Animated.Text>
     </Animated.View>
   );
@@ -117,7 +137,7 @@ const styles = StyleSheet.create({
   swipeCont: {
     height: BUTTON_HEIGHT,
     width: BUTTON_WIDTH,
-    backgroundColor: '#fff',
+    backgroundColor: '#29C94E',
     borderRadius: BUTTON_HEIGHT,
     padding: BUTTON_PADDING,
     display: 'flex',
@@ -133,18 +153,21 @@ const styles = StyleSheet.create({
   },
   swipeable: {
     position: 'absolute',
-    left: BUTTON_PADDING,
+    left: -(SWIPEABLE_DIMENSIONS / 4),
     height: SWIPEABLE_DIMENSIONS,
     width: SWIPEABLE_DIMENSIONS,
     borderRadius: SWIPEABLE_DIMENSIONS,
     zIndex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   swipeText: {
     alignSelf: 'center',
-    fontSize: 20,
+    fontSize: 12,
+    letterSpacing: 1.6,
     fontWeight: 'bold',
     zIndex: 2,
-    color: '#1b9aaa',
+    color: '#FFFFFF',
   },
 });
 

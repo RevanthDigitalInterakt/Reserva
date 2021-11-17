@@ -1,28 +1,34 @@
-import React from "react"
-import { Dimensions, ImageBackground, TouchableHighlight, View } from "react-native"
-import { Box, Typography } from "reserva-ui"
+import React from 'react';
+
+import {
+  Dimensions,
+  ImageBackground,
+  ImageSourcePropType,
+  TouchableHighlight,
+  View,
+} from 'react-native';
+import { Box, Typography } from 'reserva-ui';
 
 export interface ModalityCardProps {
-  image: string,
-  title: string,
-  description: string,
-  onPress?: () => void
+  imageSource: ImageSourcePropType;
+  title: string;
+  description: string;
+  onPress?: () => void;
 }
 
-const DEVICE_WIDTH = Dimensions.get('window').width
+const DEVICE_WIDTH = Dimensions.get('window').width;
 
 export const ModalityCard: React.FC<ModalityCardProps> = ({
-  image,
+  imageSource,
   description,
   title,
-  onPress
+  onPress,
 }) => {
-
-  const MARGIN = 20
-  const cardWidth = DEVICE_WIDTH - (2 * MARGIN)
-  const cardHeight = (cardWidth * 182) / 320
-  // image height = 182 
-  // image width = 320 
+  const MARGIN = 20;
+  const cardWidth = DEVICE_WIDTH - 2 * MARGIN;
+  const cardHeight = (cardWidth * 182) / 320;
+  // image height = 182
+  // image width = 320
 
   return (
     <View
@@ -34,50 +40,44 @@ export const ModalityCard: React.FC<ModalityCardProps> = ({
         shadowOpacity: 1,
         shadowOffset: {
           height: 4,
-          width: 4
+          width: 4,
         },
         shadowRadius: 8,
-        elevation: 13
+        elevation: 13,
       }}
     >
       <TouchableHighlight
         style={{ width: cardWidth, height: cardHeight, borderRadius: 20 }}
         onPress={onPress}
       >
-
         <ImageBackground
           style={{
             borderRadius: 20,
             width: cardWidth,
             height: cardHeight,
           }}
-          source={{ uri: image }}
+          source={imageSource}
         >
-          <Box
-            justifyContent='center'
-            alignItems='center'
-            flex={1}
-          >
+          <Box justifyContent="center" alignItems="center" flex={1}>
             <Typography
-              fontFamily='reservaSerifBoldItalic'
+              fontFamily="reservaSerifBoldItalic"
               fontSize={44}
-              color='white'
+              color="white"
             >
               {title}
             </Typography>
             <Typography
-              fontFamily='reservaSansLight'
+              fontFamily="reservaSansLight"
               fontSize={16}
-              color='white'
-              textAlign='center'
-              lineHeight='20'
-
+              color="white"
+              textAlign="center"
+              lineHeight="20"
             >
               {description}
             </Typography>
           </Box>
         </ImageBackground>
       </TouchableHighlight>
-    </View >
-  )
-}
+    </View>
+  );
+};

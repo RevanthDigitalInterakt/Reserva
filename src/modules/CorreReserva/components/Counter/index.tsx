@@ -3,9 +3,9 @@ import { Dimensions } from "react-native"
 import { View } from "react-native-animatable"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { Box, Icon, Image, Typography } from "reserva-ui"
-import IconDistance from "./Icons/Svg/IconDistance"
-import IconRhythm from "./Icons/Svg/IconRhythm"
-import IconDish from "./Icons/Svg/IconDish"
+import IconDish from "../../Icons/Svg/IconDish"
+import IconDistance from "../../Icons/Svg/IconDistance"
+import IconRhythm from "../../Icons/Svg/IconRhythm"
 export interface CounterProps {
     distance?: string;
     rhythm?: string;

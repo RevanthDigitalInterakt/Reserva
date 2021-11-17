@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Geolocation from '@react-native-community/geolocation';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Dimensions, Modal, Platform, TouchableOpacity } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
@@ -12,11 +12,12 @@ import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
 import { Counter } from '../../components/Counter';
 import SwipeButton from '../../components/SwipeButton';
+import { useCorre } from '../../context';
 import { useChronometer } from '../../hooks/useChronometer';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-export interface RaceDetailProps { }
+export interface RaceDetailProps {}
 
 type RaceDetailNavigator = StackNavigationProp<
   CorreReservaStackParamList,
@@ -27,6 +28,7 @@ export const RaceDetail: React.FC = () => {
   const mapWidth = DEVICE_WIDTH - 48 * 2;
   const mapHeight = (302 / 263) * mapWidth;
 
+  const { selectedModality } = useCorre();
   const navigation = useNavigation<RaceDetailNavigator>();
   const [position, setPosition] = useState<{
     latitude: number;
@@ -43,41 +45,44 @@ export const RaceDetail: React.FC = () => {
   const [visibility, setVisibility] = useState(false);
   const [pace, setPace] = useState<string>('0:0');
   const [hasStarted, setHasStarted] = useState(false);
+  const [forceToggle, setForceToggle] = useState<boolean>();
 
   useEffect(() => {
-    setCount(3);
-    const interval = setInterval(() => {
-      setCount((prevCount) => {
-        if (prevCount > 1) {
-          return prevCount - 1;
-        }
-        setVisibility(false);
-        clearInterval(interval);
-        return prevCount;
-      });
-    }, 1000);
+    if (visibility) {
+      setCount(3);
+      const interval = setInterval(() => {
+        setCount((prevCount) => {
+          if (prevCount > 1) {
+            return prevCount - 1;
+          }
+          setVisibility(false);
+          clearInterval(interval);
+          return prevCount;
+        });
+      }, 1000);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [visibility]);
 
-  // useEffect(() => {
-  //   console.log('visibility', visibility)
-  //   if (hasStarted) {
-  //     start()
-  //   } else {
-  //     stop()
-  //   }
-  // }, [hasStarted])
+  const handleOnPress = (isToggled: boolean) => {
+    console.log('isToggled', isToggled);
+    console.log('hasStarted', hasStarted);
 
-  const handleOnPress = () => {
     if (hasStarted) {
       stop();
-      navigation.navigate('RaceFinalized');
+      if (selectedModality === 'presential') {
+        navigation.navigate('QrCodeScanner', { isFinalizingRace: true });
+      } else {
+        navigation.navigate('RaceFinalized');
+      }
     } else {
       setVisibility(true);
       setHasStarted(true);
       setTimeout(() => {
         start();
+        setForceToggle(false);
+        setForceToggle(undefined);
       }, 3050);
     }
   };
@@ -142,9 +147,9 @@ export const RaceDetail: React.FC = () => {
         const a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
           Math.cos(deg2rad(travelledDistance[i].latitude)) *
-          Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
+            Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         d += R * c;
       }
@@ -214,6 +219,7 @@ export const RaceDetail: React.FC = () => {
         <Box
           mt="sm"
           borderRadius="sm"
+          marginBottom={39}
           width={mapWidth}
           height={mapHeight}
           boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
@@ -243,9 +249,13 @@ export const RaceDetail: React.FC = () => {
           )}
         </Box>
 
-        <SwipeButton onToggle={() => { }} />
+        <SwipeButton
+          onToggle={handleOnPress}
+          forceToggle={forceToggle}
+          swipeText={`DESLISE PARA ${!hasStarted ? 'INICIAR' : 'FINALIZAR'}`}
+        />
 
-        <TouchableOpacity onPress={handleOnPress}>
+        {/* <TouchableOpacity onPress={handleOnPress}>
           <Box
             mt="xs"
             height={40}
@@ -265,7 +275,7 @@ export const RaceDetail: React.FC = () => {
               CLIQUE PRA {hasStarted ? 'FINALIZAR' : 'INICIAR'}
             </Typography>
           </Box>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </Box>
     </SafeAreaView>
   );
