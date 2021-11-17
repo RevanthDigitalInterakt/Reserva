@@ -1,11 +1,5 @@
 import React from "react"
-import { Dimensions } from "react-native"
-import { View } from "react-native-animatable"
-import { TouchableOpacity } from "react-native-gesture-handler"
 import { Box, Icon, Image, Typography } from "reserva-ui"
-import IconDistance from "./Icons/Svg/IconDistance"
-import IconRhythm from "./Icons/Svg/IconRhythm"
-import IconDish from "./Icons/Svg/IconDish"
 export interface CounterProps {
     distance?: string;
     rhythm?: string;
@@ -14,11 +8,7 @@ export interface CounterProps {
     timer?: string;
 }
 
-const DEVICE_HEIGHT = Dimensions.get('window').height
-
 export const Counter: React.FC<CounterProps> = ({ timer, distance, rhythm, plates, isPlate }) => {
-
-    // const [hourss,minutess,secondss]:string = timer?.split(":")
 
     return (
         <Box width="100%" >
@@ -41,7 +31,7 @@ export const Counter: React.FC<CounterProps> = ({ timer, distance, rhythm, plate
                 <Box flexDirection="row" >
                     <Box flexDirection="row" mr="xxxs">
                         <Box mt="quarck">
-                            <IconDistance />
+                            <Icon name="Distance" size={23} color={"neutroFrio2"} />
                         </Box>
                         <Box marginLeft="quarck">
                             <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >{distance}</Typography>
@@ -50,7 +40,7 @@ export const Counter: React.FC<CounterProps> = ({ timer, distance, rhythm, plate
                     </Box>
                     <Box flexDirection="row">
                         <Box mt="quarck">
-                            <IconRhythm />
+                            <Icon name="Pace" size={20} color={"neutroFrio2"} />
                         </Box>
                         <Box marginLeft="quarck">
                             <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >{rhythm}</Typography>
@@ -60,7 +50,7 @@ export const Counter: React.FC<CounterProps> = ({ timer, distance, rhythm, plate
                     {isPlate &&
                         <Box flexDirection="row" ml="xxxs">
                             <Box mt="quarck">
-                                <IconDish />
+                                <Icon name="Dish" size={20} color={"neutroFrio2"} />
                             </Box>
                             <Box marginLeft="quarck">
                                 <Typography fontFamily='reservaSerifBold' fontSize={27} color='white' >+{distance?.split(".")[0]}</Typography>

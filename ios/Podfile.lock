@@ -272,6 +272,8 @@ PODS:
   - OneSignal (3.6.1)
   - OneSignalXCFramework (3.8.1)
   - OpenSSL-Universal (1.1.1100)
+  - Permission-Camera (3.0.5):
+    - RNPermissions
   - Permission-LocationAlways (3.0.5):
     - RNPermissions
   - Permission-LocationWhenInUse (3.0.5):
@@ -627,7 +629,7 @@ PODS:
     - React-Core
   - RNPermissions (3.0.5):
     - React-Core
-  - RNReanimated (2.3.0-beta.3):
+  - RNReanimated (2.2.4):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -699,6 +701,7 @@ DEPENDENCIES:
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - OneSignal (< 4.0, >= 3.0)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -825,6 +828,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  Permission-Camera:
+    :path: "../node_modules/react-native-permissions/ios/Camera"
   Permission-LocationAlways:
     :path: "../node_modules/react-native-permissions/ios/LocationAlways"
   Permission-LocationWhenInUse:
@@ -995,6 +1000,7 @@ SPEC CHECKSUMS:
   OneSignal: ce8d6dd77450aa653dc2f6a22f3372570030260a
   OneSignalXCFramework: cd6290d43d4f7dd0443d34e7be8b95996417644e
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+  Permission-Camera: ac603073e4128e51e6ca3c39129778f05b4082fa
   Permission-LocationAlways: 0704c3bcce11f98f8d6ddf34c49c65893ec64b09
   Permission-LocationWhenInUse: e1168a583654f1d2d34d3a18c4c6518ce409ad2a
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
@@ -1052,7 +1058,7 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 5c43e5024ccf2ee5efd846cbf40e2d936fb89d03
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
-  RNReanimated: c1b0bb200ff39d8499340c32559d9760c9b4a181
+  RNReanimated: 024eff8202342abf4b24e11575a16afc441dabfe
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
@@ -1061,6 +1067,6 @@ SPEC CHECKSUMS:
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 75beefcf24d2e3d94024048931c3eec104fc7f4a
+PODFILE CHECKSUM: 159ee0e5aeb46ea1e06ab20f9461b2c4cf8da0a4
 
 COCOAPODS: 1.11.2

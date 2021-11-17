@@ -226,18 +226,21 @@ export const RaceDetail: React.FC = () => {
               style={{ flex: 2 }}
               initialRegion={position}
             >
+
               <Marker
                 coordinate={{
                   latitude: position?.latitude,
                   longitude: position?.longitude,
                 }}
               >
-                <Typography>15 Km</Typography>
-                <Image
-                  height={40}
-                  source={images.localReserva}
-                  resizeMode="contain"
-                />
+                <Box
+                  width={15}
+                  height={15}
+                  borderRadius="infinity"
+                  bg="vermelhoAlerta"
+                >
+
+                </Box>
               </Marker>
             </MapView>
           )}
