@@ -34,7 +34,7 @@ export const RaceDetail: React.FC = () => {
   const mapWidth = DEVICE_WIDTH - 48 * 2;
   const mapHeight = (302 / 263) * mapWidth;
 
-  const { selectedModality } = useCorre();
+  const { selectedModality, raceResume, setRaceResume } = useCorre();
   const navigation = useNavigation<RaceDetailNavigator>();
   const [position, setPosition] = useState<{
     latitude: number;
@@ -96,6 +96,13 @@ export const RaceDetail: React.FC = () => {
   const handleOnPress = (isToggled: boolean) => {
     console.log('isToggled', isToggled);
     console.log('hasStarted', hasStarted);
+    console.log('aaaaaa', totalDistance);
+    setRaceResume({
+      distance: totalDistance.toString(),
+      duration: currentValue,
+      foodPlate: Math.round(Number(totalDistance) + 10).toString(),
+      pace,
+    });
 
     if (hasStarted) {
       stop();

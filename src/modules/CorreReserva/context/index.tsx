@@ -8,6 +8,8 @@ interface CorreContextProps {
   >;
   selectedKit?: KitType;
   setSelectedKit: React.Dispatch<React.SetStateAction<KitType | undefined>>;
+  raceResume?: RaceResume;
+  setRaceResume: React.Dispatch<React.SetStateAction<RaceResume | undefined>>;
 }
 
 export const CorreContext = createContext<CorreContextProps>();
@@ -18,13 +20,21 @@ interface AuthContextProviderProps {
 
 type Modalities = 'presential' | 'virtual';
 
-interface KitType {
+export interface KitType {
   name: string;
   code: string;
 }
 
+export interface RaceResume {
+  foodPlate: string;
+  distance: string;
+  duration: string;
+  pace: string;
+}
+
 const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
   const [selectedModality, setSelectedModality] = useState<Modalities>();
+  const [raceResume, setRaceResume] = useState<RaceResume>();
   const [selectedKit, setSelectedKit] = useState<KitType>();
 
   const ValidCodes: KitType[] = [
@@ -43,6 +53,8 @@ const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
         setSelectedModality,
         selectedKit,
         setSelectedKit,
+        raceResume,
+        setRaceResume,
       }}
     >
       {children}

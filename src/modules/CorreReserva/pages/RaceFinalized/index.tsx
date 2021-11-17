@@ -1,25 +1,35 @@
-import React, { useEffect, useState, useRef } from "react"
-import { ImageSourcePropType, ImageBackground, ScrollView, Platform, Linking } from "react-native"
+import React, { useEffect, useState, useRef } from 'react';
+
+import {
+  ImageSourcePropType,
+  ImageBackground,
+  ScrollView,
+  Platform,
+  Linking,
+} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
-import { TouchableOpacity } from "react-native-gesture-handler"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { Box, Image, Typography } from "reserva-ui"
-import { images } from "../../../../assets";
-import { HeaderCorreReserva } from "../../components/HeaderCorreReserva"
-import { Counter } from "../../components/Counter"
-import { useChronometer } from "../../hooks/useChronometer";
-export interface RaceFinalizedProps {
+import { Box, Image, Typography } from 'reserva-ui';
 
-}
+import { images } from '../../../../assets';
+import { Counter } from '../../components/Counter';
+import { HeaderCorreReserva } from '../../components/HeaderCorreReserva';
+import { useCorre } from '../../context';
+import { useChronometer } from '../../hooks/useChronometer';
 
-export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
-  const { currentValue, start, stop } = useChronometer({ initial: "11:10:00", })
+export interface RaceFinalizedProps {}
+
+export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
+  const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
   const viewRef = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);
   const [hasWhatsApp, setHasWhatsApp] = useState(false);
   const [hasFacebook, setHasFacebook] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
+
+  const { raceResume } = useCorre();
 
   // useEffect(() => {
   //   start()
@@ -31,8 +41,8 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   // }, [currentValue])
 
   useEffect(() => {
-    console.log('currentValue', currentValue)
-  }, [currentValue])
+    console.log('currentValue', currentValue);
+  }, [currentValue]);
 
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -74,15 +84,14 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
         .then(({ isInstalled }) => setHasTwitter(isInstalled))
         .catch((err) => console.error(err));
     }
-
   }, []);
 
   const shareImage = async (social: string) => {
     switch (social) {
-      case "instagram":
+      case 'instagram':
         try {
           const uri = await viewRef.current.capture();
-          console.log('uriuri', uri)
+          console.log('uriuri', uri);
           if (showInstagramStory) {
             await Share.shareSingle({
               title: '',
@@ -98,7 +107,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           console.error(err);
         }
         break;
-      case "whatsApp":
+      case 'whatsApp':
         try {
           const uri = await viewRef.current.capture();
           if (hasWhatsApp) {
@@ -115,7 +124,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           console.error(err);
         }
         break;
-      case "facebook":
+      case 'facebook':
         try {
           const uri = await viewRef.current.capture();
           if (hasFacebook) {
@@ -131,7 +140,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           console.error(err);
         }
         break;
-      case "twitter":
+      case 'twitter':
         try {
           const uri = await viewRef.current.capture();
           if (hasTwitter) {
@@ -148,61 +157,51 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
         }
         break;
     }
-
-  }
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
-      <ViewShot
-        ref={viewRef}
-        options={{ format: 'jpg', quality: 0.9 }}
-      >
+      <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
         <ImageBackground
           source={images.raceImageBackground}
-          style={{ width: "100%", height: "100%", }}
+          style={{ width: '100%', height: '100%' }}
           resizeMode="contain"
         >
           <ScrollView>
-
             <HeaderCorreReserva />
-            <Box justifyContent='center' alignItems='center' marginTop={30}>
+            <Box justifyContent="center" alignItems="center" marginTop={30}>
               <Typography
-                color='white'
-                fontFamily='reservaSerifBoldItalic'
+                color="white"
+                fontFamily="reservaSerifBoldItalic"
                 fontSize={50}
                 letterSpacing={-2.5}
-                textAlign='center'
+                textAlign="center"
               >
-                {` Parabéns! `}
+                {' Parabéns! '}
               </Typography>
               <Typography
-                fontFamily='reservaSerifLight'
+                fontFamily="reservaSerifLight"
                 fontSize={15}
-                color='white'
+                color="white"
                 lineHeight={19}
-                textAlign='center'
+                textAlign="center"
               >
                 Sua corrida contribuiu com
               </Typography>
 
-              <Box
-                alignItems='center'
-              >
+              <Box alignItems="center">
                 <Typography
-                  color='white'
-                  fontFamily='reservaSerifBold'
+                  color="white"
+                  fontFamily="reservaSerifBold"
                   fontSize={152}
                 >
-                  {`25`}
+                  {raceResume?.foodPlate}
                 </Typography>
 
-                <Box
-                  position='absolute'
-                  bottom={-15}
-                >
+                <Box position="absolute" bottom={-15}>
                   <Typography
-                    color='white'
-                    fontFamily='reservaSerifThin'
+                    color="white"
+                    fontFamily="reservaSerifThin"
                     fontSize={29}
                   >
                     Pratos viabilizados
@@ -212,9 +211,10 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
             </Box>
 
             <Counter
-              distance="00.0"
-              rhythm="0.0"
-              plates="00"
+              timer={raceResume?.duration}
+              distance={raceResume?.distance}
+              rhythm={raceResume?.pace}
+              plates={raceResume?.foodPlate}
             />
             {/* <ShareBle /> */}
           </ScrollView>
@@ -230,35 +230,34 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
         right="0"
       >
         <Typography
-          color='white'
-          fontFamily='reservaSansRegular'
+          color="white"
+          fontFamily="reservaSansRegular"
           fontSize={16}
-          textAlign='center'
-
+          textAlign="center"
         >
           Compartilhe nas suas redes:
         </Typography>
         <Box
           marginTop={10}
           marginBottom={26}
-          flexDirection='row'
-          justifyContent='center'
+          flexDirection="row"
+          justifyContent="center"
         >
           <SocialButton
             image={images.instagram}
-            onPress={() => shareImage("instagram")}
+            onPress={() => shareImage('instagram')}
           />
           <SocialButton
             image={images.whatsapp}
-            onPress={() => shareImage("whatsApp")}
+            onPress={() => shareImage('whatsApp')}
           />
           <SocialButton
             image={images.facebook}
-            onPress={() => shareImage("facebook")}
+            onPress={() => shareImage('facebook')}
           />
           <SocialButton
             image={images.twitter}
-            onPress={() => shareImage("twitter")}
+            onPress={() => shareImage('twitter')}
           />
         </Box>
         <TouchableOpacity
@@ -272,42 +271,38 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           }}
         >
           <Typography
-            color='white'
+            color="white"
             fontSize={13}
-            fontFamily='nunitoSemiBold'
+            fontFamily="nunitoSemiBold"
             letterSpacing={0.16}
             style={{ textTransform: 'uppercase' }}
           >
             IR PARA A HOME
           </Typography>
         </TouchableOpacity>
-
       </Box>
-    </SafeAreaView >
-  )
-}
+    </SafeAreaView>
+  );
+};
 
 interface ISocialButton {
   image: ImageSourcePropType;
   onPress: () => void;
 }
-const SocialButton = ({ image, onPress }: ISocialButton) => {
-  return (
-    <Box
+const SocialButton = ({ image, onPress }: ISocialButton) => (
+  <Box
+    style={{
+      marginHorizontal: 7.5,
+    }}
+  >
+    <TouchableOpacity
+      onPress={onPress}
       style={{
-        marginHorizontal: 7.5,
-
+        borderRadius: 31,
+        overflow: 'hidden',
       }}
     >
-      <TouchableOpacity
-        onPress={onPress}
-        style={{
-          borderRadius: 31,
-          overflow: "hidden",
-        }}
-      >
-        <Image source={image} resizeMode='cover' size={32} />
-      </TouchableOpacity>
-    </Box>
-  )
-}
+      <Image source={image} resizeMode="cover" size={32} />
+    </TouchableOpacity>
+  </Box>
+);
