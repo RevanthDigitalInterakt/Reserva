@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import { useNavigation } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Dimensions, Modal, Platform, TouchableOpacity } from 'react-native';
+import { Dimensions, Modal, Platform, TouchableOpacity, Vibration } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Typography, Image } from 'reserva-ui';
@@ -43,6 +43,28 @@ export const RaceDetail: React.FC = () => {
   const [visibility, setVisibility] = useState(false);
   const [pace, setPace] = useState<string>('0:0');
   const [hasStarted, setHasStarted] = useState(false);
+  const [totalVibration, setTotalVibration] = useState(0);
+  const ONE_SECOND_IN_MS = 1000;
+
+  useEffect(() => {
+    let km = 0
+    if (Math.floor(totalDistance) !== 0) {
+      km = Math.floor(totalDistance)
+      if (km != totalVibration) {
+        setTotalVibration(Math.floor(totalDistance))
+      }
+    }
+  }, [totalDistance])
+
+  useEffect(() => {
+    if (totalVibration != 0) {
+      Vibration.vibrate(ONE_SECOND_IN_MS)
+    }
+  }, [totalVibration])
+
+  useEffect(() => {
+    console.log('totalVibration', totalVibration)
+  }, [totalVibration])
 
   useEffect(() => {
     setCount(3);
