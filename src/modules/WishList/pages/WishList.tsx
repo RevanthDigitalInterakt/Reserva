@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
-import { useMutation, useQuery } from '@apollo/client';
+import {
+  QueryResult,
+  useQuery,
+  useLazyQuery,
+  useMutation,
+} from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { FlatList, ScrollView } from 'react-native';
+import { FlatList, ScrollView, Alert } from 'react-native';
 import {
   Box,
   Button,
@@ -21,8 +26,104 @@ import wishListQueries from '../../../graphql/wishlist/wishList';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import { useCart } from '../../../context/CartContext';
+import { ModalBag } from '../../../modules/ProductDetail/components/ModalBag';
+
+import {
+  GET_PRODUCTS,
+  GET_SHIPPING,
+  SUBSCRIBE_NEWSLETTER,
+} from '../../../graphql/product/productQuery';
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
+
+type Price = {
+  highPrice: number;
+  lowPrice: number;
+};
+
+type CommercialOffer = {
+  Tax: number;
+  taxPercentage: number;
+  AvailableQuantity: number;
+  Price: number;
+  PriceWithoutDiscont: number;
+  discountHighlights: any[];
+  Installments: {
+    Value: number;
+    TotalValuePlusInterestRate: number;
+    NumberOfInstallments: number;
+    PaymentSystemGroupName: string;
+    PaymentSystemName: string;
+  }[];
+};
+
+type Facets = {
+  name: string;
+  originalName: string | null;
+  values: string[];
+};
+
+type Variant = {
+  itemId: string;
+  images: {
+    imageUrl: string;
+  }[];
+  sellers: Seller[];
+  variations: Facets[] | undefined;
+};
+
+type Seller = {
+  sellerId: string;
+  commertialOffer: CommercialOffer;
+};
+
+type Field = {
+  name: string;
+  originalName: string;
+};
+
+type Specification = {
+  field: Field;
+  values: Field[];
+};
+
+type Product = {
+  categoryTree: any[]; // doesnt matter
+  productId: string;
+  productName: string;
+  clusterHighlights?: ClusterHighlight[];
+  skuSpecifications: Specification[];
+  priceRange: {
+    sellingPrice: Price;
+    listPrice: Price;
+  };
+  items: Variant[];
+  description: string;
+};
+
+type ProductQueryResponse = {
+  product: Product;
+};
+export interface ClusterHighlight {
+  id?: string;
+  name?: string;
+}
+
+type ItemsSKU = {
+  color: string;
+  images: string[];
+  sizeList: [id: string, size: string, available: boolean];
+};
+type ShippingCost = {
+  selectedSla?: string;
+  slas: {
+    name: string;
+    friendlyName: string;
+    price: number;
+    shippingEstimate: string;
+  }[];
+};
 
 export const WishList: React.FC<Props> = ({ navigation }) => {
   const [showWishListCategory, setShowWishListCategory] = useState(true);
@@ -30,6 +131,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   const [wishIds, setWishIds] = useState<any[]>([]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
+  const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedSellerId, setSelectedSellerId] = useState<string>('');
+  const [selectedVariantItemId, setSelectedVariantItemId] =
+    useState<Variant | null>(null);
+  const [isSimpleSignature, setIsSimpleSignature] = useState(false);
 
   const { email, cookie } = useAuth();
 
@@ -61,6 +169,19 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       idArray: [],
     },
   });
+
+  const [product, setProduct] = useState<Product | null>(null);
+  const {
+    data: dataProduct,
+    refetch: refetchDataProduct,
+  }: QueryResult<ProductQueryResponse> = useQuery<ProductQueryResponse>(
+    GET_PRODUCTS,
+    {
+      variables: {
+        id: product,
+      },
+    }
+  );
 
   useEffect(() => {
     console.log('products', products);
@@ -102,6 +223,65 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       }
     }
   };
+
+  const onProductAdd = async (
+    productId,
+    colorSelected,
+    sizeSelected,
+    selectedVariantId
+  ) => {
+    if (selectedVariantId) {
+      if (isAssinaturaSimples) {
+        navigation.navigate('ProductDetail', {
+          productId,
+          colorSelected,
+          sizeSelected,
+        });
+      } else {
+        const { message, ok } = await addItem(
+          1,
+          selectedVariantId,
+          selectedSellerId
+        );
+
+        setIsVisible(true);
+
+        if (!ok) {
+          Alert.alert('Produto sem estoque', message);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (dataProduct) {
+      const filterVariant = dataProduct?.product.items.filter(
+        (x: any) => x.itemId === selectedVariantItemId
+      );
+
+      setSelectedVariant(filterVariant);
+
+      const sellerAvailable = filterVariant?.map((x: any) => {
+        x.sellers[0].commertialOffer.AvailableQuantity > 0;
+        return x.sellers[0].sellerId;
+      });
+      setSelectedSellerId(sellerAvailable.toString());
+    }
+  }, [dataProduct]);
+
+  const isAssinaturaSimples = useMemo(() => {
+    const description =
+      'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)';
+
+    return dataProduct?.product.description.includes(description);
+  }, [dataProduct]);
+
+  useEffect(() => {
+    if (wishIds) {
+      const idArray = wishIds.map((x) => x.productId.split('-')[0]) || [];
+      setProduct({ idArray });
+    }
+  }, [wishIds]);
 
   // useEffect(() => {
   //   if (wishDataStorage) {
@@ -189,10 +369,18 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }, [cookie])
   );
   useEffect(() => {
-    console.log('wishProducts', wishProducts)
-  }, [wishProducts])
+    console.log('wishProducts', wishProducts);
+  }, [wishProducts]);
+
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
+      <ModalBag
+        isVisible={isVisible}
+        onBackdropPress={() => {
+          setIsVisible(false);
+        }}
+      />
+
       <TopBarDefault loading={false} showShadow />
       {/* <Box> */}
       <Picker
@@ -364,24 +552,34 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        onClickAddCount={() => { }}
+                        onClickAddCount={() => {}}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
-                          }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${
+                          product?.productName.length > 30 ? '...' : ''
+                        }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
                         onClickFavorite={() => handleFavorite(item.sku)}
                         onClickBagButton={() => {
+                          setProduct(product?.productId);
+                          setSelectedVariantItemId(productSku?.itemId);
+                          onProductAdd(
+                            product?.productId,
+                            productSku?.variations[2].values[0],
+                            productSku?.name.split('-')[1],
+                            productSku?.itemId
+                          );
+
                           // navigation.navigate(')
                           // console.log('item', productSku?.variations[2].values[0])
-                          navigation.navigate('ProductDetail', {
+                          /*  navigation.navigate('ProductDetail', {
                             productId: product?.productId,
                             colorSelected: productSku?.variations[2].values[0],
                             sizeSelected: productSku?.name.split('-')[1],
-                          });
+                          }); */
                         }}
                         imageSource={
                           productSku?.images[0].imageUrl
@@ -420,7 +618,11 @@ const EmptyWishList = () => {
           </Typography>
         </Box>
         <Box mx={58} my={28}>
-          <Typography fontFamily="nunitoRegular" fontSize={14} textAlign="center">
+          <Typography
+            fontFamily="nunitoRegular"
+            fontSize={14}
+            textAlign="center"
+          >
             Navegue pelo nosso app e favorite produtos que são a sua cara!
           </Typography>
         </Box>
