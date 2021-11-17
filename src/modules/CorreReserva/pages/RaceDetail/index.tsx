@@ -2,19 +2,17 @@ import React, { useEffect, useState } from 'react';
 
 import Geolocation from '@react-native-community/geolocation';
 import { useNavigation } from '@react-navigation/core';
-import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Dimensions, Modal, Platform, TouchableOpacity } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Typography, Image } from 'reserva-ui';
 
-import { CorreReservaStackParamList, CorreReservaStackParamList } from '../..';
+import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
-import { Counter, Counter } from '../../components/Counter';
+import { Counter } from '../../components/Counter';
 import SwipeButton from '../../components/SwipeButton';
-import { useChronometer, useChronometer } from '../../hooks/useChronometer';
-
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
+import { useChronometer } from '../../hooks/useChronometer';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
