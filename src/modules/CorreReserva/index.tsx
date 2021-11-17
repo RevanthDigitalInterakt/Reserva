@@ -24,7 +24,7 @@ export const CorreReservaStackScreen = () => {
         header: () => <HeaderCorreReserva onClickBackButton={() => { navigation.goBack() }} />,
         headerTransparent: true,
       }}
-      initialRouteName='ModalitySelector'
+      initialRouteName='RaceDetail'
 
     >
       <CorreReservaStack.Screen name='ModalitySelector' component={ModalitySelector} />
