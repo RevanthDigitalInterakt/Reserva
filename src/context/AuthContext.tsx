@@ -10,8 +10,6 @@ import React, {
 
 import AsyncStorage from '@react-native-community/async-storage';
 import { RSA } from 'react-native-rsa-native';
-import { compose } from 'redux';
-import { string } from 'yup/lib/locale';
 
 interface AuthContextProps {
   cookie: string | null;
