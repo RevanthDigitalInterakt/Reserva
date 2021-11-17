@@ -6,7 +6,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Divider, Typography, Icon, Button } from 'reserva-ui';
 
-import { useAuth } from '../../../context/AuthContext';
 import {
   profileQuery,
   ProfileVars,
@@ -24,7 +23,6 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
   const [cashbackInStore, setCashbackInStore] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
   const [credit, SetCredit] = useState(0);
-  const { cleanEmailAndCookie } = useAuth();
 
   useEffect(() => {
     if (data) {
@@ -32,8 +30,6 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
       if (profile) {
         const { profile } = data;
         setProfile(profile);
-      } else if (!loading) {
-        cleanEmailAndCookie();
       }
     }
   }, [data]);
