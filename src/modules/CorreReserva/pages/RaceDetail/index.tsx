@@ -30,7 +30,7 @@ import { KM_15, KM_10, KM_5, KM_2 } from './polyline';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-export interface RaceDetailProps {}
+export interface RaceDetailProps { }
 
 type RaceDetailNavigator = StackNavigationProp<
   CorreReservaStackParamList,
@@ -182,9 +182,9 @@ export const RaceDetail: React.FC = () => {
         const a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
           Math.cos(deg2rad(travelledDistance[i].latitude)) *
-            Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
+          Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         d += R * c;
       }
@@ -385,7 +385,7 @@ export const RaceDetail: React.FC = () => {
         <SwipeButton
           onToggle={handleOnPress}
           forceToggle={forceToggle}
-          swipeText={`DESLISE PARA ${!hasStarted ? 'INICIAR' : 'FINALIZAR'}`}
+          swipeText={`DESLIZE PARA ${!hasStarted ? 'INICIAR' : 'FINALIZAR'}`}
         />
 
         {/* <TouchableOpacity onPress={handleOnPress}>
