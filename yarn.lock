@@ -1353,10 +1353,20 @@
     "@expo/config-plugins" "^4.0.3"
     stacktrace-js "^2.0.0"
 
+"@react-native-firebase/database@^13.0.1":
+  version "13.0.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/database/-/database-13.0.1.tgz#b49531582be41fb8feeaf9ec7bbdf53a7c46af52"
+  integrity sha1-tJUxWCvkH7j+6vnse731OnxGr1I=
+
 "@react-native-firebase/dynamic-links@^13.0.1":
   version "13.0.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/dynamic-links/-/dynamic-links-13.0.1.tgz#d14fbb3af304c6a7dfeb183d7cbe43e840cf07a9"
   integrity sha1-0U+7OvMExqff6xg9fL5D6EDPB6k=
+
+"@react-native-firebase/firestore@^13.0.1":
+  version "13.0.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/firestore/-/firestore-13.0.1.tgz#76463fadb4ac63aa0127a5ae3957bb68108fe3b6"
+  integrity sha1-dkY/rbSsY6oBJ6WuOVe7aBCP47Y=
 
 "@react-native-firebase/in-app-messaging@^13.0.1":
   version "13.0.1"
