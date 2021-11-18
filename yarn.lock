@@ -1775,6 +1775,11 @@
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
   integrity sha1-Y7t9Bn2xB8weRXwwO8JdUR/r9ss=
 
+"@types/react-native-background-timer@^2.0.0":
+  version "2.0.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/react-native-background-timer/-/react-native-background-timer-2.0.0.tgz#c44c57f8fbca9d9d5521fdd72a8f55232b79381e"
+  integrity sha1-xExX+PvKnZ1VIf3XKo9VIyt5OB4=
+
 "@types/react-native@*":
   version "0.65.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@types/react-native/-/react-native-0.65.1.tgz#7342158e10ea5088c225bb669dd4ef15aad0a2f7"
@@ -7374,6 +7379,11 @@ react-native-appstore-version-checker@^3.0.0:
   integrity sha1-DEcUAqCcs/7ksOLQMf/s5RNdIAk=
   dependencies:
     lodash.result "^4.5.2"
+
+react-native-background-timer@^2.4.1:
+  version "2.4.1"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-background-timer/-/react-native-background-timer-2.4.1.tgz#a3bc1cafa8c1e3aeefd0611de120298b67978a0f"
+  integrity sha1-o7wcr6jB467v0GEd4SApi2eXig8=
 
 react-native-camera@^4.2.1:
   version "4.2.1"
