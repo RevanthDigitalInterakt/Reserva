@@ -10,12 +10,14 @@ import {
   TouchableOpacity,
   Vibration,
 } from 'react-native';
+import LocationEnabler from 'react-native-location-enabler';
 import MapView, {
   PROVIDER_GOOGLE,
   Marker,
   Polyline,
   LatLng,
 } from 'react-native-maps';
+import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Typography, Image } from 'reserva-ui';
 
@@ -30,7 +32,7 @@ import { KM_15, KM_10, KM_5, KM_2 } from './polyline';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-export interface RaceDetailProps { }
+export interface RaceDetailProps {}
 
 type RaceDetailNavigator = StackNavigationProp<
   CorreReservaStackParamList,
@@ -61,6 +63,20 @@ export const RaceDetail: React.FC = () => {
   const [forceToggle, setForceToggle] = useState<boolean>();
   const [totalVibration, setTotalVibration] = useState(0);
   const ONE_SECOND_IN_MS = 1000;
+
+  const {
+    useLocationSettings,
+    PRIORITIES: { HIGH_ACCURACY },
+  } = LocationEnabler;
+
+  const [enabled, requestResolution] = useLocationSettings(
+    {
+      priority: HIGH_ACCURACY, // default BALANCED_POWER_ACCURACY
+      alwaysShow: true, // default false
+      needBle: true, // default false
+    },
+    false /* optional: default undefined */
+  );
 
   useEffect(() => {
     let km = 0;
@@ -102,6 +118,7 @@ export const RaceDetail: React.FC = () => {
 
   // Pega a posição do usuário
   useEffect(() => {
+    requestResolution();
     Geolocation.getCurrentPosition((pos) => {
       const { coords } = pos;
       setPosition({
@@ -190,9 +207,9 @@ export const RaceDetail: React.FC = () => {
         const a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
           Math.cos(deg2rad(travelledDistance[i].latitude)) *
-          Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
+            Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         d += R * c;
       }

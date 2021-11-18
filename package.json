@@ -72,6 +72,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-inset-shadow": "^1.0.3",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-location-enabler": "^4.1.0",
     "react-native-maps": "^0.28.0",
     "react-native-masked-text": "^1.13.0",
     "react-native-modal": "^11.10.0",
