@@ -143,7 +143,7 @@ export const RaceDetail: React.FC = () => {
           longitudeDelta: 0.05,
         });
         if (mapRef.current) {
-          mapRef.current?.animateCamera({
+          mapRef.current?.animateToCoordinate({
             latitude: coords?.latitude,
             longitude: coords?.longitude,
           });
@@ -362,7 +362,7 @@ export const RaceDetail: React.FC = () => {
         mx="micro"
       />
       <ScrollView>
-        <Box width={DEVICE_WIDTH} alignItems="center">
+        <Box width={DEVICE_WIDTH} height={DEVICE_HEIGHT} alignItems="center">
           <Counter
             timer={currentValue}
             isPlate
