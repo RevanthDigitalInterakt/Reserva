@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
@@ -7,8 +8,9 @@ import {
   ScrollView,
   Platform,
   Linking,
-  Dimensions
+  Dimensions,
 } from 'react-native';
+import ConfettiCannon from 'react-native-confetti-cannon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
@@ -40,15 +42,6 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const [hasFacebook, setHasFacebook] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
   const { raceResume } = useCorre();
-
-  // useEffect(() => {
-  //   start()
-  // }, [])
-
-  // useEffect(() => {
-  //   if (currentValue === "00:00:59")
-  //     stop()
-  // }, [currentValue])
 
   useEffect(() => {
     console.log('currentValue', currentValue);
@@ -170,6 +163,8 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           console.error(err);
         }
         break;
+      default:
+        break;
     }
   };
 
@@ -180,9 +175,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
         style={{ width: '100%', height: '100%' }}
         resizeMode="contain"
       >
-
         <ScrollView style={{ height: DEVICE_HEIGHT }}>
-
           <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
             <HeaderCorreReserva />
             <Box justifyContent="center" alignItems="center" marginTop={30}>
@@ -234,6 +227,12 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
             />
             {/* <ShareBle /> */}
           </ViewShot>
+          <ConfettiCannon
+            autoStart
+            fadeOut
+            count={200}
+            origin={{ x: -10, y: 0 }}
+          />
           <Box
             paddingTop={25}
           // position="absolute"
@@ -296,12 +295,15 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
             </TouchableOpacity>
           </Box>
 
-          <ViewShot ref={viewRefImage} options={{ format: 'jpg', quality: 0.9 }}>
+          <ViewShot
+            ref={viewRefImage}
+            options={{ format: 'jpg', quality: 0.9 }}
+          >
             <Image
               height="100%"
               width="100%"
               source={images.raceImageBackground}
-              resizeMode={'contain'}
+              resizeMode="contain"
             />
           </ViewShot>
         </ScrollView>

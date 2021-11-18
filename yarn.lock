@@ -7419,6 +7419,11 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-confetti-cannon@^1.5.2:
+  version "1.5.2"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-confetti-cannon/-/react-native-confetti-cannon-1.5.2.tgz#ca1a05edd2a64b080ea8b6238c49277908e1f123"
+  integrity sha1-yhoF7dKmSwgOqLYjjEkneQjh8SM=
+
 "react-native-credit-card-display@https://github.com/ebellumat/react-native-credit-card-display":
   version "0.3.6"
   resolved "https://github.com/ebellumat/react-native-credit-card-display#5b103b5672dc64d5a7c194fa7742534478ee5d58"
