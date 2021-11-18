@@ -81,6 +81,7 @@ export const HomeScreen: React.FC<{
           size: imageDescription.image.size,
           url: imageDescription.image.url,
           reference: imageDescription.reference,
+          route: imageDescription.route,
         })
       );
     setImages(arrayImages);
