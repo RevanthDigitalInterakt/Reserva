@@ -475,6 +475,8 @@ PODS:
   - react-native-appsflyer (6.4.0):
     - AppsFlyerFramework (= 6.4.0)
     - React
+  - react-native-background-timer (2.4.1):
+    - React-Core
   - react-native-camera (4.2.1):
     - React-Core
     - react-native-camera/RCT (= 4.2.1)
@@ -718,6 +720,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
+  - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-cardscan (from `../node_modules/react-native-cardscan/react-native-cardscan.podspec`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
@@ -858,6 +861,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-appsflyer:
     :path: "../node_modules/react-native-appsflyer"
+  react-native-background-timer:
+    :path: "../node_modules/react-native-background-timer"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-cardscan:
@@ -1016,6 +1021,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 06a9c77b56902ae7ffcdd7a4905f664adc5d237b
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-appsflyer: 2ee2d2afdffbaa7cb67a87a1d576e09161c90c56
+  react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-cardscan: 8592ae8d474e4b1254ea7a4968caa00e559c8677
   react-native-flipper: e079eb24149005c71ca9067a6ae49d74cfb3dfbd
@@ -1067,6 +1073,6 @@ SPEC CHECKSUMS:
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 159ee0e5aeb46ea1e06ab20f9461b2c4cf8da0a4
+PODFILE CHECKSUM: bd9799322a945dad02c9765799e8465e40e3b244
 
 COCOAPODS: 1.11.2
