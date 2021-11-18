@@ -19,7 +19,7 @@ import MapView, {
 } from 'react-native-maps';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Typography, Image } from 'reserva-ui';
+import { Box, Typography, Image, Alert } from 'reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
