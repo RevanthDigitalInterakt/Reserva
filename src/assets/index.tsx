@@ -51,7 +51,7 @@ export const images = {
   instagram: require('./img/instagram.png'),
   facebook: require('./img/facebook.png'),
   raceImageBackground: require('./img/raceImageBackground.png'),
-
+  dividerReserva: require('./img/dividerReserva.png'),
 };
 
 export const animations = {

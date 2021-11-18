@@ -17,7 +17,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
-import { Box, Image, Typography } from 'reserva-ui';
+import { Box, Image, Typography, Icon } from 'reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
@@ -231,15 +231,101 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
                     Pratos viabilizados
                   </Typography>
                 </Box>
+
               </Box>
             </Box>
+            <Box flexDirection="row" alignItems="center" justifyContent="center" marginY="xxs">
+              <Image source={images.dividerReserva} width="45%" />
+            </Box>
+            <Box alignItems="center" justifyContent="center" width="45%" alignSelf="center">
 
-            <Counter
+              <Box flexDirection="row" alignItems="center"
+                justifyContent="center"
+                alignSelf="flex-start"
+              >
+                <Icon name="Distance" size={25} color="neutroFrio2" mr="micro" />
+                <Typography
+                  fontFamily="reservaSerifThin"
+                  fontSize={17}
+                  color="white"> Distância:
+                  <Typography
+                    fontFamily="reservaSerifBold"
+                    fontSize={17}
+                  > {Math.floor(parseFloat(raceResume?.distance))}km</Typography>
+                </Typography>
+              </Box>
+
+              <Box marginY="nano">
+                <Typography
+                  fontFamily="reservaSerifBold"
+                  fontSize={2}
+                  color="neutroFrio2"
+                  ellipsizeMode="clip" numberOfLines={1}
+                >
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                </Typography>
+              </Box>
+              <Box flexDirection="row" alignItems="flex-start"
+                justifyContent="center"
+                alignSelf="flex-start"
+              >
+                <Icon name="Pace" size={23} color="neutroFrio2" mr="micro" />
+                <Typography
+                  fontFamily="reservaSerifThin"
+                  fontSize={17}
+                  color="white">Ritmo:
+                  <Typography
+                    fontFamily="reservaSerifBold"
+                    fontSize={17}
+                  > {raceResume?.pace}</Typography>
+                </Typography>
+              </Box>
+              <Box marginY="nano">
+                <Typography
+                  fontFamily="reservaSerifBold"
+                  fontSize={2}
+                  color="neutroFrio2"
+                  ellipsizeMode="clip" numberOfLines={1}
+                >
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                </Typography>
+              </Box>
+              <Box flexDirection="row" alignItems="center"
+                justifyContent="center"
+                alignSelf="flex-start"
+              >
+                <Icon name="Clock" size={23} color="neutroFrio2" mr="micro" />
+                <Typography
+                  fontFamily="reservaSerifThin"
+                  fontSize={17}
+                  color="white">Duração:
+                  <Typography
+                    fontFamily="reservaSerifBold"
+                    fontSize={17}
+                  > {raceResume?.duration}</Typography>
+                </Typography>
+              </Box>
+            </Box>
+            {/* <Counter
               timer={raceResume?.duration}
               distance={raceResume?.distance}
               rhythm={raceResume?.pace}
               plates={raceResume?.foodPlate}
-            />
+            /> */}
             {/* <ShareBle /> */}
           </ViewShot>
           <ConfettiCannon
@@ -255,7 +341,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
               fontSize={16}
               textAlign="center"
             >
-              Compartilhe nas suas redes:
+              Compartilhe:
             </Typography>
             <Box
               marginTop={10}
@@ -316,7 +402,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
           </ViewShot>
         </ScrollView>
       </ImageBackground>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
