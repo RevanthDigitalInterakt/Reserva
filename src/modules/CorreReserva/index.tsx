@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { StatusBar } from 'react-native';
 import { Alert } from 'reserva-ui';
 
 import { HeaderCorreReserva } from './components/HeaderCorreReserva';
@@ -26,10 +27,11 @@ const CorreReservaStack = createStackNavigator<CorreReservaStackParamList>();
 export const CorreReservaStackScreen = () => {
   const navigation = useNavigation();
 
-  const [isVisibleAlert, setIsVisibleAlert] = useState(true);
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
   return (
     <CorreContextProvider>
+      <StatusBar backgroundColor="#000" />
       <Alert
         isVisible={isVisibleAlert}
         title={
