@@ -62,8 +62,6 @@ export const HomeScreen: React.FC<{
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
-  const [isDataReadyToShow, setIsDataReadyToShow] = useState(false);
-
   useEffect(() => {
     const carrousels: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
@@ -85,14 +83,6 @@ export const HomeScreen: React.FC<{
 
     setImages(arrayImages);
   }, [data]);
-
-  useEffect(() => {
-    if (images === undefined || carrousels === undefined) return;
-
-    if (images.length !== 0 && carrousels.length !== 0) {
-      setIsDataReadyToShow(true);
-    }
-  }, [images, carrousels]);
 
   useEffect(() => {
     if (collectionData) {
@@ -181,7 +171,7 @@ export const HomeScreen: React.FC<{
         />
       )}
       <WithoutInternet />
-      {loading || !isDataReadyToShow ? (
+      {loading ? (
         <Skeleton />
       ) : (
         <SafeAreaView>
