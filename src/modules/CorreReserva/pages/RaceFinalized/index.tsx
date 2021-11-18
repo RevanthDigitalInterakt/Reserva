@@ -29,14 +29,14 @@ import { useChronometer } from '../../hooks/useChronometer';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-export interface RaceFinalizedProps {}
+export interface RaceFinalizedProps { }
 
 type RaceFinalizedNavigator = StackNavigationProp<
   CorreReservaStackParamList,
   'RaceFinalized'
 >;
 
-export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
+export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const navigation = useNavigation<RaceFinalizedNavigator>();
   const { email } = useAuth();
   const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
@@ -399,7 +399,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
               />
             </Box>
             <TouchableOpacity
-              onPress={() => navigation.navigate('ModalitySelector')}
+              onPress={() => navigation.navigate('Home')}
               style={{
                 marginHorizontal: 49,
                 flexGrow: 1,

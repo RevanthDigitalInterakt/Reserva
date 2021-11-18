@@ -8,6 +8,7 @@ export interface HomeQuery {
   size: number;
   url: string;
   reference: string;
+  route: string;
 }
 
 export interface ConfigCollection {
@@ -47,6 +48,7 @@ export const homeQuery = gql`
         mediasCollection(limit: $limit) {
           items {
             reference
+            route
             image {
               fileName
               title

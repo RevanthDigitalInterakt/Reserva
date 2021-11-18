@@ -3,7 +3,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { horizontalAnimationBackwards } from '../animations/animations';
-import { CorreReservaStackScreen } from '../modules/CorreReserva';
 import { Menu } from '../modules/Menu/modals/Menu';
 
 import { MainStackScreen } from './StackNavigator';
@@ -12,7 +11,7 @@ const RootStack = createStackNavigator();
 
 export const AppRouting = () => (
   <RootStack.Navigator
-    initialRouteName="CorreReserva"
+    initialRouteName="Main"
     mode="modal"
     screenOptions={{ headerShown: false }}
   >
@@ -26,6 +25,5 @@ export const AppRouting = () => (
       options={horizontalAnimationBackwards}
       component={Menu}
     />
-    <RootStack.Screen name="CorreReserva" component={CorreReservaStackScreen} />
   </RootStack.Navigator>
 );

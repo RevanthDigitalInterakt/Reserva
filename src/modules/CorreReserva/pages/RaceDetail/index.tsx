@@ -42,7 +42,13 @@ export const RaceDetail: React.FC = () => {
   const mapWidth = DEVICE_WIDTH - 48 * 2;
   const mapHeight = (302 / 263) * mapWidth;
 
-  const { selectedModality, selectedKit, setRaceResume } = useCorre();
+  const {
+    selectedModality,
+    selectedKit,
+    setRaceResume,
+    hasStarted,
+    setHasStarted,
+  } = useCorre();
   const navigation = useNavigation<RaceDetailNavigator>();
   const [position, setPosition] = useState<{
     latitude: number;
@@ -53,13 +59,11 @@ export const RaceDetail: React.FC = () => {
   const [travelledDistance, setTravelledDistance] = useState<
     { latitude: number; longitude: number }[]
   >([]);
-  const [center, setCenter] = useState(null);
   const [totalDistance, setTotalDistance] = useState(0);
   const { currentValue, start, stop } = useChronometer({ initial: '00:00:00' });
   const [count, setCount] = useState<number>(3);
   const [visibility, setVisibility] = useState(false);
   const [pace, setPace] = useState<string>('0:0');
-  const [hasStarted, setHasStarted] = useState(false);
   const [forceToggle, setForceToggle] = useState<boolean>();
   const [totalVibration, setTotalVibration] = useState(0);
   const mapRef = useRef<MapView>(null);
