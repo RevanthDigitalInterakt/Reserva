@@ -101,7 +101,7 @@ export const RaceDetail: React.FC = () => {
   }, [visibility]);
 
   // Pega a posição do usuário
-  const startGeolocation = async () => {
+  useEffect(() => {
     Geolocation.getCurrentPosition((pos) => {
       const { coords } = pos;
       setPosition({
@@ -111,7 +111,9 @@ export const RaceDetail: React.FC = () => {
         longitudeDelta: 0.05,
       });
     });
+  }, []);
 
+  const startGeolocation = async () => {
     // pega nova posicão do usuário quando ele andar
     const watchID = Geolocation.watchPosition(
       (pos) => {
