@@ -86,6 +86,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel, s
                 autoHeight
                 width={DEVICE_WIDTH}
                 source={{ uri: item.image.url }}
+                isSkeletonLoading
               />
             </TouchableHighlight>
           </Box>

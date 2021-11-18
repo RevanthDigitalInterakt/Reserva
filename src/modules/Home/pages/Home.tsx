@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
-import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 
@@ -26,6 +26,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import { DefaultCarrousel } from '../component/Carroussel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+import { Skeleton } from '../component/Skeleton';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -57,13 +58,11 @@ export const HomeScreen: React.FC<{
 
   const { WithoutInternet } = useCheckConnection({ refetch });
 
-  const { width } = Dimensions.get('screen');
+  const { width, height } = Dimensions.get('screen');
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
-  useEffect(() => {
-    console.log('images', images);
-  }, [images]);
+  const [isDataReadyToShow, setIsDataReadyToShow] = useState(false);
 
   useEffect(() => {
     const carrousels: Carrousel[] =
@@ -83,8 +82,17 @@ export const HomeScreen: React.FC<{
           reference: imageDescription.reference,
         })
       );
+
     setImages(arrayImages);
   }, [data]);
+
+  useEffect(() => {
+    if (images === undefined || carrousels === undefined) return;
+
+    if (images.length !== 0 && carrousels.length !== 0) {
+      setIsDataReadyToShow(true);
+    }
+  }, [images, carrousels]);
 
   useEffect(() => {
     if (collectionData) {
@@ -173,8 +181,8 @@ export const HomeScreen: React.FC<{
         />
       )}
       <WithoutInternet />
-      {loading ? (
-        <></>
+      {loading || !isDataReadyToShow ? (
+        <Skeleton />
       ) : (
         <SafeAreaView>
           <ScrollView>
@@ -190,6 +198,7 @@ export const HomeScreen: React.FC<{
                 />
               ))}
             </Box>
+
             <FlatList
               data={images}
               renderItem={({ item }) => (
@@ -224,6 +233,7 @@ export const HomeScreen: React.FC<{
                         autoHeight
                         width={deviceWidth}
                         source={{ uri: item.url }}
+                        isSkeletonLoading
                       />
                     </TouchableHighlight>
                   </Box>
