@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
@@ -8,6 +9,7 @@ import {
   Platform,
   Linking,
 } from 'react-native';
+import ConfettiCannon from 'react-native-confetti-cannon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
@@ -227,7 +229,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           </ScrollView>
         </ImageBackground>
       </ViewShot>
-
+      <ConfettiCannon autoStart fadeOut count={200} origin={{ x: -10, y: 0 }} />
       <Box
         paddingTop={25}
         position="absolute"
