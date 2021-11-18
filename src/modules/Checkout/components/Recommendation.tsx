@@ -9,39 +9,20 @@ import { Box, Typography, Button, Icon, Divider } from 'reserva-ui';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 
-export interface RecommendationProps {
-  sumPriceShipping: number;
-  loadingRecommendation: boolean;
-}
-
-export const Recommendation = ({ sumPriceShipping }: RecommendationProps) => {
-  const [sumPrice, setSumPrice] = useState(0);
+export const Recommendation = () => {
   const [skip, setSkip] = useState(false);
   const pageSize = 6;
   const [showMore, setShowMore] = useState(true);
   const [products, setProducts] = useState<any>([]);
   const [arrayProducts, setArrayProducts] = useState<any>([]);
-  const [priceRange, setPriceRange] = useState('');
-  const PRICE_SHIPPING_FREE = 299.0;
 
   const BoxAnimated = createAnimatableComponent(Box);
-
-  const getPriceRange = async () => {
-    const totalFreeShipping = PRICE_SHIPPING_FREE - sumPriceShipping;
-    if (sumPriceShipping <= PRICE_SHIPPING_FREE) {
-      const valuePrice = `${totalFreeShipping.toString()} TO ${PRICE_SHIPPING_FREE}`;
-      setPriceRange(valuePrice);
-    } else {
-      setPriceRange('299 TO 1999');
-    }
-  };
 
   const { fetchMore, refetch }: QueryResult = useQuery(productSearch, {
     skip,
     variables: {
       skusFilter: 'ALL_AVAILABLE',
       hideUnavailableItems: true,
-      selectedFacets: [{ key: 'priceRange', value: priceRange }],
       orderBy: 'OrderByTopSaleDESC',
       to: pageSize - 1,
       simulationBehavior: 'default',
@@ -85,7 +66,6 @@ export const Recommendation = ({ sumPriceShipping }: RecommendationProps) => {
   const handleSearch = async (text: string) => {
     const { data: dataProd, loading: loadingProd } = await refetch({
       fullText: text,
-      selectedFacets: [{ key: 'priceRange', value: `${priceRange}` }],
     });
 
     if (!loadingProd) {
@@ -94,12 +74,6 @@ export const Recommendation = ({ sumPriceShipping }: RecommendationProps) => {
   };
 
   useEffect(() => {
-    getPriceRange();
-  }, [sumPriceShipping]);
-
-  useEffect(() => {
-    if (sumPriceShipping > 0) setSumPrice(sumPriceShipping);
-
     const arrayCategories = [
       'camiseta adulto',
       'cueca',

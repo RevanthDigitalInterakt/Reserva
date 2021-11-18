@@ -144,13 +144,13 @@ export const BagScreen = () => {
     setInstallmentInfo(
       installment
         ? {
-          installmentPrice: installment.value,
-          installmentsNumber: installment.count,
-          totalPrice: installment.total,
-        }
+            installmentPrice: installment.value,
+            installmentsNumber: installment.count,
+            totalPrice: installment.total,
+          }
         : {
-          ...installmentInfo,
-        }
+            ...installmentInfo,
+          }
     );
 
     setOptimistQuantities(quantities);
@@ -640,7 +640,7 @@ export const BagScreen = () => {
           </BoxAnimated>
         )} */}
 
-            <Recommendation sumPriceShipping={totalBag} />
+            <Recommendation />
 
             <Box paddingX="micro">
               {showLikelyProducts && <Divider variant="fullWidth" />}
