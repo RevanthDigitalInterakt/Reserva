@@ -78,6 +78,7 @@ export const HomeScreen: React.FC<{
           size: imageDescription.image.size,
           url: imageDescription.image.url,
           reference: imageDescription.reference,
+          route: imageDescription.route,
         })
       );
 
@@ -196,26 +197,30 @@ export const HomeScreen: React.FC<{
                   <Box mb="quarck" width={1 / 1}>
                     <TouchableHighlight
                       onPress={() => {
-                        const facetInput = [];
-                        const [categoryType, categoryData] =
-                          item.reference.split(':');
-                        if (categoryType === 'category') {
-                          categoryData.split('|').forEach((cat: string) => {
-                            facetInput.push({
-                              key: 'c',
-                              value: cat,
-                            });
-                          });
+                        if (item.route) {
+                          navigation.navigate(item.route);
                         } else {
-                          facetInput.push({
-                            key: 'productClusterIds',
-                            value: categoryData,
+                          const facetInput = [];
+                          const [categoryType, categoryData] =
+                            item.reference.split(':');
+                          if (categoryType === 'category') {
+                            categoryData.split('|').forEach((cat: string) => {
+                              facetInput.push({
+                                key: 'c',
+                                value: cat,
+                              });
+                            });
+                          } else {
+                            facetInput.push({
+                              key: 'productClusterIds',
+                              value: categoryData,
+                            });
+                          }
+                          navigation.navigate('ProductCatalog', {
+                            facetInput,
+                            referenceId: item.reference,
                           });
                         }
-                        navigation.navigate('ProductCatalog', {
-                          facetInput,
-                          referenceId: item.reference,
-                        });
                       }}
                     >
                       <Image

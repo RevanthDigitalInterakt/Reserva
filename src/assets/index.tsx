@@ -46,7 +46,12 @@ export const images = {
   imageNotFound: require('./img/imageNotFound.png'),
   noStoresFound: require('./img/noStoresFound.png'),
   QrcodeBackground: require('./img/QrcodeBackground.png'),
-  noWishList: require('./img/noWishList.png'),
+  whatsapp: require('./img/whatsapp.png'),
+  twitter: require('./img/twitter.png'),
+  instagram: require('./img/instagram.png'),
+  facebook: require('./img/facebook.png'),
+  raceImageBackground: require('./img/raceImageBackground.png'),
+  dividerReserva: require('./img/dividerReserva.png'),
 };
 
 export const animations = {

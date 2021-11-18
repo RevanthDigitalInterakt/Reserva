@@ -34,7 +34,6 @@ export const EditProfile: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const navigation = useNavigation();
-  const { cleanEmailAndCookie } = useAuth();
   const [subscribed, setSubscribed] = useState(false);
   const [userData, setUserData] = useState<ProfileQuery>({
     userId: '',
@@ -79,8 +78,6 @@ export const EditProfile: React.FC<{
           (x: any) => x.key == 'isNewsletterOptIn'
         ).value === 'true' || subscribed
       );
-    } else if (!loading) {
-      cleanEmailAndCookie();
     }
   }, [data]);
 
