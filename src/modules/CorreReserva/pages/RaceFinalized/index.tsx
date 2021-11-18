@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import {
   ImageSourcePropType,
   ImageBackground,
@@ -13,6 +14,7 @@ import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
 import { Box, Image, Typography } from 'reserva-ui';
 
+import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
 import { Counter } from '../../components/Counter';
 import { HeaderCorreReserva } from '../../components/HeaderCorreReserva';
@@ -21,7 +23,12 @@ import { useChronometer } from '../../hooks/useChronometer';
 
 export interface RaceFinalizedProps { }
 
+type RaceFinalizedNavigator = StackNavigationProp<
+  CorreReservaStackParamList,
+  'RaceFinalized'
+>;
 export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
+  const navigation = useNavigation<RaceFinalizedNavigator>();
   const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
   const viewRef = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);
@@ -261,6 +268,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           />
         </Box>
         <TouchableOpacity
+          onPress={() => navigation.navigate('ModalitySelector')}
           style={{
             marginHorizontal: 49,
             flexGrow: 1,
