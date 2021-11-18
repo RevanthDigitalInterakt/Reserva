@@ -188,7 +188,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
       <ImageBackground
         source={images.raceImageBackground}
         style={{ width: '100%', height: '100%' }}
-        resizeMode="contain"
+        resizeMode="cover"
       >
         <ScrollView style={{ height: DEVICE_HEIGHT }}>
           <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
