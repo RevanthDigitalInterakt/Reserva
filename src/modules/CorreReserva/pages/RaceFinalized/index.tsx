@@ -127,6 +127,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
       case 'whatsApp':
         try {
           const uri = await viewRef.current.capture();
+          const uriBackgroundImage = await viewRefImage.current.capture();
           if (hasWhatsApp) {
             await Share.shareSingle({
               url: uri,
@@ -182,255 +183,256 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
-      <ImageBackground
-        source={images.raceImageBackground}
-        style={{ width: '100%', height: '100%' }}
-        resizeMode="cover"
-      >
-        <ScrollView style={{ height: DEVICE_HEIGHT }}>
-          <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
-            <HeaderCorreReserva />
-            <Box justifyContent="center" alignItems="center" marginTop={30}>
+      <ScrollView style={{ height: DEVICE_HEIGHT }}>
+        <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
+          <ImageBackground
+            source={images.raceImageBackground}
+            style={{
+              width: Dimensions.get('window').width,
+              height: Dimensions.get('window').height,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: -1,
+            }}
+            resizeMode="cover"
+          />
+          <HeaderCorreReserva />
+          <Box justifyContent="center" alignItems="center" marginTop={30}>
+            <Typography
+              color="white"
+              fontFamily="reservaSerifBoldItalic"
+              fontSize={50}
+              letterSpacing={-2.5}
+              textAlign="center"
+            >
+              {' Parabéns! '}
+            </Typography>
+            <Typography
+              fontFamily="reservaSerifLight"
+              fontSize={15}
+              color="white"
+              lineHeight={19}
+              textAlign="center"
+            >
+              Sua corrida contribuiu com
+            </Typography>
+
+            <Box alignItems="center">
               <Typography
                 color="white"
-                fontFamily="reservaSerifBoldItalic"
-                fontSize={50}
-                letterSpacing={-2.5}
-                textAlign="center"
+                fontFamily="reservaSerifBold"
+                fontSize={152}
               >
-                {' Parabéns! '}
-              </Typography>
-              <Typography
-                fontFamily="reservaSerifLight"
-                fontSize={15}
-                color="white"
-                lineHeight={19}
-                textAlign="center"
-              >
-                Sua corrida contribuiu com
+                {raceResume?.foodPlate}
               </Typography>
 
-              <Box alignItems="center">
+              <Box position="absolute" bottom={-15}>
                 <Typography
                   color="white"
-                  fontFamily="reservaSerifBold"
-                  fontSize={152}
+                  fontFamily="reservaSerifThin"
+                  fontSize={29}
                 >
-                  {raceResume?.foodPlate}
+                  Pratos viabilizados
                 </Typography>
-
-                <Box position="absolute" bottom={-15}>
-                  <Typography
-                    color="white"
-                    fontFamily="reservaSerifThin"
-                    fontSize={29}
-                  >
-                    Pratos viabilizados
-                  </Typography>
-                </Box>
               </Box>
+            </Box>
+          </Box>
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            marginY="xxs"
+          >
+            <Image source={images.dividerReserva} width="45%" />
+          </Box>
+          <Box
+            alignItems="center"
+            justifyContent="center"
+            width="45%"
+            alignSelf="center"
+            marginBottom={30}
+          >
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="center"
+              alignSelf="flex-start"
+            >
+              <Icon name="Distance" size={25} color="neutroFrio2" mr="micro" />
+              <Typography
+                fontFamily="reservaSerifThin"
+                fontSize={17}
+                color="white"
+              >
+                {' '}
+                Distância:
+                <Typography fontFamily="reservaSerifBold" fontSize={17}>
+                  {' '}
+                  {Math.floor(parseFloat(raceResume?.distance))}km
+                </Typography>
+              </Typography>
+            </Box>
+
+            <Box marginY="nano">
+              <Typography
+                fontFamily="reservaSerifBold"
+                fontSize={2}
+                color="neutroFrio2"
+                ellipsizeMode="clip"
+                numberOfLines={1}
+              >
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - -
+              </Typography>
+            </Box>
+            <Box
+              flexDirection="row"
+              alignItems="flex-start"
+              justifyContent="center"
+              alignSelf="flex-start"
+            >
+              <Icon name="Pace" size={23} color="neutroFrio2" mr="micro" />
+              <Typography
+                fontFamily="reservaSerifThin"
+                fontSize={17}
+                color="white"
+              >
+                Ritmo:
+                <Typography fontFamily="reservaSerifBold" fontSize={17}>
+                  {' '}
+                  {raceResume?.pace}
+                </Typography>
+              </Typography>
+            </Box>
+            <Box marginY="nano">
+              <Typography
+                fontFamily="reservaSerifBold"
+                fontSize={2}
+                color="neutroFrio2"
+                ellipsizeMode="clip"
+                numberOfLines={1}
+              >
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                - - - - - - - -
+              </Typography>
             </Box>
             <Box
               flexDirection="row"
               alignItems="center"
               justifyContent="center"
-              marginY="xxs"
+              alignSelf="flex-start"
             >
-              <Image source={images.dividerReserva} width="45%" />
-            </Box>
-            <Box
-              alignItems="center"
-              justifyContent="center"
-              width="45%"
-              alignSelf="center"
-            >
-              <Box
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="center"
-                alignSelf="flex-start"
+              <Icon name="Clock" size={23} color="neutroFrio2" mr="micro" />
+              <Typography
+                fontFamily="reservaSerifThin"
+                fontSize={17}
+                color="white"
               >
-                <Icon
-                  name="Distance"
-                  size={25}
-                  color="neutroFrio2"
-                  mr="micro"
-                />
-                <Typography
-                  fontFamily="reservaSerifThin"
-                  fontSize={17}
-                  color="white"
-                >
+                Duração:
+                <Typography fontFamily="reservaSerifBold" fontSize={17}>
                   {' '}
-                  Distância:
-                  <Typography fontFamily="reservaSerifBold" fontSize={17}>
-                    {' '}
-                    {Math.floor(parseFloat(raceResume?.distance))}km
-                  </Typography>
+                  {raceResume?.duration}
                 </Typography>
-              </Box>
-
-              <Box marginY="nano">
-                <Typography
-                  fontFamily="reservaSerifBold"
-                  fontSize={2}
-                  color="neutroFrio2"
-                  ellipsizeMode="clip"
-                  numberOfLines={1}
-                >
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - -
-                </Typography>
-              </Box>
-              <Box
-                flexDirection="row"
-                alignItems="flex-start"
-                justifyContent="center"
-                alignSelf="flex-start"
-              >
-                <Icon name="Pace" size={23} color="neutroFrio2" mr="micro" />
-                <Typography
-                  fontFamily="reservaSerifThin"
-                  fontSize={17}
-                  color="white"
-                >
-                  Ritmo:
-                  <Typography fontFamily="reservaSerifBold" fontSize={17}>
-                    {' '}
-                    {raceResume?.pace}
-                  </Typography>
-                </Typography>
-              </Box>
-              <Box marginY="nano">
-                <Typography
-                  fontFamily="reservaSerifBold"
-                  fontSize={2}
-                  color="neutroFrio2"
-                  ellipsizeMode="clip"
-                  numberOfLines={1}
-                >
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - -
-                </Typography>
-              </Box>
-              <Box
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="center"
-                alignSelf="flex-start"
-              >
-                <Icon name="Clock" size={23} color="neutroFrio2" mr="micro" />
-                <Typography
-                  fontFamily="reservaSerifThin"
-                  fontSize={17}
-                  color="white"
-                >
-                  Duração:
-                  <Typography fontFamily="reservaSerifBold" fontSize={17}>
-                    {' '}
-                    {raceResume?.duration}
-                  </Typography>
-                </Typography>
-              </Box>
+              </Typography>
             </Box>
-            {/* <Counter
+          </Box>
+          {/* <Counter
               timer={raceResume?.duration}
               distance={raceResume?.distance}
               rhythm={raceResume?.pace}
               plates={raceResume?.foodPlate}
             /> */}
-            {/* <ShareBle /> */}
-          </ViewShot>
-          <ConfettiCannon
-            autoStart
-            fadeOut
-            count={200}
-            origin={{ x: -10, y: 0 }}
-          />
-          <Box paddingTop={25}>
+          {/* <ShareBle /> */}
+        </ViewShot>
+        <ConfettiCannon
+          autoStart
+          fadeOut
+          count={200}
+          origin={{ x: -10, y: 0 }}
+        />
+        <Box>
+          <Typography
+            color="white"
+            fontFamily="reservaSansRegular"
+            fontSize={16}
+            textAlign="center"
+          >
+            Compartilhe:
+          </Typography>
+          <Box
+            marginTop={10}
+            marginBottom={26}
+            flexDirection="row"
+            justifyContent="center"
+          >
+            <SocialButton
+              image={images.instagram}
+              onPress={() => shareImage('instagram')}
+            />
+            <SocialButton
+              image={images.whatsapp}
+              onPress={() => shareImage('whatsApp')}
+            />
+            <SocialButton
+              image={images.facebook}
+              onPress={() => shareImage('facebook')}
+            />
+            <SocialButton
+              image={images.twitter}
+              onPress={() => shareImage('twitter')}
+            />
+          </Box>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Home')}
+            style={{
+              marginHorizontal: 49,
+              flexGrow: 1,
+              height: 50,
+              backgroundColor: '#11AB6B',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <Typography
               color="white"
-              fontFamily="reservaSansRegular"
-              fontSize={16}
-              textAlign="center"
+              fontSize={13}
+              fontFamily="nunitoSemiBold"
+              letterSpacing={0.16}
+              style={{ textTransform: 'uppercase' }}
             >
-              Compartilhe:
+              IR PARA A HOME
             </Typography>
-            <Box
-              marginTop={10}
-              marginBottom={26}
-              flexDirection="row"
-              justifyContent="center"
-            >
-              <SocialButton
-                image={images.instagram}
-                onPress={() => shareImage('instagram')}
-              />
-              <SocialButton
-                image={images.whatsapp}
-                onPress={() => shareImage('whatsApp')}
-              />
-              <SocialButton
-                image={images.facebook}
-                onPress={() => shareImage('facebook')}
-              />
-              <SocialButton
-                image={images.twitter}
-                onPress={() => shareImage('twitter')}
-              />
-            </Box>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Home')}
-              style={{
-                marginHorizontal: 49,
-                flexGrow: 1,
-                height: 50,
-                backgroundColor: '#11AB6B',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Typography
-                color="white"
-                fontSize={13}
-                fontFamily="nunitoSemiBold"
-                letterSpacing={0.16}
-                style={{ textTransform: 'uppercase' }}
-              >
-                IR PARA A HOME
-              </Typography>
-            </TouchableOpacity>
-          </Box>
+          </TouchableOpacity>
+        </Box>
 
-          <ViewShot
-            ref={viewRefImage}
-            options={{ format: 'jpg', quality: 0.9 }}
-          >
-            <Image
-              height="100%"
-              width="100%"
-              source={images.raceImageBackground}
-              resizeMode="contain"
-            />
-          </ViewShot>
-        </ScrollView>
-      </ImageBackground>
+        <ViewShot ref={viewRefImage} options={{ format: 'jpg', quality: 0.9 }}>
+          <Image
+            height="100%"
+            width="100%"
+            source={images.raceImageBackground}
+            resizeMode="contain"
+          />
+        </ViewShot>
+      </ScrollView>
     </SafeAreaView>
   );
 };
