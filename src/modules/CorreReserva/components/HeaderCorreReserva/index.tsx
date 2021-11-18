@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions } from 'react-native';
+import { BackHandler, Dimensions } from 'react-native';
 import { View } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Icon, Image } from 'reserva-ui';
@@ -18,12 +18,23 @@ export interface HeaderCorreReservaProps {
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 export const HeaderCorreReserva: React.FC<HeaderCorreReservaProps> = ({
-  isFullPage,
   showBackButton,
 }) => {
   const { hasStarted } = useCorre();
   const navigation = useNavigation();
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (hasStarted) {
+        setIsVisibleAlert(true);
+      } else {
+        navigation.goBack();
+      }
+      return true;
+    });
+  }, []);
+
   return (
     <>
       <ModalGetOutCorre

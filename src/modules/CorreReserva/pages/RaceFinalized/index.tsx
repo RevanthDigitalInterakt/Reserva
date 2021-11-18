@@ -22,12 +22,10 @@ import { Box, Image, Typography, Icon } from 'reserva-ui';
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
-import { Counter } from '../../components/Counter';
 import { HeaderCorreReserva } from '../../components/HeaderCorreReserva';
 import { useCorre } from '../../context';
-import { useChronometer } from '../../hooks/useChronometer';
 
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
+const { height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 export interface RaceFinalizedProps { }
 
@@ -36,10 +34,9 @@ type RaceFinalizedNavigator = StackNavigationProp<
   'RaceFinalized'
 >;
 
-export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
+export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
   const navigation = useNavigation<RaceFinalizedNavigator>();
   const { email } = useAuth();
-  const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
   const viewRef = useRef();
   const viewRefImage = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);

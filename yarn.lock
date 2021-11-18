@@ -8013,12 +8013,13 @@ requires-port@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reserva-ui@0.0.214:
-  version "0.0.214"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.214.tgz#69e57417cf74dd0b8a4269381795ddb0666e5819"
-  integrity sha1-aeV0F8903QuKQmk4F5XdsGZuWBk=
+reserva-ui@0.0.215:
+  version "0.0.215"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.215.tgz#41eead4f885f25ee3c966f5a73587e6de3c31640"
+  integrity sha1-Qe6tT4hfJe48lm9ac1h+bePDFkA=
   dependencies:
     lottie-react-native "^4.0.3"
+    react-native-linear-gradient "^2.5.6"
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
