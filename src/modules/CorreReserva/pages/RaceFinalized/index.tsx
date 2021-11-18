@@ -43,15 +43,6 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const [hasTwitter, setHasTwitter] = useState(false);
   const { raceResume } = useCorre();
 
-  // useEffect(() => {
-  //   start()
-  // }, [])
-
-  // useEffect(() => {
-  //   if (currentValue === "00:00:59")
-  //     stop()
-  // }, [currentValue])
-
   useEffect(() => {
     console.log('currentValue', currentValue);
   }, [currentValue]);
@@ -171,6 +162,8 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
         } catch (err) {
           console.error(err);
         }
+        break;
+      default:
         break;
     }
   };

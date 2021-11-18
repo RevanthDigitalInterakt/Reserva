@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Geolocation from '@react-native-community/geolocation';
 import { useNavigation } from '@react-navigation/native';
@@ -7,9 +7,8 @@ import {
   Dimensions,
   Modal,
   Platform,
-  TouchableOpacity,
   Vibration,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import LocationEnabler from 'react-native-location-enabler';
 import MapView, {
@@ -18,9 +17,8 @@ import MapView, {
   Polyline,
   LatLng,
 } from 'react-native-maps';
-import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Typography, Image, Alert } from 'reserva-ui';
+import { Box, Typography, Image } from 'reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
@@ -33,7 +31,7 @@ import { KM_15, KM_10, KM_5, KM_2 } from './polyline';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-export interface RaceDetailProps {}
+export interface RaceDetailProps { }
 
 type RaceDetailNavigator = StackNavigationProp<
   CorreReservaStackParamList,
@@ -55,6 +53,7 @@ export const RaceDetail: React.FC = () => {
   const [travelledDistance, setTravelledDistance] = useState<
     { latitude: number; longitude: number }[]
   >([]);
+  const [center, setCenter] = useState(null);
   const [totalDistance, setTotalDistance] = useState(0);
   const { currentValue, start, stop } = useChronometer({ initial: '00:00:00' });
   const [count, setCount] = useState<number>(3);
@@ -63,6 +62,7 @@ export const RaceDetail: React.FC = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const [forceToggle, setForceToggle] = useState<boolean>();
   const [totalVibration, setTotalVibration] = useState(0);
+  const mapRef = useRef<MapView>(null);
   const ONE_SECOND_IN_MS = 1000;
 
   const {
@@ -142,7 +142,12 @@ export const RaceDetail: React.FC = () => {
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
         });
-
+        if (mapRef.current) {
+          mapRef.current?.animateCamera({
+            latitude: coords?.latitude,
+            longitude: coords?.longitude,
+          });
+        }
         setTravelledDistance((value) => [
           ...value,
           {
@@ -208,9 +213,9 @@ export const RaceDetail: React.FC = () => {
         const a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
           Math.cos(deg2rad(travelledDistance[i].latitude)) *
-            Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
+          Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         d += R * c;
       }
@@ -380,6 +385,7 @@ export const RaceDetail: React.FC = () => {
                 provider={PROVIDER_GOOGLE}
                 style={{ flex: 2 }}
                 initialRegion={position}
+                ref={mapRef}
               >
                 {selectedModality === 'presential' && (
                   <>
@@ -390,10 +396,15 @@ export const RaceDetail: React.FC = () => {
                       strokeColor="#EF1E1E" // fallback for when `strokeColors` is not supported by the map-provider
                       strokeWidth={6}
                     />
-                    {selectedKit && selectedKit.km && getKmMarker(selectedKit.km)}
+                    {selectedKit &&
+                      selectedKit.km &&
+                      getKmMarker(selectedKit.km)}
 
                     <Marker
-                      coordinate={{ latitude: -22.919588, longitude: -43.168051 }}
+                      coordinate={{
+                        latitude: -22.919588,
+                        longitude: -43.168051,
+                      }}
                     >
                       <Typography>Chegada</Typography>
                       <Image
