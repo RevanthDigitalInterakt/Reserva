@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
-import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'react-native';
-import { Alert } from 'reserva-ui';
 
 import { HeaderCorreReserva } from './components/HeaderCorreReserva';
 import CorreContextProvider from './context';
@@ -24,74 +22,38 @@ export type CorreReservaStackParamList = {
 
 const CorreReservaStack = createStackNavigator<CorreReservaStackParamList>();
 
-export const CorreReservaStackScreen = () => {
-  const navigation = useNavigation();
-
-  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
-
-  return (
-    <CorreContextProvider>
-      <StatusBar backgroundColor="#000" />
-      <Alert
-        isVisible={isVisibleAlert}
-        title={
-          'Tem certeza que deseja sair da corrida?\n Seus dados não serão salvos!'
-        }
-        confirmText="SAIR"
-        cancelText="CONTINUAR"
-        onConfirm={() => {
-          setIsVisibleAlert(false);
-          navigation.goBack();
-        }}
-        onClose={() => {
-          setIsVisibleAlert(false);
-        }}
-        onCancel={() => {
-          setIsVisibleAlert(false);
+export const CorreReservaStackScreen = () => (
+  <CorreContextProvider>
+    <StatusBar backgroundColor="#000" />
+    <CorreReservaStack.Navigator
+      screenOptions={{
+        header: () => <HeaderCorreReserva showBackButton />,
+        headerTransparent: true,
+      }}
+      initialRouteName="ModalitySelector"
+    >
+      <CorreReservaStack.Screen
+        name="ModalitySelector"
+        component={ModalitySelector}
+      />
+      <CorreReservaStack.Screen
+        name="QrCodeScanner"
+        component={QrCodeScanner}
+      />
+      <CorreReservaStack.Screen
+        name="RaceDetail"
+        component={RaceDetail}
+        options={{
+          header: () => <HeaderCorreReserva showBackButton />,
         }}
       />
-      <CorreReservaStack.Navigator
-        screenOptions={{
-          header: () => (
-            <HeaderCorreReserva
-              onClickBackButton={() => {
-                navigation.goBack();
-              }}
-            />
-          ),
-          headerTransparent: true,
+      <CorreReservaStack.Screen
+        name="RaceFinalized"
+        component={RaceFinalized}
+        options={{
+          headerShown: false,
         }}
-        initialRouteName="ModalitySelector"
-      >
-        <CorreReservaStack.Screen
-          name="ModalitySelector"
-          component={ModalitySelector}
-        />
-        <CorreReservaStack.Screen
-          name="QrCodeScanner"
-          component={QrCodeScanner}
-        />
-        <CorreReservaStack.Screen
-          name="RaceDetail"
-          component={RaceDetail}
-          options={{
-            header: () => (
-              <HeaderCorreReserva
-                onClickBackButton={() => {
-                  setIsVisibleAlert(true);
-                }}
-              />
-            ),
-          }}
-        />
-        <CorreReservaStack.Screen
-          name="RaceFinalized"
-          component={RaceFinalized}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </CorreReservaStack.Navigator>
-    </CorreContextProvider>
-  );
-};
+      />
+    </CorreReservaStack.Navigator>
+  </CorreContextProvider>
+);

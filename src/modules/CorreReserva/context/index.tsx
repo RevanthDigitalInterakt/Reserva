@@ -10,6 +10,8 @@ interface CorreContextProps {
   setSelectedKit: React.Dispatch<React.SetStateAction<KitType | undefined>>;
   raceResume?: RaceResume;
   setRaceResume: React.Dispatch<React.SetStateAction<RaceResume | undefined>>;
+  hasStarted?: boolean;
+  setHasStarted: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
 export const CorreContext = createContext<CorreContextProps>();
@@ -36,6 +38,7 @@ export interface RaceResume {
 const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
   const [selectedModality, setSelectedModality] = useState<Modalities>();
   const [raceResume, setRaceResume] = useState<RaceResume>();
+  const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [selectedKit, setSelectedKit] = useState<KitType>();
 
   const ValidCodes: KitType[] = [
@@ -56,6 +59,8 @@ const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
         setSelectedKit,
         raceResume,
         setRaceResume,
+        hasStarted,
+        setHasStarted,
       }}
     >
       {children}

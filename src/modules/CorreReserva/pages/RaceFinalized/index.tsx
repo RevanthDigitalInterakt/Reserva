@@ -29,14 +29,14 @@ import { useChronometer } from '../../hooks/useChronometer';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-export interface RaceFinalizedProps {}
+export interface RaceFinalizedProps { }
 
 type RaceFinalizedNavigator = StackNavigationProp<
   CorreReservaStackParamList,
   'RaceFinalized'
 >;
 
-export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
+export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const navigation = useNavigation<RaceFinalizedNavigator>();
   const { email } = useAuth();
   const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
@@ -188,7 +188,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
       <ImageBackground
         source={images.raceImageBackground}
         style={{ width: '100%', height: '100%' }}
-        resizeMode="contain"
+        resizeMode="cover"
       >
         <ScrollView style={{ height: DEVICE_HEIGHT }}>
           <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
@@ -231,27 +231,45 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
                     Pratos viabilizados
                   </Typography>
                 </Box>
-
               </Box>
             </Box>
-            <Box flexDirection="row" alignItems="center" justifyContent="center" marginY="xxs">
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="center"
+              marginY="xxs"
+            >
               <Image source={images.dividerReserva} width="45%" />
             </Box>
-            <Box alignItems="center" justifyContent="center" width="45%" alignSelf="center">
-
-              <Box flexDirection="row" alignItems="center"
+            <Box
+              alignItems="center"
+              justifyContent="center"
+              width="45%"
+              alignSelf="center"
+            >
+              <Box
+                flexDirection="row"
+                alignItems="center"
                 justifyContent="center"
                 alignSelf="flex-start"
               >
-                <Icon name="Distance" size={25} color="neutroFrio2" mr="micro" />
+                <Icon
+                  name="Distance"
+                  size={25}
+                  color="neutroFrio2"
+                  mr="micro"
+                />
                 <Typography
                   fontFamily="reservaSerifThin"
                   fontSize={17}
-                  color="white"> Distância:
-                  <Typography
-                    fontFamily="reservaSerifBold"
-                    fontSize={17}
-                  > {Math.floor(parseFloat(raceResume?.distance))}km</Typography>
+                  color="white"
+                >
+                  {' '}
+                  Distância:
+                  <Typography fontFamily="reservaSerifBold" fontSize={17}>
+                    {' '}
+                    {Math.floor(parseFloat(raceResume?.distance))}km
+                  </Typography>
                 </Typography>
               </Box>
 
@@ -260,19 +278,24 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
                   fontFamily="reservaSerifBold"
                   fontSize={2}
                   color="neutroFrio2"
-                  ellipsizeMode="clip" numberOfLines={1}
+                  ellipsizeMode="clip"
+                  numberOfLines={1}
                 >
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - -
                 </Typography>
               </Box>
-              <Box flexDirection="row" alignItems="flex-start"
+              <Box
+                flexDirection="row"
+                alignItems="flex-start"
                 justifyContent="center"
                 alignSelf="flex-start"
               >
@@ -280,11 +303,13 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
                 <Typography
                   fontFamily="reservaSerifThin"
                   fontSize={17}
-                  color="white">Ritmo:
-                  <Typography
-                    fontFamily="reservaSerifBold"
-                    fontSize={17}
-                  > {raceResume?.pace}</Typography>
+                  color="white"
+                >
+                  Ritmo:
+                  <Typography fontFamily="reservaSerifBold" fontSize={17}>
+                    {' '}
+                    {raceResume?.pace}
+                  </Typography>
                 </Typography>
               </Box>
               <Box marginY="nano">
@@ -292,19 +317,24 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
                   fontFamily="reservaSerifBold"
                   fontSize={2}
                   color="neutroFrio2"
-                  ellipsizeMode="clip" numberOfLines={1}
+                  ellipsizeMode="clip"
+                  numberOfLines={1}
                 >
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                  - - - - - - - - - - - - - - - - -
                 </Typography>
               </Box>
-              <Box flexDirection="row" alignItems="center"
+              <Box
+                flexDirection="row"
+                alignItems="center"
                 justifyContent="center"
                 alignSelf="flex-start"
               >
@@ -312,11 +342,13 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
                 <Typography
                   fontFamily="reservaSerifThin"
                   fontSize={17}
-                  color="white">Duração:
-                  <Typography
-                    fontFamily="reservaSerifBold"
-                    fontSize={17}
-                  > {raceResume?.duration}</Typography>
+                  color="white"
+                >
+                  Duração:
+                  <Typography fontFamily="reservaSerifBold" fontSize={17}>
+                    {' '}
+                    {raceResume?.duration}
+                  </Typography>
                 </Typography>
               </Box>
             </Box>
@@ -367,7 +399,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
               />
             </Box>
             <TouchableOpacity
-              onPress={() => navigation.navigate('ModalitySelector')}
+              onPress={() => navigation.navigate('Home')}
               style={{
                 marginHorizontal: 49,
                 flexGrow: 1,
@@ -402,7 +434,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
           </ViewShot>
         </ScrollView>
       </ImageBackground>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 
