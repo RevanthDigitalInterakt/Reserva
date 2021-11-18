@@ -10,6 +10,7 @@ import {
   Platform,
   Linking,
   Dimensions,
+  BackHandler,
 } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -34,6 +35,7 @@ type RaceFinalizedNavigator = StackNavigationProp<
   CorreReservaStackParamList,
   'RaceFinalized'
 >;
+
 export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
   const navigation = useNavigation<RaceFinalizedNavigator>();
   const { email } = useAuth();
@@ -47,8 +49,11 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
   const { raceResume } = useCorre();
 
   useEffect(() => {
-    console.log('currentValue', currentValue);
-  }, [currentValue]);
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.navigate('Home');
+      return true;
+    });
+  }, []);
 
   useEffect(() => {
     const correCollection = firestore().collection('corre');
