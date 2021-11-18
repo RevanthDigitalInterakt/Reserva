@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'react-native';
-import { Alert } from 'reserva-ui';
 
 import { HeaderCorreReserva } from './components/HeaderCorreReserva';
+import { ModalGetOutCorre } from './components/ModalGetOutCorre';
 import CorreContextProvider from './context';
 import {
   ModalitySelector,
@@ -32,23 +32,15 @@ export const CorreReservaStackScreen = () => {
   return (
     <CorreContextProvider>
       <StatusBar backgroundColor="#000" />
-      <Alert
+      <ModalGetOutCorre
         isVisible={isVisibleAlert}
-        title={
-          'Tem certeza que deseja sair da corrida?\n Seus dados não serão salvos!'
-        }
-        confirmText="SAIR"
-        cancelText="CONTINUAR"
-        onConfirm={() => {
+        onClickBackdrop={() => setIsVisibleAlert(false)}
+        onCloseButtonPress={() => setIsVisibleAlert(false)}
+        onCancelButtonPress={() => {
           setIsVisibleAlert(false);
-          navigation.goBack();
+          navigation.navigate('ModalitySelector');
         }}
-        onClose={() => {
-          setIsVisibleAlert(false);
-        }}
-        onCancel={() => {
-          setIsVisibleAlert(false);
-        }}
+        onConfirmButtonPress={() => setIsVisibleAlert(false)}
       />
       <CorreReservaStack.Navigator
         screenOptions={{
