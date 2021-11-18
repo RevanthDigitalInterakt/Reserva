@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
+import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
@@ -9,6 +10,7 @@ import {
   Platform,
   Linking,
   Dimensions,
+  BackHandler,
 } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -19,6 +21,7 @@ import { Box, Image, Typography, Icon } from 'reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
+import { useAuth } from '../../../../context/AuthContext';
 import { Counter } from '../../components/Counter';
 import { HeaderCorreReserva } from '../../components/HeaderCorreReserva';
 import { useCorre } from '../../context';
@@ -26,14 +29,16 @@ import { useChronometer } from '../../hooks/useChronometer';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
-export interface RaceFinalizedProps { }
+export interface RaceFinalizedProps {}
 
 type RaceFinalizedNavigator = StackNavigationProp<
   CorreReservaStackParamList,
   'RaceFinalized'
 >;
-export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
+
+export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
   const navigation = useNavigation<RaceFinalizedNavigator>();
+  const { email } = useAuth();
   const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
   const viewRef = useRef();
   const viewRefImage = useRef();
@@ -44,10 +49,20 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const { raceResume } = useCorre();
 
   useEffect(() => {
-    console.log('currentValue', currentValue);
-  }, [currentValue]);
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.navigate('Home');
+      return true;
+    });
+  }, []);
 
   useEffect(() => {
+    const correCollection = firestore().collection('corre');
+    correCollection.add({
+      ...raceResume,
+      email,
+      finishDateTime: new Date(),
+    });
+
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('instagram://')
         .then((val) => setShowInstagramStory(val))
@@ -319,14 +334,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
             count={200}
             origin={{ x: -10, y: 0 }}
           />
-          <Box
-            paddingTop={25}
-          // position="absolute"
-          // top="0"
-          // bottom="80"
-          // left="0"
-          // right="0"
-          >
+          <Box paddingTop={25}>
             <Typography
               color="white"
               fontFamily="reservaSansRegular"
