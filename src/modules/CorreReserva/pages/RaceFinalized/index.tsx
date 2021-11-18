@@ -8,6 +8,7 @@ import {
   ScrollView,
   Platform,
   Linking,
+  Dimensions,
 } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -23,6 +24,8 @@ import { HeaderCorreReserva } from '../../components/HeaderCorreReserva';
 import { useCorre } from '../../context';
 import { useChronometer } from '../../hooks/useChronometer';
 
+const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
+
 export interface RaceFinalizedProps { }
 
 type RaceFinalizedNavigator = StackNavigationProp<
@@ -33,11 +36,11 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const navigation = useNavigation<RaceFinalizedNavigator>();
   const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
   const viewRef = useRef();
+  const viewRefImage = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);
   const [hasWhatsApp, setHasWhatsApp] = useState(false);
   const [hasFacebook, setHasFacebook] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
-
   const { raceResume } = useCorre();
 
   // useEffect(() => {
@@ -100,10 +103,12 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
       case 'instagram':
         try {
           const uri = await viewRef.current.capture();
+          const uriBackgroundImage = await viewRefImage.current.capture();
           console.log('uriuri', uri);
           if (showInstagramStory) {
             await Share.shareSingle({
               title: '',
+              backgroundImage: uriBackgroundImage,
               stickerImage: uri,
               social: Share.Social.INSTAGRAM_STORIES,
               backgroundBottomColor: '#000',
@@ -122,6 +127,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
           if (hasWhatsApp) {
             await Share.shareSingle({
               url: uri,
+              filename: uriBackgroundImage,
               title: '',
               message: '',
               social: Share.Social.WHATSAPP,
@@ -136,6 +142,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
       case 'facebook':
         try {
           const uri = await viewRef.current.capture();
+          const uriBackgroundImage = await viewRefImage.current.capture();
           if (hasFacebook) {
             await Share.shareSingle({
               title: '',
@@ -170,13 +177,13 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
-      <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
-        <ImageBackground
-          source={images.raceImageBackground}
-          style={{ width: '100%', height: '100%' }}
-          resizeMode="contain"
-        >
-          <ScrollView>
+      <ImageBackground
+        source={images.raceImageBackground}
+        style={{ width: '100%', height: '100%' }}
+        resizeMode="contain"
+      >
+        <ScrollView style={{ height: DEVICE_HEIGHT }}>
+          <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
             <HeaderCorreReserva />
             <Box justifyContent="center" alignItems="center" marginTop={30}>
               <Typography
@@ -226,71 +233,88 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
               plates={raceResume?.foodPlate}
             />
             {/* <ShareBle /> */}
-          </ScrollView>
-        </ImageBackground>
-      </ViewShot>
-      <ConfettiCannon autoStart fadeOut count={200} origin={{ x: -10, y: 0 }} />
-      <Box
-        paddingTop={25}
-        position="absolute"
-        // top="0"
-        bottom="80"
-        left="0"
-        right="0"
-      >
-        <Typography
-          color="white"
-          fontFamily="reservaSansRegular"
-          fontSize={16}
-          textAlign="center"
-        >
-          Compartilhe nas suas redes:
-        </Typography>
-        <Box
-          marginTop={10}
-          marginBottom={26}
-          flexDirection="row"
-          justifyContent="center"
-        >
-          <SocialButton
-            image={images.instagram}
-            onPress={() => shareImage('instagram')}
+          </ViewShot>
+          <ConfettiCannon
+            autoStart
+            fadeOut
+            count={200}
+            origin={{ x: -10, y: 0 }}
           />
-          <SocialButton
-            image={images.whatsapp}
-            onPress={() => shareImage('whatsApp')}
-          />
-          <SocialButton
-            image={images.facebook}
-            onPress={() => shareImage('facebook')}
-          />
-          <SocialButton
-            image={images.twitter}
-            onPress={() => shareImage('twitter')}
-          />
-        </Box>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ModalitySelector')}
-          style={{
-            marginHorizontal: 49,
-            flexGrow: 1,
-            height: 50,
-            backgroundColor: '#11AB6B',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Typography
-            color="white"
-            fontSize={13}
-            fontFamily="nunitoSemiBold"
-            letterSpacing={0.16}
-            style={{ textTransform: 'uppercase' }}
+          <Box
+            paddingTop={25}
+          // position="absolute"
+          // top="0"
+          // bottom="80"
+          // left="0"
+          // right="0"
           >
-            IR PARA A HOME
-          </Typography>
-        </TouchableOpacity>
-      </Box>
+            <Typography
+              color="white"
+              fontFamily="reservaSansRegular"
+              fontSize={16}
+              textAlign="center"
+            >
+              Compartilhe nas suas redes:
+            </Typography>
+            <Box
+              marginTop={10}
+              marginBottom={26}
+              flexDirection="row"
+              justifyContent="center"
+            >
+              <SocialButton
+                image={images.instagram}
+                onPress={() => shareImage('instagram')}
+              />
+              <SocialButton
+                image={images.whatsapp}
+                onPress={() => shareImage('whatsApp')}
+              />
+              <SocialButton
+                image={images.facebook}
+                onPress={() => shareImage('facebook')}
+              />
+              <SocialButton
+                image={images.twitter}
+                onPress={() => shareImage('twitter')}
+              />
+            </Box>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ModalitySelector')}
+              style={{
+                marginHorizontal: 49,
+                flexGrow: 1,
+                height: 50,
+                backgroundColor: '#11AB6B',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                color="white"
+                fontSize={13}
+                fontFamily="nunitoSemiBold"
+                letterSpacing={0.16}
+                style={{ textTransform: 'uppercase' }}
+              >
+                IR PARA A HOME
+              </Typography>
+            </TouchableOpacity>
+          </Box>
+
+          <ViewShot
+            ref={viewRefImage}
+            options={{ format: 'jpg', quality: 0.9 }}
+          >
+            <Image
+              height="100%"
+              width="100%"
+              source={images.raceImageBackground}
+              resizeMode="contain"
+            />
+          </ViewShot>
+        </ScrollView>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
