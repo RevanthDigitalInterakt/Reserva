@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
   Vibration,
+  ScrollView
 } from 'react-native';
 import MapView, {
   PROVIDER_GOOGLE,
@@ -338,77 +339,78 @@ export const RaceDetail: React.FC = () => {
         height={DEVICE_HEIGHT / 2}
         mx="micro"
       />
-      <Box width={DEVICE_WIDTH - 48 * 2} alignItems="center">
-        <Counter
-          timer={currentValue}
-          isPlate
-          distance={totalDistance.toString()}
-          rhythm={pace}
-          plates="00"
-        />
-        <Box
-          mt="sm"
-          borderRadius="sm"
-          marginBottom={39}
-          width={mapWidth}
-          height={mapHeight}
-          boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-          style={{ elevation: 10, overflow: 'hidden' }}
-          bg="white"
-        >
-          {position && (
-            <MapView
-              provider={PROVIDER_GOOGLE}
-              style={{ flex: 2 }}
-              initialRegion={position}
-            >
-              {selectedModality === 'presential' && (
-                <>
-                  <Polyline
-                    coordinates={generateCoordinates(
-                      selectedKit && selectedKit.km ? selectedKit.km : 15
-                    )}
-                    strokeColor="#EF1E1E" // fallback for when `strokeColors` is not supported by the map-provider
-                    strokeWidth={6}
-                  />
-                  {selectedKit && selectedKit.km && getKmMarker(selectedKit.km)}
-
-                  <Marker
-                    coordinate={{ latitude: -22.919588, longitude: -43.168051 }}
-                  >
-                    <Typography>Chegada</Typography>
-                    <Image
-                      height={40}
-                      source={images.localReserva}
-                      resizeMode="contain"
-                    />
-                  </Marker>
-                </>
-              )}
-              <Marker
-                coordinate={{
-                  latitude: position?.latitude,
-                  longitude: position?.longitude,
-                }}
+      <ScrollView>
+        <Box width={DEVICE_WIDTH} alignItems="center">
+          <Counter
+            timer={currentValue}
+            isPlate
+            distance={totalDistance.toString()}
+            rhythm={pace}
+            plates="00"
+          />
+          <Box
+            mt="sm"
+            borderRadius="sm"
+            marginBottom={39}
+            width={mapWidth}
+            height={mapHeight}
+            boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+            style={{ elevation: 10, overflow: 'hidden' }}
+            bg="white"
+          >
+            {position && (
+              <MapView
+                provider={PROVIDER_GOOGLE}
+                style={{ flex: 2 }}
+                initialRegion={position}
               >
-                <Box
-                  width={15}
-                  height={15}
-                  borderRadius="infinity"
-                  bg="vermelhoAlerta"
-                />
-              </Marker>
-            </MapView>
-          )}
-        </Box>
+                {selectedModality === 'presential' && (
+                  <>
+                    <Polyline
+                      coordinates={generateCoordinates(
+                        selectedKit && selectedKit.km ? selectedKit.km : 15
+                      )}
+                      strokeColor="#EF1E1E" // fallback for when `strokeColors` is not supported by the map-provider
+                      strokeWidth={6}
+                    />
+                    {selectedKit && selectedKit.km && getKmMarker(selectedKit.km)}
 
-        <SwipeButton
-          onToggle={handleOnPress}
-          forceToggle={forceToggle}
-          swipeText={`DESLIZE PARA ${!hasStarted ? 'INICIAR' : 'FINALIZAR'}`}
-        />
+                    <Marker
+                      coordinate={{ latitude: -22.919588, longitude: -43.168051 }}
+                    >
+                      <Typography>Chegada</Typography>
+                      <Image
+                        height={40}
+                        source={images.localReserva}
+                        resizeMode="contain"
+                      />
+                    </Marker>
+                  </>
+                )}
+                <Marker
+                  coordinate={{
+                    latitude: position?.latitude,
+                    longitude: position?.longitude,
+                  }}
+                >
+                  <Box
+                    width={15}
+                    height={15}
+                    borderRadius="infinity"
+                    bg="vermelhoAlerta"
+                  />
+                </Marker>
+              </MapView>
+            )}
+          </Box>
 
-        {/* <TouchableOpacity onPress={handleOnPress}>
+          <SwipeButton
+            onToggle={handleOnPress}
+            forceToggle={forceToggle}
+            swipeText={`DESLIZE PARA ${!hasStarted ? 'INICIAR' : 'FINALIZAR'}`}
+          />
+
+          {/* <TouchableOpacity onPress={handleOnPress}>
           <Box
             mt="xs"
             height={40}
@@ -429,7 +431,8 @@ export const RaceDetail: React.FC = () => {
             </Typography>
           </Box>
         </TouchableOpacity> */}
-      </Box>
+        </Box>
+      </ScrollView>
     </SafeAreaView>
   );
 };
