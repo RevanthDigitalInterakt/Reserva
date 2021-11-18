@@ -100,37 +100,8 @@ export const RaceDetail: React.FC = () => {
     }
   }, [visibility]);
 
-  const handleOnPress = (isToggled: boolean) => {
-    console.log('isToggled', isToggled);
-    console.log('hasStarted', hasStarted);
-    console.log('aaaaaa', totalDistance);
-    setRaceResume({
-      distance: totalDistance.toString(),
-      duration: currentValue,
-      foodPlate: Math.round(Number(totalDistance) + 10).toString(),
-      pace,
-    });
-
-    if (hasStarted) {
-      stop();
-      if (selectedModality === 'presential') {
-        navigation.navigate('QrCodeScanner', { isFinalizingRace: true });
-      } else {
-        navigation.navigate('RaceFinalized');
-      }
-    } else {
-      setVisibility(true);
-      setHasStarted(true);
-      setTimeout(() => {
-        start();
-        setForceToggle(false);
-        setForceToggle(undefined);
-      }, 3050);
-    }
-  };
-
   // Pega a posição do usuário
-  useEffect(() => {
+  const startGeolocation = async () => {
     Geolocation.getCurrentPosition((pos) => {
       const { coords } = pos;
       setPosition({
@@ -140,10 +111,8 @@ export const RaceDetail: React.FC = () => {
         longitudeDelta: 0.05,
       });
     });
-  }, []);
 
-  // pega nova posicão do usuário quando ele andar
-  useEffect(() => {
+    // pega nova posicão do usuário quando ele andar
     const watchID = Geolocation.watchPosition(
       (pos) => {
         const { coords } = pos;
@@ -173,7 +142,37 @@ export const RaceDetail: React.FC = () => {
     return () => {
       Geolocation.clearWatch(watchID);
     };
-  }, []);
+  };
+
+  const handleOnPress = (isToggled: boolean) => {
+    console.log('isToggled', isToggled);
+    console.log('hasStarted', hasStarted);
+    console.log('aaaaaa', totalDistance);
+    setRaceResume({
+      distance: totalDistance.toString(),
+      duration: currentValue,
+      foodPlate: Math.round(Number(totalDistance) + 10).toString(),
+      pace,
+    });
+
+    if (hasStarted) {
+      stop();
+      if (selectedModality === 'presential') {
+        navigation.navigate('QrCodeScanner', { isFinalizingRace: true });
+      } else {
+        navigation.navigate('RaceFinalized');
+      }
+    } else {
+      startGeolocation();
+      setVisibility(true);
+      setHasStarted(true);
+      setTimeout(() => {
+        start();
+        setForceToggle(false);
+        setForceToggle(undefined);
+      }, 3050);
+    }
+  };
 
   const getDistanceFromLatLonInKm = () => {
     let d = 0;
@@ -221,19 +220,20 @@ export const RaceDetail: React.FC = () => {
   };
 
   const generateCoordinates = (selectedKitKm: number): LatLng[] => {
-    const coordinates: any[] = [];
-    if (selectedKitKm >= 15) {
-      coordinates.concat(KM_15);
+    let coordinates: LatLng[] = [];
+    if (selectedKitKm === 15) {
+      coordinates = [...coordinates, ...KM_15];
     }
     if (selectedKitKm >= 10) {
-      coordinates.concat(KM_10);
+      coordinates = [...coordinates, ...KM_10];
     }
     if (selectedKitKm >= 5) {
-      coordinates.concat(KM_5);
+      coordinates = [...coordinates, ...KM_5];
     }
     if (selectedKitKm >= 2) {
-      coordinates.concat(KM_2);
+      coordinates = [...coordinates, ...KM_2];
     }
+
     return coordinates;
   };
 
@@ -370,6 +370,17 @@ export const RaceDetail: React.FC = () => {
                     strokeWidth={6}
                   />
                   {selectedKit && selectedKit.km && getKmMarker(selectedKit.km)}
+
+                  <Marker
+                    coordinate={{ latitude: -22.919588, longitude: -43.168051 }}
+                  >
+                    <Typography>Chegada</Typography>
+                    <Image
+                      height={40}
+                      source={images.localReserva}
+                      resizeMode="contain"
+                    />
+                  </Marker>
                 </>
               )}
               <Marker

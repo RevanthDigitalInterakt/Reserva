@@ -19,9 +19,9 @@ import { HeaderCorreReserva } from '../../components/HeaderCorreReserva';
 import { useCorre } from '../../context';
 import { useChronometer } from '../../hooks/useChronometer';
 
-export interface RaceFinalizedProps {}
+export interface RaceFinalizedProps { }
 
-export const RaceFinalized: React.FC<RaceFinalizedProps> = ({}) => {
+export const RaceFinalized: React.FC<RaceFinalizedProps> = ({ }) => {
   const { currentValue, start, stop } = useChronometer({ initial: '11:10:00' });
   const viewRef = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);

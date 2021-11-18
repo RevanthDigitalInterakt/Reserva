@@ -21,7 +21,7 @@ export const Counter: React.FC<CounterProps> = ({
     <Box marginTop={34}>
       <Typography
         fontFamily="reservaSerifRegular"
-        fontSize={52}
+        fontSize={48}
         color="white"
         textAlign="center"
       >

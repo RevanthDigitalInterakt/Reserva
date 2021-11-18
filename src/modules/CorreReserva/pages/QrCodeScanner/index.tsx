@@ -65,14 +65,14 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
 
   const onSuccess = (qrEvent: BarCodeReadEvent) => {
     console.log(
-      ValidCodes.find((validCode) => validCode.code === qrEvent.data)
+      ValidCodes.find((validCode) => validCode.code === qrEvent.data.trim())
     );
     if (isFinalizingRace) {
-      if (getFinalValidQr(qrEvent.data))
-        setSelectedKit(getFinalValidQr(qrEvent.data));
+      if (getFinalValidQr(qrEvent.data.trim()))
+        setSelectedKit(getFinalValidQr(qrEvent.data.trim()));
       navigation.navigate('RaceFinalized');
-    } else if (getStartValidQr(qrEvent.data)) {
-      setSelectedKit(getStartValidQr(qrEvent.data));
+    } else if (getStartValidQr(qrEvent.data.trim())) {
+      setSelectedKit(getStartValidQr(qrEvent.data.trim()));
       navigation.navigate('RaceDetail');
     }
   };
@@ -89,6 +89,7 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
       <QRCodeScanner
         onRead={onSuccess}
         showMarker
+        reactivate
         customMarker={<QrCodeMarker qrSize={qrSize} />}
         cameraType="back"
         cameraStyle={{
