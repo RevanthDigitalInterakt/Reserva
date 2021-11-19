@@ -196,37 +196,21 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
   return (
     <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
       <ScrollView style={{ height: DEVICE_HEIGHT }}>
-        <ImageBackground
-          source={images.raceImageBackground}
-          style={{
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: -2,
-          }}
-          resizeMode="cover"
-        />
         <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
-          {showBackgroundShare && (
-            <ImageBackground
-              source={images.raceImageBackground}
-              style={{
-                width: Dimensions.get('window').width,
-                height: Dimensions.get('window').height,
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: -1,
-              }}
-              resizeMode="cover"
-            />
-          )}
+          <ImageBackground
+            source={images.raceImageBackground}
+            style={{
+              width: Dimensions.get('window').width,
+              height: Dimensions.get('window').height,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: -1,
+            }}
+            resizeMode="cover"
+          />
           <View
             style={{
               width: '100%',
