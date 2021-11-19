@@ -41,6 +41,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
   const { email } = useAuth();
   const viewRef = useRef();
   const viewRefImage = useRef();
+  const [showBackgroundShare, setShowBackgroundShare] = useState(false);
   const [showInstagramStory, setShowInstagramStory] = useState(false);
   const [hasWhatsApp, setHasWhatsApp] = useState(false);
   const [hasFacebook, setHasFacebook] = useState(false);
@@ -108,7 +109,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
     switch (social) {
       case 'instagram':
         try {
+          setShowBackgroundShare(true);
           const uri = await viewRef.current.capture();
+          setShowBackgroundShare(false);
           const uriBackgroundImage = await viewRefImage.current.capture();
           console.log('uriuri', uri);
           if (showInstagramStory) {
@@ -129,7 +132,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
         break;
       case 'whatsApp':
         try {
+          setShowBackgroundShare(true);
           const uri = await viewRef.current.capture();
+          setShowBackgroundShare(false);
           const uriBackgroundImage = await viewRefImage.current.capture();
           if (hasWhatsApp) {
             await Share.shareSingle({
@@ -148,7 +153,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
         break;
       case 'facebook':
         try {
+          setShowBackgroundShare(true);
           const uri = await viewRef.current.capture();
+          setShowBackgroundShare(false);
           const uriBackgroundImage = await viewRefImage.current.capture();
           if (hasFacebook) {
             await Share.shareSingle({
@@ -165,7 +172,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
         break;
       case 'twitter':
         try {
+          setShowBackgroundShare(true);
           const uri = await viewRef.current.capture();
+          setShowBackgroundShare(false);
           if (hasTwitter) {
             await Share.shareSingle({
               title: '',
@@ -187,21 +196,37 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
   return (
     <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
       <ScrollView style={{ height: DEVICE_HEIGHT }}>
+        <ImageBackground
+          source={images.raceImageBackground}
+          style={{
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: -2,
+          }}
+          resizeMode="cover"
+        />
         <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
-          <ImageBackground
-            source={images.raceImageBackground}
-            style={{
-              width: Dimensions.get('window').width,
-              height: Dimensions.get('window').height,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: -1,
-            }}
-            resizeMode="cover"
-          />
+          {showBackgroundShare && (
+            <ImageBackground
+              source={images.raceImageBackground}
+              style={{
+                width: Dimensions.get('window').width,
+                height: Dimensions.get('window').height,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: -1,
+              }}
+              resizeMode="cover"
+            />
+          )}
           <View
             style={{
               width: '100%',
