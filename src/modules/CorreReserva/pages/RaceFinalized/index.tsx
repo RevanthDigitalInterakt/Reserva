@@ -11,13 +11,14 @@ import {
   Linking,
   Dimensions,
   BackHandler,
+  Image
 } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
-import { Box, Image, Typography, Icon } from 'reserva-ui';
+import { Box, Typography, Icon } from 'reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
@@ -246,7 +247,10 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             justifyContent="center"
             marginY="xxs"
           >
-            <Image source={images.dividerReserva} width="45%" />
+            <Image source={images.dividerReserva}
+              style={{ width: "45%" }}
+            //  width="45%"
+            />
           </Box>
           <Box
             alignItems="center"
@@ -426,8 +430,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
 
         <ViewShot ref={viewRefImage} options={{ format: 'jpg', quality: 0.9 }}>
           <Image
-            height="100%"
-            width="100%"
+            style={{ width: "100%", height: "100%" }}
+            // height="100%"
+            // width="100%"
             source={images.raceImageBackground}
             resizeMode="contain"
           />
