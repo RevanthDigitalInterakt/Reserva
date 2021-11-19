@@ -226,37 +226,41 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   };
 
-  const onProductAdd = async (
-    productId,
-    colorSelected,
-    sizeSelected,
-    selectedVariantId
-  ) => {
-    if (selectedVariantId) {
-      if (
-        dataProduct?.product.description.includes(
-          'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
-        )
-      ) {
-        navigation.navigate('ProductDetail', {
-          productId,
-          colorSelected,
-          sizeSelected,
-        });
-      } else {
-        const { message, ok } = await addItem(
-          1,
-          selectedVariantId,
-          selectedSellerId
-        );
+  const onProductAdd = async (itemId: any, sellers: any) => {
+    const selectedVariantId = itemId;
+    const selectedSellerId = sellers;
 
-        setIsVisible(true);
+    const { message, ok } = await addItem(1, selectedVariantId, selectedSellerId);
+    setIsVisible(true);
+    if (!ok) {
+      Alert.alert('Produto sem estoque', message);
+    }
 
-        if (!ok) {
-          Alert.alert('Produto sem estoque', message);
-        }
+
+    if (
+      dataProduct?.product.description.includes(
+        'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
+      )
+    ) {
+      navigation.navigate('ProductDetail', {
+        productId,
+        colorSelected,
+        sizeSelected,
+      });
+    } else {
+      const { message, ok } = await addItem(
+        1,
+        selectedVariantId,
+        selectedSellerId
+      );
+
+      setIsVisible(true);
+
+      if (!ok) {
+        Alert.alert('Produto sem estoque', message);
       }
     }
+
   };
 
   useEffect(() => {
@@ -570,6 +574,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   const installments =
                     productSku?.sellers[0].commertialOffer.Installments;
 
+                  const availableProduct =
+                    productSku?.sellers[0].commertialOffer.AvailableQuantity;
+
                   const installmentsNumber =
                     installments?.length > 0
                       ? installments[0].NumberOfInstallments
@@ -581,40 +588,45 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       : product?.priceRange?.listPrice?.lowPrice;
 
                   // const wishId = wishIds?.find(x => x.productId == product?.productId)
-
+                  console.log('productSkuproductSku', productSku)
                   return !product ? (
                     <></>
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        onClickAddCount={() => {}}
+                        onClickAddCount={() => { }}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${
-                          product?.productName.length > 30 ? '...' : ''
-                        }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
+                          }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
                         onClickFavorite={() => handleFavorite(item.sku)}
                         onClickBagButton={() => {
-                          setProduct(product?.productId);
-                          setSelectedVariantItemId(productSku?.itemId);
-                          onProductAdd(
-                            product?.productId,
-                            productSku?.variations[2].values[0],
-                            productSku?.name.split('-')[1],
-                            productSku?.itemId
-                          );
+                          // setProduct(product?.productId);
+                          // setSelectedVariantItemId(productSku?.itemId);
+                          if (availableProduct) {
+                            const sellers = productSku?.sellers[0].sellerId;
+                            if (
+                              dataProduct?.product.description.includes(
+                                'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
+                              )
+                            ) {
+                              navigation.navigate('ProductDetail', {
+                                productId: product?.productId,
+                                colorSelected: productSku?.variations[2].values[0],
+                                sizeSelected: productSku?.name.split('-')[1],
+                              });
+                            } else {
+                              onProductAdd(productSku?.itemId, sellers);
+                            }
+                          }
 
                           // navigation.navigate(')
                           // console.log('item', productSku?.variations[2].values[0])
-                          /*  navigation.navigate('ProductDetail', {
-                            productId: product?.productId,
-                            colorSelected: productSku?.variations[2].values[0],
-                            sizeSelected: productSku?.name.split('-')[1],
-                          }); */
+
                         }}
                         imageSource={
                           productSku?.images[0].imageUrl
