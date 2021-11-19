@@ -11,7 +11,7 @@ import {
   Linking,
   Dimensions,
   BackHandler,
-  Image
+  Image,
 } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -23,8 +23,8 @@ import { Box, Typography, Icon } from 'reserva-ui';
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
-import { HeaderCorreReserva } from '../../components/HeaderCorreReserva';
 import { useCorre } from '../../context';
+import { images as imagesLogo } from '../../images';
 
 const { height: DEVICE_HEIGHT } = Dimensions.get('window');
 
@@ -201,7 +201,31 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             }}
             resizeMode="cover"
           />
-          <HeaderCorreReserva />
+          <View
+            style={{
+              width: '100%',
+            }}
+          >
+            <Box
+              marginTop={42}
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Box paddingLeft={17} justifyContent="center" flexGrow={1} />
+              <Box alignItems="center" flexGrow={1}>
+                <Image
+                  style={{ width: 134, height: 34 }}
+                  source={imagesLogo.corre}
+                />
+              </Box>
+              <Box alignItems="center" flexGrow={1}>
+                <Image
+                  style={{ width: 29, height: 34 }}
+                  source={imagesLogo.picaPau}
+                />
+              </Box>
+            </Box>
+          </View>
           <Box justifyContent="center" alignItems="center" marginTop={30}>
             <Typography
               color="white"
@@ -248,8 +272,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             justifyContent="center"
             marginY="xxs"
           >
-            <Image source={images.dividerReserva}
-              style={{ width: "45%" }}
+            <Image
+              source={images.dividerReserva}
+              style={{ width: '45%' }}
             //  width="45%"
             />
           </Box>
@@ -431,7 +456,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
 
         <ViewShot ref={viewRefImage} options={{ format: 'jpg', quality: 0.9 }}>
           <Image
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: '100%', height: '100%' }}
             // height="100%"
             // width="100%"
             source={images.raceImageBackground}
