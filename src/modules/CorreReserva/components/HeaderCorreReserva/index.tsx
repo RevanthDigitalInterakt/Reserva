@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { BackHandler } from 'react-native';
+import { BackHandler, Image } from 'react-native';
 import { View } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Box, Icon, Image } from 'reserva-ui';
+import { Box, Icon, } from 'reserva-ui';
 
 import { useCorre } from '../../context';
 import { images } from '../../images';
@@ -64,18 +64,20 @@ export const HeaderCorreReserva: React.FC<HeaderCorreReservaProps> = ({
               }}
               disabled={!showBackButton}
             >
-              <Icon
-                size={25}
-                name="ArrowBack"
-                color={showBackButton ? 'white' : 'transparente'}
-              />
+              {showBackButton ?
+                <Icon
+                  size={25}
+                  name="ArrowBack"
+                  color={showBackButton ? 'white' : 'transparente'}
+                /> : null
+              }
             </TouchableOpacity>
           </Box>
           <Box alignItems="center" flexGrow={1}>
-            <Image width={134} height={34.2} source={images.corre} />
+            <Image style={{ width: 134, height: 34 }} source={images.corre} />
           </Box>
           <Box alignItems="center" flexGrow={1}>
-            <Image width={29} height={34.2} source={images.picaPau} />
+            <Image style={{ width: 29, height: 34 }} source={images.picaPau} />
           </Box>
         </Box>
       </View>
