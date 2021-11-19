@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { BackHandler, Dimensions } from 'react-native';
+import { BackHandler } from 'react-native';
 import { View } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Icon, Image } from 'reserva-ui';
@@ -14,8 +14,6 @@ export interface HeaderCorreReservaProps {
   isFullPage?: boolean;
   showBackButton?: boolean;
 }
-
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 export const HeaderCorreReserva: React.FC<HeaderCorreReservaProps> = ({
   showBackButton,

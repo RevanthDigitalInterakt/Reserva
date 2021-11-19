@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Dimensions, ScrollView } from 'react-native';
+import { BackHandler, Dimensions, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Typography } from 'reserva-ui';
 
@@ -22,8 +22,17 @@ type ModalitySelectorNavigator = StackNavigationProp<
 >;
 
 export const ModalitySelector: React.FC<ModalitySelectorNavigator> = ({ }) => {
-  const { setSelectedModality } = useCorre();
+  const { setSelectedModality, setHasStarted } = useCorre();
   const navigation = useNavigation<ModalitySelectorNavigator>();
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
+    setHasStarted(false);
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -91,6 +100,6 @@ export const ModalitySelector: React.FC<ModalitySelectorNavigator> = ({ }) => {
           />
         </Box>
       </ScrollView>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };

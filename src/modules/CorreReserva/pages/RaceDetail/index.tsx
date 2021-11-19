@@ -10,7 +10,6 @@ import {
   Vibration,
   ScrollView,
 } from 'react-native';
-import LocationEnabler from 'react-native-location-enabler';
 import MapView, {
   PROVIDER_GOOGLE,
   Marker,
@@ -69,20 +68,6 @@ export const RaceDetail: React.FC = () => {
   const mapRef = useRef<MapView>(null);
   const ONE_SECOND_IN_MS = 1000;
 
-  const {
-    useLocationSettings,
-    PRIORITIES: { HIGH_ACCURACY },
-  } = LocationEnabler;
-
-  const [enabled, requestResolution] = useLocationSettings(
-    {
-      priority: HIGH_ACCURACY, // default BALANCED_POWER_ACCURACY
-      alwaysShow: true, // default false
-      needBle: true, // default false
-    },
-    false /* optional: default undefined */
-  );
-
   useEffect(() => {
     let km = 0;
     if (Math.floor(totalDistance) !== 0) {
@@ -123,7 +108,6 @@ export const RaceDetail: React.FC = () => {
 
   // Pega a posição do usuário
   useEffect(() => {
-    requestResolution();
     Geolocation.getCurrentPosition((pos) => {
       const { coords } = pos;
       setPosition({

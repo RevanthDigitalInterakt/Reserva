@@ -7512,11 +7512,6 @@ react-native-linear-gradient@^2.5.6:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
   integrity sha1-liFcvF7HoBJHogiQiIqnW4NNRKA=
 
-react-native-location-enabler@^4.1.0:
-  version "4.1.0"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-location-enabler/-/react-native-location-enabler-4.1.0.tgz#f4d809103c3f39e50b775d374ac544cbc6a0c429"
-  integrity sha1-9NgJEDw/OeULd103SsVEy8agxCk=
-
 react-native-maps@^0.28.0:
   version "0.28.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-maps/-/react-native-maps-0.28.0.tgz#1913dd4977652ddfc317d39c7cb7d78a8e513784"
