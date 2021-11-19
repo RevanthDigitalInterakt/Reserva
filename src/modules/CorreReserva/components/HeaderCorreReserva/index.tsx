@@ -31,7 +31,7 @@ export const HeaderCorreReserva: React.FC<HeaderCorreReservaProps> = ({
       }
       return true;
     });
-  }, []);
+  }, [hasStarted]);
 
   return (
     <>
