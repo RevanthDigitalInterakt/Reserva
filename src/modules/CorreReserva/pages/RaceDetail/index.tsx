@@ -47,6 +47,7 @@ export const RaceDetail: React.FC = () => {
     setRaceResume,
     hasStarted,
     setHasStarted,
+    setIsLastPage,
   } = useCorre();
   const navigation = useNavigation<RaceDetailNavigator>();
   const [position, setPosition] = useState<{
@@ -108,6 +109,7 @@ export const RaceDetail: React.FC = () => {
 
   // Pega a posição do usuário
   useEffect(() => {
+    setIsLastPage(false);
     Geolocation.getCurrentPosition((pos) => {
       const { coords } = pos;
       setPosition({

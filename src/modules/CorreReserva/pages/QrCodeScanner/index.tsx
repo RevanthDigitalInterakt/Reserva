@@ -34,7 +34,12 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
   route: { params },
 }) => {
   const navigation = useNavigation<QrCodeScannerNavigator>();
-  const { ValidCodes, setSelectedKit, selectedModality } = useCorre();
+  const { ValidCodes, setSelectedKit, selectedModality, setIsLastPage } =
+    useCorre();
+
+  useEffect(() => {
+    setIsLastPage(false);
+  }, []);
 
   const isFinalizingRace = params?.isFinalizingRace;
 

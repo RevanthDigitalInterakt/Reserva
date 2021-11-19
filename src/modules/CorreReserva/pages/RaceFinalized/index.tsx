@@ -43,9 +43,10 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
   const [hasWhatsApp, setHasWhatsApp] = useState(false);
   const [hasFacebook, setHasFacebook] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
-  const { raceResume } = useCorre();
+  const { raceResume, setIsLastPage } = useCorre();
 
   useEffect(() => {
+    setIsLastPage(true);
     BackHandler.addEventListener('hardwareBackPress', () => {
       navigation.navigate('Home');
       return true;

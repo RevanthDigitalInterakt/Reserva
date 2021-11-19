@@ -12,6 +12,8 @@ interface CorreContextProps {
   setRaceResume: React.Dispatch<React.SetStateAction<RaceResume | undefined>>;
   hasStarted?: boolean;
   setHasStarted: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  isLastPage?: boolean;
+  setIsLastPage: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
 export const CorreContext = createContext<CorreContextProps>();
@@ -39,6 +41,7 @@ const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
   const [selectedModality, setSelectedModality] = useState<Modalities>();
   const [raceResume, setRaceResume] = useState<RaceResume>();
   const [hasStarted, setHasStarted] = useState<boolean>(false);
+  const [isLastPage, setIsLastPage] = useState<boolean>(false);
   const [selectedKit, setSelectedKit] = useState<KitType>();
 
   const ValidCodes: KitType[] = [
@@ -61,6 +64,8 @@ const CorreContextProvider = ({ children }: AuthContextProviderProps) => {
         setRaceResume,
         hasStarted,
         setHasStarted,
+        isLastPage,
+        setIsLastPage,
       }}
     >
       {children}

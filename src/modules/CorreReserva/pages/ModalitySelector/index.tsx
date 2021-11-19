@@ -22,7 +22,7 @@ type ModalitySelectorNavigator = StackNavigationProp<
 >;
 
 export const ModalitySelector: React.FC<ModalitySelectorNavigator> = ({ }) => {
-  const { setSelectedModality, setHasStarted } = useCorre();
+  const { setSelectedModality, setHasStarted, setIsLastPage } = useCorre();
   const navigation = useNavigation<ModalitySelectorNavigator>();
 
   useEffect(() => {
@@ -31,6 +31,7 @@ export const ModalitySelector: React.FC<ModalitySelectorNavigator> = ({ }) => {
       return true;
     });
     setHasStarted(false);
+    setIsLastPage(false);
   }, []);
 
   return (

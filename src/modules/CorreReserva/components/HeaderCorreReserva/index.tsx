@@ -18,7 +18,7 @@ export interface HeaderCorreReservaProps {
 export const HeaderCorreReserva: React.FC<HeaderCorreReservaProps> = ({
   showBackButton,
 }) => {
-  const { hasStarted } = useCorre();
+  const { hasStarted, isLastPage } = useCorre();
   const navigation = useNavigation();
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
@@ -33,7 +33,9 @@ export const HeaderCorreReserva: React.FC<HeaderCorreReservaProps> = ({
     });
   }, [hasStarted]);
 
-  return (
+  return isLastPage ? (
+    <></>
+  ) : (
     <>
       <ModalGetOutCorre
         isVisible={isVisibleAlert}
