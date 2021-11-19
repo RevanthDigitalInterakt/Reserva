@@ -138,6 +138,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [selectedVariantItemId, setSelectedVariantItemId] =
     useState<Variant | null>(null);
   const [isSimpleSignature, setIsSimpleSignature] = useState(false);
+  const [arrayProducts, setArrayProducts] = useState<any[]>([]);
+  const [productsArray, setProductsArray] = useState<any[]>([]);
 
   const { email, cookie } = useAuth();
 
@@ -231,7 +233,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     selectedVariantId
   ) => {
     if (selectedVariantId) {
-      if (isAssinaturaSimples) {
+      if (
+        dataProduct?.product.description.includes(
+          'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
+        )
+      ) {
         navigation.navigate('ProductDetail', {
           productId,
           colorSelected,
@@ -254,6 +260,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   };
 
   useEffect(() => {
+    console.log('DATA PRODUCTS', dataProduct);
     if (dataProduct) {
       const filterVariant = dataProduct?.product.items.filter(
         (x: any) => x.itemId === selectedVariantItemId
@@ -267,19 +274,47 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       });
       setSelectedSellerId(sellerAvailable.toString());
     }
-  }, [dataProduct]);
+  }, [data]);
 
-  const isAssinaturaSimples = useMemo(() => {
-    const description =
-      'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)';
+  const saveProductData = async (item) => {
+    const newArray = item;
 
-    return dataProduct?.product.description.includes(description);
-  }, [dataProduct]);
+    console.log('ARRAY :::::::::::>', newArray);
+    if (newArray) {
+      //setArrayProducts([...newArray]);
+
+      let arr = [];
+      arr.push(newArray);
+
+      console.log(':::::::>', arr);
+    }
+  };
+
+  useEffect(() => {
+    console.log('PRODUCTS ARRAY', arrayProducts);
+  }, [arrayProducts]);
+
+  const handleProductData = async (item: any) => {
+    const { data, loading } = await refetchDataProduct({
+      id: item,
+    });
+
+    if (!loading && data) {
+      console.log('DATA :::::::::::::>', data);
+
+      //const { product } = data;
+      await saveProductData(data?.product);
+    }
+  };
 
   useEffect(() => {
     if (wishIds) {
       const idArray = wishIds.map((x) => x.productId.split('-')[0]) || [];
-      setProduct({ idArray });
+
+      idArray.forEach((element) => {
+        console.log(':::: ELEMENT :::::>>', element);
+        handleProductData(element);
+      });
     }
   }, [wishIds]);
 
