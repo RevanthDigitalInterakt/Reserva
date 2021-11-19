@@ -52,16 +52,16 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to scan your card</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Your message to user when the photo library is accessed for the first time</string>
-	<key>NSMicrophoneUsageDescription</key>
-    <string>Your message to user when the microsphone is accessed for the first time</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your message to user when the microsphone is accessed for the first time</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Your message to user when the photo library is accessed for the first time</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Black.ttf</string>
