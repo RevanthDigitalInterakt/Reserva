@@ -1,11 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {
-  QueryResult,
-  useQuery,
-  useLazyQuery,
-  useMutation,
-} from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -22,108 +17,14 @@ import {
 
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
+import { useCart } from '../../../context/CartContext';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import { useCart } from '../../../context/CartContext';
-import { ModalBag } from '../../../modules/ProductDetail/components/ModalBag';
-
-import {
-  GET_PRODUCTS,
-  GET_SHIPPING,
-  SUBSCRIBE_NEWSLETTER,
-} from '../../../graphql/product/productQuery';
+import { ModalBag } from '../../ProductDetail/components/ModalBag';
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
-
-type Price = {
-  highPrice: number;
-  lowPrice: number;
-};
-
-type CommercialOffer = {
-  Tax: number;
-  taxPercentage: number;
-  AvailableQuantity: number;
-  Price: number;
-  PriceWithoutDiscont: number;
-  discountHighlights: any[];
-  Installments: {
-    Value: number;
-    TotalValuePlusInterestRate: number;
-    NumberOfInstallments: number;
-    PaymentSystemGroupName: string;
-    PaymentSystemName: string;
-  }[];
-};
-
-type Facets = {
-  name: string;
-  originalName: string | null;
-  values: string[];
-};
-
-type Variant = {
-  itemId: string;
-  images: {
-    imageUrl: string;
-  }[];
-  sellers: Seller[];
-  variations: Facets[] | undefined;
-};
-
-type Seller = {
-  sellerId: string;
-  commertialOffer: CommercialOffer;
-};
-
-type Field = {
-  name: string;
-  originalName: string;
-};
-
-type Specification = {
-  field: Field;
-  values: Field[];
-};
-
-type Product = {
-  categoryTree: any[]; // doesnt matter
-  productId: string;
-  productName: string;
-  clusterHighlights?: ClusterHighlight[];
-  skuSpecifications: Specification[];
-  priceRange: {
-    sellingPrice: Price;
-    listPrice: Price;
-  };
-  items: Variant[];
-  description: string;
-};
-
-type ProductQueryResponse = {
-  product: Product;
-};
-export interface ClusterHighlight {
-  id?: string;
-  name?: string;
-}
-
-type ItemsSKU = {
-  color: string;
-  images: string[];
-  sizeList: [id: string, size: string, available: boolean];
-};
-type ShippingCost = {
-  selectedSla?: string;
-  slas: {
-    name: string;
-    friendlyName: string;
-    price: number;
-    shippingEstimate: string;
-  }[];
-};
 
 export const WishList: React.FC<Props> = ({ navigation }) => {
   const [showWishListCategory, setShowWishListCategory] = useState(true);
@@ -133,13 +34,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
-  const [selectedSellerId, setSelectedSellerId] = useState<string>('');
-  const [selectedVariantItemId, setSelectedVariantItemId] =
-    useState<Variant | null>(null);
-  const [isSimpleSignature, setIsSimpleSignature] = useState(false);
-  const [arrayProducts, setArrayProducts] = useState<any[]>([]);
-  const [productsArray, setProductsArray] = useState<any[]>([]);
 
   const { email, cookie } = useAuth();
 
@@ -171,19 +65,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       idArray: [],
     },
   });
-
-  const [product, setProduct] = useState<Product | null>(null);
-  const {
-    data: dataProduct,
-    refetch: refetchDataProduct,
-  }: QueryResult<ProductQueryResponse> = useQuery<ProductQueryResponse>(
-    GET_PRODUCTS,
-    {
-      variables: {
-        id: product,
-      },
-    }
-  );
 
   useEffect(() => {
     console.log('products', products);
@@ -230,103 +111,17 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     const selectedVariantId = itemId;
     const selectedSellerId = sellers;
 
-    const { message, ok } = await addItem(1, selectedVariantId, selectedSellerId);
+    const { message, ok } = await addItem(
+      1,
+      selectedVariantId,
+      selectedSellerId
+    );
     setIsVisible(true);
+
     if (!ok) {
       Alert.alert('Produto sem estoque', message);
     }
-
-
-    if (
-      dataProduct?.product.description.includes(
-        'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
-      )
-    ) {
-      navigation.navigate('ProductDetail', {
-        productId,
-        colorSelected,
-        sizeSelected,
-      });
-    } else {
-      const { message, ok } = await addItem(
-        1,
-        selectedVariantId,
-        selectedSellerId
-      );
-
-      setIsVisible(true);
-
-      if (!ok) {
-        Alert.alert('Produto sem estoque', message);
-      }
-    }
-
   };
-
-  useEffect(() => {
-    console.log('DATA PRODUCTS', dataProduct);
-    if (dataProduct) {
-      const filterVariant = dataProduct?.product.items.filter(
-        (x: any) => x.itemId === selectedVariantItemId
-      );
-
-      setSelectedVariant(filterVariant);
-
-      const sellerAvailable = filterVariant?.map((x: any) => {
-        x.sellers[0].commertialOffer.AvailableQuantity > 0;
-        return x.sellers[0].sellerId;
-      });
-      setSelectedSellerId(sellerAvailable.toString());
-    }
-  }, [data]);
-
-  const saveProductData = async (item) => {
-    const newArray = item;
-
-    console.log('ARRAY :::::::::::>', newArray);
-    if (newArray) {
-      //setArrayProducts([...newArray]);
-
-      let arr = [];
-      arr.push(newArray);
-
-      console.log(':::::::>', arr);
-    }
-  };
-
-  useEffect(() => {
-    console.log('PRODUCTS ARRAY', arrayProducts);
-  }, [arrayProducts]);
-
-  const handleProductData = async (item: any) => {
-    const { data, loading } = await refetchDataProduct({
-      id: item,
-    });
-
-    if (!loading && data) {
-      console.log('DATA :::::::::::::>', data);
-
-      //const { product } = data;
-      await saveProductData(data?.product);
-    }
-  };
-
-  useEffect(() => {
-    if (wishIds) {
-      const idArray = wishIds.map((x) => x.productId.split('-')[0]) || [];
-
-      idArray.forEach((element) => {
-        console.log(':::: ELEMENT :::::>>', element);
-        handleProductData(element);
-      });
-    }
-  }, [wishIds]);
-
-  // useEffect(() => {
-  //   if (wishDataStorage) {
-  //     setWishIds(wishDataStorage);
-  //   }
-  // }, [wishDataStorage])
 
   useEffect(() => {
     if (wishIds) {
@@ -575,7 +370,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                     productSku?.sellers[0].commertialOffer.Installments;
 
                   const availableProduct =
-                    productSku?.sellers[0].commertialOffer.AvailableQuantity;
+                    productSku?.sellers[0].commertialOffer.AvailableQuantity >
+                    0;
 
                   const installmentsNumber =
                     installments?.length > 0
@@ -588,45 +384,48 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       : product?.priceRange?.listPrice?.lowPrice;
 
                   // const wishId = wishIds?.find(x => x.productId == product?.productId)
-                  console.log('productSkuproductSku', productSku)
                   return !product ? (
                     <></>
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        onClickAddCount={() => { }}
+                        onClickAddCount={() => {}}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
-                          }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${
+                          product?.productName.length > 30 ? '...' : ''
+                        }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
                         onClickFavorite={() => handleFavorite(item.sku)}
                         onClickBagButton={() => {
-                          // setProduct(product?.productId);
                           // setSelectedVariantItemId(productSku?.itemId);
+
                           if (availableProduct) {
                             const sellers = productSku?.sellers[0].sellerId;
+
                             if (
-                              dataProduct?.product.description.includes(
+                              product.description.includes(
                                 'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
                               )
                             ) {
                               navigation.navigate('ProductDetail', {
                                 productId: product?.productId,
-                                colorSelected: productSku?.variations[2].values[0],
+                                colorSelected:
+                                  productSku?.variations[2].values[0],
                                 sizeSelected: productSku?.name.split('-')[1],
                               });
                             } else {
                               onProductAdd(productSku?.itemId, sellers);
                             }
+                          } else {
+                            Alert.alert('Produto sem estoque :(');
                           }
 
                           // navigation.navigate(')
                           // console.log('item', productSku?.variations[2].values[0])
-
                         }}
                         imageSource={
                           productSku?.images[0].imageUrl
