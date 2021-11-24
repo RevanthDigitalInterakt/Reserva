@@ -11,6 +11,8 @@ import {
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { cashbackService } from '../../../services/cashbackService';
+import { StorageService } from '../../../services/storageService';
 import { FetchCredit } from '../../../services/unicoService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -20,18 +22,15 @@ type Props = StackScreenProps<RootStackParamList, 'Credits'>;
 export const Credits: React.FC<Props> = ({ navigation, route }) => {
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [loadingCredit, setLoadingCredit] = useState(false);
+  const [isAcceptedConditions, setIsAcceptConditions] = useState(false);
   const [cashbackInStore, setCashbackInStore] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
-  const [credit, SetCredit] = useState(0);
+  const [credit, setCredit] = useState(0);
 
   useEffect(() => {
-    if (data) {
-      const { profile } = data;
-      if (profile) {
-        const { profile } = data;
-        setProfile(profile);
-      }
-    }
+    StorageService.getJSON(StorageService.storageKeys.PROFILE).then((value) => {
+      setProfile(value);
+    });
   }, [data]);
 
   useEffect(() => {
@@ -41,17 +40,19 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
     setCashbackInStore(response.asBoolean());
   }, []);
 
-  const fetchCredit = async () => {
-    setLoadingCredit(true);
+  const getCustomer = async () => {
     if (profile) {
-      const { data } = await FetchCredit(profile.document);
-      SetCredit(data.SaldoMonetario);
+      setLoadingCredit(true);
+      return cashbackService.getCustomer(profile.document).then((response) => {
+        setIsAcceptConditions(response.data.Fidelizado);
+        setCredit(response.data.SaldoMonetario);
+        setLoadingCredit(false);
+      });
     }
-    setLoadingCredit(false);
   };
 
   useEffect(() => {
-    fetchCredit();
+    getCustomer();
   }, [profile]);
 
   return (
@@ -83,24 +84,22 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
             />
           </Box>
           <Divider variant="fullWidth" />
-          {cashbackInStore && (
-            <Box flexDirection="row" mt="xxs">
-              <Button
-                flexDirection="row"
-                onPress={() => {
-                  navigation.navigate('Cashback', { credits: credit });
-                }}
-              >
-                <>
-                  <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
+          <Box flexDirection="row" mt="xxs">
+            <Button
+              flexDirection="row"
+              onPress={() => {
+                navigation.navigate('Cashback', { isAcceptedConditions });
+              }}
+            >
+              <>
+                <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
 
-                  <Typography fontFamily="nunitoBold" fontSize={16}>
-                    Cashback em Lojas
-                  </Typography>
-                </>
-              </Button>
-            </Box>
-          )}
+                <Typography fontFamily="nunitoBold" fontSize={16}>
+                  Cashback em Lojas
+                </Typography>
+              </>
+            </Button>
+          </Box>
         </Box>
       </Box>
     </SafeAreaView>

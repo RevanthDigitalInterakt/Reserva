@@ -4,12 +4,7 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
-import {
-  useFocusEffect,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native';
 import { Typography, Box, Button } from 'reserva-ui';
 
@@ -18,7 +13,7 @@ import {
   profileQuery,
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import { StorageService } from '../../../services/storageService';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
@@ -63,6 +58,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
       const { profile } = data;
       if (profile) {
         const { profile } = data;
+        StorageService.setJSON(StorageService.storageKeys.PROFILE, profile);
         setProfile(profile);
       }
     }

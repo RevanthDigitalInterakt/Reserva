@@ -12,23 +12,6 @@
     "strict": true,
     "moduleResolution": "node",
     "baseUrl": ".",
-    "paths": {
-      "@components": [
-        "./src/components/*"
-      ],
-      "@config": [
-        "./src/config/*"
-      ],
-      "@services": [
-        "./src/services/*"
-      ],
-      "@utils": [
-        "./src/utils/*"
-      ],
-      "@hooks": [
-        "./src/hooks/*"
-      ],
-    },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": false

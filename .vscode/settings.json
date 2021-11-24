@@ -1,11 +1,12 @@
 {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
-    "cSpell.words": [
-        "Codepush",
-        "Corre",
-        "Reserva"
-    ]
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "cSpell.words": [
+    "Codepush",
+    "Corre",
+    "Reserva",
+    "uuidv"
+  ]
 }
