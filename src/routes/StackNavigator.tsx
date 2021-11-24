@@ -60,7 +60,7 @@ export type RootStackParamList = {
     comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite';
   };
   SearchScreen: { searchterm?: string };
-  ProductDetail: { productId: string; colorSelected: string };
+  ProductDetail: { productId: string; colorSelected: string; selectedSize: string };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };

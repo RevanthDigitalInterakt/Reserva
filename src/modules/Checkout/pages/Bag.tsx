@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { Platform, SafeAreaView, ScrollView } from "react-native";
+import { Platform, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import {
   Typography,
   Box,
@@ -368,9 +368,6 @@ export const BagScreen = () => {
             }
 
             <ScrollView>
-
-
-
               <Modal isVisible={loadingModal}>
                 <Box zIndex={5} height='100%' width='100%' opacity={.65} position='absolute' justifyContent='center' alignItems='center'>
                   <LottieView
@@ -430,78 +427,87 @@ export const BagScreen = () => {
                         -R$ 50
                       </Typography>
                     </Box>}
-                    <ProductHorizontalListCard
-                      isBag
-                      discountApi={item.priceTags.find(x => x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368') ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
-                      disableCounter={item.priceTags.find(x => x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368') && array.filter(x => x.uniqueId == item.uniqueId).length > 1}
-                      currency={"R$"}
-                      discountTag={
-                        getPercent(
-                          item.sellingPrice,
-                          item.listPrice
-                        )
-                      }
-                      itemColor={item.skuName.split("-")[0] || ""}
-                      ItemSize={item.skuName.split("-")[1] || ""}
-                      productTitle={item.name.split(" - ")[0]}
-                      // installmentsNumber={item.installmentNumber}
-                      // installmentsPrice={item.installmentPrice}
-                      price={item.listPrice / 100}
-                      priceWithDiscount={item.sellingPrice / 100}
-                      count={optimistQuantities[index]}
-                      onClickAddCount={async (count) => {
-                        const firstItemIndex = array.findIndex(x => x.productId == item.productId)
-                        console.log(firstItemIndex)
-                        const prevCont = optimistQuantities[firstItemIndex]
-                        await setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), count, ...optimistQuantities.slice(firstItemIndex + 1)])
-                        const { ok } = await addItem(count, item.id, item.seller);
-
-                        if (!ok)
-                          setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), prevCont, ...optimistQuantities.slice(firstItemIndex + 1)])
-                        //console.log('ok addCount', ok)
-
-                        const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
-                        if (item.quantity != count) {
-                          setNoProduct(erros[0])
-                        }
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigate('ProductDetail', {
+                          productId: item.productId,
+                          selectedSize: item.skuName.split("-")[1] || ""
+                        });
                       }}
-                      onClickSubCount={
-                        async (count) => {
-                          const prevCont = optimistQuantities[index]
-                          if (prevCont <= 1) {
-                            setShowModal(true)
-                            setRemoveProduct({
-                              id: item.id,
-                              index: index,
-                              seller: item.seller
-                            })
-                          } else {
-                            setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
-                            const { ok } = await removeItem(
-                              item.id,
-                              index,
-                              item.seller,
-                              item.quantity - 1
-                            )
-                            if (!ok)
-                              setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
-                            console.log('ok subCount', ok)
+                    >
+                      <ProductHorizontalListCard
+                        isBag
+                        discountApi={item.priceTags.find(x => x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368') ? parseInt(`${item.priceTags[0].rawValue}`) : undefined}
+                        disableCounter={item.priceTags.find(x => x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368') && array.filter(x => x.uniqueId == item.uniqueId).length > 1}
+                        currency={"R$"}
+                        discountTag={
+                          getPercent(
+                            item.sellingPrice,
+                            item.listPrice
+                          )
+                        }
+                        itemColor={item.skuName.split("-")[0] || ""}
+                        ItemSize={item.skuName.split("-")[1] || ""}
+                        productTitle={item.name.split(" - ")[0]}
+                        // installmentsNumber={item.installmentNumber}
+                        // installmentsPrice={item.installmentPrice}
+                        price={item.listPrice / 100}
+                        priceWithDiscount={item.sellingPrice / 100}
+                        count={optimistQuantities[index]}
+                        onClickAddCount={async (count) => {
+                          const firstItemIndex = array.findIndex(x => x.productId == item.productId)
+                          console.log(firstItemIndex)
+                          const prevCont = optimistQuantities[firstItemIndex]
+                          await setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), count, ...optimistQuantities.slice(firstItemIndex + 1)])
+                          const { ok } = await addItem(count, item.id, item.seller);
 
+                          if (!ok)
+                            setOptimistQuantities([...optimistQuantities.slice(0, firstItemIndex), prevCont, ...optimistQuantities.slice(firstItemIndex + 1)])
+                          //console.log('ok addCount', ok)
+
+                          const erros = errorsMessages?.filter((erro) => erro.includes(item.name))
+                          if (item.quantity != count) {
+                            setNoProduct(erros[0])
                           }
                         }}
-                      onClickClose={() => {
-                        setShowModal(true)
-                        setRemoveProduct({
-                          id: item.id,
-                          index: index,
-                          seller: item.seller
-                        })
-                      }}
-                      imageSource={item.imageUrl
-                        .replace("http", "https")
-                        .split("-55-55")
-                        .join("")}
-                    />
+                        onClickSubCount={
+                          async (count) => {
+                            const prevCont = optimistQuantities[index]
+                            if (prevCont <= 1) {
+                              setShowModal(true)
+                              setRemoveProduct({
+                                id: item.id,
+                                index: index,
+                                seller: item.seller
+                              })
+                            } else {
+                              setOptimistQuantities([...optimistQuantities.slice(0, index), count, ...optimistQuantities.slice(index + 1)])
+                              const { ok } = await removeItem(
+                                item.id,
+                                index,
+                                item.seller,
+                                item.quantity - 1
+                              )
+                              if (!ok)
+                                setOptimistQuantities([...optimistQuantities.slice(0, index), prevCont, ...optimistQuantities.slice(index + 1)])
+                              console.log('ok subCount', ok)
+
+                            }
+                          }}
+                        onClickClose={() => {
+                          setShowModal(true)
+                          setRemoveProduct({
+                            id: item.id,
+                            index: index,
+                            seller: item.seller
+                          })
+                        }}
+                        imageSource={item.imageUrl
+                          .replace("http", "https")
+                          .split("-55-55")
+                          .join("")}
+                      />
+                    </TouchableOpacity>
                   </Box>
                 ))}
               </Box>

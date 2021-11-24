@@ -221,7 +221,8 @@ export const ProductDetail: React.FC<Props> = ({
 
       // set default first selected variant
       //console.log(product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0))
-      setSelectedVariant(product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0));
+      const variant = product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0)
+      setSelectedVariant(variant);
 
       const disabledColors = getUnavailableColors(product)
 
@@ -231,7 +232,15 @@ export const ProductDetail: React.FC<Props> = ({
       setColorFilters(colorList);
 
       // set initial selected color
-      setSelectedColor(colorList ? route.params.colorSelected : '');
+      setSelectedColor(
+        colorList
+          ? route.params.colorSelected
+            ? route.params.colorSelected
+            : variant
+              ? variant?.variations[2]?.values[0]
+              : ''
+          : ''
+      );
 
       // set size filter
       const sizeList = getSizeList(product);
@@ -258,7 +267,13 @@ export const ProductDetail: React.FC<Props> = ({
   }, [data]);
 
   useEffect(() => {
-    if (itemsSKU.length > 0) {
+    if (route.params.selectedSize !== undefined && route.params.selectedSize !== '') {
+      setSelectedSize(route.params.selectedSize.trim());
+    }
+  }, [route.params.selectedSize])
+
+  useEffect(() => {
+    if (itemsSKU !== undefined && itemsSKU.length > 0 && selectedColor !== '') {
 
       setImageSelected(
         itemsSKU
@@ -294,7 +309,7 @@ export const ProductDetail: React.FC<Props> = ({
         setoutOfStock(false)
       }
     }
-  }, [selectedColor, route.params.productId])
+  }, [selectedColor, route.params.productId, itemsSKU])
 
 
   // change sku effect
