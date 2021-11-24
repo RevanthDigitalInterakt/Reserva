@@ -28,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-  | React.ComponentType<any>
-  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
 }
 
@@ -273,8 +273,9 @@ export const ListVerticalProducts = ({
             </Box>
           )}
           onEndReached={async () => {
+            console.log('onEndReached');
             setIsLoadingMore(true);
-            if (totalProducts > products.length)
+            if (totalProducts && totalProducts > products.length)
               await loadMoreProducts(products.length);
             setIsLoadingMore(false);
           }}
