@@ -25,6 +25,7 @@ import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
+  isLoading?: boolean;
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
@@ -47,6 +48,7 @@ export const ListVerticalProducts = ({
   products,
   horizontal,
   listHeader,
+  isLoading,
   loadMoreProducts,
   loadingHandler,
   totalProducts,
@@ -280,7 +282,7 @@ export const ListVerticalProducts = ({
             setIsLoadingMore(false);
           }}
           ListFooterComponent={() => {
-            if (!isLoadingMore) return null;
+            if (!(isLoadingMore || isLoading)) return null;
 
             return (
               <Box

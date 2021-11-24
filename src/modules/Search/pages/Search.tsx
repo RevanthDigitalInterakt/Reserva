@@ -427,6 +427,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
             <ListVerticalProducts
               products={products || []}
+              isLoading={loadingRefetch}
               totalProducts={data.productSearch.recordsFiltered}
               loadMoreProducts={(offset) => {
                 loadMoreProducts(offset, searchTerm);
