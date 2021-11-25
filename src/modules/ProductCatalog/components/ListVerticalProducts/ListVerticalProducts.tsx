@@ -28,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-  | React.ComponentType<any>
-  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
 }
 
@@ -313,7 +313,9 @@ export const ListVerticalProducts = ({
             const installmentPrice =
               installments.length > 0
                 ? installments[0].Value
-                : item.priceRange?.listPrice?.lowPrice;
+                : item.items[0].sellers[0].commertialOffer.Price;
+
+            // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
               <Box
