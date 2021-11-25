@@ -431,6 +431,7 @@ export const BagScreen = () => {
                       onPress={() => {
                         navigate('ProductDetail', {
                           productId: item.productId,
+                          itemId: item.id,
                           selectedSize: item.skuName.split("-")[1] || ""
                         });
                       }}

@@ -229,18 +229,21 @@ export const ProductDetail: React.FC<Props> = ({
       // set colors filter
       const colorList = getColorsList(product);
 
+      const colorItemId = product.items.find((item) => item.itemId == route.params?.itemId)?.variations?.find((x) => x.name == "VALOR_HEX_ORIGINAL")?.values
+
       setColorFilters(colorList);
 
       // set initial selected color
-      setSelectedColor(
-        colorList
-          ? route.params.colorSelected
-            ? route.params.colorSelected
-            : variant
-              ? variant?.variations[2]?.values[0]
-              : ''
-          : ''
-      );
+      setSelectedColor(colorList ? route.params.colorSelected || colorItemId[0] : '');
+
+      // setSelectedColor(colorList
+      //   ? route.params.colorSelected
+      //     ? route.params.colorSelected
+      //     : variant
+      //       ? variant?.variations[2]?.values[0]
+      //       : ''
+      //   : ''
+      // );
 
       // set size filter
       const sizeList = getSizeList(product);
@@ -281,11 +284,11 @@ export const ProductDetail: React.FC<Props> = ({
           .filter(a => a !== false)
       );
 
-      console.log("selectedCOlor", selectedColor);
+      // console.log("selectedCOlor", selectedColor);
 
       console.log("sku", itemsSKU
-      .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-      .filter(a => a !== false)[0]);
+        .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+        .filter(a => a !== false)[0]);
 
       setSizeFilters(
         new ProductUtils().orderSizes(
@@ -343,12 +346,12 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
-        const getVariant =  (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
         const isSkuEqual = (sku1: any, sku2: any) => {
           console.log("sku1", sku1);
           console.log("sku2", sku2);
-          if(sku1 && sku2){
+          if (sku1 && sku2) {
             const size1 = getVariant(sku1, "Tamanho");
             const color1 = getVariant(sku1, "VALOR_HEX_ORIGINAL");
             const size2 = getVariant(sku2, "Tamanho");
