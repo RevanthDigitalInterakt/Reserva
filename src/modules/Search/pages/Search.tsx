@@ -54,6 +54,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const [waiting, setWaiting] = React.useState(false);
 
+  const [loadingRefetch, setLoadingRefetch] = useState(false);
   const [products, setProducts] = useState<any[]>();
   const [relatedProducts, setRelatedProducts] = useState<any[]>();
   const [featuredProducts, setFeaturedProducts] = useState<any[]>();
@@ -212,11 +213,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   };
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
+    setLoadingRefetch(true);
     const {
       data: {
         productSearch: { products: newProducts },
       },
-      loading,
     } = await fetchMore({
       variables: {
         form: offset < pageSize ? pageSize : offset,
@@ -225,8 +226,9 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     });
 
     if (!loading) {
-      setProducts(data.productSearch.products);
+      setProducts(newProducts);
     }
+    setLoadingRefetch(false);
   };
 
   return (
@@ -326,6 +328,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                       style={{ marginBottom: 120 }}
                     >
                       <ListVerticalProducts
+                        totalProducts={data.productSearch.recordsFiltered}
                         products={featuredProducts || []}
                         loadMoreProducts={(offset) => {
                           loadMoreProducts(offset, '');
@@ -423,6 +426,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
             <ListVerticalProducts
               products={products || []}
+              isLoading={loadingRefetch}
+              totalProducts={data.productSearch.recordsFiltered}
               loadMoreProducts={(offset) => {
                 loadMoreProducts(offset, searchTerm);
               }}
