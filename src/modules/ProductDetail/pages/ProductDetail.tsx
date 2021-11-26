@@ -234,7 +234,11 @@ export const ProductDetail: React.FC<Props> = ({
       setColorFilters(colorList);
 
       // set initial selected color
-      setSelectedColor(colorList ? route.params.colorSelected || colorItemId[0] : '');
+      if (route.params?.itemId) {
+        setSelectedColor(colorList ? colorItemId[0] : '');
+      } else {
+        setSelectedColor(colorList ? route.params.colorSelected : '');
+      }
 
       // setSelectedColor(colorList
       //   ? route.params.colorSelected
