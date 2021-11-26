@@ -14,14 +14,11 @@ export const images = {
   mastercard: require('./img/mastercard.png'),
   americanExpress: require('./img/americanExpress.png'),
   elo: require('./img/elo.png'),
-
   cupomModalBackground: require('./img/cupomModalBackground.png'),
-
+  bagEmpty: require('./img/bagEmpty.png'),
   cardFront: require('./img/cardFront.png'),
   cardVerso: require('./img/cardVerso.png'),
-
   modalLivro: require('./img/modal-livro.png'),
-
   helpSizeGuide1: require('./img/help-size-guide1.png'),
   helpSizeGuide2: require('./img/help-size-guide2.png'),
   helpSizeGuide3: require('./img/help-size-guide3.png'),
@@ -47,7 +44,14 @@ export const images = {
   saleOff: require('./img/saleOff.png'),
   logoQRCode: require('./img/logoQRCode.png'),
   imageNotFound: require('./img/imageNotFound.png'),
-  noStoresFound: require('./img/noStoresFound.png')
+  noStoresFound: require('./img/noStoresFound.png'),
+  QrcodeBackground: require('./img/QrcodeBackground.png'),
+  whatsapp: require('./img/whatsapp.png'),
+  twitter: require('./img/twitter.png'),
+  instagram: require('./img/instagram.png'),
+  facebook: require('./img/facebook.png'),
+  raceImageBackground: require('./img/raceImageBackground.png'),
+  dividerReserva: require('./img/dividerReserva.png'),
 };
 
 export const animations = {

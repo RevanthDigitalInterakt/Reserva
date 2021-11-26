@@ -1,7 +1,6 @@
 import React from 'react';
 import { FlatList, Platform, Dimensions } from 'react-native';
 import { Box, Button, Typography, Image, } from 'reserva-ui';
-import { ConfigCollection } from '../../../store/ducks/HomePage/types';
 
 interface INews {
     data: {

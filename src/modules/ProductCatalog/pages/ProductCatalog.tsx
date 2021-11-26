@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { QueryResult, useQuery } from '@apollo/client';
+import analytics from '@react-native-firebase/analytics';
 import { StackScreenProps } from '@react-navigation/stack';
-import LottieView from 'lottie-react-native';
 import { Linking, Animated, Text } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import Modal from 'react-native-modal';
+import appsFlyer from 'react-native-appsflyer';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
 import {
   Box,
   Button,
@@ -22,6 +20,10 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { images } from '../../../assets';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
+import {
+  bannerDefaultQuery,
+  bannerQuery,
+} from '../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
@@ -30,10 +32,6 @@ import {
 } from '../../../graphql/products/productSearch';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
-import {
-  bannerDefaultQuery,
-  bannerQuery,
-} from '../../../store/ducks/HomePage/types';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
@@ -43,8 +41,6 @@ import { FilterModal } from '../modals/FilterModal';
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route }) => {
-  console.log(route);
-
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData
   );
@@ -53,7 +49,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const categoryId = 'camisetas';
 
-  const dispatch = useDispatch();
   const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
   const [skeletonLoading, setSkeletonLoading] = useState(true);
@@ -115,6 +110,15 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const [loadingModal, setLoadingModal] = useState(false);
   const [firstLoading, setFirstLoading] = useState(true);
+
+  useEffect(() => {
+    appsFlyer.logEvent('af_list_view', {
+      af_content_type: referenceId,
+    });
+    analytics().logEvent('product_list_view', {
+      content_type: referenceId,
+    });
+  }, []);
 
   const {
     data: facetsData,
@@ -190,9 +194,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -202,9 +206,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -214,9 +218,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // PRICE
@@ -224,9 +228,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -337,10 +341,51 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Box>
       )}
 
+      {error && productsQuery.products.length <= 0 && (
+        <Box
+          position="absolute"
+          flex={1}
+          height="100%"
+          width="100%"
+          zIndex={5}
+          justifyContent="center"
+          bg="white"
+          alignContent="center"
+          pt={163}
+        >
+          <Typography
+            textAlign="center"
+            fontFamily="reservaSerifMedium"
+            fontSize={20}
+          >
+            Ops...desculpe
+          </Typography>
+          <Box mx={39} mt="nano">
+            <Typography
+              textAlign="center"
+              fontFamily="nunitoSemiBold"
+              fontSize={13}
+            >
+              A página que você procura está temporariamente indisponível ou foi
+              removida
+            </Typography>
+          </Box>
+          <Button
+            title="VOLTAR"
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            variant="primarioEstreitoOutline"
+            mx={22}
+            mt={49}
+            inline
+          />
+        </Box>
+      )}
+
       <FilterModal
         setFilterRequestList={setFilterRequestList}
         categoryId={categoryId}
-        dispatch={dispatch}
         filterList={filterList}
         setFilterList={setFilterList}
         isVisible={filterVisible}
@@ -350,9 +395,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         priceRange={priceRangefilters}
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
-        title="Excluir endereço"
+        title=""
         // confirmText={"Ok"}
-        subtitle="Tem certeza que deseja excluir o endereço salvo?"
+        subtitle=""
       />
       <Picker
         onSelect={(item) => {

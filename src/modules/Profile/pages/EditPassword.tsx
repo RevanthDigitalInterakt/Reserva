@@ -1,33 +1,30 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState, useRef } from "react";
-import { useEffect } from "react";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
-import { ErrorMessage, Formik } from "formik";
-import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { Typography, Box, Button, TextField, Icon } from "reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { useMutation, useQuery } from "@apollo/client";
-import {
-  profileMutationPassword,
-  profileQuery,
-} from "../../../store/ducks/profile/types";
-import { FormikTextInput } from "../../../shared/components/FormikTextInput";
-import { redefinePasswordMutation } from "../../../graphql/profile/redefinePassword";
+import React, { useState, useRef, useEffect } from 'react';
 
-type Props = StackScreenProps<RootStackParamList, "EditPassword">;
+import { useMutation, useQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { Formik } from 'formik';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { Typography, Box, Button, Icon } from 'reserva-ui';
+import * as Yup from 'yup';
+
+import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { redefinePasswordMutation } from '../../../graphql/profile/redefinePassword';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { FormikTextInput } from '../../../shared/components/FormikTextInput';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+
+type Props = StackScreenProps<RootStackParamList, 'EditPassword'>;
 export const EditPassword = ({ route }: Props) => {
-  const navigation = useNavigation();
   const formRef = useRef<any>(null);
-  const dispatch = useDispatch();
   const [email, setEmail] = useState();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
   const [showRepeatPassword, setShowRepeatPassword] = useState(true);
-  const [newPassword, { data: dataMutation, loading: loadingMutation, error: newPasswordError }] =
-    useMutation(redefinePasswordMutation);
+  const [
+    newPassword,
+    { data: dataMutation, loading: loadingMutation, error: newPasswordError },
+  ] = useMutation(redefinePasswordMutation);
 
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [changeSuccess, setChangeSuccess] = useState(false);
@@ -39,7 +36,7 @@ export const EditPassword = ({ route }: Props) => {
     }
   }, [data]);
 
-  //acessa a função handleSubmit do formik
+  // acessa a função handleSubmit do formik
   const handleSubmit = async () => {
     if (formRef.current) {
       await formRef.current.handleSubmit();
@@ -47,25 +44,25 @@ export const EditPassword = ({ route }: Props) => {
   };
 
   const [initialValues, setInitialValues] = useState({
-    password: "",
-    password_confirm: "",
-    current_password: "",
+    password: '',
+    password_confirm: '',
+    current_password: '',
   });
 
   const validation = Yup.object().shape({
     password: Yup.string().required(
-      "Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números."
+      'Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números.'
     ),
     password_confirm: Yup.string()
-      .required("Informe a senha novamente")
-      .oneOf([Yup.ref("password"), null], "As senhas devem corresponder"),
-    current_password: Yup.string().required("Informe sua senha atual"),
+      .required('Informe a senha novamente')
+      .oneOf([Yup.ref('password'), null], 'As senhas devem corresponder'),
+    current_password: Yup.string().required('Informe sua senha atual'),
   });
 
   const changePassword = (password: string, current_password: string) => {
     newPassword({
       variables: {
-        email: email,
+        email,
         newPassword: password,
         currentPassword: current_password,
       },
@@ -74,23 +71,23 @@ export const EditPassword = ({ route }: Props) => {
   };
 
   useEffect(() => {
-    if (dataMutation?.redefinePassword === "Success") {
-      setChangeSuccess(true)
+    if (dataMutation?.redefinePassword === 'Success') {
+      setChangeSuccess(true);
     }
   }, [dataMutation]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
-      {!changeSuccess ?
+      {!changeSuccess ? (
         <>
           <TopBarBackButton loading={loadingMutation} />
           <ScrollView>
-            <Box flex={1} alignContent={"flex-start"} pt={"xs"} paddingX={"xxxs"}>
-              <Box mb={"nano"} alignSelf={"flex-start"}>
+            <Box flex={1} alignContent="flex-start" pt="xs" paddingX="xxxs">
+              <Box mb="nano" alignSelf="flex-start">
                 <Typography variant="tituloSessoes">Alterar senha</Typography>
               </Box>
 
-              <Box mt={"xxxs"}>
+              <Box mt="xxxs">
                 <Formik
                   initialValues={initialValues}
                   validationSchema={validation}
@@ -102,11 +99,11 @@ export const EditPassword = ({ route }: Props) => {
                 >
                   {() => (
                     <>
-                      <Box mb={"micro"}>
+                      <Box mb="micro">
                         <FormikTextInput
-                          label={"Digite sua senha atual"}
+                          label="Digite sua senha atual"
                           secureTextEntry={showCurrentPassword}
-                          field={"current_password"}
+                          field="current_password"
                           iconRight={
                             <Button
                               mr="xxxs"
@@ -115,7 +112,11 @@ export const EditPassword = ({ route }: Props) => {
                               }
                             >
                               {showCurrentPassword ? (
-                                <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                                <Icon
+                                  color="neutroFrio2"
+                                  name="EyeOff"
+                                  size={25}
+                                />
                               ) : (
                                 <Icon
                                   color="neutroFrio2"
@@ -127,18 +128,24 @@ export const EditPassword = ({ route }: Props) => {
                           }
                         />
                       </Box>
-                      <Box mb={"micro"}>
+                      <Box mb="micro">
                         <FormikTextInput
-                          label={"Digite sua nova senha"}
+                          label="Digite sua nova senha"
                           secureTextEntry={showNewPassword}
-                          field={"password"}
+                          field="password"
                           iconRight={
                             <Button
                               mr="xxxs"
-                              onPress={() => setShowNewPassword(!showNewPassword)}
+                              onPress={() =>
+                                setShowNewPassword(!showNewPassword)
+                              }
                             >
                               {showNewPassword ? (
-                                <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                                <Icon
+                                  color="neutroFrio2"
+                                  name="EyeOff"
+                                  size={25}
+                                />
                               ) : (
                                 <Icon
                                   color="neutroFrio2"
@@ -150,10 +157,10 @@ export const EditPassword = ({ route }: Props) => {
                           }
                         />
                       </Box>
-                      <Box mb={"nano"}>
+                      <Box mb="nano">
                         <FormikTextInput
-                          label={"Repita a senha"}
-                          field={"password_confirm"}
+                          label="Repita a senha"
+                          field="password_confirm"
                           secureTextEntry={showRepeatPassword}
                           iconRight={
                             <Button
@@ -163,7 +170,11 @@ export const EditPassword = ({ route }: Props) => {
                               }
                             >
                               {showRepeatPassword ? (
-                                <Icon color="neutroFrio2" name="EyeOff" size={25} />
+                                <Icon
+                                  color="neutroFrio2"
+                                  name="EyeOff"
+                                  size={25}
+                                />
                               ) : (
                                 <Icon
                                   color="neutroFrio2"
@@ -191,8 +202,10 @@ export const EditPassword = ({ route }: Props) => {
             variant="primarioEstreito"
             inline
           />
-        </> :
-        <EditPasswordSuccessful />}
+        </>
+      ) : (
+        <EditPasswordSuccessful />
+      )}
     </SafeAreaView>
   );
 };
@@ -201,21 +214,23 @@ const EditPasswordSuccessful = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <ScrollView>
         <>
-          <Box
-            mx={20}
-            mt={"60%"}
-            p={20}
-          >
-            <Typography fontFamily='reservaSerifRegular' fontSize={35} textAlign="center">Senha alterada com sucesso!</Typography>
+          <Box mx={20} mt="60%" p={20}>
+            <Typography
+              fontFamily="reservaSerifRegular"
+              fontSize={35}
+              textAlign="center"
+            >
+              Senha alterada com sucesso!
+            </Typography>
             <Button
-              mt={"100%"}
-              variant='primarioEstreito'
-              title='VOLTAR PARA HOME'
+              mt="100%"
+              variant="primarioEstreito"
+              title="VOLTAR PARA HOME"
               onPress={() => {
-                navigation.navigate("Home")
+                navigation.navigate('Home');
               }}
               inline
             />
@@ -224,4 +239,4 @@ const EditPasswordSuccessful = () => {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 
 import { useMutation, useQuery } from '@apollo/client';
+import AsyncStorage from '@react-native-community/async-storage';
+import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
@@ -18,13 +20,12 @@ import {
 } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
-import { Product } from '../../../../store/ducks/product/types';
-import { removeWishlist } from '../../../../store/ducks/wishlist/actions';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 
 interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
+  isLoading?: boolean;
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
@@ -47,15 +48,17 @@ export const ListVerticalProducts = ({
   products,
   horizontal,
   listHeader,
+  isLoading,
   loadMoreProducts,
   loadingHandler,
   totalProducts,
 }: ListProductsProps) => {
   const navigation = useNavigation();
-  const [favoritedProduct, setFavoritedProduct] = useState<Product>();
+  const [favoritedProduct, setFavoritedProduct] = useState<any>();
   const [isVisible, setIsVisible] = useState(false);
   const [productList, setProductList] = useState<ProductQL[]>([]);
   const [skip, setSkip] = useState(false);
+  const [saleOffTag, setSaleOffTag] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -101,6 +104,17 @@ export const ListVerticalProducts = ({
     return urlArray.join('/');
   };
 
+  const populateListWithFavorite = async () => {
+    setLoading(true);
+    /*  if (email) {
+      if (products && products.length <= 0) {
+        await populateWishlist();
+      }
+    } */
+    // Promise.all(products).then((res) => setProductList(res));
+    setLoading(false);
+  };
+
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
@@ -108,25 +122,33 @@ export const ListVerticalProducts = ({
     console.log('item', item);
     if (email) {
       if (favorite) {
-        const { data } = await addWishList({
+        /* const { data } = await addWishList({
           variables: {
             shopperId: email,
             productId,
             sku: skuId,
           },
-        });
-        setFavorites([
+        }); */
+        /* setFavorites([
           ...favorites,
           { productId, listId: data.addToList, sku: skuId },
-        ]);
+        ]); */
+        const handleFavorites = [...favorites, { productId, sku: skuId }];
+        await AsyncStorage.setItem(
+          '@WishData',
+          JSON.stringify(handleFavorites)
+        );
+        setFavorites(handleFavorites);
       } else {
-        await removeWishList({
+        /*   await removeWishList({
           variables: {
             shopperId: email,
             id: favorites.find((x) => x.productId == productId).listId,
           },
-        });
-        setFavorites([...favorites.filter((x) => x.sku != skuId)]);
+        }); */
+        const newWishIds = favorites.filter((x) => x.sku !== skuId);
+        AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+        setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
       }
       setLoading(false);
       await populateListWithFavorite();
@@ -142,47 +164,46 @@ export const ListVerticalProducts = ({
   const populateWishlist = async () => {
     setSkip(true);
 
-    const {
+    /* const {
       data: {
         viewList: { data: wishlist },
       },
-    } = await refetchWishlist({ shopperId: email });
-    setFavorites([
-      ...wishlist.map((x: any) => ({
-        productId: x.productId,
-        listId: x.id,
-        sku: x.sku,
-      })),
-    ]);
-  };
+    } = await refetchWishlist({ shopperId: email }); */
 
-  const populateListWithFavorite = async () => {
-    setLoading(true);
-    if (email) {
-      if (products && products.length <= 0) {
-        await populateWishlist();
-      }
-    }
-    Promise.all(products).then((res) => setProductList(res));
-    setLoading(false);
+    const wishData: any = await AsyncStorage.getItem('@WishData');
+
+    if (wishData)
+      setFavorites([
+        ...JSON.parse(wishData).map((x: any) => ({
+          productId: x.productId,
+          listId: x.id,
+          sku: x.sku,
+        })),
+      ]);
+    // await populateListWithFavorite();
   };
 
   useEffect(() => {
     populateListWithFavorite();
+    populateWishlist();
   }, [products]);
 
   useFocusEffect(
     useCallback(() => {
       populateListWithFavorite();
+      populateWishlist();
     }, [])
   );
 
   useEffect(() => {
-    console.log('productList', productList);
-  }, [productList]);
+    remoteConfig().fetchAndActivate();
+    const value = remoteConfig().getValue('sale_off_tag');
+    setSaleOffTag(value.asBoolean());
+  }, []);
 
   const getSaleOff = (salOff) => {
     const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');
+    if (!saleOffTag) return null;
     if (idImage) return images.saleOff;
   };
 
@@ -239,17 +260,29 @@ export const ListVerticalProducts = ({
       <>
         <FlatList
           horizontal={horizontal}
-          data={productList}
+          data={products}
           keyExtractor={(item, index) => `${item.productId} ${index}`}
           numColumns={horizontal ? 1 : 2}
+          ListEmptyComponent={() => (
+            <Box height="100%">
+              <Typography
+                textAlign="center"
+                fontFamily="nunitoRegular"
+                fontSize={16}
+              >
+                Produtos não encontrados
+              </Typography>
+            </Box>
+          )}
           onEndReached={async () => {
+            console.log('onEndReached');
             setIsLoadingMore(true);
-            if (totalProducts > products.length)
+            if (totalProducts && totalProducts > products.length)
               await loadMoreProducts(products.length);
             setIsLoadingMore(false);
           }}
           ListFooterComponent={() => {
-            if (!isLoadingMore) return null;
+            if (!(isLoadingMore || isLoading)) return null;
 
             return (
               <Box
@@ -283,7 +316,9 @@ export const ListVerticalProducts = ({
             const installmentPrice =
               installments.length > 0
                 ? installments[0].Value
-                : item.priceRange?.listPrice?.lowPrice;
+                : item.items[0].sellers[0].commertialOffer.Price;
+
+            // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
               <Box

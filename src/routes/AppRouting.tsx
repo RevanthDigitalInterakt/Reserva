@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -10,7 +10,11 @@ import { MainStackScreen } from './StackNavigator';
 const RootStack = createStackNavigator();
 
 export const AppRouting = () => (
-  <RootStack.Navigator mode="modal" screenOptions={{ headerShown: false }}>
+  <RootStack.Navigator
+    initialRouteName="Main"
+    mode="modal"
+    screenOptions={{ headerShown: false }}
+  >
     <RootStack.Screen
       name="Main"
       component={MainStackScreen}

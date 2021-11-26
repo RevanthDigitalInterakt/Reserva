@@ -12,26 +12,21 @@ import { images } from '../../../assets'
 import { WishListCategory } from './WishListCategory'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/StackNavigator'
-import { useDispatch, useSelector } from 'react-redux'
-import { ApplicationState } from '../../../store'
-import { removeWishlist } from '../../../store/ducks/wishlist/actions'
-import { Product } from '../../../store/ducks/product/types'
 
 type Props = StackScreenProps<RootStackParamList, 'ShowListByCategory'>
 
 export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
-  let { categoryName, products } = route.params
-  products = !products ? [] : products
-
-  const dispatch = useDispatch()
-  const wishlist = useSelector((state: ApplicationState) => state.wishlist.data)
+  // let { categoryName, products } = route.params
+  // products = !products ? [] : products
+  const [products, setProducts] = useState<any>([])
+  const [wishlist, setWishlist] = useState<any>([])
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <TopBarBackButton loading={false} showShadow />
       <ScrollView>
         <Box marginTop='md' paddingBottom='xxxs'>
           <Box paddingX='xxxs'>
-            <Typography variant='tituloSessoes'>{categoryName}</Typography>
+            <Typography variant='tituloSessoes'>categoryName</Typography>
           </Box>
           <Box paddingX='xxxs'>
             {wishlist
@@ -50,22 +45,21 @@ export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
                       }
                       itemColor={prod.colorsHex && prod.colorsHex[0]}
                       ItemSize={prod.sizes && prod.sizes[0]}
-                      productTitle={`${prod.title.slice(0, 30)}${
-                        prod.title.length > 30 ? '...' : ''
-                      }`}
+                      productTitle={`${prod.title.slice(0, 30)}${prod.title.length > 30 ? '...' : ''
+                        }`}
                       installmentsNumber={prod.installmentNumber}
                       installmentsPrice={prod.installmentPrice}
                       price={prod.fullPrice}
                       priceWithDiscount={prod.discountPrice}
-                      onClickFavorite={() => {
-                        dispatch(removeWishlist(prod.id))
-                      }}
+                      // onClickFavorite={() => {
+
+                      // }}
                       onClickBagButton={() => {
                         navigation.navigate('ProductDetail', {
                           productId: prod.id ? prod.id : '',
                         })
                       }}
-                      onClickPiker={() => {}}
+                      onClickPiker={() => { }}
                       imageSource={prod.imageUrl}
                     />
                   </Box>

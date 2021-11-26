@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
+import analytics from '@react-native-firebase/analytics';
+import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
-import { Alert } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
-import codePush from 'react-native-code-push';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import 'react-native-gesture-handler';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 
+import CodepushConfig from './config/codepush';
+import { env } from './config/env';
+import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
-import { apolloClient } from './services/apolloClient';
+import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
 import CartContextProvider from './context/CartContext';
-import { env } from './config/env';
 import InitialScreen from './InitialScreen';
-import configureStore from './store/index';
-
-import './config/ReactotronConfig';
-import 'react-native-gesture-handler';
-
-import { linkingConfig } from './config/linking';
-import { StoreUpdate } from './modules/Update/pages/StoreUpdate';
-import Update from './modules/Update/pages/Update';
 import { AppRouting } from './routes/AppRouting';
-
-Sentry.init({
-  dsn: env.SENTRY_KEY,
-});
+import { apolloClient } from './services/apolloClient';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -60,6 +49,25 @@ let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
   console.log(res);
 });
 
+const logAppOpenAnalytics = async () => {
+  try {
+    await analytics().logAppOpen();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const requestUserPermission = async () => {
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    console.log('Authorization status:', authStatus);
+  }
+};
+
 appsFlyer.initSdk(
   {
     devKey: env.APPSFLYER.DEV_KEY,
@@ -78,11 +86,6 @@ appsFlyer.initSdk(
 );
 
 const App = () => {
-  const [codePushReceivedBytes, setCodePushReceivedBytes] = useState(1);
-  const [codePushTotalBytes, setCodePushTotalBytes] = useState(1);
-
-  const [isVisibleCodePush, setIsVisibleCodePush] = useState(false);
-
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
       onInstallConversionDataCanceller();
@@ -96,66 +99,23 @@ const App = () => {
       onAppOpenAttributionCanceller = null;
     }
   });
-  useEffect(() => {
-    codePush.sync(
-      {
-        installMode: codePush.InstallMode.ON_NEXT_RESTART,
-        updateDialog: {
-          title: 'An OTA update is available',
-        },
-        rollbackRetryOptions: {
-          delayInHours: 0.1,
-          maxRetryAttempts: 1,
-        },
-      },
-      (status) => {
-        switch (status) {
-          case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-            setIsVisibleCodePush(true);
-            // Alert.alert("Uma atualização foi encontrada e está sendo baixada");
-            break;
-          case codePush.SyncStatus.INSTALLING_UPDATE:
-            setIsVisibleCodePush(false);
-            // Hide "downloading" modal
-            break;
-          case codePush.SyncStatus.UPDATE_INSTALLED:
-            Alert.alert(
-              'Atualização instalada com sucesso!',
-              'Favor reiniciar o aplicativo'
-            );
-            setIsVisibleCodePush(false);
-            // Hide "downloading" modal
-            break;
-        }
-      },
-      ({ receivedBytes, totalBytes }) => {
-        setCodePushReceivedBytes(receivedBytes);
-        setCodePushTotalBytes(totalBytes);
-        /* Update download modal progress */
-      }
-    );
 
+  useEffect(() => {
+    requestUserPermission();
+    logAppOpenAnalytics();
+    CodepushConfig();
     oneSignalConfig();
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
-        <Update
-          isVisible={isVisibleCodePush}
-          receivedBytes={codePushReceivedBytes}
-          totalBytes={codePushTotalBytes}
-        />
         <CartContextProvider>
           <AuthContextProvider>
             <ApolloProvider client={apolloClient}>
-              <Provider store={configureStore().store}>
-                <PersistGate persistor={configureStore().persistor}>
-                  <InitialScreen>
-                    <AppRouting />
-                  </InitialScreen>
-                </PersistGate>
-              </Provider>
+              <InitialScreen>
+                <AppRouting />
+              </InitialScreen>
             </ApolloProvider>
           </AuthContextProvider>
         </CartContextProvider>
@@ -164,4 +124,4 @@ const App = () => {
   );
 };
 
-export default codePush(App);
+export default App;

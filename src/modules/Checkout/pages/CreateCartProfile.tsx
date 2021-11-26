@@ -1,49 +1,46 @@
-import React, { useState, useRef } from "react";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useEffect } from "react";
-import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Box, Button, TextField, Typography } from "reserva-ui";
-import { CepResponse } from "../../../config/brasilApi";
-import { useCart } from "../../../context/CartContext";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { CepVerify } from "../../../services/vtexService";
-import { TopBarDefault } from "../../Menu/components/TopBarDefault";
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton";
+import React, { useState, useRef } from 'react';
 
-import * as Yup from "yup";
-import { Formik } from "formik";
-import { FormikTextInput } from "../../../shared/components/FormikTextInput";
-import { KeyboardAvoidingView, Platform } from "react-native";
+import { StackScreenProps } from '@react-navigation/stack';
+import { Formik } from 'formik';
+import { KeyboardAvoidingView, Platform } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Box, Button, TextField, Typography } from 'reserva-ui';
+import * as Yup from 'yup';
+
+import { useCart } from '../../../context/CartContext';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { CepVerify } from '../../../services/vtexService';
+import { FormikTextInput } from '../../../shared/components/FormikTextInput';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
 interface CreateCartProfileProfile
-  extends StackScreenProps<RootStackParamList, "CreateCartProfile"> { }
+  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> { }
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   navigation,
-  route,
 }) => {
-  const { addCustomer, addShippingData, getCepData } = useCart();
+  const { addCustomer, addShippingData } = useCart();
   const formRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
   const [showCepDescrption, setShowCepDescrption] = useState(false);
   const [fields, setFields] = useState({
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    documentType: "cpf",
-    document: "",
-    phone: "",
-    postalCode: "",
-    neighborhood: "",
-    state: "",
-    street: "",
-    number: "",
-    complement: "",
-    city: "",
-    addressType: "residential",
-    country: "BR",
-    receiverName: "",
+    firstName: '',
+    lastName: '',
+    birthDate: '',
+    documentType: 'cpf',
+    document: '',
+    phone: '',
+    postalCode: '',
+    neighborhood: '',
+    state: '',
+    street: '',
+    number: '',
+    complement: '',
+    city: '',
+    addressType: 'residential',
+    country: 'BR',
+    receiverName: '',
   });
 
   const handleSubmit = () => {
@@ -54,24 +51,24 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
   const validation = Yup.object().shape({
     firstName: Yup.string()
-      .required("Insira seu nome.")
+      .required('Insira seu nome.')
       .matches(
         /^[aA-zZ\s]+$/,
-        "Apenas alfabetos são permitidos para este campo."
+        'Apenas alfabetos são permitidos para este campo.'
       ),
     lastName: Yup.string()
-      .required("Insira seu sobrenome.")
+      .required('Insira seu sobrenome.')
       .matches(
         /^[aA-zZ\s]+$/,
-        "Apenas alfabetos são permitidos para este campo."
+        'Apenas alfabetos são permitidos para este campo.'
       ),
     birthDate: Yup.string(),
-    document: Yup.string().required("Por favor, insira o seu cpf"),
-    phone: Yup.string().required("Por favor, insira o seu telefone"),
+    document: Yup.string().required('Por favor, insira o seu cpf'),
+    phone: Yup.string().required('Por favor, insira o seu telefone'),
   });
 
   const cepHandler = async (postalCode: string) => {
-    const isValidPostalCode = postalCode.length == 8;
+    const isValidPostalCode = postalCode.length === 8;
 
     if (isValidPostalCode) {
       setLoading(true);
@@ -129,8 +126,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         number,
         receiverName,
         neighborhood,
-        addressType: "residential",
-        country: "BRA",
+        addressType: 'residential',
+        country: 'BRA',
         complement,
         city,
         street,
@@ -138,20 +135,19 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       setLoading(false);
 
       if (isAddressSaved) {
-        navigation.navigate("DeliveryScreen");
+        navigation.navigate('DeliveryScreen');
       }
     }
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#ffffff" }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
-      <ScrollView>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : ""}
-          style={{ flex: 1 }}
-        >
-
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
+        style={{ flex: 1 }}
+      >
+        <ScrollView>
           <Box mx={20}>
             <Box mt={49}>
               <Typography fontFamily="reservaSerifRegular" fontSize={20}>
@@ -198,15 +194,19 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
             >
               {() => (
                 <>
-                  <Box mt={10} flexDirection="row" justifyContent="space-between">
+                  <Box
+                    mt={10}
+                    flexDirection="row"
+                    justifyContent="space-between"
+                  >
                     <Box flex={1} marginRight="micro">
-                      <FormikTextInput placeholder="Nome" field={"firstName"} />
+                      <FormikTextInput placeholder="Nome" field="firstName" />
                     </Box>
 
                     <Box flex={1}>
                       <FormikTextInput
                         placeholder="Sobrenome"
-                        field={"lastName"}
+                        field="lastName"
                       />
                     </Box>
                   </Box>
@@ -215,15 +215,15 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                       maskType="datetime"
                       placeholder="Data de Nascimento"
                       maskOptions={{
-                        format: "DD/MM/YYYY",
+                        format: 'DD/MM/YYYY',
                       }}
-                      field={"birthDate"}
+                      field="birthDate"
                       keyboardType="number-pad"
                     />
                   </Box>
                   <Box mt={15}>
                     <FormikTextInput
-                      field={"document"}
+                      field="document"
                       maskType="cpf"
                       keyboardType="number-pad"
                       placeholder="CPF"
@@ -231,10 +231,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   </Box>
                   <Box mt={15}>
                     <FormikTextInput
-                      field={"phone"}
+                      field="phone"
                       maskType="custom"
                       maskOptions={{
-                        mask: "+55 (99) 9 9999-9999",
+                        mask: '+55 (99) 9 9999-9999',
                       }}
                       keyboardType="number-pad"
                       placeholder="Telefone"
@@ -250,7 +250,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   <Box mt={15}>
                     <TextField
                       value={fields.postalCode}
-                      keyboardType='number-pad'
+                      keyboardType="number-pad"
                       onChangeText={(text) => {
                         setFields({ ...fields, postalCode: text });
                         cepHandler(text);
@@ -262,10 +262,14 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                     <Typography fontFamily="nunitoRegular" fontSize={13}>
                       {showCepDescrption
                         ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
-                        : ""}
+                        : ''}
                     </Typography>
                   </Box>
-                  <Box mt={15} flexDirection="row" justifyContent="space-between">
+                  <Box
+                    mt={15}
+                    flexDirection="row"
+                    justifyContent="space-between"
+                  >
                     <Box flex={1} marginRight="micro">
                       <TextField
                         editable={false}
@@ -290,7 +294,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   <Box mt={15}>
                     <TextField
                       value={fields.number}
-                      keyboardType='number-pad'
+                      keyboardType="number-pad"
                       onChangeText={(text) =>
                         setFields({ ...fields, number: text })
                       }
@@ -310,8 +314,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               )}
             </Formik>
           </Box>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <Button
         variant="primarioEstreito"
