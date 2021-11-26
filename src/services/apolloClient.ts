@@ -16,7 +16,7 @@ const httpLink = new HttpLink({
 const directionalLink = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
   new HttpLink({
-    uri: 'https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4/environments/master',
+    uri: 'https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4/environments/testing',
     headers: {
       Authorization: 'Bearer e7GuVP-T2J7zqAR8NWZK6IhteMokbshJIx1_c16TG6U',
     },

@@ -60,6 +60,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>();
   const [suggestions, setSuggestions] = useState<SearchSuggestionsVars[]>([]);
   const [mostSearched, setMostSearched] = useState<TopSearches[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<any[]>([]);
   const [productNews, setProductNews] = useState<ConfigCollection[]>([]);
   const [suggestionsFound, setSuggestionsFound] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(false);
@@ -145,8 +146,13 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         collectionData?.configCollection?.items[0].searchMedia
           .secionMediaCollection.items
       );
+      setSearchSuggestions(collectionData?.configCollection?.items[0].searchSuggestionsCollection.items)
     }
   }, [collectionData]);
+
+  useEffect(() => {
+    console.log('searchSuggestions', searchSuggestions)
+  }, [searchSuggestions])
 
   useEffect(() => {
     if (!loading) {
@@ -224,7 +230,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
       },
     });
-    console.log('foi essa porra', newProducts.products);
 
     if (!loading) {
       setProducts(newProducts);
@@ -272,10 +277,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   </Box>
 
                   <Box flexDirection="row" flexWrap="wrap">
-                    {mostSearched.map((item) => (
+                    {searchSuggestions.map((item) => (
                       <Button
                         onPress={() => {
-                          setSearchTerm(item.term);
+                          setSearchTerm(item.name);
                         }}
                       >
                         <Box
@@ -288,7 +293,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                           mr="micro"
                         >
                           <Typography fontFamily="nunitoRegular" fontSize={13}>
-                            {item.term}
+                            {item.name}
                           </Typography>
                         </Box>
                       </Button>
@@ -428,7 +433,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
             <ListVerticalProducts
               products={products || []}
               isLoading={loadingRefetch}
-              totalProducts={data.productSearch.recordsFiltered}
+              totalProducts={data?.productSearch.recordsFiltered}
               loadMoreProducts={(offset) => {
                 loadMoreProducts(offset, searchTerm);
               }}

@@ -142,6 +142,11 @@ export const configCollection = gql`
             }
           }
         }
+        searchSuggestionsCollection (limit: 20) {
+          items {
+            name
+          }
+        }
       }
     }
   }
