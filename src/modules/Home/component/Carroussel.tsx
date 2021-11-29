@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, Easing, TouchableHighlight } from 'react-native';
+import { Animated, Dimensions, Easing, TouchableHighlight } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { Box, Image, theme } from 'reserva-ui';
 
 import { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
@@ -79,16 +78,9 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
     }
   };
 
-  /*   const LongPressButton = () => (
-    <LongPressGestureHandler
-      onHandlerStateChange={({ nativeEvent }) => {
-        if (nativeEvent.state === State.ACTIVE) {
-          Alert.alert("I'm being pressed for so long");
-        }
-      }}
-      minDurationMs={800}
-    />
-  ); */
+  const touchLongPress = () => {
+    setPressCarousel(true);
+  };
 
   useEffect(() => {
     setActualPosition(0);
@@ -127,10 +119,10 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
               <Box mb="quarck" width={1 / 1}>
                 <TouchableHighlight
                   onPress={() => onPressImage(item)}
-                  onLongPress={() => setPressCarousel(true)}
+                  onLongPress={touchLongPress}
                   onPressOut={() => setPressCarousel(false)}
                   delayLongPress={100}
-                  delayPressOut={50}
+                  delayPressOut={10}
                 >
                   <Image
                     resizeMode="cover"
@@ -181,13 +173,12 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
   const [finishedAnimation, setFinishedAnimation] = useState<boolean>(false);
 
   const carouselLength = carouselRef?.props.data?.length || 1;
-  const animatedValue =
-    useSharedValue(-10000); /* useRef(new Animated.Value(-10000)).current; */
+  const animatedValue = useRef(new Animated.Value(-10000)).current;
   const [lastAnimatedValue, setLastAnimatedValue] = useState();
 
-  const animation = withTiming(animatedValue.value, {
+  const animation = Animated.timing(animatedValue, {
     toValue: 0,
-    duration: (showtime * 1000 * (animatedValue.value + width)) / width,
+    duration: showtime * 1000,
     useNativeDriver: true,
     easing: Easing.linear,
   });
@@ -195,7 +186,7 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
   const progressAnimation = () => {
     setFinishedAnimation(false);
 
-    animatedValue.value = 5 - width;
+    animatedValue.setValue(5 - width);
 
     console.log('SHOWTIME', showtime);
 
@@ -225,6 +216,7 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
       });
     } else {
       console.log('CURRENT', animatedValue);
+      console.log('WIDTH', width);
       // setLastAnimatedValue(animatedValue)
       animation.stop();
     }
