@@ -59,7 +59,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [relatedProducts, setRelatedProducts] = useState<any[]>();
   const [featuredProducts, setFeaturedProducts] = useState<any[]>();
   const [suggestions, setSuggestions] = useState<SearchSuggestionsVars[]>([]);
-  const [mostSearched, setMostSearched] = useState<TopSearches[]>([]);
   const [searchSuggestions, setSearchSuggestions] = useState<any[]>([]);
   const [productNews, setProductNews] = useState<ConfigCollection[]>([]);
   const [suggestionsFound, setSuggestionsFound] = useState(true);
@@ -71,7 +70,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     configCollection,
     {
       context: { clientName: 'contentful' },
-    }
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache',
+    },
+
   );
 
   const pageSize = 12;
@@ -109,8 +111,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   ] = useLazyQuery(searchSuggestionsAndProductSearch, {
     fetchPolicy: 'no-cache',
   });
-  const { data: topSearchesData, loading: topSearchesLoading } =
-    useQuery(topSearches);
 
   const { WithoutInternet } = useCheckConnection({});
 
@@ -133,12 +133,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       }
     }
   }, [suggestionsData]);
-
-  useEffect(() => {
-    if (topSearchesData) {
-      setMostSearched(topSearchesData.topSearches.searches);
-    }
-  }, [topSearchesData]);
 
   useEffect(() => {
     if (collectionData) {
@@ -241,7 +235,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     <Box backgroundColor="white" flex={1}>
       <TopBarDefault
         loading={
-          loading || topSearchesLoading || loadingFeatured || selectedTerm
+          loading || loadingCollection || loadingFeatured || selectedTerm
         }
       />
       <WithoutInternet />
