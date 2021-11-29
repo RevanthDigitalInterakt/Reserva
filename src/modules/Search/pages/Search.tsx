@@ -145,10 +145,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   }, [collectionData]);
 
   useEffect(() => {
-    console.log('searchSuggestions', searchSuggestions)
-  }, [searchSuggestions])
-
-  useEffect(() => {
     if (!loading) {
       setProducts(data.productSearch.products);
     }
