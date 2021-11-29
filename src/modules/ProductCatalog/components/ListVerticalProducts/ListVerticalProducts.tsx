@@ -313,10 +313,20 @@ export const ListVerticalProducts = ({
                 ? installments[0].NumberOfInstallments
                 : 1;
 
+            const discountTag = getPercent(
+              item.priceRange?.sellingPrice.lowPrice,
+              item.priceRange?.listPrice.lowPrice
+            );
+
+            const cashPaymentPrice =
+              !!discountTag && discountTag > 0
+                ? item.priceRange?.sellingPrice.lowPrice
+                : item.priceRange?.listPrice?.lowPrice || 0;
+
             const installmentPrice =
               installments.length > 0
                 ? installments[0].Value
-                : item.items[0].sellers[0].commertialOffer.Price;
+                : cashPaymentPrice;
 
             // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
