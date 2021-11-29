@@ -158,8 +158,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 31
-        versionName "1.1.11"
+        versionCode 32
+        versionName "1.1.12"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
