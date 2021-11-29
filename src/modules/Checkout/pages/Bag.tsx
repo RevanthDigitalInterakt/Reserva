@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import { Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
@@ -473,105 +473,115 @@ export const BagScreen = () => {
                       </Typography>
                     </Box>
                   )}
-                  <ProductHorizontalListCard
-                    isBag
-                    discountApi={
-                      item.priceTags.find(
-                        (x) =>
-                          x.identifier ===
-                          'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                      )
-                        ? parseInt(`${item.priceTags[0].rawValue}`)
-                        : undefined
-                    }
-                    disableCounter={
-                      item.priceTags.find(
-                        (x) =>
-                          x.identifier ===
-                          'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                      ) &&
-                      array.filter((x) => x.uniqueId == item.uniqueId).length >
-                        1
-                    }
-                    currency="R$"
-                    discountTag={getPercent(item.sellingPrice, item.listPrice)}
-                    itemColor={item.skuName.split('-')[0] || ''}
-                    ItemSize={item.skuName.split('-')[1] || ''}
-                    productTitle={item.name.split(' - ')[0]}
-                    // installmentsNumber={item.installmentNumber}
-                    // installmentsPrice={item.installmentPrice}
-                    price={item.listPrice / 100}
-                    priceWithDiscount={
-                      item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
-                    }
-                    count={optimistQuantities[index]}
-                    onClickAddCount={async (countUpdated) => {
-                      const itemIndex = array.findIndex(
-                        (x) => x.refId == item.refId
-                      );
-
-                      const { ok } = await addItem(
-                        countUpdated,
-                        item.id,
-                        item.seller
-                      );
-
-                      if (!ok) {
-                        const erros = errorsMessages?.filter((erro) =>
-                          erro.includes(item.name)
-                        );
-                        setNoProduct(erros[0]);
-                      } else {
-                        setOptimistQuantities([
-                          ...optimistQuantities.slice(0, itemIndex),
-                          countUpdated,
-                          ...optimistQuantities.slice(itemIndex + 1),
-                        ]);
-                      }
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigate('ProductDetail', {
+                        productId: item.productId,
+                        itemId: item.id,
+                        sizeSelected: item.skuName.split("-")[1] || ""
+                      });
                     }}
-                    onClickSubCount={async (count) => {
-                      const prevCont = optimistQuantities[index];
-                      if (prevCont <= 1) {
+                  >
+                    <ProductHorizontalListCard
+                      isBag
+                      discountApi={
+                        item.priceTags.find(
+                          (x) =>
+                            x.identifier ===
+                            'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                        )
+                          ? parseInt(`${item.priceTags[0].rawValue}`)
+                          : undefined
+                      }
+                      disableCounter={
+                        item.priceTags.find(
+                          (x) =>
+                            x.identifier ===
+                            'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                        ) &&
+                        array.filter((x) => x.uniqueId == item.uniqueId).length >
+                          1
+                      }
+                      currency="R$"
+                      discountTag={getPercent(item.sellingPrice, item.listPrice)}
+                      itemColor={item.skuName.split('-')[0] || ''}
+                      ItemSize={item.skuName.split('-')[1] || ''}
+                      productTitle={item.name.split(' - ')[0]}
+                      // installmentsNumber={item.installmentNumber}
+                      // installmentsPrice={item.installmentPrice}
+                      price={item.listPrice / 100}
+                      priceWithDiscount={
+                        item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
+                      }
+                      count={optimistQuantities[index]}
+                      onClickAddCount={async (countUpdated) => {
+                        const itemIndex = array.findIndex(
+                          (x) => x.refId == item.refId
+                        );
+
+                        const { ok } = await addItem(
+                          countUpdated,
+                          item.id,
+                          item.seller
+                        );
+
+                        if (!ok) {
+                          const erros = errorsMessages?.filter((erro) =>
+                            erro.includes(item.name)
+                          );
+                          setNoProduct(erros[0]);
+                        } else {
+                          setOptimistQuantities([
+                            ...optimistQuantities.slice(0, itemIndex),
+                            countUpdated,
+                            ...optimistQuantities.slice(itemIndex + 1),
+                          ]);
+                        }
+                      }}
+                      onClickSubCount={async (count) => {
+                        const prevCont = optimistQuantities[index];
+                        if (prevCont <= 1) {
+                          setShowModal(true);
+                          setRemoveProduct({
+                            id: item.id,
+                            index,
+                            seller: item.seller,
+                          });
+                        } else {
+                          setOptimistQuantities([
+                            ...optimistQuantities.slice(0, index),
+                            count,
+                            ...optimistQuantities.slice(index + 1),
+                          ]);
+                          const { ok } = await removeItem(
+                            item.id,
+                            index,
+                            item.seller,
+                            item.quantity - 1
+                          );
+                          if (!ok)
+                            setOptimistQuantities([
+                              ...optimistQuantities.slice(0, index),
+                              prevCont,
+                              ...optimistQuantities.slice(index + 1),
+                            ]);
+                          console.log('ok subCount', ok);
+                        }
+                      }}
+                      onClickClose={() => {
                         setShowModal(true);
                         setRemoveProduct({
                           id: item.id,
                           index,
                           seller: item.seller,
                         });
-                      } else {
-                        setOptimistQuantities([
-                          ...optimistQuantities.slice(0, index),
-                          count,
-                          ...optimistQuantities.slice(index + 1),
-                        ]);
-                        const { ok } = await removeItem(
-                          item.id,
-                          index,
-                          item.seller,
-                          item.quantity - 1
-                        );
-                        if (!ok)
-                          setOptimistQuantities([
-                            ...optimistQuantities.slice(0, index),
-                            prevCont,
-                            ...optimistQuantities.slice(index + 1),
-                          ]);
-                        console.log('ok subCount', ok);
-                      }
-                    }}
-                    onClickClose={() => {
-                      setShowModal(true);
-                      setRemoveProduct({
-                        id: item.id,
-                        index,
-                        seller: item.seller,
-                      });
-                    }}
-                    imageSource={item.imageUrl
-                      .replace('http', 'https')
-                      .split('-55-55')
-                      .join('')}
-                  />
+                      }}
+                      imageSource={item.imageUrl
+                        .replace('http', 'https')
+                        .split('-55-55')
+                        .join('')}
+                    />
+                  </TouchableOpacity>
                 </Box>
               ))}
             </Box>
