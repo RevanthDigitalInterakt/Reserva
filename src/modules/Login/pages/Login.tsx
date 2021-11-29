@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import moment from 'moment';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
+import appsFlyer from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
 import * as Yup from 'yup';
@@ -16,8 +17,8 @@ import {
   classicSignInMutation,
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { profileQuery } from '../../../store/ducks/profile/types';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 
@@ -29,7 +30,7 @@ export const LoginScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { comeFrom } = route.params;
-  const { cookie, setCookie, setEmail } = useAuth();
+  const { cookie, setCookie, setEmail, saveCredentials } = useAuth();
   // const navigation = useNavigation();
   const [loginCredentials, setLoginCredentials] = React.useState({
     username: '',
@@ -46,7 +47,7 @@ export const LoginScreen: React.FC<Props> = ({
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
-  const [loginWithCode, setLoginWithCode] = useState(true);
+  const [loginWithCode, setLoginWithCode] = useState(false);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
 
@@ -80,10 +81,27 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
+        saveCredentials({
+          email: loginCredentials.username,
+          password: loginCredentials.password,
+        });
+
+        appsFlyer.logEvent(
+          'af_login',
+          {},
+          (res) => {
+            console.log('AppsFlyer', res);
+          },
+          (err) => {
+            console.error('AppsFlyer Error', err);
+          }
+        );
         setEmail(loginCredentials.username);
         AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(
-          () => {}
+          () => { }
         );
+        await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
+        await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
       } else {
         validateCredentials();
       }
@@ -100,7 +118,7 @@ export const LoginScreen: React.FC<Props> = ({
           email: loginCredentials.username,
         },
       }).then((data) => {
-        setEmail(loginCredentials.username);
+        saveCredentials(null);
         navigation.navigate('AccessCode', {
           email: loginCredentials.username,
         });
@@ -221,6 +239,7 @@ export const LoginScreen: React.FC<Props> = ({
             disabled={loadingSendMail || loading}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
+          {/* }
           <Box my={50}>
             <Typography variant="tituloSessao" textAlign="center">
               OU

@@ -1,13 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
 import { Typography, Box, ExpansePanel, Divider } from "reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const FrequentDoubts = () => {
-    const dispatch = useDispatch();
 
     useEffect(() => { }, []);
 
@@ -153,7 +151,7 @@ export const FrequentDoubts = () => {
                     <Box mb={"nano"} alignSelf={"flex-start"}>
                         <Typography variant={"tituloSessoes"}>
                             Dúvidas frequentes
-                         </Typography>
+                        </Typography>
                     </Box>
 
                     {data.map((item, key) => {

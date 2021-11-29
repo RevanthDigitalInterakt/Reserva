@@ -1,25 +1,27 @@
-import { useMutation } from "@apollo/client";
-import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect, useRef, useState } from "react";
-import { SafeAreaView, ScrollView, KeyboardAvoidingView } from "react-native";
+import React, { useEffect, useRef, useState } from 'react';
+
+import { useMutation, useQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
 import {
   TextInputMaskOptionProp,
   TextInputMaskTypeProp,
-} from "react-native-masked-text";
-import { useFormikContext } from "formik";
-import { Formik } from "formik";
-import { useCart } from "../../../context/CartContext";
-import { Box, Button, TextField, Typography } from "reserva-ui";
+} from 'react-native-masked-text';
+import { Box, Button, TextField, Typography } from 'reserva-ui';
+
+import { useCart } from '../../../context/CartContext';
 import {
   saveAddressMutation,
   updateAddress,
-} from "../../../graphql/address/addressMutations";
-import { useQuery } from "@apollo/client";
-import { profileQuery, ProfileVars } from "../../../store/ducks/profile/types";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { CepVerify } from "../../../services/vtexService";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+} from '../../../graphql/address/addressMutations';
+import {
+  profileQuery,
+  ProfileVars,
+} from '../../../graphql/profile/profileQuery';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { CepVerify } from '../../../services/vtexService';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 interface IAddress {
   postalCode: string;
@@ -33,43 +35,38 @@ interface IAddress {
   addressType: string;
   country: string;
 }
-type Props = StackScreenProps<RootStackParamList, "NewAddress">;
-
-type SaveAddressDTO = {
-  postalCode: string;
-  state: string;
-  city: string;
-  street: string;
-  neighborhood: string;
-  number: string;
-  complement: string;
-};
+type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const { edit, editAddress } = route?.params;
-  const [addressId, setAddressId] = useState(edit ? editAddress.id : "");
-  const [toggleActivated, setToggleActivated] = useState(false);
+  const [addressId, setAddressId] = useState(edit ? editAddress.id : '');
+  const [toggleActivated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { addShippingData, orderForm } = useCart();
+  const { addShippingData } = useCart();
   const { isCheckout } = route.params;
-  const { loading: loadingProfile, error, data: profileData, refetch } = useQuery(profileQuery);
+  const {
+    loading: loadingProfile,
+    error,
+    data: profileData,
+    refetch,
+  } = useQuery(profileQuery);
 
   const [profile, setProfile] = useState<ProfileVars>();
   const [initialValues, setInitialValues] = useState<IAddress>({
-    postalCode: edit ? editAddress.postalCode : "",
-    state: edit ? editAddress.state : "",
-    city: edit ? editAddress.city : "",
-    number: edit ? editAddress.number : "",
-    complement: edit ? editAddress.complement : "",
-    street: edit ? editAddress.street : "",
-    neighborhood: edit ? editAddress.neighborhood : "",
-    receiverName: "",
-    addressType: "residential",
-    country: "BRA",
+    postalCode: edit ? editAddress.postalCode : '',
+    state: edit ? editAddress.state : '',
+    city: edit ? editAddress.city : '',
+    number: edit ? editAddress.number : '',
+    complement: edit ? editAddress.complement : '',
+    street: edit ? editAddress.street : '',
+    neighborhood: edit ? editAddress.neighborhood : '',
+    receiverName: '',
+    addressType: 'residential',
+    country: 'BRA',
   });
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
@@ -82,15 +79,15 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
           id: addressId,
           fields: {
             ...initialValues,
-            receiverName: `${profile?.firstName} ${profile?.lastName}`
-          }
+            receiverName: `${profile?.firstName} ${profile?.lastName}`,
+          },
         },
       })
       : await saveAddress({
         variables: {
           fields: {
             ...initialValues,
-            receiverName: `${profile?.firstName} ${profile?.lastName}`
+            receiverName: `${profile?.firstName} ${profile?.lastName}`,
           },
         },
       });
@@ -112,32 +109,32 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       street,
     } = initialValues;
 
-    //salvar endereço do usuário no orderform
+    // salvar endereço do usuário no orderform
     const isAddressSaved = await addShippingData({
       postalCode,
       state,
       number,
-      receiverName: receiverName,
+      receiverName,
       neighborhood,
-      addressType: "residential",
-      country: "BRA",
+      addressType: 'residential',
+      country: 'BRA',
       complement,
       city,
       street,
     });
 
-    //salvar endereço se estiver logado
+    // salvar endereço se estiver logado
     await saveAddress({
       variables: {
         fields: {
           ...initialValues,
-          receiverName: receiverName
+          receiverName,
         },
       },
     });
     setLoading(false);
     if (isAddressSaved) {
-      navigation.navigate("Checkout");
+      navigation.goBack();
     }
   };
 
@@ -219,7 +216,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     <>
       <SafeAreaView
         flex={1}
-        style={{ justifyContent: "space-between" }}
+        style={{ justifyContent: 'space-between' }}
         backgroundColor="white"
       >
         <TopBarBackButton loading={loading} showShadow />
@@ -230,8 +227,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         >
           <KeyboardAvoidingView>
             <Box pb="sm">
-              <Box paddingX={"xxxs"} justifyContent="flex-start" pt={"sm"}>
-                <Box alignSelf={"flex-start"} mb={"nano"}>
+              <Box paddingX="xxxs" justifyContent="flex-start" pt="sm">
+                <Box alignSelf="flex-start" mb="nano">
                   {edit ? (
                     <Typography variant="tituloSessoes">
                       Editar endereço
@@ -243,17 +240,17 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   )}
                 </Box>
                 <InputOption
-                  placeholder={"Digite seu CEP"}
-                  maskType={"zip-code"}
+                  placeholder="Digite seu CEP"
+                  maskType="zip-code"
                   value={initialValues.postalCode}
                   onChangeText={(text) => {
                     setInitialValues({ ...initialValues, postalCode: text });
-                    cepHandler(text.replace("-", ""));
+                    cepHandler(text.replace('-', ''));
                   }}
                 />
 
                 <InputOption
-                  placeholder={"Endereço"}
+                  placeholder="Endereço"
                   value={initialValues.street}
                   // editable={initialValues.street.length <= 0}
                   onChangeText={(text) =>
@@ -261,10 +258,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   }
                 />
 
-                <Box flexDirection={"row"} justifyContent="space-between">
-                  <Box flex={1} marginRight={"micro"}>
+                <Box flexDirection="row" justifyContent="space-between">
+                  <Box flex={1} marginRight="micro">
                     <InputOption
-                      placeholder={"Digite seu bairro"}
+                      placeholder="Digite seu bairro"
                       value={initialValues.neighborhood}
                       // editable={initialValues.neighborhood.length <= 0}
                       onChangeText={(text) =>
@@ -278,7 +275,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                   <Box flex={1}>
                     <InputOption
-                      placeholder={"Digite seu estado"}
+                      placeholder="Digite seu estado"
                       value={initialValues.state}
                       // editable={initialValues.state.length <= 0}
                       onChangeText={(text) =>
@@ -290,7 +287,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                 <Box flex={1}>
                   <InputOption
-                    placeholder={"Número"}
+                    placeholder="Número"
                     value={initialValues.number}
                     onChangeText={(text) =>
                       setInitialValues({ ...initialValues, number: text })
@@ -298,7 +295,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   />
                 </Box>
                 <InputOption
-                  placeholder={"Complemento"}
+                  placeholder="Complemento"
                   value={initialValues.complement}
                   onChangeText={(text) =>
                     setInitialValues({ ...initialValues, complement: text })
@@ -306,29 +303,29 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 />
 
                 {toggleActivated && (
-                  <Box mb={"sm"}>
-                    <InputOption placeholder={"Nome do destinatário"} />
+                  <Box mb="sm">
+                    <InputOption placeholder="Nome do destinatário" />
 
                     <InputOption
-                      maskType={"cel-phone"}
-                      placeholder={"Telefone para contato"}
+                      maskType="cel-phone"
+                      placeholder="Telefone para contato"
                     />
 
                     <InputOption
                       height={135}
-                      textAlignVertical={"top"}
-                      placeholder={"Deseja enviar algum recado junto?"}
+                      textAlignVertical="top"
+                      placeholder="Deseja enviar algum recado junto?"
                     />
                   </Box>
                 )}
 
-                {!isCheckout && (
+                {edit && (
                   <Button
                     disabled={loading || !buttonEnabled}
-                    width="240px"
-                    mt={"xs"}
+                    // width="240px"
+                    mt="xs"
                     onPress={handleSaveAddress}
-                    title={!edit ? "INCLUIR NOVO ENDEREÇO" : "SALVAR ALTERAÇÕES"}
+                    title="SALVAR ALTERAÇÕES"
                     variant="primarioEstreitoOutline"
                   />
                 )}
@@ -336,10 +333,12 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             </Box>
           </KeyboardAvoidingView>
         </ScrollView>
-        {isCheckout && (
+        {!edit && (
           <Button
-            onPress={handlePaymentMethodScreen}
-            title="FORMA DE PAGAMENTO"
+            onPress={
+              !isCheckout ? handleSaveAddress : handlePaymentMethodScreen
+            }
+            title="INCLUIR ENDEREÇO"
             variant="primarioEstreito"
             inline
           />
@@ -361,7 +360,7 @@ interface IInputOption {
   error?: any;
   touch?: string;
   touched?: any;
-  textAlignVertical?: "auto" | "top" | "bottom" | "center" | undefined;
+  textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center' | undefined;
   editable?: boolean;
   onChangeText?: (value: string) => void;
 }
@@ -378,26 +377,24 @@ const InputOption = ({
   onChangeText,
   editable = true,
   ...rest
-}: IInputOption) => {
-  return (
-    <>
-      <Box mt={"xxxs"}>
-        <TextField
-          {...rest}
-          // label={"Nome do titular"}
-          textAlignVertical={textAlignVertical}
-          height={height}
-          maskType={maskType}
-          maskOptions={maskOptions}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          value={value}
-          editable={editable}
+}: IInputOption) => (
+  <>
+    <Box mt="xxxs">
+      <TextField
+        {...rest}
+        // label={"Nome do titular"}
+        textAlignVertical={textAlignVertical}
+        height={height}
+        maskType={maskType}
+        maskOptions={maskOptions}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        value={value}
+        editable={editable}
 
-        // touched={touched[field]}
-        // error={errors[field] && touched[field] ? `${errors[field]}` : null}
-        />
-      </Box>
-    </>
-  );
-};
+      // touched={touched[field]}
+      // error={errors[field] && touched[field] ? `${errors[field]}` : null}
+      />
+    </Box>
+  </>
+);

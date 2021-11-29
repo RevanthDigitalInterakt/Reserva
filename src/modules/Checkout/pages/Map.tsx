@@ -175,7 +175,7 @@ export const MapScreen = ({ route }: Props) => {
                     disabled={loading}
                   >
                     <Box width={'100%'} backgroundColor={'white'} my={'micro'}>
-                      <Box borderColor={'backgroundMenuOpened'}>
+                      <Box borderColor={'backgroundMenuOpened'} paddingRight="nano">
                         <Box flexDirection="row">
                           <Box>
                             <Image
@@ -184,7 +184,7 @@ export const MapScreen = ({ route }: Props) => {
                               resizeMode={'contain'}
                             />
                           </Box>
-                          <Box>
+                          <Box flex={1} >
                             <Box mb={'quarck'}>
                               <Typography
                                 fontFamily="reservaSerifRegular"

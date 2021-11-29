@@ -1,28 +1,28 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
-import { SafeAreaView, FlatList } from "react-native";
-import { Typography, Box, Button, Alert } from "reserva-ui";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState, useRef } from 'react';
 
-import AddressSelector from "../Components/AddressSelector";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
-import { deleteAddress } from "../../../graphql/address/addressMutations";
-import { useCart } from "../../../context/CartContext";
-import { profileQuery } from "../../../store/ducks/profile/types";
-import { useIsFocused, useFocusEffect } from "@react-navigation/native";
-import { useAuth } from "../../../context/AuthContext";
+import { useMutation, useQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { SafeAreaView, FlatList } from 'react-native';
+import { Typography, Box, Button, Alert } from 'reserva-ui';
 
-type Props = StackScreenProps<RootStackParamList, "AddressList">;
+import { useAuth } from '../../../context/AuthContext';
+import { useCart } from '../../../context/CartContext';
+import { deleteAddress } from '../../../graphql/address/addressMutations';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import AddressSelector from '../Components/AddressSelector';
+
+type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
-  const { cookie } = useAuth();
+  const { identifyCustomer } = useCart();
+  const { cookie, email } = useAuth();
   const [deleteModal, setDeleteModal] = React.useState(false);
-  const [addressId, setAddressId] = React.useState("");
+  const [addressId, setAddressId] = React.useState('');
   const [successModal, setSuccessModal] = React.useState(false);
-  const [selected, setSelected] = React.useState(false);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const modalRef = useRef(false);
   const { isCheckout, comeFrom } = route.params;
@@ -32,14 +32,17 @@ const AddressList: React.FC<Props> = ({ route }) => {
   ] = useMutation(deleteAddress);
   const [loading, setLoading] = useState(false);
   const { orderForm, addShippingData, addShippingOrPickupInfo } = useCart();
-  const { loading: loadingProfile, data, refetch } = useQuery(profileQuery, { fetchPolicy: "no-cache" });
+  const {
+    loading: loadingProfile,
+    data,
+    refetch,
+  } = useQuery(profileQuery, { fetchPolicy: 'no-cache' });
   const [profile, setProfile] = useState<any>({});
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
 
-
   useEffect(() => {
-    if (comeFrom === "Home") {
+    if (comeFrom === 'Home') {
       setEditAndDelete(true);
     } else {
       setEditAndDelete(false);
@@ -47,11 +50,10 @@ const AddressList: React.FC<Props> = ({ route }) => {
   }, []);
 
   const onAddressChosen = (item: any) => {
-    setSelectedAddress({ ...item, addressType: "residential" });
+    setSelectedAddress({ ...item, addressType: 'residential' });
   };
 
   const onGoToPayment = async () => {
-
     if (orderForm) {
       setLoading(true);
 
@@ -62,21 +64,25 @@ const AddressList: React.FC<Props> = ({ route }) => {
 
         // save selected logistc info
         const logisticInfo = orderForm.shippingData.logisticsInfo.map(
-          ({ itemIndex }) => {
-            return {
-              itemIndex,
-              selectedDeliveryChannel: deliveryChannel,
-              selectedSla: id,
-            };
-          }
+          ({ itemIndex }) => ({
+            itemIndex,
+            selectedDeliveryChannel: deliveryChannel,
+            selectedSla: id,
+          })
         );
-
-        await addShippingOrPickupInfo(logisticInfo, [selectedAddress]);
-
+        let addressId;
+        if (selectedAddress.id) {
+          addressId = selectedAddress.id;
+          delete selectedAddress.id;
+        } else {
+          addressId = selectedAddress.addressId;
+        }
+        await addShippingOrPickupInfo(logisticInfo, [
+          { ...selectedAddress, addressId },
+        ]);
       }
       setLoading(false);
     }
-
 
     // if (
     //   orderForm &&
@@ -90,15 +96,17 @@ const AddressList: React.FC<Props> = ({ route }) => {
     //   setLoading(false);
     // }
 
-    navigation.navigate("Checkout");
+    navigation.navigate('Checkout');
   };
 
   useEffect(() => {
     const availableAddressesOrderForm =
       orderForm &&
       orderForm?.shippingData &&
-      orderForm?.shippingData.availableAddresses
-        .map((a) => ({ ...a, country: "BRA" }));
+      orderForm?.shippingData.availableAddresses.map((a) => ({
+        ...a,
+        country: 'BRA',
+      }));
 
     // if (
     //   availableAddressesOrderForm &&
@@ -111,14 +119,14 @@ const AddressList: React.FC<Props> = ({ route }) => {
     //   setAddresses(addresses);
     // }
 
-    if (cookie) {
+    if (cookie != null) {
       const { addresses } = profile;
       setAddresses(addresses);
-    } else {
-      if (availableAddressesOrderForm &&
-        availableAddressesOrderForm?.length > 0) {
-        setAddresses(availableAddressesOrderForm);
-      }
+    } else if (
+      availableAddressesOrderForm &&
+      availableAddressesOrderForm?.length > 0
+    ) {
+      setAddresses(availableAddressesOrderForm);
     }
   }, [orderForm, profile]);
 
@@ -131,7 +139,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     }
   }, [data]);
 
-  navigation.addListener("focus", () => {
+  navigation.addListener('focus', () => {
     refetch();
   });
 
@@ -142,18 +150,25 @@ const AddressList: React.FC<Props> = ({ route }) => {
           modalRef.current && setSuccessModal(true);
         }}
         isVisible={deleteModal}
-        title={"Excluir endereço"}
-        subtitle={"Tem certeza que deseja excluir o endereço salvo?"}
-        confirmText={"SIM"}
-        cancelText={"NÃO"}
+        title="Excluir endereço"
+        subtitle="Tem certeza que deseja excluir o endereço salvo?"
+        confirmText="SIM"
+        cancelText="NÃO"
         onConfirm={async () => {
           modalRef.current = true;
-          const { data } = await addressDelete({
+          const data = await addressDelete({
             variables: {
               id: addressId,
             },
           });
           setDeleteModal(false);
+
+          // reset shippingData of orderform
+          if (data) {
+            if (email) {
+              await identifyCustomer(email);
+            }
+          }
         }}
         onCancel={() => {
           setDeleteModal(false);
@@ -165,8 +180,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       {deleteAddressError ? (
         <Alert
           isVisible={successModal}
-          title={"Não foi possível excluir o endereço"}
-          confirmText={"OK"}
+          title="Não foi possível excluir o endereço"
+          confirmText="OK"
           onConfirm={() => {
             setSuccessModal(false);
           }}
@@ -177,8 +192,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       ) : (
         <Alert
           isVisible={successModal}
-          title={"Seu endereço foi excluído com sucesso."}
-          confirmText={"OK"}
+          title="Seu endereço foi excluído com sucesso."
+          confirmText="OK"
           onConfirm={() => {
             setSuccessModal(false);
             refetch();
@@ -198,13 +213,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
         />
 
         <Box
-          overflow={"hidden"}
+          overflow="hidden"
           paddingHorizontal={20}
           flex={1}
           justifyContent="flex-start"
-          pt={"md"}
+          pt="md"
         >
-          <Box alignSelf={"flex-start"} mb={"xxxs"}>
+          <Box alignSelf="flex-start" mb="xxxs">
             <Typography variant="tituloSessoes">Meus endereços</Typography>
           </Box>
 
@@ -232,12 +247,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   if (selectedAddress) {
                     selected = id === selectedAddress.id && item;
                   }
-                } else {
-                  if (selectedAddress) {
-                    selected = addressId === selectedAddress.addressId && item;
-                  }
+                } else if (selectedAddress) {
+                  selected = addressId === selectedAddress.addressId && item;
                 }
-
 
                 return (
                   <AddressSelector
@@ -252,7 +264,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                     }}
                     editAndDelete={editAndDelete}
                     edit={() => {
-                      navigation.navigate("NewAddress", {
+                      navigation.navigate('NewAddress', {
                         edit: true,
                         editAddress: {
                           id,
@@ -283,37 +295,34 @@ const AddressList: React.FC<Props> = ({ route }) => {
         </Box>
 
         <Box>
-          {cookie &&
-            <Box marginX={"md"} justifyContent="flex-end" mb="xxxs">
+          {cookie && (
+            <Box marginX="md" justifyContent="flex-end" mb="xxxs">
               <Button
                 onPress={() =>
-                  navigation.navigate("NewAddress", {
+                  navigation.navigate('NewAddress', {
                     isCheckout,
                     id: null,
                   })
                 }
-                title={"NOVO ENDEREÇO"}
+                title="NOVO ENDEREÇO"
                 variant="primarioEstreitoOutline"
                 padding="xl"
               />
             </Box>
-          }
+          )}
 
           {isCheckout && addresses ? (
-            <Box justifyContent="flex-end" >
+            <Box justifyContent="flex-end">
               <Button
                 disabled={loading || !selectedAddress}
                 onPress={onGoToPayment}
                 title="FORMA DE PAGAMENTO"
                 variant="primarioEstreito"
-                inline={true}
+                inline
               />
             </Box>
-          ) : null
-          }
+          ) : null}
         </Box>
-
-
       </SafeAreaView>
     </>
   );

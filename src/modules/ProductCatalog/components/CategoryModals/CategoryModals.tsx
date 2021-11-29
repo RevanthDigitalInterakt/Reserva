@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Picker, TextField, Typography } from 'reserva-ui';
-import { ApplicationState } from '../../../../store';
-import { Product } from '../../../../store/ducks/product/types';
-import { appendWishlist } from '../../../../store/ducks/wishlist/actions';
-
 interface CreateCategoryModalProps {
   isVisible: boolean;
-  favoritedProduct?: Product;
+  favoritedProduct?: any;
 }
 
 export const CreateCategoryModal = ({
@@ -18,10 +12,6 @@ export const CreateCategoryModal = ({
   const [textInput, setTextInput] = useState('');
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [pickerIsVisible, setPickerIsVisible] = useState(true);
-  const wishlist = useSelector(
-    (state: ApplicationState) => state.wishlist.data
-  );
-  const dispatch = useDispatch();
   const createCategoryText = 'criar categoria';
 
   useEffect(() => {
@@ -76,16 +66,13 @@ export const CreateCategoryModal = ({
               variant='primarioEstreitoOutline'
               onPress={() => {
                 favoritedProduct &&
-                  dispatch(
-                    appendWishlist({ category: textInput, ...favoritedProduct })
-                  );
-                setModalIsVisible(false);
+                  setModalIsVisible(false);
               }}
             />
           </Box>
         </Box>
       )}
-      <Picker
+      {/* <Picker
         title='selecionar categoria'
         isVisible={pickerIsVisible}
         items={[
@@ -112,7 +99,7 @@ export const CreateCategoryModal = ({
             setPickerIsVisible(false);
           }
         }}
-      />
+      /> */}
     </>
   ) : null;
 };

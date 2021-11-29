@@ -1,6 +1,8 @@
-import React, { createRef, useEffect, useState } from 'react';
-import { Alert, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { createRef, useEffect, useMemo, useState } from 'react';
+import { Alert, Dimensions, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import analytics from '@react-native-firebase/analytics';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
@@ -19,13 +21,9 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ModalBag } from '../components/ModalBag';
 import * as Yup from "yup";
 import Share from 'react-native-share';
-import { useDispatch, useSelector } from 'react-redux';
-import { load } from '../../../store/ducks/shippingMethod/actions';
-import { add, addDays, format } from 'date-fns';
 
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { ApplicationState } from '../../../store';
 import { useCart } from '../../../context/CartContext';
 import { QueryResult, useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS, GET_SHIPPING, SUBSCRIBE_NEWSLETTER } from '../../../graphql/product/productQuery';
@@ -44,6 +42,13 @@ import { useAuth } from '../../../context/AuthContext';
 import { images } from '../../../assets';
 import { url } from '../../../config/vtexConfig';
 import { Tooltip } from '../components/Tooltip';
+import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
+import AsyncStorage from '@react-native-community/async-storage';
+
+import axios from "axios";
+import appsFlyer from 'react-native-appsflyer';
+import remoteConfig from '@react-native-firebase/remote-config';
+import { addDays, format } from 'date-fns';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -148,6 +153,7 @@ type ShippingCost = {
     shippingEstimate: string;
   }[];
 }
+
 export const ProductDetail: React.FC<Props> = ({
   route,
   navigation,
@@ -184,13 +190,16 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [skip, setSkip] = useState(false)
+  const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false)
+  const [loadingNewsLetter, setLoadingNewsLetter] = useState(false)
+  const [acceptConditions, setAcceptConditions] = useState(false)
+  const [modalTermsAndConditionsisVisible, setModalTermsAndConditionsisVisible] = useState(false)
   const [wishInfo, setWishInfo] = useState({
     listIds: [''],
     inList: false
   })
-  const { addItem, sendUserEmail } = useCart();
-  const dispatch = useDispatch();
+  const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
 
   const [cep, setCep] = useState('');
   const [emailPromotions, setEmailPromotions] = useState('');
@@ -202,17 +211,31 @@ export const ProductDetail: React.FC<Props> = ({
   const [removeWishList, { data: removeWishListData, error: removeWishListError, loading: removeWishLoading }] = useMutation(wishListQueries.REMOVE_WISH_LIST)
 
   const { email } = useAuth()
+  const [isLastUnits, setIsLastUnits] = useState(false)
 
   /***
    * Effects
    */
   useEffect(() => {
+    remoteConfig()
+      .fetchAndActivate();
+    const value = remoteConfig().getValue('sale_off_tag');
+    setSaleOffTag(value.asBoolean());
+
     refetch();
   }, []);
 
   useEffect(() => {
     refetchChecklist();
+    console.log('product:::>>', product)
   }, [product])
+
+  useEffect(() => {
+    refetchChecklist();
+    console.log('selectedVariant:::>>', selectedVariant)
+  }, [selectedVariant])
+
+  // selectedVariant?.itemId
 
   useEffect(() => {
     if (data) {
@@ -246,14 +269,33 @@ export const ProductDetail: React.FC<Props> = ({
       });
 
       let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
-      defaultSize?.size && setSelectedSize(defaultSize?.size)
 
+      if (route.params?.sizeSelected) {
+        const favoritedSize = route.params?.sizeSelected;
+        setSelectedSize(favoritedSize.trim()) //item favorite
+      } else {
+        defaultSize?.size && setSelectedSize(defaultSize?.size)
+      }
       console.log("item", itemList);
 
-
-
       setItemsSKU(itemList);
-
+      appsFlyer.logEvent(
+        'af_content_view',
+        {
+          af_price: product.priceRange.listPrice.lowPrice,
+          af_content: product.productName,
+          af_content_id: product.productId,
+          af_content_type: product.categoryTree.map(x => x.name).join(),
+          af_currency: 'BRL'
+        }
+      )
+      analytics().logEvent('product_view', {
+        product_id: product.productId,
+        product_name: product.productName,
+        product_category: product.categoryTree.map(x => x.name).join(),
+        product_price: product.priceRange.listPrice.lowPrice,
+        product_currency: 'BRL',
+      })
     }
   }, [data]);
 
@@ -269,8 +311,8 @@ export const ProductDetail: React.FC<Props> = ({
       console.log("selectedCOlor", selectedColor);
 
       console.log("sku", itemsSKU
-      .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-      .filter(a => a !== false)[0]);
+        .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+        .filter(a => a !== false)[0]);
 
       setSizeFilters(
         new ProductUtils().orderSizes(
@@ -285,7 +327,6 @@ export const ProductDetail: React.FC<Props> = ({
         .filter(a => a !== false)[0]
 
       setUnavailableSizes(unavailableSizes);
-
 
       const index = unavailableSizes.findIndex((x) => x === false)
       if (index === -1) {
@@ -328,12 +369,12 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
-        const getVariant =  (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
         const isSkuEqual = (sku1: any, sku2: any) => {
           console.log("sku1", sku1);
           console.log("sku2", sku2);
-          if(sku1 && sku2){
+          if (sku1 && sku2) {
             const size1 = getVariant(sku1, "Tamanho");
             const color1 = getVariant(sku1, "VALOR_HEX_ORIGINAL");
             const size2 = getVariant(sku2, "Tamanho");
@@ -377,34 +418,72 @@ export const ProductDetail: React.FC<Props> = ({
   const refetchChecklist = async () => {
     setSkip(true)
     if (product && product.productId) {
-      const { data: { checkList } } = await checkListRefetch({
+
+      /* const { data: { checkList } } = await checkListRefetch({
         shopperId: email,
         productId: product.productId.split('-')[0],
-      })
-      setWishInfo({ ...checkList })
+      }) */
+
+      const wishListData = await AsyncStorage.getItem('@WishData');
+      if (selectedVariant) {
+        if (wishListData) {
+          const newWishIds = JSON.parse(wishListData).some((x) => x.sku === selectedVariant?.itemId);
+          setWishInfo({
+            ...wishInfo,
+            inList: newWishIds
+          })
+        }
+      }
+
+      //setWishInfo({ ...checkList })
+
     }
   }
 
   const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
 
+      const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
         setLoadingFavorite(true)
+
         if (favorite) {
-          const { data } = await addWishList({
+          /* const { data } = await addWishList({
             variables: {
               shopperId: email,
               productId: product.productId.split('-')[0],
               sku: selectedVariant?.itemId
             }
-          })
+          }) */
+
+          const handleFavorites = {
+            productId: product.productId.split('-')[0],
+            sku: selectedVariant?.itemId
+          };
+
+          if (wishListData) {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([...JSON.parse(wishListData), handleFavorites])
+            );
+          } else {
+            await AsyncStorage.setItem(
+              '@WishData',
+              JSON.stringify([handleFavorites])
+            );
+          }
+
         } else {
-          await removeWishList({
+          /* await removeWishList({
             variables: {
               shopperId: email,
               id: wishInfo.listIds[0]
             }
-          })
+          }) */
+
+          const newWishIds = JSON.parse(wishListData).filter((x) => x.sku !== selectedVariant?.itemId);
+          await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+
         }
         await refetchChecklist()
         setLoadingFavorite(false)
@@ -444,10 +523,26 @@ export const ProductDetail: React.FC<Props> = ({
 
   const onProductAdd = async () => {
     if (selectedVariant) {
-      const { message, ok } = await addItem(1, selectedVariant?.itemId, selectedSellerId);
+      if (isAssinaturaSimples) {
+        if (!acceptConditions) return
 
-      if (!ok) {
-        Alert.alert('Produto sem estoque', message);
+        const { message, ok } = await addItem(1, selectedVariant?.itemId, selectedSellerId);
+
+        setIsVisible(true);
+
+        if (!ok) {
+          Alert.alert('Produto sem estoque', message);
+        } else {
+          await addAttachmentsInProducts()
+        }
+      } else {
+        const { message, ok } = await addItem(1, selectedVariant?.itemId, selectedSellerId);
+
+        setIsVisible(true);
+
+        if (!ok) {
+          Alert.alert('Produto sem estoque', message);
+        }
       }
     }
   };
@@ -523,14 +618,16 @@ export const ProductDetail: React.FC<Props> = ({
 
   const newsAndPromotions = async () => {
     if (emailIsValid) {
-      console.log('asdasd')
+      setLoadingNewsLetter(true)
+      //console.log('asdasd')
       const { data } = await subscribeNewsletter({
         variables: {
           email: emailPromotions,
           isNewsletterOptIn: true
         }
       })
-      console.log('passou do newsletter!!', data)
+      //console.log('passou do newsletter!!', data)
+      setLoadingNewsLetter(false)
 
       if (!!data && data.subscribeNewsletter) {
         setToolTipIsVisible(true)
@@ -549,13 +646,58 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getSaleOff = (salOff) => {
     const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
+    if (!saleOffTag) return null
     if (idImage) return images.saleOff
   }
+
+  const getLastUnits = () => {
+    const lastUnits = data?.product.items[0].sellers[0].commertialOffer.AvailableQuantity;
+    if (lastUnits <= 5) {
+      setIsLastUnits(true)
+    } else {
+      setIsLastUnits(false)
+    }
+    //console.log("LASTUNITS", isLastUnits)
+    //console.log("LASTUNITSQTD", lastUnits)
+  }
+
+  useEffect(() => {
+    getLastUnits();
+  }, [selectedColor, selectedSize])
+
+  const addAttachmentsInProducts = async () => {
+    try {
+      const orderFormId = orderForm?.orderFormId
+      const productOrderFormIndex = orderForm?.items.length // because it will be the new last element
+      const attachmentName = "Li e Aceito os Termos"
+
+      await axios.post(
+        `https://www.usereserva.com/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
+        { content: { aceito: "true" } },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+
+    } catch (error) {
+      console.log("error - addAttachmentsInProducts", error)
+      throw error
+    }
+  }
+
+  const isAssinaturaSimples = useMemo(() => {
+    const description = "A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)"
+
+    return product?.description.includes(description)
+  }, [product])
 
   return (
     <SafeAreaView>
 
       <Box bg="white">
+        <ModalTermsAndConditions
+          isVisible={modalTermsAndConditionsisVisible}
+          setIsVisible={setModalTermsAndConditionsisVisible}
+        />
+
         <ModalBag
           isVisible={isVisible}
           onBackdropPress={() => {
@@ -570,13 +712,15 @@ export const ProductDetail: React.FC<Props> = ({
           <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
             {product && selectedVariant && (
               <>
+
                 {/* PRODUCT CARD SECTION */}
                 <ProductDetailCard
                   {...product}
                   imagesHeight={3 * (screenWidth / 2)}
                   loadingFavorite={loadingFavorite}
                   title={product.productName}
-                  isFavorited={wishInfo.inList}
+                  // selectedVariant?.itemId
+                  isFavorited={wishInfo.inList && product.items.some((x) => x.itemId === selectedVariant?.itemId)}
                   onClickFavorite={handleOnFavorite}
                   price={product.priceRange.listPrice.lowPrice || 0}
                   priceWithDiscount={
@@ -599,6 +743,17 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   saleOff={getSaleOff(product)}
                 />
+
+                {
+                  /*
+                    isLastUnits && !outOfStock ?
+                    <Box position='absolute' top={650} right={20} zIndex={4}>
+                      <Typography color="vermelhoAlerta" fontWeight="SemiBold" fontFamily="nunitoRegular" fontSize={18} textAlign="center" style={{textTransform: "uppercase"}}>Últimas unidades!</Typography>
+                    </Box>
+                    : null
+                    */
+                }
+
 
                 {/* COLORS SECTION */}
                 <Box mt="xs">
@@ -675,15 +830,288 @@ export const ProductDetail: React.FC<Props> = ({
                     mt="xxs"
                     title="ADICIONAR À SACOLA"
                     variant="primarioEstreito"
-                    disabled={!!!selectedSize}
-                    onPress={() => {
-                      onProductAdd();
-                      setIsVisible(true);
-                    }}
+                    disabled={!!!selectedSize || (isAssinaturaSimples && !acceptConditions)}
+                    onPress={onProductAdd}
                     inline
                   />
                   <Box mt="nano" flexDirection="row"></Box>
                   <Divider variant="fullWidth" my="xs" />
+
+                  {/* CHECKLIST ASSINATURA SIMPLES INFO */}
+
+                  {isAssinaturaSimples &&
+                    <>
+                      <Box
+                        flexDirection='row'
+                        alignItems='center'
+                        mb='xxxs'
+                      >
+                        <Box
+                          alignItems='center'
+                          justifyContent='center'
+                          backgroundColor='verdeSucesso'
+                          width={20}
+                          height={20}
+                          borderRadius='xxxs'
+                          mr='micro'
+                        >
+                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                        </Box>
+
+                        <Box>
+                          <Box
+                            flexDirection='row'
+                          >
+                            <Typography variant='tituloSessao'>Receba </Typography>
+
+                            <Typography variant='tituloSessao' fontWeight='bold'>3 camisetas </Typography>
+
+                            <Typography variant='tituloSessao'>nos 12 meses de</Typography>
+                          </Box>
+
+                          <Typography variant='tituloSessao'>assinatura.</Typography>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        flexDirection='row'
+                        mb='xxxs'
+                        alignItems='center'
+                      >
+                        <Box
+                          alignItems='center'
+                          justifyContent='center'
+                          backgroundColor='verdeSucesso'
+                          width={20}
+                          height={20}
+                          borderRadius='xxxs'
+                          mr='micro'
+                        >
+                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                        </Box>
+
+                        <Box
+                          flexDirection='row'
+                          alignItems='center'
+                        >
+                          <Typography variant='tituloSessao' fontWeight='bold'>Ganhe 100% </Typography>
+
+                          <Typography variant='tituloSessao'>de </Typography>
+
+                          <Typography variant='tituloSessao' fontStyle='italic' >cashback </Typography>
+
+                          <Box
+                            flexDirection='row'
+                            alignSelf='flex-start'
+                            mb='nano'
+                          >
+                            <Typography fontSize={3} >*</Typography>
+                            <Typography fontSize={2} >1</Typography>
+                          </Box>
+
+                          <Typography fontSize={2} >.</Typography>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        flexDirection='row'
+                        alignItems='center'
+                        mb='xxxs'
+                      >
+                        <Box
+                          alignItems='center'
+                          justifyContent='center'
+                          backgroundColor='verdeSucesso'
+                          width={20}
+                          height={20}
+                          borderRadius='xxxs'
+                          mr='micro'
+                        >
+                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                        </Box>
+
+                        <Box>
+                          <Box
+                            flexDirection='row'
+                            alignItems='center'
+                          >
+                            <Typography variant='tituloSessao' fontWeight='bold'>Receba 20% OFF </Typography>
+
+                            <Typography variant='tituloSessao'>em todas as compras</Typography>
+
+                            <Box
+                              flexDirection='row'
+                              alignSelf='flex-start'
+                              mb='nano'
+                            >
+                              <Typography fontSize={3} >*</Typography>
+                              <Typography fontSize={2} >2</Typography>
+                            </Box>
+                          </Box>
+
+                          <Typography variant='tituloSessao'>acima de R$ 399.</Typography>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        flexDirection='row'
+                        alignItems='center'
+                        mb='xxxs'
+                      >
+                        <Box
+                          alignItems='center'
+                          justifyContent='center'
+                          backgroundColor='verdeSucesso'
+                          width={20}
+                          height={20}
+                          borderRadius='xxxs'
+                          mr='micro'
+                        >
+                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                        </Box>
+
+                        <Box>
+                          <Box
+                            flexDirection='row'
+                          >
+                            <Typography variant='tituloSessao' fontWeight='bold'>Ganhe R$ 75 </Typography>
+
+                            <Typography variant='tituloSessao'>em créditos ao fim da anuidade, </Typography>
+                          </Box>
+
+                          <Box
+                            flexDirection='row'
+                          >
+                            <Typography variant='tituloSessao'>caso queira devolver as 3 camisetas</Typography>
+
+                            <Box
+                              flexDirection='row'
+                              alignSelf='flex-start'
+                              mb='nano'
+                            >
+                              <Typography fontSize={3} >*</Typography>
+                              <Typography fontSize={2} >3</Typography>
+                            </Box>
+
+                            <Typography variant='tituloSessao'>.</Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        flexDirection='row'
+                        alignItems='center'
+                        mb='xxs'
+                      >
+                        <Box
+                          alignItems='center'
+                          justifyContent='center'
+                          backgroundColor='verdeSucesso'
+                          width={20}
+                          height={20}
+                          borderRadius='xxxs'
+                          mr='micro'
+                        >
+                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                        </Box>
+
+                        <Box>
+                          <Typography variant='tituloSessao'>Ciclo sustentável: as peças devolvidas serão </Typography>
+
+                          <Typography variant='tituloSessao'>recicladas.</Typography>
+                        </Box>
+                      </Box>
+
+                      <Box
+                        p='nano'
+                        backgroundColor='backgoundDivider'
+                      >
+                        <Box
+                          flexDirection='row'
+                        >
+                          <Typography variant='precoAntigo3' fontSize={1} color='searchBarTextColor'>*1</Typography>
+                          <Typography variant='precoAntigo3' color='searchBarTextColor'>: Créditos mensais não cumulativos, expiram a cada 30</Typography>
+                        </Box>
+
+                        <Typography variant='precoAntigo3' color='searchBarTextColor'>dias.</Typography>
+
+                        <Box
+                          flexDirection='row'
+                          mt='quarck'
+                        >
+                          <Typography variant='precoAntigo3' fontSize={1} color='searchBarTextColor'>*2</Typography>
+                          <Typography variant='precoAntigo3' color='searchBarTextColor'>: 20% de desconto exceto para itens já em promoção.</Typography>
+                        </Box>
+
+                        <Box
+                          flexDirection='row'
+                          mt='quarck'
+                        >
+                          <Typography variant='precoAntigo3' fontSize={1} color='searchBarTextColor'>*3</Typography>
+                          <Typography variant='precoAntigo3' color='searchBarTextColor'>: Ao final da anuidade, crédito de R$ 25 por camiseta</Typography>
+                        </Box>
+
+                        <Typography variant='precoAntigo3' color='searchBarTextColor'>SimplesⓇ devolvida em lojas Reserva</Typography>
+                      </Box>
+
+                      <Box
+                        flexDirection='row'
+                        alignItems='center'
+                        mt='xxxs'
+                      >
+                        <TouchableOpacity
+                          onPress={() => setAcceptConditions(!acceptConditions)}
+                        >
+                          <Box
+                            backgroundColor={acceptConditions ? 'preto' : 'white'}
+                            width={14}
+                            height={14}
+                            border='1px'
+                            borderColor='preto'
+                            borderRadius='pico'
+                            mr='nano'
+                            alignItems='center'
+                            justifyContent='center'
+                          >
+                            {acceptConditions && <Icon name="Check" size={14} color='white' mt='nano' ml='quarck' />}
+                          </Box>
+                        </TouchableOpacity>
+
+                        <Box>
+                          <Box
+                            flexDirection='row'
+                            alignItems='center'
+                          >
+                            <Typography variant='precoAntigo3' color='preto'>Ao adquirir a assinatura você aceita os </Typography>
+
+                            <TouchableOpacity
+                              onPress={() => setModalTermsAndConditionsisVisible(true)}
+                            >
+                              <Typography
+                                variant='precoAntigo3'
+                                color='preto'
+                                fontWeight='bold'
+                                style={{ textDecorationLine: 'underline' }}
+                              >termos e</Typography>
+                            </TouchableOpacity>
+                          </Box>
+
+                          <TouchableOpacity
+                            onPress={() => setModalTermsAndConditionsisVisible(true)}
+                          >
+                            <Typography
+                              variant='precoAntigo3'
+                              color='preto'
+                              fontWeight='bold'
+                              style={{ textDecorationLine: 'underline' }}
+                            >condições.</Typography>
+                          </TouchableOpacity>
+                        </Box>
+                      </Box>
+
+                      <Divider variant="fullWidth" my="xs" />
+                    </>
+                  }
 
                   {/* DELIVERY INFO */}
                   <Typography fontFamily="reservaSerifRegular" fontSize={16}>
@@ -785,6 +1213,7 @@ export const ProductDetail: React.FC<Props> = ({
                   <OutlineInput
                     placeholder="Digite seu e-mail"
                     value={emailPromotions}
+                    loading={loadingNewsLetter}
                     onChangeText={(email) => {
                       setEmailPromotions(email)
                       setEmailIsValid(

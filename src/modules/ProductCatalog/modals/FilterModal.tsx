@@ -19,8 +19,6 @@ import Modal from "react-native-modal";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createAnimatableComponent } from "react-native-animatable";
-import { useSelector } from "react-redux";
-import { ApplicationState } from "../../../store";
 import {
   ColorsToHexEnum,
   HexToColorsEnum,
@@ -41,7 +39,6 @@ export interface FilterModalProps {
   onAndroidBackButtonPress?: () => void;
   setFilterList: Function;
   filterList: string[];
-  dispatch: Function;
   colors: string[];
   sizes: string[];
   priceRange: any[];
@@ -106,7 +103,6 @@ export const FilterModal = ({
   onAndroidBackButtonPress,
   setFilterList,
   filterList,
-  dispatch,
   categoryId,
   colors,
   sizes,

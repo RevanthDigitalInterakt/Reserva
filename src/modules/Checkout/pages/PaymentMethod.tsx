@@ -4,8 +4,6 @@ import { Typography, Box, Button, Icon, Divider, Checkbox, theme } from 'reserva
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
 import { PriceCustom } from '../components/PriceCustom';
-import { useDispatch, useSelector } from 'react-redux';
-import { ApplicationState } from '../../../store';
 export const PaymentMethodScreen = () => {
   const navigation = useNavigation();
   const [cashBack, setCashBack] = useState(1000)
@@ -14,15 +12,6 @@ export const PaymentMethodScreen = () => {
   const [mixedpayment, setMixedpayment] = useState(false)
 
   const [isCheckedCashback, setIsCheckedCashback] = useState(true)
-
-  const {
-    orders,
-    profile,
-    address,
-    shippingMethod,
-
-    authentication,
-  } = useSelector((state: ApplicationState) => state)
 
   useEffect(() => {
     setPaymentDifference(cashBack - totalPrice)

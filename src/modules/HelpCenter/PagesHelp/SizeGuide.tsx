@@ -1,16 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
 import { Typography, Box, Image } from "reserva-ui";
 import { images } from "../../../assets";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 export const SizeGuide: React.FC<{}> = () => {
-  const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <SafeAreaView
