@@ -328,7 +328,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                       style={{ marginBottom: 120 }}
                     >
                       <ListVerticalProducts
-                        totalProducts={data.productSearch.recordsFiltered}
+                        totalProducts={data?.productSearch?.recordsFiltered}
                         products={featuredProducts || []}
                         loadMoreProducts={(offset) => {
                           loadMoreProducts(offset, '');
