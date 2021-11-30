@@ -86,10 +86,6 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
     setActualPosition(0);
   }, []);
 
-  useEffect(() => {
-    console.log('PRESS AQUI', pressCarousel);
-  }, [pressCarousel]);
-
   return (
     <>
       <FlatList
@@ -168,17 +164,19 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
   onEndDragTouch,
   onPressCarousel,
 }) => {
-  const [width, setWidth] = useState<number>(0);
+  const [layoutWidth, setLayoutWidth] = useState<number>(0);
 
   const [finishedAnimation, setFinishedAnimation] = useState<boolean>(false);
 
   const carouselLength = carouselRef?.props.data?.length || 1;
   const animatedValue = useRef(new Animated.Value(-10000)).current;
-  const [lastAnimatedValue, setLastAnimatedValue] = useState();
+
+  const duration = showtime * 1000;
+  // const remaningWidth = (width + animatedValue) / width;
 
   const animation = Animated.timing(animatedValue, {
     toValue: 0,
-    duration: showtime * 1000,
+    duration,
     useNativeDriver: true,
     easing: Easing.linear,
   });
@@ -186,11 +184,7 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
   const progressAnimation = () => {
     setFinishedAnimation(false);
 
-    animatedValue.setValue(5 - width);
-
-    console.log('SHOWTIME', showtime);
-
-    console.log('DURATION', animatedValue);
+    animatedValue.setValue(5 - layoutWidth);
 
     animation.start(({ finished }) => {
       setFinishedAnimation(finished);
@@ -215,9 +209,6 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
         setFinishedAnimation(finished);
       });
     } else {
-      console.log('CURRENT', animatedValue);
-      console.log('WIDTH', width);
-      // setLastAnimatedValue(animatedValue)
       animation.stop();
     }
   }, [onPressCarousel]);
@@ -254,8 +245,8 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
               overflow: 'hidden',
             }}
             onLayout={(e) => {
-              const newWidth = e.nativeEvent.layout.width;
-              setWidth(newWidth);
+              const newLayoutWidth = e.nativeEvent.layout.width;
+              setLayoutWidth(newLayoutWidth);
               progressAnimation();
             }}
             flex={1}
