@@ -26,6 +26,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
+import { Banner } from '../component/Banner';
 import { CardsCarrousel } from '../component/CardsCarroussel';
 import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
@@ -195,7 +196,28 @@ export const HomeScreen: React.FC<{
                     break;
                   }
                   case CarrouselTypes.cardsCarrousel: {
-                    return <CardsCarrousel carrousel={carrousel} />;
+                    const { items } = carrousel.itemsCollection;
+                    return items.length > 1 ? (
+                      <CardsCarrousel carrousel={carrousel} />
+                    ) : (
+                      <Banner
+                        height={items[0].image.height}
+                        reference={items[0].reference}
+                        url={items[0].image.url}
+                      />
+                    );
+                    break;
+                  }
+                  case CarrouselTypes.banner: {
+                    const { image, reference } =
+                      carrousel.itemsCollection.items[0];
+                    return (
+                      <Banner
+                        height={image.height}
+                        reference={reference}
+                        url={image.url}
+                      />
+                    );
                     break;
                   }
                   default: {
@@ -208,46 +230,12 @@ export const HomeScreen: React.FC<{
             <FlatList
               data={images}
               renderItem={({ item }) => (
-                <Box alignItems="flex-start">
-                  <Box mb="quarck" width={1 / 1}>
-                    <TouchableHighlight
-                      onPress={() => {
-                        if (item.route) {
-                          navigation.navigate(item.route);
-                        } else {
-                          const facetInput = [];
-                          const [categoryType, categoryData] =
-                            item.reference.split(':');
-                          if (categoryType === 'category') {
-                            categoryData.split('|').forEach((cat: string) => {
-                              facetInput.push({
-                                key: 'c',
-                                value: cat,
-                              });
-                            });
-                          } else {
-                            facetInput.push({
-                              key: 'productClusterIds',
-                              value: categoryData,
-                            });
-                          }
-                          navigation.navigate('ProductCatalog', {
-                            facetInput,
-                            referenceId: item.reference,
-                          });
-                        }
-                      }}
-                    >
-                      <Image
-                        height={item.height}
-                        autoHeight
-                        width={deviceWidth}
-                        source={{ uri: item.url }}
-                        isSkeletonLoading
-                      />
-                    </TouchableHighlight>
-                  </Box>
-                </Box>
+                <Banner
+                  height={item.height}
+                  reference={item.reference}
+                  url={item.url}
+                  route={item.route}
+                />
               )}
               keyExtractor={(item) => item.id}
             />

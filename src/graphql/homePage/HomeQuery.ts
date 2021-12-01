@@ -21,6 +21,7 @@ export interface ConfigCollection {
 export enum CarrouselTypes {
   mainCarrousel = 'principal',
   cardsCarrousel = 'cards',
+  banner = 'banner',
 }
 
 export interface TextProps {
