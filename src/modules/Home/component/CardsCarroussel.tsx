@@ -20,6 +20,8 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
 }) => {
   console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
+  const { width } = Dimensions.get('screen');
+  const DEVICE_WIDTH = width;
   return (
     <Box marginY={15}>
       <Box>
@@ -29,10 +31,14 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           </Typography>
         </Box> */}
         <FlatList
-          style={{ paddingLeft: 10 }}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
+          snapToInterval={DEVICE_WIDTH - 50}
+          snapToAlignment="center"
+          pagingEnabled
+          bounces={false}
+          disableIntervalMomentum
           renderItem={({ item, index }) => (
             <Card
               image={item.image}
@@ -87,7 +93,7 @@ const Card: React.FC<CardProps> = ({
   };
 
   return (
-    <Box marginRight={15} justifyContent="space-between">
+    <Box marginRight={10} justifyContent="space-between">
       {/* <Box> */}
       <Button onPress={handleNavigation}>
         <Image autoHeight width={width} source={{ uri: image.url }} />
