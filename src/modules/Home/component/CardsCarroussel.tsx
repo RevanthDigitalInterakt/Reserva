@@ -21,15 +21,15 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
   return (
-    <Box mt={15}>
+    <Box marginY={15}>
       <Box>
-        <Box paddingLeft={15}>
+        {/* <Box paddingLeft={15}>
           <Typography fontFamily="nunitoBold" fontSize={16}>
             {carrousel.title}
           </Typography>
-        </Box>
+        </Box> */}
         <FlatList
-          style={{ paddingLeft: 15 }}
+          style={{ paddingLeft: 10 }}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
@@ -53,7 +53,7 @@ interface CardProps extends CarrouselCard {
   referenceLabel: string;
 }
 
-const width = Dimensions.get('window').width * 0.75;
+const width = Dimensions.get('window').width * 0.85;
 
 const Card: React.FC<CardProps> = ({
   image,
@@ -87,17 +87,12 @@ const Card: React.FC<CardProps> = ({
   };
 
   return (
-    <Box
-      marginTop={5}
-      marginBottom={15}
-      marginRight={15}
-      justifyContent="space-between"
-    >
-      <Box>
-        <Button onPress={handleNavigation}>
-          <Image autoHeight width={width} source={{ uri: image.url }} />
-        </Button>
-        <Box
+    <Box marginRight={15} justifyContent="space-between">
+      {/* <Box> */}
+      <Button onPress={handleNavigation}>
+        <Image autoHeight width={width} source={{ uri: image.url }} />
+      </Button>
+      {/* <Box
           style={{ maxWidth: width }}
           marginLeft={10}
           marginTop="quarck"
@@ -119,15 +114,15 @@ const Card: React.FC<CardProps> = ({
             {description}
           </Typography>
         </Box>
-      </Box>
-      <TouchableOpacity
+      </Box> */}
+      {/* <TouchableOpacity
         onPress={handleNavigation}
         style={{ bottom: 0, marginLeft: 10 }}
       >
         <Typography fontSize={14} fontFamily="nunitoBold">
           {referenceLabel}
         </Typography>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </Box>
   );
 };
