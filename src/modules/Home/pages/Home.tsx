@@ -2,19 +2,13 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import {
-  Animated,
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  Text,
-} from 'react-native';
-import {
-  FlatList,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import moment from 'moment';
+import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
+import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -32,22 +26,19 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
+import { CardsCarrousel } from '../component/CardsCarroussel';
 import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
-import { CardsCarrousel } from '../component/CardsCarroussel';
-import moment from 'moment';
+import { Skeleton } from '../component/Skeleton';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
-  const {
-    cleanEmailAndCookie,
-    isCookieEmpty,
-    getCredentials,
-    setCookie,
-    cookie,
-  } = useAuth();
+  const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -70,21 +61,14 @@ export const HomeScreen: React.FC<{
 
   const { WithoutInternet } = useCheckConnection({ refetch });
 
-  const { width } = Dimensions.get('screen');
-  const scrollX = React.useRef(new Animated.Value(0)).current;
+  const { width, height } = Dimensions.get('screen');
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
-  const DEVICE_WIDTH = width;
-  const DOT_SIZE = 8;
-
   useEffect(() => {
-    // console.log('images', images)
-  }, [images])
-
-  useEffect(() => {
-    let carrousels: Carrousel[] = data?.carrouselBannersCollection.items || []
-    console.log('carrousels', carrousels)
+    const carrousels: Carrousel[] =
+      data?.carrouselBannersCollection.items || [];
+    console.log('carrousels', carrousels);
     setCarrousels(carrousels);
 
     const arrayImages =
@@ -97,8 +81,10 @@ export const HomeScreen: React.FC<{
           size: imageDescription.image.size,
           url: imageDescription.image.url,
           reference: imageDescription.reference,
+          route: imageDescription.route,
         })
       );
+
     setImages(arrayImages);
   }, [data]);
 
@@ -117,57 +103,58 @@ export const HomeScreen: React.FC<{
   }, []);
 
   const loginWithSavedCredentials = async () => {
+    const LastLoginAsyncStorageKey = '@RNAuth:lastLogin';
 
-    const LastLoginAsyncStorageKey = 'lastLogin'
+    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey);
+    const typeLogin = await AsyncStorage.getItem('@RNAuth:typeLogin');
+    const nowDate = Date.now();
+    const hourToNextLogin = 10;
 
+    if (typeLogin === 'classic') {
+      if (nowDate >= Number(lastLogin) + hourToNextLogin * 60 * 60 * 1000) {
+        const { email, password } = await getCredentials();
+        const { data: loginData, errors } = await login({
+          variables: {
+            email,
+            password,
+          },
+        });
+        if (!loginLoading && loginData?.cookie) {
+          await AsyncStorage.setItem('@RNAuth:email', email);
+          await AsyncStorage.setItem(
+            LastLoginAsyncStorageKey,
+            `${moment.now()}`
+          );
+          await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
+          await AsyncStorage.setItem('@RNAuth:cookie', loginData.cookie);
 
-    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey)
-
-    const lastLoginDate = moment(lastLogin)//'Tue Nov 04 2021 12:26:27 GMT-0300 (Horário Padrão de Brasília)') //lastLogin)
-
-    const nowDate = moment(new Date())
-
-    const hourToNextLogin = 20
-
-    // console.log('lastLogin', lastLoginDate)
-    // console.log('nowDate', nowDate)
-    // console.log('dateDiff', nowDate.diff(lastLoginDate))
-    // console.log('dateDiff', nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000))
-
-    if (nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000)) {
-
-      await AsyncStorage.setItem(LastLoginAsyncStorageKey, `${moment.now()}`)
-      const { email, password } = await getCredentials()
-      // console.log('credentials : ', email, password)
-      const { data: loginData, errors } = await login({
-        variables: {
-          email,
-          password
-        },
-      });
-      // console.log('loginData', loginData)
-      if (!loginLoading && loginData?.cookie) {
-        setCookie(data.cookie)
+          setCookie(loginData.cookie);
+          setEmail(email);
+        }
+      }
+    } else if (typeLogin === 'code') {
+      if (nowDate >= Number(lastLogin) + 20 * 60 * 60 * 1000) {
+        AsyncStorage.removeItem('@RNAuth:cookie');
+        AsyncStorage.removeItem('@RNAuth:email');
+        AsyncStorage.removeItem('@RNAuth:typeLogin');
+        AsyncStorage.removeItem(LastLoginAsyncStorageKey);
+        setCookie(null);
+        setEmail(null);
       }
     }
   };
-
-  useEffect(() => {
-    console.log('new cookie', cookie);
-  }, [cookie]);
 
   useEffect(() => {
     if (profileData) {
       AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email);
     } else if (!profileLoading) {
       loginWithSavedCredentials();
-      // cleanEmailAndCookie();
     }
   }, [profileData]);
 
   useEffect(() => {
     // setCookie('asdasdasdasd')
-    loginWithSavedCredentials()
+    loginWithSavedCredentials();
     async function getStorage() {
       const wishListData = await AsyncStorage.getItem('@WishList');
     }
@@ -177,33 +164,6 @@ export const HomeScreen: React.FC<{
   return (
     <Box flex={1} bg="white">
       <TopBarDefault loading={loading} />
-      {/* <Box
-        minHeight={40}
-        bg="verdeSucesso"
-        paddingLeft="xxxs"
-        py="micro"
-        flexDirection="row"
-        alignItems="center"
-        paddingRight="xxxs"
-        boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-        style={{ elevation: 10 }}
-      >
-        <Box flex={1}>
-          <Typography
-            fontFamily="reservaSansRegular"
-            fontSize={13}
-            color="white"
-          >
-            Aproveite o desconto de R$ 50 em sua primeira compra no app.
-          </Typography>
-        </Box>
-        <Button
-          flex={1}
-        // onPress={() => ('')}
-        >
-          <Icon name='Close' size={15} color='white' ml="xxxs" />
-        </Button>
-      </Box> */}
       <StoreUpdate />
       {modalDiscount && (
         <DiscoutCodeModal
@@ -216,14 +176,8 @@ export const HomeScreen: React.FC<{
       )}
       <WithoutInternet />
       {loading ? (
-        <></>
+        <Skeleton />
       ) : (
-        // <Box flex={1}>
-        //   <SkeletonPlaceholder>
-        //     <SkeletonPlaceholder.Item width={screenWidth} height={screenHeight}>
-        //     </SkeletonPlaceholder.Item>
-        //   </SkeletonPlaceholder>
-        // </Box>
         <SafeAreaView>
           <ScrollView>
             <Box
@@ -233,15 +187,14 @@ export const HomeScreen: React.FC<{
               }}
             >
               {carrousels.map((carrousel) => {
-
                 // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
                 switch (carrousel?.type) {
                   case CarrouselTypes.mainCarrousel: {
-                    return (<DefaultCarrousel carrousel={carrousel} />)
+                    return <DefaultCarrousel carrousel={carrousel} />;
                     break;
                   }
                   case CarrouselTypes.cardsCarrousel: {
-                    return (<CardsCarrousel carrousel={carrousel} />)
+                    return <CardsCarrousel carrousel={carrousel} />;
                     break;
                   }
                   default: {
@@ -250,6 +203,7 @@ export const HomeScreen: React.FC<{
                 }
               })}
             </Box>
+
             <FlatList
               data={images}
               renderItem={({ item }) => (
@@ -257,26 +211,30 @@ export const HomeScreen: React.FC<{
                   <Box mb="quarck" width={1 / 1}>
                     <TouchableHighlight
                       onPress={() => {
-                        const facetInput = [];
-                        const [categoryType, categoryData] =
-                          item.reference.split(':');
-                        if (categoryType === 'category') {
-                          categoryData.split('|').forEach((cat: string) => {
-                            facetInput.push({
-                              key: 'c',
-                              value: cat,
-                            });
-                          });
+                        if (item.route) {
+                          navigation.navigate(item.route);
                         } else {
-                          facetInput.push({
-                            key: 'productClusterIds',
-                            value: categoryData,
+                          const facetInput = [];
+                          const [categoryType, categoryData] =
+                            item.reference.split(':');
+                          if (categoryType === 'category') {
+                            categoryData.split('|').forEach((cat: string) => {
+                              facetInput.push({
+                                key: 'c',
+                                value: cat,
+                              });
+                            });
+                          } else {
+                            facetInput.push({
+                              key: 'productClusterIds',
+                              value: categoryData,
+                            });
+                          }
+                          navigation.navigate('ProductCatalog', {
+                            facetInput,
+                            referenceId: item.reference,
                           });
                         }
-                        navigation.navigate('ProductCatalog', {
-                          facetInput,
-                          referenceId: item.reference,
-                        });
                       }}
                     >
                       <Image
@@ -284,6 +242,7 @@ export const HomeScreen: React.FC<{
                         autoHeight
                         width={deviceWidth}
                         source={{ uri: item.url }}
+                        isSkeletonLoading
                       />
                     </TouchableHighlight>
                   </Box>

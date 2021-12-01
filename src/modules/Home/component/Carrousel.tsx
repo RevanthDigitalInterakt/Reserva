@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/core';
-import { setWith } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { Box, Image, neutroFrio2, theme, Typography } from 'reserva-ui';
-import { marginRight } from 'styled-system';
-import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Dimensions, Easing, TouchableHighlight } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import { Box, Image, theme } from 'reserva-ui';
+import { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
 
 interface DefaultCarrouselProps {
@@ -53,7 +52,8 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
   }
 
   const onViewRef = React.useRef(({ viewableItems }: any) => {
-    setActualPosition(viewableItems[0].index)
+    !!viewableItems && !!viewableItems[0] &&
+      setActualPosition(viewableItems[0].index)
   })
 
   const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 }
@@ -69,9 +69,12 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
       style={{ position: 'relative' }}
       horizontal
       showsHorizontalScrollIndicator={false}
-      decelerationRate="fast"
+      decelerationRate={0}
       snapToInterval={DEVICE_WIDTH}
+      snapToAlignment="center"
+      disableIntervalMomentum
       bounces={false}
+      pagingEnabled
       onViewableItemsChanged={onViewRef.current}
       viewabilityConfig={viewabilityConfig}
       renderItem={({ item }) => (
@@ -86,6 +89,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
                 autoHeight
                 width={DEVICE_WIDTH}
                 source={{ uri: item.image.url }}
+                isSkeletonLoading
               />
             </TouchableHighlight>
           </Box>
@@ -192,6 +196,4 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
       )
     }
   </Box>
-    :
-    <Box />
 }

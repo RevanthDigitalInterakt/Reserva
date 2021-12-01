@@ -21,10 +21,10 @@ import { SummaryScreen } from '../modules/Checkout/pages/Summary';
 import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
 import Checkout from '../modules/Checkout/pages/WebviewCheckout';
 import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
+import { CorreReservaStackScreen } from '../modules/CorreReserva';
 import { Credits } from '../modules/Credits/pages/Credits';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
-import { HomeScreen } from '../modules/Home/pages/Home';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
@@ -35,7 +35,6 @@ import { SearchScreen } from '../modules/Search/pages/Search';
 import { StoreUpdate } from '../modules/Update/pages/StoreUpdate';
 import Update from '../modules/Update/pages/Update';
 import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
-import { WishList } from '../modules/WishList/pages/WishList';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
 
 import {
@@ -52,11 +51,9 @@ import { Flow } from './types/flow.type';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
-  ProductDetail: {
-    productId: string;
-    colorSelected: string;
-    sizeSelected: string;
-  };
+  ProductDetail: { productId: string; colorSelected: string; sizeSelected: string };
+  RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
+  LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   ProductCatalog: {
     safeArea: boolean;
@@ -171,6 +168,8 @@ export const MainStackScreen = () => (
     screenOptions={{ headerShown: false }}
   >
     <MainStack.Screen name="HomeTabs" component={HomeTabs} />
+
+    <MainStack.Screen name="CorreReserva" component={CorreReservaStackScreen} />
 
     {flows.map((flow: Flow) => (
       <MainStack.Screen

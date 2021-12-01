@@ -35,6 +35,8 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
     AsyncStorage.removeItem('@RNAuth:email');
+    AsyncStorage.removeItem('@RNAuth:typeLogin');
+    AsyncStorage.removeItem('@RNAuth:lastLogin');
     setCookie(null);
     setEmail(null);
     navigation.navigate('Home');

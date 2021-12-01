@@ -25,11 +25,12 @@ import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
+  isLoading?: boolean;
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-  | React.ComponentType<any>
-  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
 }
 
@@ -47,6 +48,7 @@ export const ListVerticalProducts = ({
   products,
   horizontal,
   listHeader,
+  isLoading,
   loadMoreProducts,
   loadingHandler,
   totalProducts,
@@ -273,13 +275,14 @@ export const ListVerticalProducts = ({
             </Box>
           )}
           onEndReached={async () => {
+            console.log('onEndReached');
             setIsLoadingMore(true);
-            if (totalProducts > products.length)
+            if (totalProducts && totalProducts > products.length)
               await loadMoreProducts(products.length);
             setIsLoadingMore(false);
           }}
           ListFooterComponent={() => {
-            if (!isLoadingMore) return null;
+            if (!(isLoadingMore || isLoading)) return null;
 
             return (
               <Box
@@ -310,10 +313,22 @@ export const ListVerticalProducts = ({
                 ? installments[0].NumberOfInstallments
                 : 1;
 
+            const discountTag = getPercent(
+              item.priceRange?.sellingPrice.lowPrice,
+              item.priceRange?.listPrice.lowPrice
+            );
+
+            const cashPaymentPrice =
+              !!discountTag && discountTag > 0
+                ? item.priceRange?.sellingPrice.lowPrice
+                : item.priceRange?.listPrice?.lowPrice || 0;
+
             const installmentPrice =
               installments.length > 0
                 ? installments[0].Value
-                : item.priceRange?.listPrice?.lowPrice;
+                : cashPaymentPrice;
+
+            // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
               <Box

@@ -8,6 +8,7 @@ export interface HomeQuery {
   size: number;
   url: string;
   reference: string;
+  route: string;
 }
 
 export interface ConfigCollection {
@@ -23,11 +24,11 @@ export enum CarrouselTypes {
 }
 
 export interface TextProps {
-  text: string,
-  fontSize: string,
-  fontFamily: string,
-  fontWeight: string,
-  color: string
+  text: string;
+  fontSize: string;
+  fontFamily: string;
+  fontWeight: string;
+  color: string;
 }
 
 export interface Carrousel {
@@ -52,12 +53,28 @@ export interface CarrouselCard {
   description: string;
   reference: string;
 
-  referenceLabel?: string
+  referenceLabel?: string;
 }
 
 export const homeQuery = gql`
   query homePageCollection($limit: Int!) {
-    carrouselBannersCollection(limit: $limit) {
+    homePageCollection {
+      items {
+        mediasCollection(limit: $limit) {
+          items {
+            reference
+            route
+            image {
+              fileName
+              title
+              width
+              height
+              size
+              url
+            }
+          }
+        }
+        carrouselHomeCollection(limit: 5) {
           items {
             type
             title
@@ -79,7 +96,7 @@ export const homeQuery = gql`
               }
             }
           }
-    }          
+    }
     homePageCollection(limit: $limit) {
       items {
         mediasCollection(limit: $limit) {
@@ -154,6 +171,11 @@ export const configCollection = gql`
                 url
               }
             }
+          }
+        }
+        searchSuggestionsCollection(limit: 20) {
+          items {
+            name
           }
         }
       }
