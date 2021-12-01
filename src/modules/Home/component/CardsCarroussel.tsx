@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useNavigation } from '@react-navigation/core';
 import { Dimensions, FlatList } from 'react-native';
@@ -11,6 +11,7 @@ import { Box, Typography, Image, Button } from 'reserva-ui';
 import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
 import { marginLeft } from 'styled-system';
 
+const width = Dimensions.get('window').width * 0.85;
 interface CardsCarrouselProps {
   carrousel: Carrousel;
 }
@@ -20,8 +21,8 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
 }) => {
   console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
-  const { width } = Dimensions.get('screen');
-  const DEVICE_WIDTH = width;
+  const DEVICE_WIDTH = Dimensions.get('window').width;
+
   return (
     <Box marginY={15}>
       <Box>
@@ -34,20 +35,23 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
-          snapToInterval={DEVICE_WIDTH - 50}
+          snapToInterval={width - 24}
           snapToAlignment="center"
           pagingEnabled
+          // decelerationRate={0}
           bounces={false}
           disableIntervalMomentum
           renderItem={({ item, index }) => (
-            <Card
-              image={item.image}
-              name={item.name}
-              description={item.description}
-              reference={item.reference}
-              referenceLabel={item.referenceLabel}
-              key={index}
-            />
+            <Box ml={DEVICE_WIDTH - width}>
+              <Card
+                image={item.image}
+                name={item.name}
+                description={item.description}
+                reference={item.reference}
+                referenceLabel={item.referenceLabel}
+                key={index}
+              />
+            </Box>
           )}
         />
       </Box>
@@ -58,8 +62,6 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
 interface CardProps extends CarrouselCard {
   referenceLabel: string;
 }
-
-const width = Dimensions.get('window').width * 0.85;
 
 const Card: React.FC<CardProps> = ({
   image,
@@ -92,8 +94,12 @@ const Card: React.FC<CardProps> = ({
     });
   };
 
+  useEffect(() => {
+    console.log('width', width);
+  }, []);
+
   return (
-    <Box marginRight={10} justifyContent="space-between">
+    <Box>
       {/* <Box> */}
       <Button onPress={handleNavigation}>
         <Image autoHeight width={width} source={{ uri: image.url }} />
