@@ -66,8 +66,8 @@ export const HomeScreen: React.FC<{
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
   useEffect(() => {
-    const carrousels: Carrousel[] =
-      data?.carrouselBannersCollection.items || [];
+    const carrousels: Carrousel[] = 2;
+    data?.carrouselBannersCollection.items || [];
     console.log('carrousels', carrousels);
     setCarrousels(carrousels);
 

@@ -1,36 +1,37 @@
-import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useRef, useState } from 'react';
+
+import { useNavigation } from '@react-navigation/core';
 import { Animated, Dimensions, Easing, TouchableHighlight } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Box, Image, theme } from 'reserva-ui';
+
 import { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
-
 interface DefaultCarrouselProps {
-  carrousel: Carrousel
+  carrousel: Carrousel;
   // CarrouselCard[],
   // showtimeCard: number
 }
 
 const { width } = Dimensions.get('screen');
 
-
-export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel }) => {
+export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
+  carrousel,
+}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const [flatListRef, setFlatListRef] = useState<FlatList<any> | null>(null)
-  const [actualPosition, setActualPosition] = useState<number>(0)
+  const [flatListRef, setFlatListRef] = useState<FlatList<any> | null>(null);
+  const [actualPosition, setActualPosition] = useState<number>(0);
 
   const DEVICE_WIDTH = width;
 
   const navigation = useNavigation();
 
-  const carrouselCards = carrousel.itemsCollection.items
+  const carrouselCards = carrousel.itemsCollection.items;
 
   const onPressImage = (item: CarrouselCard) => {
     const facetInput = [];
-    const [categoryType, categoryData] =
-      item.reference.split(':');
+    const [categoryType, categoryData] = item.reference.split(':');
 
     if (categoryType === 'category') {
       categoryData.split('|').forEach((cat: string) => {
@@ -49,134 +50,128 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({ carrousel })
       facetInput,
       referenceId: item.reference,
     });
-  }
+  };
 
   const onViewRef = React.useRef(({ viewableItems }: any) => {
-    !!viewableItems && !!viewableItems[0] &&
-      setActualPosition(viewableItems[0].index)
-  })
+    !!viewableItems &&
+      !!viewableItems[0] &&
+      setActualPosition(viewableItems[0].index);
+  });
 
-  const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 }
+  const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 };
 
   useEffect(() => {
-    setActualPosition(0)
-  }, [])
+    setActualPosition(0);
+  }, []);
 
-  return <Box>
-    <FlatList
-      ref={(reference) => setFlatListRef(reference)}
-      data={carrouselCards}
-      style={{ position: 'relative' }}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      decelerationRate={0}
-      snapToInterval={DEVICE_WIDTH}
-      snapToAlignment="center"
-      disableIntervalMomentum
-      bounces={false}
-      pagingEnabled
-      onViewableItemsChanged={onViewRef.current}
-      viewabilityConfig={viewabilityConfig}
-      renderItem={({ item }) => (
-        <Box alignItems="flex-start">
-          <Box mb="quarck" width={1 / 1}>
-            <TouchableHighlight
-              onPress={() => onPressImage(item)}
-            >
-              <Image
-                resizeMode="cover"
-                height={item.image.height}
-                autoHeight
-                width={DEVICE_WIDTH}
-                source={{ uri: item.image.url }}
-                isSkeletonLoading
-              />
-            </TouchableHighlight>
+  return (
+    <Box>
+      <FlatList
+        ref={(reference) => setFlatListRef(reference)}
+        data={carrouselCards}
+        style={{ position: 'relative' }}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        decelerationRate={0}
+        snapToInterval={DEVICE_WIDTH}
+        snapToAlignment="center"
+        disableIntervalMomentum
+        bounces={false}
+        pagingEnabled
+        onViewableItemsChanged={onViewRef.current}
+        viewabilityConfig={viewabilityConfig}
+        renderItem={({ item }) => (
+          <Box alignItems="flex-start">
+            <Box mb="quarck" width={1 / 1}>
+              <TouchableHighlight onPress={() => onPressImage(item)}>
+                <Image
+                  resizeMode="cover"
+                  height={item.image.height}
+                  autoHeight
+                  width={DEVICE_WIDTH}
+                  source={{ uri: item.image.url }}
+                  isSkeletonLoading
+                />
+              </TouchableHighlight>
+            </Box>
           </Box>
-        </Box>
-      )}
-      keyExtractor={(_, index) => index.toString()}
-    />
+        )}
+        keyExtractor={(_, index) => index.toString()}
+      />
 
-    <CarrouselScrollIndicator
-      carrouselRef={flatListRef}
-      actualPosition={actualPosition}
-      showtime={carrousel.showtime || 10}
-    />
-
-  </Box>
-}
+      <CarrouselScrollIndicator
+        carrouselRef={flatListRef}
+        actualPosition={actualPosition}
+        showtime={carrousel.showtime || 10}
+      />
+    </Box>
+  );
+};
 
 interface CarrouselScrollIndicatorProps {
-  actualPosition: number
-  carrouselRef: FlatList<any> | null
-  showtime: number
+  actualPosition: number;
+  carrouselRef: FlatList<any> | null;
+  showtime: number;
 }
 
 const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
   actualPosition,
   carrouselRef,
-  showtime
+  showtime,
 }) => {
-  const [width, setWidth] = useState<number>(0)
+  const [width, setWidth] = useState<number>(0);
 
-  const [finishedAnimation, setFinishedAnimation] = useState<boolean>(false)
-  const carrouselLength = carrouselRef?.props.data?.length || 1
-  const animatedValue = useRef(new Animated.Value(-10000)).current
+  const [finishedAnimation, setFinishedAnimation] = useState<boolean>(false);
+  const carrouselLength = carrouselRef?.props.data?.length || 1;
+  const animatedValue = useRef(new Animated.Value(-10000)).current;
 
   const progressAnimation = () => {
-    setFinishedAnimation(false)
+    setFinishedAnimation(false);
     if (carrouselLength > 1 && !!showtime) {
-      animatedValue.setValue(5 - width)
+      animatedValue.setValue(5 - width);
       Animated.timing(animatedValue, {
         toValue: 0,
         duration: showtime * 1000,
         useNativeDriver: true,
-        easing: Easing.linear
-      }).start(
-        ({ finished }) => {
-          setFinishedAnimation(finished)
-        }
-      )
+        easing: Easing.linear,
+      }).start(({ finished }) => {
+        setFinishedAnimation(finished);
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (finishedAnimation && carrouselLength > 1) {
-      carrouselRef?.scrollToIndex({ index: (actualPosition + 1) % carrouselLength })
+      carrouselRef?.scrollToIndex({
+        index: (actualPosition + 1) % carrouselLength,
+      });
     }
-  }, [finishedAnimation])
+  }, [finishedAnimation]);
 
   useEffect(() => {
-    progressAnimation()
-  }, [actualPosition])
+    progressAnimation();
+  }, [actualPosition]);
 
-  return carrouselRef?.props.data?.length ? <Box
-    position='absolute'
-    zIndex={3}
-    bottom={10}
-    flexDirection='row'
-  >
-    {
-      [...Array(carrouselLength)].map((item, index) =>
+  return carrouselRef?.props.data?.length ? (
+    <Box position="absolute" zIndex={3} bottom={10} flexDirection="row">
+      {[...Array(carrouselLength)].map((item, index) => (
         <>
           <Box
             style={{
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}
             onLayout={(e) => {
-              const newWidth = e.nativeEvent.layout.width
-              setWidth(newWidth)
-              progressAnimation()
+              const newWidth = e.nativeEvent.layout.width;
+              setWidth(newWidth);
+              progressAnimation();
             }}
             flex={1}
-            backgroundColor='neutroFrio2'
+            backgroundColor="neutroFrio2"
             height={2}
-            marginRight='quarck'
+            marginRight="quarck"
             marginLeft={index == 0 ? 'quarck' : null}
           >
-            {
-              index == actualPosition &&
+            {index == actualPosition && (
               <Animated.View
                 style={{
                   backgroundColor: theme.colors.neutroFrio1,
@@ -185,15 +180,17 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
                   left: 0,
                   height: '100%',
                   width: '100%',
-                  transform: [{
-                    translateX: animatedValue || -1000
-                  }]
+                  transform: [
+                    {
+                      translateX: animatedValue || -1000,
+                    },
+                  ],
                 }}
-              />}
-
+              />
+            )}
           </Box>
         </>
-      )
-    }
-  </Box>
-}
+      ))}
+    </Box>
+  ) : null;
+};

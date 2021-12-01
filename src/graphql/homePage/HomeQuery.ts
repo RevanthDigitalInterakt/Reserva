@@ -56,64 +56,63 @@ export interface CarrouselCard {
   referenceLabel?: string;
 }
 
-export const homeQuery = gql`
-  query homePageCollection($limit: Int!) {
-    homePageCollection {
-      items {
-        mediasCollection(limit: $limit) {
-          items {
-            reference
-            route
-            image {
-              fileName
-              title
-              width
-              height
-              size
-              url
-            }
-          }
-        }
-        carrouselHomeCollection(limit: 5) {
-          items {
-            type
-            title
-            showtime
-            itemsCollection(limit: $limit) {
-              items {
-                image {
-                  fileName
-                  size
-                  title
-                  url
-                  width
-                  height
-                }
-                name
-                description
-                reference
-                referenceLabel
-              }
-            }
-          }
-    }
-    homePageCollection(limit: $limit) {
-      items {
-        mediasCollection(limit: $limit) {
-          items {
-            reference
-            image {
-              fileName
-              title
-              width
-              height
-              size
-              url
-            }
-          }
-        }
-      }
-    }
+export const homeQuery = gql`query homePageCollection($limit: Int!) {
+  homePageCollection {
+  items {
+  mediasCollection(limit: $limit) {
+  items {
+  reference
+  route
+  image {
+  fileName
+  title
+  width
+  height
+  size
+  url
+  }
+  }
+  }
+  carrouselHomeCollection(limit: 5) {
+  items {
+  type
+  title
+  showtime
+  itemsCollection(limit: $limit) {
+  items {
+  image {
+  fileName
+  size
+  title
+  url
+  width
+  height
+  }
+  name
+  description
+  reference
+  referenceLabel
+  }
+  }
+  }
+  }
+  homePageCollection(limit: $limit) {
+  items {
+  mediasCollection(limit: $limit) {
+  items {
+  reference
+  image {
+  fileName
+  title
+  width
+  height
+  size
+  url
+  }
+  }
+  }
+  }
+  }
   }
 `;
 
@@ -182,24 +181,3 @@ export const configCollection = gql`
     }
   }
 `;
-// query {
-//   # add your query
-//   configCollection(where:{name: "MainConfig"}) {
-//     items {
-//       name
-//       online
-//       searchCollection
-//       searchMedia {
-//         title
-//        	secionMediaCollection(limit: 10) {
-//         	items {
-//             reference
-//             image {
-//               url
-//             }
-//           }
-//       	}
-//       }
-//     }
-//   }
-// }
