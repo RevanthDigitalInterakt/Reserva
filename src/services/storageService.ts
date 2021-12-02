@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import uuid from 'react-native-uuid';
 
-type MultiGetOptions = {
+type GetSetOptions = {
   key: StorageServiceKeys;
+  value?: string;
   isJSON?: boolean;
 };
 
@@ -20,12 +21,12 @@ export const StorageService = {
   },
   getInstallationKey: () =>
     AsyncStorage.getItem(StorageServiceKeys.INSTALLATION_TOKEN),
-  getItem: (key: string): Promise<any> =>
+  getItem: ({ key, isJSON }: GetSetOptions): Promise<any> =>
     new Promise((resolve, reject) => {
       AsyncStorage.getItem(key)
         .then((value) => {
           if (value) {
-            resolve(value);
+            resolve(isJSON ? JSON.parse(value) : value);
           } else {
             resolve(null);
           }
@@ -34,42 +35,22 @@ export const StorageService = {
           reject(error);
         });
     }),
-  setItem: (key: string, value: string) =>
+  setItem: ({ key, value, isJSON }: GetSetOptions) =>
     new Promise((resolve, reject) => {
-      AsyncStorage.setItem(key, value)
-        .then(() => {
-          resolve(true);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+      if (value) {
+        AsyncStorage.setItem(key, isJSON ? JSON.stringify(value) : value)
+          .then(() => {
+            resolve(true);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      } else {
+        reject(new Error('Value is required'));
+      }
     }),
-  getJSON: (key: string): Promise<any> =>
-    new Promise((resolve, reject) => {
-      AsyncStorage.getItem(key)
-        .then((value) => {
-          if (value) {
-            resolve(JSON.parse(value));
-          } else {
-            resolve(null);
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    }),
-  setJSON: (key: string, value: any): Promise<any> =>
-    new Promise((resolve, reject) => {
-      AsyncStorage.setItem(key, JSON.stringify(value))
-        .then(() => {
-          resolve(true);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    }),
-  multiGet: <T>(options: MultiGetOptions[]): MultiGetReturn<T> => {
-    const promises = options.map((option: MultiGetOptions) =>
+  multiGet: <T>(options: GetSetOptions[]): MultiGetReturn<T> => {
+    const promises = options.map((option: GetSetOptions) =>
       AsyncStorage.getItem(option.key)
     );
     const processResult = (result: any) => {

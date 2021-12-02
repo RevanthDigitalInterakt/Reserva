@@ -61,7 +61,11 @@ const MenuScreen: React.FC<{}> = ({ }) => {
       const { profile } = data;
       if (profile) {
         const { profile } = data;
-        StorageService.setJSON(StorageServiceKeys.PROFILE, profile);
+        StorageService.setItem({
+          key: StorageServiceKeys.PROFILE,
+          value: profile,
+          isJSON: true,
+        });
         setProfile(profile);
       }
     }

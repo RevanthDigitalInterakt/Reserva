@@ -31,7 +31,10 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
   const [credit, setCredit] = useState(0);
 
   useEffect(() => {
-    StorageService.getJSON(StorageServiceKeys.PROFILE).then((value) => {
+    StorageService.getItem({
+      key: StorageServiceKeys.PROFILE,
+      isJSON: true,
+    }).then((value) => {
       setProfile(value);
     });
   }, [data]);
