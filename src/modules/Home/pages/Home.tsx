@@ -180,7 +180,11 @@ export const HomeScreen: React.FC<{
       {loading ? (
         <Skeleton />
       ) : (
-        <SafeAreaView>
+        <SafeAreaView
+          style={{
+            paddingBottom: 50,
+          }}
+        >
           <ScrollView>
             <Box
               // paddingTop={50}
