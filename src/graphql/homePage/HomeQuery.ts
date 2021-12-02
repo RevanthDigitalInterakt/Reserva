@@ -58,15 +58,15 @@ export interface CarrouselCard {
 }
 
 export const homeQuery = gql`
-  query homePageCollection($limit: Int!) {
-    homePageCollection(limit: $limit) {
+  query homePageCollection {
+    homePageCollection(limit: 12) {
       items {
-        carrouselHomeCollection(limit: $limit) {
+        carrouselHomeCollection(limit: 3) {
           items {
             type
             title
             showtime
-            itemsCollection(limit: $limit) {
+            itemsCollection(limit: 3) {
               items {
                 image {
                   fileName
@@ -84,7 +84,7 @@ export const homeQuery = gql`
             }
           }
         }
-        mediasCollection(limit: $limit) {
+        mediasCollection {
           items {
             reference
             image {
