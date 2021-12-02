@@ -13,11 +13,8 @@ import {
   profileQuery,
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
-import {
-  StorageService,
-  StorageServiceKeys,
-} from '../../../services/StorageService';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+import { StorageService, StorageServiceKeys } from '../../../shared/services';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';

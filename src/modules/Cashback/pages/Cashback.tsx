@@ -13,10 +13,7 @@ import { images } from '../../../assets';
 import { ProfileVars } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
-import {
-  StorageService,
-  StorageServiceKeys,
-} from '../../../services/StorageService';
+import { StorageService, StorageServiceKeys } from '../../../shared/services';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { ModalSuccess } from '../components/ModalSuccess';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';

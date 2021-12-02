@@ -12,11 +12,8 @@ import {
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
-import {
-  StorageService,
-  StorageServiceKeys,
-} from '../../../services/StorageService';
 import { FetchCredit } from '../../../services/unicoService';
+import { StorageService, StorageServiceKeys } from '../../../shared/services';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
