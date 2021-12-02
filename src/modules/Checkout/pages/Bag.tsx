@@ -3,7 +3,12 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
@@ -159,6 +164,8 @@ export const BagScreen = () => {
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
+
+    console.log('ORDER FORM', orderForm);
   }, [orderForm]);
 
   useEffect(() => {
@@ -439,7 +446,7 @@ export const BagScreen = () => {
 
               <ShippingBar
                 loading={loadingShippingBar}
-                sumPriceShipping={totalBag}
+                sumPriceShipping={totalBag + totalDiscountPrice + totalDelivery}
                 isFreeShipping={totalDelivery != 0 ? totalDelivery : 0}
               />
 
@@ -478,7 +485,7 @@ export const BagScreen = () => {
                       navigate('ProductDetail', {
                         productId: item.productId,
                         itemId: item.id,
-                        sizeSelected: item.skuName.split("-")[1] || ""
+                        sizeSelected: item.skuName.split('-')[1] || '',
                       });
                     }}
                   >
@@ -499,11 +506,14 @@ export const BagScreen = () => {
                             x.identifier ===
                             'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                         ) &&
-                        array.filter((x) => x.uniqueId == item.uniqueId).length >
-                          1
+                        array.filter((x) => x.uniqueId == item.uniqueId)
+                          .length > 1
                       }
                       currency="R$"
-                      discountTag={getPercent(item.sellingPrice, item.listPrice)}
+                      discountTag={getPercent(
+                        item.sellingPrice,
+                        item.listPrice
+                      )}
                       itemColor={item.skuName.split('-')[0] || ''}
                       ItemSize={item.skuName.split('-')[1] || ''}
                       productTitle={item.name.split(' - ')[0]}
