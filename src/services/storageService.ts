@@ -6,11 +6,7 @@ type MultiGetOptions = {
   isJSON?: boolean;
 };
 
-type MultiGetParamReturn<T> = {
-  name: string;
-  value: T;
-};
-type MultiGetReturn<T> = Promise<MultiGetParamReturn<T>>;
+type MultiGetReturn<T> = Promise<T>;
 
 export enum StorageServiceKeys {
   INSTALLATION_TOKEN = 'installationToken',
@@ -18,37 +14,23 @@ export enum StorageServiceKeys {
 }
 
 export const StorageService = {
-  storageKeys: {
-    INSTALLATION_TOKEN: 'installationToken',
-    PROFILE: 'profile',
-  },
   generateInstallationToken: () => {
     const token = uuid.v4();
-    AsyncStorage.setItem(
-      StorageService.storageKeys.INSTALLATION_TOKEN,
-      String(token)
-    );
+    AsyncStorage.setItem(StorageServiceKeys.INSTALLATION_TOKEN, String(token));
   },
   getInstallationKey: () =>
-    AsyncStorage.getItem(StorageService.storageKeys.INSTALLATION_TOKEN),
-  getItem: (key: string): Promise<string | undefined> =>
+    AsyncStorage.getItem(StorageServiceKeys.INSTALLATION_TOKEN),
+  getItem: (key: string): Promise<any> =>
     new Promise((resolve, reject) => {
       AsyncStorage.getItem(key)
         .then((value) => {
           if (value) {
-            console.log(
-              `StorageService: Value of storage ${key} = ${value.toString()}...`
-            );
             resolve(value);
           } else {
-            console.log(`StorageService: No value for storage key: ${key}`);
             resolve(null);
           }
         })
         .catch((error) => {
-          console.log(
-            `StorageService: Error on retrieve value for storage key: ${key}`
-          );
           reject(error);
         });
     }),
@@ -56,15 +38,9 @@ export const StorageService = {
     new Promise((resolve, reject) => {
       AsyncStorage.setItem(key, value)
         .then(() => {
-          console.log(
-            `StorageService: Value of storage ${key} = ${value.toString()}...`
-          );
           resolve(true);
         })
         .catch((error) => {
-          console.log(
-            `StorageService: Error on set value for storage key: ${key}`
-          );
           reject(error);
         });
     }),
@@ -73,19 +49,12 @@ export const StorageService = {
       AsyncStorage.getItem(key)
         .then((value) => {
           if (value) {
-            console.log(
-              `StorageService: Value of storage ${key} = ${value.toString()}...`
-            );
             resolve(JSON.parse(value));
           } else {
-            console.log(`StorageService: No value for storage key: ${key}`);
             resolve(null);
           }
         })
         .catch((error) => {
-          console.log(
-            `StorageService: Error on retrieve value for storage key: ${key}`
-          );
           reject(error);
         });
     }),
@@ -93,15 +62,9 @@ export const StorageService = {
     new Promise((resolve, reject) => {
       AsyncStorage.setItem(key, JSON.stringify(value))
         .then(() => {
-          console.log(
-            `StorageService: Value of storage ${key} = ${value.toString()}...`
-          );
           resolve(true);
         })
         .catch((error) => {
-          console.log(
-            `StorageService: Error on set value for storage key: ${key}`
-          );
           reject(error);
         });
     }),
@@ -109,19 +72,17 @@ export const StorageService = {
     const promises = options.map((option: MultiGetOptions) =>
       AsyncStorage.getItem(option.key)
     );
-    const processResult = (result: any) =>
+    const processResult = (result: any) => {
+      const resultObj: any = {};
       result.map((value: string, i: number) => {
         if (options[i].isJSON) {
-          return {
-            name: options[i].key,
-            value: JSON.parse(value),
-          };
+          resultObj[options[i].key] = JSON.parse(value);
+        } else {
+          resultObj[options[i].key] = value;
         }
-        return {
-          name: options[i].key,
-          value,
-        };
       });
+      return resultObj;
+    };
 
     return Promise.all(promises).then(
       (result) => {

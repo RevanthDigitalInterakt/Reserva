@@ -13,7 +13,10 @@ import {
   profileQuery,
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
-import { StorageService } from '../../../services/storageService';
+import {
+  StorageService,
+  StorageServiceKeys,
+} from '../../../services/storageService';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
@@ -58,7 +61,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
       const { profile } = data;
       if (profile) {
         const { profile } = data;
-        StorageService.setJSON(StorageService.storageKeys.PROFILE, profile);
+        StorageService.setJSON(StorageServiceKeys.PROFILE, profile);
         setProfile(profile);
       }
     }

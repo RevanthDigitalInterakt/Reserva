@@ -12,7 +12,10 @@ import {
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
-import { StorageService } from '../../../services/storageService';
+import {
+  StorageService,
+  StorageServiceKeys,
+} from '../../../services/storageService';
 import { FetchCredit } from '../../../services/unicoService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -28,7 +31,7 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
   const [credit, setCredit] = useState(0);
 
   useEffect(() => {
-    StorageService.getJSON(StorageService.storageKeys.PROFILE).then((value) => {
+    StorageService.getJSON(StorageServiceKeys.PROFILE).then((value) => {
       setProfile(value);
     });
   }, [data]);

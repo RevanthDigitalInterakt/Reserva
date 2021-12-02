@@ -23,11 +23,10 @@ import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 
 type Props = StackScreenProps<RootStackParamList, 'Cashback'>;
 
-type InstallationToken = {
+type MultiGetReturnCashback = {
   installationToken: string;
+  profile: ProfileVars;
 };
-
-type UnionProfile = ProfileVars & InstallationToken;
 
 export const Cashback: React.FC<Props> = ({ navigation, route }) => {
   const { isAcceptedConditions } = route.params;
@@ -56,7 +55,7 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    StorageService.multiGet<UnionProfile>([
+    StorageService.multiGet<MultiGetReturnCashback>([
       {
         key: StorageServiceKeys.PROFILE,
         isJSON: true,
@@ -65,13 +64,13 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
         key: StorageServiceKeys.INSTALLATION_TOKEN,
       },
     ]).then((values) => {
-      console.log('values', values[0].value);
+      console.log('values', values.profile.birthDate);
     });
 
-    StorageService.getJSON(StorageService.storageKeys.PROFILE).then((value) => {
+    StorageService.getJSON(StorageServiceKeys.PROFILE).then((value) => {
       setProfile(value);
     });
-    StorageService.getItem(StorageService.storageKeys.INSTALLATION_TOKEN).then(
+    StorageService.getItem(StorageServiceKeys.INSTALLATION_TOKEN).then(
       (value) => {
         setInstallationToken(value);
         if (isAcceptedConditions) {
