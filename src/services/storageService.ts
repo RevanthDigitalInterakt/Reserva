@@ -14,29 +14,62 @@ export enum StorageServiceKeys {
   PROFILE = 'profile',
 }
 
-export const StorageService = {
-  generateInstallationToken: () => {
-    const token = uuid.v4();
-    AsyncStorage.setItem(StorageServiceKeys.INSTALLATION_TOKEN, String(token));
-  },
-  getInstallationKey: () =>
-    AsyncStorage.getItem(StorageServiceKeys.INSTALLATION_TOKEN),
-  getItem: ({ key, isJSON }: GetSetOptions): Promise<any> =>
-    new Promise((resolve, reject) => {
-      AsyncStorage.getItem(key)
+export class StorageService {
+  static async getInstallationToken(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem(StorageServiceKeys.INSTALLATION_TOKEN)
         .then((value) => {
           if (value) {
-            resolve(isJSON ? JSON.parse(value) : value);
+            resolve(value);
           } else {
-            resolve(null);
+            reject(new Error('No installation token'));
           }
         })
         .catch((error) => {
           reject(error);
         });
-    }),
-  setItem: ({ key, value, isJSON }: GetSetOptions) =>
-    new Promise((resolve, reject) => {
+    });
+  }
+
+  static async setInstallationToken(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const installationToken = uuid.v4() as string;
+
+      AsyncStorage.setItem(
+        StorageServiceKeys.INSTALLATION_TOKEN,
+        installationToken
+      )
+        .then(() => {
+          resolve(true);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  static async getItem<T>({ key, isJSON }: GetSetOptions): Promise<T> {
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem(key)
+        .then((value) => {
+          if (value) {
+            resolve(isJSON ? JSON.parse(value) : value);
+          } else {
+            reject(new Error('No value'));
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  static async setItem({
+    key,
+    value,
+    isJSON,
+  }: GetSetOptions): Promise<boolean> {
+    return new Promise((resolve, reject) => {
       if (value) {
         AsyncStorage.setItem(key, isJSON ? JSON.stringify(value) : value)
           .then(() => {
@@ -48,8 +81,10 @@ export const StorageService = {
       } else {
         reject(new Error('Value is required'));
       }
-    }),
-  multiGet: <T>(options: GetSetOptions[]): MultiGetReturn<T> => {
+    });
+  }
+
+  static async multiGet<T>(options: GetSetOptions[]): MultiGetReturn<T> {
     const promises = options.map((option: GetSetOptions) =>
       AsyncStorage.getItem(option.key)
     );
@@ -61,6 +96,7 @@ export const StorageService = {
         } else {
           resultObj[options[i].key] = value;
         }
+        return true;
       });
       return resultObj;
     };
@@ -72,5 +108,5 @@ export const StorageService = {
       },
       (errors) => Promise.reject(errors)
     );
-  },
-};
+  }
+}

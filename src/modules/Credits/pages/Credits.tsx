@@ -15,7 +15,7 @@ import { cashbackService } from '../../../services/cashbackService';
 import {
   StorageService,
   StorageServiceKeys,
-} from '../../../services/storageService';
+} from '../../../services/StorageService';
 import { FetchCredit } from '../../../services/unicoService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';

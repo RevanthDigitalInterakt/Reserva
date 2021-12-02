@@ -16,7 +16,7 @@ import {
 import {
   StorageService,
   StorageServiceKeys,
-} from '../../../services/storageService';
+} from '../../../services/StorageService';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';

@@ -16,7 +16,7 @@ import { cashbackService } from '../../../services/cashbackService';
 import {
   StorageService,
   StorageServiceKeys,
-} from '../../../services/storageService';
+} from '../../../services/StorageService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { ModalSuccess } from '../components/ModalSuccess';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
