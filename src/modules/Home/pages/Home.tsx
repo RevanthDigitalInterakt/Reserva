@@ -225,6 +225,7 @@ export const HomeScreen: React.FC<{
                     break;
                   }
                   default: {
+                    return <></>;
                     break;
                   }
                 }

@@ -79,7 +79,6 @@ export const homeQuery = gql`
                 name
                 description
                 reference
-                referenceLabel
               }
             }
           }
