@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
 
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { Dimensions, FlatList } from 'react-native';
-import { View } from 'react-native-animatable';
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
-import { Box, Typography, Image, Button } from 'reserva-ui';
+import { Box, Button, Image } from 'reserva-ui';
 import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
-import { marginLeft } from 'styled-system';
 
-const width = Dimensions.get('window').width * 0.85;
+const cardWidth = Dimensions.get('window').width * 0.85;
+const cardPadding = Dimensions.get('window').width * 0.15 * 0.5;
+const DEVICE_WIDTH = Dimensions.get('window').width;
 interface CardsCarrouselProps {
   carrousel: Carrousel;
 }
@@ -21,7 +17,6 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
 }) => {
   console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
-  const DEVICE_WIDTH = Dimensions.get('window').width;
 
   return (
     <Box marginY={15}>
@@ -35,14 +30,18 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
-          snapToInterval={width - 24}
+          contentContainerStyle={{
+            paddingLeft: cardPadding,
+            paddingRight: cardPadding,
+          }}
+          snapToInterval={cardWidth}
           snapToAlignment="center"
           pagingEnabled
           // decelerationRate={0}
           bounces={false}
           disableIntervalMomentum
           renderItem={({ item, index }) => (
-            <Box ml={DEVICE_WIDTH - width}>
+            <Box>
               <Card
                 image={item.image}
                 name={item.name}
@@ -95,14 +94,14 @@ const Card: React.FC<CardProps> = ({
   };
 
   useEffect(() => {
-    console.log('width', width);
+    console.log('width', cardWidth);
   }, []);
 
   return (
     <Box>
       {/* <Box> */}
       <Button onPress={handleNavigation}>
-        <Image autoHeight width={width} source={{ uri: image.url }} />
+        <Image autoHeight width={cardWidth} source={{ uri: image.url }} />
       </Button>
       {/* <Box
           style={{ maxWidth: width }}
