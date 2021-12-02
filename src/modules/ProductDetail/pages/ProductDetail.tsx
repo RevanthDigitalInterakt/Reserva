@@ -337,7 +337,6 @@ export const ProductDetail: React.FC<Props> = ({
       } else {
         defaultSize?.size && setSelectedSize(defaultSize?.size);
       }
-      console.log('item', itemList);
 
       setItemsSKU(itemList);
       appsFlyer.logEvent('af_content_view', {
@@ -389,12 +388,8 @@ export const ProductDetail: React.FC<Props> = ({
       setSizeFilters(
         new ProductUtils().orderSizes(
           itemsSKU
-            .map(
-              (p) =>
-                p.color === selectedColor &&
-                p.sizeList.map((sizes) => sizes.size)
-            )
-            .filter((a) => a !== false)[0]
+            .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+            .filter(a => a !== false)[0].filter(x => x !== "")
         )
       );
 
@@ -408,14 +403,15 @@ export const ProductDetail: React.FC<Props> = ({
 
       setUnavailableSizes(unavailableSizes);
 
-      const index = unavailableSizes.findIndex((x) => x === false);
+      const hasSize = sizeFilters?.map((x) => unavailableSizes.includes(x))
+      const index = hasSize?.findIndex((x) => x === false)
       if (index === -1) {
         setoutOfStock(true);
       } else {
         setoutOfStock(false);
       }
     }
-  }, [selectedColor, route.params.productId, itemsSKU]);
+  }, [selectedColor, route.params.productId, itemsSKU])
 
   // change sku effect
   useEffect(() => {
@@ -448,8 +444,7 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
-        const getVariant = (variants: any, getVariantId: string) =>
-          variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] || '';
 
         const isSkuEqual = (sku1: any, sku2: any) => {
           console.log('sku1', sku1);
@@ -674,11 +669,8 @@ export const ProductDetail: React.FC<Props> = ({
             if (v.values[0] === color) {
               return {
                 item,
-                size: item.variations?.filter(
-                  (i) => i.name === 'TAMANHO' || i.name === 'Tamanho'
-                )[0].values[0],
-                available:
-                  item.sellers[0].commertialOffer.AvailableQuantity > 0,
+                size: item?.variations?.filter(i => i.name === "TAMANHO" || i.name === "Tamanho")[0]?.values[0] || '',
+                available: item.sellers[0].commertialOffer.AvailableQuantity > 0
               };
             }
           }
