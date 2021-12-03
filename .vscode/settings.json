@@ -8,5 +8,9 @@
     "Corre",
     "Reserva",
     "uuidv"
-  ]
+  ],
+  "editor.tokenColorCustomizations": {
+    "comments": "",
+    "textMateRules": []
+  }
 }
