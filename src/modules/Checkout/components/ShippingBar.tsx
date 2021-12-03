@@ -16,7 +16,7 @@ export const ShippingBar = ({
   loading,
 }: ShippingBarProps) => {
   const PRICE_SHIPPING_FREE = 299.0;
-  const [trueFreeShipping, setTrueFreeShipping] = useState(false);
+
   const [loadingBar, setLoadingBar] = useState(loading);
   const [sumPrice, setSumPrice] = useState(0);
 
@@ -24,7 +24,6 @@ export const ShippingBar = ({
     setLoadingBar(true);
     if (isFreeShipping > 0) {
       if (sumPriceShipping <= PRICE_SHIPPING_FREE) {
-        setTrueFreeShipping(false);
         setSumPrice(sumPriceShipping - PRICE_SHIPPING_FREE);
       }
     } else if (sumPriceShipping >= PRICE_SHIPPING_FREE) {
@@ -44,7 +43,7 @@ export const ShippingBar = ({
     <>
       {loadingBar && (
         <Box mt="micro">
-          {sumPriceShipping <= PRICE_SHIPPING_FREE ? (
+          {sumPriceShipping < PRICE_SHIPPING_FREE ? (
             <Box flexDirection="row">
               <Typography>Faltam apenas </Typography>
               <PriceCustom
