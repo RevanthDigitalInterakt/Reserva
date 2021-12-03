@@ -27,6 +27,8 @@ import { ModalBag } from '../../ProductDetail/components/ModalBag';
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
 export const WishList: React.FC<Props> = ({ navigation }) => {
+  const { navigate } = useNavigation();
+
   const [showWishListCategory, setShowWishListCategory] = useState(true);
   const [sorterVisible, setSorterVisible] = useState(false);
 
@@ -389,6 +391,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
+                        handleNavigateToProductDetail={() => {
+                          navigation.navigate('ProductDetail', {
+                            productId: product?.productId,
+                            colorSelected: productSku?.variations[2].values[0],
+                            sizeSelected: productSku?.name.split('-')[1],
+                          })
+                        }}
                         onClickAddCount={() => {}}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
