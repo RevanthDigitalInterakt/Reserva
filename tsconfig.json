@@ -12,10 +12,15 @@
     "strict": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "paths": {
+      "@services/*": [
+        "shared/services/*"
+      ],
+    }
   },
   "exclude": [
     "node_modules",

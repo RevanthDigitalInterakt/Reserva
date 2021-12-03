@@ -14,7 +14,7 @@ import {
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
-import { StorageService, StorageServiceKeys } from '../../../shared/services';
+import { StorageService, StorageServiceKeys } from '@services/StorageService';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';

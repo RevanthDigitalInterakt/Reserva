@@ -7,7 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 
-import { StorageService } from './shared/services';
+import { StorageService } from '@services/StorageService';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
