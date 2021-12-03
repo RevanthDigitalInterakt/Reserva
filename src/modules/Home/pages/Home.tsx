@@ -177,7 +177,7 @@ export const HomeScreen: React.FC<{
       ) : (
         <SafeAreaView
           style={{
-            paddingBottom: 50,
+            paddingBottom: 87,
           }}
         >
           <ScrollView>
