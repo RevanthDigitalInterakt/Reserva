@@ -7,7 +7,13 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
-import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
+import {
+  Dimensions,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 
@@ -182,12 +188,12 @@ export const HomeScreen: React.FC<{
       ) : (
         <SafeAreaView
           style={{
-            paddingBottom: 87,
+            marginBottom: Platform.OS === 'ios' ? 50 : 87,
           }}
         >
           <ScrollView
             contentContainerStyle={{
-              paddingBottom: deviceWidth * 0.1,
+              paddingBottom: deviceWidth * 0.02,
             }}
           >
             <Box
