@@ -185,7 +185,11 @@ export const HomeScreen: React.FC<{
             paddingBottom: 87,
           }}
         >
-          <ScrollView>
+          <ScrollView
+            contentContainerStyle={{
+              paddingBottom: deviceWidth * 0.1,
+            }}
+          >
             <Box
               // paddingTop={50}
               style={{
