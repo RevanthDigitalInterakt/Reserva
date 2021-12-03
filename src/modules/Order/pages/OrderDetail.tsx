@@ -139,17 +139,19 @@ const OrderList: React.FC<any> = ({ route }) => {
                   borderBottomWidth="hairline"
                   borderBottomColor="divider"
                 >
-                  <Typography fontSize={14} fontFamily="nunitoBold">
-                    Previsão:{' '}
-                    {format(
-                      new Date(
-                        orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate
-                      ),
-                      'dd/MM/yy',
-                      { locale: ptBR }
-                    )}
-                    {/* {getDeliveryPreview()} */}
-                  </Typography>
+                  {order?.paymentApprovedDate &&
+                    <Typography fontSize={14} fontFamily="nunitoBold">
+                      Previsão:{' '}
+                      {format(
+                        new Date(
+                          orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate
+                        ),
+                        'dd/MM/yy',
+                        { locale: ptBR }
+                      )}
+                      {/* {getDeliveryPreview()} */}
+                    </Typography>
+                  }
                   <Box mt="nano">
                     <Typography
                       style={{ marginBottom: 5 }}

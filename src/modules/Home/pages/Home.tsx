@@ -14,6 +14,8 @@ import { Box, Image } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import {
   Carrousel,
+  CarrouselCard,
+  CarrouselTypes,
   configCollection,
   homeQuery,
   HomeQuery,
@@ -24,7 +26,9 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
-import { DefaultCarrousel } from '../component/Carroussel';
+import { Banner } from '../component/Banner';
+import { CardsCarrousel } from '../component/CardsCarroussel';
+import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
 
@@ -63,10 +67,11 @@ export const HomeScreen: React.FC<{
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
   useEffect(() => {
-    const carrousels: Carrousel[] =
+    console.log('homepage query', data);
+    const carrouselsItems: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
-
-    setCarrousels(carrousels);
+    console.log('carrousels', carrouselsItems);
+    setCarrousels(carrouselsItems);
 
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
@@ -175,64 +180,67 @@ export const HomeScreen: React.FC<{
       {loading ? (
         <Skeleton />
       ) : (
-        <SafeAreaView>
+        <SafeAreaView
+          style={{
+            paddingBottom: 50,
+          }}
+        >
           <ScrollView>
             <Box
+              // paddingTop={50}
               style={{
                 overflow: 'hidden',
               }}
             >
-              {carrousels.map((carrousel) => (
-                <DefaultCarrousel
-                  carrousel={carrousel.itemsCollection.items}
-                  showtimeCard={carrousel.showtime}
-                />
-              ))}
+              {carrousels.map((carrousel) => {
+                // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
+                switch (carrousel?.type) {
+                  case CarrouselTypes.mainCarrousel: {
+                    return <DefaultCarrousel carrousel={carrousel} />;
+                    break;
+                  }
+                  case CarrouselTypes.cardsCarrousel: {
+                    const { items } = carrousel.itemsCollection;
+                    return items.length > 1 ? (
+                      <CardsCarrousel carrousel={carrousel} />
+                    ) : (
+                      <Banner
+                        height={items[0].image.height}
+                        reference={items[0].reference}
+                        url={items[0].image.url}
+                      />
+                    );
+                    break;
+                  }
+                  case CarrouselTypes.banner: {
+                    const { image, reference } =
+                      carrousel.itemsCollection.items[0];
+                    return (
+                      <Banner
+                        height={image.height}
+                        reference={reference}
+                        url={image.url}
+                      />
+                    );
+                    break;
+                  }
+                  default: {
+                    return <></>;
+                    break;
+                  }
+                }
+              })}
             </Box>
 
             <FlatList
               data={images}
               renderItem={({ item }) => (
-                <Box alignItems="flex-start">
-                  <Box mb="quarck" width={1 / 1}>
-                    <TouchableHighlight
-                      onPress={() => {
-                        if (item.route) {
-                          navigation.navigate(item.route);
-                        } else {
-                          const facetInput = [];
-                          const [categoryType, categoryData] =
-                            item.reference.split(':');
-                          if (categoryType === 'category') {
-                            categoryData.split('|').forEach((cat: string) => {
-                              facetInput.push({
-                                key: 'c',
-                                value: cat,
-                              });
-                            });
-                          } else {
-                            facetInput.push({
-                              key: 'productClusterIds',
-                              value: categoryData,
-                            });
-                          }
-                          navigation.navigate('ProductCatalog', {
-                            facetInput,
-                            referenceId: item.reference,
-                          });
-                        }
-                      }}
-                    >
-                      <Image
-                        height={item.height}
-                        autoHeight
-                        width={deviceWidth}
-                        source={{ uri: item.url }}
-                        isSkeletonLoading
-                      />
-                    </TouchableHighlight>
-                  </Box>
-                </Box>
+                <Banner
+                  height={item.height}
+                  reference={item.reference}
+                  url={item.url}
+                  route={item.route}
+                />
               )}
               keyExtractor={(item) => item.id}
             />
