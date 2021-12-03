@@ -1130,13 +1130,6 @@
   dependencies:
     merge-options "^3.0.4"
 
-"@react-native-async-storage/async-storage@^1.15.14":
-  version "1.15.14"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-async-storage/async-storage/-/async-storage-1.15.14.tgz#8165d3f78798b46e693169795b62e40142064273"
-  integrity sha1-gWXT94eYtG5pMWl5W2LkAUIGQnM=
-  dependencies:
-    merge-options "^3.0.4"
-
 "@react-native-clipboard/clipboard@^1.8.4":
   version "1.8.4"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-clipboard/clipboard/-/clipboard-1.8.4.tgz#4bc1fb00643688e489d8220cd635844ab5c066f9"
