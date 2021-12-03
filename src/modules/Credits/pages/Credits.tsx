@@ -87,22 +87,24 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
             />
           </Box>
           <Divider variant="fullWidth" />
-          <Box flexDirection="row" mt="xxs">
-            <Button
-              flexDirection="row"
-              onPress={() => {
-                navigation.navigate('Cashback', { isAcceptedConditions });
-              }}
-            >
-              <>
-                <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
+          {cashbackInStore && (
+            <Box flexDirection="row" mt="xxs">
+              <Button
+                flexDirection="row"
+                onPress={() => {
+                  navigation.navigate('Cashback', { isAcceptedConditions });
+                }}
+              >
+                <>
+                  <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
 
-                <Typography fontFamily="nunitoBold" fontSize={16}>
-                  Cashback em Lojas
-                </Typography>
-              </>
-            </Button>
-          </Box>
+                  <Typography fontFamily="nunitoBold" fontSize={16}>
+                    Cashback em Lojas
+                  </Typography>
+                </>
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
     </SafeAreaView>
