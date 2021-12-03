@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "strict": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

@@ -9,7 +9,7 @@ import uuid from 'react-native-uuid';
  * @typeParam isJSON - Dado é um JSON
  *
  */
-type GetSetOptions = {
+export type GetSetOptions = {
   key: StorageServiceKeys;
   value?: string;
   isJSON?: boolean;
@@ -24,6 +24,10 @@ export enum StorageServiceKeys {
    * Chave para armazenar o profile do usuário
    */
   PROFILE = 'profile',
+  /**
+   * Cookie de autenticação do usuário na API da VTEX
+   */
+  COOKIE = 'cookie',
 }
 
 export class StorageService {
@@ -116,7 +120,7 @@ export class StorageService {
           if (value) {
             resolve(isJSON ? JSON.parse(value) : value);
           } else {
-            reject(new Error('No value'));
+            reject(new Error(`No data found for key: ${key}`));
           }
         })
         .catch((error) => {
