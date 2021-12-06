@@ -16,4 +16,4 @@ const cashbackInstance = axios.create({
   headers,
 });
 
-export { cashbackInstance, url };
+export { cashbackInstance };
