@@ -1,5 +1,11 @@
 import React, { createRef, useEffect, useMemo, useState } from 'react';
-import { Alert, Dimensions, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import analytics from '@react-native-firebase/analytics';
 
@@ -19,14 +25,23 @@ import {
 } from 'reserva-ui';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ModalBag } from '../components/ModalBag';
-import * as Yup from "yup";
+import * as Yup from 'yup';
 import Share from 'react-native-share';
 
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCart } from '../../../context/CartContext';
-import { QueryResult, useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import { GET_PRODUCTS, GET_SHIPPING, SUBSCRIBE_NEWSLETTER } from '../../../graphql/product/productQuery';
+import {
+  QueryResult,
+  useQuery,
+  useLazyQuery,
+  useMutation,
+} from '@apollo/client';
+import {
+  GET_PRODUCTS,
+  GET_SHIPPING,
+  SUBSCRIBE_NEWSLETTER,
+} from '../../../graphql/product/productQuery';
 import {
   Installment,
   ProductQL,
@@ -45,11 +60,10 @@ import { Tooltip } from '../components/Tooltip';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import axios from "axios";
+import axios from 'axios';
 import appsFlyer from 'react-native-appsflyer';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { addDays, format } from 'date-fns';
-
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -99,9 +113,9 @@ type Variant = {
 };
 
 type Seller = {
-  sellerId: string,
-  commertialOffer: CommercialOffer
-}
+  sellerId: string;
+  commertialOffer: CommercialOffer;
+};
 
 type Field = {
   name: string;
@@ -117,7 +131,7 @@ type Product = {
   categoryTree: any[]; // doesnt matter
   productId: string;
   productName: string;
-  clusterHighlights?: ClusterHighlight[]
+  clusterHighlights?: ClusterHighlight[];
   skuSpecifications: Specification[];
   priceRange: {
     sellingPrice: Price;
@@ -131,19 +145,15 @@ type ProductQueryResponse = {
   product: Product;
 };
 export interface ClusterHighlight {
-  id?: string
-  name?: string
+  id?: string;
+  name?: string;
 }
 
 type ItemsSKU = {
   color: string;
   images: string[];
-  sizeList: [
-    id: string,
-    size: string,
-    available: boolean
-  ]
-}
+  sizeList: [id: string, size: string, available: boolean];
+};
 type ShippingCost = {
   selectedSla?: string;
   slas: {
@@ -152,7 +162,7 @@ type ShippingCost = {
     price: number;
     shippingEstimate: string;
   }[];
-}
+};
 
 export const ProductDetail: React.FC<Props> = ({
   route,
@@ -171,17 +181,32 @@ export const ProductDetail: React.FC<Props> = ({
       },
     });
 
-  const [subscribeNewsletter, { loading: newsletterLoading, data: newsletterData, error: newsletterError }] = useMutation(SUBSCRIBE_NEWSLETTER)
+  const [
+    subscribeNewsletter,
+    {
+      loading: newsletterLoading,
+      data: newsletterData,
+      error: newsletterError,
+    },
+  ] = useMutation(SUBSCRIBE_NEWSLETTER);
 
   const [shippingCost, setShippingCost] = useState<ShippingCost[]>([]);
 
-  const [getShippingData, { loading: shippingLoading, error, data: shippingData, refetch: shippingRefetch }] = useLazyQuery(GET_SHIPPING, { fetchPolicy: "no-cache" });
+  const [
+    getShippingData,
+    {
+      loading: shippingLoading,
+      error,
+      data: shippingData,
+      refetch: shippingRefetch,
+    },
+  ] = useLazyQuery(GET_SHIPPING, { fetchPolicy: 'no-cache' });
 
   const [imageSelected, setImageSelected] = useState<any>([]);
   const [itemsSKU, setItemsSKU] = useState<any>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [outOfStock, setoutOfStock] = useState(false);
-  const [toolTipIsVisible, setToolTipIsVisible] = useState(false)
+  const [toolTipIsVisible, setToolTipIsVisible] = useState(false);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
@@ -189,36 +214,50 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
-  const [skip, setSkip] = useState(false)
+  const [skip, setSkip] = useState(false);
   const [saleOffTag, setSaleOffTag] = useState(false);
-  const [loadingFavorite, setLoadingFavorite] = useState(false)
-  const [loadingNewsLetter, setLoadingNewsLetter] = useState(false)
-  const [acceptConditions, setAcceptConditions] = useState(false)
-  const [modalTermsAndConditionsisVisible, setModalTermsAndConditionsisVisible] = useState(false)
+  const [loadingFavorite, setLoadingFavorite] = useState(false);
+  const [loadingNewsLetter, setLoadingNewsLetter] = useState(false);
+  const [acceptConditions, setAcceptConditions] = useState(true);
+  const [
+    modalTermsAndConditionsisVisible,
+    setModalTermsAndConditionsisVisible,
+  ] = useState(false);
   const [wishInfo, setWishInfo] = useState({
     listIds: [''],
-    inList: false
-  })
+    inList: false,
+  });
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
 
   const [cep, setCep] = useState('');
   const [emailPromotions, setEmailPromotions] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [showMessageError, setShowMessageError] = useState(false);
-  const { refetch: checkListRefetch } = useQuery(wishListQueries.CHECK_LIST, { skip })
+  const { refetch: checkListRefetch } = useQuery(wishListQueries.CHECK_LIST, {
+    skip,
+  });
 
-  const [addWishList, { data: addWishListData, error: addWishListError, loading: addWishLoading }] = useMutation(wishListQueries.ADD_WISH_LIST)
-  const [removeWishList, { data: removeWishListData, error: removeWishListError, loading: removeWishLoading }] = useMutation(wishListQueries.REMOVE_WISH_LIST)
+  const [
+    addWishList,
+    { data: addWishListData, error: addWishListError, loading: addWishLoading },
+  ] = useMutation(wishListQueries.ADD_WISH_LIST);
+  const [
+    removeWishList,
+    {
+      data: removeWishListData,
+      error: removeWishListError,
+      loading: removeWishLoading,
+    },
+  ] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
-  const { email } = useAuth()
-  const [isLastUnits, setIsLastUnits] = useState(false)
+  const { email } = useAuth();
+  const [isLastUnits, setIsLastUnits] = useState(false);
 
   /***
    * Effects
    */
   useEffect(() => {
-    remoteConfig()
-      .fetchAndActivate();
+    remoteConfig().fetchAndActivate();
     const value = remoteConfig().getValue('sale_off_tag');
     setSaleOffTag(value.asBoolean());
 
@@ -227,13 +266,13 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     refetchChecklist();
-    console.log('product:::>>', product)
-  }, [product])
+    console.log('product:::>>', product);
+  }, [product]);
 
   useEffect(() => {
     refetchChecklist();
-    console.log('selectedVariant:::>>', selectedVariant)
-  }, [selectedVariant])
+    console.log('selectedVariant:::>>', selectedVariant);
+  }, [selectedVariant]);
 
   // selectedVariant?.itemId
 
@@ -244,15 +283,19 @@ export const ProductDetail: React.FC<Props> = ({
 
       // set default first selected variant
       //console.log(product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0))
-      const variant = product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0)
+      const variant = product.items.find(
+        (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
+      );
       setSelectedVariant(variant);
 
-      const disabledColors = getUnavailableColors(product)
+      const disabledColors = getUnavailableColors(product);
 
       // set colors filter
       const colorList = getColorsList(product);
 
-      const colorItemId = product.items.find((item) => item.itemId == route.params?.itemId)?.variations?.find((x) => x.name == "VALOR_HEX_ORIGINAL")?.values
+      const colorItemId = product.items
+        .find((item) => item.itemId == route.params?.itemId)
+        ?.variations?.find((x) => x.name == 'VALOR_HEX_ORIGINAL')?.values;
 
       setColorFilters(colorList);
       // set initial selected color
@@ -283,85 +326,95 @@ export const ProductDetail: React.FC<Props> = ({
         return {
           color,
           images: getImagesPerColor(product, color),
-          sizeList: getSizePerColor(product, color)
-        }
+          sizeList: getSizePerColor(product, color),
+        };
       });
 
-      let defaultSize = itemList?.find(item => item.color == route.params.colorSelected)?.sizeList.find(size => size?.available)
+      let defaultSize = itemList
+        ?.find((item) => item.color == route.params.colorSelected)
+        ?.sizeList.find((size) => size?.available);
 
       if (route.params?.sizeSelected) {
         const favoritedSize = route.params?.sizeSelected;
-        setSelectedSize(favoritedSize.trim()) //item favorite
+        setSelectedSize(favoritedSize.trim()); //item favorite
       } else {
-        defaultSize?.size && setSelectedSize(defaultSize?.size)
+        defaultSize?.size && setSelectedSize(defaultSize?.size);
       }
-      console.log("item", itemList);
 
       setItemsSKU(itemList);
-      appsFlyer.logEvent(
-        'af_content_view',
-        {
-          af_price: product.priceRange.listPrice.lowPrice,
-          af_content: product.productName,
-          af_content_id: product.productId,
-          af_content_type: product.categoryTree.map(x => x.name).join(),
-          af_currency: 'BRL'
-        }
-      )
+      appsFlyer.logEvent('af_content_view', {
+        af_price: product.priceRange.listPrice.lowPrice,
+        af_content: product.productName,
+        af_content_id: product.productId,
+        af_content_type: product.categoryTree.map((x) => x.name).join(),
+        af_currency: 'BRL',
+      });
       analytics().logEvent('product_view', {
         product_id: product.productId,
         product_name: product.productName,
-        product_category: product.categoryTree.map(x => x.name).join(),
+        product_category: product.categoryTree.map((x) => x.name).join(),
         product_price: product.priceRange.listPrice.lowPrice,
         product_currency: 'BRL',
-      })
+      });
     }
   }, [data]);
 
   useEffect(() => {
-    if (route.params.selectedSize !== undefined && route.params.selectedSize !== '') {
+    if (
+      route.params.selectedSize !== undefined &&
+      route.params.selectedSize !== ''
+    ) {
       setSelectedSize(route.params.selectedSize.trim());
     }
-  }, [route.params.selectedSize])
+  }, [route.params.selectedSize]);
 
   useEffect(() => {
     if (itemsSKU !== undefined && itemsSKU.length > 0 && selectedColor !== '') {
-
       setImageSelected(
         itemsSKU
-          .map(p => p.color === selectedColor && p.images)
-          .filter(a => a !== false)
+          .map((p) => p.color === selectedColor && p.images)
+          .filter((a) => a !== false)
       );
 
       // console.log("selectedCOlor", selectedColor);
 
-      console.log("sku", itemsSKU
-        .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-        .filter(a => a !== false)[0]);
+      console.log(
+        'sku',
+        itemsSKU
+          .map(
+            (p) =>
+              p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
+          )
+          .filter((a) => a !== false)[0]
+      );
 
       setSizeFilters(
         new ProductUtils().orderSizes(
           itemsSKU
             .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-            .filter(a => a !== false)[0]
+            .filter(a => a !== false)[0].filter(x => x !== "")
         )
       );
 
       const unavailableSizes = itemsSKU
-        .map(p => p.color === selectedColor && p.sizeList.map(sizes => !sizes.available && sizes.size))
-        .filter(a => a !== false)[0]
+        .map(
+          (p) =>
+            p.color === selectedColor &&
+            p.sizeList.map((sizes) => !sizes.available && sizes.size)
+        )
+        .filter((a) => a !== false)[0];
 
       setUnavailableSizes(unavailableSizes);
 
-      const index = unavailableSizes.findIndex((x) => x === false)
+      const hasSize = sizeFilters?.map((x) => unavailableSizes.includes(x))
+      const index = hasSize?.findIndex((x) => x === false)
       if (index === -1) {
-        setoutOfStock(true)
+        setoutOfStock(true);
       } else {
-        setoutOfStock(false)
+        setoutOfStock(false);
       }
     }
   }, [selectedColor, route.params.productId, itemsSKU])
-
 
   // change sku effect
   useEffect(() => {
@@ -394,20 +447,20 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
-        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] || '';
 
         const isSkuEqual = (sku1: any, sku2: any) => {
-          console.log("sku1", sku1);
-          console.log("sku2", sku2);
+          console.log('sku1', sku1);
+          console.log('sku2', sku2);
           if (sku1 && sku2) {
-            const size1 = getVariant(sku1, "Tamanho");
-            const color1 = getVariant(sku1, "VALOR_HEX_ORIGINAL");
-            const size2 = getVariant(sku2, "Tamanho");
-            const color2 = getVariant(sku2, "VALOR_HEX_ORIGINAL");
+            const size1 = getVariant(sku1, 'Tamanho');
+            const color1 = getVariant(sku1, 'VALOR_HEX_ORIGINAL');
+            const size2 = getVariant(sku2, 'Tamanho');
+            const color2 = getVariant(sku2, 'VALOR_HEX_ORIGINAL');
 
             return size1 === size2 && color1 === color2;
           }
-        }
+        };
 
         const variantToSelect = sizeColorSkuVariations.find((i) => {
           if (i.variations) {
@@ -426,24 +479,21 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }, [selectedColor, selectedSize]);
 
-
   const getSeller = (sellers: Seller[]) => {
     sellers.map((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    if (selectedVariant)
-      getSeller(selectedVariant?.sellers)
-  }, [selectedVariant])
+    if (selectedVariant) getSeller(selectedVariant?.sellers);
+  }, [selectedVariant]);
 
   const refetchChecklist = async () => {
-    setSkip(true)
+    setSkip(true);
     if (product && product.productId) {
-
       /* const { data: { checkList } } = await checkListRefetch({
         shopperId: email,
         productId: product.productId.split('-')[0],
@@ -452,25 +502,25 @@ export const ProductDetail: React.FC<Props> = ({
       const wishListData = await AsyncStorage.getItem('@WishData');
       if (selectedVariant) {
         if (wishListData) {
-          const newWishIds = JSON.parse(wishListData).some((x) => x.sku === selectedVariant?.itemId);
+          const newWishIds = JSON.parse(wishListData).some(
+            (x) => x.sku === selectedVariant?.itemId
+          );
           setWishInfo({
             ...wishInfo,
-            inList: newWishIds
-          })
+            inList: newWishIds,
+          });
         }
       }
 
       //setWishInfo({ ...checkList })
-
     }
-  }
+  };
 
   const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
-
       const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
-        setLoadingFavorite(true)
+        setLoadingFavorite(true);
 
         if (favorite) {
           /* const { data } = await addWishList({
@@ -483,7 +533,7 @@ export const ProductDetail: React.FC<Props> = ({
 
           const handleFavorites = {
             productId: product.productId.split('-')[0],
-            sku: selectedVariant?.itemId
+            sku: selectedVariant?.itemId,
           };
 
           if (wishListData) {
@@ -497,7 +547,6 @@ export const ProductDetail: React.FC<Props> = ({
               JSON.stringify([handleFavorites])
             );
           }
-
         } else {
           /* await removeWishList({
             variables: {
@@ -506,18 +555,18 @@ export const ProductDetail: React.FC<Props> = ({
             }
           }) */
 
-          const newWishIds = JSON.parse(wishListData).filter((x) => x.sku !== selectedVariant?.itemId);
+          const newWishIds = JSON.parse(wishListData).filter(
+            (x) => x.sku !== selectedVariant?.itemId
+          );
           await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
-
         }
-        await refetchChecklist()
-        setLoadingFavorite(false)
-
+        await refetchChecklist();
+        setLoadingFavorite(false);
       }
     } else {
-      navigation.navigate('Login', { comeFrom: 'Favorite' })
+      navigation.navigate('Login', { comeFrom: 'Favorite' });
     }
-  }
+  };
 
   const getInstallments = () => {
     const chosenInstallment =
@@ -529,13 +578,13 @@ export const ProductDetail: React.FC<Props> = ({
           prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
         { NumberOfInstallments: 0, Value: 0 }
       );
-    console.log(selectedVariant)
+    console.log(selectedVariant);
     return chosenInstallment;
   };
 
   const onShare = async (url: string) => {
-    const domain = url.match(/^[^:]+:\/\/[^/?#]+/g)
-    const path = url.replace(`${domain ? domain[0] : ''}`, '')
+    const domain = url.match(/^[^:]+:\/\/[^/?#]+/g);
+    const path = url.replace(`${domain ? domain[0] : ''}`, '');
 
     const options = {
       message: 'Olha o que acabei de encontrar na Reserva: \n',
@@ -549,19 +598,27 @@ export const ProductDetail: React.FC<Props> = ({
   const onProductAdd = async () => {
     if (selectedVariant) {
       if (isAssinaturaSimples) {
-        if (!acceptConditions) return
+        if (acceptConditions) {
+          const { message, ok } = await addItem(
+            1,
+            selectedVariant?.itemId,
+            selectedSellerId
+          );
 
-        const { message, ok } = await addItem(1, selectedVariant?.itemId, selectedSellerId);
+          setIsVisible(true);
 
-        setIsVisible(true);
-
-        if (!ok) {
-          Alert.alert('Produto sem estoque', message);
-        } else {
-          await addAttachmentsInProducts()
+          if (!ok) {
+            Alert.alert('Produto sem estoque', message);
+          } else {
+            await addAttachmentsInProducts();
+          }
         }
       } else {
-        const { message, ok } = await addItem(1, selectedVariant?.itemId, selectedSellerId);
+        const { message, ok } = await addItem(
+          1,
+          selectedVariant?.itemId,
+          selectedSellerId
+        );
 
         setIsVisible(true);
 
@@ -573,11 +630,13 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const getUnavailableColors = ({ items, skuSpecifications }: Product) => {
-    return items.map(item => {
+    return items.map((item) => {
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
-        return item.variations?.find(variant => variant.name === 'VALOR_HEX_ORIGINAL')
-    })
-  }
+        return item.variations?.find(
+          (variant) => variant.name === 'VALOR_HEX_ORIGINAL'
+        );
+    });
+  };
 
   const getColorsList = ({ skuSpecifications }: Product) =>
     skuSpecifications
@@ -595,7 +654,7 @@ export const ProductDetail: React.FC<Props> = ({
         ?.map((v) => {
           if (['VALOR_HEX_ORIGINAL'].includes(v.name)) {
             if (v.values[0] === color) {
-              return item.images
+              return item.images;
             }
           }
         })
@@ -603,7 +662,7 @@ export const ProductDetail: React.FC<Props> = ({
 
       return images;
     });
-  }
+  };
 
   const getSizePerColor = ({ items }: Product, color: string) => {
     return items.flatMap((item) => {
@@ -613,110 +672,108 @@ export const ProductDetail: React.FC<Props> = ({
             if (v.values[0] === color) {
               return {
                 item,
-                size: item.variations?.filter(i => i.name === "TAMANHO" || i.name === "Tamanho")[0].values[0],
+                size: item?.variations?.filter(i => i.name === "TAMANHO" || i.name === "Tamanho")[0]?.values[0] || '',
                 available: item.sellers[0].commertialOffer.AvailableQuantity > 0
               };
             }
-
           }
         })
         .filter((a) => a !== undefined);
 
       return variants;
     });
-  }
+  };
 
   const consultZipCode = () => {
     getShippingData({
       variables: {
         items: [
           {
-            quantity: "1",
+            quantity: '1',
             id: selectedVariant?.itemId,
-            seller: selectedSellerId
-          }
+            seller: selectedSellerId,
+          },
         ],
-        postalCode: cep
+        postalCode: cep,
       },
-    })
-  }
+    });
+  };
 
   const newsAndPromotions = async () => {
     if (emailIsValid) {
-      setLoadingNewsLetter(true)
+      setLoadingNewsLetter(true);
       //console.log('asdasd')
       const { data } = await subscribeNewsletter({
         variables: {
           email: emailPromotions,
-          isNewsletterOptIn: true
-        }
-      })
+          isNewsletterOptIn: true,
+        },
+      });
       //console.log('passou do newsletter!!', data)
-      setLoadingNewsLetter(false)
+      setLoadingNewsLetter(false);
 
       if (!!data && data.subscribeNewsletter) {
-        setToolTipIsVisible(true)
+        setToolTipIsVisible(true);
       }
-
     } else {
-      setShowMessageError(true)
+      setShowMessageError(true);
     }
-  }
+  };
 
   useEffect(() => {
     if (shippingData) {
-      setShippingCost(shippingData.shipping.logisticsInfo)
+      setShippingCost(shippingData.shipping.logisticsInfo);
     }
   }, [shippingData]);
 
   const getSaleOff = (salOff) => {
-    const idImage = salOff.clusterHighlights?.find(x => x.id === '371')
-    if (!saleOffTag) return null
-    if (idImage) return images.saleOff
-  }
+    const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');
+    if (!saleOffTag) return null;
+    if (idImage) return images.saleOff;
+  };
 
   const getLastUnits = () => {
-    const lastUnits = data?.product.items[0].sellers[0].commertialOffer.AvailableQuantity;
+    const lastUnits =
+      data?.product.items[0].sellers[0].commertialOffer.AvailableQuantity;
     if (lastUnits <= 5) {
-      setIsLastUnits(true)
+      setIsLastUnits(true);
     } else {
-      setIsLastUnits(false)
+      setIsLastUnits(false);
     }
     //console.log("LASTUNITS", isLastUnits)
     //console.log("LASTUNITSQTD", lastUnits)
-  }
+  };
 
   useEffect(() => {
     getLastUnits();
-  }, [selectedColor, selectedSize])
+  }, [selectedColor, selectedSize]);
 
   const addAttachmentsInProducts = async () => {
     try {
-      const orderFormId = orderForm?.orderFormId
-      const productOrderFormIndex = orderForm?.items.length // because it will be the new last element
-      const attachmentName = "Li e Aceito os Termos"
+      const orderFormId = orderForm?.orderFormId;
+      const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
+      const attachmentName = 'Li e Aceito os Termos';
 
       await axios.post(
         `https://www.usereserva.com/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
-        { content: { aceito: "true" } },
+        { content: { aceito: 'true' } },
         { headers: { 'Content-Type': 'application/json' } }
-      )
-
+      );
     } catch (error) {
-      console.log("error - addAttachmentsInProducts", error)
-      throw error
+      console.log('error - addAttachmentsInProducts', error);
+      throw error;
     }
-  }
+  };
 
   const isAssinaturaSimples = useMemo(() => {
-    const description = "A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)"
+    const description =
+      'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)';
 
-    return product?.description.includes(description)
-  }, [product])
+    return product?.description.includes(description);
+  }, [product]);
 
   return (
     <SafeAreaView>
-
       <Box bg="white">
         <ModalTermsAndConditions
           isVisible={modalTermsAndConditionsisVisible}
@@ -731,13 +788,15 @@ export const ProductDetail: React.FC<Props> = ({
         />
         <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           style={{ marginBottom: 100 }}
         >
-          <ScrollView contentContainerStyle={{ paddingBottom: 100, }} style={{ marginBottom: 24 }}>
+          <ScrollView
+            contentContainerStyle={{ paddingBottom: 100 }}
+            style={{ marginBottom: 24 }}
+          >
             {product && selectedVariant && (
               <>
-
                 {/* PRODUCT CARD SECTION */}
                 <ProductDetailCard
                   {...product}
@@ -745,21 +804,32 @@ export const ProductDetail: React.FC<Props> = ({
                   loadingFavorite={loadingFavorite}
                   title={product.productName}
                   // selectedVariant?.itemId
-                  isFavorited={wishInfo.inList && product.items.some((x) => x.itemId === selectedVariant?.itemId)}
+                  isFavorited={
+                    wishInfo.inList &&
+                    product.items.some(
+                      (x) => x.itemId === selectedVariant?.itemId
+                    )
+                  }
                   onClickFavorite={handleOnFavorite}
                   price={product.priceRange.listPrice.lowPrice || 0}
                   priceWithDiscount={
                     product.priceRange.sellingPrice.lowPrice || 0
                   }
                   imagesWidth={screenWidth}
-                  images={imageSelected.length > 0 ? imageSelected[0][0].map(image => image.imageUrl) : []}
+                  images={
+                    imageSelected.length > 0
+                      ? imageSelected[0][0].map((image) => image.imageUrl)
+                      : []
+                  }
                   installmentsNumber={
                     getInstallments()?.NumberOfInstallments || 1
                   }
-                  installmentsPrice={getInstallments()?.Value || product.priceRange.sellingPrice.lowPrice || 0}
-                  onClickShare={() => onShare(
-                    product.link
-                  )}
+                  installmentsPrice={
+                    getInstallments()?.Value ||
+                    product.priceRange.sellingPrice.lowPrice ||
+                    0
+                  }
+                  onClickShare={() => onShare(product.link)}
                   discountTag={
                     getPercent(
                       product.priceRange.sellingPrice.lowPrice,
@@ -769,16 +839,13 @@ export const ProductDetail: React.FC<Props> = ({
                   saleOff={getSaleOff(product)}
                 />
 
-                {
-                  /*
+                {/*
                     isLastUnits && !outOfStock ?
                     <Box position='absolute' top={650} right={20} zIndex={4}>
                       <Typography color="vermelhoAlerta" fontWeight="SemiBold" fontFamily="nunitoRegular" fontSize={18} textAlign="center" style={{textTransform: "uppercase"}}>Últimas unidades!</Typography>
                     </Box>
                     : null
-                    */
-                }
-
+                    */}
 
                 {/* COLORS SECTION */}
                 <Box mt="xs">
@@ -791,7 +858,7 @@ export const ProductDetail: React.FC<Props> = ({
                         onPress={(color) => setSelectedColor(color)}
                         size={30}
                         disabledColors={[]}
-                        listColors={itemsSKU.map(p => p.color) || []}
+                        listColors={itemsSKU.map((p) => p.color) || []}
                         selectedColors={
                           selectedColor || (colorFilters && colorFilters[0])
                         }
@@ -824,7 +891,9 @@ export const ProductDetail: React.FC<Props> = ({
                       <RadioButtons
                         size={38}
                         fontSize={12}
-                        disbledOptions={unavailableSizes ? unavailableSizes : []}
+                        disbledOptions={
+                          unavailableSizes ? unavailableSizes : []
+                        }
                         onSelectedChange={(item) => {
                           setSelectedSize(item);
                         }}
@@ -834,13 +903,14 @@ export const ProductDetail: React.FC<Props> = ({
                       />
                     </Box>
                   </Box>
-                  {outOfStock &&
-                    <Box
-                      mt="xxs"
-                      flexDirection="row"
-                      alignItems="center"
-                    >
-                      <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+                  {outOfStock && (
+                    <Box mt="xxs" flexDirection="row" alignItems="center">
+                      <Icon
+                        name="Alert"
+                        size={20}
+                        color="vermelhoRSV"
+                        mr="nano"
+                      />
                       <Typography
                         fontFamily="reservaSansBold"
                         fontSize={15}
@@ -849,13 +919,16 @@ export const ProductDetail: React.FC<Props> = ({
                         Produto Esgotado
                       </Typography>
                     </Box>
-                  }
+                  )}
                   {/* ADD TO CART BUTTON */}
                   <Button
                     mt="xxs"
                     title="ADICIONAR À SACOLA"
                     variant="primarioEstreito"
-                    disabled={!!!selectedSize || (isAssinaturaSimples && !acceptConditions)}
+                    disabled={
+                      !!!selectedSize ||
+                      (isAssinaturaSimples && !acceptConditions)
+                    }
                     onPress={onProductAdd}
                     inline
                   />
@@ -864,279 +937,361 @@ export const ProductDetail: React.FC<Props> = ({
 
                   {/* CHECKLIST ASSINATURA SIMPLES INFO */}
 
-                  {isAssinaturaSimples &&
+                  {isAssinaturaSimples && (
                     <>
-                      <Box
-                        flexDirection='row'
-                        alignItems='center'
-                        mb='xxxs'
-                      >
+                      <Box flexDirection="row" alignItems="center" mb="xxxs">
                         <Box
-                          alignItems='center'
-                          justifyContent='center'
-                          backgroundColor='verdeSucesso'
+                          alignItems="center"
+                          justifyContent="center"
+                          backgroundColor="verdeSucesso"
                           width={20}
                           height={20}
-                          borderRadius='xxxs'
-                          mr='micro'
+                          borderRadius="xxxs"
+                          mr="micro"
                         >
-                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                          <Icon
+                            name="Check"
+                            size={18}
+                            color="white"
+                            mt="nano"
+                            ml="quarck"
+                          />
                         </Box>
 
                         <Box>
-                          <Box
-                            flexDirection='row'
-                          >
-                            <Typography variant='tituloSessao'>Receba </Typography>
+                          <Box flexDirection="row">
+                            <Typography variant="tituloSessao">
+                              Receba{' '}
+                            </Typography>
 
-                            <Typography variant='tituloSessao' fontWeight='bold'>3 camisetas </Typography>
+                            <Typography
+                              variant="tituloSessao"
+                              fontWeight="bold"
+                            >
+                              3 camisetas{' '}
+                            </Typography>
 
-                            <Typography variant='tituloSessao'>nos 12 meses de</Typography>
+                            <Typography variant="tituloSessao">
+                              nos 12 meses de
+                            </Typography>
                           </Box>
 
-                          <Typography variant='tituloSessao'>assinatura.</Typography>
+                          <Typography variant="tituloSessao">
+                            assinatura.
+                          </Typography>
                         </Box>
                       </Box>
 
-                      <Box
-                        flexDirection='row'
-                        mb='xxxs'
-                        alignItems='center'
-                      >
+                      <Box flexDirection="row" mb="xxxs" alignItems="center">
                         <Box
-                          alignItems='center'
-                          justifyContent='center'
-                          backgroundColor='verdeSucesso'
+                          alignItems="center"
+                          justifyContent="center"
+                          backgroundColor="verdeSucesso"
                           width={20}
                           height={20}
-                          borderRadius='xxxs'
-                          mr='micro'
+                          borderRadius="xxxs"
+                          mr="micro"
                         >
-                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                          <Icon
+                            name="Check"
+                            size={18}
+                            color="white"
+                            mt="nano"
+                            ml="quarck"
+                          />
                         </Box>
 
-                        <Box
-                          flexDirection='row'
-                          alignItems='center'
-                        >
-                          <Typography variant='tituloSessao' fontWeight='bold'>Ganhe 100% </Typography>
+                        <Box flexDirection="row" alignItems="center">
+                          <Typography variant="tituloSessao" fontWeight="bold">
+                            Ganhe 100%{' '}
+                          </Typography>
 
-                          <Typography variant='tituloSessao'>de </Typography>
+                          <Typography variant="tituloSessao">de </Typography>
 
-                          <Typography variant='tituloSessao' fontStyle='italic' >cashback </Typography>
+                          <Typography variant="tituloSessao" fontStyle="italic">
+                            cashback{' '}
+                          </Typography>
 
                           <Box
-                            flexDirection='row'
-                            alignSelf='flex-start'
-                            mb='nano'
+                            flexDirection="row"
+                            alignSelf="flex-start"
+                            mb="nano"
                           >
-                            <Typography fontSize={3} >*</Typography>
-                            <Typography fontSize={2} >1</Typography>
+                            <Typography fontSize={3}>*</Typography>
+                            <Typography fontSize={2}>1</Typography>
                           </Box>
 
-                          <Typography fontSize={2} >.</Typography>
+                          <Typography fontSize={2}>.</Typography>
                         </Box>
                       </Box>
 
-                      <Box
-                        flexDirection='row'
-                        alignItems='center'
-                        mb='xxxs'
-                      >
+                      <Box flexDirection="row" alignItems="center" mb="xxxs">
                         <Box
-                          alignItems='center'
-                          justifyContent='center'
-                          backgroundColor='verdeSucesso'
+                          alignItems="center"
+                          justifyContent="center"
+                          backgroundColor="verdeSucesso"
                           width={20}
                           height={20}
-                          borderRadius='xxxs'
-                          mr='micro'
+                          borderRadius="xxxs"
+                          mr="micro"
                         >
-                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                          <Icon
+                            name="Check"
+                            size={18}
+                            color="white"
+                            mt="nano"
+                            ml="quarck"
+                          />
                         </Box>
 
                         <Box>
-                          <Box
-                            flexDirection='row'
-                            alignItems='center'
-                          >
-                            <Typography variant='tituloSessao' fontWeight='bold'>Receba 20% OFF </Typography>
+                          <Box flexDirection="row" alignItems="center">
+                            <Typography
+                              variant="tituloSessao"
+                              fontWeight="bold"
+                            >
+                              Receba 20% OFF{' '}
+                            </Typography>
 
-                            <Typography variant='tituloSessao'>em todas as compras</Typography>
+                            <Typography variant="tituloSessao">
+                              em todas as compras
+                            </Typography>
 
                             <Box
-                              flexDirection='row'
-                              alignSelf='flex-start'
-                              mb='nano'
+                              flexDirection="row"
+                              alignSelf="flex-start"
+                              mb="nano"
                             >
-                              <Typography fontSize={3} >*</Typography>
-                              <Typography fontSize={2} >2</Typography>
+                              <Typography fontSize={3}>*</Typography>
+                              <Typography fontSize={2}>2</Typography>
                             </Box>
                           </Box>
 
-                          <Typography variant='tituloSessao'>acima de R$ 399.</Typography>
+                          <Typography variant="tituloSessao">
+                            acima de R$ 399.
+                          </Typography>
                         </Box>
                       </Box>
 
-                      <Box
-                        flexDirection='row'
-                        alignItems='center'
-                        mb='xxxs'
-                      >
+                      <Box flexDirection="row" alignItems="center" mb="xxxs">
                         <Box
-                          alignItems='center'
-                          justifyContent='center'
-                          backgroundColor='verdeSucesso'
+                          alignItems="center"
+                          justifyContent="center"
+                          backgroundColor="verdeSucesso"
                           width={20}
                           height={20}
-                          borderRadius='xxxs'
-                          mr='micro'
+                          borderRadius="xxxs"
+                          mr="micro"
                         >
-                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                          <Icon
+                            name="Check"
+                            size={18}
+                            color="white"
+                            mt="nano"
+                            ml="quarck"
+                          />
                         </Box>
 
                         <Box>
-                          <Box
-                            flexDirection='row'
-                          >
-                            <Typography variant='tituloSessao' fontWeight='bold'>Ganhe R$ 75 </Typography>
+                          <Box flexDirection="row">
+                            <Typography
+                              variant="tituloSessao"
+                              fontWeight="bold"
+                            >
+                              Ganhe R$ 75{' '}
+                            </Typography>
 
-                            <Typography variant='tituloSessao'>em créditos ao fim da anuidade, </Typography>
+                            <Typography variant="tituloSessao">
+                              em créditos ao fim da anuidade,{' '}
+                            </Typography>
                           </Box>
 
-                          <Box
-                            flexDirection='row'
-                          >
-                            <Typography variant='tituloSessao'>caso queira devolver as 3 camisetas</Typography>
+                          <Box flexDirection="row">
+                            <Typography variant="tituloSessao">
+                              caso queira devolver as 3 camisetas
+                            </Typography>
 
                             <Box
-                              flexDirection='row'
-                              alignSelf='flex-start'
-                              mb='nano'
+                              flexDirection="row"
+                              alignSelf="flex-start"
+                              mb="nano"
                             >
-                              <Typography fontSize={3} >*</Typography>
-                              <Typography fontSize={2} >3</Typography>
+                              <Typography fontSize={3}>*</Typography>
+                              <Typography fontSize={2}>3</Typography>
                             </Box>
 
-                            <Typography variant='tituloSessao'>.</Typography>
+                            <Typography variant="tituloSessao">.</Typography>
                           </Box>
                         </Box>
                       </Box>
 
-                      <Box
-                        flexDirection='row'
-                        alignItems='center'
-                        mb='xxs'
-                      >
+                      <Box flexDirection="row" alignItems="center" mb="xxs">
                         <Box
-                          alignItems='center'
-                          justifyContent='center'
-                          backgroundColor='verdeSucesso'
+                          alignItems="center"
+                          justifyContent="center"
+                          backgroundColor="verdeSucesso"
                           width={20}
                           height={20}
-                          borderRadius='xxxs'
-                          mr='micro'
+                          borderRadius="xxxs"
+                          mr="micro"
                         >
-                          <Icon name="Check" size={18} color='white' mt='nano' ml='quarck' />
+                          <Icon
+                            name="Check"
+                            size={18}
+                            color="white"
+                            mt="nano"
+                            ml="quarck"
+                          />
                         </Box>
 
                         <Box>
-                          <Typography variant='tituloSessao'>Ciclo sustentável: as peças devolvidas serão </Typography>
+                          <Typography variant="tituloSessao">
+                            Ciclo sustentável: as peças devolvidas serão{' '}
+                          </Typography>
 
-                          <Typography variant='tituloSessao'>recicladas.</Typography>
+                          <Typography variant="tituloSessao">
+                            recicladas.
+                          </Typography>
                         </Box>
                       </Box>
 
-                      <Box
-                        p='nano'
-                        backgroundColor='backgoundDivider'
-                      >
-                        <Box
-                          flexDirection='row'
-                        >
-                          <Typography variant='precoAntigo3' fontSize={1} color='searchBarTextColor'>*1</Typography>
-                          <Typography variant='precoAntigo3' color='searchBarTextColor'>: Créditos mensais não cumulativos, expiram a cada 30</Typography>
+                      <Box p="nano" backgroundColor="backgoundDivider">
+                        <Box flexDirection="row">
+                          <Typography
+                            variant="precoAntigo3"
+                            fontSize={1}
+                            color="searchBarTextColor"
+                          >
+                            *1
+                          </Typography>
+                          <Typography
+                            variant="precoAntigo3"
+                            color="searchBarTextColor"
+                          >
+                            : Créditos mensais não cumulativos, expiram a cada
+                            30
+                          </Typography>
                         </Box>
 
-                        <Typography variant='precoAntigo3' color='searchBarTextColor'>dias.</Typography>
-
-                        <Box
-                          flexDirection='row'
-                          mt='quarck'
+                        <Typography
+                          variant="precoAntigo3"
+                          color="searchBarTextColor"
                         >
-                          <Typography variant='precoAntigo3' fontSize={1} color='searchBarTextColor'>*2</Typography>
-                          <Typography variant='precoAntigo3' color='searchBarTextColor'>: 20% de desconto exceto para itens já em promoção.</Typography>
+                          dias.
+                        </Typography>
+
+                        <Box flexDirection="row" mt="quarck">
+                          <Typography
+                            variant="precoAntigo3"
+                            fontSize={1}
+                            color="searchBarTextColor"
+                          >
+                            *2
+                          </Typography>
+                          <Typography
+                            variant="precoAntigo3"
+                            color="searchBarTextColor"
+                          >
+                            : 20% de desconto exceto para itens já em promoção.
+                          </Typography>
                         </Box>
 
-                        <Box
-                          flexDirection='row'
-                          mt='quarck'
-                        >
-                          <Typography variant='precoAntigo3' fontSize={1} color='searchBarTextColor'>*3</Typography>
-                          <Typography variant='precoAntigo3' color='searchBarTextColor'>: Ao final da anuidade, crédito de R$ 25 por camiseta</Typography>
+                        <Box flexDirection="row" mt="quarck">
+                          <Typography
+                            variant="precoAntigo3"
+                            fontSize={1}
+                            color="searchBarTextColor"
+                          >
+                            *3
+                          </Typography>
+                          <Typography
+                            variant="precoAntigo3"
+                            color="searchBarTextColor"
+                          >
+                            : Ao final da anuidade, crédito de R$ 25 por
+                            camiseta
+                          </Typography>
                         </Box>
 
-                        <Typography variant='precoAntigo3' color='searchBarTextColor'>SimplesⓇ devolvida em lojas Reserva</Typography>
+                        <Typography
+                          variant="precoAntigo3"
+                          color="searchBarTextColor"
+                        >
+                          SimplesⓇ devolvida em lojas Reserva
+                        </Typography>
                       </Box>
 
-                      <Box
-                        flexDirection='row'
-                        alignItems='center'
-                        mt='xxxs'
-                      >
+                      <Box flexDirection="row" alignItems="center" mt="xxxs">
                         <TouchableOpacity
                           onPress={() => setAcceptConditions(!acceptConditions)}
                         >
                           <Box
-                            backgroundColor={acceptConditions ? 'preto' : 'white'}
+                            backgroundColor={
+                              acceptConditions ? 'preto' : 'white'
+                            }
                             width={14}
                             height={14}
-                            border='1px'
-                            borderColor='preto'
-                            borderRadius='pico'
-                            mr='nano'
-                            alignItems='center'
-                            justifyContent='center'
+                            border="1px"
+                            borderColor="preto"
+                            borderRadius="pico"
+                            mr="nano"
+                            alignItems="center"
+                            justifyContent="center"
                           >
-                            {acceptConditions && <Icon name="Check" size={14} color='white' mt='nano' ml='quarck' />}
+                            {acceptConditions && (
+                              <Icon
+                                name="Check"
+                                size={14}
+                                color="white"
+                                mt="nano"
+                                ml="quarck"
+                              />
+                            )}
                           </Box>
                         </TouchableOpacity>
 
                         <Box>
-                          <Box
-                            flexDirection='row'
-                            alignItems='center'
-                          >
-                            <Typography variant='precoAntigo3' color='preto'>Ao adquirir a assinatura você aceita os </Typography>
+                          <Box flexDirection="row" alignItems="center">
+                            <Typography variant="precoAntigo3" color="preto">
+                              Ao adquirir a assinatura você aceita os{' '}
+                            </Typography>
 
                             <TouchableOpacity
-                              onPress={() => setModalTermsAndConditionsisVisible(true)}
+                              onPress={() =>
+                                setModalTermsAndConditionsisVisible(true)
+                              }
                             >
                               <Typography
-                                variant='precoAntigo3'
-                                color='preto'
-                                fontWeight='bold'
+                                variant="precoAntigo3"
+                                color="preto"
+                                fontWeight="bold"
                                 style={{ textDecorationLine: 'underline' }}
-                              >termos e</Typography>
+                              >
+                                termos e
+                              </Typography>
                             </TouchableOpacity>
                           </Box>
 
                           <TouchableOpacity
-                            onPress={() => setModalTermsAndConditionsisVisible(true)}
+                            onPress={() =>
+                              setModalTermsAndConditionsisVisible(true)
+                            }
                           >
                             <Typography
-                              variant='precoAntigo3'
-                              color='preto'
-                              fontWeight='bold'
+                              variant="precoAntigo3"
+                              color="preto"
+                              fontWeight="bold"
                               style={{ textDecorationLine: 'underline' }}
-                            >condições.</Typography>
+                            >
+                              condições.
+                            </Typography>
                           </TouchableOpacity>
                         </Box>
                       </Box>
 
                       <Divider variant="fullWidth" my="xs" />
                     </>
-                  }
+                  )}
 
                   {/* DELIVERY INFO */}
                   <Typography fontFamily="reservaSerifRegular" fontSize={16}>
@@ -1169,10 +1324,7 @@ export const ProductDetail: React.FC<Props> = ({
                           justifyContent="center"
                           borderColor="divider"
                         >
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={14}
-                          >
+                          <Typography fontFamily="nunitoRegular" fontSize={14}>
                             {item.friendlyName}
                           </Typography>
                         </Box>
@@ -1182,12 +1334,12 @@ export const ProductDetail: React.FC<Props> = ({
                           justifyContent="center"
                           borderColor="divider"
                         >
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize={14}
-                          >
+                          <Typography fontFamily="nunitoRegular" fontSize={14}>
                             {format(
-                              addDays(Date.now(), parseInt(item.shippingEstimate.split('bd')[0])),
+                              addDays(
+                                Date.now(),
+                                parseInt(item.shippingEstimate.split('bd')[0])
+                              ),
                               'dd/MM'
                             )}
                           </Typography>
@@ -1203,23 +1355,20 @@ export const ProductDetail: React.FC<Props> = ({
                             fontSize={14}
                             color="verdeSucesso"
                           >
-                            {item.price > 0 ?
-                              `R$ ${(item.price) / 100}`
-                              :
-                              `GRÁTIS`
-                            }
+                            {item.price > 0
+                              ? `R$ ${item.price / 100}`
+                              : `GRÁTIS`}
                           </Typography>
                         </Box>
                       </Box>
-                    ))
-                  }
+                    ))}
                   <Divider variant="fullWidth" my="xs" />
 
                   <Box>
                     <ExpansePanel
                       style={{
-                        fontFamily: "reservaSerifRegular",
-                        fontSize: 20
+                        fontFamily: 'reservaSerifRegular',
+                        fontSize: 20,
                       }}
                       information={{
                         title: 'Sobre este produto',
@@ -1230,7 +1379,13 @@ export const ProductDetail: React.FC<Props> = ({
 
                   <Divider variant="fullWidth" my="xs" />
                   <Box mb="xxxs">
-                    <Tooltip tooltipText='Email Cadastrado!' isVisible={toolTipIsVisible} setIsVisible={(isVisible) => setToolTipIsVisible(isVisible)} />
+                    <Tooltip
+                      tooltipText="Email Cadastrado!"
+                      isVisible={toolTipIsVisible}
+                      setIsVisible={(isVisible) =>
+                        setToolTipIsVisible(isVisible)
+                      }
+                    />
                     <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                       Receba novidades e promoções
                     </Typography>
@@ -1240,12 +1395,9 @@ export const ProductDetail: React.FC<Props> = ({
                     value={emailPromotions}
                     loading={loadingNewsLetter}
                     onChangeText={(email) => {
-                      setEmailPromotions(email)
+                      setEmailPromotions(email);
                       setEmailIsValid(
-                        Yup.string()
-                          .required()
-                          .email()
-                          .isValidSync(email)
+                        Yup.string().required().email().isValidSync(email)
                       );
                     }}
                     iconName="ChevronRight"
@@ -1253,7 +1405,7 @@ export const ProductDetail: React.FC<Props> = ({
                     keyboardType="email-address"
                     onPressIcon={newsAndPromotions}
                   />
-                  {showMessageError && !emailIsValid &&
+                  {showMessageError && !emailIsValid && (
                     <Box mt="quarck">
                       <Typography
                         color="vermelhoAlerta"
@@ -1263,7 +1415,7 @@ export const ProductDetail: React.FC<Props> = ({
                         E-mail invalido
                       </Typography>
                     </Box>
-                  }
+                  )}
                 </Box>
               </>
             )}
@@ -1344,9 +1496,6 @@ export const ProductDetail: React.FC<Props> = ({
           </ScrollView>
         </KeyboardAvoidingView>
       </Box>
-
     </SafeAreaView>
   );
 };
-
-

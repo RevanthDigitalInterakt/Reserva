@@ -11,7 +11,9 @@ import {
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { cashbackService } from '../../../services/cashbackService';
 import { FetchCredit } from '../../../services/unicoService';
+import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
@@ -20,18 +22,18 @@ type Props = StackScreenProps<RootStackParamList, 'Credits'>;
 export const Credits: React.FC<Props> = ({ navigation, route }) => {
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [loadingCredit, setLoadingCredit] = useState(false);
+  const [isAcceptedConditions, setIsAcceptConditions] = useState(false);
   const [cashbackInStore, setCashbackInStore] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
-  const [credit, SetCredit] = useState(0);
+  const [credit, setCredit] = useState(0);
 
   useEffect(() => {
-    if (data) {
-      const { profile } = data;
-      if (profile) {
-        const { profile } = data;
-        setProfile(profile);
-      }
-    }
+    StorageService.getItem({
+      key: StorageServiceKeys.PROFILE,
+      isJSON: true,
+    }).then((value) => {
+      setProfile(value);
+    });
   }, [data]);
 
   useEffect(() => {
@@ -41,17 +43,19 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
     setCashbackInStore(response.asBoolean());
   }, []);
 
-  const fetchCredit = async () => {
-    setLoadingCredit(true);
+  const getCustomer = async () => {
     if (profile) {
-      const { data } = await FetchCredit(profile.document);
-      SetCredit(data.SaldoMonetario);
+      setLoadingCredit(true);
+      return cashbackService.getCustomer(profile.document).then((response) => {
+        setIsAcceptConditions(response.data.Fidelizado);
+        setCredit(response.data.SaldoMonetario);
+        setLoadingCredit(false);
+      });
     }
-    setLoadingCredit(false);
   };
 
   useEffect(() => {
-    fetchCredit();
+    getCustomer();
   }, [profile]);
 
   return (
@@ -88,7 +92,7 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
               <Button
                 flexDirection="row"
                 onPress={() => {
-                  navigation.navigate('Cashback', { credits: credit });
+                  navigation.navigate('Cashback', { isAcceptedConditions });
                 }}
               >
                 <>
