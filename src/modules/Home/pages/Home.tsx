@@ -13,10 +13,11 @@ import {
   SafeAreaView,
   ScrollView,
   View,
+  Linking
 } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
-
+import * as StoreReview from 'react-native-store-review';
 import { useAuth } from '../../../context/AuthContext';
 import {
   Carrousel,
@@ -44,6 +45,8 @@ dayjs.extend(timezone);
 export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
+  // const APP_STORE_LINK = `itms-apps://apps.apple.com/app/id${IOS_APP_ID}?action=write-review`;
+  const PLAY_STORE_LINK = `market://details?id=com.usereserva`;
   const navigation = useNavigation();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
@@ -72,6 +75,21 @@ export const HomeScreen: React.FC<{
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
+  const STORE_LINK = Platform.select({
+    // ios: APP_STORE_LINK,
+    android: PLAY_STORE_LINK,
+  });
+
+  // if (StoreReview.isAvailable) {
+  //   StoreReview.requestReview();
+  // }
+  // useEffect(() => {
+  //   // console.log('Linking.openURL(STORE_LINK)')
+  //   // Linking.openURL(STORE_LINK)
+  //   if (StoreReview.isAvailable) {
+  //     StoreReview.requestReview();
+  //   }
+  // }, [])
   useEffect(() => {
     console.log('homepage query', data);
     const carrouselsItems: Carrousel[] =

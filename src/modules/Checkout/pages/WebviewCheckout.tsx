@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native'
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import * as StoreReview from 'react-native-store-review';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -71,6 +72,11 @@ const Checkout: React.FC<{}> = () => {
               onLoadEnd={() => {
                 setTimeout(() => setLoading(false),
                   1500)
+                if (navState.includes('/checkout/orderPlaced')) {
+                  if (StoreReview.isAvailable) {
+                    setTimeout(() => StoreReview.requestReview(), 1500)
+                  }
+                }
               }}
 
               onNavigationStateChange={(navState) => {
