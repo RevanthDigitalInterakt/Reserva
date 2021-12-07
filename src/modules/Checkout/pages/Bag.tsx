@@ -480,15 +480,6 @@ export const BagScreen = () => {
                       </Typography>
                     </Box>
                   )}
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigate('ProductDetail', {
-                        productId: item.productId,
-                        itemId: item.id,
-                        sizeSelected: item.skuName.split('-')[1] || '',
-                      });
-                    }}
-                  >
                     <ProductHorizontalListCard
                       isBag
                       discountApi={
@@ -590,8 +581,14 @@ export const BagScreen = () => {
                         .replace('http', 'https')
                         .split('-55-55')
                         .join('')}
+                      handleNavigateToProductDetail={() => {
+                        navigate('ProductDetail', {
+                          productId: item.productId,
+                          itemId: item.id,
+                          sizeSelected: item.skuName.split("-")[1] || ""
+                        })
+                      }}
                     />
-                  </TouchableOpacity>
                 </Box>
               ))}
             </Box>

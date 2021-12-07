@@ -1,19 +1,23 @@
 default_platform(:android)
 
 platform :android do
+  desc "Running tests on Android"
+  lane :test do
+    yarn(
+      command: "",
+      package_path: "../package.json"
+    )
+
+    yarn(
+      command: "test",
+      package_path: "../package.json"
+    )
+  end
+
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    version_type = ""
-    project = UI.select("Select your version type: ", ["patch", "minor", "major"])
+    version_type = "patch"
     version_name = get_version_name(gradle_file_path: "app/build.gradle", ext_constant_name: "versionName")
-
-    if project == "patch"
-      version_type = "patch"
-    elsif project == "minor"
-      version_type = "minor"
-    elsif project == "major"
-      version_type = "major"
-    end
 
     increment_version_name(
       gradle_file_path: "app/build.gradle",
@@ -26,19 +30,6 @@ platform :android do
       task: "assemble",
       build_type: "Release",
       project_dir: "./",
-    )
-
-    changelog = prompt(
-      text: "Changelog: ",
-      multi_line_end_keyword: "END"
-    )
-
-    firebase_app_distribution(
-      app: "1:1006567395453:android:e4058770626505e34d2114",
-      service_credentials_file: "app/fastlane-app-distribution.json",
-      apk_path: "app/build/outputs/apk/release/app-release.apk",
-      release_notes: changelog,
-      groups: "qa-team, trusted-testers",
     )
 
     slack(
@@ -60,7 +51,6 @@ platform :android do
       },
       slack_url: "https://hooks.slack.com/services/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"
     )
-    git_commit(path: ["*"], message: "chore: version bump #{version_name}")
   end
 
   desc "Deploy a new version to the Google Play"

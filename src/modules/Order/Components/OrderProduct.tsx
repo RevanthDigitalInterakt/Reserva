@@ -12,6 +12,8 @@ type IOrderItemData = {
   quantity: string;
   imageUrl: string;
   measurementUnit: string;
+  productId: string;
+  id: string;
 };
 
 interface IOrderProduct {
@@ -20,20 +22,32 @@ interface IOrderProduct {
 
 const OrderProduct = ({ orderItem }: IOrderProduct) => {
   //TODO: repassar nesse componente. se possivel trocar com o que ja foi feito anteriormente.
+  const { navigate } = useNavigation();
+
   return (
     <>
       <Box flexDirection="row" mt={'xxs'}>
         <Box>
           {orderItem &&
-            <Image
-              imageDefault={images.imageNotFound}
-              variant="sm"
-              source={{
-                uri: orderItem.imageUrl
-                  .split("-55-55")
-                  .join("")
+            <Button
+              onPress={() => {
+                navigate('ProductDetail', {
+                  productId: orderItem.productId.trim(),
+                  itemId: orderItem.id.trim(),
+                  sizeSelected: orderItem.name.split('-')[1].trim() || ""
+                })
               }}
-            />
+            >
+              <Image
+                imageDefault={images.imageNotFound}
+                variant="sm"
+                source={{
+                  uri: orderItem.imageUrl
+                    .split("-55-55")
+                    .join("")
+                }}
+              />
+            </Button>
           }
         </Box>
 

@@ -11,32 +11,22 @@
     "isolatedModules": true,
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "@components": [
-        "./src/components/*"
-      ],
-      "@config": [
-        "./src/config/*"
-      ],
-      "@services": [
-        "./src/services/*"
-      ],
-      "@utils": [
-        "./src/utils/*"
-      ],
-      "@hooks": [
-        "./src/hooks/*"
-      ],
-    },
+    "experimentalDecorators": true,
+    "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "paths": {
+      "@services/*": [
+        "shared/services/*"
+      ],
+    }
   },
   "exclude": [
     "node_modules",
     "babel.config.js",
     "metro.config.js",
-    "jest.config.js"
+    "jest.config.js",
+    "node_modules"
   ]
 }

@@ -298,10 +298,13 @@ export const ProductDetail: React.FC<Props> = ({
         ?.variations?.find((x) => x.name == 'VALOR_HEX_ORIGINAL')?.values;
 
       setColorFilters(colorList);
-
       // set initial selected color
       if (route.params?.itemId) {
-        setSelectedColor(colorList ? colorItemId[0] : '');
+        if (colorItemId) {
+          setSelectedColor(colorList ? colorItemId[0] : '');
+        } else {
+          setSelectedColor(colorList ? colorList[0] : '');
+        }
       } else {
         setSelectedColor(colorList ? route.params.colorSelected : '');
       }

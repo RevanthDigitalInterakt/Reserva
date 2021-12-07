@@ -20,12 +20,7 @@ or alternatively using `brew install fastlane`
 ```
 fastlane android test
 ```
-Runs all the tests
-### android test_impl
-```
-fastlane android test_impl
-```
-Test Implementation
+Running tests on Android
 ### android beta
 ```
 fastlane android beta

@@ -19,7 +19,9 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   const myCards = carrousel.itemsCollection.items;
 
   return (
-    <Box marginY={15}>
+    <Box
+    // marginY={15}
+    >
       <Box>
         {/* <Box paddingLeft={15}>
           <Typography fontFamily="nunitoBold" fontSize={16}>

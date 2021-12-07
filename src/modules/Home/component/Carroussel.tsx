@@ -165,14 +165,12 @@ const CarouselScrollIndicator: React.FC<CarouselScrollIndicatorProps> = ({
   onPressCarousel,
 }) => {
   const [layoutWidth, setLayoutWidth] = useState<number>(0);
-
   const [finishedAnimation, setFinishedAnimation] = useState<boolean>(false);
 
   const carouselLength = carouselRef?.props.data?.length || 1;
   const animatedValue = useRef(new Animated.Value(-10000)).current;
 
   const duration = showtime * 1000;
-  // const remaningWidth = (width + animatedValue) / width;
 
   const animation = Animated.timing(animatedValue, {
     toValue: 0,
