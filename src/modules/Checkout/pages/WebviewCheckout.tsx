@@ -74,7 +74,7 @@ const Checkout: React.FC<{}> = () => {
                   1500)
                 if (navState.includes('/checkout/orderPlaced')) {
                   if (StoreReview.isAvailable) {
-                    setTimeout(() => StoreReview.requestReview(), 1500)
+                    setTimeout(() => StoreReview.requestReview(), 2500)
                   }
                 }
               }}
