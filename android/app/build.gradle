@@ -154,13 +154,47 @@ android {
         noCompress "tflite"
     }
 
-    defaultConfig {
-        applicationId "com.usereserva"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 34
-        versionName "1.1.13"
-        missingDimensionStrategy 'react-native-camera', 'general'
+    def versionPropsFile = file('version.properties')
+
+    if(versionPropsFile.canRead()) {
+      def Properties versionProps = new Properties()
+      versionProps.load(new FileInputStream(versionPropsFile))
+      def branch = ""
+      def proc = "git rev-parse --abbrev-ref HEAD".execute()
+      proc.in.eachLine { line -> branch = line }
+      proc.err.eachLine { line -> println line }
+      proc.waitFor()
+
+      def versionMajor = versionProps['VERSION_MAJOR'].toInteger()
+      def versionMinor = versionProps['VERSION_MINOR'].toInteger()
+      def versionPatch = versionProps['VERSION_PATCH'].toInteger()
+
+      def versionNameGenerate = ""
+      def versionCodeGenerate = 0
+
+      if(branch != "master"){
+        versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch
+        versionNameGenerate = versionMajor.toString() + '.' + versionMinor.toString() + '.' + versionPatch.toString() + '-' + branch
+      }else{
+        versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch + 1
+        versionNameGenerate = versionMajor.toString() + '.' + versionMinor.toString() + '.' + versionPatch.toString()
+      }
+
+      versionProps['VERSION_CODE']=versionCodeGenerate.toString()
+      versionProps['VERSION_PATCH']=versionPatch.toString()
+      versionProps['CURRENT_VERSION_NAME']=versionNameGenerate
+      versionProps.store(versionPropsFile.newWriter(), null)
+
+      defaultConfig {
+          applicationId "com.usereserva"
+          minSdkVersion rootProject.ext.minSdkVersion
+          targetSdkVersion rootProject.ext.targetSdkVersion
+          versionCode versionCodeGenerate
+          versionName versionNameGenerate
+          missingDimensionStrategy 'react-native-camera', 'general'
+      }
+    }else {
+        throw new GradleException("Could not read version.properties!")
     }
     splits {
         abi {
