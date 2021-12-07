@@ -176,8 +176,12 @@ android {
         versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionNameGenerate = versionMajor.toString() + '.' + versionMinor.toString() + '.' + versionPatch.toString() + '-' + branch
       }else{
-        versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch + 1
+        versionPatch = versionPatch + 1
+        versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionNameGenerate = versionMajor.toString() + '.' + versionMinor.toString() + '.' + versionPatch.toString()
+
+        "git tag v${versionNameGenerate}".execute()
+        "git add --all".execute()
       }
 
       versionProps['VERSION_CODE']=versionCodeGenerate.toString()
