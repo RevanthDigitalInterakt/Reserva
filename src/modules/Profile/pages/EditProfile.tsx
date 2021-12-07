@@ -9,6 +9,9 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  PermissionsAndroid,
 } from 'react-native';
 import {
   Typography,
@@ -18,6 +21,7 @@ import {
   TextField,
   Icon,
   Checkbox,
+  Divider,
 } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -29,6 +33,8 @@ import {
   ProfileCustomFieldsInput,
 } from '../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import Modal from 'react-native-modal';
 
 export const EditProfile: React.FC<{
   title: string;
@@ -53,6 +59,9 @@ export const EditProfile: React.FC<{
 
   const [updateUserdata, { data: updateData, loading: updateLoading }] =
     useMutation(profileMutation);
+
+  const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
+  const [file, setFile] = useState<any>(null);
 
   useEffect(() => {
     if (data) {
@@ -145,6 +154,119 @@ export const EditProfile: React.FC<{
     });
   };
 
+  const requestCameraPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Camera Permission',
+            message: 'App needs camera permission',
+          }
+        );
+        // If CAMERA Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
+    } else return true;
+  };
+
+  const requestExternalWritePermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'External Storage Write Permission',
+            message: 'App needs write permission',
+          }
+        );
+        // If WRITE_EXTERNAL_STORAGE Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+      }
+      return false;
+    } else return true;
+  };
+
+  const handleChooseGalery = async () => {
+    const options = {
+      selectionLimit: 1,
+      mediaType: 'photo',
+    };
+
+    await launchImageLibrary(options, async (response) => {
+      if (response) {
+        if (response.didCancel) {
+          console.log('Usuário cancelou a seleção');
+        } else if (response.errorMessage) {
+          console.log('Ocorreu um erro.', response.errorMessage);
+        } else {
+          setShowModalProfile(false);
+          const photoFile = {
+            uri: response.assets[0].uri,
+            name: response.assets[0].fileName,
+            type: 'image/jpeg',
+          };
+
+          setFile(photoFile);
+        }
+      }
+    });
+  };
+
+  const handleChooseCamera = async () => {
+    let isCameraPermitted = await requestCameraPermission();
+    let isStoragePermitted = await requestExternalWritePermission();
+    if (isCameraPermitted && isStoragePermitted) {
+      const options = {
+        mediaType: 'photo',
+        saveToPhotos: true,
+        includeExtra: true,
+        quality: 1,
+        cameraType: 'front',
+        selectionLimit: 1,
+      };
+
+      await launchCamera(options, async (response) => {
+        if (response.assets) {
+          if (response.didCancel) {
+            console.log('Usuário cancelou a seleção');
+          } else if (response.errorMessage) {
+            console.log('Ocorreu um erro.', response.errorMessage);
+          } else {
+            const photoFile = {
+              uri: response.assets[0].uri,
+              name: response.assets[0].fileName,
+              type: 'image/jpeg',
+            };
+
+            setFile(photoFile);
+          }
+        }
+      });
+    }
+  };
+
+  const styles = StyleSheet.create({
+    modalProfile: {
+      flex: 1,
+      position: 'absolute',
+      alignSelf: 'flex-end',
+      width: '100%',
+      bottom: 0,
+    },
+    boxTouchable: {
+      flexDirection: 'row',
+      alignContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+    },
+  });
+
   return (
     <SafeAreaView
       flex={1}
@@ -164,12 +286,121 @@ export const EditProfile: React.FC<{
           style={{ height: '100%' }}
         >
           <Box alignContent="flex-start" pt="xs" paddingX="xxxs" pb="xxl">
+            <Modal
+              onBackdropPress={() => setShowModalProfile(false)}
+              isVisible={showModalProfile}
+              style={styles.modalProfile}
+            >
+              <Box bg="white" p="xxxs">
+                <Box
+                  flexDirection="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Box>
+                    <Typography
+                      fontFamily="reservaSerifRegular"
+                      fontSize={20}
+                    />
+                  </Box>
+                  <Button
+                    hitSlop={{
+                      top: 30,
+                      bottom: 30,
+                      right: 30,
+                      left: 30,
+                    }}
+                    onPress={() => setShowModalProfile(false)}
+                    variant="icone"
+                    icon={<Icon size={12} name="Close" />}
+                  />
+                </Box>
+                <Box mt="xxs" mb="micro">
+                  <Typography fontFamily="reservaSansMedium" fontSize={14}>
+                    Escolha uma das opções abaixo:
+                  </Typography>
+                </Box>
+
+                <Box mt="xxs" mb="micro">
+                  <TouchableOpacity onPress={handleChooseCamera}>
+                    <Box style={styles.boxTouchable}>
+                      <Icon name="Cam" size={20} mr="micro" />
+                      <Typography fontFamily="reservaSansMedium" fontSize={14}>
+                        Tirar uma foto
+                      </Typography>
+                    </Box>
+                  </TouchableOpacity>
+                </Box>
+
+                <Divider variant="fullWidth" />
+
+                <Box mt="micro" mb="micro">
+                  <TouchableOpacity onPress={handleChooseGalery}>
+                    <Box style={styles.boxTouchable}>
+                      <Icon name="Image" size={20} mr="micro" />
+                      <Typography fontFamily="reservaSansMedium" fontSize={14}>
+                        Buscar na galeria
+                      </Typography>
+                    </Box>
+                  </TouchableOpacity>
+                </Box>
+
+                <Divider variant="fullWidth" />
+
+                <Box mt="micro" mb="micro">
+                  <TouchableOpacity
+                    onPress={() => {
+                      setFile(null);
+                      setShowModalProfile(false);
+                    }}
+                  >
+                    <Box style={styles.boxTouchable}>
+                      <Icon name="Trash" size={20} mr="micro" />
+                      <Typography
+                        style={{ color: '#EF1E1E' }}
+                        fontFamily="reservaSansMedium"
+                        fontSize={14}
+                      >
+                        Excluir foto atual
+                      </Typography>
+                    </Box>
+                  </TouchableOpacity>
+                </Box>
+              </Box>
+            </Modal>
             <Box alignItems="center">
-              {/* <Avatar
-                buttonEdit={true}
-                onPress={() => {
-                }}
-              ></Avatar> */}
+              {file === null ? (
+                <Avatar buttonEdit onPress={() => setShowModalProfile(true)} />
+              ) : (
+                <Avatar
+                  imageSource={{ uri: file.uri }}
+                  buttonEdit
+                  onPress={() => setShowModalProfile(true)}
+                />
+              )}
+              <Box
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                marginTop="micro"
+              >
+                <Button
+                  inline
+                  onPress={() => {
+                    navigation.navigate('EditPassword', {
+                      email: userData.email,
+                    });
+                  }}
+                  title="Alterar senha"
+                >
+                  <Typography
+                    style={{ textDecorationLine: 'underline' }}
+                    fontSize="13px"
+                    fontFamily="nunitoRegular"
+                  >
+                    Alterar senha
+                  </Typography>
+                </Button>
+              </Box>
             </Box>
 
             <Box mt="xxxs">
@@ -264,29 +495,7 @@ export const EditProfile: React.FC<{
                   }}
                 />
               </Box>
-              <Box
-                justifyContent="flex-start"
-                alignItems="flex-start"
-                marginTop="micro"
-              >
-                <Button
-                  inline
-                  onPress={() => {
-                    navigation.navigate('EditPassword', {
-                      email: userData.email,
-                    });
-                  }}
-                  title="Alterar senha"
-                >
-                  <Typography
-                    style={{ textDecorationLine: 'underline' }}
-                    fontSize="13px"
-                    fontFamily="nunitoRegular"
-                  >
-                    Alterar senha
-                  </Typography>
-                </Button>
-              </Box>
+
               <Box mb="xs" mt="micro" flexDirection="row">
                 <Checkbox
                   color="dropDownBorderColor"
