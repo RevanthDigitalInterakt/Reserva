@@ -12,8 +12,8 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 import { images } from '../../../assets';
 import { ProfileVars } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { cashbackService } from '../../../services/cashbackService';
 import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
+import { CashbackService } from '../../../shared/services/CashbackService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { ModalSuccess } from '../components/ModalSuccess';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
@@ -26,6 +26,7 @@ type MultiGetReturnCashback = {
 };
 
 export const Cashback: React.FC<Props> = ({ navigation, route }) => {
+  const cashbackServiceRef = new CashbackService();
   const { isAcceptedConditions } = route.params;
   const [loading] = useState(false);
   const [qrCode, setQrCode] = useState<string>();
@@ -45,7 +46,7 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
   const handleAcceptLoyalty = async () => {
     if (!acceptConditions && profile) {
       setLoadingTerms(true);
-      await cashbackService.acceptLoyalty(profile.document);
+      await cashbackServiceRef.acceptLoyalty(profile.document);
       setLoadingTerms(false);
       setAcceptConditions(true);
     }
@@ -86,7 +87,7 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
       if (!qrCode) {
         setLoadingQrCode(true);
       }
-      return cashbackService
+      return cashbackServiceRef
         .getToken(profile.document, installationToken)
         .then(({ data: { result, token } }) => {
           if (result) {
