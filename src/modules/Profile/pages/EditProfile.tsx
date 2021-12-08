@@ -157,21 +157,7 @@ export const EditProfile: React.FC<{
     });
   };
 
-  const saveFirebase = async (uri: string, reference: any) => {
-    const pathToFile = `${uri}`;
-
-    const task = await reference.putFile(pathToFile);
-
-    task.on('state_changed', (taskSnapshot) => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-      );
-    });
-
-    task.then(() => {
-      console.log('Image uploaded to the bucket!');
-    });
-  };
+  const saveFirebase = async (uri: string, reference: any) => {};
 
   const requestCameraPermission = async () => {
     if (Platform.OS === 'android') {
@@ -267,6 +253,27 @@ export const EditProfile: React.FC<{
             };
 
             setFile(photoFile);
+
+            const fileExtension = file.uri.split('.').pop();
+            console.log('EXT:::>>>>>>' + fileExtension);
+
+            const fileName = `${uuid.v4()}.${fileExtension}`;
+
+            const reference = storage().ref(`user/profile/image/${fileName}`);
+
+            const pathToFile = `${photoFile.uri}`;
+
+            const uploading = await reference.putFile(pathToFile);
+
+            uploading.task.on('state_changed', (taskSnapshot) => {
+              console.log(
+                `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
+              );
+            });
+
+            uploading.task.then(() => {
+              console.log('Image uploaded to the bucket!');
+            });
           }
         }
       });
@@ -289,22 +296,6 @@ export const EditProfile: React.FC<{
       textAlign: 'center',
     },
   });
-
-  useEffect(() => {
-    if (file) {
-      const fileExtension = file.uri.split('.').pop();
-      console.log('EXT:::>>>>>>' + fileExtension);
-
-      const fileName = `${uuid.v4()}.${fileExtension}`;
-
-      console.log('FILENAME:::::::::::>>>>');
-      console.log(fileName);
-      async function test() {
-        await saveFirebase(file.uri, fileName);
-      }
-      test();
-    }
-  }, [file]);
 
   return (
     <SafeAreaView
