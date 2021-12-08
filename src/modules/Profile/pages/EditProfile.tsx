@@ -35,6 +35,9 @@ import {
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Modal from 'react-native-modal';
+import storage from '@react-native-firebase/storage';
+import uuid from 'react-native-uuid';
+import { utils } from '@react-native-firebase/app';
 
 export const EditProfile: React.FC<{
   title: string;
@@ -154,6 +157,22 @@ export const EditProfile: React.FC<{
     });
   };
 
+  const saveFirebase = async (uri: string, reference: any) => {
+    const pathToFile = `${uri}`;
+
+    const task = await reference.putFile(pathToFile);
+
+    task.on('state_changed', (taskSnapshot) => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
+      );
+    });
+
+    task.then(() => {
+      console.log('Image uploaded to the bucket!');
+    });
+  };
+
   const requestCameraPermission = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -164,7 +183,6 @@ export const EditProfile: React.FC<{
             message: 'App needs camera permission',
           }
         );
-        // If CAMERA Permission is granted
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
         console.warn(err);
@@ -183,7 +201,7 @@ export const EditProfile: React.FC<{
             message: 'App needs write permission',
           }
         );
-        // If WRITE_EXTERNAL_STORAGE Permission is granted
+
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
         console.warn(err);
@@ -192,30 +210,34 @@ export const EditProfile: React.FC<{
     } else return true;
   };
 
-  const handleChooseGalery = async () => {
+  const handleChooseGallery = async () => {
     const options = {
       selectionLimit: 1,
       mediaType: 'photo',
     };
 
     await launchImageLibrary(options, async (response) => {
-      if (response) {
-        if (response.didCancel) {
-          console.log('Usuário cancelou a seleção');
-        } else if (response.errorMessage) {
-          console.log('Ocorreu um erro.', response.errorMessage);
-        } else {
-          setShowModalProfile(false);
-          const photoFile = {
-            uri: response.assets[0].uri,
-            name: response.assets[0].fileName,
-            type: 'image/jpeg',
-          };
+      let isCameraPermitted = await requestCameraPermission();
+      let isStoragePermitted = await requestExternalWritePermission();
+      if (isCameraPermitted && isStoragePermitted) {
+        if (response) {
+          if (response.didCancel) {
+            console.log('Usuário cancelou a seleção');
+          } else if (response.errorMessage) {
+            console.log('Ocorreu um erro.', response.errorMessage);
+          } else {
+            const photoFile = {
+              uri: response.assets[0].uri,
+              name: response.assets[0].fileName,
+              type: 'image/jpeg',
+            };
 
-          setFile(photoFile);
+            setFile(photoFile);
+          }
         }
       }
     });
+    setShowModalProfile(false);
   };
 
   const handleChooseCamera = async () => {
@@ -232,7 +254,7 @@ export const EditProfile: React.FC<{
       };
 
       await launchCamera(options, async (response) => {
-        if (response.assets) {
+        if (response) {
           if (response.didCancel) {
             console.log('Usuário cancelou a seleção');
           } else if (response.errorMessage) {
@@ -249,6 +271,7 @@ export const EditProfile: React.FC<{
         }
       });
     }
+    setShowModalProfile(false);
   };
 
   const styles = StyleSheet.create({
@@ -266,6 +289,22 @@ export const EditProfile: React.FC<{
       textAlign: 'center',
     },
   });
+
+  useEffect(() => {
+    if (file) {
+      const fileExtension = file.uri.split('.').pop();
+      console.log('EXT:::>>>>>>' + fileExtension);
+
+      const fileName = `${uuid.v4()}.${fileExtension}`;
+
+      console.log('FILENAME:::::::::::>>>>');
+      console.log(fileName);
+      async function test() {
+        await saveFirebase(file.uri, fileName);
+      }
+      test();
+    }
+  }, [file]);
 
   return (
     <SafeAreaView
@@ -335,7 +374,7 @@ export const EditProfile: React.FC<{
                 <Divider variant="fullWidth" />
 
                 <Box mt="micro" mb="micro">
-                  <TouchableOpacity onPress={handleChooseGalery}>
+                  <TouchableOpacity onPress={handleChooseGallery}>
                     <Box style={styles.boxTouchable}>
                       <Icon name="Image" size={20} mr="micro" />
                       <Typography fontFamily="reservaSansMedium" fontSize={14}>
