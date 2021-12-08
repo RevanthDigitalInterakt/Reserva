@@ -83,13 +83,13 @@ export const HomeScreen: React.FC<{
   // if (StoreReview.isAvailable) {
   //   StoreReview.requestReview();
   // }
-  // useEffect(() => {
-  //   // console.log('Linking.openURL(STORE_LINK)')
-  //   // Linking.openURL(STORE_LINK)
-  //   if (StoreReview.isAvailable) {
-  //     StoreReview.requestReview();
-  //   }
-  // }, [])
+  useEffect(() => {
+    // console.log('Linking.openURL(STORE_LINK)')
+    // Linking.openURL(STORE_LINK)
+    if (StoreReview.isAvailable) {
+      StoreReview.requestReview();
+    }
+  }, [])
   useEffect(() => {
     console.log('homepage query', data);
     const carrouselsItems: Carrousel[] =
