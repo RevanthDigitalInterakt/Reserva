@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { addHours, format, parseISO } from 'date-fns';
 import {
   KeyboardAvoidingView,
@@ -35,9 +35,12 @@ import {
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Modal from 'react-native-modal';
-import storage from '@react-native-firebase/storage';
-import uuid from 'react-native-uuid';
-import { utils } from '@react-native-firebase/app';
+import { FirebaseService } from '../../../shared/services/FirebaseService';
+
+import {
+  StorageService,
+  StorageServiceKeys,
+} from '../../../shared/services/StorageService';
 
 export const EditProfile: React.FC<{
   title: string;
@@ -65,6 +68,9 @@ export const EditProfile: React.FC<{
 
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
   const [file, setFile] = useState<any>(null);
+  const [profileImageRef, setProfileImageRef] = useState<any>();
+  const [updatingImage, setUpdatingImage] = useState(false);
+  const firebaseRef = new FirebaseService();
 
   useEffect(() => {
     if (data) {
@@ -157,8 +163,6 @@ export const EditProfile: React.FC<{
     });
   };
 
-  const saveFirebase = async (uri: string, reference: any) => {};
-
   const requestCameraPermission = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -196,10 +200,22 @@ export const EditProfile: React.FC<{
     } else return true;
   };
 
+  /**
+   * Function delete image profile
+   * @returns {any}
+   */
+  const deleteImageProfile = async () => {
+    firebaseRef.deleteFS(`${profileImageRef}`);
+
+    await AsyncStorage.removeItem('@Image_Profile');
+  };
+
   const handleChooseGallery = async () => {
     const options = {
       selectionLimit: 1,
       mediaType: 'photo',
+      maxWidth: 300,
+      maxHeight: 550,
     };
 
     await launchImageLibrary(options, async (response) => {
@@ -218,7 +234,14 @@ export const EditProfile: React.FC<{
               type: 'image/jpeg',
             };
 
-            setFile(photoFile);
+            if (file) {
+              deleteImageProfile();
+            }
+            setFile(photoFile.uri);
+
+            firebaseRef.createFS(photoFile).then((value) => {
+              console.log('Foto salva');
+            });
           }
         }
       }
@@ -234,6 +257,8 @@ export const EditProfile: React.FC<{
         mediaType: 'photo',
         saveToPhotos: true,
         includeExtra: true,
+        maxWidth: 300,
+        maxHeight: 550,
         quality: 1,
         cameraType: 'front',
         selectionLimit: 1,
@@ -251,28 +276,13 @@ export const EditProfile: React.FC<{
               name: response.assets[0].fileName,
               type: 'image/jpeg',
             };
+            if (file) {
+              deleteImageProfile();
+            }
+            setFile(photoFile.uri);
 
-            setFile(photoFile);
-
-            const fileExtension = file.uri.split('.').pop();
-            console.log('EXT:::>>>>>>' + fileExtension);
-
-            const fileName = `${uuid.v4()}.${fileExtension}`;
-
-            const reference = storage().ref(`user/profile/image/${fileName}`);
-
-            const pathToFile = `${photoFile.uri}`;
-
-            const uploading = await reference.putFile(pathToFile);
-
-            uploading.task.on('state_changed', (taskSnapshot) => {
-              console.log(
-                `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-              );
-            });
-
-            uploading.task.then(() => {
-              console.log('Image uploaded to the bucket!');
+            firebaseRef.createFS(photoFile).then((value) => {
+              console.log('Foto salva');
             });
           }
         }
@@ -281,7 +291,24 @@ export const EditProfile: React.FC<{
     setShowModalProfile(false);
   };
 
+  const updateImageUrl = (profileImageRef: string) => {
+    firebaseRef.getUrlFS(`${profileImageRef}`).then((value) => {
+      setFile(value);
+    });
+  };
+
+  const updateImageRef = async () => {
+    const imageData = await AsyncStorage.getItem('@Image_Profile');
+
+    setProfileImageRef(imageData);
+  };
+
   const styles = StyleSheet.create({
+    safeArea: {
+      justifyContent: 'space-between',
+      flex: 1,
+      backgroundColor: 'white',
+    },
     modalProfile: {
       flex: 1,
       position: 'absolute',
@@ -297,12 +324,22 @@ export const EditProfile: React.FC<{
     },
   });
 
+  useEffect(() => {
+    updateImageRef();
+  }, []);
+
+  useEffect(() => {
+    updateImageRef();
+  }, [file]);
+
+  useEffect(() => {
+    if (profileImageRef) {
+      updateImageUrl(profileImageRef);
+    }
+  }, [profileImageRef]);
+
   return (
-    <SafeAreaView
-      flex={1}
-      style={{ justifyContent: 'space-between' }}
-      backgroundColor="white"
-    >
+    <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
         enabled
         keyboardVerticalOffset={80}
@@ -380,6 +417,7 @@ export const EditProfile: React.FC<{
                 <Box mt="micro" mb="micro">
                   <TouchableOpacity
                     onPress={() => {
+                      deleteImageProfile();
                       setFile(null);
                       setShowModalProfile(false);
                     }}
@@ -400,10 +438,15 @@ export const EditProfile: React.FC<{
             </Modal>
             <Box alignItems="center">
               {file === null ? (
-                <Avatar buttonEdit onPress={() => setShowModalProfile(true)} />
+                <Avatar
+                  sizeButton={40}
+                  sizeImage={100}
+                  buttonEdit
+                  onPress={() => setShowModalProfile(true)}
+                />
               ) : (
                 <Avatar
-                  imageSource={{ uri: file.uri }}
+                  imageSource={{ uri: file }}
                   buttonEdit
                   onPress={() => setShowModalProfile(true)}
                 />
