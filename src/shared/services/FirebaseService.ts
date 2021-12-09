@@ -47,7 +47,7 @@ export class FirebaseService {
   /**
    * Get URL image profile
    * @param {string} imageRef
-   * @returns {any}
+   * @returns {string}
    */
   public async getUrlFS(imageRef: string): Promise<string> {
     const ref = storage().ref(`${imageRef}`);
