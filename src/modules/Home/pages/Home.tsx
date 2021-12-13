@@ -188,7 +188,7 @@ export const HomeScreen: React.FC<{
       ) : (
         <SafeAreaView
           style={{
-            marginBottom: Platform.OS === 'ios' ? 50 : 87,
+            marginBottom: 87,
           }}
         >
           <ScrollView
