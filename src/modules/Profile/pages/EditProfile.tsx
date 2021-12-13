@@ -12,6 +12,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   PermissionsAndroid,
+  BackHandler,
 } from 'react-native';
 import {
   Typography,
@@ -124,6 +125,13 @@ export const EditProfile: React.FC<{
 
   useEffect(() => {
     refetch();
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
   }, []);
 
   const saveUserData = () => {

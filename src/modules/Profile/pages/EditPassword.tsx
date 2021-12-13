@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { Typography, Box, Button, Icon } from 'reserva-ui';
 import * as Yup from 'yup';
 
@@ -29,6 +29,7 @@ export const EditPassword = ({ route }: Props) => {
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [changeSuccess, setChangeSuccess] = useState(false);
   const [resultChangePassword, setResultChangePassword] = useState<any>([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (!loading) {
@@ -75,6 +76,13 @@ export const EditPassword = ({ route }: Props) => {
       setChangeSuccess(true);
     }
   }, [dataMutation]);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
+  }, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">

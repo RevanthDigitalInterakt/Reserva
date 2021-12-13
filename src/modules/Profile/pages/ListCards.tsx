@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useRef, useEffect } from 'react';
 import { Box, Button, Icon, Typography, Alert } from 'reserva-ui';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
@@ -9,7 +9,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useQuery } from '@apollo/client';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 
-interface ListCardsScreenProps { }
+interface ListCardsScreenProps {}
 interface CardProps {
   cardNumber: string;
   id: string;
@@ -64,6 +64,13 @@ export const ListCards = ({ navigation, route }: Props) => {
 
   useEffect(() => {
     refetch();
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
   }, []);
 
   return (
