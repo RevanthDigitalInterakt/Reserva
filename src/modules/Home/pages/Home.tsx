@@ -13,10 +13,10 @@ import {
   SafeAreaView,
   ScrollView,
   View,
+  Linking
 } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
-
 import { useAuth } from '../../../context/AuthContext';
 import {
   Carrousel,
@@ -71,6 +71,7 @@ export const HomeScreen: React.FC<{
   const { width, height } = Dimensions.get('screen');
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
+
 
   useEffect(() => {
     console.log('homepage query', data);
