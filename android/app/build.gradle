@@ -161,7 +161,6 @@ android {
       versionProps.load(new FileInputStream(versionPropsFile))
       def branch = ""
       def proc = "git rev-parse --abbrev-ref HEAD".execute()
-      "yarn".execute()
       proc.in.eachLine { line -> branch = line }
       proc.err.eachLine { line -> println line }
       proc.waitFor()

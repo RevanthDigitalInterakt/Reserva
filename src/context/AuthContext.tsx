@@ -10,6 +10,8 @@ import React, {
 
 import AsyncStorage from '@react-native-community/async-storage';
 import { RSA } from 'react-native-rsa-native';
+import { ProfileVars } from 'graphql/profile/profileQuery';
+import { StorageService, StorageServiceKeys } from '@services/StorageService';
 
 interface AuthContextProps {
   cookie: string | null;
@@ -20,6 +22,7 @@ interface AuthContextProps {
   isCookieEmpty: () => boolean;
   saveCredentials: (data: LoginCredentials | null) => Promise<any>;
   getCredentials: () => Promise<LoginCredentials>;
+  profile: Promise<ProfileVars> | null;
 }
 
 export interface LoginCredentials {
@@ -33,14 +36,19 @@ const getCookie = () => {
   return cookie;
 };
 
+const getProfile = async () => await StorageService.getItem<ProfileVars>(
+  { key: StorageServiceKeys.PROFILE }
+);
+
 export const AuthContext = createContext<AuthContextProps>({
   cookie: getCookie(),
   setCookie: async () => (await AsyncStorage.getItem('@RNAuth:cookie')) || '',
   setEmail: async () => (await AsyncStorage.getItem('@RNAuth:email')) || '',
-  cleanEmailAndCookie: () => {},
+  cleanEmailAndCookie: () => { },
   isCookieEmpty: () => true,
-  saveCredentials: async () => {},
-  getCredentials: async () => {},
+  saveCredentials: async () => { },
+  getCredentials: async () => { },
+  profile: getProfile(),
 });
 
 interface AuthContextProviderProps {
@@ -142,6 +150,7 @@ export const useAuth = () => {
     isCookieEmpty,
     saveCredentials,
     getCredentials,
+    profile,
   } = authContext;
   return {
     email,
@@ -152,5 +161,6 @@ export const useAuth = () => {
     isCookieEmpty,
     saveCredentials,
     getCredentials,
+    profile
   };
 };
