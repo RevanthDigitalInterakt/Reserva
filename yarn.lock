@@ -823,6 +823,28 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@expo/config-plugins@^4.0.10":
+  version "4.0.11"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@expo/config-plugins/-/config-plugins-4.0.11.tgz#2c11c63ec0d3f7a56d6cb45c8340a1546f3cfc5c"
+  integrity sha1-LBHGPsDT96VtbLRcg0ChVG88/Fw=
+  dependencies:
+    "@expo/config-types" "^43.0.1"
+    "@expo/json-file" "8.2.34"
+    "@expo/plist" "0.0.16"
+    "@expo/sdk-runtime-versions" "^1.0.0"
+    "@react-native/normalize-color" "^2.0.0"
+    chalk "^4.1.2"
+    debug "^4.3.1"
+    find-up "~5.0.0"
+    fs-extra "9.0.0"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    resolve-from "^5.0.0"
+    semver "^7.3.5"
+    slash "^3.0.0"
+    xcode "^3.0.1"
+    xml2js "0.4.23"
+
 "@expo/config-plugins@^4.0.3":
   version "4.0.6"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@expo/config-plugins/-/config-plugins-4.0.6.tgz#ef52f0e4d96ddd52b4cd4cc8c6efbe3d9576c72d"
@@ -858,6 +880,15 @@
     json5 "^1.0.1"
     write-file-atomic "^2.3.0"
 
+"@expo/json-file@8.2.34":
+  version "8.2.34"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@expo/json-file/-/json-file-8.2.34.tgz#2f24e90a677195f7a81e167115460eb2902c3130"
+  integrity sha1-LyTpCmdxlfeoHhZxFUYOspAsMTA=
+  dependencies:
+    "@babel/code-frame" "~7.10.4"
+    json5 "^1.0.1"
+    write-file-atomic "^2.3.0"
+
 "@expo/plist@0.0.15":
   version "0.0.15"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@expo/plist/-/plist-0.0.15.tgz#41ef37b7bbe6b81c48bf4a5c359661c766bb9e90"
@@ -866,6 +897,20 @@
     "@xmldom/xmldom" "~0.7.0"
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
+
+"@expo/plist@0.0.16":
+  version "0.0.16"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@expo/plist/-/plist-0.0.16.tgz#c7d294a774196cfa1d8caf89a75ba923f5d1d53c"
+  integrity sha1-x9KUp3QZbPodjK+Jp1upI/XR1Tw=
+  dependencies:
+    "@xmldom/xmldom" "~0.7.0"
+    base64-js "^1.2.3"
+    xmlbuilder "^14.0.0"
+
+"@expo/sdk-runtime-versions@^1.0.0":
+  version "1.0.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@expo/sdk-runtime-versions/-/sdk-runtime-versions-1.0.0.tgz#d7ebd21b19f1c6b0395e50d78da4416941c57f7c"
+  integrity sha1-1+vSGxnxxrA5XlDXjaRBaUHFf3w=
 
 "@graphql-typed-document-node/core@^3.0.0":
   version "3.1.0"
@@ -1329,12 +1374,12 @@
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/app-check/-/app-check-13.0.1.tgz#c4ceaea18fe831eb0acf2478936469e689fd01f6"
   integrity sha1-xM6uoY/oMesKzyR4k2Rp5on9AfY=
 
-"@react-native-firebase/app@^13.0.1":
-  version "13.0.1"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/app/-/app-13.0.1.tgz#2aa69b28db379f965c8df8199620f05a692527d1"
-  integrity sha1-KqabKNs3n5ZcjfgZliDwWmklJ9E=
+"@react-native-firebase/app@^13.1.0":
+  version "13.1.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/app/-/app-13.1.0.tgz#227fa772dbd8671c550afb5f4042361aad1a50b0"
+  integrity sha1-In+nctvYZxxVCvtfQEI2Gq0aULA=
   dependencies:
-    "@expo/config-plugins" "^4.0.3"
+    "@expo/config-plugins" "^4.0.10"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
@@ -1387,6 +1432,11 @@
   version "13.0.1"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/remote-config/-/remote-config-13.0.1.tgz#eb51c5e128e3a8a291dc830bfea2488bdecb0c88"
   integrity sha1-61HF4SjjqKKR3IML/qJIi97LDIg=
+
+"@react-native-firebase/storage@^13.1.0":
+  version "13.1.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/@react-native-firebase/storage/-/storage-13.1.0.tgz#a8e7b6178b94114a34c33302d46a0f38683291d3"
+  integrity sha1-qOe2F4uUEUo0wzMC1GoPOGgykdM=
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -7573,6 +7623,11 @@ react-native-gesture-handler@^1.10.3:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-image-picker@^4.4.0:
+  version "4.4.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-image-picker/-/react-native-image-picker-4.4.0.tgz#083bfd3b9008379bb3dbdceaec62a65cacc04cb9"
+  integrity sha1-CDv9O5AIN5uz29zq7GKmXKzATLk=
+
 react-native-inset-shadow@^1.0.3:
   version "1.0.3"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-inset-shadow/-/react-native-inset-shadow-1.0.3.tgz#9a0cd6d33b69cbc95d1aa5568e1b938e9a43506b"
@@ -8091,10 +8146,10 @@ requires-port@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reserva-ui@0.0.218:
-  version "0.0.218"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.218.tgz#ca812038a891c9179d5f75fffb36280d04c1d2e7"
-  integrity sha1-yoEgOKiRyRedX3X/+zYoDQTB0uc=
+reserva-ui@0.0.219:
+  version "0.0.219"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.219.tgz#617760979986103826522e6f5e86892a5f6f7419"
+  integrity sha1-YXdgl5mGEDgmUi5vXoaJKl9vdBk=
   dependencies:
     lottie-react-native "^4.0.3"
     react-native-linear-gradient "^2.5.6"
