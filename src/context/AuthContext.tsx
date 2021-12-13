@@ -11,7 +11,7 @@ import React, {
 import AsyncStorage from '@react-native-community/async-storage';
 import { RSA } from 'react-native-rsa-native';
 import { ProfileVars } from 'graphql/profile/profileQuery';
-import { StorageService, StorageServiceKeys } from '@services/StorageService';
+import { StorageService, StorageServiceKeys } from '../shared/services/StorageService';
 
 interface AuthContextProps {
   cookie: string | null;
