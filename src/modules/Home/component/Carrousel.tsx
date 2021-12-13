@@ -22,6 +22,10 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
 
   const [flatListRef, setFlatListRef] = useState<FlatList<any> | null>(null);
   const [actualPosition, setActualPosition] = useState<number>(0);
+  const [itemIndex, setItemIndex] = useState<number>(0);
+  const [onEndDrag, setOnEndDrag] = useState(false);
+  const [onBeginDrag, setOnBeginDrag] = useState(false);
+  const [pressCarousel, setPressCarousel] = useState(false);
 
   const DEVICE_WIDTH = width;
 
@@ -60,6 +64,26 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
 
   const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 };
 
+  const onBeginDragTouch = () => {
+    if (actualPosition === 0) {
+      setOnBeginDrag(true);
+    } else {
+      setOnBeginDrag(false);
+    }
+  };
+
+  const onEndDragTouch = () => {
+    if (actualPosition === itemIndex) {
+      setOnEndDrag(true);
+    } else {
+      setOnEndDrag(false);
+    }
+  };
+
+  const touchLongPress = () => {
+    setPressCarousel(true);
+  };
+
   useEffect(() => {
     setActualPosition(0);
   }, []);
@@ -78,31 +102,49 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
         disableIntervalMomentum
         bounces={false}
         pagingEnabled
+        onScrollBeginDrag={() => {
+          onBeginDragTouch();
+        }}
+        onScrollEndDrag={() => {
+          onEndDragTouch();
+        }}
         onViewableItemsChanged={onViewRef.current}
         viewabilityConfig={viewabilityConfig}
-        renderItem={({ item }) => (
-          <Box alignItems="flex-start">
-            <Box mb="quarck" width={1 / 1}>
-              <TouchableHighlight onPress={() => onPressImage(item)}>
-                <Image
-                  resizeMode="cover"
-                  height={item.image.height}
-                  autoHeight
-                  width={DEVICE_WIDTH}
-                  source={{ uri: item.image.url }}
-                  isSkeletonLoading
-                />
-              </TouchableHighlight>
+        renderItem={({ item, index }) => {
+          setItemIndex(index);
+          return (
+            <Box alignItems="flex-start">
+              <Box mb="quarck" width={1 / 1}>
+                <TouchableHighlight
+                  onPress={() => onPressImage(item)}
+                  onLongPress={touchLongPress}
+                  onPressOut={() => setPressCarousel(false)}
+                  delayLongPress={100}
+                  delayPressOut={10}
+                >
+                  <Image
+                    resizeMode="cover"
+                    height={item.image.height}
+                    autoHeight
+                    width={DEVICE_WIDTH}
+                    source={{ uri: item.image.url }}
+                    isSkeletonLoading
+                  />
+                </TouchableHighlight>
+              </Box>
             </Box>
-          </Box>
-        )}
+          );
+        }}
         keyExtractor={(_, index) => index.toString()}
       />
 
       <CarrouselScrollIndicator
-        carrouselRef={flatListRef}
+        carouselRef={flatListRef}
         actualPosition={actualPosition}
         showtime={carrousel.showtime || 10}
+        onEndDragTouch={onEndDrag}
+        onBeginDragTouch={onBeginDrag}
+        onPressCarousel={pressCarousel}
       />
     </Box>
   );
@@ -110,40 +152,48 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
 
 interface CarrouselScrollIndicatorProps {
   actualPosition: number;
-  carrouselRef: FlatList<any> | null;
+  carouselRef: FlatList<any> | null;
   showtime: number;
+  onEndDragTouch: boolean;
+  onBeginDragTouch: boolean;
+  onPressCarousel: boolean;
 }
 
 const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
   actualPosition,
-  carrouselRef,
+  carouselRef,
   showtime,
+  onBeginDragTouch,
+  onEndDragTouch,
+  onPressCarousel,
 }) => {
-  const [width, setWidth] = useState<number>(0);
-
+  const [layoutWidth, setLayoutWidth] = useState<number>(0);
   const [finishedAnimation, setFinishedAnimation] = useState<boolean>(false);
-  const carrouselLength = carrouselRef?.props.data?.length || 1;
+  const carouselLength = carouselRef?.props.data?.length || 1;
   const animatedValue = useRef(new Animated.Value(-10000)).current;
+  const duration = showtime * 1000;
+
+  const animation = Animated.timing(animatedValue, {
+    toValue: 0,
+    duration,
+    useNativeDriver: true,
+    easing: Easing.linear,
+  });
 
   const progressAnimation = () => {
     setFinishedAnimation(false);
-    if (carrouselLength > 1 && !!showtime) {
-      animatedValue.setValue(5 - width);
-      Animated.timing(animatedValue, {
-        toValue: 0,
-        duration: showtime * 1000,
-        useNativeDriver: true,
-        easing: Easing.linear,
-      }).start(({ finished }) => {
-        setFinishedAnimation(finished);
-      });
-    }
+
+    animatedValue.setValue(5 - layoutWidth);
+
+    animation.start(({ finished }) => {
+      setFinishedAnimation(finished);
+    });
   };
 
   useEffect(() => {
-    if (finishedAnimation && carrouselLength > 1) {
-      carrouselRef?.scrollToIndex({
-        index: (actualPosition + 1) % carrouselLength,
+    if (finishedAnimation) {
+      carouselRef?.scrollToIndex({
+        index: (actualPosition + 1) % carouselLength,
       });
     }
   }, [finishedAnimation]);
@@ -152,17 +202,50 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
     progressAnimation();
   }, [actualPosition]);
 
-  return carrouselRef?.props.data?.length ? (
+  useEffect(() => {
+    if (!onPressCarousel) {
+      animation.start(({ finished }) => {
+        setFinishedAnimation(finished);
+      });
+    } else {
+      animation.stop();
+    }
+  }, [onPressCarousel]);
+
+  useEffect(() => {
+    const lengthCarrousel =
+      [...Array(carouselLength)].map((X, i) => i).pop() || 1;
+    if (onBeginDragTouch) {
+      if (actualPosition === 0) {
+        carouselRef?.scrollToIndex({
+          index: lengthCarrousel,
+        });
+      }
+    }
+  }, [onBeginDragTouch]);
+
+  useEffect(() => {
+    const lengthCarrousel = [...Array(carouselLength)].map((X, i) => i).pop();
+    if (onEndDragTouch) {
+      if (actualPosition === lengthCarrousel) {
+        carouselRef?.scrollToIndex({
+          index: 0,
+        });
+      }
+    }
+  }, [onEndDragTouch]);
+
+  return carouselRef?.props.data?.length ? (
     <Box position="absolute" zIndex={3} bottom={10} flexDirection="row">
-      {[...Array(carrouselLength)].map((item, index) => (
+      {[...Array(carouselLength)].map((item, index) => (
         <>
           <Box
             style={{
               overflow: 'hidden',
             }}
             onLayout={(e) => {
-              const newWidth = e.nativeEvent.layout.width;
-              setWidth(newWidth);
+              const newLayoutWidth = e.nativeEvent.layout.width;
+              setLayoutWidth(newLayoutWidth);
               progressAnimation();
             }}
             flex={1}
