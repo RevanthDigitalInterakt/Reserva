@@ -19,6 +19,7 @@ import CartContextProvider from './context/CartContext';
 import InitialScreen from './InitialScreen';
 import { AppRouting } from './routes/AppRouting';
 import { apolloClient } from './services/apolloClient';
+import { Maintenance } from './modules/Home/pages/Maintenance';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -114,6 +115,7 @@ const App = () => {
           <AuthContextProvider>
             <ApolloProvider client={apolloClient}>
               <InitialScreen>
+                <Maintenance />
                 <AppRouting />
               </InitialScreen>
             </ApolloProvider>
