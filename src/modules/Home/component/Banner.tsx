@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions, TouchableHighlight } from 'react-native';
 import { Box, Typography, Image } from 'reserva-ui';
+import { useCacheImages } from '../../../context/CacheImagesContext';
 
 export interface BannerProps {
   route?: string;
@@ -18,8 +19,22 @@ export const Banner: React.FC<BannerProps> = ({
   reference,
   height,
   url,
+
 }) => {
+
+  const [uri, setUri] = useState<string>();
+
   const navigation = useNavigation();
+  const { fetchImage } = useCacheImages()
+
+  useEffect(() => {
+    fetchImage(url).then((x: string) => {
+      setUri(x);
+      console.log('fetchImage', x)
+    });
+    // setUri(fetchImage(url))
+  }, [])
+
   return (
     <Box alignItems="flex-start">
       <Box mb="quarck" width={1 / 1}>
@@ -50,13 +65,18 @@ export const Banner: React.FC<BannerProps> = ({
             }
           }}
         >
-          <Image
-            height={height}
-            autoHeight
-            width={deviceWidth}
-            source={{ uri: url }}
-            isSkeletonLoading
-          />
+          {
+            !!uri ?
+              <Image
+                height={height}
+                autoHeight
+                width={deviceWidth}
+                source={{ uri: uri }}
+                isSkeletonLoading
+              />
+              :
+              <></>
+          }
         </TouchableHighlight>
       </Box>
     </Box>

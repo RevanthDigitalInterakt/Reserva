@@ -64,6 +64,7 @@ import axios from 'axios';
 import appsFlyer from 'react-native-appsflyer';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { addDays, format } from 'date-fns';
+import { useCacheImages } from '../../../context/CacheImagesContext';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -252,6 +253,20 @@ export const ProductDetail: React.FC<Props> = ({
 
   const { email } = useAuth();
   const [isLastUnits, setIsLastUnits] = useState(false);
+  const [imagesUri, setImagesUri] = useState<string[]>([])
+  const { fetchImage } = useCacheImages()
+
+  useEffect(() => {
+    console.log('imageSelected', imageSelected)
+    if (imageSelected.length > 0) {
+      Promise.all([
+        ...imageSelected[0][0].map(image => fetchImage(image.imageUrl))
+      ]).then(images => {
+        console.log('images3301', images)
+        setImagesUri(images)
+      })
+    }
+  }, [imageSelected])
 
   /***
    * Effects
@@ -816,11 +831,7 @@ export const ProductDetail: React.FC<Props> = ({
                     product.priceRange.sellingPrice.lowPrice || 0
                   }
                   imagesWidth={screenWidth}
-                  images={
-                    imageSelected.length > 0
-                      ? imageSelected[0][0].map((image) => image.imageUrl)
-                      : []
-                  }
+                  images={imagesUri}
                   installmentsNumber={
                     getInstallments()?.NumberOfInstallments || 1
                   }
