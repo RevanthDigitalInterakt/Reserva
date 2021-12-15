@@ -8,6 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
 
 import { StorageService } from './shared/services/StorageService';
+import Modal from "react-native-modal";
+import { Box, Typography } from 'reserva-ui';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -33,6 +35,20 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     });
   };
 
+  const hasMessage = () => {
+    // if (remoteMessage) {
+    //   setShowModal(true)
+    // }
+    return (
+      <Box>
+        <Modal isVisible={false}>
+          <Box bg="white">
+            <Typography>remoteMessage.notification?.title</Typography>
+          </Box>
+        </Modal>
+      </Box>
+    )
+  }
   useEffect(() => {
     requestUserPermission();
     remoteConfig().setDefaults({
@@ -48,7 +64,11 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     StorageService.setInstallationToken();
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      // hasMessage(JSON.stringify(remoteMessage))
+      // if (remoteMessage) {
+      //   notifee.displayNotification(JSON.stringify(remoteMessage));
+      // }
     });
 
     return unsubscribe;
@@ -65,6 +85,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
           animated
           barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
         />
+        {hasMessage()}
         <Animatable.View animation="fadeIn" style={{ height: '100%' }}>
           {children}
         </Animatable.View>

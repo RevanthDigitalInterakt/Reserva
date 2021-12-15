@@ -53,9 +53,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to scan your card</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 	<key>NSMicrophoneUsageDescription</key>

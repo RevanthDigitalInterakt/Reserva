@@ -20,6 +20,9 @@ const routesConfig = {
         ProductDetail: {
           path: 'product/:productId/:colorSelected',
         },
+        StoreUpdatePush: {
+          path: 'storeUpdate/',
+        },
       },
     },
   },
