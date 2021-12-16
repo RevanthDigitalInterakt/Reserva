@@ -20,6 +20,7 @@ import InitialScreen from './InitialScreen';
 import { AppRouting } from './routes/AppRouting';
 import { apolloClient } from './services/apolloClient';
 import { Maintenance } from './modules/Home/pages/Maintenance';
+import { FirebaseContextProvider } from './context/FirebaseContext';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -113,12 +114,14 @@ const App = () => {
       <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
         <CartContextProvider>
           <AuthContextProvider>
-            <ApolloProvider client={apolloClient}>
-              <InitialScreen>
-                <Maintenance />
-                <AppRouting />
-              </InitialScreen>
-            </ApolloProvider>
+            <FirebaseContextProvider>
+              <ApolloProvider client={apolloClient}>
+                <InitialScreen>
+                  <Maintenance />
+                  <AppRouting />
+                </InitialScreen>
+              </ApolloProvider>
+            </FirebaseContextProvider>
           </AuthContextProvider>
         </CartContextProvider>
       </NavigationContainer>
