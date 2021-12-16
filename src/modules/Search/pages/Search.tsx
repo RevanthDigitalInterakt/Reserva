@@ -3,10 +3,14 @@ import { useEffect, useState } from 'react';
 
 import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
-import { useNavigation } from '@react-navigation/native';
+import {
+  CommonActions,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { paraiso } from 'base16';
-import { ScrollView, Dimensions } from 'react-native';
+import { ScrollView, Dimensions, BackHandler } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
 import {
@@ -63,6 +67,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [productNews, setProductNews] = useState<ConfigCollection[]>([]);
   const [suggestionsFound, setSuggestionsFound] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(false);
+  const [returnSearch, setReturnSearch] = useState<boolean>(false);
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
@@ -72,8 +77,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       context: { clientName: 'contentful' },
       fetchPolicy: 'no-cache',
       nextFetchPolicy: 'no-cache',
-    },
-
+    }
   );
 
   const pageSize = 12;
@@ -140,7 +144,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         collectionData?.configCollection?.items[0].searchMedia
           .secionMediaCollection.items
       );
-      setSearchSuggestions(collectionData?.configCollection?.items[0].searchSuggestionsCollection.items)
+      setSearchSuggestions(
+        collectionData?.configCollection?.items[0].searchSuggestionsCollection
+          .items
+      );
+      setReturnSearch(false);
     }
   }, [collectionData]);
 
@@ -159,6 +167,29 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     setShowResults(false);
   }, []);
+
+  useEffect(() => {
+    setReturnSearch(false);
+  }, []);
+
+  useEffect(() => {
+    if (returnSearch) {
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        // navigation.dispatch(StackActions.replace('SearchMenu'));
+
+        navigation.dispatch(StackActions.popToTop());
+
+        navigation.navigate('SearchMenu');
+        return true;
+      });
+    } else {
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        navigation.goBack();
+
+        return true;
+      });
+    }
+  }, [returnSearch]);
 
   const handleSearch = async (text: string) => {
     setWaiting(true);
@@ -271,6 +302,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                       <Button
                         onPress={() => {
                           setSearchTerm(item.name);
+                          setReturnSearch(true);
                         }}
                       >
                         <Box
