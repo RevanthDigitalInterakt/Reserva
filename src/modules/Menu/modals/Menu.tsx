@@ -83,18 +83,11 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
     setClickMenu(false);
   }, []);
 
-  useEffect(() => {
-    console.log(
-      'CLICK MENU:::::::::::::::::::::::::::::::::::::::>>>>>>>>>>>>>',
-      clickMenu
-    );
-  }, [clickMenu]);
-
   return (
     <TouchableOpacity
       onPress={() => {
         onPress && onPress();
-        console.log('CLICADO NO MENU');
+
         setClickMenu(true);
       }}
     >
@@ -131,7 +124,6 @@ const MenuItem: React.FC<IMenuItem> = ({
       <TouchableOpacity
         onPress={() => {
           onPress(index);
-          console.log('CLIQUEI NO MENU');
         }}
       >
         <Box
