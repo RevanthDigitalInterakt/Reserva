@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native';
+import { BackHandler, ScrollView } from 'react-native';
 import { Typography, Box, Button } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -14,12 +14,15 @@ import {
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
-import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
+import {
+  StorageService,
+  StorageServiceKeys,
+} from '../../../shared/services/StorageService';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 
-const MenuScreen: React.FC<{}> = ({ }) => {
+const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
   const { loading, error, data, refetch } = useQuery(profileQuery);
@@ -67,6 +70,13 @@ const MenuScreen: React.FC<{}> = ({ }) => {
       }
     }
   }, [data]);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
+  }, []);
 
   return (
     <Box flex={1} backgroundColor="white">

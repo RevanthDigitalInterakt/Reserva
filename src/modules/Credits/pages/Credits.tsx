@@ -13,9 +13,13 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
 import { FetchCredit } from '../../../services/unicoService';
-import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
+import {
+  StorageService,
+  StorageServiceKeys,
+} from '../../../shared/services/StorageService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { BackHandler } from 'react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'Credits'>;
 
@@ -57,6 +61,13 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
   useEffect(() => {
     getCustomer();
   }, [profile]);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
+  }, []);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
