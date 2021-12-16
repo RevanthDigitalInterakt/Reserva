@@ -7623,10 +7623,10 @@ react-native-modal@^11.10.0:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
 
-react-native-onesignal@^4.1.0:
-  version "4.3.1"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-onesignal/-/react-native-onesignal-4.3.1.tgz#c6ec7b7f34100e2330ba2772d28ee7134da344cc"
-  integrity sha1-xux7fzQQDiMwuidy0o7nE02jRMw=
+react-native-onesignal@^4.3.3:
+  version "4.3.3"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-onesignal/-/react-native-onesignal-4.3.3.tgz#c2249b69787065cb8d361e273d4ff4fac3bbf5ae"
+  integrity sha1-wiSbaXhwZcuNNh4nPU/0+sO79a4=
   dependencies:
     invariant "^2.2.2"
 

@@ -2,8 +2,17 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 
 import { useQuery } from '@apollo/client';
-import { useNavigation } from '@react-navigation/native';
-import { Linking, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  CommonActions,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
+import {
+  BackHandler,
+  Linking,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -56,11 +65,30 @@ const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
 
 const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
   const navigation = useNavigation();
+  const [clickMenu, setClickMenu] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (clickMenu) {
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        navigation.dispatch(StackActions.popToTop());
+
+        navigation.navigate('Menu');
+
+        return true;
+      });
+    }
+  }, [clickMenu]);
+
+  useEffect(() => {
+    setClickMenu(false);
+  }, []);
 
   return (
     <TouchableOpacity
       onPress={() => {
         onPress && onPress();
+
+        setClickMenu(true);
       }}
     >
       <Box
@@ -93,7 +121,11 @@ const MenuItem: React.FC<IMenuItem> = ({
   const navigation = useNavigation();
   return (
     <Box>
-      <TouchableOpacity onPress={() => onPress(index)}>
+      <TouchableOpacity
+        onPress={() => {
+          onPress(index);
+        }}
+      >
         <Box
           justifyContent="space-between"
           marginY="micro"
@@ -145,6 +177,7 @@ const MenuItem: React.FC<IMenuItem> = ({
                       value: subcategories,
                     });
                   }
+
                   navigation.navigate('ProductCatalog', {
                     facetInput,
                     referenceId: item.referenceId,
@@ -162,8 +195,8 @@ const MenuItem: React.FC<IMenuItem> = ({
 export const FixedMenuItem: React.FC<{
   iconName: string;
   title: JSX.Element;
-  onPress: Function;
-  underline: boolean;
+  onPress?: Function;
+  underline?: boolean;
   disabled?: boolean;
 }> = ({ iconName, title, onPress, disabled, underline }) => (
   <TouchableOpacity onPress={onPress} disabled={disabled}>
@@ -215,6 +248,7 @@ export const Menu: React.FC<{}> = () => {
     refetch,
   } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
+  const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
   const { loading, error, data } = useQuery(categoriesQuery, {
     context: { clientName: 'contentful' },
@@ -233,7 +267,18 @@ export const Menu: React.FC<{}> = () => {
         highlight: false,
       }))
     );
+    setResetGoBackButton(true);
   }, [data]);
+
+  useEffect(() => {
+    if (resetGoBackButton) {
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        navigation.goBack();
+
+        return true;
+      });
+    }
+  }, [resetGoBackButton]);
 
   useEffect(() => {
     if (dataProfile) {
