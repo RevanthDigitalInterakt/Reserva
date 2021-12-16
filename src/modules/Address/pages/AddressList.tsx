@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { SafeAreaView, FlatList } from 'react-native';
+import { SafeAreaView, FlatList, BackHandler } from 'react-native';
 import { Typography, Box, Button, Alert } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -47,6 +47,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
     } else {
       setEditAndDelete(false);
     }
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
   }, []);
 
   const onAddressChosen = (item: any) => {
