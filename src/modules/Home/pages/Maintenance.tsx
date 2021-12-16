@@ -2,7 +2,7 @@ import { images } from "../../../assets/index";
 import React, { useEffect, useState } from "react";
 import { Box, Button, Image, Typography } from "reserva-ui";
 import { Dimensions, Modal } from "react-native";
-import { useFirebaseContext } from "../../../context/FirebaseContext";
+import { RemoteConfigKeys, useFirebaseContext } from "../../../context/FirebaseContext";
 import { RemoteConfigService } from "../../../shared/services/RemoteConfigService";
 
 const {
@@ -11,11 +11,11 @@ const {
 } = Dimensions.get("window")
 
 export const Maintenance = () => {
-  const { fetchValue } = useFirebaseContext()
+  const { remoteConfigs, getValue } = useFirebaseContext()
   const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
-    fetchValue('SCREEN_MAINTENANCE').then(item => {
-      setIsVisible(item.value === 'true')
+    getValue('SCREEN_MAINTENANCE').then(item => {
+      setIsVisible(item.value !== 'true')
     })
   }, [])
 

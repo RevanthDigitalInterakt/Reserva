@@ -4,7 +4,9 @@ import { RemoteConfigService } from "../shared/services/RemoteConfigService";
 import React, { ChildContextProvider, createContext, useContext, useEffect, useState } from "react";
 
 interface FirebaseContextProps {
-  fetchValue: (key: string) => Promise<any>;
+  fetchValues: () => Promise<any[]>;
+  getValue: (key: RemoteConfigKeysType) => Promise<any>;
+  remoteConfigs: any[]
 }
 
 interface FirebaseContextProviderProps {
@@ -12,23 +14,41 @@ interface FirebaseContextProviderProps {
 }
 
 export const FirebaseContext = createContext<FirebaseContextProps>({
-  fetchValue: () => Promise.resolve(null),
+  fetchValues: () => Promise.resolve([]),
+  getValue: () => Promise.resolve(null),
+  remoteConfigs: [],
 });
+
+export enum RemoteConfigKeys {
+  SCREEN_MAINTENANCE = "SCREEN_MAINTENANCE",
+  FEATURE_CASHBACK_IN_STORE = 'FEATURE_CASHBACK_IN_STORE'
+}
+
+export type RemoteConfigKeysType = keyof typeof RemoteConfigKeys;
 
 export const FirebaseContextProvider = ({ children }: FirebaseContextProviderProps) => {
 
-  const fetchValue = async (key: string) => {
+  const [remoteConfigs, setRemoteConfigs] = useState<any[]>([]);
+
+  const fetchValues = async () => {
     const result = await RemoteConfigService.fetchValues()
-    const item = result.find(x => x.key === key).value
-    return item
+    setRemoteConfigs(result)
+    return result
+  }
+
+  const getValue = async (key: RemoteConfigKeysType) => {
+    const result = await fetchValues()
+    return result.find(x => x.key === key)
   }
 
   useEffect(() => {
-    fetchValue('test');
+    fetchValues()
   }, [])
 
   return <FirebaseContext.Provider value={{
-    fetchValue
+    fetchValues,
+    getValue,
+    remoteConfigs
   }}>
     {children}
   </FirebaseContext.Provider>
