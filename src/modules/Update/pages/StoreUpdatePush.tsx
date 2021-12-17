@@ -8,8 +8,8 @@ interface StoreUpdatePushProps {
 }
 
 export const StoreUpdatePush = () => {
-    const linkTo = useLinkTo()
 
+    const navigation = useNavigation();
     const update = () => {
         Linking.openURL(
             Platform.OS === 'ios' ?
@@ -17,12 +17,11 @@ export const StoreUpdatePush = () => {
                 'itms-apps://itunes.apple.com/app/apple-store/com.globalsys.reserva'
                 :
                 'market://details?id=com.usereserva')
-        // Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1566861458')
     }
     return (
-        update()
-        // <Box>
-        //     <Typography>ta funcionando</Typography>
-        // </Box>
+        <>
+            {update()}
+            {navigation.navigate("HomeTabs")}
+        </>
     );
 }
