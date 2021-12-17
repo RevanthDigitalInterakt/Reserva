@@ -446,11 +446,10 @@ export const EditProfile: React.FC<{
             </Modal>
             <Box alignItems="center">
               {file === null ? (
-                <Avatar buttonEdit onPress={() => setShowModalProfile(true)} />
+                <Avatar onPress={() => setShowModalProfile(true)} />
               ) : (
                 <Avatar
                   imageSource={{ uri: file }}
-                  buttonEdit
                   onPress={() => setShowModalProfile(true)}
                 />
               )}
