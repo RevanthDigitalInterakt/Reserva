@@ -26,8 +26,6 @@ describe('CreditsView', () => {
       creditsBalance: Math.floor(Math.random() * 100) ,
       screenCashbackInStoreActive: true,
       handleNavigateToCashbackInStore: jest.fn(),
-      costumerDocument: '',
-      isLoyal: true
     };
     const { testInstance } = render(props);
 
@@ -67,8 +65,6 @@ describe('CreditsView', () => {
       creditsBalance: 200,
       screenCashbackInStoreActive: true,
       handleNavigateToCashbackInStore: jest.fn(),
-      costumerDocument: '',
-      isLoyal: true
     };
     const { testRenderer } = render(props);
 
