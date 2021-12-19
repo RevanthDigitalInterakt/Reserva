@@ -8,7 +8,7 @@ export interface CreditsViewProps {
   isLoyal: boolean;
   costumerDocument: string;
   screenCashbackInStoreActive: boolean;
-  navigateToCashbackInStore: ( isLoyal: boolean, costumerDocument: string) => void;
+  handleNavigateToCashbackInStore: () => void;
 }
 
 export const CreditsView = (
@@ -16,7 +16,7 @@ export const CreditsView = (
     creditsBalance,
     isLoyal,
     costumerDocument,
-    navigateToCashbackInStore,
+    handleNavigateToCashbackInStore,
     screenCashbackInStoreActive
   }: CreditsViewProps
 ) => {
@@ -48,7 +48,7 @@ export const CreditsView = (
             <Box flexDirection="row" mt="xxs">
               <Button
                 flexDirection="row"
-                onPress={() => navigateToCashbackInStore(isLoyal, costumerDocument)}
+                onPress={handleNavigateToCashbackInStore}
               >
                 <>
                   <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
