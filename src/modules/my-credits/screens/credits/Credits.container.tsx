@@ -56,6 +56,12 @@ export const CreditsContainer = (
     });
   }, []);
 
+  const handleNavigateToCashbackInStore = () => {
+    if(profile) {
+      navigateToCashbackInStore(isLoyal, profile.document);
+    }
+  };
+
   useEffect(() => {
     if(profile && profile.document) {
       setLoading(true);
@@ -74,9 +80,7 @@ export const CreditsContainer = (
       { !loading && creditsBalance ? (
         <CreditsView
           creditsBalance={creditsBalance}
-          isLoyal={isLoyal}
-          costumerDocument={profile && profile.document ? profile?.document : ''}
-          navigateToCashbackInStore={navigateToCashbackInStore}
+          handleNavigateToCashbackInStore={handleNavigateToCashbackInStore}
           screenCashbackInStoreActive={screenCashbackInStoreActive}
         />
       ) : (

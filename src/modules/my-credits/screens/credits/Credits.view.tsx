@@ -5,8 +5,6 @@ import { PriceCustom } from '../../../Checkout/components/PriceCustom';
 
 export interface CreditsViewProps {
   creditsBalance: number;
-  isLoyal: boolean;
-  costumerDocument: string;
   screenCashbackInStoreActive: boolean;
   handleNavigateToCashbackInStore: () => void;
 }
@@ -14,8 +12,6 @@ export interface CreditsViewProps {
 export const CreditsView = (
   {
     creditsBalance,
-    isLoyal,
-    costumerDocument,
     handleNavigateToCashbackInStore,
     screenCashbackInStoreActive
   }: CreditsViewProps
