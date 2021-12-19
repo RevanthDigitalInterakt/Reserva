@@ -1,7 +1,8 @@
 import { AxiosResponse } from "axios";
+import { HttpService } from "../../../shared/services/HttpService";
 import { cashbackInstance } from "../../../config/cashbackConfig";
 
-type GetCustomerResponse = {
+export type GetCustomerResponse = {
   Documento: string;
   SaldoMonetario: number;
   SaldoMonetarioEmProcessamento: number;
@@ -11,15 +12,13 @@ type GetCustomerResponse = {
   IsException: boolean;
 };
 
-export const createRequestGetCustomer = async (
-  cpf: string
-): Promise<AxiosResponse<GetCustomerResponse>> => {
-  const response = await cashbackInstance.get<GetCustomerResponse>(
-    `/loyalty/customer`, {
-    params: {
-      cpf,
-    },
-  });
-
-  return response;
+export type AcceptLoyaltyResponse = {
+  result: boolean;
 }
+
+export enum CashbackHttpUrl {
+  GetCustomer = "/loyalty/customer",
+  AcceptLoyalty = "/loyalty/accept-loyalty",
+}
+
+export const MyCreditsAPI = new HttpService(cashbackInstance);

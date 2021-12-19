@@ -5,14 +5,17 @@ import { PriceCustom } from '../../../Checkout/components/PriceCustom';
 
 export interface CreditsViewProps {
   creditsBalance: number;
+  isLoyal: boolean;
+  costumerDocument: string;
   screenCashbackInStoreActive: boolean;
-  navigateToCashbackInStore: () => void;
-
+  navigateToCashbackInStore: ( isLoyal: boolean, costumerDocument: string) => void;
 }
 
 export const CreditsView = (
   {
     creditsBalance,
+    isLoyal,
+    costumerDocument,
     navigateToCashbackInStore,
     screenCashbackInStoreActive
   }: CreditsViewProps
@@ -45,7 +48,7 @@ export const CreditsView = (
             <Box flexDirection="row" mt="xxs">
               <Button
                 flexDirection="row"
-                onPress={navigateToCashbackInStore}
+                onPress={() => navigateToCashbackInStore(isLoyal, costumerDocument)}
               >
                 <>
                   <Icon name="Cashback" size={20} color="preto" mr="xxxs" />

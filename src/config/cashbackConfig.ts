@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const urlProd = 'https://www.unicocallback.com.br/';
-const urlDev = 'https://a810-170-246-97-102.ngrok.io';
+const urlDev = 'https://9f4f-170-246-97-102.ngrok.io';
 
 const url = process.env.NODE_ENV === 'production' ? urlProd : urlDev;
 
