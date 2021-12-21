@@ -344,7 +344,6 @@ export const FilterModal = ({
                     paddingX="micro"
                     alignSelf="center"
                   >
-                    <Typography>asdasdasd</Typography>
                     <Range
                       max={getMaxPrice()}
                       mdxType="Range"
