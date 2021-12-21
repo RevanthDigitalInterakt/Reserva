@@ -10,6 +10,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { StorageService } from './shared/services/StorageService';
 
 import { ModalPush } from './modules/Update/components/ModalPush';
+import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -76,7 +77,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
             closeModal={() => setShowNotification(false)}
             data={pushNotification}
             handleNavigation={() => {
-              Linking.openURL(pushNotification.data.link)
+              StoreUpdatePush()
               setShowNotification(false)
             }}
           />

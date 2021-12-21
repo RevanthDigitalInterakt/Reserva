@@ -33,7 +33,6 @@ import { NewCard } from '../modules/Profile/pages/NewCard';
 import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
 import { SearchScreen } from '../modules/Search/pages/Search';
 import { StoreUpdate } from '../modules/Update/pages/StoreUpdate';
-import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 import Update from '../modules/Update/pages/Update';
 import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
@@ -191,7 +190,6 @@ export const MainStackScreen = () => (
 
     <MainStack.Screen name="BagScreen" component={BagScreen} />
     <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
-    <MainStack.Screen name="StoreUpdatePush" component={StoreUpdatePush} />
     <MainStack.Screen name="Update" component={Update} />
     <MainStack.Screen
       name="SummaryScreen"

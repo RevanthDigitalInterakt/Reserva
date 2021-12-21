@@ -1,0 +1,11 @@
+
+import { Linking, Platform } from 'react-native'
+const StoreUpdatePush = () => {
+    Linking.openURL(
+        Platform.OS === 'ios' ?
+            'itms-apps://itunes.apple.com/app/apple-store/com.globalsys.reserva'
+            :
+            'market://details?id=com.usereserva')
+
+}
+export { StoreUpdatePush };

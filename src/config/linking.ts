@@ -1,6 +1,7 @@
 import { LinkingOptions } from '@react-navigation/native';
 import { Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush'
 
 const routesConfig = {
   screens: {
@@ -22,9 +23,6 @@ const routesConfig = {
         ProductDetail: {
           path: 'product/:productId/:colorSelected',
         },
-        StoreUpdatePush: {
-          path: 'storeUpdate/',
-        },
       },
     },
   },
@@ -45,6 +43,11 @@ export const linkingConfig: LinkingOptions = {
     // When the application is opened from a quit state.
     const message = await messaging().getInitialNotification();
 
+    //update app in store
+    if (message?.data?.link === "usereserva://storeUpdate") {
+      StoreUpdatePush()
+    }
+
     // Get deep link from data
     // if this is undefined, the app will open the default/home page
     return message?.data?.link;
@@ -64,7 +67,11 @@ export const linkingConfig: LinkingOptions = {
         if (url) {
           // Any custom logic to check whether the URL needs to be handled
           // Call the listener to let React Navigation handle the URL
-          listener(url);
+          if (url === "usereserva://storeUpdate") {
+            StoreUpdatePush()
+          } else {
+            listener(url);
+          }
         }
       },
     );
