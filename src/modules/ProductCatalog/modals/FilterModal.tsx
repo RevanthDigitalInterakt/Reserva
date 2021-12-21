@@ -109,7 +109,7 @@ export const FilterModal = ({
   categories,
   priceRange,
   ...props
-}: FilterModalProps) => {
+}: odalProps) => {
   const [selectedColors, setSelectedColors] = useState<any[]>([]);
   const [showCategories, setShowCategories] = React.useState(false);
   const [showColors, setShowColors] = React.useState(false);
@@ -122,7 +122,7 @@ export const FilterModal = ({
     ...size,
     value: size.value.toUpperCase()
   }))
-
+  console.log('priceRange', priceRange.length)
   const loadMoreProducts = () => {
     const colors = selectedColors
       .map((color) => ({
@@ -337,35 +337,36 @@ export const FilterModal = ({
                 setShowMore={setShowPrices}
               />
 
-              {true && (
-                <BoxAnimation
-                  animation="fadeIn"
-                  paddingX="micro"
-                  alignSelf="center"
-                >
-                  <Range
+              {
+                priceRange.length > 1 && (
+                  <BoxAnimation
+                    animation="fadeIn"
+                    paddingX="micro"
+                    alignSelf="center"
+                  >
+                    <Typography>asdasdasd</Typography>
+                    <Range
+                      max={getMaxPrice()}
+                      mdxType="Range"
+                      min={getMinPrice()}
+                      onValuesChange={(prices: number[]) => {
+                        const minPrice = prices[0];
+                        const maxPrice = prices[1];
 
-                    max={getMaxPrice()}
-                    mdxType="Range"
-                    min={getMinPrice()}
-                    onValuesChange={(prices: number[]) => {
-                      const minPrice = prices[0];
-                      const maxPrice = prices[1];
-
-                      setSelectedPriceRange([
-                        {
-                          key: "priceRange",
-                          range: { from: minPrice, to: maxPrice },
-                        },
-                      ]);
-                    }}
-                    originalType={() => { }}
-                    prefix="R$ "
-                    value={[getMinPrice(), getMaxPrice()]}
-                    width={deviceWidth - 100}
-                  />
-                </BoxAnimation>
-              )}
+                        setSelectedPriceRange([
+                          {
+                            key: "priceRange",
+                            range: { from: minPrice, to: maxPrice },
+                          },
+                        ]);
+                      }}
+                      originalType={() => { }}
+                      prefix="R$ "
+                      value={[getMinPrice(), getMaxPrice()]}
+                      width={deviceWidth - 100}
+                    />
+                  </BoxAnimation>
+                )}
 
               <Box
                 paddingTop="micro"
