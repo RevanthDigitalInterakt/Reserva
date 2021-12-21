@@ -434,6 +434,23 @@ export const ProductDetail: React.FC<Props> = ({
         };
       });
 
+
+      // const variations = sizeColorSkuVariations.map((x) => (x.variations))
+
+      // const values = variations.map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
+
+      const variations = sizeColorSkuVariations.map((x) => (x.variations)).map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
+      const sizeAndColor = variations.filter(x => x.cor === selectedColor)
+
+      selectedVariant?.itemId
+      if (sizeAndColor) {
+
+        const sizeIndex = sizeAndColor.findIndex((x) => x.tamanho === selectedSize)
+
+        if (sizeIndex == -1) {
+          setSelectedSize(sizeAndColor[0].tamanho)
+        }
+      }
       if (sizeColorSkuVariations) {
         const selectedSkuVariations: Facets[] = [
           {
@@ -450,8 +467,6 @@ export const ProductDetail: React.FC<Props> = ({
         const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] || '';
 
         const isSkuEqual = (sku1: any, sku2: any) => {
-          console.log('sku1', sku1);
-          console.log('sku2', sku2);
           if (sku1 && sku2) {
             const size1 = getVariant(sku1, 'Tamanho');
             const color1 = getVariant(sku1, 'VALOR_HEX_ORIGINAL');
@@ -461,7 +476,6 @@ export const ProductDetail: React.FC<Props> = ({
             return size1 === size2 && color1 === color2;
           }
         };
-
         const variantToSelect = sizeColorSkuVariations.find((i) => {
           if (i.variations) {
             const a = i.variations.map(
