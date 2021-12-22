@@ -376,8 +376,6 @@ export const ProductDetail: React.FC<Props> = ({
           .filter((a) => a !== false)
       );
 
-      // console.log("selectedCOlor", selectedColor);
-
       console.log(
         'sku',
         itemsSKU
@@ -388,13 +386,12 @@ export const ProductDetail: React.FC<Props> = ({
           .filter((a) => a !== false)[0]
       );
 
-      setSizeFilters(
-        new ProductUtils().orderSizes(
-          itemsSKU
-            .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-            .filter(a => a !== false)[0].filter(x => x !== "")
-        )
-      );
+      const sizeFilters = new ProductUtils().orderSizes(
+        itemsSKU
+          .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+          .filter(a => a !== false)[0].filter(x => x !== "")
+      )
+      setSizeFilters(sizeFilters);
 
       const unavailableSizes = itemsSKU
         .map(
@@ -434,21 +431,35 @@ export const ProductDetail: React.FC<Props> = ({
         };
       });
 
+      const selectedProduct = itemsSKU
+        .map((p) => p.color === selectedColor && p.sizeList)
+        .filter((a) => a !== false)
+
+      const availableProduct = selectedProduct.map((x) => x.filter((x) => x.available == true))
 
       // const variations = sizeColorSkuVariations.map((x) => (x.variations))
 
       // const values = variations.map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
 
       const variations = sizeColorSkuVariations.map((x) => (x.variations)).map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
+
       const sizeAndColor = variations.filter(x => x.cor === selectedColor)
 
-      selectedVariant?.itemId
       if (sizeAndColor) {
-
         const sizeIndex = sizeAndColor.findIndex((x) => x.tamanho === selectedSize)
 
-        if (sizeIndex == -1) {
-          setSelectedSize(sizeAndColor[0].tamanho)
+        if (sizeIndex === -1) {
+          if (availableProduct[0].length > 0) {
+            setSelectedSize(availableProduct[0][0]?.size)
+          } else {
+            setSelectedSize(sizeAndColor[0].tamanho)
+          }
+        } else {
+          if (availableProduct[0].length > 0) {
+            setSelectedSize(availableProduct[0][0]?.size)
+          } else {
+            setSelectedSize(sizeAndColor[0].tamanho)
+          }
         }
       }
       if (sizeColorSkuVariations) {
