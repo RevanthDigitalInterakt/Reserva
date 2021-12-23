@@ -350,7 +350,7 @@ export const ListVerticalProducts = ({
                     handleOnFavorite(isFavorite, item);
                     // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
                   }}
-                  colors={colors}
+                  // colors={null}
                   imageSource={item.items[0].images[0].imageUrl}
                   installmentsNumber={installmentsNumber} // numero de parcelas
                   installmentsPrice={installmentPrice || 0} // valor das parcelas

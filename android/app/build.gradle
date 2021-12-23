@@ -137,6 +137,23 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+
+def getDate() {
+  return new Date().format('yyyyMMdd')
+}
+
+def getVersionName() {
+  return '1.0.0'
+}
+
+def getVersionCode() {
+  return 1
+}
+
+def isProductionRelease() {
+  return true
+}
+
 android {
     dexOptions {
         javaMaxHeapSize "4g"
@@ -154,6 +171,7 @@ android {
         noCompress "tflite"
     }
 
+
     def versionPropsFile = file('version.properties')
 
     if(versionPropsFile.canRead()) {
@@ -167,7 +185,7 @@ android {
 
       def versionMajor = versionProps['VERSION_MAJOR'].toInteger()
       def versionMinor = versionProps['VERSION_MINOR'].toInteger()
-      def versionPatch = versionProps['VERSION_PATCH'].toInteger()
+      def versionPatch = versionProps['VERSION_PATCH'].toInteger() + 1
 
       def versionNameGenerate = ""
       def versionCodeGenerate = 0
@@ -176,20 +194,33 @@ android {
         versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionNameGenerate = versionMajor.toString() + '.' + versionMinor.toString() + '.' + versionPatch.toString() + '-' + branch
       }else{
-        versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch + 1
+        versionCodeGenerate = versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionNameGenerate = versionMajor.toString() + '.' + versionMinor.toString() + '.' + versionPatch.toString()
+
+        "git tag v${versionNameGenerate}".execute()
+        "git add --all".execute()
       }
 
-      versionProps['VERSION_CODE']=versionCodeGenerate.toString()
+      def releaseCandidate = versionProps['RELEASE_CANDIDATE'].toInteger();
+
+      versionCodeGenerate = getDate().toString() + '0' + releaseCandidate.toString()
+
+      if(versionProps['DATE_LAST_BUILD'] == getDate().toString()){
+        releaseCandidate = releaseCandidate + 1
+      }
+
       versionProps['VERSION_PATCH']=versionPatch.toString()
       versionProps['CURRENT_VERSION_NAME']=versionNameGenerate
+      versionProps['RELEASE_CANDIDATE']=releaseCandidate.toString()
+      versionProps['VERSION_CODE']=versionCodeGenerate
       versionProps.store(versionPropsFile.newWriter(), null)
+
 
       defaultConfig {
           applicationId "com.usereserva"
           minSdkVersion rootProject.ext.minSdkVersion
           targetSdkVersion rootProject.ext.targetSdkVersion
-          versionCode versionCodeGenerate
+          versionCode versionCodeGenerate.toInteger()
           versionName versionNameGenerate
           missingDimensionStrategy 'react-native-camera', 'general'
       }

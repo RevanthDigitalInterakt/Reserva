@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { SafeAreaView, ScrollView, FlatList, BackHandler } from 'react-native';
 import { Typography, Box, Button } from 'reserva-ui';
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
@@ -41,6 +41,13 @@ const OrderList = () => {
   useEffect(() => {
     console.log('ordersList', ordersList);
   }, [ordersList]);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.goBack();
+      return true;
+    });
+  }, []);
 
   return (
     <>

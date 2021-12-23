@@ -25,16 +25,18 @@ target 'reserva' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-  
+
   pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
-  
+
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'reservaTests' do
     inherit! :complete
     # Pods for testing
   end
 
-  
+
 
   # Enables Flipper.
   #
