@@ -209,6 +209,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [toolTipIsVisible, setToolTipIsVisible] = useState(false);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
+  const [selectedNewColor, setSelectedNewColor] = useState('');
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
   const [unavailableSizes, setUnavailableSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -302,11 +303,14 @@ export const ProductDetail: React.FC<Props> = ({
       if (route.params?.itemId) {
         if (colorItemId) {
           setSelectedColor(colorList ? colorItemId[0] : '');
+          setSelectedNewColor(colorList ? colorItemId[0] : '');
         } else {
           setSelectedColor(colorList ? colorList[0] : '');
+          setSelectedNewColor(colorList ? colorList[0] : '');
         }
       } else {
         setSelectedColor(colorList ? route.params.colorSelected : '');
+        setSelectedNewColor(colorList ? route.params.colorSelected : '');
       }
 
       // setSelectedColor(colorList
@@ -415,6 +419,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   // change sku effect
   useEffect(() => {
+
     if (product && selectedColor && selectedSize) {
       const { items } = product;
       // map sku variant hex
@@ -431,34 +436,34 @@ export const ProductDetail: React.FC<Props> = ({
         };
       });
 
-      const selectedProduct = itemsSKU
-        .map((p) => p.color === selectedColor && p.sizeList)
-        .filter((a) => a !== false)
+      if (selectedColor != selectedNewColor) {
 
-      const availableProduct = selectedProduct.map((x) => x.filter((x) => x.available == true))
+        setSelectedNewColor(selectedColor)
+        const selectedProduct = itemsSKU
+          .map((p) => p.color === selectedColor && p.sizeList)
+          .filter((a) => a !== false)
 
-      // const variations = sizeColorSkuVariations.map((x) => (x.variations))
+        const availableProduct = selectedProduct[0].filter((x) => x.available == true)
 
-      // const values = variations.map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
+        const variations = sizeColorSkuVariations.map((x) => (x.variations)).map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
 
-      const variations = sizeColorSkuVariations.map((x) => (x.variations)).map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
+        const sizeAndColor = variations.filter(x => x.cor === selectedColor)
 
-      const sizeAndColor = variations.filter(x => x.cor === selectedColor)
+        if (sizeAndColor) {
+          const sizeIndex = sizeAndColor.findIndex((x) => x.tamanho === selectedSize)
 
-      if (sizeAndColor) {
-        const sizeIndex = sizeAndColor.findIndex((x) => x.tamanho === selectedSize)
-
-        if (sizeIndex === -1) {
-          if (availableProduct[0].length > 0) {
-            setSelectedSize(availableProduct[0][0]?.size)
+          if (sizeIndex === -1) {
+            if (availableProduct.length > 0) {
+              setSelectedSize(availableProduct[0]?.size)
+            } else {
+              setSelectedSize(sizeAndColor[0].tamanho)
+            }
           } else {
-            setSelectedSize(sizeAndColor[0].tamanho)
-          }
-        } else {
-          if (availableProduct[0].length > 0) {
-            setSelectedSize(availableProduct[0][0]?.size)
-          } else {
-            setSelectedSize(sizeAndColor[0].tamanho)
+            if (availableProduct.length > 0) {
+              setSelectedSize(availableProduct[0]?.size)
+            } else {
+              setSelectedSize(sizeAndColor[0].tamanho)
+            }
           }
         }
       }
