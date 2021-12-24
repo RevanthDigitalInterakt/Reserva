@@ -30,23 +30,31 @@ export const Banner: React.FC<BannerProps> = ({
             } else {
               const facetInput = [];
               const [categoryType, categoryData] = reference.split(':');
-              if (categoryType === 'category') {
-                categoryData.split('|').forEach((cat: string) => {
-                  facetInput.push({
-                    key: 'c',
-                    value: cat,
-                  });
-                });
+              if (categoryType === 'product') {
+                navigation.navigate('ProductDetail', {
+                  productId: categoryData,
+                  itemId: categoryData,
+                  colorSelected: '#FFFFFF',
+                })
               } else {
-                facetInput.push({
-                  key: 'productClusterIds',
-                  value: categoryData,
+                if (categoryType === 'category') {
+                  categoryData.split('|').forEach((cat: string) => {
+                    facetInput.push({
+                      key: 'c',
+                      value: cat,
+                    });
+                  });
+                } else {
+                  facetInput.push({
+                    key: 'productClusterIds',
+                    value: categoryData,
+                  });
+                }
+                navigation.navigate('ProductCatalog', {
+                  facetInput,
+                  referenceId: reference,
                 });
               }
-              navigation.navigate('ProductCatalog', {
-                facetInput,
-                referenceId: reference,
-              });
             }
           }}
         >
