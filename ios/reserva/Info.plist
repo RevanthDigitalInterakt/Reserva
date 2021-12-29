@@ -36,6 +36,11 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CodePushDeploymentKey</key>
+	<string>zsi6nczL5sely5_C5fPfThRGmD2pdOZUfOHnn</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>itms-apps</string>
+	</array>
 	<string>YRTE9ZiieQJ_kSSTUMmr3WSu3rMmvWDpKppq3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -108,6 +113,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

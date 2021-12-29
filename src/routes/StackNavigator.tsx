@@ -112,6 +112,7 @@ export type RootStackParamList = {
     email: string;
   };
   StoreUpdate: {} | undefined;
+  StoreUpdatePush: {} | undefined;
   Update: {} | undefined;
   CreateCartProfile: {};
   NewCard: { isCheckout: boolean };
