@@ -1,4 +1,5 @@
 export const images = {
+  foraDoAr: require('./img/fora-do-ar.png'),
   topBannerMock1: require('./img/topBannerMock1.png'),
   homeMock1: require('./img/homeMock1.png'),
   homeMock2: require('./img/homeMock2.png'),
