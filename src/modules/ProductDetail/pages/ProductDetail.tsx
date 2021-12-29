@@ -964,6 +964,7 @@ export const ProductDetail: React.FC<Props> = ({
                     title="ADICIONAR À SACOLA"
                     variant="primarioEstreito"
                     disabled={
+                      outOfStock ||
                       !!!selectedSize ||
                       (isAssinaturaSimples && !acceptConditions)
                     }
