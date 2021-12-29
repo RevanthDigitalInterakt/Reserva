@@ -10,7 +10,7 @@ type AcceptLoyaltyResponse = {
   result: boolean;
 }
 
-type GetCustomerResponse = {
+export type GetCustomerResponse = {
   Documento: string;
   SaldoMonetario: number;
   SaldoMonetarioEmProcessamento: number;

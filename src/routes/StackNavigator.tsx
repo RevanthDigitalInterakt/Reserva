@@ -48,6 +48,7 @@ import {
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
+import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -159,6 +160,7 @@ const flows: Flow[] = [
   ...LoginFlow,
   ...ProductFlow,
   ...TimeRaceFlow,
+  ...MyCreditsRoutes
 ];
 
 export const MainStack = createStackNavigator();
