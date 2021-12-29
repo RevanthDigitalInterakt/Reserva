@@ -209,6 +209,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [toolTipIsVisible, setToolTipIsVisible] = useState(false);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
   const [selectedColor, setSelectedColor] = useState('');
+  const [selectedNewColor, setSelectedNewColor] = useState('');
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
   const [unavailableSizes, setUnavailableSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -312,13 +313,14 @@ export const ProductDetail: React.FC<Props> = ({
       if (route.params?.itemId) {
         if (colorItemId) {
           setSelectedColor(colorList ? colorItemId[0] : '');
-          setSelectedSize(sizeList ? sizeItemId[0] : '')
+          setSelectedNewColor(colorList ? colorItemId[0] : '');
         } else {
           setSelectedColor(colorList ? colorList[0] : '');
-          setSelectedSize(sizeList ? sizeList[0] : '')
+          setSelectedNewColor(colorList ? colorList[0] : '');
         }
       } else {
         setSelectedColor(colorList ? route.params.colorSelected : '');
+        setSelectedNewColor(colorList ? route.params.colorSelected : '');
       }
 
       // setSelectedColor(colorList
@@ -386,8 +388,6 @@ export const ProductDetail: React.FC<Props> = ({
           .filter((a) => a !== false)
       );
 
-      // console.log("selectedCOlor", selectedColor);
-
       console.log(
         'sku',
         itemsSKU
@@ -398,13 +398,12 @@ export const ProductDetail: React.FC<Props> = ({
           .filter((a) => a !== false)[0]
       );
 
-      setSizeFilters(
-        new ProductUtils().orderSizes(
-          itemsSKU
-            .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-            .filter(a => a !== false)[0].filter(x => x !== "")
-        )
-      );
+      const sizeFilters = new ProductUtils().orderSizes(
+        itemsSKU
+          .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
+          .filter(a => a !== false)[0].filter(x => x !== "")
+      )
+      setSizeFilters(sizeFilters);
 
       const unavailableSizes = itemsSKU
         .map(
@@ -428,6 +427,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   // change sku effect
   useEffect(() => {
+
     if (product && selectedColor && selectedSize) {
       const { items } = product;
       // map sku variant hex
@@ -444,6 +444,37 @@ export const ProductDetail: React.FC<Props> = ({
         };
       });
 
+      if (selectedColor != selectedNewColor) {
+
+        setSelectedNewColor(selectedColor)
+        const selectedProduct = itemsSKU
+          .map((p) => p.color === selectedColor && p.sizeList)
+          .filter((a) => a !== false)
+
+        const availableProduct = selectedProduct[0].filter((x) => x.available == true)
+
+        const variations = sizeColorSkuVariations.map((x) => (x.variations)).map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
+
+        const sizeAndColor = variations.filter(x => x.cor === selectedColor)
+
+        if (sizeAndColor) {
+          const sizeIndex = sizeAndColor.findIndex((x) => x.tamanho === selectedSize)
+
+          if (sizeIndex === -1) {
+            if (availableProduct.length > 0) {
+              setSelectedSize(availableProduct[0]?.size)
+            } else {
+              setSelectedSize(sizeAndColor[0].tamanho)
+            }
+          } else {
+            if (availableProduct.length > 0) {
+              setSelectedSize(availableProduct[0]?.size)
+            } else {
+              setSelectedSize(sizeAndColor[0].tamanho)
+            }
+          }
+        }
+      }
       if (sizeColorSkuVariations) {
         const selectedSkuVariations: Facets[] = [
           {
@@ -460,8 +491,6 @@ export const ProductDetail: React.FC<Props> = ({
         const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] || '';
 
         const isSkuEqual = (sku1: any, sku2: any) => {
-          console.log('sku1', sku1);
-          console.log('sku2', sku2);
           if (sku1 && sku2) {
             const size1 = getVariant(sku1, 'Tamanho');
             const color1 = getVariant(sku1, 'VALOR_HEX_ORIGINAL');
@@ -471,7 +500,6 @@ export const ProductDetail: React.FC<Props> = ({
             return size1 === size2 && color1 === color2;
           }
         };
-
         const variantToSelect = sizeColorSkuVariations.find((i) => {
           if (i.variations) {
             const a = i.variations.map(
