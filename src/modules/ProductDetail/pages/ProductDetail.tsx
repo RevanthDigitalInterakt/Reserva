@@ -293,17 +293,29 @@ export const ProductDetail: React.FC<Props> = ({
       // set colors filter
       const colorList = getColorsList(product);
 
+      // set size filter
+      const sizeList = getSizeList(product);
+      setSizeFilters(sizeList);
+
       const colorItemId = product.items
         .find((item) => item.itemId == route.params?.itemId)
         ?.variations?.find((x) => x.name == 'VALOR_HEX_ORIGINAL')?.values;
 
+      // get the product color
+      const sizeItemId = product.items
+        .find((item) => item.itemId == route.params?.itemId)
+        ?.variations?.find((x) => x.name == 'Tamanho')?.values;
+
       setColorFilters(colorList);
+
       // set initial selected color
       if (route.params?.itemId) {
         if (colorItemId) {
           setSelectedColor(colorList ? colorItemId[0] : '');
+          setSelectedSize(sizeList ? sizeItemId[0] : '')
         } else {
           setSelectedColor(colorList ? colorList[0] : '');
+          setSelectedSize(sizeList ? sizeList[0] : '')
         }
       } else {
         setSelectedColor(colorList ? route.params.colorSelected : '');
@@ -318,9 +330,7 @@ export const ProductDetail: React.FC<Props> = ({
       //   : ''
       // );
 
-      // set size filter
-      const sizeList = getSizeList(product);
-      setSizeFilters(sizeList);
+
 
       let itemList = colorList?.map((color) => {
         return {
