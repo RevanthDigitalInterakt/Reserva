@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/core';
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 import { SafeAreaView, ScrollView, Linking, Platform } from 'react-native';
-import { useClipboard } from '@react-native-clipboard/clipboard';
+import { useClipboard } from '@react-native-community/clipboard';
 
 import {
   Typography,

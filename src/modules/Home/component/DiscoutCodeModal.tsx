@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import Clipboard from '@react-native-clipboard/clipboard';
+import Clipboard from '@react-native-community/clipboard';
 import { Animated, Dimensions, ImageBackground } from 'react-native';
 import { View } from 'react-native-animatable';
 import Modal from 'react-native-modal';
