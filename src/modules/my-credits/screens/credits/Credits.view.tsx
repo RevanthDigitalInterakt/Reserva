@@ -4,7 +4,7 @@ import { Box, Divider, Typography, Button, Icon } from "reserva-ui";
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
 
 export interface CreditsViewProps {
-  creditsBalance: number;
+  creditsBalance?: number;
   screenCashbackInStoreActive: boolean;
   handleNavigateToCashbackInStore: () => void;
 }
@@ -34,7 +34,7 @@ export const CreditsView = (
             </Typography>
             <PriceCustom
               fontFamily="nunitoBold"
-              num={creditsBalance}
+              num={creditsBalance || 0}
               sizeDecimal={13}
               sizeInterger={20}
             />

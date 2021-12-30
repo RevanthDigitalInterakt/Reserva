@@ -25,7 +25,7 @@ export const CreditsContainer = (
     navigateToCashbackInStore,
   }: CreditsContainerProps
 ) => {
-  const [creditsBalance, setCreditsBalance] = useState<number | null>(null);
+  const [creditsBalance, setCreditsBalance] = useState<number>(0);
   const [isLoyal, setIsLoyal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [profile, setProfile] = useState<ProfileVars>();
@@ -39,6 +39,7 @@ export const CreditsContainer = (
       CashbackHttpUrl.GetCustomer,
       { cpf }
     );
+
     if(customer.data.SaldoMonetario) {
       setCreditsBalance(Number(customer.data.SaldoMonetario));
     }
@@ -77,7 +78,7 @@ export const CreditsContainer = (
         showShadow
         backButtonPress={navigateBack}
       />
-      { !loading && creditsBalance ? (
+      { !loading ? (
         <CreditsView
           creditsBalance={creditsBalance}
           handleNavigateToCashbackInStore={handleNavigateToCashbackInStore}

@@ -12,6 +12,11 @@ export type GetCustomerResponse = {
   IsException: boolean;
 };
 
+export type GetTokenResponse = {
+  token: string;
+  result: boolean;
+};
+
 export type AcceptLoyaltyResponse = {
   result: boolean;
 }
@@ -19,6 +24,7 @@ export type AcceptLoyaltyResponse = {
 export enum CashbackHttpUrl {
   GetCustomer = "/loyalty/customer",
   AcceptLoyalty = "/loyalty/accept-loyalty",
+  ModifyToken = '/loyalty/modify-token',
 }
 
 export const MyCreditsAPI = new HttpService(cashbackInstance);

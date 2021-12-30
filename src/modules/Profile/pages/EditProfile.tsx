@@ -4,6 +4,8 @@ import { useQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { addHours, format, parseISO } from 'date-fns';
+
+import OneSignal from 'react-native-onesignal';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,6 +16,7 @@ import {
   PermissionsAndroid,
   BackHandler,
 } from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import {
   Typography,
   Box,
@@ -48,6 +51,7 @@ export const EditProfile: React.FC<{
 }> = ({ children, title }) => {
   const navigation = useNavigation();
   const [subscribed, setSubscribed] = useState(false);
+  const [tokenOneSignal, setTokenOneSignal] = useState('');
   const [userData, setUserData] = useState<ProfileQuery>({
     userId: '',
     firstName: '',
@@ -72,6 +76,12 @@ export const EditProfile: React.FC<{
   const [profileImageRef, setProfileImageRef] = useState<any>();
   const [updatingImage, setUpdatingImage] = useState(false);
   const firebaseRef = new FirebaseService();
+
+  useEffect(() => {
+    OneSignal.getDeviceState().then((deviceState: any) => {
+      setTokenOneSignal(deviceState.userId);
+    });
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -346,6 +356,10 @@ export const EditProfile: React.FC<{
     }
   }, [profileImageRef]);
 
+  const handleCopyToken = () => {
+    Clipboard.setString(tokenOneSignal);
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
@@ -569,6 +583,11 @@ export const EditProfile: React.FC<{
                     setUserData({ ...userData, ...{ homePhone: text } });
                   }}
                 />
+              </Box>
+              <Box mb="sm" mt="sm">
+                <TouchableOpacity onPress={() => handleCopyToken()}>
+                  <Typography>{tokenOneSignal}</Typography>
+                </TouchableOpacity>
               </Box>
 
               <Box mb="xs" mt="micro" flexDirection="row">
