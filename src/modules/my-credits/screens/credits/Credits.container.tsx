@@ -32,7 +32,7 @@ export const CreditsContainer = (
   const [
     screenCashbackInStoreActive,
     setScreenCashbackInStoreActive
-  ] = useState<boolean>(true);
+  ] = useState<boolean>(false);
 
   const getCreditBalance = async ( cpf: string) => {
     const customer = await MyCreditsAPI.get<GetCustomerResponse>(
