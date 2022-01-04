@@ -579,11 +579,6 @@ export const EditProfile: React.FC<{
                   }}
                 />
               </Box>
-              <Box mb="sm" mt="sm">
-                <TouchableOpacity onPress={() => handleCopyToken()}>
-                  <Typography>{tokenOneSignal}</Typography>
-                </TouchableOpacity>
-              </Box>
 
               <Box mb="xs" mt="micro" flexDirection="row">
                 <Checkbox
