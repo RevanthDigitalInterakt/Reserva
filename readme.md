@@ -5,7 +5,7 @@ This is an e-commerce app
 ## Build
 | Android | IOS |
 | --- | ----------- |
-| [![Build status](https://build.appcenter.ms/v0.1/apps/a0ab2042-6b86-4f0a-859e-dcfa4231b3a1/branches/main/badge)](https://appcenter.ms) | [![Build status](https://build.appcenter.ms/v0.1/apps/a0ab2042-6b86-4f0a-859e-dcfa4231b3a1/branches/main/badge)](https://appcenter.ms) |
+| [![Build status](https://build.appcenter.ms/v0.1/apps/a0ab2042-6b86-4f0a-859e-dcfa4231b3a1/branches/main/badge)](https://appcenter.ms) | [![Build status](https://build.appcenter.ms/v0.1/apps/95f8d177-8f87-4153-bb63-c286b9e712e5/branches/main/badge)](https://appcenter.ms) |
 
 ## Getting Started
 
