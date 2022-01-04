@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
@@ -20,8 +20,8 @@ import InitialScreen from './InitialScreen';
 import { AppRouting } from './routes/AppRouting';
 import { apolloClient } from './services/apolloClient';
 import { Maintenance } from './modules/Home/pages/Maintenance';
-import { FirebaseContextProvider } from './context/FirebaseContext';
-
+import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
+import { RemoteConfigService } from "./shared/services/RemoteConfigService";
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
   colors: {
@@ -70,6 +70,8 @@ const requestUserPermission = async () => {
   }
 };
 
+
+
 appsFlyer.initSdk(
   {
     devKey: env.APPSFLYER.DEV_KEY,
@@ -86,8 +88,31 @@ appsFlyer.initSdk(
     console.log('AAPPFLYERS', error);
   }
 );
+const maintenanceHandler = async () => {
+  const result = await RemoteConfigService.fetchValues()
+  const maintenance = result.find(x => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE)
+  console.log('MAINTENANCE', maintenance)
+  //setIsOnMaintenance(maintenance.value)
+  return maintenance.value
+}
 
 const App = () => {
+  const { getValue } = useFirebaseContext()
+
+  const [isOnMaintenance, setIsOnMaintenance] = useState(false)
+
+
+
+
+  const firstUpdate = useRef(true);
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      maintenanceHandler().then(res => setIsOnMaintenance(res))
+      return;
+    }
+  });
+
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
       onInstallConversionDataCanceller();
@@ -107,26 +132,31 @@ const App = () => {
     logAppOpenAnalytics();
     CodepushConfig();
     oneSignalConfig();
+    setTimeout(() => {
+      maintenanceHandler().then(res => setIsOnMaintenance(res))
+    }, 5000);
   }, []);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
-        <CartContextProvider>
-          <AuthContextProvider>
-            <FirebaseContextProvider>
-              <ApolloProvider client={apolloClient}>
-                <InitialScreen>
-                  <Maintenance />
-                  <AppRouting />
-                </InitialScreen>
-              </ApolloProvider>
-            </FirebaseContextProvider>
-          </AuthContextProvider>
-        </CartContextProvider>
-      </NavigationContainer>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}>
+    <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+      {
+        isOnMaintenance ?
+          <Maintenance isVisible />
+          :
+          <CartContextProvider>
+            <AuthContextProvider>
+              <FirebaseContextProvider>
+                <ApolloProvider client={apolloClient}>
+                  <InitialScreen>
+                    <AppRouting />
+                  </InitialScreen>
+                </ApolloProvider>
+              </FirebaseContextProvider>
+            </AuthContextProvider>
+          </CartContextProvider>
+      }
+    </NavigationContainer>
+  </ThemeProvider>
 };
 
 export default App;
