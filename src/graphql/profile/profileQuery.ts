@@ -1,35 +1,35 @@
 import { gql } from '@apollo/client';
 
 export type ProfileQuery = {
-    userId: string;
-    firstName: string;
-    lastName: string;
-    fullName: string;
-    email: string;
-    document: string;
-    birthDate: string;
-    homePhone: string;
-    passwordLastUpdate?: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+  document: string;
+  birthDate: string;
+  homePhone: string;
+  passwordLastUpdate?: string;
 };
 
 export type ProfileCustomFieldsInput = {
-    key: string;
-    value: string;
+  key: string;
+  value: string;
 };
 
 export type ProfileVars = {
-    birthDate: string | null;
-    document: string;
-    email: string;
-    firstName: string;
-    homePhone: string;
-    lastName: string;
-    userId: string;
+  birthDate: string | null;
+  document: string;
+  email: string;
+  firstName: string;
+  homePhone: string;
+  lastName: string;
+  userId: string;
 };
 
 export const profileQuery = gql`
   query Profile {
-    profile(customFields: "isNewsletterOptIn")
+    profile(customFields: "profileImagePath,isNewsletterOptIn")
       @context(provider: "vtex.store-graphql") {
       userId
       firstName

@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import storage from '@react-native-firebase/storage';
 import uuid from 'react-native-uuid';
 
@@ -9,14 +8,12 @@ export class FirebaseService {
    * @param {any} file
    * @returns {any}
    */
-  public async createFS(file: any): Promise<void> {
+  public async createFS(file: any): Promise<string> {
     const fileExtension = file.uri.split('.').pop();
 
     const fileName = `${uuid.v4()}.${fileExtension}`;
 
     const reference = storage().ref(`${pathStorageInFirebase}${fileName}`);
-
-    await AsyncStorage.setItem('@Image_Profile', reference.fullPath);
 
     const pathToFileOnDevice = `${file.uri}`;
 
@@ -31,6 +28,8 @@ export class FirebaseService {
     uploading.then(() => {
       console.log('Image uploaded to the bucket!');
     });
+
+    return reference.fullPath;
   }
 
   /**

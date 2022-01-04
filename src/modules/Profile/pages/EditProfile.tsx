@@ -1,50 +1,41 @@
-import React, { useState, useEffect } from 'react';
-
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { addHours, format, parseISO } from 'date-fns';
-
-import OneSignal from 'react-native-onesignal';
+import Clipboard from '@react-native-community/clipboard';
+import { useNavigation } from '@react-navigation/native';
+import { addHours, format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import {
+  BackHandler,
   KeyboardAvoidingView,
+  PermissionsAndroid,
   Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  PermissionsAndroid,
-  BackHandler,
 } from 'react-native';
-import Clipboard from '@react-native-community/clipboard';
-import {
-  Typography,
-  Box,
-  Button,
-  Avatar,
-  TextField,
-  Icon,
-  Checkbox,
-  Divider,
-} from 'reserva-ui';
-
-import { useAuth } from '../../../context/AuthContext';
-import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
-import {
-  profileQuery,
-  ProfileQuery,
-  profileMutation,
-  ProfileCustomFieldsInput,
-} from '../../../graphql/profile/profileQuery';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Modal from 'react-native-modal';
-import { FirebaseService } from '../../../shared/services/FirebaseService';
-
+import OneSignal from 'react-native-onesignal';
 import {
-  StorageService,
-  StorageServiceKeys,
-} from '../../../shared/services/StorageService';
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  Icon,
+  TextField,
+  Typography,
+} from 'reserva-ui';
+import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
+import {
+  ProfileCustomFieldsInput,
+  profileMutation,
+  profileQuery,
+  ProfileQuery,
+} from '../../../graphql/profile/profileQuery';
+import { FirebaseService } from '../../../shared/services/FirebaseService';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 export const EditProfile: React.FC<{
   title: string;
@@ -73,8 +64,7 @@ export const EditProfile: React.FC<{
 
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
   const [file, setFile] = useState<any>(null);
-  const [profileImageRef, setProfileImageRef] = useState<any>();
-  const [updatingImage, setUpdatingImage] = useState(false);
+  const [profileImagePath, setProfileImagePath] = useState<any>();
   const firebaseRef = new FirebaseService();
 
   useEffect(() => {
@@ -107,7 +97,16 @@ export const EditProfile: React.FC<{
           (x: any) => x.key == 'isNewsletterOptIn'
         ).value === 'true' || subscribed
       );
+      setProfileImagePath(
+        data?.profile?.customFields.find(
+          (x: any) => x.key == 'profileImagePath'
+        ).value || null
+      );
     }
+  }, [data]);
+
+  useEffect(() => {
+    console.log('DATA SALVA :::>>>', data?.profile);
   }, [data]);
 
   useEffect(() => {
@@ -167,6 +166,10 @@ export const EditProfile: React.FC<{
         key: 'documentType',
         value: 'cpf',
       },
+      {
+        key: 'profileImagePath',
+        value: `${profileImagePath}`,
+      },
     ];
 
     if (user.birthDate === '') {
@@ -222,10 +225,8 @@ export const EditProfile: React.FC<{
    * Function delete image profile
    * @returns {any}
    */
-  const deleteImageProfile = async () => {
-    firebaseRef.deleteFS(`${profileImageRef}`);
-
-    await AsyncStorage.removeItem('@Image_Profile');
+  const deleteImageProfile = () => {
+    firebaseRef.deleteFS(`${profileImagePath}`);
   };
 
   const handleChooseGallery = async () => {
@@ -258,7 +259,8 @@ export const EditProfile: React.FC<{
             setFile(photoFile.uri);
 
             firebaseRef.createFS(photoFile).then((value) => {
-              console.log('Foto salva');
+              console.log('Foto salva', value);
+              setProfileImagePath(value);
             });
           }
         }
@@ -297,10 +299,12 @@ export const EditProfile: React.FC<{
             if (file) {
               deleteImageProfile();
             }
+
             setFile(photoFile.uri);
 
             firebaseRef.createFS(photoFile).then((value) => {
-              console.log('Foto salva');
+              console.log('Foto salva', value);
+              setProfileImagePath(value);
             });
           }
         }
@@ -309,16 +313,24 @@ export const EditProfile: React.FC<{
     setShowModalProfile(false);
   };
 
-  const updateImageUrl = (profileImageRef: string) => {
-    firebaseRef.getUrlFS(`${profileImageRef}`).then((value) => {
+  const updateImageUrl = () => {
+    firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
       setFile(value);
     });
   };
 
-  const updateImageRef = async () => {
-    const imageData = await AsyncStorage.getItem('@Image_Profile');
+  useEffect(() => {
+    if (file !== null) {
+      updateImageUrl();
+    }
+  }, []);
 
-    setProfileImageRef(imageData);
+  useEffect(() => {
+    updateImageUrl();
+  }, [profileImagePath]);
+
+  const handleCopyToken = () => {
+    Clipboard.setString(tokenOneSignal);
   };
 
   const styles = StyleSheet.create({
@@ -341,24 +353,6 @@ export const EditProfile: React.FC<{
       textAlign: 'center',
     },
   });
-
-  useEffect(() => {
-    updateImageRef();
-  }, []);
-
-  useEffect(() => {
-    updateImageRef();
-  }, [file]);
-
-  useEffect(() => {
-    if (profileImageRef) {
-      updateImageUrl(profileImageRef);
-    }
-  }, [profileImageRef]);
-
-  const handleCopyToken = () => {
-    Clipboard.setString(tokenOneSignal);
-  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -460,11 +454,12 @@ export const EditProfile: React.FC<{
             </Modal>
             <Box alignItems="center">
               {file === null ? (
-                <Avatar onPress={() => setShowModalProfile(true)} />
+                <Avatar onPress={() => setShowModalProfile(true)} buttonEdit />
               ) : (
                 <Avatar
                   imageSource={{ uri: file }}
                   onPress={() => setShowModalProfile(true)}
+                  buttonEdit
                 />
               )}
               <Box
@@ -483,7 +478,7 @@ export const EditProfile: React.FC<{
                 >
                   <Typography
                     style={{ textDecorationLine: 'underline' }}
-                    fontSize="13px"
+                    fontSize={13}
                     fontFamily="nunitoRegular"
                   >
                     Alterar senha
