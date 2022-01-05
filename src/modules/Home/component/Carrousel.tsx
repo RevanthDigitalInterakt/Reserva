@@ -62,7 +62,11 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
       setActualPosition(viewableItems[0].index);
   });
 
-  const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 };
+  const viewabilityConfig = {
+    waitForInteraction: true,
+    minimumViewTime: 200,
+    viewAreaCoveragePercentThreshold: 50
+  };
 
   const onBeginDragTouch = () => {
     if (actualPosition === 0) {
