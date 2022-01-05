@@ -91,7 +91,6 @@ appsFlyer.initSdk(
 const maintenanceHandler = async () => {
   const result = await RemoteConfigService.fetchValues()
   const maintenance = result.find(x => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE)
-  console.log('MAINTENANCE', maintenance)
   //setIsOnMaintenance(maintenance.value)
   return maintenance.value
 }
@@ -100,18 +99,6 @@ const App = () => {
   const { getValue } = useFirebaseContext()
 
   const [isOnMaintenance, setIsOnMaintenance] = useState(false)
-
-
-
-
-  const firstUpdate = useRef(true);
-  useLayoutEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      maintenanceHandler().then(res => setIsOnMaintenance(res))
-      return;
-    }
-  });
 
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
