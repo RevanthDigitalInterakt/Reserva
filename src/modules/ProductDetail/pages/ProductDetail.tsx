@@ -64,6 +64,7 @@ import axios from 'axios';
 import appsFlyer from 'react-native-appsflyer';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { addDays, format } from 'date-fns';
+import { ModalZoomImage } from '../components/ModalZoomImage';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -215,6 +216,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
   const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
@@ -253,6 +255,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const { email } = useAuth();
   const [isLastUnits, setIsLastUnits] = useState(false);
+  const [imageIndexActual, setImageIndexActual] = useState<number>(0);
 
   /***
    * Effects
@@ -332,8 +335,6 @@ export const ProductDetail: React.FC<Props> = ({
       //   : ''
       // );
 
-
-
       let itemList = colorList?.map((color) => {
         return {
           color,
@@ -400,9 +401,13 @@ export const ProductDetail: React.FC<Props> = ({
 
       const sizeFilters = new ProductUtils().orderSizes(
         itemsSKU
-          .map(p => p.color === selectedColor && p.sizeList.map(sizes => sizes.size))
-          .filter(a => a !== false)[0].filter(x => x !== "")
-      )
+          .map(
+            (p) =>
+              p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
+          )
+          .filter((a) => a !== false)[0]
+          .filter((x) => x !== '')
+      );
       setSizeFilters(sizeFilters);
 
       const unavailableSizes = itemsSKU
@@ -415,19 +420,18 @@ export const ProductDetail: React.FC<Props> = ({
 
       setUnavailableSizes(unavailableSizes);
 
-      const hasSize = sizeFilters?.map((x) => unavailableSizes.includes(x))
-      const index = hasSize?.findIndex((x) => x === false)
+      const hasSize = sizeFilters?.map((x) => unavailableSizes.includes(x));
+      const index = hasSize?.findIndex((x) => x === false);
       if (index === -1) {
         setoutOfStock(true);
       } else {
         setoutOfStock(false);
       }
     }
-  }, [selectedColor, route.params.productId, itemsSKU])
+  }, [selectedColor, route.params.productId, itemsSKU]);
 
   // change sku effect
   useEffect(() => {
-
     if (product && selectedColor && selectedSize) {
       const { items } = product;
       // map sku variant hex
@@ -445,32 +449,37 @@ export const ProductDetail: React.FC<Props> = ({
       });
 
       if (selectedColor != selectedNewColor) {
-
-        setSelectedNewColor(selectedColor)
+        setSelectedNewColor(selectedColor);
         const selectedProduct = itemsSKU
           .map((p) => p.color === selectedColor && p.sizeList)
-          .filter((a) => a !== false)
+          .filter((a) => a !== false);
 
-        const availableProduct = selectedProduct[0].filter((x) => x.available == true)
+        const availableProduct = selectedProduct[0].filter(
+          (x) => x.available == true
+        );
 
-        const variations = sizeColorSkuVariations.map((x) => (x.variations)).map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }))
+        const variations = sizeColorSkuVariations
+          .map((x) => x.variations)
+          .map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }));
 
-        const sizeAndColor = variations.filter(x => x.cor === selectedColor)
+        const sizeAndColor = variations.filter((x) => x.cor === selectedColor);
 
         if (sizeAndColor) {
-          const sizeIndex = sizeAndColor.findIndex((x) => x.tamanho === selectedSize)
+          const sizeIndex = sizeAndColor.findIndex(
+            (x) => x.tamanho === selectedSize
+          );
 
           if (sizeIndex === -1) {
             if (availableProduct.length > 0) {
-              setSelectedSize(availableProduct[0]?.size)
+              setSelectedSize(availableProduct[0]?.size);
             } else {
-              setSelectedSize(sizeAndColor[0].tamanho)
+              setSelectedSize(sizeAndColor[0].tamanho);
             }
           } else {
             if (availableProduct.length > 0) {
-              setSelectedSize(availableProduct[0]?.size)
+              setSelectedSize(availableProduct[0]?.size);
             } else {
-              setSelectedSize(sizeAndColor[0].tamanho)
+              setSelectedSize(sizeAndColor[0].tamanho);
             }
           }
         }
@@ -488,7 +497,9 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
-        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] || '';
+        const getVariant = (variants: any, getVariantId: string) =>
+          variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] ||
+          '';
 
         const isSkuEqual = (sku1: any, sku2: any) => {
           if (sku1 && sku2) {
@@ -710,8 +721,12 @@ export const ProductDetail: React.FC<Props> = ({
             if (v.values[0] === color) {
               return {
                 item,
-                size: item?.variations?.filter(i => i.name === "TAMANHO" || i.name === "Tamanho")[0]?.values[0] || '',
-                available: item.sellers[0].commertialOffer.AvailableQuantity > 0
+                size:
+                  item?.variations?.filter(
+                    (i) => i.name === 'TAMANHO' || i.name === 'Tamanho'
+                  )[0]?.values[0] || '',
+                available:
+                  item.sellers[0].commertialOffer.AvailableQuantity > 0,
               };
             }
           }
@@ -835,6 +850,20 @@ export const ProductDetail: React.FC<Props> = ({
           >
             {product && selectedVariant && (
               <>
+                {/*  <Button
+                  title="CLIQUE"
+                  onPress={() => setIsVisibleZoomImage(true)}
+                /> */}
+                <ModalZoomImage
+                  isVisible={isVisibleZoomImage}
+                  image={
+                    imageSelected.length > 0
+                      ? imageSelected[0][0].map((image) => image.imageUrl)
+                      : []
+                  }
+                  setIsVisibleZoom={setIsVisibleZoomImage}
+                  setIndexOpenImage={imageIndexActual}
+                />
                 {/* PRODUCT CARD SECTION */}
                 <ProductDetailCard
                   {...product}
@@ -875,6 +904,10 @@ export const ProductDetail: React.FC<Props> = ({
                     ) || 0
                   }
                   saleOff={getSaleOff(product)}
+                  setModalZoom={() => setIsVisibleZoomImage(true)}
+                  imageIndexActual={(imageIndex) =>
+                    setImageIndexActual(imageIndex)
+                  }
                 />
 
                 {/*
