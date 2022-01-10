@@ -37,6 +37,7 @@ export const FirebaseContextProvider = ({ children }: FirebaseContextProviderPro
   }
 
   const getValue = async (key: RemoteConfigKeysType) => {
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa')
     const result = await fetchValues()
     return result.find(x => x.key === key)
   }

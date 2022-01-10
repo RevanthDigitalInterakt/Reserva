@@ -4,23 +4,23 @@ import { Box, Button, Image, Typography } from "reserva-ui";
 import { Dimensions, Modal } from "react-native";
 import { RemoteConfigKeys, useFirebaseContext } from "../../../context/FirebaseContext";
 import { RemoteConfigService } from "../../../shared/services/RemoteConfigService";
+import { useFocusEffect } from "@react-navigation/native";
 
 const {
   height: SCREEN_HEIGHT,
   width: SCREEN_WIDTH,
 } = Dimensions.get("window")
 
-export const Maintenance = () => {
-  const { remoteConfigs, getValue } = useFirebaseContext()
-  const [isVisible, setIsVisible] = useState(false)
-  useEffect(() => {
-    getValue('SCREEN_MAINTENANCE').then(item => {
-      setIsVisible(item.value !== 'true')
-    })
-  }, [])
+interface MaintenanceProps {
+  isVisible: boolean
+}
+
+export const Maintenance: React.FC<MaintenanceProps> = ({
+  isVisible,
+}) => {
 
   return (
-    isVisible && (
+    isVisible ? (
       <Modal
         style={{
           flex: 1,
@@ -96,7 +96,6 @@ export const Maintenance = () => {
         </Box>
       </Modal>
 
-    )
-
-  );
+    ) : null
+  )
 }
