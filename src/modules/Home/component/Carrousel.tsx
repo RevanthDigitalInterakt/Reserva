@@ -63,7 +63,6 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
   });
 
   const viewabilityConfig = {
-    waitForInteraction: true,
     minimumViewTime: 200,
     viewAreaCoveragePercentThreshold: 50
   };
@@ -269,7 +268,7 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
                   width: '100%',
                   transform: [
                     {
-                      translateX: animatedValue || -1000,
+                      translateX: animatedValue || -10000,
                     },
                   ],
                 }}
