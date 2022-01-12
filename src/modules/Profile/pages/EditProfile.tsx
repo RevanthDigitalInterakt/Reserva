@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Modal from 'react-native-modal';
+import remoteConfig from '@react-native-firebase/remote-config';
 import OneSignal from 'react-native-onesignal';
 import {
   Avatar,
@@ -65,6 +66,7 @@ export const EditProfile: React.FC<{
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
   const [file, setFile] = useState<any>(null);
   const [profileImagePath, setProfileImagePath] = useState<any>();
+  const [isTester, setIsTester] = useState<boolean>(false);
   const firebaseRef = new FirebaseService();
 
   useEffect(() => {
@@ -73,8 +75,16 @@ export const EditProfile: React.FC<{
     });
   }, []);
 
+  const getTesters = async () => {
+    const testers = await remoteConfig().getValue('EMAIL_TESTERS');
+    if(JSON.parse(testers.asString()).includes(data?.profile?.email)){
+      setIsTester(true);
+    }
+  }
+
   useEffect(() => {
     if (data) {
+      getTesters();
       setUserData({
         userId: data?.profile?.userId,
         firstName: data?.profile?.firstName || '',
@@ -579,6 +589,14 @@ export const EditProfile: React.FC<{
                   }}
                 />
               </Box>
+              {
+                isTester &&
+                <Box mb="sm" mt="sm">
+                  <TouchableOpacity onPress={() => handleCopyToken()}>
+                    <Typography>{tokenOneSignal}</Typography>
+                  </TouchableOpacity>
+                </Box>
+              }
 
               <Box mb="xs" mt="micro" flexDirection="row">
                 <Checkbox
