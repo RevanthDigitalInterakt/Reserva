@@ -1,13 +1,7 @@
-import { images } from '../../../assets/index';
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Image, Typography } from 'reserva-ui';
+import React from 'react';
 import { Dimensions, Linking, Modal } from 'react-native';
-import {
-  RemoteConfigKeys,
-  useFirebaseContext,
-} from '../../../context/FirebaseContext';
-import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
-import { useFocusEffect } from '@react-navigation/native';
+import { Box, Button, Image, Typography } from 'reserva-ui';
+import { images } from '../../../assets/index';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
