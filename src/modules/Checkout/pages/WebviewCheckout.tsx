@@ -9,6 +9,7 @@ import LottieView from 'lottie-react-native'
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import * as StoreReview from 'react-native-store-review';
+import appsFlyer from 'react-native-appsflyer';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -31,6 +32,18 @@ const Checkout: React.FC<{}> = () => {
   useEffect(() => {
     const check = navState.includes('/checkout/orderPlaced');
     if (check) {
+      if (orderForm) {
+        appsFlyer.logEvent('af_purchase', {
+          af_revenue: orderForm.totalizers.find(item => item.id === 'Items')?.value,
+          af_price: orderForm.value,
+          af_content_id: orderForm.items.map(item => item.id),
+          af_content_type: orderForm.items.map(item => item.productCategoryIds),
+          af_currency: 'BRL',
+          af_quantity: orderForm.items.map(item => item.quantity),
+          af_order_id: orderForm.orderFormId,
+          // af_receipt_id: orderForm.paymentData,
+        })
+      }
       orderform();
       setCheckoutCompleted(true)
     }
