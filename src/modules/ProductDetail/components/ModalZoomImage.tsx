@@ -1,34 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import {
-  BackHandler,
-  Dimensions,
-  Image,
-  StyleSheet,
-  Modal,
-} from 'react-native';
+import { Dimensions, StyleSheet, Modal } from 'react-native';
 
-import {
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
-
-import { Box, Button, Icon, theme } from 'reserva-ui';
-
-import {
-  PinchGestureHandler,
-  PinchGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { Box, Button, Icon } from 'reserva-ui';
 
 import ImageViewer from 'react-native-image-zoom-viewer';
-import ImageZoom from 'react-native-image-pan-zoom';
+
 import { useState } from 'react';
 
 const screen = Dimensions.get('window');
@@ -96,19 +72,6 @@ export const ModalZoomImage = ({
         style={styles.modal}
         onRequestClose={closeModal}
       >
-        <Box position="absolute" top={25} right={20} zIndex={2}>
-          <Button
-            hitSlop={{
-              top: 50,
-              bottom: 50,
-              right: 50,
-              left: 50,
-            }}
-            onPress={() => setIsVisibleZoom(false)}
-            variant="icone"
-            icon={<Icon size={14} name="Close" color={'neutroFrio2'} />}
-          />
-        </Box>
         <ImageViewer
           style={styles.modal}
           imageUrls={newArrayImages}
@@ -117,6 +80,24 @@ export const ModalZoomImage = ({
           index={setIndexOpenImage}
           onSwipeDown={() => closeModal}
           saveToLocalByLongPress={false}
+          renderHeader={() => (
+            <Box
+              position="absolute"
+              right={'3%'}
+              top={'4%'}
+              bottom={'1%'}
+              zIndex={2}
+            >
+              <Button
+                width={30}
+                height={30}
+                onPress={() => setIsVisibleZoom(false)}
+                variant="icone"
+                icon={<Icon size={14} name="Close" color="white" />}
+                hitSlop={{ top: 30, right: 30, bottom: 2, left: 30 }}
+              />
+            </Box>
+          )}
         />
       </Modal>
     </Box>
