@@ -85,16 +85,17 @@ export const ModalZoomImage = ({
               position="absolute"
               right={'3%'}
               top={'4%'}
-              bottom={'1%'}
               zIndex={2}
+              height={20}
+              width={20}
             >
               <Button
-                width={30}
-                height={30}
+                width={20}
+                height={20}
                 onPress={() => setIsVisibleZoom(false)}
                 variant="icone"
                 icon={<Icon size={14} name="Close" color="white" />}
-                hitSlop={{ top: 30, right: 30, bottom: 2, left: 30 }}
+                hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
               />
             </Box>
           )}
