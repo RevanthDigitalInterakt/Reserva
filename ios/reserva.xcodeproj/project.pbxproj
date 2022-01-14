@@ -59,6 +59,7 @@
 		D3DF78B7D9834E8087CBCD0E /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */; };
 		D5B902B6CEDB49F5B5C8BDA7 /* ReservaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */; };
 		D755E1976E754020B4824BCE /* ReservaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */; };
+		E8869E8A2D527CD6BFF91D57 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21DF887DB2BD78B32774A7 /* libPods-OneSignalNotificationServiceExtension.a */; };
 		EDBAB143AD3744EA99A21116 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */; };
 		EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */; };
 		FBD65EAEFF024DD5965323A9 /* ReservaSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2044CB00A59C49739156F2C3 /* ReservaSans-Black.ttf */; };
@@ -206,6 +207,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8869E8A2D527CD6BFF91D57 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +446,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80F6B00E278F18DC00778D4E /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
 			buildPhases = (
+				AB2D9261454331C1314A3676 /* [CP] Check Pods Manifest.lock */,
 				80F6B001278F18DC00778D4E /* Sources */,
 				80F6B002278F18DC00778D4E /* Frameworks */,
 				80F6B003278F18DC00778D4E /* Resources */,
@@ -642,6 +645,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB2D9261454331C1314A3676 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BC78E637343129DE42921911 /* [CP] Check Pods Manifest.lock */ = {
@@ -847,7 +872,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022011202;
+				CURRENT_PROJECT_VERSION = 2022011301;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = reserva/Info.plist;
@@ -929,7 +954,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022011202;
+				CURRENT_PROJECT_VERSION = 2022011301;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				INFOPLIST_FILE = reserva/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1000,6 +1025,7 @@
 		};
 		80F6B00F278F18DC00778D4E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5B935A15AA7D0CA42EF08C0 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1009,7 +1035,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022011202;
+				CURRENT_PROJECT_VERSION = 2022011301;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1036,6 +1062,7 @@
 		};
 		80F6B010278F18DC00778D4E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 994104E5C6F7A80559BD460B /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1046,7 +1073,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2022011202;
+				CURRENT_PROJECT_VERSION = 2022011301;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
