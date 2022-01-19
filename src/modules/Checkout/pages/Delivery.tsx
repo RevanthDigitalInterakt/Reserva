@@ -293,14 +293,6 @@ const Delivery: React.FC<{}> = () => {
     }
   }, [orderForm, profile, selectMethodDelivery]);
 
-  useEffect(() => {
-    console.log(selectMethodDelivery);
-  }, []);
-
-  useEffect(() => {
-    console.log(selectMethodDelivery);
-  }, [selectMethodDelivery]);
-
   return (
     <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton showShadow loading={loadingProfile || loading} />
