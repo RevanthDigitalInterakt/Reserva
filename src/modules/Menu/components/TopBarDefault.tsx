@@ -1,7 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from 'react';;
 import { Alert, Platform } from "react-native";
 import { TopBar } from "reserva-ui";
 import { useCart } from "../../../context/CartContext";
@@ -12,7 +10,17 @@ export const TopBarDefault: React.FC<{
 }> = ({ showShadow = true, loading = false }) => {
   const navigation = useNavigation();
   const { orderForm } = useCart();
+  const [bagQuantity, setBagQuantity] = useState(0);
+  useEffect(() => {
+    if (orderForm?.items) {
+      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)
+      setBagQuantity(quantity)
+    }
+  }, [orderForm]);
 
+  useEffect(() => {
+    console.log('bagQuantity', bagQuantity)
+  }, [bagQuantity])
   return (
     <TopBar
       loading={loading}
@@ -41,7 +49,7 @@ export const TopBarDefault: React.FC<{
           // Alert.alert('button right 2');
           navigation.navigate("BagScreen");
         },
-        badgeCount: orderForm?.items.length,
+        badgeCount: bagQuantity,
       }}
       height={50}
     />
