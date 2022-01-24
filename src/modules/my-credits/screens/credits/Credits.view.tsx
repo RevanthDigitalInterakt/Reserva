@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import { Box, Divider, Typography, Button, Icon } from "reserva-ui";
-
+import { Box, Button, Divider, Icon, Typography } from "reserva-ui";
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
+
 
 export interface CreditsViewProps {
   creditsBalance?: number;
