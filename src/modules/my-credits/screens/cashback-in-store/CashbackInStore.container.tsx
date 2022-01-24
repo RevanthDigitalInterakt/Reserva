@@ -34,7 +34,7 @@ export const CashbackInStoreContainer = (
 
     if (costumerDocument) {
       const { data } = await MyCreditsAPI.post<GetTokenResponse>(
-        `${CashbackHttpUrl.GetToken}42629580865/authenticate`,
+        `${CashbackHttpUrl.GetToken}${costumerDocument}/authenticate`,
         {
           type: "qrcode",
           expire_date: tomorrow,

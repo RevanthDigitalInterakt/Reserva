@@ -44,7 +44,7 @@ export const CreditsContainer = (
 
   const getCreditBalance = async ( cpf: string) => {
     const { data } = await MyCreditsAPI.get<GetDigitalWalletResponse>(
-      CashbackHttpUrl.GetDigitalWallet + `42629580865`,
+      `${CashbackHttpUrl.GetDigitalWallet}${cpf}`,
     );
 
     setCreditsBalance(
