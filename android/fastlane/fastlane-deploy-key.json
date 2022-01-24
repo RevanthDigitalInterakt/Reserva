@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "pc-api-6146432392786535709-148",
+  "private_key_id": "92f71c2c998a24b395883e4301d88a17b8b3b172",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCP7TmiHFMpBwDn\n3t4a850CnwwaJ7ELVgvVTaLNYgGcwp2Kj7YxWbemlT3oP+cqRCrLztOJXO4SnYv6\nZ8YG+osb8JJI7134R5KAlIFQEZg++SeHuoMOqKrBHSuJggNOEe5444k7GfVlMcyv\nAoVs/wPj6ni1BoBbErP6tkeGP8NSERlDx/QqEA9CpCsd33kcN9IMfVBxRtQf5VXE\nhWKSkHHZ+rueI4ViFYa9jNJR2i0CZUfYmj0S+PH1zLWZdbn41nFYIWc2LxqS9hLd\ntqkm++nC8c8T7XIzSNiknqO9YUXEnqT76KbkGF76n2aSleqaupiB/XodmGYkUDMR\nxNSaT4C/AgMBAAECggEAMW+DqMV+4Ow5aOtZsbs0lnZn00IH40NqbBkvDsmXkS8d\nqr7DDz9oP80qRvBQJ+njIz8G1Ls5QOahcmCbmcEL8AxZSrkBN2rqDMU1h3mLqDGv\nXMT5CBtyD0PENQaVuQaauSY6eDTp35jT29cLWk1bmjjqvg8eHmoVrMtYVOno3nJi\nM4n9NpWdYKhvkV2g7tFWYv+K8BrqwUVEGzTGNSo9psa7a9c9bnYSL1iIJUkOYglO\nwVXUqbeR2i+N2NGbHe+su/vnoTRNmzNzDwNUecJJ5t5XCRI7ciyQEgi84QE0B6iq\nh2RnewpICtOVWoIkMFZUBzUzbwl/dMhFp808V4BGPQKBgQDBbxmI5ASG1yd7vJpM\nhFLniHjrYi+S+NYyxnkDFBDstN+MtNldNQKSGza5pF9GNwdxIdNAoAWPwD4tqVjq\nM4aC3jvvTlFUnNzcqm+4d5lO3DzjVcbFS/sIM1+1gy9a2bFea6OFUtMPggQGGLGt\n9Bj5+6VOvUMOLtEYs9ArXl5xKwKBgQC+esYq5h7GifS93uk5cGxHv8Nj9EJXN/4U\nUnwOrpqw5nwo5PjUTUOIDPwg/jYBVLz3VB7A0SKHBNxkat+LC+Lvk9Xbvk/jBgw4\nrg+udN14r3H0hflFR1U/wUghw70H76TqiW+aYi+MW6yHuihN+iOhf47heyCwaqLT\nGzTLY3/cvQKBgCNNnJJwUycs82bQ6DRY3iylqrQDCn2/bpB7yrA2JFSfOkGa7CTn\nvN1fnCBLkJvnBTOvobekvP8cbfy1cKXl24Hc/4FQgOV5b5HShWtcYJ2U8oPnLszp\nbhp0Dd6535WsL4P1DzYRBLZK22MldKAz8a8GL4hsYGWhQ8ZHYxHXOlNbAoGAcnza\n5WgBcXXz+7ei2NpgytNQ/qAOy9ukxNQ7Kpv58H/oeq/9e6WhBIJBfRcuoKgtGD+g\naGaLaTobueOezzVqxnNGJFkELUEyUVMVq9ckUuipBr8L738Ll1F2KI087is1JZ9L\nzDBdwfBMCBx1I0FI70X7PD3EjSTbDyYYGnOIo8UCgYEAmgarMQLBvGIec+7hAW14\nj5sz68YxtteByvwZ8IsQWXSjkBRr2vFQm5vHfx73DyqWPhtv0jQ3tT5svS65P7Qt\n7QQWi4dLBUHezI6jPn/By1U23cNdkn0Z6h3rioSzXYeleVg1AwGevCloxb2qXjvA\nQVcL3HwH3rVyeHjr4PJM37c=\n-----END PRIVATE KEY-----\n",
+  "client_email": "fastlane-app-reserva@pc-api-6146432392786535709-148.iam.gserviceaccount.com",
+  "client_id": "105766165398858603486",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fastlane-app-reserva%40pc-api-6146432392786535709-148.iam.gserviceaccount.com"
+}
