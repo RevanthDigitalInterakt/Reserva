@@ -3,9 +3,7 @@
 This is an e-commerce app
 
 ## Build
-| Android | IOS |
-| --- | ----------- |
-| [![Build status](https://app.bitrise.io/app/bc63764c79f91298.svg?token=e4-7SFrhAAp5CMevaQp30Q)](https://app.bitrise.io/) | [![Build status](https://build.appcenter.ms/v0.1/apps/95f8d177-8f87-4153-bb63-c286b9e712e5/branches/main/badge)](https://appcenter.ms) |
+[![Build status](https://app.bitrise.io/app/bc63764c79f91298.svg?token=e4-7SFrhAAp5CMevaQp30Q)](https://app.bitrise.io/)
 
 ## Getting Started
 
