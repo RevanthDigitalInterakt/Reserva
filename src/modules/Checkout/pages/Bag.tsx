@@ -440,7 +440,7 @@ export const BagScreen = () => {
             <Box paddingX="xxxs" paddingY="xxs">
               <Box bg="white" marginTop="xxs">
                 <Typography variant="tituloSessoes">
-                  Sacola ({orderForm?.items.length})
+                  Sacola ({optimistQuantities.reduce((accumulator, currentValue) => accumulator + currentValue, 0)})
                 </Typography>
               </Box>
 
@@ -536,8 +536,7 @@ export const BagScreen = () => {
                           ...optimistQuantities.slice(itemIndex + 1),
                         ]);
                       }
-                    }
-                    }
+                    }}
                     onClickSubCount={async (count) => {
                       const prevCont = optimistQuantities[index];
                       if (prevCont <= 1) {

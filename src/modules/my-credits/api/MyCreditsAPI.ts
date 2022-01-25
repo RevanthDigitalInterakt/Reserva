@@ -1,6 +1,5 @@
-import { AxiosResponse } from "axios";
-import { HttpService } from "../../../shared/services/HttpService";
-import { cashbackInstance } from "../../../config/cashbackConfig";
+import { cashbackInstance } from '../../../config/cashbackConfig';
+import { HttpService } from '../../../shared/services/HttpService';
 
 export type GetCustomerResponse = {
   Documento: string;
@@ -11,20 +10,31 @@ export type GetCustomerResponse = {
   Message: string;
   IsException: boolean;
 };
-
-export type GetTokenResponse = {
-  token: string;
+export type AcceptLoyaltyResponse = {
   result: boolean;
 };
 
-export type AcceptLoyaltyResponse = {
-  result: boolean;
-}
+export type GetDigitalWalletResponse = {
+  data: {
+    balance_in_cents: number;
+    pending_balance_in_cents: number;
+    balance_expires_on: string;
+    user_status: string;
+  };
+};
+
+export type GetTokenResponse = {
+  data: {
+    token: string;
+  };
+};
 
 export enum CashbackHttpUrl {
-  GetCustomer = "/loyalty/customer",
-  AcceptLoyalty = "/loyalty/accept-loyalty",
+  GetCustomer = '/loyalty/customer',
+  AcceptLoyalty = '/loyalty/accept-loyalty',
   ModifyToken = '/loyalty/modify-token',
+  GetDigitalWallet = '/digital-wallets/',
+  GetToken = '/users/',
 }
 
 export const MyCreditsAPI = new HttpService(cashbackInstance);

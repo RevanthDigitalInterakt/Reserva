@@ -364,9 +364,11 @@ const Delivery: React.FC<{}> = () => {
             </Box>
           </Box>
 
-          {selectMethodDelivery ? (
+          {selectMethodDelivery && (
             <Store data={pickupPoint} storeDetail={businessHours} />
-          ) : (
+          )}
+
+          {!selectMethodDelivery && (
             <ReceiveHome
               loading={loading}
               typeOfDelivery={typeOfDelivery}
@@ -401,9 +403,9 @@ const Delivery: React.FC<{}> = () => {
               onPress={() =>
                 mapPermission
                   ? navigation.navigate('MapScreen', {
-                    geolocation: '',
-                    locationPermission: mapPermission,
-                  })
+                      geolocation: '',
+                      locationPermission: mapPermission,
+                    })
                   : navigation.navigate('WithdrawInStore', { isCheckout: true })
               }
               inline

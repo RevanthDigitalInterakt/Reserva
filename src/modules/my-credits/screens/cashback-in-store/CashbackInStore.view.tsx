@@ -1,27 +1,17 @@
 import React, { Fragment } from "react";
-import { ImageBackground, TouchableOpacity } from "react-native";
-import { Box, Icon, Typography } from "reserva-ui";
+import { ImageBackground } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-
+import { Box, Typography } from "reserva-ui";
 import { images } from '../../../../assets';
 import { LoadingScreen } from "../../../../common/components/LoadingScreen";
-import { ModalTermsAndConditions } from "./components/ModalTermsAndConditions";
 
 export interface CashbackInStoreViewProps {
-  isLoyal: boolean;
-  loadingLoyalRequest: boolean;
-  isVisibleTermsAndConditions: boolean;
-  acceptLoyalty: () => void;
-  handleToggleTermsAndConditions: () => void;
+  token?: string;
 }
 
 export const CashbackInStoreView = (
   {
-    isLoyal,
-    loadingLoyalRequest,
-    isVisibleTermsAndConditions,
-    acceptLoyalty,
-    handleToggleTermsAndConditions
+    token,
   }: CashbackInStoreViewProps
 ) => {
   return (
@@ -51,87 +41,18 @@ export const CashbackInStoreView = (
             resizeMode="contain"
           >
             <Box alignItems="center" justifyContent="center">
-              {true && (
+              {token ? (
                 <QRCode
-                  value="sda"
+                  value={token}
                   logo={images.logoQRCode}
                   logoSize={40}
                   size={200}
                 />
-              )}
-              {false && (
+              ):  (
                 <LoadingScreen />
               )}
             </Box>
           </ImageBackground>
-        </Box>
-        <Box mt="xxs">
-          <ModalTermsAndConditions
-            isVisible={isVisibleTermsAndConditions}
-            loading={loadingLoyalRequest}
-            isAccepted={isLoyal}
-            setIsVisible={handleToggleTermsAndConditions}
-            setTermAndConditions={acceptLoyalty}
-          />
-          <Box
-            flexDirection="row"
-            alignItems="center"
-            mt="xxxs"
-            justifyContent="center"
-          >
-            {loadingLoyalRequest ? (
-              <Box mr="quarck" alignItems="center" justifyContent="center">
-                <LoadingScreen />
-              </Box>
-            ) : (
-              <TouchableOpacity
-                onPress={acceptLoyalty}
-                disabled={isLoyal}
-              >
-                <Box
-                  backgroundColor={isLoyal ? 'preto' : 'white'}
-                  width={14}
-                  height={14}
-                  border="1px"
-                  borderColor="preto"
-                  borderRadius="pico"
-                  mr="nano"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  {isLoyal && (
-                    <Icon
-                      name="Check"
-                      size={14}
-                      color="white"
-                      mt="nano"
-                      ml="quarck"
-                    />
-                  )}
-                </Box>
-              </TouchableOpacity>
-            )}
-            <Box>
-              <Box flexDirection="row" alignItems="center">
-                <Typography variant="precoAntigo3" color="preto">
-                  Li e aceito os{' '}
-                </Typography>
-
-                <TouchableOpacity
-                  onPress={handleToggleTermsAndConditions}
-                >
-                  <Typography
-                    variant="precoAntigo3"
-                    color="preto"
-                    fontWeight="bold"
-                    style={{ textDecorationLine: 'underline' }}
-                  >
-                    termos e condições.
-                  </Typography>
-                </TouchableOpacity>
-              </Box>
-            </Box>
-          </Box>
         </Box>
       </Box>
     </Fragment>

@@ -1,8 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
-
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import {
-  AcceptLoyaltyResponse,
   CashbackHttpUrl,
   GetTokenResponse,
   MyCreditsAPI
@@ -24,44 +22,27 @@ export const CashbackInStoreContainer = (
     navigateToError
   }: CashbackInStoreContainerProps
 ) => {
-  const [loading, setLoading] = useState<boolean>(true);
   const [token, setToken] = useState<string>();
-  const [
-    isVisibleTermsAndConditions,
-    setIsVisibleTermsAndConditions
-  ] = useState<boolean>(false);
-  const [loadingLoyalRequest, setLoadingLoyalRequest] = useState<boolean>(false);
-  const [loadingQRCode, setLoadingQRCode] = useState<boolean>(false);
 
   const intervalTokenRef: { current: NodeJS.Timeout | null } = useRef(null);
 
-  const handleAcceptLoyalty = async () => {
-    if (!isLoyal && costumerDocument) {
-      setLoadingLoyalRequest(true);
-      await MyCreditsAPI.post<AcceptLoyaltyResponse>(
-        CashbackHttpUrl.AcceptLoyalty,
-        {
-          cpf: costumerDocument
-        }
-      );
-      setLoadingLoyalRequest(false);
-    }
-  };
-
   const generateToken = async () => {
-    if (isLoyal && costumerDocument) {
-      setLoadingLoyalRequest(true);
-      const { data } = await MyCreditsAPI.get<GetTokenResponse>(
-        CashbackHttpUrl.ModifyToken,
+    const date = new Date();
+    // add 1 day to current date
+    date.setDate(date.getDate() + 1);
+    const tomorrow = date.toISOString();
+
+    if (costumerDocument) {
+      const { data } = await MyCreditsAPI.post<GetTokenResponse>(
+        `${CashbackHttpUrl.GetToken}${costumerDocument}/authenticate`,
         {
-          cpf: costumerDocument
+          type: "qrcode",
+          expire_date: tomorrow,
         }
       );
-      setToken(data.token);
-      setLoadingLoyalRequest(false);
+      setToken(data.data.token);
     }
   };
-
 
   useEffect(() => {
     generateToken();
@@ -75,12 +56,6 @@ export const CashbackInStoreContainer = (
     };
   }, []);
 
-  const handleToggleTermsAndConditions = async () => {
-    setIsVisibleTermsAndConditions(
-      !isVisibleTermsAndConditions
-    );
-  };
-
   return(
     <Fragment>
       <TopBarBackButton
@@ -89,11 +64,7 @@ export const CashbackInStoreContainer = (
         backButtonPress={navigateBack}
       />
       <CashbackInStoreView
-        isLoyal={isLoyal}
-        acceptLoyalty={handleAcceptLoyalty}
-        loadingLoyalRequest={loadingLoyalRequest}
-        handleToggleTermsAndConditions={handleToggleTermsAndConditions}
-        isVisibleTermsAndConditions={isVisibleTermsAndConditions}
+        token={token}
       />
     </Fragment>
   );
