@@ -46,6 +46,8 @@ platform :android do
       new_version_candidate = LATEST_VERSION_CANDIDATE.to_i + 1
     end
 
+    new_version_candidate = new_version_candidate.to_s.rjust(2, '0')
+
     puts "Updating build gradle version code"
     puts "LATEST_VERSION: #{LATEST_VERSION}"
     puts "NEW_VERSION: #{NEW_VERSION_DATE}#{new_version_candidate}"
