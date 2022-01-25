@@ -22,18 +22,83 @@ platform :android do
   AND_APP_SPECIFIER = 'com.usereserva'.freeze
   APP_BUILD_GRADLE_PATH = "#{dir}/android/app/build.gradle".freeze
   PLAY_STORE_JSON_KEY = "#{dir}/fastlane/fastlane-deploy-key.json".freeze
+  VERSION_PREFFIX = "1.1.".freeze
+
+  before_all do |lane, options|
+    ANDROID_VERSION_NAME = get_version_name(
+      gradle_file_path: APP_BUILD_GRADLE_PATH
+    ).freeze
+
+    ANDROID_VERSION_CODE = get_version_code(
+      gradle_file_path: APP_BUILD_GRADLE_PATH
+    ).freeze
+
+    puts "Android: #{ANDROID_VERSION_NAME} #{ANDROID_VERSION_CODE}"
+  end
 
   # STAGING
   desc "Android development build"
-  lane :staging do
+  lane :staging do |options|
+    updateAndroidVersionName(
+      track: 'production',
+    )
     gradle(task: "clean", project_dir: "android/");
-    updateAndroidBuildNumber(track: "internal", package: "#{AND_APP_SPECIFIER}");
-    gradle(task: "bundle", build_type: "Release", project_dir: "android/")
-    supply(track: "internal", json_key: PLAY_STORE_JSON_KEY, package_name: "#{AND_APP_SPECIFIER}")
+
+    if options.nil? or options[:deploy].nil?
+      gradle(task: "assemble", build_type: "Release", project_dir: "android/")
+    elsif options[:deploy] == true
+      updateAndroidVersionCode(track: "internal", package: "#{AND_APP_SPECIFIER}");
+      gradle(task: "bundle", build_type: "Release", project_dir: "android/")
+      supply(track: "internal", json_key: PLAY_STORE_JSON_KEY, package_name: "#{AND_APP_SPECIFIER}")
+    end
+  end
+
+  desc "Upadte build gradle version name"
+  private_lane :updateAndroidVersionName do |options|
+    LATEST_VERSION_NAME_INTERNAL = google_play_track_release_names(
+      track: "internal",
+      json_key: PLAY_STORE_JSON_KEY,
+    )[0].freeze
+    latest_version_name_production = google_play_track_release_names(
+      track: "production",
+      json_key: PLAY_STORE_JSON_KEY,
+    )[0].freeze
+
+    new_version_name = ""
+
+    if latest_version_name_production.include?("(")
+      latest_version_name_production = latest_version_name_production.split("(")[1].freeze
+      latest_version_name_production = latest_version_name_production.split(")")[0].freeze
+    end
+
+    if options.nil? or options[:track].nil?
+      if LATEST_VERSION_NAME_INTERNAL == latest_version_name_production
+        new_version_name = LATEST_VERSION_NAME_INTERNAL[4, LATEST_VERSION_NAME_INTERNAL.length].to_i + 1
+        new_version_name = "#{VERSION_PREFFIX}#{new_version_name}"
+      else
+        new_version_name = LATEST_VERSION_NAME_INTERNAL
+      end
+    elsif options[:track] == "production"
+      if LATEST_VERSION_NAME_INTERNAL != latest_version_name_production
+        new_version_name = LATEST_VERSION_NAME_INTERNAL
+      else
+        new_version_name = latest_version_name_production[4, latest_version_name_production.length].to_i + 1
+        new_version_name = "#{VERSION_PREFFIX}#{new_version_name}"
+      end
+    end
+
+    android_set_version_name(
+      version_name: new_version_name,
+      gradle_file: APP_BUILD_GRADLE_PATH
+    )
+
+    puts "NEW_VERSION_NAME: #{new_version_name}"
+    puts "LATEST_VERSION_NAME_INTERNAL: #{LATEST_VERSION_NAME_INTERNAL}"
+    puts "LATEST_VERSION_NAME_PRODUCTION: #{latest_version_name_production}"
   end
 
   desc "Update build gradle version code"
-  private_lane :updateAndroidBuildNumber do |options|
+  private_lane :updateAndroidVersionCode do |options|
     LATEST_VERSION = google_play_track_version_codes( json_key: PLAY_STORE_JSON_KEY, track: options[:track] || "internal", package_name: options[:package])[0].to_s
     LATEST_VERSION_DATE = LATEST_VERSION[0, LATEST_VERSION.length - 2]
     LATEST_VERSION_CANDIDATE = LATEST_VERSION[8, LATEST_VERSION.length]
