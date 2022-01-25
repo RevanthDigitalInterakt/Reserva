@@ -41,6 +41,7 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import axios from 'axios';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -519,31 +520,25 @@ export const BagScreen = () => {
                       const itemIndex = array.findIndex(
                         (x) => x.refId == item.refId
                       );
-
-                      let isAssinaturaSimples = item?.attachmentOfferings[0]?.required || false;
-
-                      const quantities = isAssinaturaSimples ? 1 : countUpdated
                       const { ok } = await addItem(
-                        quantities,
+                        countUpdated,
                         item.id,
                         item.seller
                       );
-
                       if (!ok) {
                         const erros = errorsMessages?.filter((erro) =>
                           erro.includes(item.name)
                         );
                         setNoProduct(erros[0]);
                       } else {
-                        if (!isAssinaturaSimples) {
-                          setOptimistQuantities([
-                            ...optimistQuantities.slice(0, itemIndex),
-                            countUpdated,
-                            ...optimistQuantities.slice(itemIndex + 1),
-                          ]);
-                        }
+                        setOptimistQuantities([
+                          ...optimistQuantities.slice(0, itemIndex),
+                          countUpdated,
+                          ...optimistQuantities.slice(itemIndex + 1),
+                        ]);
                       }
-                    }}
+                    }
+                    }
                     onClickSubCount={async (count) => {
                       const prevCont = optimistQuantities[index];
                       if (prevCont <= 1) {
