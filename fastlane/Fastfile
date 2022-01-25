@@ -1,0 +1,58 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+# dir variable set to react native root directory
+dir = File.expand_path('../', Dir.pwd).freeze
+
+default_platform(:android)
+
+platform :android do
+  AND_APP_SPECIFIER = 'com.usereserva'.freeze
+  APP_BUILD_GRADLE_PATH = "#{dir}/android/app/build.gradle".freeze
+  PLAY_STORE_JSON_KEY = "#{dir}/fastlane/fastlane-deploy-key.json".freeze
+
+  # STAGING
+  desc "Android development build"
+  lane :staging do
+    gradle(task: "clean", project_dir: "android/");
+    updateAndroidBuildNumber(track: "internal", package: "#{AND_APP_SPECIFIER}");
+    gradle(task: "bundle", build_type: "Release", project_dir: "android/")
+    supply(track: "internal", json_key: PLAY_STORE_JSON_KEY, package_name: "#{AND_APP_SPECIFIER}.internal")
+  end
+
+  desc "Update build gradle version code"
+  private_lane :updateAndroidBuildNumber do |options|
+    LATEST_VERSION = google_play_track_version_codes( json_key: PLAY_STORE_JSON_KEY, track: options[:track] || "internal", package_name: options[:package])[0].to_s
+    LATEST_VERSION_DATE = LATEST_VERSION[0, LATEST_VERSION.length - 2]
+    LATEST_VERSION_CANDIDATE = LATEST_VERSION[8, LATEST_VERSION.length]
+
+    NEW_VERSION_DATE = Time.new.strftime("%Y%m%d").to_s
+    new_version_candidate = 1
+
+    if LATEST_VERSION_DATE == NEW_VERSION_DATE
+      puts "Latest version date is the same as today's date"
+      new_version_candidate = LATEST_VERSION_CANDIDATE.to_i + 1
+    end
+
+    puts "Updating build gradle version code"
+    puts "LATEST_VERSION: #{LATEST_VERSION}"
+    puts "NEW_VERSION: #{NEW_VERSION_DATE}#{new_version_candidate}"
+
+    android_set_version_code(
+      version_code: "#{NEW_VERSION_DATE}#{new_version_candidate}".to_i,
+      gradle_file: APP_BUILD_GRADLE_PATH
+    )
+  end
+end
