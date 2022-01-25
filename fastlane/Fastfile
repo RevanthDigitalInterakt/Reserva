@@ -39,9 +39,7 @@ platform :android do
   # STAGING
   desc "Android development build"
   lane :staging do |options|
-    updateAndroidVersionName(
-      track: 'production',
-    )
+    updateAndroidVersionName
     gradle(task: "clean", project_dir: "android/");
 
     if options.nil? or options[:deploy].nil?
