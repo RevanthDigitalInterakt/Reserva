@@ -34,7 +34,7 @@ export const CreditsContainer = (
 
   // covert cents to real
   const convertCentsToReal = (cents: number) => {
-    return cents / 10000;
+    return cents / 100;
   };
 
   const getIsScreenCashbackInStoreActive = async () => {
