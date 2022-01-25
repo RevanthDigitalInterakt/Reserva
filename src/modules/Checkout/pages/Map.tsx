@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -21,6 +21,7 @@ import { EmptyBag } from '../components/EmptyBag';
 type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
 export const MapScreen = ({ route }: Props) => {
   const { geolocation, locationPermission } = route?.params;
+  const mapRef = useRef<MapView>(null);
   const [pickupPoints, setPickupPoints] = useState<PickupPoints[] | undefined>([])
   const { orderForm, addShippingOrPickupInfo, convertZipCode, pickupPoint } = useCart();
   const navigation = useNavigation();
@@ -28,8 +29,8 @@ export const MapScreen = ({ route }: Props) => {
   const [loadingMap, setLoadingMap] = useState(false);
   const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
 
-  //Pega a posição do usuário
-  useEffect(() => {
+
+  const fetchCurrentPosition = () => {
     if (locationPermission) {
       setLoadingMap(true);
       Geolocation.getCurrentPosition((pos) => {
@@ -40,11 +41,27 @@ export const MapScreen = ({ route }: Props) => {
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
         });
+
+        //verifica em qual posição o usuário estar
+        if (mapRef.current) {
+          mapRef.current?.animateCamera({
+            center: {
+              latitude: coords?.latitude,
+              longitude: coords?.longitude,
+            },
+            zoom: 14
+          });
+        }
       });
       setLoadingMap(false);
     } else {
       getGeolocation(geolocation)
     }
+  };
+
+  //Pega a posição do usuário
+  useEffect(() => {
+    fetchCurrentPosition();
   }, []);
 
   const getGeolocation = async (geolocation: string) => {
@@ -121,6 +138,7 @@ export const MapScreen = ({ route }: Props) => {
                 provider={PROVIDER_GOOGLE}
                 style={{ flex: 2 }}
                 initialRegion={position}
+                ref={mapRef}
               >
                 <Marker
                   coordinate={{ latitude: position?.latitude, longitude: position?.longitude }}
@@ -156,6 +174,7 @@ export const MapScreen = ({ route }: Props) => {
                 borderRadius={'infinity'}
                 alignItems={'center'}
                 justifyContent={'center'}
+                onPress={() => { fetchCurrentPosition() }}
               >
                 <Icon name={'Crosshair'} size={30} color={'preto'} />
               </Button>
