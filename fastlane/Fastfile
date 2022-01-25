@@ -29,7 +29,7 @@ platform :android do
     gradle(task: "clean", project_dir: "android/");
     updateAndroidBuildNumber(track: "internal", package: "#{AND_APP_SPECIFIER}");
     gradle(task: "bundle", build_type: "Release", project_dir: "android/")
-    supply(track: "internal", json_key: PLAY_STORE_JSON_KEY, package_name: "#{AND_APP_SPECIFIER}.internal")
+    supply(track: "internal", json_key: PLAY_STORE_JSON_KEY, package_name: "#{AND_APP_SPECIFIER}")
   end
 
   desc "Update build gradle version code"
