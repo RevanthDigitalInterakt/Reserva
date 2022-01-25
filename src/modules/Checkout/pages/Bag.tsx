@@ -41,7 +41,6 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import axios from 'axios';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
