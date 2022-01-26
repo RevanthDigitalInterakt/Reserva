@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { View, Dimensions } from 'react-native';
-import { Box, Button } from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { WebView } from 'react-native-webview';
-import { useCart } from '../../../context/CartContext';
 import { useNavigation } from '@react-navigation/native';
-import LottieView from 'lottie-react-native'
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
-import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import * as StoreReview from 'react-native-store-review';
+import LottieView from 'lottie-react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, View } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
+import * as StoreReview from 'react-native-store-review';
+import { WebView } from 'react-native-webview';
+import { Box, Button } from 'reserva-ui';
+import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+import { useCart } from '../../../context/CartContext';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -34,8 +34,8 @@ const Checkout: React.FC<{}> = () => {
     if (check) {
       if (orderForm) {
         appsFlyer.logEvent('af_purchase', {
-          af_revenue: orderForm.totalizers.find(item => item.id === 'Items')?.value,
-          af_price: orderForm.value,
+          af_revenue: orderForm.totalizers.find(item => item.id === 'Items')?.value / 100,
+          af_price: orderForm.value / 100,
           af_content_id: orderForm.items.map(item => item.id),
           af_content_type: orderForm.items.map(item => item.productCategoryIds),
           af_currency: 'BRL',
