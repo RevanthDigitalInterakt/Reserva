@@ -13,10 +13,10 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
-    "codepush-android:dev": "appcenter codepush release-react -a GlobalsysApps/Reserva-Android -d Staging",
-    "codepush-android:prod": "appcenter codepush release-react -a GlobalsysApps/Reserva-Android -d Production",
-    "codepush-ios:dev": "appcenter codepush release-react -a GlobalsysApps/Reserva-iOS -d Staging",
-    "codepush-ios:prod": "appcenter codepush release-react -a GlobalsysApps/Reserva-iOS -d Production"
+    "codepush-android:dev": "appcenter codepush release-react -a Reserva-App/reserva-app-1 -d Staging",
+    "codepush-android:prod": "appcenter codepush release-react -a Reserva-App/reserva-app-1 -d Production",
+    "codepush-ios:dev": "appcenter codepush release-react -a Reserva-App/reserva-app -d Staging",
+    "codepush-ios:prod": "appcenter codepush release-react -a Reserva-App/reserva-app -d Production"
   },
   "dependencies": {
     "@apollo/client": "^3.3.20",
