@@ -166,7 +166,6 @@ export const BagScreen = () => {
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
 
-    console.log('ORDER FORM', orderForm);
   }, [orderForm]);
 
   useEffect(() => {
@@ -233,7 +232,6 @@ export const BagScreen = () => {
   };
 
   useEffect(() => {
-    console.log('optimistQuantities', optimistQuantities);
     setLoadingShippingBar(true);
   }, [optimistQuantities]);
 
@@ -534,7 +532,6 @@ export const BagScreen = () => {
                       );
 
                       let isAssinaturaSimples = item?.attachmentOfferings?.find((x) => x.schema.aceito)?.required || false
-                      // let isAssinaturaSimples = item?.attachmentOfferings[0]?.required || false;
 
                       const quantities = isAssinaturaSimples ? 1 : countUpdated
 
@@ -588,7 +585,7 @@ export const BagScreen = () => {
                             prevCont,
                             ...optimistQuantities.slice(index + 1),
                           ]);
-                        console.log('ok subCount', ok);
+
                       }
                     }}
                     onClickClose={() => {
