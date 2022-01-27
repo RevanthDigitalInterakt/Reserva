@@ -291,6 +291,7 @@ const addToSellerCoupon = async (
     `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
   return response;
 }
+
 const removeSellerCouponToOder = async (
   orderFormId: string | undefined,
   marketingData: any,
@@ -363,6 +364,18 @@ const OrderDetail = async (
   return response;
 }
 
+const Attachment = async (
+  orderFormId: string | undefined,
+  productOrderFormIndex: any,
+  attachmentName: any,
+) => {
+  const response = await vtexConfig3.post(
+    `/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
+    { content: { aceito: 'true' } }
+  );
+  return response;
+}
+
 export {
   CreateCart,
   CreateSession,
@@ -389,5 +402,6 @@ export {
   Tracking,
   PickupPoint,
   Orders,
-  OrderDetail
+  OrderDetail,
+  Attachment
 };
