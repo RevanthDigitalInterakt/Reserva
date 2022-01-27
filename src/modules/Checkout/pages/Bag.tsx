@@ -519,13 +519,11 @@ export const BagScreen = () => {
                       const itemIndex = array.findIndex(
                         (x) => x.refId == item.refId
                       );
-
                       const { ok } = await addItem(
                         countUpdated,
                         item.id,
                         item.seller
                       );
-
                       if (!ok) {
                         const erros = errorsMessages?.filter((erro) =>
                           erro.includes(item.name)
