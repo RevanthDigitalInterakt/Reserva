@@ -540,7 +540,6 @@ export const BagScreen = () => {
                         item.id,
                         item.seller
                       );
-
                       if (!ok) {
                         const erros = errorsMessages?.filter((erro) =>
                           erro.includes(item.name)

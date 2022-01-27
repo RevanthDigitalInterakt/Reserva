@@ -647,6 +647,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const onProductAdd = async () => {
     if (selectedVariant) {
+      const quantities = orderForm?.items.filter((items) => items.id === selectedVariant?.itemId).map((x) => x.quantity)[0] || 0;
       if (isAssinaturaSimples) {
         if (acceptConditions) {
           const { message, ok } = await addItem(
@@ -665,7 +666,7 @@ export const ProductDetail: React.FC<Props> = ({
         }
       } else {
         const { message, ok } = await addItem(
-          1,
+          quantities + 1,
           selectedVariant?.itemId,
           selectedSellerId
         );
