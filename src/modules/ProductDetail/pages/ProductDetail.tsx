@@ -1445,9 +1445,9 @@ export const ProductDetail: React.FC<Props> = ({
                   <Divider variant="fullWidth" my="xs" />
 
                   <ExpandProductDescription
-                    description={product.description || ''}
-                    composition={product.properties[0].values[0]}
-                    codeProduct={product.items.find((x) => x.itemId === selectedVariant?.itemId)?.ean || ''}
+                    description={product?.description || ''}
+                    composition={product?.properties[0]?.values[0]}
+                    codeProduct={product?.items.find((x) => x.itemId === selectedVariant?.itemId)?.ean || ''}
                   />
 
                   <Divider variant="fullWidth" my="xs" />

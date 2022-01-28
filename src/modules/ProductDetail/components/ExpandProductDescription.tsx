@@ -45,10 +45,12 @@ export const ExpandProductDescription = ({ description, composition, codeProduct
                         title='Detalhes do Produto'
                         description={description}
                     />
-                    <ProductDescription
-                        title='Composição'
-                        description={composition}
-                    />
+                    {composition && (
+                        <ProductDescription
+                            title='Composição'
+                            description={composition}
+                        />
+                    )}
                     <ProductDescription
                         title='Código do Produto'
                         description={`Ref: ${codeProduct}`}
