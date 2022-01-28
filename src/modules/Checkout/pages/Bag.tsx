@@ -41,6 +41,7 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import { Attachment } from '../../../services/vtexService';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -165,7 +166,6 @@ export const BagScreen = () => {
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
 
-    console.log('ORDER FORM', orderForm);
   }, [orderForm]);
 
   useEffect(() => {
@@ -232,9 +232,20 @@ export const BagScreen = () => {
   };
 
   useEffect(() => {
-    console.log('optimistQuantities', optimistQuantities);
     setLoadingShippingBar(true);
   }, [optimistQuantities]);
+
+  const addAttachmentsInProducts = async () => {
+    try {
+
+      const orderFormId = orderForm?.orderFormId;
+      const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
+      const attachmentName = 'Li e Aceito os Termos';
+      Attachment(orderFormId, productOrderFormIndex, attachmentName)
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <SafeAreaView
@@ -520,23 +531,30 @@ export const BagScreen = () => {
                         (x) => x.refId == item.refId
                       );
 
+                      let isAssinaturaSimples = item?.attachmentOfferings?.find((x) => x.schema.aceito)?.required || false
+
+                      const quantities = isAssinaturaSimples ? 1 : countUpdated
+
                       const { ok } = await addItem(
-                        countUpdated,
+                        quantities,
                         item.id,
                         item.seller
                       );
-
                       if (!ok) {
                         const erros = errorsMessages?.filter((erro) =>
                           erro.includes(item.name)
                         );
                         setNoProduct(erros[0]);
                       } else {
-                        setOptimistQuantities([
-                          ...optimistQuantities.slice(0, itemIndex),
-                          countUpdated,
-                          ...optimistQuantities.slice(itemIndex + 1),
-                        ]);
+                        if (!isAssinaturaSimples) {
+                          setOptimistQuantities([
+                            ...optimistQuantities.slice(0, itemIndex),
+                            countUpdated,
+                            ...optimistQuantities.slice(itemIndex + 1),
+                          ]);
+                        } else {
+                          await addAttachmentsInProducts()
+                        }
                       }
                     }}
                     onClickSubCount={async (count) => {
@@ -566,7 +584,7 @@ export const BagScreen = () => {
                             prevCont,
                             ...optimistQuantities.slice(index + 1),
                           ]);
-                        console.log('ok subCount', ok);
+
                       }
                     }}
                     onClickClose={() => {
