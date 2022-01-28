@@ -5,7 +5,6 @@ import {
     Icon,
     Typography,
 } from 'reserva-ui';
-
 interface IExpandProductDescription {
     description: string;
     composition: string;
