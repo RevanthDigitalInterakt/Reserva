@@ -65,6 +65,7 @@ import appsFlyer from 'react-native-appsflyer';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { addDays, format } from 'date-fns';
 import { ModalZoomImage } from '../components/ModalZoomImage';
+import { Attachment } from '../../../services/vtexService';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -646,6 +647,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const onProductAdd = async () => {
     if (selectedVariant) {
+      const quantities = orderForm?.items.filter((items) => items.id === selectedVariant?.itemId).map((x) => x.quantity)[0] || 0;
       if (isAssinaturaSimples) {
         if (acceptConditions) {
           const { message, ok } = await addItem(
@@ -664,7 +666,7 @@ export const ProductDetail: React.FC<Props> = ({
         }
       } else {
         const { message, ok } = await addItem(
-          1,
+          quantities + 1,
           selectedVariant?.itemId,
           selectedSellerId
         );
@@ -803,15 +805,13 @@ export const ProductDetail: React.FC<Props> = ({
 
   const addAttachmentsInProducts = async () => {
     try {
+
       const orderFormId = orderForm?.orderFormId;
       const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
       const attachmentName = 'Li e Aceito os Termos';
 
-      await axios.post(
-        `https://www.usereserva.com/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
-        { content: { aceito: 'true' } },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
+      Attachment(orderFormId, productOrderFormIndex, attachmentName)
+
     } catch (error) {
       console.log('error - addAttachmentsInProducts', error);
       throw error;
