@@ -65,6 +65,7 @@ export const EditProfile: React.FC<{
 
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
   const [file, setFile] = useState<any>(null);
+  const [imageProfile, setImageProfile] = useState<any>(null);
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
   const firebaseRef = new FirebaseService();
@@ -77,7 +78,7 @@ export const EditProfile: React.FC<{
 
   const getTesters = async () => {
     const testers = await remoteConfig().getValue('EMAIL_TESTERS');
-    if(JSON.parse(testers.asString()).includes(data?.profile?.email)){
+    if (JSON.parse(testers.asString()).includes(data?.profile?.email)) {
       setIsTester(true);
     }
   }
@@ -153,7 +154,7 @@ export const EditProfile: React.FC<{
     });
   }, []);
 
-  const saveUserData = () => {
+  const saveUserData = async () => {
     const splittedBirthDate = userData.birthDate?.split('/');
     const [firstName, ...rest] = userData.fullName.trim().split(' ');
     const lastName = rest.join(' ');
@@ -167,6 +168,18 @@ export const EditProfile: React.FC<{
       homePhone: newPhone.replace(/[^\d\+]+/g, ''),
     };
 
+    //Deleta a foto antiga do usuário no firabase
+    if (profileImagePath !== null) {
+      await firebaseRef.deleteFS(`${profileImagePath}`);
+    }
+
+    //Salva uma nova foto do usuário no firebase
+    let profileImage;
+    if (imageProfile !== null) {
+      profileImage = await firebaseRef.createFS(file);
+      setProfileImagePath(profileImage);
+    }
+
     const customField: ProfileCustomFieldsInput[] = [
       {
         key: 'isNewsletterOptIn',
@@ -178,7 +191,7 @@ export const EditProfile: React.FC<{
       },
       {
         key: 'profileImagePath',
-        value: `${profileImagePath}`,
+        value: `${profileImage}`,
       },
     ];
 
@@ -266,12 +279,8 @@ export const EditProfile: React.FC<{
             if (file) {
               deleteImageProfile();
             }
-            setFile(photoFile.uri);
-
-            firebaseRef.createFS(photoFile).then((value) => {
-              console.log('Foto salva', value);
-              setProfileImagePath(value);
-            });
+            setFile(photoFile);
+            setImageProfile(photoFile.uri)
           }
         }
       }
@@ -310,12 +319,8 @@ export const EditProfile: React.FC<{
               deleteImageProfile();
             }
 
-            setFile(photoFile.uri);
-
-            firebaseRef.createFS(photoFile).then((value) => {
-              console.log('Foto salva', value);
-              setProfileImagePath(value);
-            });
+            setFile(photoFile);
+            setImageProfile(photoFile.uri)
           }
         }
       });
@@ -324,13 +329,17 @@ export const EditProfile: React.FC<{
   };
 
   const updateImageUrl = () => {
-    firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
-      setFile(value);
-    });
+    if (profileImagePath != null) {
+      firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
+        setImageProfile(value);
+      }, (error) => {
+        setProfileImagePath(null);
+      });
+    }
   };
 
   useEffect(() => {
-    if (file !== null) {
+    if (imageProfile !== null) {
       updateImageUrl();
     }
   }, []);
@@ -443,8 +452,9 @@ export const EditProfile: React.FC<{
                 <Box mt="micro" mb="micro">
                   <TouchableOpacity
                     onPress={() => {
-                      deleteImageProfile();
+                      // deleteImageProfile();
                       setFile(null);
+                      setImageProfile(null);
                       setShowModalProfile(false);
                     }}
                   >
@@ -463,11 +473,11 @@ export const EditProfile: React.FC<{
               </Box>
             </Modal>
             <Box alignItems="center">
-              {file === null ? (
+              {imageProfile === null ? (
                 <Avatar onPress={() => setShowModalProfile(true)} buttonEdit />
               ) : (
                 <Avatar
-                  imageSource={{ uri: file }}
+                  imageSource={{ uri: imageProfile }}
                   onPress={() => setShowModalProfile(true)}
                   buttonEdit
                 />
