@@ -161,7 +161,7 @@ export const LoginScreen: React.FC<Props> = ({
       <ScrollView>
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily="reservaSerifRegular" fontSize={22}>
-            Seja bem-vindo!
+            Boas-vindas!
           </Typography>
 
           <Box mt="xxs">
@@ -235,7 +235,7 @@ export const LoginScreen: React.FC<Props> = ({
           <Button
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
-            variant="primarioEstreito"
+            variant="primarioEstreitoOutline"
             disabled={loadingSendMail || loading}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
@@ -260,21 +260,41 @@ export const LoginScreen: React.FC<Props> = ({
               removeMessageErrorEmail();
             }}
           />
-          {/* <Box
+          */}
+
+          <Box
             flexDirection="row"
-            mt="sm"
+            mt="xxl"
+            mb="xxs"
             justifyContent="center"
             alignItems="center"
           >
+            <Box
+              borderWidth={1}
+              marginLeft="xxs"
+              marginRight="nano"
+              flex={1}
+              borderColor="divider"
+            />
             <Typography textAlign="center">
               {"Ainda não possui uma conta?"}
             </Typography>
-            <Button>
-              <Typography style={{ textDecorationLine: "underline" }}>
-                Clique para se cadastrar
-              </Typography>
-            </Button>
-          </Box> */}
+            <Box
+              borderWidth={1}
+              marginLeft="nano"
+              marginRight="xxs"
+              flex={1}
+              borderColor="divider"
+            />
+          </Box>
+          <Button
+            title={'CADASTRE-SE'}
+            inline
+            variant="primarioEstreito"
+            disabled={loadingSendMail || loading}
+            onPress={() => { }}
+          />
+
         </Box>
       </ScrollView>
     </SafeAreaView>
