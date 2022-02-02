@@ -15,7 +15,7 @@ import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
 interface CreateCartProfileProfile
-  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> { }
+  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> {}
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   navigation,
@@ -23,7 +23,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   const { addCustomer, addShippingData } = useCart();
   const formRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
-  const [showCepDescrption, setShowCepDescrption] = useState(false);
+  const [showCepDescription, setShowCepDescription] = useState(false);
   const [fields, setFields] = useState({
     firstName: '',
     lastName: '',
@@ -74,7 +74,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       setLoading(true);
       const { street, neighborhood, city, state, cep, errors } =
         await CepVerify(postalCode);
-      setShowCepDescrption(!!cep);
+      setShowCepDescription(!!cep);
       setFields({
         ...fields,
         postalCode,
@@ -86,7 +86,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       });
       setLoading(false);
     } else {
-      setShowCepDescrption(false);
+      setShowCepDescription(false);
     }
   };
 
@@ -156,7 +156,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
             </Box>
             <Box mt={20}>
               <Typography fontFamily="nunitoRegular" fontSize={15}>
-                Insira os dados do destinatario
+                Insira os dados do destinatário
               </Typography>
             </Box>
 
@@ -260,7 +260,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   </Box>
                   <Box>
                     <Typography fontFamily="nunitoRegular" fontSize={13}>
-                      {showCepDescrption
+                      {showCepDescription
                         ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
                         : ''}
                     </Typography>
