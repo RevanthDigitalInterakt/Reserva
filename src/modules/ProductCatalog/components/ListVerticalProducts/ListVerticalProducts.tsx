@@ -276,10 +276,14 @@ export const ListVerticalProducts = ({
           )}
           onEndReached={async () => {
             console.log('onEndReached');
-            setIsLoadingMore(true);
-            if (totalProducts && totalProducts > products.length)
-              await loadMoreProducts(products.length);
-            setIsLoadingMore(false);
+            console.log(products.length);
+            if (products.length < 96) {
+              setIsLoadingMore(true);
+              if (totalProducts && totalProducts > products.length) {
+                await loadMoreProducts(products.length);
+              }
+              setIsLoadingMore(false);
+            }
           }}
           ListFooterComponent={() => {
             if (!(isLoadingMore || isLoading)) return null;
