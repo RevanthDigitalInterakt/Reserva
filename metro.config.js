@@ -4,6 +4,8 @@
  *
  * @format
  */
+ const { getDefaultConfig } = require("metro-config");
+ const { resolver: defaultResolver } = getDefaultConfig.getDefaultValues();
 
 // Uncomment for use reserva-ui from NPM
 module.exports = {
@@ -15,10 +17,17 @@ module.exports = {
       },
     }),
   },
+  resolver: {
+    ...defaultResolver,
+    sourceExts: [
+      ...defaultResolver.sourceExts,
+      "cjs",
+    ],
+  }
 };
 
 
-// This allow to use external module as internal module, for example reserva-ui, uncomment to allow chances in real time. Usefull to test fixes. 
+// This allow to use external module as internal module, for example reserva-ui, uncomment to allow chances in real time. Usefull to test fixes.
 // const path = require('path');
 //  const extraNodeModules = {
 //    'common': path.resolve(__dirname + '/../common'),
@@ -34,7 +43,7 @@ module.exports = {
 //          inlineRequires: false,
 //        },
 //      }),
-//    }, 
+//    },
 //    resolver: {
 //      extraNodeModules: new Proxy(extraNodeModules, {
 //        get: (target, name) =>
