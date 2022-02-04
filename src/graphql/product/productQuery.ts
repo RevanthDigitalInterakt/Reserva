@@ -26,7 +26,13 @@ export const GET_PRODUCTS = gql`
         id,
         name
       }
+      properties{
+        name
+        originalName
+        values
+      }
       items {
+        ean
         variations {
           originalName
           name

@@ -25,6 +25,8 @@ import {
 } from 'reserva-ui';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ModalBag } from '../components/ModalBag';
+import { ExpandProductDescription } from '../components/ExpandProductDescription';
+
 import * as Yup from 'yup';
 import Share from 'react-native-share';
 
@@ -106,6 +108,7 @@ type Facets = {
 };
 
 type Variant = {
+  ean: string;
   itemId: string;
   images: {
     imageUrl: string;
@@ -128,7 +131,11 @@ type Specification = {
   field: Field;
   values: Field[];
 };
-
+type Properties = {
+  name: string;
+  originalName: string;
+  values: string[];
+}
 type Product = {
   categoryTree: any[]; // doesnt matter
   productId: string;
@@ -139,6 +146,7 @@ type Product = {
     sellingPrice: Price;
     listPrice: Price;
   };
+  properties: Properties[];
   items: Variant[];
   description: string;
 };
@@ -1436,18 +1444,11 @@ export const ProductDetail: React.FC<Props> = ({
                     ))}
                   <Divider variant="fullWidth" my="xs" />
 
-                  <Box>
-                    <ExpansePanel
-                      style={{
-                        fontFamily: 'reservaSerifRegular',
-                        fontSize: 20,
-                      }}
-                      information={{
-                        title: 'Sobre este produto',
-                        content: product.description || '',
-                      }}
-                    />
-                  </Box>
+                  <ExpandProductDescription
+                    description={product?.description || ''}
+                    composition={product?.properties[0]?.values[0]}
+                    codeProduct={product?.items.find((x) => x.itemId === selectedVariant?.itemId)?.ean || ''}
+                  />
 
                   <Divider variant="fullWidth" my="xs" />
                   <Box mb="xxxs">
