@@ -1,27 +1,29 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-
 import { ApolloProvider } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-
 import CodepushConfig from './config/codepush';
 import { env } from './config/env';
 import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
 import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
+import { CacheImagesProvider } from './context/CacheImagesContext';
 import CartContextProvider from './context/CartContext';
+import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
 import InitialScreen from './InitialScreen';
+import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
 import { apolloClient } from './services/apolloClient';
-import { Maintenance } from './modules/Home/pages/Maintenance';
-import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
 import { RemoteConfigService } from "./shared/services/RemoteConfigService";
+
+
+
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
   colors: {
@@ -132,13 +134,15 @@ const App = () => {
           :
           <CartContextProvider>
             <AuthContextProvider>
-              <FirebaseContextProvider>
-                <ApolloProvider client={apolloClient}>
-                  <InitialScreen>
-                    <AppRouting />
-                  </InitialScreen>
-                </ApolloProvider>
-              </FirebaseContextProvider>
+              <CacheImagesProvider>
+                <FirebaseContextProvider>
+                  <ApolloProvider client={apolloClient}>
+                    <InitialScreen>
+                      <AppRouting />
+                    </InitialScreen>
+                  </ApolloProvider>
+                </FirebaseContextProvider>
+              </CacheImagesProvider>
             </AuthContextProvider>
           </CartContextProvider>
       }

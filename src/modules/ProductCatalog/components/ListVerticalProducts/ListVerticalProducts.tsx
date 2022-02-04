@@ -8,11 +8,12 @@ import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import { FlatList, Alert } from 'react-native';
 import Modal from 'react-native-modal';
-import { Box, Button, ProductVerticalListCard, Typography } from 'reserva-ui';
+import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from 'reserva-ui';
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
+import { useCacheImages } from '../../../../context/CacheImagesContext';
 import {
   ProductQL,
   Property,
@@ -335,49 +336,44 @@ export const ListVerticalProducts = ({
             // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
-              <Box
-                flex={1}
-                alignItems="center"
-                justifyContent="center"
-                height={353}
-                mr={horizontal && 'xxxs'}
-              >
-                <ProductVerticalListCard
-                  loadingFavorite={
-                    !!loadingFavorite.find((x) => x == item.items[0].itemId)
-                  }
-                  isFavorited={
-                    !!favorites.find((x) => x.sku == item.items[0].itemId)
-                  } // item.isFavorite}
-                  onClickFavorite={(isFavorite) => {
-                    // setLoafingFavorite([...loadingFavorite, item.productId])
-                    handleOnFavorite(isFavorite, item);
-                    // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
-                  }}
-                  // colors={null}
-                  imageSource={item.items[0].images[0].imageUrl}
-                  installmentsNumber={installmentsNumber} // numero de parcelas
-                  installmentsPrice={installmentPrice || 0} // valor das parcelas
-                  currency="R$"
-                  discountTag={getPercent(
-                    item.priceRange?.sellingPrice.lowPrice,
-                    item.priceRange?.listPrice.lowPrice
-                  )}
-                  saleOff={getSaleOff(item)}
-                  priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                  price={item.priceRange?.listPrice?.lowPrice || 0}
-                  productTitle={item.productName}
-                  onClickImage={() => {
-                    navigation.navigate('ProductDetail', {
-                      productId: item.productId,
-                      colorSelected: getVariant(
-                        item.items[0].variations,
-                        'VALOR_HEX_ORIGINAL'
-                      ),
-                    });
-                  }}
-                />
-              </Box>
+              <ProductItem
+                item={item}
+                index={index}
+                horizontal={horizontal}
+                loadingFavorite={
+                  !!loadingFavorite.find((x) => x == item.items[0].itemId)
+                }
+                isFavorited={
+                  !!favorites.find((x) => x.sku == item.items[0].itemId)
+                } // item.isFavorite}
+                onClickFavorite={(isFavorite) => {
+                  // setLoafingFavorite([...loadingFavorite, item.productId])
+                  handleOnFavorite(isFavorite, item);
+                  // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+                }}
+                // colors={null}
+                imageSource={item.items[0].images[0].imageUrl}
+                installmentsNumber={installmentsNumber} // numero de parcelas
+                installmentsPrice={installmentPrice || 0} // valor das parcelas
+                currency="R$"
+                discountTag={getPercent(
+                  item.priceRange?.sellingPrice.lowPrice,
+                  item.priceRange?.listPrice.lowPrice
+                )}
+                saleOff={getSaleOff(item)}
+                priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+                price={item.priceRange?.listPrice?.lowPrice || 0}
+                productTitle={item.productName}
+                onClickImage={() => {
+                  navigation.navigate('ProductDetail', {
+                    productId: item.productId,
+                    colorSelected: getVariant(
+                      item.items[0].variations,
+                      'VALOR_HEX_ORIGINAL'
+                    ),
+                  });
+                }}
+              />
             );
           }}
         />
@@ -388,3 +384,47 @@ export const ListVerticalProducts = ({
     </>
   );
 };
+
+
+interface ProductItemInterface extends ProductVerticalListCardProps {
+  item: any,
+  index: number,
+  horizontal?: boolean,
+}
+
+const ProductItem: React.FC<ProductItemInterface> = ({
+  item,
+  index,
+  horizontal,
+  ...props
+}) => {
+
+  const [imageUri, setImageUri] = useState<string>()
+  const { fetchImage } = useCacheImages()
+
+  useEffect(() => {
+    fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
+      setImageUri(uri)
+    })
+  }, [])
+
+  return (
+    <Box
+      flex={1}
+      alignItems="center"
+      justifyContent="center"
+      height={353}
+      mr={horizontal && 'xxxs'}
+    >
+      {
+        imageUri && (
+          <ProductVerticalListCard
+            {...props}
+            imageSource={imageUri}
+          />
+        )
+      }
+    </Box>
+  );
+}
+
