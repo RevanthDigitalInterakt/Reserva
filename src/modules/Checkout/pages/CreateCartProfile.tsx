@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, TextField, Typography } from 'reserva-ui';
+import { Box, Button, TextField, Typography, theme } from 'reserva-ui';
 import * as Yup from 'yup';
 
 import { useCart } from '../../../context/CartContext';
@@ -24,6 +24,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   const formRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
   const [showCepDescription, setShowCepDescription] = useState(false);
+  const [validateNeighborhood, setValidateNeighborhood] = useState(false);
   const [fields, setFields] = useState({
     firstName: '',
     lastName: '',
@@ -84,6 +85,11 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         state,
         receiverName: fields.firstName,
       });
+
+      if (!neighborhood) {
+        setValidateNeighborhood(true);
+      }
+
       setLoading(false);
     } else {
       setShowCepDescription(false);
@@ -272,13 +278,30 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   >
                     <Box flex={1} marginRight="micro">
                       <TextField
-                        editable={false}
+                        editable={true}
                         value={fields.neighborhood}
-                        onChangeText={(text) =>
-                          setFields({ ...fields, neighborhood: text })
-                        }
+                        onChangeText={(text) => {
+                          setFields({ ...fields, neighborhood: text });
+                        }}
                         placeholder="Bairro"
+                        style={{
+                          textAlign: 'left',
+                          borderWidth: 1,
+                          borderColor:
+                            !fields.neighborhood && validateNeighborhood
+                              ? theme.colors.vermelhoAlerta
+                              : theme.colors.transparente,
+                        }}
                       />
+                      {!fields.neighborhood && validateNeighborhood ? (
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          style={{ fontSize: 13 }}
+                          color="vermelhoAlerta"
+                        >
+                          Por favor, insira o bairro.
+                        </Typography>
+                      ) : null}
                     </Box>
                     <Box flex={1}>
                       <TextField
