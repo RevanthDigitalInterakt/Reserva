@@ -291,7 +291,7 @@ const Delivery: React.FC<{}> = () => {
         setSelectedAddress(selectedAddressOrderFom);
       }
     }
-  }, [orderForm, profile, selectMethodDelivery]);
+  }, [profile]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
