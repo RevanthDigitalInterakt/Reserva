@@ -666,11 +666,11 @@ export const ProductDetail: React.FC<Props> = ({
             selectedSellerId
           );
 
-          setIsVisible(true);
 
           if (!ok) {
             Alert.alert('Produto sem estoque', message);
           } else {
+            setIsVisible(true);
             await addAttachmentsInProducts();
           }
         }
@@ -681,10 +681,11 @@ export const ProductDetail: React.FC<Props> = ({
           selectedSellerId
         );
 
-        setIsVisible(true);
 
         if (!ok) {
           Alert.alert('Produto sem estoque', message);
+        } else {
+          setIsVisible(true);
         }
       }
     }
