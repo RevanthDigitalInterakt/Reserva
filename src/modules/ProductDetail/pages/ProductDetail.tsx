@@ -227,6 +227,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
+  const [avaibleUnits, setAvaibleUnits] = useState(undefined);
   const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [loadingNewsLetter, setLoadingNewsLetter] = useState(false);
@@ -299,6 +300,7 @@ export const ProductDetail: React.FC<Props> = ({
       const variant = product.items.find(
         (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
       );
+      setAvaibleUnits(variant.sellers[0].commertialOffer.AvailableQuantity)
       setSelectedVariant(variant);
 
       const disabledColors = getUnavailableColors(product);
@@ -916,6 +918,7 @@ export const ProductDetail: React.FC<Props> = ({
                   imageIndexActual={(imageIndex) =>
                     setImageIndexActual(imageIndex)
                   }
+                  avaibleUnits={avaibleUnits}
                 />
 
                 {/*
