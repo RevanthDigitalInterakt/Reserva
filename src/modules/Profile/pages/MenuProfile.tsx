@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { BackHandler, ScrollView } from 'react-native';
-import { Typography, Box, Button } from 'reserva-ui';
+import { Typography, Box, Button, Avatar } from 'reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -21,14 +21,18 @@ import {
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
+import { FirebaseService } from '../../../shared/services/FirebaseService';
 
-const MenuScreen: React.FC<{}> = ({}) => {
+const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
+  const [imageProfile, setImageProfile] = useState<any>();
+  const firebaseRef = new FirebaseService();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
+  const [profileImagePath, setProfileImagePath] = useState<any>();
 
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
@@ -67,9 +71,24 @@ const MenuScreen: React.FC<{}> = ({}) => {
           isJSON: true,
         });
         setProfile(profile);
+        const profileImagePath = data?.profile?.customFields.find(
+          (x: any) => x.key == 'profileImagePath'
+        ).value || null;
+        setProfileImagePath(profileImagePath);
       }
     }
   }, [data]);
+
+  useEffect(() => {
+    if (profile) {
+      const { profile } = data;
+      setProfile(profile);
+      const profileImagePath = data?.profile?.customFields.find(
+        (x: any) => x.key == 'profileImagePath'
+      ).value || null;
+      setProfileImagePath(profileImagePath);
+    }
+  }, [profile]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -77,6 +96,22 @@ const MenuScreen: React.FC<{}> = ({}) => {
       return true;
     });
   }, []);
+
+  const updateImageUrl = () => {
+    if (profileImagePath != null) {
+      firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
+        setImageProfile(value);
+      }, (error) => {
+        setProfileImagePath(null);
+      });
+    } else {
+      setImageProfile(null);
+    }
+  };
+
+  useEffect(() => {
+    updateImageUrl();
+  }, [profileImagePath]);
 
   return (
     <Box flex={1} backgroundColor="white">
@@ -86,15 +121,38 @@ const MenuScreen: React.FC<{}> = ({}) => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent="flex-start" pt="xs" paddingX="xxxs">
-          <Box mb="xxs">
-            <Typography variant="tituloSessoes" fontSize={20}>
-              Perfil
-            </Typography>
+          <Box
+            flexDirection='row'
+            alignItems='center'
+          >
+            <Box>
+              {imageProfile === null ? (
+                <Avatar
+                  sizeImage={60}
+                  sizeButton={25}
+                  onPress={() => navigation.navigate('EditProfile')} buttonEdit />
+              ) :
+                (
+                  <Avatar imageSource={{ uri: imageProfile }}
+                    onPress={() => navigation.navigate('EditProfile')}
+                    buttonEdit
+                    sizeImage={60}
+                    sizeButton={25}
+                  />
+                )
+              }
+            </Box>
+            <Box ml='xxxs'>
+              <Box mb="micro" >
+                <Typography variant="tituloSessoes" fontSize={20}>
+                  Perfil
+                </Typography>
+              </Box>
+              <Typography variant="subtituloSessoes" fontSize={16}>
+                Boas-vindas, {profile && `${profile?.firstName || profile?.email}.`}
+              </Typography>
+            </Box>
           </Box>
-          <Typography variant="subtituloSessoes" fontSize={16}>
-            Bem-vindo, {profile?.firstName || profile?.email}
-          </Typography>
-
           <Box mt="xxxs">
             <ItemList
               title="Meus pedidos"
