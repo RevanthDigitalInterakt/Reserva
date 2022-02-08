@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';
@@ -25,6 +25,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   const [loading, setLoading] = useState(false);
   const [showCepDescription, setShowCepDescription] = useState(false);
   const [validateNeighborhood, setValidateNeighborhood] = useState(false);
+  const [validateStreet, setValidateStreet] = useState(false);
   const [fields, setFields] = useState({
     firstName: '',
     lastName: '',
@@ -88,6 +89,14 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
       if (!neighborhood) {
         setValidateNeighborhood(true);
+      } else {
+        setValidateNeighborhood(false);
+      }
+
+      if (!street) {
+        setValidateStreet(true);
+      } else {
+        setValidateStreet(false);
       }
 
       setLoading(false);
@@ -146,6 +155,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     }
   };
 
+  useEffect(() => {
+    console.log('FIELDS :::::::::::::>>>>>>', fields);
+  }, [fields]);
+
   return (
     <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
@@ -162,7 +175,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
             </Box>
             <Box mt={20}>
               <Typography fontFamily="nunitoRegular" fontSize={15}>
-                Insira os dados do destinatário
+                Insira os dados do destinatário:
               </Typography>
             </Box>
 
@@ -206,18 +219,25 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                     justifyContent="space-between"
                   >
                     <Box flex={1} marginRight="micro">
-                      <FormikTextInput placeholder="Nome" field="firstName" />
+                      <FormikTextInput
+                        label="Nome"
+                        placeholder="Nome"
+                        field="firstName"
+                      />
                     </Box>
 
                     <Box flex={1}>
                       <FormikTextInput
+                        label="Sobrenome"
                         placeholder="Sobrenome"
                         field="lastName"
                       />
                     </Box>
                   </Box>
+
                   <Box mt={15}>
                     <FormikTextInput
+                      label="Data de Nascimento"
                       maskType="datetime"
                       placeholder="Data de Nascimento"
                       maskOptions={{
@@ -227,16 +247,20 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                       keyboardType="number-pad"
                     />
                   </Box>
+
                   <Box mt={15}>
                     <FormikTextInput
+                      label="CPF"
                       field="document"
                       maskType="cpf"
                       keyboardType="number-pad"
                       placeholder="CPF"
                     />
                   </Box>
+
                   <Box mt={15}>
                     <FormikTextInput
+                      label="Telefone"
                       field="phone"
                       maskType="custom"
                       maskOptions={{
@@ -255,22 +279,64 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
+                      label="CEP"
                       value={fields.postalCode}
                       keyboardType="number-pad"
+                      maskType="zip-code"
                       onChangeText={(text) => {
                         setFields({ ...fields, postalCode: text });
-                        cepHandler(text);
+                        cepHandler(text.replace('-', ''));
                       }}
                       placeholder="CEP"
                     />
                   </Box>
-                  <Box>
+                  {/* <Box>
                     <Typography fontFamily="nunitoRegular" fontSize={13}>
                       {showCepDescription
                         ? `${fields.street} - ${fields.neighborhood}, ${fields.city} - ${fields.state}`
                         : ''}
                     </Typography>
+                  </Box> */}
+
+                  <Box mt={15}>
+                    <TextField
+                      label="Endereço"
+                      value={fields.street}
+                      onChangeText={(text) => {
+                        setFields({ ...fields, street: text });
+
+                        if (!text) {
+                          setValidateStreet(true);
+                        } else {
+                          setValidateStreet(false);
+                        }
+                      }}
+                      placeholder="Endereço"
+                      error="Por favor, insira o endereço."
+                      touched={validateStreet}
+                    />
                   </Box>
+
+                  <Box mt={15}>
+                    <TextField
+                      label="Bairro"
+                      editable={true}
+                      value={fields.neighborhood}
+                      onChangeText={(text) => {
+                        setFields({ ...fields, neighborhood: text });
+
+                        if (!text) {
+                          setValidateNeighborhood(true);
+                        } else {
+                          setValidateNeighborhood(false);
+                        }
+                      }}
+                      placeholder="Bairro"
+                      error=" Por favor, insira o bairro."
+                      touched={validateNeighborhood}
+                    />
+                  </Box>
+
                   <Box
                     mt={15}
                     flexDirection="row"
@@ -278,59 +344,49 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   >
                     <Box flex={1} marginRight="micro">
                       <TextField
-                        editable={true}
-                        value={fields.neighborhood}
-                        onChangeText={(text) => {
-                          setFields({ ...fields, neighborhood: text });
-                        }}
-                        placeholder="Bairro"
-                        style={{
-                          textAlign: 'left',
-                          borderWidth: 1,
-                          borderColor:
-                            !fields.neighborhood && validateNeighborhood
-                              ? theme.colors.vermelhoAlerta
-                              : theme.colors.transparente,
-                        }}
+                        value={fields.number}
+                        keyboardType="number-pad"
+                        onChangeText={(text) =>
+                          setFields({ ...fields, number: text })
+                        }
+                        label="Número"
+                        placeholder="Número"
                       />
-                      {!fields.neighborhood && validateNeighborhood ? (
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          style={{ fontSize: 13 }}
-                          color="vermelhoAlerta"
-                        >
-                          Por favor, insira o bairro.
-                        </Typography>
-                      ) : null}
                     </Box>
+
                     <Box flex={1}>
                       <TextField
-                        editable={false}
-                        value={fields.state}
+                        value={fields.complement}
                         onChangeText={(text) =>
-                          setFields({ ...fields, state: text })
+                          setFields({ ...fields, complement: text })
                         }
-                        placeholder="Estado"
+                        label="Complemento"
+                        placeholder="Complemento"
                       />
                     </Box>
                   </Box>
+
                   <Box mt={15}>
                     <TextField
-                      value={fields.number}
+                      value={fields.city}
                       keyboardType="number-pad"
                       onChangeText={(text) =>
-                        setFields({ ...fields, number: text })
+                        setFields({ ...fields, city: text })
                       }
-                      placeholder="Numero"
+                      label="Cidade"
+                      placeholder="Cidade"
                     />
                   </Box>
+
                   <Box mt={15} marginBottom={35}>
                     <TextField
-                      value={fields.complement}
+                      editable={false}
+                      value={fields.state}
                       onChangeText={(text) =>
-                        setFields({ ...fields, complement: text })
+                        setFields({ ...fields, state: text })
                       }
-                      placeholder="Complemento"
+                      label="Estado"
+                      placeholder="Estado"
                     />
                   </Box>
                 </>
@@ -345,7 +401,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         onPress={handleSubmit}
         title="ESCOLHER TIPO DE ENTREGA"
         inline
-        disabled={loading}
+        disabled={loading || validateNeighborhood || validateStreet}
       />
     </SafeAreaView>
   );
