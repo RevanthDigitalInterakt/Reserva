@@ -155,10 +155,6 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     }
   };
 
-  useEffect(() => {
-    console.log('FIELDS :::::::::::::>>>>>>', fields);
-  }, [fields]);
-
   return (
     <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
