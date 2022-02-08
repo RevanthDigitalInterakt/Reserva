@@ -45,6 +45,7 @@ import {
   OrderFlow,
   ProductFlow,
   TimeRaceFlow,
+  RegisterFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
@@ -72,6 +73,7 @@ export type RootStackParamList = {
     orderId?: string;
   };
   ForgotAccessCode: { email: string };
+  ConfirmAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: any[] };
   AccessCode: {
     email: string;
@@ -100,6 +102,7 @@ export type RootStackParamList = {
     };
   };
   ForgotEmail: {};
+  RegisterEmail: {};
   Home: undefined;
   CancelOrder: {};
   Cashback: { isAcceptedConditions: boolean };
@@ -160,7 +163,8 @@ const flows: Flow[] = [
   ...LoginFlow,
   ...ProductFlow,
   ...TimeRaceFlow,
-  ...MyCreditsRoutes
+  ...MyCreditsRoutes,
+  ...RegisterFlow,
 ];
 
 export const MainStack = createStackNavigator();

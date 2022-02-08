@@ -292,7 +292,7 @@ export const LoginScreen: React.FC<Props> = ({
             inline
             variant="primarioEstreito"
             disabled={loadingSendMail || loading}
-            onPress={() => { navigation.navigate('ForgotEmail', {}); }}
+            onPress={() => { navigation.navigate('RegisterEmail', {}); }}
           />
 
         </Box>
