@@ -1,71 +1,59 @@
+import {
+  QueryResult, useLazyQuery,
+  useMutation, useQuery
+} from '@apollo/client';
+import AsyncStorage from '@react-native-community/async-storage';
+import analytics from '@react-native-firebase/analytics';
+import remoteConfig from '@react-native-firebase/remote-config';
+import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
+import { addDays, format } from 'date-fns';
 import React, { createRef, useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import analytics from '@react-native-firebase/analytics';
-
+import appsFlyer from 'react-native-appsflyer';
+import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Share from 'react-native-share';
 import {
   Box,
   Button,
   Divider,
-  Icon,
-  ProductDetailCard,
-  SelectColor,
-  Typography,
-  OutlineInput,
-  RadioButtons,
-  ProductVerticalListCardProps,
-  ExpansePanel,
+  Icon, OutlineInput, ProductDetailCard, ProductVerticalListCardProps, RadioButtons, SelectColor,
+  Typography
 } from 'reserva-ui';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { ModalBag } from '../components/ModalBag';
 import * as Yup from 'yup';
-import Share from 'react-native-share';
-
-import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import { images } from '../../../assets';
+import { useAuth } from '../../../context/AuthContext';
+import { useCacheImages } from '../../../context/CacheImagesContext';
 import { useCart } from '../../../context/CartContext';
-import {
-  QueryResult,
-  useQuery,
-  useLazyQuery,
-  useMutation,
-} from '@apollo/client';
 import {
   GET_PRODUCTS,
   GET_SHIPPING,
-  SUBSCRIBE_NEWSLETTER,
+  SUBSCRIBE_NEWSLETTER
 } from '../../../graphql/product/productQuery';
 import {
-  Installment,
-  ProductQL,
-  Seller,
-  SKU,
-  SkuSpecification,
+  Seller
 } from '../../../graphql/products/productSearch';
-import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
-import { id } from 'date-fns/locale';
-import { ProductUtils } from '../../../shared/utils/productUtils';
 import wishListQueries from '../../../graphql/wishlist/wishList';
-import { useAuth } from '../../../context/AuthContext';
-import { images } from '../../../assets';
-import { url } from '../../../config/vtexConfig';
-import { Tooltip } from '../components/Tooltip';
-import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
-import AsyncStorage from '@react-native-community/async-storage';
-
-import axios from 'axios';
-import appsFlyer from 'react-native-appsflyer';
-import remoteConfig from '@react-native-firebase/remote-config';
-import { addDays, format } from 'date-fns';
-import { ModalZoomImage } from '../components/ModalZoomImage';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment } from '../../../services/vtexService';
+import { ProductUtils } from '../../../shared/utils/productUtils';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
+import { ExpandProductDescription } from '../components/ExpandProductDescription';
+import { ModalBag } from '../components/ModalBag';
+import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
+import { ModalZoomImage } from '../components/ModalZoomImage';
+import { Tooltip } from '../components/Tooltip';
+
+
+
+
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -106,6 +94,7 @@ type Facets = {
 };
 
 type Variant = {
+  ean: string;
   itemId: string;
   images: {
     imageUrl: string;
@@ -128,7 +117,11 @@ type Specification = {
   field: Field;
   values: Field[];
 };
-
+type Properties = {
+  name: string;
+  originalName: string;
+  values: string[];
+}
 type Product = {
   categoryTree: any[]; // doesnt matter
   productId: string;
@@ -139,6 +132,7 @@ type Product = {
     sellingPrice: Price;
     listPrice: Price;
   };
+  properties: Properties[];
   items: Variant[];
   description: string;
 };
@@ -219,6 +213,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
+  const [avaibleUnits, setAvaibleUnits] = useState(undefined);
   const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [loadingNewsLetter, setLoadingNewsLetter] = useState(false);
@@ -257,6 +252,20 @@ export const ProductDetail: React.FC<Props> = ({
   const { email } = useAuth();
   const [isLastUnits, setIsLastUnits] = useState(false);
   const [imageIndexActual, setImageIndexActual] = useState<number>(0);
+  const [imagesUri, setImagesUri] = useState<string[]>([])
+  const { fetchImage } = useCacheImages()
+
+  useEffect(() => {
+    console.log('imageSelected', imageSelected)
+    if (imageSelected.length > 0) {
+      Promise.all([
+        ...imageSelected[0][0].map(image => fetchImage(image.imageUrl))
+      ]).then(images => {
+        console.log('images3301', images)
+        setImagesUri(images)
+      })
+    }
+  }, [imageSelected])
 
   /***
    * Effects
@@ -291,6 +300,7 @@ export const ProductDetail: React.FC<Props> = ({
       const variant = product.items.find(
         (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
       );
+      setAvaibleUnits(variant.sellers[0].commertialOffer.AvailableQuantity)
       setSelectedVariant(variant);
 
       const disabledColors = getUnavailableColors(product);
@@ -656,11 +666,11 @@ export const ProductDetail: React.FC<Props> = ({
             selectedSellerId
           );
 
-          setIsVisible(true);
 
           if (!ok) {
             Alert.alert('Produto sem estoque', message);
           } else {
+            setIsVisible(true);
             await addAttachmentsInProducts();
           }
         }
@@ -671,10 +681,11 @@ export const ProductDetail: React.FC<Props> = ({
           selectedSellerId
         );
 
-        setIsVisible(true);
 
         if (!ok) {
           Alert.alert('Produto sem estoque', message);
+        } else {
+          setIsVisible(true);
         }
       }
     }
@@ -883,11 +894,7 @@ export const ProductDetail: React.FC<Props> = ({
                     product.priceRange.sellingPrice.lowPrice || 0
                   }
                   imagesWidth={screenWidth}
-                  images={
-                    imageSelected.length > 0
-                      ? imageSelected[0][0].map((image) => image.imageUrl)
-                      : []
-                  }
+                  images={imagesUri}
                   installmentsNumber={
                     getInstallments()?.NumberOfInstallments || 1
                   }
@@ -908,6 +915,7 @@ export const ProductDetail: React.FC<Props> = ({
                   imageIndexActual={(imageIndex) =>
                     setImageIndexActual(imageIndex)
                   }
+                  avaibleUnits={avaibleUnits}
                 />
 
                 {/*
@@ -1436,18 +1444,11 @@ export const ProductDetail: React.FC<Props> = ({
                     ))}
                   <Divider variant="fullWidth" my="xs" />
 
-                  <Box>
-                    <ExpansePanel
-                      style={{
-                        fontFamily: 'reservaSerifRegular',
-                        fontSize: 20,
-                      }}
-                      information={{
-                        title: 'Sobre este produto',
-                        content: product.description || '',
-                      }}
-                    />
-                  </Box>
+                  <ExpandProductDescription
+                    description={product?.description || ''}
+                    composition={product?.properties[0]?.values[0]}
+                    codeProduct={product?.items.find((x) => x.itemId === selectedVariant?.itemId)?.ean || ''}
+                  />
 
                   <Divider variant="fullWidth" my="xs" />
                   <Box mb="xxxs">
