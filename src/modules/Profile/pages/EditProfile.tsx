@@ -171,18 +171,20 @@ export const EditProfile: React.FC<{
 
     let profileImage = profileImagePath;
 
+    //Deleta a foto antiga do usuário no firebase
     if (imageProfile !== null && profileImagePath !== null) {
       const isDifferent = imageProfile.includes(profileImagePath.split('/')[3]);
-      //Deleta a foto antiga do usuário no firebase
       if (!isDifferent) {
         await firebaseRef.deleteFS(`${profileImagePath}`);
       }
     }
 
+    //Deleta a foto antiga do usuário no firebase
     if (deletePhoto && profileImagePath !== null) {
       await firebaseRef.deleteFS(`${profileImagePath}`);
       profileImage = null;
     }
+
     //Salva uma nova foto do usuário no firebase
     if (imageProfile !== null) {
       if (file !== null) {
@@ -287,9 +289,6 @@ export const EditProfile: React.FC<{
               type: 'image/jpeg',
             };
 
-            if (file) {
-              deleteImageProfile();
-            }
             setFile(photoFile);
             setImageProfile(photoFile.uri)
           }
@@ -326,9 +325,6 @@ export const EditProfile: React.FC<{
               name: response.assets[0].fileName,
               type: 'image/jpeg',
             };
-            if (file) {
-              deleteImageProfile();
-            }
 
             setFile(photoFile);
             setImageProfile(photoFile.uri)
