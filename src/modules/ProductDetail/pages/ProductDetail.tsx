@@ -49,6 +49,7 @@ import { ExpandProductDescription } from '../components/ExpandProductDescription
 import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import { ModalZoomImage } from '../components/ModalZoomImage';
+import { Recommendation } from '../components/Recommendation';
 import { Tooltip } from '../components/Tooltip';
 
 
@@ -1450,7 +1451,8 @@ export const ProductDetail: React.FC<Props> = ({
                     codeProduct={product?.items.find((x) => x.itemId === selectedVariant?.itemId)?.ean || ''}
                   />
 
-                  <Divider variant="fullWidth" my="xs" />
+                  <Recommendation />
+
                   <Box mb="xxxs">
                     <Tooltip
                       tooltipText="Email Cadastrado!"
