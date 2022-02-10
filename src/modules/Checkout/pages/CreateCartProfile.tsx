@@ -45,6 +45,15 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     receiverName: '',
   });
 
+  // State labels
+  const [labelNeighborhood, setLabelNeighborhood] = useState(null);
+  const [labelPostalCode, setLabelPostalCode] = useState(null);
+  const [labelState, setLabelState] = useState(null);
+  const [labelCity, setLabelCity] = useState(null);
+  const [labelNumber, setLabelNumber] = useState(null);
+  const [labelStreet, setLabelStreet] = useState(null);
+  const [labelComplement, setLabelComplement] = useState(null);
+
   const handleSubmit = () => {
     if (formRef.current) {
       formRef.current.handleSubmit();
@@ -64,7 +73,12 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         /^[aA-zZ\s]+$/,
         'Apenas alfabetos são permitidos para este campo.'
       ),
-    birthDate: Yup.string(),
+    birthDate: Yup.string()
+      .required('Insira a data de nascimento')
+      .matches(
+        /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+        'Digite uma data válida.'
+      ),
     document: Yup.string().required('Por favor, insira o seu cpf'),
     phone: Yup.string().required('Por favor, insira o seu telefone'),
   });
@@ -155,6 +169,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     }
   };
 
+  useEffect(() => {
+    console.log('FIELDS::::::::>', fields);
+  }, [fields]);
+
   return (
     <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
@@ -179,6 +197,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               initialValues={fields}
               validationSchema={validation}
               innerRef={formRef}
+              validateOnChange={true}
+              validateOnBlur={true}
               onSubmit={(values) => {
                 const {
                   firstName,
@@ -275,13 +295,19 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
-                      label="CEP"
+                      label={labelPostalCode}
                       value={fields.postalCode}
                       keyboardType="number-pad"
                       maskType="zip-code"
                       onChangeText={(text) => {
                         setFields({ ...fields, postalCode: text });
                         cepHandler(text.replace('-', ''));
+
+                        if (!text) {
+                          setLabelPostalCode(null);
+                        } else {
+                          setLabelPostalCode('CEP');
+                        }
                       }}
                       placeholder="CEP"
                     />
@@ -296,15 +322,17 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
-                      label="Endereço"
+                      label={labelStreet}
                       value={fields.street}
                       onChangeText={(text) => {
                         setFields({ ...fields, street: text });
 
                         if (!text) {
                           setValidateStreet(true);
+                          setLabelStreet(null);
                         } else {
                           setValidateStreet(false);
+                          setLabelStreet('Endereço');
                         }
                       }}
                       placeholder="Endereço"
@@ -315,7 +343,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
-                      label="Bairro"
+                      label={labelNeighborhood}
                       editable={true}
                       value={fields.neighborhood}
                       onChangeText={(text) => {
@@ -323,8 +351,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                         if (!text) {
                           setValidateNeighborhood(true);
+                          setLabelNeighborhood(null);
                         } else {
                           setValidateNeighborhood(false);
+                          setLabelNeighborhood('Bairro');
                         }
                       }}
                       placeholder="Bairro"
@@ -342,10 +372,16 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                       <TextField
                         value={fields.number}
                         keyboardType="number-pad"
-                        onChangeText={(text) =>
-                          setFields({ ...fields, number: text })
-                        }
-                        label="Número"
+                        onChangeText={(text) => {
+                          setFields({ ...fields, number: text });
+
+                          if (!text) {
+                            setLabelNumber(null);
+                          } else {
+                            setLabelNumber('Número');
+                          }
+                        }}
+                        label={labelNumber}
                         placeholder="Número"
                       />
                     </Box>
@@ -353,10 +389,15 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                     <Box flex={1}>
                       <TextField
                         value={fields.complement}
-                        onChangeText={(text) =>
-                          setFields({ ...fields, complement: text })
-                        }
-                        label="Complemento"
+                        onChangeText={(text) => {
+                          setFields({ ...fields, complement: text });
+                          if (!text) {
+                            setLabelComplement(null);
+                          } else {
+                            setLabelComplement('Complemento');
+                          }
+                        }}
+                        label={labelComplement}
                         placeholder="Complemento"
                       />
                     </Box>
@@ -366,22 +407,32 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                     <TextField
                       value={fields.city}
                       keyboardType="number-pad"
-                      onChangeText={(text) =>
-                        setFields({ ...fields, city: text })
-                      }
-                      label="Cidade"
+                      onChangeText={(text) => {
+                        setFields({ ...fields, city: text });
+                        if (!text) {
+                          setLabelCity(null);
+                        } else {
+                          setLabelCity('Cidade');
+                        }
+                      }}
+                      label={labelCity}
                       placeholder="Cidade"
                     />
                   </Box>
 
                   <Box mt={15} marginBottom={35}>
                     <TextField
-                      editable={false}
+                      editable={true}
                       value={fields.state}
-                      onChangeText={(text) =>
-                        setFields({ ...fields, state: text })
-                      }
-                      label="Estado"
+                      onChangeText={(text) => {
+                        setFields({ ...fields, state: text });
+                        if (!text) {
+                          setLabelState(null);
+                        } else {
+                          setLabelState('Estado');
+                        }
+                      }}
+                      label={labelState}
                       placeholder="Estado"
                     />
                   </Box>

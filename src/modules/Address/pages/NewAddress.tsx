@@ -78,6 +78,15 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [validateNeighborhood, setValidateNeighborhood] = useState(false);
   const [validateStreet, setValidateStreet] = useState(false);
 
+  // State labels
+  const [labelNeighborhood, setLabelNeighborhood] = useState(null);
+  const [labelPostalCode, setLabelPostalCode] = useState(null);
+  const [labelState, setLabelState] = useState(null);
+  const [labelCity, setLabelCity] = useState(null);
+  const [labelNumber, setLabelNumber] = useState(null);
+  const [labelStreet, setLabelStreet] = useState(null);
+  const [labelComplement, setLabelComplement] = useState(null);
+
   const handleSaveAddress = async () => {
     setLoading(true);
 
@@ -163,16 +172,38 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         state,
       });
 
-      if (!neighborhood) {
-        setValidateNeighborhood(true);
+      if (!postalCode) {
+        setLabelPostalCode(null);
       } else {
-        setValidateNeighborhood(false);
+        setLabelPostalCode('CEP');
       }
 
       if (!street) {
         setValidateStreet(true);
+        setLabelStreet(null);
       } else {
         setValidateStreet(false);
+        setLabelStreet('Endereço');
+      }
+
+      if (!neighborhood) {
+        setValidateNeighborhood(true);
+        setLabelNeighborhood(null);
+      } else {
+        setValidateNeighborhood(false);
+        setLabelNeighborhood('Bairro');
+      }
+
+      if (!city) {
+        setLabelCity(null);
+      } else {
+        setLabelCity('Cidade');
+      }
+
+      if (!state) {
+        setLabelState(null);
+      } else {
+        setLabelState('Estado');
       }
 
       setLoading(false);
@@ -208,8 +239,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       state?.length > 0 &&
       city?.length > 0 &&
       number.length > 0 &&
-      street.length > 0 &&
-      neighborhood.length > 0
+      street?.length > 0 &&
+      neighborhood?.length > 0
     ) {
       setButtonEnabled(true);
     } else {
@@ -229,6 +260,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         street: editAddress.street,
         neighborhood: editAddress.neighborhood,
       });
+      setLabelNeighborhood('Bairro');
+      setLabelCity('Cidade');
+      setLabelComplement('Complemento');
+      setLabelNumber('Número');
+      setLabelState('Estado');
+      setLabelPostalCode('CEP');
+      setLabelStreet('Endereço');
     }
   }, [edit]);
 
@@ -261,19 +299,25 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 </Box>
 
                 <InputOption
-                  label="CEP"
+                  label={labelPostalCode}
                   placeholder="CEP"
                   maskType="zip-code"
                   value={initialValues.postalCode}
                   onChangeText={(text) => {
                     setInitialValues({ ...initialValues, postalCode: text });
                     cepHandler(text.replace('-', ''));
+
+                    if (!text) {
+                      setLabelPostalCode(null);
+                    } else {
+                      setLabelPostalCode('CEP');
+                    }
                   }}
                 />
 
                 {/* {initialValues.street ? <Typography>teste</Typography> : null} */}
                 <InputOption
-                  label="Endereço"
+                  label={labelStreet}
                   placeholder="Endereço"
                   value={initialValues.street}
                   // editable={initialValues.street.length <= 0}
@@ -282,8 +326,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                     if (!text) {
                       setValidateStreet(true);
+                      setLabelStreet(null);
                     } else {
                       setValidateStreet(false);
+                      setLabelStreet('Endereço');
                     }
                   }}
                   touched={validateStreet}
@@ -291,7 +337,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 />
 
                 <InputOption
-                  label="Bairro"
+                  label={labelNeighborhood}
                   placeholder="Bairro"
                   value={initialValues.neighborhood}
                   // editable={initialValues.neighborhood.length <= 0}
@@ -303,8 +349,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                     if (!text) {
                       setValidateNeighborhood(true);
+                      setLabelNeighborhood(null);
                     } else {
                       setValidateNeighborhood(false);
+                      setLabelNeighborhood('Bairro');
                     }
                   }}
                   touched={validateNeighborhood}
@@ -314,48 +362,72 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 <Box flexDirection="row" justifyContent="space-between">
                   <Box flex={1} marginRight="micro">
                     <InputOption
-                      label="Número"
+                      label={labelNumber}
                       placeholder="Número"
                       value={initialValues.number}
-                      onChangeText={(text) =>
-                        setInitialValues({ ...initialValues, number: text })
-                      }
+                      onChangeText={(text) => {
+                        setInitialValues({ ...initialValues, number: text });
+
+                        if (!text) {
+                          setLabelNumber(null);
+                        } else {
+                          setLabelNumber('Número');
+                        }
+                      }}
                     />
                   </Box>
 
                   <Box flex={1}>
                     <InputOption
-                      label="Complemento"
+                      label={labelComplement}
                       placeholder="Complemento"
                       value={initialValues.complement}
-                      onChangeText={(text) =>
-                        setInitialValues({ ...initialValues, complement: text })
-                      }
+                      onChangeText={(text) => {
+                        setInitialValues({
+                          ...initialValues,
+                          complement: text,
+                        });
+                        if (!text) {
+                          setLabelComplement(null);
+                        } else {
+                          setLabelComplement('Complemento');
+                        }
+                      }}
                     />
                   </Box>
                 </Box>
 
                 <Box flex={1}>
                   <InputOption
-                    label="Cidade"
+                    label={labelCity}
                     placeholder="Cidade"
                     value={initialValues.city}
                     // editable={initialValues.state.length <= 0}
-                    onChangeText={(text) =>
-                      setInitialValues({ ...initialValues, city: text })
-                    }
+                    onChangeText={(text) => {
+                      setInitialValues({ ...initialValues, city: text });
+                      if (!text) {
+                        setLabelCity(null);
+                      } else {
+                        setLabelCity('Cidade');
+                      }
+                    }}
                   />
                 </Box>
 
                 <Box flex={1}>
                   <InputOption
-                    label="Estado"
+                    label={labelState}
                     placeholder="Estado"
                     value={initialValues.state}
                     // editable={initialValues.state.length <= 0}
-                    onChangeText={(text) =>
-                      setInitialValues({ ...initialValues, state: text })
-                    }
+                    onChangeText={(text) => {
+                      setInitialValues({ ...initialValues, state: text });
+                      if (!text) {
+                        setLabelState(null);
+                      } else {
+                        setLabelState('Estado');
+                      }
+                    }}
                   />
                 </Box>
 
