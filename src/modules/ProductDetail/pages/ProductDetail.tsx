@@ -49,6 +49,7 @@ import { ExpandProductDescription } from '../components/ExpandProductDescription
 import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import { ModalZoomImage } from '../components/ModalZoomImage';
+import { SizeGuide } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
 
 
@@ -649,7 +650,7 @@ export const ProductDetail: React.FC<Props> = ({
     const options = {
       message: 'Olha o que acabei de encontrar na Reserva: \n',
       title: 'Compartilhar',
-      url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
+      url: `https://opencashback--applojausereserva.myvtex.com${path}?skuId=${selectedVariant.itemId}`,
     };
 
     Share.open(options);
@@ -965,6 +966,7 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
+                      <SizeGuide />
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons
