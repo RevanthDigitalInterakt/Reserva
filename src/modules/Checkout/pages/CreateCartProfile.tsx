@@ -73,12 +73,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         /^[aA-zZ\s]+$/,
         'Apenas alfabetos são permitidos para este campo.'
       ),
-    birthDate: Yup.string()
-      .required('Insira a data de nascimento')
-      .matches(
-        /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
-        'Digite uma data válida.'
-      ),
+    birthDate: Yup.string().matches(
+      /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+      'Digite uma data válida.'
+    ),
     document: Yup.string().required('Por favor, insira o seu cpf'),
     phone: Yup.string().required('Por favor, insira o seu telefone'),
   });
@@ -101,22 +99,79 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         receiverName: fields.firstName,
       });
 
-      if (!neighborhood) {
-        setValidateNeighborhood(true);
+      if (!postalCode) {
+        setLabelPostalCode(null);
       } else {
-        setValidateNeighborhood(false);
+        setLabelPostalCode('CEP');
       }
 
       if (!street) {
         setValidateStreet(true);
+        setLabelStreet(null);
       } else {
         setValidateStreet(false);
+        setLabelStreet('Endereço');
+      }
+
+      if (!neighborhood) {
+        setValidateNeighborhood(true);
+        setLabelNeighborhood(null);
+      } else {
+        setValidateNeighborhood(false);
+        setLabelNeighborhood('Bairro');
+      }
+
+      if (!city) {
+        setLabelCity(null);
+      } else {
+        setLabelCity('Cidade');
+      }
+
+      if (!state) {
+        setLabelState(null);
+      } else {
+        setLabelState('Estado');
       }
 
       setLoading(false);
     } else {
       setShowCepDescription(false);
     }
+  };
+
+  const isCPFvalid = async (cpf) => {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf == '') return false;
+    // Elimina CPFs invalidos conhecidos
+    if (
+      cpf.length != 11 ||
+      cpf == '00000000000' ||
+      cpf == '11111111111' ||
+      cpf == '22222222222' ||
+      cpf == '33333333333' ||
+      cpf == '44444444444' ||
+      cpf == '55555555555' ||
+      cpf == '66666666666' ||
+      cpf == '77777777777' ||
+      cpf == '88888888888' ||
+      cpf == '99999999999'
+    )
+      return false;
+    // Valida 1o digito
+    let add = 0;
+    let i = 0;
+    let rev = 0;
+    for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+    rev = 11 - (add % 11);
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(9))) return false;
+    // Valida 2o digito
+    add = 0;
+    for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+    rev = 11 - (add % 11);
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(10))) return false;
+    return true;
   };
 
   const saveCustomer = async (
@@ -127,6 +182,14 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     phone: string
   ) => {
     setLoading(true);
+
+    isCPFvalid(document).then((value) => {
+      console.log(value);
+
+      if (!value) {
+      }
+    });
+
     // const { firstName, lastName, birthDate, document, documentType, phone,  } = fields;
     const isCustomerSave = await addCustomer({
       firstName,
