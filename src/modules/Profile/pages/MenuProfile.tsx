@@ -149,7 +149,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 </Typography>
               </Box>
               <Typography variant="subtituloSessoes" fontSize={16}>
-                Boas-vindas, {profile && `${profile?.firstName || profile?.email}.`}
+                Boas-vindas{profile && `, ${profile?.firstName || profile?.email}.`}
               </Typography>
             </Box>
           </Box>
