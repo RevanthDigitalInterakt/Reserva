@@ -143,7 +143,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
               }
             </Box>
             <Box ml='xxxs'>
-              <Box mb="micro" >
+              <Box mb="quarck" >
                 <Typography variant="tituloSessoes" fontSize={20}>
                   Perfil
                 </Typography>
