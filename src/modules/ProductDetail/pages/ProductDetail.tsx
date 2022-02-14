@@ -7,7 +7,7 @@ import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { addDays, format } from 'date-fns';
-import React, { createRef, useEffect, useMemo, useState } from 'react';
+import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -51,10 +51,6 @@ import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import { ModalZoomImage } from '../components/ModalZoomImage';
 import { Recommendation } from '../components/Recommendation';
 import { Tooltip } from '../components/Tooltip';
-
-
-
-
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -255,6 +251,8 @@ export const ProductDetail: React.FC<Props> = ({
   const [imageIndexActual, setImageIndexActual] = useState<number>(0);
   const [imagesUri, setImagesUri] = useState<string[]>([])
   const { fetchImage } = useCacheImages()
+
+  const scrollRef = useRef<ScrollView>()
 
   useEffect(() => {
     console.log('imageSelected', imageSelected)
@@ -837,6 +835,13 @@ export const ProductDetail: React.FC<Props> = ({
     return product?.description.includes(description);
   }, [product]);
 
+  const handleScrollToTheTop = () => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  }
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -859,6 +864,7 @@ export const ProductDetail: React.FC<Props> = ({
           <ScrollView
             contentContainerStyle={{ paddingBottom: 100 }}
             style={{ marginBottom: 24 }}
+            ref={scrollRef}
           >
             {product && selectedVariant && (
               <>
@@ -1451,7 +1457,7 @@ export const ProductDetail: React.FC<Props> = ({
                     codeProduct={product?.items.find((x) => x.itemId === selectedVariant?.itemId)?.ean || ''}
                   />
 
-                  <Recommendation />
+                  <Recommendation handleScrollToTheTop={handleScrollToTheTop} />
 
                   <Box mb="xxxs">
                     <Tooltip
