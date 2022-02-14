@@ -922,7 +922,7 @@ export const ProductDetail: React.FC<Props> = ({
                   imageIndexActual={(imageIndex) =>
                     setImageIndexActual(imageIndex)
                   }
-                  avaibleUnits={avaibleUnits}
+                  avaibleUnits={!outOfStock && avaibleUnits}
                 />
 
                 {/*
