@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { ViewComponent, KeyboardTypeOptions } from 'react-native';
-import { TextField, Box } from 'reserva-ui';
 import { useFormikContext } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { KeyboardTypeOptions, ViewComponent } from 'react-native';
 import {
-  TextInputMaskTypeProp,
   TextInputMaskOptionProp,
+  TextInputMaskTypeProp,
 } from 'react-native-masked-text';
+import { TextField } from 'reserva-ui';
 
 interface IFormikTextInput {
   label?: string;

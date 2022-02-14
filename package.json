@@ -6,6 +6,7 @@
     "pod-deintegrate": "cd ios && arch -x86_64 pod deintegrate",
     "pod-install": "cd ios && arch -x86_64 pod install",
     "android": "react-native run-android",
+    "android-release": "npx react-native run-android --variant=release",
     "ios": "react-native run-ios  --simulator='iPhone X'",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",

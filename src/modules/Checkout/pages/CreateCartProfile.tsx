@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
-import { Formik } from 'formik';
+import { Formik, useFormik, useFormikContext } from 'formik';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -53,9 +53,12 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   const [labelNumber, setLabelNumber] = useState(null);
   const [labelStreet, setLabelStreet] = useState(null);
   const [labelComplement, setLabelComplement] = useState(null);
+  const [labelDocument, setLabelDocument] = useState(null);
+
+  const [cpfInvalid, setCpfInvalid] = useState(false);
 
   const handleSubmit = () => {
-    if (formRef.current) {
+    if (formRef.current && !cpfInvalid) {
       formRef.current.handleSubmit();
     }
   };
@@ -75,10 +78,15 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       ),
     birthDate: Yup.string().matches(
       /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
-      'Digite uma data válida.'
+      'Verifique a data de nascimento.'
     ),
-    document: Yup.string().required('Por favor, insira o seu cpf'),
-    phone: Yup.string().required('Por favor, insira o seu telefone'),
+    // document: Yup.string().required('Por favor, insira o seu cpf'),
+    phone: Yup.string()
+      .required('Por favor, insira o seu telefone')
+      .matches(
+        /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9 \d|[2-9])\d{3})\-?(\d{4}))$/,
+        'Verifique o número de telefone digitado.'
+      ),
   });
 
   const cepHandler = async (postalCode: string) => {
@@ -139,10 +147,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     }
   };
 
-  const isCPFvalid = async (cpf) => {
+  const cpfValid = async (cpf) => {
     cpf = cpf.replace(/[^\d]+/g, '');
-    if (cpf == '') return false;
-    // Elimina CPFs invalidos conhecidos
+    if (cpf == '') return setCpfInvalid(true);
+
     if (
       cpf.length != 11 ||
       cpf == '00000000000' ||
@@ -156,47 +164,42 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       cpf == '88888888888' ||
       cpf == '99999999999'
     )
-      return false;
-    // Valida 1o digito
+      return setCpfInvalid(true);
     let add = 0;
     let i = 0;
     let rev = 0;
     for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
     rev = 11 - (add % 11);
+
     if (rev == 10 || rev == 11) rev = 0;
-    if (rev != parseInt(cpf.charAt(9))) return false;
-    // Valida 2o digito
+    if (rev != parseInt(cpf.charAt(9))) return setCpfInvalid(true);
+
     add = 0;
     for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
     rev = 11 - (add % 11);
+
     if (rev == 10 || rev == 11) rev = 0;
-    if (rev != parseInt(cpf.charAt(10))) return false;
-    return true;
+    if (rev != parseInt(cpf.charAt(10))) return setCpfInvalid(true);
+
+    return setCpfInvalid(false);
   };
 
   const saveCustomer = async (
     firstName: string,
     lastName: string,
     documentType: string,
-    document: string,
     phone: string
   ) => {
     setLoading(true);
 
-    isCPFvalid(document).then((value) => {
-      console.log(value);
-
-      if (!value) {
-      }
-    });
-
     // const { firstName, lastName, birthDate, document, documentType, phone,  } = fields;
+    const { document } = fields;
     const isCustomerSave = await addCustomer({
       firstName,
       lastName,
-      document,
+      document: document,
       documentType,
-      phone: phone.replace(/[^\d\+]+/g, ''),
+      phone: phone,
     });
 
     if (isCustomerSave) {
@@ -231,10 +234,6 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       }
     }
   };
-
-  useEffect(() => {
-    console.log('FIELDS::::::::>', fields);
-  }, [fields]);
 
   return (
     <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
@@ -280,8 +279,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   firstName,
                   lastName,
                   documentType,
-                  document.replace(/[^\d]+/g, ''),
                   phone,
+                  document.replace(/[^\d]+/g, ''),
                   postalCode,
                   neighborhood,
                   state,
@@ -328,12 +327,47 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   </Box>
 
                   <Box mt={15}>
-                    <FormikTextInput
+                    {/* <FormikTextInput
                       label="CPF"
                       field="document"
                       maskType="cpf"
                       keyboardType="number-pad"
                       placeholder="CPF"
+                      style={{
+                        borderColor: cpfInvalid
+                          ? theme.colors.vermelhoAlerta
+                          : theme.colors.transparente,
+                        borderWidth: 0.8,
+                      }}
+                    />
+                    {cpfInvalid && (
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize="13px"
+                        color="vermelhoAlerta"
+                      >
+                        Verifique o CPF digitado.
+                      </Typography>
+                    )} */}
+                    <TextField
+                      label={labelDocument}
+                      value={fields.document}
+                      keyboardType="number-pad"
+                      maskType="cpf"
+                      onChangeText={(text) => {
+                        setFields({ ...fields, document: text });
+
+                        cpfValid(text);
+
+                        if (!text) {
+                          setLabelDocument(null);
+                        } else {
+                          setLabelDocument('CPF');
+                        }
+                      }}
+                      placeholder="CPF"
+                      error="Verifique o CPF digitado."
+                      touched={cpfInvalid}
                     />
                   </Box>
 
