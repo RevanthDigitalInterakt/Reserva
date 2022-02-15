@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
-import { Formik } from 'formik';
+import { Formik, useFormik, useFormikContext } from 'formik';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -45,8 +45,20 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     receiverName: '',
   });
 
+  // State labels
+  const [labelNeighborhood, setLabelNeighborhood] = useState(null);
+  const [labelPostalCode, setLabelPostalCode] = useState(null);
+  const [labelState, setLabelState] = useState(null);
+  const [labelCity, setLabelCity] = useState(null);
+  const [labelNumber, setLabelNumber] = useState(null);
+  const [labelStreet, setLabelStreet] = useState(null);
+  const [labelComplement, setLabelComplement] = useState(null);
+  const [labelDocument, setLabelDocument] = useState(null);
+
+  const [cpfInvalid, setCpfInvalid] = useState(false);
+
   const handleSubmit = () => {
-    if (formRef.current) {
+    if (formRef.current && !cpfInvalid) {
       formRef.current.handleSubmit();
     }
   };
@@ -64,9 +76,17 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         /^[aA-zZ\s]+$/,
         'Apenas alfabetos são permitidos para este campo.'
       ),
-    birthDate: Yup.string(),
-    document: Yup.string().required('Por favor, insira o seu cpf'),
-    phone: Yup.string().required('Por favor, insira o seu telefone'),
+    birthDate: Yup.string().matches(
+      /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+      'Verifique a data de nascimento.'
+    ),
+    // document: Yup.string().required('Por favor, insira o seu cpf'),
+    phone: Yup.string()
+      .required('Por favor, insira o seu telefone')
+      .matches(
+        /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9 \d|[2-9])\d{3})\-?(\d{4}))$/,
+        'Verifique o número de telefone digitado.'
+      ),
   });
 
   const cepHandler = async (postalCode: string) => {
@@ -87,16 +107,38 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         receiverName: fields.firstName,
       });
 
-      if (!neighborhood) {
-        setValidateNeighborhood(true);
+      if (!postalCode) {
+        setLabelPostalCode(null);
       } else {
-        setValidateNeighborhood(false);
+        setLabelPostalCode('CEP');
       }
 
       if (!street) {
         setValidateStreet(true);
+        setLabelStreet(null);
       } else {
         setValidateStreet(false);
+        setLabelStreet('Endereço');
+      }
+
+      if (!neighborhood) {
+        setValidateNeighborhood(true);
+        setLabelNeighborhood(null);
+      } else {
+        setValidateNeighborhood(false);
+        setLabelNeighborhood('Bairro');
+      }
+
+      if (!city) {
+        setLabelCity(null);
+      } else {
+        setLabelCity('Cidade');
+      }
+
+      if (!state) {
+        setLabelState(null);
+      } else {
+        setLabelState('Estado');
       }
 
       setLoading(false);
@@ -105,21 +147,59 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     }
   };
 
+  const cpfValid = async (cpf) => {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf == '') return setCpfInvalid(true);
+
+    if (
+      cpf.length != 11 ||
+      cpf == '00000000000' ||
+      cpf == '11111111111' ||
+      cpf == '22222222222' ||
+      cpf == '33333333333' ||
+      cpf == '44444444444' ||
+      cpf == '55555555555' ||
+      cpf == '66666666666' ||
+      cpf == '77777777777' ||
+      cpf == '88888888888' ||
+      cpf == '99999999999'
+    )
+      return setCpfInvalid(true);
+    let add = 0;
+    let i = 0;
+    let rev = 0;
+    for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+    rev = 11 - (add % 11);
+
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(9))) return setCpfInvalid(true);
+
+    add = 0;
+    for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+    rev = 11 - (add % 11);
+
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(10))) return setCpfInvalid(true);
+
+    return setCpfInvalid(false);
+  };
+
   const saveCustomer = async (
     firstName: string,
     lastName: string,
     documentType: string,
-    document: string,
     phone: string
   ) => {
     setLoading(true);
+
     // const { firstName, lastName, birthDate, document, documentType, phone,  } = fields;
+    const { document } = fields;
     const isCustomerSave = await addCustomer({
       firstName,
       lastName,
-      document,
+      document: document,
       documentType,
-      phone: phone.replace(/[^\d\+]+/g, ''),
+      phone: phone,
     });
 
     if (isCustomerSave) {
@@ -179,6 +259,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               initialValues={fields}
               validationSchema={validation}
               innerRef={formRef}
+              validateOnChange={true}
+              validateOnBlur={true}
               onSubmit={(values) => {
                 const {
                   firstName,
@@ -197,8 +279,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   firstName,
                   lastName,
                   documentType,
-                  document.replace(/[^\d]+/g, ''),
                   phone,
+                  document.replace(/[^\d]+/g, ''),
                   postalCode,
                   neighborhood,
                   state,
@@ -245,12 +327,47 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   </Box>
 
                   <Box mt={15}>
-                    <FormikTextInput
+                    {/* <FormikTextInput
                       label="CPF"
                       field="document"
                       maskType="cpf"
                       keyboardType="number-pad"
                       placeholder="CPF"
+                      style={{
+                        borderColor: cpfInvalid
+                          ? theme.colors.vermelhoAlerta
+                          : theme.colors.transparente,
+                        borderWidth: 0.8,
+                      }}
+                    />
+                    {cpfInvalid && (
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize="13px"
+                        color="vermelhoAlerta"
+                      >
+                        Verifique o CPF digitado.
+                      </Typography>
+                    )} */}
+                    <TextField
+                      label={labelDocument}
+                      value={fields.document}
+                      keyboardType="number-pad"
+                      maskType="cpf"
+                      onChangeText={(text) => {
+                        setFields({ ...fields, document: text });
+
+                        cpfValid(text);
+
+                        if (!text) {
+                          setLabelDocument(null);
+                        } else {
+                          setLabelDocument('CPF');
+                        }
+                      }}
+                      placeholder="CPF"
+                      error="Verifique o CPF digitado."
+                      touched={cpfInvalid}
                     />
                   </Box>
 
@@ -275,13 +392,19 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
-                      label="CEP"
+                      label={labelPostalCode}
                       value={fields.postalCode}
                       keyboardType="number-pad"
                       maskType="zip-code"
                       onChangeText={(text) => {
                         setFields({ ...fields, postalCode: text });
                         cepHandler(text.replace('-', ''));
+
+                        if (!text) {
+                          setLabelPostalCode(null);
+                        } else {
+                          setLabelPostalCode('CEP');
+                        }
                       }}
                       placeholder="CEP"
                     />
@@ -296,15 +419,17 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
-                      label="Endereço"
+                      label={labelStreet}
                       value={fields.street}
                       onChangeText={(text) => {
                         setFields({ ...fields, street: text });
 
                         if (!text) {
                           setValidateStreet(true);
+                          setLabelStreet(null);
                         } else {
                           setValidateStreet(false);
+                          setLabelStreet('Endereço');
                         }
                       }}
                       placeholder="Endereço"
@@ -315,7 +440,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
-                      label="Bairro"
+                      label={labelNeighborhood}
                       editable={true}
                       value={fields.neighborhood}
                       onChangeText={(text) => {
@@ -323,8 +448,10 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                         if (!text) {
                           setValidateNeighborhood(true);
+                          setLabelNeighborhood(null);
                         } else {
                           setValidateNeighborhood(false);
+                          setLabelNeighborhood('Bairro');
                         }
                       }}
                       placeholder="Bairro"
@@ -342,10 +469,16 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                       <TextField
                         value={fields.number}
                         keyboardType="number-pad"
-                        onChangeText={(text) =>
-                          setFields({ ...fields, number: text })
-                        }
-                        label="Número"
+                        onChangeText={(text) => {
+                          setFields({ ...fields, number: text });
+
+                          if (!text) {
+                            setLabelNumber(null);
+                          } else {
+                            setLabelNumber('Número');
+                          }
+                        }}
+                        label={labelNumber}
                         placeholder="Número"
                       />
                     </Box>
@@ -353,10 +486,15 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                     <Box flex={1}>
                       <TextField
                         value={fields.complement}
-                        onChangeText={(text) =>
-                          setFields({ ...fields, complement: text })
-                        }
-                        label="Complemento"
+                        onChangeText={(text) => {
+                          setFields({ ...fields, complement: text });
+                          if (!text) {
+                            setLabelComplement(null);
+                          } else {
+                            setLabelComplement('Complemento');
+                          }
+                        }}
+                        label={labelComplement}
                         placeholder="Complemento"
                       />
                     </Box>
@@ -366,22 +504,32 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                     <TextField
                       value={fields.city}
                       keyboardType="number-pad"
-                      onChangeText={(text) =>
-                        setFields({ ...fields, city: text })
-                      }
-                      label="Cidade"
+                      onChangeText={(text) => {
+                        setFields({ ...fields, city: text });
+                        if (!text) {
+                          setLabelCity(null);
+                        } else {
+                          setLabelCity('Cidade');
+                        }
+                      }}
+                      label={labelCity}
                       placeholder="Cidade"
                     />
                   </Box>
 
                   <Box mt={15} marginBottom={35}>
                     <TextField
-                      editable={false}
+                      editable={true}
                       value={fields.state}
-                      onChangeText={(text) =>
-                        setFields({ ...fields, state: text })
-                      }
-                      label="Estado"
+                      onChangeText={(text) => {
+                        setFields({ ...fields, state: text });
+                        if (!text) {
+                          setLabelState(null);
+                        } else {
+                          setLabelState('Estado');
+                        }
+                      }}
+                      label={labelState}
                       placeholder="Estado"
                     />
                   </Box>
