@@ -49,7 +49,7 @@ import { ExpandProductDescription } from '../components/ExpandProductDescription
 import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import { ModalZoomImage } from '../components/ModalZoomImage';
-import { SizeGuide } from '../components/SizeGuide';
+import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
 
 
@@ -966,7 +966,10 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
-                      <SizeGuide />
+                      {
+                        product.categoryTree.find(x => x.name in Object.keys(SizeGuideImages)) &&
+                        <SizeGuide categoryTree={product.categoryTree} />
+                      }
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons
