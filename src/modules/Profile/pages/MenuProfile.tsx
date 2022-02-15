@@ -97,13 +97,14 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     });
   }, []);
 
-  const updateImageUrl = () => {
+  const updateImageUrl = async () => {
     if (profileImagePath != null) {
-      firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
-        setImageProfile(value);
-      }, (error) => {
+      try {
+        const response = await firebaseRef.getUrlFS(`${profileImagePath}`);
+        setImageProfile(response);
+      } catch (error) {
         setProfileImagePath(null);
-      });
+      }
     } else {
       setImageProfile(null);
     }

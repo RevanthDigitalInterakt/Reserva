@@ -157,6 +157,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                 setPasswords({ ...passwords, first: text })
               }
               placeholder="Digite sua nova senha"
+              isSecureText
             />
             <Box mt="sm">
               <UnderlineInput
@@ -164,6 +165,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                   setPasswords({ ...passwords, confirm: text })
                 }
                 placeholder="Confirme sua nova senha"
+                isSecureText
               />
             </Box>
             <Box mt={22}>

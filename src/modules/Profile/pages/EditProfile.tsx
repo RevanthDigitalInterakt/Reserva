@@ -70,7 +70,7 @@ export const EditProfile: React.FC<{
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
   const firebaseRef = new FirebaseService();
-
+  const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
   useEffect(() => {
     OneSignal.getDeviceState().then((deviceState: any) => {
       setTokenOneSignal(deviceState.userId);
@@ -188,7 +188,9 @@ export const EditProfile: React.FC<{
     //Salva uma nova foto do usuário no firebase
     if (imageProfile !== null) {
       if (file !== null) {
+        setLoadingProfilePhoto(true)
         profileImage = await firebaseRef.createFS(file);
+        setLoadingProfilePhoto(false)
         setProfileImagePath(profileImage);
       }
     }
@@ -388,7 +390,7 @@ export const EditProfile: React.FC<{
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <TopBarBackButton
-          loading={loading || updateLoading || newsLetterLoading}
+          loading={loading || loadingProfilePhoto || updateLoading || newsLetterLoading}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -652,7 +654,7 @@ export const EditProfile: React.FC<{
                     variant="primarioEstreito"
                     inline
                     onPress={saveUserData}
-                    disabled={updateLoading}
+                    disabled={updateLoading || loadingProfilePhoto}
                   />
                 </Box>
               </Box>
