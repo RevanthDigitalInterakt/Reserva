@@ -8,7 +8,13 @@ import { Box, Typography, Button, Icon, Divider } from 'reserva-ui';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 
-export const Recommendation = () => {
+interface RecommendationProps {
+  handleScrollToTheTop?: () => void;
+}
+
+export const Recommendation = ({
+  handleScrollToTheTop
+}: RecommendationProps) => {
   const [skip, setSkip] = useState(false);
   const pageSize = 6;
   const [showMore, setShowMore] = useState(true);
@@ -145,6 +151,7 @@ export const Recommendation = () => {
                   loadMoreProducts={(offset) => {
                     loadMoreProducts(offset, '');
                   }}
+                  handleScrollToTheTop={handleScrollToTheTop}
                 />
               </Animatable.View>
             )}
