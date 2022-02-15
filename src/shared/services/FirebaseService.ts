@@ -25,7 +25,7 @@ export class FirebaseService {
       );
     });
 
-    uploading.then(() => {
+    await uploading.then(() => {
       console.log('Image uploaded to the bucket!');
     });
 
@@ -49,9 +49,7 @@ export class FirebaseService {
    * @returns {string}
    */
   public async getUrlFS(imageRef: string): Promise<string> {
-    const ref = storage().ref(`${imageRef}`);
-    const url = await ref.getDownloadURL();
-
+    const url = await storage().ref(`${imageRef}`).getDownloadURL();
     return url;
   }
 }
