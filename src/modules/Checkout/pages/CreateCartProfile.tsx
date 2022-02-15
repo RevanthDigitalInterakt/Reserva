@@ -56,6 +56,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   const [labelDocument, setLabelDocument] = useState(null);
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
+  const [validateNumber, setValidateNumber] = useState(true);
 
   const handleSubmit = () => {
     if (formRef.current && !cpfInvalid) {
@@ -140,6 +141,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       } else {
         setLabelState('Estado');
       }
+
+      setValidateNumber(false);
 
       setLoading(false);
     } else {
@@ -474,12 +477,16 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                           if (!text) {
                             setLabelNumber(null);
+                            setValidateNumber(false);
                           } else {
                             setLabelNumber('Número');
+                            setValidateNumber(true);
                           }
                         }}
                         label={labelNumber}
                         placeholder="Número"
+                        touched={!validateNumber}
+                        error="Por favor, insira o número."
                       />
                     </Box>
 
@@ -545,7 +552,9 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
         onPress={handleSubmit}
         title="ESCOLHER TIPO DE ENTREGA"
         inline
-        disabled={loading || validateNeighborhood || validateStreet}
+        disabled={
+          loading || validateNeighborhood || validateStreet || !validateNumber
+        }
       />
     </SafeAreaView>
   );
