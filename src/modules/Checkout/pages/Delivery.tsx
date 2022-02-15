@@ -291,7 +291,7 @@ const Delivery: React.FC<{}> = () => {
         setSelectedAddress(selectedAddressOrderFom);
       }
     }
-  }, [profile]);
+  }, [profile, !selectMethodDelivery]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
@@ -368,7 +368,7 @@ const Delivery: React.FC<{}> = () => {
             <Store data={pickupPoint} storeDetail={businessHours} />
           )}
 
-          {!selectMethodDelivery && (
+          {!selectMethodDelivery && profile && (
             <ReceiveHome
               loading={loading}
               typeOfDelivery={typeOfDelivery}
