@@ -51,23 +51,19 @@ export const EnterYourEmail = () => {
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!hasEmail || !re.test(email)) {
-      console.log(
-        'NEGATIVO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<::::',
-        re.test(email)
-      );
       setValidateFieldEmail(false);
     } else {
-      console.log(
-        'TESTE<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<::::',
-        re.test(email)
-      );
       setValidateFieldEmail(true);
     }
   };
 
   return (
     <SafeAreaView flex={1} backgroundColor={'white'}>
-      <TopBarBackButton showShadow loading={loading} />
+      <TopBarBackButton
+        showShadow
+        loading={loading}
+        backButtonPress={() => navigation.goBack()}
+      />
       <ScrollView>
         <Box paddingX={'xxxs'} paddingY={'sm'}>
           <Box>
@@ -89,7 +85,10 @@ export const EnterYourEmail = () => {
             />
           </Box>
           <Button
-            onPress={onCheckCustomerMail}
+            onPress={() => {
+              onCheckCustomerMail;
+              validateEmail(email);
+            }}
             title="CONTINUAR"
             variant="primarioEstreito"
             inline
