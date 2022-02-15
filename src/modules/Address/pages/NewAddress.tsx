@@ -87,6 +87,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [labelStreet, setLabelStreet] = useState(null);
   const [labelComplement, setLabelComplement] = useState(null);
 
+  const [validateForm, setValidateForm] = useState(false);
+  const [validateNumber, setValidateNumber] = useState(true);
+
   const handleSaveAddress = async () => {
     setLoading(true);
 
@@ -205,6 +208,12 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       } else {
         setLabelState('Estado');
       }
+
+      if (postalCode && street && neighborhood && city && state) {
+        setValidateForm(true);
+      }
+
+      setValidateNumber(false);
 
       setLoading(false);
     }
@@ -370,10 +379,16 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                         if (!text) {
                           setLabelNumber(null);
+                          setValidateForm(false);
+                          setValidateNumber(false);
                         } else {
                           setLabelNumber('Número');
+                          setValidateForm(true);
+                          setValidateNumber(true);
                         }
                       }}
+                      touched={!validateNumber}
+                      error="Por favor, insira o número."
                     />
                   </Box>
 
@@ -470,6 +485,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             title="INCLUIR ENDEREÇO"
             variant="primarioEstreito"
             inline
+            disabled={!validateForm || !validateNumber}
           />
         )}
       </SafeAreaView>
