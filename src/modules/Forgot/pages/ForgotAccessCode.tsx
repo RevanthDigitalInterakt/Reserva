@@ -27,6 +27,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   const { email } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState("");
+  
   const [loginWithCode, { data, loading }] = useMutation(
     accessKeySignInMutation
   );
