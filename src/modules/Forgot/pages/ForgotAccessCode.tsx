@@ -27,6 +27,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   const { email } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState("");
+  
   const [loginWithCode, { data, loading }] = useMutation(
     accessKeySignInMutation
   );
@@ -57,18 +58,22 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       code,
       newPassword: passwords.confirm,
     };
-    if (error != null || code.length < 6 || code == `${code}`) {
+
+    if (code.length < 6) {
       setShowError(true);
     } else {
       setShowError(false);
+
+      recoveryPassword({
+        variables,
+      }).then((x) => {
+        x.data.recoveryPassword != null
+          ? navigation.navigate("ForgotEmailSuccess")
+          : navigation.navigate("ForgotEmail", {});
+      }).catch(() => {
+        setShowError(true);
+      })
     }
-    recoveryPassword({
-      variables,
-    }).then((x) => {
-      x.data.recoveryPassword != null
-        ? navigation.navigate("ForgotEmailSuccess")
-        : navigation.navigate("ForgotEmail", {});
-    });
   };
 
   //const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
