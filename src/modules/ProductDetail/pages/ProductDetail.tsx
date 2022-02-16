@@ -50,6 +50,7 @@ import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import { ModalZoomImage } from '../components/ModalZoomImage';
 import { Recommendation } from '../components/Recommendation';
+import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
 
 const screenWidth = Dimensions.get('window').width;
@@ -648,7 +649,7 @@ export const ProductDetail: React.FC<Props> = ({
     const options = {
       message: 'Olha o que acabei de encontrar na Reserva: \n',
       title: 'Compartilhar',
-      url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
+      url: `https://opencashback--applojausereserva.myvtex.com${path}?skuId=${selectedVariant.itemId}`,
     };
 
     Share.open(options);
@@ -972,6 +973,10 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
+                      {
+                        product.categoryTree.find(x => x.name in Object.keys(SizeGuideImages)) &&
+                        <SizeGuide categoryTree={product.categoryTree} />
+                      }
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons

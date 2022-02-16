@@ -53,6 +53,17 @@ export const images = {
   facebook: require('./img/facebook.png'),
   raceImageBackground: require('./img/raceImageBackground.png'),
   dividerReserva: require('./img/dividerReserva.png'),
+  GuideShort: require('./img/Short.png'),
+  GuideSungaCueca: require('./img/Sunga Cueca.png'),
+  GuideSueter: require('./img/Sueter.png'),
+  GuideJaqueta: require('./img/Jaqueta.png'),
+  GuideHoodie: require('./img/Hoodie.png'),
+  GuideCalca: require('./img/Calca.png'),
+  GuideMangaCurta: require('./img/Camisa Manga Curta.png'),
+  GuideMangaLonga: require('./img/Camisa Manga Longa.png'),
+  GuideCamiseta: require('./img/Camiseta.png'),
+  GuideBermuda: require('./img/Bermuda.png'),
+  GuidePolo: require('./img/Polo.png'),
 };
 
 export const animations = {
