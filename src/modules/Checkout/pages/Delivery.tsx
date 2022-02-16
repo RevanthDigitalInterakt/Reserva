@@ -364,20 +364,21 @@ const Delivery: React.FC<{}> = () => {
             </Box>
           </Box>
 
-          {selectMethodDelivery && (
+          {selectMethodDelivery ? (
             <Store data={pickupPoint} storeDetail={businessHours} />
-          )}
-
-          {!selectMethodDelivery && (
-            <ReceiveHome
-              loading={loading}
-              typeOfDelivery={typeOfDelivery}
-              selectedDelivery={selectedDelivery}
-              addresses={addresses}
-              selectedAddress={selectedAddress}
-              onDeliveryChosen={onDeliveryChosen}
-              onAddressChosen={onAddressChosen}
-            />
+          ) : (
+            !selectMethodDelivery &&
+            profile && (
+              <ReceiveHome
+                loading={loading}
+                typeOfDelivery={typeOfDelivery}
+                selectedDelivery={selectedDelivery}
+                addresses={addresses}
+                selectedAddress={selectedAddress}
+                onDeliveryChosen={onDeliveryChosen}
+                onAddressChosen={onAddressChosen}
+              />
+            )
           )}
         </Box>
         {cookie != null && !selectMethodDelivery && (

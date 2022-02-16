@@ -97,13 +97,14 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     });
   }, []);
 
-  const updateImageUrl = () => {
+  const updateImageUrl = async () => {
     if (profileImagePath != null) {
-      firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
-        setImageProfile(value);
-      }, (error) => {
+      try {
+        const response = await firebaseRef.getUrlFS(`${profileImagePath}`);
+        setImageProfile(response);
+      } catch (error) {
         setProfileImagePath(null);
-      });
+      }
     } else {
       setImageProfile(null);
     }
@@ -143,13 +144,13 @@ const MenuScreen: React.FC<{}> = ({ }) => {
               }
             </Box>
             <Box ml='xxxs'>
-              <Box mb="micro" >
+              <Box mb="quarck" >
                 <Typography variant="tituloSessoes" fontSize={20}>
                   Perfil
                 </Typography>
               </Box>
               <Typography variant="subtituloSessoes" fontSize={16}>
-                Boas-vindas, {profile && `${profile?.firstName || profile?.email}.`}
+                Boas-vindas{profile && `, ${profile?.firstName || profile?.email}.`}
               </Typography>
             </Box>
           </Box>

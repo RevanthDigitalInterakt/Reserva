@@ -66,10 +66,11 @@ export const EditProfile: React.FC<{
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
   const [file, setFile] = useState<any>(null);
   const [imageProfile, setImageProfile] = useState<any>(null);
+  const [deletePhoto, setDeletePhoto] = useState<boolean>(false);
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
   const firebaseRef = new FirebaseService();
-
+  const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
   useEffect(() => {
     OneSignal.getDeviceState().then((deviceState: any) => {
       setTokenOneSignal(deviceState.userId);
@@ -168,16 +169,30 @@ export const EditProfile: React.FC<{
       homePhone: newPhone.replace(/[^\d\+]+/g, ''),
     };
 
-    //Deleta a foto antiga do usuário no firabase
-    if (profileImagePath !== null) {
+    let profileImage = profileImagePath;
+
+    //Deleta a foto antiga do usuário no firebase
+    if (imageProfile !== null && profileImagePath !== null) {
+      const isDifferent = imageProfile.includes(profileImagePath.split('/')[3]);
+      if (!isDifferent) {
+        await firebaseRef.deleteFS(`${profileImagePath}`);
+      }
+    }
+
+    //Deleta a foto antiga do usuário no firebase
+    if (deletePhoto && profileImagePath !== null) {
       await firebaseRef.deleteFS(`${profileImagePath}`);
+      profileImage = null;
     }
 
     //Salva uma nova foto do usuário no firebase
-    let profileImage;
     if (imageProfile !== null) {
-      profileImage = await firebaseRef.createFS(file);
-      setProfileImagePath(profileImage);
+      if (file !== null) {
+        setLoadingProfilePhoto(true)
+        profileImage = await firebaseRef.createFS(file);
+        setLoadingProfilePhoto(false)
+        setProfileImagePath(profileImage);
+      }
     }
 
     const customField: ProfileCustomFieldsInput[] = [
@@ -276,9 +291,6 @@ export const EditProfile: React.FC<{
               type: 'image/jpeg',
             };
 
-            if (file) {
-              deleteImageProfile();
-            }
             setFile(photoFile);
             setImageProfile(photoFile.uri)
           }
@@ -315,9 +327,6 @@ export const EditProfile: React.FC<{
               name: response.assets[0].fileName,
               type: 'image/jpeg',
             };
-            if (file) {
-              deleteImageProfile();
-            }
 
             setFile(photoFile);
             setImageProfile(photoFile.uri)
@@ -381,7 +390,7 @@ export const EditProfile: React.FC<{
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <TopBarBackButton
-          loading={loading || updateLoading || newsLetterLoading}
+          loading={loading || loadingProfilePhoto || updateLoading || newsLetterLoading}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -452,7 +461,7 @@ export const EditProfile: React.FC<{
                 <Box mt="micro" mb="micro">
                   <TouchableOpacity
                     onPress={() => {
-                      // deleteImageProfile();
+                      setDeletePhoto(true);
                       setFile(null);
                       setImageProfile(null);
                       setShowModalProfile(false);
@@ -645,7 +654,7 @@ export const EditProfile: React.FC<{
                     variant="primarioEstreito"
                     inline
                     onPress={saveUserData}
-                    disabled={updateLoading}
+                    disabled={updateLoading || loadingProfilePhoto}
                   />
                 </Box>
               </Box>

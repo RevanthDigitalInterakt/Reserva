@@ -7,7 +7,7 @@ import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { addDays, format } from 'date-fns';
-import React, { createRef, useEffect, useMemo, useState } from 'react';
+import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -49,11 +49,9 @@ import { ExpandProductDescription } from '../components/ExpandProductDescription
 import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import { ModalZoomImage } from '../components/ModalZoomImage';
+import { Recommendation } from '../components/Recommendation';
+import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
-
-
-
-
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -254,6 +252,8 @@ export const ProductDetail: React.FC<Props> = ({
   const [imageIndexActual, setImageIndexActual] = useState<number>(0);
   const [imagesUri, setImagesUri] = useState<string[]>([])
   const { fetchImage } = useCacheImages()
+
+  const scrollRef = useRef<ScrollView>()
 
   useEffect(() => {
     console.log('imageSelected', imageSelected)
@@ -649,7 +649,7 @@ export const ProductDetail: React.FC<Props> = ({
     const options = {
       message: 'Olha o que acabei de encontrar na Reserva: \n',
       title: 'Compartilhar',
-      url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
+      url: `https://opencashback--applojausereserva.myvtex.com${path}?skuId=${selectedVariant.itemId}`,
     };
 
     Share.open(options);
@@ -836,6 +836,13 @@ export const ProductDetail: React.FC<Props> = ({
     return product?.description.includes(description);
   }, [product]);
 
+  const handleScrollToTheTop = () => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  }
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -858,6 +865,7 @@ export const ProductDetail: React.FC<Props> = ({
           <ScrollView
             contentContainerStyle={{ paddingBottom: 100 }}
             style={{ marginBottom: 24 }}
+            ref={scrollRef}
           >
             {product && selectedVariant && (
               <>
@@ -915,7 +923,7 @@ export const ProductDetail: React.FC<Props> = ({
                   imageIndexActual={(imageIndex) =>
                     setImageIndexActual(imageIndex)
                   }
-                  avaibleUnits={avaibleUnits}
+                  avaibleUnits={!outOfStock && avaibleUnits}
                 />
 
                 {/*
@@ -965,6 +973,10 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
+                      {
+                        product.categoryTree.find(x => x.name in Object.keys(SizeGuideImages)) &&
+                        <SizeGuide categoryTree={product.categoryTree} />
+                      }
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons
@@ -1450,7 +1462,8 @@ export const ProductDetail: React.FC<Props> = ({
                     codeProduct={product?.items.find((x) => x.itemId === selectedVariant?.itemId)?.ean || ''}
                   />
 
-                  <Divider variant="fullWidth" my="xs" />
+                  <Recommendation handleScrollToTheTop={handleScrollToTheTop} />
+
                   <Box mb="xxxs">
                     <Tooltip
                       tooltipText="Email Cadastrado!"

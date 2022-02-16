@@ -33,6 +33,7 @@ interface ListProductsProps {
   | React.ComponentType<any>
   | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
+  handleScrollToTheTop?: () => void;
 }
 
 export const getPercent = (
@@ -53,6 +54,7 @@ export const ListVerticalProducts = ({
   loadMoreProducts,
   loadingHandler,
   totalProducts,
+  handleScrollToTheTop
 }: ListProductsProps) => {
   const navigation = useNavigation();
   const [favoritedProduct, setFavoritedProduct] = useState<any>();
@@ -371,7 +373,11 @@ export const ListVerticalProducts = ({
                       item.items[0].variations,
                       'VALOR_HEX_ORIGINAL'
                     ),
-                  });
+                  })
+
+                  if (handleScrollToTheTop) {
+                    handleScrollToTheTop()
+                  }
                 }}
               />
             );
