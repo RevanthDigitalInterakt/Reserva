@@ -40,13 +40,24 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
             <Box mx={20} mt={13}>
                 <Typography fontFamily='reservaSerifRegular' fontSize={22} >Cadastre seu e-mail</Typography>
                 <Box mt={27} >
-                    <Typography fontFamily='nunitoRegular' fontSize={15} >Lorem ipsum:</Typography>
+                    <Typography fontFamily='nunitoRegular' fontSize={15}>
+                        Enviaremos um código de confirmação
+                        para o e-mail informado.
+                    </Typography>
                 </Box>
-                <Box mt={33}>
-                    <UnderlineInput onChangeText={(text) => { setEmail(text) }} placeholder='abcdefg@gmail.com' />
+                <Box mt={6}>
+                    <UnderlineInput
+                        onChangeText={(text) => { setEmail(text) }}
+                        placeholder='abcdefg@gmail.com'
+                        keyboardType="email-address"
+                    />
                 </Box>
-                <Button mt={55} variant='primarioEstreito' title='CADASTRAR E-MAIL' onPress={handleEmailAccess} disabled={email.length <= 0} inline />
-
+                <Button mt={37}
+                    variant='primarioEstreito'
+                    title='CADASTRAR E-MAIL'
+                    onPress={handleEmailAccess}
+                    disabled={email.length <= 0}
+                    inline />
             </Box>
         </SafeAreaView >
     );
