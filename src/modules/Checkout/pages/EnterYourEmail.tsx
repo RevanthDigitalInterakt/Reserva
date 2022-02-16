@@ -14,28 +14,34 @@ export const EnterYourEmail = () => {
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [validateFieldEmail, setValidateFieldEmail] = useState(true);
+  const [isCheckEmail, setIsCheckEmail] = useState(false);
   const hasEmail = useCallback((): boolean => {
     return email.length > 0;
   }, [email]);
 
   const onCheckCustomerMail = async () => {
     setLoading(true);
-    if (
-      email === orderForm?.clientProfileData?.email &&
-      orderForm?.clientProfileData?.firstName &&
-      orderForm?.clientProfileData?.lastName
-    ) {
-      await identifyCustomer(email);
-      navigation.navigate('DeliveryScreen');
-    } else {
-      const hasCustomer = await identifyCustomer(email);
+    validateEmail(email);
+    if (isCheckEmail) {
+      if (
+        email === orderForm?.clientProfileData?.email &&
+        orderForm?.clientProfileData?.firstName &&
+        orderForm?.clientProfileData?.lastName
+      ) {
+        console.log('EMIAL>>>>>>>>>>>>>', email);
+        await identifyCustomer(email);
+        navigation.navigate('DeliveryScreen');
+      } else {
+        const hasCustomer = await identifyCustomer(email);
 
-      setLoading(false);
-      if (!hasCustomer) {
-        navigation.navigate('CreateCartProfile');
-        return;
+        setLoading(false);
+        if (!hasCustomer) {
+          navigation.navigate('CreateCartProfile');
+          return;
+        }
+        navigation.navigate('DeliveryScreen');
       }
-      navigation.navigate('DeliveryScreen');
+      setLoading(false);
     }
     setLoading(false);
   };
@@ -52,8 +58,10 @@ export const EnterYourEmail = () => {
 
     if (!hasEmail || !re.test(email)) {
       setValidateFieldEmail(false);
+      setIsCheckEmail(false);
     } else {
       setValidateFieldEmail(true);
+      setIsCheckEmail(true);
     }
   };
 
@@ -78,17 +86,16 @@ export const EnterYourEmail = () => {
               autoCorrect={false}
               autoCompleteType="email"
               value={email}
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => {
+                setEmail(text), validateEmail(email);
+              }}
               placeholder={'Digite seu e-mail'}
               touched={!validateFieldEmail}
               error="Verifique o e-mail digitado."
             />
           </Box>
           <Button
-            onPress={() => {
-              onCheckCustomerMail;
-              validateEmail(email);
-            }}
+            onPress={onCheckCustomerMail}
             title="CONTINUAR"
             variant="primarioEstreito"
             inline
