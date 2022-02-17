@@ -169,7 +169,6 @@ export const ProductDetail: React.FC<Props> = ({
   /**
    * States, queries and mutations
    */
-
   const [product, setProduct] = useState<Product | null>(null);
   const { data, loading, refetch }: QueryResult<ProductQueryResponse> =
     useQuery<ProductQueryResponse>(GET_PRODUCTS, {
@@ -272,6 +271,7 @@ export const ProductDetail: React.FC<Props> = ({
    * Effects
    */
   useEffect(() => {
+    // console.log('aaaaaaaaaaaaaaaaa', !!product.categoryTree.find(x => Object.keys(SizeGuideImages).includes(x.name)))
     remoteConfig().fetchAndActivate();
     const value = remoteConfig().getValue('sale_off_tag');
     setSaleOffTag(value.asBoolean());
@@ -967,7 +967,7 @@ export const ProductDetail: React.FC<Props> = ({
                       </Box>
                     </Button> */}
                       {
-                        product.categoryTree.find(x => x.name in Object.keys(SizeGuideImages)) &&
+                        !!product.categoryTree.find(x => Object.keys(SizeGuideImages).includes(x.name)) &&
                         <SizeGuide categoryTree={product.categoryTree} />
                       }
                     </Box>
