@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import AsyncStorage from "@react-native-community/async-storage";
+import React, { Fragment, useEffect, useState } from "react";
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import {
   CashbackHttpUrl,
@@ -8,7 +9,6 @@ import {
 import { CashbackInStoreView } from "./CashbackInStore.view";
 
 interface CashbackInStoreContainerProps {
-  isLoyal: boolean;
   costumerDocument: string;
   navigateBack: () => void;
   navigateToError: () => void;
@@ -16,15 +16,33 @@ interface CashbackInStoreContainerProps {
 
 export const CashbackInStoreContainer = (
   {
-    isLoyal,
     costumerDocument,
     navigateBack,
     navigateToError
   }: CashbackInStoreContainerProps
 ) => {
   const [token, setToken] = useState<string>();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [termsIsAccepted, setTermsIsAccepted] = useState<boolean>(false);
 
-  const intervalTokenRef: { current: NodeJS.Timeout | null } = useRef(null);
+  const termAndConditionsIsAccepted = async () => {
+    const isAccepted = await AsyncStorage.getItem('@RNAuth:terms');
+    console.log('isAccepted', isAccepted);
+    setTermsIsAccepted(isAccepted === 'true');
+  }
+
+  const acceptTermsAndConditions = async () => {
+    await AsyncStorage.setItem('@RNAuth:terms', 'true');
+    setTermsIsAccepted(true);
+  }
+
+  useEffect(() => {
+    termAndConditionsIsAccepted();
+  }, []);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  }
 
   const generateToken = async () => {
     const date = new Date();
@@ -44,18 +62,6 @@ export const CashbackInStoreContainer = (
     }
   };
 
-  useEffect(() => {
-    generateToken();
-    const intervalToken = setInterval(() => {
-      generateToken();
-    }, 60 * 1000);
-    intervalTokenRef.current = intervalToken;
-
-    return () => {
-      clearInterval(intervalTokenRef.current as NodeJS.Timeout);
-    };
-  }, []);
-
   return(
     <Fragment>
       <TopBarBackButton
@@ -65,6 +71,11 @@ export const CashbackInStoreContainer = (
       />
       <CashbackInStoreView
         token={token}
+        toggleModal={toggleModal}
+        modalVisible={modalVisible}
+        generateToken={generateToken}
+        termsIsAccepted={termsIsAccepted}
+        acceptTermsAndConditions={acceptTermsAndConditions}
       />
     </Fragment>
   );
