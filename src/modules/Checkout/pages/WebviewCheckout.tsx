@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { View, Dimensions } from 'react-native';
-import { Box, Button } from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { WebView } from 'react-native-webview';
-import { useCart } from '../../../context/CartContext';
 import { useNavigation } from '@react-navigation/native';
-import LottieView from 'lottie-react-native'
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
-import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import * as StoreReview from 'react-native-store-review';
+import LottieView from 'lottie-react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, View } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
+import * as StoreReview from 'react-native-store-review';
+import { WebView } from 'react-native-webview';
+import { Box, Button } from 'reserva-ui';
+import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+import { useCart } from '../../../context/CartContext';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -96,7 +96,7 @@ const Checkout: React.FC<{}> = () => {
                 setNavState(navState.url);
               }}
               source={{
-                uri: `https://opencashback--applojausereserva.myvtex.com/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
+                uri: `https://applojausereserva.vtexcommercestable.com.br/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
               }}
             />
           </View>
