@@ -11,7 +11,6 @@ import { sendEmailVerificationMutation } from "../../../graphql/login/loginMutat
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import UnderlineInput from "../../Login/components/UnderlineInput";
 import HeaderBanner from "../../Forgot/componet/HeaderBanner";
-
 export interface RegisterEmailProps extends StackScreenProps<RootStackParamList, "RegisterEmail"> { };
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {

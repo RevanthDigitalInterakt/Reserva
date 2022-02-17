@@ -103,7 +103,7 @@ export type RootStackParamList = {
   };
   ForgotEmail: {};
   RegisterEmail: {};
-  EditProfile: {};
+  EditProfile: { isRegister: boolean };
   Home: undefined;
   CancelOrder: {};
   Cashback: { isAcceptedConditions: boolean };

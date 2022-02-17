@@ -4,17 +4,20 @@ import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { Box, Button, Typography, Icon } from "reserva-ui";
 import { images } from "../../../assets";
 import { useAuth } from "../../../context/AuthContext";
+import moment from 'moment';
 import { accessKeySignInMutation } from "../../../graphql/login/loginMutations";
 import { recoveryPasswordMutation } from "../../../graphql/login/loginMutations";
 import { recoveryPassword } from "../../../graphql/login/recoveryPassword";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import CodeInput from "../../Login/components/CodeInput";
 import HeaderBanner from "../../Forgot/componet/HeaderBanner";
+import appsFlyer from 'react-native-appsflyer';
 import UnderlineInput from "../../Login/components/UnderlineInput";
+import Clipboard from '@react-native-community/clipboard';
 
 export interface ConfirmAccessCodeProps
     extends StackScreenProps<RootStackParamList, "ConfirmAccessCode"> { }
@@ -23,14 +26,18 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     navigation,
     route,
 }) => {
-    const { cookie, setCookie } = useAuth();
     const { email } = route.params;
     const [showError, setShowError] = useState(false);
     const [code, setCode] = useState("");
+    const { cookie, setCookie, setEmail, saveCredentials } = useAuth();
     const [loginWithCode, { data, loading }] = useMutation(
         accessKeySignInMutation
     );
 
+    const pasteCode = async () => {
+        const content = await Clipboard.getString();
+        setCode(content)
+    }
     const passwordCheckHandler = () => ({
         equal: passwords.first === passwords.confirm,
         digitsCount: passwords.first.length >= 8,
@@ -51,24 +58,48 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         { data: dataRecoveryPassword, loading: loadingRecoveryPassword, error },
     ] = useMutation(recoveryPasswordMutation);
 
-    const handleCreatePassword = () => {
+    const handleCreatePassword = async () => {
         let variables = {
             email,
             code,
             newPassword: passwords.confirm,
         };
-        if (error != null || code.length < 6 || code == `${code}`) {
+        if (error != null || code.length < 6) {
             setShowError(true);
         } else {
             setShowError(false);
         }
-        createPassword({
-            variables,
-        }).then((x) => {
-            x.data.recoveryPassword != null
-                ? navigation.navigate("ForgotEmailSuccess")
-                : navigation.navigate("ForgotEmail", {});
-        });
+        try {
+            const { data } = await createPassword({ variables });
+            if (data.recoveryPassword === 'Success') {
+                saveCredentials({
+                    email: email,
+                    password: passwords.confirm,
+                });
+
+                appsFlyer.logEvent(
+                    'af_login',
+                    {},
+                    (res) => {
+                        console.log('AppsFlyer', res);
+                    },
+                    (err) => {
+                        console.error('AppsFlyer Error', err);
+                    }
+                );
+                setEmail(email);
+                AsyncStorage.setItem('@RNAuth:email', email).then(
+                    () => { }
+                );
+                await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
+                await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
+                navigation.navigate("EditProfile", { isRegister: true });
+            }
+        } catch (error) {
+            if (error.message === 'Request failed with status code 400') {
+                setShowError(true);
+            }
+        }
     };
 
     const [passwords, setPasswords] = useState({
@@ -136,7 +167,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                                 </Typography>
                             )}
                         </Box>
-                        <Box mt={17}>
+                        <Box mt={11}>
                             <CodeInput
                                 code={code}
                                 onChageCode={setCode}
@@ -145,58 +176,77 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                         </Box>
                     </Box>
 
-                    <Box mx={20} mt={13}>
-                        <Box mb={20}>
-                            <Typography fontFamily="reservaSerifRegular" fontSize={22}>
-                                Agora, crie sua senha
-                            </Typography>
+                    {code.length > 0 ?
+                        (
+                            <Box mx={20} mt={32}>
+                                <Box mb={20}>
+                                    <Typography fontFamily="reservaSerifRegular" fontSize={22}>
+                                        Agora, crie sua senha
+                                    </Typography>
+                                </Box>
+                                <UnderlineInput
+                                    onChangeText={(text) =>
+                                        setPasswords({ ...passwords, first: text })
+                                    }
+                                    placeholder="Digite sua nova senha"
+                                />
+                                <Box mt="sm">
+                                    <UnderlineInput
+                                        onChangeText={(text) =>
+                                            setPasswords({ ...passwords, confirm: text })
+                                        }
+                                        placeholder="Confirme sua nova senha"
+                                    />
+                                </Box>
+                                <Box mt={22}>
+                                    <Typography>Sua senha deve ter pelo menos:</Typography>
+                                </Box>
+                                <Box mx={44} flexDirection="row" flexWrap="wrap" pt={2}>
+                                    <PasswordCheck
+                                        checked={passwordsChecker.digitsCount}
+                                        text="8 dígitos"
+                                    />
+                                    <PasswordCheck
+                                        checked={passwordsChecker.lowercase}
+                                        text="1 letra maiúscula"
+                                    />
+                                    <PasswordCheck
+                                        checked={passwordsChecker.number}
+                                        text="1 número"
+                                    />
+                                    <PasswordCheck
+                                        checked={passwordsChecker.uppercase}
+                                        text="1 letra minúscula"
+                                    />
+                                </Box>
+                                <Box mb={20}>
+                                    <Button
+                                        mt={28}
+                                        variant="primarioEstreito"
+                                        title="CRIAR SENHA"
+                                        onPress={handleCreatePassword}
+                                        disabled={!enabledButton()}
+                                        inline
+                                    />
+                                </Box>
+                            </Box>
+                        )
+                        :
+                        <Box alignItems="center" mt="nano" mb="quarck">
+                            <TouchableOpacity
+                                onPress={pasteCode}
+                            >
+                                <Typography
+                                    fontFamily="nunitoRegular"
+                                    fontSize={13}
+                                    style={{ textDecorationLine: 'underline' }}
+                                >
+                                    Colar código
+                                </Typography>
+                            </TouchableOpacity>
                         </Box>
-                        <UnderlineInput
-                            onChangeText={(text) =>
-                                setPasswords({ ...passwords, first: text })
-                            }
-                            placeholder="Digite sua nova senha"
-                        />
-                        <Box mt="sm">
-                            <UnderlineInput
-                                onChangeText={(text) =>
-                                    setPasswords({ ...passwords, confirm: text })
-                                }
-                                placeholder="Confirme sua nova senha"
-                            />
-                        </Box>
-                        <Box mt={22}>
-                            <Typography>Sua senha deve ter pelo menos:</Typography>
-                        </Box>
-                        <Box mx={44} flexDirection="row" flexWrap="wrap" pt={2}>
-                            <PasswordCheck
-                                checked={passwordsChecker.digitsCount}
-                                text="8 dígitos"
-                            />
-                            <PasswordCheck
-                                checked={passwordsChecker.lowercase}
-                                text="1 letra maiúscula"
-                            />
-                            <PasswordCheck
-                                checked={passwordsChecker.number}
-                                text="1 número"
-                            />
-                            <PasswordCheck
-                                checked={passwordsChecker.uppercase}
-                                text="1 letra minúscula"
-                            />
-                        </Box>
-                        <Box mb={20}>
-                            <Button
-                                mt={28}
-                                variant="primarioEstreito"
-                                title="CRIAR SENHA"
-                                onPress={handleCreatePassword}
-                                disabled={!enabledButton()}
-                                inline
-                            />
-                        </Box>
-                    </Box>
+                    }
+
                 </>
             </ScrollView>
         </SafeAreaView>

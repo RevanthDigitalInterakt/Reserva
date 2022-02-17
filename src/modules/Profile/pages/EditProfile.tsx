@@ -37,11 +37,15 @@ import {
 } from '../../../graphql/profile/profileQuery';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
 
-export const EditProfile: React.FC<{
-  title: string;
-}> = ({ children, title }) => {
+type Props = StackScreenProps<RootStackParamList, "EditProfile">;
+
+export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
+  const { isRegister } = route?.params || false
   const [subscribed, setSubscribed] = useState(false);
   const [tokenOneSignal, setTokenOneSignal] = useState('');
   const [userData, setUserData] = useState<ProfileQuery>({
@@ -138,9 +142,12 @@ export const EditProfile: React.FC<{
 
   useEffect(() => {
     if (updateData) {
-      refetch();
-
-      if (!loading) navigation.goBack();
+      if (isRegister) {
+        if (!loading) navigation.navigate('Home');
+      } else {
+        refetch();
+        if (!loading) navigation.goBack();
+      }
     }
   }, [updateData]);
 
@@ -389,9 +396,15 @@ export const EditProfile: React.FC<{
         keyboardVerticalOffset={80}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <TopBarBackButton
-          loading={loading || loadingProfilePhoto || updateLoading || newsLetterLoading}
-        />
+        {isRegister ?
+          <TopBarCheckoutCompleted
+            loading={loading || loadingProfilePhoto || updateLoading || newsLetterLoading}
+          />
+          :
+          <TopBarBackButton
+            loading={loading || loadingProfilePhoto || updateLoading || newsLetterLoading}
+          />
+        }
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ height: '100%' }}
@@ -638,25 +651,39 @@ export const EditProfile: React.FC<{
               </Box>
 
               <Box mb="nano" justifyContent="space-between" flexDirection="row">
-                <Box width={1 / 2} paddingRight="nano">
-                  <Button
-                    title="CANCELAR"
-                    variant="primarioEstreitoOutline"
-                    inline
-                    onPress={() => {
-                      navigation.goBack();
-                    }}
-                  />
-                </Box>
-                <Box paddingLeft="nano" width={1 / 2}>
-                  <Button
-                    title="SALVAR"
-                    variant="primarioEstreito"
-                    inline
-                    onPress={saveUserData}
-                    disabled={updateLoading || loadingProfilePhoto}
-                  />
-                </Box>
+                {isRegister ?
+                  <Box paddingLeft="nano" width={'100%'}>
+                    <Button
+                      title="SALVAR"
+                      variant="primarioEstreito"
+                      inline
+                      onPress={saveUserData}
+                      disabled={updateLoading || loadingProfilePhoto}
+                    />
+                  </Box>
+                  :
+                  <>
+                    <Box width={1 / 2} paddingRight="nano">
+                      <Button
+                        title="CANCELAR"
+                        variant="primarioEstreitoOutline"
+                        inline
+                        onPress={() => {
+                          navigation.goBack();
+                        }}
+                      />
+                    </Box>
+                    <Box paddingLeft="nano" width={1 / 2}>
+                      <Button
+                        title="SALVAR"
+                        variant="primarioEstreito"
+                        inline
+                        onPress={saveUserData}
+                        disabled={updateLoading || loadingProfilePhoto}
+                      />
+                    </Box>
+                  </>
+                }
               </Box>
             </Box>
           </Box>
