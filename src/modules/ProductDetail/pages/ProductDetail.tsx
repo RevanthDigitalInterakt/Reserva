@@ -271,7 +271,6 @@ export const ProductDetail: React.FC<Props> = ({
    * Effects
    */
   useEffect(() => {
-    // console.log('aaaaaaaaaaaaaaaaa', !!product.categoryTree.find(x => Object.keys(SizeGuideImages).includes(x.name)))
     remoteConfig().fetchAndActivate();
     const value = remoteConfig().getValue('sale_off_tag');
     setSaleOffTag(value.asBoolean());
