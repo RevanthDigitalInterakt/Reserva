@@ -64,6 +64,7 @@ export const images = {
   GuideCamiseta: require('./img/Camiseta.png'),
   GuideBermuda: require('./img/Bermuda.png'),
   GuidePolo: require('./img/Polo.png'),
+  noWishList: require('./img/noWishList.png'),
 };
 
 export const animations = {
