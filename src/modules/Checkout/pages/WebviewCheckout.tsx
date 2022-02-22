@@ -11,6 +11,7 @@ import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 
+
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { orderForm, orderform } = useCart();
