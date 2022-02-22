@@ -87,7 +87,7 @@ const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = (
   const IMAGES_PROPORTION = 1.7
   const CARD_WIDTH = DEVICE_WIDTH * 0.92;
   const CARD_HEIGHT = CARD_WIDTH * IMAGES_PROPORTION;
-  const CARD_PADDING = (DEVICE_WIDTH - CARD_WIDTH) * 0.5
+  const CARD_PADDING = (DEVICE_WIDTH - CARD_WIDTH) * 0.49
 
   const [actualPosition, setActualPosition] = useState(0);
 
@@ -120,29 +120,38 @@ const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = (
           return (
             <Box
               style={{
-                paddingRight: CARD_PADDING,
-                paddingLeft: CARD_PADDING,
-                width: DEVICE_WIDTH,
-                height: DEVICE_HEIGHT,
+                // paddingRight: CARD_PADDING,
+                // paddingLeft: CARD_PADDING,
+                width: CARD_WIDTH,
+                height: CARD_HEIGHT,
                 justifyContent: 'center',
               }}
             >
-              <Button
+              <Box
                 style={{
-                  width: 40,
-                  height: 40,
-                  backgroundColor: 'rgba(256, 256, 256, 0.4)',
                   position: 'absolute',
                   top: 0,
                   right: 0,
-                  zIndex: 6,
+                  elevation: 5,
+                  zIndex: 5,
                 }}
-                onPress={onClose}
-              />
+              >
+                <Button
+                  style={{
+                    width: 40,
+                    height: 40,
+                    backgroundColor: 'rgba(256, 256, 256, 0.4)',
+                    zIndex: 16,
+                    elevation: 16,
+                  }}
+                  onPress={onClose}
+                />
+              </Box>
               <Image
                 source={
                   item
                 }
+
                 width={CARD_WIDTH}
                 height={CARD_HEIGHT}
               />
