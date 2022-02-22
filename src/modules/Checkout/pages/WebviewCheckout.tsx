@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, View, Button as TestButton } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
@@ -10,7 +10,8 @@ import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import { checkoutService } from '../../../services/checkoutService'
+
+
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { orderForm, orderform } = useCart();
@@ -49,71 +50,8 @@ const Checkout: React.FC<{}> = () => {
     }
   }, [navState])
 
-  const [getWayData, setGetWayData] = useState({
-    transactionId: '',
-    orderGroup: '',
-  })
-
-
   return (
     <View flex={1} backgroundColor={'white'}>
-      <TestButton
-        color={'green'}
-        onPress={() => {
-          if (!!orderForm) {
-            checkoutService.setPixAsPaymentMethod({
-              orderFormId: orderForm.orderFormId,
-              value: orderForm.value,
-            })
-          }
-        }}
-        title="set pix as payment method"
-      />
-      <TestButton
-        onPress={async () => {
-          if (!!orderForm) {
-            const { data }: any = await checkoutService.transaction({
-              orderFormId: orderForm.orderFormId,
-              interestValue: 0,
-              value: orderForm.value,
-              savePersonalData: true,
-              optinNewsLetter: false
-            })
-            if (!!data.id && !!data.orderGroup) {
-              setGetWayData({
-                transactionId: data.id,
-                orderGroup: data.orderGroup
-              })
-            }
-          }
-        }}
-        title="Transaction"
-      />
-      <TestButton
-        color={'purple'}
-        onPress={() => {
-          if (!!orderForm) {
-            checkoutService.paymentGetway({
-              transactionId: getWayData.transactionId,
-              orderGroup: getWayData.orderGroup,
-              value: orderForm.value,
-            })
-          }
-        }}
-        title="payment getway"
-      />
-      <TestButton
-        color={'darkred'}
-        onPress={async () => {
-          if (!!orderForm) {
-            const code = await checkoutService.callBack({
-              orderGroup: getWayData.orderGroup,
-            })
-            console.log('codigo pix', code)
-          }
-        }}
-        title="payment callback"
-      />
       {loading && <Box zIndex={5} height='100%' width='100%' backgroundColor='white' position='absolute' justifyContent='center' alignItems='center'>
         <LottieView
           source={loadingSpinner}
