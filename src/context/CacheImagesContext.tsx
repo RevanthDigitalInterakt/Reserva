@@ -4,8 +4,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-import RNFetchBlob, { RNFetchBlobStat } from 'react-native-fetch-blob'
-
+import RNFetchBlob from 'rn-fetch-blob'
 interface CacheImage {
   uri: string;
   path: string;
