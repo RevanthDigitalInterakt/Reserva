@@ -396,7 +396,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                             productId: product?.productId,
                             colorSelected: productSku?.variations[2].values[0],
                             sizeSelected: productSku?.name.split('-')[1],
-                          })
+                          });
                         }}
                         onClickAddCount={() => {}}
                         isFavorited

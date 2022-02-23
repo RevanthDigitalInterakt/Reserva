@@ -517,7 +517,6 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   <Box mt={15}>
                     <TextField
                       value={fields.city}
-                      keyboardType="number-pad"
                       onChangeText={(text) => {
                         setFields({ ...fields, city: text });
                         if (!text) {
