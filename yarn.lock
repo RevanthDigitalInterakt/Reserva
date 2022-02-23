@@ -7560,7 +7560,7 @@ react-native-image-pan-zoom@^2.1.12:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz#eb98bf56fb5610379bdbfdb63219cc1baca98fd2"
   integrity sha1-65i/VvtWEDeb2/22MhnMG6ypj9I=
 
-react-native-image-picker@^4.4.0:
+react-native-image-picker@^4.7.3:
   version "4.7.3"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-image-picker/-/react-native-image-picker-4.7.3.tgz#f5863b27bf2e76c83649dd8efea4598426bd04e8"
   integrity sha1-9YY7J78udsg2Sd2O/qRZhCa9BOg=
@@ -8077,10 +8077,10 @@ requires-port@^1.0.0:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reserva-ui@0.0.224:
-  version "0.0.224"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.224.tgz#11250a47f77d60d2cc0ab2f3941921389648664f"
-  integrity sha1-ESUKR/d9YNLMCrLzlBkhOJZIZk8=
+reserva-ui@0.0.229:
+  version "0.0.229"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/reserva-ui/-/reserva-ui-0.0.229.tgz#6d640df4e036c1f78d8e095dff80d8723b7ebe69"
+  integrity sha1-bWQN9OA2wfeNjgld/4DYcjt+vmk=
   dependencies:
     lottie-react-native "^4.0.3"
     react-native-linear-gradient "^2.5.6"

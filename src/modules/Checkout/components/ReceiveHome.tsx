@@ -84,36 +84,36 @@ const ReceiveHome = ({
           SELECIONE O TIPO DE ENTREGA
         </Typography>
       </Box>
-      {typeOfDelivery && typeOfDelivery.length > 0 && !loading
+      {typeOfDelivery && typeOfDelivery.length > 0
         ? typeOfDelivery.map((item: any) => {
-            let selected;
-            const { id, name, shippingEstimate, price } = item;
+          let selected;
+          const { id, name, shippingEstimate, price } = item;
 
-            if (cookie != null) {
-              if (selectedDelivery) {
-                selected = id === selectedDelivery.id && item;
-              }
-            } else {
-              if (selectedDelivery) {
-                selected = id === selectedDelivery.id && item;
-              }
+          if (cookie != null) {
+            if (selectedDelivery) {
+              selected = id === selectedDelivery.id && item;
             }
+          } else {
+            if (selectedDelivery) {
+              selected = id === selectedDelivery.id && item;
+            }
+          }
 
-            return (
-              <DeliverySelector
-                deliveryData={{
-                  name: name,
-                  price: price,
-                  shippingEstimate: shippingEstimate,
-                }}
-                selected={selected}
-                disabled={(selected = id === selectedDelivery.id)}
-                select={() => {
-                  onDeliveryChosen(item);
-                }}
-              />
-            );
-          })
+          return (
+            <DeliverySelector
+              deliveryData={{
+                name: name,
+                price: price,
+                shippingEstimate: shippingEstimate,
+              }}
+              selected={selected}
+              disabled={(selected = id === selectedDelivery.id)}
+              select={() => {
+                onDeliveryChosen(item);
+              }}
+            />
+          );
+        })
         : null}
     </>
   );

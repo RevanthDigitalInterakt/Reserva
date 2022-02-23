@@ -18,7 +18,7 @@ The things you'll need in order to install dependencies and run the app on andro
 
 ```shell
 yarn
-yarn android
+yarn android .
 ```
 
 The things you'll need in order to install dependencies and run the app on android:
