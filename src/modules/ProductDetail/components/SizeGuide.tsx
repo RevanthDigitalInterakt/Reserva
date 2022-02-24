@@ -127,25 +127,33 @@ const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = (
                 justifyContent: 'center',
               }}
             >
-              <Button
-                style={{
-                  width: 40,
-                  height: 40,
-                  backgroundColor: 'rgba(256, 256, 256, 0.4)',
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  zIndex: 6,
-                }}
-                onPress={onClose}
-              />
-              <Image
-                source={
-                  item
-                }
-                width={CARD_WIDTH}
-                height={CARD_HEIGHT}
-              />
+              <Box>
+                <Box
+                  height={40}
+                  width={40}
+                  position='absolute'
+                  right={0}
+                  top={0}
+                  zIndex={16}
+                >
+                  <Button
+                    style={{
+                      width: 40,
+                      height: 40,
+                      zIndex: 16,
+                    }}
+                    onPress={onClose}
+                  />
+                </Box>
+                <Image
+                  source={
+                    item
+                  }
+
+                  width={CARD_WIDTH}
+                  height={CARD_HEIGHT}
+                />
+              </Box>
             </Box>
           )
         }}
