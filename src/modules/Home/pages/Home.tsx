@@ -173,7 +173,6 @@ export const HomeScreen: React.FC<{
   }, []);
   return (
     <Box flex={1} bg="white">
-      <CountDownBanner />
       <TopBarDefault loading={loading} />
       <StoreUpdate />
       {modalDiscount && (
@@ -209,7 +208,12 @@ export const HomeScreen: React.FC<{
                 // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
                 switch (carrousel?.type) {
                   case CarrouselTypes.mainCarrousel: {
-                    return <DefaultCarrousel carrousel={carrousel} />;
+                    return (
+                      <>
+                        <DefaultCarrousel carrousel={carrousel} />
+                        <CountDownBanner />
+                      </>
+                    )
                     break;
                   }
                   case CarrouselTypes.cardsCarrousel: {
