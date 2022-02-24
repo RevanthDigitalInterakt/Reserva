@@ -260,130 +260,132 @@ export const ListVerticalProducts = ({
         </Box>
       )}
 
-      <>
-        <FlatList
-          horizontal={horizontal}
-          data={products}
-          keyExtractor={(item, index) => `${item.productId} ${index}`}
-          numColumns={horizontal ? 1 : 2}
-          ListEmptyComponent={() => (
-            <Box height="100%">
-              <Typography
-                textAlign="center"
-                fontFamily="nunitoRegular"
-                fontSize={16}
-              >
-                Produtos não encontrados
-              </Typography>
-            </Box>
-          )}
-          onEndReached={async () => {
-            console.log('onEndReached');
-            console.log(products.length);
-            if (products.length < 96) {
-              setIsLoadingMore(true);
-              if (totalProducts && totalProducts > products.length) {
-                await loadMoreProducts(products.length);
-              }
-              setIsLoadingMore(false);
-            }
-          }}
-          ListFooterComponent={() => {
-            if (!(isLoadingMore || isLoading)) return null;
-
-            return (
-              <Box
-                width="100%"
-                height={80}
-                color="verdeSucesso"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <LottieView
-                  source={loadingSpinner}
-                  style={{
-                    width: 40,
-                  }}
-                  autoPlay
-                  loop
-                />
+      {products && products.length > 0 &&
+        <>
+          <FlatList
+            horizontal={horizontal}
+            data={products}
+            keyExtractor={(item, index) => `${item.productId} ${index}`}
+            numColumns={horizontal ? 1 : 2}
+            ListEmptyComponent={() => (
+              <Box height="100%">
+                <Typography
+                  textAlign="center"
+                  fontFamily="nunitoRegular"
+                  fontSize={16}
+                >
+                  Produtos não encontrados
+                </Typography>
               </Box>
-            );
-          }}
-          onEndReachedThreshold={0.5}
-          ListHeaderComponent={listHeader}
-          renderItem={({ item, index }) => {
-            const installments =
-              item.items[0].sellers[0].commertialOffer.Installments;
-            const installmentsNumber =
-              installments.length > 0
-                ? installments[0].NumberOfInstallments
-                : 1;
-
-            const discountTag = getPercent(
-              item.priceRange?.sellingPrice.lowPrice,
-              item.priceRange?.listPrice.lowPrice
-            );
-
-            const cashPaymentPrice =
-              !!discountTag && discountTag > 0
-                ? item.priceRange?.sellingPrice.lowPrice
-                : item.priceRange?.listPrice?.lowPrice || 0;
-
-            const installmentPrice =
-              installments.length > 0
-                ? installments[0].Value
-                : cashPaymentPrice;
-
-            // item.priceRange?.listPrice?.lowPrice;
-            const colors = new ProductUtils().getColorsArray(item);
-            return (
-              <ProductItem
-                item={item}
-                index={index}
-                horizontal={horizontal}
-                loadingFavorite={
-                  !!loadingFavorite.find((x) => x == item.items[0].itemId)
+            )}
+            onEndReached={async () => {
+              console.log('onEndReached');
+              console.log(products.length);
+              if (products.length < 96) {
+                setIsLoadingMore(true);
+                if (totalProducts && totalProducts > products.length) {
+                  await loadMoreProducts(products.length);
                 }
-                isFavorited={
-                  !!favorites.find((x) => x.sku == item.items[0].itemId)
-                } // item.isFavorite}
-                onClickFavorite={(isFavorite) => {
-                  // setLoafingFavorite([...loadingFavorite, item.productId])
-                  handleOnFavorite(isFavorite, item);
-                  // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
-                }}
-                // colors={null}
-                imageSource={item.items[0].images[0].imageUrl}
-                installmentsNumber={installmentsNumber} // numero de parcelas
-                installmentsPrice={installmentPrice || 0} // valor das parcelas
-                currency="R$"
-                discountTag={getPercent(
-                  item.priceRange?.sellingPrice.lowPrice,
-                  item.priceRange?.listPrice.lowPrice
-                )}
-                saleOff={getSaleOff(item)}
-                priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                price={item.priceRange?.listPrice?.lowPrice || 0}
-                productTitle={item.productName}
-                onClickImage={() => {
-                  navigation.navigate('ProductDetail', {
-                    productId: item.productId,
-                    colorSelected: getVariant(
-                      item.items[0].variations,
-                      'VALOR_HEX_ORIGINAL'
-                    ),
-                  })
+                setIsLoadingMore(false);
+              }
+            }}
+            ListFooterComponent={() => {
+              if (!(isLoadingMore || isLoading)) return null;
 
-                  if (handleScrollToTheTop) {
-                    handleScrollToTheTop()
+              return (
+                <Box
+                  width="100%"
+                  height={80}
+                  color="verdeSucesso"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <LottieView
+                    source={loadingSpinner}
+                    style={{
+                      width: 40,
+                    }}
+                    autoPlay
+                    loop
+                  />
+                </Box>
+              );
+            }}
+            onEndReachedThreshold={0.5}
+            ListHeaderComponent={listHeader}
+            renderItem={({ item, index }) => {
+              const installments =
+                item.items[0].sellers[0].commertialOffer.Installments;
+              const installmentsNumber =
+                installments.length > 0
+                  ? installments[0].NumberOfInstallments
+                  : 1;
+
+              const discountTag = getPercent(
+                item.priceRange?.sellingPrice.lowPrice,
+                item.priceRange?.listPrice.lowPrice
+              );
+
+              const cashPaymentPrice =
+                !!discountTag && discountTag > 0
+                  ? item.priceRange?.sellingPrice.lowPrice
+                  : item.priceRange?.listPrice?.lowPrice || 0;
+
+              const installmentPrice =
+                installments.length > 0
+                  ? installments[0].Value
+                  : cashPaymentPrice;
+
+              // item.priceRange?.listPrice?.lowPrice;
+              const colors = new ProductUtils().getColorsArray(item);
+              return (
+                <ProductItem
+                  item={item}
+                  index={index}
+                  horizontal={horizontal}
+                  loadingFavorite={
+                    !!loadingFavorite.find((x) => x == item.items[0].itemId)
                   }
-                }}
-              />
-            );
-          }}
-        />
-      </>
+                  isFavorited={
+                    !!favorites.find((x) => x.sku == item.items[0].itemId)
+                  } // item.isFavorite}
+                  onClickFavorite={(isFavorite) => {
+                    // setLoafingFavorite([...loadingFavorite, item.productId])
+                    handleOnFavorite(isFavorite, item);
+                    // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
+                  }}
+                  // colors={null}
+                  imageSource={item.items[0].images[0].imageUrl}
+                  installmentsNumber={installmentsNumber} // numero de parcelas
+                  installmentsPrice={installmentPrice || 0} // valor das parcelas
+                  currency="R$"
+                  discountTag={getPercent(
+                    item.priceRange?.sellingPrice.lowPrice,
+                    item.priceRange?.listPrice.lowPrice
+                  )}
+                  saleOff={getSaleOff(item)}
+                  priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
+                  price={item.priceRange?.listPrice?.lowPrice || 0}
+                  productTitle={item.productName}
+                  onClickImage={() => {
+                    navigation.navigate('ProductDetail', {
+                      productId: item.productId,
+                      colorSelected: getVariant(
+                        item.items[0].variations,
+                        'VALOR_HEX_ORIGINAL'
+                      ),
+                    })
+
+                    if (handleScrollToTheTop) {
+                      handleScrollToTheTop()
+                    }
+                  }}
+                />
+              );
+            }}
+          />
+        </>
+      }
       {/* ) : ( */}
 
       {/* )} */}
@@ -408,11 +410,23 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   const [imageUri, setImageUri] = useState<string>()
   const { fetchImage } = useCacheImages()
 
+  const fetchUri = async () => {
+    if (item.items[0].images[0].imageUrl) {
+      const uri = await fetchImage(item.items[0].images[0].imageUrl);
+      if (uri) {
+        setImageUri(uri)
+      }
+    }
+  }
   useEffect(() => {
-    fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
-      setImageUri(uri)
-    })
-  }, [])
+    // if (item) {
+
+    //   fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
+    //     setImageUri(uri)
+    //   });
+    // }
+    fetchUri();
+  }, []);
 
   return (
     <Box

@@ -17,8 +17,7 @@ target 'reserva' do
     :hermes_enabled => false
   )
 
-  pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
-
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
