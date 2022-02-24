@@ -1,8 +1,6 @@
 // In App.js in a new project
-import React from 'react';
-
 import { createStackNavigator } from '@react-navigation/stack';
-
+import React from 'react';
 import CallCenter from '../modules/CallCenter';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
 import { Cashback } from '../modules/Cashback/pages/Cashback';
@@ -25,6 +23,8 @@ import { CorreReservaStackScreen } from '../modules/CorreReserva';
 import { Credits } from '../modules/Credits/pages/Credits';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
+import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
+import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
@@ -36,7 +36,6 @@ import { StoreUpdate } from '../modules/Update/pages/StoreUpdate';
 import Update from '../modules/Update/pages/Update';
 import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
-
 import {
   AddressFlow,
   ForgotFlow,
@@ -44,11 +43,13 @@ import {
   LoginFlow,
   OrderFlow,
   ProductFlow,
-  TimeRaceFlow,
+  TimeRaceFlow
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
-import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
+
+
+
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -160,7 +161,8 @@ const flows: Flow[] = [
   ...LoginFlow,
   ...ProductFlow,
   ...TimeRaceFlow,
-  ...MyCreditsRoutes
+  ...MyCreditsRoutes,
+  ...MyCashbackRoutes
 ];
 
 export const MainStack = createStackNavigator();

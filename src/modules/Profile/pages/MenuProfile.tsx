@@ -1,27 +1,27 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-
 import { useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
-import { Typography, Box, Button, Avatar } from 'reserva-ui';
-
+import { Avatar, Box, Button, Typography } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import {
   profileQuery,
-  ProfileVars,
+  ProfileVars
 } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+import { FirebaseService } from '../../../shared/services/FirebaseService';
 import {
   StorageService,
-  StorageServiceKeys,
+  StorageServiceKeys
 } from '../../../shared/services/StorageService';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
-import { FirebaseService } from '../../../shared/services/FirebaseService';
+
+
 
 const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
@@ -196,7 +196,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 descr="Visualize seus créditos e cashbacks"
                 icon="Cashback"
                 onPress={() => {
-                  navigation.navigate('credits');
+                  navigation.navigate('MY_CASHBACK_MY_WALLET');
                 }}
               />
             )}

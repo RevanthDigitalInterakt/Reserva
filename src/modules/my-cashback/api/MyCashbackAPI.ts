@@ -23,6 +23,26 @@ export type GetDigitalWalletResponse = {
   };
 };
 
+export type UserOperations = {
+  type: string;
+  status: string;
+  external_order_id: string;
+  external_order_amount_in_cents: number;
+  cashback_amount_in_cents: number;
+  applied_balance_in_cents: number;
+  current_balance_in_cents: number;
+  requested_cashback: boolean;
+  settlement_date: string;
+  created_at: string;
+};
+
+export type GetUserOperationsResponse = {
+  pagination: {
+    total_pages: number;
+  };
+  data: UserOperations[];
+};
+
 export type GetTokenResponse = {
   data: {
     token: string;
@@ -35,6 +55,7 @@ export enum CashbackHttpUrl {
   ModifyToken = '/loyalty/modify-token',
   GetDigitalWallet = '/digital-wallets/',
   GetToken = '/users/',
+  GetUserOperations = '/users/',
 }
 
-export const MyCreditsAPI = new HttpService(cashbackInstance);
+export const MyCashbackAPI = new HttpService(cashbackInstance);

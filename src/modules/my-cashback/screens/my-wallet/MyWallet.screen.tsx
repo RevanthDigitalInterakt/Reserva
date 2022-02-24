@@ -5,16 +5,16 @@ import { BaseScreen } from "../../../../common/components/BaseScreen";
 import { MyCashbackParamList, MyCashbackScreensRoutes } from "../../navigation/MyCashbackNavigator";
 import { MyWalletContainer } from "./MyWallet.container";
 
-type CashbackInStoreScreenProps = StackScreenProps<
+type MyWalletScreenProps = StackScreenProps<
   MyCashbackParamList,
   MyCashbackScreensRoutes.MY_WALLET
 >;
 
-export const CashbackInStoreScreen = (
+export const MyWalletScreen = (
   {
     route,
     navigation: navigate
-  }: CashbackInStoreScreenProps
+  }: MyWalletScreenProps
 ) => {
   const navigation = useNavigation();
 
@@ -27,7 +27,7 @@ export const CashbackInStoreScreen = (
   }
 
   return (
-    <BaseScreen testID='CashbackInStoreScreen'>
+    <BaseScreen testID='MyWalletScreen'>
       <MyWalletContainer
         navigateBack={navigateBack}
         navigateToError={navigateToError}

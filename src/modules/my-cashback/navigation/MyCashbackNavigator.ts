@@ -1,7 +1,7 @@
-import { MyWalletView } from '../screens/my-wallet/MyWallet.view';
+import { MyWalletScreen } from '../screens/my-wallet/MyWallet.screen';
 
 export enum MyCashbackScreensRoutes {
-  MY_WALLET = 'myWallet',
+  MY_WALLET = 'MY_CASHBACK_MY_WALLET',
   ERROR = 'error',
 }
 
@@ -12,7 +12,7 @@ export type MyCashbackParamList = {
 
 export const MyCashbackRoutes = [
   {
-    component: MyWalletView,
+    component: MyWalletScreen,
     name: MyCashbackScreensRoutes.MY_WALLET,
   },
 ];
