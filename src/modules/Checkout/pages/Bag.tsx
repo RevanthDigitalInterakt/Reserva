@@ -3,7 +3,12 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
@@ -33,8 +38,10 @@ import { CouponBadge } from '../components/CouponBadge';
 import { EmptyBag } from '../components/EmptyBag';
 import { ModalBook } from '../components/ModalBook';
 import { PriceCustom } from '../components/PriceCustom';
+import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import { Attachment } from '../../../services/vtexService';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -158,6 +165,7 @@ export const BagScreen = () => {
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
+
   }, [orderForm]);
 
   useEffect(() => {
@@ -224,9 +232,20 @@ export const BagScreen = () => {
   };
 
   useEffect(() => {
-    console.log('optimistQuantities', optimistQuantities);
     setLoadingShippingBar(true);
   }, [optimistQuantities]);
+
+  const addAttachmentsInProducts = async () => {
+    try {
+
+      const orderFormId = orderForm?.orderFormId;
+      const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
+      const attachmentName = 'Li e Aceito os Termos';
+      Attachment(orderFormId, productOrderFormIndex, attachmentName)
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <SafeAreaView
@@ -432,13 +451,13 @@ export const BagScreen = () => {
             <Box paddingX="xxxs" paddingY="xxs">
               <Box bg="white" marginTop="xxs">
                 <Typography variant="tituloSessoes">
-                  Sacola ({orderForm?.items.length})
+                  Sacola ({optimistQuantities.reduce((accumulator, currentValue) => accumulator + currentValue, 0)})
                 </Typography>
               </Box>
 
               <ShippingBar
                 loading={loadingShippingBar}
-                sumPriceShipping={totalBag}
+                sumPriceShipping={totalBag + totalDiscountPrice + totalDelivery}
                 isFreeShipping={totalDelivery != 0 ? totalDelivery : 0}
               />
 
@@ -489,41 +508,53 @@ export const BagScreen = () => {
                           x.identifier ===
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
-                      array.filter((x) => x.uniqueId == item.uniqueId).length >
-                      1
+                      array.filter((x) => x.uniqueId == item.uniqueId)
+                        .length > 1
                     }
                     currency="R$"
-                    discountTag={getPercent(item.sellingPrice, item.listPrice)}
+                    discountTag={getPercent(
+                      item.sellingPrice,
+                      item.listPrice
+                    )}
                     itemColor={item.skuName.split('-')[0] || ''}
                     ItemSize={item.skuName.split('-')[1] || ''}
                     productTitle={item.name.split(' - ')[0]}
                     // installmentsNumber={item.installmentNumber}
                     // installmentsPrice={item.installmentPrice}
                     price={item.listPrice / 100}
-                    priceWithDiscount={item.sellingPrice / 100}
+                    priceWithDiscount={
+                      item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
+                    }
                     count={optimistQuantities[index]}
                     onClickAddCount={async (countUpdated) => {
                       const itemIndex = array.findIndex(
                         (x) => x.refId == item.refId
                       );
 
+                      let isAssinaturaSimples = item?.attachmentOfferings?.find((x) => x.schema.aceito)?.required || false
+
+                      const quantities = isAssinaturaSimples ? 1 : countUpdated
+
                       const { ok } = await addItem(
-                        countUpdated,
+                        quantities,
                         item.id,
                         item.seller
                       );
-
                       if (!ok) {
                         const erros = errorsMessages?.filter((erro) =>
                           erro.includes(item.name)
                         );
                         setNoProduct(erros[0]);
                       } else {
-                        setOptimistQuantities([
-                          ...optimistQuantities.slice(0, itemIndex),
-                          countUpdated,
-                          ...optimistQuantities.slice(itemIndex + 1),
-                        ]);
+                        if (!isAssinaturaSimples) {
+                          setOptimistQuantities([
+                            ...optimistQuantities.slice(0, itemIndex),
+                            countUpdated,
+                            ...optimistQuantities.slice(itemIndex + 1),
+                          ]);
+                        } else {
+                          await addAttachmentsInProducts()
+                        }
                       }
                     }}
                     onClickSubCount={async (count) => {
@@ -553,7 +584,7 @@ export const BagScreen = () => {
                             prevCont,
                             ...optimistQuantities.slice(index + 1),
                           ]);
-                        console.log('ok subCount', ok);
+
                       }
                     }}
                     onClickClose={() => {
@@ -568,6 +599,13 @@ export const BagScreen = () => {
                       .replace('http', 'https')
                       .split('-55-55')
                       .join('')}
+                    handleNavigateToProductDetail={() => {
+                      navigate('ProductDetail', {
+                        productId: item.productId,
+                        itemId: item.id,
+                        sizeSelected: item.skuName.split("-")[1] || ""
+                      })
+                    }}
                   />
                 </Box>
               ))}
@@ -637,10 +675,10 @@ export const BagScreen = () => {
           </BoxAnimated>
         )} */}
 
-            <Box paddingX="xxxs">
-              {showLikelyProducts && (
-                <Divider marginTop="xs" variant="fullWidth" />
-              )}
+            <Recommendation />
+
+            <Box paddingX="micro">
+              {showLikelyProducts && <Divider variant="fullWidth" />}
 
               <Box flexDirection="row" marginY="xxs" alignItems="center">
                 <Box marginRight="micro">

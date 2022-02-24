@@ -1,24 +1,28 @@
-import React, { useEffect } from 'react';
-
 import { ApolloProvider } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-
 import CodepushConfig from './config/codepush';
 import { env } from './config/env';
 import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
 import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
+import { CacheImagesProvider } from './context/CacheImagesContext';
 import CartContextProvider from './context/CartContext';
+import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
 import InitialScreen from './InitialScreen';
+import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
 import { apolloClient } from './services/apolloClient';
+import { RemoteConfigService } from "./shared/services/RemoteConfigService";
+
+
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -68,6 +72,8 @@ const requestUserPermission = async () => {
   }
 };
 
+
+
 appsFlyer.initSdk(
   {
     devKey: env.APPSFLYER.DEV_KEY,
@@ -84,8 +90,18 @@ appsFlyer.initSdk(
     console.log('AAPPFLYERS', error);
   }
 );
+const maintenanceHandler = async () => {
+  const result = await RemoteConfigService.fetchValues()
+  const maintenance = result.find(x => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE)
+  //setIsOnMaintenance(maintenance.value)
+  return maintenance.value
+}
 
 const App = () => {
+  const { getValue } = useFirebaseContext()
+
+  const [isOnMaintenance, setIsOnMaintenance] = useState(false)
+
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
       onInstallConversionDataCanceller();
@@ -105,23 +121,33 @@ const App = () => {
     logAppOpenAnalytics();
     CodepushConfig();
     oneSignalConfig();
+    setTimeout(() => {
+      maintenanceHandler().then(res => setIsOnMaintenance(res))
+    }, 5000);
   }, []);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
-        <CartContextProvider>
-          <AuthContextProvider>
-            <ApolloProvider client={apolloClient}>
-              <InitialScreen>
-                <AppRouting />
-              </InitialScreen>
-            </ApolloProvider>
-          </AuthContextProvider>
-        </CartContextProvider>
-      </NavigationContainer>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}>
+    <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+      {
+        isOnMaintenance ?
+          <Maintenance isVisible />
+          :
+          <CartContextProvider>
+            <AuthContextProvider>
+              <CacheImagesProvider>
+                <FirebaseContextProvider>
+                  <ApolloProvider client={apolloClient}>
+                    <InitialScreen>
+                      <AppRouting />
+                    </InitialScreen>
+                  </ApolloProvider>
+                </FirebaseContextProvider>
+              </CacheImagesProvider>
+            </AuthContextProvider>
+          </CartContextProvider>
+      }
+    </NavigationContainer>
+  </ThemeProvider>
 };
 
 export default App;

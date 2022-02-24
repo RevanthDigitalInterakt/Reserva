@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000155">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: get_version_name" time="0.000433">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: get_version_code" time="0.000252">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: Switch to android updateAndroidVersionName lane" time="0.000138">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: google_play_track_release_names" time="4.214527">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: google_play_track_release_names" time="3.738235">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: android_set_version_name" time="0.013173">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

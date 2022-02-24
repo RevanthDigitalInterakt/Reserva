@@ -2,25 +2,26 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import moment from 'moment';
 import {
-  Animated,
   Dimensions,
+  Platform,
   SafeAreaView,
   ScrollView,
-  Text,
+  View,
+  Linking
 } from 'react-native';
-import {
-  FlatList,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
-
 import { useAuth } from '../../../context/AuthContext';
 import {
   Carrousel,
   CarrouselCard,
+  CarrouselTypes,
   configCollection,
   homeQuery,
   HomeQuery,
@@ -31,22 +32,21 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
-import { DefaultCarrousel } from '../component/Carroussel';
+import { Banner } from '../component/Banner';
+import { CardsCarrousel } from '../component/CardsCarroussel';
+import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
-import moment from 'moment';
 import { CountDownBanner } from '../component/CountDown';
+import { Skeleton } from '../component/Skeleton';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
-  const {
-    cleanEmailAndCookie,
-    isCookieEmpty,
-    getCredentials,
-    setCookie,
-    cookie,
-  } = useAuth();
+  const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -69,23 +69,17 @@ export const HomeScreen: React.FC<{
 
   const { WithoutInternet } = useCheckConnection({ refetch });
 
-  const { width } = Dimensions.get('screen');
-  const scrollX = React.useRef(new Animated.Value(0)).current;
+  const { width, height } = Dimensions.get('screen');
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
 
-  const DEVICE_WIDTH = width;
-  const DOT_SIZE = 8;
 
   useEffect(() => {
-    console.log('images', images);
-  }, [images]);
-
-  useEffect(() => {
-    const carrousels: Carrousel[] =
+    console.log('homepage query', data);
+    const carrouselsItems: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
-
-    setCarrousels(carrousels);
+    console.log('carrousels', carrouselsItems);
+    setCarrousels(carrouselsItems);
 
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
@@ -97,8 +91,10 @@ export const HomeScreen: React.FC<{
           size: imageDescription.image.size,
           url: imageDescription.image.url,
           reference: imageDescription.reference,
+          route: imageDescription.route,
         })
       );
+
     setImages(arrayImages);
   }, [data]);
 
@@ -117,57 +113,58 @@ export const HomeScreen: React.FC<{
   }, []);
 
   const loginWithSavedCredentials = async () => {
+    const LastLoginAsyncStorageKey = '@RNAuth:lastLogin';
 
-    const LastLoginAsyncStorageKey = 'lastLogin'
+    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey);
+    const typeLogin = await AsyncStorage.getItem('@RNAuth:typeLogin');
+    const nowDate = Date.now();
+    const hourToNextLogin = 10;
 
+    if (typeLogin === 'classic') {
+      if (nowDate >= Number(lastLogin) + hourToNextLogin * 60 * 60 * 1000) {
+        const { email, password } = await getCredentials();
+        const { data: loginData, errors } = await login({
+          variables: {
+            email,
+            password,
+          },
+        });
+        if (!loginLoading && loginData?.cookie) {
+          await AsyncStorage.setItem('@RNAuth:email', email);
+          await AsyncStorage.setItem(
+            LastLoginAsyncStorageKey,
+            `${moment.now()}`
+          );
+          await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
+          await AsyncStorage.setItem('@RNAuth:cookie', loginData.cookie);
 
-    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey)
-
-    const lastLoginDate = moment(lastLogin)//'Tue Nov 04 2021 12:26:27 GMT-0300 (Horário Padrão de Brasília)') //lastLogin)
-
-    const nowDate = moment(new Date())
-
-    const hourToNextLogin = 20
-
-    // console.log('lastLogin', lastLoginDate)
-    // console.log('nowDate', nowDate)
-    // console.log('dateDiff', nowDate.diff(lastLoginDate))
-    // console.log('dateDiff', nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000))
-
-    if (nowDate.diff(lastLoginDate) >= (hourToNextLogin * 60 * 60 * 1000)) {
-
-      await AsyncStorage.setItem(LastLoginAsyncStorageKey, `${moment.now()}`)
-      const { email, password } = await getCredentials()
-      // console.log('credentials : ', email, password)
-      const { data: loginData, errors } = await login({
-        variables: {
-          email,
-          password
-        },
-      });
-      // console.log('loginData', loginData)
-      if (!loginLoading && loginData?.cookie) {
-        setCookie(data.cookie)
+          setCookie(loginData.cookie);
+          setEmail(email);
+        }
+      }
+    } else if (typeLogin === 'code') {
+      if (nowDate >= Number(lastLogin) + 20 * 60 * 60 * 1000) {
+        AsyncStorage.removeItem('@RNAuth:cookie');
+        AsyncStorage.removeItem('@RNAuth:email');
+        AsyncStorage.removeItem('@RNAuth:typeLogin');
+        AsyncStorage.removeItem(LastLoginAsyncStorageKey);
+        setCookie(null);
+        setEmail(null);
       }
     }
   };
-
-  useEffect(() => {
-    console.log('new cookie', cookie);
-  }, [cookie]);
 
   useEffect(() => {
     if (profileData) {
       AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email);
     } else if (!profileLoading) {
       loginWithSavedCredentials();
-      // cleanEmailAndCookie();
     }
   }, [profileData]);
 
   useEffect(() => {
     // setCookie('asdasdasdasd')
-    loginWithSavedCredentials()
+    loginWithSavedCredentials();
     async function getStorage() {
       const wishListData = await AsyncStorage.getItem('@WishList');
     }
@@ -178,33 +175,6 @@ export const HomeScreen: React.FC<{
     <Box flex={1} bg="white">
       <CountDownBanner />
       <TopBarDefault loading={loading} />
-      {/* <Box
-        minHeight={40}
-        bg="verdeSucesso"
-        paddingLeft="xxxs"
-        py="micro"
-        flexDirection="row"
-        alignItems="center"
-        paddingRight="xxxs"
-        boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-        style={{ elevation: 10 }}
-      >
-        <Box flex={1}>
-          <Typography
-            fontFamily="reservaSansRegular"
-            fontSize={13}
-            color="white"
-          >
-            Aproveite o desconto de R$ 50 em sua primeira compra no app.
-          </Typography>
-        </Box>
-        <Button
-          flex={1}
-        // onPress={() => ('')}
-        >
-          <Icon name='Close' size={15} color='white' ml="xxxs" />
-        </Button>
-      </Box> */}
       <StoreUpdate />
       {modalDiscount && (
         <DiscoutCodeModal
@@ -217,66 +187,73 @@ export const HomeScreen: React.FC<{
       )}
       <WithoutInternet />
       {loading ? (
-        <></>
+        <Skeleton />
       ) : (
-        // <Box flex={1}>
-        //   <SkeletonPlaceholder>
-        //     <SkeletonPlaceholder.Item width={screenWidth} height={screenHeight}>
-        //     </SkeletonPlaceholder.Item>
-        //   </SkeletonPlaceholder>
-        // </Box>
-        <SafeAreaView>
-          <ScrollView>
+        <SafeAreaView
+          style={{
+            marginBottom: 87,
+          }}
+        >
+          <ScrollView
+            contentContainerStyle={{
+              paddingBottom: deviceWidth * 0.02,
+            }}
+          >
             <Box
+              // paddingTop={50}
               style={{
                 overflow: 'hidden',
               }}
             >
-              {carrousels.map((carrousel) => (
-                <DefaultCarrousel
-                  carrousel={carrousel.itemsCollection.items}
-                  showtimeCard={carrousel.showtime}
-                />
-              ))}
+              {carrousels.map((carrousel) => {
+                // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
+                switch (carrousel?.type) {
+                  case CarrouselTypes.mainCarrousel: {
+                    return <DefaultCarrousel carrousel={carrousel} />;
+                    break;
+                  }
+                  case CarrouselTypes.cardsCarrousel: {
+                    const { items } = carrousel.itemsCollection;
+                    return items.length > 1 ? (
+                      <CardsCarrousel carrousel={carrousel} />
+                    ) : (
+                      <Banner
+                        height={items[0].image.height}
+                        reference={items[0].reference}
+                        url={items[0].image.url}
+                      />
+                    );
+                    break;
+                  }
+                  case CarrouselTypes.banner: {
+                    const { image, reference } =
+                      carrousel.itemsCollection.items[0];
+                    return (
+                      <Banner
+                        height={image.height}
+                        reference={reference}
+                        url={image.url}
+                      />
+                    );
+                    break;
+                  }
+                  default: {
+                    return <></>;
+                    break;
+                  }
+                }
+              })}
             </Box>
+
             <FlatList
               data={images}
               renderItem={({ item }) => (
-                <Box alignItems="flex-start">
-                  <Box mb="quarck" width={1 / 1}>
-                    <TouchableHighlight
-                      onPress={() => {
-                        const facetInput = [];
-                        const [categoryType, categoryData] =
-                          item.reference.split(':');
-                        if (categoryType === 'category') {
-                          categoryData.split('|').forEach((cat: string) => {
-                            facetInput.push({
-                              key: 'c',
-                              value: cat,
-                            });
-                          });
-                        } else {
-                          facetInput.push({
-                            key: 'productClusterIds',
-                            value: categoryData,
-                          });
-                        }
-                        navigation.navigate('ProductCatalog', {
-                          facetInput,
-                          referenceId: item.reference,
-                        });
-                      }}
-                    >
-                      <Image
-                        height={item.height}
-                        autoHeight
-                        width={deviceWidth}
-                        source={{ uri: item.url }}
-                      />
-                    </TouchableHighlight>
-                  </Box>
-                </Box>
+                <Banner
+                  height={item.height}
+                  reference={item.reference}
+                  url={item.url}
+                  route={item.route}
+                />
               )}
               keyExtractor={(item) => item.id}
             />

@@ -21,10 +21,10 @@ import { SummaryScreen } from '../modules/Checkout/pages/Summary';
 import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
 import Checkout from '../modules/Checkout/pages/WebviewCheckout';
 import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
+import { CorreReservaStackScreen } from '../modules/CorreReserva';
 import { Credits } from '../modules/Credits/pages/Credits';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
-import { HomeScreen } from '../modules/Home/pages/Home';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
@@ -35,7 +35,6 @@ import { SearchScreen } from '../modules/Search/pages/Search';
 import { StoreUpdate } from '../modules/Update/pages/StoreUpdate';
 import Update from '../modules/Update/pages/Update';
 import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
-import { WishList } from '../modules/WishList/pages/WishList';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
 
 import {
@@ -49,14 +48,13 @@ import {
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
+import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
-  ProductDetail: {
-    productId: string;
-    colorSelected: string;
-    sizeSelected: string;
-  };
+  ProductDetail: { productId: string; colorSelected: string; sizeSelected: string };
+  RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
+  LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   ProductCatalog: {
     safeArea: boolean;
@@ -104,7 +102,7 @@ export type RootStackParamList = {
   ForgotEmail: {};
   Home: undefined;
   CancelOrder: {};
-  Cashback: { credits: number };
+  Cashback: { isAcceptedConditions: boolean };
   Credits: {};
   AddressList: { isCheckout: boolean; comeFrom: string };
   ListCards: {
@@ -115,6 +113,7 @@ export type RootStackParamList = {
     email: string;
   };
   StoreUpdate: {} | undefined;
+  StoreUpdatePush: {} | undefined;
   Update: {} | undefined;
   CreateCartProfile: {};
   NewCard: { isCheckout: boolean };
@@ -161,6 +160,7 @@ const flows: Flow[] = [
   ...LoginFlow,
   ...ProductFlow,
   ...TimeRaceFlow,
+  ...MyCreditsRoutes
 ];
 
 export const MainStack = createStackNavigator();
@@ -171,6 +171,8 @@ export const MainStackScreen = () => (
     screenOptions={{ headerShown: false }}
   >
     <MainStack.Screen name="HomeTabs" component={HomeTabs} />
+
+    <MainStack.Screen name="CorreReserva" component={CorreReservaStackScreen} />
 
     {flows.map((flow: Flow) => (
       <MainStack.Screen

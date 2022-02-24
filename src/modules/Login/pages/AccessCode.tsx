@@ -1,20 +1,24 @@
+import React, { useEffect, useRef, useState } from 'react';
+
 import { useLazyQuery, useMutation } from '@apollo/client';
+import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
-import { useRef } from 'react';
-import { useState } from 'react';
+import moment from 'moment';
 import { Pressable, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Button, Typography } from 'reserva-ui';
+
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import { accessKeySignInMutation, sendEmailVerificationMutation } from '../../../graphql/login/loginMutations';
+import {
+  accessKeySignInMutation,
+  sendEmailVerificationMutation,
+} from '../../../graphql/login/loginMutations';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../components/CodeInput';
-import AsyncStorage from '@react-native-community/async-storage';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
 
 export interface AccessCodeProps
   extends StackScreenProps<RootStackParamList, 'AccessCode'> { }
@@ -34,13 +38,13 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
 
   const handleLogin = () => {
     if (accessCode.length < 6) {
-      setShowError(true)
+      setShowError(true);
     } else {
-      setShowError(false)
+      setShowError(false);
     }
     loginWithCode({
       variables: {
-        email: email,
+        email,
         code: `${accessCode}`,
       },
     });
@@ -49,19 +53,22 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
   const handleResendCode = () => {
     sendEmail({
       variables: {
-        email
+        email,
       },
-    })
-  }
+    });
+  };
   useEffect(() => {
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
+
+      AsyncStorage.setItem('@RNAuth:typeLogin', 'code');
+      AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         setShowError(false);
         navigation.navigate('Home');
       });
     }
-    if (data?.accessKeySignIn === "WrongCredentials") {
+    if (data?.accessKeySignIn === 'WrongCredentials') {
       setShowError(true);
     }
   }, [data]);
@@ -93,10 +100,7 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
             onPress={() => handleLogin()}
             inline
           />
-          <Button
-            mt="xs"
-            onPress={handleResendCode}
-          >
+          <Button mt="xs" onPress={handleResendCode}>
             <Typography
               fontSize={14}
               fontFamily="nunitoRegular"

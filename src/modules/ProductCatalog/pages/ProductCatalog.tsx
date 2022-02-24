@@ -589,7 +589,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             <Box paddingY="micro" flexDirection="row" justifyContent="center">
               <Box width={1 / 2}>
                 <Button
-                  onPress={() => setFilterVisible(true)}
+                  onPress={() => {
+                    if (productsQuery.products.length > 0) {
+                      setFilterVisible(true);
+                    } else {
+                      setFilterRequestList([])
+                    }
+                  }}
                   marginRight="nano"
                   marginLeft="micro"
                   borderRadius="nano"
@@ -604,7 +610,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                     fontFamily="nunitoSemiBold"
                     fontSize="14px"
                   >
-                    Filtrar
+                    {
+                      productsQuery.products?.length == 0 && filterRequestList.length > 0 ?
+                        'Limpar Filtros'
+                        :
+                        'Filtrar'
+                    }
                   </Typography>
                 </Button>
               </Box>

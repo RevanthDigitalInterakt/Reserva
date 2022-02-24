@@ -47,7 +47,7 @@ export const LoginScreen: React.FC<Props> = ({
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [login, { data, loading }] = useMutation(classicSignInMutation);
-  const [loginWithCode, setLoginWithCode] = useState(true);
+  const [loginWithCode, setLoginWithCode] = useState(false);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
 
@@ -101,6 +101,7 @@ export const LoginScreen: React.FC<Props> = ({
           () => { }
         );
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
+        await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
       } else {
         validateCredentials();
       }
@@ -238,6 +239,7 @@ export const LoginScreen: React.FC<Props> = ({
             disabled={loadingSendMail || loading}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
+          {/* }
           <Box my={50}>
             <Typography variant="tituloSessao" textAlign="center">
               OU

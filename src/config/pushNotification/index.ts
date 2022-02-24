@@ -1,6 +1,6 @@
 import { Alert } from 'react-native';
 import OneSignal from 'react-native-onesignal';
-
+import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush'
 import { env } from '../env';
 
 export const oneSignalConfig = async () => {
@@ -10,7 +10,6 @@ export const oneSignalConfig = async () => {
   }
 
   console.log(OneSignal.getDeviceState());
-
   OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
 
   OneSignal.promptForPushNotificationsWithUserResponse((response) => {
@@ -51,6 +50,10 @@ export const oneSignalConfig = async () => {
     //   JSON.stringify(notification)
     // );
     console.log('OneSignal: notification opened:', notification);
+
+    if (notification.notification.launchURL === "usereserva://storeUpdate") {
+      StoreUpdatePush();
+    }
   });
   const deviceState = await OneSignal.getDeviceState();
 

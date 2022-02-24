@@ -1,29 +1,120 @@
-import React, { useState } from 'react';
+/* eslint-disable no-undef */
+import React, { useEffect, useRef, useState } from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
+import LottieView from 'lottie-react-native';
 import { TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
-import Modal from 'react-native-modal';
 import QRCode from 'react-native-qrcode-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, Typography, Icon } from 'reserva-ui';
+import { Box, Typography, Icon } from 'reserva-ui';
+import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 
 import { images } from '../../../assets';
+import { ProfileVars } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { GenerateToken } from '../../../services/unicoService';
+import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
+import { CashbackService } from '../../../shared/services/CashbackService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { ModalSuccess } from '../components/ModalSuccess';
+import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 
 type Props = StackScreenProps<RootStackParamList, 'Cashback'>;
 
-export const Cashback: React.FC<Props> = ({ navigation }) => {
+type MultiGetReturnCashback = {
+  installationToken: string;
+  profile: ProfileVars;
+};
+
+export const Cashback: React.FC<Props> = ({ navigation, route }) => {
+  const cashbackServiceRef = new CashbackService();
+  const { isAcceptedConditions } = route.params;
   const [loading] = useState(false);
-  const [token, setToken] = useState();
+  const [qrCode, setQrCode] = useState<string>();
+  const [loadingTerms, setLoadingTerms] = useState(false);
+  const [loadingQrCode, setLoadingQrCode] = useState(false);
+  const [installationToken, setInstallationToken] = useState<
+    string | undefined
+  >('');
+  const [profile, setProfile] = useState<ProfileVars>();
   const [acceptConditions, setAcceptConditions] = useState(false);
+  const [modalSuccessVisible, setModalSuccessVisible] = useState(false);
   const [showModalTermsAndConditions, setShowModalTermsAndConditions] =
     useState(false);
 
+  const intervalTokenRef: { current: NodeJS.Timeout | null } = useRef(null);
+
+  const handleAcceptLoyalty = async () => {
+    if (!acceptConditions && profile) {
+      setLoadingTerms(true);
+      await cashbackServiceRef.acceptLoyalty(profile.document);
+      setLoadingTerms(false);
+      setAcceptConditions(true);
+    }
+  };
+
+  useEffect(() => {
+    StorageService.multiGet<MultiGetReturnCashback>([
+      {
+        key: StorageServiceKeys.PROFILE,
+        isJSON: true,
+      },
+      {
+        key: StorageServiceKeys.INSTALLATION_TOKEN,
+      },
+    ]).then((values) => {
+      console.log('values', values.profile.birthDate);
+    });
+
+    StorageService.getItem({
+      key: StorageServiceKeys.PROFILE,
+      isJSON: true,
+    }).then((value) => {
+      setProfile(value);
+    });
+    StorageService.getItem({ key: StorageServiceKeys.INSTALLATION_TOKEN }).then(
+      (value) => {
+        setInstallationToken(value);
+        if (isAcceptedConditions) {
+          setLoadingTerms(false);
+          setAcceptConditions(true);
+        }
+      }
+    );
+  }, []);
+
   const generateToken = async () => {
-    const { data } = await GenerateToken();
-    setToken(data.access_token);
+    if (acceptConditions && installationToken && profile) {
+      if (!qrCode) {
+        setLoadingQrCode(true);
+      }
+      return cashbackServiceRef
+        .getToken(profile.document, installationToken)
+        .then(({ data: { result, token } }) => {
+          if (result) {
+            setQrCode(token);
+            setLoadingQrCode(false);
+          }
+        });
+    }
+  };
+
+  useEffect(() => { }, [profile]);
+
+  useEffect(() => {
+    generateToken();
+    const intervalToken = setInterval(() => {
+      generateToken();
+    }, 60 * 1000);
+    intervalTokenRef.current = intervalToken;
+
+    return () => {
+      clearInterval(intervalTokenRef.current as NodeJS.Timeout);
+    };
+  }, [acceptConditions]);
+
+  const termsAndConditions = () => {
+    handleAcceptLoyalty();
+    setShowModalTermsAndConditions(false);
   };
 
   return (
@@ -59,23 +150,36 @@ export const Cashback: React.FC<Props> = ({ navigation }) => {
               style={{ width: 230, height: 230, justifyContent: 'center' }}
               resizeMode="contain"
             >
-              {token && (
-                <Box alignItems="center" justifyContent="center">
+              <Box alignItems="center" justifyContent="center">
+                {qrCode && (
                   <QRCode
-                    value={token}
+                    value={qrCode}
                     logo={images.logoQRCode}
                     logoSize={40}
                     size={200}
                   />
-                </Box>
-              )}
+                )}
+                {loadingQrCode && !qrCode && (
+                  <LottieView
+                    source={loadingSpinner}
+                    style={{
+                      width: 60,
+                    }}
+                    autoPlay
+                    loop
+                  />
+                )}
+              </Box>
             </ImageBackground>
           </Box>
 
           <Box mt={20}>
             <ModalTermsAndConditions
               isVisible={showModalTermsAndConditions}
+              loading={loadingTerms}
+              isAccepted={acceptConditions}
               setIsVisible={() => setShowModalTermsAndConditions(false)}
+              setTermAndConditions={() => termsAndConditions()}
             />
             <Box
               flexDirection="row"
@@ -83,31 +187,45 @@ export const Cashback: React.FC<Props> = ({ navigation }) => {
               mt="xxxs"
               justifyContent="center"
             >
-              <TouchableOpacity
-                onPress={() => setAcceptConditions(!acceptConditions)}
-              >
-                <Box
-                  backgroundColor={acceptConditions ? 'preto' : 'white'}
-                  width={14}
-                  height={14}
-                  border="1px"
-                  borderColor="preto"
-                  borderRadius="pico"
-                  mr="nano"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  {acceptConditions && (
-                    <Icon
-                      name="Check"
-                      size={14}
-                      color="white"
-                      mt="nano"
-                      ml="quarck"
-                    />
-                  )}
+              {loadingTerms ? (
+                <Box mr="quarck" alignItems="center" justifyContent="center">
+                  <LottieView
+                    source={loadingSpinner}
+                    style={{
+                      width: 14,
+                    }}
+                    autoPlay
+                    loop
+                  />
                 </Box>
-              </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => handleAcceptLoyalty()}
+                  disabled={acceptConditions}
+                >
+                  <Box
+                    backgroundColor={acceptConditions ? 'preto' : 'white'}
+                    width={14}
+                    height={14}
+                    border="1px"
+                    borderColor="preto"
+                    borderRadius="pico"
+                    mr="nano"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {acceptConditions && (
+                      <Icon
+                        name="Check"
+                        size={14}
+                        color="white"
+                        mt="nano"
+                        ml="quarck"
+                      />
+                    )}
+                  </Box>
+                </TouchableOpacity>
+              )}
 
               <Box>
                 <Box flexDirection="row" alignItems="center">
@@ -130,139 +248,13 @@ export const Cashback: React.FC<Props> = ({ navigation }) => {
                 </Box>
               </Box>
             </Box>
-
-            {token ? (
-              <Box
-                alignItems="center"
-                justifyContent="center"
-                mt="xs"
-                mb="nano"
-              >
-                <Typography
-                  fontFamily="nunitoSemiBold"
-                  fontSize={14}
-                  color="verdeSucesso"
-                >
-                  QR Code gerado com sucesso!
-                </Typography>
-              </Box>
-            ) : (
-              <Box mt="xs" mb="nano">
-                <Button
-                  disabled={!acceptConditions}
-                  onPress={() => generateToken()}
-                  title="GERAR QR CODE"
-                  variant="primarioMaior"
-                />
-              </Box>
-            )}
           </Box>
         </Box>
       </ScrollView>
-      <ModalSuccess />
+      <ModalSuccess
+        isVisible={modalSuccessVisible}
+        setIsVisible={setModalSuccessVisible}
+      />
     </SafeAreaView>
-  );
-};
-
-interface IModal {
-  isVisible: boolean;
-  setIsVisible: () => void;
-}
-
-const ModalTermsAndConditions = ({ isVisible, setIsVisible }: IModal) => (
-  <Modal avoidKeyboard onBackdropPress={setIsVisible} isVisible={isVisible}>
-    <Box bg="white" marginY="xxl" justifyContent="center" px="xxxs" py="xxxs">
-      <Box position="absolute" top={16} right={20} zIndex={4}>
-        <Button
-          onPress={setIsVisible}
-          variant="icone"
-          icon={<Icon size={12} name="Close" />}
-        />
-      </Box>
-      <Box mt="xxxs">
-        <Typography fontFamily="reservaSerifRegular" fontSize={20}>
-          Termos e condições
-        </Typography>
-      </Box>
-      <ScrollView>
-        <Box mt="xxxs">
-          <Typography fontFamily="nunitoRegular" fontSize={15}>
-            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used
-            in laying out print, graphic or web designs. The passage is
-            attributed to an unknown typesetter in the 15th century who is
-            thought to have scrambled parts of Cicero’s De Finibus Bonorum et
-            Malorum for use in a type specimen book. It usually begins with. The
-            passage experienced a surge in popularity during the 1960s when
-            Letraset used it on their dry-transfer sheets, and again during the
-            90s as desktop publishers bundled the text with their software.
-            Today it’s seen all around the web; on templates, websites, and
-            stock designs. Use our generator to get your own, or read on for the
-            authoritative history of lorem ipsum.
-          </Typography>
-        </Box>
-      </ScrollView>
-      <Box width="100%" mt="micro">
-        <Button
-          bg="verdeSucesso"
-          width="100%"
-          height={50}
-          onPress={setIsVisible}
-        >
-          <Typography color="white" fontFamily="nunitoSemiBold" fontSize={13}>
-            OPA, VALEU!
-          </Typography>
-        </Button>
-      </Box>
-    </Box>
-  </Modal>
-);
-
-const ModalSuccess = () => {
-  const [showModal, setShowModal] = useState(false);
-  return (
-    <Modal
-      avoidKeyboard
-      onBackdropPress={() => setShowModal(false)}
-      isVisible={showModal}
-    >
-      <Box
-        bg="white"
-        height={184}
-        alignItems="center"
-        justifyContent="center"
-        px="xxxs"
-        py="xxxs"
-      >
-        <Box position="absolute" top={16} right={20} zIndex={4}>
-          <Button
-            onPress={() => setShowModal(false)}
-            variant="icone"
-            icon={<Icon size={12} name="Close" />}
-          />
-        </Box>
-        <Box mt="xxxs">
-          <Typography fontFamily="reservaSerifBold" fontSize={24}>
-            Parabéns!
-          </Typography>
-        </Box>
-        <Box mt="xxxs">
-          <Typography fontFamily="reservaSerifRegular" fontSize={24}>
-            Você ganhou cashback.
-          </Typography>
-        </Box>
-        <Box width="100%" mt="micro">
-          <Button
-            bg="verdeSucesso"
-            width="100%"
-            height={50}
-            onPress={() => setShowModal(false)}
-          >
-            <Typography color="white" fontFamily="nunitoSemiBold" fontSize={13}>
-              OPA, VALEU!
-            </Typography>
-          </Button>
-        </Box>
-      </Box>
-    </Modal>
   );
 };

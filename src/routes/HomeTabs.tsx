@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native';
-import { theme } from 'reserva-ui';
+import { Box, Button, theme, Typography, Image } from 'reserva-ui';
 
 import CallCenter from '../modules/CallCenter';
 import { HomeScreen } from '../modules/Home/pages/Home';
@@ -10,7 +10,10 @@ import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 
+import { images } from '../assets/index'
+
 import { TabBar } from './TabBar';
+import { Text } from 'react-native-svg';
 
 const Tab = createBottomTabNavigator();
 

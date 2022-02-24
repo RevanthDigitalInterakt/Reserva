@@ -3,10 +3,14 @@ import { useEffect, useState } from 'react';
 
 import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
-import { useNavigation } from '@react-navigation/native';
+import {
+  CommonActions,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { paraiso } from 'base16';
-import { ScrollView, Dimensions } from 'react-native';
+import { ScrollView, Dimensions, BackHandler } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
 import {
@@ -54,14 +58,16 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const [waiting, setWaiting] = React.useState(false);
 
+  const [loadingRefetch, setLoadingRefetch] = useState(false);
   const [products, setProducts] = useState<any[]>();
   const [relatedProducts, setRelatedProducts] = useState<any[]>();
   const [featuredProducts, setFeaturedProducts] = useState<any[]>();
   const [suggestions, setSuggestions] = useState<SearchSuggestionsVars[]>([]);
-  const [mostSearched, setMostSearched] = useState<TopSearches[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<any[]>([]);
   const [productNews, setProductNews] = useState<ConfigCollection[]>([]);
   const [suggestionsFound, setSuggestionsFound] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(false);
+  const [returnSearch, setReturnSearch] = useState<boolean>(false);
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
@@ -69,6 +75,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     configCollection,
     {
       context: { clientName: 'contentful' },
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache',
     }
   );
 
@@ -107,8 +115,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   ] = useLazyQuery(searchSuggestionsAndProductSearch, {
     fetchPolicy: 'no-cache',
   });
-  const { data: topSearchesData, loading: topSearchesLoading } =
-    useQuery(topSearches);
 
   const { WithoutInternet } = useCheckConnection({});
 
@@ -133,17 +139,16 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   }, [suggestionsData]);
 
   useEffect(() => {
-    if (topSearchesData) {
-      setMostSearched(topSearchesData.topSearches.searches);
-    }
-  }, [topSearchesData]);
-
-  useEffect(() => {
     if (collectionData) {
       setProductNews(
         collectionData?.configCollection?.items[0].searchMedia
           .secionMediaCollection.items
       );
+      setSearchSuggestions(
+        collectionData?.configCollection?.items[0].searchSuggestionsCollection
+          .items
+      );
+      setReturnSearch(false);
     }
   }, [collectionData]);
 
@@ -162,6 +167,29 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     setShowResults(false);
   }, []);
+
+  useEffect(() => {
+    setReturnSearch(false);
+  }, []);
+
+  useEffect(() => {
+    if (returnSearch) {
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        // navigation.dispatch(StackActions.replace('SearchMenu'));
+
+        navigation.dispatch(StackActions.popToTop());
+
+        navigation.navigate('SearchMenu');
+        return true;
+      });
+    } else {
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        navigation.goBack();
+
+        return true;
+      });
+    }
+  }, [returnSearch]);
 
   const handleSearch = async (text: string) => {
     setWaiting(true);
@@ -212,11 +240,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   };
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
+    setLoadingRefetch(true);
     const {
       data: {
         productSearch: { products: newProducts },
       },
-      loading,
     } = await fetchMore({
       variables: {
         form: offset < pageSize ? pageSize : offset,
@@ -225,15 +253,16 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     });
 
     if (!loading) {
-      setProducts(data.productSearch.products);
+      setProducts(newProducts);
     }
+    setLoadingRefetch(false);
   };
 
   return (
     <Box backgroundColor="white" flex={1}>
       <TopBarDefault
         loading={
-          loading || topSearchesLoading || loadingFeatured || selectedTerm
+          loading || loadingCollection || loadingFeatured || selectedTerm
         }
       />
       <WithoutInternet />
@@ -269,10 +298,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   </Box>
 
                   <Box flexDirection="row" flexWrap="wrap">
-                    {mostSearched.map((item) => (
+                    {searchSuggestions.map((item) => (
                       <Button
                         onPress={() => {
-                          setSearchTerm(item.term);
+                          setSearchTerm(item.name);
+                          setReturnSearch(true);
                         }}
                       >
                         <Box
@@ -285,7 +315,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                           mr="micro"
                         >
                           <Typography fontFamily="nunitoRegular" fontSize={13}>
-                            {item.term}
+                            {item.name}
                           </Typography>
                         </Box>
                       </Button>
@@ -326,6 +356,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                       style={{ marginBottom: 120 }}
                     >
                       <ListVerticalProducts
+                        totalProducts={data?.productSearch?.recordsFiltered}
                         products={featuredProducts || []}
                         loadMoreProducts={(offset) => {
                           loadMoreProducts(offset, '');
@@ -423,6 +454,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
             <ListVerticalProducts
               products={products || []}
+              isLoading={loadingRefetch}
+              totalProducts={data?.productSearch.recordsFiltered}
               loadMoreProducts={(offset) => {
                 loadMoreProducts(offset, searchTerm);
               }}

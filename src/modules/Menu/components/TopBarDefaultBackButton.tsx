@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Alert, Platform } from 'react-native';
@@ -13,6 +13,14 @@ export const TopBarDefaultBackButton: React.FC<{
 }> = ({ showShadow = true, loading = false, navigateGoBack = false }) => {
   const navigation = useNavigation();
   const { orderForm } = useCart();
+  const [bagQuantity, setBagQuantity] = useState(0);
+  useEffect(() => {
+    if (orderForm?.items) {
+      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)
+      setBagQuantity(quantity)
+    }
+  }, [orderForm]);
+
   return (
     <TopBar
       loading={loading}
@@ -41,7 +49,7 @@ export const TopBarDefaultBackButton: React.FC<{
           // Alert.alert('button right 2');
           navigation.navigate('BagScreen');
         },
-        badgeCount: orderForm?.items.length,
+        badgeCount: bagQuantity,
       }}
       height={50}
     />

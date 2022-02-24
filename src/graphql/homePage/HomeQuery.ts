@@ -8,6 +8,7 @@ export interface HomeQuery {
   size: number;
   url: string;
   reference: string;
+  route: string;
 }
 
 export interface ConfigCollection {
@@ -17,10 +18,24 @@ export interface ConfigCollection {
   };
 }
 
+export enum CarrouselTypes {
+  mainCarrousel = 'principal',
+  cardsCarrousel = 'cards',
+  banner = 'banner',
+}
+
+export interface TextProps {
+  text: string;
+  fontSize: string;
+  fontFamily: string;
+  fontWeight: string;
+  color: string;
+}
+
 export interface Carrousel {
-  type: string;
+  type: CarrouselTypes;
   title: string;
-  showtime: number;
+  showtime?: number;
   itemsCollection: {
     items: CarrouselCard[];
   };
@@ -37,32 +52,21 @@ export interface CarrouselCard {
   };
   name: string;
   description: string;
-  reference: any;
+  reference: string;
+
+  referenceLabel?: string;
 }
 
 export const homeQuery = gql`
-  query homePageCollection($limit: Int!) {
-    homePageCollection {
+  query homePageCollection {
+    homePageCollection(limit: 12) {
       items {
-        mediasCollection(limit: $limit) {
-          items {
-            reference
-            image {
-              fileName
-              title
-              width
-              height
-              size
-              url
-            }
-          }
-        }
-        carrouselHomeCollection(limit: 5) {
+        carrouselHomeCollection(limit: 3) {
           items {
             type
             title
             showtime
-            itemsCollection(limit: 10) {
+            itemsCollection(limit: 3) {
               items {
                 image {
                   fileName
@@ -76,6 +80,19 @@ export const homeQuery = gql`
                 description
                 reference
               }
+            }
+          }
+        }
+        mediasCollection {
+          items {
+            reference
+            image {
+              fileName
+              title
+              width
+              height
+              size
+              url
             }
           }
         }
@@ -138,6 +155,11 @@ export const configCollection = gql`
                 url
               }
             }
+          }
+        }
+        searchSuggestionsCollection(limit: 20) {
+          items {
+            name
           }
         }
       }

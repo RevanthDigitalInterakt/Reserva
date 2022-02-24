@@ -1,6 +1,6 @@
 import UserNotifications
-
 import OneSignal
+import os.log
 
 class NotificationService: UNNotificationServiceExtension {
     
@@ -12,6 +12,15 @@ class NotificationService: UNNotificationServiceExtension {
         self.receivedRequest = request;
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
+        
+        let userInfo = request.content.userInfo
+        let custom = userInfo["custom"]
+        // print("Running NotificationServiceExtension: userInfo = \(userInfo.description)")
+        // print("Running NotificationServiceExtension: custom = \(custom.debugDescription)")
+      //debug log types need to be enabled in Console > Action > Include Debug Messages
+        // os_log("%{public}@", log: OSLog(subsystem: "com.your.bundleid", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, userInfo.debugDescription)
+        
+
         
         if let bestAttemptContent = bestAttemptContent {
             OneSignal.didReceiveNotificationExtensionRequest(self.receivedRequest, with: self.bestAttemptContent)
@@ -27,5 +36,4 @@ class NotificationService: UNNotificationServiceExtension {
             contentHandler(bestAttemptContent)
         }
     }
-    
 }
