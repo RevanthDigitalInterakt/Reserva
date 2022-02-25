@@ -23,6 +23,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ModalBag } from '../../ProductDetail/components/ModalBag';
+import { EmptyWishList } from '../components/EmptyWishList';
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
@@ -458,36 +459,5 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       {/* </Box> */}
       {/* </Box> */}
     </Box>
-  );
-};
-
-const EmptyWishList = () => {
-  const navigation = useNavigation();
-  return (
-    <ScrollView>
-      <Box flex={1} alignItems="center" paddingTop={110}>
-        <Image source={images.noWishList} />
-        <Box mx={37} mt="md">
-          <Typography fontFamily="reservaSerifRegular" fontSize={24}>
-            Você ainda não tem favoritos :(
-          </Typography>
-        </Box>
-        <Box mx={58} my={28}>
-          <Typography
-            fontFamily="nunitoRegular"
-            fontSize={14}
-            textAlign="center"
-          >
-            Navegue pelo nosso app e favorite produtos que são a sua cara!
-          </Typography>
-        </Box>
-        <Button
-          title="NAVEGAR"
-          variant="primarioEstreito"
-          width={258}
-          onPress={() => navigation.navigate('Home')}
-        />
-      </Box>
-    </ScrollView>
   );
 };
