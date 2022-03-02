@@ -214,7 +214,9 @@ export const HomeScreen: React.FC<{
                     return (
                       <>
                         <DefaultCarrousel carrousel={carrousel} />
-                        <CountDownBanner countDown={countDownClock} />
+                        {countDownClock &&
+                          <CountDownBanner countDown={countDownClock} />
+                        }
                       </>
                     )
                     break;
