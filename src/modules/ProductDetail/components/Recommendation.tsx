@@ -6,7 +6,7 @@ import { createAnimatableComponent } from 'react-native-animatable';
 import { Box, Typography, Button, Icon, Divider } from 'reserva-ui';
 
 import { productSearch } from '../../../graphql/products/productSearch';
-import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
+import { ListHorizontalProducts } from './ListHorizontalProducts'
 
 interface RecommendationProps {
   handleScrollToTheTop?: () => void;
@@ -142,10 +142,10 @@ export const Recommendation = ({
           <Box>
             <Divider marginBottom="xs" variant="fullWidth" />
           </Box>
-          <Box mt="quarck" paddingX="micro">
+          <Box mt="quarck">
             {products && products?.length > 0 && (
               <Animatable.View animation="fadeIn" style={{ marginBottom: 20 }}>
-                <ListVerticalProducts
+                <ListHorizontalProducts
                   horizontal
                   products={products || []}
                   loadMoreProducts={(offset) => {
