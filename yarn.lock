@@ -7535,14 +7535,6 @@ react-native-device-info@^8.3.1:
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-device-info/-/react-native-device-info-8.4.8.tgz#fc92ae423e47db6cfbf30c30012e09cee63727fa"
   integrity sha1-/JKuQj5H22z78wwwAS4JzuY3J/o=
 
-react-native-fetch-blob@^0.10.8:
-  version "0.10.8"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz#4fc256abae0cb5f10e7c41f28c11b3ff330d72a9"
-  integrity sha1-T8JWq64MtfEOfEHyjBGz/zMNcqk=
-  dependencies:
-    base-64 "0.1.0"
-    glob "7.0.6"
-
 react-native-flip-card-plus@^1.0.4:
   version "1.0.5"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-flip-card-plus/-/react-native-flip-card-plus-1.0.5.tgz#a976e846fdd3a9a6736026188687b15660f4b7d9"
@@ -8214,6 +8206,14 @@ rn-async-storage-flipper@^0.0.10:
   version "0.0.10"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/rn-async-storage-flipper/-/rn-async-storage-flipper-0.0.10.tgz#c7ddeffef9f2fa0871652e4a4e09e612907ee589"
   integrity sha1-x93v/vny+ghxZS5KTgnmEpB+5Yk=
+
+rn-fetch-blob@^0.12.0:
+  version "0.12.0"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/rn-fetch-blob/-/rn-fetch-blob-0.12.0.tgz#ec610d2f9b3f1065556b58ab9c106eeb256f3cba"
+  integrity sha1-7GENL5s/EGVVa1irnBBu6yVvPLo=
+  dependencies:
+    base-64 "0.1.0"
+    glob "7.0.6"
 
 rn-host-detect@1.2.0:
   version "1.2.0"

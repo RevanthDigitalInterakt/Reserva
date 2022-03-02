@@ -969,9 +969,10 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
-                      {product.categoryTree.find(
-                        (x) => x.name in Object.keys(SizeGuideImages)
-                      ) && <SizeGuide categoryTree={product.categoryTree} />}
+                      {
+                        !!product.categoryTree.find(x => Object.keys(SizeGuideImages).includes(x.name)) &&
+                        <SizeGuide categoryTree={product.categoryTree} />
+                      }
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons

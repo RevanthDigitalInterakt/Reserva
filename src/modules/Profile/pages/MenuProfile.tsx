@@ -136,7 +136,6 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 (
                   <Avatar imageSource={{ uri: imageProfile }}
                     onPress={() => navigation.navigate('EditProfile')}
-                    buttonEdit
                     sizeImage={60}
                     sizeButton={25}
                   />

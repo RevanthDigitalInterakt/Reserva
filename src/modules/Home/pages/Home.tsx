@@ -13,7 +13,7 @@ import {
   SafeAreaView,
   ScrollView,
   View,
-  Linking
+  Linking,
 } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
@@ -74,7 +74,6 @@ export const HomeScreen: React.FC<{
   const { width, height } = Dimensions.get('screen');
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
-
 
   useEffect(() => {
     console.log('homepage query', data);
@@ -193,7 +192,7 @@ export const HomeScreen: React.FC<{
       ) : (
         <SafeAreaView
           style={{
-            marginBottom: 87,
+            marginBottom: modalCodeIsVisible ? 87 : 50,
           }}
         >
           <ScrollView
