@@ -5,6 +5,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Avatar, Box, Button, Typography } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -25,6 +26,7 @@ import { withAuthentication } from '../HOC/withAuthentication';
 
 const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
+  const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
@@ -121,10 +123,11 @@ const MenuScreen: React.FC<{}> = ({ }) => {
       <WithoutInternet />
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Box alignContent="flex-start" pt="xs" paddingX="xxxs">
+        <Box alignContent="flex-start" pt="xs">
           <Box
             flexDirection='row'
             alignItems='center'
+            paddingX="xxxs"
           >
             <Box>
               {imageProfile === null ? (
@@ -154,33 +157,37 @@ const MenuScreen: React.FC<{}> = ({ }) => {
               </Typography>
             </Box>
           </Box>
-          <Box mt="xxxs">
-            <ItemList
-              title="Meus pedidos"
-              descr="Acompanhe seus pedidos"
-              icon="Handbag"
-              onPress={() => {
-                navigation.navigate('OrderList');
-              }}
-            />
-
-            <ItemList
-              title="Favoritos"
-              descr="Veja os produtos que você curtiu"
-              icon="Heart"
-              onPress={() => {
-                navigation.navigate('WishList');
-              }}
-            />
-
-            <ItemList
-              title="Meus dados"
-              descr="Visualize e edite suas informações"
-              icon="Profile"
-              onPress={() => {
-                navigation.navigate('EditProfile');
-              }}
-            />
+          <Box mt="xxxs" >
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Meus pedidos"
+                descr="Acompanhe seus pedidos"
+                icon="Handbag"
+                onPress={() => {
+                  navigation.navigate('OrderList');
+                }}
+              />
+            </Box>
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Favoritos"
+                descr="Veja os produtos que você curtiu"
+                icon="Heart"
+                onPress={() => {
+                  navigation.navigate('WishList');
+                }}
+              />
+            </Box>
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Meus dados"
+                descr="Visualize e edite suas informações"
+                icon="Profile"
+                onPress={() => {
+                  navigation.navigate('EditProfile');
+                }}
+              />
+            </Box>
 
             {/* <ItemList
               title={'Meus cartões'}
@@ -191,35 +198,80 @@ const MenuScreen: React.FC<{}> = ({ }) => {
               }}
             /> */}
             {balanceCashbackInApp && (
-              <ItemList
-                title="Meus créditos"
-                descr="Visualize seus créditos e cashbacks"
-                icon="Cashback"
-                onPress={() => {
-                  navigation.navigate('MY_CASHBACK_MY_WALLET');
-                }}
-              />
+              <Box paddingX="xxxs">
+                <ItemList
+                  title="Meu Cashback"
+                  descr="Escaneie o QR Code e veja sua carteira"
+                  icon="Cashback"
+                  arrowDown
+                  dropdownActive={cashbackDropOpen}
+                  onPress={() => {
+                    setCashbackDropOpen(!cashbackDropOpen);
+                  }}
+                />
+              </Box>
+            )}
+            {cashbackDropOpen && (
+              <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs">
+                <Box paddingX="xxs" pb="xxs">
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('cashbackInStore', {
+                      isLoyal: true,
+                      costumerDocument: profile?.document,
+                    })}
+                  >
+                    <Typography fontFamily='nunitoRegular' fontSize={14}>
+                      QR Code para cashback
+                    </Typography>
+                  </TouchableOpacity>
+                </Box>
+                <Box paddingX="xxs">
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('MY_CASHBACK_MY_WALLET')}
+                  >
+                    <Typography fontFamily='nunitoRegular' fontSize={14}>
+                      Ver minha carteira
+                    </Typography>
+                  </TouchableOpacity>
+                </Box>
+              </Box>
+            )}
+            {balanceCashbackInApp && (
+              <Box paddingX="xxxs">
+                <ItemList
+                  title="Meus créditos"
+                  descr="Visualize seus créditos"
+                  icon="Credit"
+                  onPress={() => {
+                    navigation.navigate('credits');
+                  }}
+                />
+              </Box>
             )}
 
-            <ItemList
-              title="Meus endereços"
-              descr="Consulte e adicione seus endereços"
-              icon="Pin"
-              onPress={() => {
-                navigation.navigate('AddressList', {
-                  comeFrom: 'Home',
-                });
-              }}
-            />
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Meus endereços"
+                descr="Consulte e adicione seus endereços"
+                icon="Pin"
+                onPress={() => {
+                  navigation.navigate('AddressList', {
+                    comeFrom: 'Home',
+                  });
+                }}
+              />
+            </Box>
 
-            <ItemList
-              title="Alterar senha"
-              descr="Altere a senha da sua conta"
-              icon="Lock"
-              onPress={() => {
-                navigation.navigate('EditPassword');
-              }}
-            />
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Alterar senha"
+                descr="Altere a senha da sua conta"
+                icon="Lock"
+                onPress={() => {
+                  navigation.navigate('EditPassword');
+                }}
+              />
+            </Box>
 
             {/* <ItemList
               title={'Notificações'}

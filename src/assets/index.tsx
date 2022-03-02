@@ -17,6 +17,7 @@ export const images = {
   elo: require('./img/elo.png'),
   cupomModalBackground: require('./img/cupomModalBackground.png'),
   bagEmpty: require('./img/bagEmpty.png'),
+  imageCashback: require('./img/image_cashback.png'),
   cardFront: require('./img/cardFront.png'),
   cardVerso: require('./img/cardVerso.png'),
   modalLivro: require('./img/modal-livro.png'),

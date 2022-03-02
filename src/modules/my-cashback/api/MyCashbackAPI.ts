@@ -49,6 +49,26 @@ export type GetTokenResponse = {
   };
 };
 
+export type ExpireBalance = {
+  expire_cashback_amount: string;
+  expire_days: number;
+  expire_at: string;
+  expire_cashback_program_ref_id: string;
+  expire_operation_id: number;
+  expire_status: string;
+  expire_order_id: string;
+};
+
+export type GetExpireBalanceResponse = {
+  pagination: {
+    total_pages: number;
+  };
+  data: {
+    cashbackToExpireData: ExpireBalance[];
+    totalExpireBalanceInCents: string;
+  };
+};
+
 export enum CashbackHttpUrl {
   GetCustomer = '/loyalty/customer',
   AcceptLoyalty = '/loyalty/accept-loyalty',
@@ -56,6 +76,7 @@ export enum CashbackHttpUrl {
   GetDigitalWallet = '/digital-wallets/',
   GetToken = '/users/',
   GetUserOperations = '/users/',
+  GetExpireBalance = '/cashback-expirations/',
 }
 
 export const MyCashbackAPI = new HttpService(cashbackInstance);
