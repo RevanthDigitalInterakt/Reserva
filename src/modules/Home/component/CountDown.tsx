@@ -1,10 +1,10 @@
 import { useSubscription } from "@apollo/client";
 import moment from "moment";
-import React, { useEffect, useState, Dispatch, SetStateAction, useRef } from "react";
-import { TouchableOpacity, StyleSheet, Text, View, Animated } from "react-native"
+import React, { useEffect, useState, Dispatch, SetStateAction, } from "react";
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity, } from "react-native"
 import CountDown from "react-native-countdown-component";
 import { Box, theme, Typography, Button, Icon } from "reserva-ui";
-import { bottom, marginBottom, size } from "styled-system";
 import { number } from "yup";
 import { intervalToDuration } from 'date-fns';
 import Modal from "react-native-modal";
@@ -12,12 +12,12 @@ import {
   ICountDownClock
 } from '../../../graphql/homePage/HomeQuery';
 import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
-import TransformUtils from '../../../shared/utils/tranformUtils';
 export interface CountDownProps {
   countDown: ICountDownClock
 }
 
 export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDownProps) => {
+  const navigation = useNavigation();
   const [countDownData, setCountDownData] = useState<ICountDownClock>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
@@ -43,49 +43,78 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
     start();
   }, [])
 
+  const goToPromotion = () => {
+    const facetInput = [];
+    const [categoryType, categoryData] = countDownData?.reference.split(':');
+    if (categoryType === 'product') {
+      navigation.navigate('ProductDetail', {
+        productId: categoryData,
+        itemId: categoryData,
+        colorSelected: '#FFFFFF',
+      })
+    } else {
+      if (categoryType === 'category') {
+        categoryData.split('|').forEach((cat: string) => {
+          facetInput.push({
+            key: 'c',
+            value: cat,
+          });
+        });
+      } else {
+        facetInput.push({
+          key: 'productClusterIds',
+          value: categoryData,
+        });
+      }
+      navigation.navigate('ProductCatalog', {
+        facetInput,
+        referenceId: countDownData?.reference,
+      });
+    }
+  }
   const bgColor = '#000'
   const textColor = '#FFF'
 
   return (
-    !showClock && currentValue !== '00:00:00' ?
+    // !showClock && currentValue !== '00:00:00' ?
 
-      <Box minHeight={149} alignItems='center' backgroundColor={countDownData?.colorBanner}>
+    <Box minHeight={149} alignItems='center' backgroundColor={countDownData?.colorBanner}>
 
-        <Box>
-          <Box alignItems='center' mb={8} mt={7}>
+      <Box>
+        <Box alignItems='center' mb={8} mt={7}>
+          <Typography
+            color={textColor}
+            fontFamily="reservaSerifMedium"
+            fontSize={28}
+          >
+            {countDownData?.title}
             <Typography
               color={textColor}
-              fontFamily="reservaSerifMedium"
+              fontFamily="reservaSerifLight"
               fontSize={28}
-            >
-              {countDownData?.title}
+            > {countDownData?.subtitle}
+            </Typography>
+          </Typography>
+        </Box>
+        <Box
+          flexDirection='row'
+          alignItems="center"
+        >
+          <Box
+            alignItems='center'
+            mr={17}
+          >
+            <Box>
               <Typography
                 color={textColor}
-                fontFamily="reservaSerifLight"
-                fontSize={28}
-              > {countDownData?.subtitle}
+                fontFamily="reservaSansRegular"
+                fontSize={13}
+              >
+                Acaba em:
               </Typography>
-            </Typography>
-          </Box>
-          <Box
-            flexDirection='row'
-            alignItems="center"
-          >
-            <Box
-              alignItems='center'
-              mr={17}
-            >
-              <Box>
-                <Typography
-                  color={textColor}
-                  fontFamily="reservaSansRegular"
-                  fontSize={13}
-                >
-                  Acaba em:
-                </Typography>
-              </Box>
+            </Box>
 
-              {/* <CountDown
+            {/* <CountDown
               size={30}
               digitTxtStyle={{
                 color: textColor,
@@ -124,106 +153,107 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
                 s: 'Segundos',
               }}
             /> */}
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              mt={5}
+            >
               <Box
-                flexDirection="row"
+                minWidth={50}
+                height={43}
+                borderRadius={5}
+                bg="#1A1A1A"
                 alignItems="center"
-                mt={5}
-              >
-                <Box
-                  minWidth={50}
-                  height={43}
-                  borderRadius={5}
-                  bg="#1A1A1A"
-                  alignItems="center"
-                >
-                  <Typography
-                    color={textColor}
-                    fontFamily="reservaSansBold"
-                    fontSize={32}
-                  >
-                    {currentValue.split(':')[0]}
-                  </Typography>
-                </Box>
-                <Box height={14} justifyContent="space-between" marginX={6}>
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                </Box>
-                <Box
-                  width={50}
-                  height={43}
-                  borderRadius={5}
-                  bg="#1A1A1A"
-                  alignItems="center"
-                >
-                  <Typography
-                    color={textColor}
-                    fontFamily="reservaSansBold"
-                    fontSize={32}
-                  >
-                    {currentValue.split(':')[1]}
-                  </Typography>
-                </Box>
-                <Box height={14} justifyContent="space-between" marginX={6}>
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                </Box>
-                <Box
-                  width={50}
-                  height={43}
-                  borderRadius={5}
-                  bg="#1A1A1A"
-                  alignItems="center"
-                >
-                  <Typography
-                    color={textColor}
-                    fontFamily="reservaSansBold"
-                    fontSize={32}
-                  >
-                    {currentValue.split(':')[2]}
-                  </Typography>
-                </Box>
-              </Box>
-
-            </Box>
-            <Box alignItems="center">
-              <TouchableOpacity>
-                <Box bg={countDownData?.colorButton}
-                  paddingLeft={41}
-                  paddingRight={41}
-                  paddingY={12}
-                  mb={4}
-                >
-                  <Typography
-                    color={textColor}
-
-                  >
-                    {countDownData?.titleButton}
-                  </Typography>
-                </Box>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setShowModal(true)}
               >
                 <Typography
                   color={textColor}
-                  fontFamily="reservaSansRegular"
-                  fontSize={13}
-                  style={{ textDecorationLine: 'underline' }}
+                  fontFamily="reservaSansBold"
+                  fontSize={32}
                 >
-                  Confira as regras.
+                  {currentValue.split(':')[0]}
                 </Typography>
-              </TouchableOpacity>
+              </Box>
+              <Box height={14} justifyContent="space-between" marginX={6}>
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+              </Box>
+              <Box
+                width={50}
+                height={43}
+                borderRadius={5}
+                bg="#1A1A1A"
+                alignItems="center"
+              >
+                <Typography
+                  color={textColor}
+                  fontFamily="reservaSansBold"
+                  fontSize={32}
+                >
+                  {currentValue.split(':')[1]}
+                </Typography>
+              </Box>
+              <Box height={14} justifyContent="space-between" marginX={6}>
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+              </Box>
+              <Box
+                width={50}
+                height={43}
+                borderRadius={5}
+                bg="#1A1A1A"
+                alignItems="center"
+              >
+                <Typography
+                  color={textColor}
+                  fontFamily="reservaSansBold"
+                  fontSize={32}
+                >
+                  {currentValue.split(':')[2]}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-          <CheckTheRules
-            isVisible={ShowModal}
-            setIsVisible={() => setShowModal(false)}
-            rulesData={countDownData}
-          />
-        </Box >
 
+          </Box>
+          <Box alignItems="center">
+            <TouchableOpacity
+              onPress={goToPromotion}
+            >
+              <Box bg={countDownData?.colorButton}
+                paddingLeft={41}
+                paddingRight={41}
+                paddingY={12}
+                mb={4}
+              >
+                <Typography
+                  color={textColor}
+                >
+                  {countDownData?.titleButton}
+                </Typography>
+              </Box>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setShowModal(true)}
+            >
+              <Typography
+                color={textColor}
+                fontFamily="reservaSansRegular"
+                fontSize={13}
+                style={{ textDecorationLine: 'underline' }}
+              >
+                Confira as regras.
+              </Typography>
+            </TouchableOpacity>
+          </Box>
+        </Box>
+        <CheckTheRules
+          isVisible={ShowModal}
+          setIsVisible={() => setShowModal(false)}
+          rulesData={countDownData}
+        />
       </Box >
-      : null
+
+    </Box >
+    // : null
   )
 }
 

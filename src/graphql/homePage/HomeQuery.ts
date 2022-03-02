@@ -66,6 +66,7 @@ export interface ICountDownClock {
   titleButton: string;
   titleModal: string;
   descriptionModal: string;
+  reference: string;
 }
 
 export const homeQuery = gql`
@@ -166,6 +167,7 @@ export const configCollection = gql`
           titleButton
           titleModal
           descriptionModal
+          reference
         }
         searchMedia {
           title
