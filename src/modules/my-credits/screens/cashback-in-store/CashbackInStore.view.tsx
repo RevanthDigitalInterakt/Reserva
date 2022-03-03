@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
 import { ImageBackground, TouchableOpacity } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-import { Box, Button, Icon, Typography } from "reserva-ui";
+import { Box, Button, Icon, Image, Typography } from "reserva-ui";
 import { images } from '../../../../assets';
 import { ModalTermsAndConditions } from "./components/ModalTermsAndConditions";
+
 
 export interface CashbackInStoreViewProps {
   token?: string;
@@ -44,18 +45,20 @@ export const CashbackInStoreView = (
             resizeMode="contain"
           >
             <Box alignItems="center" justifyContent="center" >
-              {token && (
+              {token ? (
                 <QRCode
                   value={token}
                   logo={images.logoQRCode}
                   logoSize={40}
                   size={200}
                 />
+              ) : (
+                <Image source={images.imageCashback} width={200} height={200} />
               )}
             </Box>
           </ImageBackground>
 
-          <Box mt="xl">
+          <Box mt="xxxs">
             <ModalTermsAndConditions
               isVisible={modalVisible}
               loading={false}
