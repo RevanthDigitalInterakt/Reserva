@@ -14,6 +14,7 @@ import {
 } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
+import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import {
   StorageService,
   StorageServiceKeys
@@ -35,6 +36,10 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const firebaseRef = new FirebaseService();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
   const [profileImagePath, setProfileImagePath] = useState<any>();
+  const [
+    screenCashbackInStoreActive,
+    setScreenCashbackInStoreActive
+  ] = useState<boolean>(false);
 
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
@@ -46,11 +51,19 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     navigation.navigate('Home');
   };
 
+  const getIsScreenCashbackInStoreActive = async () => {
+    const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_CASHBACK_IN_STORE');
+
+    console.log('cashback_in_store', cashback_in_store);
+    setScreenCashbackInStoreActive(cashback_in_store);
+  }
+
   useFocusEffect(() => {
     remoteConfig().fetchAndActivate();
     const response = remoteConfig().getValue('balance_cashback_in_app');
 
     setBalanceCashbackInApp(response.asBoolean());
+    getIsScreenCashbackInStoreActive();
     if (data) {
       refetch();
     }
@@ -197,7 +210,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 navigation.navigate('ListCards');
               }}
             /> */}
-            {balanceCashbackInApp && (
+            {screenCashbackInStoreActive && (
               <Box paddingX="xxxs">
                 <ItemList
                   title="Meu Cashback"
