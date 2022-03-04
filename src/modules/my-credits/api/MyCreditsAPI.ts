@@ -1,4 +1,4 @@
-import { cashbackInstance } from '../../../config/cashbackConfig';
+import { creditsInstance } from '../../../config/creditsConfig';
 import { HttpService } from '../../../shared/services/HttpService';
 
 export type GetCustomerResponse = {
@@ -37,4 +37,4 @@ export enum CashbackHttpUrl {
   GetToken = '/users/',
 }
 
-export const MyCreditsAPI = new HttpService(cashbackInstance);
+export const MyCreditsAPI = new HttpService(creditsInstance);

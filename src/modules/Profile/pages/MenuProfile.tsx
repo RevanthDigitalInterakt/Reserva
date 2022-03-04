@@ -36,6 +36,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const firebaseRef = new FirebaseService();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
   const [profileImagePath, setProfileImagePath] = useState<any>();
+  const [isTester, setIsTester] = useState<boolean>(false);
   const [
     screenCashbackInStoreActive,
     setScreenCashbackInStoreActive
@@ -50,6 +51,13 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     setEmail(null);
     navigation.navigate('Home');
   };
+
+  const getTesters = async () => {
+    const testers = await remoteConfig().getValue('EMAIL_TESTERS');
+    if (JSON.parse(testers.asString()).includes(data?.profile?.email)) {
+      setIsTester(true);
+    }
+  }
 
   const getIsScreenCashbackInStoreActive = async () => {
     const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_CASHBACK_IN_STORE');
@@ -91,6 +99,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
         ).value || null;
         setProfileImagePath(profileImagePath);
       }
+      getTesters();
     }
   }, [data]);
 
@@ -209,7 +218,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 navigation.navigate('ListCards');
               }}
             /> */}
-            {screenCashbackInStoreActive && (
+            {screenCashbackInStoreActive || isTester && (
               <Box paddingX="xxxs">
                 <ItemList
                   title="Meu Cashback"

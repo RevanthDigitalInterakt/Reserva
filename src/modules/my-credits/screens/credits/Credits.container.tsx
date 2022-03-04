@@ -3,7 +3,7 @@ import { LoadingScreen } from '../../../../common/components/LoadingScreen';
 import { ProfileVars } from '../../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import {
-  CashbackHttpUrl, GetDigitalWalletResponse, MyCreditsAPI
+  CashbackHttpUrl, GetCustomerResponse, MyCreditsAPI
 } from '../../../../modules/my-credits/api/MyCreditsAPI';
 import { RemoteConfigService } from '../../../../shared/services/RemoteConfigService';
 import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
@@ -43,13 +43,19 @@ export const CreditsContainer = (
   }
 
   const getCreditBalance = async ( cpf: string) => {
-    const { data } = await MyCreditsAPI.get<GetDigitalWalletResponse>(
-      `${CashbackHttpUrl.GetDigitalWallet}${cpf}`,
+    const customer = await MyCreditsAPI.get<GetCustomerResponse>(
+      CashbackHttpUrl.GetCustomer,
+      { cpf }
     );
 
-    setCreditsBalance(
-      convertCentsToReal(data.data.balance_in_cents)
-    );
+    if(customer.data.SaldoMonetario) {
+      setCreditsBalance(
+        convertCentsToReal(Number(customer.data.SaldoMonetario))
+      );
+    }
+    if(customer.data.Fidelizado) {
+      setIsLoyal(true);
+    }
   };
 
   useEffect(() => {
