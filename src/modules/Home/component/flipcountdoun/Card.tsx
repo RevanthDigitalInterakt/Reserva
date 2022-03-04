@@ -1,0 +1,50 @@
+import React from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Platform
+} from 'react-native';
+import { theme } from "reserva-ui";
+interface ICard {
+    type: 'upper' | 'lower';
+    size: number;
+    number: any;
+}
+function Card({
+    type, size, number,
+}: ICard) {
+    return (
+        <View style={[style.card, type === 'upper' ? { borderBottomWidth: 0.5 } : { borderTopWidth: 0.5 }]}>
+            <Text style={[style.number, {
+                transform: [type === 'upper' ? { translateY: size * 0.3 } : { translateY: -size * 0.3 }],
+                fontSize: size / 1.5,
+                lineHeight: Platform.OS === 'android' ? size / 1.5 : size / 1.3,
+                fontFamily: theme.fonts.reservaSansBold,
+            }]}
+            >
+                {number}
+            </Text>
+        </View>
+    );
+}
+
+export default Card;
+const style = StyleSheet.create({
+    card: {
+        margin: 0,
+        padding: 0,
+        flex: 0.5,
+        paddingLeft: 4,
+        paddingRight: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: '#1f1f1f',
+        borderBottomColor: '#1f1f1f',
+        overflow: 'hidden',
+    },
+    number: {
+        color: '#FFF',
+    }
+});
+

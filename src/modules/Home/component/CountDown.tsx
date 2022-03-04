@@ -2,7 +2,7 @@ import { useSubscription } from "@apollo/client";
 import moment from "moment";
 import React, { useEffect, useState, Dispatch, SetStateAction, } from "react";
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, } from "react-native"
+import { TouchableOpacity, Dimensions } from "react-native"
 import CountDown from "react-native-countdown-component";
 import { Box, theme, Typography, Button, Icon } from "reserva-ui";
 import { number } from "yup";
@@ -12,9 +12,12 @@ import {
   ICountDownClock
 } from '../../../graphql/homePage/HomeQuery';
 import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
+import FlipNumber from './flipcountdoun/FlipNumber'
+
 export interface CountDownProps {
   countDown: ICountDownClock
 }
+const deviceWidth = Dimensions.get('window').width;
 
 export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDownProps) => {
   const navigation = useNavigation();
@@ -25,7 +28,8 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
 
   const { currentValue, start, stop, } = useChronometer({
     countDown: true,
-    initial: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
+    initial: '00:10:10'
+    // initial: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
   });
 
   useEffect(() => {
@@ -78,10 +82,10 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
   return (
     // !showClock && currentValue !== '00:00:00' ?
 
-    <Box minHeight={149} alignItems='center' backgroundColor={countDownData?.colorBanner}>
+    <Box minHeight={149} paddingBottom={5} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={countDownData?.colorBanner}>
 
-      <Box>
-        <Box alignItems='center' mb={8} mt={7}>
+      <Box width={deviceWidth} paddingX={22}>
+        <Box alignItems='center' mb={8} mt={7} >
           <Typography
             color={textColor}
             fontFamily="reservaSerifMedium"
@@ -99,6 +103,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
         <Box
           flexDirection='row'
           alignItems="center"
+          justifyContent='space-between'
         >
           <Box
             alignItems='center'
@@ -113,47 +118,25 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
                 Acaba em:
               </Typography>
             </Box>
+            <Box flexDirection='row' alignItems="center" mt={5}>
+              <FlipNumber number={120} size={43} unit="hours" />
 
-            {/* <CountDown
-              size={30}
-              digitTxtStyle={{
-                color: textColor,
-                fontFamily: theme.fonts.reservaDisplayRegular,
-              }}
-              digitStyle={{
-                backgroundColor: 'rgba(0,0,0,0)',
-                justifyContent: 'flex-start',
-                height: 60
-              }}
-              separatorStyle={{
-                color: textColor,
-                position: 'absolute',
-                top: 0,
-                fontFamily: theme.fonts.nunitoBold,
-                justifyContent: 'flex-start',
-                fontSize: 25,
+              <Box height={14} justifyContent="space-between" marginX={6}>
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+              </Box>
 
-              }}
-              timeLabelStyle={{
-                color: textColor,
-                justifyContent: 'center',
-                fontFamily: theme.fonts.nunitoBold,
-                fontSize: 12,
-                position: 'absolute',
-                bottom: 3
-              }}
-              showSeparator
-              until={(limitDate - Date.now()) / 1000}
-              onFinish={() => console.log('finished')}
-              onPress={() => console.log('hello')}
-              timeToShow={['H', 'M', 'S']}
-              timeLabels={{
-                d: 'dias', h: 'Horas',
-                m: 'Munutos',
-                s: 'Segundos',
-              }}
-            /> */}
-            <Box
+              <FlipNumber number={3} size={43} />
+
+              <Box height={14} justifyContent="space-between" marginX={6}>
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+              </Box>
+
+              <FlipNumber number={currentValue.split(':')[2]} size={43} />
+            </Box>
+
+            {/* <Box
               flexDirection="row"
               alignItems="center"
               mt={5}
@@ -211,20 +194,20 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
                   {currentValue.split(':')[2]}
                 </Typography>
               </Box>
-            </Box>
+            </Box> */}
 
           </Box>
-          <Box alignItems="center">
+          <Box alignItems="center" flex={1}  >
             <TouchableOpacity
+              style={{ width: '100%' }}
               onPress={goToPromotion}
             >
               <Box bg={countDownData?.colorButton}
-                paddingLeft={41}
-                paddingRight={41}
                 paddingY={12}
                 mb={4}
               >
                 <Typography
+                  textAlign='center'
                   color={textColor}
                 >
                   {countDownData?.titleButton}
