@@ -7550,11 +7550,6 @@ react-native-flip-card@^3.5.6:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-flip-countdown-timer@^0.0.3:
-  version "0.0.3"
-  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-flip-countdown-timer/-/react-native-flip-countdown-timer-0.0.3.tgz#a96cb694ea3b0cc720c33f27d92d82b81250c52a"
-  integrity sha1-qWy2lOo7DMcgwz8n2S2CuBJQxSo=
-
 react-native-flipper@^0.119.0:
   version "0.119.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-flipper/-/react-native-flipper-0.119.0.tgz#28fd527892d8486ddb22260c373e1488d9aa3beb"
