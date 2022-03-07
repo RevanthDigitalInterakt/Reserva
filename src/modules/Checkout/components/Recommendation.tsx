@@ -7,7 +7,7 @@ import { createAnimatableComponent } from 'react-native-animatable';
 import { Box, Typography, Button, Icon, Divider } from 'reserva-ui';
 
 import { productSearch } from '../../../graphql/products/productSearch';
-import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
+import { ListHorizontalProducts } from './ListHorizontalProducts'
 
 export const Recommendation = () => {
   const [skip, setSkip] = useState(false);
@@ -51,7 +51,7 @@ export const Recommendation = () => {
   };
 
   const saveItems = async (items: any) => {
-    const newArray = items.splice(0, 5);
+    const newArray = [items[0]];
 
     if (newArray.length === 1) {
       setArrayProducts({ ...newArray });
@@ -69,6 +69,8 @@ export const Recommendation = () => {
     });
 
     if (!loadingProd) {
+      console.log(text)
+
       await saveItems(dataProd.productSearch.products);
     }
   };
@@ -83,10 +85,11 @@ export const Recommendation = () => {
       'jaqueta',
     ];
 
-    arrayCategories.forEach((element) => {
-      handleSearch(element);
+    arrayCategories.forEach(async (element) => {
+      await handleSearch(element);
     });
   }, []);
+
 
   return (
     <>
@@ -138,7 +141,7 @@ export const Recommendation = () => {
           <Box mt="quarck" paddingX="micro">
             {products && products?.length > 0 && (
               <Animatable.View animation="fadeIn" style={{ marginBottom: 20 }}>
-                <ListVerticalProducts
+                <ListHorizontalProducts
                   horizontal
                   products={products || []}
                   loadMoreProducts={(offset) => {

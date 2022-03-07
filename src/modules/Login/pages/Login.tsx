@@ -1,26 +1,26 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-
 import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
 import * as Yup from 'yup';
-
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
   classicSignInMutation,
-  sendEmailVerificationMutation,
+  sendEmailVerificationMutation
 } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
+
+
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -76,13 +76,13 @@ export const LoginScreen: React.FC<Props> = ({
     if (emailIsValid && passwordIsValid) {
       const { data, errors } = await login({
         variables: {
-          email: loginCredentials.username,
+          email: loginCredentials.username.trim(),
           password: loginCredentials.password,
         },
       });
       if (data.classicSignIn === 'Success') {
         saveCredentials({
-          email: loginCredentials.username,
+          email: loginCredentials.username.trim(),
           password: loginCredentials.password,
         });
 
@@ -96,8 +96,8 @@ export const LoginScreen: React.FC<Props> = ({
             console.error('AppsFlyer Error', err);
           }
         );
-        setEmail(loginCredentials.username);
-        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username).then(
+        setEmail(loginCredentials.username.trim());
+        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim()).then(
           () => { }
         );
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
@@ -180,7 +180,7 @@ export const LoginScreen: React.FC<Props> = ({
               onChangeText={(text) => {
                 setLoginCredentials({ ...loginCredentials, username: text });
                 setEmailIsValid(
-                  Yup.string().required().email().isValidSync(text)
+                  Yup.string().required().email().isValidSync(text.trim())
                 );
               }}
             />
