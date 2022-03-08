@@ -45,7 +45,7 @@ export const FormikTextInput = ({
   return (
     <>
       <TextField
-        label={label}
+        label={labelDisplay}
         textAlignVertical={textAlignVertical}
         fontFamily="nunitoRegular"
         secureTextEntry={secureTextEntry}
