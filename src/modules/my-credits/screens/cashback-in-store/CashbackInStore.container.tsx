@@ -1,10 +1,10 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { Fragment, useEffect, useState } from "react";
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
+import { MyCashbackAPI } from "../../../../modules/my-cashback/api/MyCashbackAPI";
 import {
   CashbackHttpUrl,
-  GetTokenResponse,
-  MyCreditsAPI
+  GetTokenResponse
 } from "../../../my-credits/api/MyCreditsAPI";
 import { CashbackInStoreView } from "./CashbackInStore.view";
 
@@ -51,7 +51,7 @@ export const CashbackInStoreContainer = (
     const tomorrow = date.toISOString();
 
     if (costumerDocument) {
-      const { data } = await MyCreditsAPI.post<GetTokenResponse>(
+      const { data } = await MyCashbackAPI.post<GetTokenResponse>(
         `${CashbackHttpUrl.GetToken}${costumerDocument}/authenticate`,
         {
           type: "qrcode",

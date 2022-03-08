@@ -1,9 +1,8 @@
 import React, { Fragment } from "react";
-import { ImageBackground, TouchableOpacity } from "react-native";
+import { ImageBackground } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-import { Box, Button, Icon, Image, Typography } from "reserva-ui";
+import { Box, Button, Image, Typography } from "reserva-ui";
 import { images } from '../../../../assets';
-import { ModalTermsAndConditions } from "./components/ModalTermsAndConditions";
 
 
 export interface CashbackInStoreViewProps {
@@ -58,7 +57,7 @@ export const CashbackInStoreView = (
             </Box>
           </ImageBackground>
 
-          <Box mt="xxxs">
+          {/* <Box mt="xxxs">
             <ModalTermsAndConditions
               isVisible={modalVisible}
               loading={false}
@@ -128,8 +127,8 @@ export const CashbackInStoreView = (
             <Typography fontFamily="nunitoRegular" fontSize={14}>
               Li e aceito os termos e condições de uso.
             </Typography>
-          </Box>
-          <Box mt="xs" mb="nano">
+          </Box> */}
+          <Box mt="xl" mb="nano">
             <Button
               disabled={!termsIsAccepted}
               onPress={() => generateToken()}
