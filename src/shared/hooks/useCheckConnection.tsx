@@ -16,7 +16,6 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
         checkConnectivity();
     }, [netInfo])
 
-    const
     const checkConnectivity = () => {
         if (!netInfo.isConnected && netInfo.isConnected != null) {
             setShowScreen(true);
