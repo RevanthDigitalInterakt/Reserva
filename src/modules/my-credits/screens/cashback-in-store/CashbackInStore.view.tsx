@@ -130,7 +130,6 @@ export const CashbackInStoreView = (
           </Box> */}
           <Box mt="xl" mb="nano">
             <Button
-              disabled={!termsIsAccepted}
               onPress={() => generateToken()}
               title="GERAR QR CODE"
               variant="primarioMaior"
