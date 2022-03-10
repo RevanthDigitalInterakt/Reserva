@@ -18,6 +18,7 @@ import {
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
+import { useCountDown } from '../../../context/ChronometerContext';
 import {
   Carrousel,
   CarrouselCard,
@@ -39,6 +40,8 @@ import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
 import { CountDownBanner } from '../component/CountDown';
 import { Skeleton } from '../component/Skeleton';
+import { intervalToDuration } from 'date-fns';
+import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -48,6 +51,7 @@ export const HomeScreen: React.FC<{
 }> = () => {
   const navigation = useNavigation();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
+  const { setTime, time } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -60,7 +64,10 @@ export const HomeScreen: React.FC<{
     context: { clientName: 'contentful' },
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
-
+  const { currentValue, start, stop, reset } = useChronometer({
+    countDown: true,
+    initial: countDownClock?.formattedValue
+  });
   const [login, { data: loginData, loading: loginLoading }] = useMutation(
     classicSignInMutation
   );
@@ -74,12 +81,20 @@ export const HomeScreen: React.FC<{
   const { width, height } = Dimensions.get('screen');
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
+  useEffect(() => {
+    if (countDownClock) start();
+  }, [countDownClock]);
 
   useEffect(() => {
-    console.log('homepage query', data);
+    if (currentValue) setTime(currentValue);
+  }, [currentValue]);
+
+
+
+
+  useEffect(() => {
     const carrouselsItems: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
-    console.log('carrousels', carrouselsItems);
     setCarrousels(carrouselsItems);
 
     const arrayImages =
@@ -104,7 +119,13 @@ export const HomeScreen: React.FC<{
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
-      setCountDownClock(collectionData?.configCollection?.items[0].countDownClock)
+      const countDownClock = collectionData?.configCollection?.items[0].countDownClock
+
+      const limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
+      setCountDownClock({
+        ...countDownClock,
+        formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
+      });
     }
   }, [collectionData]);
 

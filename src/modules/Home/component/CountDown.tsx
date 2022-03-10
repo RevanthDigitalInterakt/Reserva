@@ -1,40 +1,29 @@
-import { useSubscription } from "@apollo/client";
-import moment from "moment";
-import React, { useEffect, useState, Dispatch, SetStateAction, } from "react";
-import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, Dimensions } from "react-native"
-import CountDown from "react-native-countdown-component";
+
+import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
+import {
+  useNavigation,
+} from '@react-navigation/native';
+import { TouchableOpacity, Dimensions, PixelRatio } from "react-native"
 import { Box, theme, Typography, Button, Icon } from "reserva-ui";
-import { number } from "yup";
-import { intervalToDuration } from 'date-fns';
 import Modal from "react-native-modal";
 import {
   ICountDownClock
 } from '../../../graphql/homePage/HomeQuery';
-import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
 import FlipNumber from './flipcountdoun/FlipNumber'
-
+import { useCountDown } from '../../../context/ChronometerContext';
 export interface CountDownProps {
-  countDown: ICountDownClock
+  countDown?: ICountDownClock;
 }
 const deviceWidth = Dimensions.get('window').width;
 
-export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDownProps) => {
+export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, }: CountDownProps) => {
   const navigation = useNavigation();
   const [countDownData, setCountDownData] = useState<ICountDownClock>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
-  const limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDown?.countdown) });
-
-  const { currentValue, start, stop, } = useChronometer({
-    countDown: true,
-    initial: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
-  });
+  const { time = '00:00:00' } = useCountDown();
 
   useEffect(() => {
-    if (countDown) {
-      setCountDownData(countDown);
-    }
     if (Date.now() > new Date(countDown?.countdown).getTime()) {
       setShowClock(true)
     } else {
@@ -42,13 +31,10 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
     }
   }, [countDown]);
 
-  useEffect(() => {
-    start();
-  }, [])
 
   const goToPromotion = () => {
     const facetInput = [];
-    const [categoryType, categoryData] = countDownData?.reference?.split(':');;
+    const [categoryType, categoryData] = countDown?.reference?.split(':');;
     if (categoryType === 'product') {
       navigation.navigate('ProductDetail', {
         productId: categoryData,
@@ -71,31 +57,35 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
       }
       navigation.navigate('ProductCatalog', {
         // facetInput,
-        referenceId: countDownData?.reference,
+        referenceId: countDown?.reference,
       });
     }
   }
-  const bgColor = '#000'
   const textColor = '#FFF'
+  let textFontSize = 28;
+
+  if (PixelRatio.get() <= 2) {
+    textFontSize = 25;
+  }
 
   return (
-    !showClock && currentValue !== '00:00:00' ?
+    !showClock && time !== '00:00:00' ?
 
-      <Box minHeight={149} paddingBottom={5} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={countDownData?.colorBanner}>
+      <Box minHeight={149} paddingBottom={5} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={countDown?.colorBanner}>
 
         <Box width={deviceWidth} paddingX={22}>
           <Box alignItems='center' mb={8} mt={7} >
             <Typography
               color={textColor}
               fontFamily="reservaSerifMedium"
-              fontSize={28}
+              fontSize={textFontSize}
             >
-              {countDownData?.title}
+              {countDown?.title}
               <Typography
                 color={textColor}
                 fontFamily="reservaSerifLight"
-                fontSize={28}
-              > {countDownData?.subtitle}
+                fontSize={textFontSize}
+              > {countDown?.subtitle}
               </Typography>
             </Typography>
           </Box>
@@ -118,21 +108,21 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
                 </Typography>
               </Box>
               <Box flexDirection='row' alignItems="center" mt={5}>
-                <FlipNumber number={currentValue.split(':')[0]} size={43} unit="hours" />
+                <FlipNumber number={time?.split(':')[0]} size={43} unit="hours" />
 
                 <Box height={14} justifyContent="space-between" marginX={6}>
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                 </Box>
 
-                <FlipNumber number={currentValue.split(':')[1]} size={43} />
+                <FlipNumber number={time?.split(':')[1]} size={43} />
 
                 <Box height={14} justifyContent="space-between" marginX={6}>
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                 </Box>
 
-                <FlipNumber number={currentValue.split(':')[2]} size={43} />
+                <FlipNumber number={time?.split(':')[2]} size={43} />
               </Box>
 
             </Box>
@@ -141,7 +131,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
                 style={{ width: '100%' }}
                 onPress={goToPromotion}
               >
-                <Box bg={countDownData?.colorButton}
+                <Box bg={countDown?.colorButton}
                   paddingY={12}
                   mb={4}
                 >
@@ -149,7 +139,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
                     textAlign='center'
                     color={textColor}
                   >
-                    {countDownData?.titleButton}
+                    {countDown?.titleButton}
                   </Typography>
                 </Box>
               </TouchableOpacity>
@@ -170,7 +160,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown }: CountDo
           <CheckTheRules
             isVisible={ShowModal}
             setIsVisible={() => setShowModal(false)}
-            rulesData={countDownData}
+            rulesData={countDown}
           />
         </Box >
 

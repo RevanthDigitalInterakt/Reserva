@@ -12,7 +12,7 @@ interface IFlipNumber {
 function FlipNumber({
     number, unit, size, perspective,
 }: IFlipNumber) {
-    number = parseInt(number);
+    number = parseInt(number) + 1;
     let previousNumber;
     previousNumber = number - 1;
     if (unit !== 'hours') {

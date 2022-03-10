@@ -7,6 +7,11 @@ export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
   const value = useRef(initial);
   const intervalIDRef = useRef();
 
+
+  useEffect(() => {
+    value.current = initial;
+  }, [initial])
+
   const start = () => {
     let seconds = convertHoursToSeconds(value.current);
 
@@ -34,7 +39,9 @@ export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
     start();
   };
 
-  useEffect(() => BackgroundTimer.stopBackgroundTimer(), []);
+  useEffect(() => {
+    BackgroundTimer.stopBackgroundTimer();
+  }, []);
 
   return {
     currentValue: valueFormatted,

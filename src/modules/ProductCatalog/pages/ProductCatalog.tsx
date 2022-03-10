@@ -37,6 +37,12 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
+import {
+  configCollection,
+  ICountDownClock
+} from '../../../graphql/homePage/HomeQuery';
+import { CountDownBanner } from '../../Home/component/CountDown';
+import { intervalToDuration } from 'date-fns';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -64,7 +70,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [loadingHandlerState, setLoadingHandlerState] = useState(false);
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const [skip, setSkip] = useState(false);
-
+  const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
+  const { data: collectionData } = useQuery(configCollection, {
+    context: { clientName: 'contentful' },
+  });
   const generateFacets = (reference: string) => {
     const facetInput: any[] = [];
     const [subType, subcategories] = reference.split(':');
@@ -110,6 +119,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const [loadingModal, setLoadingModal] = useState(false);
   const [firstLoading, setFirstLoading] = useState(true);
+
+  useEffect(() => {
+    if (collectionData) {
+      const countDownClock = collectionData?.configCollection?.items[0].countDownClock
+
+      const limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
+      setCountDownClock({
+        ...countDownClock,
+        formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
+      })
+    }
+  }, [collectionData]);
 
   useEffect(() => {
     appsFlyer.logEvent('af_list_view', {
@@ -566,6 +587,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
+            {countDownClock && countDownClock.reference === referenceId &&
+              <Box marginBottom={4}>
+                <CountDownBanner countDown={countDownClock} />
+              </Box>
+            }
             <Image height={200} source={bannerImage} width={1 / 1} />
             <Box bg="dropDownBorderColor">
               <Button p="nano" onPress={onClickWhatsappButton}>

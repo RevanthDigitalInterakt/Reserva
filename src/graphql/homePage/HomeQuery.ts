@@ -67,6 +67,7 @@ export interface ICountDownClock {
   titleModal: string;
   descriptionModal: string;
   reference: string;
+  formattedValue?: string | undefined;
 }
 
 export const homeQuery = gql`
