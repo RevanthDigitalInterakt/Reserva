@@ -196,8 +196,8 @@ export const ListHorizontalProducts = ({
         <Animated.FlatList
           // viewabilityConfigCallbackPairs={[{ viewabilityConfig: { viewAreaCoveragePercentThreshold: 40 }, onViewableItemsChanged: onViewRef }]}
           onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {x: scrollX}}}],
-            {useNativeDriver: true}
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: true }
           )}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={products && products.map((_, index) => index * (width - 10))}
@@ -302,18 +302,18 @@ export const ListHorizontalProducts = ({
         {Array(3).fill(0).map((_, index) => (
           index != 0
             ? <Box
-                width={8}
-                height={8}
-                bg="divider"
-                borderRadius={'xxxs'}
-                ml={'nano'}
-              />
+              width={8}
+              height={8}
+              bg="divider"
+              borderRadius={'xxxs'}
+              ml={'nano'}
+            />
             : <Box
-                width={8}
-                height={8}
-                bg="divider"
-                borderRadius={'xxxs'}
-              />
+              width={8}
+              height={8}
+              bg="divider"
+              borderRadius={'xxxs'}
+            />
         ))}
         <Animated.View
           style={{
@@ -349,13 +349,13 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   ...props
 }) => {
 
-  const [imageUri, setImageUri] = useState<string>()
-  const { fetchImage } = useCacheImages()
+  // const [imageUri, setImageUri] = useState<string>()
+  // const { fetchImage } = useCacheImages()
 
   useEffect(() => {
-    fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
-      setImageUri(uri)
-    })
+    // fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
+    //   setImageUri(uri)
+    // })
   }, [])
 
   return (
@@ -367,10 +367,10 @@ const ProductItem: React.FC<ProductItemInterface> = ({
       mr={horizontal && 'xxxs'}
     >
       {
-        imageUri && (
+        item.items[0].images[0].imageUrl && (
           <ProductVerticalListCard
             {...props}
-            imageSource={imageUri}
+            imageSource={item.items[0].images[0].imageUrl}
           />
         )
       }

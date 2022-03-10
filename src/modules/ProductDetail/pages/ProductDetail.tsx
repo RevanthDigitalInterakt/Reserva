@@ -254,20 +254,20 @@ export const ProductDetail: React.FC<Props> = ({
   const { email } = useAuth();
   const [isLastUnits, setIsLastUnits] = useState(false);
   const [imageIndexActual, setImageIndexActual] = useState<number>(0);
-  const [imagesUri, setImagesUri] = useState<string[]>([]);
-  const { fetchImage } = useCacheImages();
+  // const [imagesUri, setImagesUri] = useState<string[]>([]);
+  // const { fetchImage } = useCacheImages();
 
   const scrollRef = useRef<ScrollView>();
 
-  useEffect(() => {
-    if (imageSelected.length > 0) {
-      Promise.all([
-        ...imageSelected[0][0].map((image) => fetchImage(image.imageUrl)),
-      ]).then((images) => {
-        setImagesUri(images);
-      });
-    }
-  }, [imageSelected]);
+  // useEffect(() => {
+  //   if (imageSelected.length > 0) {
+  //     Promise.all([
+  //       ...imageSelected[0][0].map((image) => fetchImage(image.imageUrl)),
+  //     ]).then((images) => {
+  //       setImagesUri(images);
+  //     });
+  //   }
+  // }, [imageSelected]);
 
   /***
    * Effects
@@ -898,7 +898,7 @@ export const ProductDetail: React.FC<Props> = ({
                     product.priceRange.sellingPrice.lowPrice || 0
                   }
                   imagesWidth={screenWidth}
-                  images={imagesUri}
+                  images={imageSelected}
                   installmentsNumber={
                     getInstallments()?.NumberOfInstallments || 1
                   }
