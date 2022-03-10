@@ -22,18 +22,18 @@ export const Banner: React.FC<BannerProps> = ({
 
 }) => {
 
-  const [uri, setUri] = useState<string>();
+  const [uri, setUri] = useState<any>();
 
   const navigation = useNavigation();
-  const { fetchImage } = useCacheImages()
+  // const { fetchImage } = useCacheImages()
 
-  useEffect(() => {
-    fetchImage(url).then((x: string) => {
-      setUri(x);
-      console.log('fetchImage', x)
-    });
-    // setUri(fetchImage(url))
-  }, [])
+  // useEffect(() => {
+  //   fetchImage(url).then((x) => {
+  //     setUri(x);
+  //     console.log('fetchImage', x)
+  //   });
+  //   // setUri(fetchImage(url))
+  // }, [url])
 
   return (
     <Box alignItems="flex-start">
@@ -79,7 +79,7 @@ export const Banner: React.FC<BannerProps> = ({
                 height={height}
                 autoHeight
                 width={deviceWidth}
-                source={{ uri: uri }}
+                source={url}
                 isSkeletonLoading
               />
               :

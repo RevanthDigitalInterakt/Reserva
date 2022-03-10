@@ -408,16 +408,16 @@ const ProductItem: React.FC<ProductItemInterface> = ({
 }) => {
 
   const [imageUri, setImageUri] = useState<string>()
-  const { fetchImage } = useCacheImages()
+  // const { fetchImage } = useCacheImages()
 
-  const fetchUri = async () => {
-    if (item.items[0].images[0].imageUrl) {
-      const uri = await fetchImage(item.items[0].images[0].imageUrl);
-      if (uri) {
-        setImageUri(uri)
-      }
-    }
-  }
+  // const fetchUri = async () => {
+  //   if (item.items[0].images[0].imageUrl) {
+  //     const uri = await fetchImage(item.items[0].images[0].imageUrl);
+  //     if (uri) {
+  //       setImageUri(uri)
+  //     }
+  //   }
+  // }
   useEffect(() => {
     // if (item) {
 
@@ -437,10 +437,10 @@ const ProductItem: React.FC<ProductItemInterface> = ({
       mr={horizontal && 'xxxs'}
     >
       {
-        imageUri && (
+        item.items[0].images[0].imageUrl && (
           <ProductVerticalListCard
             {...props}
-            imageSource={imageUri}
+            imageSource={item.items[0].images[0].imageUrl}
           />
         )
       }
