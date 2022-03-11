@@ -3,7 +3,7 @@ import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import {
   useNavigation,
 } from '@react-navigation/native';
-import { TouchableOpacity, Dimensions, PixelRatio } from "react-native"
+import { TouchableOpacity, Dimensions, PixelRatio, Platform } from "react-native"
 import { Box, theme, Typography, Button, Icon } from "reserva-ui";
 import Modal from "react-native-modal";
 import {
@@ -15,6 +15,8 @@ export interface CountDownProps {
   countDown?: ICountDownClock;
 }
 const deviceWidth = Dimensions.get('window').width;
+
+const scale = deviceWidth / 320;
 
 export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, }: CountDownProps) => {
   const navigation = useNavigation();
@@ -62,10 +64,14 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, }: CountD
     }
   }
   const textColor = '#FFF'
-  let textFontSize = 28;
 
-  if (PixelRatio.get() <= 2) {
-    textFontSize = 25;
+  function normalize(size) {
+    const newSize = size * scale
+    if (Platform.OS === 'ios') {
+      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3
+    } else {
+      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4
+    }
   }
 
   return (
@@ -78,13 +84,13 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, }: CountD
             <Typography
               color={textColor}
               fontFamily="reservaSerifMedium"
-              fontSize={textFontSize}
+              fontSize={normalize(28)}
             >
               {countDown?.title}
               <Typography
                 color={textColor}
                 fontFamily="reservaSerifLight"
-                fontSize={textFontSize}
+                fontSize={normalize(28)}
               > {countDown?.subtitle}
               </Typography>
             </Typography>
