@@ -1,12 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, Button, Divider, TextField } from 'reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
-import { IdentifyCustomer } from '../../../services/vtexService';
+import React, { useCallback, useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { Box, Button, TextField, Typography } from 'reserva-ui';
 import { useCart } from '../../../context/CartContext';
-import { useState } from 'react';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 export const EnterYourEmail = () => {
   const navigation = useNavigation();
@@ -87,7 +84,7 @@ export const EnterYourEmail = () => {
               autoCompleteType="email"
               value={email}
               onChangeText={(text) => {
-                setEmail(text), validateEmail(email);
+                setEmail(text.trim()), validateEmail(email.trim());
               }}
               placeholder={'Digite seu e-mail'}
               touched={!validateFieldEmail}

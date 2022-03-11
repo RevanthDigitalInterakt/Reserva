@@ -25,6 +25,7 @@ import {
   configCollection,
   homeQuery,
   HomeQuery,
+  ICountDownClock
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { productSearch } from '../../../graphql/products/productSearch';
@@ -36,6 +37,7 @@ import { Banner } from '../component/Banner';
 import { CardsCarrousel } from '../component/CardsCarroussel';
 import { DefaultCarrousel } from '../component/Carrousel';
 import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+import { CountDownBanner } from '../component/CountDown';
 import { Skeleton } from '../component/Skeleton';
 
 dayjs.extend(utc);
@@ -52,6 +54,7 @@ export const HomeScreen: React.FC<{
   const [images, setImages] = React.useState<HomeQuery[]>([]);
   const [carrousels, setCarrousels] = React.useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
+  const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
   const deviceWidth = Dimensions.get('screen').width;
   const { loading, data, refetch } = useQuery(homeQuery, {
     context: { clientName: 'contentful' },
@@ -101,6 +104,7 @@ export const HomeScreen: React.FC<{
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
+      setCountDownClock(collectionData?.configCollection?.items[0].countDownClock)
     }
   }, [collectionData]);
 
@@ -206,7 +210,14 @@ export const HomeScreen: React.FC<{
                 // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
                 switch (carrousel?.type) {
                   case CarrouselTypes.mainCarrousel: {
-                    return <DefaultCarrousel carrousel={carrousel} />;
+                    return (
+                      <>
+                        <DefaultCarrousel carrousel={carrousel} />
+                        {countDownClock &&
+                          <CountDownBanner countDown={countDownClock} />
+                        }
+                      </>
+                    )
                     break;
                   }
                   case CarrouselTypes.cardsCarrousel: {
