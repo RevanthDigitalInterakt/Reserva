@@ -1,27 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react';
-
 import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { FlatList, Alert } from 'react-native';
-import Modal from 'react-native-modal';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList } from 'react-native';
 import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from 'reserva-ui';
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
-
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
-import { useCacheImages } from '../../../../context/CacheImagesContext';
 import {
-  ProductQL,
-  Property,
-  SKU,
+  ProductQL
 } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
+
+
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -425,7 +421,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
     //     setImageUri(uri)
     //   });
     // }
-    fetchUri();
+    // fetchUri();
   }, []);
 
   return (

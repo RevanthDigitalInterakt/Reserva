@@ -57,18 +57,6 @@ export interface CarrouselCard {
   referenceLabel?: string;
 }
 
-export interface ICountDownClock {
-  title: string;
-  subtitle: string;
-  colorBanner: string;
-  colorButton: string;
-  countdown: string;
-  titleButton: string;
-  titleModal: string;
-  descriptionModal: string;
-  reference: string;
-}
-
 export const homeQuery = gql`
   query homePageCollection {
     homePageCollection(limit: 12) {
@@ -157,17 +145,6 @@ export const configCollection = gql`
           colorButton
           shareMessage
           coupon
-        }
-        countDownClock {
-          title
-          subtitle
-          colorBanner
-          colorButton
-          countdown
-          titleButton
-          titleModal
-          descriptionModal
-          reference
         }
         searchMedia {
           title
