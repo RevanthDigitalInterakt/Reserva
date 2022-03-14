@@ -589,7 +589,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <>
             {countDownClock && countDownClock.reference === referenceId &&
               <Box marginBottom={4}>
-                <CountDownBanner countDown={countDownClock} />
+                <CountDownBanner countDown={countDownClock} showButton={false} />
               </Box>
             }
             <Image height={200} source={bannerImage} width={1 / 1} />

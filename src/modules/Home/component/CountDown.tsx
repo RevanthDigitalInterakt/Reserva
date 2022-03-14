@@ -13,12 +13,13 @@ import FlipNumber from './flipcountdoun/FlipNumber'
 import { useCountDown } from '../../../context/ChronometerContext';
 export interface CountDownProps {
   countDown?: ICountDownClock;
+  showButton?: boolean;
 }
 const deviceWidth = Dimensions.get('window').width;
 
 const scale = deviceWidth / 320;
 
-export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, }: CountDownProps) => {
+export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButton = true }: CountDownProps) => {
   const navigation = useNavigation();
   const [countDownData, setCountDownData] = useState<ICountDownClock>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
@@ -133,22 +134,24 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, }: CountD
 
             </Box>
             <Box alignItems="center" flex={1}  >
-              <TouchableOpacity
-                style={{ width: '100%' }}
-                onPress={goToPromotion}
-              >
-                <Box bg={countDown?.colorButton}
-                  paddingY={12}
-                  mb={4}
+              {showButton &&
+                <TouchableOpacity
+                  style={{ width: '100%' }}
+                  onPress={goToPromotion}
                 >
-                  <Typography
-                    textAlign='center'
-                    color={textColor}
+                  <Box bg={countDown?.colorButton}
+                    paddingY={12}
+                    mb={4}
                   >
-                    {countDown?.titleButton}
-                  </Typography>
-                </Box>
-              </TouchableOpacity>
+                    <Typography
+                      textAlign='center'
+                      color={textColor}
+                    >
+                      {countDown?.titleButton}
+                    </Typography>
+                  </Box>
+                </TouchableOpacity>
+              }
               <TouchableOpacity
                 onPress={() => setShowModal(true)}
               >
