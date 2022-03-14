@@ -898,7 +898,9 @@ export const ProductDetail: React.FC<Props> = ({
                     product.priceRange.sellingPrice.lowPrice || 0
                   }
                   imagesWidth={screenWidth}
-                  images={imageSelected}
+                  images={imageSelected.length > 0
+                    ? imageSelected[0][0].map((image) => image.imageUrl)
+                    : []}
                   installmentsNumber={
                     getInstallments()?.NumberOfInstallments || 1
                   }
