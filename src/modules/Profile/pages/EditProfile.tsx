@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { addHours, format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   BackHandler,
   KeyboardAvoidingView,
@@ -38,14 +38,17 @@ import {
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { useCart } from '../../../context/CartContext';
+import { useAuth } from '../../../context/AuthContext';
 
-type Props = StackScreenProps<RootStackParamList, "EditProfile">;
+type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
-  const { isRegister } = route?.params || false
+  const { email } = useAuth();
+  const { isRegister } = route?.params || false;
   const [subscribed, setSubscribed] = useState(false);
   const [tokenOneSignal, setTokenOneSignal] = useState('');
   const [userData, setUserData] = useState<ProfileQuery>({
@@ -74,19 +77,38 @@ export const EditProfile = ({ route }: Props) => {
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
   const firebaseRef = new FirebaseService();
-  const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
+  const [loadingProfilePhoto, setLoadingProfilePhoto] =
+    useState<boolean>(false);
   useEffect(() => {
     OneSignal.getDeviceState().then((deviceState: any) => {
       setTokenOneSignal(deviceState.userId);
     });
   }, []);
+  const [loadingScreen, setLoadingScreen] = useState(false);
+
+  const { orderform, addCustomer, identifyCustomer } = useCart();
+
+  const [cpfInvalid, setCpfInvalid] = useState(false);
+
+  const [isEmptyFullName, setIsEmptyFullName] = useState(false);
+  const [isEmptyBirthDate, setIsEmptyBirthDate] = useState(false);
+  const [isEmptyHomePhone, setIsEmptyHomePhone] = useState(false);
+
+  const [labelFullName, setLabelFullName] = useState(null);
+  const [labelDocument, setLabelDocument] = useState(null);
+  const [labelBirthDate, setLabelBirthDate] = useState(null);
+  const [labelPhone, setLabelPhone] = useState(null);
 
   const getTesters = async () => {
     const testers = await remoteConfig().getValue('EMAIL_TESTERS');
     if (JSON.parse(testers.asString()).includes(data?.profile?.email)) {
       setIsTester(true);
     }
-  }
+  };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -118,12 +140,46 @@ export const EditProfile = ({ route }: Props) => {
           (x: any) => x.key == 'profileImagePath'
         ).value || null
       );
+
+      if (isRegister) refetch();
+
+      if (!data?.profile?.lastName) {
+        setIsEmptyFullName(true);
+        setLabelFullName(null);
+      } else {
+        setIsEmptyFullName(false);
+        setLabelFullName('Nome completo');
+      }
+
+      if (!data?.profile?.document) {
+        setLabelDocument(null);
+        setCpfInvalid(true);
+      } else {
+        setLabelDocument('CPF');
+        setCpfInvalid(false);
+      }
+
+      if (!data?.profile?.birthDate) {
+        setIsEmptyBirthDate(true);
+        setLabelBirthDate(null);
+      } else {
+        setIsEmptyBirthDate(false);
+        setLabelBirthDate('Data de nascimento');
+      }
+
+      if (!data?.profile?.homePhone) {
+        setIsEmptyHomePhone(true);
+        setLabelPhone(null);
+      } else {
+        setIsEmptyHomePhone(false);
+        setLabelPhone('Telefone');
+      }
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log('DATA SALVA :::>>>', data?.profile);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('DATA SALVA :::>>>', data?.profile);
+  // }, [data]);
 
   useEffect(() => {
     async function getToken() {
@@ -142,18 +198,12 @@ export const EditProfile = ({ route }: Props) => {
 
   useEffect(() => {
     if (updateData) {
-      if (isRegister) {
-        if (!loading) navigation.navigate('Home');
-      } else {
+      if (!isRegister) {
         refetch();
         if (!loading) navigation.goBack();
       }
     }
   }, [updateData]);
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -162,7 +212,51 @@ export const EditProfile = ({ route }: Props) => {
     });
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      setLoadingScreen(false);
+    }, [])
+  );
+
+  const cpfValidate = async (cpf) => {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf == '') return setCpfInvalid(true);
+
+    if (
+      cpf.length != 11 ||
+      cpf == '00000000000' ||
+      cpf == '11111111111' ||
+      cpf == '22222222222' ||
+      cpf == '33333333333' ||
+      cpf == '44444444444' ||
+      cpf == '55555555555' ||
+      cpf == '66666666666' ||
+      cpf == '77777777777' ||
+      cpf == '88888888888' ||
+      cpf == '99999999999'
+    )
+      return setCpfInvalid(true);
+    let add = 0;
+    let i = 0;
+    let rev = 0;
+    for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+    rev = 11 - (add % 11);
+
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(9))) return setCpfInvalid(true);
+
+    add = 0;
+    for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+    rev = 11 - (add % 11);
+
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(10))) return setCpfInvalid(true);
+
+    return setCpfInvalid(false);
+  };
+
   const saveUserData = async () => {
+    setLoadingScreen(true);
     const splittedBirthDate = userData.birthDate?.split('/');
     const [firstName, ...rest] = userData.fullName.trim().split(' ');
     const lastName = rest.join(' ');
@@ -195,9 +289,9 @@ export const EditProfile = ({ route }: Props) => {
     //Salva uma nova foto do usuário no firebase
     if (imageProfile !== null) {
       if (file !== null) {
-        setLoadingProfilePhoto(true)
+        setLoadingProfilePhoto(true);
         profileImage = await firebaseRef.createFS(file);
-        setLoadingProfilePhoto(false)
+        setLoadingProfilePhoto(false);
         setProfileImagePath(profileImage);
       }
     }
@@ -227,6 +321,17 @@ export const EditProfile = ({ route }: Props) => {
         customFields: customField,
       },
     });
+
+    if (isRegister) {
+      const addCustomerData = await addCustomer({
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        document: user?.document,
+        documentType: 'cpf',
+        phone: user?.homePhone,
+      }).then(() => navigation.navigate('DeliveryScreen'));
+    }
+    setLoadingScreen(false);
   };
 
   const requestCameraPermission = async () => {
@@ -299,7 +404,7 @@ export const EditProfile = ({ route }: Props) => {
             };
 
             setFile(photoFile);
-            setImageProfile(photoFile.uri)
+            setImageProfile(photoFile.uri);
           }
         }
       }
@@ -336,7 +441,7 @@ export const EditProfile = ({ route }: Props) => {
             };
 
             setFile(photoFile);
-            setImageProfile(photoFile.uri)
+            setImageProfile(photoFile.uri);
           }
         }
       });
@@ -346,11 +451,14 @@ export const EditProfile = ({ route }: Props) => {
 
   const updateImageUrl = () => {
     if (profileImagePath != null) {
-      firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
-        setImageProfile(value);
-      }, (error) => {
-        setProfileImagePath(null);
-      });
+      firebaseRef.getUrlFS(`${profileImagePath}`).then(
+        (value) => {
+          setImageProfile(value);
+        },
+        (error) => {
+          setProfileImagePath(null);
+        }
+      );
     }
   };
 
@@ -396,15 +504,29 @@ export const EditProfile = ({ route }: Props) => {
         keyboardVerticalOffset={80}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {isRegister ?
+        {/* {isRegister ? (
           <TopBarCheckoutCompleted
-            loading={loading || loadingProfilePhoto || updateLoading || newsLetterLoading}
+            loading={
+              loading ||
+              loadingProfilePhoto ||
+              updateLoading ||
+              newsLetterLoading
+            }
           />
-          :
-          <TopBarBackButton
-            loading={loading || loadingProfilePhoto || updateLoading || newsLetterLoading}
-          />
-        }
+        ) : ( */}
+        <TopBarBackButton
+          loading={
+            loading ||
+            loadingProfilePhoto ||
+            updateLoading ||
+            newsLetterLoading ||
+            loadingScreen
+          }
+          backButtonPress={() => {
+            isRegister ? navigation.navigate('Home') : navigation.goBack();
+          }}
+        />
+        {/* )} */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ height: '100%' }}
@@ -494,68 +616,100 @@ export const EditProfile = ({ route }: Props) => {
                 </Box>
               </Box>
             </Modal>
-            <Box alignItems="center">
-              {imageProfile === null ? (
-                <Avatar onPress={() => setShowModalProfile(true)} buttonEdit />
-              ) : (
-                <Avatar
-                  imageSource={{ uri: imageProfile }}
-                  onPress={() => setShowModalProfile(true)}
-                  buttonEdit
-                />
-              )}
-              <Box
-                justifyContent="flex-start"
-                alignItems="flex-start"
-                marginTop="micro"
-              >
-                <Button
-                  inline
-                  onPress={() => {
-                    navigation.navigate('EditPassword', {
-                      email: userData.email,
-                    });
-                  }}
-                  title="Alterar senha"
-                >
-                  <Typography
-                    style={{ textDecorationLine: 'underline' }}
-                    fontSize={13}
-                    fontFamily="nunitoRegular"
-                  >
-                    Alterar senha
+            {isRegister ? (
+              <>
+                <Box alignSelf="flex-start" mb="xxxs">
+                  <Typography variant="tituloSessoes">
+                    Revise seus dados
                   </Typography>
-                </Button>
-              </Box>
-            </Box>
+                </Box>
 
+                <Box alignSelf="flex-start" mb="xxxs">
+                  <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                    Para continuar, todos os dados devem ser inseridos por
+                    completo.
+                  </Typography>
+                </Box>
+              </>
+            ) : (
+              <Box alignItems="center">
+                {imageProfile === null ? (
+                  <Avatar
+                    onPress={() => setShowModalProfile(true)}
+                    buttonEdit
+                  />
+                ) : (
+                  <Avatar
+                    imageSource={{ uri: imageProfile }}
+                    onPress={() => setShowModalProfile(true)}
+                    buttonEdit
+                  />
+                )}
+                <Box
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                  marginTop="micro"
+                >
+                  <Button
+                    inline
+                    onPress={() => {
+                      navigation.navigate('EditPassword', {
+                        email: userData.email,
+                      });
+                    }}
+                    title="Alterar senha"
+                  >
+                    <Typography
+                      style={{ textDecorationLine: 'underline' }}
+                      fontSize={13}
+                      fontFamily="nunitoRegular"
+                    >
+                      Alterar senha
+                    </Typography>
+                  </Button>
+                </Box>
+              </Box>
+            )}
+
+            {/* down */}
             <Box mt="xxxs">
               <Box mb="xxs">
                 <TextField
-                  label="Digite seu nome completo"
+                  label={labelFullName}
                   value={userData.fullName}
                   onChangeText={(text) => {
-                    // const newFullName = (userData.fullName = text);
-                    // const firstName = newFullName
-                    //   .split(' ')
-                    //   .slice(0, 1)
-                    //   .join(' ');
-                    // const lastName = newFullName.split(' ').slice(1).join(' ');
                     setUserData({
                       ...userData,
                       fullName: text,
                     });
+                    const [firstName, ...rest] = text.trim().split(' ');
+                    const lastName = rest.join(' ');
+
+                    if (!text || !lastName) {
+                      setIsEmptyFullName(true);
+                      setLabelFullName(null);
+                    } else {
+                      setIsEmptyFullName(false);
+                      setLabelFullName('Nome completo');
+                    }
                   }}
                   iconRight={
-                    <Box ml="nano">
-                      <Icon
-                        color="preto"
-                        name="Check"
-                        size={18}
-                        marginX="micro"
-                      />
-                    </Box>
+                    !isEmptyFullName ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
                   }
+                  placeholder="Digite seu nome completo."
+                  error="Preencha seu nome completo."
+                  touched={isEmptyFullName}
                 />
               </Box>
 
@@ -563,32 +717,24 @@ export const EditProfile = ({ route }: Props) => {
                 <TextField
                   style={{ color: '#8A8C8E' }}
                   editable={false}
-                  label="Digite seu e-mail"
+                  label="E-mail"
                   value={userData.email}
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ email: text } });
                   }}
-                />
-              </Box>
-
-              <Box mb="xxs">
-                <TextField
-                  keyboardType="number-pad"
-                  label="Digite seu CPF/CNPJ"
-                  value={userData.document}
-                  maskType="cpf"
-                  onChangeText={(text) => {
-                    setUserData({ ...userData, ...{ document: text } });
-                  }}
                   iconRight={
-                    <Box ml="nano">
-                      <Icon
-                        color="preto"
-                        name="Check"
-                        size={18}
-                        marginX="micro"
-                      />
-                    </Box>
+                    userData.email.length ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
                   }
                 />
               </Box>
@@ -596,7 +742,43 @@ export const EditProfile = ({ route }: Props) => {
               <Box mb="xxs">
                 <TextField
                   keyboardType="number-pad"
-                  label="Digite sua data de nascimento (opcional)"
+                  label={labelDocument}
+                  value={userData.document}
+                  maskType="cpf"
+                  onChangeText={(text) => {
+                    setUserData({ ...userData, ...{ document: text } });
+                    cpfValidate(text);
+
+                    if (!text || !cpfInvalid) {
+                      setLabelDocument(null);
+                    } else {
+                      setLabelDocument('CPF');
+                    }
+                  }}
+                  iconRight={
+                    userData.document.length && !cpfInvalid ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite seu CPF"
+                  error="Verifique o CPF digitado."
+                  touched={cpfInvalid}
+                />
+              </Box>
+
+              <Box mb="xxs">
+                <TextField
+                  keyboardType="number-pad"
+                  label={labelBirthDate}
                   maskType="custom"
                   maskOptions={{
                     mask: '99/99/9999',
@@ -604,7 +786,32 @@ export const EditProfile = ({ route }: Props) => {
                   value={userData.birthDate}
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ birthDate: text } });
+
+                    if (!text) {
+                      setIsEmptyBirthDate(true);
+                      setLabelBirthDate(null);
+                    } else {
+                      setIsEmptyBirthDate(false);
+                      setLabelBirthDate('Data de nascimento');
+                    }
                   }}
+                  iconRight={
+                    !isEmptyBirthDate ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite sua data de nascimento"
+                  error="Preencha sua data de nascimento"
+                  touched={isEmptyBirthDate}
                 />
               </Box>
 
@@ -614,54 +821,88 @@ export const EditProfile = ({ route }: Props) => {
                   maskOptions={{
                     mask: '+55 (99) 9 9999-9999',
                   }}
-                  label="Telefone"
+                  label={labelPhone}
                   value={userData.homePhone}
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ homePhone: text } });
+
+                    if (!text) {
+                      setIsEmptyHomePhone(true);
+                      setLabelPhone(null);
+                    } else {
+                      setIsEmptyHomePhone(false);
+                      setLabelPhone('Telefone');
+                    }
                   }}
+                  iconRight={
+                    !isEmptyHomePhone ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite seu telefone"
+                  error="Preencha seu telefone"
+                  touched={isEmptyHomePhone}
                 />
               </Box>
-              {
-                isTester &&
+              {isTester && (
                 <Box mb="sm" mt="sm">
                   <TouchableOpacity onPress={() => handleCopyToken()}>
                     <Typography>{tokenOneSignal}</Typography>
                   </TouchableOpacity>
                 </Box>
-              }
+              )}
 
-              <Box mb="xs" mt="micro" flexDirection="row">
-                <Checkbox
-                  color="dropDownBorderColor"
-                  selectedColor="preto"
-                  width="100%"
-                  // checked={data?.receiveEmail === "yes"}
-                  checked={subscribed}
-                  onCheck={async () => {
-                    const { data } = await updateNewsLetter({
-                      variables: {
-                        email: userData.email,
-                        isNewsletterOptIn: !subscribed,
-                      },
-                    });
-                    if (data.subscribeNewsletter) setSubscribed(!subscribed);
-                  }}
-                  optionName="Desejo receber e-mails com promoções das marcas Reserva."
-                />
-              </Box>
+              {!isRegister && (
+                <Box mb="xs" mt="micro" flexDirection="row">
+                  <Checkbox
+                    color="dropDownBorderColor"
+                    selectedColor="preto"
+                    width="100%"
+                    // checked={data?.receiveEmail === "yes"}
+                    checked={subscribed}
+                    onCheck={async () => {
+                      const { data } = await updateNewsLetter({
+                        variables: {
+                          email: userData.email,
+                          isNewsletterOptIn: !subscribed,
+                        },
+                      });
+                      if (data.subscribeNewsletter) setSubscribed(!subscribed);
+                    }}
+                    optionName="Desejo receber e-mails com promoções das marcas Reserva."
+                  />
+                </Box>
+              )}
 
               <Box mb="nano" justifyContent="space-between" flexDirection="row">
-                {isRegister ?
+                {isRegister ? (
                   <Box paddingLeft="nano" width={'100%'}>
                     <Button
                       title="SALVAR"
                       variant="primarioEstreito"
                       inline
                       onPress={saveUserData}
-                      disabled={updateLoading || loadingProfilePhoto}
+                      disabled={
+                        updateLoading ||
+                        loadingProfilePhoto ||
+                        isEmptyFullName ||
+                        cpfInvalid ||
+                        isEmptyFullName ||
+                        isEmptyHomePhone ||
+                        isEmptyBirthDate
+                      }
                     />
                   </Box>
-                  :
+                ) : (
                   <>
                     <Box width={1 / 2} paddingRight="nano">
                       <Button
@@ -679,11 +920,16 @@ export const EditProfile = ({ route }: Props) => {
                         variant="primarioEstreito"
                         inline
                         onPress={saveUserData}
-                        disabled={updateLoading || loadingProfilePhoto}
+                        disabled={
+                          updateLoading ||
+                          loadingProfilePhoto ||
+                          cpfInvalid ||
+                          loadingScreen
+                        }
                       />
                     </Box>
                   </>
-                }
+                )}
               </Box>
             </Box>
           </Box>
