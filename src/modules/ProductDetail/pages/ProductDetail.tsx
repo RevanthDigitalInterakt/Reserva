@@ -648,7 +648,7 @@ export const ProductDetail: React.FC<Props> = ({
     const options = {
       message: 'Olha o que acabei de encontrar na Reserva: \n',
       title: 'Compartilhar',
-      url: `https://opencashback--applojausereserva.myvtex.com${path}?skuId=${selectedVariant.itemId}`,
+      url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
     };
 
     Share.open(options);
