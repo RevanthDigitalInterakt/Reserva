@@ -35,7 +35,7 @@ export const FormikTextInput = ({
   const [labelDisplay, setLabelDisplay] = useState(label);
 
   const changeLabel = async () => {
-    !values[field] ? setLabelDisplay(null) : setLabelDisplay(label);
+    !values[field] ? setLabelDisplay(undefined) : setLabelDisplay(label);
   };
 
   useEffect(() => {

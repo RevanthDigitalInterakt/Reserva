@@ -110,6 +110,7 @@ export const EditPassword = ({ route }: Props) => {
                       <Box mb="micro">
                         <FormikTextInput
                           label="Digite sua senha atual"
+                          placeholder='Digite sua senha atual'
                           secureTextEntry={showCurrentPassword}
                           field="current_password"
                           iconRight={
@@ -139,6 +140,7 @@ export const EditPassword = ({ route }: Props) => {
                       <Box mb="micro">
                         <FormikTextInput
                           label="Digite sua nova senha"
+                          placeholder='Digite sua nova senha'
                           secureTextEntry={showNewPassword}
                           field="password"
                           iconRight={
@@ -168,6 +170,7 @@ export const EditPassword = ({ route }: Props) => {
                       <Box mb="nano">
                         <FormikTextInput
                           label="Repita a senha"
+                          placeholder='Repita a senha'
                           field="password_confirm"
                           secureTextEntry={showRepeatPassword}
                           iconRight={
