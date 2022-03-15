@@ -885,7 +885,7 @@ export const EditProfile = ({ route }: Props) => {
 
               <Box mb="nano" justifyContent="space-between" flexDirection="row">
                 {isRegister ? (
-                  <Box paddingLeft="nano" width={'100%'}>
+                  <Box paddingLeft="nano" mt="sm" width={'100%'}>
                     <Button
                       title="SALVAR"
                       variant="primarioEstreito"
