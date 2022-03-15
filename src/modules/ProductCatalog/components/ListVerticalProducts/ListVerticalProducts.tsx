@@ -256,7 +256,7 @@ export const ListVerticalProducts = ({
         </Box>
       )}
 
-      {products && products.length > 0 &&
+      {products && products.length > 0 && (
         <>
           <FlatList
             horizontal={horizontal}
@@ -287,7 +287,6 @@ export const ListVerticalProducts = ({
             }}
             ListFooterComponent={() => {
               if (!(isLoadingMore || isLoading)) return null;
-
               return (
                 <Box
                   width="100%"
@@ -380,11 +379,8 @@ export const ListVerticalProducts = ({
               );
             }}
           />
-        </>
+        </>)
       }
-      {/* ) : ( */}
-
-      {/* )} */}
     </>
   );
 };
@@ -433,7 +429,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
       mr={horizontal && 'xxxs'}
     >
       {
-        item.items[0].images[0].imageUrl && (
+        !!item.items[0].images[0].imageUrl && (
           <ProductVerticalListCard
             {...props}
             imageSource={item.items[0].images[0].imageUrl}
