@@ -296,10 +296,10 @@ export const ProductDetail: React.FC<Props> = ({
       setProduct(product);
 
       // set default first selected variant
-      //console.log(product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0))
-      const variant = product.items.find(
+      let variant = product.items.find(
         (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
       );
+
       setAvaibleUnits(variant?.sellers[0].commertialOffer.AvailableQuantity);
       setSelectedVariant(variant);
 
@@ -326,17 +326,30 @@ export const ProductDetail: React.FC<Props> = ({
       // set initial selected color
       if (route.params?.itemId) {
         if (colorItemId) {
-          setSelectedColor(colorList ? colorItemId[0] : '');
-          setSelectedNewColor(colorList ? colorItemId[0] : '');
+          setSelectedColor(colorItemId[0]);
+          setSelectedNewColor(colorItemId[0]);
+          variant = product.items.find(
+            (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == colorItemId[0]
+          );
+
         } else {
-          setSelectedColor(colorList ? colorList[0] : '');
-          setSelectedNewColor(colorList ? colorList[0] : '');
+          if (colorList) {
+            setSelectedColor(colorList[0]);
+            setSelectedNewColor(colorList[0]);
+            variant = product.items.find(
+              (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == colorList[0]
+            );
+          }
         }
       } else {
         setSelectedColor(colorList ? route.params.colorSelected : '');
         setSelectedNewColor(colorList ? route.params.colorSelected : '');
+        variant = product.items.find(
+          (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == route.params.colorSelected
+        );
       }
 
+      setSelectedVariant(variant)
       // setSelectedColor(colorList
       //   ? route.params.colorSelected
       //     ? route.params.colorSelected
