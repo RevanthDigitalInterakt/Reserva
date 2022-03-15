@@ -28,6 +28,7 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useAuth } from '../../../context/AuthContext';
 
 interface IAddress {
   postalCode: string;
@@ -52,7 +53,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { addShippingData } = useCart();
+  const { addShippingData, identifyCustomer } = useCart();
   const { isCheckout } = route.params;
   const {
     loading: loadingProfile,
