@@ -14,6 +14,7 @@ import { oneSignalConfig } from './config/pushNotification';
 import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
+import ChronometerContextProvider from './context/ChronometerContext';
 import CartContextProvider from './context/CartContext';
 import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
 import InitialScreen from './InitialScreen';
@@ -136,11 +137,13 @@ const App = () => {
             <AuthContextProvider>
               <CacheImagesProvider>
                 <FirebaseContextProvider>
-                  <ApolloProvider client={apolloClient}>
-                    <InitialScreen>
-                      <AppRouting />
-                    </InitialScreen>
-                  </ApolloProvider>
+                  <ChronometerContextProvider>
+                    <ApolloProvider client={apolloClient}>
+                      <InitialScreen>
+                        <AppRouting />
+                      </InitialScreen>
+                    </ApolloProvider>
+                  </ChronometerContextProvider>
                 </FirebaseContextProvider>
               </CacheImagesProvider>
             </AuthContextProvider>
