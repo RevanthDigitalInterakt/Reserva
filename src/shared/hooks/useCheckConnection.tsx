@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect } from 'react'
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import { Typography, Box, Button, Image } from "reserva-ui";
 import { images } from "../../assets";
@@ -25,6 +25,16 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
         }
     }
 
+    const tryAgain = () => {
+        NetInfo.fetch().then(state => {
+            if (!state.isConnected && state.isConnected != null) {
+                setShowScreen(true);
+            } else {
+                setShowScreen(false);
+                if (refetch) refetch();
+            }
+        });
+    }
     const WithoutInternet = () => {
         if (!showScreen) {
             return (
@@ -59,7 +69,7 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
                 </Box>
                 <Box mt="md" width="100%">
                     <Button
-                        onPress={() => checkConnectivity()}
+                        onPress={() => tryAgain()}
                         marginX="micro"
                         inline
                         title='TENTAR NOVAMENTE'
