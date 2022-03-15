@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, FlatList } from 'react-native';
+import { Dimensions, FlatList, Animated } from 'react-native';
 import { Box, Button, Image } from 'reserva-ui';
 import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
 
@@ -17,7 +17,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
 }) => {
   console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
-
+  const scrollX = useRef(new Animated.Value(0)).current
   return (
     <Box
     // marginY={15}
@@ -28,20 +28,30 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
             {carrousel.title}
           </Typography>
         </Box> */}
-        <FlatList
+        <Animated.FlatList
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: true }
+          )}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
+          snapToOffsets={[...Array(myCards.length)].map(
+            (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48
+          )}
+          snapToAlignment='start'
+          scrollEventThrottle={16}
+          decelerationRate='fast'
           contentContainerStyle={{
-            paddingLeft: cardPadding,
-            paddingRight: cardPadding,
+            paddingLeft: 4,
+            paddingRight: 4,
           }}
-          snapToInterval={cardWidth}
-          snapToAlignment="center"
-          pagingEnabled
+          // snapToInterval={cardWidth}
+          // snapToAlignment="center"
+          // pagingEnabled
           // decelerationRate={0}
           bounces={false}
-          disableIntervalMomentum
+          // disableIntervalMomentum
           renderItem={({ item, index }) => (
             <Box>
               <Card
@@ -55,6 +65,50 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
             </Box>
           )}
         />
+
+        <Box
+          // marginY={5}
+          marginTop={3}
+          marginBottom={1}
+          flexDirection={'row'}
+          alignSelf={'center'}
+        >
+          {Array(3).fill(0).map((_, index) => (
+            index != 0
+              ? <Box
+                width={8}
+                height={8}
+                bg="white"
+                borderRadius={'xxxs'}
+                borderColor='#6F6F6F'
+                borderWidth={1}
+                ml={'nano'}
+              />
+              : <Box
+                width={8}
+                height={8}
+                bg="white"
+                borderRadius={'xxxs'}
+                borderColor='#6F6F6F'
+                borderWidth={1}
+              />
+          ))}
+          <Animated.View
+            style={{
+              width: 8,
+              height: 8,
+              backgroundColor: '#6F6F6F',
+              borderRadius: 20,
+              position: 'absolute',
+              transform: [{
+                translateX: Animated.divide(scrollX, DEVICE_WIDTH * 0.85 - 100).interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 8 + 5]
+                })
+              }]
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );
@@ -103,15 +157,14 @@ const Card: React.FC<CardProps> = ({
     }
   };
 
-  useEffect(() => {
-    console.log('width', cardWidth);
-  }, []);
-
   return (
     <Box>
       {/* <Box> */}
       <Button onPress={handleNavigation}>
-        <Image autoHeight width={cardWidth} source={{ uri: image.url }} />
+        <Image
+          autoHeight
+          width={DEVICE_WIDTH * 0.85 - 16}
+          source={{ uri: image.url }} />
       </Button>
       {/* <Box
           style={{ maxWidth: width }}
