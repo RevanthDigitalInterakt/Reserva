@@ -817,6 +817,7 @@ export const EditProfile = ({ route }: Props) => {
 
               <Box mb="nano">
                 <TextField
+                  keyboardType="number-pad"
                   maskType="custom"
                   maskOptions={{
                     mask: '+55 (99) 9 9999-9999',
