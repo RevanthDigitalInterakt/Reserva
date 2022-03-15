@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
-import { Dimensions, StyleSheet, Modal } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Dimensions, StyleSheet, Modal, StatusBar, Image, TouchableOpacity } from 'react-native';
 
-import { Box, Button, Icon } from 'reserva-ui';
+import { Box, Button, Icon, Typography } from 'reserva-ui';
 
 import ImageViewer from 'react-native-image-zoom-viewer';
 
-import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useFocusEffect } from '@react-navigation/native';
+
+import { images } from '../../../assets/index'
 
 const screen = Dimensions.get('window');
 
@@ -19,22 +23,33 @@ export interface ModalBagProps {
   setIndexOpenImage: number;
 }
 
+interface ModalTutorialProps {
+  setOpenTutorial(openTutorial: boolean): void;
+}
+
+interface ImageSelectionProps {
+  imagesArray: any[];
+  currentImage: number;
+}
+
 const styles = StyleSheet.create({
   modal: {
-    flex: 1,
-    padding: 0,
-    margin: 0,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: DEVICE_WIDTH,
+    height: DEVICE_HEIGHT,
   },
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
     justifyContent: 'center',
   },
   image: {
     flex: 1,
     width: DEVICE_WIDTH,
-    height: DEVICE_WIDTH,
+    height: DEVICE_HEIGHT,
   },
   focalPoint: {
     ...StyleSheet.absoluteFillObject,
@@ -45,13 +60,187 @@ const styles = StyleSheet.create({
   },
 });
 
+const ImageSelection = ({
+  imagesArray,
+  currentImage
+}: ImageSelectionProps) => {
+
+  return (
+    <Box
+      position='absolute'
+      bottom='6%'
+      flexDirection='row'
+      left='50%'
+      marginLeft={-42}
+      alignItems='center'
+      justifyContent='space-around'
+      width={84}
+      px={'quarck'}
+    >
+      <Image source={images.selectRectangle} height={24} width={84} style={{ position: 'absolute', left: 0 }} />
+
+      {imagesArray.map((_, index) =>
+        <Box
+          width={8}
+          height={8}
+          backgroundColor={index == currentImage ? 'fullBlack' : 'divider'}
+          borderRadius='xs'
+        ></Box>
+      )}
+    </Box>
+  )
+}
+
+const ModalTutorial = ({
+  setOpenTutorial
+}: ModalTutorialProps) => {
+
+  return (
+    <TouchableOpacity
+      onPress={() => setOpenTutorial(false)}
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: DEVICE_WIDTH,
+        height: DEVICE_HEIGHT,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)'
+      }}
+    >
+      <Box
+        style={{
+          position: 'absolute',
+          right: '7%',
+          top:'9%',
+          alignItems: 'center'
+        }}
+      >
+        <Image
+          source={images.arrowInstruction}
+          height={200}
+          width={200}
+          style={{
+            transform: [
+              { scaleY: -1 },
+              { rotate: '-20deg' },
+            ],
+            alignSelf: 'flex-end'
+          }}
+        />
+        <Box
+          alignItems='center'
+          mt='xxxs'
+        >
+          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+            Clique aqui para sair
+          </Typography>
+          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+            do modo zoom.
+          </Typography>
+        </Box>
+      </Box>
+      <Box
+        style={{
+          position: 'absolute',
+          right: '30%',
+          top:'42%',
+          alignItems: 'center'
+        }}
+      >
+        <Image
+          source={images.zoomHand}
+          height={200}
+          width={200}
+        />
+        <Box
+          alignItems='center'
+          mt='xxxs'
+        >
+          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+            Faça o movimento de pinça
+          </Typography>
+          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+            para dar zoom na foto.
+          </Typography>
+        </Box>
+      </Box>
+      <Box
+        style={{
+          position: 'absolute',
+          right: '25%',
+          bottom:'10%',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          flexDirection: 'row'
+        }}
+      >
+        <Image
+          source={images.arrowInstruction}
+          height={200}
+          width={200}
+          style={{
+            transform: [
+              { scaleY: 1 },
+            ],
+          }}
+        />
+        <Box
+          alignItems='center'
+          bottom='18%'
+          marginLeft='-8%'
+        >
+          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+            Arraste pro lado
+          </Typography>
+          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+            para ver as outras
+          </Typography>
+          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+            fotos do produto.
+          </Typography>
+        </Box>
+      </Box>
+    </TouchableOpacity>
+  )
+}
+
 export const ModalZoomImage = ({
   isVisible,
   image,
   setIsVisibleZoom,
   setIndexOpenImage,
 }: ModalBagProps) => {
-  const [newArrayImages, setNewArrayImages] = useState();
+  const [newArrayImages, setNewArrayImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [openTutorial, setOpenTutorial] = useState(false)
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     console.log('ENTROUUUU AQUIII')
+  //     console.log(isVisible)
+  //     if (isVisible) {
+  //       console.log('foi')
+  //       StatusBar.setHidden(true)
+
+  //       return () => {
+  //         StatusBar.setHidden(false)
+  //       }
+  //     }
+  //   }, [isVisible])
+  // )
+
+  useEffect(() => {
+    async function checkIsFirstTime() {
+      const isFirstTime = await AsyncStorage.getItem('@IsFisrtTime')
+
+      if (isFirstTime == null) {
+        await AsyncStorage.setItem('@IsFisrtTime', 'false')
+        setOpenTutorial(true)
+      }
+    }
+
+    checkIsFirstTime()
+  }, [])
 
   useEffect(() => {
     const newArr = image.map((item: any) => ({ url: item }));
@@ -65,47 +254,63 @@ export const ModalZoomImage = ({
   };
 
   return (
-    <Box>
-      <Modal
-        visible={isVisible}
-        transparent={true}
-        style={styles.modal}
-        onRequestClose={closeModal}
-      >
-        <ImageViewer
+    <>
+      <Box>
+        <Modal
+          visible={isVisible}
+          transparent={true}
           style={styles.modal}
-          imageUrls={newArrayImages}
-          onCancel={() => setIsVisibleZoom(false)}
-          backgroundColor="black"
-          index={setIndexOpenImage}
-          onSwipeDown={() => closeModal}
-          saveToLocalByLongPress={false}
-          renderHeader={() => (
-            <Box
-              position="absolute"
-              right={'3%'}
-              top={'4%'}
-              zIndex={2}
-              style={{
-                padding: 40,
-              }}
-              height={20}
-              width={20}
-            >
-              <Button
-                width={20}
-                height={20}
-                onPress={() => {
-                  setIsVisibleZoom(false);
-                }}
-                variant="icone"
-                icon={<Icon size={14} name="Close" color="white" />}
-                hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+          onRequestClose={closeModal}
+        >
+          <ImageViewer
+            renderIndicator={(currentIndex: number) => {
+              setCurrentImage(currentIndex - 1)
+
+              return null
+            }}
+            // renderArrowLeft={() => null}
+            // renderArrowRight={() => null}
+            renderImage={(props) => (
+              <Image
+                {...props}
+                style={styles.image}
               />
-            </Box>
-          )}
-        />
-      </Modal>
-    </Box>
+            )}
+            style={styles.modal}
+            imageUrls={newArrayImages}
+            onCancel={() => setIsVisibleZoom(false)}
+            backgroundColor="#f3f2f0"
+            index={setIndexOpenImage}
+            onSwipeDown={() => closeModal}
+            saveToLocalByLongPress={false}
+            renderHeader={() => (
+              <Box
+                position="absolute"
+                right={'4%'}
+                top={'3%'}
+                zIndex={2}
+                height={20}
+                width={20}
+              >
+                <Button
+                  width={20}
+                  height={20}
+                  onPress={() => {
+                    setIsVisibleZoom(false);
+                  }}
+                  variant="icone"
+                  icon={<Icon size={12} name="Close" color="fullBlack" />}
+                  hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+                />
+              </Box>
+            )}
+          />
+
+          <ImageSelection imagesArray={newArrayImages} currentImage={currentImage} />
+
+          {openTutorial && <ModalTutorial setOpenTutorial={setOpenTutorial} />}
+        </Modal>
+      </Box>
+    </>
   );
 };

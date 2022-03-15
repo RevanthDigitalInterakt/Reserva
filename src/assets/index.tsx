@@ -66,6 +66,9 @@ export const images = {
   GuideBermuda: require('./img/Bermuda.png'),
   GuidePolo: require('./img/Polo.png'),
   noWishList: require('./img/noWishList.png'),
+  zoomHand: require('./img/zoomHand.png'),
+  arrowInstruction: require('./img/arrowInstruction.png'),
+  selectRectangle: require('./img/selectRectangle.png'),
 };
 
 export const animations = {
