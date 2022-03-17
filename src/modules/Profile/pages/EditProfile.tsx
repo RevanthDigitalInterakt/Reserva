@@ -182,10 +182,6 @@ export const EditProfile = ({ route }: Props) => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   console.log('DATA SALVA :::>>>', data?.profile);
-  // }, [data]);
-
   useEffect(() => {
     async function getToken() {
       await AsyncStorage.getItem('@RNAuth:cookie').then((value) => {
