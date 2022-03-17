@@ -165,10 +165,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     }
   };
 
-  useState(() => {
-    console.log('ODERFOMR AOKSODOKSD', orderForm);
-  }, [orderForm]);
-
   const cepHandler = async (postalCode: string) => {
     setLoading(true);
     const isValidPostalCode = postalCode.length == 8;
