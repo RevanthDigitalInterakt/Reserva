@@ -288,14 +288,14 @@ export const BagScreen = () => {
         setLoadingGoDelivery(false);
         navigation.navigate('EnterYourEmail');
       } else if (isEmptyProfile) {
-        await updateClientProfileData(profile);
+        updateClientProfileData(profile);
         setLoadingGoDelivery(false);
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
-        await updateClientProfileData(profile);
-        await setCustomer(email);
-        setLoadingGoDelivery(false);
-        navigation.navigate('DeliveryScreen');
+        updateClientProfileData(profile);
+        await identifyCustomer(email)
+          .then(() => setLoadingGoDelivery(false))
+          .then(() => navigation.navigate('DeliveryScreen'));
       }
     }
   };
