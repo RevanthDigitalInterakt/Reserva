@@ -899,7 +899,7 @@ PODS:
     - React-Core
   - react-native-maps (0.28.1):
     - React-Core
-  - react-native-netinfo (6.2.1):
+  - react-native-netinfo (8.1.0):
     - React-Core
   - react-native-onesignal (4.3.6):
     - OneSignalXCFramework (= 3.10.0)
@@ -1481,7 +1481,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 915cea64470a6e7581b782d8659bf8a7e2dee302
   react-native-image-picker: 4e6008ad8c2321622affa2c85432a5ebd02d480c
   react-native-maps: 60a75aa547d576fdb91be1f95113665215b59461
-  react-native-netinfo: 3d3769f0d65de15c83a9bf1346f8be71de5a24bf
+  react-native-netinfo: 379ba2af7d2abcec0c062267abe1c9a977c72bf9
   react-native-onesignal: 3ca13c0004f12bff30f479f1a303286fd119dd56
   react-native-rsa-native: 12132eb627797529fdb1f0d22fd0f8f9678df64a
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
