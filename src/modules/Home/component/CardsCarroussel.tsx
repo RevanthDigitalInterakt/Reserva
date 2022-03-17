@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, FlatList, Animated, View, StyleSheet, useWindowDimensions } from 'react-native';
+import { Dimensions, FlatList, Animated, View, StyleSheet, } from 'react-native';
 import { Box, Button, Image } from 'reserva-ui';
 import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
 
@@ -19,21 +19,6 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
   const scrollX = useRef(new Animated.Value(0)).current
-
-  const { width } = useWindowDimensions();
-  const defaultProps = {
-    dotSize: 24,
-    borderPadding: -5,
-  };
-  const inputRange = [-width, -48, width];
-  const translateX = scrollX.interpolate({
-    inputRange,
-    outputRange: [
-      -30,
-      0,
-      30,
-    ],
-  });
 
   return (
     <Box>
@@ -85,7 +70,12 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
               styles.slidingIndicatorStyle,
               {
                 position: 'absolute',
-                transform: [{ translateX }],
+                transform: [{
+                  translateX: Animated.divide(scrollX, DEVICE_WIDTH * 0.88 - 48).interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [6, 25.8]
+                  })
+                }],
               },
             ]}
           />
@@ -99,9 +89,9 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
               >
                 <Box
                   borderWidth={1}
-                  width={12}
-                  height={12}
-                  borderRadius={12}
+                  width={7}
+                  height={7}
+                  borderRadius={7}
                   borderColor='#6F6F6F'
                 />
               </Box>
@@ -170,10 +160,10 @@ const Card: React.FC<CardProps> = ({
 const styles = StyleSheet.create({
   slidingIndicatorStyle: {
     backgroundColor: '#6F6F6F',
-    width: 12,
-    height: 12,
+    width: 7,
+    height: 7,
     alignSelf: 'center',
     zIndex: 2,
-    borderRadius: 12,
+    borderRadius: 7,
   },
 });
