@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, FlatList } from 'react-native';
+import { Dimensions, FlatList, Animated, View, StyleSheet, useWindowDimensions } from 'react-native';
 import { Box, Button, Image } from 'reserva-ui';
 import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
 
 const cardWidth = Dimensions.get('window').width * 0.85;
 const cardPadding = Dimensions.get('window').width * 0.15 * 0.5;
 const DEVICE_WIDTH = Dimensions.get('window').width;
+
 interface CardsCarrouselProps {
   carrousel: Carrousel;
 }
@@ -17,31 +18,49 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
 }) => {
   console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
+  const scrollX = useRef(new Animated.Value(0)).current
+
+  const { width } = useWindowDimensions();
+  const defaultProps = {
+    dotSize: 24,
+    borderPadding: -5,
+  };
+  const inputRange = [-width, -48, width];
+  const translateX = scrollX.interpolate({
+    inputRange,
+    outputRange: [
+      -30,
+      0,
+      30,
+    ],
+  });
 
   return (
-    <Box
-    // marginY={15}
-    >
+    <Box>
       <Box>
-        {/* <Box paddingLeft={15}>
-          <Typography fontFamily="nunitoBold" fontSize={16}>
-            {carrousel.title}
-          </Typography>
-        </Box> */}
-        <FlatList
+        <Animated.FlatList
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: true }
+          )}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
+          snapToOffsets={[...Array(myCards.length)].map(
+            (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48
+          )}
+          snapToAlignment='start'
+          scrollEventThrottle={16}
+          decelerationRate='fast'
           contentContainerStyle={{
-            paddingLeft: cardPadding,
-            paddingRight: cardPadding,
+            paddingLeft: 4,
+            paddingRight: 4,
           }}
-          snapToInterval={cardWidth}
-          snapToAlignment="center"
-          pagingEnabled
+          // snapToInterval={cardWidth}
+          // snapToAlignment="center"
+          // pagingEnabled
           // decelerationRate={0}
           bounces={false}
-          disableIntervalMomentum
           renderItem={({ item, index }) => (
             <Box>
               <Card
@@ -55,8 +74,42 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
             </Box>
           )}
         />
+
+        <Box
+          height={24}
+          flexDirection='row'
+          alignSelf='center'
+        >
+          <Animated.View
+            style={[
+              styles.slidingIndicatorStyle,
+              {
+                position: 'absolute',
+                transform: [{ translateX }],
+              },
+            ]}
+          />
+          {myCards.map((_item, index) => {
+            return (
+              <Box
+                key={index}
+                justifyContent='center'
+                alignItems='center'
+                width={19}
+              >
+                <Box
+                  borderWidth={1}
+                  width={12}
+                  height={12}
+                  borderRadius={12}
+                  borderColor='#6F6F6F'
+                />
+              </Box>
+            );
+          })}
+        </Box>
       </Box>
-    </Box>
+    </Box >
   );
 };
 
@@ -97,53 +150,30 @@ const Card: React.FC<CardProps> = ({
         });
       }
       navigation.navigate('ProductCatalog', {
-        // facetInput,
         referenceId: reference,
       });
     }
   };
 
-  useEffect(() => {
-    console.log('width', cardWidth);
-  }, []);
-
   return (
     <Box>
-      {/* <Box> */}
       <Button onPress={handleNavigation}>
-        <Image autoHeight width={cardWidth} source={{ uri: image.url }} />
+        <Image
+          autoHeight
+          width={DEVICE_WIDTH * 0.85 - 16}
+          source={{ uri: image.url }} />
       </Button>
-      {/* <Box
-          style={{ maxWidth: width }}
-          marginLeft={10}
-          marginTop="quarck"
-          marginBottom={5}
-        >
-          <Typography fontFamily="reservaSansBold" fontSize={16}>
-            {name.toUpperCase()}
-          </Typography>
-          <Typography
-            style={{
-              marginLeft: 10,
-              height: (12 + 4) * 3,
-            }}
-            numberOfLines={3}
-            fontFamily="reservaSansRegular"
-            fontSize={12}
-            color="neutroFrio2"
-          >
-            {description}
-          </Typography>
-        </Box>
-      </Box> */}
-      {/* <TouchableOpacity
-        onPress={handleNavigation}
-        style={{ bottom: 0, marginLeft: 10 }}
-      >
-        <Typography fontSize={14} fontFamily="nunitoBold">
-          {referenceLabel}
-        </Typography>
-      </TouchableOpacity> */}
     </Box>
   );
 };
+
+const styles = StyleSheet.create({
+  slidingIndicatorStyle: {
+    backgroundColor: '#6F6F6F',
+    width: 12,
+    height: 12,
+    alignSelf: 'center',
+    zIndex: 2,
+    borderRadius: 12,
+  },
+});
