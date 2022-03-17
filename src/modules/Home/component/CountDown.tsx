@@ -85,13 +85,13 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
             <Typography
               color={textColor}
               fontFamily="reservaSerifMedium"
-              fontSize={normalize(28)}
+              fontSize={normalize(26)}
             >
               {countDown?.title}
               <Typography
                 color={textColor}
                 fontFamily="reservaSerifLight"
-                fontSize={normalize(28)}
+                fontSize={normalize(26)}
               > {countDown?.subtitle}
               </Typography>
             </Typography>
@@ -170,6 +170,14 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
             isVisible={ShowModal}
             setIsVisible={() => setShowModal(false)}
             rulesData={countDown}
+            goToPromotion={() => {
+              if (showButton) {
+                goToPromotion()
+                setShowModal(false)
+              } else {
+                setShowModal(false)
+              }
+            }}
           />
         </Box >
 
@@ -182,8 +190,9 @@ interface IcheckTheRules {
   isVisible: boolean;
   setIsVisible: Dispatch<SetStateAction<boolean>>;
   rulesData?: ICountDownClock;
+  goToPromotion?: () => void;
 }
-const CheckTheRules = ({ isVisible, setIsVisible, rulesData }: IcheckTheRules) => {
+const CheckTheRules = ({ isVisible, setIsVisible, rulesData, goToPromotion }: IcheckTheRules) => {
 
   return (
     <Modal
@@ -221,7 +230,7 @@ const CheckTheRules = ({ isVisible, setIsVisible, rulesData }: IcheckTheRules) =
             variant="primarioEstreito"
             width="100%"
             height={50}
-          // onPress={() => setIsVisible(false)}
+            onPress={goToPromotion}
           >
             <Typography color="white" fontFamily="nunitoExtraBold" fontSize={13}>
               IR PARA A PROMO
