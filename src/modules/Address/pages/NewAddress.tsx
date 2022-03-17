@@ -28,6 +28,7 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useAuth } from '../../../context/AuthContext';
 
 interface IAddress {
   postalCode: string;
@@ -52,7 +53,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { addShippingData } = useCart();
+  const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
   const { isCheckout } = route.params;
   const {
     loading: loadingProfile,
@@ -90,6 +91,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [validateForm, setValidateForm] = useState(false);
   const [validateNumber, setValidateNumber] = useState(true);
 
+  const { email } = useAuth();
+
   const handleSaveAddress = async () => {
     setLoading(true);
 
@@ -112,6 +115,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
           },
         });
 
+    await identifyCustomer(email);
+    orderform();
     setLoading(false);
     navigation.goBack();
   };
@@ -152,7 +157,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         },
       },
     });
-    setLoading(false);
+
+    await identifyCustomer(email).then(() => setLoading(false));
+
     if (isAddressSaved) {
       navigation.goBack();
     }
@@ -485,7 +492,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             title="INCLUIR ENDEREÇO"
             variant="primarioEstreito"
             inline
-            disabled={!validateForm || !validateNumber}
+            disabled={!validateForm || !validateNumber || loading}
           />
         )}
       </SafeAreaView>

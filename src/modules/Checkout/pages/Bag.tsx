@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 
 import analytics from '@react-native-firebase/analytics';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import {
   Platform,
@@ -42,12 +42,15 @@ import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 import { Attachment } from '../../../services/vtexService';
+import { useQuery } from '@apollo/client';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { CepVerify } from '../../../services/vtexService';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
 export const BagScreen = () => {
   const { email } = useAuth();
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
   const {
     orderForm,
     addItem,
@@ -58,9 +61,12 @@ export const BagScreen = () => {
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
+    addCustomer,
+    addShippingData,
   } = useCart();
 
   const [loading, setLoading] = useState(false);
+  const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
   const viewRef = useRef(null);
@@ -101,28 +107,83 @@ export const BagScreen = () => {
     [discountCoupon]
   );
 
+  const [isEmptyProfile, setIsEmptyProfile] = useState(false);
+  const [profile, setProfile] = useState();
+
+  const {
+    loading: loadingProfile,
+    data,
+    refetch,
+  } = useQuery(profileQuery, { fetchPolicy: 'no-cache' });
+
   const firstLoadOrderForm = async () => {
     setLoading(true);
-    await orderform();
+    orderform();
     setLoading(false);
   };
 
   const setCustomer = async (email: string) => await identifyCustomer(email);
 
-  useEffect(() => {
-    firstLoadOrderForm();
-    if (orderForm) {
-      const { clientProfileData, shippingData } = orderForm;
-      const hasCustomer =
-        clientProfileData &&
-        clientProfileData.email &&
-        clientProfileData.firstName;
+  // Updating ClientProfileData in orderForm
+  const updateClientProfileData = async (profile: any) => {
+    if (profile) {
+      const addCustomerData = await addCustomer({
+        firstName: profile?.firstName,
+        lastName: profile?.lastName,
+        document: profile?.document,
+        documentType: 'cpf',
+        phone: profile?.homePhone,
+      });
+    }
+  };
 
-      if (email) {
-        setCustomer(email);
+  const validateFieldsProfile = async (profile: any) => {
+    if (profile) {
+      if (
+        profile?.firstName?.length === 0 ||
+        profile?.firstName === null ||
+        profile?.lastName?.length === 0 ||
+        profile?.lastName === null ||
+        profile?.birthDate?.length === 0 ||
+        profile?.birthDate === null ||
+        profile?.homePhone?.length === 0 ||
+        profile?.homePhone === null ||
+        profile?.document?.length === 0 ||
+        profile?.document === null
+      ) {
+        setIsEmptyProfile(true);
+      } else {
+        setIsEmptyProfile(false);
       }
     }
+  };
+
+  useEffect(() => {
+    if (data) {
+      const { profile } = data;
+      if (profile) {
+        updateClientProfileData(profile);
+        validateFieldsProfile(profile);
+        setProfile(profile);
+      }
+    }
+  }, [data]);
+
+  useEffect(() => {
+    firstLoadOrderForm();
+
+    if (email) {
+      setCustomer(email);
+    }
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (data) {
+        refetch();
+      }
+    }, [])
+  );
 
   useEffect(() => {
     const totalItensPrice =
@@ -150,13 +211,13 @@ export const BagScreen = () => {
     setInstallmentInfo(
       installment
         ? {
-          installmentPrice: installment.value,
-          installmentsNumber: installment.count,
-          totalPrice: installment.total,
-        }
+            installmentPrice: installment.value,
+            installmentsNumber: installment.count,
+            totalPrice: installment.total,
+          }
         : {
-          ...installmentInfo,
-        }
+            ...installmentInfo,
+          }
     );
 
     setOptimistQuantities(quantities);
@@ -165,7 +226,6 @@ export const BagScreen = () => {
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
-
   }, [orderForm]);
 
   useEffect(() => {
@@ -191,6 +251,7 @@ export const BagScreen = () => {
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
+    setLoadingGoDelivery(true);
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
       const hasCustomer =
@@ -224,9 +285,17 @@ export const BagScreen = () => {
       });
 
       if (!email) {
-        navigate('EnterYourEmail');
+        setLoadingGoDelivery(false);
+        navigation.navigate('EnterYourEmail');
+      } else if (isEmptyProfile) {
+        updateClientProfileData(profile);
+        setLoadingGoDelivery(false);
+        navigation.navigate('EditProfile', { isRegister: true });
       } else {
-        navigate('DeliveryScreen');
+        updateClientProfileData(profile);
+        await identifyCustomer(email)
+          .then(() => setLoadingGoDelivery(false))
+          .then(() => navigation.navigate('DeliveryScreen'));
       }
     }
   };
@@ -237,11 +306,10 @@ export const BagScreen = () => {
 
   const addAttachmentsInProducts = async () => {
     try {
-
       const orderFormId = orderForm?.orderFormId;
       const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
       const attachmentName = 'Li e Aceito os Termos';
-      Attachment(orderFormId, productOrderFormIndex, attachmentName)
+      Attachment(orderFormId, productOrderFormIndex, attachmentName);
     } catch (error) {
       throw error;
     }
@@ -255,7 +323,7 @@ export const BagScreen = () => {
         backgroundColor: '#FFFFFF',
       }}
     >
-      <TopBarBackButton showShadow loading={loading} />
+      <TopBarBackButton showShadow loading={loadingGoDelivery} />
       {loading ? (
         <Box>
           <Skeleton>
@@ -451,7 +519,12 @@ export const BagScreen = () => {
             <Box paddingX="xxxs" paddingY="xxs">
               <Box bg="white" marginTop="xxs">
                 <Typography variant="tituloSessoes">
-                  Sacola ({optimistQuantities.reduce((accumulator, currentValue) => accumulator + currentValue, 0)})
+                  Sacola (
+                  {optimistQuantities.reduce(
+                    (accumulator, currentValue) => accumulator + currentValue,
+                    0
+                  )}
+                  )
                 </Typography>
               </Box>
 
@@ -467,30 +540,30 @@ export const BagScreen = () => {
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                      <Box paddingBottom="nano">
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={11}
-                          color="verdeSucesso"
-                        >
-                          Desconto de 1° compra aplicado neste produto!
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box paddingBottom="nano">
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={11}
+                        color="verdeSucesso"
+                      >
+                        Desconto de 1° compra aplicado neste produto!
+                      </Typography>
+                    </Box>
+                  )}
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                      <Box position="absolute" zIndex={5} top={84} right={21}>
-                        <Typography
-                          color="verdeSucesso"
-                          fontFamily="nunitoRegular"
-                          fontSize={11}
-                        >
-                          -R$ 50
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box position="absolute" zIndex={5} top={84} right={21}>
+                      <Typography
+                        color="verdeSucesso"
+                        fontFamily="nunitoRegular"
+                        fontSize={11}
+                      >
+                        -R$ 50
+                      </Typography>
+                    </Box>
+                  )}
                   <ProductHorizontalListCard
                     isBag
                     discountApi={
@@ -508,14 +581,11 @@ export const BagScreen = () => {
                           x.identifier ===
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
-                      array.filter((x) => x.uniqueId == item.uniqueId)
-                        .length > 1
+                      array.filter((x) => x.uniqueId == item.uniqueId).length >
+                        1
                     }
                     currency="R$"
-                    discountTag={getPercent(
-                      item.sellingPrice,
-                      item.listPrice
-                    )}
+                    discountTag={getPercent(item.sellingPrice, item.listPrice)}
                     itemColor={item.skuName.split('-')[0] || ''}
                     ItemSize={item.skuName.split('-')[1] || ''}
                     productTitle={item.name.split(' - ')[0]}
@@ -531,9 +601,11 @@ export const BagScreen = () => {
                         (x) => x.refId == item.refId
                       );
 
-                      let isAssinaturaSimples = item?.attachmentOfferings?.find((x) => x.schema.aceito)?.required || false
+                      let isAssinaturaSimples =
+                        item?.attachmentOfferings?.find((x) => x.schema.aceito)
+                          ?.required || false;
 
-                      const quantities = isAssinaturaSimples ? 1 : countUpdated
+                      const quantities = isAssinaturaSimples ? 1 : countUpdated;
 
                       const { ok } = await addItem(
                         quantities,
@@ -553,7 +625,7 @@ export const BagScreen = () => {
                             ...optimistQuantities.slice(itemIndex + 1),
                           ]);
                         } else {
-                          await addAttachmentsInProducts()
+                          await addAttachmentsInProducts();
                         }
                       }
                     }}
@@ -584,7 +656,6 @@ export const BagScreen = () => {
                             prevCont,
                             ...optimistQuantities.slice(index + 1),
                           ]);
-
                       }
                     }}
                     onClickClose={() => {
@@ -600,11 +671,11 @@ export const BagScreen = () => {
                       .split('-55-55')
                       .join('')}
                     handleNavigateToProductDetail={() => {
-                      navigate('ProductDetail', {
+                      navigation.navigate('ProductDetail', {
                         productId: item.productId,
                         itemId: item.id,
-                        sizeSelected: item.skuName.split("-")[1] || ""
-                      })
+                        sizeSelected: item.skuName.split('-')[1] || '',
+                      });
                     }}
                   />
                 </Box>
@@ -872,7 +943,7 @@ export const BagScreen = () => {
           </ScrollView>
         </>
       ) : (
-        <EmptyBag onPress={() => navigate('Offers')} />
+        <EmptyBag onPress={() => navigation.navigate('Offers')} />
       )}
 
       <Box width="100%" height={145} bg="white">
@@ -949,7 +1020,11 @@ export const BagScreen = () => {
               </Box>
 
               <Button
-                disabled={!!(orderForm && orderForm?.items?.length === 0)}
+                disabled={
+                  !!(orderForm && orderForm?.items?.length === 0) ||
+                  loadingProfile ||
+                  loadingGoDelivery
+                }
                 onPress={onGoToDelivery}
                 title="IR PARA ENTREGA"
                 variant="primarioEstreito"
