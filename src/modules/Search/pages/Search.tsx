@@ -282,171 +282,132 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       </Box>
       {!showResults ? (
         <ScrollView>
-          {
-            // !showResults &&
-            searchTerm.length === 0 && (
-              <>
-                <Box marginX="nano" mt="micro">
-                  <Box>
-                    <Typography
-                      fontFamily="nunitoBold"
-                      fontSize={13}
-                      color="neutroFrio2"
-                    >
-                      OS MAIS PROCURADOS
-                    </Typography>
-                  </Box>
-
-                  <Box flexDirection="row" flexWrap="wrap">
-                    {searchSuggestions.map((item) => (
-                      <Button
-                        onPress={() => {
-                          setSearchTerm(item.name);
-                          setReturnSearch(true);
-                        }}
-                      >
-                        <Box
-                          bg="divider"
-                          justifyContent="center"
-                          px="micro"
-                          height={26}
-                          borderRadius="pico"
-                          marginTop="micro"
-                          mr="micro"
-                        >
-                          <Typography fontFamily="nunitoRegular" fontSize={13}>
-                            {item.name}
-                          </Typography>
-                        </Box>
-                      </Button>
-                    ))}
-                  </Box>
-                </Box>
-
-                <News
-                  data={productNews}
-                  onPress={(item) => {
-                    const facetInput: any[] = [];
-                    const [collecion, valueCollecion] = item.split(':');
-                    facetInput.push({
-                      key: 'productClusterIds',
-                      value: valueCollecion,
-                    });
-                    navigation.navigate('ProductCatalog', {
-                      facetInput,
-                      referenceId: item,
-                    });
-                  }}
-                />
-
-                {featuredProducts && featuredProducts?.length > 0 && (
-                  <>
-                    <Box mt="xs" marginX="nano" mb="micro">
+          <>
+            {
+              searchTerm.length === 0 && (
+                <>
+                  <Box marginX="nano" mt="micro">
+                    <Box>
                       <Typography
                         fontFamily="nunitoBold"
                         fontSize={13}
                         color="neutroFrio2"
                       >
-                        DESTAQUES
+                        OS MAIS PROCURADOS
                       </Typography>
                     </Box>
 
-                    <Animatable.View
-                      animation="fadeIn"
-                      style={{ marginBottom: 120 }}
-                    >
-                      <ListVerticalProducts
-                        totalProducts={data?.productSearch?.recordsFiltered}
-                        products={featuredProducts || []}
-                        loadMoreProducts={(offset) => {
-                          loadMoreProducts(offset, '');
-                        }}
-                      />
-                    </Animatable.View>
-                  </>
-                )}
-              </>
-            )
-          }
-
-          {suggestions?.length > 0 && searchTerm.length > 0 && (
-            // !showResults &&
-            <>
-              <Box bg="white" marginX="nano" justifyContent="center">
-                {suggestions.map((suggestion) => (
-                  <>
-                    <Button
-                      width="100%"
-                      onPress={() => {
-                        setSearchTerm(suggestion.term);
-                        setSelectedTerm(true);
-                        handleSearch(suggestion.term);
-                      }}
-                    >
-                      <Box
-                        width="100%"
-                        paddingX="micro"
-                        minHeight={40}
-                        justifyContent="center"
-                      >
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={12}
-                          color="searchBarTextColor"
+                    <Box flexDirection="row" flexWrap="wrap">
+                      {searchSuggestions.map((item) => (
+                        <Button
+                          onPress={() => {
+                            setSearchTerm(item.name);
+                            setReturnSearch(true);
+                          }}
                         >
-                          {suggestion.term}
+                          <Box
+                            bg="divider"
+                            justifyContent="center"
+                            px="micro"
+                            height={26}
+                            borderRadius="pico"
+                            marginTop="micro"
+                            mr="micro"
+                          >
+                            <Typography fontFamily="nunitoRegular" fontSize={13}>
+                              {item.name}
+                            </Typography>
+                          </Box>
+                        </Button>
+                      ))}
+                    </Box>
+                  </Box>
+
+                  <News
+                    data={productNews}
+                    onPress={(item) => {
+                      const facetInput: any[] = [];
+                      const [collecion, valueCollecion] = item.split(':');
+                      facetInput.push({
+                        key: 'productClusterIds',
+                        value: valueCollecion,
+                      });
+                      navigation.navigate('ProductCatalog', {
+                        facetInput,
+                        referenceId: item,
+                      });
+                    }}
+                  />
+
+                  {featuredProducts && featuredProducts?.length > 0 && (
+                    <>
+                      <Box mt="xs" marginX="nano" mb="micro">
+                        <Typography
+                          fontFamily="nunitoBold"
+                          fontSize={13}
+                          color="neutroFrio2"
+                        >
+                          DESTAQUES
                         </Typography>
                       </Box>
-                    </Button>
-                    <Divider variant="fullWidth" />
-                  </>
-                ))}
-              </Box>
-              {/* {relatedProducts && relatedProducts.length > 0 ?
-                <Box mt="xs" marginX="nano" mb="micro">
-                  <Box flexDirection="row" justifyContent="space-between" alignItems="center" mb="xxxs">
-                    <Typography
-                      fontFamily="nunitoBold"
-                      fontSize={13}
-                      color="neutroFrio2"
-                    >
-                      PRODUTOS RELACIONADOS
-                    </Typography>
-                    <Button
-                      onPress={() => {
-                        setShowAllProducts(true)
-                        handleSearch(searchTerm)
-                      }}
-                      bg="white"
-                      borderRadius="pico"
-                      borderWidth={1}
-                      borderColor="divider"
-                      px="nano"
-                      py="quarck"
-                    >
-                      <Typography
-                        fontFamily="reservaSansMedium"
-                        fontSize={14}
+
+                      <Animatable.View
+                        animation="fadeIn"
+                        style={{ marginBottom: 120 }}
                       >
-                        Ver todos
-                      </Typography>
-                    </Button>
-                  </Box>
-                  <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-                    <ListVerticalProducts
-                      horizontal
-                      products={relatedProducts ? relatedProducts : []}
-                      loadMoreProducts={(offset) => {
-                        loadMoreProducts(offset, '');
-                      }}
-                    />
-                  </Animatable.View>
+                        <ListVerticalProducts
+                          totalProducts={data?.productSearch?.recordsFiltered}
+                          products={featuredProducts || []}
+                          loadMoreProducts={(offset) => {
+                            loadMoreProducts(offset, '');
+                          }}
+                        />
+                      </Animatable.View>
+                    </>
+                  )}
+                </>
+              )
+            }
+          </>
+          <>
+            {suggestions?.length > 0 && searchTerm.length > 0 && (
+              <>
+                <Box bg="white" marginX="nano" justifyContent="center">
+                  {suggestions.map((suggestion) => (
+                    <>
+                      <Button
+                        width="100%"
+                        onPress={() => {
+                          setSearchTerm(suggestion.term);
+                          setSelectedTerm(true);
+                          handleSearch(suggestion.term);
+                        }}
+                      >
+                        <Box
+                          width="100%"
+                          paddingX="micro"
+                          minHeight={40}
+                          justifyContent="center"
+                        >
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={12}
+                            color="searchBarTextColor"
+                          >
+                            {suggestion.term}
+                          </Typography>
+                        </Box>
+                      </Button>
+                      <Divider variant="fullWidth" />
+                    </>
+                  ))}
                 </Box>
-                : null
-              } */}
-            </>
-          )}
-          {!suggestionsFound && <ProductNotFound />}
+              </>
+            )}
+          </>
+          <>
+            {!suggestionsFound && <ProductNotFound />}
+          </>
         </ScrollView>
       ) : (
         showResults &&
