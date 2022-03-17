@@ -30,6 +30,7 @@ const Delivery: React.FC<{}> = () => {
     addShippingOrPickupInfo,
     addShippingData,
     identifyCustomer,
+    orderform,
   } = useCart();
   const { cookie, setCookie, email } = useAuth();
   const [Permission, setPermission] = useState(false);
@@ -56,6 +57,7 @@ const Delivery: React.FC<{}> = () => {
       if (profile) {
         setProfile(profile);
       }
+      orderform();
     }
   }, [data]);
 
@@ -105,6 +107,7 @@ const Delivery: React.FC<{}> = () => {
 
   useEffect(() => {
     requestMap();
+    setSelectMethodDelivery(false);
   }, []);
 
   useEffect(() => {

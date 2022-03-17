@@ -11,13 +11,12 @@ import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 
-
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { orderForm, orderform } = useCart();
   const [navState, setNavState] = useState('');
-  const [checkoutCompleted, setCheckoutCompleted] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [checkoutCompleted, setCheckoutCompleted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const goToHome = () => {
     const check = navState.includes('/checkout/orderPlaced');
@@ -35,38 +34,52 @@ const Checkout: React.FC<{}> = () => {
     if (check) {
       if (orderForm) {
         appsFlyer.logEvent('af_purchase', {
-          af_revenue: `${orderForm.totalizers.find(item => item.id === 'Items')?.value.toFixed(2)}`,
+          af_revenue: `${orderForm.totalizers
+            .find((item) => item.id === 'Items')
+            ?.value.toFixed(2)}`,
           af_price: `${(orderForm.value / 100).toFixed(2)}`,
-          af_content_id: orderForm.items.map(item => item.id),
-          af_content_type: orderForm.items.map(item => item.productCategoryIds),
+          af_content_id: orderForm.items.map((item) => item.id),
+          af_content_type: orderForm.items.map(
+            (item) => item.productCategoryIds
+          ),
           af_currency: 'BRL',
-          af_quantity: orderForm.items.map(item => item.quantity),
+          af_quantity: orderForm.items.map((item) => item.quantity),
           af_order_id: orderForm.orderFormId,
           // af_receipt_id: orderForm.paymentData,
-        })
+        });
       }
       orderform();
-      setCheckoutCompleted(true)
+      setCheckoutCompleted(true);
     }
-  }, [navState])
+  }, [navState]);
 
   return (
     <View flex={1} backgroundColor={'white'}>
-      {loading && <Box zIndex={5} height='100%' width='100%' backgroundColor='white' position='absolute' justifyContent='center' alignItems='center'>
-        <LottieView
-          source={loadingSpinner}
-          style={{
-            width: 60,
-          }}
-          autoPlay
-          loop
-        />
-      </Box>}
-      {checkoutCompleted ?
+      {loading && (
+        <Box
+          zIndex={5}
+          height="100%"
+          width="100%"
+          backgroundColor="white"
+          position="absolute"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <LottieView
+            source={loadingSpinner}
+            style={{
+              width: 60,
+            }}
+            autoPlay
+            loop
+          />
+        </Box>
+      )}
+      {checkoutCompleted ? (
         <TopBarCheckoutCompleted showShadow />
-        :
+      ) : (
         <TopBarBackButton showShadow />
-      }
+      )}
       <Box>
         {orderForm?.orderFormId !== '' && (
           <View
@@ -80,19 +93,16 @@ const Checkout: React.FC<{}> = () => {
           >
             <WebView
               onLoadStart={() => {
-                setLoading(true)
+                setLoading(true);
               }}
-
               onLoadEnd={() => {
-                setTimeout(() => setLoading(false),
-                  1500)
+                setTimeout(() => setLoading(false), 1500);
                 if (navState.includes('/checkout/orderPlaced')) {
                   if (StoreReview.isAvailable) {
-                    setTimeout(() => StoreReview.requestReview(), 1600)
+                    setTimeout(() => StoreReview.requestReview(), 1600);
                   }
                 }
               }}
-
               onNavigationStateChange={(navState) => {
                 setNavState(navState.url);
               }}

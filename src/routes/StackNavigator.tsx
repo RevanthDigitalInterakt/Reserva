@@ -43,17 +43,19 @@ import {
   LoginFlow,
   OrderFlow,
   ProductFlow,
-  TimeRaceFlow
+  TimeRaceFlow,
+  RegisterFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
 
-
-
-
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
-  ProductDetail: { productId: string; colorSelected: string; sizeSelected: string };
+  ProductDetail: {
+    productId: string;
+    colorSelected: string;
+    sizeSelected: string;
+  };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -73,6 +75,7 @@ export type RootStackParamList = {
     orderId?: string;
   };
   ForgotAccessCode: { email: string };
+  ConfirmAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: any[] };
   AccessCode: {
     email: string;
@@ -101,6 +104,8 @@ export type RootStackParamList = {
     };
   };
   ForgotEmail: {};
+  RegisterEmail: {};
+  EditProfile: { isRegister: boolean };
   Home: undefined;
   CancelOrder: {};
   Cashback: { isAcceptedConditions: boolean };
@@ -122,22 +127,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -162,7 +167,7 @@ const flows: Flow[] = [
   ...ProductFlow,
   ...TimeRaceFlow,
   ...MyCreditsRoutes,
-  ...MyCashbackRoutes
+  ...RegisterFlow,
 ];
 
 export const MainStack = createStackNavigator();

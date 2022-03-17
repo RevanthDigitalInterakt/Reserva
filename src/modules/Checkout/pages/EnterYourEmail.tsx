@@ -25,7 +25,6 @@ export const EnterYourEmail = () => {
         orderForm?.clientProfileData?.firstName &&
         orderForm?.clientProfileData?.lastName
       ) {
-        console.log('EMIAL>>>>>>>>>>>>>', email);
         await identifyCustomer(email);
         navigation.navigate('DeliveryScreen');
       } else {
