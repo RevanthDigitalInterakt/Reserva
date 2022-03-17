@@ -86,7 +86,7 @@ export const EditProfile = ({ route }: Props) => {
   }, []);
   const [loadingScreen, setLoadingScreen] = useState(false);
 
-  const { orderform, addCustomer, identifyCustomer } = useCart();
+  const { addCustomer, orderForm, identifyCustomer } = useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
 
@@ -107,73 +107,78 @@ export const EditProfile = ({ route }: Props) => {
   };
 
   useEffect(() => {
+    setUserData(userData);
     refetch();
   }, []);
 
   useEffect(() => {
     if (data) {
+      setLoadingScreen(true);
       getTesters();
-      setUserData({
-        userId: data?.profile?.userId,
-        firstName: data?.profile?.firstName || '',
-        lastName: data?.profile?.lastName || '',
-        fullName: data?.profile?.firstName
-          ? `${data?.profile?.firstName} ${data?.profile?.lastName}`
-          : '',
-        email: data?.profile?.email || '',
-        document: data?.profile?.document || '',
-        birthDate:
-          data?.profile?.birthDate &&
-          format(
-            addHours(new Date(Date.parse(data.profile.birthDate)), 3),
-            'dd/MM/yyyy'
-          ),
-        homePhone: data?.profile?.homePhone || '',
-      });
-      setSubscribed(
-        data?.profile?.customFields.find(
-          (x: any) => x.key == 'isNewsletterOptIn'
-        ).value === 'true' || subscribed
-      );
-      setProfileImagePath(
-        data?.profile?.customFields.find(
-          (x: any) => x.key == 'profileImagePath'
-        ).value || null
-      );
+      if (!loading) {
+        setUserData({
+          userId: data?.profile?.userId,
+          firstName: data?.profile?.firstName || '',
+          lastName: data?.profile?.lastName || '',
+          fullName: data?.profile?.firstName
+            ? `${data?.profile?.firstName} ${data?.profile?.lastName}`
+            : '',
+          email: data?.profile?.email || '',
+          document: data?.profile?.document || '',
+          birthDate:
+            data?.profile?.birthDate &&
+            format(
+              addHours(new Date(Date.parse(data.profile.birthDate)), 3),
+              'dd/MM/yyyy'
+            ),
+          homePhone: data?.profile?.homePhone || '',
+        });
+        setSubscribed(
+          data?.profile?.customFields.find(
+            (x: any) => x.key == 'isNewsletterOptIn'
+          ).value === 'true' || subscribed
+        );
+        setProfileImagePath(
+          data?.profile?.customFields.find(
+            (x: any) => x.key == 'profileImagePath'
+          ).value || null
+        );
 
-      if (isRegister) refetch();
+        if (isRegister) refetch();
 
-      if (!data?.profile?.lastName) {
-        setIsEmptyFullName(true);
-        setLabelFullName(null);
-      } else {
-        setIsEmptyFullName(false);
-        setLabelFullName('Nome completo');
+        if (!data?.profile?.lastName) {
+          setIsEmptyFullName(true);
+          setLabelFullName(null);
+        } else {
+          setIsEmptyFullName(false);
+          setLabelFullName('Nome completo');
+        }
+
+        if (!data?.profile?.document) {
+          setLabelDocument(null);
+          setCpfInvalid(true);
+        } else {
+          setLabelDocument('CPF');
+          setCpfInvalid(false);
+        }
+
+        if (!data?.profile?.birthDate) {
+          setIsEmptyBirthDate(true);
+          setLabelBirthDate(null);
+        } else {
+          setIsEmptyBirthDate(false);
+          setLabelBirthDate('Data de nascimento');
+        }
+
+        if (!data?.profile?.homePhone) {
+          setIsEmptyHomePhone(true);
+          setLabelPhone(null);
+        } else {
+          setIsEmptyHomePhone(false);
+          setLabelPhone('Telefone');
+        }
       }
-
-      if (!data?.profile?.document) {
-        setLabelDocument(null);
-        setCpfInvalid(true);
-      } else {
-        setLabelDocument('CPF');
-        setCpfInvalid(false);
-      }
-
-      if (!data?.profile?.birthDate) {
-        setIsEmptyBirthDate(true);
-        setLabelBirthDate(null);
-      } else {
-        setIsEmptyBirthDate(false);
-        setLabelBirthDate('Data de nascimento');
-      }
-
-      if (!data?.profile?.homePhone) {
-        setIsEmptyHomePhone(true);
-        setLabelPhone(null);
-      } else {
-        setIsEmptyHomePhone(false);
-        setLabelPhone('Telefone');
-      }
+      setLoadingScreen(false);
     }
   }, [data]);
 
@@ -323,15 +328,28 @@ export const EditProfile = ({ route }: Props) => {
     });
 
     if (isRegister) {
-      const addCustomerData = await addCustomer({
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        document: user?.document,
-        documentType: 'cpf',
-        phone: user?.homePhone,
-      }).then(() => navigation.navigate('DeliveryScreen'));
+      if (orderForm) {
+        const { clientProfileData, shippingData } = orderForm;
+        const hasCustomer =
+          clientProfileData &&
+          clientProfileData.email &&
+          clientProfileData.firstName;
+
+        const hasAddress =
+          shippingData && shippingData.availableAddresses.length > 0;
+
+        const addCustomerData = await addCustomer({
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          document: user?.document,
+          documentType: 'cpf',
+          phone: user?.homePhone,
+        })
+          .then(async () => await identifyCustomer(email))
+          .then(() => setLoadingScreen(false))
+          .then(() => navigation.navigate('DeliveryScreen'));
+      }
     }
-    setLoadingScreen(false);
   };
 
   const requestCameraPermission = async () => {
@@ -504,16 +522,6 @@ export const EditProfile = ({ route }: Props) => {
         keyboardVerticalOffset={80}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {/* {isRegister ? (
-          <TopBarCheckoutCompleted
-            loading={
-              loading ||
-              loadingProfilePhoto ||
-              updateLoading ||
-              newsLetterLoading
-            }
-          />
-        ) : ( */}
         <TopBarBackButton
           loading={
             loading ||
@@ -526,7 +534,6 @@ export const EditProfile = ({ route }: Props) => {
             isRegister ? navigation.navigate('Home') : navigation.goBack();
           }}
         />
-        {/* )} */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ height: '100%' }}

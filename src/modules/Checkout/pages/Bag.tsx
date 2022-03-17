@@ -66,6 +66,7 @@ export const BagScreen = () => {
   } = useCart();
 
   const [loading, setLoading] = useState(false);
+  const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
   const viewRef = useRef(null);
@@ -171,10 +172,8 @@ export const BagScreen = () => {
   useEffect(() => {
     firstLoadOrderForm();
 
-    if (orderForm) {
-      if (email) {
-        setCustomer(email);
-      }
+    if (email) {
+      setCustomer(email);
     }
   }, []);
 
@@ -182,16 +181,6 @@ export const BagScreen = () => {
     useCallback(() => {
       if (data) {
         refetch();
-      }
-    }, [])
-  );
-
-  useFocusEffect(
-    useCallback(() => {
-      firstLoadOrderForm();
-
-      if (email) {
-        setCustomer(email);
       }
     }, [])
   );
@@ -262,6 +251,7 @@ export const BagScreen = () => {
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
+    setLoadingGoDelivery(true);
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
       const hasCustomer =
@@ -295,12 +285,16 @@ export const BagScreen = () => {
       });
 
       if (!email) {
+        setLoadingGoDelivery(false);
         navigation.navigate('EnterYourEmail');
       } else if (isEmptyProfile) {
-        updateClientProfileData(profile);
+        await updateClientProfileData(profile);
+        setLoadingGoDelivery(false);
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
-        updateClientProfileData(profile);
+        await updateClientProfileData(profile);
+        await setCustomer(email);
+        setLoadingGoDelivery(false);
         navigation.navigate('DeliveryScreen');
       }
     }
@@ -329,7 +323,7 @@ export const BagScreen = () => {
         backgroundColor: '#FFFFFF',
       }}
     >
-      <TopBarBackButton showShadow loading={loading} />
+      <TopBarBackButton showShadow loading={loadingGoDelivery} />
       {loading ? (
         <Box>
           <Skeleton>
@@ -1028,7 +1022,8 @@ export const BagScreen = () => {
               <Button
                 disabled={
                   !!(orderForm && orderForm?.items?.length === 0) ||
-                  loadingProfile
+                  loadingProfile ||
+                  loadingGoDelivery
                 }
                 onPress={onGoToDelivery}
                 title="IR PARA ENTREGA"

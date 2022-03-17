@@ -53,11 +53,11 @@ const Delivery: React.FC<{}> = () => {
 
   useEffect(() => {
     if (data) {
-      orderform();
       const { profile } = data;
       if (profile) {
         setProfile(profile);
       }
+      orderform();
     }
   }, [data]);
 
@@ -107,6 +107,7 @@ const Delivery: React.FC<{}> = () => {
 
   useEffect(() => {
     requestMap();
+    setSelectMethodDelivery(false);
   }, []);
 
   useEffect(() => {
