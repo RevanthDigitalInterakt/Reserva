@@ -82,7 +82,11 @@ export const HomeScreen: React.FC<{
 
   const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
   useEffect(() => {
-    if (countDownClock) start();
+    if (countDownClock) {
+      if (new Date(countDownClock?.countdown).getTime() > Date.now()) {
+        start();
+      }
+    }
   }, [countDownClock]);
 
   useEffect(() => {
