@@ -327,6 +327,22 @@ export const Menu: React.FC<{}> = () => {
                 marginTop="nano"
               />
               <FixedMenuItem
+                iconName="Pin"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Inserir ou alterar CEP
+                  </Typography>
+                }
+                onPress={() => {
+                  navigation.navigate('ChangeRegionalization');
+                }}
+              />
+              <FixedMenuItem
                 iconName="Profile"
                 disabled={!!cookie}
                 title={

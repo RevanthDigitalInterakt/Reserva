@@ -1,5 +1,6 @@
 // In App.js in a new project
 import { createStackNavigator } from '@react-navigation/stack';
+import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
 import React from 'react';
 import CallCenter from '../modules/CallCenter';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
@@ -48,6 +49,7 @@ import {
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
+import { CEPList, CepsInfo } from '../modules/ChangeRegionalization/pages/CEPList';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -70,6 +72,10 @@ export type RootStackParamList = {
       }
     ];
   };
+  ChangeRegionalization: undefined;
+  // CEPList: {
+  //   list: CepsInfo
+  // };
   WishList: {};
   OrderDetail: {
     orderId?: string;
@@ -127,22 +133,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -192,6 +198,8 @@ export const MainStackScreen = () => (
     {/* <MainStack.Screen name="WishList" component={WishList} /> */}
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
     <MainStack.Screen name="WishListCategory" component={WishListCategory} />
+    <MainStack.Screen name="ChangeRegionalization" component={ChangeRegionalization} />
+    <MainStack.Screen name="CEPList" component={CEPList} />
     <MainStack.Screen
       name="ShowListByCategory"
       component={ShowListByCategory}
