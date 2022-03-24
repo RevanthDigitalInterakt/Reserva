@@ -21,18 +21,21 @@ export interface CepsInfo {
   siafi: string
 }[]
 
+export type SearchBy = 'cep' | 'address'
+
 export const CEPList = ({ ...props }) => {
 
   const {
     route: {
       params: {
-        list
+        list,
+        searchTerm
       }
     }
   } = props
 
   const navigation = useNavigation()
-  const { setSegmentToken, setRegionId } = useRegionalSearch()
+  const { setSegmentToken, setRegionId, setCep } = useRegionalSearch()
 
   const [ceps, setCeps] = React.useState<CepsInfo[]>([])
 
@@ -51,6 +54,7 @@ export const CEPList = ({ ...props }) => {
     console.log('response.regionId', response.regionId)
     setRegionId(response.regionId.split('.')[1])
     setSegmentToken(data.segmentToken)
+    setCep(cep)
     navigation.navigate('Home')
   }
 
@@ -59,7 +63,11 @@ export const CEPList = ({ ...props }) => {
   }, [])
 
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        flex: 1
+      }}
+    >
       <TopBarBackButtonWithoutLogo
         loading={false}
         backButtonPress={() => {
@@ -85,7 +93,7 @@ export const CEPList = ({ ...props }) => {
             fontFamily="reservaSansReglar"
             fontSize={21}
           >
-            Rua da Luz, Braga - Cabo Frio
+            {searchTerm}
           </Typography>
         </Box>
         <FlatList
@@ -159,7 +167,7 @@ export const CEPList = ({ ...props }) => {
         />
         <Button
           onPress={() => {
-            navigation.goBack()
+            navigation.navigate('ChangeRegionalization')
           }}
         >
           <Typography

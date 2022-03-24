@@ -22,6 +22,8 @@ import { useAuth } from '../../../context/AuthContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarMenu } from '../components/TopBarMenu';
+import { useRegionalSearch } from '../../../context/RegionalSearchContext';
+import { instance } from '../../../config/vtexConfig';
 
 interface IBreadCrumbs {
   title: string;
@@ -240,6 +242,7 @@ type Profile = {
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { cookie } = useAuth();
+  const { cep } = useRegionalSearch()
   const [categories, setCategories] = useState<Category[]>([]);
   const {
     loading: loadingProfile,
@@ -339,7 +342,16 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate('ChangeRegionalization');
+                  if (!cep) {
+                    navigation.navigate('ChangeRegionalization');
+                  } else {
+
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                      .then(async (data) => {
+
+                        navigation.navigate('CEPList', { list: [await data.json()], searchTerm: cep })
+                      })
+                  }
                 }}
               />
               <FixedMenuItem

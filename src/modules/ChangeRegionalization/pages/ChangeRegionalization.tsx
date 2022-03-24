@@ -73,14 +73,14 @@ export const ChangeRegionalization = () => {
 
   // return <CEPList />
   return <SafeAreaView>
-    <ScrollView contentContainerStyle={{ paddingBottom: 350 }} >
-      <TopBarBackButtonWithoutLogo
-        loading={false}
-        backButtonPress={() => {
-          navigate.goBack()
+    <TopBarBackButtonWithoutLogo
+      loading={false}
+      backButtonPress={() => {
+        navigate.goBack()
 
-        }}
-      />
+      }}
+    />
+    <ScrollView contentContainerStyle={{ paddingBottom: 350 }} >
       <Box
         paddingX={34}
         paddingTop={26}
@@ -101,6 +101,7 @@ export const ChangeRegionalization = () => {
           Digite seu CEP
         </Typography>
         <TextField
+
           value={cepInputText}
           onChangeText={setCepInputText}
           placeholder="Digite seu CEP"
@@ -114,7 +115,7 @@ export const ChangeRegionalization = () => {
           onPress={() => {
             fetchCepInfo()
               .then(data => {
-                navigate.navigate('CEPList', { list: [data] })
+                navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText })
               })
           }}
           variant='primarioEstreito'
@@ -272,7 +273,7 @@ export const ChangeRegionalization = () => {
           onPress={() => {
             fetchAddressInfo().then(data => {
               console.log('data123', data)
-              navigate.navigate('CEPList', { list: data })
+              navigate.navigate('CEPList', { list: data, searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}` })
             })
           }}
           variant='primarioEstreito'

@@ -49,7 +49,7 @@ import {
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
-import { CEPList, CepsInfo } from '../modules/ChangeRegionalization/pages/CEPList';
+import { CEPList, CepsInfo, SearchBy } from '../modules/ChangeRegionalization/pages/CEPList';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -73,9 +73,10 @@ export type RootStackParamList = {
     ];
   };
   ChangeRegionalization: undefined;
-  // CEPList: {
-  //   list: CepsInfo
-  // };
+  CEPList: {
+    list: CepsInfo,
+    searchBy: SearchBy
+  };
   WishList: {};
   OrderDetail: {
     orderId?: string;
