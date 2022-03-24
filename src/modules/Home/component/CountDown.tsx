@@ -24,6 +24,24 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
   const [countDownData, setCountDownData] = useState<ICountDownClock>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
+  const [watchType, setWatchType] = useState<number>(0);
+  const [clockColor, setClockColor] = useState<{ colorBanner: string, colorButton: string, clockBackgroundColor: string }[]>([
+    {
+      colorBanner: '#000000',
+      colorButton: '#E40C2B',
+      clockBackgroundColor: '#1A1A1A'
+    },
+    {
+      colorBanner: '#BB181B',
+      colorButton: '#000000',
+      clockBackgroundColor: '#C23032'
+    },
+    {
+      colorBanner: '#000000',
+      colorButton: '#4A4A4A',
+      clockBackgroundColor: '#1A1A1A'
+    },
+  ]);
   const { time = '00:00:00' } = useCountDown();
 
   useEffect(() => {
@@ -31,6 +49,9 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
       setShowClock(true)
     } else {
       setShowClock(false)
+    }
+    if (countDown) {
+      setWatchType(countDown?.watchType)
     }
   }, [countDown]);
 
@@ -78,7 +99,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
   return (
     !showClock && time !== '00:00:00' ?
 
-      <Box minHeight={149} paddingBottom={5} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={countDown?.colorBanner}>
+      <Box minHeight={100} paddingBottom={5} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={clockColor[watchType - 1]?.colorBanner}>
 
         <Box width={deviceWidth} paddingX={22}>
           <Box alignItems='center' mb={8} mt={7} >
@@ -115,31 +136,47 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
                 </Typography>
               </Box>
               <Box flexDirection='row' alignItems="center" mt={5}>
-                <FlipNumber number={time?.split(':')[0]} size={43} unit="hours" />
+                <FlipNumber
+                  clockBackgroundColor={clockColor[watchType - 1]?.clockBackgroundColor}
+                  colorDivider={clockColor[watchType - 1]?.colorBanner}
+                  number={time?.split(':')[0]}
+                  size={43}
+                  unit="hours"
+                />
 
                 <Box height={14} justifyContent="space-between" marginX={6}>
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                 </Box>
 
-                <FlipNumber number={time?.split(':')[1]} size={43} />
+                <FlipNumber
+                  clockBackgroundColor={clockColor[watchType - 1]?.clockBackgroundColor}
+                  colorDivider={clockColor[watchType - 1]?.colorBanner}
+                  number={time?.split(':')[1]}
+                  size={43}
+                />
 
                 <Box height={14} justifyContent="space-between" marginX={6}>
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                 </Box>
 
-                <FlipNumber number={time?.split(':')[2]} size={43} />
+                <FlipNumber
+                  clockBackgroundColor={clockColor[watchType - 1]?.clockBackgroundColor}
+                  colorDivider={clockColor[watchType - 1]?.colorBanner}
+                  number={time?.split(':')[2]}
+                  size={43}
+                />
               </Box>
 
             </Box>
-            <Box alignItems="center" flex={1}  >
+            <Box alignItems="center" flex={1}>
               {showButton &&
                 <TouchableOpacity
                   style={{ width: '100%' }}
                   onPress={goToPromotion}
                 >
-                  <Box bg={countDown?.colorButton}
+                  <Box bg={clockColor[watchType - 1]?.colorButton}
                     paddingY={12}
                     mb={4}
                   >

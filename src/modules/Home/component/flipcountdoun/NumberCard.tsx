@@ -77,34 +77,39 @@ class NumberCard extends React.Component {
 
     render() {
         const {
-            number, previousNumber, size, numberWrapperStyle,
+            number, previousNumber, size, clockBackgroundColor, colorDivider
         } = this.props;
         return (
             <View style={[style.numberWrapper,
-            { Width: size * 0.8, height: size * 1.2, borderRadius: size / 10, margin: 0, padding: 0 },
-                numberWrapperStyle]}
+            { backgroundColor: clockBackgroundColor, Width: size * 0.8, height: size * 1.2, borderRadius: size / 10, margin: 0, padding: 0 },]}
             >
                 <Card
                     type="upper"
                     size={size}
                     number={previousNumber}
+                    colorDivider={colorDivider}
                 />
                 <Card
                     type="lower"
                     size={size}
                     number={number}
+                    colorDivider={colorDivider}
                 />
                 <FlipCard
+                    clockBackgroundColor={clockBackgroundColor}
                     setRef={this.setFrontRef}
                     type="front"
                     size={size}
                     number={number}
+                    colorDivider={colorDivider}
                 />
                 <FlipCard
+                    clockBackgroundColor={clockBackgroundColor}
                     setRef={this.setBackRef}
                     type="back"
                     size={size}
                     number={previousNumber}
+                    colorDivider={colorDivider}
                 />
             </View>
         );
@@ -127,6 +132,8 @@ NumberCard.propTypes = {
     ]),
     perspective: PropTypes.number,
     size: PropTypes.number,
+    clockBackgroundColor: PropTypes.string,
+    colorDivider: PropTypes.string,
 };
 
 export default NumberCard;

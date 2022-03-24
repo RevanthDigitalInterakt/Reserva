@@ -8,9 +8,16 @@ interface IFlipNumber {
     unit: 'hours' | 'minutes' | 'seconds';
     size: number;
     perspective: number;
+    clockBackgroundColor: string;
+    colorDivider: string;
 }
 function FlipNumber({
-    number, unit, size, perspective,
+    number,
+    unit,
+    size,
+    perspective,
+    clockBackgroundColor = '#1A1A1A',
+    colorDivider = '#1f1f1f',
 }: IFlipNumber) {
     number = parseInt(number) + 1;
     let previousNumber;
@@ -32,6 +39,8 @@ function FlipNumber({
                 previousNumber={previousNumberSplit}
                 size={size}
                 perspective={perspective}
+                clockBackgroundColor={clockBackgroundColor}
+                colorDivider={colorDivider}
             />
         </View>
     );
