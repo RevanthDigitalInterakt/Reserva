@@ -592,10 +592,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         listHeader={
           <>
             {countDownClock && countDownClock.reference === referenceId && (
-              <CountDownBanner countDown={countDownClock} showButton={false} />
+              <Box>
+                <CountDownBanner countDown={countDownClock} showButton={false} />
+              </Box>
             )}
-
-            <Image height={200} source={bannerImage} width={1 / 1} />
+            <Box>
+              <Image height={200} source={bannerImage} width={1 / 1} />
+            </Box>
 
             <Box bg="dropDownBorderColor">
               <Button p="nano" onPress={onClickWhatsappButton}>
