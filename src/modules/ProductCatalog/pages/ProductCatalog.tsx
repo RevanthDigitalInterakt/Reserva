@@ -170,10 +170,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     loading: loadingDefaultBanner,
   } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } });
   const setBannerDefaultImage = async () => {
-    await refetchDefaultBanner();
-    const url =
-      defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url;
-    setBannerImage(url);
+    const { data } = await refetchDefaultBanner();
+    if (data) {
+      const url = data.bannerCategoryCollection?.items[0]?.item?.image?.url;
+      setBannerImage(url);
+    }
   };
   const { WithoutInternet } = useCheckConnection({});
 
@@ -199,8 +200,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       setBannerDefaultImage();
     }
   }, [bannerData]);
-
-  // useEffect(()=>{},[bannerImage])
 
   useEffect(() => {
     if (!lodingFacets) {
@@ -587,12 +586,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
-            {countDownClock && countDownClock.reference === referenceId &&
-              <Box marginBottom={4}>
-                <CountDownBanner countDown={countDownClock} showButton={false} />
-              </Box>
-            }
+            {countDownClock && countDownClock.reference === referenceId && (
+              <CountDownBanner countDown={countDownClock} showButton={false} />
+            )}
+
             <Image height={200} source={bannerImage} width={1 / 1} />
+
             <Box bg="dropDownBorderColor">
               <Button p="nano" onPress={onClickWhatsappButton}>
                 <Box flexDirection="row">

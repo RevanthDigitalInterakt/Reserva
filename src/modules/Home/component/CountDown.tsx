@@ -99,28 +99,33 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
   return (
     !showClock && time !== '00:00:00' ?
 
-      <Box minHeight={100} paddingBottom={5} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={clockColor[watchType - 1]?.colorBanner}>
+      <Box mb={5} minHeight={90} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={clockColor[watchType - 1]?.colorBanner}>
 
         <Box width={deviceWidth} paddingX={22}>
-          <Box alignItems='center' mb={8} mt={7} >
+          <Box alignItems='center' mb={8} mt={12} >
             <Typography
+              lineHeight={normalize(28)}
               color={textColor}
               fontFamily="reservaSerifMedium"
               fontSize={normalize(26)}
             >
               {countDown?.title}
+            </Typography>
+            {countDown?.subtitle && (
               <Typography
+                lineHeight={normalize(28)}
                 color={textColor}
                 fontFamily="reservaSerifLight"
                 fontSize={normalize(26)}
-              > {countDown?.subtitle}
+              >{countDown?.subtitle}
               </Typography>
-            </Typography>
+            )}
           </Box>
           <Box
             flexDirection='row'
             alignItems="center"
             justifyContent='space-between'
+            paddingBottom={10}
           >
             <Box
               alignItems='center'
@@ -135,7 +140,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
                   Acaba em:
                 </Typography>
               </Box>
-              <Box flexDirection='row' alignItems="center" mt={5}>
+              <Box flexDirection='row' alignItems="center" mt={5} >
                 <FlipNumber
                   clockBackgroundColor={clockColor[watchType - 1]?.clockBackgroundColor}
                   colorDivider={clockColor[watchType - 1]?.colorBanner}

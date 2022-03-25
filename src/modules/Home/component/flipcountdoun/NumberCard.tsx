@@ -141,13 +141,5 @@ export default NumberCard;
 const style = StyleSheet.create({
     numberWrapper: {
         backgroundColor: '#1A1A1A',
-        shadowColor: '#1f1f1f',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowRadius: 2,
-        shadowOpacity: 1,
-        elevation: 5,
     },
 });
