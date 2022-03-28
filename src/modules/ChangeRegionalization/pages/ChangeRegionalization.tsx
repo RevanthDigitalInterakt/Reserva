@@ -1,15 +1,12 @@
-import { TopBarDefaultBackButton } from "../../Menu/components/TopBarDefaultBackButton"
-import React, { useEffect, useState } from "react"
-import { View } from "react-native-animatable"
-import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo"
-import { NavigationProp, useNavigation } from "@react-navigation/native"
-import { Typography, TextField, OutlineInput, Box, Button, Picker, Icon } from "reserva-ui"
-import UnderlineInput from "../../Login/components/UnderlineInput"
-import { CEPList } from "./CEPList"
-import { RootStackParamList } from "../../../routes/StackNavigator"
+import { useNavigation } from "@react-navigation/native"
+import { Formik } from "formik"
+import React, { useEffect, useRef, useState } from "react"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
-import { borderWidth } from "styled-system"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { Box, Button, Icon, Picker, TextField, Typography } from "reserva-ui"
+import { FormikTextInput } from "../../../shared/components/FormikTextInput"
+import * as Yup from "yup"
+import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo"
 
 export interface ChangeRegionalizationProps {
 
@@ -31,7 +28,42 @@ export const ChangeRegionalization = () => {
   const [isVisibleStatePicker, setIsVisibleStatePicker] = useState(false)
   const [isVisibleCityPicker, setIsVisibleCityPicker] = useState(false)
 
+  const cepBlackList = [
+    "00000000",
+    "11111111",
+    "22222222",
+    "33333333",
+    "44444444",
+    "55555555",
+    "66666666",
+    "77777777",
+    "88888888",
+    "99999999",
+  ]
 
+  const [formState, setFormState] = useState({
+    cep: "",
+  })
+
+  const formRef = useRef<any>(null)
+
+
+  const validation = Yup.object().shape({
+    cep: Yup.string().matches(/[0-9]{5}-[\d]{3}/g, { message: 'Insira um Cep valido' }).required("CEP é obrigatório").test(
+      'black-list',
+      'Insira um Cep valido',
+      val => {
+        if (val) {
+          const parsedCep = val.replace(/(-)|(\.)/g, "")
+          return !cepBlackList.includes(parsedCep)
+        }
+        return true
+      }),
+  })
+
+  const handleSubmit = () => {
+    formRef.current.submitForm()
+  }
 
   const parseInput2Url = async (input: string) => {
     let url: string[] = input.split(/(,\s*)|(-\s*)|(\\\s*)/g)
@@ -44,8 +76,8 @@ export const ChangeRegionalization = () => {
     return params
   }
 
-  const fetchCepInfo = async () => {
-    const response = await fetch(`https://viacep.com.br/ws/${cepInputText}/json/`)
+  const fetchCepInfo = async (cep: string) => {
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
     return await response.json()
   }
 
@@ -69,7 +101,7 @@ export const ChangeRegionalization = () => {
         console.log('parsedCities', parsedCities.sort((a, b) => a.nome.localeCompare(b.nome)).map(city => ({ text: city.nome, subText: '' })))
         setCities(parsedCities.sort((a, b) => a.nome.localeCompare(b.nome)).map(city => ({ text: city.nome })))
       })
-  }, [address])
+  }, [address?.uf])
 
   // return <CEPList />
   return <SafeAreaView>
@@ -81,46 +113,60 @@ export const ChangeRegionalization = () => {
       }}
     />
     <ScrollView contentContainerStyle={{ paddingBottom: 350 }} >
-      <Box
-        paddingX={34}
-        paddingTop={26}
-        backgroundColor="white"
+      <Formik
+        innerRef={formRef}
+        initialValues={formState}
+        validationSchema={validation}
+        validateOnBlur={true}
+        validateOnChange={true}
+        onSubmit={
+          async (values) => {
+            const data = await fetchCepInfo(values.cep)
+            navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText })
+          }
+        }
       >
-        <Typography
-          fontFamily="reservaSerifBold"
-          fontSize={26}
-        >Usar meu CEP</Typography>
-        <Typography
-          fontFamily="reservaSansLight"
-          fontSize={18}
-          style={{
-            marginTop: 29,
-            marginBottom: 12,
-          }}
+        <Box
+          paddingX={34}
+          paddingTop={26}
+          backgroundColor="white"
         >
-          Digite seu CEP
-        </Typography>
-        <TextField
+          <Typography
+            fontFamily="reservaSerifBold"
+            fontSize={26}
+          >Usar meu CEP</Typography>
+          <Typography
+            fontFamily="reservaSansLight"
+            fontSize={18}
+            style={{
+              marginTop: 29,
+              marginBottom: 12,
+            }}
+          >
+            Digite seu CEP
+          </Typography>
+          <FormikTextInput
+            field="cep"
+            maskType="zip-code"
+            placeholder="Digite seu CEP"
+            keyboardType="number-pad"
+            maskOptions={{
+              mask: '99999-999',
+            }}
+          />
 
-          value={cepInputText}
-          onChangeText={setCepInputText}
-          placeholder="Digite seu CEP"
-        />
-
-        <Button
-          disabled={cepInputText.length < 8}
-          marginTop={40}
-          width='100%'
-          title="PESQUISAR"
-          onPress={() => {
-            fetchCepInfo()
-              .then(data => {
-                navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText })
-              })
-          }}
-          variant='primarioEstreito'
-        />
-      </Box>
+          <Button
+            // disabled={cepInputText.length < 8}
+            marginTop={40}
+            width='100%'
+            title="PESQUISAR"
+            onPress={() => {
+              handleSubmit()
+            }}
+            variant='primarioEstreito'
+          />
+        </Box>
+      </Formik>
       <Box
         paddingX={34}
         paddingTop={26}
@@ -284,8 +330,8 @@ export const ChangeRegionalization = () => {
           onClose={() => setIsVisibleStatePicker(false)}
           onSelect={(selected) => {
             setAddress({
-              uf: selected.text,
               ...address,
+              uf: selected.text,
             })
             console.log('selected', selected)
           }}
@@ -298,9 +344,10 @@ export const ChangeRegionalization = () => {
           onClose={() => setIsVisibleCityPicker(false)}
           onSelect={(selected) => {
             setAddress({
-              city: selected.text,
               ...address,
+              city: selected.text,
             })
+
             console.log('selected', selected)
           }}
           title="Selecione a cidade"

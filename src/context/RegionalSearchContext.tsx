@@ -6,6 +6,7 @@ import React, {
   SetStateAction,
   Dispatch,
   useEffect,
+  useLayoutEffect,
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { instance } from '../config/vtexConfig';
@@ -73,7 +74,7 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
     AsyncStorage.setItem('@RNRegionalSearch:cep', cep)
   }, [cep]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchRegionId(segmentToken)
     AsyncStorage.setItem('@RNRegionalSearch:segmentToken', segmentToken);
   }, [segmentToken]);
@@ -85,13 +86,13 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
     });
 
     AsyncStorage.getItem('@RNRegionalSearch:cep').then((value) => {
-      setRegionId(value);
+      setCep(value);
     });
 
     AsyncStorage.getItem('@RNRegionalSearch:segmentToken').then((value) => {
-      setRegionId(value);
+      setSegmentToken(value);
     });
-  }, []);
+  });
 
   return (
     <RegionalSearchContext.Provider

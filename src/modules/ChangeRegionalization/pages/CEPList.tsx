@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { useNavigation } from "@react-navigation/native"
 import { instance } from "../../../config/vtexConfig"
 import { useRegionalSearch } from "../../../context/RegionalSearchContext"
+import AsyncStorage from "@react-native-community/async-storage"
 
 export interface CepsInfo {
   cep: string,
@@ -51,10 +52,12 @@ export const CEPList = ({ ...props }) => {
       }
     })
     const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
+    const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)//.then(value => console.log('valeu2222a', value))
+    console.log('value2222a', cep)
     console.log('response.regionId', response.regionId)
     setRegionId(response.regionId.split('.')[1])
     setSegmentToken(data.segmentToken)
-    setCep(cep)
+    // setCep(cep)
     navigation.navigate('Home')
   }
 

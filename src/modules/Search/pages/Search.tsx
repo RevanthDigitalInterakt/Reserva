@@ -88,6 +88,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     {
       variables: {
         to: pageSize - 1,
+        selectedFacets: [{
+          key: 'region-id',
+          value: regionId
+        }],
       },
     }
   );
