@@ -68,6 +68,7 @@ export const HomeScreen: React.FC<{
     countDown: true,
     initial: countDownClock?.formattedValue
   });
+
   const [login, { data: loginData, loading: loginLoading }] = useMutation(
     classicSignInMutation
   );
@@ -124,12 +125,16 @@ export const HomeScreen: React.FC<{
         collectionData?.configCollection?.items[0].discountCodeBar
       );
       const countDownClock = collectionData?.configCollection?.items[0].countDownClock
-
-      const limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
-      setCountDownClock({
-        ...countDownClock,
-        formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
-      });
+      let limitDate
+      if (countDownClock?.countdown) {
+        limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
+      }
+      if (limitDate) {
+        setCountDownClock({
+          ...countDownClock,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
+        });
+      }
     }
   }, [collectionData]);
 
@@ -231,6 +236,9 @@ export const HomeScreen: React.FC<{
                 overflow: 'hidden',
               }}
             >
+              {countDownClock && (
+                <CountDownBanner countDown={countDownClock} />
+              )}
               {carrousels.map((carrousel) => {
                 // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
                 switch (carrousel?.type) {
@@ -238,9 +246,6 @@ export const HomeScreen: React.FC<{
                     return (
                       <>
                         <DefaultCarrousel carrousel={carrousel} />
-                        {countDownClock &&
-                          <CountDownBanner countDown={countDownClock} />
-                        }
                       </>
                     )
                     break;

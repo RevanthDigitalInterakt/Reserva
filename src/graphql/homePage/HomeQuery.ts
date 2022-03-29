@@ -60,8 +60,7 @@ export interface CarrouselCard {
 export interface ICountDownClock {
   title: string;
   subtitle: string;
-  colorBanner: string;
-  colorButton: string;
+  watchType: number;
   countdown: string;
   titleButton: string;
   titleModal: string;
@@ -162,8 +161,7 @@ export const configCollection = gql`
         countDownClock {
           title
           subtitle
-          colorBanner
-          colorButton
+          watchType
           countdown
           titleButton
           titleModal

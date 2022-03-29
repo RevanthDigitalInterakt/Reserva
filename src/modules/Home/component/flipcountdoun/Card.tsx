@@ -10,12 +10,13 @@ interface ICard {
     type: 'upper' | 'lower';
     size: number;
     number: any;
+    colorDivider: string;
 }
 function Card({
-    type, size, number,
+    type, size, number, colorDivider
 }: ICard) {
     return (
-        <View style={[style.card, type === 'upper' ? { borderBottomWidth: 0.5 } : { borderTopWidth: 0.5 }]}>
+        <View style={[style.card, { borderColor: colorDivider, borderBottomColor: colorDivider }, type === 'upper' ? { borderBottomWidth: 0.5 } : { borderTopWidth: 0.5 }]}>
             <Text style={[style.number, {
                 transform: [type === 'upper' ? { translateY: size * 0.3 } : { translateY: -size * 0.3 }],
                 fontSize: size / 1.5,
