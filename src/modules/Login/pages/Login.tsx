@@ -19,6 +19,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
+import OneSignal from 'react-native-onesignal';
 
 
 
@@ -76,15 +77,17 @@ export const LoginScreen: React.FC<Props> = ({
     if (emailIsValid && passwordIsValid) {
       const { data, errors } = await login({
         variables: {
-          email: loginCredentials.username.trim(),
+          email: loginCredentials.username.trim().toLowerCase(),
           password: loginCredentials.password,
         },
       });
       if (data.classicSignIn === 'Success') {
         saveCredentials({
-          email: loginCredentials.username.trim(),
+          email: loginCredentials.username.trim().toLowerCase(),
           password: loginCredentials.password,
         });
+
+        OneSignal.setExternalUserId(loginCredentials.username.trim().toLowerCase());
 
         appsFlyer.logEvent(
           'af_login',
@@ -96,8 +99,8 @@ export const LoginScreen: React.FC<Props> = ({
             console.error('AppsFlyer Error', err);
           }
         );
-        setEmail(loginCredentials.username.trim());
-        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim()).then(
+        setEmail(loginCredentials.username.trim().toLowerCase());
+        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim().toLowerCase()).then(
           () => { }
         );
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
