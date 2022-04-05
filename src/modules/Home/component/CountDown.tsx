@@ -3,7 +3,7 @@ import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import {
   useNavigation,
 } from '@react-navigation/native';
-import { TouchableOpacity, Dimensions, PixelRatio, Platform } from "react-native"
+import { TouchableOpacity, Dimensions, PixelRatio, Platform, ScrollView } from "react-native"
 import { Box, theme, Typography, Button, Icon } from "reserva-ui";
 import Modal from "react-native-modal";
 import {
@@ -135,7 +135,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
                 <Typography
                   color={textColor}
                   fontFamily="reservaSansRegular"
-                  fontSize={13}
+                  fontSize={14}
                 >
                   Acaba em:
                 </Typography>
@@ -242,44 +242,46 @@ const CheckTheRules = ({ isVisible, setIsVisible, rulesData, goToPromotion }: Ic
       onBackdropPress={() => setIsVisible(false)}
       isVisible={isVisible}
     >
-      <Box
-        bg="white"
-        minHeight={184}
-        alignItems="center"
-        justifyContent="center"
-        px={34}
-        py={45}
-      >
-        <Box position="absolute" top={16} right={20} zIndex={4}>
-          <Button
-            onPress={() => setIsVisible(false)}
-            variant="icone"
-            icon={<Icon size={17} name="Close" />}
-          />
-        </Box>
-        <Box>
-          <Typography fontFamily="reservaSerifBold" fontSize={34}>
-            {rulesData?.titleModal}
-          </Typography>
-        </Box>
-        <Box mt={8}>
-          <Typography fontFamily="reservaSansRegular" fontSize={18}>
-            {rulesData?.descriptionModal}
-          </Typography>
-        </Box>
-        <Box width="100%" mt={38} mb={5}>
-          <Button
-            variant="primarioEstreito"
-            width="100%"
-            height={50}
-            onPress={goToPromotion}
-          >
-            <Typography color="white" fontFamily="nunitoExtraBold" fontSize={13}>
-              IR PARA A PROMO
+      <ScrollView bounces={false}>
+        <Box
+          bg="white"
+          minHeight={184}
+          alignItems="center"
+          justifyContent="center"
+          px={34}
+          py={45}
+        >
+          <Box position="absolute" top={16} right={20} zIndex={4}>
+            <Button
+              onPress={() => setIsVisible(false)}
+              variant="icone"
+              icon={<Icon size={17} name="Close" />}
+            />
+          </Box>
+          <Box>
+            <Typography textAlign={'center'} fontFamily="reservaSerifBold" fontSize={34}>
+              {rulesData?.titleModal}
             </Typography>
-          </Button>
+          </Box>
+          <Box mt={8}>
+            <Typography textAlign={'center'} lineHeight={23} fontFamily="reservaSansRegular" fontSize={18}>
+              {rulesData?.descriptionModal}
+            </Typography>
+          </Box>
+          <Box width="100%" mt={38} mb={5}>
+            <Button
+              variant="primarioEstreito"
+              width="100%"
+              height={50}
+              onPress={goToPromotion}
+            >
+              <Typography color="white" fontFamily="nunitoExtraBold" fontSize={13}>
+                IR PARA A PROMO
+              </Typography>
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      </ScrollView>
     </Modal>
   );
 }
