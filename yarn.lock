@@ -7773,6 +7773,11 @@ react-native-screens@^3.1.0, react-native-screens@^3.4.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-sha256@^1.4.7:
+  version "1.4.7"
+  resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-sha256/-/react-native-sha256-1.4.7.tgz#cef05260a3a3a17cd70727170d0c187ef7cefb8c"
+  integrity sha1-zvBSYKOjoXzXBycXDQwYfvfO+4w=
+
 react-native-share@^6.0.1:
   version "6.5.0"
   resolved "https://globalsysdev.pkgs.visualstudio.com/Reserva/_packaging/reserva-ui-storybook/npm/registry/react-native-share/-/react-native-share-6.5.0.tgz#6e2ce73d03168fcade7b89cc1f9c4318089c2325"

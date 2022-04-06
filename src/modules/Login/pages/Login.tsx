@@ -5,7 +5,7 @@ import moment from 'moment';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
+import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
 import * as Yup from 'yup';
@@ -20,8 +20,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 import OneSignal from 'react-native-onesignal';
-
-
+import { sha256 } from 'react-native-sha256';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -82,6 +81,10 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
+        const emailHash = await sha256(loginCredentials.username.trim().toLowerCase());
+
+        console.log('emailHash', emailHash);
+
         saveCredentials({
           email: loginCredentials.username.trim().toLowerCase(),
           password: loginCredentials.password,
@@ -99,7 +102,22 @@ export const LoginScreen: React.FC<Props> = ({
             console.error('AppsFlyer Error', err);
           }
         );
+
+        appsFlyer.setUserEmails({
+          emails: [emailHash],
+          emailsCryptType: AF_EMAIL_CRYPT_TYPE.SHA256,
+          },
+          (success) => {
+            console.log('appsFlyer setUserEmails success', success);
+          },
+          (error) => {
+          if (error) {
+            console.log('Error setting user emails: ', error);
+          }
+        });
+
         setEmail(loginCredentials.username.trim().toLowerCase());
+
         AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim().toLowerCase()).then(
           () => { }
         );

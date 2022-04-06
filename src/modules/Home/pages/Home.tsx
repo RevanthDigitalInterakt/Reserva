@@ -222,7 +222,7 @@ export const HomeScreen: React.FC<{
       ) : (
         <SafeAreaView
           style={{
-            marginBottom: modalCodeIsVisible ? 87 : 50,
+            marginBottom: modalDiscount && modalCodeIsVisible ? 87 : 50,
           }}
         >
           <ScrollView

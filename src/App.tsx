@@ -3,7 +3,7 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import appsFlyer from 'react-native-appsflyer';
+import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
@@ -22,7 +22,6 @@ import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
 import { apolloClient } from './services/apolloClient';
 import { RemoteConfigService } from "./shared/services/RemoteConfigService";
-
 
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP

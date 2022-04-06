@@ -1077,6 +1077,8 @@ PODS:
   - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
+  - RNSha256 (1.4.7):
+    - React
   - RNShare (6.5.0):
     - React-Core
   - RNStoreReview (0.2.0):
@@ -1186,6 +1188,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSha256 (from `../node_modules/react-native-sha256`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNStoreReview (from `../node_modules/react-native-store-review/ios`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1392,6 +1395,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSha256:
+    :path: "../node_modules/react-native-sha256"
   RNShare:
     :path: "../node_modules/react-native-share"
   RNStoreReview:
@@ -1523,6 +1528,7 @@ SPEC CHECKSUMS:
   RNPermissions: f7ebe52db07c00901127966ca080b4ec6a6ceb0a
   RNReanimated: 7f143675d94978c3555345d5bfa8ed6ae800c5d3
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
+  RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNStoreReview: d7d2a006e14030fe101cac9da487a17f98d73eff
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

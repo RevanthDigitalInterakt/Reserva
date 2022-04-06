@@ -168,6 +168,7 @@ const flows: Flow[] = [
   ...TimeRaceFlow,
   ...MyCreditsRoutes,
   ...RegisterFlow,
+  ...MyCashbackRoutes,
 ];
 
 export const MainStack = createStackNavigator();
