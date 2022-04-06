@@ -124,11 +124,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     if (collectionData) {
       const countDownClock = collectionData?.configCollection?.items[0].countDownClock
 
-      const limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
-      setCountDownClock({
-        ...countDownClock,
-        formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
-      })
+      let limitDate
+      if (countDownClock?.countdown) {
+        limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
+      }
+      if (limitDate) {
+        setCountDownClock({
+          ...countDownClock,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
+        });
+      }
     }
   }, [collectionData]);
 
@@ -170,10 +175,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     loading: loadingDefaultBanner,
   } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } });
   const setBannerDefaultImage = async () => {
-    await refetchDefaultBanner();
-    const url =
-      defaultBanner.bannerCategoryCollection?.items[0]?.item?.image?.url;
-    setBannerImage(url);
+    const { data } = await refetchDefaultBanner();
+    if (data) {
+      const url = data.bannerCategoryCollection?.items[0]?.item?.image?.url;
+      setBannerImage(url);
+    }
   };
   const { WithoutInternet } = useCheckConnection({});
 
@@ -199,8 +205,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       setBannerDefaultImage();
     }
   }, [bannerData]);
-
-  // useEffect(()=>{},[bannerImage])
 
   useEffect(() => {
     if (!lodingFacets) {
@@ -587,12 +591,15 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
-            {countDownClock && countDownClock.reference === referenceId &&
-              <Box marginBottom={4}>
+            {countDownClock && countDownClock.reference === referenceId && (
+              <Box>
                 <CountDownBanner countDown={countDownClock} showButton={false} />
               </Box>
-            }
-            <Image height={200} source={bannerImage} width={1 / 1} />
+            )}
+            <Box>
+              <Image height={200} source={bannerImage} width={1 / 1} />
+            </Box>
+
             <Box bg="dropDownBorderColor">
               <Button p="nano" onPress={onClickWhatsappButton}>
                 <Box flexDirection="row">

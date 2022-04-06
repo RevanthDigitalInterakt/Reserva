@@ -2,19 +2,31 @@ import React from 'react';
 import { Animated, View, Text, StyleSheet, Platform } from 'react-native';
 import { theme } from "reserva-ui";
 interface IFlipCard {
-    setRef: any,
-    type: 'front' | 'back',
+    setRef: any;
+    type: 'front' | 'back';
     size: number;
     number: any;
+    clockBackgroundColor: string;
+    colorDivider: string;
 }
 
 function FlipCard({
-    setRef, type, size, number
+    setRef,
+    type,
+    size,
+    number,
+    clockBackgroundColor,
+    colorDivider
 }: IFlipCard) {
     return (
         <Animated.View
             ref={setRef}
             style={[style.flipCard,
+            {
+                backgroundColor: clockBackgroundColor,
+                borderColor: colorDivider,
+                borderBottomColor: colorDivider
+            },
             type === 'front'
                 ? {
                     top: 0,

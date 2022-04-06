@@ -34,9 +34,7 @@ const Checkout: React.FC<{}> = () => {
     if (check) {
       if (orderForm) {
         appsFlyer.logEvent('af_purchase', {
-          af_revenue: `${orderForm.totalizers
-            .find((item) => item.id === 'Items')
-            ?.value.toFixed(2)}`,
+          af_revenue: `${(orderForm.totalizers.find((item) => item.id === 'Items')?.value || 0 / 100).toFixed(2)}`,
           af_price: `${(orderForm.value / 100).toFixed(2)}`,
           af_content_id: orderForm.items.map((item) => item.id),
           af_content_type: orderForm.items.map(
