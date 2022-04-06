@@ -55,7 +55,7 @@ export const CEPList = ({ ...props }) => {
     const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)//.then(value => console.log('valeu2222a', value))
     console.log('value2222a', cep)
     console.log('response.regionId', response.regionId)
-    setRegionId(response.regionId.split('.')[1])
+    setRegionId(response.regionId)
     setSegmentToken(data.segmentToken)
     // setCep(cep)
     navigation.navigate('Home')
