@@ -13,13 +13,13 @@ import FlipNumber from './flipcountdoun/FlipNumber'
 import { useCountDown } from '../../../context/ChronometerContext';
 export interface CountDownProps {
   countDown?: ICountDownClock;
-  showButton?: boolean;
+  loadingCountDownBanner?: boolean;
 }
 const deviceWidth = Dimensions.get('window').width;
 
 const scale = deviceWidth / 320;
 
-export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButton = true }: CountDownProps) => {
+export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, loadingCountDownBanner }: CountDownProps) => {
   const navigation = useNavigation();
   const [countDownData, setCountDownData] = useState<ICountDownClock>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
@@ -176,24 +176,22 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
 
             </Box>
             <Box alignItems="center" flex={1}>
-              {showButton &&
-                <TouchableOpacity
-                  style={{ width: '100%' }}
-                  onPress={goToPromotion}
+              <TouchableOpacity
+                style={{ width: '100%' }}
+                onPress={goToPromotion}
+              >
+                <Box bg={clockColor[watchType - 1]?.colorButton}
+                  paddingY={12}
+                  mb={4}
                 >
-                  <Box bg={clockColor[watchType - 1]?.colorButton}
-                    paddingY={12}
-                    mb={4}
+                  <Typography
+                    textAlign='center'
+                    color={textColor}
                   >
-                    <Typography
-                      textAlign='center'
-                      color={textColor}
-                    >
-                      {countDown?.titleButton}
-                    </Typography>
-                  </Box>
-                </TouchableOpacity>
-              }
+                    {countDown?.titleButton}
+                  </Typography>
+                </Box>
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => setShowModal(true)}
               >
@@ -213,12 +211,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, showButto
             setIsVisible={() => setShowModal(false)}
             rulesData={countDown}
             goToPromotion={() => {
-              if (showButton) {
-                goToPromotion()
-                setShowModal(false)
-              } else {
-                setShowModal(false)
-              }
+              goToPromotion()
             }}
           />
         </Box >
@@ -242,46 +235,46 @@ const CheckTheRules = ({ isVisible, setIsVisible, rulesData, goToPromotion }: Ic
       onBackdropPress={() => setIsVisible(false)}
       isVisible={isVisible}
     >
-      <ScrollView bounces={false}>
-        <Box
-          bg="white"
-          minHeight={184}
-          alignItems="center"
-          justifyContent="center"
-          px={34}
-          py={45}
-        >
-          <Box position="absolute" top={16} right={20} zIndex={4}>
-            <Button
-              onPress={() => setIsVisible(false)}
-              variant="icone"
-              icon={<Icon size={17} name="Close" />}
-            />
-          </Box>
-          <Box>
-            <Typography textAlign={'center'} fontFamily="reservaSerifBold" fontSize={34}>
-              {rulesData?.titleModal}
-            </Typography>
-          </Box>
-          <Box mt={8}>
-            <Typography textAlign={'center'} lineHeight={23} fontFamily="reservaSansRegular" fontSize={18}>
-              {rulesData?.descriptionModal}
-            </Typography>
-          </Box>
-          <Box width="100%" mt={38} mb={5}>
-            <Button
-              variant="primarioEstreito"
-              width="100%"
-              height={50}
-              onPress={goToPromotion}
-            >
-              <Typography color="white" fontFamily="nunitoExtraBold" fontSize={13}>
-                IR PARA A PROMO
-              </Typography>
-            </Button>
-          </Box>
+      {/* <ScrollView bounces={false}> */}
+      <Box
+        bg="white"
+        minHeight={184}
+        alignItems="center"
+        justifyContent="center"
+        px={34}
+        py={45}
+      >
+        <Box position="absolute" top={16} right={20} zIndex={4}>
+          <Button
+            onPress={() => setIsVisible(false)}
+            variant="icone"
+            icon={<Icon size={17} name="Close" />}
+          />
         </Box>
-      </ScrollView>
+        <Box>
+          <Typography textAlign={'center'} fontFamily="reservaSerifBold" fontSize={34}>
+            {rulesData?.titleModal}
+          </Typography>
+        </Box>
+        <Box mt={8}>
+          <Typography textAlign={'center'} lineHeight={23} fontFamily="reservaSansRegular" fontSize={18}>
+            {rulesData?.descriptionModal}
+          </Typography>
+        </Box>
+        <Box width="100%" mt={38} mb={5}>
+          <Button
+            variant="primarioEstreito"
+            width="100%"
+            height={50}
+            onPress={goToPromotion}
+          >
+            <Typography color="white" fontFamily="nunitoExtraBold" fontSize={13}>
+              IR PARA A PROMO
+            </Typography>
+          </Button>
+        </Box>
+      </Box>
+      {/* </ScrollView> */}
     </Modal>
   );
 }

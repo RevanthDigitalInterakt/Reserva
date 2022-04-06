@@ -58,6 +58,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
   const [skeletonLoading, setSkeletonLoading] = useState(true);
+  const [whatchLoading, setWhatchLoading] = useState(false);
+  const [showWhatch, setShowWhatch] = useState(false);
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -344,6 +346,49 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     ).start();
   };
 
+  // recarrega a página de promoção do relógio
+  const loadWatchPromotionPage = async () => {
+    if (countDownClock) {
+      if (countDownClock?.reference === referenceId) {
+        setWhatchLoading(true)
+        setSkeletonLoading(true);
+        setSkip(true);
+        setShowWhatch(false)
+        const fetch = async () => {
+          const { data, loading } = await refetch({
+            skusFilter: 'ALL_AVAILABLE',
+            hideUnavailableItems: true,
+            selectedFacets: [].concat(
+              generateFacets(referenceId),
+              filterRequestList
+            ),
+            orderBy: selectedOrder,
+            to: pageSize - 1,
+            simulationBehavior: 'default',
+            productOriginVtex: false,
+          });
+          if (!loading && !!data) {
+            setWhatchLoading(loading);
+            setProducts(data.productSearch);
+          }
+          setSkeletonLoading(false);
+          await refetchBanner({ category: referenceId });
+        };
+        fetch();
+      } else {
+        setShowWhatch(true)
+      }
+    }
+  }
+
+  useEffect(() => {
+    loadWatchPromotionPage();
+  }, [countDownClock, referenceId]);
+
+  useEffect(() => {
+    console.log('loading::>', loading)
+  }, [loading])
+
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');
   };
@@ -457,7 +502,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {skeletonLoading || loadingHandlerState ? (
+      {skeletonLoading || loadingHandlerState || whatchLoading ? (
         <Skeleton>
           <Box bg="neutroFrio1" width="100%" height={200} />
 
@@ -591,9 +636,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
-            {countDownClock && countDownClock.reference === referenceId && (
+            {countDownClock && showWhatch && (
               <Box>
-                <CountDownBanner countDown={countDownClock} showButton={false} />
+                <CountDownBanner
+                  countDown={countDownClock}
+                />
               </Box>
             )}
             <Box>
