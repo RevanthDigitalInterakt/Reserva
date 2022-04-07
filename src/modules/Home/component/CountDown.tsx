@@ -211,7 +211,8 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, loadingCo
             setIsVisible={() => setShowModal(false)}
             rulesData={countDown}
             goToPromotion={() => {
-              goToPromotion()
+              goToPromotion();
+              setShowModal(false);
             }}
           />
         </Box >

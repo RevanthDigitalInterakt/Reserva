@@ -385,10 +385,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     loadWatchPromotionPage();
   }, [countDownClock, referenceId]);
 
-  useEffect(() => {
-    console.log('loading::>', loading)
-  }, [loading])
-
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');
   };
@@ -398,7 +394,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
         <TopBarDefaultBackButton
-          loading={loading || loadingFetchMore || loadingHandlerState}
+          loading={loading || loadingFetchMore || loadingHandlerState || whatchLoading}
         />
       ) : (
         <TopBarDefault
