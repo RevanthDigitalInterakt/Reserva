@@ -34,7 +34,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
-import { Banner } from '../component/Banner';
+import Banner from '../component/Banner';
 import { CardsCarrousel } from '../component/CardsCarroussel';
 import { DefaultCarrousel } from '../component/Carrousel';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
