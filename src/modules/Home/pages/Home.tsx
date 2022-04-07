@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState, useCallback } from 'react';
 
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -37,7 +37,7 @@ import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import { Banner } from '../component/Banner';
 import { CardsCarrousel } from '../component/CardsCarroussel';
 import { DefaultCarrousel } from '../component/Carrousel';
-import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { CountDownBanner } from '../component/CountDown';
 import { Skeleton } from '../component/Skeleton';
 import { intervalToDuration } from 'date-fns';
@@ -93,8 +93,6 @@ export const HomeScreen: React.FC<{
   useEffect(() => {
     if (currentValue) setTime(currentValue);
   }, [currentValue]);
-
-
 
 
   useEffect(() => {
@@ -203,6 +201,55 @@ export const HomeScreen: React.FC<{
     refetchTeste();
     getStorage();
   }, []);
+
+  const renderCarouselBanners = React.useMemo(() => {
+    return carrousels.map((carrousel) => {
+      switch (carrousel?.type) {
+        case CarrouselTypes.mainCarrousel: {
+          return (
+            <>
+              <DefaultCarrousel carrousel={carrousel} />
+            </>
+          )
+          break;
+        }
+        case CarrouselTypes.cardsCarrousel: {
+          const { items } = carrousel.itemsCollection;
+          return items.length > 1 ? (
+            <CardsCarrousel carrousel={carrousel} />
+          ) : (
+            <Banner
+              height={items[0].image.height}
+              reference={items[0].reference}
+              url={items[0].image.url}
+            />
+          );
+          break;
+        }
+        case CarrouselTypes.banner: {
+          const { image, reference } =
+            carrousel.itemsCollection.items[0];
+          return (
+            <Banner
+              height={image.height}
+              reference={reference}
+              url={image.url}
+            />
+          );
+          break;
+        }
+        default: {
+          return <></>;
+          break;
+        }
+      }
+    })
+  }, [carrousels]);
+
+  const handleModalCodeIsVisible = useCallback(() => {
+    setModalCodeIsVisible(false);
+  }, []);
+
   return (
     <Box flex={1} bg="white">
       <TopBarDefault loading={loading} />
@@ -211,9 +258,7 @@ export const HomeScreen: React.FC<{
         <DiscoutCodeModal
           data={modalDiscount}
           isVisible={modalCodeIsVisible}
-          onClose={() => {
-            setModalCodeIsVisible(false);
-          }}
+          onClose={handleModalCodeIsVisible}
         />
       )}
       <WithoutInternet />
@@ -239,48 +284,7 @@ export const HomeScreen: React.FC<{
               {countDownClock && (
                 <CountDownBanner countDown={countDownClock} />
               )}
-              {carrousels.map((carrousel) => {
-                // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
-                switch (carrousel?.type) {
-                  case CarrouselTypes.mainCarrousel: {
-                    return (
-                      <>
-                        <DefaultCarrousel carrousel={carrousel} />
-                      </>
-                    )
-                    break;
-                  }
-                  case CarrouselTypes.cardsCarrousel: {
-                    const { items } = carrousel.itemsCollection;
-                    return items.length > 1 ? (
-                      <CardsCarrousel carrousel={carrousel} />
-                    ) : (
-                      <Banner
-                        height={items[0].image.height}
-                        reference={items[0].reference}
-                        url={items[0].image.url}
-                      />
-                    );
-                    break;
-                  }
-                  case CarrouselTypes.banner: {
-                    const { image, reference } =
-                      carrousel.itemsCollection.items[0];
-                    return (
-                      <Banner
-                        height={image.height}
-                        reference={reference}
-                        url={image.url}
-                      />
-                    );
-                    break;
-                  }
-                  default: {
-                    return <></>;
-                    break;
-                  }
-                }
-              })}
+              {renderCarouselBanners}
             </Box>
 
             <FlatList

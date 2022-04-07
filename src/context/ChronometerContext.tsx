@@ -31,7 +31,6 @@ interface ChronometerContextProviderProps {
 const ChronometerContextProvider = ({ children }: ChronometerContextProviderProps) => {
     const [time, setTime] = useState<Time>();
 
-    console.log('timetime', time)
     return (
         <ChronometerContext.Provider
             value={{
