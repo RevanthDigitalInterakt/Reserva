@@ -46,63 +46,63 @@ export const productSearch = gql`
       searchState: $searchState
       options: $options
     ) @context(provider: "vtex.search-graphql") {
-      products {
-        categoryTree {
-          href
+    products {
+      categoryTree {
+        href
+      }
+      clusterHighlights {
+        id
+        name
+      }
+      items(filter: FIRST_AVAILABLE) {
+        images {
+          imageUrl
         }
-        clusterHighlights {
-          id
+        itemId
+        variations {
+          originalName
           name
+          values
         }
-        items(filter: FIRST_AVAILABLE) {
-          images {
-            imageUrl
-          }
-          itemId
-          variations {
-            originalName
-            name
-            values
-          }
-          sellers {
-            sellerId
-            commertialOffer {
-              Tax
-              taxPercentage
-              AvailableQuantity
-              Price
-              PriceWithoutDiscount
-              discountHighlights {
-                name
-              }
-              Installments {
-                Value
-                TotalValuePlusInterestRate
-                NumberOfInstallments
-              }
+        sellers {
+          sellerId
+          commertialOffer {
+            Tax
+            taxPercentage
+            AvailableQuantity
+            Price
+            PriceWithoutDiscount
+            discountHighlights {
+              name
+            }
+            Installments {
+              Value
+              TotalValuePlusInterestRate
+              NumberOfInstallments
             }
           }
         }
-        productId
-        productName
-        priceRange {
-          sellingPrice {
-            highPrice
-            lowPrice
-          }
-          listPrice {
-            highPrice
-            lowPrice
-          }
+      }
+      productId
+      productName
+      priceRange {
+        sellingPrice {
+          highPrice
+          lowPrice
+        }
+        listPrice {
+          highPrice
+          lowPrice
         }
       }
-      recordsFiltered
-      breadcrumb {
-        name
-        href
-      }
+    }
+    recordsFiltered
+    breadcrumb {
+      name
+      href
     }
   }
+}
 `;
 
 export interface ProductSearchVars {

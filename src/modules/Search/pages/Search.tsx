@@ -45,6 +45,7 @@ import useDebounce from '../../../shared/hooks/useDebounce';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
+import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -52,6 +53,7 @@ type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 
 export const SearchScreen: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
+  const { regionId } = useRegionalSearch()
   const [searchTerm, setSearchTerm] = React.useState('');
   const [showResults, setShowResults] = React.useState(true);
   const [showAllProducts, setShowAllProducts] = React.useState(false);
@@ -86,6 +88,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     {
       variables: {
         to: pageSize - 1,
+        selectedFacets: [{
+          key: 'region-id',
+          value: regionId
+        }],
       },
     }
   );
@@ -193,10 +199,13 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const handleSearch = async (text: string) => {
     setWaiting(true);
-
+    console.log('handleSearch', regionId);
     const { data, loading } = await refetch({
       fullText: text,
-      selectedFacets: [],
+      selectedFacets: [{
+        key: 'region-id',
+        value: regionId
+      }],
     });
 
     resetProductsArray();

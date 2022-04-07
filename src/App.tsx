@@ -22,6 +22,8 @@ import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
 import { apolloClient } from './services/apolloClient';
 import { RemoteConfigService } from "./shared/services/RemoteConfigService";
+import RegionalSearchContext from 'context/RegionalSearchContext';
+import RegionalSearchContextProvider from './context/RegionalSearchContext';
 
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
@@ -134,17 +136,19 @@ const App = () => {
           :
           <CartContextProvider>
             <AuthContextProvider>
-              <CacheImagesProvider>
-                <FirebaseContextProvider>
-                  <ChronometerContextProvider>
-                    <ApolloProvider client={apolloClient}>
-                      <InitialScreen>
-                        <AppRouting />
-                      </InitialScreen>
-                    </ApolloProvider>
-                  </ChronometerContextProvider>
-                </FirebaseContextProvider>
-              </CacheImagesProvider>
+              <RegionalSearchContextProvider>
+                <CacheImagesProvider>
+                  <FirebaseContextProvider>
+                    <ChronometerContextProvider>
+                      <ApolloProvider client={apolloClient}>
+                        <InitialScreen>
+                          <AppRouting />
+                        </InitialScreen>
+                      </ApolloProvider>
+                    </ChronometerContextProvider>
+                  </FirebaseContextProvider>
+                </CacheImagesProvider>
+              </RegionalSearchContextProvider>
             </AuthContextProvider>
           </CartContextProvider>
       }
