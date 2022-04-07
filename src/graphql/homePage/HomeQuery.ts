@@ -53,11 +53,22 @@ export interface CarrouselCard {
   name: string;
   description: string;
   reference: string;
-
   referenceLabel?: string;
 }
 
 export interface ICountDownClock {
+  title: string;
+  subtitle: string;
+  watchType: number;
+  countdown: string;
+  titleButton: string;
+  titleModal: string;
+  descriptionModal: string;
+  reference: string;
+  formattedValue?: string | undefined;
+}
+
+export interface ICountDownClockReservaMini {
   title: string;
   subtitle: string;
   watchType: number;
@@ -159,6 +170,16 @@ export const configCollection = gql`
           coupon
         }
         countDownClock {
+          title
+          subtitle
+          watchType
+          countdown
+          titleButton
+          titleModal
+          descriptionModal
+          reference
+        }
+        countDownClockReservaMini {
           title
           subtitle
           watchType

@@ -39,7 +39,7 @@ import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVer
 import { FilterModal } from '../modals/FilterModal';
 import {
   configCollection,
-  ICountDownClock
+  ICountDownClock,
 } from '../../../graphql/homePage/HomeQuery';
 import { CountDownBanner } from '../../Home/component/CountDown';
 import { intervalToDuration } from 'date-fns';
@@ -51,7 +51,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     {} as ProductSearchData
   );
   const pageSize = 12;
-  const { safeArea, search, referenceId } = route.params;
+  const { safeArea, search, referenceId, title } = route.params;
 
   const categoryId = 'camisetas';
 
@@ -119,21 +119,27 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
   );
 
-  const [loadingModal, setLoadingModal] = useState(false);
-  const [firstLoading, setFirstLoading] = useState(true);
+  const [isReservaMini, setIsReservaMini] = useState(false);
 
   useEffect(() => {
     if (collectionData) {
-      const countDownClock = collectionData?.configCollection?.items[0].countDownClock
+      let countDownClock = isReservaMini
+        ? collectionData?.configCollection?.items[0].countDownClockReservaMini
+        : collectionData?.configCollection?.items[0].countDownClock;
 
-      let limitDate
+      let limitDate;
       if (countDownClock?.countdown) {
-        limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
+        limitDate = intervalToDuration({
+          start: Date.now(),
+          end: new Date(countDownClock?.countdown),
+        });
       }
       if (limitDate) {
         setCountDownClock({
           ...countDownClock,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+            limitDate.minutes
+          }:${limitDate.seconds}`,
         });
       }
     }
@@ -221,9 +227,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value: ColorsToHexEnum[value],
-          }))
+              key,
+              value: ColorsToHexEnum[value],
+            }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -233,9 +239,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // CATEGORY
@@ -245,19 +251,27 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
+
+      console.log(
+        'categoryFacets',
+        categoryFacets[0].values.map(({ key, value }: any) => ({
+          key,
+          value,
+        }))
+      );
 
       // PRICE
       const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-            key,
-            range,
-          }))
+              key,
+              range,
+            }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -350,10 +364,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const loadWatchPromotionPage = async () => {
     if (countDownClock) {
       if (countDownClock?.reference === referenceId) {
-        setWhatchLoading(true)
+        setWhatchLoading(true);
         setSkeletonLoading(true);
         setSkip(true);
-        setShowWhatch(false)
+        setShowWhatch(false);
         const fetch = async () => {
           const { data, loading } = await refetch({
             skusFilter: 'ALL_AVAILABLE',
@@ -376,22 +390,29 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         };
         fetch();
       } else {
-        setShowWhatch(true)
+        setShowWhatch(true);
       }
     }
-  }
+  };
 
   useEffect(() => {
     loadWatchPromotionPage();
   }, [countDownClock, referenceId]);
 
   useEffect(() => {
-    console.log('loading::>', loading)
-  }, [loading])
+    console.log('loading::>', loading);
+  }, [loading]);
 
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');
   };
+
+  useEffect(() => {
+    console.log('TITLE', title);
+    if (title) {
+      if (title === 'Reserva Mini') setIsReservaMini(true);
+    }
+  }, [title]);
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
@@ -640,6 +661,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               <Box>
                 <CountDownBanner
                   countDown={countDownClock}
+                  isReservaMini={isReservaMini}
                 />
               </Box>
             )}
@@ -673,7 +695,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                     if (productsQuery.products.length > 0) {
                       setFilterVisible(true);
                     } else {
-                      setFilterRequestList([])
+                      setFilterRequestList([]);
                     }
                   }}
                   marginRight="nano"
@@ -690,12 +712,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                     fontFamily="nunitoSemiBold"
                     fontSize="14px"
                   >
-                    {
-                      productsQuery.products?.length == 0 && filterRequestList.length > 0 ?
-                        'Limpar Filtros'
-                        :
-                        'Filtrar'
-                    }
+                    {productsQuery.products?.length == 0 &&
+                    filterRequestList.length > 0
+                      ? 'Limpar Filtros'
+                      : 'Filtrar'}
                   </Typography>
                 </Button>
               </Box>

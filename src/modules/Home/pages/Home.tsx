@@ -26,7 +26,7 @@ import {
   configCollection,
   homeQuery,
   HomeQuery,
-  ICountDownClock
+  ICountDownClock,
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { productSearch } from '../../../graphql/products/productSearch';
@@ -66,7 +66,7 @@ export const HomeScreen: React.FC<{
   });
   const { currentValue, start, stop, reset } = useChronometer({
     countDown: true,
-    initial: countDownClock?.formattedValue
+    initial: countDownClock?.formattedValue,
   });
 
   const [login, { data: loginData, loading: loginLoading }] = useMutation(
@@ -93,9 +93,6 @@ export const HomeScreen: React.FC<{
   useEffect(() => {
     if (currentValue) setTime(currentValue);
   }, [currentValue]);
-
-
-
 
   useEffect(() => {
     const carrouselsItems: Carrousel[] =
@@ -124,15 +121,21 @@ export const HomeScreen: React.FC<{
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
-      const countDownClock = collectionData?.configCollection?.items[0].countDownClock
-      let limitDate
+      const countDownClock =
+        collectionData?.configCollection?.items[0].countDownClock;
+      let limitDate;
       if (countDownClock?.countdown) {
-        limitDate = intervalToDuration({ start: Date.now(), end: new Date(countDownClock?.countdown) });
+        limitDate = intervalToDuration({
+          start: Date.now(),
+          end: new Date(countDownClock?.countdown),
+        });
       }
       if (limitDate) {
         setCountDownClock({
           ...countDownClock,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes}:${limitDate.seconds}`
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+            limitDate.minutes
+          }:${limitDate.seconds}`,
         });
       }
     }
@@ -236,9 +239,7 @@ export const HomeScreen: React.FC<{
                 overflow: 'hidden',
               }}
             >
-              {countDownClock && (
-                <CountDownBanner countDown={countDownClock} />
-              )}
+              {countDownClock && <CountDownBanner countDown={countDownClock} />}
               {carrousels.map((carrousel) => {
                 // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
                 switch (carrousel?.type) {
@@ -247,7 +248,7 @@ export const HomeScreen: React.FC<{
                       <>
                         <DefaultCarrousel carrousel={carrousel} />
                       </>
-                    )
+                    );
                     break;
                   }
                   case CarrouselTypes.cardsCarrousel: {

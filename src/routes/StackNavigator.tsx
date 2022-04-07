@@ -69,6 +69,7 @@ export type RootStackParamList = {
         value: string;
       }
     ];
+    title?: string;
   };
   WishList: {};
   OrderDetail: {

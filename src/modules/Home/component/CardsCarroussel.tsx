@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, FlatList, Animated, View, StyleSheet, } from 'react-native';
+import { Dimensions, FlatList, Animated, View, StyleSheet } from 'react-native';
 import { Box, Button, Image } from 'reserva-ui';
 import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
 
@@ -16,9 +16,9 @@ interface CardsCarrouselProps {
 export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   carrousel,
 }) => {
-  console.log('carrousel', carrousel);
+  // console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
-  const scrollX = useRef(new Animated.Value(0)).current
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   return (
     <Box>
@@ -34,9 +34,9 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           snapToOffsets={[...Array(myCards.length)].map(
             (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48
           )}
-          snapToAlignment='start'
+          snapToAlignment="start"
           scrollEventThrottle={16}
-          decelerationRate='fast'
+          decelerationRate="fast"
           contentContainerStyle={{
             paddingLeft: 4,
             paddingRight: 4,
@@ -60,22 +60,23 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           )}
         />
 
-        <Box
-          height={24}
-          flexDirection='row'
-          alignSelf='center'
-        >
+        <Box height={24} flexDirection="row" alignSelf="center">
           <Animated.View
             style={[
               styles.slidingIndicatorStyle,
               {
                 position: 'absolute',
-                transform: [{
-                  translateX: Animated.divide(scrollX, DEVICE_WIDTH * 0.88 - 48).interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [6, 25.8]
-                  })
-                }],
+                transform: [
+                  {
+                    translateX: Animated.divide(
+                      scrollX,
+                      DEVICE_WIDTH * 0.88 - 48
+                    ).interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [6, 25.8],
+                    }),
+                  },
+                ],
               },
             ]}
           />
@@ -83,8 +84,8 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
             return (
               <Box
                 key={index}
-                justifyContent='center'
-                alignItems='center'
+                justifyContent="center"
+                alignItems="center"
                 width={19}
               >
                 <Box
@@ -92,14 +93,14 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
                   width={7}
                   height={7}
                   borderRadius={7}
-                  borderColor='#6F6F6F'
+                  borderColor="#6F6F6F"
                 />
               </Box>
             );
           })}
         </Box>
       </Box>
-    </Box >
+    </Box>
   );
 };
 
@@ -124,7 +125,7 @@ const Card: React.FC<CardProps> = ({
         productId: categoryData,
         itemId: categoryData,
         colorSelected: '#FFFFFF',
-      })
+      });
     } else {
       if (categoryType === 'category') {
         categoryData.split('|').forEach((cat: string) => {
@@ -151,7 +152,8 @@ const Card: React.FC<CardProps> = ({
         <Image
           autoHeight
           width={DEVICE_WIDTH * 0.85 - 16}
-          source={{ uri: image.url }} />
+          source={{ uri: image.url }}
+        />
       </Button>
     </Box>
   );

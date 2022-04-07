@@ -1,70 +1,105 @@
-
-import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
-  useNavigation,
-} from '@react-navigation/native';
-import { TouchableOpacity, Dimensions, PixelRatio, Platform, ScrollView } from "react-native"
-import { Box, theme, Typography, Button, Icon } from "reserva-ui";
-import Modal from "react-native-modal";
-import {
-  ICountDownClock
-} from '../../../graphql/homePage/HomeQuery';
-import FlipNumber from './flipcountdoun/FlipNumber'
+  TouchableOpacity,
+  Dimensions,
+  PixelRatio,
+  Platform,
+  ScrollView,
+} from 'react-native';
+import { Box, theme, Typography, Button, Icon } from 'reserva-ui';
+import Modal from 'react-native-modal';
+import { ICountDownClock } from '../../../graphql/homePage/HomeQuery';
+import FlipNumber from './flipcountdoun/FlipNumber';
 import { useCountDown } from '../../../context/ChronometerContext';
 export interface CountDownProps {
   countDown?: ICountDownClock;
   loadingCountDownBanner?: boolean;
+  isReservaMini?: boolean;
 }
 const deviceWidth = Dimensions.get('window').width;
 
 const scale = deviceWidth / 320;
 
-export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, loadingCountDownBanner }: CountDownProps) => {
+export const CountDownBanner: React.FC<CountDownProps> = ({
+  countDown,
+  loadingCountDownBanner,
+  isReservaMini,
+}: CountDownProps) => {
   const navigation = useNavigation();
   const [countDownData, setCountDownData] = useState<ICountDownClock>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
   const [watchType, setWatchType] = useState<number>(0);
-  const [clockColor, setClockColor] = useState<{ colorBanner: string, colorButton: string, clockBackgroundColor: string }[]>([
+
+  const colors = [
     {
       colorBanner: '#000000',
       colorButton: '#E40C2B',
-      clockBackgroundColor: '#1A1A1A'
+      clockBackgroundColor: '#1A1A1A',
     },
     {
       colorBanner: '#BB181B',
       colorButton: '#000000',
-      clockBackgroundColor: '#C23032'
+      clockBackgroundColor: '#C23032',
     },
     {
       colorBanner: '#000000',
       colorButton: '#4A4A4A',
-      clockBackgroundColor: '#1A1A1A'
+      clockBackgroundColor: '#1A1A1A',
     },
-  ]);
+  ];
+
+  const colorsReservaMini = [
+    {
+      colorBanner: '#000000',
+      colorButton: '#E40C2B',
+      clockBackgroundColor: '#1A1A1A',
+    },
+    {
+      colorBanner: '#e45ee3',
+      colorButton: '#000000',
+      clockBackgroundColor: '#C23032',
+    },
+    {
+      colorBanner: '#000000',
+      colorButton: '#e45ee3',
+      clockBackgroundColor: '#1A1A1A',
+    },
+  ];
+  const [clockColor, setClockColor] = useState<
+    {
+      colorBanner: string;
+      colorButton: string;
+      clockBackgroundColor: string;
+    }[]
+  >(isReservaMini ? colorsReservaMini : colors);
   const { time = '00:00:00' } = useCountDown();
 
   useEffect(() => {
     if (Date.now() > new Date(countDown?.countdown).getTime()) {
-      setShowClock(true)
+      setShowClock(true);
     } else {
-      setShowClock(false)
+      setShowClock(false);
     }
     if (countDown) {
-      setWatchType(countDown?.watchType)
+      setWatchType(countDown?.watchType);
     }
   }, [countDown]);
 
+  useEffect(() => {
+    console.log('isReservaMini', isReservaMini);
+  }, [isReservaMini]);
 
   const goToPromotion = () => {
     const facetInput = [];
-    const [categoryType, categoryData] = countDown?.reference?.split(':');;
+    const [categoryType, categoryData] = countDown?.reference?.split(':');
     if (categoryType === 'product') {
       navigation.navigate('ProductDetail', {
         productId: categoryData,
         itemId: categoryData,
         colorSelected: '#FFFFFF',
-      })
+      });
     } else {
       if (categoryType === 'category') {
         categoryData.split('|').forEach((cat: string) => {
@@ -84,142 +119,140 @@ export const CountDownBanner: React.FC<CountDownProps> = ({ countDown, loadingCo
         referenceId: countDown?.reference,
       });
     }
-  }
-  const textColor = '#FFF'
+  };
+  const textColor = '#FFF';
 
   function normalize(size) {
-    const newSize = size * scale
+    const newSize = size * scale;
     if (Platform.OS === 'ios') {
-      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3
+      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3;
     } else {
-      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4
+      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4;
     }
   }
 
-  return (
-    !showClock && time !== '00:00:00' ?
-
-      <Box mb={5} minHeight={90} paddingX={22} alignItems='center' alignSelf='center' backgroundColor={clockColor[watchType - 1]?.colorBanner}>
-
-        <Box width={deviceWidth} paddingX={22}>
-          <Box alignItems='center' mb={8} mt={12} >
-            <Typography
-              lineHeight={normalize(28)}
-              color={textColor}
-              fontFamily="reservaSerifMedium"
-              fontSize={normalize(26)}
-            >
-              {countDown?.title}
-            </Typography>
+  return !showClock && time !== '00:00:00' ? (
+    <Box
+      mb={5}
+      minHeight={90}
+      paddingX={22}
+      alignItems="center"
+      alignSelf="center"
+      backgroundColor={clockColor[watchType - 1]?.colorBanner}
+    >
+      <Box width={deviceWidth} paddingX={22}>
+        <Box alignItems="center" mb={8} mt={12}>
+          <Typography
+            lineHeight={normalize(28)}
+            color={textColor}
+            fontFamily="reservaSerifMedium"
+            fontSize={normalize(26)}
+          >
+            {countDown?.title}{' '}
             {countDown?.subtitle && (
               <Typography
                 lineHeight={normalize(28)}
                 color={textColor}
                 fontFamily="reservaSerifLight"
                 fontSize={normalize(26)}
-              >{countDown?.subtitle}
+              >
+                {countDown?.subtitle}
               </Typography>
             )}
-          </Box>
-          <Box
-            flexDirection='row'
-            alignItems="center"
-            justifyContent='space-between'
-            paddingBottom={10}
-          >
-            <Box
-              alignItems='center'
-              mr={17}
-            >
-              <Box>
-                <Typography
-                  color={textColor}
-                  fontFamily="reservaSansRegular"
-                  fontSize={14}
-                >
-                  Acaba em:
-                </Typography>
-              </Box>
-              <Box flexDirection='row' alignItems="center" mt={5} >
-                <FlipNumber
-                  clockBackgroundColor={clockColor[watchType - 1]?.clockBackgroundColor}
-                  colorDivider={clockColor[watchType - 1]?.colorBanner}
-                  number={time?.split(':')[0]}
-                  size={43}
-                  unit="hours"
-                />
+          </Typography>
+        </Box>
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          paddingBottom={10}
+        >
+          <Box alignItems="center" mr={17}>
+            <Box>
+              <Typography
+                color={textColor}
+                fontFamily="reservaSansRegular"
+                fontSize={14}
+              >
+                Acaba em:
+              </Typography>
+            </Box>
+            <Box flexDirection="row" alignItems="center" mt={5}>
+              <FlipNumber
+                clockBackgroundColor={
+                  clockColor[watchType - 1]?.clockBackgroundColor
+                }
+                colorDivider={clockColor[watchType - 1]?.colorBanner}
+                number={time?.split(':')[0]}
+                size={43}
+                unit="hours"
+              />
 
-                <Box height={14} justifyContent="space-between" marginX={6}>
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                </Box>
-
-                <FlipNumber
-                  clockBackgroundColor={clockColor[watchType - 1]?.clockBackgroundColor}
-                  colorDivider={clockColor[watchType - 1]?.colorBanner}
-                  number={time?.split(':')[1]}
-                  size={43}
-                />
-
-                <Box height={14} justifyContent="space-between" marginX={6}>
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                </Box>
-
-                <FlipNumber
-                  clockBackgroundColor={clockColor[watchType - 1]?.clockBackgroundColor}
-                  colorDivider={clockColor[watchType - 1]?.colorBanner}
-                  number={time?.split(':')[2]}
-                  size={43}
-                />
+              <Box height={14} justifyContent="space-between" marginX={6}>
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
               </Box>
 
-            </Box>
-            <Box alignItems="center" flex={1}>
-              <TouchableOpacity
-                style={{ width: '100%' }}
-                onPress={goToPromotion}
-              >
-                <Box bg={clockColor[watchType - 1]?.colorButton}
-                  paddingY={12}
-                  mb={4}
-                >
-                  <Typography
-                    textAlign='center'
-                    color={textColor}
-                  >
-                    {countDown?.titleButton}
-                  </Typography>
-                </Box>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setShowModal(true)}
-              >
-                <Typography
-                  color={textColor}
-                  fontFamily="reservaSansRegular"
-                  fontSize={13}
-                  style={{ textDecorationLine: 'underline' }}
-                >
-                  Confira as regras.
-                </Typography>
-              </TouchableOpacity>
+              <FlipNumber
+                clockBackgroundColor={
+                  clockColor[watchType - 1]?.clockBackgroundColor
+                }
+                colorDivider={clockColor[watchType - 1]?.colorBanner}
+                number={time?.split(':')[1]}
+                size={43}
+              />
+
+              <Box height={14} justifyContent="space-between" marginX={6}>
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+              </Box>
+
+              <FlipNumber
+                clockBackgroundColor={
+                  clockColor[watchType - 1]?.clockBackgroundColor
+                }
+                colorDivider={clockColor[watchType - 1]?.colorBanner}
+                number={time?.split(':')[2]}
+                size={43}
+              />
             </Box>
           </Box>
-          <CheckTheRules
-            isVisible={ShowModal}
-            setIsVisible={() => setShowModal(false)}
-            rulesData={countDown}
-            goToPromotion={() => {
-              goToPromotion()
-            }}
-          />
-        </Box >
-
-      </Box >
-      : null
-  )
-}
+          <Box alignItems="center" flex={1}>
+            <TouchableOpacity style={{ width: '100%' }} onPress={goToPromotion}>
+              <Box
+                bg={clockColor[watchType - 1]?.colorButton}
+                paddingY={12}
+                mb={4}
+              >
+                <Typography textAlign="center" color={textColor}>
+                  {countDown?.titleButton}
+                </Typography>
+              </Box>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowModal(true)}>
+              <Typography
+                color={textColor}
+                fontFamily="reservaSansRegular"
+                fontSize={13}
+                style={{ textDecorationLine: 'underline' }}
+              >
+                Confira as regras.
+              </Typography>
+            </TouchableOpacity>
+          </Box>
+        </Box>
+        <CheckTheRules
+          isVisible={ShowModal}
+          setIsVisible={() => setShowModal(false)}
+          rulesData={countDown}
+          goToPromotion={() => {
+            goToPromotion();
+          }}
+        />
+      </Box>
+    </Box>
+  ) : null;
+};
 
 interface IcheckTheRules {
   isVisible: boolean;
@@ -227,8 +260,12 @@ interface IcheckTheRules {
   rulesData?: ICountDownClock;
   goToPromotion?: () => void;
 }
-const CheckTheRules = ({ isVisible, setIsVisible, rulesData, goToPromotion }: IcheckTheRules) => {
-
+const CheckTheRules = ({
+  isVisible,
+  setIsVisible,
+  rulesData,
+  goToPromotion,
+}: IcheckTheRules) => {
   return (
     <Modal
       avoidKeyboard
@@ -252,12 +289,21 @@ const CheckTheRules = ({ isVisible, setIsVisible, rulesData, goToPromotion }: Ic
           />
         </Box>
         <Box>
-          <Typography textAlign={'center'} fontFamily="reservaSerifBold" fontSize={34}>
+          <Typography
+            textAlign={'center'}
+            fontFamily="reservaSerifBold"
+            fontSize={34}
+          >
             {rulesData?.titleModal}
           </Typography>
         </Box>
         <Box mt={8}>
-          <Typography textAlign={'center'} lineHeight={23} fontFamily="reservaSansRegular" fontSize={18}>
+          <Typography
+            textAlign={'center'}
+            lineHeight={23}
+            fontFamily="reservaSansRegular"
+            fontSize={18}
+          >
             {rulesData?.descriptionModal}
           </Typography>
         </Box>
@@ -268,7 +314,11 @@ const CheckTheRules = ({ isVisible, setIsVisible, rulesData, goToPromotion }: Ic
             height={50}
             onPress={goToPromotion}
           >
-            <Typography color="white" fontFamily="nunitoExtraBold" fontSize={13}>
+            <Typography
+              color="white"
+              fontFamily="nunitoExtraBold"
+              fontSize={13}
+            >
               IR PARA A PROMO
             </Typography>
           </Button>
@@ -277,4 +327,4 @@ const CheckTheRules = ({ isVisible, setIsVisible, rulesData, goToPromotion }: Ic
       {/* </ScrollView> */}
     </Modal>
   );
-}
+};
