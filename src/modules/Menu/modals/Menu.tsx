@@ -25,6 +25,7 @@ import { TopBarMenu } from '../components/TopBarMenu';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { instance } from '../../../config/vtexConfig';
 import AsyncStorage from '@react-native-community/async-storage';
+import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 
 interface IBreadCrumbs {
   title: string;
@@ -253,11 +254,23 @@ export const Menu: React.FC<{}> = () => {
     refetch,
   } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
+  const [screenRegionalizationActive, setScreenRegionalizationActive] = useState(false);
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
   const { loading, error, data } = useQuery(categoriesQuery, {
     context: { clientName: 'contentful' },
   });
+
+
+  const getIsScreenRegionalizationActive = async () => {
+    const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_REGIONALIZATION');
+
+    setScreenRegionalizationActive(cashback_in_store);
+  }
+
+  useEffect(() => {
+    getIsScreenRegionalizationActive();
+  }, []);
 
   const categoryItems =
     data?.appMenuCollection.items[0].itemsCollection.items || [];
@@ -341,22 +354,26 @@ export const Menu: React.FC<{}> = () => {
                 marginBottom="nano"
                 marginTop="nano"
               />
-              <FixedMenuItem
-                iconName="Pin"
-                title={
-                  <Typography
-                    alignSelf="flex-end"
-                    color="preto"
-                    fontSize={15}
-                    fontFamily="nunitoBold"
-                  >
-                    {`${cep != null ? cep : 'Inserir'} ou alterar CEP`}
-                  </Typography>
-                }
-                onPress={() => {
-                  navigation.navigate('ChangeRegionalization');
-                }}
-              />
+              {
+                screenRegionalizationActive && (
+                  <FixedMenuItem
+                    iconName="Pin"
+                    title={
+                      <Typography
+                        alignSelf="flex-end"
+                        color="preto"
+                        fontSize={15}
+                        fontFamily="nunitoBold"
+                      >
+                        {`${cep != null ? cep : 'Inserir'} ou alterar CEP`}
+                      </Typography>
+                    }
+                    onPress={() => {
+                      navigation.navigate('ChangeRegionalization');
+                    }}
+                  />
+                )
+              }
               <FixedMenuItem
                 iconName="Profile"
                 disabled={!!cookie}
