@@ -1,6 +1,7 @@
 import React from 'react';
 import { Animated, View, Text, StyleSheet, Platform } from 'react-native';
 import { theme } from "reserva-ui";
+
 interface IFlipCard {
     setRef: any;
     type: 'front' | 'back';
@@ -42,11 +43,11 @@ function FlipCard({
                 },
             ]}
         >
-            <View style={style.overflowContainer}>
+            <View style={[style.overflowContainer, { width: size, alignItems: 'center', justifyContent: 'center' }]}>
                 <Text style={[style.number, {
-                    transform: [type === 'front' ? { translateY: size * 0.3 } : { translateY: -size * 0.3 }],
-                    fontSize: size / 1.5,
-                    lineHeight: Platform.OS === 'android' ? size / 1.5 : size / 1.3,
+                    transform: [type === 'front' ? { translateY: size * 0.2 } : { translateY: -size * 0.23 }],
+                    fontSize: size / 1.8,
+                    lineHeight: Platform.OS === 'android' ? size / 1.85 : size / 1.65,
                     fontFamily: theme.fonts.reservaSansBold,
                 }]}
                 >
@@ -60,7 +61,6 @@ function FlipCard({
 export default FlipCard;
 
 const style = StyleSheet.create({
-
     overflowContainer: {
         overflow: 'hidden',
     },
