@@ -45,7 +45,7 @@ function FlipCard({
         >
             <View style={[style.overflowContainer, { width: size, alignItems: 'center', justifyContent: 'center' }]}>
                 <Text style={[style.number, {
-                    transform: [type === 'front' ? { translateY: size * 0.2 } : { translateY: -size * 0.23 }],
+                    transform: [type === 'front' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
                     fontSize: size / 1.8,
                     lineHeight: Platform.OS === 'android' ? size / 1.85 : size / 1.65,
                     fontFamily: theme.fonts.reservaSansBold,
