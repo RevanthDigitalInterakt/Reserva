@@ -1,8 +1,13 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -27,6 +32,7 @@ import {
   homeQuery,
   HomeQuery,
   ICountDownClock,
+  ICountDownClockReservaMini,
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { productSearch } from '../../../graphql/products/productSearch';
@@ -51,7 +57,7 @@ export const HomeScreen: React.FC<{
 }> = () => {
   const navigation = useNavigation();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
-  const { setTime, time } = useCountDown();
+  const { setTime, time, setTimeRsvMini } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -59,29 +65,42 @@ export const HomeScreen: React.FC<{
   const [carrousels, setCarrousels] = React.useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
+  const [countDownClockRsvMini, setCountDownClockRsvMini] =
+    React.useState<ICountDownClockReservaMini>();
   const deviceWidth = Dimensions.get('screen').width;
+
+  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
   const { loading, data, refetch } = useQuery(homeQuery, {
     context: { clientName: 'contentful' },
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
-  const { currentValue, start, stop, reset } = useChronometer({
+  const {
+    currentValue,
+    start,
+    stop,
+    reset,
+    startRsvMini,
+    currentValueRsvMini,
+  } = useChronometer({
     countDown: true,
     initial: countDownClock?.formattedValue,
+    initialRsvMini: countDownClockRsvMini?.formattedValue,
   });
 
+  const { WithoutInternet } = useCheckConnection({ refetch });
   const [login, { data: loginData, loading: loginLoading }] = useMutation(
     classicSignInMutation
   );
 
-  const { data: collectionData } = useQuery(configCollection, {
-    context: { clientName: 'contentful' },
-  });
+  const { data: collectionData, refetch: refetchConfig } = useQuery(
+    configCollection,
+    {
+      context: { clientName: 'contentful' },
+    }
+  );
 
-  const { WithoutInternet } = useCheckConnection({ refetch });
+  const [loadingScreen, setLoadingScreen] = useState(true);
 
-  const { width, height } = Dimensions.get('screen');
-
-  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
   useEffect(() => {
     if (countDownClock) {
       if (new Date(countDownClock?.countdown).getTime() > Date.now()) {
@@ -93,6 +112,19 @@ export const HomeScreen: React.FC<{
   useEffect(() => {
     if (currentValue) setTime(currentValue);
   }, [currentValue]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (loadingScreen) {
+        setCountDownClockStart();
+
+        refetch();
+        refetchConfig();
+        refetchTeste();
+        setLoadingScreen(false);
+      }
+    }, [loadingScreen])
+  );
 
   useEffect(() => {
     const carrouselsItems: Carrousel[] =
@@ -116,11 +148,8 @@ export const HomeScreen: React.FC<{
     setImages(arrayImages);
   }, [data]);
 
-  useEffect(() => {
+  const setCountDownClockStart = () => {
     if (collectionData) {
-      setModalDiscount(
-        collectionData?.configCollection?.items[0].discountCodeBar
-      );
       const countDownClock =
         collectionData?.configCollection?.items[0].countDownClock;
       let limitDate;
@@ -138,6 +167,34 @@ export const HomeScreen: React.FC<{
           }:${limitDate.seconds}`,
         });
       }
+
+      let countDownClockMini =
+        collectionData?.configCollection?.items[0].countDownClockReservaMini;
+
+      let limitDateRsvMini;
+      if (countDownClockMini?.countdown) {
+        limitDateRsvMini = intervalToDuration({
+          start: Date.now(),
+          end: new Date(countDownClockMini?.countdown),
+        });
+      }
+      if (limitDate) {
+        setCountDownClockRsvMini({
+          ...countDownClockMini,
+          formattedValue: `${
+            limitDateRsvMini?.days * 24 + limitDateRsvMini?.hours
+          }:${limitDateRsvMini?.minutes}:${limitDateRsvMini?.seconds}`,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    setCountDownClockStart();
+    if (collectionData) {
+      setModalDiscount(
+        collectionData?.configCollection?.items[0].discountCodeBar
+      );
     }
   }, [collectionData]);
 
@@ -220,7 +277,7 @@ export const HomeScreen: React.FC<{
         />
       )}
       <WithoutInternet />
-      {loading ? (
+      {loading && loadingScreen ? (
         <Skeleton />
       ) : (
         <SafeAreaView

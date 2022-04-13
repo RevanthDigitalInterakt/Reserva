@@ -2,15 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import BackgroundTimer from 'react-native-background-timer';
 
-export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
+export const useChronometer = ({
+  initial = '00:00:00',
+  countDown = false,
+  initialRsvMini = '00:00:00',
+}) => {
   const [valueFormatted, setValueFormatted] = useState(initial);
+  const [valueFormattedRsvMini, setValueFormattedRsvMini] = useState(initial);
   const value = useRef(initial);
+  const valueRsvMini = useRef(initialRsvMini);
   const intervalIDRef = useRef();
-
 
   useEffect(() => {
     value.current = initial;
-  }, [initial])
+  }, [initial]);
+
+  useEffect(() => {
+    valueRsvMini.current = initialRsvMini;
+  }, [initialRsvMini]);
 
   const start = () => {
     let seconds = convertHoursToSeconds(value.current);
@@ -23,6 +32,20 @@ export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
       }
       const formatted = convertSecondsToHours(seconds);
       setValueFormatted(formatted);
+    }, 1000);
+  };
+
+  const startRsvMini = () => {
+    let seconds = convertHoursToSeconds(valueRsvMini.current);
+
+    BackgroundTimer.runBackgroundTimer(() => {
+      if (countDown) {
+        seconds -= 1;
+      } else {
+        seconds += 1;
+      }
+      const formatted = convertSecondsToHours(seconds);
+      setValueFormattedRsvMini(formatted);
     }, 1000);
   };
 
@@ -39,15 +62,24 @@ export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
     start();
   };
 
+  const resetRsvMini = () => {
+    stop();
+    valueRsvMini.current = initialRsvMini;
+    start();
+  };
+
   useEffect(() => {
     BackgroundTimer.stopBackgroundTimer();
   }, []);
 
   return {
     currentValue: valueFormatted,
+    currentValueRsvMini: valueFormattedRsvMini,
     start,
+    startRsvMini,
     stop,
     reset,
+    resetRsvMini,
   };
 };
 

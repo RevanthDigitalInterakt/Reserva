@@ -23,6 +23,7 @@ import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import {
   bannerDefaultQuery,
   bannerQuery,
+  ICountDownClockReservaMini,
 } from '../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
@@ -43,6 +44,8 @@ import {
 } from '../../../graphql/homePage/HomeQuery';
 import { CountDownBanner } from '../../Home/component/CountDown';
 import { intervalToDuration } from 'date-fns';
+import { CountDownRsvMini } from '../../../modules/Home/component/CountDownRsvMini';
+import { useNavigation } from '@react-navigation/native';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -54,6 +57,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const { safeArea, search, referenceId, title } = route.params;
 
   const categoryId = 'camisetas';
+  const navigation = useNavigation();
 
   const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
@@ -73,6 +77,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const [skip, setSkip] = useState(false);
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
+  const [countDownClockRsvMini, setCountDownClockRsvMini] =
+    React.useState<ICountDownClockReservaMini>();
   const { data: collectionData } = useQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
@@ -120,12 +126,42 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   );
 
   const [isReservaMini, setIsReservaMini] = useState(false);
+  useEffect(() => {
+    console.log('TITLE', title);
+    if (title) {
+      if (title === 'Reserva Mini') {
+        setIsReservaMini(true);
+      }
+    }
+  }, [title]);
 
   useEffect(() => {
     if (collectionData) {
-      let countDownClock = isReservaMini
-        ? collectionData?.configCollection?.items[0].countDownClockReservaMini
-        : collectionData?.configCollection?.items[0].countDownClock;
+      let countDownClockMini =
+        collectionData?.configCollection?.items[0].countDownClockReservaMini;
+
+      let limitDate;
+      if (countDownClockMini?.countdown) {
+        limitDate = intervalToDuration({
+          start: Date.now(),
+          end: new Date(countDownClockMini?.countdown),
+        });
+      }
+      if (limitDate) {
+        setCountDownClockRsvMini({
+          ...countDownClockMini,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+            limitDate.minutes
+          }:${limitDate.seconds}`,
+        });
+      }
+    }
+  }, [collectionData]);
+
+  useEffect(() => {
+    if (collectionData) {
+      let countDownClock =
+        collectionData?.configCollection?.items[0].countDownClock;
 
       let limitDate;
       if (countDownClock?.countdown) {
@@ -137,9 +173,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (limitDate) {
         setCountDownClock({
           ...countDownClock,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-            limitDate.minutes
-          }:${limitDate.seconds}`,
         });
       }
     }
@@ -395,9 +428,48 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
   };
 
+  // recarrega a página de promoção do relógio Reserva Mini
+  const loadWatchPromotionPageMini = async () => {
+    if (countDownClockRsvMini) {
+      if (countDownClockRsvMini?.reference === referenceId) {
+        setWhatchLoading(true);
+        setSkeletonLoading(true);
+        setSkip(true);
+        setShowWhatch(false);
+        const fetch = async () => {
+          const { data, loading } = await refetch({
+            skusFilter: 'ALL_AVAILABLE',
+            hideUnavailableItems: true,
+            selectedFacets: [].concat(
+              generateFacets(referenceId),
+              filterRequestList
+            ),
+            orderBy: selectedOrder,
+            to: pageSize - 1,
+            simulationBehavior: 'default',
+            productOriginVtex: false,
+          });
+          if (!loading && !!data) {
+            setWhatchLoading(loading);
+            setProducts(data.productSearch);
+          }
+          setSkeletonLoading(false);
+          await refetchBanner({ category: referenceId });
+        };
+        fetch();
+      } else {
+        setShowWhatch(true);
+      }
+    }
+  };
+
   useEffect(() => {
     loadWatchPromotionPage();
   }, [countDownClock, referenceId]);
+
+  useEffect(() => {
+    loadWatchPromotionPageMini();
+  }, [countDownClockRsvMini, referenceId]);
 
   useEffect(() => {
     console.log('loading::>', loading);
@@ -407,18 +479,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     Linking.openURL('https://whts.co/reserva');
   };
 
-  useEffect(() => {
-    console.log('TITLE', title);
-    if (title) {
-      if (title === 'Reserva Mini') setIsReservaMini(true);
-    }
-  }, [title]);
-
   const DynamicComponent = safeArea ? SafeAreaView : Box;
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
         <TopBarDefaultBackButton
+          navigateGoBack={true}
           loading={loading || loadingFetchMore || loadingHandlerState}
         />
       ) : (
@@ -659,10 +725,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <>
             {countDownClock && showWhatch && (
               <Box>
-                <CountDownBanner
-                  countDown={countDownClock}
-                  isReservaMini={isReservaMini}
-                />
+                {isReservaMini && (
+                  <CountDownRsvMini countDownMini={countDownClockRsvMini} />
+                )}
+
+                {!isReservaMini && (
+                  <CountDownBanner countDown={countDownClock} />
+                )}
               </Box>
             )}
             <Box>

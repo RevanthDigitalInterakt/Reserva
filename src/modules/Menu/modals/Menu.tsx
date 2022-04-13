@@ -153,50 +153,39 @@ const MenuItem: React.FC<IMenuItem> = ({
         <>
           <Divider variant="fullWidth" marginTop="micro" />
           <Animatable.View animation="fadeIn">
-            {subItemList.items.map(
-              (item, index) => (
-                console.log('TITLE', title),
-                console.log('item', item),
-                (
-                  <MenuSubItem
-                    key={index}
-                    highlight={item.highlight}
-                    title={item.name}
-                    onPress={() => {
-                      const facetInput: any[] = [];
-                      const [subType, subcategories] =
-                        item.referenceId.split(':');
+            {subItemList.items.map((item, index) => (
+              <MenuSubItem
+                key={index}
+                highlight={item.highlight}
+                title={item.name}
+                onPress={() => {
+                  const facetInput: any[] = [];
+                  const [subType, subcategories] = item.referenceId.split(':');
 
-                      if (subType == 'category') {
-                        subcategories.split('|').forEach((sub) => {
-                          if (sub !== '') {
-                            facetInput.push({
-                              key: 'c',
-                              value: sub,
-                            });
-                          }
-                        });
-                      } else {
+                  if (subType == 'category') {
+                    subcategories.split('|').forEach((sub) => {
+                      if (sub !== '') {
                         facetInput.push({
-                          key: 'productClusterIds',
-                          value: subcategories,
+                          key: 'c',
+                          value: sub,
                         });
                       }
-                      console.log(
-                        'itemReferenceId',
-                        item.referenceId,
-                        facetInput
-                      );
-                      navigation.navigate('ProductCatalog', {
-                        facetInput,
-                        referenceId: item.referenceId,
-                        title: title,
-                      });
-                    }}
-                  />
-                )
-              )
-            )}
+                    });
+                  } else {
+                    facetInput.push({
+                      key: 'productClusterIds',
+                      value: subcategories,
+                    });
+                  }
+                  console.log('itemReferenceId', item.referenceId, facetInput);
+                  navigation.navigate('ProductCatalog', {
+                    facetInput,
+                    referenceId: item.referenceId,
+                    title: title,
+                  });
+                }}
+              />
+            ))}
           </Animatable.View>
         </>
       )}
@@ -323,22 +312,17 @@ export const Menu: React.FC<{}> = () => {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           {categories && (
             <Animatable.View animation="fadeIn">
-              {categories.map(
-                (item, index) => (
-                  console.log('item', item.name == 'Reserva Mini'),
-                  (
-                    <MenuItem
-                      key={index}
-                      highlight={item.highlight}
-                      subItemList={item.children}
-                      onPress={openMenuItem}
-                      opened={item.opened}
-                      index={index}
-                      title={item.name}
-                    />
-                  )
-                )
-              )}
+              {categories.map((item, index) => (
+                <MenuItem
+                  key={index}
+                  highlight={item.highlight}
+                  subItemList={item.children}
+                  onPress={openMenuItem}
+                  opened={item.opened}
+                  index={index}
+                  title={item.name}
+                />
+              ))}
               <Divider
                 variant="fullWidth"
                 marginBottom="nano"
