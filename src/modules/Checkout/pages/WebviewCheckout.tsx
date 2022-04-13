@@ -33,10 +33,14 @@ const Checkout: React.FC<{}> = () => {
     const check = navState.includes('/checkout/orderPlaced');
     if (check) {
       if (orderForm) {
+        const revenue_total = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
+        let af_revenue = '0';
+
+        if(revenue_total) {
+          af_revenue = (revenue_total / 100).toFixed(2);
+        }
         appsFlyer.logEvent('af_purchase', {
-          af_revenue: `${orderForm.totalizers
-            .find((item) => item.id === 'Items')
-            ?.value.toFixed(2)}`,
+          af_revenue: `${af_revenue}`,
           af_price: `${(orderForm.value / 100).toFixed(2)}`,
           af_content_id: orderForm.items.map((item) => item.id),
           af_content_type: orderForm.items.map(

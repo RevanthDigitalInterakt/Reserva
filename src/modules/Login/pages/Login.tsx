@@ -5,7 +5,7 @@ import moment from 'moment';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
+import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box, Button, Typography } from 'reserva-ui';
 import * as Yup from 'yup';
@@ -19,8 +19,8 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
-
-
+import OneSignal from 'react-native-onesignal';
+import { sha256 } from 'react-native-sha256';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -76,15 +76,21 @@ export const LoginScreen: React.FC<Props> = ({
     if (emailIsValid && passwordIsValid) {
       const { data, errors } = await login({
         variables: {
-          email: loginCredentials.username.trim(),
+          email: loginCredentials.username.trim().toLowerCase(),
           password: loginCredentials.password,
         },
       });
       if (data.classicSignIn === 'Success') {
+        const emailHash = await sha256(loginCredentials.username.trim().toLowerCase());
+
+        console.log('emailHash', emailHash);
+
         saveCredentials({
-          email: loginCredentials.username.trim(),
+          email: loginCredentials.username.trim().toLowerCase(),
           password: loginCredentials.password,
         });
+
+        OneSignal.setExternalUserId(loginCredentials.username.trim().toLowerCase());
 
         appsFlyer.logEvent(
           'af_login',
@@ -96,8 +102,23 @@ export const LoginScreen: React.FC<Props> = ({
             console.error('AppsFlyer Error', err);
           }
         );
-        setEmail(loginCredentials.username.trim());
-        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim()).then(
+
+        appsFlyer.setUserEmails({
+          emails: [emailHash],
+          emailsCryptType: AF_EMAIL_CRYPT_TYPE.SHA256,
+          },
+          (success) => {
+            console.log('appsFlyer setUserEmails success', success);
+          },
+          (error) => {
+          if (error) {
+            console.log('Error setting user emails: ', error);
+          }
+        });
+
+        setEmail(loginCredentials.username.trim().toLowerCase());
+
+        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim().toLowerCase()).then(
           () => { }
         );
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);

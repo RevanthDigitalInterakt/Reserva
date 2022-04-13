@@ -15,7 +15,7 @@ import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
 interface CreateCartProfileProfile
-  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> {}
+  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> { }
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   navigation,
@@ -118,7 +118,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       if (!postalCode) {
         setLabelPostalCode(null);
       } else {
-        setLabelPostalCode('CEP');
+        ('CEP');
       }
 
       if (!street) {
