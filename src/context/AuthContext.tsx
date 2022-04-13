@@ -48,10 +48,10 @@ export const AuthContext = createContext<AuthContextProps>({
   cookie: getCookie(),
   setCookie: async () => (await AsyncStorage.getItem('@RNAuth:cookie')) || '',
   setEmail: async () => (await AsyncStorage.getItem('@RNAuth:email')) || '',
-  cleanEmailAndCookie: () => {},
+  cleanEmailAndCookie: () => { },
   isCookieEmpty: () => true,
-  saveCredentials: async () => {},
-  getCredentials: async () => {},
+  saveCredentials: async () => { },
+  getCredentials: async () => { },
   profile: getProfile(),
 });
 

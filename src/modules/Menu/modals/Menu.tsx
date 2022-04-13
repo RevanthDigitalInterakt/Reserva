@@ -22,6 +22,9 @@ import { useAuth } from '../../../context/AuthContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarMenu } from '../components/TopBarMenu';
+import { useRegionalSearch } from '../../../context/RegionalSearchContext';
+import { instance } from '../../../config/vtexConfig';
+import AsyncStorage from '@react-native-community/async-storage';
 
 interface IBreadCrumbs {
   title: string;
@@ -240,6 +243,8 @@ type Profile = {
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { cookie } = useAuth();
+  // const { cep } = useRegionalSearch()
+  const [cep, setCep] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const {
     loading: loadingProfile,
@@ -256,6 +261,16 @@ export const Menu: React.FC<{}> = () => {
 
   const categoryItems =
     data?.appMenuCollection.items[0].itemsCollection.items || [];
+
+  const getCep = async () => {
+    const value = await AsyncStorage.getItem('RegionalSearch:cep')//.then((x) => (regionId = x));
+    console.log('value', value);
+    setCep(value);
+  };
+
+  useEffect(() => {
+    getCep()
+  }, [])
 
   useEffect(() => {
     setCategories(
@@ -325,6 +340,22 @@ export const Menu: React.FC<{}> = () => {
                 variant="fullWidth"
                 marginBottom="nano"
                 marginTop="nano"
+              />
+              <FixedMenuItem
+                iconName="Pin"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    {`${cep != null ? cep : 'Inserir'} ou alterar CEP`}
+                  </Typography>
+                }
+                onPress={() => {
+                  navigation.navigate('ChangeRegionalization');
+                }}
               />
               <FixedMenuItem
                 iconName="Profile"

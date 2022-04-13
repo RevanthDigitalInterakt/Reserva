@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
@@ -248,7 +249,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 </Box>
                 <Box paddingX="xxs">
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('MY_CASHBACK_MY_WALLET')}
+                    onPress={() => navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)}
                   >
                     <Typography fontFamily='nunitoRegular' fontSize={14}>
                       Ver minha carteira

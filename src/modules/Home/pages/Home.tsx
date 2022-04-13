@@ -42,6 +42,7 @@ import { CountDownBanner } from '../component/CountDown';
 import { Skeleton } from '../component/Skeleton';
 import { intervalToDuration } from 'date-fns';
 import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
+import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -51,6 +52,7 @@ export const HomeScreen: React.FC<{
 }> = () => {
   const navigation = useNavigation();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
+  const { cep, setRegionId } = useRegionalSearch()
   const { setTime, time } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
@@ -267,7 +269,7 @@ export const HomeScreen: React.FC<{
       ) : (
         <SafeAreaView
           style={{
-            marginBottom: modalCodeIsVisible ? 87 : 50,
+            marginBottom: modalDiscount && modalCodeIsVisible ? 87 : 50,
           }}
         >
           <ScrollView
