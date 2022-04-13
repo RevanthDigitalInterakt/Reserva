@@ -113,19 +113,6 @@ export const HomeScreen: React.FC<{
     if (currentValue) setTime(currentValue);
   }, [currentValue]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      if (loadingScreen) {
-        setCountDownClockStart();
-
-        refetch();
-        refetchConfig();
-        refetchTeste();
-        setLoadingScreen(false);
-      }
-    }, [loadingScreen])
-  );
-
   useEffect(() => {
     const carrouselsItems: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
@@ -148,32 +135,14 @@ export const HomeScreen: React.FC<{
     setImages(arrayImages);
   }, [data]);
 
-  const setCountDownClockStart = () => {
+  useEffect(() => {
     if (collectionData) {
-      const countDownClock =
-        collectionData?.configCollection?.items[0].countDownClock;
-      let limitDate;
-      if (countDownClock?.countdown) {
-        limitDate = intervalToDuration({
-          start: Date.now(),
-          end: new Date(countDownClock?.countdown),
-        });
-      }
-      if (limitDate) {
-        setCountDownClock({
-          ...countDownClock,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-            limitDate.minutes
-          }:${limitDate.seconds}`,
-        });
-      }
-
       let countDownClockMini =
         collectionData?.configCollection?.items[0].countDownClockReservaMini;
 
-      let limitDateRsvMini;
+      let limitDate;
       if (countDownClockMini?.countdown) {
-        limitDateRsvMini = intervalToDuration({
+        limitDate = intervalToDuration({
           start: Date.now(),
           end: new Date(countDownClockMini?.countdown),
         });
@@ -181,20 +150,39 @@ export const HomeScreen: React.FC<{
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${
-            limitDateRsvMini?.days * 24 + limitDateRsvMini?.hours
-          }:${limitDateRsvMini?.minutes}:${limitDateRsvMini?.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${
+            limitDate?.minutes
+          }:${limitDate?.seconds}`,
         });
       }
     }
-  };
+  }, [collectionData]);
 
   useEffect(() => {
-    setCountDownClockStart();
     if (collectionData) {
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
+
+      if (collectionData) {
+        const countDownClock =
+          collectionData?.configCollection?.items[0].countDownClock;
+        let limitDate;
+        if (countDownClock?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(countDownClock?.countdown),
+          });
+        }
+        if (limitDate) {
+          setCountDownClock({
+            ...countDownClock,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+              limitDate.minutes
+            }:${limitDate.seconds}`,
+          });
+        }
+      }
     }
   }, [collectionData]);
 

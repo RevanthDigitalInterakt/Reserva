@@ -46,6 +46,8 @@ import { CountDownBanner } from '../../Home/component/CountDown';
 import { intervalToDuration } from 'date-fns';
 import { CountDownRsvMini } from '../../../modules/Home/component/CountDownRsvMini';
 import { useNavigation } from '@react-navigation/native';
+import { useChronometer } from '../../../modules/CorreReserva/hooks/useChronometer';
+import { useCountDown } from '../../../context/ChronometerContext';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -82,6 +84,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const { data: collectionData } = useQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
+
+  const { setTimeRsvMini } = useCountDown();
   const generateFacets = (reference: string) => {
     const facetInput: any[] = [];
     const [subType, subcategories] = reference.split(':');
@@ -103,6 +107,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
     return facetInput;
   };
+
+  const { startRsvMini, currentValueRsvMini } = useChronometer({
+    countDown: true,
+    initialRsvMini: countDownClockRsvMini?.formattedValue,
+  });
 
   const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
     productSearch,
@@ -134,6 +143,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       }
     }
   }, [title]);
+
+  useEffect(() => {
+    if (countDownClockRsvMini) {
+      if (new Date(countDownClockRsvMini?.countdown).getTime() > Date.now()) {
+        startRsvMini();
+      }
+    }
+  }, [countDownClockRsvMini]);
+
+  useEffect(() => {
+    if (currentValueRsvMini) setTimeRsvMini(currentValueRsvMini);
+  }, [currentValueRsvMini]);
 
   useEffect(() => {
     if (collectionData) {
@@ -725,11 +746,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <>
             {countDownClock && showWhatch && (
               <Box>
-                {isReservaMini && (
+                {isReservaMini ? (
                   <CountDownRsvMini countDownMini={countDownClockRsvMini} />
-                )}
-
-                {!isReservaMini && (
+                ) : (
                   <CountDownBanner countDown={countDownClock} />
                 )}
               </Box>

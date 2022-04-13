@@ -65,7 +65,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
 
   useEffect(() => {
     console.log('currentValueRsvMini', currentValueRsvMini);
-  }, [countDownMini]);
+  }, [currentValueRsvMini]);
 
   const colorsReservaMini = [
     {
