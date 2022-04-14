@@ -61,19 +61,19 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
 
   const colorsReservaMini = [
     {
-      colorBanner: '#000000',
-      colorButton: '#E40C2B',
-      clockBackgroundColor: '#1A1A1A',
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
     },
     {
-      colorBanner: '#e45ee3',
-      colorButton: '#000000',
-      clockBackgroundColor: '#C23032',
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
     },
     {
-      colorBanner: '#000000',
-      colorButton: '#e45ee3',
-      clockBackgroundColor: '#1A1A1A',
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
     },
   ];
   const [clockColor, setClockColor] = useState<
