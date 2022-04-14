@@ -19,12 +19,15 @@ import {
   configCollection,
   homeQuery,
   ICountDownClockReservaMini,
-} from '../../../graphql/homePage/HomeQuery';
-import FlipNumber from './flipcountdoun/FlipNumber';
-import { useCountDown } from '../../../context/ChronometerContext';
-import { useQuery } from '@apollo/client';
-import { useChronometer } from '../../../modules/CorreReserva/hooks/useChronometer';
+} from '../../../../graphql/homePage/HomeQuery';
+import FlipNumber from '../flipcountdoun/FlipNumber';
+
+import { useChronometerRsvMini } from './useChronometerRsvMini';
+
 import { intervalToDuration } from 'date-fns';
+import { useQuery } from '@apollo/client';
+import { useCountDown } from '../../../../context/ChronometerContext';
+import { useChronometer } from '../../../../modules/CorreReserva/hooks/useChronometer';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -38,34 +41,23 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
   countDownMini,
 }: CountDownProps) => {
   const navigation = useNavigation();
-  const [countDownClockReservaMini, setCountDownClockReservaMini] =
+  const [countDownClockRsvMini, setCountDownClockRsvMini] =
     React.useState<ICountDownClockReservaMini>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
   const [watchType, setWatchType] = useState<number>(0);
 
-  const { currentValueRsvMini, startRsvMini, stop, reset } = useChronometer({
-    countDown: true,
-    initialRsvMini: countDownMini?.formattedValue,
+  const { currentValue, start } = useChronometerRsvMini({
+    initial: countDownMini?.formattedValue,
   });
-
-  const { timeRsvMini = '00:00:00', setTimeRsvMini } = useCountDown();
 
   useEffect(() => {
     if (countDownMini) {
       if (new Date(countDownMini?.countdown).getTime() > Date.now()) {
-        startRsvMini();
+        start();
       }
     }
   }, [countDownMini]);
-
-  useEffect(() => {
-    if (currentValueRsvMini) setTimeRsvMini(currentValueRsvMini);
-  }, [currentValueRsvMini]);
-
-  useEffect(() => {
-    console.log('currentValueRsvMini', currentValueRsvMini);
-  }, [currentValueRsvMini]);
 
   const colorsReservaMini = [
     {
@@ -143,7 +135,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
     }
   }
 
-  return !showClock && timeRsvMini !== '00:00:00' ? (
+  return !showClock ? (
     <Box
       mb={5}
       minHeight={90}
@@ -195,7 +187,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
-                number={timeRsvMini?.split(':')[0]}
+                number={currentValue?.split(':')[0]}
                 size={43}
                 unit="hours"
               />
@@ -210,7 +202,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
-                number={timeRsvMini?.split(':')[1]}
+                number={currentValue?.split(':')[1]}
                 size={43}
               />
 
@@ -224,7 +216,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
-                number={timeRsvMini?.split(':')[2]}
+                number={currentValue?.split(':')[2]}
                 size={43}
               />
             </Box>

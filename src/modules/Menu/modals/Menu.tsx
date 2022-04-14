@@ -268,7 +268,7 @@ export const Menu: React.FC<{}> = () => {
         highlight: false,
       }))
     );
-    console.log('categories', categories);
+
     setResetGoBackButton(true);
   }, [data]);
 

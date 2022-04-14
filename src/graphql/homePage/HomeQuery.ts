@@ -50,6 +50,7 @@ export interface CarrouselCard {
     width: any;
     height: any;
   };
+  reservaMini: boolean;
   name: string;
   description: string;
   reference: string;
@@ -99,6 +100,7 @@ export const homeQuery = gql`
                   width
                   height
                 }
+                reservaMini
                 name
                 description
                 reference
@@ -109,6 +111,7 @@ export const homeQuery = gql`
         mediasCollection {
           items {
             reference
+            reservaMini
             image {
               fileName
               title

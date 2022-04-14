@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import BackgroundTimer from 'react-native-background-timer';
-
-export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
+export const useChronometerRsvMini = ({ initial = '00:00:00' }) => {
   const [valueFormatted, setValueFormatted] = useState(initial);
   const value = useRef(initial);
   const intervalIDRef = useRef();
@@ -14,22 +12,17 @@ export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
   const start = () => {
     let seconds = convertHoursToSeconds(value.current);
 
-    BackgroundTimer.runBackgroundTimer(() => {
-      if (countDown) {
-        seconds -= 1;
-      } else {
-        seconds += 1;
-      }
+    intervalIDRef.current = setInterval(() => {
+      seconds = seconds - 1;
       const formatted = convertSecondsToHours(seconds);
       setValueFormatted(formatted);
     }, 1000);
   };
 
   const stop = () => {
-    BackgroundTimer.stopBackgroundTimer();
-    // if (intervalIDRef.current) {
-    //   clearInterval(intervalIDRef.current);
-    // }
+    if (intervalIDRef.current) {
+      clearInterval(intervalIDRef.current);
+    }
   };
 
   const reset = () => {
@@ -39,7 +32,11 @@ export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
   };
 
   useEffect(() => {
-    BackgroundTimer.stopBackgroundTimer();
+    return () => {
+      if (intervalIDRef.current) {
+        clearInterval(intervalIDRef.current);
+      }
+    };
   }, []);
 
   return {
@@ -66,7 +63,7 @@ const convertSecondsToHours = (seconds = 0) => {
   let horas = Math.trunc(seconds / 3600);
   let segundosRestantes = seconds - horas * 3600;
   let minutos = Math.trunc(segundosRestantes / 60);
-  segundosRestantes -= minutos * 60;
+  segundosRestantes = segundosRestantes - minutos * 60;
 
   horas = horas < 10 ? `0${horas}` : horas;
   minutos = minutos < 10 ? `0${minutos}` : minutos;

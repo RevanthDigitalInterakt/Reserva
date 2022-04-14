@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions, FlatList, Animated, View, StyleSheet } from 'react-native';
 import { Box, Button, Image } from 'reserva-ui';
-import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
+import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
 const cardWidth = Dimensions.get('window').width * 0.85;
 const cardPadding = Dimensions.get('window').width * 0.15 * 0.5;
@@ -55,6 +55,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
                 reference={item.reference}
                 referenceLabel={item.referenceLabel}
                 key={index}
+                reservaMini={item.reservaMini}
               />
             </Box>
           )}
@@ -114,6 +115,7 @@ const Card: React.FC<CardProps> = ({
   reference,
   description,
   name,
+  reservaMini,
 }) => {
   const navigation = useNavigation();
 
@@ -142,6 +144,7 @@ const Card: React.FC<CardProps> = ({
       }
       navigation.navigate('ProductCatalog', {
         referenceId: reference,
+        reservaMini: reservaMini,
       });
     }
   };

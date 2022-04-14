@@ -74,17 +74,9 @@ export const HomeScreen: React.FC<{
     context: { clientName: 'contentful' },
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
-  const {
-    currentValue,
-    start,
-    stop,
-    reset,
-    startRsvMini,
-    currentValueRsvMini,
-  } = useChronometer({
+  const { currentValue, start, stop, reset } = useChronometer({
     countDown: true,
     initial: countDownClock?.formattedValue,
-    initialRsvMini: countDownClockRsvMini?.formattedValue,
   });
 
   const { WithoutInternet } = useCheckConnection({ refetch });
@@ -98,8 +90,6 @@ export const HomeScreen: React.FC<{
       context: { clientName: 'contentful' },
     }
   );
-
-  const [loadingScreen, setLoadingScreen] = useState(true);
 
   useEffect(() => {
     if (countDownClock) {
@@ -129,6 +119,7 @@ export const HomeScreen: React.FC<{
           url: imageDescription.image.url,
           reference: imageDescription.reference,
           route: imageDescription.route,
+          reservaMini: imageDescription.reservaMini,
         })
       );
 
@@ -265,7 +256,7 @@ export const HomeScreen: React.FC<{
         />
       )}
       <WithoutInternet />
-      {loading && loadingScreen ? (
+      {loading ? (
         <Skeleton />
       ) : (
         <SafeAreaView
@@ -298,6 +289,7 @@ export const HomeScreen: React.FC<{
                   }
                   case CarrouselTypes.cardsCarrousel: {
                     const { items } = carrousel.itemsCollection;
+
                     return items.length > 1 ? (
                       <CardsCarrousel carrousel={carrousel} />
                     ) : (
@@ -305,18 +297,20 @@ export const HomeScreen: React.FC<{
                         height={items[0].image.height}
                         reference={items[0].reference}
                         url={items[0].image.url}
+                        reservaMini={items[0].reservaMini}
                       />
                     );
                     break;
                   }
                   case CarrouselTypes.banner: {
-                    const { image, reference } =
+                    const { image, reference, reservaMini } =
                       carrousel.itemsCollection.items[0];
                     return (
                       <Banner
                         height={image.height}
                         reference={reference}
                         url={image.url}
+                        reservaMini={reservaMini}
                       />
                     );
                     break;
@@ -331,14 +325,17 @@ export const HomeScreen: React.FC<{
 
             <FlatList
               data={images}
-              renderItem={({ item }) => (
-                <Banner
-                  height={item.height}
-                  reference={item.reference}
-                  url={item.url}
-                  route={item.route}
-                />
-              )}
+              renderItem={({ item }) => {
+                return (
+                  <Banner
+                    height={item.height}
+                    reference={item.reference}
+                    url={item.url}
+                    route={item.route}
+                    reservaMini={item.reservaMini}
+                  />
+                );
+              }}
               keyExtractor={(item) => item.id}
             />
           </ScrollView>

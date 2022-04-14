@@ -44,10 +44,11 @@ import {
 } from '../../../graphql/homePage/HomeQuery';
 import { CountDownBanner } from '../../Home/component/CountDown';
 import { intervalToDuration } from 'date-fns';
-import { CountDownRsvMini } from '../../../modules/Home/component/CountDownRsvMini';
+import { CountDownRsvMini } from '../../../modules/Home/component/reservaMini/CountDownRsvMini';
 import { useNavigation } from '@react-navigation/native';
 import { useChronometer } from '../../../modules/CorreReserva/hooks/useChronometer';
 import { useCountDown } from '../../../context/ChronometerContext';
+import { useChronometerRsvMini } from '../../../modules/Home/component/reservaMini/useChronometerRsvMini';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -56,7 +57,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     {} as ProductSearchData
   );
   const pageSize = 12;
-  const { safeArea, search, referenceId, title } = route.params;
+  const { safeArea, search, referenceId, title, reservaMini } = route.params;
 
   const categoryId = 'camisetas';
   const navigation = useNavigation();
@@ -85,7 +86,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     context: { clientName: 'contentful' },
   });
 
-  const { setTimeRsvMini } = useCountDown();
   const generateFacets = (reference: string) => {
     const facetInput: any[] = [];
     const [subType, subcategories] = reference.split(':');
@@ -107,11 +107,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
     return facetInput;
   };
-
-  const { startRsvMini, currentValueRsvMini } = useChronometer({
-    countDown: true,
-    initialRsvMini: countDownClockRsvMini?.formattedValue,
-  });
 
   const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
     productSearch,
@@ -136,25 +131,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const [isReservaMini, setIsReservaMini] = useState(false);
   useEffect(() => {
-    console.log('TITLE', title);
     if (title) {
       if (title === 'Reserva Mini') {
         setIsReservaMini(true);
       }
     }
   }, [title]);
-
-  useEffect(() => {
-    if (countDownClockRsvMini) {
-      if (new Date(countDownClockRsvMini?.countdown).getTime() > Date.now()) {
-        startRsvMini();
-      }
-    }
-  }, [countDownClockRsvMini]);
-
-  useEffect(() => {
-    if (currentValueRsvMini) setTimeRsvMini(currentValueRsvMini);
-  }, [currentValueRsvMini]);
 
   useEffect(() => {
     if (collectionData) {
@@ -746,7 +728,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <>
             {countDownClock && showWhatch && (
               <Box>
-                {isReservaMini ? (
+                {isReservaMini || reservaMini ? (
                   <CountDownRsvMini countDownMini={countDownClockRsvMini} />
                 ) : (
                   <CountDownBanner countDown={countDownClock} />

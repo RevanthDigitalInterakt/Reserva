@@ -70,6 +70,7 @@ export type RootStackParamList = {
       }
     ];
     title?: string;
+    reservaMini?: boolean;
   };
   WishList: {};
   OrderDetail: {
