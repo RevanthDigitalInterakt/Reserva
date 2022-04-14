@@ -13,7 +13,7 @@ export interface BannerProps {
 
 const deviceWidth = Dimensions.get('window').width;
 
-export const Banner: React.FC<BannerProps> = ({
+const Banner: React.FC<BannerProps> = ({
   route,
   reference,
   height,
@@ -72,3 +72,4 @@ export const Banner: React.FC<BannerProps> = ({
     </Box>
   );
 };
+export default React.memo(Banner);

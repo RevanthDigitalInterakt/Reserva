@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 
 import Clipboard from '@react-native-community/clipboard';
 import { Animated, Dimensions, ImageBackground } from 'react-native';
@@ -28,7 +28,7 @@ interface DiscoutCodeModalProps {
 
 const { width: screenWidth } = Dimensions.get('screen');
 
-export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
+const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
   data,
   isVisible,
   onClose,
@@ -60,7 +60,7 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
         duration: 500,
         useNativeDriver: true,
       }),
-    ]).start(() => {});
+    ]).start(() => { });
   };
   const onClickShare = () => {
     Share.open({
@@ -246,3 +246,4 @@ export const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
     )
   );
 };
+export default React.memo(DiscoutCodeModal);

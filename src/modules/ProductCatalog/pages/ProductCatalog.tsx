@@ -487,8 +487,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
         <TopBarDefaultBackButton
-          navigateGoBack={true}
-          loading={loading || loadingFetchMore || loadingHandlerState}
+          loading={
+            loading || loadingFetchMore || loadingHandlerState || whatchLoading
+          }
         />
       ) : (
         <TopBarDefault
