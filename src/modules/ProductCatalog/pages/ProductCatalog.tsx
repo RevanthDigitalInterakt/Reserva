@@ -425,7 +425,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         };
         fetch();
       } else {
-        if (isReservaMini) {
+        if (isReservaMini || reservaMini) {
           setShowWatch(false);
         } else {
           setShowWatch(true);
@@ -440,6 +440,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       console.log('countDownClockRsvMini?.reference', countDownClockRsvMini?.reference)
       console.log('referenceId', referenceId)
       if (countDownClockRsvMini?.reference === referenceId) {
+        console.log('entrou')
         setWatchLoading(true);
         setSkeletonLoading(true);
         setSkip(true);
@@ -466,7 +467,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         };
         fetch();
       } else {
-        setShowWatchMini(true);
+        if (isReservaMini || reservaMini) {
+          setShowWatchMini(true);
+        } else {
+          setShowWatchMini(false);
+        }
       }
     }
   };
@@ -732,7 +737,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
-            {countDownClockRsvMini && showWatchMini && isReservaMini || reservaMini ?
+            {countDownClockRsvMini && showWatchMini ?
               <CountDownRsvMini countDownMini={countDownClockRsvMini} />
               :
               countDownClock && showWatch && (
