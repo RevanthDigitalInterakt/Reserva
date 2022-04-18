@@ -65,8 +65,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();
   const [skeletonLoading, setSkeletonLoading] = useState(true);
-  const [whatchLoading, setWhatchLoading] = useState(false);
-  const [showWhatch, setShowWhatch] = useState(false);
+  const [watchLoading, setWatchLoading] = useState(false);
+  const [showWatch, setShowWatch] = useState(false);
+  const [showWatchMini, setShowWatchMini] = useState(false);
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -153,9 +154,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-            limitDate.minutes
-          }:${limitDate.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+            }:${limitDate.seconds}`,
         });
       }
     }
@@ -263,9 +263,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -275,9 +275,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -287,9 +287,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       console.log(
@@ -305,9 +305,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -324,7 +324,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [data]);
 
   const loadMoreProducts = async (offset: number) => {
-    console.log('offSet', offset);
     setLoadingFetchMore(true);
 
     const { data, loading } = await fetchMore({
@@ -400,10 +399,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const loadWatchPromotionPage = async () => {
     if (countDownClock) {
       if (countDownClock?.reference === referenceId) {
-        setWhatchLoading(true);
+        setWatchLoading(true);
         setSkeletonLoading(true);
         setSkip(true);
-        setShowWhatch(false);
+        setShowWatch(false);
         const fetch = async () => {
           const { data, loading } = await refetch({
             skusFilter: 'ALL_AVAILABLE',
@@ -418,7 +417,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             productOriginVtex: false,
           });
           if (!loading && !!data) {
-            setWhatchLoading(loading);
+            setWatchLoading(loading);
             setProducts(data.productSearch);
           }
           setSkeletonLoading(false);
@@ -426,7 +425,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         };
         fetch();
       } else {
-        setShowWhatch(true);
+        if (isReservaMini) {
+          setShowWatch(false);
+        } else {
+          setShowWatch(true);
+        }
       }
     }
   };
@@ -434,11 +437,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   // recarrega a página de promoção do relógio Reserva Mini
   const loadWatchPromotionPageMini = async () => {
     if (countDownClockRsvMini) {
+      console.log('countDownClockRsvMini?.reference', countDownClockRsvMini?.reference)
+      console.log('referenceId', referenceId)
       if (countDownClockRsvMini?.reference === referenceId) {
-        setWhatchLoading(true);
+        setWatchLoading(true);
         setSkeletonLoading(true);
         setSkip(true);
-        setShowWhatch(false);
+        setShowWatchMini(false);
         const fetch = async () => {
           const { data, loading } = await refetch({
             skusFilter: 'ALL_AVAILABLE',
@@ -453,7 +458,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             productOriginVtex: false,
           });
           if (!loading && !!data) {
-            setWhatchLoading(loading);
+            setWatchLoading(loading);
             setProducts(data.productSearch);
           }
           setSkeletonLoading(false);
@@ -461,7 +466,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         };
         fetch();
       } else {
-        setShowWhatch(true);
+        setShowWatchMini(true);
       }
     }
   };
@@ -488,7 +493,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       {safeArea ? (
         <TopBarDefaultBackButton
           loading={
-            loading || loadingFetchMore || loadingHandlerState || whatchLoading
+            loading || loadingFetchMore || loadingHandlerState || watchLoading
           }
         />
       ) : (
@@ -593,7 +598,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {skeletonLoading || loadingHandlerState || whatchLoading ? (
+      {skeletonLoading || loadingHandlerState || watchLoading ? (
         <Skeleton>
           <Box bg="neutroFrio1" width="100%" height={200} />
 
@@ -727,15 +732,15 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         totalProducts={productsQuery.recordsFiltered}
         listHeader={
           <>
-            {countDownClock && showWhatch && (
-              <Box>
-                {isReservaMini || reservaMini ? (
-                  <CountDownRsvMini countDownMini={countDownClockRsvMini} />
-                ) : (
+            {countDownClockRsvMini && showWatchMini && isReservaMini || reservaMini ?
+              <CountDownRsvMini countDownMini={countDownClockRsvMini} />
+              :
+              countDownClock && showWatch && (
+                <Box>
                   <CountDownBanner countDown={countDownClock} />
-                )}
-              </Box>
-            )}
+                </Box>
+              )
+            }
             <Box>
               <Image height={200} source={bannerImage} width={1 / 1} />
             </Box>
@@ -784,7 +789,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                     fontSize="14px"
                   >
                     {productsQuery.products?.length == 0 &&
-                    filterRequestList.length > 0
+                      filterRequestList.length > 0
                       ? 'Limpar Filtros'
                       : 'Filtrar'}
                   </Typography>
