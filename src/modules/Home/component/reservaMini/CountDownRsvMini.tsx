@@ -91,7 +91,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
       setShowClock(false);
     }
     if (countDownMini) {
-      setWatchType(countDownMini?.watchType);
+      setWatchType(countDownMini?.watchType.split('-')[0]);
     }
   }, [countDownMini]);
 

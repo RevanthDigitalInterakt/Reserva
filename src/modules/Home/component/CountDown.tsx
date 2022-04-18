@@ -65,7 +65,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
       setShowClock(false);
     }
     if (countDown) {
-      setWatchType(countDown?.watchType);
+      setWatchType(countDown?.watchType.split('-')[0]);
     }
   }, [countDown]);
 
