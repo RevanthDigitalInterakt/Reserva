@@ -18,9 +18,9 @@ function Card({
     return (
         <View style={[style.card, { borderColor: colorDivider, borderBottomColor: colorDivider }, type === 'upper' ? { borderBottomWidth: 0.5 } : { borderTopWidth: 0.5 }]}>
             <Text style={[style.number, {
-                transform: [type === 'upper' ? { translateY: size * 0.3 } : { translateY: -size * 0.3 }],
-                fontSize: size / 1.5,
-                lineHeight: Platform.OS === 'android' ? size / 1.5 : size / 1.3,
+                transform: [type === 'upper' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
+                fontSize: size / 1.8,
+                lineHeight: Platform.OS === 'android' ? size / 1.85 : size / 1.65,
                 fontFamily: theme.fonts.reservaSansBold,
             }]}
             >
