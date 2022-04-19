@@ -3,21 +3,22 @@ import React from 'react';
 import { Dimensions, TouchableHighlight } from 'react-native';
 import { Box, Image } from 'reserva-ui';
 
-
 export interface BannerProps {
   route?: string;
   reference: string;
   height: number;
   url: string;
+  reservaMini?: boolean;
 }
 
 const deviceWidth = Dimensions.get('window').width;
 
-export const Banner: React.FC<BannerProps> = ({
+const Banner: React.FC<BannerProps> = ({
   route,
   reference,
   height,
   url,
+  reservaMini,
 }) => {
   const navigation = useNavigation();
   return (
@@ -35,7 +36,7 @@ export const Banner: React.FC<BannerProps> = ({
                   productId: categoryData,
                   itemId: categoryData,
                   colorSelected: '#FFFFFF',
-                })
+                });
               } else {
                 if (categoryType === 'category') {
                   categoryData.split('|').forEach((cat: string) => {
@@ -53,6 +54,7 @@ export const Banner: React.FC<BannerProps> = ({
                 navigation.navigate('ProductCatalog', {
                   facetInput,
                   referenceId: reference,
+                  reservaMini: reservaMini,
                 });
               }
             }
@@ -70,3 +72,4 @@ export const Banner: React.FC<BannerProps> = ({
     </Box>
   );
 };
+export default React.memo(Banner);

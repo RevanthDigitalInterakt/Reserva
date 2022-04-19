@@ -1,5 +1,11 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, {
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {
   TouchableOpacity,
   Dimensions,
@@ -9,69 +15,89 @@ import {
 } from 'react-native';
 import { Box, theme, Typography, Button, Icon } from 'reserva-ui';
 import Modal from 'react-native-modal';
-import { ICountDownClock } from '../../../graphql/homePage/HomeQuery';
-import FlipNumber from './flipcountdoun/FlipNumber';
-import { useCountDown } from '../../../context/ChronometerContext';
-import { useChronometer } from '../../../modules/CorreReserva/hooks/useChronometer';
-export interface CountDownProps {
-  countDown?: ICountDownClock;
-  loadingCountDownBanner?: boolean;
-}
+import {
+  configCollection,
+  homeQuery,
+  ICountDownClockReservaMini,
+} from '../../../../graphql/homePage/HomeQuery';
+import FlipNumber from '../flipcountdoun/FlipNumber';
+
+import { useChronometerRsvMini } from './useChronometerRsvMini';
+
+import { intervalToDuration } from 'date-fns';
+import { useQuery } from '@apollo/client';
+import { useCountDown } from '../../../../context/ChronometerContext';
+import { useChronometer } from '../../../../modules/CorreReserva/hooks/useChronometer';
+
 const deviceWidth = Dimensions.get('window').width;
+
+export interface CountDownProps {
+  countDownMini?: ICountDownClockReservaMini;
+}
 
 const scale = deviceWidth / 320;
 
-export const CountDownBanner: React.FC<CountDownProps> = ({
-  countDown,
-  loadingCountDownBanner,
+export const CountDownRsvMini: React.FC<CountDownProps> = ({
+  countDownMini,
 }: CountDownProps) => {
   const navigation = useNavigation();
-  const [countDownData, setCountDownData] = useState<ICountDownClock>();
+  const [countDownClockRsvMini, setCountDownClockRsvMini] =
+    React.useState<ICountDownClockReservaMini>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
   const [watchType, setWatchType] = useState<number>(0);
 
-  const colors = [
+  const { currentValue, start } = useChronometerRsvMini({
+    initial: countDownMini?.formattedValue,
+  });
+
+  useEffect(() => {
+    if (countDownMini) {
+      if (new Date(countDownMini?.countdown).getTime() > Date.now()) {
+        start();
+      }
+    }
+  }, [countDownMini]);
+
+  const colorsReservaMini = [
     {
-      colorBanner: '#000000',
-      colorButton: '#E40C2B',
-      clockBackgroundColor: '#1A1A1A',
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
     },
     {
-      colorBanner: '#BB181B',
-      colorButton: '#000000',
-      clockBackgroundColor: '#C23032',
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
     },
     {
-      colorBanner: '#000000',
-      colorButton: '#4A4A4A',
-      clockBackgroundColor: '#1A1A1A',
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
     },
   ];
-
   const [clockColor, setClockColor] = useState<
     {
       colorBanner: string;
       colorButton: string;
       clockBackgroundColor: string;
     }[]
-  >(colors);
-  const { time = '00:00:00', setTime } = useCountDown();
+  >(colorsReservaMini);
 
   useEffect(() => {
-    if (Date.now() > new Date(countDown?.countdown).getTime()) {
+    if (Date.now() > new Date(countDownMini?.countdown).getTime()) {
       setShowClock(true);
     } else {
       setShowClock(false);
     }
-    if (countDown) {
-      setWatchType(countDown?.watchType.split('-')[0]);
+    if (countDownMini) {
+      setWatchType(countDownMini?.watchType.split('-')[0]);
     }
-  }, [countDown]);
+  }, [countDownMini]);
 
   const goToPromotion = () => {
     const facetInput = [];
-    const [categoryType, categoryData] = countDown?.reference?.split(':');
+    const [categoryType, categoryData] = countDownMini?.reference?.split(':');
     if (categoryType === 'product') {
       navigation.navigate('ProductDetail', {
         productId: categoryData,
@@ -94,7 +120,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
       }
       navigation.navigate('ProductCatalog', {
         // facetInput,
-        referenceId: countDown?.reference,
+        referenceId: countDownMini?.reference,
       });
     }
   };
@@ -109,7 +135,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
     }
   }
 
-  return !showClock && time !== '00:00:00' ? (
+  return !showClock ? (
     <Box
       mb={5}
       minHeight={90}
@@ -126,15 +152,15 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
             fontFamily="reservaSerifMedium"
             fontSize={normalize(26)}
           >
-            {countDown?.title}{' '}
-            {countDown?.subtitle && (
+            {countDownMini?.title}{' '}
+            {countDownMini?.subtitle && (
               <Typography
                 lineHeight={normalize(28)}
                 color={textColor}
                 fontFamily="reservaSerifLight"
                 fontSize={normalize(26)}
               >
-                {countDown?.subtitle}
+                {countDownMini?.subtitle}
               </Typography>
             )}
           </Typography>
@@ -161,7 +187,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
-                number={time?.split(':')[0]}
+                number={currentValue?.split(':')[0]}
                 size={43}
                 unit="hours"
               />
@@ -176,7 +202,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
-                number={time?.split(':')[1]}
+                number={currentValue?.split(':')[1]}
                 size={43}
               />
 
@@ -190,7 +216,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
-                number={time?.split(':')[2]}
+                number={currentValue?.split(':')[2]}
                 size={43}
               />
             </Box>
@@ -203,7 +229,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                 mb={4}
               >
                 <Typography textAlign="center" color={textColor}>
-                  {countDown?.titleButton}
+                  {countDownMini?.titleButton}
                 </Typography>
               </Box>
             </TouchableOpacity>
@@ -222,7 +248,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
         <CheckTheRules
           isVisible={ShowModal}
           setIsVisible={() => setShowModal(false)}
-          rulesData={countDown}
+          rulesData={countDownMini}
           goToPromotion={() => {
             goToPromotion();
           }}
@@ -235,7 +261,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
 interface IcheckTheRules {
   isVisible: boolean;
   setIsVisible: Dispatch<SetStateAction<boolean>>;
-  rulesData?: ICountDownClock;
+  rulesData?: ICountDownClockReservaMini;
   goToPromotion?: () => void;
 }
 const CheckTheRules = ({

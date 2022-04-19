@@ -180,10 +180,11 @@ const MenuItem: React.FC<IMenuItem> = ({
                       value: subcategories,
                     });
                   }
-
+                  console.log('itemReferenceId', item.referenceId, facetInput);
                   navigation.navigate('ProductCatalog', {
                     facetInput,
                     referenceId: item.referenceId,
+                    title: title,
                   });
                 }}
               />
@@ -282,6 +283,7 @@ export const Menu: React.FC<{}> = () => {
         highlight: false,
       }))
     );
+
     setResetGoBackButton(true);
   }, [data]);
 

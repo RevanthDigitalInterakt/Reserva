@@ -1,60 +1,55 @@
 import React, {
-    createContext,
-    ReactNode,
-    useContext,
-    SetStateAction,
-    Dispatch,
-    useState,
-    useRef,
-    useEffect
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
 } from 'react';
-import BackgroundTimer from 'react-native-background-timer';
 
 interface ChronometerContextProps {
-    time: string;
-    setTime?: Dispatch<SetStateAction<string>>;
+  time: string;
+  setTime?: Dispatch<SetStateAction<string>>;
 }
 
 const defaultState = {
-    time: '00:00:00'
-}
+  time: '00:00:00',
+};
 
 interface Time {
-    time: string;
+  time: string;
 }
 
-export const ChronometerContext = createContext<ChronometerContextProps>(defaultState);
+export const ChronometerContext =
+  createContext<ChronometerContextProps>(defaultState);
 
 interface ChronometerContextProviderProps {
-    children?: ReactNode;
+  children?: ReactNode;
 }
-const ChronometerContextProvider = ({ children }: ChronometerContextProviderProps) => {
-    const [time, setTime] = useState<Time>();
+const ChronometerContextProvider = ({
+  children,
+}: ChronometerContextProviderProps) => {
+  const [time, setTime] = useState<Time>();
 
-    console.log('timetime', time)
-    return (
-        <ChronometerContext.Provider
-            value={{
-                time,
-                setTime,
-            }}
-        >
-            {children}
-        </ChronometerContext.Provider>
-    );
+  return (
+    <ChronometerContext.Provider
+      value={{
+        time,
+        setTime,
+      }}
+    >
+      {children}
+    </ChronometerContext.Provider>
+  );
 };
 
 export default ChronometerContextProvider;
 
-
 export const useCountDown = () => {
-    const chronometerContext = useContext(ChronometerContext);
-    const {
-        time,
-        setTime
-    } = chronometerContext;
-    return {
-        time,
-        setTime,
-    };
+  const chronometerContext = useContext(ChronometerContext);
+  const { time, setTime } = chronometerContext;
+  return {
+    time,
+    setTime,
+  };
 };
