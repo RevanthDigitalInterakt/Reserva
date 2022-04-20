@@ -162,7 +162,6 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
                 number={time?.split(':')[0]}
-                size={43}
                 unit="hours"
               />
 
@@ -177,7 +176,6 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
                 number={time?.split(':')[1]}
-                size={43}
               />
 
               <Box height={14} justifyContent="space-between" marginX={6}>
@@ -191,7 +189,6 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
                 number={time?.split(':')[2]}
-                size={43}
               />
             </Box>
           </Box>

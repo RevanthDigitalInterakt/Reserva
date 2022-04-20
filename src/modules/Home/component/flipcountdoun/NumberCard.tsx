@@ -81,7 +81,7 @@ class NumberCard extends React.Component {
         } = this.props;
         return (
             <View style={[style.numberWrapper,
-            { backgroundColor: clockBackgroundColor, width: size, height: size / 1.1, borderRadius: size / 10, margin: 0, padding: 0 },]}
+            { backgroundColor: clockBackgroundColor, minWidth: size, height: size / 1.1, borderRadius: size / 10, margin: 0, padding: 0 },]}
             >
                 <Card
                     type="upper"
