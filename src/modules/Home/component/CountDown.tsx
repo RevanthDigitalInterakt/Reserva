@@ -225,6 +225,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
           rulesData={countDown}
           goToPromotion={() => {
             goToPromotion();
+            setShowModal(false)
           }}
         />
       </Box>
