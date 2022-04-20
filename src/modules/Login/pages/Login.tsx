@@ -105,16 +105,16 @@ export const LoginScreen: React.FC<Props> = ({
 
         appsFlyer.setUserEmails({
           emails: [emailHash],
-          emailsCryptType: AF_EMAIL_CRYPT_TYPE.SHA256,
-          },
+          emailsCryptType: 3, // 3 is type SHA256
+        },
           (success) => {
             console.log('appsFlyer setUserEmails success', success);
           },
           (error) => {
-          if (error) {
-            console.log('Error setting user emails: ', error);
-          }
-        });
+            if (error) {
+              console.log('Error setting user emails: ', error);
+            }
+          });
 
         setEmail(loginCredentials.username.trim().toLowerCase());
 
