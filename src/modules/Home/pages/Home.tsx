@@ -49,6 +49,7 @@ import { Skeleton } from '../component/Skeleton';
 import { intervalToDuration } from 'date-fns';
 import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
+import { useContentfull } from '../../../context/ContentfullContext';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -57,6 +58,7 @@ export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
+  const {isTesting} =useContentfull();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
   const { cep, setRegionId } = useRegionalSearch();
   const { setTime, time } = useCountDown();
@@ -244,6 +246,12 @@ export const HomeScreen: React.FC<{
     refetchTeste();
     getStorage();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   const renderCarouselBanners = React.useMemo(() => {
     return carrousels.map((carrousel) => {

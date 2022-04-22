@@ -13,10 +13,23 @@ const httpLink = new HttpLink({
   uri: 'https://lojausereserva.myvtex.com/_v/private/graphql/v1',
 });
 
-const directionalLink = new RetryLink().split(
+const directionalLinkProduction = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
   new HttpLink({
     uri: 'https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4/environments/master',
+    headers: {
+      Authorization: 'Bearer e7GuVP-T2J7zqAR8NWZK6IhteMokbshJIx1_c16TG6U',
+    },
+  }),
+  new HttpLink({
+    uri: 'https://lojausereserva.myvtex.com/_v/private/graphql/v1',
+  })
+);
+
+const directionalLinkTesting = new RetryLink().split(
+  (operation) => operation.getContext().clientName === 'contentful',
+  new HttpLink({
+    uri: 'https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4/environments/testing',
     headers: {
       Authorization: 'Bearer e7GuVP-T2J7zqAR8NWZK6IhteMokbshJIx1_c16TG6U',
     },
@@ -55,8 +68,23 @@ const authLinkHeader = setContext(async (_, { headers }) => {
 });
 
 // const link = from([authLinkHeader, authAfterware, httpLink]);
-const link = from([authLinkHeader, authAfterware, directionalLink]);
-export const apolloClient = new ApolloClient({
-  link,
+const linkTesting = from([
+  authLinkHeader,
+  authAfterware,
+  directionalLinkTesting,
+]);
+export const apolloClientTesting = new ApolloClient({
+  link: linkTesting,
+  cache: new InMemoryCache(),
+});
+
+// const link = from([authLinkHeader, authAfterware, httpLink]);
+const linkProduction = from([
+  authLinkHeader,
+  authAfterware,
+  directionalLinkProduction,
+]);
+export const apolloClientProduction = new ApolloClient({
+  link: linkProduction,
   cache: new InMemoryCache(),
 });

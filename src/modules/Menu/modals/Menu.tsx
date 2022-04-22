@@ -26,6 +26,7 @@ import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { instance } from '../../../config/vtexConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
+import { useContentfull } from '../../../context/ContentfullContext';
 
 interface IBreadCrumbs {
   title: string;
@@ -244,6 +245,7 @@ type Profile = {
 
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation();
+  const { isTesting } = useContentfull()
   const { cookie } = useAuth();
   // const { cep } = useRegionalSearch()
   const [cep, setCep] = useState<string | null>(null);
@@ -329,6 +331,7 @@ export const Menu: React.FC<{}> = () => {
       }))
     );
   };
+
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
@@ -463,6 +466,7 @@ export const Menu: React.FC<{}> = () => {
               fontSize={11}
             >
               Versão {DeviceInfo.getVersion()}
+              {isTesting ? ' - Teste' : ''}
             </Typography>
           </Box>
         </ScrollView>

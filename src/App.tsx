@@ -20,10 +20,12 @@ import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from '.
 import InitialScreen from './InitialScreen';
 import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
-import { apolloClient } from './services/apolloClient';
 import { RemoteConfigService } from "./shared/services/RemoteConfigService";
 import RegionalSearchContext from 'context/RegionalSearchContext';
 import RegionalSearchContextProvider from './context/RegionalSearchContext';
+import ContentfullContextProvider from './context/ContentfullContext';
+import { useContentfull } from './context/ContentfullContext';
+import { apolloClientProduction, apolloClientTesting } from './services/apolloClient';
 
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
@@ -101,6 +103,7 @@ const maintenanceHandler = async () => {
 
 const App = () => {
   const { getValue } = useFirebaseContext()
+  const { isTesting } = useContentfull()
 
   const [isOnMaintenance, setIsOnMaintenance] = useState(false)
 
@@ -136,19 +139,21 @@ const App = () => {
           :
           <CartContextProvider>
             <AuthContextProvider>
-              <RegionalSearchContextProvider>
-                <CacheImagesProvider>
-                  <FirebaseContextProvider>
-                    <ChronometerContextProvider>
-                      <ApolloProvider client={apolloClient}>
-                        <InitialScreen>
-                          <AppRouting />
-                        </InitialScreen>
-                      </ApolloProvider>
-                    </ChronometerContextProvider>
-                  </FirebaseContextProvider>
-                </CacheImagesProvider>
-              </RegionalSearchContextProvider>
+              <ContentfullContextProvider>
+                <RegionalSearchContextProvider>
+                  <CacheImagesProvider>
+                    <FirebaseContextProvider>
+                      <ChronometerContextProvider>
+                        <ApolloProvider client={isTesting ? apolloClientTesting : apolloClientProduction}>
+                          <InitialScreen>
+                            <AppRouting />
+                          </InitialScreen>
+                        </ApolloProvider>
+                      </ChronometerContextProvider>
+                    </FirebaseContextProvider>
+                  </CacheImagesProvider>
+                </RegionalSearchContextProvider>
+              </ContentfullContextProvider>
             </AuthContextProvider>
           </CartContextProvider>
       }
