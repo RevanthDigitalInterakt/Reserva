@@ -188,7 +188,6 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
                 number={currentValue?.split(':')[0]}
-                size={43}
                 unit="hours"
               />
 
@@ -203,7 +202,6 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
                 number={currentValue?.split(':')[1]}
-                size={43}
               />
 
               <Box height={14} justifyContent="space-between" marginX={6}>
@@ -217,7 +215,6 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
                 }
                 colorDivider={clockColor[watchType - 1]?.colorBanner}
                 number={currentValue?.split(':')[2]}
-                size={43}
               />
             </Box>
           </Box>
