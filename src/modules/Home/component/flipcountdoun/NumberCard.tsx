@@ -22,11 +22,11 @@ class NumberCard extends React.Component {
         const { size } = this.props;
         this.animateTick();
         this.rotateFront.addListener(({ value }) => {
-            this.transformRef(this.frontRef, value, size * 0.3);
+            this.transformRef(this.frontRef, value, size * 0.23);
         });
 
         this.rotateBack.addListener(({ value }) => {
-            this.transformRef(this.backRef, value, -size * 0.3);
+            this.transformRef(this.backRef, value, -size * 0.23);
         });
     }
 
@@ -81,7 +81,7 @@ class NumberCard extends React.Component {
         } = this.props;
         return (
             <View style={[style.numberWrapper,
-            { backgroundColor: clockBackgroundColor, Width: size * 0.8, height: size * 1.2, borderRadius: size / 10, margin: 0, padding: 0 },]}
+            { backgroundColor: clockBackgroundColor, minWidth: size, height: size / 1.1, borderRadius: size / 10, margin: 0, padding: 0 },]}
             >
                 <Card
                     type="upper"
@@ -117,7 +117,7 @@ class NumberCard extends React.Component {
 }
 
 NumberCard.defaultProps = {
-    size: width / 6,
+    size: width / 8,
     perspective: 250,
 };
 

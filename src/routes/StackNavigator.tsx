@@ -71,6 +71,8 @@ export type RootStackParamList = {
         value: string;
       }
     ];
+    title?: string;
+    reservaMini?: boolean;
   };
   ChangeRegionalization: undefined;
   CEPList: {
