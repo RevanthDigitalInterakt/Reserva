@@ -84,7 +84,7 @@ const Delivery: React.FC<{}> = () => {
       ) {
         setPermission(true);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   // permissão para acessar o mapa
@@ -102,7 +102,7 @@ const Delivery: React.FC<{}> = () => {
       ) {
         setMapPermission(true);
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   useEffect(() => {
@@ -229,7 +229,7 @@ const Delivery: React.FC<{}> = () => {
     if (pickupPoint) {
       const closer = pickupPoint.reduce(
         (prev: any, curr: any) =>
-          prev.pickupDistance < curr.pickupDistance ? prev : curr,
+          prev.pickupDistance <= curr.pickupDistance ? prev : curr,
         0
       );
       const businessHours = orderForm?.shippingData?.pickupPoints.find(
@@ -400,16 +400,16 @@ const Delivery: React.FC<{}> = () => {
             />
           </Box>
         )}
-        {selectMethodDelivery && businessHours && businessHours.length > 0 && (
+        {selectMethodDelivery && (
           <Box flex={1} justifyContent="flex-end" paddingX="xxxs" pb="xxs">
             <Button
               justifyContent="flex-end"
               onPress={() =>
                 mapPermission
                   ? navigation.navigate('MapScreen', {
-                      geolocation: '',
-                      locationPermission: mapPermission,
-                    })
+                    geolocation: '',
+                    locationPermission: mapPermission,
+                  })
                   : navigation.navigate('WithdrawInStore', { isCheckout: true })
               }
               inline
