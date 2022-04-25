@@ -46,8 +46,8 @@ export const CashbackInStoreContainer = (
 
   const generateToken = async () => {
     const date = new Date();
-    // add 1 day to current date
-    date.setDate(date.getDate() + 1);
+    // add 1 minute to current date
+    date.setMinutes(date.getMinutes() + 1);
     const tomorrow = date.toISOString();
 
     if (costumerDocument) {

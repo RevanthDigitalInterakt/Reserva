@@ -26,6 +26,7 @@ import {
   Divider,
   Icon,
   TextField,
+  Toggle,
   Typography,
 } from 'reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
@@ -42,11 +43,13 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
+import { useContentfull } from '../../../context/ContentfullContext';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
+  const { isTesting, toggleIsTesting} = useContentfull();
   const { email } = useAuth();
   const { isRegister } = route?.params || false;
   const [subscribed, setSubscribed] = useState(false);
@@ -859,10 +862,28 @@ export const EditProfile = ({ route }: Props) => {
               </Box>
               {isTester && (
                 <Box mb="sm" mt="sm">
-                  <TouchableOpacity onPress={() => handleCopyToken()}>
-                    <Typography>{tokenOneSignal}</Typography>
-                  </TouchableOpacity>
+                  <Box mb="nano" mt="nano">
+                    <TouchableOpacity onPress={() => handleCopyToken()}>
+                      <Typography>{tokenOneSignal}</Typography>
+                    </TouchableOpacity>
+                  </Box>
+                  <Box flexDirection="row" marginY="xxs" alignItems="center">
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Ambiente de testes
+                      </Typography>
+                    </Box>
+                    <Box marginLeft="micro">
+                      <Toggle
+                        onValueChange={( value: boolean) => toggleIsTesting(value)}
+                        thumbColor="vermelhoAlerta"
+                        color="preto"
+                        value={isTesting}
+                      />
+                    </Box>
+                  </Box>
                 </Box>
+
               )}
 
               {!isRegister && (
