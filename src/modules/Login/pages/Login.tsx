@@ -22,6 +22,10 @@ import UnderlineInput from '../components/UnderlineInput';
 import OneSignal from 'react-native-onesignal';
 import { sha256 } from 'react-native-sha256';
 
+enum CryptType {
+  SHA256 = 3
+}
+
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export const LoginScreen: React.FC<Props> = ({
@@ -105,16 +109,16 @@ export const LoginScreen: React.FC<Props> = ({
 
         appsFlyer.setUserEmails({
           emails: [emailHash],
-          emailsCryptType: AF_EMAIL_CRYPT_TYPE.SHA256,
-          },
+          emailsCryptType: CryptType.SHA256,
+        },
           (success) => {
             console.log('appsFlyer setUserEmails success', success);
           },
           (error) => {
-          if (error) {
-            console.log('Error setting user emails: ', error);
-          }
-        });
+            if (error) {
+              console.log('Error setting user emails: ', error);
+            }
+          });
 
         setEmail(loginCredentials.username.trim().toLowerCase());
 
