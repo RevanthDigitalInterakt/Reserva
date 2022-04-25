@@ -222,7 +222,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
           rulesData={countDown}
           goToPromotion={() => {
             goToPromotion();
-            setShowModal(false)
+            setShowModal(false);
           }}
         />
       </Box>
@@ -275,7 +275,7 @@ const CheckTheRules = ({
         </Box>
         <Box mt={8}>
           <Typography
-            textAlign={'center'}
+            // textAlign={'center'}
             lineHeight={23}
             fontFamily="reservaSansRegular"
             fontSize={18}

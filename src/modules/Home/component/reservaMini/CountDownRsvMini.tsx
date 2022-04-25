@@ -300,7 +300,7 @@ const CheckTheRules = ({
         </Box>
         <Box mt={8}>
           <Typography
-            textAlign={'center'}
+            // textAlign={'center'}
             lineHeight={23}
             fontFamily="reservaSansRegular"
             fontSize={18}
