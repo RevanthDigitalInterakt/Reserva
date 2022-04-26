@@ -1,27 +1,27 @@
 import React, { Fragment } from "react";
-import { ImageBackground, TouchableOpacity } from "react-native";
-import { Box, Icon, Typography } from "reserva-ui";
+import { ImageBackground } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-
+import { Box, Button, Image, Typography } from "reserva-ui";
 import { images } from '../../../../assets';
-import { LoadingScreen } from "../../../../common/components/LoadingScreen";
-import { ModalTermsAndConditions } from "./components/ModalTermsAndConditions";
+
 
 export interface CashbackInStoreViewProps {
-  isLoyal: boolean;
-  loadingLoyalRequest: boolean;
-  isVisibleTermsAndConditions: boolean;
-  acceptLoyalty: () => void;
-  handleToggleTermsAndConditions: () => void;
+  token?: string;
+  generateToken: () => void;
+  toggleModal: () => void;
+  modalVisible: boolean;
+  termsIsAccepted: boolean;
+  acceptTermsAndConditions: () => void;
 }
 
 export const CashbackInStoreView = (
   {
-    isLoyal,
-    loadingLoyalRequest,
-    isVisibleTermsAndConditions,
-    acceptLoyalty,
-    handleToggleTermsAndConditions
+    token,
+    generateToken,
+    toggleModal,
+    modalVisible,
+    termsIsAccepted,
+    acceptTermsAndConditions
   }: CashbackInStoreViewProps
 ) => {
   return (
@@ -29,19 +29,12 @@ export const CashbackInStoreView = (
       <Box mx="xxs" mt="sm">
         <Box mb="nano">
           <Typography variant="tituloSessoes">
-            Ganhe Cashback na Hora
+          Cashback em Lojas
           </Typography>
         </Box>
         <Box mb="xxs">
           <Typography fontFamily="nunitoRegular" fontSize={14}>
-            Ao finalizar sua compra nas lojas físicas, você pode converter
-            parte do valor em cashback!
-          </Typography>
-        </Box>
-        <Box>
-          <Typography fontFamily="nunitoRegular" fontSize={14}>
-            Confira as regras da promoção atual com o vendedor e gere seu QR
-            Code abaixo.
+          Use o QR Code para gerar cashback nas compras em lojas físicas.
           </Typography>
         </Box>
         <Box mt="xl" alignItems="center" justifyContent="center">
@@ -50,46 +43,67 @@ export const CashbackInStoreView = (
             style={{ width: 230, height: 230, justifyContent: 'center' }}
             resizeMode="contain"
           >
-            <Box alignItems="center" justifyContent="center">
-              {true && (
+            <Box alignItems="center" justifyContent="center" >
+              {token ? (
                 <QRCode
-                  value="sda"
+                  value={token}
                   logo={images.logoQRCode}
                   logoSize={40}
                   size={200}
                 />
-              )}
-              {false && (
-                <LoadingScreen />
+              ) : (
+                <Image source={images.imageCashback} width={200} height={200} />
               )}
             </Box>
           </ImageBackground>
-        </Box>
-        <Box mt="xxs">
-          <ModalTermsAndConditions
-            isVisible={isVisibleTermsAndConditions}
-            loading={loadingLoyalRequest}
-            isAccepted={isLoyal}
-            setIsVisible={handleToggleTermsAndConditions}
-            setTermAndConditions={acceptLoyalty}
-          />
-          <Box
-            flexDirection="row"
-            alignItems="center"
-            mt="xxxs"
-            justifyContent="center"
-          >
-            {loadingLoyalRequest ? (
-              <Box mr="quarck" alignItems="center" justifyContent="center">
-                <LoadingScreen />
+
+          {/* <Box mt="xxxs">
+            <ModalTermsAndConditions
+              isVisible={modalVisible}
+              loading={false}
+              isAccepted={termsIsAccepted}
+              setIsVisible={() => toggleModal()}
+              setTermAndConditions={() => acceptTermsAndConditions()}
+            />
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              mt="xxxs"
+              justifyContent="center"
+            >
+              <Box>
+                <Box flexDirection="row" alignItems="center">
+                  <TouchableOpacity
+                    onPress={() => toggleModal()}
+                  >
+                    <Typography
+                      variant="precoAntigo3"
+                      color="preto"
+                      style={{ textDecorationLine: 'underline' }}
+                    >
+                      Ler termos e condições de uso.
+                    </Typography>
+                  </TouchableOpacity>
+                </Box>
               </Box>
-            ) : (
-              <TouchableOpacity
-                onPress={acceptLoyalty}
-                disabled={isLoyal}
+            </Box>
+          </Box>
+          <Box mt="xxs" style={{
+            backgroundColor: "rgba(214, 209, 196, 0.15)",
+            padding: 10,
+            borderColor: "#D6D1C4",
+            borderWidth: 1,
+            borderRadius: 4,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%"
+          }}>
+            <TouchableOpacity
+                onPress={() => acceptTermsAndConditions()}
               >
                 <Box
-                  backgroundColor={isLoyal ? 'preto' : 'white'}
+                  backgroundColor={termsIsAccepted ? 'preto' : 'white'}
                   width={14}
                   height={14}
                   border="1px"
@@ -99,7 +113,7 @@ export const CashbackInStoreView = (
                   alignItems="center"
                   justifyContent="center"
                 >
-                  {isLoyal && (
+                  {termsIsAccepted && (
                     <Icon
                       name="Check"
                       size={14}
@@ -110,27 +124,16 @@ export const CashbackInStoreView = (
                   )}
                 </Box>
               </TouchableOpacity>
-            )}
-            <Box>
-              <Box flexDirection="row" alignItems="center">
-                <Typography variant="precoAntigo3" color="preto">
-                  Li e aceito os{' '}
-                </Typography>
-
-                <TouchableOpacity
-                  onPress={handleToggleTermsAndConditions}
-                >
-                  <Typography
-                    variant="precoAntigo3"
-                    color="preto"
-                    fontWeight="bold"
-                    style={{ textDecorationLine: 'underline' }}
-                  >
-                    termos e condições.
-                  </Typography>
-                </TouchableOpacity>
-              </Box>
-            </Box>
+            <Typography fontFamily="nunitoRegular" fontSize={14}>
+              Li e aceito os termos e condições de uso.
+            </Typography>
+          </Box> */}
+          <Box mt="xl" mb="nano">
+            <Button
+              onPress={() => generateToken()}
+              title="GERAR QR CODE"
+              variant="primarioMaior"
+            />
           </Box>
         </Box>
       </Box>

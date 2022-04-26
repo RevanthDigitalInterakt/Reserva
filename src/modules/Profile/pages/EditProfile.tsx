@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { addHours, format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   BackHandler,
   KeyboardAvoidingView,
@@ -26,6 +26,7 @@ import {
   Divider,
   Icon,
   TextField,
+  Toggle,
   Typography,
 } from 'reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
@@ -37,11 +38,20 @@ import {
 } from '../../../graphql/profile/profileQuery';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { useCart } from '../../../context/CartContext';
+import { useAuth } from '../../../context/AuthContext';
+import { useContentfull } from '../../../context/ContentfullContext';
 
-export const EditProfile: React.FC<{
-  title: string;
-}> = ({ children, title }) => {
+type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
+
+export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
+  const { isTesting, toggleIsTesting} = useContentfull();
+  const { email } = useAuth();
+  const { isRegister } = route?.params || false;
   const [subscribed, setSubscribed] = useState(false);
   const [tokenOneSignal, setTokenOneSignal] = useState('');
   const [userData, setUserData] = useState<ProfileQuery>({
@@ -65,58 +75,114 @@ export const EditProfile: React.FC<{
 
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
   const [file, setFile] = useState<any>(null);
+  const [imageProfile, setImageProfile] = useState<any>(null);
+  const [deletePhoto, setDeletePhoto] = useState<boolean>(false);
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
   const firebaseRef = new FirebaseService();
-
+  const [loadingProfilePhoto, setLoadingProfilePhoto] =
+    useState<boolean>(false);
   useEffect(() => {
     OneSignal.getDeviceState().then((deviceState: any) => {
       setTokenOneSignal(deviceState.userId);
     });
   }, []);
+  const [loadingScreen, setLoadingScreen] = useState(false);
+
+  const { addCustomer, orderForm, identifyCustomer } = useCart();
+
+  const [cpfInvalid, setCpfInvalid] = useState(false);
+
+  const [isEmptyFullName, setIsEmptyFullName] = useState(false);
+  const [isEmptyBirthDate, setIsEmptyBirthDate] = useState(false);
+  const [isEmptyHomePhone, setIsEmptyHomePhone] = useState(false);
+
+  const [labelFullName, setLabelFullName] = useState(null);
+  const [labelDocument, setLabelDocument] = useState(null);
+  const [labelBirthDate, setLabelBirthDate] = useState(null);
+  const [labelPhone, setLabelPhone] = useState(null);
 
   const getTesters = async () => {
     const testers = await remoteConfig().getValue('EMAIL_TESTERS');
-    if(JSON.parse(testers.asString()).includes(data?.profile?.email)){
+    if (JSON.parse(testers.asString()).includes(data?.profile?.email)) {
       setIsTester(true);
     }
-  }
+  };
+
+  useEffect(() => {
+    setUserData(userData);
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (data) {
+      setLoadingScreen(true);
       getTesters();
-      setUserData({
-        userId: data?.profile?.userId,
-        firstName: data?.profile?.firstName || '',
-        lastName: data?.profile?.lastName || '',
-        fullName: data?.profile?.firstName
-          ? `${data?.profile?.firstName} ${data?.profile?.lastName}`
-          : '',
-        email: data?.profile?.email || '',
-        document: data?.profile?.document || '',
-        birthDate:
-          data?.profile?.birthDate &&
-          format(
-            addHours(new Date(Date.parse(data.profile.birthDate)), 3),
-            'dd/MM/yyyy'
-          ),
-        homePhone: data?.profile?.homePhone || '',
-      });
-      setSubscribed(
-        data?.profile?.customFields.find(
-          (x: any) => x.key == 'isNewsletterOptIn'
-        ).value === 'true' || subscribed
-      );
-      setProfileImagePath(
-        data?.profile?.customFields.find(
-          (x: any) => x.key == 'profileImagePath'
-        ).value || null
-      );
-    }
-  }, [data]);
+      if (!loading) {
+        setUserData({
+          userId: data?.profile?.userId,
+          firstName: data?.profile?.firstName || '',
+          lastName: data?.profile?.lastName || '',
+          fullName: data?.profile?.firstName
+            ? `${data?.profile?.firstName} ${data?.profile?.lastName}`
+            : '',
+          email: data?.profile?.email || '',
+          document: data?.profile?.document || '',
+          birthDate:
+            data?.profile?.birthDate &&
+            format(
+              addHours(new Date(Date.parse(data.profile.birthDate)), 3),
+              'dd/MM/yyyy'
+            ),
+          homePhone: data?.profile?.homePhone || '',
+        });
+        setSubscribed(
+          data?.profile?.customFields.find(
+            (x: any) => x.key == 'isNewsletterOptIn'
+          ).value === 'true' || subscribed
+        );
+        setProfileImagePath(
+          data?.profile?.customFields.find(
+            (x: any) => x.key == 'profileImagePath'
+          ).value || null
+        );
 
-  useEffect(() => {
-    console.log('DATA SALVA :::>>>', data?.profile);
+        if (isRegister) refetch();
+
+        if (!data?.profile?.lastName) {
+          setIsEmptyFullName(true);
+          setLabelFullName(null);
+        } else {
+          setIsEmptyFullName(false);
+          setLabelFullName('Nome completo');
+        }
+
+        if (!data?.profile?.document) {
+          setLabelDocument(null);
+          setCpfInvalid(true);
+        } else {
+          setLabelDocument('CPF');
+          setCpfInvalid(false);
+        }
+
+        if (!data?.profile?.birthDate) {
+          setIsEmptyBirthDate(true);
+          setLabelBirthDate(null);
+        } else {
+          setIsEmptyBirthDate(false);
+          setLabelBirthDate('Data de nascimento');
+        }
+
+        if (!data?.profile?.homePhone) {
+          setIsEmptyHomePhone(true);
+          setLabelPhone(null);
+        } else {
+          setIsEmptyHomePhone(false);
+          setLabelPhone('Telefone');
+        }
+      }
+      setLoadingScreen(false);
+    }
   }, [data]);
 
   useEffect(() => {
@@ -136,15 +202,12 @@ export const EditProfile: React.FC<{
 
   useEffect(() => {
     if (updateData) {
-      refetch();
-
-      if (!loading) navigation.goBack();
+      if (!isRegister) {
+        refetch();
+        if (!loading) navigation.goBack();
+      }
     }
   }, [updateData]);
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -153,7 +216,51 @@ export const EditProfile: React.FC<{
     });
   }, []);
 
-  const saveUserData = () => {
+  useFocusEffect(
+    useCallback(() => {
+      setLoadingScreen(false);
+    }, [])
+  );
+
+  const cpfValidate = async (cpf) => {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf == '') return setCpfInvalid(true);
+
+    if (
+      cpf.length != 11 ||
+      cpf == '00000000000' ||
+      cpf == '11111111111' ||
+      cpf == '22222222222' ||
+      cpf == '33333333333' ||
+      cpf == '44444444444' ||
+      cpf == '55555555555' ||
+      cpf == '66666666666' ||
+      cpf == '77777777777' ||
+      cpf == '88888888888' ||
+      cpf == '99999999999'
+    )
+      return setCpfInvalid(true);
+    let add = 0;
+    let i = 0;
+    let rev = 0;
+    for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+    rev = 11 - (add % 11);
+
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(9))) return setCpfInvalid(true);
+
+    add = 0;
+    for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+    rev = 11 - (add % 11);
+
+    if (rev == 10 || rev == 11) rev = 0;
+    if (rev != parseInt(cpf.charAt(10))) return setCpfInvalid(true);
+
+    return setCpfInvalid(false);
+  };
+
+  const saveUserData = async () => {
+    setLoadingScreen(true);
     const splittedBirthDate = userData.birthDate?.split('/');
     const [firstName, ...rest] = userData.fullName.trim().split(' ');
     const lastName = rest.join(' ');
@@ -167,6 +274,32 @@ export const EditProfile: React.FC<{
       homePhone: newPhone.replace(/[^\d\+]+/g, ''),
     };
 
+    let profileImage = profileImagePath;
+
+    //Deleta a foto antiga do usuário no firebase
+    if (imageProfile !== null && profileImagePath !== null) {
+      const isDifferent = imageProfile.includes(profileImagePath.split('/')[3]);
+      if (!isDifferent) {
+        await firebaseRef.deleteFS(`${profileImagePath}`);
+      }
+    }
+
+    //Deleta a foto antiga do usuário no firebase
+    if (deletePhoto && profileImagePath !== null) {
+      await firebaseRef.deleteFS(`${profileImagePath}`);
+      profileImage = null;
+    }
+
+    //Salva uma nova foto do usuário no firebase
+    if (imageProfile !== null) {
+      if (file !== null) {
+        setLoadingProfilePhoto(true);
+        profileImage = await firebaseRef.createFS(file);
+        setLoadingProfilePhoto(false);
+        setProfileImagePath(profileImage);
+      }
+    }
+
     const customField: ProfileCustomFieldsInput[] = [
       {
         key: 'isNewsletterOptIn',
@@ -178,7 +311,7 @@ export const EditProfile: React.FC<{
       },
       {
         key: 'profileImagePath',
-        value: `${profileImagePath}`,
+        value: `${profileImage}`,
       },
     ];
 
@@ -192,6 +325,30 @@ export const EditProfile: React.FC<{
         customFields: customField,
       },
     });
+
+    if (isRegister) {
+      if (orderForm) {
+        const { clientProfileData, shippingData } = orderForm;
+        const hasCustomer =
+          clientProfileData &&
+          clientProfileData.email &&
+          clientProfileData.firstName;
+
+        const hasAddress =
+          shippingData && shippingData.availableAddresses.length > 0;
+
+        const addCustomerData = await addCustomer({
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          document: user?.document,
+          documentType: 'cpf',
+          phone: user?.homePhone,
+        })
+          .then(async () => await identifyCustomer(email))
+          .then(() => setLoadingScreen(false))
+          .then(() => navigation.navigate('DeliveryScreen'));
+      }
+    }
   };
 
   const requestCameraPermission = async () => {
@@ -263,15 +420,8 @@ export const EditProfile: React.FC<{
               type: 'image/jpeg',
             };
 
-            if (file) {
-              deleteImageProfile();
-            }
-            setFile(photoFile.uri);
-
-            firebaseRef.createFS(photoFile).then((value) => {
-              console.log('Foto salva', value);
-              setProfileImagePath(value);
-            });
+            setFile(photoFile);
+            setImageProfile(photoFile.uri);
           }
         }
       }
@@ -306,16 +456,9 @@ export const EditProfile: React.FC<{
               name: response.assets[0].fileName,
               type: 'image/jpeg',
             };
-            if (file) {
-              deleteImageProfile();
-            }
 
-            setFile(photoFile.uri);
-
-            firebaseRef.createFS(photoFile).then((value) => {
-              console.log('Foto salva', value);
-              setProfileImagePath(value);
-            });
+            setFile(photoFile);
+            setImageProfile(photoFile.uri);
           }
         }
       });
@@ -324,13 +467,20 @@ export const EditProfile: React.FC<{
   };
 
   const updateImageUrl = () => {
-    firebaseRef.getUrlFS(`${profileImagePath}`).then((value) => {
-      setFile(value);
-    });
+    if (profileImagePath != null) {
+      firebaseRef.getUrlFS(`${profileImagePath}`).then(
+        (value) => {
+          setImageProfile(value);
+        },
+        (error) => {
+          setProfileImagePath(null);
+        }
+      );
+    }
   };
 
   useEffect(() => {
-    if (file !== null) {
+    if (imageProfile !== null) {
       updateImageUrl();
     }
   }, []);
@@ -372,7 +522,16 @@ export const EditProfile: React.FC<{
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <TopBarBackButton
-          loading={loading || updateLoading || newsLetterLoading}
+          loading={
+            loading ||
+            loadingProfilePhoto ||
+            updateLoading ||
+            newsLetterLoading ||
+            loadingScreen
+          }
+          backButtonPress={() => {
+            isRegister ? navigation.navigate('Home') : navigation.goBack();
+          }}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -443,8 +602,9 @@ export const EditProfile: React.FC<{
                 <Box mt="micro" mb="micro">
                   <TouchableOpacity
                     onPress={() => {
-                      deleteImageProfile();
+                      setDeletePhoto(true);
                       setFile(null);
+                      setImageProfile(null);
                       setShowModalProfile(false);
                     }}
                   >
@@ -462,68 +622,100 @@ export const EditProfile: React.FC<{
                 </Box>
               </Box>
             </Modal>
-            <Box alignItems="center">
-              {file === null ? (
-                <Avatar onPress={() => setShowModalProfile(true)} buttonEdit />
-              ) : (
-                <Avatar
-                  imageSource={{ uri: file }}
-                  onPress={() => setShowModalProfile(true)}
-                  buttonEdit
-                />
-              )}
-              <Box
-                justifyContent="flex-start"
-                alignItems="flex-start"
-                marginTop="micro"
-              >
-                <Button
-                  inline
-                  onPress={() => {
-                    navigation.navigate('EditPassword', {
-                      email: userData.email,
-                    });
-                  }}
-                  title="Alterar senha"
-                >
-                  <Typography
-                    style={{ textDecorationLine: 'underline' }}
-                    fontSize={13}
-                    fontFamily="nunitoRegular"
-                  >
-                    Alterar senha
+            {isRegister ? (
+              <>
+                <Box alignSelf="flex-start" mb="xxxs">
+                  <Typography variant="tituloSessoes">
+                    Revise seus dados
                   </Typography>
-                </Button>
-              </Box>
-            </Box>
+                </Box>
 
+                <Box alignSelf="flex-start" mb="xxxs">
+                  <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                    Para continuar, todos os dados devem ser inseridos por
+                    completo.
+                  </Typography>
+                </Box>
+              </>
+            ) : (
+              <Box alignItems="center">
+                {imageProfile === null ? (
+                  <Avatar
+                    onPress={() => setShowModalProfile(true)}
+                    buttonEdit
+                  />
+                ) : (
+                  <Avatar
+                    imageSource={{ uri: imageProfile }}
+                    onPress={() => setShowModalProfile(true)}
+                    buttonEdit
+                  />
+                )}
+                <Box
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                  marginTop="micro"
+                >
+                  <Button
+                    inline
+                    onPress={() => {
+                      navigation.navigate('EditPassword', {
+                        email: userData.email,
+                      });
+                    }}
+                    title="Alterar senha"
+                  >
+                    <Typography
+                      style={{ textDecorationLine: 'underline' }}
+                      fontSize={13}
+                      fontFamily="nunitoRegular"
+                    >
+                      Alterar senha
+                    </Typography>
+                  </Button>
+                </Box>
+              </Box>
+            )}
+
+            {/* down */}
             <Box mt="xxxs">
               <Box mb="xxs">
                 <TextField
-                  label="Digite seu nome completo"
+                  label={labelFullName}
                   value={userData.fullName}
                   onChangeText={(text) => {
-                    // const newFullName = (userData.fullName = text);
-                    // const firstName = newFullName
-                    //   .split(' ')
-                    //   .slice(0, 1)
-                    //   .join(' ');
-                    // const lastName = newFullName.split(' ').slice(1).join(' ');
                     setUserData({
                       ...userData,
                       fullName: text,
                     });
+                    const [firstName, ...rest] = text.trim().split(' ');
+                    const lastName = rest.join(' ');
+
+                    if (!text || !lastName) {
+                      setIsEmptyFullName(true);
+                      setLabelFullName(null);
+                    } else {
+                      setIsEmptyFullName(false);
+                      setLabelFullName('Nome completo');
+                    }
                   }}
                   iconRight={
-                    <Box ml="nano">
-                      <Icon
-                        color="preto"
-                        name="Check"
-                        size={18}
-                        marginX="micro"
-                      />
-                    </Box>
+                    !isEmptyFullName ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
                   }
+                  placeholder="Digite seu nome completo."
+                  error="Preencha seu nome completo."
+                  touched={isEmptyFullName}
                 />
               </Box>
 
@@ -531,32 +723,24 @@ export const EditProfile: React.FC<{
                 <TextField
                   style={{ color: '#8A8C8E' }}
                   editable={false}
-                  label="Digite seu e-mail"
+                  label="E-mail"
                   value={userData.email}
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ email: text } });
                   }}
-                />
-              </Box>
-
-              <Box mb="xxs">
-                <TextField
-                  keyboardType="number-pad"
-                  label="Digite seu CPF/CNPJ"
-                  value={userData.document}
-                  maskType="cpf"
-                  onChangeText={(text) => {
-                    setUserData({ ...userData, ...{ document: text } });
-                  }}
                   iconRight={
-                    <Box ml="nano">
-                      <Icon
-                        color="preto"
-                        name="Check"
-                        size={18}
-                        marginX="micro"
-                      />
-                    </Box>
+                    userData.email.length ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
                   }
                 />
               </Box>
@@ -564,7 +748,43 @@ export const EditProfile: React.FC<{
               <Box mb="xxs">
                 <TextField
                   keyboardType="number-pad"
-                  label="Digite sua data de nascimento (opcional)"
+                  label={labelDocument}
+                  value={userData.document}
+                  maskType="cpf"
+                  onChangeText={(text) => {
+                    setUserData({ ...userData, ...{ document: text } });
+                    cpfValidate(text);
+
+                    if (!text || !cpfInvalid) {
+                      setLabelDocument(null);
+                    } else {
+                      setLabelDocument('CPF');
+                    }
+                  }}
+                  iconRight={
+                    userData.document.length && !cpfInvalid ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite seu CPF"
+                  error="Verifique o CPF digitado."
+                  touched={cpfInvalid}
+                />
+              </Box>
+
+              <Box mb="xxs">
+                <TextField
+                  keyboardType="number-pad"
+                  label={labelBirthDate}
                   maskType="custom"
                   maskOptions={{
                     mask: '99/99/9999',
@@ -572,72 +792,169 @@ export const EditProfile: React.FC<{
                   value={userData.birthDate}
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ birthDate: text } });
+
+                    if (!text) {
+                      setIsEmptyBirthDate(true);
+                      setLabelBirthDate(null);
+                    } else {
+                      setIsEmptyBirthDate(false);
+                      setLabelBirthDate('Data de nascimento');
+                    }
                   }}
+                  iconRight={
+                    !isEmptyBirthDate ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite sua data de nascimento"
+                  error="Preencha sua data de nascimento"
+                  touched={isEmptyBirthDate}
                 />
               </Box>
 
               <Box mb="nano">
                 <TextField
+                  keyboardType="number-pad"
                   maskType="custom"
                   maskOptions={{
                     mask: '+55 (99) 9 9999-9999',
                   }}
-                  label="Telefone"
+                  label={labelPhone}
                   value={userData.homePhone}
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ homePhone: text } });
-                  }}
-                />
-              </Box>
-              {
-                isTester &&
-                <Box mb="sm" mt="sm">
-                  <TouchableOpacity onPress={() => handleCopyToken()}>
-                    <Typography>{tokenOneSignal}</Typography>
-                  </TouchableOpacity>
-                </Box>
-              }
 
-              <Box mb="xs" mt="micro" flexDirection="row">
-                <Checkbox
-                  color="dropDownBorderColor"
-                  selectedColor="preto"
-                  width="100%"
-                  // checked={data?.receiveEmail === "yes"}
-                  checked={subscribed}
-                  onCheck={async () => {
-                    const { data } = await updateNewsLetter({
-                      variables: {
-                        email: userData.email,
-                        isNewsletterOptIn: !subscribed,
-                      },
-                    });
-                    if (data.subscribeNewsletter) setSubscribed(!subscribed);
+                    if (!text) {
+                      setIsEmptyHomePhone(true);
+                      setLabelPhone(null);
+                    } else {
+                      setIsEmptyHomePhone(false);
+                      setLabelPhone('Telefone');
+                    }
                   }}
-                  optionName="Desejo receber e-mails com promoções das marcas Reserva."
+                  iconRight={
+                    !isEmptyHomePhone ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite seu telefone"
+                  error="Preencha seu telefone"
+                  touched={isEmptyHomePhone}
                 />
               </Box>
+              {isTester && (
+                <Box mb="sm" mt="sm">
+                  <Box mb="nano" mt="nano">
+                    <TouchableOpacity onPress={() => handleCopyToken()}>
+                      <Typography>{tokenOneSignal}</Typography>
+                    </TouchableOpacity>
+                  </Box>
+                  <Box flexDirection="row" marginY="xxs" alignItems="center">
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Ambiente de testes
+                      </Typography>
+                    </Box>
+                    <Box marginLeft="micro">
+                      <Toggle
+                        onValueChange={( value: boolean) => toggleIsTesting(value)}
+                        thumbColor="vermelhoAlerta"
+                        color="preto"
+                        value={isTesting}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+
+              )}
+
+              {!isRegister && (
+                <Box mb="xs" mt="micro" flexDirection="row">
+                  <Checkbox
+                    color="dropDownBorderColor"
+                    selectedColor="preto"
+                    width="100%"
+                    // checked={data?.receiveEmail === "yes"}
+                    checked={subscribed}
+                    onCheck={async () => {
+                      const { data } = await updateNewsLetter({
+                        variables: {
+                          email: userData.email,
+                          isNewsletterOptIn: !subscribed,
+                        },
+                      });
+                      if (data.subscribeNewsletter) setSubscribed(!subscribed);
+                    }}
+                    optionName="Desejo receber e-mails com promoções das marcas Reserva."
+                  />
+                </Box>
+              )}
 
               <Box mb="nano" justifyContent="space-between" flexDirection="row">
-                <Box width={1 / 2} paddingRight="nano">
-                  <Button
-                    title="CANCELAR"
-                    variant="primarioEstreitoOutline"
-                    inline
-                    onPress={() => {
-                      navigation.goBack();
-                    }}
-                  />
-                </Box>
-                <Box paddingLeft="nano" width={1 / 2}>
-                  <Button
-                    title="SALVAR"
-                    variant="primarioEstreito"
-                    inline
-                    onPress={saveUserData}
-                    disabled={updateLoading}
-                  />
-                </Box>
+                {isRegister ? (
+                  <Box paddingLeft="nano" mt="sm" width={'100%'}>
+                    <Button
+                      title="SALVAR"
+                      variant="primarioEstreito"
+                      inline
+                      onPress={saveUserData}
+                      disabled={
+                        updateLoading ||
+                        loadingProfilePhoto ||
+                        isEmptyFullName ||
+                        cpfInvalid ||
+                        isEmptyFullName ||
+                        isEmptyHomePhone ||
+                        isEmptyBirthDate
+                      }
+                    />
+                  </Box>
+                ) : (
+                  <>
+                    <Box width={1 / 2} paddingRight="nano">
+                      <Button
+                        title="CANCELAR"
+                        variant="primarioEstreitoOutline"
+                        inline
+                        onPress={() => {
+                          navigation.goBack();
+                        }}
+                      />
+                    </Box>
+                    <Box paddingLeft="nano" width={1 / 2}>
+                      <Button
+                        title="SALVAR"
+                        variant="primarioEstreito"
+                        inline
+                        onPress={saveUserData}
+                        disabled={
+                          updateLoading ||
+                          loadingProfilePhoto ||
+                          cpfInvalid ||
+                          loadingScreen
+                        }
+                      />
+                    </Box>
+                  </>
+                )}
               </Box>
             </Box>
           </Box>

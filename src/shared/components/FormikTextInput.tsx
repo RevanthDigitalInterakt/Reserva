@@ -1,61 +1,66 @@
-import React from "react";
-import { ViewComponent, KeyboardTypeOptions } from "react-native";
-import { TextField, Box, } from "reserva-ui";
-import { useFormikContext } from "formik";
+import { useFormikContext } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { KeyboardTypeOptions, ViewComponent } from 'react-native';
 import {
-    TextInputMaskTypeProp,
-    TextInputMaskOptionProp,
-} from "react-native-masked-text";
+  TextInputMaskOptionProp,
+  TextInputMaskTypeProp,
+} from 'react-native-masked-text';
+import { TextField } from 'reserva-ui';
 
 interface IFormikTextInput {
-    label?: string;
-    secureTextEntry?: boolean;
-    placeholder?: string;
-    maskType?: TextInputMaskTypeProp;
-    maskOptions?: TextInputMaskOptionProp;
-    height?: number;
-    field: string;
-    iconRight?: ViewComponent;
-    textAlignVertical?: "auto" | "top" | "bottom" | "center" | undefined;
-    keyboardType?: KeyboardTypeOptions;
+  label?: string;
+  secureTextEntry?: boolean;
+  placeholder?: string;
+  maskType?: TextInputMaskTypeProp;
+  maskOptions?: TextInputMaskOptionProp;
+  height?: number;
+  field: string;
+  iconRight?: ViewComponent;
+  textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center' | undefined;
+  keyboardType?: KeyboardTypeOptions;
 }
 export const FormikTextInput = ({
-    label,
-    textAlignVertical,
-    secureTextEntry,
-    placeholder,
-    maskType,
-    maskOptions,
-    height,
-    field,
-    iconRight,
-    keyboardType
+  label,
+  textAlignVertical,
+  secureTextEntry,
+  placeholder,
+  maskType,
+  maskOptions,
+  height,
+  field,
+  iconRight,
+  keyboardType,
 }: IFormikTextInput) => {
-    const {
-        values,
-        handleChange,
-        touched,
-        errors,
-    } = useFormikContext<any>();
-    return (
-        <>
-            <TextField
-                label={label}
-                textAlignVertical={textAlignVertical}
-                fontFamily="nunitoRegular"
-                secureTextEntry={secureTextEntry}
-                autoCapitalize="none"
-                height={height}
-                keyboardType={keyboardType}
-                maskType={maskType}
-                maskOptions={maskOptions}
-                onChangeText={handleChange(field)}
-                placeholder={placeholder}
-                iconRight={iconRight}
-                value={values[field]}
-                touched={touched[field]}
-                error={errors[field] && touched[field] ? `${errors[field]}` : null}
-            />
-        </>
-    );
+  const { values, handleChange, touched, errors } = useFormikContext<any>();
+  const [labelDisplay, setLabelDisplay] = useState(label);
+
+  const changeLabel = async () => {
+    !values[field] ? setLabelDisplay(undefined) : setLabelDisplay(label);
+  };
+
+  useEffect(() => {
+    changeLabel();
+  }, [values]);
+
+  return (
+    <>
+      <TextField
+        label={labelDisplay}
+        textAlignVertical={textAlignVertical}
+        fontFamily="nunitoRegular"
+        secureTextEntry={secureTextEntry}
+        autoCapitalize="none"
+        height={height}
+        keyboardType={keyboardType}
+        maskType={maskType}
+        maskOptions={maskOptions}
+        onChangeText={handleChange(field)}
+        placeholder={placeholder}
+        iconRight={iconRight}
+        value={values[field]}
+        touched={touched[field]}
+        error={errors[field] && touched[field] ? `${errors[field]}` : null}
+      />
+    </>
+  );
 };

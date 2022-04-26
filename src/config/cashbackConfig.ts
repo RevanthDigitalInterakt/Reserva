@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-const urlProd = 'https://bff-cashback.usereserva.com';
-const urlDev = 'https://bff-cashback.usereserva.com';
+const urlProd = 'https://api.opencashback.com.br/v1';
+const urlDev = 'https://api.opencashback.com.br/v1';
 
 const url = process.env.NODE_ENV === 'production' ? urlProd : urlDev;
 
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
+  'X-API-KEY': '9219ba22-bc04-4a31-a0e2-aba90451127e',
 };
 
 const cashbackInstance = axios.create({

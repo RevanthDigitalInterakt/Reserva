@@ -1,8 +1,7 @@
 // In App.js in a new project
-import React from 'react';
-
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
+import React from 'react';
 import CallCenter from '../modules/CallCenter';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
 import { Cashback } from '../modules/Cashback/pages/Cashback';
@@ -25,6 +24,8 @@ import { CorreReservaStackScreen } from '../modules/CorreReserva';
 import { Credits } from '../modules/Credits/pages/Credits';
 import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
 import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
+import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
+import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
@@ -36,7 +37,6 @@ import { StoreUpdate } from '../modules/Update/pages/StoreUpdate';
 import Update from '../modules/Update/pages/Update';
 import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
 import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
-
 import {
   AddressFlow,
   ForgotFlow,
@@ -45,14 +45,19 @@ import {
   OrderFlow,
   ProductFlow,
   TimeRaceFlow,
+  RegisterFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
-import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
+import { CEPList, CepsInfo, SearchBy } from '../modules/ChangeRegionalization/pages/CEPList';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
-  ProductDetail: { productId: string; colorSelected: string; sizeSelected: string };
+  ProductDetail: {
+    productId: string;
+    colorSelected: string;
+    sizeSelected: string;
+  };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -66,12 +71,20 @@ export type RootStackParamList = {
         value: string;
       }
     ];
+    title?: string;
+    reservaMini?: boolean;
+  };
+  ChangeRegionalization: undefined;
+  CEPList: {
+    list: CepsInfo,
+    searchBy: SearchBy
   };
   WishList: {};
   OrderDetail: {
     orderId?: string;
   };
   ForgotAccessCode: { email: string };
+  ConfirmAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: any[] };
   AccessCode: {
     email: string;
@@ -100,6 +113,8 @@ export type RootStackParamList = {
     };
   };
   ForgotEmail: {};
+  RegisterEmail: {};
+  EditProfile: { isRegister: boolean };
   Home: undefined;
   CancelOrder: {};
   Cashback: { isAcceptedConditions: boolean };
@@ -160,7 +175,9 @@ const flows: Flow[] = [
   ...LoginFlow,
   ...ProductFlow,
   ...TimeRaceFlow,
-  ...MyCreditsRoutes
+  ...MyCreditsRoutes,
+  ...RegisterFlow,
+  ...MyCashbackRoutes,
 ];
 
 export const MainStack = createStackNavigator();
@@ -185,6 +202,8 @@ export const MainStackScreen = () => (
     {/* <MainStack.Screen name="WishList" component={WishList} /> */}
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
     <MainStack.Screen name="WishListCategory" component={WishListCategory} />
+    <MainStack.Screen name="ChangeRegionalization" component={ChangeRegionalization} />
+    <MainStack.Screen name="CEPList" component={CEPList} />
     <MainStack.Screen
       name="ShowListByCategory"
       component={ShowListByCategory}

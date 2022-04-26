@@ -46,7 +46,7 @@ const Store = ({ storeDetail, data }: IStore) => {
     return (
 
         <Box>
-            {data && storeDetail.length > 0 ?
+            {data ?
                 <Box mt="xxs">
                     <Typography
                         fontFamily="reservaSansBold"
@@ -114,23 +114,28 @@ const Store = ({ storeDetail, data }: IStore) => {
                                                 Pronto em até {data.shippingEstimate?.split('bd')[0]} dias
                                             </Typography>
                                         </Box>
-                                        <Button
-                                            flex={1}
-                                            alignSelf="flex-start"
-                                            onPress={() => setShowModalStore(true)}
-                                        >
-                                            <Box
-                                                flex={1}
-                                                alignSelf="flex-start"
-                                            >
-                                                <Typography
-                                                    style={{ textDecorationLine: "underline" }}
-                                                    fontFamily="nunitoRegular"
-                                                    fontSize={12}>
-                                                    Detalhes da loja
-                                                </Typography>
-                                            </Box>
-                                        </Button>
+                                        {storeDetail.length > 0 &&
+                                            (
+                                                <Button
+                                                    flex={1}
+                                                    alignSelf="flex-start"
+                                                    onPress={() => setShowModalStore(true)}
+                                                >
+                                                    <Box
+                                                        flex={1}
+                                                        alignSelf="flex-start"
+                                                    >
+                                                        <Typography
+                                                            style={{ textDecorationLine: "underline" }}
+                                                            fontFamily="nunitoRegular"
+                                                            fontSize={12}>
+                                                            Detalhes da loja
+                                                        </Typography>
+                                                    </Box>
+                                                </Button>
+                                            )
+                                        }
+
                                     </Box>
                                 </Box>
                             </Box> : null}

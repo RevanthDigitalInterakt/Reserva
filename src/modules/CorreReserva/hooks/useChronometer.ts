@@ -2,16 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import BackgroundTimer from 'react-native-background-timer';
 
-export const useChronometer = ({ initial = '00:00:00' }) => {
+export const useChronometer = ({ initial = '00:00:00', countDown = false }) => {
   const [valueFormatted, setValueFormatted] = useState(initial);
   const value = useRef(initial);
   const intervalIDRef = useRef();
+
+  useEffect(() => {
+    value.current = initial;
+  }, [initial]);
 
   const start = () => {
     let seconds = convertHoursToSeconds(value.current);
 
     BackgroundTimer.runBackgroundTimer(() => {
-      seconds += 1;
+      if (countDown) {
+        seconds -= 1;
+      } else {
+        seconds += 1;
+      }
       const formatted = convertSecondsToHours(seconds);
       setValueFormatted(formatted);
     }, 1000);
@@ -30,7 +38,9 @@ export const useChronometer = ({ initial = '00:00:00' }) => {
     start();
   };
 
-  useEffect(() => BackgroundTimer.stopBackgroundTimer(), []);
+  useEffect(() => {
+    BackgroundTimer.stopBackgroundTimer();
+  }, []);
 
   return {
     currentValue: valueFormatted,

@@ -1,16 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
-
+import { LoadingScreen } from '../../../../common/components/LoadingScreen';
+import { ProfileVars } from '../../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import {
-  MyCreditsAPI,
-  CashbackHttpUrl,
-  GetCustomerResponse
+  CashbackHttpUrl, GetCustomerResponse, MyCreditsAPI
 } from '../../../../modules/my-credits/api/MyCreditsAPI';
+import { RemoteConfigService } from '../../../../shared/services/RemoteConfigService';
 import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
-import { ProfileVars } from '../../../../graphql/profile/profileQuery';
-import { LoadingScreen } from '../../../../common/components/LoadingScreen';
-
 import { CreditsView } from './Credits.view';
+
 
 interface CreditsContainerProps {
   navigateBack: () => void;
@@ -34,6 +32,16 @@ export const CreditsContainer = (
     setScreenCashbackInStoreActive
   ] = useState<boolean>(false);
 
+  // covert cents to real
+  const convertCentsToReal = (cents: number) => {
+    return cents / 100;
+  };
+
+  const getIsScreenCashbackInStoreActive = async () => {
+    const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_CASHBACK_IN_STORE');
+    setScreenCashbackInStoreActive(cashback_in_store);
+  }
+
   const getCreditBalance = async ( cpf: string) => {
     const customer = await MyCreditsAPI.get<GetCustomerResponse>(
       CashbackHttpUrl.GetCustomer,
@@ -41,7 +49,9 @@ export const CreditsContainer = (
     );
 
     if(customer.data.SaldoMonetario) {
-      setCreditsBalance(Number(customer.data.SaldoMonetario));
+      setCreditsBalance(
+        convertCentsToReal(Number(customer.data.SaldoMonetario))
+      );
     }
     if(customer.data.Fidelizado) {
       setIsLoyal(true);
@@ -55,6 +65,7 @@ export const CreditsContainer = (
     }).then((value) => {
       setProfile(value);
     });
+    getIsScreenCashbackInStoreActive();
   }, []);
 
   const handleNavigateToCashbackInStore = () => {

@@ -60,12 +60,13 @@ export const EditPassword = ({ route }: Props) => {
     current_password: Yup.string().required('Informe sua senha atual'),
   });
 
+  // VTEX API fields currentPassword and newPassword invert values in the form
   const changePassword = (password: string, current_password: string) => {
     newPassword({
       variables: {
         email,
-        newPassword: password,
-        currentPassword: current_password,
+        currentPassword: password, // here
+        newPassword: current_password, // here
       },
     });
     // navigation.goBack();
@@ -101,6 +102,7 @@ export const EditPassword = ({ route }: Props) => {
                   validationSchema={validation}
                   innerRef={formRef}
                   onSubmit={(values: any) => {
+                    console.log('values', values);
                     const { password, current_password } = values;
                     changePassword(password, current_password);
                   }}
@@ -110,6 +112,7 @@ export const EditPassword = ({ route }: Props) => {
                       <Box mb="micro">
                         <FormikTextInput
                           label="Digite sua senha atual"
+                          placeholder="Digite sua senha atual"
                           secureTextEntry={showCurrentPassword}
                           field="current_password"
                           iconRight={
@@ -139,6 +142,7 @@ export const EditPassword = ({ route }: Props) => {
                       <Box mb="micro">
                         <FormikTextInput
                           label="Digite sua nova senha"
+                          placeholder="Digite sua nova senha"
                           secureTextEntry={showNewPassword}
                           field="password"
                           iconRight={
@@ -168,6 +172,7 @@ export const EditPassword = ({ route }: Props) => {
                       <Box mb="nano">
                         <FormikTextInput
                           label="Repita a senha"
+                          placeholder="Repita a senha"
                           field="password_confirm"
                           secureTextEntry={showRepeatPassword}
                           iconRight={

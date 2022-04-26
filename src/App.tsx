@@ -1,27 +1,33 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-
 import { ApolloProvider } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
-import appsFlyer from 'react-native-appsflyer';
+import React, { useEffect, useState } from 'react';
+import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from 'reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-
 import CodepushConfig from './config/codepush';
 import { env } from './config/env';
 import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
 import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
+import { CacheImagesProvider } from './context/CacheImagesContext';
+import ChronometerContextProvider from './context/ChronometerContext';
 import CartContextProvider from './context/CartContext';
-import InitialScreen from './InitialScreen';
-import { AppRouting } from './routes/AppRouting';
-import { apolloClient } from './services/apolloClient';
-import { Maintenance } from './modules/Home/pages/Maintenance';
 import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
+import InitialScreen from './InitialScreen';
+import { Maintenance } from './modules/Home/pages/Maintenance';
+import { AppRouting } from './routes/AppRouting';
 import { RemoteConfigService } from "./shared/services/RemoteConfigService";
+import RegionalSearchContext from 'context/RegionalSearchContext';
+import RegionalSearchContextProvider from './context/RegionalSearchContext';
+import ContentfullContextProvider from './context/ContentfullContext';
+import { useContentfull } from './context/ContentfullContext';
+import { apolloClientProduction, apolloClientTesting } from './services/apolloClient';
+
+
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
   colors: {
@@ -97,6 +103,7 @@ const maintenanceHandler = async () => {
 
 const App = () => {
   const { getValue } = useFirebaseContext()
+  const { isTesting } = useContentfull()
 
   const [isOnMaintenance, setIsOnMaintenance] = useState(false)
 
@@ -132,13 +139,21 @@ const App = () => {
           :
           <CartContextProvider>
             <AuthContextProvider>
-              <FirebaseContextProvider>
-                <ApolloProvider client={apolloClient}>
-                  <InitialScreen>
-                    <AppRouting />
-                  </InitialScreen>
-                </ApolloProvider>
-              </FirebaseContextProvider>
+              <ContentfullContextProvider>
+                <RegionalSearchContextProvider>
+                  <CacheImagesProvider>
+                    <FirebaseContextProvider>
+                      <ChronometerContextProvider>
+                        <ApolloProvider client={isTesting ? apolloClientTesting : apolloClientProduction}>
+                          <InitialScreen>
+                            <AppRouting />
+                          </InitialScreen>
+                        </ApolloProvider>
+                      </ChronometerContextProvider>
+                    </FirebaseContextProvider>
+                  </CacheImagesProvider>
+                </RegionalSearchContextProvider>
+              </ContentfullContextProvider>
             </AuthContextProvider>
           </CartContextProvider>
       }

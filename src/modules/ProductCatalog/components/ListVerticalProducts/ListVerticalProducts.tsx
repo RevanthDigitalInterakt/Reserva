@@ -1,26 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react';
-
 import { useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { FlatList, Alert } from 'react-native';
-import Modal from 'react-native-modal';
-import { Box, Button, ProductVerticalListCard, Typography } from 'reserva-ui';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList } from 'react-native';
+import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from 'reserva-ui';
 import { loadingSpinner } from 'reserva-ui/src/assets/animations';
-
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
 import {
-  ProductQL,
-  Property,
-  SKU,
+  ProductQL
 } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
+
+
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -32,6 +29,7 @@ interface ListProductsProps {
   | React.ComponentType<any>
   | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
+  handleScrollToTheTop?: () => void;
 }
 
 export const getPercent = (
@@ -52,6 +50,7 @@ export const ListVerticalProducts = ({
   loadMoreProducts,
   loadingHandler,
   totalProducts,
+  handleScrollToTheTop
 }: ListProductsProps) => {
   const navigation = useNavigation();
   const [favoritedProduct, setFavoritedProduct] = useState<any>();
@@ -257,88 +256,88 @@ export const ListVerticalProducts = ({
         </Box>
       )}
 
-      <>
-        <FlatList
-          horizontal={horizontal}
-          data={products}
-          keyExtractor={(item, index) => `${item.productId} ${index}`}
-          numColumns={horizontal ? 1 : 2}
-          ListEmptyComponent={() => (
-            <Box height="100%">
-              <Typography
-                textAlign="center"
-                fontFamily="nunitoRegular"
-                fontSize={16}
-              >
-                Produtos não encontrados
-              </Typography>
-            </Box>
-          )}
-          onEndReached={async () => {
-            console.log('onEndReached');
-            setIsLoadingMore(true);
-            if (totalProducts && totalProducts > products.length)
-              await loadMoreProducts(products.length);
-            setIsLoadingMore(false);
-          }}
-          ListFooterComponent={() => {
-            if (!(isLoadingMore || isLoading)) return null;
-
-            return (
-              <Box
-                width="100%"
-                height={80}
-                color="verdeSucesso"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <LottieView
-                  source={loadingSpinner}
-                  style={{
-                    width: 40,
-                  }}
-                  autoPlay
-                  loop
-                />
+      {products && products.length > 0 && (
+        <>
+          <FlatList
+            horizontal={horizontal}
+            data={products}
+            keyExtractor={(item, index) => `${item.productId} ${index}`}
+            numColumns={horizontal ? 1 : 2}
+            ListEmptyComponent={() => (
+              <Box height="100%">
+                <Typography
+                  textAlign="center"
+                  fontFamily="nunitoRegular"
+                  fontSize={16}
+                >
+                  Produtos não encontrados
+                </Typography>
               </Box>
-            );
-          }}
-          onEndReachedThreshold={0.5}
-          ListHeaderComponent={listHeader}
-          renderItem={({ item, index }) => {
-            const installments =
-              item.items[0].sellers[0].commertialOffer.Installments;
-            const installmentsNumber =
-              installments.length > 0
-                ? installments[0].NumberOfInstallments
-                : 1;
+            )}
+            onEndReached={async () => {
+              console.log('onEndReached');
+              console.log(products.length);
+              if (products.length < 96) {
+                setIsLoadingMore(true);
+                if (totalProducts && totalProducts > products.length) {
+                  await loadMoreProducts(products.length);
+                }
+                setIsLoadingMore(false);
+              }
+            }}
+            ListFooterComponent={() => {
+              if (!(isLoadingMore || isLoading)) return null;
+              return (
+                <Box
+                  width="100%"
+                  height={80}
+                  color="verdeSucesso"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <LottieView
+                    source={loadingSpinner}
+                    style={{
+                      width: 40,
+                    }}
+                    autoPlay
+                    loop
+                  />
+                </Box>
+              );
+            }}
+            onEndReachedThreshold={0.5}
+            ListHeaderComponent={listHeader}
+            renderItem={({ item, index }) => {
+              const installments =
+                item.items[0].sellers[0].commertialOffer.Installments;
+              const installmentsNumber =
+                installments.length > 0
+                  ? installments[0].NumberOfInstallments
+                  : 1;
 
-            const discountTag = getPercent(
-              item.priceRange?.sellingPrice.lowPrice,
-              item.priceRange?.listPrice.lowPrice
-            );
+              const discountTag = getPercent(
+                item.priceRange?.sellingPrice.lowPrice,
+                item.priceRange?.listPrice.lowPrice
+              );
 
-            const cashPaymentPrice =
-              !!discountTag && discountTag > 0
-                ? item.priceRange?.sellingPrice.lowPrice
-                : item.priceRange?.listPrice?.lowPrice || 0;
+              const cashPaymentPrice =
+                !!discountTag && discountTag > 0
+                  ? item.priceRange?.sellingPrice.lowPrice
+                  : item.priceRange?.listPrice?.lowPrice || 0;
 
-            const installmentPrice =
-              installments.length > 0
-                ? installments[0].Value
-                : cashPaymentPrice;
+              const installmentPrice =
+                installments.length > 0
+                  ? installments[0].Value
+                  : cashPaymentPrice;
 
-            // item.priceRange?.listPrice?.lowPrice;
-            const colors = new ProductUtils().getColorsArray(item);
-            return (
-              <Box
-                flex={1}
-                alignItems="center"
-                justifyContent="center"
-                height={353}
-                mr={horizontal && 'xxxs'}
-              >
-                <ProductVerticalListCard
+              // item.priceRange?.listPrice?.lowPrice;
+              const colors = new ProductUtils().getColorsArray(item);
+              return (
+                <ProductItem
+                  item={item}
+                  index={index}
+                  horizontal={horizontal}
                   loadingFavorite={
                     !!loadingFavorite.find((x) => x == item.items[0].itemId)
                   }
@@ -370,17 +369,74 @@ export const ListVerticalProducts = ({
                         item.items[0].variations,
                         'VALOR_HEX_ORIGINAL'
                       ),
-                    });
+                    })
+
+                    if (handleScrollToTheTop) {
+                      handleScrollToTheTop()
+                    }
                   }}
                 />
-              </Box>
-            );
-          }}
-        />
-      </>
-      {/* ) : ( */}
-
-      {/* )} */}
+              );
+            }}
+          />
+        </>)
+      }
     </>
   );
 };
+
+
+interface ProductItemInterface extends ProductVerticalListCardProps {
+  item: any,
+  index: number,
+  horizontal?: boolean,
+}
+
+const ProductItem: React.FC<ProductItemInterface> = ({
+  item,
+  index,
+  horizontal,
+  ...props
+}) => {
+
+  const [imageUri, setImageUri] = useState<string>()
+  // const { fetchImage } = useCacheImages()
+
+  // const fetchUri = async () => {
+  //   if (item.items[0].images[0].imageUrl) {
+  //     const uri = await fetchImage(item.items[0].images[0].imageUrl);
+  //     if (uri) {
+  //       setImageUri(uri)
+  //     }
+  //   }
+  // }
+  useEffect(() => {
+    // if (item) {
+
+    //   fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
+    //     setImageUri(uri)
+    //   });
+    // }
+    // fetchUri();
+  }, []);
+
+  return (
+    <Box
+      flex={1}
+      alignItems="center"
+      justifyContent="center"
+      height={353}
+      mr={horizontal && 'xxxs'}
+    >
+      {
+        !!item.items[0].images[0].imageUrl && (
+          <ProductVerticalListCard
+            {...props}
+            imageSource={item.items[0].images[0].imageUrl}
+          />
+        )
+      }
+    </Box>
+  );
+}
+

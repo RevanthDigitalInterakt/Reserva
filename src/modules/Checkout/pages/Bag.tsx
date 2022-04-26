@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 
 import analytics from '@react-native-firebase/analytics';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import {
   Platform,
@@ -41,12 +41,16 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import { Attachment } from '../../../services/vtexService';
+import { useQuery } from '@apollo/client';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { CepVerify } from '../../../services/vtexService';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
 export const BagScreen = () => {
   const { email } = useAuth();
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
   const {
     orderForm,
     addItem,
@@ -57,9 +61,12 @@ export const BagScreen = () => {
     addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
+    addCustomer,
+    addShippingData,
   } = useCart();
 
   const [loading, setLoading] = useState(false);
+  const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
   const viewRef = useRef(null);
@@ -100,28 +107,83 @@ export const BagScreen = () => {
     [discountCoupon]
   );
 
+  const [isEmptyProfile, setIsEmptyProfile] = useState(false);
+  const [profile, setProfile] = useState();
+
+  const {
+    loading: loadingProfile,
+    data,
+    refetch,
+  } = useQuery(profileQuery, { fetchPolicy: 'no-cache' });
+
   const firstLoadOrderForm = async () => {
     setLoading(true);
-    await orderform();
+    orderform();
     setLoading(false);
   };
 
   const setCustomer = async (email: string) => await identifyCustomer(email);
 
-  useEffect(() => {
-    firstLoadOrderForm();
-    if (orderForm) {
-      const { clientProfileData, shippingData } = orderForm;
-      const hasCustomer =
-        clientProfileData &&
-        clientProfileData.email &&
-        clientProfileData.firstName;
+  // Updating ClientProfileData in orderForm
+  const updateClientProfileData = async (profile: any) => {
+    if (profile) {
+      const addCustomerData = await addCustomer({
+        firstName: profile?.firstName,
+        lastName: profile?.lastName,
+        document: profile?.document,
+        documentType: 'cpf',
+        phone: profile?.homePhone,
+      });
+    }
+  };
 
-      if (email) {
-        setCustomer(email);
+  const validateFieldsProfile = async (profile: any) => {
+    if (profile) {
+      if (
+        profile?.firstName?.length === 0 ||
+        profile?.firstName === null ||
+        profile?.lastName?.length === 0 ||
+        profile?.lastName === null ||
+        profile?.birthDate?.length === 0 ||
+        profile?.birthDate === null ||
+        profile?.homePhone?.length === 0 ||
+        profile?.homePhone === null ||
+        profile?.document?.length === 0 ||
+        profile?.document === null
+      ) {
+        setIsEmptyProfile(true);
+      } else {
+        setIsEmptyProfile(false);
       }
     }
+  };
+
+  useEffect(() => {
+    if (data) {
+      const { profile } = data;
+      if (profile) {
+        updateClientProfileData(profile);
+        validateFieldsProfile(profile);
+        setProfile(profile);
+      }
+    }
+  }, [data]);
+
+  useEffect(() => {
+    firstLoadOrderForm();
+
+    if (email) {
+      setCustomer(email);
+    }
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (data) {
+        refetch();
+      }
+    }, [])
+  );
 
   useEffect(() => {
     const totalItensPrice =
@@ -164,8 +226,6 @@ export const BagScreen = () => {
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
-
-    console.log('ORDER FORM', orderForm);
   }, [orderForm]);
 
   useEffect(() => {
@@ -191,6 +251,7 @@ export const BagScreen = () => {
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
+    setLoadingGoDelivery(true);
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
       const hasCustomer =
@@ -224,17 +285,35 @@ export const BagScreen = () => {
       });
 
       if (!email) {
-        navigate('EnterYourEmail');
+        setLoadingGoDelivery(false);
+        navigation.navigate('EnterYourEmail');
+      } else if (isEmptyProfile) {
+        updateClientProfileData(profile);
+        setLoadingGoDelivery(false);
+        navigation.navigate('EditProfile', { isRegister: true });
       } else {
-        navigate('DeliveryScreen');
+        updateClientProfileData(profile);
+        await identifyCustomer(email)
+          .then(() => setLoadingGoDelivery(false))
+          .then(() => navigation.navigate('DeliveryScreen'));
       }
     }
   };
 
   useEffect(() => {
-    console.log('optimistQuantities', optimistQuantities);
     setLoadingShippingBar(true);
   }, [optimistQuantities]);
+
+  const addAttachmentsInProducts = async () => {
+    try {
+      const orderFormId = orderForm?.orderFormId;
+      const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
+      const attachmentName = 'Li e Aceito os Termos';
+      Attachment(orderFormId, productOrderFormIndex, attachmentName);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <SafeAreaView
@@ -244,7 +323,7 @@ export const BagScreen = () => {
         backgroundColor: '#FFFFFF',
       }}
     >
-      <TopBarBackButton showShadow loading={loading} />
+      <TopBarBackButton showShadow loading={loadingGoDelivery} />
       {loading ? (
         <Box>
           <Skeleton>
@@ -440,7 +519,12 @@ export const BagScreen = () => {
             <Box paddingX="xxxs" paddingY="xxs">
               <Box bg="white" marginTop="xxs">
                 <Typography variant="tituloSessoes">
-                  Sacola ({orderForm?.items.length})
+                  Sacola (
+                  {optimistQuantities.reduce(
+                    (accumulator, currentValue) => accumulator + currentValue,
+                    0
+                  )}
+                  )
                 </Typography>
               </Box>
 
@@ -480,115 +564,120 @@ export const BagScreen = () => {
                       </Typography>
                     </Box>
                   )}
-                    <ProductHorizontalListCard
-                      isBag
-                      discountApi={
-                        item.priceTags.find(
-                          (x) =>
-                            x.identifier ===
-                            'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                        )
-                          ? parseInt(`${item.priceTags[0].rawValue}`)
-                          : undefined
-                      }
-                      disableCounter={
-                        item.priceTags.find(
-                          (x) =>
-                            x.identifier ===
-                            'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                        ) &&
-                        array.filter((x) => x.uniqueId == item.uniqueId)
-                          .length > 1
-                      }
-                      currency="R$"
-                      discountTag={getPercent(
-                        item.sellingPrice,
-                        item.listPrice
-                      )}
-                      itemColor={item.skuName.split('-')[0] || ''}
-                      ItemSize={item.skuName.split('-')[1] || ''}
-                      productTitle={item.name.split(' - ')[0]}
-                      // installmentsNumber={item.installmentNumber}
-                      // installmentsPrice={item.installmentPrice}
-                      price={item.listPrice / 100}
-                      priceWithDiscount={
-                        item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
-                      }
-                      count={optimistQuantities[index]}
-                      onClickAddCount={async (countUpdated) => {
-                        const itemIndex = array.findIndex(
-                          (x) => x.refId == item.refId
-                        );
+                  <ProductHorizontalListCard
+                    isBag
+                    discountApi={
+                      item.priceTags.find(
+                        (x) =>
+                          x.identifier ===
+                          'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                      )
+                        ? parseInt(`${item.priceTags[0].rawValue}`)
+                        : undefined
+                    }
+                    disableCounter={
+                      item.priceTags.find(
+                        (x) =>
+                          x.identifier ===
+                          'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                      ) &&
+                      array.filter((x) => x.uniqueId == item.uniqueId).length >
+                        1
+                    }
+                    currency="R$"
+                    discountTag={getPercent(item.sellingPrice, item.listPrice)}
+                    itemColor={item.skuName.split('-')[0] || ''}
+                    ItemSize={item.skuName.split('-')[1] || ''}
+                    productTitle={item.name.split(' - ')[0]}
+                    // installmentsNumber={item.installmentNumber}
+                    // installmentsPrice={item.installmentPrice}
+                    price={item.listPrice / 100}
+                    priceWithDiscount={
+                      item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
+                    }
+                    count={optimistQuantities[index]}
+                    onClickAddCount={async (countUpdated) => {
+                      const itemIndex = array.findIndex(
+                        (x) => x.refId == item.refId
+                      );
 
-                        const { ok } = await addItem(
-                          countUpdated,
-                          item.id,
-                          item.seller
-                        );
+                      let isAssinaturaSimples =
+                        item?.attachmentOfferings?.find((x) => x.schema.aceito)
+                          ?.required || false;
 
-                        if (!ok) {
-                          const erros = errorsMessages?.filter((erro) =>
-                            erro.includes(item.name)
-                          );
-                          setNoProduct(erros[0]);
-                        } else {
+                      const quantities = isAssinaturaSimples ? 1 : countUpdated;
+
+                      const { ok } = await addItem(
+                        quantities,
+                        item.id,
+                        item.seller
+                      );
+                      if (!ok) {
+                        const erros = errorsMessages?.filter((erro) =>
+                          erro.includes(item.name)
+                        );
+                        setNoProduct(erros[0]);
+                      } else {
+                        if (!isAssinaturaSimples) {
                           setOptimistQuantities([
                             ...optimistQuantities.slice(0, itemIndex),
                             countUpdated,
                             ...optimistQuantities.slice(itemIndex + 1),
                           ]);
-                        }
-                      }}
-                      onClickSubCount={async (count) => {
-                        const prevCont = optimistQuantities[index];
-                        if (prevCont <= 1) {
-                          setShowModal(true);
-                          setRemoveProduct({
-                            id: item.id,
-                            index,
-                            seller: item.seller,
-                          });
                         } else {
-                          setOptimistQuantities([
-                            ...optimistQuantities.slice(0, index),
-                            count,
-                            ...optimistQuantities.slice(index + 1),
-                          ]);
-                          const { ok } = await removeItem(
-                            item.id,
-                            index,
-                            item.seller,
-                            item.quantity - 1
-                          );
-                          if (!ok)
-                            setOptimistQuantities([
-                              ...optimistQuantities.slice(0, index),
-                              prevCont,
-                              ...optimistQuantities.slice(index + 1),
-                            ]);
-                          console.log('ok subCount', ok);
+                          await addAttachmentsInProducts();
                         }
-                      }}
-                      onClickClose={() => {
+                      }
+                    }}
+                    onClickSubCount={async (count) => {
+                      const prevCont = optimistQuantities[index];
+                      if (prevCont <= 1) {
                         setShowModal(true);
                         setRemoveProduct({
                           id: item.id,
                           index,
                           seller: item.seller,
                         });
-                      }}
-                      imageSource={item.imageUrl
-                        .replace('http', 'https')
-                        .split('-55-55')
-                        .join('')}
-                      handleNavigateToProductDetail={() => {
-                        navigate('ProductDetail', {
-                          productId: item.productId,
-                          itemId: item.id,
-                          sizeSelected: item.skuName.split("-")[1] || ""
-                        })
-                      }}
-                    />
+                      } else {
+                        setOptimistQuantities([
+                          ...optimistQuantities.slice(0, index),
+                          count,
+                          ...optimistQuantities.slice(index + 1),
+                        ]);
+                        const { ok } = await removeItem(
+                          item.id,
+                          index,
+                          item.seller,
+                          item.quantity - 1
+                        );
+                        if (!ok)
+                          setOptimistQuantities([
+                            ...optimistQuantities.slice(0, index),
+                            prevCont,
+                            ...optimistQuantities.slice(index + 1),
+                          ]);
+                      }
+                    }}
+                    onClickClose={() => {
+                      setShowModal(true);
+                      setRemoveProduct({
+                        id: item.id,
+                        index,
+                        seller: item.seller,
+                      });
+                    }}
+                    imageSource={item.imageUrl
+                      .replace('http', 'https')
+                      .split('-55-55')
+                      .join('')}
+                    handleNavigateToProductDetail={() => {
+                      navigation.navigate('ProductDetail', {
+                        productId: item.productId,
+                        itemId: item.id,
+                        sizeSelected: item.skuName.split('-')[1] || '',
+                      });
+                    }}
+                  />
                 </Box>
               ))}
             </Box>
@@ -854,7 +943,7 @@ export const BagScreen = () => {
           </ScrollView>
         </>
       ) : (
-        <EmptyBag onPress={() => navigate('Offers')} />
+        <EmptyBag onPress={() => navigation.navigate('Offers')} />
       )}
 
       <Box width="100%" height={145} bg="white">
@@ -931,7 +1020,11 @@ export const BagScreen = () => {
               </Box>
 
               <Button
-                disabled={!!(orderForm && orderForm?.items?.length === 0)}
+                disabled={
+                  !!(orderForm && orderForm?.items?.length === 0) ||
+                  loadingProfile ||
+                  loadingGoDelivery
+                }
                 onPress={onGoToDelivery}
                 title="IR PARA ENTREGA"
                 variant="primarioEstreito"

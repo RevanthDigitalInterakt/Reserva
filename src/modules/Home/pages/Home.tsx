@@ -1,8 +1,13 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -13,11 +18,12 @@ import {
   SafeAreaView,
   ScrollView,
   View,
-  Linking
+  Linking,
 } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
 import { Box, Image } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
+import { useCountDown } from '../../../context/ChronometerContext';
 import {
   Carrousel,
   CarrouselCard,
@@ -25,6 +31,8 @@ import {
   configCollection,
   homeQuery,
   HomeQuery,
+  ICountDownClock,
+  ICountDownClockReservaMini,
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { productSearch } from '../../../graphql/products/productSearch';
@@ -32,11 +40,16 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
-import { Banner } from '../component/Banner';
+import Banner from '../component/Banner';
 import { CardsCarrousel } from '../component/CardsCarroussel';
 import { DefaultCarrousel } from '../component/Carrousel';
-import { DiscoutCodeModal } from '../component/DiscoutCodeModal';
+import DiscoutCodeModal from '../component/DiscoutCodeModal';
+import { CountDownBanner } from '../component/CountDown';
 import { Skeleton } from '../component/Skeleton';
+import { intervalToDuration } from 'date-fns';
+import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
+import { useRegionalSearch } from '../../../context/RegionalSearchContext';
+import { useContentfull } from '../../../context/ContentfullContext';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -45,39 +58,58 @@ export const HomeScreen: React.FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
+  const {isTesting} =useContentfull();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
+  const { cep, setRegionId } = useRegionalSearch();
+  const { setTime, time } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
   const [images, setImages] = React.useState<HomeQuery[]>([]);
   const [carrousels, setCarrousels] = React.useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = React.useState<any>();
+  const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
+  const [countDownClockRsvMini, setCountDownClockRsvMini] =
+    React.useState<ICountDownClockReservaMini>();
   const deviceWidth = Dimensions.get('screen').width;
+
+  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
   const { loading, data, refetch } = useQuery(homeQuery, {
     context: { clientName: 'contentful' },
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
+  const { currentValue, start, stop, reset } = useChronometer({
+    countDown: true,
+    initial: countDownClock?.formattedValue,
+  });
 
+  const { WithoutInternet } = useCheckConnection({ refetch });
   const [login, { data: loginData, loading: loginLoading }] = useMutation(
     classicSignInMutation
   );
 
-  const { data: collectionData } = useQuery(configCollection, {
-    context: { clientName: 'contentful' },
-  });
-
-  const { WithoutInternet } = useCheckConnection({ refetch });
-
-  const { width, height } = Dimensions.get('screen');
-
-  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
-
+  const { data: collectionData, refetch: refetchConfig } = useQuery(
+    configCollection,
+    {
+      context: { clientName: 'contentful' },
+    }
+  );
 
   useEffect(() => {
-    console.log('homepage query', data);
+    if (countDownClock) {
+      if (new Date(countDownClock?.countdown).getTime() > Date.now()) {
+        start();
+      }
+    }
+  }, [countDownClock]);
+
+  useEffect(() => {
+    if (currentValue) setTime(currentValue);
+  }, [currentValue]);
+
+  useEffect(() => {
     const carrouselsItems: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
-    console.log('carrousels', carrouselsItems);
     setCarrousels(carrouselsItems);
 
     const arrayImages =
@@ -91,6 +123,7 @@ export const HomeScreen: React.FC<{
           url: imageDescription.image.url,
           reference: imageDescription.reference,
           route: imageDescription.route,
+          reservaMini: imageDescription.reservaMini,
         })
       );
 
@@ -99,9 +132,52 @@ export const HomeScreen: React.FC<{
 
   useEffect(() => {
     if (collectionData) {
+      let countDownClockMini =
+        collectionData?.configCollection?.items[0].countDownClockReservaMini;
+
+      let limitDate;
+      if (countDownClockMini?.countdown) {
+        limitDate = intervalToDuration({
+          start: Date.now(),
+          end: new Date(countDownClockMini?.countdown),
+        });
+      }
+      if (limitDate) {
+        setCountDownClockRsvMini({
+          ...countDownClockMini,
+          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${
+            limitDate?.minutes
+          }:${limitDate?.seconds}`,
+        });
+      }
+    }
+  }, [collectionData]);
+
+  useEffect(() => {
+    if (collectionData) {
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
+
+      if (collectionData) {
+        const countDownClock =
+          collectionData?.configCollection?.items[0].countDownClock;
+        let limitDate;
+        if (countDownClock?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(countDownClock?.countdown),
+          });
+        }
+        if (limitDate) {
+          setCountDownClock({
+            ...countDownClock,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+              limitDate.minutes
+            }:${limitDate.seconds}`,
+          });
+        }
+      }
     }
   }, [collectionData]);
 
@@ -170,6 +246,64 @@ export const HomeScreen: React.FC<{
     refetchTeste();
     getStorage();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
+
+  const renderCarouselBanners = React.useMemo(() => {
+    return carrousels.map((carrousel) => {
+      switch (carrousel?.type) {
+        case CarrouselTypes.mainCarrousel: {
+          return (
+            <>
+              <DefaultCarrousel carrousel={carrousel} />
+            </>
+          );
+          break;
+        }
+        case CarrouselTypes.cardsCarrousel: {
+          const { items } = carrousel.itemsCollection;
+
+          return items.length > 1 ? (
+            <CardsCarrousel carrousel={carrousel} />
+          ) : (
+            <Banner
+              height={items[0].image.height}
+              reference={items[0].reference}
+              url={items[0].image.url}
+              reservaMini={items[0].reservaMini}
+            />
+          );
+          break;
+        }
+        case CarrouselTypes.banner: {
+          const { image, reference, reservaMini } =
+            carrousel.itemsCollection.items[0];
+          return (
+            <Banner
+              height={image.height}
+              reference={reference}
+              url={image.url}
+              reservaMini={reservaMini}
+            />
+          );
+          break;
+        }
+        default: {
+          return <></>;
+          break;
+        }
+      }
+    });
+  }, [carrousels]);
+
+  const handleModalCodeIsVisible = useCallback(() => {
+    setModalCodeIsVisible(false);
+  }, []);
+
   return (
     <Box flex={1} bg="white">
       <TopBarDefault loading={loading} />
@@ -178,9 +312,7 @@ export const HomeScreen: React.FC<{
         <DiscoutCodeModal
           data={modalDiscount}
           isVisible={modalCodeIsVisible}
-          onClose={() => {
-            setModalCodeIsVisible(false);
-          }}
+          onClose={handleModalCodeIsVisible}
         />
       )}
       <WithoutInternet />
@@ -189,7 +321,7 @@ export const HomeScreen: React.FC<{
       ) : (
         <SafeAreaView
           style={{
-            marginBottom: 87,
+            marginBottom: modalDiscount && modalCodeIsVisible ? 87 : 50,
           }}
         >
           <ScrollView
@@ -203,56 +335,23 @@ export const HomeScreen: React.FC<{
                 overflow: 'hidden',
               }}
             >
-              {carrousels.map((carrousel) => {
-                // if (!!carrousel && carrousel.type === CarrouselTypes.mainCarrousel) return <DefaultCarrousel carrousel={carrousel} />
-                switch (carrousel?.type) {
-                  case CarrouselTypes.mainCarrousel: {
-                    return <DefaultCarrousel carrousel={carrousel} />;
-                    break;
-                  }
-                  case CarrouselTypes.cardsCarrousel: {
-                    const { items } = carrousel.itemsCollection;
-                    return items.length > 1 ? (
-                      <CardsCarrousel carrousel={carrousel} />
-                    ) : (
-                      <Banner
-                        height={items[0].image.height}
-                        reference={items[0].reference}
-                        url={items[0].image.url}
-                      />
-                    );
-                    break;
-                  }
-                  case CarrouselTypes.banner: {
-                    const { image, reference } =
-                      carrousel.itemsCollection.items[0];
-                    return (
-                      <Banner
-                        height={image.height}
-                        reference={reference}
-                        url={image.url}
-                      />
-                    );
-                    break;
-                  }
-                  default: {
-                    return <></>;
-                    break;
-                  }
-                }
-              })}
+              {countDownClock && <CountDownBanner countDown={countDownClock} />}
+              {renderCarouselBanners}
             </Box>
 
             <FlatList
               data={images}
-              renderItem={({ item }) => (
-                <Banner
-                  height={item.height}
-                  reference={item.reference}
-                  url={item.url}
-                  route={item.route}
-                />
-              )}
+              renderItem={({ item }) => {
+                return (
+                  <Banner
+                    height={item.height}
+                    reference={item.reference}
+                    url={item.url}
+                    route={item.route}
+                    reservaMini={item.reservaMini}
+                  />
+                );
+              }}
               keyExtractor={(item) => item.id}
             />
           </ScrollView>

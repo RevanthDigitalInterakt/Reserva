@@ -50,11 +50,35 @@ export interface CarrouselCard {
     width: any;
     height: any;
   };
+  reservaMini: boolean;
   name: string;
   description: string;
   reference: string;
-
   referenceLabel?: string;
+}
+
+export interface ICountDownClock {
+  title: string;
+  subtitle: string;
+  watchType: number;
+  countdown: string;
+  titleButton: string;
+  titleModal: string;
+  descriptionModal: string;
+  reference: string;
+  formattedValue?: string | undefined;
+}
+
+export interface ICountDownClockReservaMini {
+  title: string;
+  subtitle: string;
+  watchType: number;
+  countdown: string;
+  titleButton: string;
+  titleModal: string;
+  descriptionModal: string;
+  reference: string;
+  formattedValue?: string | undefined;
 }
 
 export const homeQuery = gql`
@@ -76,6 +100,7 @@ export const homeQuery = gql`
                   width
                   height
                 }
+                reservaMini
                 name
                 description
                 reference
@@ -86,6 +111,7 @@ export const homeQuery = gql`
         mediasCollection {
           items {
             reference
+            reservaMini
             image {
               fileName
               title
@@ -145,6 +171,26 @@ export const configCollection = gql`
           colorButton
           shareMessage
           coupon
+        }
+        countDownClock {
+          title
+          subtitle
+          watchType
+          countdown
+          titleButton
+          titleModal
+          descriptionModal
+          reference
+        }
+        countDownClockReservaMini {
+          title
+          subtitle
+          watchType
+          countdown
+          titleButton
+          titleModal
+          descriptionModal
+          reference
         }
         searchMedia {
           title

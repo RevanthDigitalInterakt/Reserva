@@ -3,12 +3,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  KeyboardAvoidingView,
+  StyleProp,
+  TextStyle,
+} from 'react-native';
 import {
   TextInputMaskOptionProp,
   TextInputMaskTypeProp,
 } from 'react-native-masked-text';
-import { Box, Button, TextField, Typography } from 'reserva-ui';
+import { Box, Button, TextField, theme, Typography } from 'reserva-ui';
 
 import { useCart } from '../../../context/CartContext';
 import {
@@ -22,6 +28,7 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useAuth } from '../../../context/AuthContext';
 
 interface IAddress {
   postalCode: string;
@@ -46,7 +53,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { addShippingData } = useCart();
+  const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
   const { isCheckout } = route.params;
   const {
     loading: loadingProfile,
@@ -69,29 +76,47 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     country: 'BRA',
   });
   const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [validateNeighborhood, setValidateNeighborhood] = useState(false);
+  const [validateStreet, setValidateStreet] = useState(false);
+
+  // State labels
+  const [labelNeighborhood, setLabelNeighborhood] = useState(null);
+  const [labelPostalCode, setLabelPostalCode] = useState(null);
+  const [labelState, setLabelState] = useState(null);
+  const [labelCity, setLabelCity] = useState(null);
+  const [labelNumber, setLabelNumber] = useState(null);
+  const [labelStreet, setLabelStreet] = useState(null);
+  const [labelComplement, setLabelComplement] = useState(null);
+
+  const [validateForm, setValidateForm] = useState(false);
+  const [validateNumber, setValidateNumber] = useState(true);
+
+  const { email } = useAuth();
 
   const handleSaveAddress = async () => {
     setLoading(true);
 
     edit
       ? await addressUpdate({
-        variables: {
-          id: addressId,
-          fields: {
-            ...initialValues,
-            receiverName: `${profile?.firstName} ${profile?.lastName}`,
+          variables: {
+            id: addressId,
+            fields: {
+              ...initialValues,
+              receiverName: `${profile?.firstName} ${profile?.lastName}`,
+            },
           },
-        },
-      })
+        })
       : await saveAddress({
-        variables: {
-          fields: {
-            ...initialValues,
-            receiverName: `${profile?.firstName} ${profile?.lastName}`,
+          variables: {
+            fields: {
+              ...initialValues,
+              receiverName: `${profile?.firstName} ${profile?.lastName}`,
+            },
           },
-        },
-      });
+        });
 
+    await identifyCustomer(email);
+    orderform();
     setLoading(false);
     navigation.goBack();
   };
@@ -132,7 +157,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         },
       },
     });
-    setLoading(false);
+
+    await identifyCustomer(email).then(() => setLoading(false));
+
     if (isAddressSaved) {
       navigation.goBack();
     }
@@ -154,6 +181,46 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         city,
         state,
       });
+
+      if (!postalCode) {
+        setLabelPostalCode(null);
+      } else {
+        setLabelPostalCode('CEP');
+      }
+
+      if (!street) {
+        setValidateStreet(true);
+        setLabelStreet(null);
+      } else {
+        setValidateStreet(false);
+        setLabelStreet('Endereço');
+      }
+
+      if (!neighborhood) {
+        setValidateNeighborhood(true);
+        setLabelNeighborhood(null);
+      } else {
+        setValidateNeighborhood(false);
+        setLabelNeighborhood('Bairro');
+      }
+
+      if (!city) {
+        setLabelCity(null);
+      } else {
+        setLabelCity('Cidade');
+      }
+
+      if (!state) {
+        setLabelState(null);
+      } else {
+        setLabelState('Estado');
+      }
+
+      if (postalCode && street && neighborhood && city && state) {
+        setValidateForm(true);
+      }
+
+      setValidateNumber(false);
 
       setLoading(false);
     }
@@ -188,8 +255,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       state?.length > 0 &&
       city?.length > 0 &&
       number.length > 0 &&
-      street.length > 0 &&
-      neighborhood.length > 0
+      street?.length > 0 &&
+      neighborhood?.length > 0
     ) {
       setButtonEnabled(true);
     } else {
@@ -209,6 +276,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         street: editAddress.street,
         neighborhood: editAddress.neighborhood,
       });
+      setLabelNeighborhood('Bairro');
+      setLabelCity('Cidade');
+      setLabelComplement('Complemento');
+      setLabelNumber('Número');
+      setLabelState('Estado');
+      setLabelPostalCode('CEP');
+      setLabelStreet('Endereço');
     }
   }, [edit]);
 
@@ -239,68 +313,145 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     </Typography>
                   )}
                 </Box>
+
                 <InputOption
-                  placeholder="Digite seu CEP"
+                  label={labelPostalCode}
+                  placeholder="CEP"
                   maskType="zip-code"
                   value={initialValues.postalCode}
                   onChangeText={(text) => {
                     setInitialValues({ ...initialValues, postalCode: text });
                     cepHandler(text.replace('-', ''));
+
+                    if (!text) {
+                      setLabelPostalCode(null);
+                    } else {
+                      setLabelPostalCode('CEP');
+                    }
                   }}
                 />
 
+                {/* {initialValues.street ? <Typography>teste</Typography> : null} */}
                 <InputOption
+                  label={labelStreet}
                   placeholder="Endereço"
                   value={initialValues.street}
                   // editable={initialValues.street.length <= 0}
-                  onChangeText={(text) =>
-                    setInitialValues({ ...initialValues, street: text })
-                  }
+                  onChangeText={(text) => {
+                    setInitialValues({ ...initialValues, street: text });
+
+                    if (!text) {
+                      setValidateStreet(true);
+                      setLabelStreet(null);
+                    } else {
+                      setValidateStreet(false);
+                      setLabelStreet('Endereço');
+                    }
+                  }}
+                  touched={validateStreet}
+                  error="Por favor, insira o endereço."
+                />
+
+                <InputOption
+                  label={labelNeighborhood}
+                  placeholder="Bairro"
+                  value={initialValues.neighborhood}
+                  // editable={initialValues.neighborhood.length <= 0}
+                  onChangeText={(text) => {
+                    setInitialValues({
+                      ...initialValues,
+                      neighborhood: text,
+                    });
+
+                    if (!text) {
+                      setValidateNeighborhood(true);
+                      setLabelNeighborhood(null);
+                    } else {
+                      setValidateNeighborhood(false);
+                      setLabelNeighborhood('Bairro');
+                    }
+                  }}
+                  touched={validateNeighborhood}
+                  error="Por favor, insira o bairro."
                 />
 
                 <Box flexDirection="row" justifyContent="space-between">
                   <Box flex={1} marginRight="micro">
                     <InputOption
-                      placeholder="Digite seu bairro"
-                      value={initialValues.neighborhood}
-                      // editable={initialValues.neighborhood.length <= 0}
-                      onChangeText={(text) =>
-                        setInitialValues({
-                          ...initialValues,
-                          neighborhood: text,
-                        })
-                      }
+                      label={labelNumber}
+                      placeholder="Número"
+                      value={initialValues.number}
+                      onChangeText={(text) => {
+                        setInitialValues({ ...initialValues, number: text });
+
+                        if (!text) {
+                          setLabelNumber(null);
+                          setValidateForm(false);
+                          setValidateNumber(false);
+                        } else {
+                          setLabelNumber('Número');
+                          setValidateForm(true);
+                          setValidateNumber(true);
+                        }
+                      }}
+                      touched={!validateNumber}
+                      error="Por favor, insira o número."
                     />
                   </Box>
 
                   <Box flex={1}>
                     <InputOption
-                      placeholder="Digite seu estado"
-                      value={initialValues.state}
-                      // editable={initialValues.state.length <= 0}
-                      onChangeText={(text) =>
-                        setInitialValues({ ...initialValues, state: text })
-                      }
+                      label={labelComplement}
+                      placeholder="Complemento"
+                      value={initialValues.complement}
+                      onChangeText={(text) => {
+                        setInitialValues({
+                          ...initialValues,
+                          complement: text,
+                        });
+                        if (!text) {
+                          setLabelComplement(null);
+                        } else {
+                          setLabelComplement('Complemento');
+                        }
+                      }}
                     />
                   </Box>
                 </Box>
 
                 <Box flex={1}>
                   <InputOption
-                    placeholder="Número"
-                    value={initialValues.number}
-                    onChangeText={(text) =>
-                      setInitialValues({ ...initialValues, number: text })
-                    }
+                    label={labelCity}
+                    placeholder="Cidade"
+                    value={initialValues.city}
+                    // editable={initialValues.state.length <= 0}
+                    onChangeText={(text) => {
+                      setInitialValues({ ...initialValues, city: text });
+                      if (!text) {
+                        setLabelCity(null);
+                      } else {
+                        setLabelCity('Cidade');
+                      }
+                    }}
                   />
                 </Box>
-                <InputOption
-                  placeholder="Complemento"
-                  value={initialValues.complement}
-                  onChangeText={(text) =>
-                    setInitialValues({ ...initialValues, complement: text })
-                  }
-                />
+
+                <Box flex={1}>
+                  <InputOption
+                    label={labelState}
+                    placeholder="Estado"
+                    value={initialValues.state}
+                    // editable={initialValues.state.length <= 0}
+                    onChangeText={(text) => {
+                      setInitialValues({ ...initialValues, state: text });
+                      if (!text) {
+                        setLabelState(null);
+                      } else {
+                        setLabelState('Estado');
+                      }
+                    }}
+                  />
+                </Box>
 
                 {toggleActivated && (
                   <Box mb="sm">
@@ -341,6 +492,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             title="INCLUIR ENDEREÇO"
             variant="primarioEstreito"
             inline
+            disabled={!validateForm || !validateNumber || loading}
           />
         )}
       </SafeAreaView>
@@ -357,12 +509,13 @@ interface IInputOption {
   maskOptions?: TextInputMaskOptionProp;
   value?: string;
   height?: number;
-  error?: any;
+  error?: string;
   touch?: string;
-  touched?: any;
+  touched?: boolean;
   textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center' | undefined;
   editable?: boolean;
   onChangeText?: (value: string) => void;
+  style?: StyleProp<TextStyle>;
 }
 const InputOption = ({
   label,
@@ -373,16 +526,18 @@ const InputOption = ({
   height,
   error,
   touch,
+  touched,
   textAlignVertical,
   onChangeText,
   editable = true,
+  style,
   ...rest
 }: IInputOption) => (
   <>
     <Box mt="xxxs">
       <TextField
         {...rest}
-        // label={"Nome do titular"}
+        label={label}
         textAlignVertical={textAlignVertical}
         height={height}
         maskType={maskType}
@@ -391,9 +546,9 @@ const InputOption = ({
         placeholder={placeholder}
         value={value}
         editable={editable}
-
-      // touched={touched[field]}
-      // error={errors[field] && touched[field] ? `${errors[field]}` : null}
+        style={style}
+        touched={touched}
+        error={error && touched ? `${error}` : null}
       />
     </Box>
   </>

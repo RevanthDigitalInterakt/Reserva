@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, FlatList } from 'react-native';
+import { Dimensions, FlatList, Animated, View, StyleSheet } from 'react-native';
 import { Box, Button, Image } from 'reserva-ui';
-import { Carrousel, CarrouselCard } from 'src/graphql/homePage/HomeQuery';
+import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
 const cardWidth = Dimensions.get('window').width * 0.85;
 const cardPadding = Dimensions.get('window').width * 0.15 * 0.5;
 const DEVICE_WIDTH = Dimensions.get('window').width;
+
 interface CardsCarrouselProps {
   carrousel: Carrousel;
 }
@@ -15,33 +16,36 @@ interface CardsCarrouselProps {
 export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   carrousel,
 }) => {
-  console.log('carrousel', carrousel);
+  // console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   return (
-    <Box
-    // marginY={15}
-    >
+    <Box>
       <Box>
-        {/* <Box paddingLeft={15}>
-          <Typography fontFamily="nunitoBold" fontSize={16}>
-            {carrousel.title}
-          </Typography>
-        </Box> */}
-        <FlatList
+        <Animated.FlatList
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: true }
+          )}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
+          snapToOffsets={[...Array(myCards.length)].map(
+            (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48
+          )}
+          snapToAlignment="start"
+          scrollEventThrottle={16}
+          decelerationRate="fast"
           contentContainerStyle={{
-            paddingLeft: cardPadding,
-            paddingRight: cardPadding,
+            paddingLeft: 4,
+            paddingRight: 4,
           }}
-          snapToInterval={cardWidth}
-          snapToAlignment="center"
-          pagingEnabled
+          // snapToInterval={cardWidth}
+          // snapToAlignment="center"
+          // pagingEnabled
           // decelerationRate={0}
           bounces={false}
-          disableIntervalMomentum
           renderItem={({ item, index }) => (
             <Box>
               <Card
@@ -51,10 +55,51 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
                 reference={item.reference}
                 referenceLabel={item.referenceLabel}
                 key={index}
+                reservaMini={item.reservaMini}
               />
             </Box>
           )}
         />
+
+        <Box height={24} flexDirection="row" alignSelf="center">
+          <Animated.View
+            style={[
+              styles.slidingIndicatorStyle,
+              {
+                position: 'absolute',
+                transform: [
+                  {
+                    translateX: Animated.divide(
+                      scrollX,
+                      DEVICE_WIDTH * 0.88 - 48
+                    ).interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [6, 25.8],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          />
+          {myCards.map((_item, index) => {
+            return (
+              <Box
+                key={index}
+                justifyContent="center"
+                alignItems="center"
+                width={19}
+              >
+                <Box
+                  borderWidth={1}
+                  width={7}
+                  height={7}
+                  borderRadius={7}
+                  borderColor="#6F6F6F"
+                />
+              </Box>
+            );
+          })}
+        </Box>
       </Box>
     </Box>
   );
@@ -70,6 +115,7 @@ const Card: React.FC<CardProps> = ({
   reference,
   description,
   name,
+  reservaMini,
 }) => {
   const navigation = useNavigation();
 
@@ -81,7 +127,7 @@ const Card: React.FC<CardProps> = ({
         productId: categoryData,
         itemId: categoryData,
         colorSelected: '#FFFFFF',
-      })
+      });
     } else {
       if (categoryType === 'category') {
         categoryData.split('|').forEach((cat: string) => {
@@ -97,53 +143,32 @@ const Card: React.FC<CardProps> = ({
         });
       }
       navigation.navigate('ProductCatalog', {
-        // facetInput,
         referenceId: reference,
+        reservaMini: reservaMini,
       });
     }
   };
 
-  useEffect(() => {
-    console.log('width', cardWidth);
-  }, []);
-
   return (
     <Box>
-      {/* <Box> */}
       <Button onPress={handleNavigation}>
-        <Image autoHeight width={cardWidth} source={{ uri: image.url }} />
+        <Image
+          autoHeight
+          width={DEVICE_WIDTH * 0.85 - 16}
+          source={{ uri: image.url }}
+        />
       </Button>
-      {/* <Box
-          style={{ maxWidth: width }}
-          marginLeft={10}
-          marginTop="quarck"
-          marginBottom={5}
-        >
-          <Typography fontFamily="reservaSansBold" fontSize={16}>
-            {name.toUpperCase()}
-          </Typography>
-          <Typography
-            style={{
-              marginLeft: 10,
-              height: (12 + 4) * 3,
-            }}
-            numberOfLines={3}
-            fontFamily="reservaSansRegular"
-            fontSize={12}
-            color="neutroFrio2"
-          >
-            {description}
-          </Typography>
-        </Box>
-      </Box> */}
-      {/* <TouchableOpacity
-        onPress={handleNavigation}
-        style={{ bottom: 0, marginLeft: 10 }}
-      >
-        <Typography fontSize={14} fontFamily="nunitoBold">
-          {referenceLabel}
-        </Typography>
-      </TouchableOpacity> */}
     </Box>
   );
 };
+
+const styles = StyleSheet.create({
+  slidingIndicatorStyle: {
+    backgroundColor: '#6F6F6F',
+    width: 7,
+    height: 7,
+    alignSelf: 'center',
+    zIndex: 2,
+    borderRadius: 7,
+  },
+});

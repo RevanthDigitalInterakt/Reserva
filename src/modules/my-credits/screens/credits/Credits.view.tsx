@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import { Box, Divider, Typography, Button, Icon } from "reserva-ui";
-
+import { Box, Divider, Typography } from "reserva-ui";
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
+
 
 export interface CreditsViewProps {
   creditsBalance?: number;
@@ -30,7 +30,7 @@ export const CreditsView = (
           <Divider variant="fullWidth" />
           <Box py="xxs" flexDirection="row" justifyContent="space-between">
             <Typography variant="subtituloSessoes">
-              Créditos e cashback
+              Créditos
             </Typography>
             <PriceCustom
               fontFamily="nunitoBold"
@@ -40,21 +40,21 @@ export const CreditsView = (
             />
           </Box>
           <Divider variant="fullWidth" />
-          {screenCashbackInStoreActive && (
-            <Box flexDirection="row" mt="xxs">
-              <Button
-                flexDirection="row"
-                onPress={handleNavigateToCashbackInStore}
-              >
-                <>
-                  <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
-                  <Typography fontFamily="nunitoBold" fontSize={16}>
-                    Cashback em Lojas
-                  </Typography>
-                </>
-              </Button>
-            </Box>
-          )}
+          <Box mt="xxs" flexDirection="row" justifyContent="space-between">
+            <Typography variant="subtituloSessoes">
+              O que são meus créditos?
+            </Typography>
+          </Box>
+          <Box mt="nano" flexDirection="row" justifyContent="space-between">
+            <Typography fontFamily="nunitoRegular" fontSize={15}>
+              Estes créditos são cedidos por nós, geralmente por conta de alguma
+              promoção, devolução ou abono. Eles são atrelados ao seu CPF e não
+              podem ser transferidos ou convertidos em outra forma de pagamento.
+              E atenção à data de validade dos seus créditos, hein? Você deve
+              utilizá-los nas lojas, no site ou aqui no App, antes que expirem.
+
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Fragment>

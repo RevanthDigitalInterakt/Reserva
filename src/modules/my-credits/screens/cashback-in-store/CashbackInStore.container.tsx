@@ -1,16 +1,14 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-
+import AsyncStorage from "@react-native-community/async-storage";
+import React, { Fragment, useEffect, useState } from "react";
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
+import { MyCashbackAPI } from "../../../../modules/my-cashback/api/MyCashbackAPI";
 import {
-  AcceptLoyaltyResponse,
   CashbackHttpUrl,
-  GetTokenResponse,
-  MyCreditsAPI
+  GetTokenResponse
 } from "../../../my-credits/api/MyCreditsAPI";
 import { CashbackInStoreView } from "./CashbackInStore.view";
 
 interface CashbackInStoreContainerProps {
-  isLoyal: boolean;
   costumerDocument: string;
   navigateBack: () => void;
   navigateToError: () => void;
@@ -18,67 +16,50 @@ interface CashbackInStoreContainerProps {
 
 export const CashbackInStoreContainer = (
   {
-    isLoyal,
     costumerDocument,
     navigateBack,
     navigateToError
   }: CashbackInStoreContainerProps
 ) => {
-  const [loading, setLoading] = useState<boolean>(true);
   const [token, setToken] = useState<string>();
-  const [
-    isVisibleTermsAndConditions,
-    setIsVisibleTermsAndConditions
-  ] = useState<boolean>(false);
-  const [loadingLoyalRequest, setLoadingLoyalRequest] = useState<boolean>(false);
-  const [loadingQRCode, setLoadingQRCode] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [termsIsAccepted, setTermsIsAccepted] = useState<boolean>(true);
 
-  const intervalTokenRef: { current: NodeJS.Timeout | null } = useRef(null);
+  const termAndConditionsIsAccepted = async () => {
+    const isAccepted = await AsyncStorage.getItem('@RNAuth:terms');
+    console.log('isAccepted', isAccepted);
+    setTermsIsAccepted(isAccepted === 'true');
+  }
 
-  const handleAcceptLoyalty = async () => {
-    if (!isLoyal && costumerDocument) {
-      setLoadingLoyalRequest(true);
-      await MyCreditsAPI.post<AcceptLoyaltyResponse>(
-        CashbackHttpUrl.AcceptLoyalty,
-        {
-          cpf: costumerDocument
-        }
-      );
-      setLoadingLoyalRequest(false);
-    }
-  };
-
-  const generateToken = async () => {
-    if (isLoyal && costumerDocument) {
-      setLoadingLoyalRequest(true);
-      const { data } = await MyCreditsAPI.get<GetTokenResponse>(
-        CashbackHttpUrl.ModifyToken,
-        {
-          cpf: costumerDocument
-        }
-      );
-      setToken(data.token);
-      setLoadingLoyalRequest(false);
-    }
-  };
-
+  const acceptTermsAndConditions = async () => {
+    await AsyncStorage.setItem('@RNAuth:terms', 'true');
+    setTermsIsAccepted(true);
+  }
 
   useEffect(() => {
-    generateToken();
-    const intervalToken = setInterval(() => {
-      generateToken();
-    }, 60 * 1000);
-    intervalTokenRef.current = intervalToken;
-
-    return () => {
-      clearInterval(intervalTokenRef.current as NodeJS.Timeout);
-    };
+    termAndConditionsIsAccepted();
   }, []);
 
-  const handleToggleTermsAndConditions = async () => {
-    setIsVisibleTermsAndConditions(
-      !isVisibleTermsAndConditions
-    );
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  }
+
+  const generateToken = async () => {
+    const date = new Date();
+    // add 5 minute to current date
+    date.setMinutes(date.getMinutes() + 5);
+    const tomorrow = date.toISOString();
+
+    if (costumerDocument) {
+      const { data } = await MyCashbackAPI.post<GetTokenResponse>(
+        `${CashbackHttpUrl.GetToken}${costumerDocument}/authenticate`,
+        {
+          type: "qrcode",
+          expire_date: tomorrow,
+        }
+      );
+      setToken(data.data.token);
+    }
   };
 
   return(
@@ -89,11 +70,12 @@ export const CashbackInStoreContainer = (
         backButtonPress={navigateBack}
       />
       <CashbackInStoreView
-        isLoyal={isLoyal}
-        acceptLoyalty={handleAcceptLoyalty}
-        loadingLoyalRequest={loadingLoyalRequest}
-        handleToggleTermsAndConditions={handleToggleTermsAndConditions}
-        isVisibleTermsAndConditions={isVisibleTermsAndConditions}
+        token={token}
+        toggleModal={toggleModal}
+        modalVisible={modalVisible}
+        generateToken={generateToken}
+        termsIsAccepted={termsIsAccepted}
+        acceptTermsAndConditions={acceptTermsAndConditions}
       />
     </Fragment>
   );

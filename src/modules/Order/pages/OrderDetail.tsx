@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import { useClipboard } from '@react-native-community/clipboard';
 import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
-import { SafeAreaView, ScrollView, Linking, Platform } from 'react-native';
-import { useClipboard } from '@react-native-community/clipboard';
-
+import { ptBR } from 'date-fns/locale';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Linking, Platform, SafeAreaView, ScrollView } from 'react-native';
 import {
-  Typography,
   Box,
-  Button,
-  Alert,
-  Icon,
-  Stepper,
-  Image,
+  Button, Icon,
+  Stepper, Typography
 } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
-import { PackageAttachment, IOrderId, useCart } from '../../../context/CartContext';
-import { orderQuery } from '../../../graphql/orders/ordersQuery';
+import { IOrderId, useCart } from '../../../context/CartContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import Order from '../Components/Order';
-import OrderDetailComponent, {
-  IOrderData,
-} from '../Components/OrderDetailComponent';
-import { ptBR } from 'date-fns/locale';
+import OrderDetailComponent from '../Components/OrderDetailComponent';
+
 
 type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 
@@ -40,6 +32,12 @@ const OrderList: React.FC<any> = ({ route }) => {
   useEffect(() => {
     fetchOrderDetail();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchOrderDetail();
+    }, [])
+  );
 
   const fetchOrderDetail = async () => {
     if (cookie != null) {

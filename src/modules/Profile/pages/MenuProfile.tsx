@@ -1,34 +1,47 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-
 import { useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
-import { Typography, Box, Button } from 'reserva-ui';
-
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Avatar, Box, Button, Typography } from 'reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import {
   profileQuery,
-  ProfileVars,
+  ProfileVars
 } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+import { FirebaseService } from '../../../shared/services/FirebaseService';
+import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import {
   StorageService,
-  StorageServiceKeys,
+  StorageServiceKeys
 } from '../../../shared/services/StorageService';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 
-const MenuScreen: React.FC<{}> = ({}) => {
+
+
+const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
+  const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
   const { loading, error, data, refetch } = useQuery(profileQuery);
   const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
+  const [imageProfile, setImageProfile] = useState<any>();
+  const firebaseRef = new FirebaseService();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
+  const [profileImagePath, setProfileImagePath] = useState<any>();
+  const [isTester, setIsTester] = useState<boolean>(false);
+  const [
+    screenCashbackInStoreActive,
+    setScreenCashbackInStoreActive
+  ] = useState<boolean>(false);
 
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
@@ -40,11 +53,26 @@ const MenuScreen: React.FC<{}> = ({}) => {
     navigation.navigate('Home');
   };
 
+  const getTesters = async () => {
+    const testers = await remoteConfig().getValue('EMAIL_TESTERS');
+    if (JSON.parse(testers.asString()).includes(data?.profile?.email)) {
+      setIsTester(true);
+    }
+  }
+
+  const getIsScreenCashbackInStoreActive = async () => {
+    const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_CASHBACK_IN_STORE');
+
+    console.log('cashback_in_store', cashback_in_store);
+    setScreenCashbackInStoreActive(cashback_in_store);
+  }
+
   useFocusEffect(() => {
     remoteConfig().fetchAndActivate();
     const response = remoteConfig().getValue('balance_cashback_in_app');
 
     setBalanceCashbackInApp(response.asBoolean());
+    getIsScreenCashbackInStoreActive();
     if (data) {
       refetch();
     }
@@ -67,9 +95,25 @@ const MenuScreen: React.FC<{}> = ({}) => {
           isJSON: true,
         });
         setProfile(profile);
+        const profileImagePath = data?.profile?.customFields.find(
+          (x: any) => x.key == 'profileImagePath'
+        ).value || null;
+        setProfileImagePath(profileImagePath);
       }
+      getTesters();
     }
   }, [data]);
+
+  useEffect(() => {
+    if (profile) {
+      const { profile } = data;
+      setProfile(profile);
+      const profileImagePath = data?.profile?.customFields.find(
+        (x: any) => x.key == 'profileImagePath'
+      ).value || null;
+      setProfileImagePath(profileImagePath);
+    }
+  }, [profile]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -78,6 +122,23 @@ const MenuScreen: React.FC<{}> = ({}) => {
     });
   }, []);
 
+  const updateImageUrl = async () => {
+    if (profileImagePath != null) {
+      try {
+        const response = await firebaseRef.getUrlFS(`${profileImagePath}`);
+        setImageProfile(response);
+      } catch (error) {
+        setProfileImagePath(null);
+      }
+    } else {
+      setImageProfile(null);
+    }
+  };
+
+  useEffect(() => {
+    updateImageUrl();
+  }, [profileImagePath]);
+
   return (
     <Box flex={1} backgroundColor="white">
       <TopBarDefault loading={loading} />
@@ -85,43 +146,70 @@ const MenuScreen: React.FC<{}> = ({}) => {
       <WithoutInternet />
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Box alignContent="flex-start" pt="xs" paddingX="xxxs">
-          <Box mb="xxs">
-            <Typography variant="tituloSessoes" fontSize={20}>
-              Perfil
-            </Typography>
+        <Box alignContent="flex-start" pt="xs">
+          <Box
+            flexDirection='row'
+            alignItems='center'
+            paddingX="xxxs"
+          >
+            <Box>
+              {imageProfile === null ? (
+                <Avatar
+                  sizeImage={60}
+                  sizeButton={25}
+                  onPress={() => navigation.navigate('EditProfile')} buttonEdit />
+              ) :
+                (
+                  <Avatar imageSource={{ uri: imageProfile }}
+                    onPress={() => navigation.navigate('EditProfile')}
+                    sizeImage={60}
+                    sizeButton={25}
+                  />
+                )
+              }
+            </Box>
+            <Box ml='xxxs'>
+              <Box mb="quarck" >
+                <Typography variant="tituloSessoes" fontSize={20}>
+                  Perfil
+                </Typography>
+              </Box>
+              <Typography variant="subtituloSessoes" fontSize={16}>
+                Boas-vindas{profile && `, ${profile?.firstName || profile?.email}.`}
+              </Typography>
+            </Box>
           </Box>
-          <Typography variant="subtituloSessoes" fontSize={16}>
-            Bem-vindo, {profile?.firstName || profile?.email}
-          </Typography>
-
-          <Box mt="xxxs">
-            <ItemList
-              title="Meus pedidos"
-              descr="Acompanhe seus pedidos"
-              icon="Handbag"
-              onPress={() => {
-                navigation.navigate('OrderList');
-              }}
-            />
-
-            <ItemList
-              title="Favoritos"
-              descr="Veja os produtos que você curtiu"
-              icon="Heart"
-              onPress={() => {
-                navigation.navigate('WishList');
-              }}
-            />
-
-            <ItemList
-              title="Meus dados"
-              descr="Visualize e edite suas informações"
-              icon="Profile"
-              onPress={() => {
-                navigation.navigate('EditProfile');
-              }}
-            />
+          <Box mt="xxxs" >
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Meus pedidos"
+                descr="Acompanhe seus pedidos"
+                icon="Handbag"
+                onPress={() => {
+                  navigation.navigate('OrderList');
+                }}
+              />
+            </Box>
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Favoritos"
+                descr="Veja os produtos que você curtiu"
+                icon="Heart"
+                onPress={() => {
+                  navigation.navigate('WishList');
+                }}
+              />
+            </Box>
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Meus dados"
+                descr="Visualize e edite suas informações"
+                icon="Profile"
+                onPress={() => {
+                  navigation.navigate('EditProfile');
+                }}
+              />
+            </Box>
 
             {/* <ItemList
               title={'Meus cartões'}
@@ -131,36 +219,81 @@ const MenuScreen: React.FC<{}> = ({}) => {
                 navigation.navigate('ListCards');
               }}
             /> */}
+            {screenCashbackInStoreActive || isTester && (
+              <Box paddingX="xxxs">
+                <ItemList
+                  title="Meu Cashback"
+                  descr="Escaneie o QR Code e veja sua carteira"
+                  icon="Cashback"
+                  arrowDown
+                  dropdownActive={cashbackDropOpen}
+                  onPress={() => {
+                    setCashbackDropOpen(!cashbackDropOpen);
+                  }}
+                />
+              </Box>
+            )}
+            {cashbackDropOpen && (
+              <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs">
+                <Box paddingX="xxs" pb="xxs">
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('cashbackInStore', {
+                      isLoyal: true,
+                      costumerDocument: profile?.document,
+                    })}
+                  >
+                    <Typography fontFamily='nunitoRegular' fontSize={14}>
+                      QR Code para cashback
+                    </Typography>
+                  </TouchableOpacity>
+                </Box>
+                <Box paddingX="xxs">
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)}
+                  >
+                    <Typography fontFamily='nunitoRegular' fontSize={14}>
+                      Ver minha carteira
+                    </Typography>
+                  </TouchableOpacity>
+                </Box>
+              </Box>
+            )}
             {balanceCashbackInApp && (
-              <ItemList
-                title="Meus créditos"
-                descr="Visualize seus créditos e cashbacks"
-                icon="Cashback"
-                onPress={() => {
-                  navigation.navigate('credits');
-                }}
-              />
+              <Box paddingX="xxxs">
+                <ItemList
+                  title="Meus créditos"
+                  descr="Visualize seus créditos"
+                  icon="Credit"
+                  onPress={() => {
+                    navigation.navigate('credits');
+                  }}
+                />
+              </Box>
             )}
 
-            <ItemList
-              title="Meus endereços"
-              descr="Consulte e adicione seus endereços"
-              icon="Pin"
-              onPress={() => {
-                navigation.navigate('AddressList', {
-                  comeFrom: 'Home',
-                });
-              }}
-            />
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Meus endereços"
+                descr="Consulte e adicione seus endereços"
+                icon="Pin"
+                onPress={() => {
+                  navigation.navigate('AddressList', {
+                    comeFrom: 'Home',
+                  });
+                }}
+              />
+            </Box>
 
-            <ItemList
-              title="Alterar senha"
-              descr="Altere a senha da sua conta"
-              icon="Lock"
-              onPress={() => {
-                navigation.navigate('EditPassword');
-              }}
-            />
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Alterar senha"
+                descr="Altere a senha da sua conta"
+                icon="Lock"
+                onPress={() => {
+                  navigation.navigate('EditPassword');
+                }}
+              />
+            </Box>
 
             {/* <ItemList
               title={'Notificações'}

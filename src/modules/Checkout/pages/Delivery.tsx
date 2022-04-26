@@ -30,6 +30,7 @@ const Delivery: React.FC<{}> = () => {
     addShippingOrPickupInfo,
     addShippingData,
     identifyCustomer,
+    orderform,
   } = useCart();
   const { cookie, setCookie, email } = useAuth();
   const [Permission, setPermission] = useState(false);
@@ -56,6 +57,7 @@ const Delivery: React.FC<{}> = () => {
       if (profile) {
         setProfile(profile);
       }
+      orderform();
     }
   }, [data]);
 
@@ -82,7 +84,7 @@ const Delivery: React.FC<{}> = () => {
       ) {
         setPermission(true);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   // permissão para acessar o mapa
@@ -100,11 +102,12 @@ const Delivery: React.FC<{}> = () => {
       ) {
         setMapPermission(true);
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   useEffect(() => {
     requestMap();
+    setSelectMethodDelivery(false);
   }, []);
 
   useEffect(() => {
@@ -226,7 +229,7 @@ const Delivery: React.FC<{}> = () => {
     if (pickupPoint) {
       const closer = pickupPoint.reduce(
         (prev: any, curr: any) =>
-          prev.pickupDistance < curr.pickupDistance ? prev : curr,
+          prev.pickupDistance <= curr.pickupDistance ? prev : curr,
         0
       );
       const businessHours = orderForm?.shippingData?.pickupPoints.find(
@@ -291,7 +294,7 @@ const Delivery: React.FC<{}> = () => {
         setSelectedAddress(selectedAddressOrderFom);
       }
     }
-  }, [orderForm, profile, selectMethodDelivery]);
+  }, [profile]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
@@ -367,15 +370,18 @@ const Delivery: React.FC<{}> = () => {
           {selectMethodDelivery ? (
             <Store data={pickupPoint} storeDetail={businessHours} />
           ) : (
-            <ReceiveHome
-              loading={loading}
-              typeOfDelivery={typeOfDelivery}
-              selectedDelivery={selectedDelivery}
-              addresses={addresses}
-              selectedAddress={selectedAddress}
-              onDeliveryChosen={onDeliveryChosen}
-              onAddressChosen={onAddressChosen}
-            />
+            !selectMethodDelivery &&
+            profile && (
+              <ReceiveHome
+                loading={loading}
+                typeOfDelivery={typeOfDelivery}
+                selectedDelivery={selectedDelivery}
+                addresses={addresses}
+                selectedAddress={selectedAddress}
+                onDeliveryChosen={onDeliveryChosen}
+                onAddressChosen={onAddressChosen}
+              />
+            )
           )}
         </Box>
         {cookie != null && !selectMethodDelivery && (
@@ -394,7 +400,7 @@ const Delivery: React.FC<{}> = () => {
             />
           </Box>
         )}
-        {selectMethodDelivery && businessHours && businessHours.length > 0 && (
+        {selectMethodDelivery && (
           <Box flex={1} justifyContent="flex-end" paddingX="xxxs" pb="xxs">
             <Button
               justifyContent="flex-end"

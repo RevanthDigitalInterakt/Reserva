@@ -1,6 +1,4 @@
 import Reactotron from 'reactotron-react-native';
-import { reactotronRedux } from 'reactotron-redux';
-import sagaPlugin from 'reactotron-redux-saga';
 import AsyncStorage from '@react-native-community/async-storage';
 import ReactotronFlipper from '../../node_modules/reactotron-react-native/dist/flipper';
 import RNAsyncStorageFlipper from 'rn-async-storage-flipper';
@@ -14,17 +12,14 @@ declare global {
 
 if (__DEV__) {
   RNAsyncStorageFlipper(AsyncStorage);
-  console.tron = Reactotron
-    .configure({
-      name: "Reserva App",
-      createSocket: (path) => new ReactotronFlipper(path)
-    })
-    .use(reactotronRedux())
-    .use(sagaPlugin({except: ['']}))
+  console.tron = Reactotron.configure({
+    name: 'Reserva App',
+    createSocket: (path) => new ReactotronFlipper(path),
+  })
     .useReactNative({
       asyncStorage: {
-        ignore: ['secret']
-      }
+        ignore: ['secret'],
+      },
     })
     .connect();
 

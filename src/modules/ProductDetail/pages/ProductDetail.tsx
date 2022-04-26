@@ -1,4 +1,15 @@
-import React, { createRef, useEffect, useMemo, useState } from 'react';
+import {
+  QueryResult,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from '@apollo/client';
+import AsyncStorage from '@react-native-community/async-storage';
+import analytics from '@react-native-firebase/analytics';
+import remoteConfig from '@react-native-firebase/remote-config';
+import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
+import { addDays, format } from 'date-fns';
+import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -6,65 +17,46 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import analytics from '@react-native-firebase/analytics';
-
+import appsFlyer from 'react-native-appsflyer';
+import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Share from 'react-native-share';
 import {
   Box,
   Button,
   Divider,
   Icon,
+  OutlineInput,
   ProductDetailCard,
+  ProductVerticalListCardProps,
+  RadioButtons,
   SelectColor,
   Typography,
-  OutlineInput,
-  RadioButtons,
-  ProductVerticalListCardProps,
-  ExpansePanel,
 } from 'reserva-ui';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { ModalBag } from '../components/ModalBag';
 import * as Yup from 'yup';
-import Share from 'react-native-share';
-
-import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import { images } from '../../../assets';
+import { useAuth } from '../../../context/AuthContext';
+import { useCacheImages } from '../../../context/CacheImagesContext';
 import { useCart } from '../../../context/CartContext';
-import {
-  QueryResult,
-  useQuery,
-  useLazyQuery,
-  useMutation,
-} from '@apollo/client';
 import {
   GET_PRODUCTS,
   GET_SHIPPING,
   SUBSCRIBE_NEWSLETTER,
 } from '../../../graphql/product/productQuery';
-import {
-  Installment,
-  ProductQL,
-  Seller,
-  SKU,
-  SkuSpecification,
-} from '../../../graphql/products/productSearch';
-import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
-import { id } from 'date-fns/locale';
-import { ProductUtils } from '../../../shared/utils/productUtils';
+import { Seller } from '../../../graphql/products/productSearch';
 import wishListQueries from '../../../graphql/wishlist/wishList';
-import { useAuth } from '../../../context/AuthContext';
-import { images } from '../../../assets';
-import { url } from '../../../config/vtexConfig';
-import { Tooltip } from '../components/Tooltip';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { Attachment } from '../../../services/vtexService';
+import { ProductUtils } from '../../../shared/utils/productUtils';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
+import { ExpandProductDescription } from '../components/ExpandProductDescription';
+import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
-import AsyncStorage from '@react-native-community/async-storage';
-
-import axios from 'axios';
-import appsFlyer from 'react-native-appsflyer';
-import remoteConfig from '@react-native-firebase/remote-config';
-import { addDays, format } from 'date-fns';
 import { ModalZoomImage } from '../components/ModalZoomImage';
+import { Recommendation } from '../components/Recommendation';
+import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
+import { Tooltip } from '../components/Tooltip';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -105,6 +97,7 @@ type Facets = {
 };
 
 type Variant = {
+  ean: string;
   itemId: string;
   images: {
     imageUrl: string;
@@ -127,7 +120,11 @@ type Specification = {
   field: Field;
   values: Field[];
 };
-
+type Properties = {
+  name: string;
+  originalName: string;
+  values: string[];
+};
 type Product = {
   categoryTree: any[]; // doesnt matter
   productId: string;
@@ -138,6 +135,7 @@ type Product = {
     sellingPrice: Price;
     listPrice: Price;
   };
+  properties: Properties[];
   items: Variant[];
   description: string;
 };
@@ -173,7 +171,6 @@ export const ProductDetail: React.FC<Props> = ({
   /**
    * States, queries and mutations
    */
-
   const [product, setProduct] = useState<Product | null>(null);
   const { data, loading, refetch }: QueryResult<ProductQueryResponse> =
     useQuery<ProductQueryResponse>(GET_PRODUCTS, {
@@ -218,6 +215,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
+  const [avaibleUnits, setAvaibleUnits] = useState(undefined);
   const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [loadingNewsLetter, setLoadingNewsLetter] = useState(false);
@@ -256,6 +254,20 @@ export const ProductDetail: React.FC<Props> = ({
   const { email } = useAuth();
   const [isLastUnits, setIsLastUnits] = useState(false);
   const [imageIndexActual, setImageIndexActual] = useState<number>(0);
+  // const [imagesUri, setImagesUri] = useState<string[]>([]);
+  // const { fetchImage } = useCacheImages();
+
+  const scrollRef = useRef<ScrollView>();
+
+  // useEffect(() => {
+  //   if (imageSelected.length > 0) {
+  //     Promise.all([
+  //       ...imageSelected[0][0].map((image) => fetchImage(image.imageUrl)),
+  //     ]).then((images) => {
+  //       setImagesUri(images);
+  //     });
+  //   }
+  // }, [imageSelected]);
 
   /***
    * Effects
@@ -270,12 +282,10 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     refetchChecklist();
-    console.log('product:::>>', product);
   }, [product]);
 
   useEffect(() => {
     refetchChecklist();
-    console.log('selectedVariant:::>>', selectedVariant);
   }, [selectedVariant]);
 
   // selectedVariant?.itemId
@@ -286,10 +296,11 @@ export const ProductDetail: React.FC<Props> = ({
       setProduct(product);
 
       // set default first selected variant
-      //console.log(product.items.find((x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0))
-      const variant = product.items.find(
+      let variant = product.items.find(
         (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
       );
+
+      setAvaibleUnits(variant?.sellers[0].commertialOffer.AvailableQuantity);
       setSelectedVariant(variant);
 
       const disabledColors = getUnavailableColors(product);
@@ -315,17 +326,30 @@ export const ProductDetail: React.FC<Props> = ({
       // set initial selected color
       if (route.params?.itemId) {
         if (colorItemId) {
-          setSelectedColor(colorList ? colorItemId[0] : '');
-          setSelectedNewColor(colorList ? colorItemId[0] : '');
+          setSelectedColor(colorItemId[0]);
+          setSelectedNewColor(colorItemId[0]);
+          variant = product.items.find(
+            (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == colorItemId[0]
+          );
+
         } else {
-          setSelectedColor(colorList ? colorList[0] : '');
-          setSelectedNewColor(colorList ? colorList[0] : '');
+          if (colorList) {
+            setSelectedColor(colorList[0]);
+            setSelectedNewColor(colorList[0]);
+            variant = product.items.find(
+              (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == colorList[0]
+            );
+          }
         }
       } else {
         setSelectedColor(colorList ? route.params.colorSelected : '');
         setSelectedNewColor(colorList ? route.params.colorSelected : '');
+        variant = product.items.find(
+          (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == route.params.colorSelected
+        );
       }
 
+      setSelectedVariant(variant)
       // setSelectedColor(colorList
       //   ? route.params.colorSelected
       //     ? route.params.colorSelected
@@ -389,15 +413,15 @@ export const ProductDetail: React.FC<Props> = ({
           .filter((a) => a !== false)
       );
 
-      console.log(
-        'sku',
-        itemsSKU
-          .map(
-            (p) =>
-              p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
-          )
-          .filter((a) => a !== false)[0]
-      );
+      // console.log(
+      //   'sku',
+      //   itemsSKU
+      //     .map(
+      //       (p) =>
+      //         p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
+      //     )
+      //     .filter((a) => a !== false)[0]
+      // );
 
       const sizeFilters = new ProductUtils().orderSizes(
         itemsSKU
@@ -627,7 +651,6 @@ export const ProductDetail: React.FC<Props> = ({
           prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
         { NumberOfInstallments: 0, Value: 0 }
       );
-    console.log(selectedVariant);
     return chosenInstallment;
   };
 
@@ -646,6 +669,10 @@ export const ProductDetail: React.FC<Props> = ({
 
   const onProductAdd = async () => {
     if (selectedVariant) {
+      const quantities =
+        orderForm?.items
+          .filter((items) => items.id === selectedVariant?.itemId)
+          .map((x) => x.quantity)[0] || 0;
       if (isAssinaturaSimples) {
         if (acceptConditions) {
           const { message, ok } = await addItem(
@@ -654,25 +681,24 @@ export const ProductDetail: React.FC<Props> = ({
             selectedSellerId
           );
 
-          setIsVisible(true);
-
           if (!ok) {
             Alert.alert('Produto sem estoque', message);
           } else {
+            setIsVisible(true);
             await addAttachmentsInProducts();
           }
         }
       } else {
         const { message, ok } = await addItem(
-          1,
+          quantities + 1,
           selectedVariant?.itemId,
           selectedSellerId
         );
 
-        setIsVisible(true);
-
         if (!ok) {
           Alert.alert('Produto sem estoque', message);
+        } else {
+          setIsVisible(true);
         }
       }
     }
@@ -755,14 +781,14 @@ export const ProductDetail: React.FC<Props> = ({
   const newsAndPromotions = async () => {
     if (emailIsValid) {
       setLoadingNewsLetter(true);
-      //console.log('asdasd')
+
       const { data } = await subscribeNewsletter({
         variables: {
           email: emailPromotions,
           isNewsletterOptIn: true,
         },
       });
-      //console.log('passou do newsletter!!', data)
+
       setLoadingNewsLetter(false);
 
       if (!!data && data.subscribeNewsletter) {
@@ -793,8 +819,6 @@ export const ProductDetail: React.FC<Props> = ({
     } else {
       setIsLastUnits(false);
     }
-    //console.log("LASTUNITS", isLastUnits)
-    //console.log("LASTUNITSQTD", lastUnits)
   };
 
   useEffect(() => {
@@ -807,11 +831,7 @@ export const ProductDetail: React.FC<Props> = ({
       const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
       const attachmentName = 'Li e Aceito os Termos';
 
-      await axios.post(
-        `https://www.usereserva.com/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
-        { content: { aceito: 'true' } },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
+      Attachment(orderFormId, productOrderFormIndex, attachmentName);
     } catch (error) {
       console.log('error - addAttachmentsInProducts', error);
       throw error;
@@ -824,6 +844,13 @@ export const ProductDetail: React.FC<Props> = ({
 
     return product?.description.includes(description);
   }, [product]);
+
+  const handleScrollToTheTop = () => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
 
   return (
     <SafeAreaView>
@@ -847,8 +874,9 @@ export const ProductDetail: React.FC<Props> = ({
           <ScrollView
             contentContainerStyle={{ paddingBottom: 100 }}
             style={{ marginBottom: 24 }}
+            ref={scrollRef}
           >
-            {product && selectedVariant && (
+            {product && (
               <>
                 {/*  <Button
                   title="CLIQUE"
@@ -883,11 +911,9 @@ export const ProductDetail: React.FC<Props> = ({
                     product.priceRange.sellingPrice.lowPrice || 0
                   }
                   imagesWidth={screenWidth}
-                  images={
-                    imageSelected.length > 0
-                      ? imageSelected[0][0].map((image) => image.imageUrl)
-                      : []
-                  }
+                  images={imageSelected.length > 0
+                    ? imageSelected[0][0].map((image) => image.imageUrl)
+                    : []}
                   installmentsNumber={
                     getInstallments()?.NumberOfInstallments || 1
                   }
@@ -908,6 +934,7 @@ export const ProductDetail: React.FC<Props> = ({
                   imageIndexActual={(imageIndex) =>
                     setImageIndexActual(imageIndex)
                   }
+                  avaibleUnits={!outOfStock && avaibleUnits}
                 />
 
                 {/*
@@ -957,6 +984,10 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
+                      {
+                        !!product.categoryTree.find(x => Object.keys(SizeGuideImages).includes(x.name)) &&
+                        <SizeGuide categoryTree={product.categoryTree} />
+                      }
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons
@@ -1436,20 +1467,18 @@ export const ProductDetail: React.FC<Props> = ({
                     ))}
                   <Divider variant="fullWidth" my="xs" />
 
-                  <Box>
-                    <ExpansePanel
-                      style={{
-                        fontFamily: 'reservaSerifRegular',
-                        fontSize: 20,
-                      }}
-                      information={{
-                        title: 'Sobre este produto',
-                        content: product.description || '',
-                      }}
-                    />
-                  </Box>
+                  <ExpandProductDescription
+                    description={product?.description || ''}
+                    composition={product?.properties[0]?.values[0]}
+                    codeProduct={
+                      product?.items.find(
+                        (x) => x.itemId === selectedVariant?.itemId
+                      )?.ean || ''
+                    }
+                  />
 
-                  <Divider variant="fullWidth" my="xs" />
+                  <Recommendation handleScrollToTheTop={handleScrollToTheTop} />
+
                   <Box mb="xxxs">
                     <Tooltip
                       tooltipText="Email Cadastrado!"

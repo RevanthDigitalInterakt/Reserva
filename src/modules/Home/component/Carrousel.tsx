@@ -53,6 +53,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
     navigation.navigate('ProductCatalog', {
       facetInput,
       referenceId: item.reference,
+      reservaMini: item.reservaMini,
     });
   };
 
@@ -64,7 +65,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
 
   const viewabilityConfig = {
     minimumViewTime: 200,
-    viewAreaCoveragePercentThreshold: 50
+    viewAreaCoveragePercentThreshold: 50,
   };
 
   const onBeginDragTouch = () => {
@@ -89,6 +90,10 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
 
   useEffect(() => {
     setActualPosition(0);
+    console.log(
+      'Carousel',
+      carrouselCards.map((item: CarrouselCard) => item.reservaMini == true)
+    );
   }, []);
 
   return (
