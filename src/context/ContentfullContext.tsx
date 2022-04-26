@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-const CONTENTFUL_TESTING = true;
+const CONTENTFUL_TESTING = false;
 
 interface ContentfullContextProps {
   isTesting: boolean;
