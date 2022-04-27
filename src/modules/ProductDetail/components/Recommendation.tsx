@@ -64,7 +64,13 @@ export const Recommendation = ({
       const array = arrayProducts;
       array.push(...newArray);
 
-      setProducts(array);
+      const arrayProductsId = array.map(elem => elem.productId)
+
+      const arrayWithoutDuplicates = array.filter((element, index) => {
+          return index === arrayProductsId.indexOf(element.productId);
+      });
+
+      setProducts(arrayWithoutDuplicates);
     }
   };
 
