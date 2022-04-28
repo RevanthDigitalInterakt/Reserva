@@ -422,11 +422,9 @@ const Delivery: React.FC<{}> = () => {
 
         <Box justifyContent="flex-end">
           <Button
-            disabled={
-              !selectMethodDelivery
-                ? loading || !selectedAddress || !selectedDelivery
-                : !(businessHours?.length > 0)
-            }
+            disabled={!selectMethodDelivery
+              ? loading || !selectedAddress || !selectedDelivery
+              : pickupPoint === 0}
             onPress={onGoToPayment}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"

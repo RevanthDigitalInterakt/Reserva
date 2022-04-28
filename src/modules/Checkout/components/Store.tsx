@@ -53,7 +53,7 @@ const Store = ({ storeDetail, data }: IStore) => {
                         fontSize={12}
                         color="neutroFrio2"
                     >
-                        LOJA MAIS PRÓXIMA
+                        LOJA MAIS PRÓXIMA SELECIONADA:
                     </Typography>
                     <Box
                         flex={1}
