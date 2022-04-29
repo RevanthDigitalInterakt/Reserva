@@ -49,7 +49,7 @@ type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
-  const { isTesting, toggleIsTesting} = useContentfull();
+  const { isTesting, toggleIsTesting } = useContentfull();
   const { email } = useAuth();
   const { isRegister } = route?.params || false;
   const [subscribed, setSubscribed] = useState(false);
@@ -204,6 +204,8 @@ export const EditProfile = ({ route }: Props) => {
     if (updateData) {
       if (!isRegister) {
         refetch();
+        if (!loading) navigation.goBack();
+      } else {
         if (!loading) navigation.goBack();
       }
     }
@@ -479,6 +481,55 @@ export const EditProfile = ({ route }: Props) => {
     }
   };
 
+  const handlerValidationFullName = (text: string) => {
+    const [firstName, ...rest] = text.trim().split(' ');
+    const lastName = rest.join(' ');
+    if (
+      text.match(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
+      ) &&
+      !lastName.match(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
+      )
+    ) {
+      console.log('TRUE ::::::::::::::::::::');
+      setIsEmptyFullName(false);
+      setLabelFullName('Nome completo');
+    } else {
+      console.log('false ::::::::::::::::::::');
+      setIsEmptyFullName(true);
+      setLabelFullName(null);
+    }
+  };
+
+  const handlerValidationBirthDate = (text: string) => {
+    if (
+      text.match(
+        /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+      )
+    ) {
+      setIsEmptyBirthDate(false);
+      setLabelBirthDate('Data de nascimento');
+    } else {
+      setIsEmptyBirthDate(true);
+      setLabelBirthDate(null);
+    }
+  };
+
+  const handlerValidationHomePhone = (text: string) => {
+    if (
+      text.match(
+        /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9 \d|[2-9])\d{3})\-?(\d{4}))$/
+      )
+    ) {
+      setIsEmptyHomePhone(false);
+      setLabelPhone('Telefone');
+    } else {
+      setIsEmptyHomePhone(true);
+      setLabelPhone(null);
+    }
+  };
+
   useEffect(() => {
     if (imageProfile !== null) {
       updateImageUrl();
@@ -688,16 +739,8 @@ export const EditProfile = ({ route }: Props) => {
                       ...userData,
                       fullName: text,
                     });
-                    const [firstName, ...rest] = text.trim().split(' ');
-                    const lastName = rest.join(' ');
 
-                    if (!text || !lastName) {
-                      setIsEmptyFullName(true);
-                      setLabelFullName(null);
-                    } else {
-                      setIsEmptyFullName(false);
-                      setLabelFullName('Nome completo');
-                    }
+                    handlerValidationFullName(text.trim());
                   }}
                   iconRight={
                     !isEmptyFullName ? (
@@ -714,7 +757,7 @@ export const EditProfile = ({ route }: Props) => {
                     )
                   }
                   placeholder="Digite seu nome completo."
-                  error="Preencha seu nome completo."
+                  error="Preencha seu nome completo. (Apenas alfabetos são permitidos para este campo.)"
                   touched={isEmptyFullName}
                 />
               </Box>
@@ -793,13 +836,7 @@ export const EditProfile = ({ route }: Props) => {
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ birthDate: text } });
 
-                    if (!text) {
-                      setIsEmptyBirthDate(true);
-                      setLabelBirthDate(null);
-                    } else {
-                      setIsEmptyBirthDate(false);
-                      setLabelBirthDate('Data de nascimento');
-                    }
+                    handlerValidationBirthDate(text.trim());
                   }}
                   iconRight={
                     !isEmptyBirthDate ? (
@@ -833,13 +870,7 @@ export const EditProfile = ({ route }: Props) => {
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ homePhone: text } });
 
-                    if (!text) {
-                      setIsEmptyHomePhone(true);
-                      setLabelPhone(null);
-                    } else {
-                      setIsEmptyHomePhone(false);
-                      setLabelPhone('Telefone');
-                    }
+                    handlerValidationHomePhone(text.trim());
                   }}
                   iconRight={
                     !isEmptyHomePhone ? (
@@ -856,7 +887,7 @@ export const EditProfile = ({ route }: Props) => {
                     )
                   }
                   placeholder="Digite seu telefone"
-                  error="Preencha seu telefone"
+                  error="Preencha seu telefone."
                   touched={isEmptyHomePhone}
                 />
               </Box>
@@ -875,7 +906,9 @@ export const EditProfile = ({ route }: Props) => {
                     </Box>
                     <Box marginLeft="micro">
                       <Toggle
-                        onValueChange={( value: boolean) => toggleIsTesting(value)}
+                        onValueChange={(value: boolean) =>
+                          toggleIsTesting(value)
+                        }
                         thumbColor="vermelhoAlerta"
                         color="preto"
                         value={isTesting}
@@ -883,7 +916,6 @@ export const EditProfile = ({ route }: Props) => {
                     </Box>
                   </Box>
                 </Box>
-
               )}
 
               {!isRegister && (
@@ -921,7 +953,6 @@ export const EditProfile = ({ route }: Props) => {
                         loadingProfilePhoto ||
                         isEmptyFullName ||
                         cpfInvalid ||
-                        isEmptyFullName ||
                         isEmptyHomePhone ||
                         isEmptyBirthDate
                       }
@@ -948,8 +979,11 @@ export const EditProfile = ({ route }: Props) => {
                         disabled={
                           updateLoading ||
                           loadingProfilePhoto ||
+                          loadingScreen ||
+                          isEmptyFullName ||
                           cpfInvalid ||
-                          loadingScreen
+                          isEmptyHomePhone ||
+                          isEmptyBirthDate
                         }
                       />
                     </Box>
