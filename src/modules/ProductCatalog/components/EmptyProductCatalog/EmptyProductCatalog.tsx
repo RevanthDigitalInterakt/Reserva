@@ -1,7 +1,6 @@
 import React from 'react';
-
 import { Typography, Box, Button, Image } from 'reserva-ui';
-
+import { ScrollView } from 'react-native';
 import { images } from '../../../../assets';
 
 interface IEmptyBag {
@@ -9,26 +8,42 @@ interface IEmptyBag {
 }
 
 export const EmptyProductCatalog = ({ onPress }: IEmptyBag) => (
-    <Box flex={1} alignItems="center" paddingTop={110}>
-        <Image source={images.emptyProductCatalog} height={200} width={200} autoHeight />
-        <Box mx={37} mt="md">
-            <Typography fontFamily="reservaSerifRegular" fontSize={24}>
-                Sua sacola está vazia
-            </Typography>
+    <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+    >
+        <Box flex={1} alignItems="center" paddingTop={140} paddingX={25}>
+            <Image source={images.emptyProductCatalog} />
+            <Box mx={37} mt="xxxs">
+                <Typography fontFamily="reservaSerifBlack" fontSize={44}>
+                    OOPS!
+                </Typography>
+            </Box>
+            <Box mx={10} mt={3}>
+                <Typography fontFamily="nunitoBold" fontSize={15} textAlign="center">
+                    O item que você está procurando já sumiu.
+                </Typography>
+            </Box>
+            <Box mx={10}>
+                <Typography fontFamily="nunitoRegular" fontSize={15} textAlign="center">
+                    Mas há um infinito de outras peças pra você encontrar por aqui.
+                </Typography>
+            </Box>
         </Box>
-        <Box mx={58} my={28}>
-            <Typography fontFamily="nunitoRegular" fontSize={14} textAlign="center">
-                Navegue pelo nosso app e descubra produtos que são sua cara!
-            </Typography>
-        </Box>
-        <Box width="100%">
+
+        <Box
+            paddingX={25}
+            width="100%"
+            flex={1}
+            paddingTop={10}
+            paddingBottom={40}
+            justifyContent="flex-end"
+        >
             <Button
                 onPress={onPress}
-                marginX="md"
                 inline
-                title="IR ÀS COMPRAS"
+                title="VOLTAR PARA HOME"
                 variant="primarioEstreito"
             />
         </Box>
-    </Box>
+    </ScrollView >
 );

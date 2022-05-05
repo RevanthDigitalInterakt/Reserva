@@ -295,14 +295,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           }))
           : [];
 
-      console.log(
-        'categoryFacets',
-        categoryFacets[0].values.map(({ key, value }: any) => ({
-          key,
-          value,
-        }))
-      );
-
       // PRICE
       const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
       const priceFacetValues =
@@ -734,131 +726,130 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <Text>Carregando...</Text>
         </Box>
       </Modal> */}
-      {
-        productsQuery.products &&
-          productsQuery.products.length < 0 ?
-          <ListVerticalProducts
-            loadMoreProducts={loadMoreProducts}
-            products={productsQuery.products}
-            loadingHandler={(loadingState) => {
-              setLoadingHandlerState(loadingState);
-            }}
-            totalProducts={productsQuery.recordsFiltered}
-            listHeader={
-              <>
-                {countDownClockRsvMini && showWatchMini && (
-                  <CountDownRsvMini countDownMini={countDownClockRsvMini} />
-                )}
-                {countDownClock && showWatch && (
-                  <Box>
-                    <CountDownBanner countDown={countDownClock} />
-                  </Box>
-                )}
+      {productsQuery.products &&
+        productsQuery.products.length < 0 ?
+        <ListVerticalProducts
+          loadMoreProducts={loadMoreProducts}
+          products={productsQuery.products}
+          loadingHandler={(loadingState) => {
+            setLoadingHandlerState(loadingState);
+          }}
+          totalProducts={productsQuery.recordsFiltered}
+          listHeader={
+            <>
+              {countDownClockRsvMini && showWatchMini && (
+                <CountDownRsvMini countDownMini={countDownClockRsvMini} />
+              )}
+              {countDownClock && showWatch && (
                 <Box>
-                  <Image height={200} source={bannerImage} width={1 / 1} />
+                  <CountDownBanner countDown={countDownClock} />
                 </Box>
+              )}
+              <Box>
+                <Image height={200} source={bannerImage} width={1 / 1} />
+              </Box>
 
-                <Box bg="dropDownBorderColor">
-                  <Button p="nano" onPress={onClickWhatsappButton}>
-                    <Box flexDirection="row">
-                      <Icon name="Whatsapp" size={16} color="preto" />
-                      <Box marginX="nano">
-                        <Typography
-                          color="preto"
-                          fontFamily="nunitoSemiBold"
-                          fontSize={11}
-                        >
-                          Chama no Whats! Seja atendido sem sair de casa.{' '}
-                          <Typography style={{ textDecorationLine: 'underline' }}>
-                            Clique aqui!
-                          </Typography>
+              <Box bg="dropDownBorderColor">
+                <Button p="nano" onPress={onClickWhatsappButton}>
+                  <Box flexDirection="row">
+                    <Icon name="Whatsapp" size={16} color="preto" />
+                    <Box marginX="nano">
+                      <Typography
+                        color="preto"
+                        fontFamily="nunitoSemiBold"
+                        fontSize={11}
+                      >
+                        Chama no Whats! Seja atendido sem sair de casa.{' '}
+                        <Typography style={{ textDecorationLine: 'underline' }}>
+                          Clique aqui!
                         </Typography>
-                      </Box>
+                      </Typography>
                     </Box>
+                  </Box>
+                </Button>
+              </Box>
+              <Box paddingY="micro" flexDirection="row" justifyContent="center">
+                <Box width={1 / 2}>
+                  <Button
+                    onPress={() => {
+                      if (productsQuery.products.length > 0) {
+                        setFilterVisible(true);
+                      } else {
+                        setFilterRequestList([]);
+                      }
+                    }}
+                    marginRight="nano"
+                    marginLeft="micro"
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline
+                    height={40}
+                  >
+                    <Typography
+                      color="preto"
+                      fontFamily="nunitoSemiBold"
+                      fontSize="14px"
+                    >
+                      {productsQuery.products?.length == 0 &&
+                        filterRequestList.length > 0
+                        ? 'Limpar Filtros'
+                        : 'Filtrar'}
+                    </Typography>
                   </Button>
                 </Box>
-                <Box paddingY="micro" flexDirection="row" justifyContent="center">
-                  <Box width={1 / 2}>
-                    <Button
-                      onPress={() => {
-                        if (productsQuery.products.length > 0) {
-                          setFilterVisible(true);
-                        } else {
-                          setFilterRequestList([]);
-                        }
-                      }}
-                      marginRight="nano"
-                      marginLeft="micro"
-                      borderRadius="nano"
-                      borderColor="dropDownBorderColor"
-                      borderWidth="hairline"
-                      flexDirection="row"
-                      inline
-                      height={40}
-                    >
-                      <Typography
-                        color="preto"
-                        fontFamily="nunitoSemiBold"
-                        fontSize="14px"
-                      >
-                        {productsQuery.products?.length == 0 &&
-                          filterRequestList.length > 0
-                          ? 'Limpar Filtros'
-                          : 'Filtrar'}
-                      </Typography>
-                    </Button>
-                  </Box>
 
-                  <Box width={1 / 2}>
-                    <Button
-                      marginRight="micro"
-                      marginLeft="nano"
-                      borderRadius="nano"
-                      borderColor="dropDownBorderColor"
-                      borderWidth="hairline"
-                      flexDirection="row"
-                      inline
-                      height={40}
-                      onPress={() => {
-                        setSorterVisible(true);
-                      }}
+                <Box width={1 / 2}>
+                  <Button
+                    marginRight="micro"
+                    marginLeft="nano"
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline
+                    height={40}
+                    onPress={() => {
+                      setSorterVisible(true);
+                    }}
+                  >
+                    <Typography
+                      color="preto"
+                      fontFamily="nunitoSemiBold"
+                      fontSize="14px"
                     >
-                      <Typography
-                        color="preto"
-                        fontFamily="nunitoSemiBold"
-                        fontSize="14px"
-                      >
-                        Ordenar
-                      </Typography>
-                    </Button>
-                  </Box>
+                      Ordenar
+                    </Typography>
+                  </Button>
                 </Box>
-                <Box
-                  paddingX="micro"
-                  paddingY="quarck"
-                  flexDirection="row"
-                  justifyContent="space-between"
-                >
-                  <Typography fontFamily="nunitoRegular" fontSize="13px">
-                    {productsQuery.recordsFiltered} produtos encontrados
-                  </Typography>
-                  {!!filterRequestList && filterRequestList.length > 0 && (
-                    <Button onPress={() => setFilterRequestList([])}>
-                      <Typography
-                        color="progressTextColor"
-                        variant="precoAntigo3"
-                        style={{ textDecorationLine: 'underline' }}
-                      >
-                        Limpar tudo
-                      </Typography>
-                    </Button>
-                  )}
-                </Box>
-              </>
-            }
-          />
-          :
-          <EmptyProductCatalog />
+              </Box>
+              <Box
+                paddingX="micro"
+                paddingY="quarck"
+                flexDirection="row"
+                justifyContent="space-between"
+              >
+                <Typography fontFamily="nunitoRegular" fontSize="13px">
+                  {productsQuery.recordsFiltered} produtos encontrados
+                </Typography>
+                {!!filterRequestList && filterRequestList.length > 0 && (
+                  <Button onPress={() => setFilterRequestList([])}>
+                    <Typography
+                      color="progressTextColor"
+                      variant="precoAntigo3"
+                      style={{ textDecorationLine: 'underline' }}
+                    >
+                      Limpar tudo
+                    </Typography>
+                  </Button>
+                )}
+              </Box>
+            </>
+          }
+        />
+        :
+        <EmptyProductCatalog />
       }
     </DynamicComponent>
   );
