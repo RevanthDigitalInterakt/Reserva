@@ -219,7 +219,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 navigation.navigate('ListCards');
               }}
             /> */}
-            {screenCashbackInStoreActive || isTester && (
+            {(screenCashbackInStoreActive || isTester) && (
               <Box paddingX="xxxs">
                 <ItemList
                   title="Meu Cashback"
