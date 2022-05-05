@@ -29,7 +29,6 @@ export const MyWalletContainer = (
   }: MyWalletContainerProps
 ) => {
   const [balance, setBalance] = useState<number>(0);
-  const [userActive, setUserActive] = useState<boolean>(false);
   const [operationFilter, setOperationFilter] = useState<FilterOptions>(FilterOptions.ALL);
   const [userOperations, setUserOperations] = useState<GetUserOperationsResponse | null>(null);
   const [userExpireBalance, setUserExpireBalance] = useState<GetExpireBalanceResponse | null>(null);
@@ -88,17 +87,9 @@ export const MyWalletContainer = (
       `${CashbackHttpUrl.GetDigitalWallet}${cpf}`,
     );
 
-    let balanceFormated = 0;
-
-    if (data.data.user_status === 'active') {
-      setUserActive(true);
-      balanceFormated = data.data.balance_in_cents > 0
-        ? convertCentsToReal(data.data.balance_in_cents)
-        : data.data.balance_in_cents;
-    } else {
-      setUserActive(false);
-      balanceFormated = 0;
-    }
+    const balanceFormated = data.data.balance_in_cents > 0
+    ? convertCentsToReal(data.data.balance_in_cents)
+    : data.data.balance_in_cents;
 
     setBalance(balanceFormated);
   };
@@ -115,7 +106,7 @@ export const MyWalletContainer = (
         return userOperations?.data?.filter(
           operation => operation.applied_balance_in_cents > 0
           && operation.status !== 'pending'
-        )
+        );
       case FilterOptions.PENDING:
         const filtered = userOperations?.data?.filter(
           operation => operation.status === 'pending'
@@ -131,11 +122,11 @@ export const MyWalletContainer = (
         return userOperations?.data?.filter(
           operation => operation.cashback_amount_in_cents > 0
           && operation.status !== 'pending'
-        )
+        );
       default:
-        return userOperations?.data?.filter(
+        return  userOperations?.data?.filter(
           operation => operation.status !== 'pending'
-        )
+        );
     }
   }
 
