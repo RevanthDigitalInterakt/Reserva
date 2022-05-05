@@ -19,7 +19,7 @@ export type GetDigitalWalletResponse = {
     balance_in_cents: number;
     pending_balance_in_cents: number;
     balance_expires_on: string;
-    user_status: string;
+    user_status: 'active' | 'inactive';
   };
 };
 

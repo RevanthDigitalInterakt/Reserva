@@ -29,6 +29,7 @@ export const MyWalletContainer = (
   }: MyWalletContainerProps
 ) => {
   const [balance, setBalance] = useState<number>(0);
+  const [userActive, setUserActive] = useState<boolean>(false);
   const [operationFilter, setOperationFilter] = useState<FilterOptions>(FilterOptions.ALL);
   const [userOperations, setUserOperations] = useState<GetUserOperationsResponse | null>(null);
   const [userExpireBalance, setUserExpireBalance] = useState<GetExpireBalanceResponse | null>(null);
@@ -87,9 +88,17 @@ export const MyWalletContainer = (
       `${CashbackHttpUrl.GetDigitalWallet}${cpf}`,
     );
 
-    const balanceFormated = data.data.balance_in_cents > 0
-      ? convertCentsToReal(data.data.balance_in_cents)
-      : data.data.balance_in_cents;
+    let balanceFormated = 0;
+
+    if (data.data.user_status === 'active') {
+      setUserActive(true);
+      balanceFormated = data.data.balance_in_cents > 0
+        ? convertCentsToReal(data.data.balance_in_cents)
+        : data.data.balance_in_cents;
+    } else {
+      setUserActive(false);
+      balanceFormated = 0;
+    }
 
     setBalance(balanceFormated);
   };
