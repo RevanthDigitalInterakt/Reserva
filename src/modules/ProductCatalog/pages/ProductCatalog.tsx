@@ -727,7 +727,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Box>
       </Modal> */}
       {productsQuery.products &&
-        productsQuery.products.length < 0 ?
+        productsQuery.products.length > 0 ?
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
           products={productsQuery.products}
@@ -849,7 +849,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           }
         />
         :
-        <EmptyProductCatalog />
+        <EmptyProductCatalog
+          onPress={() => navigation.navigate('Home')}
+        />
       }
     </DynamicComponent>
   );
