@@ -8,6 +8,11 @@ const vtexConfig3 = instance3;
 const vtexConfig4 = instance4;
 const vtexConfig5 = instance5;
 
+const VerifyEmail = async (email: string) => {
+  const response = await vtexConfig2.get(`/dataentities/CL/search?email=${email}`)
+
+  return response;
+}
 
 const CreateCart = async () => {
   // cria o carrinho
@@ -403,5 +408,6 @@ export {
   PickupPoint,
   Orders,
   OrderDetail,
-  Attachment
+  Attachment,
+  VerifyEmail
 };
