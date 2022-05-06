@@ -46,6 +46,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -53,7 +54,7 @@ type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 
 export const SearchScreen: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
-  const { regionId } = useRegionalSearch()
+  const { regionId } = useRegionalSearch();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [showResults, setShowResults] = React.useState(true);
   const [showAllProducts, setShowAllProducts] = React.useState(false);
@@ -88,10 +89,12 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     {
       variables: {
         to: pageSize - 1,
-        selectedFacets: [{
-          key: 'region-id',
-          value: regionId
-        }],
+        selectedFacets: [
+          {
+            key: 'region-id',
+            value: regionId,
+          },
+        ],
       },
     }
   );
@@ -202,10 +205,12 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     console.log('handleSearch', regionId);
     const { data, loading } = await refetch({
       fullText: text,
-      selectedFacets: [{
-        key: 'region-id',
-        value: regionId
-      }],
+      selectedFacets: [
+        {
+          key: 'region-id',
+          value: regionId,
+        },
+      ],
     });
 
     resetProductsArray();
@@ -269,7 +274,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <Box backgroundColor="white" flex={1}>
-      <TopBarDefault
+      <TopBarDefaultBackButton
         loading={
           loading || loadingCollection || loadingFeatured || selectedTerm
         }
@@ -292,91 +297,89 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       {!showResults ? (
         <ScrollView>
           <>
-            {
-              searchTerm.length === 0 && (
-                <>
-                  <Box marginX="nano" mt="micro">
-                    <Box>
+            {searchTerm.length === 0 && (
+              <>
+                <Box marginX="nano" mt="micro">
+                  <Box>
+                    <Typography
+                      fontFamily="nunitoBold"
+                      fontSize={13}
+                      color="neutroFrio2"
+                    >
+                      OS MAIS PROCURADOS
+                    </Typography>
+                  </Box>
+
+                  <Box flexDirection="row" flexWrap="wrap">
+                    {searchSuggestions.map((item) => (
+                      <Button
+                        onPress={() => {
+                          setSearchTerm(item.name);
+                          setReturnSearch(true);
+                        }}
+                      >
+                        <Box
+                          bg="divider"
+                          justifyContent="center"
+                          px="micro"
+                          height={26}
+                          borderRadius="pico"
+                          marginTop="micro"
+                          mr="micro"
+                        >
+                          <Typography fontFamily="nunitoRegular" fontSize={13}>
+                            {item.name}
+                          </Typography>
+                        </Box>
+                      </Button>
+                    ))}
+                  </Box>
+                </Box>
+
+                <News
+                  data={productNews}
+                  onPress={(item) => {
+                    const facetInput: any[] = [];
+                    const [collecion, valueCollecion] = item.split(':');
+                    facetInput.push({
+                      key: 'productClusterIds',
+                      value: valueCollecion,
+                    });
+                    navigation.navigate('ProductCatalog', {
+                      facetInput,
+                      referenceId: item,
+                    });
+                  }}
+                />
+
+                {featuredProducts && featuredProducts?.length > 0 && (
+                  <>
+                    <Box mt="xs" marginX="nano" mb="micro">
                       <Typography
                         fontFamily="nunitoBold"
                         fontSize={13}
                         color="neutroFrio2"
                       >
-                        OS MAIS PROCURADOS
+                        DESTAQUES
                       </Typography>
                     </Box>
 
-                    <Box flexDirection="row" flexWrap="wrap">
-                      {searchSuggestions.map((item) => (
-                        <Button
-                          onPress={() => {
-                            setSearchTerm(item.name);
-                            setReturnSearch(true);
-                          }}
-                        >
-                          <Box
-                            bg="divider"
-                            justifyContent="center"
-                            px="micro"
-                            height={26}
-                            borderRadius="pico"
-                            marginTop="micro"
-                            mr="micro"
-                          >
-                            <Typography fontFamily="nunitoRegular" fontSize={13}>
-                              {item.name}
-                            </Typography>
-                          </Box>
-                        </Button>
-                      ))}
-                    </Box>
-                  </Box>
-
-                  <News
-                    data={productNews}
-                    onPress={(item) => {
-                      const facetInput: any[] = [];
-                      const [collecion, valueCollecion] = item.split(':');
-                      facetInput.push({
-                        key: 'productClusterIds',
-                        value: valueCollecion,
-                      });
-                      navigation.navigate('ProductCatalog', {
-                        facetInput,
-                        referenceId: item,
-                      });
-                    }}
-                  />
-
-                  {featuredProducts && featuredProducts?.length > 0 && (
-                    <>
-                      <Box mt="xs" marginX="nano" mb="micro">
-                        <Typography
-                          fontFamily="nunitoBold"
-                          fontSize={13}
-                          color="neutroFrio2"
-                        >
-                          DESTAQUES
-                        </Typography>
-                      </Box>
-
-                      <Animatable.View
-                        animation="fadeIn"
-                        style={{ marginBottom: 120 }}
-                      >
-                        <ListVerticalProducts
-                          totalProducts={data?.productSearch?.recordsFiltered}
-                          products={featuredProducts || []}
-                          loadMoreProducts={(offset) => {
-                            loadMoreProducts(offset, '');
-                          }}
-                        />
-                      </Animatable.View>
-                    </>
-                  )}
-                </>
-              )
-            }
+                    <Animatable.View
+                      animation="fadeIn"
+                      style={{ marginBottom: 120 }}
+                    >
+                      <ListVerticalProducts
+                        totalProducts={data?.productSearch?.recordsFiltered}
+                        products={featuredProducts || []}
+                        loadMoreProducts={(offset) => {
+                          loadMoreProducts(offset, '');
+                        }}
+                      />
+                    </Animatable.View>
+                  </>
+                )}
+              </>
+            )}
           </>
           <>
             {suggestions?.length > 0 && searchTerm.length > 0 && (
@@ -414,9 +417,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
               </>
             )}
           </>
-          <>
-            {!suggestionsFound && <ProductNotFound />}
-          </>
+          <>{!suggestionsFound && <ProductNotFound />}</>
         </ScrollView>
       ) : (
         showResults &&
