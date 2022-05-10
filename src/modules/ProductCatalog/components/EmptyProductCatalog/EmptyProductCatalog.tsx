@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, Button, Image } from 'reserva-ui';
+import { Typography, Box, Button, Image } from '@danilomsou/reserva-ui';
 import { ScrollView } from 'react-native';
 import { images } from '../../../../assets';
 
