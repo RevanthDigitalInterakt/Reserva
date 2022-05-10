@@ -6,7 +6,7 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import { Typography, Box, Button, Image, Divider, Icon } from 'reserva-ui';
+import { Typography, Box, Button, Image, Divider, Icon } from '@danilomsou/reserva-ui';
 import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';

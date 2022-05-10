@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
-import { theme } from 'reserva-ui';
+import { theme } from '@danilomsou/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import CodepushConfig from './config/codepush';
 import { env } from './config/env';
@@ -144,7 +144,7 @@ const App = () => {
                   <CacheImagesProvider>
                     <FirebaseContextProvider>
                       <ChronometerContextProvider>
-                        <ApolloProvider client={isTesting ? apolloClientTesting : apolloClientProduction}>
+                        <ApolloProvider client={apolloClientProduction}>
                           <InitialScreen>
                             <AppRouting />
                           </InitialScreen>

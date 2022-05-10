@@ -21,7 +21,7 @@ import {
   Linking,
 } from 'react-native';
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
-import { Box, Image } from 'reserva-ui';
+import { Box, Image } from '@danilomsou/reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
 import {

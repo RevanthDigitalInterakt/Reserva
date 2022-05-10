@@ -28,7 +28,7 @@ import {
   TextField,
   Toggle,
   Typography,
-} from 'reserva-ui';
+} from '@danilomsou/reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
   ProfileCustomFieldsInput,

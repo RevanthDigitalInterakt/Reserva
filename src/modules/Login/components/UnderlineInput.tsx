@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Dimensions, KeyboardTypeOptions, Platform } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Box, Button, Icon, neutroFrio2, theme, Typography } from 'reserva-ui';
+import { Box, Button, Icon, neutroFrio2, theme, Typography } from '@danilomsou/reserva-ui';
 
 interface UnderlineInputProps {
   placeholder?: string;

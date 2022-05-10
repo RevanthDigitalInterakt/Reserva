@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { QueryResult, useQuery } from '@apollo/client';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, Typography, Button, Icon, Divider } from 'reserva-ui';
+import { Box, Typography, Button, Icon, Divider } from '@danilomsou/reserva-ui';
 
 import { productSearch } from '../../../graphql/products/productSearch';
 import { ListHorizontalProducts } from './ListHorizontalProducts'

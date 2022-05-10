@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
-import { Box, Button, Icon, Typography } from "reserva-ui";
+import { Box, Button, Icon, Typography } from "@danilomsou/reserva-ui";
 import { PriceCustom } from "../../../../modules/Checkout/components/PriceCustom";
 import { BalanceType, FilterOptions } from "./MyWallet.container";
 

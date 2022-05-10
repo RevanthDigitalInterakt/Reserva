@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Box, Button, Typography } from 'reserva-ui';
+import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';

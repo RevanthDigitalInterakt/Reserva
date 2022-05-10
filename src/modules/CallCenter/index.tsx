@@ -8,7 +8,7 @@ import {
   Linking,
 } from "react-native";
 
-import { Icon, Box, Typography, Divider } from "reserva-ui";
+import { Icon, Box, Typography, Divider } from "@danilomsou/reserva-ui";
 import { TopBarDefault } from "../Menu/components/TopBarDefault";
 
 type ItemContactProps = {

@@ -5,7 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { Box, Button, Typography, Icon } from "reserva-ui";
+import { Box, Button, Typography, Icon } from "@danilomsou/reserva-ui";
 import { images } from "../../../assets";
 import { useAuth } from "../../../context/AuthContext";
 import { accessKeySignInMutation } from "../../../graphql/login/loginMutations";

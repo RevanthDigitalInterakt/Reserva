@@ -4,7 +4,7 @@ import { QueryResult, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, Typography, Button, Icon, Divider } from 'reserva-ui';
+import { Box, Typography, Button, Icon, Divider } from '@danilomsou/reserva-ui';
 
 import { productSearch } from '../../../graphql/products/productSearch';
 import { ListHorizontalProducts } from './ListHorizontalProducts'

@@ -5,8 +5,8 @@ import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import { SafeAreaView, ScrollView, FlatList, BackHandler } from 'react-native';
-import { Typography, Box, Button } from 'reserva-ui';
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+import { Typography, Box, Button } from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 
 import { IOrder, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';

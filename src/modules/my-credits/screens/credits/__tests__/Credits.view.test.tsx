@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import { Box, Button, Divider, Icon, theme, Typography } from 'reserva-ui';
+import { Box, Button, Divider, Icon, theme, Typography } from '@danilomsou/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 
 import { CreditsView, CreditsViewProps } from '../Credits.view';

@@ -5,7 +5,7 @@ import {
   ProductHorizontalListCardProps,
   theme,
   Typography,
-} from "reserva-ui";
+} from "@danilomsou/reserva-ui";
 import Modal from "react-native-modal";
 import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";

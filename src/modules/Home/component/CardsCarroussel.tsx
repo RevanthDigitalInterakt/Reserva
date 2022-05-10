@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions, FlatList, Animated, View, StyleSheet } from 'react-native';
-import { Box, Button, Image } from 'reserva-ui';
+import { Box, Button, Image } from '@danilomsou/reserva-ui';
 import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
 const cardWidth = Dimensions.get('window').width * 0.85;

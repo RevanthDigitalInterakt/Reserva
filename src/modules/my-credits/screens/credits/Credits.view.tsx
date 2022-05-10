@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Box, Divider, Typography } from "reserva-ui";
+import { Box, Divider, Typography } from "@danilomsou/reserva-ui";
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
 
 

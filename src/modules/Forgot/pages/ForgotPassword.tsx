@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { useState } from "react";
 import { Dimensions, SafeAreaView } from "react-native";
-import { Typography, Box, TextField, Button, Image } from "reserva-ui";
+import { Typography, Box, TextField, Button, Image } from "@danilomsou/reserva-ui";
 import { setLocale } from "yup";
 import { apolloClient } from "../../../services/apolloClient";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";

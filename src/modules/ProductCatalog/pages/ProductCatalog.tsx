@@ -15,8 +15,8 @@ import {
   SearchBar,
   theme,
   Typography,
-} from 'reserva-ui';
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+} from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 
 import { images } from '../../../assets';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';

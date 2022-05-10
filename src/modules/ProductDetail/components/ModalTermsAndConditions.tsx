@@ -23,7 +23,7 @@ import {
   RadioButtons,
   ProductVerticalListCardProps,
   ExpansePanel,
-} from 'reserva-ui';
+} from '@danilomsou/reserva-ui';
 
 interface Props {
   isVisible: boolean;

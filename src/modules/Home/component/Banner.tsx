@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions, TouchableHighlight } from 'react-native';
-import { Box, Image } from 'reserva-ui';
+import { Box, Image } from '@danilomsou/reserva-ui';
 
 export interface BannerProps {
   route?: string;

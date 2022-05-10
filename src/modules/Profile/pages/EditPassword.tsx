@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, Button, Icon } from 'reserva-ui';
+import { Typography, Box, Button, Icon } from '@danilomsou/reserva-ui';
 import * as Yup from 'yup';
 
 import { profileQuery } from '../../../graphql/profile/profileQuery';

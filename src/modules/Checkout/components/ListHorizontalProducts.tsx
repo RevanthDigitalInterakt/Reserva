@@ -6,7 +6,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, Dimensions, Animated } from 'react-native';
-import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from 'reserva-ui';
+import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@danilomsou/reserva-ui';
 
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';

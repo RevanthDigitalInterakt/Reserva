@@ -16,7 +16,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, Divider, Icon, theme, Typography } from 'reserva-ui';
+import { Box, Button, Divider, Icon, theme, Typography } from '@danilomsou/reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';

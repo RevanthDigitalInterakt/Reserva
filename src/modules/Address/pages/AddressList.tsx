@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { SafeAreaView, FlatList, BackHandler } from 'react-native';
-import { Typography, Box, Button, Alert } from 'reserva-ui';
+import { Typography, Box, Button, Alert } from '@danilomsou/reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';

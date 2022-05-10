@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Typography, ProgressBar } from 'reserva-ui';
+import { Box, Typography, ProgressBar } from '@danilomsou/reserva-ui';
 
 import { PriceCustom } from './PriceCustom';
 

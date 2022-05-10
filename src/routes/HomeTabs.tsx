@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native';
-import { Box, Button, theme, Typography, Image } from 'reserva-ui';
+import { Box, Button, theme, Typography, Image } from '@danilomsou/reserva-ui';
 
 import CallCenter from '../modules/CallCenter';
 import { HomeScreen } from '../modules/Home/pages/Home';

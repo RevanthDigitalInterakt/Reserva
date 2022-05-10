@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Dimensions, StyleSheet, Modal, StatusBar, Image, TouchableOpacity } from 'react-native';
 
-import { Box, Button, Icon, Typography } from 'reserva-ui';
+import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 
 import ImageViewer from 'react-native-image-zoom-viewer';
 

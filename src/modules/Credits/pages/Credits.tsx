@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Divider, Typography, Icon, Button } from 'reserva-ui';
+import { Box, Divider, Typography, Icon, Button } from '@danilomsou/reserva-ui';
 
 import {
   profileQuery,

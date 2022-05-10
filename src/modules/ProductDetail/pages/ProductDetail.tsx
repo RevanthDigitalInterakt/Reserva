@@ -32,7 +32,7 @@ import {
   RadioButtons,
   SelectColor,
   Typography,
-} from 'reserva-ui';
+} from '@danilomsou/reserva-ui';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';

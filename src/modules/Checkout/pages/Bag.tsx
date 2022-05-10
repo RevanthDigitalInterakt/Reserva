@@ -26,8 +26,8 @@ import {
   TextField,
   Alert,
   ProductVerticalListCard,
-} from 'reserva-ui';
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+} from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';

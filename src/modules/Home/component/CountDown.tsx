@@ -7,7 +7,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { Box, theme, Typography, Button, Icon } from 'reserva-ui';
+import { Box, theme, Typography, Button, Icon } from '@danilomsou/reserva-ui';
 import Modal from 'react-native-modal';
 import { ICountDownClock } from '../../../graphql/homePage/HomeQuery';
 import FlipNumber from './flipcountdoun/FlipNumber';

@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Button, Icon, Image, theme, Typography } from "reserva-ui"
+import { Box, Button, Icon, Image, theme, Typography } from "@danilomsou/reserva-ui"
 import Modal, { ModalProps } from 'react-native-modal';
 import { images } from "../../../assets";
 import { useCart } from "../../../context/CartContext";

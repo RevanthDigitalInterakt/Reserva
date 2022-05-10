@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { Alert, Platform } from "react-native";
-import { TopBar } from "reserva-ui";
+import { TopBar } from "@danilomsou/reserva-ui";
 
 export const TopBarBackButtonWithoutLogo: React.FC<{
   showShadow?: Boolean;

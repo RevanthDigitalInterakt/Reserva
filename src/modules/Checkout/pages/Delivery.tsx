@@ -13,7 +13,7 @@ import {
   PERMISSIONS,
   RESULTS,
 } from 'react-native-permissions';
-import { Typography, Box, Button } from 'reserva-ui';
+import { Typography, Box, Button } from '@danilomsou/reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';

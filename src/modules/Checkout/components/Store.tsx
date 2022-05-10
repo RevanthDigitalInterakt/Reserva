@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Typography, Box, Button, Icon, Divider, Image } from "reserva-ui";
+import { Typography, Box, Button, Icon, Divider, Image } from "@danilomsou/reserva-ui";
 import { images } from '../../../assets';
 import Modal from "react-native-modal";
 

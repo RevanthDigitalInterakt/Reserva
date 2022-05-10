@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { Animated, Dimensions, Easing, TouchableHighlight } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { Box, Image, theme } from 'reserva-ui';
+import { Box, Image, theme } from '@danilomsou/reserva-ui';
 
 import { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 

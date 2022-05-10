@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useRef, useEffect } from 'react';
-import { Box, Button, Icon, Typography, Alert } from 'reserva-ui';
+import { Box, Button, Icon, Typography, Alert } from '@danilomsou/reserva-ui';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Card, { FlagTypes } from '../Components/Card';

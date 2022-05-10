@@ -5,7 +5,7 @@ import { Animated, Dimensions, ImageBackground } from 'react-native';
 import { View } from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import Share from 'react-native-share';
-import { Box, Button, Icon, theme, Typography } from 'reserva-ui';
+import { Box, Button, Icon, theme, Typography } from '@danilomsou/reserva-ui';
 import { left, opacity, padding, paddingBottom, right } from 'styled-system';
 
 import { images } from '../../../assets';

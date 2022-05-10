@@ -14,7 +14,7 @@ import {
   TextInputMaskOptionProp,
   TextInputMaskTypeProp,
 } from 'react-native-masked-text';
-import { Box, Button, TextField, theme, Typography } from 'reserva-ui';
+import { Box, Button, TextField, theme, Typography } from '@danilomsou/reserva-ui';
 
 import { useCart } from '../../../context/CartContext';
 import {
