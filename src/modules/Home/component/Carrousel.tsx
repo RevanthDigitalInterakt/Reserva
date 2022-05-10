@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/core';
-import { Animated, Dimensions, Easing, TouchableHighlight } from 'react-native';
+import { Animated, Easing, TouchableHighlight, useWindowDimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Box, Image, theme } from '@danilomsou/reserva-ui';
 
@@ -12,8 +12,6 @@ interface DefaultCarrouselProps {
   // CarrouselCard[],
   // showtimeCard: number
 }
-
-const { width } = Dimensions.get('screen');
 
 export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
   carrousel,
@@ -26,7 +24,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
   const [onEndDrag, setOnEndDrag] = useState(false);
   const [onBeginDrag, setOnBeginDrag] = useState(false);
   const [pressCarousel, setPressCarousel] = useState(false);
-
+  const { width } = useWindowDimensions();
   const DEVICE_WIDTH = width;
 
   const navigation = useNavigation();

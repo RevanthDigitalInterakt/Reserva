@@ -11,16 +11,26 @@ import { sendEmailVerificationMutation } from "../../../graphql/login/loginMutat
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import UnderlineInput from "../../Login/components/UnderlineInput";
 import HeaderBanner from "../../Forgot/componet/HeaderBanner";
+import { useCart } from "../../../context/CartContext";
+
 export interface RegisterEmailProps extends StackScreenProps<RootStackParamList, "RegisterEmail"> { };
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
     const { cookie, setCookie } = useAuth();
 
     const [email, setEmail] = useState('')
+    const [showRecoveryPassword, setShowRecoveryPassword] = useState(false)
+
+    const { verifyEmail } = useCart();
 
     const [sendEmailVerification, { data, loading }] = useMutation(sendEmailVerificationMutation)
 
-    const handleEmailAccess = () => {
+    const handleEmailAccess = async () => {
+      const isEmailAlreadyExist = await verifyEmail(email)
+
+      if (isEmailAlreadyExist) {
+        setShowRecoveryPassword(true)
+      } else {
         sendEmailVerification({
             variables: {
                 email
@@ -29,8 +39,20 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
             setCookie(x?.data?.cookie);
             AsyncStorage.setItem('@RNAuth:cookie', x?.data?.cookie);
             navigation.navigate('ConfirmAccessCode', { email })
+        })
+      }
+    }
+
+    const handleEmailRecovery = () => {
+      sendEmailVerification({
+        variables: {
+          email
         }
-        )
+      }).then(x => {
+        setCookie(x?.data?.cookie);
+        AsyncStorage.setItem('@RNAuth:cookie', x?.data?.cookie);
+        navigation.navigate('ForgotAccessCode', { email })
+      })
     }
 
     return (
@@ -49,12 +71,25 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
                         onChangeText={(text) => { setEmail(text) }}
                         placeholder='abcdefg@gmail.com'
                         keyboardType="email-address"
+                        showError={showRecoveryPassword}
                     />
                 </Box>
+                {showRecoveryPassword && (
+                  <Typography
+                    color="vermelhoAlerta"
+                    fontFamily="nunitoRegular"
+                    fontSize={13}
+                    style={{
+                      marginTop: -14
+                    }}
+                  >
+                    E-mail já cadastrado em nosso banco de dados
+                  </Typography>
+                )}
                 <Button mt={37}
-                    variant='primarioEstreito'
-                    title='CADASTRAR E-MAIL'
-                    onPress={handleEmailAccess}
+                    variant={showRecoveryPassword ? 'primarioEstreitoOutline' : 'primarioEstreito'}
+                    title={showRecoveryPassword ? 'RECUPERAR SENHA' : 'CADASTRAR E-MAIL'}
+                    onPress={showRecoveryPassword ? handleEmailRecovery : handleEmailAccess}
                     disabled={email.length <= 0}
                     inline />
             </Box>

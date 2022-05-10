@@ -69,6 +69,7 @@ export const images = {
   zoomHand: require('./img/zoomHand.png'),
   arrowInstruction: require('./img/arrowInstruction.png'),
   selectRectangle: require('./img/selectRectangle.png'),
+  emptyProductCatalog: require('./img/emptyProductCatalog.png'),
 };
 
 export const animations = {
