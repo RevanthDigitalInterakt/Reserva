@@ -6,18 +6,20 @@ import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@danilomsou/reserva-ui';
+import {
+  Box,
+  Button,
+  ProductVerticalListCard,
+  ProductVerticalListCardProps,
+  Typography,
+} from '@danilomsou/reserva-ui';
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
-import {
-  ProductQL
-} from '../../../../graphql/products/productSearch';
+import { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
-
-
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -26,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-  | React.ComponentType<any>
-  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
   handleScrollToTheTop?: () => void;
 }
@@ -50,7 +52,7 @@ export const ListVerticalProducts = ({
   loadMoreProducts,
   loadingHandler,
   totalProducts,
-  handleScrollToTheTop
+  handleScrollToTheTop,
 }: ListProductsProps) => {
   const navigation = useNavigation();
   const [favoritedProduct, setFavoritedProduct] = useState<any>();
@@ -367,29 +369,28 @@ export const ListVerticalProducts = ({
                       productId: item.productId,
                       colorSelected: getVariant(
                         item.items[0].variations,
-                        'VALOR_HEX_ORIGINAL'
+                        'ID_COR_ORIGINAL'
                       ),
-                    })
+                    });
 
                     if (handleScrollToTheTop) {
-                      handleScrollToTheTop()
+                      handleScrollToTheTop();
                     }
                   }}
                 />
               );
             }}
           />
-        </>)
-      }
+        </>
+      )}
     </>
   );
 };
 
-
 interface ProductItemInterface extends ProductVerticalListCardProps {
-  item: any,
-  index: number,
-  horizontal?: boolean,
+  item: any;
+  index: number;
+  horizontal?: boolean;
 }
 
 const ProductItem: React.FC<ProductItemInterface> = ({
@@ -398,8 +399,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   horizontal,
   ...props
 }) => {
-
-  const [imageUri, setImageUri] = useState<string>()
+  const [imageUri, setImageUri] = useState<string>();
   // const { fetchImage } = useCacheImages()
 
   // const fetchUri = async () => {
@@ -412,7 +412,6 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   // }
   useEffect(() => {
     // if (item) {
-
     //   fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
     //     setImageUri(uri)
     //   });
@@ -428,15 +427,12 @@ const ProductItem: React.FC<ProductItemInterface> = ({
       height={353}
       mr={horizontal && 'xxxs'}
     >
-      {
-        !!item.items[0].images[0].imageUrl && (
-          <ProductVerticalListCard
-            {...props}
-            imageSource={item.items[0].images[0].imageUrl}
-          />
-        )
-      }
+      {!!item.items[0].images[0].imageUrl && (
+        <ProductVerticalListCard
+          {...props}
+          imageSource={item.items[0].images[0].imageUrl}
+        />
+      )}
     </Box>
   );
-}
-
+};

@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useState,
+  useMemo,
 } from 'react';
 
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
@@ -54,27 +55,33 @@ import { useContentfull } from '../../../context/ContentfullContext';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const HomeScreen: React.FC<{
+export const HomeScreen: FC<{
   title: string;
 }> = () => {
   const navigation = useNavigation();
-  const {isTesting} =useContentfull();
+  const { isTesting } = useContentfull();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
   const { cep, setRegionId } = useRegionalSearch();
   const { setTime, time } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
-  const [images, setImages] = React.useState<HomeQuery[]>([]);
-  const [carrousels, setCarrousels] = React.useState<Carrousel[]>([]);
-  const [modalDiscount, setModalDiscount] = React.useState<any>();
-  const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
+  const [images, setImages] = useState<HomeQuery[]>([]);
+  const [carrousels, setCarrousels] = useState<Carrousel[]>([]);
+  const [modalDiscount, setModalDiscount] = useState<any>();
+  const [countDownClock, setCountDownClock] = useState<ICountDownClock>();
+  const [{ data, loading }, setDataHome] = useState({
+    data: null,
+    loading: true,
+  });
+  const [{ collectionData }, setDataConfig] = useState({
+    collectionData: null,
+  });
   const [countDownClockRsvMini, setCountDownClockRsvMini] =
-    React.useState<ICountDownClockReservaMini>();
+    useState<ICountDownClockReservaMini>();
   const deviceWidth = Dimensions.get('screen').width;
 
-  const { data: teste, refetch: refetchTeste } = useQuery(productSearch, {});
-  const { loading, data, refetch } = useQuery(homeQuery, {
+  const [getHome, { refetch }] = useLazyQuery(homeQuery, {
     context: { clientName: 'contentful' },
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
@@ -88,12 +95,23 @@ export const HomeScreen: React.FC<{
     classicSignInMutation
   );
 
-  const { data: collectionData, refetch: refetchConfig } = useQuery(
-    configCollection,
-    {
-      context: { clientName: 'contentful' },
-    }
-  );
+  const [getConfig] = useLazyQuery(configCollection, {
+    context: { clientName: 'contentful' },
+  });
+
+  useEffect(() => {
+    getHome().then((response) => {
+      setDataHome({
+        data: response.data,
+        loading: false,
+      });
+    });
+    getConfig().then((response) => {
+      setDataConfig({
+        collectionData: response.data,
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (countDownClock) {
@@ -243,7 +261,6 @@ export const HomeScreen: React.FC<{
     async function getStorage() {
       const wishListData = await AsyncStorage.getItem('@WishList');
     }
-    refetchTeste();
     getStorage();
   }, []);
 
@@ -253,7 +270,7 @@ export const HomeScreen: React.FC<{
     }, [])
   );
 
-  const renderCarouselBanners = React.useMemo(() => {
+  const renderCarouselBanners = useMemo(() => {
     return carrousels.map((carrousel) => {
       switch (carrousel?.type) {
         case CarrouselTypes.mainCarrousel: {

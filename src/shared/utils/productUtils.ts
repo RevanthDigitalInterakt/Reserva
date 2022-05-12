@@ -14,7 +14,7 @@ export class ProductUtils {
   }
 
   orderSizes(sizes: string[]) {
-    console.log(sizes);
+    console.log('SIZES', sizes);
 
     return sizes
       .sort((itemA, itemB) => {
