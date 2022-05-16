@@ -1,10 +1,10 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Avatar, Box, Button, Typography } from '@danilomsou/reserva-ui';
@@ -30,7 +30,6 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
-  const { loading, error, data, refetch } = useQuery(profileQuery);
   const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
   const [imageProfile, setImageProfile] = useState<any>();
@@ -42,6 +41,34 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     screenCashbackInStoreActive,
     setScreenCashbackInStoreActive
   ] = useState<boolean>(false);
+
+  const [getProfile] = useLazyQuery(profileQuery);
+
+  const [{
+    loading,
+    data,
+    error
+  }, setProfileQuery] = useState(
+    {
+      loading: true,
+      error: {} as any,
+      data: {} as any,
+      refetch: () => { return {} as any }
+    }
+  )
+
+  const refetch = async () => {
+    const response = await getProfile()
+
+    setProfileQuery({
+      loading,
+      error,
+      data,
+      refetch
+    })
+
+    return response
+  }
 
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
@@ -67,7 +94,16 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     setScreenCashbackInStoreActive(cashback_in_store);
   }
 
-  useFocusEffect(() => {
+  useFocusEffect(useCallback(() => {
+    getProfile()
+      .then(response =>
+        setProfileQuery({
+          data: response.data,
+          loading: false,
+          error: response.error,
+          refetch
+        })
+      )
     remoteConfig().fetchAndActivate();
     const response = remoteConfig().getValue('balance_cashback_in_app');
 
@@ -82,7 +118,8 @@ const MenuScreen: React.FC<{}> = ({ }) => {
         navigation.navigate('Login', { comeFrom: 'Profile' });
       }
     }
-  });
+
+  }, []));
 
   useEffect(() => {
     if (data) {

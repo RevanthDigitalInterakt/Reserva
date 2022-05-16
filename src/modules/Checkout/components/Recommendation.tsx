@@ -1,13 +1,12 @@
+import { useLazyQuery } from '@apollo/client';
+import { Box, Button, Divider, Icon, Typography } from '@danilomsou/reserva-ui';
 import React, { useEffect, useState } from 'react';
-
-import { QueryResult, useQuery } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, Typography, Button, Icon, Divider } from '@danilomsou/reserva-ui';
-
 import { productSearch } from '../../../graphql/products/productSearch';
-import { ListHorizontalProducts } from './ListHorizontalProducts'
+import { ListHorizontalProducts } from './ListHorizontalProducts';
+
+
 
 export const Recommendation = () => {
   const [skip, setSkip] = useState(false);
@@ -17,9 +16,12 @@ export const Recommendation = () => {
   const [arrayProducts, setArrayProducts] = useState<any>([]);
 
   const BoxAnimated = createAnimatableComponent(Box);
-
-  const { fetchMore, refetch }: QueryResult = useQuery(productSearch, {
-    skip,
+  const [{ fetchMore, refetch }, setProductSearchData] = useState({
+    fetchMore: (...props: any) => { return {} as any },
+    refetch: () => { },
+  })
+  const [getProductSearch, { }] = useLazyQuery(productSearch, {
+    // skip,
     variables: {
       skusFilter: 'ALL_AVAILABLE',
       hideUnavailableItems: true,
@@ -31,6 +33,13 @@ export const Recommendation = () => {
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   });
+
+  useEffect(() => {
+    getProductSearch().then((response) => setProductSearchData({
+      fetchMore: response.fetchMore,
+      refetch: response.refetch,
+    }))
+  }, [])
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
     const {
@@ -62,7 +71,7 @@ export const Recommendation = () => {
       const arrayProductsId = array.map(elem => elem.productId)
 
       const arrayWithoutDuplicates = array.filter((element, index) => {
-          return index === arrayProductsId.indexOf(element.productId);
+        return index === arrayProductsId.indexOf(element.productId);
       });
 
       setProducts(arrayWithoutDuplicates);

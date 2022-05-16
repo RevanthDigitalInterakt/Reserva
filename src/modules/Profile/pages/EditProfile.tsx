@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -64,7 +64,47 @@ export const EditProfile = ({ route }: Props) => {
     birthDate: '',
     homePhone: '',
   });
-  const { loading, error, data, refetch } = useQuery(profileQuery);
+
+  const [getProfile] = useLazyQuery(profileQuery);
+
+  const [{
+    loading,
+    data,
+    error
+  }, setProfile] = useState(
+    {
+      loading: true,
+      error: {} as any,
+      data: {} as any,
+      refetch: () => { return {} as any }
+    }
+  )
+
+  useEffect(() => {
+    getProfile()
+    .then(response =>
+      setProfile({
+        data: response.data,
+        loading: false,
+        error: response.error,
+        refetch
+      })
+    )
+  }, [])
+
+  const refetch = async () => {
+    const response = await getProfile()
+
+    setProfile({
+      loading,
+      error,
+      data,
+      refetch
+    })
+
+    return response
+  }
+
   const [
     updateNewsLetter,
     { data: NewsLetterData, loading: newsLetterLoading },
