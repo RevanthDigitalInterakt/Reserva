@@ -1,32 +1,29 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
+import { Box, Button, Divider, Icon, theme, Typography } from '@danilomsou/reserva-ui';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
-  CommonActions,
   StackActions,
-  useNavigation,
+  useNavigation
 } from '@react-navigation/native';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import {
   BackHandler,
   Linking,
   ScrollView,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, Divider, Icon, theme, Typography } from '@danilomsou/reserva-ui';
-
 import { useAuth } from '../../../context/AuthContext';
+import { useContentfull } from '../../../context/ContentfullContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
-import { TopBarMenu } from '../components/TopBarMenu';
-import { useRegionalSearch } from '../../../context/RegionalSearchContext';
-import { instance } from '../../../config/vtexConfig';
-import AsyncStorage from '@react-native-community/async-storage';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
-import { useContentfull } from '../../../context/ContentfullContext';
+import { TopBarMenu } from '../components/TopBarMenu';
+
+
 
 interface IBreadCrumbs {
   title: string;
@@ -250,20 +247,42 @@ export const Menu: React.FC<{}> = () => {
   // const { cep } = useRegionalSearch()
   const [cep, setCep] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const {
-    loading: loadingProfile,
-    error: errorProfile,
-    data: dataProfile,
-    refetch,
-  } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
   const [screenRegionalizationActive, setScreenRegionalizationActive] = useState(false);
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
-  const { loading, error, data } = useQuery(categoriesQuery, {
+  const [{
+    dataProfile,
+    refetch
+  }, setProfileData] = useState({
+    dataProfile: {} as any,
+    refetch: () => { },
+  })
+
+  const [getProfile] = useLazyQuery(profileQuery);
+
+  const [{
+    loading,
+    data
+  }, setCategoriesData] = useState({
+    loading: true,
+    data: {} as any
+  })
+
+  const [getCategories] = useLazyQuery(categoriesQuery, {
     context: { clientName: 'contentful' },
   });
 
+  useEffect(() => {
+    getCategories().then(reponse => setCategoriesData({
+      loading: false,
+      data: reponse.data
+    }))
+    getProfile().then(response => setProfileData({
+      dataProfile: response.data,
+      refetch: response.refetch
+    }))
+  }, [])
 
   const getIsScreenRegionalizationActive = async () => {
     const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_REGIONALIZATION');

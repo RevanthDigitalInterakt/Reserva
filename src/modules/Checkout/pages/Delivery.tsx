@@ -1,27 +1,22 @@
-import React, { useState, useEffect, useCallback } from 'react';
-
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
+import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 import {
-  useNavigation,
-  useIsFocused,
-  useFocusEffect,
+  useFocusEffect, useNavigation
 } from '@react-navigation/native';
-import { SafeAreaView, ScrollView, Alert } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, SafeAreaView, ScrollView } from 'react-native';
 import {
-  request,
   checkMultiple,
-  PERMISSIONS,
-  RESULTS,
+  PERMISSIONS, request
 } from 'react-native-permissions';
-import { Typography, Box, Button } from '@danilomsou/reserva-ui';
-
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { withAuthentication } from '../../Profile/HOC/withAuthentication';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
+
+
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -38,11 +33,6 @@ const Delivery: React.FC<{}> = () => {
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [selectedDelivery, setSelectedDelivery] = useState<any>(null);
-  const {
-    loading: loadingProfile,
-    data,
-    refetch,
-  } = useQuery(profileQuery, { fetchPolicy: 'no-cache' });
   const [profile, setProfile] = useState<any>({});
   const [typeOfDelivery, setTypeOfDelivery] = useState<any>([]);
   const [pickupPoint, setPickupPoint] = useState<any>();
@@ -50,6 +40,26 @@ const Delivery: React.FC<{}> = () => {
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false);
   const [addressId, setAddressId] = React.useState('');
   const [loading, setLoading] = useState(false);
+
+  const [{
+    data,
+    loadingProfile,
+    refetch,
+  }, setProfileData] = useState({
+    refetch: () => { },
+    data: {} as any,
+    loadingProfile: true,
+  })
+
+  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
+
+  useEffect(() => {
+    getProfile().then((response) => setProfileData({
+      refetch: response.refetch,
+      data: response.data,
+      loadingProfile: false,
+    }))
+  })
 
   useEffect(() => {
     if (data) {

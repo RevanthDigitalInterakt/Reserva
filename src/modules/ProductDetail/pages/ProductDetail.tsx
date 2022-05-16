@@ -1,9 +1,19 @@
 import {
-  QueryResult,
   useLazyQuery,
-  useMutation,
-  useQuery,
+  useMutation
 } from '@apollo/client';
+import {
+  Box,
+  Button,
+  Divider,
+  Icon,
+  OutlineInput,
+  ProductDetailCard,
+  ProductVerticalListCardProps,
+  RadioButtons,
+  SelectColor,
+  Typography
+} from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
@@ -15,33 +25,20 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
-import {
-  Box,
-  Button,
-  Divider,
-  Icon,
-  OutlineInput,
-  ProductDetailCard,
-  ProductVerticalListCardProps,
-  RadioButtons,
-  SelectColor,
-  Typography,
-} from '@danilomsou/reserva-ui';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import { useCacheImages } from '../../../context/CacheImagesContext';
 import { useCart } from '../../../context/CartContext';
 import {
   GET_PRODUCTS,
   GET_SHIPPING,
-  SUBSCRIBE_NEWSLETTER,
+  SUBSCRIBE_NEWSLETTER
 } from '../../../graphql/product/productQuery';
 import { Seller } from '../../../graphql/products/productSearch';
 import wishListQueries from '../../../graphql/wishlist/wishList';
@@ -172,12 +169,41 @@ export const ProductDetail: React.FC<Props> = ({
    * States, queries and mutations
    */
   const [product, setProduct] = useState<Product | null>(null);
-  const { data, loading, refetch }: QueryResult<ProductQueryResponse> =
-    useQuery<ProductQueryResponse>(GET_PRODUCTS, {
+
+  const [{
+    data,
+    loading,
+    // refetch
+  }, setProductsData] = useState({
+    data: {} as any,
+    loading: true,
+    refetch: () => { return {} as any }
+  });
+
+  const refetch = async () => {
+    const response = await getProducts()
+    setProductsData({
+      data: response.data,
+      loading: false,
+      refetch,
+    })
+    return response
+  }
+
+  const [getProducts] =
+    useLazyQuery<ProductQueryResponse>(GET_PRODUCTS, {
       variables: {
         id: route.params.productId.split('-')[0],
       },
     });
+
+  useEffect(() => {
+    getProducts().then(response => setProductsData({
+      data: response.data,
+      loading: false,
+      refetch,
+    }))
+  })
 
   const [
     subscribeNewsletter,
@@ -234,9 +260,6 @@ export const ProductDetail: React.FC<Props> = ({
   const [emailPromotions, setEmailPromotions] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [showMessageError, setShowMessageError] = useState(false);
-  const { refetch: checkListRefetch } = useQuery(wishListQueries.CHECK_LIST, {
-    skip,
-  });
 
   const [
     addWishList,

@@ -1,4 +1,12 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import {
+  Box,
+  Button,
+  ProductVerticalListCard,
+  ProductVerticalListCardProps,
+  Typography
+} from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
@@ -6,14 +14,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import {
-  Box,
-  Button,
-  ProductVerticalListCard,
-  ProductVerticalListCardProps,
-  Typography,
-} from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
 import { ProductQL } from '../../../../graphql/products/productSearch';
@@ -28,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
   handleScrollToTheTop?: () => void;
 }
@@ -69,22 +69,6 @@ export const ListVerticalProducts = ({
   useEffect(() => {
     setLoading(loading);
   }, [loading]);
-
-  const { refetch: refetchFavorite } = useQuery(wishListQueries.CHECK_LIST, {
-    skip,
-  });
-
-  const {
-    data: productIds,
-    loading: loadingWishlist,
-    error,
-    refetch: refetchWishlist,
-  } = useQuery(wishListQueries.GET_WISH_LIST, {
-    variables: {
-      shopperId: email,
-    },
-    skip,
-  });
 
   const [
     addWishList,
@@ -216,7 +200,7 @@ export const ListVerticalProducts = ({
       />
       {/* {(productList.length > 0 || loading) && !error ? ( */}
 
-      {error && productList.length <= 0 && (
+      {products.length <= 0 && (
         <Box
           position="absolute"
           flex={1}
