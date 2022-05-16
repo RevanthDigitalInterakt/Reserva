@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useQuery, useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -46,28 +46,92 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     wishListQueries.REMOVE_WISH_LIST
   );
 
-  const {
-    data: productIds,
-    loading,
-    error,
-    refetch,
-  } = useQuery(wishListQueries.GET_WISH_LIST, {
+  const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, {
     variables: {
       shopperId: email,
     },
     skip,
   });
 
+  const [{
+    loading,
+    productIds,
+    error
+  }, setWishList] = useState(
+    {
+      loading: false,
+      error: {} as any,
+      productIds: {} as any,
+      refetch: () => { return {} as any }
+    }
+  )
+
+  useEffect(() => {
+    getWishList()
+    .then(response =>
+      setWishList({
+        productIds: response.data,
+        loading: false,
+        error: response.error,
+        refetch
+      })
+    )
+  }, [])
+
+  const refetch = async () => {
+    const response = await getWishList()
+
+    setWishList({
+      loading,
+      error,
+      productIds,
+      refetch
+    })
+
+    return response
+  }
+
   const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
-  const {
-    data: products,
-    refetch: refetchProducts,
-    loading: loadingProducts,
-  } = useQuery(wishListQueries.GET_PRODUCT_BY_IDENTIFIER, {
+
+  const [getWishListProducts] = useLazyQuery(wishListQueries.GET_PRODUCT_BY_IDENTIFIER, {
     variables: {
       idArray: [],
     },
   });
+
+  const [{
+    loadingProducts,
+    products
+  }, setWishListProducts] = useState(
+    {
+      loadingProducts: false,
+      products: {} as any,
+      refetchProducts: () => { return {} as any }
+    }
+  )
+
+  useEffect(() => {
+    getWishListProducts()
+    .then(response =>
+      setWishListProducts({
+        products: response.data,
+        loadingProducts: false,
+        refetchProducts
+      })
+    )
+  }, [])
+
+  const refetchProducts = async () => {
+    const response = await getWishListProducts()
+
+    setWishListProducts({
+      loadingProducts,
+      products,
+      refetchProducts
+    })
+
+    return response
+  }
 
   useEffect(() => {
     console.log('products', products);
