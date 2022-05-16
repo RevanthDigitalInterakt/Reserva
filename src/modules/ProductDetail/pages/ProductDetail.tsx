@@ -496,6 +496,13 @@ export const ProductDetail: React.FC<Props> = ({
     return colorsUnavailable;
   };
 
+  const getUrlFromIdColor = (idColor: string) => {
+    return {
+      url: `https://lojausereserva.vtexassets.com/arquivos/color-thumb-${idColor}.jpg`,
+      id: idColor,
+    };
+  };
+
   const getAllColors = ({ skuSpecifications }: Product) => {
     const colors = skuSpecifications
       .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
@@ -1022,8 +1029,7 @@ export const ProductDetail: React.FC<Props> = ({
                         size={30}
                         disabledColors={[]}
                         listColors={
-                          itemsSKU.map((p) => getHexColor(p.color, product)) ||
-                          []
+                          itemsSKU.map((p) => getUrlFromIdColor(p.color)) || []
                         }
                         selectedColors={
                           selectedColor || (colorFilters && colorFilters[0])

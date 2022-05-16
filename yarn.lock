@@ -792,10 +792,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@danilomsou/reserva-ui@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@danilomsou/reserva-ui/-/reserva-ui-0.9.0.tgz#8970091afcff74f10d3be93836f6c6fab487a51f"
-  integrity sha512-wY/0vAXRavliD1+HlQX/k4vYgTSqvmfGwHE/5xprxxZQmjy5YOiavrNOO0S3wxgOIVyObM/9z0I1dJ2wqc416w==
+"@danilomsou/reserva-ui@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@danilomsou/reserva-ui/-/reserva-ui-0.10.0.tgz#40b4075b688dfb275da98829ca0cf4140d1e35db"
+  integrity sha512-Sm55aJBmwnQrdbgZt2eptVrHrggPXLEXsL7P5x/3z0r3BoDP1wBcGWJX0tq8pRvpPxXpvfc/ZRRC31lP7q7Frw==
   dependencies:
     lottie-react-native "^4.0.3"
     react-native-linear-gradient "^2.5.6"
@@ -9315,8 +9315,6 @@ typedarray-to-buffer@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
   integrity sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
-  dependencies:
-    is-typedarray "^1.0.0"
 
 typedoc@^0.22.10:
   version "0.22.15"
