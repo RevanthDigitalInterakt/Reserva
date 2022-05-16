@@ -1,12 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Box, Button, Icon, Typography, Alert } from '@danilomsou/reserva-ui';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Card, { FlagTypes } from '../Components/Card';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 
 interface ListCardsScreenProps {}
@@ -18,7 +18,6 @@ interface CardProps {
 type Props = StackScreenProps<RootStackParamList, 'ListCards'>;
 
 export const ListCards = ({ navigation, route }: Props) => {
-  const { loading, error, data, refetch } = useQuery(profileQuery);
   const [cards, setCards] = React.useState<CardProps[]>();
   const [cardSelected, setCardSelected] = React.useState<CardProps>(
     {} as CardProps
@@ -31,6 +30,46 @@ export const ListCards = ({ navigation, route }: Props) => {
   const modalTrash = useRef(false);
 
   const { isCheckout, cashback } = route.params;
+
+  const [getProfile] = useLazyQuery(profileQuery);
+
+  const [{
+    loading,
+    data,
+    error
+  }, setProfile] = useState(
+    {
+      loading: false,
+      error: {} as any,
+      data: {} as any,
+      refetch: () => { return {} as any }
+    }
+  )
+
+  useEffect(() => {
+    getProfile()
+    .then(response =>
+      setProfile({
+        data: response.data,
+        loading: false,
+        error: response.error,
+        refetch
+      })
+    )
+  }, [])
+
+  const refetch = async () => {
+    const response = await getProfile()
+
+    setProfile({
+      loading,
+      error,
+      data,
+      refetch
+    })
+
+    return response
+  }
 
   const handleDeleteCard = (id: string) => {
     // const restCards = cards.filter((card) => card.id !== id);

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -30,7 +30,6 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
-  const { loading, error, data, refetch } = useQuery(profileQuery);
   const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
   const [imageProfile, setImageProfile] = useState<any>();
@@ -42,6 +41,46 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     screenCashbackInStoreActive,
     setScreenCashbackInStoreActive
   ] = useState<boolean>(false);
+
+  const [getProfile] = useLazyQuery(profileQuery);
+
+  const [{
+    loading,
+    data,
+    error
+  }, setProfileQuery] = useState(
+    {
+      loading: false,
+      error: {} as any,
+      data: {} as any,
+      refetch: () => { return {} as any }
+    }
+  )
+
+  useEffect(() => {
+    getProfile()
+    .then(response =>
+      setProfileQuery({
+        data: response.data,
+        loading: false,
+        error: response.error,
+        refetch
+      })
+    )
+  }, [])
+
+  const refetch = async () => {
+    const response = await getProfile()
+
+    setProfileQuery({
+      loading,
+      error,
+      data,
+      refetch
+    })
+
+    return response
+  }
 
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
+import { QueryResult, useLazyQuery } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import {
   CommonActions,
@@ -74,7 +74,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
-  const { data: collectionData, loading: loadingCollection } = useQuery(
+  const [getConfigCollection] = useLazyQuery(
     configCollection,
     {
       context: { clientName: 'contentful' },
@@ -83,8 +83,29 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
   );
 
+  const [{
+    loadingCollection,
+    collectionData
+  }, setConfigCollection] = useState(
+    {
+      loadingCollection: false,
+      collectionData: {} as any,
+    }
+  )
+
+  useEffect(() => {
+    getConfigCollection()
+    .then(response =>
+      setConfigCollection({
+        collectionData: response.data,
+        loadingCollection: false,
+      })
+    )
+  }, [])
+
   const pageSize = 12;
-  const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
+
+  const [getProductSearch] = useLazyQuery(
     productSearch,
     {
       variables: {
@@ -97,26 +118,101 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         ],
       },
     }
-  );
+  )
+
+  const [{
+    loading,
+    data,
+    error
+  }, setProductSearch] = useState(
+    {
+      loading: false,
+      error: {} as any,
+      data: {} as any,
+      refetch: () => { return {} as any },
+      fetchMore: (props: any) => { return {} as any }
+    }
+  )
+
+  useEffect(() => {
+    getProductSearch()
+    .then(response =>
+      setProductSearch({
+        data: response.data,
+        loading: false,
+        error: response.error,
+        refetch,
+        fetchMore
+      })
+    )
+  }, [])
+
+  const refetch = async () => {
+    const response = await getProductSearch()
+
+    setProductSearch({
+      loading,
+      error,
+      data,
+      refetch,
+      fetchMore
+    })
+
+    return response
+  }
+
+  const fetchMore = async (props: any) => {
+    const response = await getProductSearch(props)
+
+    setProductSearch({
+      loading,
+      error,
+      data,
+      refetch,
+      fetchMore
+    })
+
+    return response
+  }
 
   // DESTAQUES
-  const { data: featuredData, loading: loadingFeatured }: QueryResult =
-    useQuery(productSearch, {
-      variables: {
-        hideUnavailableItems: true,
-        selectedFacets: [
-          {
-            key: 'productClusterIds',
-            value: collectionData?.configCollection?.items[0].searchCollection,
-          },
-        ],
-        to: 7,
-        simulationBehavior: 'default',
-        productOriginVtex: false,
-      },
-      fetchPolicy: 'no-cache',
-      nextFetchPolicy: 'no-cache',
-    });
+
+  const [getProductFeaturedSearch] = useLazyQuery(productSearch, {
+    variables: {
+      hideUnavailableItems: true,
+      selectedFacets: [
+        {
+          key: 'productClusterIds',
+          value: collectionData?.configCollection?.items[0].searchCollection,
+        },
+      ],
+      to: 7,
+      simulationBehavior: 'default',
+      productOriginVtex: false,
+    },
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
+
+  const [{
+    loadingFeatured,
+    featuredData,
+  }, setProductFeaturedSearch] = useState(
+    {
+      loadingFeatured: false,
+      featuredData: {} as any
+    }
+  )
+
+  useEffect(() => {
+    getProductFeaturedSearch()
+    .then(response =>
+      setProductFeaturedSearch({
+        featuredData: response.data,
+        loadingFeatured: false
+      })
+    )
+  }, [])
 
   const [
     getSuggestions,
