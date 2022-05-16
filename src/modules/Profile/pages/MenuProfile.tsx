@@ -4,7 +4,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Avatar, Box, Button, Typography } from '@danilomsou/reserva-ui';
@@ -57,18 +57,6 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     }
   )
 
-  useEffect(() => {
-    getProfile()
-    .then(response =>
-      setProfileQuery({
-        data: response.data,
-        loading: false,
-        error: response.error,
-        refetch
-      })
-    )
-  }, [])
-
   const refetch = async () => {
     const response = await getProfile()
 
@@ -106,7 +94,16 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     setScreenCashbackInStoreActive(cashback_in_store);
   }
 
-  useFocusEffect(() => {
+  useFocusEffect(useCallback(() => {
+    getProfile()
+      .then(response =>
+        setProfileQuery({
+          data: response.data,
+          loading: false,
+          error: response.error,
+          refetch
+        })
+      )
     remoteConfig().fetchAndActivate();
     const response = remoteConfig().getValue('balance_cashback_in_app');
 
@@ -121,7 +118,8 @@ const MenuScreen: React.FC<{}> = ({ }) => {
         navigation.navigate('Login', { comeFrom: 'Profile' });
       }
     }
-  });
+
+  }, []));
 
   useEffect(() => {
     if (data) {
