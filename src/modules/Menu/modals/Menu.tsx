@@ -16,7 +16,14 @@ import {
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, Divider, Icon, theme, Typography } from '@danilomsou/reserva-ui';
+import {
+  Box,
+  Button,
+  Divider,
+  Icon,
+  theme,
+  Typography,
+} from '@danilomsou/reserva-ui';
 
 import { useAuth } from '../../../context/AuthContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
@@ -245,7 +252,7 @@ type Profile = {
 
 export const Menu: React.FC<{}> = () => {
   const navigation = useNavigation();
-  const { isTesting } = useContentfull()
+  const [isTesting, setIsTesting] = useState<boolean>(false);
   const { cookie } = useAuth();
   // const { cep } = useRegionalSearch()
   const [cep, setCep] = useState<string | null>(null);
@@ -257,19 +264,21 @@ export const Menu: React.FC<{}> = () => {
     refetch,
   } = useQuery(profileQuery);
   const [profile, setProfile] = useState<Profile>();
-  const [screenRegionalizationActive, setScreenRegionalizationActive] = useState(false);
+  const [screenRegionalizationActive, setScreenRegionalizationActive] =
+    useState(false);
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
   const { loading, error, data } = useQuery(categoriesQuery, {
     context: { clientName: 'contentful' },
   });
 
-
   const getIsScreenRegionalizationActive = async () => {
-    const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_REGIONALIZATION');
+    const cashback_in_store = await RemoteConfigService.getValue<boolean>(
+      'FEATURE_REGIONALIZATION'
+    );
 
     setScreenRegionalizationActive(cashback_in_store);
-  }
+  };
 
   useEffect(() => {
     getIsScreenRegionalizationActive();
@@ -279,14 +288,14 @@ export const Menu: React.FC<{}> = () => {
     data?.appMenuCollection.items[0].itemsCollection.items || [];
 
   const getCep = async () => {
-    const value = await AsyncStorage.getItem('RegionalSearch:cep')//.then((x) => (regionId = x));
+    const value = await AsyncStorage.getItem('RegionalSearch:cep'); //.then((x) => (regionId = x));
     console.log('value', value);
     setCep(value);
   };
 
   useEffect(() => {
-    getCep()
-  }, [])
+    getCep();
+  }, []);
 
   useEffect(() => {
     setCategories(
@@ -332,6 +341,19 @@ export const Menu: React.FC<{}> = () => {
     );
   };
 
+  const getTestEnvironment = async () => {
+    const res = await AsyncStorage.getItem('isTesting');
+
+    if (res === 'true') {
+      setIsTesting(true);
+    } else {
+      setIsTesting(false);
+    }
+  };
+
+  useEffect(() => {
+    getTestEnvironment();
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
@@ -359,26 +381,24 @@ export const Menu: React.FC<{}> = () => {
                 marginBottom="nano"
                 marginTop="nano"
               />
-              {
-                screenRegionalizationActive && (
-                  <FixedMenuItem
-                    iconName="Pin"
-                    title={
-                      <Typography
-                        alignSelf="flex-end"
-                        color="preto"
-                        fontSize={15}
-                        fontFamily="nunitoBold"
-                      >
-                        {`${cep != null ? cep : 'Inserir'} ou alterar CEP`}
-                      </Typography>
-                    }
-                    onPress={() => {
-                      navigation.navigate('ChangeRegionalization');
-                    }}
-                  />
-                )
-              }
+              {screenRegionalizationActive && (
+                <FixedMenuItem
+                  iconName="Pin"
+                  title={
+                    <Typography
+                      alignSelf="flex-end"
+                      color="preto"
+                      fontSize={15}
+                      fontFamily="nunitoBold"
+                    >
+                      {`${cep != null ? cep : 'Inserir'} ou alterar CEP`}
+                    </Typography>
+                  }
+                  onPress={() => {
+                    navigation.navigate('ChangeRegionalization');
+                  }}
+                />
+              )}
               <FixedMenuItem
                 iconName="Profile"
                 disabled={!!cookie}
