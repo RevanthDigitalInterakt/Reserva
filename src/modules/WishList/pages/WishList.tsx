@@ -59,7 +59,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     error
   }, setWishList] = useState(
     {
-      loading: false,
+      loading: true,
       error: {} as any,
       productIds: {} as any,
       refetch: () => { return {} as any }
@@ -104,7 +104,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     products
   }, setWishListProducts] = useState(
     {
-      loadingProducts: false,
+      loadingProducts: true,
       products: {} as any,
       refetchProducts: () => { return {} as any }
     }

@@ -50,7 +50,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     error
   }, setProfileQuery] = useState(
     {
-      loading: false,
+      loading: true,
       error: {} as any,
       data: {} as any,
       refetch: () => { return {} as any }

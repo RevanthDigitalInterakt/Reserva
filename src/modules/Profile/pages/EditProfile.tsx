@@ -73,7 +73,7 @@ export const EditProfile = ({ route }: Props) => {
     error
   }, setProfile] = useState(
     {
-      loading: false,
+      loading: true,
       error: {} as any,
       data: {} as any,
       refetch: () => { return {} as any }

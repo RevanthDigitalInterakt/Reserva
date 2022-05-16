@@ -88,7 +88,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     collectionData
   }, setConfigCollection] = useState(
     {
-      loadingCollection: false,
+      loadingCollection: true,
       collectionData: {} as any,
     }
   )
@@ -126,7 +126,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     error
   }, setProductSearch] = useState(
     {
-      loading: false,
+      loading: true,
       error: {} as any,
       data: {} as any,
       refetch: () => { return {} as any },
@@ -199,7 +199,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     featuredData,
   }, setProductFeaturedSearch] = useState(
     {
-      loadingFeatured: false,
+      loadingFeatured: true,
       featuredData: {} as any
     }
   )
