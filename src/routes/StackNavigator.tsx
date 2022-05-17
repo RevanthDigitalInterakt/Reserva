@@ -49,7 +49,12 @@ import {
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
-import { CEPList, CepsInfo, SearchBy } from '../modules/ChangeRegionalization/pages/CEPList';
+import {
+  CEPList,
+  CepsInfo,
+  SearchBy,
+} from '../modules/ChangeRegionalization/pages/CEPList';
+import { OnboardingScreen } from '../modules/Onboarding/pages/OnboardingScreen';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -76,8 +81,8 @@ export type RootStackParamList = {
   };
   ChangeRegionalization: undefined;
   CEPList: {
-    list: CepsInfo,
-    searchBy: SearchBy
+    list: CepsInfo;
+    searchBy: SearchBy;
   };
   WishList: {};
   OrderDetail: {
@@ -136,22 +141,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -165,6 +170,7 @@ export type RootStackParamList = {
   VirtualDebitCardCaixaScreen: {
     cashback: boolean;
   };
+  OnboardingScreen: {};
 };
 
 const flows: Flow[] = [
@@ -202,7 +208,10 @@ export const MainStackScreen = () => (
     {/* <MainStack.Screen name="WishList" component={WishList} /> */}
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
     <MainStack.Screen name="WishListCategory" component={WishListCategory} />
-    <MainStack.Screen name="ChangeRegionalization" component={ChangeRegionalization} />
+    <MainStack.Screen
+      name="ChangeRegionalization"
+      component={ChangeRegionalization}
+    />
     <MainStack.Screen name="CEPList" component={CEPList} />
     <MainStack.Screen
       name="ShowListByCategory"
@@ -265,5 +274,6 @@ export const MainStackScreen = () => (
     />
     <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
+    <MainStack.Screen name="OnboardingScreen" component={OnboardingScreen} />
   </MainStack.Navigator>
 );

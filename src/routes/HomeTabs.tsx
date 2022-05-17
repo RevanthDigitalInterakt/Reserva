@@ -10,16 +10,18 @@ import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 
-import { images } from '../assets/index'
+import { images } from '../assets/index';
 
 import { TabBar } from './TabBar';
 import { Text } from 'react-native-svg';
+import { OnboardingScreen } from '../modules/Onboarding/pages/OnboardingScreen';
 
 const Tab = createBottomTabNavigator();
 
 export const HomeTabs = () => (
   <SafeAreaView style={{ backgroundColor: theme.colors.white }} flex={1}>
-    <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
+    <OnboardingScreen />
+    {/* <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -60,6 +62,6 @@ export const HomeTabs = () => (
         component={CallCenter}
         initialParams={{ label: 'Central' }}
       />
-    </Tab.Navigator>
+    </Tab.Navigator> */}
   </SafeAreaView>
 );
