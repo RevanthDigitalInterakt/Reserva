@@ -1539,7 +1539,7 @@ export const ProductDetail: React.FC<Props> = ({
                     }
                   />
 
-                  <Recommendation handleScrollToTheTop={handleScrollToTheTop} />
+                  {/* <Recommendation handleScrollToTheTop={handleScrollToTheTop} /> */}
 
                   <Box mb="xxxs">
                     <Tooltip
