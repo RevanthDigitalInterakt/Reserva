@@ -1,17 +1,21 @@
 import { useLazyQuery } from '@apollo/client';
 import {
-  Alert, Box, Button, Divider, Icon, ProductHorizontalListCard, TextField, Toggle, Typography
+  Alert,
+  Box,
+  Button,
+  Divider,
+  Icon,
+  ProductHorizontalListCard,
+  TextField,
+  Toggle,
+  Typography,
 } from '@danilomsou/reserva-ui';
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import analytics from '@react-native-firebase/analytics';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  Platform,
-  SafeAreaView,
-  ScrollView
-} from 'react-native';
+import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
@@ -29,8 +33,6 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-
-
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -99,20 +101,20 @@ export const BagScreen = () => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => { },
-  })
+    refetch: () => {},
+  });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
-    getProfile().then(response => {
+    getProfile().then((response) => {
       setProfileData({
         data: response.data,
         loadingProfile: false,
         refetch: response.refetch,
-      })
-    })
-  }, [])
+      });
+    });
+  }, []);
 
   const firstLoadOrderForm = async () => {
     setLoading(true);
@@ -209,13 +211,13 @@ export const BagScreen = () => {
     setInstallmentInfo(
       installment
         ? {
-          installmentPrice: installment.value,
-          installmentsNumber: installment.count,
-          totalPrice: installment.total,
-        }
+            installmentPrice: installment.value,
+            installmentsNumber: installment.count,
+            totalPrice: installment.total,
+          }
         : {
-          ...installmentInfo,
-        }
+            ...installmentInfo,
+          }
     );
 
     setOptimistQuantities(quantities);
@@ -538,30 +540,30 @@ export const BagScreen = () => {
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                      <Box paddingBottom="nano">
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={11}
-                          color="verdeSucesso"
-                        >
-                          Desconto de 1° compra aplicado neste produto!
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box paddingBottom="nano">
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={11}
+                        color="verdeSucesso"
+                      >
+                        Desconto de 1° compra aplicado neste produto!
+                      </Typography>
+                    </Box>
+                  )}
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                      <Box position="absolute" zIndex={5} top={84} right={21}>
-                        <Typography
-                          color="verdeSucesso"
-                          fontFamily="nunitoRegular"
-                          fontSize={11}
-                        >
-                          -R$ 50
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box position="absolute" zIndex={5} top={84} right={21}>
+                      <Typography
+                        color="verdeSucesso"
+                        fontFamily="nunitoRegular"
+                        fontSize={11}
+                      >
+                        -R$ 50
+                      </Typography>
+                    </Box>
+                  )}
                   <ProductHorizontalListCard
                     isBag
                     discountApi={
@@ -580,7 +582,7 @@ export const BagScreen = () => {
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
                       array.filter((x) => x.uniqueId == item.uniqueId).length >
-                      1
+                        1
                     }
                     currency="R$"
                     discountTag={getPercent(item.sellingPrice, item.listPrice)}
@@ -744,7 +746,7 @@ export const BagScreen = () => {
           </BoxAnimated>
         )} */}
 
-            <Recommendation />
+            {/* <Recommendation /> */}
 
             <Box paddingX="micro">
               {showLikelyProducts && <Divider variant="fullWidth" />}
