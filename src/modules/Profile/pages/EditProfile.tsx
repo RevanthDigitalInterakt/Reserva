@@ -44,12 +44,13 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
+import IsTestingModal from '../Components/IsTestingModal';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
-  const { isTesting, toggleIsTesting } = useContentfull();
+  const [isTesting, setIsTesting] = useState(false);
   const { email } = useAuth();
   const { isRegister } = route?.params || false;
   const [subscribed, setSubscribed] = useState(false);
@@ -141,6 +142,7 @@ export const EditProfile = ({ route }: Props) => {
   const [labelDocument, setLabelDocument] = useState(null);
   const [labelBirthDate, setLabelBirthDate] = useState(null);
   const [labelPhone, setLabelPhone] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const getTesters = async () => {
     const testers = await remoteConfig().getValue('EMAIL_TESTERS');
@@ -605,6 +607,26 @@ export const EditProfile = ({ route }: Props) => {
     },
   });
 
+  const getTestEnvironment = async () => {
+    const res = await AsyncStorage.getItem('isTesting');
+
+    if (res === 'true') {
+      setIsTesting(true);
+    } else {
+      setIsTesting(false);
+    }
+  };
+
+  useEffect(() => {
+    getTestEnvironment();
+  }, []);
+
+  const handleChangeTesting = async (value: boolean) => {
+    setIsVisible(true);
+    await AsyncStorage.setItem('isTesting', JSON.stringify(value));
+    setIsTesting(value);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
@@ -947,7 +969,7 @@ export const EditProfile = ({ route }: Props) => {
                     <Box marginLeft="micro">
                       <Toggle
                         onValueChange={(value: boolean) =>
-                          toggleIsTesting(value)
+                          handleChangeTesting(!!value)
                         }
                         thumbColor="vermelhoAlerta"
                         color="preto"

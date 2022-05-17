@@ -16,17 +16,24 @@ import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
 import CartContextProvider from './context/CartContext';
-import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
+import {
+  FirebaseContextProvider,
+  RemoteConfigKeys,
+  useFirebaseContext,
+} from './context/FirebaseContext';
 import InitialScreen from './InitialScreen';
 import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
-import { RemoteConfigService } from "./shared/services/RemoteConfigService";
+import { RemoteConfigService } from './shared/services/RemoteConfigService';
 import RegionalSearchContext from 'context/RegionalSearchContext';
 import RegionalSearchContextProvider from './context/RegionalSearchContext';
 import ContentfullContextProvider from './context/ContentfullContext';
 import { useContentfull } from './context/ContentfullContext';
-import { apolloClientProduction, apolloClientTesting } from './services/apolloClient';
-
+import {
+  apolloClientProduction,
+  apolloClientTesting,
+} from './services/apolloClient';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -76,8 +83,6 @@ const requestUserPermission = async () => {
   }
 };
 
-
-
 appsFlyer.initSdk(
   {
     devKey: env.APPSFLYER.DEV_KEY,
@@ -95,17 +100,33 @@ appsFlyer.initSdk(
   }
 );
 const maintenanceHandler = async () => {
-  const result = await RemoteConfigService.fetchValues()
-  const maintenance = result.find(x => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE)
+  const result = await RemoteConfigService.fetchValues();
+  const maintenance = result.find(
+    (x) => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE
+  );
   //setIsOnMaintenance(maintenance.value)
-  return maintenance.value
-}
+  return maintenance.value;
+};
 
 const App = () => {
-  const { getValue } = useFirebaseContext()
-  const { isTesting } = useContentfull()
+  const { getValue } = useFirebaseContext();
+  const [isTesting, setIsTesting] = useState<boolean>(false);
 
-  const [isOnMaintenance, setIsOnMaintenance] = useState(false)
+  const [isOnMaintenance, setIsOnMaintenance] = useState(false);
+
+  const getTestEnvironment = async () => {
+    const res = await AsyncStorage.getItem('isTesting');
+
+    if (res === 'true') {
+      setIsTesting(true);
+    } else {
+      setIsTesting(false);
+    }
+  };
+
+  useEffect(() => {
+    getTestEnvironment();
+  }, []);
 
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
@@ -127,16 +148,16 @@ const App = () => {
     CodepushConfig();
     oneSignalConfig();
     setTimeout(() => {
-      maintenanceHandler().then(res => setIsOnMaintenance(res))
+      maintenanceHandler().then((res) => setIsOnMaintenance(res));
     }, 5000);
   }, []);
 
-  return <ThemeProvider theme={theme}>
-    <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
-      {
-        isOnMaintenance ?
+  return (
+    <ThemeProvider theme={theme}>
+      <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+        {isOnMaintenance ? (
           <Maintenance isVisible />
-          :
+        ) : (
           <CartContextProvider>
             <AuthContextProvider>
               <ContentfullContextProvider>
@@ -144,7 +165,13 @@ const App = () => {
                   <CacheImagesProvider>
                     <FirebaseContextProvider>
                       <ChronometerContextProvider>
-                        <ApolloProvider client={apolloClientProduction}>
+                        <ApolloProvider
+                          client={
+                            isTesting
+                              ? apolloClientTesting
+                              : apolloClientProduction
+                          }
+                        >
                           <InitialScreen>
                             <AppRouting />
                           </InitialScreen>
@@ -156,9 +183,10 @@ const App = () => {
               </ContentfullContextProvider>
             </AuthContextProvider>
           </CartContextProvider>
-      }
-    </NavigationContainer>
-  </ThemeProvider>
+        )}
+      </NavigationContainer>
+    </ThemeProvider>
+  );
 };
 
 export default App;
