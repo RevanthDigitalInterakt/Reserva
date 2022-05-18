@@ -24,7 +24,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 
-const MenuScreen: React.FC<{}> = ({}) => {
+const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
@@ -38,7 +38,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
   const [screenCashbackInStoreActive, setScreenCashbackInStoreActive] =
     useState<boolean>(false);
 
-  const [getProfile] = useLazyQuery(profileQuery);
+  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
   const [{ loading, data, error }, setProfileQuery] = useState({
     loading: true,
@@ -69,7 +69,6 @@ const MenuScreen: React.FC<{}> = ({}) => {
     AsyncStorage.removeItem('@RNAuth:lastLogin');
     setCookie(null);
     setEmail(null);
-    navigation.navigate('Home');
   };
 
   const getTesters = async () => {
@@ -88,15 +87,27 @@ const MenuScreen: React.FC<{}> = ({}) => {
     setScreenCashbackInStoreActive(cashback_in_store);
   };
 
+  const userIsLogged = () => {
+    if (isCookieEmpty()) {
+      if (!hasConnection) {
+        navigation.navigate('Login', { comeFrom: 'Profile' });
+      }
+    }
+  }
+
+  useFocusEffect(() => {
+    userIsLogged();
+  });
+
   useFocusEffect(
     useCallback(() => {
-      getProfile().then((response) =>
+      getProfile().then((response) => {
         setProfileQuery({
           data: response.data,
           loading: false,
           error: response.error,
-          refetch,
         })
+      }
       );
       remoteConfig().fetchAndActivate();
       const response = remoteConfig().getValue('balance_cashback_in_app');
@@ -105,12 +116,6 @@ const MenuScreen: React.FC<{}> = ({}) => {
       getIsScreenCashbackInStoreActive();
       if (data) {
         refetch();
-      }
-      if (isCookieEmpty()) {
-        if (!hasConnection) {
-          // check internet connection
-          navigation.navigate('Login', { comeFrom: 'Profile' });
-        }
       }
     }, [])
   );
