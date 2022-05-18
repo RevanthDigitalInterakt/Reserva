@@ -113,19 +113,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     refetchProducts();
   }, []);
 
-  useEffect(() => {
-    console.log('products', products);
-  }, [products]);
-
-  useEffect(() => {
-    console.log('email', email);
-    console.log('cookie', cookie);
-  }, [email, cookie]);
-
-  useEffect(() => {
-    console.log('wishIds', wishIds);
-  }, [wishIds]);
-
   const getStorage = async () => {
     const wishListData = await AsyncStorage.getItem('@WishData');
     if (wishListData) {
