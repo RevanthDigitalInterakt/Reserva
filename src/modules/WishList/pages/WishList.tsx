@@ -34,6 +34,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
+  useEffect(() => {
+    console.log('wishIds123', wishIds)
+  }, [wishIds])
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
@@ -55,7 +58,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   const [{ loading, productIds, error }, setWishList] = useState({
     loading: true,
-    error: {} as any,
+    error: null,
     productIds: null,
   });
 
@@ -67,16 +70,16 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     setWishList({
       productIds: null,
       loading: false,
-      error: {} as any,
+      error: null,
     });
 
-    getWishList().then((response) =>
-      setWishList({
-        productIds: response.data,
-        loading: false,
-        error: response.error,
-      })
-    );
+    const response = await getWishList()
+    setWishList({
+      productIds: response.data,
+      loading: false,
+      error: response.error,
+    })
+
   };
 
   const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
@@ -85,23 +88,30 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     wishListQueries.GET_PRODUCT_BY_IDENTIFIER,
     {
       variables: {
-        idArray: [],
+        idArray: [] as any[],
       },
     }
   );
 
-  const [{ loadingProducts, products }, setWishListProducts] = useState({
+  const [{ loadingProducts, products }, setWishListProducts] = useState<{
+    products: any | null,
+    loadingProducts: boolean,
+  }>({
     loadingProducts: true,
     products: null,
   });
 
-  const refetchProducts = async () => {
+  const refetchProducts = async (props?: { idArray: any[] }) => {
     setWishListProducts({
       loadingProducts: true,
       products: null,
     });
 
-    await getWishListProducts().then((response) => {
+    await getWishListProducts({
+      variables: {
+        idArray: !!props ? props.idArray : []
+      }
+    }).then((response) => {
       setWishListProducts({
         products: response.data,
         loadingProducts: false,
@@ -173,8 +183,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   );
 
   useEffect(() => {
-    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
+    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
+      console.log('products123', products?.productsByIdentifier.map(x => x.productId))
       setWishProducts(products.productsByIdentifier);
+    }
   }, [products]);
 
   useEffect(() => {
@@ -389,10 +401,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                 }}
                 ListHeaderComponent={
                   <Box paddingX="xxxs" paddingTop="md" pb={36}>
-                    <Typography variant="tituloSessoes">Favoritos</Typography>
+                    <Typography variant="tituloSessoes">Favoritos
+                    </Typography>
                   </Box>
                 }
                 renderItem={({ item }) => {
+                  console.log('wishProducts', wishProducts.map(prod => prod.productId), item.productId.split('-')[0])
                   const product = wishProducts.find(
                     (prod) => prod.productId == item.productId.split('-')[0]
                   );
@@ -430,13 +444,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                             sizeSelected: productSku?.name.split('-')[1],
                           });
                         }}
-                        onClickAddCount={() => {}}
+                        onClickAddCount={() => { }}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${
-                          product?.productName.length > 30 ? '...' : ''
-                        }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
+                          }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
