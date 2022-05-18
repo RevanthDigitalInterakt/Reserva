@@ -59,7 +59,7 @@ const Delivery: React.FC<{}> = () => {
       data: response.data,
       loadingProfile: false,
     }))
-  })
+  }, []);
 
   useEffect(() => {
     if (data) {
