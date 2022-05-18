@@ -11,22 +11,20 @@ import { Avatar, Box, Button, Typography } from '@danilomsou/reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import {
   profileQuery,
-  ProfileVars
+  ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import {
   StorageService,
-  StorageServiceKeys
+  StorageServiceKeys,
 } from '../../../shared/services/StorageService';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 
-
-
-const MenuScreen: React.FC<{}> = ({ }) => {
+const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
@@ -37,38 +35,32 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
-  const [
-    screenCashbackInStoreActive,
-    setScreenCashbackInStoreActive
-  ] = useState<boolean>(false);
+  const [screenCashbackInStoreActive, setScreenCashbackInStoreActive] =
+    useState<boolean>(false);
 
   const [getProfile] = useLazyQuery(profileQuery);
 
-  const [{
-    loading,
-    data,
-    error
-  }, setProfileQuery] = useState(
-    {
-      loading: true,
-      error: {} as any,
-      data: {} as any,
-      refetch: () => { return {} as any }
-    }
-  )
+  const [{ loading, data, error }, setProfileQuery] = useState({
+    loading: true,
+    error: {} as any,
+    data: null,
+  });
 
   const refetch = async () => {
-    const response = await getProfile()
-
     setProfileQuery({
-      loading,
-      error,
-      data,
-      refetch
-    })
+      loading: true,
+      error: {} as any,
+      data: null,
+    });
 
-    return response
-  }
+    await getProfile().then((res) => {
+      setProfileQuery({
+        loading: false,
+        error: res.error,
+        data: res.data,
+      });
+    });
+  };
 
   const logout = () => {
     AsyncStorage.removeItem('@RNAuth:cookie');
@@ -85,41 +77,43 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     if (JSON.parse(testers.asString()).includes(data?.profile?.email)) {
       setIsTester(true);
     }
-  }
+  };
 
   const getIsScreenCashbackInStoreActive = async () => {
-    const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_CASHBACK_IN_STORE');
+    const cashback_in_store = await RemoteConfigService.getValue<boolean>(
+      'FEATURE_CASHBACK_IN_STORE'
+    );
 
     console.log('cashback_in_store', cashback_in_store);
     setScreenCashbackInStoreActive(cashback_in_store);
-  }
+  };
 
-  useFocusEffect(useCallback(() => {
-    getProfile()
-      .then(response =>
+  useFocusEffect(
+    useCallback(() => {
+      getProfile().then((response) =>
         setProfileQuery({
           data: response.data,
           loading: false,
           error: response.error,
-          refetch
+          refetch,
         })
-      )
-    remoteConfig().fetchAndActivate();
-    const response = remoteConfig().getValue('balance_cashback_in_app');
+      );
+      remoteConfig().fetchAndActivate();
+      const response = remoteConfig().getValue('balance_cashback_in_app');
 
-    setBalanceCashbackInApp(response.asBoolean());
-    getIsScreenCashbackInStoreActive();
-    if (data) {
-      refetch();
-    }
-    if (isCookieEmpty()) {
-      if (!hasConnection) {
-        // check internet connection
-        navigation.navigate('Login', { comeFrom: 'Profile' });
+      setBalanceCashbackInApp(response.asBoolean());
+      getIsScreenCashbackInStoreActive();
+      if (data) {
+        refetch();
       }
-    }
-
-  }, []));
+      if (isCookieEmpty()) {
+        if (!hasConnection) {
+          // check internet connection
+          navigation.navigate('Login', { comeFrom: 'Profile' });
+        }
+      }
+    }, [])
+  );
 
   useEffect(() => {
     if (data) {
@@ -132,9 +126,10 @@ const MenuScreen: React.FC<{}> = ({ }) => {
           isJSON: true,
         });
         setProfile(profile);
-        const profileImagePath = data?.profile?.customFields.find(
-          (x: any) => x.key == 'profileImagePath'
-        ).value || null;
+        const profileImagePath =
+          data?.profile?.customFields.find(
+            (x: any) => x.key == 'profileImagePath'
+          ).value || null;
         setProfileImagePath(profileImagePath);
       }
       getTesters();
@@ -145,9 +140,10 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     if (profile) {
       const { profile } = data;
       setProfile(profile);
-      const profileImagePath = data?.profile?.customFields.find(
-        (x: any) => x.key == 'profileImagePath'
-      ).value || null;
+      const profileImagePath =
+        data?.profile?.customFields.find(
+          (x: any) => x.key == 'profileImagePath'
+        ).value || null;
       setProfileImagePath(profileImagePath);
     }
   }, [profile]);
@@ -184,39 +180,37 @@ const MenuScreen: React.FC<{}> = ({ }) => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent="flex-start" pt="xs">
-          <Box
-            flexDirection='row'
-            alignItems='center'
-            paddingX="xxxs"
-          >
+          <Box flexDirection="row" alignItems="center" paddingX="xxxs">
             <Box>
               {imageProfile === null ? (
                 <Avatar
                   sizeImage={60}
                   sizeButton={25}
-                  onPress={() => navigation.navigate('EditProfile')} buttonEdit />
-              ) :
-                (
-                  <Avatar imageSource={{ uri: imageProfile }}
-                    onPress={() => navigation.navigate('EditProfile')}
-                    sizeImage={60}
-                    sizeButton={25}
-                  />
-                )
-              }
+                  onPress={() => navigation.navigate('EditProfile')}
+                  buttonEdit
+                />
+              ) : (
+                <Avatar
+                  imageSource={{ uri: imageProfile }}
+                  onPress={() => navigation.navigate('EditProfile')}
+                  sizeImage={60}
+                  sizeButton={25}
+                />
+              )}
             </Box>
-            <Box ml='xxxs'>
-              <Box mb="quarck" >
+            <Box ml="xxxs">
+              <Box mb="quarck">
                 <Typography variant="tituloSessoes" fontSize={20}>
                   Perfil
                 </Typography>
               </Box>
               <Typography variant="subtituloSessoes" fontSize={16}>
-                Boas-vindas{profile && `, ${profile?.firstName || profile?.email}.`}
+                Boas-vindas
+                {profile && `, ${profile?.firstName || profile?.email}.`}
               </Typography>
             </Box>
           </Box>
-          <Box mt="xxxs" >
+          <Box mt="xxxs">
             <Box paddingX="xxxs">
               <ItemList
                 title="Meus pedidos"
@@ -274,21 +268,25 @@ const MenuScreen: React.FC<{}> = ({ }) => {
               <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs">
                 <Box paddingX="xxs" pb="xxs">
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('cashbackInStore', {
-                      isLoyal: true,
-                      costumerDocument: profile?.document,
-                    })}
+                    onPress={() =>
+                      navigation.navigate('cashbackInStore', {
+                        isLoyal: true,
+                        costumerDocument: profile?.document,
+                      })
+                    }
                   >
-                    <Typography fontFamily='nunitoRegular' fontSize={14}>
+                    <Typography fontFamily="nunitoRegular" fontSize={14}>
                       QR Code para cashback
                     </Typography>
                   </TouchableOpacity>
                 </Box>
                 <Box paddingX="xxs">
                   <TouchableOpacity
-                    onPress={() => navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)}
+                    onPress={() =>
+                      navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)
+                    }
                   >
-                    <Typography fontFamily='nunitoRegular' fontSize={14}>
+                    <Typography fontFamily="nunitoRegular" fontSize={14}>
                       Ver minha carteira
                     </Typography>
                   </TouchableOpacity>

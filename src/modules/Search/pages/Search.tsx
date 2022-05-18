@@ -9,7 +9,6 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { paraiso } from 'base16';
 import { ScrollView, Dimensions, BackHandler } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
@@ -74,106 +73,93 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
-  const [getConfigCollection] = useLazyQuery(
-    configCollection,
+  const [getConfigCollection] = useLazyQuery(configCollection, {
+    context: { clientName: 'contentful' },
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
+
+  const [{ loadingCollection, collectionData }, setConfigCollection] = useState(
     {
-      context: { clientName: 'contentful' },
-      fetchPolicy: 'no-cache',
-      nextFetchPolicy: 'no-cache',
+      loadingCollection: true,
+      collectionData: null,
     }
   );
 
-  const [{
-    loadingCollection,
-    collectionData
-  }, setConfigCollection] = useState(
-    {
-      loadingCollection: true,
-      collectionData: {} as any,
-    }
-  )
-
   useEffect(() => {
-    getConfigCollection()
-    .then(response =>
+    getConfigCollection().then((response) =>
       setConfigCollection({
         collectionData: response.data,
         loadingCollection: false,
       })
-    )
-  }, [])
+    );
+  }, []);
 
   const pageSize = 12;
 
-  const [getProductSearch] = useLazyQuery(
-    productSearch,
-    {
-      variables: {
-        to: pageSize - 1,
-        selectedFacets: [
-          {
-            key: 'region-id',
-            value: regionId,
-          },
-        ],
-      },
-    }
-  )
+  const [getProductSearch] = useLazyQuery(productSearch, {
+    variables: {
+      to: pageSize - 1,
+      selectedFacets: [
+        {
+          key: 'region-id',
+          value: regionId,
+        },
+      ],
+    },
+  });
 
-  const [{
-    loading,
-    data,
-    error
-  }, setProductSearch] = useState(
-    {
-      loading: true,
-      error: {} as any,
-      data: {} as any,
-      refetch: () => { return {} as any },
-      fetchMore: (props: any) => { return {} as any }
-    }
-  )
+  const [{ loading, data, error }, setProductSearch] = useState({
+    loading: true,
+    error: null,
+    data: null,
+    refetch: () => {
+      return {} as any;
+    },
+    fetchMore: (props: any) => {
+      return {} as any;
+    },
+  });
 
   useEffect(() => {
-    getProductSearch()
-    .then(response =>
+    getProductSearch().then((response) =>
       setProductSearch({
         data: response.data,
         loading: false,
         error: response.error,
         refetch,
-        fetchMore
+        fetchMore,
       })
-    )
-  }, [])
+    );
+  }, []);
 
   const refetch = async () => {
-    const response = await getProductSearch()
+    const response = await getProductSearch();
 
     setProductSearch({
       loading,
       error,
       data,
       refetch,
-      fetchMore
-    })
+      fetchMore,
+    });
 
-    return response
-  }
+    return response;
+  };
 
   const fetchMore = async (props: any) => {
-    const response = await getProductSearch(props)
+    const response = await getProductSearch(props);
 
     setProductSearch({
       loading,
       error,
       data,
       refetch,
-      fetchMore
-    })
+      fetchMore,
+    });
 
-    return response
-  }
+    return response;
+  };
 
   // DESTAQUES
 
@@ -194,25 +180,20 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     nextFetchPolicy: 'no-cache',
   });
 
-  const [{
-    loadingFeatured,
-    featuredData,
-  }, setProductFeaturedSearch] = useState(
-    {
+  const [{ loadingFeatured, featuredData }, setProductFeaturedSearch] =
+    useState({
       loadingFeatured: true,
-      featuredData: {} as any
-    }
-  )
+      featuredData: null,
+    });
 
   useEffect(() => {
-    getProductFeaturedSearch()
-    .then(response =>
+    getProductFeaturedSearch().then((response) =>
       setProductFeaturedSearch({
         featuredData: response.data,
-        loadingFeatured: false
+        loadingFeatured: false,
       })
-    )
-  }, [])
+    );
+  }, []);
 
   const [
     getSuggestions,

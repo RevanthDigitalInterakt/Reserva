@@ -256,7 +256,7 @@ export const Menu: React.FC<{}> = () => {
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
   const [{ dataProfile, refetch }, setProfileData] = useState({
-    dataProfile: {} as any,
+    dataProfile: null,
     refetch: () => {},
   });
 
@@ -264,7 +264,7 @@ export const Menu: React.FC<{}> = () => {
 
   const [{ loading, data }, setCategoriesData] = useState({
     loading: true,
-    data: {} as any,
+    data: null,
   });
 
   const [getCategories] = useLazyQuery(categoriesQuery, {
