@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useQuery, useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -34,6 +34,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
+  useEffect(() => {
+    console.log('wishIds123', wishIds)
+  }, [wishIds])
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
@@ -46,41 +49,79 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     wishListQueries.REMOVE_WISH_LIST
   );
 
-  const {
-    data: productIds,
-    loading,
-    error,
-    refetch,
-  } = useQuery(wishListQueries.GET_WISH_LIST, {
+  const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, {
     variables: {
       shopperId: email,
     },
     skip,
   });
 
-  const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
-  const {
-    data: products,
-    refetch: refetchProducts,
-    loading: loadingProducts,
-  } = useQuery(wishListQueries.GET_PRODUCT_BY_IDENTIFIER, {
-    variables: {
-      idArray: [],
-    },
+  const [{ loading, productIds, error }, setWishList] = useState({
+    loading: true,
+    error: null,
+    productIds: null,
   });
 
   useEffect(() => {
-    console.log('products', products);
-  }, [products]);
+    refetch();
+  }, []);
+
+  const refetch = async () => {
+    setWishList({
+      productIds: null,
+      loading: false,
+      error: null,
+    });
+
+    const response = await getWishList()
+    setWishList({
+      productIds: response.data,
+      loading: false,
+      error: response.error,
+    })
+
+  };
+
+  const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
+
+  const [getWishListProducts] = useLazyQuery(
+    wishListQueries.GET_PRODUCT_BY_IDENTIFIER,
+    {
+      variables: {
+        idArray: [] as any[],
+      },
+    }
+  );
+
+  const [{ loadingProducts, products }, setWishListProducts] = useState<{
+    products: any | null,
+    loadingProducts: boolean,
+  }>({
+    loadingProducts: true,
+    products: null,
+  });
+
+  const refetchProducts = async (props?: { idArray: any[] }) => {
+    setWishListProducts({
+      loadingProducts: true,
+      products: null,
+    });
+
+    await getWishListProducts({
+      variables: {
+        idArray: !!props ? props.idArray : []
+      }
+    }).then((response) => {
+      setWishListProducts({
+        products: response.data,
+        loadingProducts: false,
+      });
+    });
+  };
 
   useEffect(() => {
-    console.log('email', email);
-    console.log('cookie', cookie);
-  }, [email, cookie]);
-
-  useEffect(() => {
-    console.log('wishIds', wishIds);
-  }, [wishIds]);
+    refetchProducts();
+  }, []);
 
   const getStorage = async () => {
     const wishListData = await AsyncStorage.getItem('@WishData');
@@ -142,8 +183,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   );
 
   useEffect(() => {
-    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length)
+    if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
+      console.log('products123', products?.productsByIdentifier.map(x => x.productId))
       setWishProducts(products.productsByIdentifier);
+    }
   }, [products]);
 
   useEffect(() => {
@@ -358,10 +401,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                 }}
                 ListHeaderComponent={
                   <Box paddingX="xxxs" paddingTop="md" pb={36}>
-                    <Typography variant="tituloSessoes">Favoritos</Typography>
+                    <Typography variant="tituloSessoes">Favoritos
+                    </Typography>
                   </Box>
                 }
                 renderItem={({ item }) => {
+                  console.log('wishProducts', wishProducts.map(prod => prod.productId), item.productId.split('-')[0])
                   const product = wishProducts.find(
                     (prod) => prod.productId == item.productId.split('-')[0]
                   );
@@ -399,13 +444,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                             sizeSelected: productSku?.name.split('-')[1],
                           });
                         }}
-                        onClickAddCount={() => {}}
+                        onClickAddCount={() => { }}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${
-                          product?.productName.length > 30 ? '...' : ''
-                        }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
+                          }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}

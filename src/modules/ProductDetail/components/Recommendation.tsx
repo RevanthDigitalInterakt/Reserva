@@ -1,12 +1,12 @@
+import { useLazyQuery } from '@apollo/client';
+import { Box, Button, Divider, Icon, Typography } from '@danilomsou/reserva-ui';
 import React, { useEffect, useState } from 'react';
-
-import { QueryResult, useQuery } from '@apollo/client';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, Typography, Button, Icon, Divider } from '@danilomsou/reserva-ui';
-
 import { productSearch } from '../../../graphql/products/productSearch';
-import { ListHorizontalProducts } from './ListHorizontalProducts'
+import { ListHorizontalProducts } from './ListHorizontalProducts';
+
+
 
 interface RecommendationProps {
   handleScrollToTheTop?: () => void;
@@ -23,8 +23,18 @@ export const Recommendation = ({
 
   const BoxAnimated = createAnimatableComponent(Box);
 
-  const { fetchMore, refetch }: QueryResult = useQuery(productSearch, {
-    skip,
+  const refetch = async () => {
+    const response = await getProductData()
+    return response
+  }
+
+  const fetchMore = async (props: any) => {
+    const response = await getProductData(props)
+    return response
+  }
+
+  const [getProductData] = useLazyQuery(productSearch, {
+    // skip,
     variables: {
       skusFilter: 'ALL_AVAILABLE',
       hideUnavailableItems: true,
@@ -36,6 +46,12 @@ export const Recommendation = ({
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   });
+
+  useEffect(() => {
+    getProductData().then(response => setProductsData({
+
+    }))
+  }, [])
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
     const {
@@ -67,7 +83,7 @@ export const Recommendation = ({
       const arrayProductsId = array.map(elem => elem.productId)
 
       const arrayWithoutDuplicates = array.filter((element, index) => {
-          return index === arrayProductsId.indexOf(element.productId);
+        return index === arrayProductsId.indexOf(element.productId);
       });
 
       setProducts(arrayWithoutDuplicates);

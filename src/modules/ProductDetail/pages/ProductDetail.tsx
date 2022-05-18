@@ -1,9 +1,4 @@
-import {
-  QueryResult,
-  useLazyQuery,
-  useMutation,
-  useQuery,
-} from '@apollo/client';
+import { QueryResult, useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
@@ -172,12 +167,33 @@ export const ProductDetail: React.FC<Props> = ({
    * States, queries and mutations
    */
   const [product, setProduct] = useState<Product | null>(null);
-  const { data, loading, refetch }: QueryResult<ProductQueryResponse> =
-    useQuery<ProductQueryResponse>(GET_PRODUCTS, {
-      variables: {
-        id: route.params.productId.split('-')[0],
-      },
+  const [{ data, loading }, setProductLoad] = useState({
+    data: null,
+    loading: true,
+  });
+  const [getProduct] = useLazyQuery(GET_PRODUCTS, {
+    variables: {
+      id: route.params.productId.split('-')[0],
+    },
+  });
+
+  const refetch = () => {
+    setProductLoad({
+      data: null,
+      loading: true,
     });
+
+    getProduct().then((response) => {
+      setProductLoad({
+        data: response.data,
+        loading: false,
+      });
+    });
+  };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const [
     subscribeNewsletter,
@@ -234,10 +250,6 @@ export const ProductDetail: React.FC<Props> = ({
   const [emailPromotions, setEmailPromotions] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [showMessageError, setShowMessageError] = useState(false);
-  const { refetch: checkListRefetch } = useQuery(wishListQueries.CHECK_LIST, {
-    skip,
-  });
-
   const [
     addWishList,
     { data: addWishListData, error: addWishListError, loading: addWishLoading },
@@ -471,6 +483,13 @@ export const ProductDetail: React.FC<Props> = ({
     });
 
     return colorsUnavailable;
+  };
+
+  const getUrlFromIdColor = (idColor: string) => {
+    return {
+      url: `https://lojausereserva.vtexassets.com/arquivos/color-thumb-${idColor}.jpg`,
+      id: idColor,
+    };
   };
 
   const getAllColors = ({ skuSpecifications }: Product) => {
@@ -999,8 +1018,7 @@ export const ProductDetail: React.FC<Props> = ({
                         size={30}
                         disabledColors={[]}
                         listColors={
-                          itemsSKU.map((p) => getHexColor(p.color, product)) ||
-                          []
+                          itemsSKU.map((p) => getUrlFromIdColor(p.color)) || []
                         }
                         selectedColors={
                           selectedColor || (colorFilters && colorFilters[0])
@@ -1521,7 +1539,7 @@ export const ProductDetail: React.FC<Props> = ({
                     }
                   />
 
-                  <Recommendation handleScrollToTheTop={handleScrollToTheTop} />
+                  {/* <Recommendation handleScrollToTheTop={handleScrollToTheTop} /> */}
 
                   <Box mb="xxxs">
                     <Tooltip

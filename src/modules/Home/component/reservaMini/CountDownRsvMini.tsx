@@ -1,33 +1,23 @@
+import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { useNavigation } from '@react-navigation/native';
 import React, {
-  useEffect,
-  useState,
   Dispatch,
-  SetStateAction,
-  useCallback,
+  SetStateAction, useEffect,
+  useState
 } from 'react';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {
-  TouchableOpacity,
   Dimensions,
   PixelRatio,
-  Platform,
-  ScrollView,
+  Platform, TouchableOpacity
 } from 'react-native';
-import { Box, theme, Typography, Button, Icon } from '@danilomsou/reserva-ui';
 import Modal from 'react-native-modal';
 import {
-  configCollection,
-  homeQuery,
-  ICountDownClockReservaMini,
+  ICountDownClockReservaMini
 } from '../../../../graphql/homePage/HomeQuery';
 import FlipNumber from '../flipcountdoun/FlipNumber';
-
 import { useChronometerRsvMini } from './useChronometerRsvMini';
 
-import { intervalToDuration } from 'date-fns';
-import { useQuery } from '@apollo/client';
-import { useCountDown } from '../../../../context/ChronometerContext';
-import { useChronometer } from '../../../../modules/CorreReserva/hooks/useChronometer';
+
 
 const deviceWidth = Dimensions.get('window').width;
 
