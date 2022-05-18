@@ -193,7 +193,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [route.params.productId]);
 
   const [
     subscribeNewsletter,
@@ -472,7 +472,7 @@ export const ProductDetail: React.FC<Props> = ({
         setoutOfStock(false);
       }
     }
-  }, [selectedColor, route.params.productId, itemsSKU]);
+  }, [selectedColor, itemsSKU]);
 
   const getAllUnavailableColors = ({ items, skuSpecifications }: Product) => {
     const colorsUnavailable = items.map((item) => {
@@ -1539,7 +1539,7 @@ export const ProductDetail: React.FC<Props> = ({
                     }
                   />
 
-                  {/* <Recommendation handleScrollToTheTop={handleScrollToTheTop} /> */}
+                  <Recommendation handleScrollToTheTop={handleScrollToTheTop} />
 
                   <Box mb="xxxs">
                     <Tooltip
