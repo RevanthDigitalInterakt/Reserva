@@ -53,85 +53,65 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     skip,
   });
 
-  const [{
-    loading,
-    productIds,
-    error
-  }, setWishList] = useState(
-    {
-      loading: true,
-      error: {} as any,
-      productIds: {} as any,
-      refetch: () => { return {} as any }
-    }
-  )
+  const [{ loading, productIds, error }, setWishList] = useState({
+    loading: true,
+    error: {} as any,
+    productIds: null,
+  });
 
   useEffect(() => {
-    getWishList()
-    .then(response =>
+    refetch();
+  }, []);
+
+  const refetch = async () => {
+    setWishList({
+      productIds: null,
+      loading: false,
+      error: {} as any,
+    });
+
+    getWishList().then((response) =>
       setWishList({
         productIds: response.data,
         loading: false,
         error: response.error,
-        refetch
       })
-    )
-  }, [])
-
-  const refetch = async () => {
-    const response = await getWishList()
-
-    setWishList({
-      loading,
-      error,
-      productIds,
-      refetch
-    })
-
-    return response
-  }
+    );
+  };
 
   const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
 
-  const [getWishListProducts] = useLazyQuery(wishListQueries.GET_PRODUCT_BY_IDENTIFIER, {
-    variables: {
-      idArray: [],
-    },
+  const [getWishListProducts] = useLazyQuery(
+    wishListQueries.GET_PRODUCT_BY_IDENTIFIER,
+    {
+      variables: {
+        idArray: [],
+      },
+    }
+  );
+
+  const [{ loadingProducts, products }, setWishListProducts] = useState({
+    loadingProducts: true,
+    products: null,
   });
 
-  const [{
-    loadingProducts,
-    products
-  }, setWishListProducts] = useState(
-    {
+  const refetchProducts = async () => {
+    setWishListProducts({
       loadingProducts: true,
-      products: {} as any,
-      refetchProducts: () => { return {} as any }
-    }
-  )
+      products: null,
+    });
 
-  useEffect(() => {
-    getWishListProducts()
-    .then(response =>
+    await getWishListProducts().then((response) => {
       setWishListProducts({
         products: response.data,
         loadingProducts: false,
-        refetchProducts
-      })
-    )
-  }, [])
+      });
+    });
+  };
 
-  const refetchProducts = async () => {
-    const response = await getWishListProducts()
-
-    setWishListProducts({
-      loadingProducts,
-      products,
-      refetchProducts
-    })
-
-    return response
-  }
+  useEffect(() => {
+    refetchProducts();
+  }, []);
 
   useEffect(() => {
     console.log('products', products);
