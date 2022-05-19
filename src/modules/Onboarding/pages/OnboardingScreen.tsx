@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
@@ -9,66 +8,21 @@ import {
   SafeAreaView,
   FlatList,
   Image,
+  StatusBar,
 } from 'react-native';
 import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
-import { margin, marginBottom, marginLeft } from 'styled-system';
+
+import { StackActions, useNavigation } from '@react-navigation/native';
+import {
+  checkPermissionLocation,
+  requestPermissionLocation,
+} from '../components/Permissions';
+import { contentfulMock } from '../data/dataMock';
 
 const { width, height } = Dimensions.get('window');
 
-const contentfulMock = [
-  {
-    id: '1',
-    title: `Boas-vindas
-ao App da
-Reserva`,
-    subTitle: `Aqui, você terá acesso a pré-lançamentos, coleções exclusivas e sempre rola um cupom de desconto… Ative as notificações pra receber tudo em 1ª mão.
-
-Aliás, separamos um cupom pra você:
-Use RSV50APP e ganhe R$ 50 na sua 1ª compra*.`,
-    image: require('../images/foto-01.png'),
-    description:
-      '*Válido apenas para 1ª compra acima de R$ 150, exceto para assinaturas, máscara, cartão-presente e bebidas. Restrito a 1 uso por CPF, de uso exclusivo no App e não cumulativo com outras promoções.',
-    buttonTitle: 'PERMITIR NOTIFICAÇÕES',
-    opacity: 1,
-    imageHeader: '',
-  },
-  {
-    id: '2',
-    title: 'Compre aqui, retire na loja mais próxima',
-    subTitle:
-      'Encontre a melhor loja pra receber seus pedidos num piscar de olhos. Basta permitir sua localização.',
-    image: require('../images/foto-02.png'),
-    description: '',
-    buttonTitle: 'PERMITIR LOCALIZAÇÃO',
-    opacity: 0,
-    imageHeader: '',
-  },
-  {
-    id: '3',
-    title: 'Receba as melhores sugestões',
-    subTitle:
-      'Pra receber recomendações personalizadas e ter uma experiência completa do nosso App, permita o acesso a suas atividades e informações.',
-    image: require('../images/foto-03.png'),
-    description: '',
-    buttonTitle: 'PERMITIR ACESSO',
-    opacity: 0,
-    imageHeader: '',
-  },
-  {
-    id: '4',
-    title: '',
-    subTitle: `A gente ainda nem falou a melhor parte: a cada 1 peça comprada por aqui, 5 pratos de comida são viabilizados pra quem tem fome.
-
-Tudo pronto. Você está prestes a ter a Reserva todinha na palma da mão. Aproveite!`,
-    image: require('../images/foto-04.png'),
-    description: '',
-    buttonTitle: 'ENTRAR NO APP',
-    opacity: 0,
-    imageHeader: require('../images/ImagemHeader.png'),
-  },
-];
-
 const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
+  const navigation = useNavigation();
   const ButtonNext = () => {
     return (
       <TouchableOpacity
@@ -86,6 +40,25 @@ const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
         </Typography>
       </TouchableOpacity>
     );
+  };
+
+  const handleButtonSlide = async (idCurrent: number) => {
+    switch (idCurrent) {
+      case 0:
+        return console.log('TESTE');
+      case 1:
+        return await requestPermissionLocation().then(() => {
+          checkPermissionLocation().then((value) => {
+            if (value === true) {
+              goNextSlide();
+            }
+          });
+        });
+      case 2:
+        return console.log('TESTE 2');
+      case 3:
+        return navigation.dispatch(StackActions.replace('Home'));
+    }
   };
 
   const Indicators = () => {
@@ -170,7 +143,9 @@ const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
                   right: 30,
                   left: 30,
                 }}
-                onPress={() => {}}
+                onPress={() =>
+                  navigation.dispatch(StackActions.replace('Home'))
+                }
                 variant="icone"
                 icon={<Icon size={13} name="Close" color="white" />}
               />
@@ -241,7 +216,7 @@ const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
           >
             <Button
               title={item?.buttonTitle}
-              onPress={() => {}}
+              onPress={() => handleButtonSlide(currentSlideShow)}
               marginX="md"
               inline
               backgroundColor={'white'}
@@ -296,27 +271,26 @@ export const OnboardingScreen = ({}) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Box>
-        <FlatList
-          ref={ref}
-          onMomentumScrollEnd={updateCurrentSlideIndex}
-          data={contentfulMock}
-          contentContainerStyle={{ height: height }}
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          pagingEnabled
-          renderItem={({ item }) => (
-            <Slide
-              item={item}
-              goNextSlide={goNextSlide}
-              currentSlideShow={currentSlideIndex}
-              lengthArray={contentfulMock.length}
-            />
-          )}
-        />
-      </Box>
-    </SafeAreaView>
+    <Box flex={1}>
+      <StatusBar hidden={false} backgroundColor={'rgba(0,0,0,0)'} />
+      <FlatList
+        ref={ref}
+        onMomentumScrollEnd={updateCurrentSlideIndex}
+        data={contentfulMock}
+        contentContainerStyle={{ height: height }}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        pagingEnabled
+        renderItem={({ item }) => (
+          <Slide
+            item={item}
+            goNextSlide={goNextSlide}
+            currentSlideShow={currentSlideIndex}
+            lengthArray={contentfulMock.length}
+          />
+        )}
+      />
+    </Box>
   );
 };
 
