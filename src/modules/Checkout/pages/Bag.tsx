@@ -798,7 +798,7 @@ export const BagScreen = () => {
                 {/* cupom vendedor */}
                 {!!sellerCode && (
                   <CouponBadge
-                    value={`${sellerName} | ${sellerCode}`}
+                    value={`${sellerName} | ${sellerCode.toUpperCase()}`}
                     onPress={async () => {
                       setLoading(true);
                       await removeSellerCoupon(''); // remove passando ''
