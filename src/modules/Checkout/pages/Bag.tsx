@@ -746,7 +746,7 @@ export const BagScreen = () => {
           </BoxAnimated>
         )} */}
 
-            {/* <Recommendation /> */}
+            <Recommendation />
 
             <Box paddingX="micro">
               {showLikelyProducts && <Divider variant="fullWidth" />}
