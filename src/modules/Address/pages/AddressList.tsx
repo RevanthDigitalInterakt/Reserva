@@ -36,9 +36,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     data: null,
     loadingProfile: true,
   });
-  const [getProfile, {
-    refetch,
-  }] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
+  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
   const [profile, setProfile] = useState<any>({});
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
@@ -51,6 +49,20 @@ const AddressList: React.FC<Props> = ({ route }) => {
       })
     })
   }, []);
+
+  const refetch = async () => {
+    setDataProfile({
+      loadingProfile: true,
+      data: null,
+    });
+
+    await getProfile().then((res) => {
+      setDataProfile({
+        loadingProfile: false,
+        data: res.data,
+      });
+    });
+  };
 
   useEffect(() => {
     if (comeFrom === 'Home') {
@@ -165,7 +177,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     <>
       <Alert
         onModalHide={() => {
-          modalRef.current && setSuccessModal(true);
+          modalRef.current && successModal
         }}
         isVisible={deleteModal}
         title="Excluir endereço"
@@ -180,7 +192,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
             },
           });
           setDeleteModal(false);
-
+          setSuccessModal(true);
           // reset shippingData of orderform
           if (data) {
             if (email) {
