@@ -72,6 +72,7 @@ export const BagScreen = () => {
   const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
   const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
   const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
+  const [sellerName, setSellerName] = React.useState<string | undefined>('');
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
   const [noProduct, setNoProduct] = useState<any>('');
@@ -101,7 +102,7 @@ export const BagScreen = () => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => {},
+    refetch: () => { },
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -200,7 +201,8 @@ export const BagScreen = () => {
 
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split('=')[1];
-
+    const sellerName =
+      orderForm?.marketingData?.marketingTags[2]?.split('=')[1].split(" ")[0];
     const installment =
       orderForm?.paymentData?.installmentOptions
         ?.find((x) => x.paymentSystem == 4)
@@ -211,21 +213,21 @@ export const BagScreen = () => {
     setInstallmentInfo(
       installment
         ? {
-            installmentPrice: installment.value,
-            installmentsNumber: installment.count,
-            totalPrice: installment.total,
-          }
+          installmentPrice: installment.value,
+          installmentsNumber: installment.count,
+          totalPrice: installment.total,
+        }
         : {
-            ...installmentInfo,
-          }
+          ...installmentInfo,
+        }
     );
 
     setOptimistQuantities(quantities);
-
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
+    setSellerName(sellerName);
   }, [orderForm]);
 
   useEffect(() => {
@@ -540,30 +542,30 @@ export const BagScreen = () => {
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box paddingBottom="nano">
-                      <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                        color="verdeSucesso"
-                      >
-                        Desconto de 1° compra aplicado neste produto!
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box paddingBottom="nano">
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                          color="verdeSucesso"
+                        >
+                          Desconto de 1° compra aplicado neste produto!
+                        </Typography>
+                      </Box>
+                    )}
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box position="absolute" zIndex={5} top={84} right={21}>
-                      <Typography
-                        color="verdeSucesso"
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                      >
-                        -R$ 50
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box position="absolute" zIndex={5} top={84} right={21}>
+                        <Typography
+                          color="verdeSucesso"
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                        >
+                          -R$ 50
+                        </Typography>
+                      </Box>
+                    )}
                   <ProductHorizontalListCard
                     isBag
                     discountApi={
@@ -582,7 +584,7 @@ export const BagScreen = () => {
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
                       array.filter((x) => x.uniqueId == item.uniqueId).length >
-                        1
+                      1
                     }
                     currency="R$"
                     discountTag={getPercent(item.sellingPrice, item.listPrice)}
@@ -796,7 +798,7 @@ export const BagScreen = () => {
                 {/* cupom vendedor */}
                 {!!sellerCode && (
                   <CouponBadge
-                    value={sellerCode}
+                    value={`${sellerName} | ${sellerCode}`}
                     onPress={async () => {
                       setLoading(true);
                       await removeSellerCoupon(''); // remove passando ''

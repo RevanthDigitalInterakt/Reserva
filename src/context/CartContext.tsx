@@ -757,6 +757,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
           marketingTags: [
             'CodigoVendedor',
             `code_CodigoVendedor=${coupon}`,
+            `vendedor_apelido=${data[0].vendedor_apelido}`,
             'ron=false',
           ],
         });
