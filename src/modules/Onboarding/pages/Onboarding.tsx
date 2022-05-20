@@ -51,6 +51,8 @@ const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
           checkPermissionLocation().then((value) => {
             if (value === true) {
               goNextSlide();
+            } else {
+              goNextSlide();
             }
           });
         });
@@ -128,28 +130,6 @@ const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
             }}
           >
             <Indicators />
-
-            <Box
-              position={'absolute'}
-              top={height * 0.03}
-              right={width * 0.06}
-              zIndex={4}
-              style={{ marginTop: height * 0.03 }}
-            >
-              <Button
-                hitSlop={{
-                  top: 30,
-                  bottom: 30,
-                  right: 30,
-                  left: 30,
-                }}
-                onPress={() =>
-                  navigation.dispatch(StackActions.replace('Home'))
-                }
-                variant="icone"
-                icon={<Icon size={13} name="Close" color="white" />}
-              />
-            </Box>
           </Box>
 
           {item.imageHeader ? (
@@ -251,7 +231,32 @@ const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
   );
 };
 
-export const OnboardingScreen = ({}) => {
+const ButtonClose = () => {
+  const navigation = useNavigation();
+  return (
+    <Box
+      position={'absolute'}
+      top={height * 0.03}
+      right={width * 0.1}
+      zIndex={4}
+      style={{ marginTop: height * 0.03 }}
+    >
+      <Button
+        hitSlop={{
+          top: 30,
+          bottom: 30,
+          right: 30,
+          left: 30,
+        }}
+        onPress={() => navigation.dispatch(StackActions.replace('Home'))}
+        variant="icone"
+        icon={<Icon size={13} name="Close" color="white" />}
+      />
+    </Box>
+  );
+};
+
+export const Onboarding = ({}) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = React.useRef();
 
@@ -271,8 +276,8 @@ export const OnboardingScreen = ({}) => {
   };
 
   return (
-    <Box flex={1}>
-      <StatusBar hidden={false} backgroundColor={'rgba(0,0,0,0)'} />
+    <>
+      <StatusBar hidden={false} backgroundColor={'rgba(0,0,0,1)'} />
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -280,17 +285,21 @@ export const OnboardingScreen = ({}) => {
         contentContainerStyle={{ height: height }}
         showsHorizontalScrollIndicator={false}
         horizontal
+        scrollEnabled={false}
         pagingEnabled
         renderItem={({ item }) => (
-          <Slide
-            item={item}
-            goNextSlide={goNextSlide}
-            currentSlideShow={currentSlideIndex}
-            lengthArray={contentfulMock.length}
-          />
+          <>
+            <ButtonClose />
+            <Slide
+              item={item}
+              goNextSlide={goNextSlide}
+              currentSlideShow={currentSlideIndex}
+              lengthArray={contentfulMock.length}
+            />
+          </>
         )}
       />
-    </Box>
+    </>
   );
 };
 

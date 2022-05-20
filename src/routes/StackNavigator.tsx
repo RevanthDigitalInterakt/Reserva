@@ -54,7 +54,8 @@ import {
   CepsInfo,
   SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
-import { OnboardingScreen } from '../modules/Onboarding/pages/OnboardingScreen';
+
+import { Onboarding } from '../modules/Onboarding/pages/Onboarding';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -170,7 +171,7 @@ export type RootStackParamList = {
   VirtualDebitCardCaixaScreen: {
     cashback: boolean;
   };
-  OnboardingScreen: {};
+  Onboarding: {};
 };
 
 const flows: Flow[] = [
@@ -274,6 +275,6 @@ export const MainStackScreen = () => (
     />
     <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
-    <MainStack.Screen name="OnboardingScreen" component={OnboardingScreen} />
+    <MainStack.Screen name="Onboarding" component={Onboarding} />
   </MainStack.Navigator>
 );
