@@ -211,7 +211,7 @@ export const ProductDetail: React.FC<Props> = ({
     {
       loading: shippingLoading,
       error,
-      data: shippingData,
+      // data: shippingData,
       refetch: shippingRefetch,
     },
   ] = useLazyQuery(GET_SHIPPING, { fetchPolicy: 'no-cache' });
@@ -270,6 +270,8 @@ export const ProductDetail: React.FC<Props> = ({
   // const { fetchImage } = useCacheImages();
 
   const scrollRef = useRef<ScrollView>();
+
+  const [shippingData, setShippingData] = useState<any | null>({});
 
   // useEffect(() => {
   //   if (imageSelected.length > 0) {
@@ -822,19 +824,23 @@ export const ProductDetail: React.FC<Props> = ({
     });
   };
 
-  const consultZipCode = () => {
-    getShippingData({
+  const consultZipCode = async () => {
+    const { data } = await getShippingData({
       variables: {
         items: [
           {
             quantity: '1',
-            id: selectedVariant?.itemId,
-            seller: selectedSellerId,
+            id: selectedVariant?.itemId.trim(),
+            // id: '354688',
+            seller: selectedSellerId.trim(),
+            // seller: '1',
           },
         ],
-        postalCode: cep,
+        postalCode: cep.trim(),
       },
     });
+
+    setShippingData(data);
   };
 
   const newsAndPromotions = async () => {
@@ -860,7 +866,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     if (shippingData) {
-      setShippingCost(shippingData.shipping.logisticsInfo);
+      setShippingCost(shippingData?.shipping?.logisticsInfo);
     }
   }, [shippingData]);
 
@@ -927,6 +933,7 @@ export const ProductDetail: React.FC<Props> = ({
         />
         <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
         <KeyboardAvoidingView
+          enabled
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           style={{ marginBottom: 100 }}
         >
