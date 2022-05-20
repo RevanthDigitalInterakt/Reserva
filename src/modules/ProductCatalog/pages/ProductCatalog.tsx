@@ -75,7 +75,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
   const [countDownClockRsvMini, setCountDownClockRsvMini] =
     React.useState<ICountDownClockReservaMini>();
-  const [{ collectionData }, setConfigCollection] = useState({ collectionData: {} as any });
+  const [{ collectionData }, setConfigCollection] = useState<{ collectionData: any }>({ collectionData: null });
   const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
@@ -110,12 +110,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     error,
     // fetchMore,
     // refetch,
-  }, setProductSearch] = useState({
-    data: {} as any,
+  }, setProductSearch] = useState<{
+    data: any | null,
+    loading: boolean,
+    error: any,
+    // fetchMore: (...props: any) => any,
+    // refetch: (...props: any | undefined) => any,
+  }>({
+    data: null,
     loading: false,
-    error: undefined as any,
-    fetchMore: (...props: any) => { return {} as any },
-    refetch: (...props: any | undefined) => { return {} as any }
+    error: null,
+    // fetchMore: () => { },
+    // refetch: () => { }
   })
 
   const refetch = async () => {
@@ -125,8 +131,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       data: response.data,
       loading: false,
       error: response.error,
-      fetchMore: fetchMore,
-      refetch: refetch
+      // fetchMore: fetchMore,
+      // refetch: refetch
     })
     return response
   }
@@ -229,8 +235,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [{
     facetsData,
     lodingFacets,
-  }, setFacets] = useState({
-    facetsData: {} as any,
+  }, setFacets] = useState<{
+    facetsData: any,
+    lodingFacets: boolean,
+  }>({
+    facetsData: null,
     lodingFacets: true,
   });
 
@@ -247,10 +256,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     bannerData,
     loadingBanner,
     // refetchBanner
-  }, setBannerData] = useState({
-    bannerData: {} as any,
+  }, setBannerData] = useState<{
+    bannerData: any | null,
+    loadingBanner: boolean,
+  }>({
+    bannerData: null,
     loadingBanner: false,
-    refetchBanner: () => { return {} as any },
   })
 
   const refetchBanner = async () => {
@@ -258,7 +269,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     setBannerData({
       bannerData: response.data,
       loadingBanner: false,
-      refetchBanner
     })
     return response
   }
@@ -273,17 +283,20 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [{
     defaultBanner,
     loadingDefaultBanner,
-  }, setDefaultBanner] = useState({
-    defaultBanner: {} as any,
-    refetchDefaultBanner: () => { return {} as any },
+  }, setDefaultBanner] = useState<{
+    defaultBanner: any,
+    loadingDefaultBanner: boolean,
+  }>({
+    defaultBanner: null,
     loadingDefaultBanner: false
+    // refetchDefaultBanner: () => { return {}},
   })
 
   const refetchDefaultBanner = async () => {
     const response = await getDefaultBanner()
     setDefaultBanner({
       defaultBanner: response.data,
-      refetchDefaultBanner,
+      // refetchDefaultBanner,
       loadingDefaultBanner: false
     })
     return response
@@ -295,16 +308,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     getFacets().then(response => setFacets({
       facetsData: response.data,
       lodingFacets: false,
-      refetchFacets: facetsData.refetch
+      // refetchFacets: facetsData.refetch
     }))
     getBanner().then(response => setBannerData({
       bannerData: response.data,
       loadingBanner: false,
-      refetchBanner
+      // refetchBanner
     }))
     getDefaultBanner().then(response => setDefaultBanner({
       defaultBanner: response.data,
-      refetchDefaultBanner: defaultBanner.refetch,
+      // refetchDefaultBanner: defaultBanner.refetch,
       loadingDefaultBanner: false
     }))
     getCollection().then(response => setConfigCollection({
@@ -314,8 +327,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       data: response.data,
       loading: false,
       error: response.error,
-      fetchMore: response.fetchMore,
-      refetch
+      // fetchMore: response.fetchMore,
+      // refetch
     }))
   }, [])
 

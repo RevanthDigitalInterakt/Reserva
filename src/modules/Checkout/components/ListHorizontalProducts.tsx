@@ -135,7 +135,7 @@ export const ListHorizontalProducts = ({
 
   return (
     <>
-      {error && (
+      {products && products.length === 0 && (
         <Box
           position="absolute"
           flex={1}
@@ -264,7 +264,7 @@ export const ListHorizontalProducts = ({
                     productId: item.productId,
                     colorSelected: getVariant(
                       item.items[0].variations,
-                      'VALOR_HEX_ORIGINAL'
+                      'ID_COR_ORIGINAL'
                     ),
                   })
 

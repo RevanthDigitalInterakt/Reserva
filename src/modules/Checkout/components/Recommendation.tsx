@@ -6,21 +6,15 @@ import { createAnimatableComponent } from 'react-native-animatable';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { ListHorizontalProducts } from './ListHorizontalProducts';
 
-
-
 export const Recommendation = () => {
   const [skip, setSkip] = useState(false);
-  const pageSize = 6;
+  const pageSize = 36;
   const [showMore, setShowMore] = useState(true);
   const [products, setProducts] = useState<any>([]);
-  const [arrayProducts, setArrayProducts] = useState<any>([]);
 
   const BoxAnimated = createAnimatableComponent(Box);
-  const [{ fetchMore, refetch }, setProductSearchData] = useState({
-    fetchMore: (...props: any) => { return {} as any },
-    refetch: () => { },
-  })
-  const [getProductSearch, { }] = useLazyQuery(productSearch, {
+
+  const [getProductData] = useLazyQuery(productSearch, {
     // skip,
     variables: {
       skusFilter: 'ALL_AVAILABLE',
@@ -34,77 +28,27 @@ export const Recommendation = () => {
     nextFetchPolicy: 'no-cache',
   });
 
-  useEffect(() => {
-    getProductSearch().then((response) => setProductSearchData({
-      fetchMore: response.fetchMore,
-      refetch: response.refetch,
-    }))
-  }, [])
-
-  const loadMoreProducts = async (offset: number, searchQuery?: string) => {
-    const {
-      data: {
-        productSearch: { products: newProducts },
-      },
-      loading: loadingProducts,
-    } = await fetchMore({
-      variables: {
-        form: offset < pageSize ? pageSize : offset,
-        to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
-      },
-    });
-
-    /*  if (!loadingProducts) {
-      setProducts(data.productSearch.products);
-    } */
-  };
-
   const saveItems = async (items: any) => {
-    const newArray = [items[0]];
+    const arrayProductsId = items.map(elem => elem.productId)
 
-    if (newArray.length === 1) {
-      setArrayProducts({ ...newArray });
-
-      const array = arrayProducts;
-      array.push(...newArray);
-
-      const arrayProductsId = array.map(elem => elem.productId)
-
-      const arrayWithoutDuplicates = array.filter((element, index) => {
-        return index === arrayProductsId.indexOf(element.productId);
-      });
-
-      setProducts(arrayWithoutDuplicates);
-    }
-  };
-
-  const handleSearch = async (text: string) => {
-    const { data: dataProd, loading: loadingProd } = await refetch({
-      fullText: text,
+    const arrayWithoutDuplicates = items.filter((element, index) => {
+      return index === arrayProductsId.indexOf(element.productId);
     });
 
-    if (!loadingProd) {
-      console.log(text)
-
-      await saveItems(dataProd.productSearch.products);
-    }
+    setProducts(arrayWithoutDuplicates.slice(0,6));
   };
 
   useEffect(() => {
-    const arrayCategories = [
-      'camiseta adulto',
-      'cueca',
-      'bermuda adulto',
-      'calça',
-      'cinto',
-      'jaqueta',
-    ];
+    const handleSearch = async () => {
+      const { data, loading } = await getProductData()
 
-    arrayCategories.forEach(async (element) => {
-      await handleSearch(element);
-    });
+      if (!loading) {
+        await saveItems(data.productSearch.products)
+      }
+    }
+
+    handleSearch()
   }, []);
-
 
   return (
     <>

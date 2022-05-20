@@ -136,47 +136,47 @@ export const ListHorizontalProducts = ({
 
   return (
     <>
-      {/* { error && ( */}
-      <Box
-        position="absolute"
-        flex={1}
-        height="100%"
-        width="100%"
-        zIndex={5}
-        justifyContent="center"
-        bg="white"
-        alignContent="center"
-        pt={163}
-      >
-        <Typography
-          textAlign="center"
-          fontFamily="reservaSerifMedium"
-          fontSize={20}
+      {products && products.length === 0 && (
+        <Box
+          position="absolute"
+          flex={1}
+          height="100%"
+          width="100%"
+          zIndex={5}
+          justifyContent="center"
+          bg="white"
+          alignContent="center"
+          pt={163}
         >
-          Ops...desculpe
-        </Typography>
-        <Box mx={39} mt="nano">
           <Typography
             textAlign="center"
-            fontFamily="nunitoSemiBold"
-            fontSize={13}
+            fontFamily="reservaSerifMedium"
+            fontSize={20}
           >
-            A página que você procura está temporariamente indisponível ou foi
-            removida
+            Ops...desculpe
           </Typography>
+          <Box mx={39} mt="nano">
+            <Typography
+              textAlign="center"
+              fontFamily="nunitoSemiBold"
+              fontSize={13}
+            >
+              A página que você procura está temporariamente indisponível ou foi
+              removida
+            </Typography>
+          </Box>
+          <Button
+            title="VOLTAR"
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            variant="primarioEstreitoOutline"
+            mx={22}
+            mt={49}
+            inline
+          />
         </Box>
-        <Button
-          title="VOLTAR"
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-          variant="primarioEstreitoOutline"
-          mx={22}
-          mt={49}
-          inline
-        />
-      </Box>
-      // )}
+      )}
 
       <>
         <Animated.FlatList
@@ -265,7 +265,7 @@ export const ListHorizontalProducts = ({
                     productId: item.productId,
                     colorSelected: getVariant(
                       item.items[0].variations,
-                      'VALOR_HEX_ORIGINAL'
+                      'ID_COR_ORIGINAL'
                     ),
                   })
 
