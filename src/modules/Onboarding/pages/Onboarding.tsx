@@ -18,6 +18,8 @@ import {
   requestPermissionLocation,
 } from '../components/Permissions';
 import { contentfulMock } from '../data/dataMock';
+import { ButtonClose } from '../components/Buttons';
+import { styles } from '../assets/Styles';
 
 const { width, height } = Dimensions.get('window');
 
@@ -231,31 +233,6 @@ const Slide = ({ item, goNextSlide, currentSlideShow, lengthArray }) => {
   );
 };
 
-const ButtonClose = () => {
-  const navigation = useNavigation();
-  return (
-    <Box
-      position={'absolute'}
-      top={height * 0.03}
-      right={width * 0.1}
-      zIndex={4}
-      style={{ marginTop: height * 0.03 }}
-    >
-      <Button
-        hitSlop={{
-          top: 30,
-          bottom: 30,
-          right: 30,
-          left: 30,
-        }}
-        onPress={() => navigation.dispatch(StackActions.replace('Home'))}
-        variant="icone"
-        icon={<Icon size={13} name="Close" color="white" />}
-      />
-    </Box>
-  );
-};
-
 export const Onboarding = ({}) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = React.useRef();
@@ -302,15 +279,3 @@ export const Onboarding = ({}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  indicator: {
-    height: 8,
-    width: 8,
-    borderRadius: 8,
-    backgroundColor: 'transparent',
-    borderColor: '#FFFFFF',
-    marginHorizontal: 6,
-    borderWidth: 1,
-  },
-});

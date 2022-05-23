@@ -14,12 +14,12 @@ import { images } from '../assets/index';
 
 import { TabBar } from './TabBar';
 import { Text } from 'react-native-svg';
-import { OnboardingScreen } from '../modules/Onboarding/pages/OnboardingScreen';
+import { Onboarding } from '../modules/Onboarding/pages/Onboarding';
 
 const Tab = createBottomTabNavigator();
 
 export const HomeTabs = () => (
-  <OnboardingScreen />
+  <Onboarding />
   // <SafeAreaView style={{ backgroundColor: theme.colors.white }} flex={1}>
   //   <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
   //     <Tab.Screen
