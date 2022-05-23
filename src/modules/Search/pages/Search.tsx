@@ -69,20 +69,47 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [suggestionsFound, setSuggestionsFound] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(false);
   const [returnSearch, setReturnSearch] = useState<boolean>(false);
+  const [{ collectionData, loadingCollection }, setCollectionData] = useState({
+    collectionData: null,
+    loadingCollection: false,
+  });
+  const [{ featuredData, loadingFeatured }, setFeaturedData] = useState({
+    featuredData: null,
+    loadingFeatured: false,
+  });
+  const [{ data, loading }, setProductData] = useState({
+    data: null,
+    loading: false,
+  });
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
-  const { data: collectionData, loading: loadingCollection } = useQuery(
-    configCollection,
-    {
-      context: { clientName: 'contentful' },
-      fetchPolicy: 'no-cache',
-      nextFetchPolicy: 'no-cache',
-    }
-  );
+  const [getCollection] = useLazyQuery(configCollection, {
+    context: { clientName: 'contentful' },
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
+
+  const [getFeaturedData] = useLazyQuery(productSearch, {
+    variables: {
+      hideUnavailableItems: true,
+      selectedFacets: [
+        {
+          key: 'productClusterIds',
+          value: collectionData?.configCollection?.items[0].searchCollection,
+        },
+      ],
+      to: 7,
+      simulationBehavior: 'default',
+      productOriginVtex: false,
+    },
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
 
   const pageSize = 12;
-  const { data, loading, error, fetchMore, refetch } = useQuery(productSearch, {
+
+  const [getProducts, { fetchMore }] = useLazyQuery(productSearch, {
     variables: {
       to: pageSize - 1,
       selectedFacets: [
@@ -94,26 +121,20 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     },
   });
 
+  const refetch = (variables: any) => {};
+
+  useEffect(() => {
+    setCollectionData({ collectionData: null, loadingCollection: true });
+    setFeaturedData({ featuredData: null, loadingFeatured: true });
+    getCollection().then(({ data }) => {
+      setCollectionData({ collectionData: data, loadingCollection: false });
+    });
+    getFeaturedData().then(({ data }) => {
+      setFeaturedData({ featuredData: data, loadingFeatured: false });
+    });
+  }, []);
+
   // DESTAQUES
-  const { data: featuredData, loading: loadingFeatured } = useQuery(
-    productSearch,
-    {
-      variables: {
-        hideUnavailableItems: true,
-        selectedFacets: [
-          {
-            key: 'productClusterIds',
-            value: collectionData?.configCollection?.items[0].searchCollection,
-          },
-        ],
-        to: 7,
-        simulationBehavior: 'default',
-        productOriginVtex: false,
-      },
-      fetchPolicy: 'no-cache',
-      nextFetchPolicy: 'no-cache',
-    }
-  );
 
   const [
     getSuggestions,
@@ -159,14 +180,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   }, [collectionData]);
 
   useEffect(() => {
-    if (!loading) {
-      setProducts(data.productSearch.products);
-    }
-  }, [data]);
-
-  useEffect(() => {
     if (!loadingFeatured) {
-      setFeaturedProducts(featuredData.productSearch.products);
+      setFeaturedProducts(featuredData?.productSearch?.products);
     }
   }, [featuredData]);
 
@@ -198,37 +213,38 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   }, [returnSearch]);
 
   const handleSearch = async (text: string) => {
-    setWaiting(true);
-    console.log('handleSearch', regionId);
-    const { data, loading } = await refetch({
-      fullText: text,
-      selectedFacets: [
-        {
-          key: 'region-id',
-          value: regionId,
-        },
-      ],
-    });
+    setProductData({ data: null, loading: true });
 
-    resetProductsArray();
-    if (!loading) {
-      setProducts(data.productSearch.products);
-    }
-    setWaiting(false);
+    getProducts({
+      variables: {
+        fullText: text,
+        selectedFacets: [
+          {
+            key: 'region-id',
+            value: regionId,
+          },
+        ],
+      },
+    }).then(({ data }) => {
+      setShowResults(true);
+      setSelectedTerm(false);
+      resetProductsArray();
+      setProducts(data?.productSearch.products);
+      setProductData({ data, loading: false });
 
-    setShowResults(true);
-    setSelectedTerm(false);
+      const searchIds = data?.productSearch.products.map(
+        (x: any) => x.productId
+      );
 
-    const searchIds = data.productSearch.products.map((x: any) => x.productId);
+      appsFlyer.logEvent('af_search', {
+        af_search_string: text,
+        af_content_list: searchIds,
+      });
 
-    appsFlyer.logEvent('af_search', {
-      af_search_string: text,
-      af_content_list: searchIds,
-    });
-
-    analytics().logEvent('search', {
-      search_string: text,
-      search_ids: searchIds,
+      analytics().logEvent('search', {
+        search_string: text,
+        search_ids: searchIds,
+      });
     });
   };
 
