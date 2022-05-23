@@ -58,6 +58,8 @@ export type RootStackParamList = {
     colorSelected: string;
     sizeSelected: string;
   };
+  DeliveryScreen: undefined;
+  Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -96,7 +98,8 @@ export type RootStackParamList = {
     id?: number;
     isCheckout: boolean;
     edit?: boolean;
-    editAddress: {
+    onAddAddressCallBack: () => void
+    editAddress?: {
       id: string;
       postalCode: string;
       state: string;
