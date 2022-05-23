@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { QueryResult, useLazyQuery } from '@apollo/client';
+import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import {
   CommonActions,
@@ -45,7 +45,6 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -73,31 +72,17 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
-  const [getConfigCollection] = useLazyQuery(configCollection, {
-    context: { clientName: 'contentful' },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
-  });
-
-  const [{ loadingCollection, collectionData }, setConfigCollection] = useState(
+  const { data: collectionData, loading: loadingCollection } = useQuery(
+    configCollection,
     {
-      loadingCollection: true,
-      collectionData: null,
+      context: { clientName: 'contentful' },
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache',
     }
   );
 
-  useEffect(() => {
-    getConfigCollection().then((response) =>
-      setConfigCollection({
-        collectionData: response.data,
-        loadingCollection: false,
-      })
-    );
-  }, []);
-
   const pageSize = 12;
-
-  const [getProductSearch] = useLazyQuery(productSearch, {
+  const { data, loading, error, fetchMore, refetch } = useQuery(productSearch, {
     variables: {
       to: pageSize - 1,
       selectedFacets: [
@@ -109,91 +94,26 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     },
   });
 
-  const [{ loading, data, error }, setProductSearch] = useState({
-    loading: true,
-    error: null,
-    data: null,
-    refetch: () => {
-      return {} as any;
-    },
-    fetchMore: (props: any) => {
-      return {} as any;
-    },
-  });
-
-  useEffect(() => {
-    getProductSearch().then((response) =>
-      setProductSearch({
-        data: response.data,
-        loading: false,
-        error: response.error,
-        refetch,
-        fetchMore,
-      })
-    );
-  }, []);
-
-  const refetch = async () => {
-    const response = await getProductSearch();
-
-    setProductSearch({
-      loading,
-      error,
-      data,
-      refetch,
-      fetchMore,
-    });
-
-    return response;
-  };
-
-  const fetchMore = async (props: any) => {
-    const response = await getProductSearch(props);
-
-    setProductSearch({
-      loading,
-      error,
-      data,
-      refetch,
-      fetchMore,
-    });
-
-    return response;
-  };
-
   // DESTAQUES
-
-  const [getProductFeaturedSearch] = useLazyQuery(productSearch, {
-    variables: {
-      hideUnavailableItems: true,
-      selectedFacets: [
-        {
-          key: 'productClusterIds',
-          value: collectionData?.configCollection?.items[0].searchCollection,
-        },
-      ],
-      to: 7,
-      simulationBehavior: 'default',
-      productOriginVtex: false,
-    },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
-  });
-
-  const [{ loadingFeatured, featuredData }, setProductFeaturedSearch] =
-    useState({
-      loadingFeatured: true,
-      featuredData: null,
-    });
-
-  useEffect(() => {
-    getProductFeaturedSearch().then((response) =>
-      setProductFeaturedSearch({
-        featuredData: response.data,
-        loadingFeatured: false,
-      })
-    );
-  }, []);
+  const { data: featuredData, loading: loadingFeatured } = useQuery(
+    productSearch,
+    {
+      variables: {
+        hideUnavailableItems: true,
+        selectedFacets: [
+          {
+            key: 'productClusterIds',
+            value: collectionData?.configCollection?.items[0].searchCollection,
+          },
+        ],
+        to: 7,
+        simulationBehavior: 'default',
+        productOriginVtex: false,
+      },
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache',
+    }
+  );
 
   const [
     getSuggestions,
@@ -299,10 +219,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     setShowResults(true);
     setSelectedTerm(false);
 
-    console.log(
-      'productSearchIds',
-      data.productSearch.products.map((x) => x.productId)
-    );
     const searchIds = data.productSearch.products.map((x: any) => x.productId);
 
     appsFlyer.logEvent('af_search', {
@@ -351,7 +267,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <Box backgroundColor="white" flex={1}>
-      <TopBarDefaultBackButton
+      <TopBarDefault
         loading={
           loading || loadingCollection || loadingFeatured || selectedTerm
         }
