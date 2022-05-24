@@ -138,9 +138,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }
 
   const fetchMore = async (props: any) => {
-    console.log('fetchMore', props)
     const response = await getProductSearch(props)
-    console.log('fetchMore', response.data.productSearch.products[0].productName, response.data.productSearch.products.length);
     setProductSearch({
       data: response.data,
       loading: false,
