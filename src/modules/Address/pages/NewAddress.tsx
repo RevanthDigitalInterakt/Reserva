@@ -113,7 +113,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         },
       });
 
-    onAddAddressCallBack();
+    onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
     orderform();
     setLoading(false);
@@ -160,7 +160,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     await identifyCustomer(email).then(() => setLoading(false));
 
     if (isAddressSaved) {
-      onAddAddressCallBack();
+      onAddAddressCallBack && onAddAddressCallBack();
       navigation.goBack();
     }
   };

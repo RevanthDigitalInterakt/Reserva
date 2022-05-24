@@ -98,7 +98,7 @@ export type RootStackParamList = {
     id?: number;
     isCheckout: boolean;
     edit?: boolean;
-    onAddAddressCallBack: () => void
+    onAddAddressCallBack?: () => void
     editAddress?: {
       id: string;
       postalCode: string;
