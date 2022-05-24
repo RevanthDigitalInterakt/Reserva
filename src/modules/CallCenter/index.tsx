@@ -92,12 +92,12 @@ const CallCenter = ({
             </Typography>
           </Box>
 
-          <ItemContact
+          {/* <ItemContact
             divider={true}
             icon="Mail"
             label="sac@usereserva.com"
             onPress={onClickMail}
-          />
+          /> */}
 
           <ItemContact
             divider={true}
@@ -110,7 +110,10 @@ const CallCenter = ({
           <ItemContact
             icon={"Whatsapp"}
             label={"Whatsapp Reserva"}
-            onPress={onClickWhatsappButton}
+            onPress={() => {
+              Linking.openURL(`whatsapp://send?phone=${552121084990}`);
+            }
+            }
           />
         </Box>
       </ScrollView>
