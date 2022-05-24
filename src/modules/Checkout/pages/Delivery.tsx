@@ -3,12 +3,14 @@ import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 import {
   useFocusEffect, useNavigation
 } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, SafeAreaView, ScrollView } from 'react-native';
 import {
   checkMultiple,
   PERMISSIONS, request
 } from 'react-native-permissions';
+import { RootStackParamList } from 'routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
@@ -16,10 +18,13 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 
-
+type DeliveryNavigator = StackNavigationProp<
+  RootStackParamList,
+  'DeliveryScreen'
+>;
 
 const Delivery: React.FC<{}> = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DeliveryNavigator>();
   const {
     orderForm,
     addShippingOrPickupInfo,
@@ -255,9 +260,11 @@ const Delivery: React.FC<{}> = () => {
     }
   }, [orderForm]);
 
-  useEffect(() => {
+  const updateAddresses = () => {
+    console.log('updateAddresses1234');
     if (!selectMethodDelivery) {
       // se for para entregar em casa
+      console.log('updateAddresses1234 - casa');
 
       const availableAddressesOrderForm =
         orderForm &&
@@ -292,6 +299,7 @@ const Delivery: React.FC<{}> = () => {
         availableAddressesOrderForm &&
         availableAddressesOrderForm?.length > 0
       ) {
+        console.log('updateAddresses1234 - casa - if');
         const addresses = availableAddressesOrderForm?.filter(
           (x) => x.addressType != 'search'
         );
@@ -300,11 +308,16 @@ const Delivery: React.FC<{}> = () => {
           selectShippingAddress(addresses[0]);
         }
 
+        console.log('updateAddresses1234 - casa - if - addresses', addresses.length, selectedAddressOrderFom?.addressId);
         setAddresses(addresses);
         setSelectedAddress(selectedAddressOrderFom);
       }
     }
-  }, [profile]);
+  }
+
+  useEffect(() => {
+    updateAddresses();
+  }, [profile, orderForm]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
@@ -400,7 +413,8 @@ const Delivery: React.FC<{}> = () => {
               onPress={() =>
                 navigation.navigate('NewAddress', {
                   isCheckout: true,
-                  id: null,
+                  id: undefined,
+                  onAddAddressCallBack: async () => await orderform(),
                 })
               }
               inline
