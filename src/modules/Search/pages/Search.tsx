@@ -45,6 +45,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
+import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -283,7 +284,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <Box backgroundColor="white" flex={1}>
-      <TopBarDefault
+      <TopBarDefaultBackButton
         loading={
           loading || loadingCollection || loadingFeatured || selectedTerm
         }
