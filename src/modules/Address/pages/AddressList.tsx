@@ -177,7 +177,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     <>
       <Alert
         onModalHide={() => {
-          modalRef.current && successModal
+          modalRef.current && setSuccessModal(true);
         }}
         isVisible={deleteModal}
         title="Excluir endereço"
@@ -192,7 +192,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
             },
           });
           setDeleteModal(false);
-          setSuccessModal(true);
+
           // reset shippingData of orderform
           if (data) {
             if (email) {
@@ -225,10 +225,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
           title="Seu endereço foi excluído com sucesso."
           confirmText="OK"
           onConfirm={() => {
+            modalRef.current = false;
             setSuccessModal(false);
             refetch();
           }}
           onClose={() => {
+            modalRef.current = false;
+            setSuccessModal(false);
             setDeleteModal(false);
             refetch();
           }}
