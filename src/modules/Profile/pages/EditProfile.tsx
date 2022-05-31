@@ -967,72 +967,75 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box
-                mb="nano"
-                backgroundColor="backgoundInput"
-                alignItems="center"
-                flexDirection="row"
-                height={60}
-                borderWidth="hairline"
-                borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
+
+              <TouchableOpacity
+                onPress={() => setIsVisibleGenderPicker(true)}
               >
                 <Box
-                  ml="xxxs"
+                  mb="nano"
+                  backgroundColor="backgoundInput"
+                  alignItems="center"
+                  flexDirection="row"
+                  height={60}
+                  borderWidth="hairline"
+                  borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
                 >
-                  <TouchableOpacity
-                    onPress={() => setIsVisibleGenderPicker(true)}
+                  <Box
+                    ml="xxxs"
                   >
-                    {!isEmptyGender
-                      ? <Box
-                          style={{
-                            marginTop: -12
-                          }}
-                        >
-                          <Typography
-                            variant="descricaoCampoDePreenchimento"
-                            color="neutroFrio2"
-                          >
-                            Identidade de gênero
-                          </Typography>
-
-                          <Box
-                            mt='nano'
-                            pl='quarck'
+                      {!isEmptyGender
+                        ? <Box
+                            style={{
+                              marginTop: -12
+                            }}
                           >
                             <Typography
-                              fontFamily='nunitoRegular'
-                              color="preto"
-                              fontSize={15}
+                              variant="descricaoCampoDePreenchimento"
+                              color="neutroFrio2"
                             >
-                              {gender}
+                              Identidade de gênero
                             </Typography>
-                          </Box>
-                        </Box>
-                      : <Typography
-                          variant="descricaoCampoDePreenchimento"
-                          color="neutroFrio2"
-                          fontSize={15}
-                        >
-                          Selecione sua identidade de gênero
-                        </Typography>
-                    }
-                  </TouchableOpacity>
-                </Box>
 
-                {!isEmptyGender &&
-                  <Box
-                    position={'absolute'}
-                    right={0}
-                  >
-                    <Icon
-                      color="preto"
-                      name="Check"
-                      size={18}
-                      marginX="micro"
-                    />
+                            <Box
+                              mt='nano'
+                              pl='quarck'
+                            >
+                              <Typography
+                                fontFamily='nunitoRegular'
+                                color="preto"
+                                fontSize={15}
+                              >
+                                {gender}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        : <Typography
+                            variant="descricaoCampoDePreenchimento"
+                            color="neutroFrio2"
+                            fontSize={15}
+                          >
+                            Selecione sua identidade de gênero
+                          </Typography>
+                      }
+
                   </Box>
-                }
-              </Box>
+
+                  {!isEmptyGender &&
+                    <Box
+                      position={'absolute'}
+                      right={0}
+                    >
+                      <Icon
+                        color="preto"
+                        name="Check"
+                        size={18}
+                        marginX="micro"
+                      />
+                    </Box>
+                  }
+                </Box>
+              </TouchableOpacity>
+
 
               {isEmptyGender &&
                 <Typography
