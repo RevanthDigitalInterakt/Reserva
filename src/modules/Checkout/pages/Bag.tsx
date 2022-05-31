@@ -150,7 +150,9 @@ export const BagScreen = () => {
         profile?.homePhone?.length === 0 ||
         profile?.homePhone === null ||
         profile?.document?.length === 0 ||
-        profile?.document === null
+        profile?.document === null ||
+        profile?.gender?.length === 0 ||
+        profile?.gender === null
       ) {
         setIsEmptyProfile(true);
       } else {
