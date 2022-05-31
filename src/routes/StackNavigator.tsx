@@ -168,6 +168,9 @@ export type RootStackParamList = {
   VirtualDebitCardCaixaScreen: {
     cashback: boolean;
   };
+  BagScreen: {
+    isProfileComplete: boolean;
+  }
 };
 
 const flows: Flow[] = [

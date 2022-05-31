@@ -188,7 +188,7 @@ export const EditProfile = ({ route }: Props) => {
           ).value || null
         );
 
-        if (isRegister) refetch();
+        // if (isRegister) refetch();
 
         if (!data?.profile?.lastName) {
           setIsEmptyFullName(true);
@@ -397,7 +397,7 @@ export const EditProfile = ({ route }: Props) => {
         })
           .then(async () => await identifyCustomer(email))
           .then(() => setLoadingScreen(false))
-          .then(() => navigation.navigate('DeliveryScreen'));
+          .then(() => navigation.navigate('BagScreen', { isProfileComplete: true }));
       }
     }
   };
