@@ -57,7 +57,7 @@ export const BagScreen = ({ route }: Props) => {
     addShippingData,
   } = useCart();
 
-  const { isProfileComplete } = route?.params || false;
+  const { isProfileComplete } = route?.params;
 
   const [loading, setLoading] = useState(false);
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
