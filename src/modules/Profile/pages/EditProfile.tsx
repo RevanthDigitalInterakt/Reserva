@@ -899,80 +899,11 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="xxs">
-                <TextField
-                  keyboardType="number-pad"
-                  label={labelBirthDate}
-                  maskType="custom"
-                  maskOptions={{
-                    mask: '99/99/9999',
-                  }}
-                  value={userData.birthDate}
-                  onChangeText={(text) => {
-                    setUserData({ ...userData, ...{ birthDate: text } });
-
-                    handlerValidationBirthDate(text.trim());
-                  }}
-                  iconRight={
-                    !isEmptyBirthDate ? (
-                      <Box ml="nano">
-                        <Icon
-                          color="preto"
-                          name="Check"
-                          size={18}
-                          marginX="micro"
-                        />
-                      </Box>
-                    ) : (
-                      <Box ml="nano"></Box>
-                    )
-                  }
-                  placeholder="Digite sua data de nascimento"
-                  error="Preencha sua data de nascimento"
-                  touched={isEmptyBirthDate}
-                />
-              </Box>
-
-              <Box mb="xxs">
-                <TextField
-                  keyboardType="number-pad"
-                  maskType="custom"
-                  maskOptions={{
-                    mask: '+55 (99) 9 9999-9999',
-                  }}
-                  label={labelPhone}
-                  value={userData.homePhone}
-                  onChangeText={(text) => {
-                    setUserData({ ...userData, ...{ homePhone: text } });
-
-                    handlerValidationHomePhone(text.trim());
-                  }}
-                  iconRight={
-                    !isEmptyHomePhone ? (
-                      <Box ml="nano">
-                        <Icon
-                          color="preto"
-                          name="Check"
-                          size={18}
-                          marginX="micro"
-                        />
-                      </Box>
-                    ) : (
-                      <Box ml="nano"></Box>
-                    )
-                  }
-                  placeholder="Digite seu telefone"
-                  error="Preencha seu telefone."
-                  touched={isEmptyHomePhone}
-                />
-              </Box>
-
-
               <TouchableOpacity
                 onPress={() => setIsVisibleGenderPicker(true)}
               >
                 <Box
-                  mb="nano"
+                  mb="xxs"
                   backgroundColor="backgoundInput"
                   alignItems="center"
                   flexDirection="row"
@@ -993,7 +924,7 @@ export const EditProfile = ({ route }: Props) => {
                               variant="descricaoCampoDePreenchimento"
                               color="neutroFrio2"
                             >
-                              Identidade de gênero
+                              Gênero
                             </Typography>
 
                             <Box
@@ -1020,19 +951,18 @@ export const EditProfile = ({ route }: Props) => {
 
                   </Box>
 
-                  {!isEmptyGender &&
-                    <Box
-                      position={'absolute'}
-                      right={0}
-                    >
-                      <Icon
-                        color="preto"
-                        name="Check"
-                        size={18}
-                        marginX="micro"
-                      />
-                    </Box>
-                  }
+                  <Box
+                    position={'absolute'}
+                    right={0}
+                    top={24}
+                  >
+                    <Icon
+                      color="preto"
+                      name="ArrowDown"
+                      size={18}
+                      marginX="micro"
+                    />
+                  </Box>
                 </Box>
               </TouchableOpacity>
 
@@ -1075,6 +1005,74 @@ export const EditProfile = ({ route }: Props) => {
                 ]}
                 title="Identidade de gênero"
               />
+
+              <Box mb="xxs">
+                <TextField
+                  keyboardType="number-pad"
+                  label={labelBirthDate}
+                  maskType="custom"
+                  maskOptions={{
+                    mask: '99/99/9999',
+                  }}
+                  value={userData.birthDate}
+                  onChangeText={(text) => {
+                    setUserData({ ...userData, ...{ birthDate: text } });
+
+                    handlerValidationBirthDate(text.trim());
+                  }}
+                  iconRight={
+                    !isEmptyBirthDate ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite sua data de nascimento"
+                  error="Preencha sua data de nascimento"
+                  touched={isEmptyBirthDate}
+                />
+              </Box>
+
+              <Box mb="nano">
+                <TextField
+                  keyboardType="number-pad"
+                  maskType="custom"
+                  maskOptions={{
+                    mask: '+55 (99) 9 9999-9999',
+                  }}
+                  label={labelPhone}
+                  value={userData.homePhone}
+                  onChangeText={(text) => {
+                    setUserData({ ...userData, ...{ homePhone: text } });
+
+                    handlerValidationHomePhone(text.trim());
+                  }}
+                  iconRight={
+                    !isEmptyHomePhone ? (
+                      <Box ml="nano">
+                        <Icon
+                          color="preto"
+                          name="Check"
+                          size={18}
+                          marginX="micro"
+                        />
+                      </Box>
+                    ) : (
+                      <Box ml="nano"></Box>
+                    )
+                  }
+                  placeholder="Digite seu telefone"
+                  error="Preencha seu telefone."
+                  touched={isEmptyHomePhone}
+                />
+              </Box>
 
               {isTester && (
                 <Box mb="sm" mt="sm">
