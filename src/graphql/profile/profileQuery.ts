@@ -8,6 +8,7 @@ export type ProfileQuery = {
   email: string;
   document: string;
   birthDate: string;
+  gender: string;
   homePhone: string;
   passwordLastUpdate?: string;
 };
@@ -39,6 +40,7 @@ export const profileQuery = gql`
       document
       birthDate
       homePhone
+      gender
       customFields {
         cacheId
         key

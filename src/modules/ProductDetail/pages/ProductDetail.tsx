@@ -915,6 +915,8 @@ export const ProductDetail: React.FC<Props> = ({
       y: 0,
       animated: true,
     });
+    setShippingData({});
+    setCep('');
   };
 
   return (

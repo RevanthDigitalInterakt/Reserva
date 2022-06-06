@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { QueryResult, useLazyQuery } from '@apollo/client';
+import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import {
   CommonActions,
@@ -70,100 +70,28 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [suggestionsFound, setSuggestionsFound] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(false);
   const [returnSearch, setReturnSearch] = useState<boolean>(false);
+  const [{ collectionData, loadingCollection }, setCollectionData] = useState({
+    collectionData: null,
+    loadingCollection: false,
+  });
+  const [{ featuredData, loadingFeatured }, setFeaturedData] = useState({
+    featuredData: null,
+    loadingFeatured: false,
+  });
+  const [{ data, loading }, setProductData] = useState({
+    data: null,
+    loading: false,
+  });
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
-  const [getConfigCollection] = useLazyQuery(configCollection, {
+  const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   });
 
-  const [{ loadingCollection, collectionData }, setConfigCollection] = useState(
-    {
-      loadingCollection: true,
-      collectionData: null,
-    }
-  );
-
-  useEffect(() => {
-    getConfigCollection().then((response) =>
-      setConfigCollection({
-        collectionData: response.data,
-        loadingCollection: false,
-      })
-    );
-  }, []);
-
-  const pageSize = 12;
-
-  const [getProductSearch] = useLazyQuery(productSearch, {
-    variables: {
-      to: pageSize - 1,
-      selectedFacets: [
-        {
-          key: 'region-id',
-          value: regionId,
-        },
-      ],
-    },
-  });
-
-  const [{ loading, data, error }, setProductSearch] = useState({
-    loading: true,
-    error: null,
-    data: null,
-    refetch: () => {
-      return {} as any;
-    },
-    fetchMore: (props: any) => {
-      return {} as any;
-    },
-  });
-
-  useEffect(() => {
-    getProductSearch().then((response) =>
-      setProductSearch({
-        data: response.data,
-        loading: false,
-        error: response.error,
-        refetch,
-        fetchMore,
-      })
-    );
-  }, []);
-
-  const refetch = async () => {
-    const response = await getProductSearch();
-
-    setProductSearch({
-      loading,
-      error,
-      data,
-      refetch,
-      fetchMore,
-    });
-
-    return response;
-  };
-
-  const fetchMore = async (props: any) => {
-    const response = await getProductSearch(props);
-
-    setProductSearch({
-      loading,
-      error,
-      data,
-      refetch,
-      fetchMore,
-    });
-
-    return response;
-  };
-
-  // DESTAQUES
-
-  const [getProductFeaturedSearch] = useLazyQuery(productSearch, {
+  const [getFeaturedData] = useLazyQuery(productSearch, {
     variables: {
       hideUnavailableItems: true,
       selectedFacets: [
@@ -180,20 +108,34 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     nextFetchPolicy: 'no-cache',
   });
 
-  const [{ loadingFeatured, featuredData }, setProductFeaturedSearch] =
-    useState({
-      loadingFeatured: true,
-      featuredData: null,
-    });
+  const pageSize = 12;
+
+  const [getProducts, { fetchMore }] = useLazyQuery(productSearch, {
+    variables: {
+      to: pageSize - 1,
+      selectedFacets: [
+        {
+          key: 'region-id',
+          value: regionId,
+        },
+      ],
+    },
+  });
+
+  const refetch = (variables: any) => {};
 
   useEffect(() => {
-    getProductFeaturedSearch().then((response) =>
-      setProductFeaturedSearch({
-        featuredData: response.data,
-        loadingFeatured: false,
-      })
-    );
+    setCollectionData({ collectionData: null, loadingCollection: true });
+    setFeaturedData({ featuredData: null, loadingFeatured: true });
+    getCollection().then(({ data }) => {
+      setCollectionData({ collectionData: data, loadingCollection: false });
+    });
+    getFeaturedData().then(({ data }) => {
+      setFeaturedData({ featuredData: data, loadingFeatured: false });
+    });
   }, []);
+
+  // DESTAQUES
 
   const [
     getSuggestions,
@@ -239,14 +181,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   }, [collectionData]);
 
   useEffect(() => {
-    if (!loading) {
-      setProducts(data.productSearch.products);
-    }
-  }, [data]);
-
-  useEffect(() => {
     if (!loadingFeatured) {
-      setFeaturedProducts(featuredData.productSearch.products);
+      setFeaturedProducts(featuredData?.productSearch?.products);
     }
   }, [featuredData]);
 
@@ -278,41 +214,38 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   }, [returnSearch]);
 
   const handleSearch = async (text: string) => {
-    setWaiting(true);
-    console.log('handleSearch', regionId);
-    const { data, loading } = await refetch({
-      fullText: text,
-      selectedFacets: [
-        {
-          key: 'region-id',
-          value: regionId,
-        },
-      ],
-    });
+    setProductData({ data: null, loading: true });
 
-    resetProductsArray();
-    if (!loading) {
-      setProducts(data.productSearch.products);
-    }
-    setWaiting(false);
+    getProducts({
+      variables: {
+        fullText: text,
+        selectedFacets: [
+          {
+            key: 'region-id',
+            value: regionId,
+          },
+        ],
+      },
+    }).then(({ data }) => {
+      setShowResults(true);
+      setSelectedTerm(false);
+      resetProductsArray();
+      setProducts(data?.productSearch.products);
+      setProductData({ data, loading: false });
 
-    setShowResults(true);
-    setSelectedTerm(false);
+      const searchIds = data?.productSearch.products.map(
+        (x: any) => x.productId
+      );
 
-    console.log(
-      'productSearchIds',
-      data.productSearch.products.map((x) => x.productId)
-    );
-    const searchIds = data.productSearch.products.map((x: any) => x.productId);
+      appsFlyer.logEvent('af_search', {
+        af_search_string: text,
+        af_content_list: searchIds,
+      });
 
-    appsFlyer.logEvent('af_search', {
-      af_search_string: text,
-      af_content_list: searchIds,
-    });
-
-    analytics().logEvent('search', {
-      search_string: text,
-      search_ids: searchIds,
+      analytics().logEvent('search', {
+        search_string: text,
+        search_ids: searchIds,
+      });
     });
   };
 

@@ -1,13 +1,5 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import {
-  TouchableOpacity,
-  Dimensions,
-  PixelRatio,
-  Platform,
-  ScrollView,
-} from 'react-native';
-import { Box, theme, Typography, Button, Icon } from 'reserva-ui';
+import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import React, { Dispatch, SetStateAction } from 'react';
 import Modal from 'react-native-modal';
 
 interface IIsTestingModalProps {

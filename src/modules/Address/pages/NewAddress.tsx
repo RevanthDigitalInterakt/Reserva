@@ -36,23 +36,22 @@ interface IAddress {
   complement: string;
   street: string;
   neighborhood: string;
-  receiverName: string;
-  addressType: string;
-  country: string;
+  receiverName?: string;
+  addressType?: string;
+  country?: string;
 }
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit, editAddress } = route?.params;
-  const [addressId, setAddressId] = useState(edit ? editAddress.id : '');
+  const { edit, editAddress, isCheckout, onAddAddressCallBack } = route?.params;
+  const [addressId, setAddressId] = useState(editAddress?.id);
   const [toggleActivated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
   const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
-  const { isCheckout } = route.params;
   const [getProfile, { }] = useLazyQuery(profileQuery);
 
   const [{ profileData, loadingProfile }, setProfileData] = useState({
@@ -62,13 +61,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const [profile, setProfile] = useState<ProfileVars>();
   const [initialValues, setInitialValues] = useState<IAddress>({
-    postalCode: edit ? editAddress.postalCode : '',
-    state: edit ? editAddress.state : '',
-    city: edit ? editAddress.city : '',
-    number: edit ? editAddress.number : '',
-    complement: edit ? editAddress.complement : '',
-    street: edit ? editAddress.street : '',
-    neighborhood: edit ? editAddress.neighborhood : '',
+    postalCode: editAddress?.postalCode || '',
+    state: editAddress?.state || '',
+    city: editAddress?.city || '',
+    number: editAddress?.number || '',
+    complement: editAddress?.complement || '',
+    street: editAddress?.street || '',
+    neighborhood: editAddress?.neighborhood || '',
     receiverName: '',
     addressType: 'residential',
     country: 'BRA',
@@ -114,6 +113,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         },
       });
 
+    onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
     orderform();
     setLoading(false);
@@ -160,6 +160,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     await identifyCustomer(email).then(() => setLoading(false));
 
     if (isAddressSaved) {
+      onAddAddressCallBack && onAddAddressCallBack();
       navigation.goBack();
     }
   };
@@ -273,7 +274,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   }, [initialValues]);
 
   useEffect(() => {
-    if (edit) {
+    if (edit && !!editAddress) {
       setAddressId(editAddress.id);
       setInitialValues({
         postalCode: editAddress.postalCode,
@@ -283,6 +284,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         complement: editAddress.complement,
         street: editAddress.street,
         neighborhood: editAddress.neighborhood,
+
       });
       setLabelNeighborhood('Bairro');
       setLabelCity('Cidade');

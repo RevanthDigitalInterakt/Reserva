@@ -28,6 +28,7 @@ import {
   TextField,
   Toggle,
   Typography,
+  Picker,
 } from '@danilomsou/reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
@@ -44,12 +45,27 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
+import IsTestingModal from '../Components/IsTestingModal';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
+const genderPtToEng = {
+  Homem: 'male',
+  Mulher: 'female',
+  'Não-binário': 'genderqueer',
+  Outro: 'other',
+};
+
+const genderEngToPt = {
+  male: 'Homem',
+  female: 'Mulher',
+  genderqueer: 'Não-binário',
+  other: 'Outro',
+};
+
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
-  const { isTesting, toggleIsTesting } = useContentfull();
+  const [isTesting, setIsTesting] = useState(false);
   const { email } = useAuth();
   const { isRegister } = route?.params || false;
   const [subscribed, setSubscribed] = useState(false);
@@ -62,6 +78,7 @@ export const EditProfile = ({ route }: Props) => {
     email: '',
     document: '',
     birthDate: '',
+    gender: '',
     homePhone: '',
   });
   const [
@@ -87,6 +104,7 @@ export const EditProfile = ({ route }: Props) => {
     });
   }, []);
   const [loadingScreen, setLoadingScreen] = useState(false);
+  const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false);
 
   const { addCustomer, orderForm, identifyCustomer } = useCart();
 
@@ -95,18 +113,24 @@ export const EditProfile = ({ route }: Props) => {
   const [isEmptyFullName, setIsEmptyFullName] = useState(false);
   const [isEmptyBirthDate, setIsEmptyBirthDate] = useState(false);
   const [isEmptyHomePhone, setIsEmptyHomePhone] = useState(false);
+  const [isEmptyGender, setIsEmptyGender] = useState(false);
+
+  const [gender, setGender] = useState('');
 
   const [labelFullName, setLabelFullName] = useState(null);
   const [labelDocument, setLabelDocument] = useState(null);
   const [labelBirthDate, setLabelBirthDate] = useState(null);
   const [labelPhone, setLabelPhone] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [{ data, loading }, setProfileData] = useState({
     data: null,
     loading: true,
   });
 
-  const [getProfile] = useLazyQuery(profileQuery);
   const [userAccept, setUserAccept] = useState(false);
+  const [getProfile] = useLazyQuery(profileQuery, {
+    fetchPolicy: 'no-cache',
+  });
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
@@ -150,6 +174,7 @@ export const EditProfile = ({ route }: Props) => {
               addHours(new Date(Date.parse(data.profile.birthDate)), 3),
               'dd/MM/yyyy'
             ),
+          gender: data?.profile?.gender || '',
           homePhone: data?.profile?.homePhone || '',
         });
         setSubscribed(
@@ -195,6 +220,13 @@ export const EditProfile = ({ route }: Props) => {
         } else {
           setIsEmptyHomePhone(false);
           setLabelPhone('Telefone');
+        }
+
+        if (!data?.profile?.gender || data?.profile?.gender === '') {
+          setIsEmptyGender(true);
+        } else {
+          setIsEmptyGender(false);
+          setGender(genderEngToPt[data?.profile?.gender]);
         }
       }
       setLoadingScreen(false);
@@ -297,6 +329,7 @@ export const EditProfile = ({ route }: Props) => {
       document: userData.document.replace(/[^\d]+/g, ''),
       birthDate: splittedBirthDate?.reverse().join('-'),
       homePhone: newPhone.replace(/[^\d\+]+/g, ''),
+      gender: userData.gender,
     };
 
     let profileImage = profileImagePath;
@@ -594,6 +627,28 @@ export const EditProfile = ({ route }: Props) => {
     },
   });
 
+  const getTestEnvironment = async () => {
+    const res = await AsyncStorage.getItem('isTesting');
+
+    if (res === 'true') {
+      setIsTesting(true);
+    } else {
+      setIsTesting(false);
+    }
+  };
+
+  useEffect(() => {
+    getTestEnvironment();
+  }, []);
+
+  const handleChangeTesting = async (value: boolean) => {
+    setIsVisible(true);
+
+    await AsyncStorage.setItem('isTesting', JSON.stringify(value));
+
+    setIsTesting(value);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
@@ -618,6 +673,10 @@ export const EditProfile = ({ route }: Props) => {
           style={{ height: '100%' }}
         >
           <Box alignContent="flex-start" pt="xs" paddingX="xxxs" pb="xxl">
+            <IsTestingModal
+              isVisible={isVisible}
+              setIsVisible={() => setIsVisible(!isVisible)}
+            />
             <Modal
               onBackdropPress={() => setShowModalProfile(false)}
               isVisible={showModalProfile}
@@ -887,7 +946,7 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="nano">
+              <Box mb="xxs">
                 <TextField
                   keyboardType="number-pad"
                   maskType="custom"
@@ -920,6 +979,109 @@ export const EditProfile = ({ route }: Props) => {
                   touched={isEmptyHomePhone}
                 />
               </Box>
+
+              <Box
+                mb="nano"
+                backgroundColor="backgoundInput"
+                alignItems="center"
+                flexDirection="row"
+                height={60}
+                borderWidth="hairline"
+                borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
+              >
+                <Box ml="xxxs">
+                  <TouchableOpacity
+                    onPress={() => setIsVisibleGenderPicker(true)}
+                  >
+                    {!isEmptyGender ? (
+                      <Box
+                        style={{
+                          marginTop: -12,
+                        }}
+                      >
+                        <Typography
+                          variant="descricaoCampoDePreenchimento"
+                          color="neutroFrio2"
+                        >
+                          Identidade de gênero
+                        </Typography>
+
+                        <Box mt="nano" pl="quarck">
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            color="preto"
+                            fontSize={15}
+                          >
+                            {gender}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ) : (
+                      <Typography
+                        variant="descricaoCampoDePreenchimento"
+                        color="neutroFrio2"
+                        fontSize={15}
+                      >
+                        Selecione sua identidade de gênero
+                      </Typography>
+                    )}
+                  </TouchableOpacity>
+                </Box>
+
+                {!isEmptyGender && (
+                  <Box position={'absolute'} right={0}>
+                    <Icon
+                      color="preto"
+                      name="Check"
+                      size={18}
+                      marginX="micro"
+                    />
+                  </Box>
+                )}
+              </Box>
+
+              {isEmptyGender && (
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize="13px"
+                  color="vermelhoAlerta"
+                  style={{
+                    marginTop: -8,
+                  }}
+                >
+                  Preencha sua identidade de gênero
+                </Typography>
+              )}
+
+              <Picker
+                onAndroidBackButtonPress={() => {}}
+                onClose={() => setIsVisibleGenderPicker(false)}
+                onSelect={(selected) => {
+                  setGender(selected.text);
+                  setUserData({
+                    ...userData,
+                    gender: genderPtToEng[selected.text],
+                  });
+                  setIsEmptyGender(false);
+                }}
+                isVisible={isVisibleGenderPicker}
+                items={[
+                  {
+                    text: 'Homem',
+                  },
+                  {
+                    text: 'Mulher',
+                  },
+                  {
+                    text: 'Não-binário',
+                  },
+                  {
+                    text: 'Outro',
+                  },
+                ]}
+                title="Identidade de gênero"
+              />
+
               {isTester && (
                 <Box mb="sm" mt="sm">
                   <Box mb="nano" mt="nano">
@@ -936,7 +1098,7 @@ export const EditProfile = ({ route }: Props) => {
                     <Box marginLeft="micro">
                       <Toggle
                         onValueChange={(value: boolean) =>
-                          toggleIsTesting(value)
+                          handleChangeTesting(!!value)
                         }
                         thumbColor="vermelhoAlerta"
                         color="preto"
@@ -983,7 +1145,8 @@ export const EditProfile = ({ route }: Props) => {
                         isEmptyFullName ||
                         cpfInvalid ||
                         isEmptyHomePhone ||
-                        isEmptyBirthDate
+                        isEmptyBirthDate ||
+                        isEmptyGender
                       }
                     />
                   </Box>
@@ -1012,7 +1175,8 @@ export const EditProfile = ({ route }: Props) => {
                           isEmptyFullName ||
                           cpfInvalid ||
                           isEmptyHomePhone ||
-                          isEmptyBirthDate
+                          isEmptyBirthDate ||
+                          isEmptyGender
                         }
                       />
                     </Box>
