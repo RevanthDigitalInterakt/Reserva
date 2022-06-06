@@ -46,6 +46,7 @@ import {
   ProductFlow,
   TimeRaceFlow,
   RegisterFlow,
+  OnboardingFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
@@ -185,6 +186,7 @@ const flows: Flow[] = [
   ...MyCreditsRoutes,
   ...RegisterFlow,
   ...MyCashbackRoutes,
+  ...OnboardingFlow,
 ];
 
 export const MainStack = createStackNavigator();
@@ -275,6 +277,5 @@ export const MainStackScreen = () => (
     />
     <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
-    <MainStack.Screen name="Onboarding" component={Onboarding} />
   </MainStack.Navigator>
 );

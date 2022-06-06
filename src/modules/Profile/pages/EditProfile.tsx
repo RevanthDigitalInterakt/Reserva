@@ -106,9 +106,11 @@ export const EditProfile = ({ route }: Props) => {
   });
 
   const [getProfile] = useLazyQuery(profileQuery);
+  const [userAccept, setUserAccept] = useState(false);
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
+      console.log('res ::::::::::::>>>>>>>>>>>>>>>>>>', res);
       setProfileData({
         data: res.data,
         loading: false,
@@ -212,6 +214,13 @@ export const EditProfile = ({ route }: Props) => {
       });
     }
     getToken();
+    async function userAcceptData() {
+      const res = await AsyncStorage.getItem('@user:accepted');
+      if (res === 'true') {
+        setUserAccept(true);
+      }
+    }
+    userAcceptData();
   }, []);
 
   useEffect(() => {
@@ -316,6 +325,8 @@ export const EditProfile = ({ route }: Props) => {
       }
     }
 
+    console.log('RESPONSE USER ACCEPT', userAccept);
+
     const customField: ProfileCustomFieldsInput[] = [
       {
         key: 'isNewsletterOptIn',
@@ -328,6 +339,10 @@ export const EditProfile = ({ route }: Props) => {
       {
         key: 'profileImagePath',
         value: `${profileImage}`,
+      },
+      {
+        key: 'userAcceptedTerms',
+        value: `${userAccept}`,
       },
     ];
 

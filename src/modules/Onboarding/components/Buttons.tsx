@@ -33,7 +33,7 @@ export const ButtonClose = () => {
           right: 30,
           left: 30,
         }}
-        onPress={() => navigation.dispatch(StackActions.replace('Home'))}
+        onPress={() => navigation.dispatch(StackActions.replace('Main'))}
         variant="icone"
         icon={<Icon size={13} name="Close" color="white" />}
       />
