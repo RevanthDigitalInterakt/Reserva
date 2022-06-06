@@ -52,16 +52,18 @@ type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 const genderPtToEng = {
   'Homem': 'male',
   'Mulher': 'female',
-  'Não-binário': 'genderqueer',
+  'Não binário': 'genderqueer',
   'Outro': 'other',
 }
 
 const genderEngToPt = {
   'male': 'Homem',
   'female': 'Mulher',
-  'genderqueer': 'Não-binário',
+  'genderqueer': 'Não binário',
   'other': 'Outro',
 }
+
+const genderType = ['Homem', 'Mulher', 'Não binário', 'Outro']
 
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
@@ -899,88 +901,137 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <TouchableOpacity
-                onPress={() => setIsVisibleGenderPicker(true)}
+              <Box
+                mb="xxs"
+                position={'relative'}
               >
-                <Box
-                  mb="xxs"
-                  backgroundColor="backgoundInput"
-                  alignItems="center"
-                  flexDirection="row"
-                  height={60}
-                  borderWidth="hairline"
-                  borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
-                >
-                  <Box
-                    ml="xxxs"
-                  >
-                      {!isEmptyGender
-                        ? <Box
-                            style={{
-                              marginTop: -12
-                            }}
-                          >
-                            <Typography
-                              variant="descricaoCampoDePreenchimento"
-                              color="neutroFrio2"
-                            >
-                              Gênero
-                            </Typography>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (isVisibleGenderPicker) {
+                      setIsVisibleGenderPicker(false)
 
-                            <Box
-                              mt='nano'
-                              pl='quarck'
-                            >
-                              <Typography
-                                fontFamily='nunitoRegular'
-                                color="preto"
-                                fontSize={15}
-                              >
-                                {gender}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        : <Typography
-                            variant="descricaoCampoDePreenchimento"
-                            color="neutroFrio2"
-                            fontSize={15}
-                          >
-                            Selecione sua identidade de gênero
-                          </Typography>
+                      if (gender === '') {
+                        setIsEmptyGender(true)
                       }
-
-                  </Box>
-
-                  <Box
-                    position={'absolute'}
-                    right={0}
-                    top={24}
-                  >
-                    <Icon
-                      color="preto"
-                      name="ArrowDown"
-                      size={18}
-                      marginX="micro"
-                    />
-                  </Box>
-                </Box>
-              </TouchableOpacity>
-
-
-              {isEmptyGender &&
-                <Typography
-                  fontFamily="nunitoRegular"
-                  fontSize="13px"
-                  color="vermelhoAlerta"
-                  style={{
-                    marginTop: -8
+                    } else {
+                      setIsVisibleGenderPicker(true)
+                      setIsEmptyGender(false)
+                    }
                   }}
                 >
-                  Preencha sua identidade de gênero
-                </Typography>
-              }
+                  <Box
+                    backgroundColor="backgoundInput"
+                    alignItems="center"
+                    flexDirection="row"
+                    height={60}
+                    borderWidth="hairline"
+                    borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
+                  >
+                    <Box
+                      ml="xxxs"
+                    >
+                        {gender !== ''
+                          ? <Box
+                              style={{
+                                marginTop: -12
+                              }}
+                            >
+                              <Typography
+                                variant="descricaoCampoDePreenchimento"
+                                color="neutroFrio2"
+                              >
+                                Gênero
+                              </Typography>
 
-              <Picker
+                              <Box
+                                mt='nano'
+                                pl='quarck'
+                              >
+                                <Typography
+                                  fontFamily='nunitoRegular'
+                                  color="preto"
+                                  fontSize={15}
+                                >
+                                  {gender}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          : <Typography
+                              variant="descricaoCampoDePreenchimento"
+                              color="neutroFrio2"
+                              fontSize={15}
+                            >
+                              Selecione sua identidade de gênero
+                            </Typography>
+                        }
+
+                    </Box>
+
+                    <Box
+                      position={'absolute'}
+                      right={0}
+                      top={24}
+                    >
+                      <Icon
+                        color="preto"
+                        name="ArrowDown"
+                        size={18}
+                        marginX="micro"
+                      />
+                    </Box>
+                  </Box>
+                </TouchableOpacity>
+
+                {isVisibleGenderPicker &&
+                  <Box
+                    position={'absolute'}
+                    width='100%'
+                    top={60}
+                    zIndex={10000000}
+                  >
+                    {genderType.map((gender) => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setGender(gender)
+                          setUserData({ ...userData, gender: genderPtToEng[gender] })
+                          setIsEmptyGender(false)
+                          setIsVisibleGenderPicker(false)
+                        }}
+                      >
+                        <Box
+                          backgroundColor="backgoundInput"
+                          alignItems="center"
+                          flexDirection="row"
+                          height={60}
+                          borderWidth="hairline"
+                          borderColor={'transparente'}
+                          pl='xxxs'
+                        >
+                          <Typography
+                            fontFamily='nunitoRegular'
+                            color="preto"
+                            fontSize={15}
+                          >
+                            {gender}
+                          </Typography>
+                        </Box>
+                      </TouchableOpacity>
+                    ))}
+                  </Box>
+                }
+
+                {isEmptyGender &&
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize="13px"
+                    color="vermelhoAlerta"
+                  >
+                    Preencha sua identidade de gênero
+                  </Typography>
+                }
+              </Box>
+
+              {/* <Picker
                 onAndroidBackButtonPress={() => { }}
                 onClose={() => setIsVisibleGenderPicker(false)}
                 onSelect={(selected) => {
@@ -1004,7 +1055,7 @@ export const EditProfile = ({ route }: Props) => {
                   }
                 ]}
                 title="Identidade de gênero"
-              />
+              /> */}
 
               <Box mb="xxs">
                 <TextField
