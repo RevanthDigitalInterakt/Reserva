@@ -34,6 +34,7 @@ import {
   apolloClientTesting,
 } from './services/apolloClient';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Onboarding } from './modules/Onboarding/pages/Onboarding';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -111,8 +112,23 @@ const maintenanceHandler = async () => {
 const App = () => {
   const { getValue } = useFirebaseContext();
   const [isTesting, setIsTesting] = useState<boolean>(false);
-
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
+  const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean>(null);
+
+  const firstLaunchedData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+    if (appData == null) {
+      setIsAppFirstLaunched(true);
+      AsyncStorage.setItem('isAppFirstLaunched', 'false');
+    } else {
+      setIsAppFirstLaunched(false);
+    }
+  };
+
+  useEffect(() => {
+    // AsyncStorage.removeItem('isAppFirstLaunched');
+    firstLaunchedData();
+  }, []);
 
   const getTestEnvironment = async () => {
     const res = await AsyncStorage.getItem('isTesting');
@@ -166,14 +182,15 @@ const App = () => {
                     <FirebaseContextProvider>
                       <ChronometerContextProvider>
                         <ApolloProvider
-                          client={
-                            isTesting
-                              ? apolloClientTesting
-                              : apolloClientProduction
-                          }
+                          // client={
+                          //   isTesting
+                          //     ? apolloClientTesting
+                          //     : apolloClientProduction
+                          // }
+                          client={apolloClientTesting}
                         >
                           <InitialScreen>
-                            <AppRouting />
+                            <AppRouting isFirstLaunched={isAppFirstLaunched} />
                           </InitialScreen>
                         </ApolloProvider>
                       </ChronometerContextProvider>
