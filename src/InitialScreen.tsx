@@ -29,8 +29,8 @@ async function requestUserPermission() {
 }
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
-  const [pushNotification, setPushNotification] = useState<any>()
-  const [showNotification, setShowNotification] = useState(false)
+  const [pushNotification, setPushNotification] = useState<any>();
+  const [showNotification, setShowNotification] = useState(false);
   const setFetchInterval = async () => {
     await remoteConfig().setConfigSettings({
       minimumFetchIntervalMillis: 30000,
@@ -52,9 +52,9 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     StorageService.setInstallationToken();
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      if (remoteMessage.data.link === "usereserva://storeUpdate") {
-        setPushNotification(remoteMessage)
-        setShowNotification(true)
+      if (remoteMessage.data.link === 'usereserva://storeUpdate') {
+        setPushNotification(remoteMessage);
+        setShowNotification(true);
       }
     });
 
@@ -62,7 +62,9 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000);
   }, []);
 
   return (
@@ -72,16 +74,16 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
           animated
           barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
         />
-        {showNotification &&
+        {showNotification && (
           <ModalPush
             closeModal={() => setShowNotification(false)}
             data={pushNotification}
             handleNavigation={() => {
-              StoreUpdatePush()
-              setShowNotification(false)
+              StoreUpdatePush();
+              setShowNotification(false);
             }}
           />
-        }
+        )}
         <Animatable.View animation="fadeIn" style={{ height: '100%' }}>
           {children}
         </Animatable.View>
