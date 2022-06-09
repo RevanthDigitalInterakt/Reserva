@@ -491,6 +491,22 @@ export const Menu: React.FC<{}> = () => {
                   Linking.openURL('https://whts.co/reserva');
                 }}
               />
+              <FixedMenuItem
+                iconName="Pin"
+                title={
+                  <Typography
+                    alignSelf="flex-end"
+                    color="preto"
+                    fontSize={15}
+                    fontFamily="nunitoBold"
+                  >
+                    Política de Privacidade
+                  </Typography>
+                }
+                onPress={() => {
+                  navigation.navigate('PrivacyPolicy');
+                }}
+              />
             </Animatable.View>
           )}
           <Box mt="xs" alignItems="center">
