@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { SafeAreaView, ScrollView, Linking } from "react-native";
+import { SafeAreaView, ScrollView, Linking, Dimensions, TouchableOpacity } from "react-native";
 import { Typography, Box, ExpansePanel, Divider } from "@danilomsou/reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
@@ -23,6 +23,8 @@ interface RightOfHoldersProps {
   title: string;
   description: string;
 }
+
+const { width } = Dimensions.get('window')
 
 const dataExplanataion: DataExplanationProps[] = [
   {
@@ -595,71 +597,92 @@ export const PrivacyPolicy = () => {
             justifyContent='space-between'
             mb='micro'
           >
-            <Box
-              width={182}
-              height={39}
-              borderWidth={1}
-              borderColor={'preto'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              mb='xxxs'
+            <TouchableOpacity
+              onPress={() => Linking.openURL('https://support.mozilla.org/pt-BR/kb/limpe-cookies-e-dados-de-sites-no-firefox')}
             >
-              <Typography
-                fontFamily={'nunitoRegular'}
-                fontSize={15}
-                color={'#707070'}
+              <Box
+                width={182}
+                height={39}
+                borderWidth={1}
+                borderColor={'preto'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                style={{
+                  marginBottom: width - (182 * 2) - (15 * 2)
+                }}
               >
-                Firefox
-              </Typography>
-            </Box>
-            <Box
-              width={182}
-              height={39}
-              borderWidth={1}
-              borderColor={'preto'}
-              alignItems={'center'}
-              justifyContent={'center'}
+                <Typography
+                  fontFamily={'nunitoRegular'}
+                  fontSize={15}
+                  color={'#707070'}
+                >
+                  Firefox
+                </Typography>
+              </Box>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => Linking.openURL('https://support.apple.com/pt-br/guide/safari/sfri11471/mac')}
             >
-              <Typography
-                fontFamily={'nunitoRegular'}
-                fontSize={15}
-                color={'#707070'}
+              <Box
+                width={182}
+                height={39}
+                borderWidth={1}
+                borderColor={'preto'}
+                alignItems={'center'}
+                justifyContent={'center'}
               >
-                Safari
-              </Typography>
-            </Box>
-            <Box
-              width={182}
-              height={39}
-              borderWidth={1}
-              borderColor={'preto'}
-              alignItems={'center'}
-              justifyContent={'center'}
+                <Typography
+                  fontFamily={'nunitoRegular'}
+                  fontSize={15}
+                  color={'#707070'}
+                >
+                  Safari
+                </Typography>
+              </Box>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => Linking.openURL('https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=pt-BR')}
             >
-              <Typography
-                fontFamily={'nunitoRegular'}
-                fontSize={15}
-                color={'#707070'}
+              <Box
+                width={182}
+                height={39}
+                borderWidth={1}
+                borderColor={'preto'}
+                alignItems={'center'}
+                justifyContent={'center'}
               >
-                Chrome
-              </Typography>
-            </Box>
-            <Box
-              width={182}
-              height={39}
-              borderWidth={1}
-              borderColor={'preto'}
-              alignItems={'center'}
-              justifyContent={'center'}
+                <Typography
+                  fontFamily={'nunitoRegular'}
+                  fontSize={15}
+                  color={'#707070'}
+                >
+                  Chrome
+                </Typography>
+              </Box>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => Linking.openURL('https://support.microsoft.com/pt-br/help/278835/how-to-delete-cookie-files-in-internet-explorer')}
             >
-              <Typography
-                fontFamily={'nunitoRegular'}
-                fontSize={15}
-                color={'#707070'}
+              <Box
+                width={182}
+                height={39}
+                borderWidth={1}
+                borderColor={'preto'}
+                alignItems={'center'}
+                justifyContent={'center'}
               >
-                Int. Explorer ou Edge
-              </Typography>
-            </Box>
+                <Typography
+                  fontFamily={'nunitoRegular'}
+                  fontSize={15}
+                  color={'#707070'}
+                >
+                  Int. Explorer ou Edge
+                </Typography>
+              </Box>
+            </TouchableOpacity>
           </Box>
 
           <Box
