@@ -492,7 +492,7 @@ export const Menu: React.FC<{}> = () => {
                 }}
               />
               <FixedMenuItem
-                iconName="Pin"
+                iconName="PrivacyPolicy"
                 title={
                   <Typography
                     alignSelf="flex-end"
