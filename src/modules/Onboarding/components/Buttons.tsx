@@ -25,6 +25,8 @@ export const ButtonClose = () => {
       right={width * 0.1}
       zIndex={4}
       style={{ marginTop: height * 0.03 }}
+      width={20}
+      height={20}
     >
       <Button
         hitSlop={{
@@ -35,7 +37,7 @@ export const ButtonClose = () => {
         }}
         onPress={() => navigation.dispatch(StackActions.replace('Main'))}
         variant="icone"
-        icon={<Icon size={13} name="Close" color="white" />}
+        icon={<Icon size={24} name="CloseThin" color="white" />}
       />
     </Box>
   );

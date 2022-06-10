@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  Platform,
   StatusBar,
   TouchableOpacity,
   View,
@@ -140,9 +141,10 @@ const Slide = ({
         {item.imageHeader ? (
           <Box
             style={{
-              marginTop: height * 0.09,
+              marginTop: height * 0.1,
               marginLeft: width * 0.1,
               marginRight: width * 0.1,
+              marginBottom: height * 0.03,
             }}
           >
             <Image source={item?.imageHeader} />
@@ -288,27 +290,36 @@ export const Onboarding: React.FC<{}> = ({}) => {
   }, []);
 
   return (
-    <FlatList
-      ref={ref}
-      onMomentumScrollEnd={updateCurrentSlideIndex}
-      data={staticsData}
-      contentContainerStyle={{ height: height }}
-      showsHorizontalScrollIndicator={false}
-      horizontal
-      scrollEnabled={false}
-      pagingEnabled
-      renderItem={({ item }) => (
-        <>
-          <ButtonClose />
-          <Slide
-            item={item}
-            goNextSlide={goNextSlide}
-            currentSlideShow={currentSlideIndex}
-            lengthArray={staticsData.length}
-            itemContentful={itemContentful}
-          />
-        </>
-      )}
-    />
+    <>
+      <StatusBar
+        animated
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+        backgroundColor={'rgba(0,0,0,0.9)'}
+        translucent={true}
+      />
+
+      <FlatList
+        ref={ref}
+        onMomentumScrollEnd={updateCurrentSlideIndex}
+        data={staticsData}
+        contentContainerStyle={{ height: height }}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        scrollEnabled={false}
+        pagingEnabled
+        renderItem={({ item }) => (
+          <>
+            <ButtonClose />
+            <Slide
+              item={item}
+              goNextSlide={goNextSlide}
+              currentSlideShow={currentSlideIndex}
+              lengthArray={staticsData.length}
+              itemContentful={itemContentful}
+            />
+          </>
+        )}
+      />
+    </>
   );
 };
