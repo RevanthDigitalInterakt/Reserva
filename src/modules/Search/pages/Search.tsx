@@ -46,6 +46,7 @@ import { ListVerticalProducts } from '../../ProductCatalog/components/ListVertic
 import { News } from '../components/News';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { object } from 'yup';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -94,6 +95,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [getFeaturedData] = useLazyQuery(productSearch, {
     variables: {
       hideUnavailableItems: true,
+      salesChannel: '4',
       selectedFacets: [
         {
           key: 'productClusterIds',
@@ -112,17 +114,44 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const [getProducts, { fetchMore }] = useLazyQuery(productSearch, {
     variables: {
+      salesChannel: '4',
       to: pageSize - 1,
+      fullText: '',
       selectedFacets: [
         {
           key: 'region-id',
           value: regionId,
         },
       ],
-    },
+    } as any,
   });
 
-  const refetch = (variables: any) => {};
+  const redirectWightList = {
+    camiseta: [{ "key": "c", "value": "reserva" }, { "key": "c", "value": "masculino" }, { "key": "c", "value": "camisetas" }],
+    camisetas: [{ "key": "c", "value": "reserva" }, { "key": "c", "value": "masculino" }, { "key": "c", "value": "camisetas" }],
+    mochila: [{ "key": "productClusterIds", "value": "902" }],
+    mochilas: [{ "key": "productClusterIds", "value": "902" }],
+  }
+
+  const gambiarraRedirect = async (searchTerm: string) => {
+    if (Object.keys(redirectWightList).includes(searchTerm.toLowerCase())) {
+
+      const { data, variables } = await getProducts({
+        variables: {
+          salesChannel: '4',
+          to: pageSize - 1,
+          fullText: '',
+          map: '',
+          //@ts-ignore
+          selectedFacets: redirectWightList[searchTerm.toLowerCase()],
+        }
+      })
+
+
+      return { data }
+    }
+    return null
+  };
 
   useEffect(() => {
     setCollectionData({ collectionData: null, loadingCollection: true });
@@ -155,10 +184,15 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (suggestionsData) {
-      setSuggestions(suggestionsData.searchSuggestions.searches);
-      setRelatedProducts(suggestionsData.productSearch.products);
 
-      if (suggestionsData?.searchSuggestions?.searches.length > 0) {
+      const { searchSuggestions, productSearch } = suggestionsData;
+
+      setSuggestions(searchSuggestions.searches);
+      setRelatedProducts(productSearch.products);
+      if (!!productSearch.redirect) {
+        console.log('redirect--', productSearch.redirect);
+      }
+      if (searchSuggestions?.searches.length > 0) {
         setSuggestionsFound(true);
       } else {
         setSuggestionsFound(false);
@@ -213,48 +247,75 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
   }, [returnSearch]);
 
-  const handleSearch = async (text: string) => {
+
+  const handleSearch = (text: string) => {
     setProductData({ data: null, loading: true });
+    if (Object.keys(redirectWightList).includes(text.toLowerCase())) {
+      gambiarraRedirect(text).then(({ data }: any) => {
+        setShowResults(true);
+        setSelectedTerm(false);
+        // resetProductsArray()
+        setProducts(data?.productSearch.products);
+        setProductData({ data, loading: false });
+        console.log('data--', data);
+        const searchIds = data?.productSearch.products.map(
+          (x: any) => x.productId
+        );
 
-    getProducts({
-      variables: {
-        fullText: text,
-        selectedFacets: [
-          {
-            key: 'region-id',
-            value: regionId,
-          },
-        ],
-      },
-    }).then(({ data }) => {
-      setShowResults(true);
-      setSelectedTerm(false);
-      resetProductsArray();
-      setProducts(data?.productSearch.products);
-      setProductData({ data, loading: false });
+        appsFlyer.logEvent('af_search', {
+          af_search_string: text,
+          af_content_list: searchIds,
+        });
 
-      const searchIds = data?.productSearch.products.map(
-        (x: any) => x.productId
-      );
+        analytics().logEvent('search', {
+          search_string: text,
+          search_ids: searchIds,
+        });
+      })
+    } else {
 
-      appsFlyer.logEvent('af_search', {
-        af_search_string: text,
-        af_content_list: searchIds,
+      getProducts({
+        variables: {
+          fullText: text,
+          selectedFacets: [
+            {
+              key: 'region-id',
+              value: regionId,
+            },
+          ],
+        },
+      }).then(({ data }) => {
+        setShowResults(true);
+        setSelectedTerm(false);
+        // resetProductsArray();
+        setProducts(data?.productSearch.products);
+        setProductData({ data, loading: false });
+
+        const searchIds = data?.productSearch.products.map(
+          (x: any) => x.productId
+        );
+
+        appsFlyer.logEvent('af_search', {
+          af_search_string: text,
+          af_content_list: searchIds,
+        });
+
+        analytics().logEvent('search', {
+          search_string: text,
+          search_ids: searchIds,
+        });
       });
-
-      analytics().logEvent('search', {
-        search_string: text,
-        search_ids: searchIds,
-      });
-    });
+    }
   };
 
-  const handleDebouncedSearchTerm = () => {
-    getSuggestions({
+
+  const handleDebouncedSearchTerm = async () => {
+    const { data } = await getSuggestions({
       variables: {
         fullText: debouncedSearchTerm,
       },
     });
+
     setShowResults(false);
     setShowAllProducts(false);
   };
@@ -264,6 +325,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   };
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
+    console.log('loadMore***');
     setLoadingRefetch(true);
     const {
       data: {
@@ -295,6 +357,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           value={searchTerm}
           onValueChange={(text) => {
             setSearchTerm(text);
+            // handleSearch(text);
           }}
           onClickIcon={() => {
             suggestionsData && setSelectedTerm(true);
@@ -323,9 +386,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   <Box flexDirection="row" flexWrap="wrap">
                     {searchSuggestions.map((item) => (
                       <Button
-                        onPress={() => {
+                        onPress={async () => {
                           setSearchTerm(item.name);
                           setReturnSearch(true);
+                          handleSearch(item.name);
                         }}
                       >
                         <Box
@@ -430,8 +494,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           <>{!suggestionsFound && <ProductNotFound />}</>
         </ScrollView>
       ) : (
-        showResults &&
-        (products && products?.length > 0 ? (
+
+        products && products?.length > 0 ? (
           <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
             <ListVerticalProducts
               products={products || []}
@@ -444,7 +508,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           </Animatable.View>
         ) : (
           <ProductNotFound />
-        ))
+        )
       )}
     </Box>
   );
