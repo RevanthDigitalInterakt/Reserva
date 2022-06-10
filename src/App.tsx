@@ -16,7 +16,7 @@ import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
-import CartContextProvider from './context/CartContext';
+import CartContextProvider, { useCart } from './context/CartContext';
 import {
   FirebaseContextProvider,
   RemoteConfigKeys,
@@ -134,6 +134,13 @@ const App = () => {
     }
   };
 
+  const getMaintenanceValue = async () => {
+    const screenMaintenance = await RemoteConfigService.getValue<boolean>(
+      'SCREEN_MAINTENANCE'
+    );
+    setIsOnMaintenance(screenMaintenance);
+  };
+
   useEffect(() => {
     getTestEnvironment();
   }, []);
@@ -163,8 +170,8 @@ const App = () => {
     CodepushConfig();
     oneSignalConfig();
     setTimeout(() => {
-      maintenanceHandler().then((res) => setIsOnMaintenance(res));
-    }, 5000);
+      getMaintenanceValue();
+    }, 1000);
   }, []);
 
   return (
