@@ -3,6 +3,7 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
@@ -15,7 +16,7 @@ import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
-import CartContextProvider from './context/CartContext';
+import CartContextProvider, { useCart } from './context/CartContext';
 import {
   FirebaseContextProvider,
   RemoteConfigKeys,
@@ -83,6 +84,15 @@ const requestUserPermission = async () => {
   }
 };
 
+
+let onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
+  console.log('onDeepLinkCanceller DLValue::>', res)
+  if (res?.deepLinkStatus !== 'NOT_FOUND') {
+    const DLValue = res?.data.deep_link_value;
+    await Linking.openURL(DLValue);
+  }
+})
+
 appsFlyer.initSdk(
   {
     devKey: env.APPSFLYER.DEV_KEY,
@@ -124,6 +134,13 @@ const App = () => {
     }
   };
 
+  const getMaintenanceValue = async () => {
+    const screenMaintenance = await RemoteConfigService.getValue<boolean>(
+      'SCREEN_MAINTENANCE'
+    );
+    setIsOnMaintenance(screenMaintenance);
+  };
+
   useEffect(() => {
     getTestEnvironment();
   }, []);
@@ -140,6 +157,11 @@ const App = () => {
       console.log('unregister onAppOpenAttributionCanceller');
       onAppOpenAttributionCanceller = null;
     }
+    if (onDeepLinkCanceller) {
+      onDeepLinkCanceller();
+      onDeepLinkCanceller = null;
+    }
+
   });
 
   useEffect(() => {
@@ -148,8 +170,8 @@ const App = () => {
     CodepushConfig();
     oneSignalConfig();
     setTimeout(() => {
-      maintenanceHandler().then((res) => setIsOnMaintenance(res));
-    }, 5000);
+      getMaintenanceValue();
+    }, 1000);
   }, []);
 
   return (

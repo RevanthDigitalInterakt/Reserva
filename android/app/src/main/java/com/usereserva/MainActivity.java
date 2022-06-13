@@ -2,6 +2,7 @@ package com.usereserva;
 import android.os.Bundle;// splash screen
 import org.devio.rn.splashscreen.SplashScreen;// splash screen
 import com.facebook.react.ReactActivity;
+import android.content.Intent;
 
 public class MainActivity extends ReactActivity {
 
@@ -18,5 +19,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "reserva";
+  }
+
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
   }
 }
