@@ -30,7 +30,7 @@ import {
 } from '../../../graphql/homePage/HomeQuery';
 import { productSearch } from '../../../graphql/products/productSearch';
 import {
-  searchSuggestions,
+  searchSuggestions as searchSuggestionsQuery,
   SearchSuggestionsVars,
   searchSuggestionsAndProductSearch,
 } from '../../../graphql/products/searchSuggestions';
@@ -308,6 +308,9 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
   };
 
+  useEffect(() => {
+    console.log('products--', products);
+  }, [products]);
 
   const handleDebouncedSearchTerm = async () => {
     const { data } = await getSuggestions({
@@ -316,13 +319,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       },
     });
 
-    setShowResults(false);
+    // setShowResults(false);
     setShowAllProducts(false);
   };
 
-  const resetProductsArray = () => {
-    setProducts([]);
-  };
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
     console.log('loadMore***');
@@ -388,7 +388,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                       <Button
                         onPress={async () => {
                           setSearchTerm(item.name);
-                          setReturnSearch(true);
+                          // setReturnSearch(true);
                           handleSearch(item.name);
                         }}
                       >
