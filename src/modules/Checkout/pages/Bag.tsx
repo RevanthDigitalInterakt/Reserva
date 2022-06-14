@@ -33,10 +33,14 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
-export const BagScreen = () => {
+type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
+
+export const BagScreen = ({ route }: Props) => {
   const { email } = useAuth();
   const navigation = useNavigation();
   const {
@@ -52,6 +56,8 @@ export const BagScreen = () => {
     addCustomer,
     addShippingData,
   } = useCart();
+
+  const { isProfileComplete } = route?.params;
 
   const [loading, setLoading] = useState(false);
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
@@ -150,7 +156,9 @@ export const BagScreen = () => {
         profile?.homePhone?.length === 0 ||
         profile?.homePhone === null ||
         profile?.document?.length === 0 ||
-        profile?.document === null
+        profile?.document === null ||
+        profile?.gender?.length === 0 ||
+        profile?.gender === null
       ) {
         setIsEmptyProfile(true);
       } else {
@@ -289,7 +297,7 @@ export const BagScreen = () => {
       if (!email) {
         setLoadingGoDelivery(false);
         navigation.navigate('EnterYourEmail');
-      } else if (isEmptyProfile) {
+      } else if (isEmptyProfile && !isProfileComplete) {
         // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
         navigation.navigate('EditProfile', { isRegister: true });

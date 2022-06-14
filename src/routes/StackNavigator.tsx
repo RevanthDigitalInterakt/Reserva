@@ -168,6 +168,9 @@ export type RootStackParamList = {
   VirtualDebitCardCaixaScreen: {
     cashback: boolean;
   };
+  BagScreen: {
+    isProfileComplete: boolean;
+  }
 };
 
 const flows: Flow[] = [
@@ -212,7 +215,7 @@ export const MainStackScreen = () => (
       component={ShowListByCategory}
     />
 
-    <MainStack.Screen name="BagScreen" component={BagScreen} />
+    <MainStack.Screen name="BagScreen" component={BagScreen} initialParams={{ isProfileComplete: false }} />
     <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
     <MainStack.Screen name="Update" component={Update} />
     <MainStack.Screen

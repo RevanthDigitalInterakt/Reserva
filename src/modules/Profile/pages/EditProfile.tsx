@@ -190,7 +190,7 @@ export const EditProfile = ({ route }: Props) => {
           ).value || null
         );
 
-        if (isRegister) refetch();
+        // if (isRegister) refetch();
 
         if (!data?.profile?.lastName) {
           setIsEmptyFullName(true);
@@ -399,7 +399,7 @@ export const EditProfile = ({ route }: Props) => {
         })
           .then(async () => await identifyCustomer(email))
           .then(() => setLoadingScreen(false))
-          .then(() => navigation.navigate('DeliveryScreen'));
+          .then(() => navigation.navigate('BagScreen', { isProfileComplete: true }));
       }
     }
   };
@@ -1057,7 +1057,7 @@ export const EditProfile = ({ route }: Props) => {
                 title="Identidade de gênero"
               /> */}
 
-              <Box mb="xxs">
+              <Box mb="xxs" zIndex={2}>
                 <TextField
                   keyboardType="number-pad"
                   label={labelBirthDate}
@@ -1091,7 +1091,7 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="nano">
+              <Box mb="nano" zIndex={2}>
                 <TextField
                   keyboardType="number-pad"
                   maskType="custom"
@@ -1126,7 +1126,7 @@ export const EditProfile = ({ route }: Props) => {
               </Box>
 
               {isTester && (
-                <Box mb="sm" mt="sm">
+                <Box mb="sm" mt="sm" zIndex={2}>
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
@@ -1153,7 +1153,7 @@ export const EditProfile = ({ route }: Props) => {
               )}
 
               {!isRegister && (
-                <Box mb="xs" mt="micro" flexDirection="row">
+                <Box mb="xs" mt="micro" flexDirection="row" zIndex={2}>
                   <Checkbox
                     color="dropDownBorderColor"
                     selectedColor="preto"
@@ -1174,7 +1174,7 @@ export const EditProfile = ({ route }: Props) => {
                 </Box>
               )}
 
-              <Box mb="nano" justifyContent="space-between" flexDirection="row">
+              <Box mb="nano" justifyContent="space-between" flexDirection="row" zIndex={2}>
                 {isRegister ? (
                   <Box paddingLeft="nano" mt="sm" width={'100%'}>
                     <Button
