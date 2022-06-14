@@ -66,23 +66,10 @@ export const ShippingBar = ({
         collectionData: response.data,
       });
     });
-    // .then(() => {
-    //   defineProgressBar();
-    // });
-
-    // console.log('sumPriceShipping :>> ', sumPriceShipping);
-    // console.log('isFreeShipping :>> ', totalDelivery);
-    // console.log('isFreeShippingDATA :>> ', isFreeShipping);
-    // console.log('freeShippingValue :>> ', freeShippingValue);
   }, [sumPriceShipping]);
 
   useEffect(() => {
     if (collectionData !== null) {
-      // console.log(
-      //   'collectionData :>> ',
-      //   collectionData?.configCollection?.items[0]?.shippingBar
-      // );
-
       const freeShippingValueData =
         collectionData?.configCollection?.items[0]?.shippingBar
           ?.freeShippingValue;
@@ -99,11 +86,7 @@ export const ShippingBar = ({
     if (freeShippingValue > 0) {
       defineProgressBar();
     }
-  }, [freeShippingValue, sumPriceShipping]);
-
-  // useEffect(() => {
-  //   console.log('SUM PRICE :>> ', sumPrice);
-  // }, [sumPrice]);
+  }, [freeShippingValue, sumPriceShipping, loading]);
 
   return (
     <>
@@ -130,7 +113,14 @@ export const ShippingBar = ({
                 frete grátis
               </Typography>
             </Box>
-          ) : null}
+          ) : (
+            <Box flexDirection="row">
+              <Typography color="verdeSucesso">Você ganhou </Typography>
+              <Typography color="verdeSucesso" fontWeight="bold">
+                frete grátis!
+              </Typography>
+            </Box>
+          )}
 
           <Box mt="nano">
             <ProgressBar
