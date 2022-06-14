@@ -101,7 +101,9 @@ export const ShippingBar = ({
             </Box>
           ) : sumPriceShipping < freeShippingValue ? (
             <Box flexDirection="row">
-              <Typography>Faltam apenas </Typography>
+              <Box>
+                <Typography>Faltam apenas {''}</Typography>
+              </Box>
               <PriceCustom
                 fontFamily="nunitoBold"
                 sizeInterger={3}
