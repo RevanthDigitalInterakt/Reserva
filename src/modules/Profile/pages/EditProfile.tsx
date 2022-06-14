@@ -904,7 +904,7 @@ export const EditProfile = ({ route }: Props) => {
               <Box
                 mb="xxs"
                 position={'relative'}
-                zIndex={1}
+                style={Platform.OS === 'ios' ? { zIndex: 1 } : {}}
               >
                 <TouchableOpacity
                   onPress={() => {
