@@ -172,6 +172,10 @@ export const configCollection = gql`
           shareMessage
           coupon
         }
+        shippingBar {
+          freeShippingValue
+          isFreeShipping
+        }
         countDownClock {
           title
           subtitle
