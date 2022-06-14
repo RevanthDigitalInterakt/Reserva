@@ -904,6 +904,7 @@ export const EditProfile = ({ route }: Props) => {
               <Box
                 mb="xxs"
                 position={'relative'}
+                style={Platform.OS === 'ios' ? { zIndex: 1 } : {}}
               >
                 <TouchableOpacity
                   onPress={() => {
@@ -930,40 +931,40 @@ export const EditProfile = ({ route }: Props) => {
                     <Box
                       ml="xxxs"
                     >
-                        {gender !== ''
-                          ? <Box
-                              style={{
-                                marginTop: -12
-                              }}
-                            >
-                              <Typography
-                                variant="descricaoCampoDePreenchimento"
-                                color="neutroFrio2"
-                              >
-                                Gênero
-                              </Typography>
+                      {gender !== ''
+                        ? <Box
+                          style={{
+                            marginTop: -12
+                          }}
+                        >
+                          <Typography
+                            variant="descricaoCampoDePreenchimento"
+                            color="neutroFrio2"
+                          >
+                            Gênero
+                          </Typography>
 
-                              <Box
-                                mt='nano'
-                                pl='quarck'
-                              >
-                                <Typography
-                                  fontFamily='nunitoRegular'
-                                  color="preto"
-                                  fontSize={15}
-                                >
-                                  {gender}
-                                </Typography>
-                              </Box>
-                            </Box>
-                          : <Typography
-                              variant="descricaoCampoDePreenchimento"
-                              color="neutroFrio2"
+                          <Box
+                            mt='nano'
+                            pl='quarck'
+                          >
+                            <Typography
+                              fontFamily='nunitoRegular'
+                              color="preto"
                               fontSize={15}
                             >
-                              Selecione sua identidade de gênero
+                              {gender}
                             </Typography>
-                        }
+                          </Box>
+                        </Box>
+                        : <Typography
+                          variant="descricaoCampoDePreenchimento"
+                          color="neutroFrio2"
+                          fontSize={15}
+                        >
+                          Selecione sua identidade de gênero
+                        </Typography>
+                      }
 
                     </Box>
 
@@ -1057,7 +1058,7 @@ export const EditProfile = ({ route }: Props) => {
                 title="Identidade de gênero"
               /> */}
 
-              <Box mb="xxs" zIndex={2}>
+              <Box mb="xxs">
                 <TextField
                   keyboardType="number-pad"
                   label={labelBirthDate}
@@ -1091,7 +1092,7 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="nano" zIndex={2}>
+              <Box mb="nano" >
                 <TextField
                   keyboardType="number-pad"
                   maskType="custom"
@@ -1126,7 +1127,7 @@ export const EditProfile = ({ route }: Props) => {
               </Box>
 
               {isTester && (
-                <Box mb="sm" mt="sm" zIndex={2}>
+                <Box mb="sm" mt="sm" >
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
@@ -1153,7 +1154,7 @@ export const EditProfile = ({ route }: Props) => {
               )}
 
               {!isRegister && (
-                <Box mb="xs" mt="micro" flexDirection="row" zIndex={2}>
+                <Box mb="xs" mt="micro" flexDirection="row" >
                   <Checkbox
                     color="dropDownBorderColor"
                     selectedColor="preto"
@@ -1174,7 +1175,7 @@ export const EditProfile = ({ route }: Props) => {
                 </Box>
               )}
 
-              <Box mb="nano" justifyContent="space-between" flexDirection="row" zIndex={2}>
+              <Box mb="nano" justifyContent="space-between" flexDirection="row" >
                 {isRegister ? (
                   <Box paddingLeft="nano" mt="sm" width={'100%'}>
                     <Button
