@@ -1,6 +1,12 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
-import { instance, instance2, instance3, instance4, instance5 } from '../config/vtexConfig';
+import {
+  instance,
+  instance2,
+  instance3,
+  instance4,
+  instance5,
+} from '../config/vtexConfig';
 import axios from 'axios';
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
@@ -9,10 +15,12 @@ const vtexConfig4 = instance4;
 const vtexConfig5 = instance5;
 
 const VerifyEmail = async (email: string) => {
-  const response = await vtexConfig2.get(`/dataentities/CL/search?email=${email}`)
+  const response = await vtexConfig2.get(
+    `/dataentities/CL/search?email=${email}`
+  );
 
   return response;
-}
+};
 
 const CreateCart = async () => {
   // cria o carrinho
@@ -202,16 +210,16 @@ const GetPurchaseData = async (orderGroup: any) => {
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
 };
 
-const ValidateProfile = async (
-  email: string
-) => {
+const ValidateProfile = async (email: string) => {
   try {
-    const { data } = await vtexConfig.get(`/checkout/pub/profiles/?email=${email}&sc=4`);
+    const { data } = await vtexConfig.get(
+      `/checkout/pub/profiles/?email=${email}&sc=4`
+    );
     return data;
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 const IdentifyCustomer = async (
   orderFormId: string | undefined,
@@ -254,132 +262,122 @@ const CepVerify = async (cep: string) => {
   }
 };
 
-const addToCoupon = async (
-  orderFormId: string | undefined,
-  coupon: string,
-) => {
+const addToCoupon = async (orderFormId: string | undefined, coupon: string) => {
   const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
     {
-      text: coupon
+      text: coupon,
     }
   );
   return response;
-}
+};
 
 const removeCouponToOder = async (
   orderFormId: string | undefined,
-  coupon: string,
+  coupon: string
 ) => {
   const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
     {
-      text: coupon
+      text: coupon,
     }
   );
   return response;
-}
+};
 
-const validateSellerCoupon = async (
-  coupon: string,
-) => {
+const validateSellerCoupon = async (coupon: string) => {
   const response = await vtexConfig2.get(
-    `/dataentities/VE/search?_fields=id,coupon,ativo,vendedor_apelido&_where=((coupon=${coupon}) AND (ativo=true))`);
+    `/dataentities/VE/search?_fields=id,coupon,ativo,vendedor_apelido&_where=((coupon=${coupon}) AND (ativo=true))`
+  );
   return response;
-}
+};
 
 const addToSellerCoupon = async (
   orderFormId: string | undefined,
-  marketingData: any,
+  marketingData: any
 ) => {
   const response = await vtexConfig2.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
+    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`,
+    marketingData
+  );
   return response;
-}
+};
 
 const removeSellerCouponToOder = async (
   orderFormId: string | undefined,
-  marketingData: any,
+  marketingData: any
 ) => {
   const response = await vtexConfig2.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`, marketingData);
+    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`,
+    marketingData
+  );
   return response;
-}
-
+};
 
 //reset user checkout
-const ResetUserCheckout = async (
-  orderFormId?: string,
-) => {
+const ResetUserCheckout = async (orderFormId?: string) => {
   const response = await vtexConfig3.get(
-    `/checkout/changeToAnonymousUser/${orderFormId}`);
+    `/checkout/changeToAnonymousUser/${orderFormId}`
+  );
   return response;
-}
+};
 
-const SendUserEmail = async (
-  email?: string,
-) => {
-  const response = await vtexConfig4.get(`/contactlist/${email}/true/newsletter/reserva`);
+const SendUserEmail = async (email?: string) => {
+  const response = await vtexConfig4.get(
+    `/contactlist/${email}/true/newsletter/reserva`
+  );
   return response;
-}
-const ConvertZipCode = async (
-  postalCode?: string,
-) => {
-  const response = await vtexConfig3.get(`/api/checkout/pub/postal-code/BRA/${postalCode}`);
+};
+const ConvertZipCode = async (postalCode?: string) => {
+  const response = await vtexConfig3.get(
+    `/api/checkout/pub/postal-code/BRA/${postalCode}`
+  );
   return response;
-}
+};
 
-const Tracking = async (
-  cookie: string,
-  order?: string,
-) => {
+const Tracking = async (cookie: string, order?: string) => {
   const response = await vtexConfig5.get(`/oms/user/orders/${order}`, {
     headers: {
       Cookie: cookie,
-    }
+    },
   });
   return response;
-}
-const PickupPoint = async (
-  longitude: string,
-  latitude: string
-) => {
-  const response = await instance2.get(`/checkout/pub/pickup-points?geoCoordinates=${longitude};${latitude}`);
+};
+const PickupPoint = async (longitude: string, latitude: string) => {
+  const response = await instance2.get(
+    `/checkout/pub/pickup-points?geoCoordinates=${longitude};${latitude}`
+  );
   return response;
-}
+};
 
-const Orders = async (
-  page: string
-) => {
+const Orders = async (page: string) => {
   const response = await instance2.get(`/oms/user/orders/?page=${page}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
-    }
+    },
   });
   return response;
-}
-const OrderDetail = async (
-  orderId: string
-) => {
+};
+const OrderDetail = async (orderId: string) => {
   const response = await instance2.get(`/oms/user/orders/${orderId}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
-    }
+    },
   });
   return response;
-}
+};
 
 const Attachment = async (
   orderFormId: string | undefined,
   productOrderFormIndex: any,
-  attachmentName: any,
+  attachmentName: any
 ) => {
   const response = await vtexConfig3.post(
     `/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
     { content: { aceito: 'true' } }
   );
   return response;
-}
+};
 
 export {
   CreateCart,
@@ -409,5 +407,5 @@ export {
   Orders,
   OrderDetail,
   Attachment,
-  VerifyEmail
+  VerifyEmail,
 };

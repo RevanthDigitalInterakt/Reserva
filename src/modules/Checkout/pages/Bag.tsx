@@ -33,10 +33,14 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
-export const BagScreen = () => {
+type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
+
+export const BagScreen = ({ route }: Props) => {
   const { email } = useAuth();
   const navigation = useNavigation();
   const {
@@ -52,6 +56,8 @@ export const BagScreen = () => {
     addCustomer,
     addShippingData,
   } = useCart();
+
+  const { isProfileComplete } = route?.params;
 
   const [loading, setLoading] = useState(false);
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
@@ -102,7 +108,7 @@ export const BagScreen = () => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => { },
+    refetch: () => {},
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -150,7 +156,9 @@ export const BagScreen = () => {
         profile?.homePhone?.length === 0 ||
         profile?.homePhone === null ||
         profile?.document?.length === 0 ||
-        profile?.document === null
+        profile?.document === null ||
+        profile?.gender?.length === 0 ||
+        profile?.gender === null
       ) {
         setIsEmptyProfile(true);
       } else {
@@ -201,8 +209,9 @@ export const BagScreen = () => {
 
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split('=')[1];
-    const sellerName =
-      orderForm?.marketingData?.marketingTags[2]?.split('=')[1].split(" ")[0];
+    const sellerName = orderForm?.marketingData?.marketingTags[2]
+      ?.split('=')[1]
+      .split(' ')[0];
     const installment =
       orderForm?.paymentData?.installmentOptions
         ?.find((x) => x.paymentSystem == 4)
@@ -213,13 +222,13 @@ export const BagScreen = () => {
     setInstallmentInfo(
       installment
         ? {
-          installmentPrice: installment.value,
-          installmentsNumber: installment.count,
-          totalPrice: installment.total,
-        }
+            installmentPrice: installment.value,
+            installmentsNumber: installment.count,
+            totalPrice: installment.total,
+          }
         : {
-          ...installmentInfo,
-        }
+            ...installmentInfo,
+          }
     );
 
     setOptimistQuantities(quantities);
@@ -289,7 +298,7 @@ export const BagScreen = () => {
       if (!email) {
         setLoadingGoDelivery(false);
         navigation.navigate('EnterYourEmail');
-      } else if (isEmptyProfile) {
+      } else if (isEmptyProfile && !isProfileComplete) {
         // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
         navigation.navigate('EditProfile', { isRegister: true });
@@ -532,8 +541,8 @@ export const BagScreen = () => {
 
               <ShippingBar
                 loading={loadingShippingBar}
-                sumPriceShipping={totalBag + totalDiscountPrice + totalDelivery}
-                isFreeShipping={totalDelivery != 0 ? totalDelivery : 0}
+                sumPriceShipping={totalBag + totalDiscountPrice}
+                totalDelivery={totalDelivery != 0 ? totalDelivery : 0}
               />
 
               {orderForm?.items.map((item, index, array) => (
@@ -542,30 +551,30 @@ export const BagScreen = () => {
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                      <Box paddingBottom="nano">
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={11}
-                          color="verdeSucesso"
-                        >
-                          Desconto de 1° compra aplicado neste produto!
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box paddingBottom="nano">
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={11}
+                        color="verdeSucesso"
+                      >
+                        Desconto de 1° compra aplicado neste produto!
+                      </Typography>
+                    </Box>
+                  )}
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                      <Box position="absolute" zIndex={5} top={84} right={21}>
-                        <Typography
-                          color="verdeSucesso"
-                          fontFamily="nunitoRegular"
-                          fontSize={11}
-                        >
-                          -R$ 50
-                        </Typography>
-                      </Box>
-                    )}
+                    <Box position="absolute" zIndex={5} top={84} right={21}>
+                      <Typography
+                        color="verdeSucesso"
+                        fontFamily="nunitoRegular"
+                        fontSize={11}
+                      >
+                        -R$ 50
+                      </Typography>
+                    </Box>
+                  )}
                   <ProductHorizontalListCard
                     isBag
                     discountApi={
@@ -584,7 +593,7 @@ export const BagScreen = () => {
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
                       array.filter((x) => x.uniqueId == item.uniqueId).length >
-                      1
+                        1
                     }
                     currency="R$"
                     discountTag={getPercent(item.sellingPrice, item.listPrice)}
