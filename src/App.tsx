@@ -117,9 +117,11 @@ const App = () => {
 
   const firstLaunchedData = async () => {
     const appData = await AsyncStorage.getItem('isAppFirstLaunched');
-    if (appData == null) {
+    if (appData === null) {
       setIsAppFirstLaunched(true);
       AsyncStorage.setItem('isAppFirstLaunched', 'false');
+    } else if (appData === 'true') {
+      setIsAppFirstLaunched(true);
     } else {
       setIsAppFirstLaunched(false);
     }
@@ -182,12 +184,11 @@ const App = () => {
                     <FirebaseContextProvider>
                       <ChronometerContextProvider>
                         <ApolloProvider
-                          // client={
-                          //   isTesting
-                          //     ? apolloClientTesting
-                          //     : apolloClientProduction
-                          // }
-                          client={apolloClientTesting}
+                          client={
+                            isTesting
+                              ? apolloClientTesting
+                              : apolloClientProduction
+                          }
                         >
                           <InitialScreen>
                             <AppRouting isFirstLaunched={isAppFirstLaunched} />

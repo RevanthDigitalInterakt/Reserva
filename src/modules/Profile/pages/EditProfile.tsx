@@ -128,6 +128,7 @@ export const EditProfile = ({ route }: Props) => {
   });
 
   const [userAccept, setUserAccept] = useState(false);
+  const [onboardingView, setOnboardingView] = useState(false);
   const [getProfile] = useLazyQuery(profileQuery, {
     fetchPolicy: 'no-cache',
   });
@@ -637,8 +638,19 @@ export const EditProfile = ({ route }: Props) => {
     }
   };
 
+  const getOnboardingData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+
+    if (appData === 'true') {
+      setOnboardingView(true);
+    } else {
+      setOnboardingView(false);
+    }
+  };
+
   useEffect(() => {
     getTestEnvironment();
+    getOnboardingData();
   }, []);
 
   const handleChangeTesting = async (value: boolean) => {
@@ -647,6 +659,15 @@ export const EditProfile = ({ route }: Props) => {
     await AsyncStorage.setItem('isTesting', JSON.stringify(value));
 
     setIsTesting(value);
+  };
+
+  const handleViewOnboarding = async (value: boolean) => {
+    if (value === true) {
+      await AsyncStorage.setItem('isAppFirstLaunched', 'true');
+    } else {
+      await AsyncStorage.setItem('isAppFirstLaunched', 'false');
+    }
+    setOnboardingView(value);
   };
 
   return (
@@ -1089,7 +1110,7 @@ export const EditProfile = ({ route }: Props) => {
                       <Typography>{tokenOneSignal}</Typography>
                     </TouchableOpacity>
                   </Box>
-                  <Box flexDirection="row" marginY="xxs" alignItems="center">
+                  <Box flexDirection="row" marginY="micro" alignItems="center">
                     <Box flex={1}>
                       <Typography variant="subtituloSessoes">
                         Ambiente de testes
@@ -1103,6 +1124,23 @@ export const EditProfile = ({ route }: Props) => {
                         thumbColor="vermelhoAlerta"
                         color="preto"
                         value={isTesting}
+                      />
+                    </Box>
+                  </Box>
+                  <Box flexDirection="row" marginY="micro" alignItems="center">
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Ativar Onboarding
+                      </Typography>
+                    </Box>
+                    <Box marginLeft="micro">
+                      <Toggle
+                        onValueChange={(onboardingView: boolean) =>
+                          handleViewOnboarding(!!onboardingView)
+                        }
+                        thumbColor="vermelhoAlerta"
+                        color="preto"
+                        value={onboardingView}
                       />
                     </Box>
                   </Box>
