@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { Typography, Box, Button, Alert, Icon } from "reserva-ui";
+import { Typography, Box, Button, Alert, Icon } from "@danilomsou/reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 
 type ItemContactProps = {

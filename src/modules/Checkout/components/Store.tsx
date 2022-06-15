@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Typography, Box, Button, Icon, Divider, Image } from "reserva-ui";
+import { Typography, Box, Button, Icon, Divider, Image } from "@danilomsou/reserva-ui";
 import { images } from '../../../assets';
 import Modal from "react-native-modal";
 
@@ -53,7 +53,7 @@ const Store = ({ storeDetail, data }: IStore) => {
                         fontSize={12}
                         color="neutroFrio2"
                     >
-                        LOJA MAIS PRÓXIMA
+                        LOJA MAIS PRÓXIMA SELECIONADA:
                     </Typography>
                     <Box
                         flex={1}

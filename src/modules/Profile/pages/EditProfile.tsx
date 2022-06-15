@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -28,7 +28,8 @@ import {
   TextField,
   Toggle,
   Typography,
-} from 'reserva-ui';
+  Picker
+} from '@danilomsou/reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
   ProfileCustomFieldsInput,
@@ -44,12 +45,29 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
+import IsTestingModal from '../Components/IsTestingModal';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
+const genderPtToEng = {
+  'Homem': 'male',
+  'Mulher': 'female',
+  'Não binário': 'genderqueer',
+  'Outro': 'other',
+}
+
+const genderEngToPt = {
+  'male': 'Homem',
+  'female': 'Mulher',
+  'genderqueer': 'Não binário',
+  'other': 'Outro',
+}
+
+const genderType = ['Homem', 'Mulher', 'Não binário', 'Outro']
+
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
-  const { isTesting, toggleIsTesting} = useContentfull();
+  const [isTesting, setIsTesting] = useState(false);
   const { email } = useAuth();
   const { isRegister } = route?.params || false;
   const [subscribed, setSubscribed] = useState(false);
@@ -62,9 +80,9 @@ export const EditProfile = ({ route }: Props) => {
     email: '',
     document: '',
     birthDate: '',
+    gender: '',
     homePhone: '',
   });
-  const { loading, error, data, refetch } = useQuery(profileQuery);
   const [
     updateNewsLetter,
     { data: NewsLetterData, loading: newsLetterLoading },
@@ -88,6 +106,7 @@ export const EditProfile = ({ route }: Props) => {
     });
   }, []);
   const [loadingScreen, setLoadingScreen] = useState(false);
+  const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false)
 
   const { addCustomer, orderForm, identifyCustomer } = useCart();
 
@@ -96,11 +115,34 @@ export const EditProfile = ({ route }: Props) => {
   const [isEmptyFullName, setIsEmptyFullName] = useState(false);
   const [isEmptyBirthDate, setIsEmptyBirthDate] = useState(false);
   const [isEmptyHomePhone, setIsEmptyHomePhone] = useState(false);
+  const [isEmptyGender, setIsEmptyGender] = useState(false);
+
+  const [gender, setGender] = useState('');
 
   const [labelFullName, setLabelFullName] = useState(null);
   const [labelDocument, setLabelDocument] = useState(null);
   const [labelBirthDate, setLabelBirthDate] = useState(null);
   const [labelPhone, setLabelPhone] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [{ data, loading }, setProfileData] = useState({
+    data: null,
+    loading: true,
+  });
+
+  const [getProfile] = useLazyQuery(profileQuery,
+    {
+      fetchPolicy: 'no-cache'
+    }
+  );
+
+  const refetch = useCallback(() => {
+    getProfile().then((res) => {
+      setProfileData({
+        data: res.data,
+        loading: false,
+      });
+    });
+  }, []);
 
   const getTesters = async () => {
     const testers = await remoteConfig().getValue('EMAIL_TESTERS');
@@ -134,6 +176,7 @@ export const EditProfile = ({ route }: Props) => {
               addHours(new Date(Date.parse(data.profile.birthDate)), 3),
               'dd/MM/yyyy'
             ),
+          gender: data?.profile?.gender || '',
           homePhone: data?.profile?.homePhone || '',
         });
         setSubscribed(
@@ -147,7 +190,7 @@ export const EditProfile = ({ route }: Props) => {
           ).value || null
         );
 
-        if (isRegister) refetch();
+        // if (isRegister) refetch();
 
         if (!data?.profile?.lastName) {
           setIsEmptyFullName(true);
@@ -180,6 +223,13 @@ export const EditProfile = ({ route }: Props) => {
           setIsEmptyHomePhone(false);
           setLabelPhone('Telefone');
         }
+
+        if (!data?.profile?.gender || data?.profile?.gender === '') {
+          setIsEmptyGender(true);
+        } else {
+          setIsEmptyGender(false);
+          setGender(genderEngToPt[data?.profile?.gender])
+        }
       }
       setLoadingScreen(false);
     }
@@ -204,6 +254,8 @@ export const EditProfile = ({ route }: Props) => {
     if (updateData) {
       if (!isRegister) {
         refetch();
+        if (!loading) navigation.goBack();
+      } else {
         if (!loading) navigation.goBack();
       }
     }
@@ -272,6 +324,7 @@ export const EditProfile = ({ route }: Props) => {
       document: userData.document.replace(/[^\d]+/g, ''),
       birthDate: splittedBirthDate?.reverse().join('-'),
       homePhone: newPhone.replace(/[^\d\+]+/g, ''),
+      gender: userData.gender
     };
 
     let profileImage = profileImagePath;
@@ -346,7 +399,7 @@ export const EditProfile = ({ route }: Props) => {
         })
           .then(async () => await identifyCustomer(email))
           .then(() => setLoadingScreen(false))
-          .then(() => navigation.navigate('DeliveryScreen'));
+          .then(() => navigation.navigate('BagScreen', { isProfileComplete: true }));
       }
     }
   };
@@ -479,6 +532,55 @@ export const EditProfile = ({ route }: Props) => {
     }
   };
 
+  const handlerValidationFullName = (text: string) => {
+    const [firstName, ...rest] = text.trim().split(' ');
+    const lastName = rest.join(' ');
+    if (
+      text.match(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
+      ) &&
+      !lastName.match(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
+      )
+    ) {
+      console.log('TRUE ::::::::::::::::::::');
+      setIsEmptyFullName(false);
+      setLabelFullName('Nome completo');
+    } else {
+      console.log('false ::::::::::::::::::::');
+      setIsEmptyFullName(true);
+      setLabelFullName(null);
+    }
+  };
+
+  const handlerValidationBirthDate = (text: string) => {
+    if (
+      text.match(
+        /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+      )
+    ) {
+      setIsEmptyBirthDate(false);
+      setLabelBirthDate('Data de nascimento');
+    } else {
+      setIsEmptyBirthDate(true);
+      setLabelBirthDate(null);
+    }
+  };
+
+  const handlerValidationHomePhone = (text: string) => {
+    if (
+      text.match(
+        /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9 \d|[2-9])\d{3})\-?(\d{4}))$/
+      )
+    ) {
+      setIsEmptyHomePhone(false);
+      setLabelPhone('Telefone');
+    } else {
+      setIsEmptyHomePhone(true);
+      setLabelPhone(null);
+    }
+  };
+
   useEffect(() => {
     if (imageProfile !== null) {
       updateImageUrl();
@@ -514,6 +616,28 @@ export const EditProfile = ({ route }: Props) => {
     },
   });
 
+  const getTestEnvironment = async () => {
+    const res = await AsyncStorage.getItem('isTesting');
+
+    if (res === 'true') {
+      setIsTesting(true);
+    } else {
+      setIsTesting(false);
+    }
+  };
+
+  useEffect(() => {
+    getTestEnvironment();
+  }, []);
+
+  const handleChangeTesting = async (value: boolean) => {
+    setIsVisible(true);
+
+    await AsyncStorage.setItem('isTesting', JSON.stringify(value));
+
+    setIsTesting(value);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
@@ -538,6 +662,10 @@ export const EditProfile = ({ route }: Props) => {
           style={{ height: '100%' }}
         >
           <Box alignContent="flex-start" pt="xs" paddingX="xxxs" pb="xxl">
+            <IsTestingModal
+              isVisible={isVisible}
+              setIsVisible={() => setIsVisible(!isVisible)}
+            />
             <Modal
               onBackdropPress={() => setShowModalProfile(false)}
               isVisible={showModalProfile}
@@ -688,16 +816,8 @@ export const EditProfile = ({ route }: Props) => {
                       ...userData,
                       fullName: text,
                     });
-                    const [firstName, ...rest] = text.trim().split(' ');
-                    const lastName = rest.join(' ');
 
-                    if (!text || !lastName) {
-                      setIsEmptyFullName(true);
-                      setLabelFullName(null);
-                    } else {
-                      setIsEmptyFullName(false);
-                      setLabelFullName('Nome completo');
-                    }
+                    handlerValidationFullName(text.trim());
                   }}
                   iconRight={
                     !isEmptyFullName ? (
@@ -714,7 +834,7 @@ export const EditProfile = ({ route }: Props) => {
                     )
                   }
                   placeholder="Digite seu nome completo."
-                  error="Preencha seu nome completo."
+                  error="Preencha seu nome completo. (Apenas alfabetos são permitidos para este campo.)"
                   touched={isEmptyFullName}
                 />
               </Box>
@@ -781,6 +901,163 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
+              <Box
+                mb="xxs"
+                position={'relative'}
+                style={Platform.OS === 'ios' ? { zIndex: 1 } : {}}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    if (isVisibleGenderPicker) {
+                      setIsVisibleGenderPicker(false)
+
+                      if (gender === '') {
+                        setIsEmptyGender(true)
+                      }
+                    } else {
+                      setIsVisibleGenderPicker(true)
+                      setIsEmptyGender(false)
+                    }
+                  }}
+                >
+                  <Box
+                    backgroundColor="backgoundInput"
+                    alignItems="center"
+                    flexDirection="row"
+                    height={60}
+                    borderWidth="hairline"
+                    borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
+                  >
+                    <Box
+                      ml="xxxs"
+                    >
+                      {gender !== ''
+                        ? <Box
+                          style={{
+                            marginTop: -12
+                          }}
+                        >
+                          <Typography
+                            variant="descricaoCampoDePreenchimento"
+                            color="neutroFrio2"
+                          >
+                            Gênero
+                          </Typography>
+
+                          <Box
+                            mt='nano'
+                            pl='quarck'
+                          >
+                            <Typography
+                              fontFamily='nunitoRegular'
+                              color="preto"
+                              fontSize={15}
+                            >
+                              {gender}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        : <Typography
+                          variant="descricaoCampoDePreenchimento"
+                          color="neutroFrio2"
+                          fontSize={15}
+                        >
+                          Selecione sua identidade de gênero
+                        </Typography>
+                      }
+
+                    </Box>
+
+                    <Box
+                      position={'absolute'}
+                      right={0}
+                      top={24}
+                    >
+                      <Icon
+                        color="preto"
+                        name="ArrowDown"
+                        size={18}
+                        marginX="micro"
+                      />
+                    </Box>
+                  </Box>
+                </TouchableOpacity>
+
+                {isVisibleGenderPicker &&
+                  <Box
+                    position={'absolute'}
+                    width='100%'
+                    top={60}
+                    zIndex={10000000}
+                  >
+                    {genderType.map((gender) => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setGender(gender)
+                          setUserData({ ...userData, gender: genderPtToEng[gender] })
+                          setIsEmptyGender(false)
+                          setIsVisibleGenderPicker(false)
+                        }}
+                      >
+                        <Box
+                          backgroundColor="backgoundInput"
+                          alignItems="center"
+                          flexDirection="row"
+                          height={60}
+                          borderWidth="hairline"
+                          borderColor={'transparente'}
+                          pl='xxxs'
+                        >
+                          <Typography
+                            fontFamily='nunitoRegular'
+                            color="preto"
+                            fontSize={15}
+                          >
+                            {gender}
+                          </Typography>
+                        </Box>
+                      </TouchableOpacity>
+                    ))}
+                  </Box>
+                }
+
+                {isEmptyGender &&
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize="13px"
+                    color="vermelhoAlerta"
+                  >
+                    Preencha sua identidade de gênero
+                  </Typography>
+                }
+              </Box>
+
+              {/* <Picker
+                onAndroidBackButtonPress={() => { }}
+                onClose={() => setIsVisibleGenderPicker(false)}
+                onSelect={(selected) => {
+                  setGender(selected.text)
+                  setUserData({ ...userData, gender: genderPtToEng[selected.text] })
+                  setIsEmptyGender(false)
+                }}
+                isVisible={isVisibleGenderPicker}
+                items={[
+                  {
+                    text: 'Homem',
+                  },
+                  {
+                    text: 'Mulher',
+                  },
+                  {
+                    text: 'Não-binário',
+                  },
+                  {
+                    text: 'Outro',
+                  }
+                ]}
+                title="Identidade de gênero"
+              /> */}
+
               <Box mb="xxs">
                 <TextField
                   keyboardType="number-pad"
@@ -793,13 +1070,7 @@ export const EditProfile = ({ route }: Props) => {
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ birthDate: text } });
 
-                    if (!text) {
-                      setIsEmptyBirthDate(true);
-                      setLabelBirthDate(null);
-                    } else {
-                      setIsEmptyBirthDate(false);
-                      setLabelBirthDate('Data de nascimento');
-                    }
+                    handlerValidationBirthDate(text.trim());
                   }}
                   iconRight={
                     !isEmptyBirthDate ? (
@@ -821,7 +1092,7 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="nano">
+              <Box mb="nano" >
                 <TextField
                   keyboardType="number-pad"
                   maskType="custom"
@@ -833,13 +1104,7 @@ export const EditProfile = ({ route }: Props) => {
                   onChangeText={(text) => {
                     setUserData({ ...userData, ...{ homePhone: text } });
 
-                    if (!text) {
-                      setIsEmptyHomePhone(true);
-                      setLabelPhone(null);
-                    } else {
-                      setIsEmptyHomePhone(false);
-                      setLabelPhone('Telefone');
-                    }
+                    handlerValidationHomePhone(text.trim());
                   }}
                   iconRight={
                     !isEmptyHomePhone ? (
@@ -856,12 +1121,13 @@ export const EditProfile = ({ route }: Props) => {
                     )
                   }
                   placeholder="Digite seu telefone"
-                  error="Preencha seu telefone"
+                  error="Preencha seu telefone."
                   touched={isEmptyHomePhone}
                 />
               </Box>
+
               {isTester && (
-                <Box mb="sm" mt="sm">
+                <Box mb="sm" mt="sm" >
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
@@ -875,7 +1141,9 @@ export const EditProfile = ({ route }: Props) => {
                     </Box>
                     <Box marginLeft="micro">
                       <Toggle
-                        onValueChange={( value: boolean) => toggleIsTesting(value)}
+                        onValueChange={(value: boolean) =>
+                          handleChangeTesting(!!value)
+                        }
                         thumbColor="vermelhoAlerta"
                         color="preto"
                         value={isTesting}
@@ -883,11 +1151,10 @@ export const EditProfile = ({ route }: Props) => {
                     </Box>
                   </Box>
                 </Box>
-
               )}
 
               {!isRegister && (
-                <Box mb="xs" mt="micro" flexDirection="row">
+                <Box mb="xs" mt="micro" flexDirection="row" >
                   <Checkbox
                     color="dropDownBorderColor"
                     selectedColor="preto"
@@ -908,7 +1175,7 @@ export const EditProfile = ({ route }: Props) => {
                 </Box>
               )}
 
-              <Box mb="nano" justifyContent="space-between" flexDirection="row">
+              <Box mb="nano" justifyContent="space-between" flexDirection="row" >
                 {isRegister ? (
                   <Box paddingLeft="nano" mt="sm" width={'100%'}>
                     <Button
@@ -921,9 +1188,9 @@ export const EditProfile = ({ route }: Props) => {
                         loadingProfilePhoto ||
                         isEmptyFullName ||
                         cpfInvalid ||
-                        isEmptyFullName ||
                         isEmptyHomePhone ||
-                        isEmptyBirthDate
+                        isEmptyBirthDate ||
+                        isEmptyGender
                       }
                     />
                   </Box>
@@ -948,8 +1215,12 @@ export const EditProfile = ({ route }: Props) => {
                         disabled={
                           updateLoading ||
                           loadingProfilePhoto ||
+                          loadingScreen ||
+                          isEmptyFullName ||
                           cpfInvalid ||
-                          loadingScreen
+                          isEmptyHomePhone ||
+                          isEmptyBirthDate ||
+                          isEmptyGender
                         }
                       />
                     </Box>

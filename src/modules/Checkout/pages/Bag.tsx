@@ -1,54 +1,46 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-
+import { useLazyQuery } from '@apollo/client';
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  Icon,
+  ProductHorizontalListCard,
+  TextField,
+  Toggle,
+  Typography,
+} from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import analytics from '@react-native-firebase/analytics';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import {
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import { createAnimatableComponent } from 'react-native-animatable';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { createAnimatableComponent } from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
 import Modal from 'react-native-modal';
-import {
-  Typography,
-  Box,
-  ProgressBar,
-  ProductHorizontalListCard,
-  ProductDetailCard,
-  Divider,
-  Button,
-  Icon,
-  Toggle,
-  TextField,
-  Alert,
-  ProductVerticalListCard,
-} from 'reserva-ui';
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
-
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { Attachment } from '../../../services/vtexService';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
 import { EmptyBag } from '../components/EmptyBag';
-import { ModalBook } from '../components/ModalBook';
 import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import { Attachment } from '../../../services/vtexService';
-import { useQuery } from '@apollo/client';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
-import { CepVerify } from '../../../services/vtexService';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
-export const BagScreen = () => {
+type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
+
+export const BagScreen = ({ route }: Props) => {
   const { email } = useAuth();
   const navigation = useNavigation();
   const {
@@ -64,6 +56,8 @@ export const BagScreen = () => {
     addCustomer,
     addShippingData,
   } = useCart();
+
+  const { isProfileComplete } = route?.params;
 
   const [loading, setLoading] = useState(false);
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
@@ -84,6 +78,7 @@ export const BagScreen = () => {
   const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
   const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
   const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
+  const [sellerName, setSellerName] = React.useState<string | undefined>('');
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
   const [noProduct, setNoProduct] = useState<any>('');
@@ -110,11 +105,23 @@ export const BagScreen = () => {
   const [isEmptyProfile, setIsEmptyProfile] = useState(false);
   const [profile, setProfile] = useState();
 
-  const {
-    loading: loadingProfile,
-    data,
-    refetch,
-  } = useQuery(profileQuery, { fetchPolicy: 'no-cache' });
+  const [{ data, loadingProfile, refetch }, setProfileData] = useState({
+    data: {} as any,
+    loadingProfile: true,
+    refetch: () => {},
+  });
+
+  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
+
+  useEffect(() => {
+    getProfile().then((response) => {
+      setProfileData({
+        data: response.data,
+        loadingProfile: false,
+        refetch: response.refetch,
+      });
+    });
+  }, []);
 
   const firstLoadOrderForm = async () => {
     setLoading(true);
@@ -149,7 +156,9 @@ export const BagScreen = () => {
         profile?.homePhone?.length === 0 ||
         profile?.homePhone === null ||
         profile?.document?.length === 0 ||
-        profile?.document === null
+        profile?.document === null ||
+        profile?.gender?.length === 0 ||
+        profile?.gender === null
       ) {
         setIsEmptyProfile(true);
       } else {
@@ -200,7 +209,9 @@ export const BagScreen = () => {
 
     const sellerCode =
       orderForm?.marketingData?.marketingTags[1]?.split('=')[1];
-
+    const sellerName = orderForm?.marketingData?.marketingTags[2]
+      ?.split('=')[1]
+      .split(' ')[0];
     const installment =
       orderForm?.paymentData?.installmentOptions
         ?.find((x) => x.paymentSystem == 4)
@@ -221,11 +232,11 @@ export const BagScreen = () => {
     );
 
     setOptimistQuantities(quantities);
-
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
+    setSellerName(sellerName);
   }, [orderForm]);
 
   useEffect(() => {
@@ -287,12 +298,12 @@ export const BagScreen = () => {
       if (!email) {
         setLoadingGoDelivery(false);
         navigation.navigate('EnterYourEmail');
-      } else if (isEmptyProfile) {
-        updateClientProfileData(profile);
+      } else if (isEmptyProfile && !isProfileComplete) {
+        // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
-        updateClientProfileData(profile);
+        // updateClientProfileData(profile);
         await identifyCustomer(email)
           .then(() => setLoadingGoDelivery(false))
           .then(() => navigation.navigate('DeliveryScreen'));
@@ -530,8 +541,8 @@ export const BagScreen = () => {
 
               <ShippingBar
                 loading={loadingShippingBar}
-                sumPriceShipping={totalBag + totalDiscountPrice + totalDelivery}
-                isFreeShipping={totalDelivery != 0 ? totalDelivery : 0}
+                sumPriceShipping={totalBag + totalDiscountPrice}
+                totalDelivery={totalDelivery != 0 ? totalDelivery : 0}
               />
 
               {orderForm?.items.map((item, index, array) => (
@@ -796,7 +807,7 @@ export const BagScreen = () => {
                 {/* cupom vendedor */}
                 {!!sellerCode && (
                   <CouponBadge
-                    value={sellerCode}
+                    value={`${sellerName} | ${sellerCode.toUpperCase()}`}
                     onPress={async () => {
                       setLoading(true);
                       await removeSellerCoupon(''); // remove passando ''

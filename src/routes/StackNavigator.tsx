@@ -58,6 +58,8 @@ export type RootStackParamList = {
     colorSelected: string;
     sizeSelected: string;
   };
+  DeliveryScreen: undefined;
+  Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -96,7 +98,8 @@ export type RootStackParamList = {
     id?: number;
     isCheckout: boolean;
     edit?: boolean;
-    editAddress: {
+    onAddAddressCallBack?: () => void
+    editAddress?: {
       id: string;
       postalCode: string;
       state: string;
@@ -165,6 +168,9 @@ export type RootStackParamList = {
   VirtualDebitCardCaixaScreen: {
     cashback: boolean;
   };
+  BagScreen: {
+    isProfileComplete: boolean;
+  }
 };
 
 const flows: Flow[] = [
@@ -209,7 +215,7 @@ export const MainStackScreen = () => (
       component={ShowListByCategory}
     />
 
-    <MainStack.Screen name="BagScreen" component={BagScreen} />
+    <MainStack.Screen name="BagScreen" component={BagScreen} initialParams={{ isProfileComplete: false }} />
     <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
     <MainStack.Screen name="Update" component={Update} />
     <MainStack.Screen

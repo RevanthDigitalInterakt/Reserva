@@ -88,8 +88,8 @@ export const MyWalletContainer = (
     );
 
     const balanceFormated = data.data.balance_in_cents > 0
-      ? convertCentsToReal(data.data.balance_in_cents)
-      : data.data.balance_in_cents;
+    ? convertCentsToReal(data.data.balance_in_cents)
+    : data.data.balance_in_cents;
 
     setBalance(balanceFormated);
   };
@@ -106,7 +106,7 @@ export const MyWalletContainer = (
         return userOperations?.data?.filter(
           operation => operation.applied_balance_in_cents > 0
           && operation.status !== 'pending'
-        )
+        );
       case FilterOptions.PENDING:
         const filtered = userOperations?.data?.filter(
           operation => operation.status === 'pending'
@@ -122,11 +122,11 @@ export const MyWalletContainer = (
         return userOperations?.data?.filter(
           operation => operation.cashback_amount_in_cents > 0
           && operation.status !== 'pending'
-        )
+        );
       default:
-        return userOperations?.data?.filter(
+        return  userOperations?.data?.filter(
           operation => operation.status !== 'pending'
-        )
+        );
     }
   }
 

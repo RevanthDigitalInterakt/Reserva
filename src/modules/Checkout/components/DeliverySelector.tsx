@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Typography, Box, Button, Icon } from 'reserva-ui';
+import { Typography, Box, Button, Icon } from '@danilomsou/reserva-ui';
 
 export interface Delivery {
     id?: string;

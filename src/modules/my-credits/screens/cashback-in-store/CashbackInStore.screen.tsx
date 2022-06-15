@@ -31,7 +31,6 @@ export const CashbackInStoreScreen = (
   return (
     <BaseScreen testID='CashbackInStoreScreen'>
       <CashbackInStoreContainer
-        isLoyal={route.params.isLoyal}
         costumerDocument={route.params.costumerDocument}
         navigateBack={navigateBack}
         navigateToError={navigateToError}

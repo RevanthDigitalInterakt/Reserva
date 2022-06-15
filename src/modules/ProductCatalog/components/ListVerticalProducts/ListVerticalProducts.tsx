@@ -1,4 +1,12 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import {
+  Box,
+  Button,
+  ProductVerticalListCard,
+  ProductVerticalListCardProps,
+  Typography
+} from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
@@ -6,18 +14,12 @@ import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from 'reserva-ui';
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
-import {
-  ProductQL
-} from '../../../../graphql/products/productSearch';
+import { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
-
-
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -50,7 +52,7 @@ export const ListVerticalProducts = ({
   loadMoreProducts,
   loadingHandler,
   totalProducts,
-  handleScrollToTheTop
+  handleScrollToTheTop,
 }: ListProductsProps) => {
   const navigation = useNavigation();
   const [favoritedProduct, setFavoritedProduct] = useState<any>();
@@ -67,22 +69,6 @@ export const ListVerticalProducts = ({
   useEffect(() => {
     setLoading(loading);
   }, [loading]);
-
-  const { refetch: refetchFavorite } = useQuery(wishListQueries.CHECK_LIST, {
-    skip,
-  });
-
-  const {
-    data: productIds,
-    loading: loadingWishlist,
-    error,
-    refetch: refetchWishlist,
-  } = useQuery(wishListQueries.GET_WISH_LIST, {
-    variables: {
-      shopperId: email,
-    },
-    skip,
-  });
 
   const [
     addWishList,
@@ -214,7 +200,7 @@ export const ListVerticalProducts = ({
       />
       {/* {(productList.length > 0 || loading) && !error ? ( */}
 
-      {error && productList.length <= 0 && (
+      {products.length <= 0 && (
         <Box
           position="absolute"
           flex={1}
@@ -367,29 +353,28 @@ export const ListVerticalProducts = ({
                       productId: item.productId,
                       colorSelected: getVariant(
                         item.items[0].variations,
-                        'VALOR_HEX_ORIGINAL'
+                        'ID_COR_ORIGINAL'
                       ),
-                    })
+                    });
 
                     if (handleScrollToTheTop) {
-                      handleScrollToTheTop()
+                      handleScrollToTheTop();
                     }
                   }}
                 />
               );
             }}
           />
-        </>)
-      }
+        </>
+      )}
     </>
   );
 };
 
-
 interface ProductItemInterface extends ProductVerticalListCardProps {
-  item: any,
-  index: number,
-  horizontal?: boolean,
+  item: any;
+  index: number;
+  horizontal?: boolean;
 }
 
 const ProductItem: React.FC<ProductItemInterface> = ({
@@ -398,8 +383,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   horizontal,
   ...props
 }) => {
-
-  const [imageUri, setImageUri] = useState<string>()
+  const [imageUri, setImageUri] = useState<string>();
   // const { fetchImage } = useCacheImages()
 
   // const fetchUri = async () => {
@@ -412,7 +396,6 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   // }
   useEffect(() => {
     // if (item) {
-
     //   fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
     //     setImageUri(uri)
     //   });
@@ -428,15 +411,12 @@ const ProductItem: React.FC<ProductItemInterface> = ({
       height={353}
       mr={horizontal && 'xxxs'}
     >
-      {
-        !!item.items[0].images[0].imageUrl && (
-          <ProductVerticalListCard
-            {...props}
-            imageSource={item.items[0].images[0].imageUrl}
-          />
-        )
-      }
+      {!!item.items[0].images[0].imageUrl && (
+        <ProductVerticalListCard
+          {...props}
+          imageSource={item.items[0].images[0].imageUrl}
+        />
+      )}
     </Box>
   );
-}
-
+};

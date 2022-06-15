@@ -5,7 +5,7 @@ import { Formik, useFormik, useFormikContext } from 'formik';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, TextField, Typography, theme } from 'reserva-ui';
+import { Box, Button, TextField, Typography, theme } from '@danilomsou/reserva-ui';
 import * as Yup from 'yup';
 
 import { useCart } from '../../../context/CartContext';

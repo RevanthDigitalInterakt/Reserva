@@ -1,35 +1,50 @@
-import React, { useState, useEffect } from 'react';
-
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
+import { Box, Button, Divider, Icon, Typography } from '@danilomsou/reserva-ui';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+import { BackHandler } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Divider, Typography, Icon, Button } from 'reserva-ui';
-
 import {
   profileQuery,
-  ProfileVars,
+  ProfileVars
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
-import { FetchCredit } from '../../../services/unicoService';
 import {
   StorageService,
-  StorageServiceKeys,
+  StorageServiceKeys
 } from '../../../shared/services/StorageService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { BackHandler } from 'react-native';
+
+
 
 type Props = StackScreenProps<RootStackParamList, 'Credits'>;
 
 export const Credits: React.FC<Props> = ({ navigation, route }) => {
-  const { loading, error, data, refetch } = useQuery(profileQuery);
   const [loadingCredit, setLoadingCredit] = useState(false);
   const [isAcceptedConditions, setIsAcceptConditions] = useState(false);
   const [cashbackInStore, setCashbackInStore] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
   const [credit, setCredit] = useState(0);
+
+  const [{
+    data,
+    loading,
+  }, setProfileData] = useState({
+    loading: true,
+    data: {} as any
+  })
+
+  const [getProfile] = useLazyQuery(profileQuery);
+
+  useEffect(() => {
+    getProfile().then(response => setProfileData({
+      loading: false,
+      data: response.data
+    }))
+  }, [])
 
   useEffect(() => {
     StorageService.getItem<ProfileVars>({

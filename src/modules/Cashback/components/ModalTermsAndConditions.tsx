@@ -3,8 +3,8 @@ import React from 'react';
 import LottieView from 'lottie-react-native';
 import { ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
-import { Box, Button, Typography, Icon } from 'reserva-ui';
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
+import { Box, Button, Typography, Icon } from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 
 interface IModal {
   isVisible: boolean;

@@ -9,7 +9,7 @@ import {
   TextField,
   Icon,
   SearchBar,
-} from 'reserva-ui';
+} from '@danilomsou/reserva-ui';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ItemListHelp from '../Components/ItemListHelp';

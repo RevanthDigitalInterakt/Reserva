@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-
-import { useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, Button, Icon } from 'reserva-ui';
 import * as Yup from 'yup';
-
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { redefinePasswordMutation } from '../../../graphql/profile/redefinePassword';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+
+
 
 type Props = StackScreenProps<RootStackParamList, 'EditPassword'>;
 export const EditPassword = ({ route }: Props) => {
@@ -25,12 +25,24 @@ export const EditPassword = ({ route }: Props) => {
     newPassword,
     { data: dataMutation, loading: loadingMutation, error: newPasswordError },
   ] = useMutation(redefinePasswordMutation);
-
-  const { loading, error, data, refetch } = useQuery(profileQuery);
+  const [{
+    data,
+    loading,
+  }, setProfileData] = useState({
+    loading: true,
+    data: {} as any,
+  })
+  const [getProfileData] = useLazyQuery(profileQuery);
   const [changeSuccess, setChangeSuccess] = useState(false);
   const [resultChangePassword, setResultChangePassword] = useState<any>([]);
   const navigation = useNavigation();
 
+  useEffect(() => {
+    getProfileData().then(response => setProfileData({
+      loading: false,
+      data: response.data,
+    }))
+  }, [])
   useEffect(() => {
     if (!loading) {
       setEmail(data?.profile?.email);

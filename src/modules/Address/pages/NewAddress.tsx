@@ -1,34 +1,32 @@
-import React, { useEffect, useRef, useState } from 'react';
-
-import { useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { Box, Button, TextField, Typography } from '@danilomsou/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  KeyboardAvoidingView,
-  StyleProp,
-  TextStyle,
+  KeyboardAvoidingView, SafeAreaView,
+  ScrollView, StyleProp,
+  TextStyle
 } from 'react-native';
 import {
   TextInputMaskOptionProp,
-  TextInputMaskTypeProp,
+  TextInputMaskTypeProp
 } from 'react-native-masked-text';
-import { Box, Button, TextField, theme, Typography } from 'reserva-ui';
-
+import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import {
   saveAddressMutation,
-  updateAddress,
+  updateAddress
 } from '../../../graphql/address/addressMutations';
 import {
   profileQuery,
-  ProfileVars,
+  ProfileVars
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useAuth } from '../../../context/AuthContext';
+
+
 
 interface IAddress {
   postalCode: string;
@@ -38,39 +36,38 @@ interface IAddress {
   complement: string;
   street: string;
   neighborhood: string;
-  receiverName: string;
-  addressType: string;
-  country: string;
+  receiverName?: string;
+  addressType?: string;
+  country?: string;
 }
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit, editAddress } = route?.params;
-  const [addressId, setAddressId] = useState(edit ? editAddress.id : '');
+  const { edit, editAddress, isCheckout, onAddAddressCallBack } = route?.params;
+  const [addressId, setAddressId] = useState(editAddress?.id);
   const [toggleActivated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
   const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
-  const { isCheckout } = route.params;
-  const {
-    loading: loadingProfile,
-    error,
-    data: profileData,
-    refetch,
-  } = useQuery(profileQuery);
+  const [getProfile, { }] = useLazyQuery(profileQuery);
+
+  const [{ profileData, loadingProfile }, setProfileData] = useState({
+    profileData: null,
+    loadingProfile: true
+  })
 
   const [profile, setProfile] = useState<ProfileVars>();
   const [initialValues, setInitialValues] = useState<IAddress>({
-    postalCode: edit ? editAddress.postalCode : '',
-    state: edit ? editAddress.state : '',
-    city: edit ? editAddress.city : '',
-    number: edit ? editAddress.number : '',
-    complement: edit ? editAddress.complement : '',
-    street: edit ? editAddress.street : '',
-    neighborhood: edit ? editAddress.neighborhood : '',
+    postalCode: editAddress?.postalCode || '',
+    state: editAddress?.state || '',
+    city: editAddress?.city || '',
+    number: editAddress?.number || '',
+    complement: editAddress?.complement || '',
+    street: editAddress?.street || '',
+    neighborhood: editAddress?.neighborhood || '',
     receiverName: '',
     addressType: 'residential',
     country: 'BRA',
@@ -93,28 +90,30 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const { email } = useAuth();
 
+
   const handleSaveAddress = async () => {
     setLoading(true);
 
     edit
       ? await addressUpdate({
-          variables: {
-            id: addressId,
-            fields: {
-              ...initialValues,
-              receiverName: `${profile?.firstName} ${profile?.lastName}`,
-            },
+        variables: {
+          id: addressId,
+          fields: {
+            ...initialValues,
+            receiverName: `${profile?.firstName} ${profile?.lastName}`,
           },
-        })
+        },
+      })
       : await saveAddress({
-          variables: {
-            fields: {
-              ...initialValues,
-              receiverName: `${profile?.firstName} ${profile?.lastName}`,
-            },
+        variables: {
+          fields: {
+            ...initialValues,
+            receiverName: `${profile?.firstName} ${profile?.lastName}`,
           },
-        });
+        },
+      });
 
+    onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
     orderform();
     setLoading(false);
@@ -161,6 +160,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     await identifyCustomer(email).then(() => setLoading(false));
 
     if (isAddressSaved) {
+      onAddAddressCallBack && onAddAddressCallBack();
       navigation.goBack();
     }
   };
@@ -229,6 +229,15 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   };
 
   useEffect(() => {
+    getProfile().then((response) => {
+      setProfileData({
+        profileData: response.data,
+        loadingProfile: false,
+      })
+    })
+  }, [])
+
+  useEffect(() => {
     if (profileData) {
       const { profile } = profileData;
       if (profile) {
@@ -265,7 +274,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   }, [initialValues]);
 
   useEffect(() => {
-    if (edit) {
+    if (edit && !!editAddress) {
       setAddressId(editAddress.id);
       setInitialValues({
         postalCode: editAddress.postalCode,
@@ -275,6 +284,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         complement: editAddress.complement,
         street: editAddress.street,
         neighborhood: editAddress.neighborhood,
+
       });
       setLabelNeighborhood('Bairro');
       setLabelCity('Cidade');

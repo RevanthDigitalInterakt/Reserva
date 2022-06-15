@@ -6,7 +6,7 @@ import {
   ProductHorizontalListCard,
   Typography,
   Picker,
-} from 'reserva-ui'
+} from '@danilomsou/reserva-ui'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
 import { images } from '../../../assets'
 import { WishListCategory } from './WishListCategory'

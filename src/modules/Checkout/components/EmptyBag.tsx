@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Typography, Box, Button, Image } from 'reserva-ui';
+import { Typography, Box, Button, Image } from '@danilomsou/reserva-ui';
 
 import { images } from '../../../assets';
 

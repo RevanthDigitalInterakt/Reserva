@@ -3,7 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Linking } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Box, Button, Divider, Icon, Typography } from 'reserva-ui'
+import { Box, Button, Divider, Icon, Typography } from '@danilomsou/reserva-ui'
 import { RootStackParamList } from '../../../routes/StackNavigator'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
 

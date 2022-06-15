@@ -1,9 +1,4 @@
-import {
-  QueryResult,
-  useLazyQuery,
-  useMutation,
-  useQuery,
-} from '@apollo/client';
+import { QueryResult, useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
@@ -32,7 +27,7 @@ import {
   RadioButtons,
   SelectColor,
   Typography,
-} from 'reserva-ui';
+} from '@danilomsou/reserva-ui';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
@@ -172,12 +167,33 @@ export const ProductDetail: React.FC<Props> = ({
    * States, queries and mutations
    */
   const [product, setProduct] = useState<Product | null>(null);
-  const { data, loading, refetch }: QueryResult<ProductQueryResponse> =
-    useQuery<ProductQueryResponse>(GET_PRODUCTS, {
-      variables: {
-        id: route.params.productId.split('-')[0],
-      },
+  const [{ data, loading }, setProductLoad] = useState({
+    data: null,
+    loading: true,
+  });
+  const [getProduct] = useLazyQuery(GET_PRODUCTS, {
+    variables: {
+      id: route.params.productId.split('-')[0],
+    },
+  });
+
+  const refetch = () => {
+    setProductLoad({
+      data: null,
+      loading: true,
     });
+
+    getProduct().then((response) => {
+      setProductLoad({
+        data: response.data,
+        loading: false,
+      });
+    });
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [route.params.productId]);
 
   const [
     subscribeNewsletter,
@@ -195,7 +211,7 @@ export const ProductDetail: React.FC<Props> = ({
     {
       loading: shippingLoading,
       error,
-      data: shippingData,
+      // data: shippingData,
       refetch: shippingRefetch,
     },
   ] = useLazyQuery(GET_SHIPPING, { fetchPolicy: 'no-cache' });
@@ -234,10 +250,6 @@ export const ProductDetail: React.FC<Props> = ({
   const [emailPromotions, setEmailPromotions] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [showMessageError, setShowMessageError] = useState(false);
-  const { refetch: checkListRefetch } = useQuery(wishListQueries.CHECK_LIST, {
-    skip,
-  });
-
   const [
     addWishList,
     { data: addWishListData, error: addWishListError, loading: addWishLoading },
@@ -258,6 +270,8 @@ export const ProductDetail: React.FC<Props> = ({
   // const { fetchImage } = useCacheImages();
 
   const scrollRef = useRef<ScrollView>();
+
+  const [shippingData, setShippingData] = useState<any | null>({});
 
   // useEffect(() => {
   //   if (imageSelected.length > 0) {
@@ -304,9 +318,12 @@ export const ProductDetail: React.FC<Props> = ({
       setSelectedVariant(variant);
 
       const disabledColors = getUnavailableColors(product);
+      getAllUnavailableColors(product);
 
       // set colors filter
-      const colorList = getColorsList(product);
+      getColorsList(product);
+
+      const colorList = getAllColors(product);
 
       // set size filter
       const sizeList = getSizeList(product);
@@ -314,7 +331,7 @@ export const ProductDetail: React.FC<Props> = ({
 
       const colorItemId = product.items
         .find((item) => item.itemId == route.params?.itemId)
-        ?.variations?.find((x) => x.name == 'VALOR_HEX_ORIGINAL')?.values;
+        ?.variations?.find((x) => x.name == 'ID_COR_ORIGINAL')?.values;
 
       // get the product color
       const sizeItemId = product.items
@@ -329,15 +346,18 @@ export const ProductDetail: React.FC<Props> = ({
           setSelectedColor(colorItemId[0]);
           setSelectedNewColor(colorItemId[0]);
           variant = product.items.find(
-            (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == colorItemId[0]
+            (x) =>
+              x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+                ?.values[0] == colorItemId[0]
           );
-
         } else {
           if (colorList) {
             setSelectedColor(colorList[0]);
             setSelectedNewColor(colorList[0]);
             variant = product.items.find(
-              (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == colorList[0]
+              (x) =>
+                x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+                  ?.values[0] == colorList[0]
             );
           }
         }
@@ -345,11 +365,13 @@ export const ProductDetail: React.FC<Props> = ({
         setSelectedColor(colorList ? route.params.colorSelected : '');
         setSelectedNewColor(colorList ? route.params.colorSelected : '');
         variant = product.items.find(
-          (x) => x.variations?.find((v) => v.name == 'VALOR_HEX_ORIGINAL')?.values[0] == route.params.colorSelected
+          (x) =>
+            x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0] ==
+            route.params.colorSelected
         );
       }
 
-      setSelectedVariant(variant)
+      setSelectedVariant(variant);
       // setSelectedColor(colorList
       //   ? route.params.colorSelected
       //     ? route.params.colorSelected
@@ -452,7 +474,46 @@ export const ProductDetail: React.FC<Props> = ({
         setoutOfStock(false);
       }
     }
-  }, [selectedColor, route.params.productId, itemsSKU]);
+  }, [selectedColor, itemsSKU]);
+
+  const getAllUnavailableColors = ({ items, skuSpecifications }: Product) => {
+    const colorsUnavailable = items.map((item) => {
+      if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
+        return item.variations?.find(
+          (variant) => variant.name === 'ID_COR_ORIGINAL'
+        );
+    });
+
+    return colorsUnavailable;
+  };
+
+  const getUrlFromIdColor = (idColor: string) => {
+    return {
+      url: `https://lojausereserva.vtexassets.com/arquivos/color-thumb-${idColor}.jpg`,
+      id: idColor,
+    };
+  };
+
+  const getAllColors = ({ skuSpecifications }: Product) => {
+    const colors = skuSpecifications
+      .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
+      ?.values.map(({ name }) => name);
+    return colors;
+  };
+
+  const getHexColor = (idColor: string, { skuSpecifications }: Product) => {
+    // get index of color
+    const index = skuSpecifications
+      .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
+      ?.values.findIndex(({ name }) => name === idColor);
+
+    // get color by index
+    const color = skuSpecifications.find(
+      ({ field }) => field.name === 'VALOR_HEX_ORIGINAL'
+    )?.values[index || 0]?.name;
+
+    return idColor;
+  };
 
   // change sku effect
   useEffect(() => {
@@ -462,7 +523,7 @@ export const ProductDetail: React.FC<Props> = ({
       const sizeColorSkuVariations = items.flatMap((i) => {
         const variants = i.variations
           ?.map((v) => {
-            if (['VALOR_HEX_ORIGINAL', 'Tamanho'].includes(v.name)) return v;
+            if (['ID_COR_ORIGINAL', 'Tamanho'].includes(v.name)) return v;
           })
           .filter((a) => a !== undefined);
 
@@ -516,7 +577,7 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedSize],
           },
           {
-            name: 'VALOR_HEX_ORIGINAL',
+            name: 'ID_COR_ORIGINAL',
             originalName: null,
             values: [selectedColor],
           },
@@ -528,9 +589,9 @@ export const ProductDetail: React.FC<Props> = ({
         const isSkuEqual = (sku1: any, sku2: any) => {
           if (sku1 && sku2) {
             const size1 = getVariant(sku1, 'Tamanho');
-            const color1 = getVariant(sku1, 'VALOR_HEX_ORIGINAL');
+            const color1 = getVariant(sku1, 'ID_COR_ORIGINAL');
             const size2 = getVariant(sku2, 'Tamanho');
-            const color2 = getVariant(sku2, 'VALOR_HEX_ORIGINAL');
+            const color2 = getVariant(sku2, 'ID_COR_ORIGINAL');
 
             return size1 === size2 && color1 === color2;
           }
@@ -708,14 +769,14 @@ export const ProductDetail: React.FC<Props> = ({
     return items.map((item) => {
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
         return item.variations?.find(
-          (variant) => variant.name === 'VALOR_HEX_ORIGINAL'
+          (variant) => variant.name === 'ID_COR_ORIGINAL'
         );
     });
   };
 
   const getColorsList = ({ skuSpecifications }: Product) =>
     skuSpecifications
-      .find(({ field }) => field.name === 'VALOR_HEX_ORIGINAL')
+      .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
       ?.values.map(({ name }) => name);
 
   const getSizeList = ({ skuSpecifications }: Product) =>
@@ -727,7 +788,7 @@ export const ProductDetail: React.FC<Props> = ({
     return items.flatMap((item) => {
       const images = item.variations
         ?.map((v) => {
-          if (['VALOR_HEX_ORIGINAL'].includes(v.name)) {
+          if (['ID_COR_ORIGINAL'].includes(v.name)) {
             if (v.values[0] === color) {
               return item.images;
             }
@@ -743,7 +804,7 @@ export const ProductDetail: React.FC<Props> = ({
     return items.flatMap((item) => {
       const variants = item.variations
         ?.map((v) => {
-          if (['VALOR_HEX_ORIGINAL'].includes(v.name)) {
+          if (['ID_COR_ORIGINAL'].includes(v.name)) {
             if (v.values[0] === color) {
               return {
                 item,
@@ -763,19 +824,23 @@ export const ProductDetail: React.FC<Props> = ({
     });
   };
 
-  const consultZipCode = () => {
-    getShippingData({
+  const consultZipCode = async () => {
+    const { data } = await getShippingData({
       variables: {
         items: [
           {
             quantity: '1',
-            id: selectedVariant?.itemId,
-            seller: selectedSellerId,
+            id: selectedVariant?.itemId.trim(),
+            // id: '354688',
+            seller: selectedSellerId.trim(),
+            // seller: '1',
           },
         ],
-        postalCode: cep,
+        postalCode: cep.trim(),
       },
     });
+
+    setShippingData(data);
   };
 
   const newsAndPromotions = async () => {
@@ -801,7 +866,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     if (shippingData) {
-      setShippingCost(shippingData.shipping.logisticsInfo);
+      setShippingCost(shippingData?.shipping?.logisticsInfo);
     }
   }, [shippingData]);
 
@@ -850,6 +915,8 @@ export const ProductDetail: React.FC<Props> = ({
       y: 0,
       animated: true,
     });
+    setShippingData({});
+    setCep('');
   };
 
   return (
@@ -868,6 +935,7 @@ export const ProductDetail: React.FC<Props> = ({
         />
         <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
         <KeyboardAvoidingView
+          enabled
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           style={{ marginBottom: 100 }}
         >
@@ -911,9 +979,11 @@ export const ProductDetail: React.FC<Props> = ({
                     product.priceRange.sellingPrice.lowPrice || 0
                   }
                   imagesWidth={screenWidth}
-                  images={imageSelected.length > 0
-                    ? imageSelected[0][0].map((image) => image.imageUrl)
-                    : []}
+                  images={
+                    imageSelected.length > 0
+                      ? imageSelected[0][0].map((image) => image.imageUrl)
+                      : []
+                  }
                   installmentsNumber={
                     getInstallments()?.NumberOfInstallments || 1
                   }
@@ -956,7 +1026,9 @@ export const ProductDetail: React.FC<Props> = ({
                         onPress={(color) => setSelectedColor(color)}
                         size={30}
                         disabledColors={[]}
-                        listColors={itemsSKU.map((p) => p.color) || []}
+                        listColors={
+                          itemsSKU.map((p) => getUrlFromIdColor(p.color)) || []
+                        }
                         selectedColors={
                           selectedColor || (colorFilters && colorFilters[0])
                         }
@@ -984,10 +1056,9 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                       </Box>
                     </Button> */}
-                      {
-                        !!product.categoryTree.find(x => Object.keys(SizeGuideImages).includes(x.name)) &&
-                        <SizeGuide categoryTree={product.categoryTree} />
-                      }
+                      {!!product.categoryTree.find((x) =>
+                        Object.keys(SizeGuideImages).includes(x.name)
+                      ) && <SizeGuide categoryTree={product.categoryTree} />}
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons
