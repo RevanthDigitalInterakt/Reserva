@@ -1,11 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-
-import { QueryResult, useQuery } from '@apollo/client';
-import analytics from '@react-native-firebase/analytics';
-import { StackScreenProps } from '@react-navigation/stack';
-import { Linking, Animated, Text } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLazyQuery } from '@apollo/client';
 import {
   Box,
   Button,
@@ -14,41 +7,40 @@ import {
   Picker,
   SearchBar,
   theme,
-  Typography,
-} from 'reserva-ui';
-import { loadingSpinner } from 'reserva-ui/src/assets/animations';
-
-import { images } from '../../../assets';
+  Typography
+} from '@danilomsou/reserva-ui';
+import analytics from '@react-native-firebase/analytics';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { intervalToDuration } from 'date-fns';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Linking } from 'react-native';
+import appsFlyer from 'react-native-appsflyer';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import {
   bannerDefaultQuery,
-  bannerQuery,
-  ICountDownClockReservaMini,
+  bannerQuery, configCollection,
+  ICountDownClock, ICountDownClockReservaMini
 } from '../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
   productSearch,
-  ProductSearchData,
+  ProductSearchData
 } from '../../../graphql/products/productSearch';
+import { CountDownRsvMini } from '../../../modules/Home/component/reservaMini/CountDownRsvMini';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { Skeleton } from '../../Checkout/components/Skeleton';
+import { CountDownBanner } from '../../Home/component/CountDown';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { EmptyProductCatalog } from '../components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
-import {
-  configCollection,
-  ICountDownClock,
-} from '../../../graphql/homePage/HomeQuery';
-import { CountDownBanner } from '../../Home/component/CountDown';
-import { intervalToDuration } from 'date-fns';
-import { CountDownRsvMini } from '../../../modules/Home/component/reservaMini/CountDownRsvMini';
-import { useNavigation } from '@react-navigation/native';
-import { useChronometer } from '../../../modules/CorreReserva/hooks/useChronometer';
-import { useCountDown } from '../../../context/ChronometerContext';
-import { useChronometerRsvMini } from '../../../modules/Home/component/reservaMini/useChronometerRsvMini';
+
+
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -83,9 +75,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
   const [countDownClockRsvMini, setCountDownClockRsvMini] =
     React.useState<ICountDownClockReservaMini>();
-  const { data: collectionData } = useQuery(configCollection, {
+  const [{ collectionData }, setConfigCollection] = useState<{ collectionData: any }>({ collectionData: null });
+  const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
+
+
 
   const generateFacets = (reference: string) => {
     const facetInput: any[] = [];
@@ -109,10 +104,55 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     return facetInput;
   };
 
-  const { data, loading, error, fetchMore, refetch }: QueryResult = useQuery(
+  const [{
+    data,
+    loading,
+    error,
+    // fetchMore,
+    // refetch,
+  }, setProductSearch] = useState<{
+    data: any | null,
+    loading: boolean,
+    error: any,
+    // fetchMore: (...props: any) => any,
+    // refetch: (...props: any | undefined) => any,
+  }>({
+    data: null,
+    loading: false,
+    error: null,
+    // fetchMore: () => { },
+    // refetch: () => { }
+  })
+
+  const refetch = async () => {
+    const response = await getProductSearch()
+
+    setProductSearch({
+      data: response.data,
+      loading: false,
+      error: response.error,
+      // fetchMore: fetchMore,
+      // refetch: refetch
+    })
+    return response
+  }
+
+  const fetchMore = async (props: any) => {
+    const response = await getProductSearch(props)
+    setProductSearch({
+      data: response.data,
+      loading: false,
+      error: response.error,
+      fetchMore: fetchMore,
+      refetch: refetch
+    })
+    return response
+  }
+
+  const [getProductSearch] = useLazyQuery(
     productSearch,
     {
-      skip,
+      // skip,
       variables: {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
@@ -190,11 +230,19 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     });
   }, []);
 
-  const {
-    data: facetsData,
-    loading: lodingFacets,
-    refetch: refetchFacets,
-  }: QueryResult = useQuery(facetsQuery, {
+  const [{
+    facetsData,
+    lodingFacets,
+  }, setFacets] = useState<{
+    facetsData: any,
+    lodingFacets: boolean,
+  }>({
+    facetsData: null,
+    lodingFacets: true,
+  });
+
+
+  const [getFacets] = useLazyQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
       selectedFacets: [].concat(generateFacets(referenceId), filterRequestList),
@@ -202,22 +250,86 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     fetchPolicy: 'no-cache',
   });
 
-  const {
-    data: bannerData,
-    loading: loadingBanner,
-    refetch: refetchBanner,
-  } = useQuery(bannerQuery, {
+  const [{
+    bannerData,
+    loadingBanner,
+    // refetchBanner
+  }, setBannerData] = useState<{
+    bannerData: any | null,
+    loadingBanner: boolean,
+  }>({
+    bannerData: null,
+    loadingBanner: false,
+  })
+
+  const refetchBanner = async () => {
+    const response = await getBanner()
+    setBannerData({
+      bannerData: response.data,
+      loadingBanner: false,
+    })
+    return response
+  }
+
+  const [getBanner] = useLazyQuery(bannerQuery, {
     context: { clientName: 'contentful' },
     variables: {
       category: referenceId,
     },
   });
 
-  const {
-    data: defaultBanner,
-    refetch: refetchDefaultBanner,
-    loading: loadingDefaultBanner,
-  } = useQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } });
+  const [{
+    defaultBanner,
+    loadingDefaultBanner,
+  }, setDefaultBanner] = useState<{
+    defaultBanner: any,
+    loadingDefaultBanner: boolean,
+  }>({
+    defaultBanner: null,
+    loadingDefaultBanner: false
+    // refetchDefaultBanner: () => { return {}},
+  })
+
+  const refetchDefaultBanner = async () => {
+    const response = await getDefaultBanner()
+    setDefaultBanner({
+      defaultBanner: response.data,
+      // refetchDefaultBanner,
+      loadingDefaultBanner: false
+    })
+    return response
+  }
+
+  const [getDefaultBanner] = useLazyQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } });
+
+  useEffect(() => {
+    getFacets().then(response => setFacets({
+      facetsData: response.data,
+      lodingFacets: false,
+      // refetchFacets: facetsData.refetch
+    }))
+    getBanner().then(response => setBannerData({
+      bannerData: response.data,
+      loadingBanner: false,
+      // refetchBanner
+    }))
+    getDefaultBanner().then(response => setDefaultBanner({
+      defaultBanner: response.data,
+      // refetchDefaultBanner: defaultBanner.refetch,
+      loadingDefaultBanner: false
+    }))
+    getCollection().then(response => setConfigCollection({
+      collectionData: response.data,
+    }))
+    getProductSearch().then(response => setProductSearch({
+      data: response.data,
+      loading: false,
+      error: response.error,
+      // fetchMore: response.fetchMore,
+      // refetch
+    }))
+  }, [])
+
   const setBannerDefaultImage = async () => {
     const { data } = await refetchDefaultBanner();
     if (data) {
@@ -230,7 +342,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const firstLoad = async () => {
     setSkeletonLoading(true);
     setSkip(true);
-    await refetch();
+    const { data, loading } = await refetch();
+    setProductSearch({ data, loading, fetchMore, refetch, error })
     setSkeletonLoading(false);
     await refetchBanner({ category: referenceId });
   };
@@ -294,14 +407,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           }))
           : [];
 
-      console.log(
-        'categoryFacets',
-        categoryFacets[0].values.map(({ key, value }: any) => ({
-          key,
-          value,
-        }))
-      );
-
       // PRICE
       const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
       const priceFacetValues =
@@ -339,6 +444,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         ),
       },
     });
+    setProductSearch({ data, loading, fetchMore, refetch, error })
     // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
 
@@ -368,7 +474,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         simulationBehavior: 'default',
         productOriginVtex: false,
       });
+
       if (!loading && !!data) {
+        setProductSearch({ data, loading, fetchMore, refetch, error })
         setProducts(data.productSearch);
       }
     };
@@ -419,6 +527,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             productOriginVtex: false,
           });
           if (!loading && !!data) {
+            setProductSearch({ data, loading, fetchMore, refetch, error })
             setWatchLoading(loading);
             setProducts(data.productSearch);
           }
@@ -464,6 +573,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             productOriginVtex: false,
           });
           if (!loading && !!data) {
+            setProductSearch({ data, loading, fetchMore, refetch, error })
             setWatchLoading(loading);
             setProducts(data.productSearch);
           }
@@ -517,7 +627,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Box>
       )}
 
-      {error && productsQuery.products.length <= 0 && (
+      {/* {productsQuery.products.length <= 0 && (
         <Box
           position="absolute"
           flex={1}
@@ -557,7 +667,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             inline
           />
         </Box>
-      )}
+      )} */}
 
       <FilterModal
         setFilterRequestList={setFilterRequestList}
@@ -733,126 +843,133 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <Text>Carregando...</Text>
         </Box>
       </Modal> */}
-      <ListVerticalProducts
-        loadMoreProducts={loadMoreProducts}
-        products={productsQuery.products}
-        loadingHandler={(loadingState) => {
-          setLoadingHandlerState(loadingState);
-        }}
-        totalProducts={productsQuery.recordsFiltered}
-        listHeader={
-          <>
-            {countDownClockRsvMini && showWatchMini && (
-              <CountDownRsvMini countDownMini={countDownClockRsvMini} />
-            )}
-            {countDownClock && showWatch && (
+      {productsQuery.products &&
+        productsQuery.products.length > 0 ?
+        <ListVerticalProducts
+          loadMoreProducts={loadMoreProducts}
+          products={data.productSearch.products}//productsQuery.products}
+          loadingHandler={(loadingState) => {
+            setLoadingHandlerState(loadingState);
+          }}
+          totalProducts={productsQuery.recordsFiltered}
+          listHeader={
+            <>
+              {countDownClockRsvMini && showWatchMini && (
+                <CountDownRsvMini countDownMini={countDownClockRsvMini} />
+              )}
+              {countDownClock && showWatch && (
+                <Box>
+                  <CountDownBanner countDown={countDownClock} />
+                </Box>
+              )}
               <Box>
-                <CountDownBanner countDown={countDownClock} />
+                <Image height={200} source={bannerImage} width={1 / 1} />
               </Box>
-            )}
-            <Box>
-              <Image height={200} source={bannerImage} width={1 / 1} />
-            </Box>
 
-            <Box bg="dropDownBorderColor">
-              <Button p="nano" onPress={onClickWhatsappButton}>
-                <Box flexDirection="row">
-                  <Icon name="Whatsapp" size={16} color="preto" />
-                  <Box marginX="nano">
+              <Box bg="dropDownBorderColor">
+                <Button p="nano" onPress={onClickWhatsappButton}>
+                  <Box flexDirection="row">
+                    <Icon name="Whatsapp" size={16} color="preto" />
+                    <Box marginX="nano">
+                      <Typography
+                        color="preto"
+                        fontFamily="nunitoSemiBold"
+                        fontSize={11}
+                      >
+                        Chama no Whats! Seja atendido sem sair de casa.{' '}
+                        <Typography style={{ textDecorationLine: 'underline' }}>
+                          Clique aqui!
+                        </Typography>
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Button>
+              </Box>
+              <Box paddingY="micro" flexDirection="row" justifyContent="center">
+                <Box width={1 / 2}>
+                  <Button
+                    onPress={() => {
+                      if (productsQuery.products.length > 0) {
+                        setFilterVisible(true);
+                      } else {
+                        setFilterRequestList([]);
+                      }
+                    }}
+                    marginRight="nano"
+                    marginLeft="micro"
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline
+                    height={40}
+                  >
                     <Typography
                       color="preto"
                       fontFamily="nunitoSemiBold"
-                      fontSize={11}
+                      fontSize="14px"
                     >
-                      Chama no Whats! Seja atendido sem sair de casa.{' '}
-                      <Typography style={{ textDecorationLine: 'underline' }}>
-                        Clique aqui!
-                      </Typography>
+                      {productsQuery.products?.length == 0 &&
+                        filterRequestList.length > 0
+                        ? 'Limpar Filtros'
+                        : 'Filtrar'}
                     </Typography>
-                  </Box>
+                  </Button>
                 </Box>
-              </Button>
-            </Box>
-            <Box paddingY="micro" flexDirection="row" justifyContent="center">
-              <Box width={1 / 2}>
-                <Button
-                  onPress={() => {
-                    if (productsQuery.products.length > 0) {
-                      setFilterVisible(true);
-                    } else {
-                      setFilterRequestList([]);
-                    }
-                  }}
-                  marginRight="nano"
-                  marginLeft="micro"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
-                  inline
-                  height={40}
-                >
-                  <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
-                  >
-                    {productsQuery.products?.length == 0 &&
-                      filterRequestList.length > 0
-                      ? 'Limpar Filtros'
-                      : 'Filtrar'}
-                  </Typography>
-                </Button>
-              </Box>
 
-              <Box width={1 / 2}>
-                <Button
-                  marginRight="micro"
-                  marginLeft="nano"
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
-                  inline
-                  height={40}
-                  onPress={() => {
-                    setSorterVisible(true);
-                  }}
-                >
-                  <Typography
-                    color="preto"
-                    fontFamily="nunitoSemiBold"
-                    fontSize="14px"
+                <Box width={1 / 2}>
+                  <Button
+                    marginRight="micro"
+                    marginLeft="nano"
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline
+                    height={40}
+                    onPress={() => {
+                      setSorterVisible(true);
+                    }}
                   >
-                    Ordenar
-                  </Typography>
-                </Button>
+                    <Typography
+                      color="preto"
+                      fontFamily="nunitoSemiBold"
+                      fontSize="14px"
+                    >
+                      Ordenar
+                    </Typography>
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-            <Box
-              paddingX="micro"
-              paddingY="quarck"
-              flexDirection="row"
-              justifyContent="space-between"
-            >
-              <Typography fontFamily="nunitoRegular" fontSize="13px">
-                {productsQuery.recordsFiltered} produtos encontrados
-              </Typography>
-              {!!filterRequestList && filterRequestList.length > 0 && (
-                <Button onPress={() => setFilterRequestList([])}>
-                  <Typography
-                    color="progressTextColor"
-                    variant="precoAntigo3"
-                    style={{ textDecorationLine: 'underline' }}
-                  >
-                    Limpar tudo
-                  </Typography>
-                </Button>
-              )}
-            </Box>
-          </>
-        }
-      />
+              <Box
+                paddingX="micro"
+                paddingY="quarck"
+                flexDirection="row"
+                justifyContent="space-between"
+              >
+                <Typography fontFamily="nunitoRegular" fontSize="13px">
+                  {productsQuery.recordsFiltered} produtos encontrados
+                </Typography>
+                {!!filterRequestList && filterRequestList.length > 0 && (
+                  <Button onPress={() => setFilterRequestList([])}>
+                    <Typography
+                      color="progressTextColor"
+                      variant="precoAntigo3"
+                      style={{ textDecorationLine: 'underline' }}
+                    >
+                      Limpar tudo
+                    </Typography>
+                  </Button>
+                )}
+              </Box>
+            </>
+          }
+        />
+        :
+        <EmptyProductCatalog
+          onPress={() => navigation.navigate('Home')}
+        />
+      }
     </DynamicComponent>
   );
 };

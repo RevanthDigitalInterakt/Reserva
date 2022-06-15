@@ -3,9 +3,10 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
-import { theme } from 'reserva-ui';
+import { theme } from '@danilomsou/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import CodepushConfig from './config/codepush';
 import { env } from './config/env';
@@ -15,18 +16,25 @@ import './config/ReactotronConfig';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
-import CartContextProvider from './context/CartContext';
-import { FirebaseContextProvider, RemoteConfigKeys, useFirebaseContext } from './context/FirebaseContext';
+import CartContextProvider, { useCart } from './context/CartContext';
+import {
+  FirebaseContextProvider,
+  RemoteConfigKeys,
+  useFirebaseContext,
+} from './context/FirebaseContext';
 import InitialScreen from './InitialScreen';
 import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
-import { RemoteConfigService } from "./shared/services/RemoteConfigService";
+import { RemoteConfigService } from './shared/services/RemoteConfigService';
 import RegionalSearchContext from 'context/RegionalSearchContext';
 import RegionalSearchContextProvider from './context/RegionalSearchContext';
 import ContentfullContextProvider from './context/ContentfullContext';
 import { useContentfull } from './context/ContentfullContext';
-import { apolloClientProduction, apolloClientTesting } from './services/apolloClient';
-
+import {
+  apolloClientProduction,
+  apolloClientTesting,
+} from './services/apolloClient';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -77,6 +85,13 @@ const requestUserPermission = async () => {
 };
 
 
+let onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
+  console.log('onDeepLinkCanceller DLValue::>', res)
+  if (res?.deepLinkStatus !== 'NOT_FOUND') {
+    const DLValue = res?.data.deep_link_value;
+    await Linking.openURL(DLValue);
+  }
+})
 
 appsFlyer.initSdk(
   {
@@ -95,17 +110,40 @@ appsFlyer.initSdk(
   }
 );
 const maintenanceHandler = async () => {
-  const result = await RemoteConfigService.fetchValues()
-  const maintenance = result.find(x => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE)
+  const result = await RemoteConfigService.fetchValues();
+  const maintenance = result.find(
+    (x) => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE
+  );
   //setIsOnMaintenance(maintenance.value)
-  return maintenance.value
-}
+  return maintenance.value;
+};
 
 const App = () => {
-  const { getValue } = useFirebaseContext()
-  const { isTesting } = useContentfull()
+  const { getValue } = useFirebaseContext();
+  const [isTesting, setIsTesting] = useState<boolean>(false);
 
-  const [isOnMaintenance, setIsOnMaintenance] = useState(false)
+  const [isOnMaintenance, setIsOnMaintenance] = useState(false);
+
+  const getTestEnvironment = async () => {
+    const res = await AsyncStorage.getItem('isTesting');
+
+    if (res === 'true') {
+      setIsTesting(true);
+    } else {
+      setIsTesting(false);
+    }
+  };
+
+  const getMaintenanceValue = async () => {
+    const screenMaintenance = await RemoteConfigService.getValue<boolean>(
+      'SCREEN_MAINTENANCE'
+    );
+    setIsOnMaintenance(screenMaintenance);
+  };
+
+  useEffect(() => {
+    getTestEnvironment();
+  }, []);
 
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
@@ -119,6 +157,11 @@ const App = () => {
       console.log('unregister onAppOpenAttributionCanceller');
       onAppOpenAttributionCanceller = null;
     }
+    if (onDeepLinkCanceller) {
+      onDeepLinkCanceller();
+      onDeepLinkCanceller = null;
+    }
+
   });
 
   useEffect(() => {
@@ -127,16 +170,16 @@ const App = () => {
     CodepushConfig();
     oneSignalConfig();
     setTimeout(() => {
-      maintenanceHandler().then(res => setIsOnMaintenance(res))
-    }, 5000);
+      getMaintenanceValue();
+    }, 1000);
   }, []);
 
-  return <ThemeProvider theme={theme}>
-    <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
-      {
-        isOnMaintenance ?
+  return (
+    <ThemeProvider theme={theme}>
+      <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+        {isOnMaintenance ? (
           <Maintenance isVisible />
-          :
+        ) : (
           <CartContextProvider>
             <AuthContextProvider>
               <ContentfullContextProvider>
@@ -144,7 +187,13 @@ const App = () => {
                   <CacheImagesProvider>
                     <FirebaseContextProvider>
                       <ChronometerContextProvider>
-                        <ApolloProvider client={isTesting ? apolloClientTesting : apolloClientProduction}>
+                        <ApolloProvider
+                          client={
+                            isTesting
+                              ? apolloClientTesting
+                              : apolloClientProduction
+                          }
+                        >
                           <InitialScreen>
                             <AppRouting />
                           </InitialScreen>
@@ -156,9 +205,10 @@ const App = () => {
               </ContentfullContextProvider>
             </AuthContextProvider>
           </CartContextProvider>
-      }
-    </NavigationContainer>
-  </ThemeProvider>
+        )}
+      </NavigationContainer>
+    </ThemeProvider>
+  );
 };
 
 export default App;

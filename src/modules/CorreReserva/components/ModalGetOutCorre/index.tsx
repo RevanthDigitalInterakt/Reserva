@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Box, Button, Icon, Typography } from 'reserva-ui';
+import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 
 export interface ModalGetOutCorreProps {
   isVisible: boolean;

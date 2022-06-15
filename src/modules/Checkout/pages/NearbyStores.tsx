@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { Typography, Box, Image, Button, Picker } from 'reserva-ui';
+import { Typography, Box, Image, Button, Picker } from '@danilomsou/reserva-ui';
 import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { FlatList } from 'react-native-gesture-handler';

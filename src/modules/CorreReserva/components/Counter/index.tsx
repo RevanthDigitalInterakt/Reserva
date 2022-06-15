@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Icon, Image, Typography } from 'reserva-ui';
+import { Box, Icon, Image, Typography } from '@danilomsou/reserva-ui';
 
 export interface CounterProps {
   distance?: string;

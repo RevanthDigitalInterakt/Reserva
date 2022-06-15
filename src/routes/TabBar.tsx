@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { BottomBar, BottomBarButton, Box } from 'reserva-ui';
+import { BottomBar, BottomBarButton, Box } from '@danilomsou/reserva-ui';
 
 type OnPressType = {
   key: string;

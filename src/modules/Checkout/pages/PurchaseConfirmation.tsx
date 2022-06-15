@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { Box, Button, Divider, Icon, Typography, Image } from 'reserva-ui'
+import { Box, Button, Divider, Icon, Typography, Image } from '@danilomsou/reserva-ui'
 import { images } from '../../../assets'
 import { RootStackParamList } from '../../../routes/StackNavigator'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'

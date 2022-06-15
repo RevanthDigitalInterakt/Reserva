@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { Typography, Box, Button, TextField } from "reserva-ui";
+import { Typography, Box, Button, TextField } from "@danilomsou/reserva-ui";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";

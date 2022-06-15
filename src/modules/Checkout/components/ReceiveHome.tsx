@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Typography, Box } from 'reserva-ui';
+import { Typography, Box } from '@danilomsou/reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import AddressSelector from '../../Address/Components/AddressSelector';
 import DeliverySelector from '../components/DeliverySelector';
+import { FlatList } from 'react-native-gesture-handler';
 
 interface IReceiveHome {
   typeOfDelivery: any[];
@@ -24,6 +25,15 @@ const ReceiveHome = ({
   loading,
 }: IReceiveHome) => {
   const { cookie, setCookie } = useAuth();
+  const [selectedId, setSelectedId] = useState('');
+
+  useEffect(() => {
+    if (selectedAddress) {
+      console.log('updateAddresses1234 - addressId', selectedAddress.addressId);
+      setSelectedId(selectedAddress.addressId);
+    }
+  }, [selectedAddress])
+
   return (
     <>
       <Box mt="xs">
@@ -34,43 +44,48 @@ const ReceiveHome = ({
 
       <Box pt={'micro'}>
         {addresses && addresses.length > 0 ? (
-          addresses.map((item) => {
-            let selected;
-            const {
-              id,
-              city,
-              complement,
-              number,
-              postalCode,
-              state,
-              street,
-              neighborhood,
-              addressId,
-            } = item;
+          <FlatList
+            keyExtractor={(item) => item.addressId}
+            data={addresses}
+            renderItem={
+              ({ item }) => {
 
-            if (cookie != null) {
-              if (selectedAddress) {
-                selected = addressId === selectedAddress.addressId;
-              }
-            } else {
-              if (selectedAddress) {
-                selected = addressId === selectedAddress.addressId && item;
+                const {
+                  id,
+                  city,
+                  complement,
+                  number,
+                  postalCode,
+                  state,
+                  street,
+                  neighborhood,
+                  addressId,
+                } = item;
+                // if (cookie != null) {
+                //   if (selectedAddress) {
+                //     selected = addressId === selectedAddress.addressId;
+                //   }
+                // } else {
+                //   if (selectedAddress) {
+                //     selected = addressId === selectedAddress.addressId && item;
+                //   }
+                // }bcdop5f8nu
+
+                return (
+                  <AddressSelector
+                    addressData={{
+                      address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
+                      title: street,
+                      zipcode: postalCode,
+                    }}
+                    disabled={addressId === selectedAddress.addressId}
+                    selected={selectedId === addressId}
+                    select={() => onAddressChosen(item)}
+                  />
+                );
               }
             }
-
-            return (
-              <AddressSelector
-                addressData={{
-                  address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
-                  title: street,
-                  zipcode: postalCode,
-                }}
-                disabled={addressId === selectedAddress.addressId}
-                selected={selected}
-                select={() => onAddressChosen(item)}
-              />
-            );
-          })
+          />
         ) : (
           <Typography fontFamily="reservaSerifRegular" fontSize={16}>
             Você ainda não tem endereços cadastrados, clique em Novo Endereço e

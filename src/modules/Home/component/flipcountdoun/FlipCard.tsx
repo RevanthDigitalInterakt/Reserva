@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, View, Text, StyleSheet, Platform } from 'react-native';
-import { theme } from "reserva-ui";
+import { theme } from "@danilomsou/reserva-ui";
 
 interface IFlipCard {
     setRef: any;

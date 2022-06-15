@@ -1,12 +1,10 @@
+import { useLazyQuery } from '@apollo/client';
+import { Box, Button, Divider, Icon, Typography } from '@danilomsou/reserva-ui';
 import React, { useEffect, useState } from 'react';
-
-import { QueryResult, useQuery } from '@apollo/client';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, Typography, Button, Icon, Divider } from 'reserva-ui';
-
 import { productSearch } from '../../../graphql/products/productSearch';
-import { ListHorizontalProducts } from './ListHorizontalProducts'
+import { ListHorizontalProducts } from './ListHorizontalProducts';
 
 interface RecommendationProps {
   handleScrollToTheTop?: () => void;
@@ -16,15 +14,14 @@ export const Recommendation = ({
   handleScrollToTheTop
 }: RecommendationProps) => {
   const [skip, setSkip] = useState(false);
-  const pageSize = 6;
+  const pageSize = 36;
   const [showMore, setShowMore] = useState(true);
   const [products, setProducts] = useState<any>([]);
-  const [arrayProducts, setArrayProducts] = useState<any>([]);
 
   const BoxAnimated = createAnimatableComponent(Box);
 
-  const { fetchMore, refetch }: QueryResult = useQuery(productSearch, {
-    skip,
+  const [getProductData] = useLazyQuery(productSearch, {
+    // skip,
     variables: {
       skusFilter: 'ALL_AVAILABLE',
       hideUnavailableItems: true,
@@ -37,62 +34,26 @@ export const Recommendation = ({
     nextFetchPolicy: 'no-cache',
   });
 
-  const loadMoreProducts = async (offset: number, searchQuery?: string) => {
-    const {
-      data: {
-        productSearch: { products: newProducts },
-      },
-      loading: loadingProducts,
-    } = await fetchMore({
-      variables: {
-        form: offset < pageSize ? pageSize : offset,
-        to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
-      },
-    });
-
-    /*  if (!loadingProducts) {
-      setProducts(data.productSearch.products);
-    } */
-  };
-
   const saveItems = async (items: any) => {
-    const newArray = [items[0]];
+    const arrayProductsId = items.map(elem => elem.productId)
 
-    if (newArray.length === 1) {
-      setArrayProducts({ ...newArray });
-
-      const array = arrayProducts;
-      array.push(...newArray);
-
-      setProducts(array);
-    }
-  };
-
-  const handleSearch = async (text: string) => {
-    const { data: dataProd, loading: loadingProd } = await refetch({
-      fullText: text,
+    const arrayWithoutDuplicates = items.filter((element, index) => {
+      return index === arrayProductsId.indexOf(element.productId);
     });
 
-    if (!loadingProd) {
-      console.log(text)
-
-      await saveItems(dataProd.productSearch.products);
-    }
+    setProducts(arrayWithoutDuplicates.slice(0,6));
   };
 
   useEffect(() => {
-    const arrayCategories = [
-      'camiseta adulto',
-      'cueca',
-      'bermuda adulto',
-      'calça',
-      'cinto',
-      'jaqueta',
-    ];
+    const handleSearch = async () => {
+      const { data, loading } = await getProductData()
 
-    arrayCategories.forEach(async (element) => {
-      await handleSearch(element);
-    });
+      if (!loading) {
+        await saveItems(data.productSearch.products)
+      }
+    }
+
+    handleSearch()
   }, []);
 
   return (
@@ -148,9 +109,6 @@ export const Recommendation = ({
                 <ListHorizontalProducts
                   horizontal
                   products={products || []}
-                  loadMoreProducts={(offset) => {
-                    loadMoreProducts(offset, '');
-                  }}
                   handleScrollToTheTop={handleScrollToTheTop}
                 />
               </Animatable.View>

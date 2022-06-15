@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-
-import { useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { Alert, Box, Button, Typography } from '@danilomsou/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { SafeAreaView, FlatList, BackHandler } from 'react-native';
-import { Typography, Box, Button, Alert } from 'reserva-ui';
-
+import React, { useEffect, useRef, useState } from 'react';
+import { BackHandler, FlatList, SafeAreaView } from 'react-native';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { deleteAddress } from '../../../graphql/address/addressMutations';
@@ -13,6 +11,8 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import AddressSelector from '../Components/AddressSelector';
+
+
 
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
@@ -32,14 +32,37 @@ const AddressList: React.FC<Props> = ({ route }) => {
   ] = useMutation(deleteAddress);
   const [loading, setLoading] = useState(false);
   const { orderForm, addShippingData, addShippingOrPickupInfo } = useCart();
-  const {
-    loading: loadingProfile,
-    data,
-    refetch,
-  } = useQuery(profileQuery, { fetchPolicy: 'no-cache' });
+  const [{ data, loadingProfile }, setDataProfile] = useState({
+    data: null,
+    loadingProfile: true,
+  });
+  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
   const [profile, setProfile] = useState<any>({});
   const [addresses, setAddresses] = useState<any[]>([]);
   const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
+
+  useEffect(() => {
+    getProfile().then((response) => {
+      setDataProfile({
+        data: response.data,
+        loadingProfile: false,
+      })
+    })
+  }, []);
+
+  const refetch = async () => {
+    setDataProfile({
+      loadingProfile: true,
+      data: null,
+    });
+
+    await getProfile().then((res) => {
+      setDataProfile({
+        loadingProfile: false,
+        data: res.data,
+      });
+    });
+  };
 
   useEffect(() => {
     if (comeFrom === 'Home') {
@@ -202,10 +225,13 @@ const AddressList: React.FC<Props> = ({ route }) => {
           title="Seu endereço foi excluído com sucesso."
           confirmText="OK"
           onConfirm={() => {
+            modalRef.current = false;
             setSuccessModal(false);
             refetch();
           }}
           onClose={() => {
+            modalRef.current = false;
+            setSuccessModal(false);
             setDeleteModal(false);
             refetch();
           }}

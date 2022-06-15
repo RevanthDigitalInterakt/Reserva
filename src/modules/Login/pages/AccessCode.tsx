@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Pressable, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, Typography } from 'reserva-ui';
+import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';

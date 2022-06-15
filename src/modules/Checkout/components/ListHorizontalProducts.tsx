@@ -1,21 +1,18 @@
-import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
-
-import { useQuery } from '@apollo/client';
+import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, Dimensions, Animated } from 'react-native';
-import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from 'reserva-ui';
-
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Animated, Dimensions } from 'react-native';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import { useCacheImages } from '../../../context/CacheImagesContext';
 import {
-  ProductQL,
+  ProductQL
 } from '../../../graphql/products/productSearch';
-import wishListQueries from '../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../shared/utils/productUtils';
+
+
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -56,18 +53,6 @@ export const ListHorizontalProducts = ({
   useEffect(() => {
     setLoading(loading);
   }, [loading]);
-
-  const {
-    data: productIds,
-    loading: loadingWishlist,
-    error,
-    refetch: refetchWishlist,
-  } = useQuery(wishListQueries.GET_WISH_LIST, {
-    variables: {
-      shopperId: email,
-    },
-    skip,
-  });
 
   const populateListWithFavorite = async () => {
     setLoading(true);
@@ -150,7 +135,7 @@ export const ListHorizontalProducts = ({
 
   return (
     <>
-      {error && (
+      {products && products.length === 0 && (
         <Box
           position="absolute"
           flex={1}
@@ -279,7 +264,7 @@ export const ListHorizontalProducts = ({
                     productId: item.productId,
                     colorSelected: getVariant(
                       item.items[0].variations,
-                      'VALOR_HEX_ORIGINAL'
+                      'ID_COR_ORIGINAL'
                     ),
                   })
 

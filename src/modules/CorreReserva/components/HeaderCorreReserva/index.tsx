@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BackHandler, Image } from 'react-native';
 import { View } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Box, Icon } from 'reserva-ui';
+import { Box, Icon } from '@danilomsou/reserva-ui';
 
 import { useCorre } from '../../context';
 import { images } from '../../images';

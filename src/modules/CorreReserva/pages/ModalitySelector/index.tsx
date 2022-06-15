@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BackHandler, Dimensions, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Typography } from 'reserva-ui';
+import { Box, Typography } from '@danilomsou/reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { useCorre } from '../../context';

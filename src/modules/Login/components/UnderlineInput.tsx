@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Dimensions, KeyboardTypeOptions, Platform } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Box, Button, Icon, neutroFrio2, theme, Typography } from 'reserva-ui';
+import { Box, Button, Icon, neutroFrio2, theme, Typography } from '@danilomsou/reserva-ui';
 
 interface UnderlineInputProps {
   placeholder?: string;
@@ -32,6 +32,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
   const [hidePassword, setHidePassword] = useState(true);
+  const [InputValue, setInputValue] = useState(value);
   return (
     <Box width={width}>
       <Box
@@ -45,11 +46,12 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
           <TextInput
             secureTextEntry={isSecureText && hidePassword}
             placeholder={placeholder}
-            onChangeText={(value) => onChangeText(value)}
+            onChangeText={(value) => setInputValue(value)}
+            onEndEditing={() => onChangeText('' + InputValue)}
             keyboardType={isSecureText && !hidePassword && Platform.OS === 'android' ? 'visible-password' : keyboardType}
             autoCompleteType="off"
             autoCapitalize="none"
-            value={value}
+            value={InputValue}
             style={{
               padding: 0,
               margin: 0,
