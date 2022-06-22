@@ -5,7 +5,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { StatusBar, Platform, Alert, Linking } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-lottie-splash-screen';
 
 import { StorageService } from './shared/services/StorageService';
 

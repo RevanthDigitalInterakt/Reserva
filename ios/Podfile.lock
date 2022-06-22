@@ -906,6 +906,8 @@ PODS:
     - React-Core
   - react-native-image-picker (4.8.2):
     - React-Core
+  - react-native-lottie-splash-screen (0.1.14):
+    - React
   - react-native-maps (0.28.1):
     - React-Core
   - react-native-netinfo (8.1.0):
@@ -916,8 +918,6 @@ PODS:
   - react-native-rsa-native (2.0.5):
     - React
   - react-native-safe-area-context (3.4.1):
-    - React-Core
-  - react-native-splash-screen (3.3.0):
     - React-Core
   - react-native-view-shot (3.1.2):
     - React
@@ -1153,12 +1153,12 @@ DEPENDENCIES:
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-lottie-splash-screen (from `../node_modules/react-native-lottie-splash-screen`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-rsa-native (from `../node_modules/react-native-rsa-native`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -1317,6 +1317,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-lottie-splash-screen:
+    :path: "../node_modules/react-native-lottie-splash-screen"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
@@ -1327,8 +1329,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-rsa-native"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-splash-screen:
-    :path: "../node_modules/react-native-splash-screen"
   react-native-view-shot:
     :path: "../node_modules/react-native-view-shot"
   react-native-webview:
@@ -1426,7 +1426,7 @@ SPEC CHECKSUMS:
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: caeac8f7118b8f7b05c5b9b4e6ffa71ba9d22edc
+  FBReactNativeSpec: c05b436cacedb665ada6ce4fb50cd5439ad9ea34
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1493,12 +1493,12 @@ SPEC CHECKSUMS:
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-google-maps: 915cea64470a6e7581b782d8659bf8a7e2dee302
   react-native-image-picker: 1ccfc97709f680a7167ccb758c32466b466c96e2
+  react-native-lottie-splash-screen: 3bc897a60c7d37edaebc2a995f2f40c9a3259fa0
   react-native-maps: 60a75aa547d576fdb91be1f95113665215b59461
   react-native-netinfo: 379ba2af7d2abcec0c062267abe1c9a977c72bf9
   react-native-onesignal: 88a38450ee225600da7fbcfcf844a8af487db919
   react-native-rsa-native: 12132eb627797529fdb1f0d22fd0f8f9678df64a
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
-  react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
   react-native-webview: 8ec7ddf9eb4ddcd92b32cee7907efec19a9ec7cb
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af

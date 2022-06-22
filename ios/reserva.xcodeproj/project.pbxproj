@@ -23,7 +23,6 @@
 		3474CE20D02A498C8C5F2D4A /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */; };
 		390DCA9C2639E46700070997 /* liblottie-react-native.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 390DCA9B2639E46700070997 /* liblottie-react-native.a */; };
 		390DCAAA2639E4FB00070997 /* liblottie-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 390DCAA92639E4FB00070997 /* liblottie-ios.a */; };
-		392B3FF62639DFB800C4871A /* fakeFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392B3FF52639DFB800C4871A /* fakeFile.swift */; };
 		39C607C2264A0F9A0030C19F /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39C607C1264A0F9A0030C19F /* libCodePush.a */; };
 		4CA163E32B4663EB010D224A /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5036BCDCD6953CD4ABBCD5EC /* libPods-OneSignalNotificationServiceExtension.a */; };
 		4F22604933F54DB880365BB4 /* ReservaSerif-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */; };
@@ -44,7 +43,6 @@
 		80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E22B81276A5A0900E246B9 /* BridgingFile.swift */; };
 		80F6B009278F18DC00778D4E /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		856BB43823F047A6AF66F70B /* ReservaSerif-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */; };
 		88C8053163184C32933A407B /* ReservaSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C390F491525B47B09E0FD516 /* ReservaSans-BoldItalic.ttf */; };
 		8C88F1CD55A0432789865558 /* ReservaSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 773141457032403EBC84976D /* ReservaSans-MediumItalic.ttf */; };
@@ -62,6 +60,8 @@
 		D755E1976E754020B4824BCE /* ReservaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */; };
 		EDBAB143AD3744EA99A21116 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */; };
 		EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */; };
+		EFA671C32862566600E50DA7 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = EFA671C22862566600E50DA7 /* loading.json */; };
+		EFA671C528625A4800E50DA7 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA671C428625A4800E50DA7 /* Dynamic.swift */; };
 		FBD65EAEFF024DD5965323A9 /* ReservaSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2044CB00A59C49739156F2C3 /* ReservaSans-Black.ttf */; };
 		FC9203ADD6C142CB8CE3F139 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */; };
 /* End PBXBuildFile section */
@@ -122,7 +122,6 @@
 		390DCAA12639E4CA00070997 /* liblottie-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		390DCAA92639E4FB00070997 /* liblottie-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		392B3FF42639DFB700C4871A /* reserva-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "reserva-Bridging-Header.h"; sourceTree = "<group>"; };
-		392B3FF52639DFB800C4871A /* fakeFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fakeFile.swift; sourceTree = "<group>"; };
 		3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 		39A334752651655600206E04 /* reserva.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = reserva.entitlements; path = reserva/reserva.entitlements; sourceTree = "<group>"; };
 		39A3347C265165DD00206E04 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -153,7 +152,6 @@
 		80F6B007278F18DC00778D4E /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		80F6B008278F18DC00778D4E /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		80F6B00A278F18DC00778D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = reserva/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		875E545CFA984FDEA0A1ED33 /* ReservaSans-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-BlackItalic.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSans-BlackItalic.ttf"; sourceTree = "<group>"; };
 		88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-BlackItalic.otf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSerif-BlackItalic.otf"; sourceTree = "<group>"; };
 		89205536C4E4486F8E82D9BE /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -177,6 +175,8 @@
 		D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Thin.otf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSerif-Thin.otf"; sourceTree = "<group>"; };
 		EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Medium.otf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSerif-Medium.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EFA671C22862566600E50DA7 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		EFA671C428625A4800E50DA7 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		F314070406CC4B9EA8D8CB7A /* ReservaSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Italic.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSans-Italic.ttf"; sourceTree = "<group>"; };
 		F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Italic.otf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSerif-Italic.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,15 +234,15 @@
 		13B07FAE1A68108700A75B9A /* reserva */ = {
 			isa = PBXGroup;
 			children = (
+				EFA671C22862566600E50DA7 /* loading.json */,
 				39A334752651655600206E04 /* reserva.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				392B3FF52639DFB800C4871A /* fakeFile.swift */,
 				392B3FF42639DFB700C4871A /* reserva-Bridging-Header.h */,
+				EFA671C428625A4800E50DA7 /* Dynamic.swift */,
 			);
 			name = reserva;
 			sourceTree = "<group>";
@@ -513,7 +513,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				EDBAB143AD3744EA99A21116 /* Nunito-Black.ttf in Resources */,
 				765E408E445141CA97366000 /* Nunito-BlackItalic.ttf in Resources */,
@@ -529,6 +528,7 @@
 				1056EBCFE2824805B90CA548 /* Nunito-Regular.ttf in Resources */,
 				90BF5183ECB44CAAA66BA3F5 /* Nunito-SemiBold.ttf in Resources */,
 				7301E4D7CA284B718DF410FB /* Nunito-SemiBoldItalic.ttf in Resources */,
+				EFA671C32862566600E50DA7 /* loading.json in Resources */,
 				D5B902B6CEDB49F5B5C8BDA7 /* ReservaDisplay-Regular.otf in Resources */,
 				D02274BCD6244F20B5A44775 /* ReservaSerif-Black.otf in Resources */,
 				7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */,
@@ -778,8 +778,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				EFA671C528625A4800E50DA7 /* Dynamic.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				392B3FF62639DFB800C4871A /* fakeFile.swift in Sources */,
 				80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1135,7 +1135,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1197,7 +1197,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
