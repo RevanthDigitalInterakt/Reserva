@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, Button, Icon, Divider, theme } from "@danilomsou/reserva-ui";
 
-import { TopBarBackButton } from "../../modules/Menu/components/TopBarBackButton";
+interface IPrimeFAQ {
+    data: any;
+}
 
-export const PrimeFAQ = () => {
+export const PrimeFAQ = ({ data }: IPrimeFAQ) => {
 
-    const data = [
+    const dataMokado = [
         {
             title: "Quais são as vantagens do Prime?",
             content: `Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing indusut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqui.`
@@ -24,8 +26,6 @@ export const PrimeFAQ = () => {
             style={{ justifyContent: "space-between" }}
             backgroundColor="white"
         >
-            <TopBarBackButton />
-
             <ScrollView>
                 <Box flex={1} pt={"xs"} paddingX={"xxxs"}>
                     <Box mb={"nano"} alignSelf={"center"}>
@@ -37,7 +37,7 @@ export const PrimeFAQ = () => {
                         </Typography>
                     </Box>
 
-                    {data.map((item, key) => {
+                    {dataMokado.map((item, key) => {
                         return (
                             <Box key={key}>
                                 <ExpansePanel information={{ ...item }} />
