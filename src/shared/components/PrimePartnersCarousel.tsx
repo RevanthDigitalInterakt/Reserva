@@ -4,8 +4,9 @@ import {
     TouchableHighlight,
     Animated,
     StyleSheet,
+    ImageBackground
 } from 'react-native';
-import { Box, Image } from '@danilomsou/reserva-ui';
+import { Box, Image, Typography } from '@danilomsou/reserva-ui';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -23,17 +24,29 @@ export const PrimePartnersCarousel = ({
         {
             image: {
                 url: "https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg"
-            }
+            },
+            logoMarca: {
+                url: "https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg"
+            },
+            subtitle: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publis. placeholder text commonly used.',
         },
         {
             image: {
                 url: "https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg"
-            }
+            },
+            logoMarca: {
+                url: "https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg"
+            },
+            subtitle: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publis. placeholder text commonly used.',
         },
         {
             image: {
                 url: "https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg"
-            }
+            },
+            logoMarca: {
+                url: "https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg"
+            },
+            subtitle: 'Lorem ipsum is placeholder text commonly used in the graphic, print, and publis. placeholder text commonly used.',
         },
 
     ]
@@ -52,21 +65,17 @@ export const PrimePartnersCarousel = ({
                     showsHorizontalScrollIndicator={false}
                     data={myCards}
                     snapToOffsets={[...Array(myCards.length)].map(
-                        (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48
+                        (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28
                     )}
                     snapToAlignment="start"
                     scrollEventThrottle={16}
                     decelerationRate="fast"
-                    contentContainerStyle={{
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                    }}
                     bounces={false}
                     renderItem={({ item, index }) => (
                         <Box>
                             <Card
                                 onPress={onPress}
-                                image={item.image}
+                                data={item}
                                 key={index}
                             />
                         </Box>
@@ -83,7 +92,7 @@ export const PrimePartnersCarousel = ({
                                     {
                                         translateX: Animated.divide(
                                             scrollX,
-                                            DEVICE_WIDTH * 0.88 - 48
+                                            DEVICE_WIDTH * 0.85 - 28
                                         ).interpolate({
                                             inputRange: [0, 1],
                                             outputRange: [6, 25.8],
@@ -118,11 +127,15 @@ export const PrimePartnersCarousel = ({
 };
 
 interface ICard {
-    image: string;
+    data: {
+        image: any;
+        logoMarca: any;
+        subtitle?: string;
+    };
     onPress: () => void;
 }
 const Card = ({
-    image,
+    data,
     onPress
 }: ICard) => {
     return (
@@ -130,15 +143,38 @@ const Card = ({
             <TouchableHighlight
                 onPress={onPress}
                 style={{
-                    marginLeft: 6,
-                    marginRight: 6,
+                    marginLeft: 14,
+                    marginRight: 14,
                 }}
             >
-                <Image
-                    autoHeight
-                    width={DEVICE_WIDTH - 91}
-                    source={{ uri: image.url }}
-                />
+                <ImageBackground
+                    style={{ width: DEVICE_WIDTH * 0.85 - 28, minHeight: 412, }}
+                    source={{ uri: data.image.url }}
+                >
+                    <Box
+                        marginLeft={30}
+                        marginRight={44}
+                        minHeight={412}
+                        justifyContent='flex-end'
+                        mb={18}
+                    >
+                        <Box mb='micro'>
+                            <Image
+                                width={100}
+                                height={20}
+                                source={{ uri: data.logoMarca.url }}
+                            />
+                        </Box>
+                        <Typography
+                            fontFamily='reservaSansLight'
+                            fontSize={16}
+                            color='white'
+                        >
+                            {data.subtitle}
+                        </Typography>
+
+                    </Box>
+                </ImageBackground>
             </TouchableHighlight>
         </Box>
     );

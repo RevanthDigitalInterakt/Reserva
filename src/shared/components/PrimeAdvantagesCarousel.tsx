@@ -4,8 +4,9 @@ import {
     TouchableHighlight,
     Animated,
     StyleSheet,
+    Platform
 } from 'react-native';
-import { Box, Image } from '@danilomsou/reserva-ui';
+import { Box, Image, Typography } from '@danilomsou/reserva-ui';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -23,17 +24,23 @@ export const PrimeAdvantagesCarousel = ({
         {
             image: {
                 url: "https://images.ctfassets.net/6jsfqc13oxv4/4KVDPRc9AVQERWwuBSkkk/c4b786e5480eb986ff22e4e2d95d528e/banner-card-app-namorados-camisetas.jpg"
-            }
+            },
+            title: 'Frete grátis',
+            subtitle: 'Em toda compra*, sem valor mínimo e válido em todo o Brasil.',
         },
         {
             image: {
                 url: "https://images.ctfassets.net/6jsfqc13oxv4/4KVDPRc9AVQERWwuBSkkk/c4b786e5480eb986ff22e4e2d95d528e/banner-card-app-namorados-camisetas.jpg"
-            }
+            },
+            title: 'Frete grátis',
+            subtitle: 'Em toda compra*, sem valor mínimo e válido em todo o Brasil.',
         },
         {
             image: {
                 url: "https://images.ctfassets.net/6jsfqc13oxv4/4KVDPRc9AVQERWwuBSkkk/c4b786e5480eb986ff22e4e2d95d528e/banner-card-app-namorados-camisetas.jpg"
-            }
+            },
+            title: 'Frete grátis',
+            subtitle: 'Em toda compra*, sem valor mínimo e válido em todo o Brasil.',
         }
     ]
     const myCards = primeMokado
@@ -51,21 +58,17 @@ export const PrimeAdvantagesCarousel = ({
                     showsHorizontalScrollIndicator={false}
                     data={myCards}
                     snapToOffsets={[...Array(myCards.length)].map(
-                        (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48
+                        (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28
                     )}
                     snapToAlignment="start"
                     scrollEventThrottle={16}
                     decelerationRate="fast"
-                    contentContainerStyle={{
-                        paddingLeft: 4,
-                        paddingRight: 4,
-                    }}
                     bounces={false}
                     renderItem={({ item, index }) => (
                         <Box>
                             <Card
                                 onPress={onPress}
-                                image={item.image}
+                                data={item}
                                 key={index}
                             />
                         </Box>
@@ -82,7 +85,7 @@ export const PrimeAdvantagesCarousel = ({
                                     {
                                         translateX: Animated.divide(
                                             scrollX,
-                                            DEVICE_WIDTH * 0.88 - 48
+                                            DEVICE_WIDTH * 0.85 - 28
                                         ).interpolate({
                                             inputRange: [0, 1],
                                             outputRange: [6, 25.8],
@@ -115,27 +118,62 @@ export const PrimeAdvantagesCarousel = ({
         </Box>
     );
 };
-
 interface ICard {
-    image: string;
+    data: {
+        image: any;
+        title: string;
+        subtitle?: string;
+    };
     onPress: () => void;
 }
 const Card = ({
-    image,
+    data,
     onPress
 }: ICard) => {
     return (
-        <Box>
-            <TouchableHighlight
-                onPress={onPress}
+        <TouchableHighlight
+            onPress={onPress}
+            style={{
+                marginLeft: 14, marginRight: 14,
+            }}
+        >
+            <Box
+                bg='white'
+                style={{ elevation: Platform.OS == 'android' ? 8 : 0 }}
+                boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+                height={220}
+                width={DEVICE_WIDTH * 0.85 - 28}
+                borderRadius={16}
+                alignItems='center'
+                paddingY={20}
+                paddingX={26}
+                mb={16}
+                mt={16}
             >
                 <Image
-                    autoHeight
-                    width={DEVICE_WIDTH * 0.85 - 16}
-                    source={{ uri: image.url }}
+                    height={96}
+                    width={96}
+                    source={{ uri: data.image.url }}
                 />
-            </TouchableHighlight>
-        </Box>
+                <Box marginY={8}>
+                    <Typography
+                        fontFamily='reservaSerifBold'
+                        fontSize={24}
+                    >
+                        {data.title}
+                    </Typography>
+                </Box>
+                <Box>
+                    <Typography
+                        fontFamily='reservaSerifBold'
+                        fontSize={16}
+                        textAlign='center'
+                    >
+                        {data.subtitle}
+                    </Typography>
+                </Box>
+            </Box>
+        </TouchableHighlight>
     );
 };
 

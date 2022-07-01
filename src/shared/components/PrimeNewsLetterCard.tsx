@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, Button, OutlineInput } from "@danilomsou/reserva-ui"
 import { useFormik } from "formik"
+import { Platform } from 'react-native'
 import React from "react"
-import Modal from "react-native-modal"
 import * as yup from 'yup'
 
 interface NewsLetterForm {
@@ -10,12 +10,10 @@ interface NewsLetterForm {
   email: string
 }
 
-interface NewsLetterModalProps {
-  isVisible: false,
+interface PrimeNewsLetterCardProps {
   onSubmit: (values: NewsLetterForm) => void,
-  onClose: () => void
 }
-export const NewsLetterModal: React.FC<NewsLetterModalProps> = ({ isVisible, onSubmit, onClose }) => {
+export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubmit }) => {
 
   const validationSchema = yup.object().shape({
     name: yup.string(),
@@ -35,14 +33,15 @@ export const NewsLetterModal: React.FC<NewsLetterModalProps> = ({ isVisible, onS
     }
   })
 
-  return <Modal
-    isVisible={isVisible}
-    onBackdropPress={onClose}
-    style={{ justifyContent: 'center', alignItems: 'center' }} >
+  return (
     <Box
+      mt={12}
       backgroundColor='white'
-      width={300}
+      minHeight={325}
       borderRadius={16}
+      marginX='micro'
+      style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
+      boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
     >
       <Box
         marginBottom={27}
@@ -124,5 +123,5 @@ export const NewsLetterModal: React.FC<NewsLetterModalProps> = ({ isVisible, onS
       </Box>
 
     </Box>
-  </Modal >
+  );
 }
