@@ -315,7 +315,6 @@ export const HomeScreen: FC<{
   return (
     <Box flex={1} bg="white">
       <TopBarDefault loading={loading} />
-      <PrimeProductList referenceId="collection:1121" />
       <StoreUpdate />
       {modalDiscount && (
         <DiscoutCodeModal
@@ -363,6 +362,7 @@ export const HomeScreen: FC<{
               }}
               keyExtractor={(item) => item.id}
             />
+            <PrimeProductList referenceId="collection:1121" />
           </ScrollView>
         </SafeAreaView>
       )}
