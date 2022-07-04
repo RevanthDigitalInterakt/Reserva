@@ -3,6 +3,7 @@ import { useFormik } from "formik"
 import { Platform } from 'react-native'
 import React from "react"
 import * as yup from 'yup'
+import axios from "axios"
 
 interface NewsLetterForm {
   name: string,
@@ -12,8 +13,23 @@ interface NewsLetterForm {
 
 interface PrimeNewsLetterCardProps {
   onSubmit: (values: NewsLetterForm) => void,
+  title?: string,
+  buttonTitle?: string,
+  action: string
 }
-export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubmit }) => {
+export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubmit, buttonTitle, title, action }) => {
+
+  const sendLeads = async (email: string, name: string, phone: string) => {
+    const response = axios.post('https://www.usereserva.com/api/dataentities/LF/documents', {
+      action,
+      email,
+      name,
+      phone: phone.replace(/[^0-9]/g, ''),
+    })
+
+
+    return response
+  }
 
   const validationSchema = yup.object().shape({
     name: yup.string(),
@@ -29,6 +45,18 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubm
     },
     validationSchema,
     onSubmit: (values) => {
+      sendLeads(values.email, values.name, values.phone)
+        .then(r => {
+          if (r.status === 201)
+            formik.resetForm({
+              values: {
+                email: '',
+                name: '',
+                phone: ''
+              }
+            })
+
+        })
       onSubmit(values)
     }
   })
@@ -54,7 +82,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubm
           fontFamily='reservaSerifBlack'
           lineHeight={29}
         >
-          Fique por dentro dos nossos lançamentos
+          {title ? title : 'Fique por dentro dos nossos lançamentos'}
         </Typography>
         <Box
           marginTop={16}
@@ -67,6 +95,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubm
               height: 40,
               color: '#3A3A3A'
             }}
+            value={formik.values.name}
             placeholder='NOME'
             height={40}
             onChangeText={(value) => formik.setFieldValue('name', value)}
@@ -85,6 +114,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubm
               height: 40,
               color: '#3A3A3A'
             }}
+            value={formik.values.phone}
             maskType='cel-phone'
             placeholder='CELULAR'
             height={40}
@@ -104,6 +134,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubm
               height: 40,
               color: '#3A3A3A'
             }}
+            value={formik.values.email}
             touched={formik.touched.email}
             placeholder='E-MAIL'
             height={40}
@@ -117,7 +148,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({ onSubm
           marginTop={16}
           marginBottom={26}
           variant="primarioEstreito"
-          title='ASSINAR NEWSLETTER'
+          title={buttonTitle ? buttonTitle : 'ASSINAR NEWSLETTER'}
           onPress={() => formik.submitForm()}
         />
       </Box>
