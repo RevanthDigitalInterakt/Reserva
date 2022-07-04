@@ -16,7 +16,7 @@ import React, {
 } from 'react';
 import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { PrimeFAQ } from '../../../shared/components/PrimeFAQ';
+import { PrimeProductList } from '../../../shared/components/PrimeProductList';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
 import { useContentfull } from '../../../context/ContentfullContext';
@@ -315,6 +315,7 @@ export const HomeScreen: FC<{
   return (
     <Box flex={1} bg="white">
       <TopBarDefault loading={loading} />
+      <PrimeProductList referenceId="collection:1121" />
       <StoreUpdate />
       {modalDiscount && (
         <DiscoutCodeModal
