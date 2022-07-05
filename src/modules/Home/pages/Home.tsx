@@ -132,6 +132,8 @@ export const HomeScreen: FC<{
           url: imageDescription.image.url,
           reference: imageDescription.reference,
           route: imageDescription.route,
+          isLandingPage: imageDescription.isLandingPage,
+          landingPageId: imageDescription.landingPageId,
           reservaMini: imageDescription.reservaMini,
         })
       );
@@ -355,7 +357,8 @@ export const HomeScreen: FC<{
                     height={item.height}
                     reference={item.reference}
                     url={item.url}
-                    route={item.route}
+                    route={item.isLandingPage ? 'LandingPage' : item.route}
+                    landingPageId={item.landingPageId}
                     reservaMini={item.reservaMini}
                   />
                 );
