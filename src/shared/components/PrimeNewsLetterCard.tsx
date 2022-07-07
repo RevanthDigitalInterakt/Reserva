@@ -83,7 +83,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
       boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
     >
-      <Box marginBottom={27} marginTop={20} marginX={27}>
+      <Box marginBottom={42} marginTop={20} marginX={27}>
         <Typography
           fontSize={26}
           fontFamily="reservaSerifBlack"

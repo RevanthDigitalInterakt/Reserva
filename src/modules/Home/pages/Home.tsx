@@ -365,7 +365,6 @@ export const HomeScreen: FC<{
               }}
               keyExtractor={(item) => item.id}
             />
-            <PrimeProductList referenceId="collection:1121" />
           </ScrollView>
         </SafeAreaView>
       )}
