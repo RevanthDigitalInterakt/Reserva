@@ -125,7 +125,7 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
 
   return (
     <Box>
-      {productsQuery.products && productsQuery.products.length > 0 ? (
+      {productsQuery.products && productsQuery.products.length > 0 && (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
           products={data.productSearch.products} //productsQuery.products}
@@ -134,8 +134,6 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
           }}
           totalProducts={productsQuery.recordsFiltered}
         />
-      ) : (
-        <EmptyProductCatalog onPress={() => navigation.navigate('Home')} />
       )}
     </Box>
   );
