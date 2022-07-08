@@ -27,8 +27,9 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
   title,
   action,
 }) => {
+  const [isSuccess, setIsSuccess] = React.useState(false);
   const sendLeads = async (email: string, name: string, phone: string) => {
-    const response = axios.post(
+    const response = await axios.post(
       'https://www.usereserva.com/api/dataentities/LF/documents',
       {
         action,
@@ -37,6 +38,10 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
         phone: phone.replace(/[^0-9]/g, ''),
       }
     );
+
+    if (response.status === 201) {
+      setIsSuccess(true);
+    }
 
     return response;
   };
@@ -83,7 +88,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
       boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
     >
-      <Box marginBottom={42} marginTop={20} marginX={27}>
+      <Box marginBottom={isSuccess ? 30 : 42} marginTop={20} marginX={27}>
         <Typography
           fontSize={26}
           fontFamily="reservaSerifBlack"
@@ -143,15 +148,31 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             error={formik.errors.email}
           />
         </Box>
-        <Button
-          inline
-          height={40}
-          marginTop={16}
-          marginBottom={26}
-          variant="primarioEstreito"
-          title={buttonTitle ? buttonTitle : 'ASSINAR NEWSLETTER'}
-          onPress={() => formik.submitForm()}
-        />
+        <Box>
+          <Button
+            inline
+            height={40}
+            marginTop={16}
+            marginBottom={26}
+            variant="primarioEstreito"
+            title={buttonTitle ? buttonTitle : 'ASSINAR NEWSLETTER'}
+            onPress={() => formik.submitForm()}
+          />
+        </Box>
+        {isSuccess && (
+          <Box mt={32}>
+            <Typography
+              fontFamily="nunitoSemiBold"
+              fontSize={14}
+              color="#2DB808"
+            >
+              Inscrição concluída com sucesso!
+            </Typography>
+            <Typography fontFamily="nunitoRegular" color="#3A3A3A">
+              Agora é só aguardar o nosso contato.
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Box>
   );
