@@ -1,0 +1,41 @@
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react-native';
+import ModalDeleteAccount from '../ModalDeleteAccount';
+import { ThemeProvider } from 'styled-components/native';
+import { theme } from '@danilomsou/reserva-ui';
+// test e it são a mesma coisa
+
+const mockHandleDeleteAccount = jest.fn();
+describe('ModalDeleteAccount', () => {
+    test('SHOULD render correctly', () => {
+        const { debug, getByText } = render(
+            <ThemeProvider theme={theme}>
+                <ModalDeleteAccount
+                    isVisible={true}
+                    handleDeleteAccount={mockHandleDeleteAccount}
+                    setIsVisible={() => { }}
+                />
+            </ThemeProvider>
+        );
+        const titleModal = getByText('Tem certeza?');
+        const subtitle = getByText('Essa ação não pode ser desfeita. Confirme o código recebido para deletar sua conta permanentemente.');
+        expect(titleModal).toBeTruthy();
+        expect(subtitle).toBeTruthy();
+        // debug();
+    });
+
+    test('SHOULD call handleDeleteAccount WHEN to click on Delete Button', () => {
+        const { getByText } = render(
+            <ThemeProvider theme={theme}>
+                <ModalDeleteAccount
+                    isVisible={true}
+                    handleDeleteAccount={mockHandleDeleteAccount}
+                    setIsVisible={() => { }}
+                />
+            </ThemeProvider>
+        );
+        const deleteButton = getByText('DELETAR PERMANENTEMENTE');
+        fireEvent.press(deleteButton);
+        expect(mockHandleDeleteAccount).toBeCalledTimes(1);
+    });
+})
