@@ -109,7 +109,7 @@ export const EditProfile = ({ route }: Props) => {
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false)
 
-  const { addCustomer, orderForm, identifyCustomer } = useCart();
+  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile } = useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
 
@@ -137,6 +137,7 @@ export const EditProfile = ({ route }: Props) => {
       fetchPolicy: 'no-cache'
     }
   );
+
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
@@ -642,7 +643,12 @@ export const EditProfile = ({ route }: Props) => {
   };
 
   const handleDeleteAccount = async () => {
-    navigation.navigate('AccountDeletedSuccessfully');
+    if (userData) {
+      const data = await deleteCustomerProfile(userData.userId);
+      if (data) {
+        navigation.navigate('AccountDeletedSuccessfully');
+      }
+    }
   }
 
   return (

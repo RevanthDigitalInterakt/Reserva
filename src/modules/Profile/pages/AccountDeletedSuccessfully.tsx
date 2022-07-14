@@ -1,15 +1,36 @@
-import React, { } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useNavigation } from '@react-navigation/native';
+
 import {
     Box,
     Typography,
     Button,
 } from '@danilomsou/reserva-ui';
 
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useAuth } from '../../../context/AuthContext';
+
+
 export const AccountDeletedSuccessfully = () => {
     const navigation = useNavigation();
+    const { setCookie, setEmail, } = useAuth();
+
+    const logout = () => {
+        AsyncStorage.removeItem('@RNAuth:cookie');
+        AsyncStorage.removeItem('@RNAuth:email');
+        AsyncStorage.removeItem('@RNAuth:typeLogin');
+        AsyncStorage.removeItem('@RNAuth:lastLogin');
+        setCookie(null);
+        setEmail(null);
+        navigation.navigate('Home');
+    };
+
+    // useEffect(() => {
+    //     logout();
+    // }, []);
+
     return (
         <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
 
@@ -50,7 +71,10 @@ export const AccountDeletedSuccessfully = () => {
                     variant='primarioEstreitoOutline'
                     width="100%"
                     height={50}
-                    onPress={() => { }}
+                    onPress={() => {
+                        // navigation.navigate('Home');
+                        logout();
+                    }}
                 >
                     <Typography
                         letterSpacing={2}
