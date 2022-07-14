@@ -237,7 +237,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
             </Box>
             <Box paddingX="xxxs">
               <ItemList
-                title="Meus dados"
+                title="Minha conta"
                 descr="Visualize e edite suas informações"
                 icon="Profile"
                 onPress={() => {

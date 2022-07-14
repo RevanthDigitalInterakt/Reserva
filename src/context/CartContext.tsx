@@ -34,7 +34,8 @@ import {
   PickupPoint,
   Orders,
   OrderDetail,
-  VerifyEmail
+  VerifyEmail,
+  DeleteCustomerProfile
 } from '../services/vtexService';
 import { CategoriesParserString } from '../utils/categoriesParserString';
 
@@ -478,7 +479,8 @@ interface CartContextProps {
   ) => Promise<items | undefined>;
   orders: (page: string) => Promise<IOrder[] | undefined>;
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
-  verifyEmail: (email: string) => Promise<boolean | undefined>
+  verifyEmail: (email: string) => Promise<boolean | undefined>;
+  deleteCustomerProfile: (id: string) => Promise<boolean | undefined>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -846,6 +848,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
+  const deleteCustomerProfile = async (id: string) => {
+    try {
+      const { data } = await DeleteCustomerProfile(id);
+      return data || [];
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -869,7 +880,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         pickupPoint,
         orders,
         orderDetail,
-        verifyEmail
+        verifyEmail,
+        deleteCustomerProfile
       }}
     >
       {children}
@@ -907,7 +919,8 @@ export const useCart = () => {
     pickupPoint,
     orders,
     orderDetail,
-    verifyEmail
+    verifyEmail,
+    deleteCustomerProfile,
   } = cartContext;
   return {
     orderForm,
@@ -930,6 +943,7 @@ export const useCart = () => {
     pickupPoint,
     orders,
     orderDetail,
-    verifyEmail
+    verifyEmail,
+    deleteCustomerProfile
   };
 };
