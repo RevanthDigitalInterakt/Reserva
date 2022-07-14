@@ -54,19 +54,4 @@ describe('ModalDeleteAccount', () => {
         fireEvent.press(backButton);
         expect(mockSetIsVisible).toBeCalledTimes(1);
     });
-
-    test('SHOULD call setIsVisible WHEN to click on Backdrop Press', () => {
-        const { getByText } = render(
-            <ThemeProvider theme={theme}>
-                <ModalDeleteAccount
-                    isVisible={true}
-                    handleDeleteAccount={mockHandleDeleteAccount}
-                    setIsVisible={mockSetIsVisible}
-                />
-            </ThemeProvider>
-        );
-        const backButton = getByText('VOLTAR');
-        fireEvent.press(backButton);
-        expect(mockSetIsVisible).toBeCalledTimes(1);
-    })
 })
