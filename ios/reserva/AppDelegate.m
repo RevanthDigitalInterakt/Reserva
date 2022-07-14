@@ -43,6 +43,7 @@ static void InitializeFlipper(UIApplication *application) {
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc]  initWithBridge:bridge moduleName:@"reserva" initialProperties:nil];
 
+//  rootView.layoutMargins = UIEdgeInsetsMake(0, 64, 64, 0);
   
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
@@ -63,7 +64,7 @@ static void InitializeFlipper(UIApplication *application) {
   Dynamic *t = [Dynamic new];
   UIView *animationView = [t createAnimationViewWithRootView:rootView lottieName:@"loading"];
   animationView.backgroundColor = [UIColor blackColor];
-  
+//  rootView.backgroundColor = [UIColor blackColor];
   [RNSplashScreen showLottieSplash:animationView inRootView:rootView];
 
     // play
