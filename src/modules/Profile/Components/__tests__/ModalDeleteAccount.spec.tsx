@@ -6,6 +6,7 @@ import { theme } from '@danilomsou/reserva-ui';
 // test e it são a mesma coisa
 
 const mockHandleDeleteAccount = jest.fn();
+const mockSetIsVisible = jest.fn();
 describe('ModalDeleteAccount', () => {
     test('SHOULD render correctly', () => {
         const { debug, getByText } = render(
@@ -13,7 +14,7 @@ describe('ModalDeleteAccount', () => {
                 <ModalDeleteAccount
                     isVisible={true}
                     handleDeleteAccount={mockHandleDeleteAccount}
-                    setIsVisible={() => { }}
+                    setIsVisible={mockSetIsVisible}
                 />
             </ThemeProvider>
         );
@@ -30,7 +31,7 @@ describe('ModalDeleteAccount', () => {
                 <ModalDeleteAccount
                     isVisible={true}
                     handleDeleteAccount={mockHandleDeleteAccount}
-                    setIsVisible={() => { }}
+                    setIsVisible={mockSetIsVisible}
                 />
             </ThemeProvider>
         );
@@ -38,4 +39,34 @@ describe('ModalDeleteAccount', () => {
         fireEvent.press(deleteButton);
         expect(mockHandleDeleteAccount).toBeCalledTimes(1);
     });
+
+    test('SHOULD call setIsVisible WHEN to click on the back button', () => {
+        const { getByText } = render(
+            <ThemeProvider theme={theme}>
+                <ModalDeleteAccount
+                    isVisible={true}
+                    handleDeleteAccount={mockHandleDeleteAccount}
+                    setIsVisible={mockSetIsVisible}
+                />
+            </ThemeProvider>
+        );
+        const backButton = getByText('VOLTAR');
+        fireEvent.press(backButton);
+        expect(mockSetIsVisible).toBeCalledTimes(1);
+    });
+
+    test('SHOULD call setIsVisible WHEN to click on Backdrop Press', () => {
+        const { getByText } = render(
+            <ThemeProvider theme={theme}>
+                <ModalDeleteAccount
+                    isVisible={true}
+                    handleDeleteAccount={mockHandleDeleteAccount}
+                    setIsVisible={mockSetIsVisible}
+                />
+            </ThemeProvider>
+        );
+        const backButton = getByText('VOLTAR');
+        fireEvent.press(backButton);
+        expect(mockSetIsVisible).toBeCalledTimes(1);
+    })
 })

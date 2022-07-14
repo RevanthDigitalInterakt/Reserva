@@ -641,6 +641,10 @@ export const EditProfile = ({ route }: Props) => {
     setIsTesting(value);
   };
 
+  const handleDeleteAccount = async () => {
+    navigation.navigate('AccountDeletedSuccessfully');
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
@@ -1196,7 +1200,7 @@ export const EditProfile = ({ route }: Props) => {
 
                   <ModalDeleteAccount
                     isVisible={showModalDeleteAccount}
-                    handleDeleteAccount={() => { }}
+                    handleDeleteAccount={handleDeleteAccount}
                     setIsVisible={() => setShowModalDeleteAccount(false)}
                   />
                 </>
