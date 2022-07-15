@@ -6,7 +6,7 @@ import {
   instance3,
   instance4,
   instance5,
-  instance6
+  instance6,
 } from '../config/vtexConfig';
 import axios from 'axios';
 const vtexConfig = instance;
@@ -381,14 +381,13 @@ const Attachment = async (
   return response;
 };
 
-const DeleteCustomerProfile = async (
-  id: string
-) => {
+const DeleteCustomerProfile = async (id: string) => {
   const response = await vtexConfig6.delete(
     `/dataentities/CL/documents/CL-${id}`
   );
+  console.log(response);
   return response;
-}
+};
 
 export {
   CreateCart,

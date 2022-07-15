@@ -28,7 +28,7 @@ import {
   TextField,
   Toggle,
   Typography,
-  Picker
+  Picker,
 } from '@danilomsou/reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
@@ -47,24 +47,29 @@ import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
 import IsTestingModal from '../Components/IsTestingModal';
 import ModalDeleteAccount from '../Components/ModalDeleteAccount';
+import {
+  MyCashbackAPI,
+  MyProfileAPI,
+  ProfileHttpUrl,
+} from './api/MyProfileAPI';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
 const genderPtToEng = {
-  'Homem': 'male',
-  'Mulher': 'female',
+  Homem: 'male',
+  Mulher: 'female',
   'Não binário': 'genderqueer',
-  'Outro': 'other',
-}
+  Outro: 'other',
+};
 
 const genderEngToPt = {
-  'male': 'Homem',
-  'female': 'Mulher',
-  'genderqueer': 'Não binário',
-  'other': 'Outro',
-}
+  male: 'Homem',
+  female: 'Mulher',
+  genderqueer: 'Não binário',
+  other: 'Outro',
+};
 
-const genderType = ['Homem', 'Mulher', 'Não binário', 'Outro']
+const genderType = ['Homem', 'Mulher', 'Não binário', 'Outro'];
 
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
@@ -107,9 +112,10 @@ export const EditProfile = ({ route }: Props) => {
     });
   }, []);
   const [loadingScreen, setLoadingScreen] = useState(false);
-  const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false)
+  const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false);
 
-  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile } = useCart();
+  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile } =
+    useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
 
@@ -132,12 +138,9 @@ export const EditProfile = ({ route }: Props) => {
     loading: true,
   });
 
-  const [getProfile] = useLazyQuery(profileQuery,
-    {
-      fetchPolicy: 'no-cache'
-    }
-  );
-
+  const [getProfile] = useLazyQuery(profileQuery, {
+    fetchPolicy: 'no-cache',
+  });
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
@@ -232,7 +235,7 @@ export const EditProfile = ({ route }: Props) => {
           setIsEmptyGender(true);
         } else {
           setIsEmptyGender(false);
-          setGender(genderEngToPt[data?.profile?.gender])
+          setGender(genderEngToPt[data?.profile?.gender]);
         }
       }
       setLoadingScreen(false);
@@ -328,7 +331,7 @@ export const EditProfile = ({ route }: Props) => {
       document: userData.document.replace(/[^\d]+/g, ''),
       birthDate: splittedBirthDate?.reverse().join('-'),
       homePhone: newPhone.replace(/[^\d\+]+/g, ''),
-      gender: userData.gender
+      gender: userData.gender,
     };
 
     let profileImage = profileImagePath;
@@ -403,7 +406,9 @@ export const EditProfile = ({ route }: Props) => {
         })
           .then(async () => await identifyCustomer(email))
           .then(() => setLoadingScreen(false))
-          .then(() => navigation.navigate('BagScreen', { isProfileComplete: true }));
+          .then(() =>
+            navigation.navigate('BagScreen', { isProfileComplete: true })
+          );
       }
     }
   };
@@ -644,12 +649,15 @@ export const EditProfile = ({ route }: Props) => {
 
   const handleDeleteAccount = async () => {
     if (userData) {
-      const data = await deleteCustomerProfile(userData.userId);
-      if (data) {
+      const { status } = await MyProfileAPI.delete(
+        `${ProfileHttpUrl.DELETE_CUSTOMER}CL-${userData.userId}`
+      );
+      if (status === 204) {
+        setShowModalDeleteAccount(false);
         navigation.navigate('AccountDeletedSuccessfully');
       }
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -914,21 +922,18 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box
-                mb="xxs"
-                position={'relative'}
-              >
+              <Box mb="xxs" position={'relative'}>
                 <TouchableOpacity
                   onPress={() => {
                     if (isVisibleGenderPicker) {
-                      setIsVisibleGenderPicker(false)
+                      setIsVisibleGenderPicker(false);
 
                       if (gender === '') {
-                        setIsEmptyGender(true)
+                        setIsEmptyGender(true);
                       }
                     } else {
-                      setIsVisibleGenderPicker(true)
-                      setIsEmptyGender(false)
+                      setIsVisibleGenderPicker(true);
+                      setIsEmptyGender(false);
                     }
                   }}
                 >
@@ -938,15 +943,15 @@ export const EditProfile = ({ route }: Props) => {
                     flexDirection="row"
                     height={60}
                     borderWidth="hairline"
-                    borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
+                    borderColor={
+                      isEmptyGender ? 'vermelhoAlerta' : 'transparente'
+                    }
                   >
-                    <Box
-                      ml="xxxs"
-                    >
-                      {gender !== ''
-                        ? <Box
+                    <Box ml="xxxs">
+                      {gender !== '' ? (
+                        <Box
                           style={{
-                            marginTop: -12
+                            marginTop: -12,
                           }}
                         >
                           <Typography
@@ -956,12 +961,9 @@ export const EditProfile = ({ route }: Props) => {
                             Gênero
                           </Typography>
 
-                          <Box
-                            mt='nano'
-                            pl='quarck'
-                          >
+                          <Box mt="nano" pl="quarck">
                             <Typography
-                              fontFamily='nunitoRegular'
+                              fontFamily="nunitoRegular"
                               color="preto"
                               fontSize={15}
                             >
@@ -969,22 +971,18 @@ export const EditProfile = ({ route }: Props) => {
                             </Typography>
                           </Box>
                         </Box>
-                        : <Typography
+                      ) : (
+                        <Typography
                           variant="descricaoCampoDePreenchimento"
                           color="neutroFrio2"
                           fontSize={15}
                         >
                           Selecione sua identidade de gênero
                         </Typography>
-                      }
-
+                      )}
                     </Box>
 
-                    <Box
-                      position={'absolute'}
-                      right={0}
-                      top={24}
-                    >
+                    <Box position={'absolute'} right={0} top={24}>
                       <Icon
                         color="preto"
                         name="ArrowDown"
@@ -995,20 +993,23 @@ export const EditProfile = ({ route }: Props) => {
                   </Box>
                 </TouchableOpacity>
 
-                {isVisibleGenderPicker &&
+                {isVisibleGenderPicker && (
                   <Box
                     position={'absolute'}
-                    width='100%'
+                    width="100%"
                     top={60}
                     zIndex={10000000}
                   >
                     {genderType.map((gender) => (
                       <TouchableOpacity
                         onPress={() => {
-                          setGender(gender)
-                          setUserData({ ...userData, gender: genderPtToEng[gender] })
-                          setIsEmptyGender(false)
-                          setIsVisibleGenderPicker(false)
+                          setGender(gender);
+                          setUserData({
+                            ...userData,
+                            gender: genderPtToEng[gender],
+                          });
+                          setIsEmptyGender(false);
+                          setIsVisibleGenderPicker(false);
                         }}
                       >
                         <Box
@@ -1018,10 +1019,10 @@ export const EditProfile = ({ route }: Props) => {
                           height={60}
                           borderWidth="hairline"
                           borderColor={'transparente'}
-                          pl='xxxs'
+                          pl="xxxs"
                         >
                           <Typography
-                            fontFamily='nunitoRegular'
+                            fontFamily="nunitoRegular"
                             color="preto"
                             fontSize={15}
                           >
@@ -1031,9 +1032,9 @@ export const EditProfile = ({ route }: Props) => {
                       </TouchableOpacity>
                     ))}
                   </Box>
-                }
+                )}
 
-                {isEmptyGender &&
+                {isEmptyGender && (
                   <Typography
                     fontFamily="nunitoRegular"
                     fontSize="13px"
@@ -1041,7 +1042,7 @@ export const EditProfile = ({ route }: Props) => {
                   >
                     Preencha sua identidade de gênero
                   </Typography>
-                }
+                )}
               </Box>
 
               {/* <Picker
@@ -1181,22 +1182,28 @@ export const EditProfile = ({ route }: Props) => {
                             isNewsletterOptIn: !subscribed,
                           },
                         });
-                        if (data.subscribeNewsletter) setSubscribed(!subscribed);
+                        if (data.subscribeNewsletter)
+                          setSubscribed(!subscribed);
                       }}
                       optionName="Desejo receber e-mails com promoções das marcas Reserva."
                     />
                   </Box>
-                  <Box flexDirection='row' mb={84} bg='white' marginX={-1}>
+                  <Box flexDirection="row" mb={84} bg="white" marginX={-1}>
                     <Button
-                      flexDirection='row'
+                      flexDirection="row"
                       onPress={() => setShowModalDeleteAccount(true)}
                     >
                       <>
-                        <Icon name='Trash' color='vermelhoAlerta' size={24} marginRight='quarck' />
+                        <Icon
+                          name="Trash"
+                          color="vermelhoAlerta"
+                          size={24}
+                          marginRight="quarck"
+                        />
                         <Typography
-                          fontFamily='nunitoRegular'
+                          fontFamily="nunitoRegular"
                           fontSize={15}
-                          color='vermelhoAlerta'
+                          color="vermelhoAlerta"
                         >
                           Deletar minha conta
                         </Typography>
@@ -1212,10 +1219,13 @@ export const EditProfile = ({ route }: Props) => {
                 </>
               )}
 
-
-
               {isRegister && (
-                <Box mb="nano" justifyContent="space-between" flexDirection="row" zIndex={2}>
+                <Box
+                  mb="nano"
+                  justifyContent="space-between"
+                  flexDirection="row"
+                  zIndex={2}
+                >
                   <Box paddingLeft="nano" mt="sm" width={'100%'}>
                     <Button
                       title="SALVAR"
@@ -1239,54 +1249,51 @@ export const EditProfile = ({ route }: Props) => {
           </Box>
         </ScrollView>
       </KeyboardAvoidingView>
-      {
-        !isRegister && (
-          <Box
-            flex={1}
-            width='100%'
-            justifyContent="space-between"
-            paddingX='xxxs'
-            alignItems='center'
-            flexDirection="row"
-            height={84}
-            style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
-            boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
-            position='absolute'
-            backgroundColor='white'
-            bottom={0}
-          >
-            <Box width={1 / 2.2} paddingRight="nano">
-              <Button
-                title="CANCELAR"
-                variant="primarioEstreitoOutline"
-                inline
-                onPress={() => {
-                  navigation.goBack();
-                }}
-              />
-            </Box>
-            <Box width={1 / 2.2} paddingLeft="nano" >
-              <Button
-                title="SALVAR"
-                variant="primarioEstreito"
-                inline
-                onPress={saveUserData}
-                disabled={
-                  updateLoading ||
-                  loadingProfilePhoto ||
-                  loadingScreen ||
-                  isEmptyFullName ||
-                  cpfInvalid ||
-                  isEmptyHomePhone ||
-                  isEmptyBirthDate ||
-                  isEmptyGender
-                }
-              />
-            </Box>
+      {!isRegister && (
+        <Box
+          flex={1}
+          width="100%"
+          justifyContent="space-between"
+          paddingX="xxxs"
+          alignItems="center"
+          flexDirection="row"
+          height={84}
+          style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
+          boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+          position="absolute"
+          backgroundColor="white"
+          bottom={0}
+        >
+          <Box width={1 / 2.2} paddingRight="nano">
+            <Button
+              title="CANCELAR"
+              variant="primarioEstreitoOutline"
+              inline
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
           </Box>
-        )
-      }
-
-    </SafeAreaView >
+          <Box width={1 / 2.2} paddingLeft="nano">
+            <Button
+              title="SALVAR"
+              variant="primarioEstreito"
+              inline
+              onPress={saveUserData}
+              disabled={
+                updateLoading ||
+                loadingProfilePhoto ||
+                loadingScreen ||
+                isEmptyFullName ||
+                cpfInvalid ||
+                isEmptyHomePhone ||
+                isEmptyBirthDate ||
+                isEmptyGender
+              }
+            />
+          </Box>
+        </Box>
+      )}
+    </SafeAreaView>
   );
 };
