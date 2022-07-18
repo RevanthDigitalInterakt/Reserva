@@ -89,9 +89,11 @@ const Store = ({ storeDetail, data, mapPermission }: IStore) => {
                       source={images.localReserva}
                       resizeMode={'contain'}
                     />
-                    <Typography fontFamily="reservaSansMedium" fontSize={12}>
-                      {+data.pickupDistance.toFixed(1)} km
-                    </Typography>
+                    <Box mt="quarck">
+                      <Typography fontFamily="reservaSansMedium" fontSize={12}>
+                        {+data.pickupDistance.toFixed(1)} km
+                      </Typography>
+                    </Box>
                   </Box>
                   <Box flex={1} ml="xxxs">
                     <Box mb={'quarck'}>

@@ -211,10 +211,12 @@ ${neighborhood}, ${city} - ${state}`,
             }}
           />
         ) : (
-          <Typography fontFamily="nunitoRegular" fontSize={15}>
-            Você ainda não tem endereços cadastrados, clique em Adicionar
-            Endereço e cadastre.
-          </Typography>
+          <Box style={{ marginBottom: 160 }} mt="micro">
+            <Typography fontFamily="nunitoRegular" fontSize={15}>
+              Você ainda não tem endereços cadastrados, clique em Adicionar
+              Endereço e cadastre.
+            </Typography>
+          </Box>
         )}
       </Box>
 
