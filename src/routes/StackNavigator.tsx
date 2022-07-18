@@ -107,6 +107,7 @@ export type RootStackParamList = {
     id?: number;
     isCheckout: boolean;
     edit?: boolean;
+    receiveHome?: boolean;
     onAddAddressCallBack?: () => void;
     editAddress?: {
       id: string;
@@ -148,22 +149,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -271,7 +272,10 @@ export const MainStackScreen = () => (
 
     <MainStack.Screen name="EditProfile" component={EditProfile} />
     <MainStack.Screen name="EditPassword" component={EditPassword} />
-    <MainStack.Screen name="AccountDeletedSuccessfully" component={AccountDeletedSuccessfully} />
+    <MainStack.Screen
+      name="AccountDeletedSuccessfully"
+      component={AccountDeletedSuccessfully}
+    />
     <MainStack.Screen
       name="NotificationProfile"
       component={NotificationProfile}
