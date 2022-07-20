@@ -7,7 +7,7 @@ import {
   GetTokenResponse
 } from "../../../my-credits/api/MyCreditsAPI";
 import { CashbackInStoreView } from "./CashbackInStore.view";
-
+import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
 interface CashbackInStoreContainerProps {
   costumerDocument: string;
   navigateBack: () => void;
@@ -62,21 +62,22 @@ export const CashbackInStoreContainer = (
     }
   };
 
-  return(
+  return (
     <Fragment>
       <TopBarBackButton
         loading={false}
         showShadow
         backButtonPress={navigateBack}
       />
-      <CashbackInStoreView
+      <RegisterPhoneNumberView />
+      {/* <CashbackInStoreView
         token={token}
         toggleModal={toggleModal}
         modalVisible={modalVisible}
         generateToken={generateToken}
         termsIsAccepted={termsIsAccepted}
         acceptTermsAndConditions={acceptTermsAndConditions}
-      />
+      /> */}
     </Fragment>
   );
 };
