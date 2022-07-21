@@ -24,7 +24,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 
-const MenuScreen: React.FC<{}> = ({}) => {
+const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
@@ -273,6 +273,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
                     onPress={() =>
                       navigation.navigate('cashbackInStore', {
                         isLoyal: true,
+                        profile: profile,
                         costumerDocument: profile?.document,
                       })
                     }

@@ -32,6 +32,7 @@ export const CashbackInStoreScreen = (
     <BaseScreen testID='CashbackInStoreScreen'>
       <CashbackInStoreContainer
         costumerDocument={route.params.costumerDocument}
+        profile={route.params.profile}
         navigateBack={navigateBack}
         navigateToError={navigateToError}
       />

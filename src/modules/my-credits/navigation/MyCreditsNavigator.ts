@@ -12,6 +12,7 @@ export type MyCreditsParamList = {
   [MyCreditsScreensRoutes.CASHBACK_IN_STORE]: {
     isLoyal: boolean;
     costumerDocument: string;
+    profile: string;
   };
 };
 

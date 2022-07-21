@@ -6,10 +6,14 @@ import {
   CashbackHttpUrl,
   GetTokenResponse
 } from "../../../my-credits/api/MyCreditsAPI";
+import {
+  ProfileVars,
+} from '../../../../graphql/profile/profileQuery';
 import { CashbackInStoreView } from "./CashbackInStore.view";
 import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
 interface CashbackInStoreContainerProps {
   costumerDocument: string;
+  profile: ProfileVars;
   navigateBack: () => void;
   navigateToError: () => void;
 }
@@ -17,6 +21,7 @@ interface CashbackInStoreContainerProps {
 export const CashbackInStoreContainer = (
   {
     costumerDocument,
+    profile,
     navigateBack,
     navigateToError
   }: CashbackInStoreContainerProps
@@ -69,7 +74,9 @@ export const CashbackInStoreContainer = (
         showShadow
         backButtonPress={navigateBack}
       />
-      <RegisterPhoneNumberView />
+      <RegisterPhoneNumberView
+        profile={profile}
+      />
       {/* <CashbackInStoreView
         token={token}
         toggleModal={toggleModal}
