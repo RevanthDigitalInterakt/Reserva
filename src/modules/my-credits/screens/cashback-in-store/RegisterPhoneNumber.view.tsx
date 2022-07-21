@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from "react";
-import { TextInput, Dimensions, ScrollView } from "react-native";
+import { Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
 import { Box, Button, theme, Typography, TextField } from "@danilomsou/reserva-ui";
 
 import CodeInput from "../../../../modules/Login/components/CodeInput";
+
 const deviceWidth = Dimensions.get('window').width;
 export const RegisterPhoneNumberView = () => {
     const [phone, setPhone] = React.useState('')
@@ -32,77 +33,82 @@ export const RegisterPhoneNumberView = () => {
     }, [phone])
 
     return (
-        <Fragment>
-            <ScrollView>
-                <Box mx="xxs" mt='xxs' mb='xxl'>
-                    <Box mb="nano">
-                        <Typography variant="tituloSessoes">
-                            Cashback em Lojas
-                        </Typography>
-                    </Box>
+        <SafeAreaView>
+            <KeyboardAvoidingView
+                enabled
+                keyboardVerticalOffset={15}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+                <ScrollView>
+                    <Box mx="xxs" mt='xxs'>
+                        <Box mb="nano">
+                            <Typography variant="tituloSessoes">
+                                Cashback em Lojas
+                            </Typography>
+                        </Box>
 
-                    <Box mb="xxs">
-                        <Typography fontFamily="nunitoRegular" fontSize={14}>
-                            Para utilizar o cashback em loja precisamos que mantenha o número de telefone atualizado.
-                        </Typography>
-                    </Box>
+                        <Box mb="xxs">
+                            <Typography fontFamily="nunitoRegular" fontSize={14}>
+                                Para utilizar o cashback em loja precisamos que mantenha o número de telefone atualizado.
+                            </Typography>
+                        </Box>
 
-                    <Box mb="xxs">
-                        <Typography fontFamily="nunitoRegular" fontSize={14}>
-                            Digite seu número abaixo e continue para gerar seu QR Code.
-                        </Typography>
-                    </Box>
+                        <Box mb="xxs">
+                            <Typography fontFamily="nunitoRegular" fontSize={14}>
+                                Digite seu número abaixo e continue para gerar seu QR Code.
+                            </Typography>
+                        </Box>
 
-                    <Box justifyContent="center" mb="xxs">
-                        <TextField
-                            maskType="cel-phone"
-                            value={phone}
-                            onChangeText={(newPhone) => handleChangePhone(newPhone)}
-                            keyboardType='number-pad'
-                            placeholder="(00) 00000-0000"
-                            returnKeyType='done'
-                            textContentType='oneTimeCode'
-                            style={{
-                                fontFamily: theme.fonts.nunitoItalic,
-                                backgroundColor: '#f0f0f0',
-                                height: 51,
-                                width: '100%',
-                                textAlign: 'center',
-                                fontSize: 15
-                            }}
-                        />
-                    </Box>
-                    <Box mb="xs">
-                        <Button
-                            onPress={() => setOpenConfirmCodeSection(true)}
-                            title="CADASTRAR"
-                            variant="primarioEstreito"
-                            inline
-                            disabled={phone.length < 15}
-                        />
-                    </Box>
-
-
-                    {openConfirmCodeSection &&
-                        <>
-                            <Box mb="nano">
-                                <Typography variant="tituloSessoes">
-                                    Confirme seu código
-                                </Typography>
-                            </Box>
-
-                            <Box mb="xxs">
-                                <Typography fontFamily="nunitoRegular" fontSize={14}>
-                                    Digite abaixo o código que acabamos de enviar para
-                                    o número informado:
-                                </Typography>
-                            </Box>
-                            <CodeInput
-                                code={code}
-                                onChageCode={setCode}
-                                showError={showError}
+                        <Box justifyContent="center" mb="xxs">
+                            <TextField
+                                maskType="cel-phone"
+                                value={phone}
+                                onChangeText={(newPhone) => handleChangePhone(newPhone)}
+                                keyboardType='number-pad'
+                                placeholder="(00) 00000-0000"
+                                returnKeyType='done'
+                                textContentType='oneTimeCode'
+                                style={{
+                                    fontFamily: theme.fonts.nunitoItalic,
+                                    backgroundColor: '#f0f0f0',
+                                    height: 51,
+                                    width: '100%',
+                                    textAlign: 'center',
+                                    fontSize: 15
+                                }}
                             />
-                            <Box
+                        </Box>
+                        <Box mb="xs">
+                            <Button
+                                onPress={() => setOpenConfirmCodeSection(true)}
+                                title="CADASTRAR"
+                                variant="primarioEstreito"
+                                inline
+                                disabled={phone.length < 15}
+                            />
+                        </Box>
+
+
+                        {openConfirmCodeSection &&
+                            <>
+                                <Box mb="nano">
+                                    <Typography variant="tituloSessoes">
+                                        Confirme seu código
+                                    </Typography>
+                                </Box>
+
+                                <Box mb="xxs">
+                                    <Typography fontFamily="nunitoRegular" fontSize={14}>
+                                        Digite abaixo o código que acabamos de enviar para
+                                        o número informado:
+                                    </Typography>
+                                </Box>
+                                <CodeInput
+                                    code={code}
+                                    onChageCode={setCode}
+                                    showError={showError}
+                                />
+                                {/* <Box
                                 mb="xxs"
                                 flexDirection={'row'}
                                 // flex={1}
@@ -113,7 +119,7 @@ export const RegisterPhoneNumberView = () => {
 
 
 
-                                {/* {[1, 2, 3, 4, 5, 6].map((_, index) => (
+                                {[1, 2, 3, 4, 5, 6].map((_, index) => (
                                     <Box bg='red' height={45} width={((deviceWidth - 48) - 75) / 6} >
                                         <TextField
                                             height={45}
@@ -131,28 +137,29 @@ export const RegisterPhoneNumberView = () => {
                                             }}
                                         />
                                     </Box>
-                                ))} */}
-                            </Box>
+                                ))}
+                            </Box> */}
 
-                            <Button
-                                onPress={() => setOpenConfirmCodeSection(true)}
-                                title="CONFIRMAR"
-                                height={50}
-                                inline
-                                color='white'
-                                // disabled={code.filter(elem => elem === '').length > 0}
-                                bg='verdeSucesso'
-                            />
+                                <Button
+                                    onPress={() => setOpenConfirmCodeSection(true)}
+                                    title="CONFIRMAR"
+                                    height={50}
+                                    inline
+                                    color='white'
+                                    // disabled={code.filter(elem => elem === '').length > 0}
+                                    bg='verdeSucesso'
+                                />
 
-                            <Box mt="nano" alignSelf='center'>
-                                <Typography fontFamily="nunitoRegular" fontSize={13} opacity={0.5}>
-                                    REENVIAR CÓDIGO EM 0:59s
-                                </Typography>
-                            </Box>
-                        </>
-                    }
-                </Box>
-            </ScrollView>
-        </Fragment>
+                                <Box mt="nano" alignSelf='center'>
+                                    <Typography fontFamily="nunitoRegular" fontSize={13} opacity={0.5}>
+                                        REENVIAR CÓDIGO EM 0:59s
+                                    </Typography>
+                                </Box>
+                            </>
+                        }
+                    </Box>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView >
     );
 }
