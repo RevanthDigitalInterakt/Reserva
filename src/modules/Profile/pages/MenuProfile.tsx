@@ -270,13 +270,21 @@ const MenuScreen: React.FC<{}> = ({ }) => {
               <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs">
                 <Box paddingX="xxs" pb="xxs">
                   <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('cashbackInStore', {
-                        isLoyal: true,
-                        profile: profile,
-                        costumerDocument: profile?.document,
+                    onPress={() => {
+                      // navigation.navigate('cashbackInStore', {
+                      //   isLoyal: true,
+                      //   profile: profile,
+                      //   costumerDocument: profile?.document,
+                      // })
+                      navigation.navigate('changePhoneNumber', {
+                        homePhone: profile?.homePhone,
                       })
-                    }
+                      // if (profile && profile?.homePhone?.length > 0) {
+                      //   navigation.navigate('registerPhoneNumber')
+                      // } else {
+                      //   navigation.navigate('changePhoneNumber')
+                      // }
+                    }}
                   >
                     <Typography fontFamily="nunitoRegular" fontSize={14}>
                       QR Code para cashback

@@ -69,11 +69,11 @@ export const CashbackInStoreContainer = (
 
   return (
     <Fragment>
-      <TopBarBackButton
+      {/* <TopBarBackButton
         loading={false}
         showShadow
         backButtonPress={navigateBack}
-      />
+      /> */}
       <RegisterPhoneNumberView
         profile={profile}
       />

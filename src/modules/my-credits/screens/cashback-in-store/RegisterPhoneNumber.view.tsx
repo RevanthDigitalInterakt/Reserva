@@ -5,7 +5,7 @@ import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
 import CodeInput from "../../../../shared/components/CodeInput";
-
+import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 interface RegisterPhoneNumberViewProps {
     profile: ProfileVars;
 }
@@ -46,6 +46,15 @@ export const RegisterPhoneNumberView = (
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <ScrollView>
+                    <TopBarBackButton
+                        loading={false}
+                        showShadow
+                        backButtonPress={() => {
+                            if (changePhoneNumber) {
+                                setChangePhoneNumber(false);
+                            }
+                        }}
+                    />
                     {!verifiedPhoneNumber ?
                         <Box mx="xxs" mt='xxs'>
                             {profile.homePhone.length > 0 && !changePhoneNumber ?
