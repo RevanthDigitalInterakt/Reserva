@@ -7,12 +7,14 @@ import {
 import CodeInput from "../../../../shared/components/CodeInput";
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 interface ChangePhoneNumberProps {
-    homePhone: ProfileVars;
+    homePhone: string;
+    navigateToRegisterPhoneNumber: () => void;
 }
 
 export const ChangePhoneNumber = (
     {
-        homePhone
+        homePhone,
+        navigateToRegisterPhoneNumber
     }: ChangePhoneNumberProps
 ) => {
     const [phone, setPhone] = React.useState('');
@@ -37,6 +39,10 @@ export const ChangePhoneNumber = (
     const handleConfirmCodeSection = () => {
         setVerifiedPhoneNumber(true);
     }
+
+    useEffect(() => {
+        console.log('homePhone::>', homePhone);
+    }, [homePhone]);
 
     return (
         <SafeAreaView>
@@ -73,7 +79,7 @@ export const ChangePhoneNumber = (
                                     fontSize={22}
                                     color='preto'
                                 >
-                                    {homePhone.slice(3).replace(/(\d{2})(\d{5})(\d{4})/, "($1)*****-$3")}
+                                    {homePhone?.slice(3).replace(/(\d{2})(\d{5})(\d{4})/, "($1)*****-$3")}
                                 </Typography>
                             </Box>
                         </Box>
@@ -89,7 +95,7 @@ export const ChangePhoneNumber = (
 
                             <Button
                                 mt={12}
-                                onPress={() => setChangePhoneNumber(true)}
+                                onPress={navigateToRegisterPhoneNumber}
                                 title="ALTERAR NÚMERO"
                                 variant="primarioEstreitoOutline"
                                 inline

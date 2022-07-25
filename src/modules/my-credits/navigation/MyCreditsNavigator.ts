@@ -1,7 +1,7 @@
 import { CashbackInStoreScreen } from "../screens/cashback-in-store/CashbackInStore.screen";
 import { CreditsScreen } from "../screens/credits/Credits.screen";
 import { RegisterPhoneNumber } from "../screens/Register-phone-number/RegisterPhoneNumber";
-import { ChangePhoneNumber } from "../screens/Register-phone-number/ChangePhoneNumber";
+import { ChangePhoneNumberScreen } from "../screens/Register-phone-number/ChangePhoneNumber.screen";
 
 export enum MyCreditsScreensRoutes {
   CREDITS = 'credits',
@@ -14,11 +14,12 @@ export enum MyCreditsScreensRoutes {
 export type MyCreditsParamList = {
   [MyCreditsScreensRoutes.CREDITS]: undefined;
   [MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER]: undefined;
-  [MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER]: undefined;
+  [MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER]: {
+    homePhone: string;
+  };
   [MyCreditsScreensRoutes.CASHBACK_IN_STORE]: {
     isLoyal: boolean;
     costumerDocument: string;
-    profile: string;
   };
 };
 
@@ -36,7 +37,7 @@ export const MyCreditsRoutes = [
     name: MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER,
   },
   {
-    component: ChangePhoneNumber,
+    component: ChangePhoneNumberScreen,
     name: MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER,
   }
 ];

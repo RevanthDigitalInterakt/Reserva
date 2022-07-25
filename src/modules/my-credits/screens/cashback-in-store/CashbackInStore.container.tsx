@@ -13,7 +13,6 @@ import { CashbackInStoreView } from "./CashbackInStore.view";
 import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
 interface CashbackInStoreContainerProps {
   costumerDocument: string;
-  profile: ProfileVars;
   navigateBack: () => void;
   navigateToError: () => void;
 }
@@ -21,7 +20,6 @@ interface CashbackInStoreContainerProps {
 export const CashbackInStoreContainer = (
   {
     costumerDocument,
-    profile,
     navigateBack,
     navigateToError
   }: CashbackInStoreContainerProps
@@ -69,22 +67,19 @@ export const CashbackInStoreContainer = (
 
   return (
     <Fragment>
-      {/* <TopBarBackButton
+      <TopBarBackButton
         loading={false}
         showShadow
         backButtonPress={navigateBack}
-      /> */}
-      <RegisterPhoneNumberView
-        profile={profile}
       />
-      {/* <CashbackInStoreView
+      <CashbackInStoreView
         token={token}
         toggleModal={toggleModal}
         modalVisible={modalVisible}
         generateToken={generateToken}
         termsIsAccepted={termsIsAccepted}
         acceptTermsAndConditions={acceptTermsAndConditions}
-      /> */}
+      />
     </Fragment>
   );
 };
