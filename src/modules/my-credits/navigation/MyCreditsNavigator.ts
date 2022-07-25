@@ -1,4 +1,6 @@
 import { CashbackInStoreScreen } from "../screens/cashback-in-store/CashbackInStore.screen";
+import { ConfirmPhoneNumberView } from "../screens/cashback-in-store/ConfirmPhoneNumber.view";
+import { RegisterPhoneNumberView } from "../screens/cashback-in-store/RegisterPhoneNumber.view";
 import { CreditsScreen } from "../screens/credits/Credits.screen";
 import { RegisterPhoneNumberScreen } from "../screens/Register-phone-number/RegisterPhoneNumber.screen";
 import { ChangePhoneNumberScreen } from "../screens/Register-phone-number/ChangePhoneNumber.screen";
