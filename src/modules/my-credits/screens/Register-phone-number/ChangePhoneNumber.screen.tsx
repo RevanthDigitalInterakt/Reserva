@@ -35,9 +35,6 @@ export const ChangePhoneNumberScreen = (
         });
     };
 
-    useEffect(() => {
-        console.log('route::>', route);
-    }, [route])
     return (
         <BaseScreen testID='ChangePhoneNumberScreen'>
             <ChangePhoneNumberContainer

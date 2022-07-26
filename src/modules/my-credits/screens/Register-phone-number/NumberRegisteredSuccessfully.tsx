@@ -16,10 +16,6 @@ export const NumberRegisteredSuccessfully = (
     const navigation = useNavigation();
     const { costumerDocument } = route?.params;
 
-    useEffect(() => {
-        console.log('costumerDocumentssss:>', costumerDocument)
-    }, [costumerDocument]);
-
     return (
         <SafeAreaView>
             <ScrollView>

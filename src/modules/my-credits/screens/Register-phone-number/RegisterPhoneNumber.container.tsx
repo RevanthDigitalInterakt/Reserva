@@ -21,10 +21,6 @@ export const RegisterPhoneNumberContainer = (
     }: RegisterPhoneNumberContainerProps
 ) => {
 
-    useEffect(() => {
-        console.log('profile::>', profile);
-    }, [profile]);
-
     return (
         <Fragment>
             <RegisterPhoneNumberView

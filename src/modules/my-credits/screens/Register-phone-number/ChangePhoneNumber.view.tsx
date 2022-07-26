@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ScrollView, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
-import { Box, Button, theme, Typography, TextField } from "@danilomsou/reserva-ui";
+import { Box, Button, Typography } from "@danilomsou/reserva-ui";
 import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
-import CodeInput from "../../../../shared/components/CodeInput";
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 interface ChangePhoneNumberViewProps {
     profile: ProfileVars;
@@ -23,26 +22,6 @@ export const ChangePhoneNumberView = (
     const [showError, setShowError] = useState(false);
     const [changePhoneNumber, setChangePhoneNumber] = useState(false);
     const [verifiedPhoneNumber, setVerifiedPhoneNumber] = useState(false);
-
-    const handleChangePhone = (newPhone: string) => {
-        if (!openConfirmCodeSection && newPhone.length < 16) {
-            setPhone(newPhone)
-        }
-    }
-
-    const handleChangeCode = (newCode: string, index: number) => {
-        let codeCopy = [...code]
-        codeCopy[index] = newCode
-        // setCode(codeCopy);
-    }
-
-    const handleConfirmCodeSection = () => {
-        setVerifiedPhoneNumber(true);
-    }
-
-    useEffect(() => {
-        console.log('profile::>', profile);
-    }, [profile]);
 
     return (
         <SafeAreaView>
