@@ -31,14 +31,17 @@ export const ChangePhoneNumberScreen = (
     const navigateToRegisterPhoneNumber = () => {
         navigation.navigate('registerPhoneNumber', {
             isChangeNumber: true,
-            costumerDocument: route?.params.costumerDocument
+            profile: route?.params.profile
         });
     };
 
+    useEffect(() => {
+        console.log('route::>', route);
+    }, [route])
     return (
         <BaseScreen testID='ChangePhoneNumberScreen'>
             <ChangePhoneNumberContainer
-                homePhone={route?.params.homePhone}
+                profile={route?.params.profile}
                 navigateBack={navigateBack}
                 navigateToError={navigateToError}
                 navigateToRegisterPhoneNumber={navigateToRegisterPhoneNumber}

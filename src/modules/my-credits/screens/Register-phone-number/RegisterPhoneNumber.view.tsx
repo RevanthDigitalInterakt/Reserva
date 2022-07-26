@@ -6,19 +6,19 @@ import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
 import CodeInput from "../../../../shared/components/CodeInput";
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import firestore from '@react-native-firebase/firestore';
 import { differenceInMonths } from 'date-fns';
-interface RegisterPhoneNumberProps {
-    costumerDocument: string;
+interface RegisterPhoneNumberViewProps {
+    profile: ProfileVars;
     isChangeNumber?: boolean;
 }
 
-export const RegisterPhoneNumber = (
+export const RegisterPhoneNumberView = (
     {
-        costumerDocument,
+        profile,
         isChangeNumber = false,
-    }: RegisterPhoneNumberProps
+    }: RegisterPhoneNumberViewProps
 ) => {
     const route = useRoute();
     const navigation = useNavigation();
@@ -34,8 +34,8 @@ export const RegisterPhoneNumber = (
     }, [isChangeNumber]);
 
     useEffect(() => {
-        console.log('costumerDocument::::>', costumerDocument)
-    }, [costumerDocument]);
+        console.log('profile::::>', profile)
+    }, [profile]);
 
 
     const handleChangePhone = (newPhone: string) => {
@@ -51,11 +51,11 @@ export const RegisterPhoneNumber = (
     }
 
     const handleConfirmCodeSection = () => {
-        const timeFirebase = firestore.Timestamp.now().toDate();
+        // const timeFirebase = firestore.Timestamp.now().toDate();
         // const result = differenceInMonths(timeFirebase, new Date('2022-04-30T14:24:57.558Z'))
-        // navigation.navigate('numberRegisteredSuccessfully', {
-        //     costumerDocument: costumerDocument
-        // });
+        navigation.navigate('numberRegisteredSuccessfully', {
+            costumerDocument: profile?.document
+        });
     }
 
     return (

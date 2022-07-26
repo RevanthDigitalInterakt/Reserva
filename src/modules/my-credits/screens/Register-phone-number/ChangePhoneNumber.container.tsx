@@ -3,10 +3,10 @@ import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBack
 import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
-import { ChangePhoneNumber } from "./ChangePhoneNumber";
+import { ChangePhoneNumberView } from "./ChangePhoneNumber.view";
 
 interface ChangePhoneNumberContainerProps {
-    homePhone: string;
+    profile: ProfileVars;
     navigateBack: () => void;
     navigateToError: () => void;
     navigateToRegisterPhoneNumber: () => void;
@@ -14,7 +14,7 @@ interface ChangePhoneNumberContainerProps {
 
 export const ChangePhoneNumberContainer = (
     {
-        homePhone,
+        profile,
         navigateBack,
         navigateToError,
         navigateToRegisterPhoneNumber
@@ -27,8 +27,8 @@ export const ChangePhoneNumberContainer = (
 
     return (
         <Fragment>
-            <ChangePhoneNumber
-                homePhone={homePhone}
+            <ChangePhoneNumberView
+                profile={profile}
                 navigateToRegisterPhoneNumber={handlenNavigateToRegisterPhoneNumber}
             />
         </Fragment>

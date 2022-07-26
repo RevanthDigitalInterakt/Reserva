@@ -4,10 +4,9 @@ import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBack
 import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
-import { ChangePhoneNumber } from "./ChangePhoneNumber";
-import { RegisterPhoneNumber } from "./RegisterPhoneNumber";
+import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
 interface RegisterPhoneNumberContainerProps {
-    costumerDocument: string;
+    profile: ProfileVars;
     isChangeNumber?: boolean;
     navigateBack: () => void;
     navigateToError: () => void;
@@ -15,7 +14,7 @@ interface RegisterPhoneNumberContainerProps {
 
 export const RegisterPhoneNumberContainer = (
     {
-        costumerDocument,
+        profile,
         isChangeNumber,
         navigateBack,
         navigateToError,
@@ -23,13 +22,13 @@ export const RegisterPhoneNumberContainer = (
 ) => {
 
     useEffect(() => {
-        console.log('costumerDocument2::>', costumerDocument);
-    }, [costumerDocument]);
+        console.log('profile::>', profile);
+    }, [profile]);
 
     return (
         <Fragment>
-            <RegisterPhoneNumber
-                costumerDocument={costumerDocument}
+            <RegisterPhoneNumberView
+                profile={profile}
                 isChangeNumber={isChangeNumber}
             />
         </Fragment>

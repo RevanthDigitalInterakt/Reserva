@@ -31,7 +31,7 @@ export const RegisterPhoneNumberScreen = (
     return (
         <BaseScreen testID='ChangePhoneNumberScreen'>
             <RegisterPhoneNumberContainer
-                costumerDocument={route?.params.costumerDocument}
+                profile={route?.params.profile}
                 isChangeNumber={route?.params.isChangeNumber}
                 navigateBack={navigateBack}
                 navigateToError={navigateToError}

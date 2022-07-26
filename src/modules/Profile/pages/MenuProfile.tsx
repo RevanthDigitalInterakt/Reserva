@@ -277,12 +277,11 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                       // })
                       if (profile?.homePhone) {
                         navigation.navigate('changePhoneNumber', {
-                          homePhone: profile?.homePhone,
-                          costumerDocument: profile?.document,
+                          profile: profile,
                         })
                       } else {
                         navigation.navigate('registerPhoneNumber', {
-                          costumerDocument: profile?.document,
+                          profile: profile
                         })
                       }
                     }}

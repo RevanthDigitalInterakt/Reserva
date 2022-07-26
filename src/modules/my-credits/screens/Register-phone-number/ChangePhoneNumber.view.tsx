@@ -5,17 +5,17 @@ import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
 import CodeInput from "../../../../shared/components/CodeInput";
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
-interface ChangePhoneNumberProps {
-    homePhone: string;
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
+interface ChangePhoneNumberViewProps {
+    profile: ProfileVars;
     navigateToRegisterPhoneNumber: () => void;
 }
 
-export const ChangePhoneNumber = (
+export const ChangePhoneNumberView = (
     {
-        homePhone,
+        profile,
         navigateToRegisterPhoneNumber
-    }: ChangePhoneNumberProps
+    }: ChangePhoneNumberViewProps
 ) => {
     const [phone, setPhone] = React.useState('');
     const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
@@ -41,8 +41,8 @@ export const ChangePhoneNumber = (
     }
 
     useEffect(() => {
-        console.log('homePhone::>', homePhone);
-    }, [homePhone]);
+        console.log('profile::>', profile);
+    }, [profile]);
 
     return (
         <SafeAreaView>
@@ -79,7 +79,7 @@ export const ChangePhoneNumber = (
                                     fontSize={22}
                                     color='preto'
                                 >
-                                    {homePhone?.slice(3).replace(/(\d{2})(\d{5})(\d{4})/, "($1)*****-$3")}
+                                    {profile?.homePhone?.slice(3).replace(/(\d{2})(\d{5})(\d{4})/, "($1)*****-$3")}
                                 </Typography>
                             </Box>
                         </Box>

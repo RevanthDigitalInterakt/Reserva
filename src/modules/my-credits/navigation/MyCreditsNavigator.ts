@@ -4,6 +4,9 @@ import { RegisterPhoneNumberScreen } from "../screens/Register-phone-number/Regi
 import { ChangePhoneNumberScreen } from "../screens/Register-phone-number/ChangePhoneNumber.screen";
 import { NumberRegisteredSuccessfully } from "../screens/Register-phone-number/NumberRegisteredSuccessfully";
 
+import {
+  ProfileVars,
+} from '../../../graphql/profile/profileQuery';
 export enum MyCreditsScreensRoutes {
   CREDITS = 'credits',
   ERROR = 'error',
@@ -17,14 +20,13 @@ export type MyCreditsParamList = {
   [MyCreditsScreensRoutes.CREDITS]: undefined;
   [MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER]: {
     isChangeNumber?: boolean;
-    costumerDocument: string;
+    profile: ProfileVars;
   };
   [MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER]: {
-    homePhone: string;
-    costumerDocument: string;
+    profile: ProfileVars;
   };
   [MyCreditsScreensRoutes.NUMBER_REGISTERED_SUCCESSFULLY]: {
-    costumerDocument: string;
+    profile: ProfileVars;
   };
   [MyCreditsScreensRoutes.CASHBACK_IN_STORE]: {
     isLoyal: boolean;

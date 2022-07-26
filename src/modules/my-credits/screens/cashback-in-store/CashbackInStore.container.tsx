@@ -6,11 +6,7 @@ import {
   CashbackHttpUrl,
   GetTokenResponse
 } from "../../../my-credits/api/MyCreditsAPI";
-import {
-  ProfileVars,
-} from '../../../../graphql/profile/profileQuery';
 import { CashbackInStoreView } from "./CashbackInStore.view";
-import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
 interface CashbackInStoreContainerProps {
   costumerDocument: string;
   navigateBack: () => void;
