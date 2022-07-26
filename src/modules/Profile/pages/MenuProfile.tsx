@@ -273,17 +273,18 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                     onPress={() => {
                       // navigation.navigate('cashbackInStore', {
                       //   isLoyal: true,
-                      //   profile: profile,
                       //   costumerDocument: profile?.document,
                       // })
-                      navigation.navigate('changePhoneNumber', {
-                        homePhone: profile?.homePhone,
-                      })
-                      // if (profile && profile?.homePhone?.length > 0) {
-                      //   navigation.navigate('registerPhoneNumber')
-                      // } else {
-                      //   navigation.navigate('changePhoneNumber')
-                      // }
+                      if (profile?.homePhone) {
+                        navigation.navigate('changePhoneNumber', {
+                          homePhone: profile?.homePhone,
+                          costumerDocument: profile?.document,
+                        })
+                      } else {
+                        navigation.navigate('registerPhoneNumber', {
+                          costumerDocument: profile?.document,
+                        })
+                      }
                     }}
                   >
                     <Typography fontFamily="nunitoRegular" fontSize={14}>

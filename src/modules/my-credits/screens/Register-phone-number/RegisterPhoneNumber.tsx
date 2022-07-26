@@ -1,26 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, } from "react-native";
 import { Box, Button, theme, Typography, TextField } from "@danilomsou/reserva-ui";
 import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
 import CodeInput from "../../../../shared/components/CodeInput";
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
+import firestore from '@react-native-firebase/firestore';
+import { differenceInMonths } from 'date-fns';
 interface RegisterPhoneNumberProps {
-    profile: ProfileVars;
+    costumerDocument: string;
+    isChangeNumber?: boolean;
 }
 
 export const RegisterPhoneNumber = (
     {
-        profile
+        costumerDocument,
+        isChangeNumber = false,
     }: RegisterPhoneNumberProps
 ) => {
+    const route = useRoute();
+    const navigation = useNavigation();
     const [phone, setPhone] = React.useState('');
     const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
     const [code, setCode] = useState("");
     const [showError, setShowError] = useState(false);
     const [changePhoneNumber, setChangePhoneNumber] = useState(false);
     const [verifiedPhoneNumber, setVerifiedPhoneNumber] = useState(false);
+
+    useEffect(() => {
+        console.log('route1::::>', isChangeNumber)
+    }, [isChangeNumber]);
+
+    useEffect(() => {
+        console.log('costumerDocument::::>', costumerDocument)
+    }, [costumerDocument]);
+
 
     const handleChangePhone = (newPhone: string) => {
         if (!openConfirmCodeSection && newPhone.length < 16) {
@@ -35,7 +51,11 @@ export const RegisterPhoneNumber = (
     }
 
     const handleConfirmCodeSection = () => {
-        setVerifiedPhoneNumber(true);
+        const timeFirebase = firestore.Timestamp.now().toDate();
+        // const result = differenceInMonths(timeFirebase, new Date('2022-04-30T14:24:57.558Z'))
+        // navigation.navigate('numberRegisteredSuccessfully', {
+        //     costumerDocument: costumerDocument
+        // });
     }
 
     return (
@@ -52,25 +72,42 @@ export const RegisterPhoneNumber = (
                     // backButtonPress={}
                     />
                     <Box mx="xxs" mt='xxs'>
-                        <Box>
-                            <Box mb="nano">
-                                <Typography variant="tituloSessoes">
-                                    Cashback em Lojas
-                                </Typography>
-                            </Box>
+                        {isChangeNumber ?
+                            <Box>
+                                <Box mb="nano">
+                                    <Typography variant="tituloSessoes">
+                                        Atualizar telefone
+                                    </Typography>
+                                </Box>
 
-                            <Box mb="xxs">
-                                <Typography fontFamily="nunitoRegular" fontSize={14}>
-                                    Para utilizar o cashback em loja precisamos que mantenha o número de telefone atualizado.
-                                </Typography>
-                            </Box>
+                                <Box mb="xxs">
+                                    <Typography fontFamily="nunitoRegular" fontSize={14}>
+                                        Digite seu número novo abaixo e continue para gerar seu QR Code.
+                                    </Typography>
+                                </Box>
 
-                            <Box mb="xxs">
-                                <Typography fontFamily="nunitoRegular" fontSize={14}>
-                                    Digite seu número abaixo e continue para gerar seu QR Code.
-                                </Typography>
                             </Box>
-                        </Box>
+                            :
+                            <Box>
+                                <Box mb="nano">
+                                    <Typography variant="tituloSessoes">
+                                        Cashback em Lojas
+                                    </Typography>
+                                </Box>
+
+                                <Box mb="xxs">
+                                    <Typography fontFamily="nunitoRegular" fontSize={14}>
+                                        Para utilizar o cashback em loja precisamos que mantenha o número de telefone atualizado.
+                                    </Typography>
+                                </Box>
+
+                                <Box mb="xxs">
+                                    <Typography fontFamily="nunitoRegular" fontSize={14}>
+                                        Digite seu número abaixo e continue para gerar seu QR Code.
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        }
 
 
                         <Box justifyContent="center" mb="xxs">
@@ -105,7 +142,7 @@ export const RegisterPhoneNumber = (
 
                         {openConfirmCodeSection &&
                             <>
-                                {!changePhoneNumber &&
+                                {!isChangeNumber &&
                                     <Box mb="nano">
                                         <Typography variant="tituloSessoes">
                                             Confirme seu código
@@ -126,7 +163,7 @@ export const RegisterPhoneNumber = (
                                 />
                                 <Box mt={20}>
                                     <Button
-                                        onPress={() => handleConfirmCodeSection(true)}
+                                        onPress={handleConfirmCodeSection}
                                         title="CONFIRMAR"
                                         height={50}
                                         inline

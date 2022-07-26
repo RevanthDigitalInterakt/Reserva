@@ -4,6 +4,7 @@ import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
 import { ChangePhoneNumber } from "./ChangePhoneNumber";
+
 interface ChangePhoneNumberContainerProps {
     homePhone: string;
     navigateBack: () => void;
@@ -19,15 +20,16 @@ export const ChangePhoneNumberContainer = (
         navigateToRegisterPhoneNumber
     }: ChangePhoneNumberContainerProps
 ) => {
-    useEffect(() => {
-        console.log('homePhone2::>', homePhone)
-    }, [homePhone])
+
+    const handlenNavigateToRegisterPhoneNumber = () => {
+        navigateToRegisterPhoneNumber();
+    };
 
     return (
         <Fragment>
             <ChangePhoneNumber
                 homePhone={homePhone}
-                navigateToRegisterPhoneNumber={navigateToRegisterPhoneNumber}
+                navigateToRegisterPhoneNumber={handlenNavigateToRegisterPhoneNumber}
             />
         </Fragment>
     );
