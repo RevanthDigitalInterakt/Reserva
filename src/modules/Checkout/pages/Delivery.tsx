@@ -1,15 +1,10 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Typography } from '@danilomsou/reserva-ui';
-import {
-  useFocusEffect, useNavigation
-} from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, SafeAreaView, ScrollView } from 'react-native';
-import {
-  checkMultiple,
-  PERMISSIONS, request
-} from 'react-native-permissions';
+import { Alert, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { RootStackParamList } from 'routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
@@ -22,6 +17,9 @@ type DeliveryNavigator = StackNavigationProp<
   RootStackParamList,
   'DeliveryScreen'
 >;
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
+const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const Delivery: React.FC<{}> = () => {
   const navigation = useNavigation<DeliveryNavigator>();
@@ -46,24 +44,22 @@ const Delivery: React.FC<{}> = () => {
   const [addressId, setAddressId] = React.useState('');
   const [loading, setLoading] = useState(false);
 
-  const [{
-    data,
-    loadingProfile,
-    refetch,
-  }, setProfileData] = useState({
-    refetch: () => { },
+  const [{ data, loadingProfile, refetch }, setProfileData] = useState({
+    refetch: () => {},
     data: {} as any,
     loadingProfile: true,
-  })
+  });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
-    getProfile().then((response) => setProfileData({
-      refetch: response.refetch,
-      data: response.data,
-      loadingProfile: false,
-    }))
+    getProfile().then((response) =>
+      setProfileData({
+        refetch: response.refetch,
+        data: response.data,
+        loadingProfile: false,
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -99,7 +95,7 @@ const Delivery: React.FC<{}> = () => {
       ) {
         setPermission(true);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   // permissão para acessar o mapa
@@ -117,7 +113,7 @@ const Delivery: React.FC<{}> = () => {
       ) {
         setMapPermission(true);
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -308,12 +304,16 @@ const Delivery: React.FC<{}> = () => {
           selectShippingAddress(addresses[0]);
         }
 
-        console.log('updateAddresses1234 - casa - if - addresses', addresses.length, selectedAddressOrderFom?.addressId);
+        console.log(
+          'updateAddresses1234 - casa - if - addresses',
+          addresses.length,
+          selectedAddressOrderFom
+        );
         setAddresses(addresses);
         setSelectedAddress(selectedAddressOrderFom);
       }
     }
-  }
+  };
 
   useEffect(() => {
     updateAddresses();
@@ -325,20 +325,38 @@ const Delivery: React.FC<{}> = () => {
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
       >
-        <Box paddingX="xxxs" pt="sm" pb="xxs">
+        <Box paddingX="xxxs" pt="xxxs" pb="xxs">
           <Box>
-            <Typography variant="tituloSessoes">Entrega</Typography>
-          </Box>
-
-          <Box marginTop="nano" marginBottom="xxxs">
             <Typography
               color="preto"
-              fontFamily="reservaSansLight"
-              fontSize={15}
+              fontFamily="reservaSerifRegular"
+              fontSize={28}
+              lineHeight={32}
             >
-              Escolha abaixo se você prefere receber no conforto do seu lar ou
-              retirar em uma de nossas lojas. Nesta opção o frete é grátis.
+              Entrega
             </Typography>
+          </Box>
+
+          <Box marginTop="nano" marginBottom="xxxs" flexDirection="row">
+            <Box>
+              <Typography
+                color="preto"
+                fontFamily="nunitoRegular"
+                fontSize={15}
+                lineHeight={18}
+              >
+                Escolha abaixo se você prefere receber o produto no conforto do
+                seu lar ou retirar em uma de nossas lojas
+                <Typography
+                  color="verdeSucesso"
+                  fontFamily="nunitoRegular"
+                  fontSize={15}
+                  lineHeight={18}
+                >
+                  {` gratuitamente.`}
+                </Typography>
+              </Typography>
+            </Box>
           </Box>
 
           <Box flexDirection="row" justifyContent="space-between">
@@ -347,18 +365,19 @@ const Delivery: React.FC<{}> = () => {
                 onPress={() => {
                   setSelectMethodDelivery(false);
                 }}
-                borderRadius="nano"
-                borderColor="dropDownBorderColor"
-                borderWidth="hairline"
                 flexDirection="row"
+                borderColor="preto"
+                borderWidth="hairline"
                 inline
-                height={40}
-                bg={!selectMethodDelivery ? 'dropDownBorderColor' : null}
+                height={50}
+                bg={!selectMethodDelivery ? 'preto' : 'white'}
               >
                 <Typography
-                  color="preto"
-                  fontFamily="reservaSansMedium"
-                  fontSize={12}
+                  color={!selectMethodDelivery ? 'white' : 'preto'}
+                  fontFamily="nunitoRegular"
+                  fontSize={11}
+                  letterSpacing={1.6}
+                  lineHeight={24}
                 >
                   RECEBER EM CASA
                 </Typography>
@@ -368,30 +387,47 @@ const Delivery: React.FC<{}> = () => {
             <Box flex={1}>
               <Button
                 marginLeft="nano"
-                borderRadius="nano"
-                borderColor="dropDownBorderColor"
+                borderColor="preto"
                 borderWidth="hairline"
                 flexDirection="row"
                 inline
-                height={40}
+                height={50}
                 onPress={() => {
                   setSelectMethodDelivery(true);
                 }}
-                bg={selectMethodDelivery ? 'dropDownBorderColor' : null}
+                bg={selectMethodDelivery ? 'preto' : 'white'}
               >
-                <Typography
-                  color="preto"
-                  fontFamily="reservaSansMedium"
-                  fontSize={12}
-                >
-                  RETIRAR NA LOJA
-                </Typography>
+                <Box>
+                  <Typography
+                    color={selectMethodDelivery ? 'white' : 'preto'}
+                    fontFamily="nunitoRegular"
+                    fontSize={11}
+                    letterSpacing={1.6}
+                    lineHeight={14}
+                  >
+                    RETIRAR NA LOJA
+                  </Typography>
+                  <Typography
+                    color={'verdeSucesso'}
+                    fontFamily="nunitoRegular"
+                    fontSize={11}
+                    style={{ textAlign: 'center' }}
+                    letterSpacing={1.6}
+                    lineHeight={14}
+                  >
+                    {`(GRÁTIS)`}
+                  </Typography>
+                </Box>
               </Button>
             </Box>
           </Box>
 
           {selectMethodDelivery ? (
-            <Store data={pickupPoint} storeDetail={businessHours} />
+            <Store
+              data={pickupPoint}
+              storeDetail={businessHours}
+              mapPermission={mapPermission}
+            />
           ) : (
             !selectMethodDelivery &&
             profile && (
@@ -408,47 +444,62 @@ const Delivery: React.FC<{}> = () => {
           )}
         </Box>
         {cookie != null && !selectMethodDelivery && (
-          <Box justifyContent="flex-end" mt="xxs" mb="xxs" paddingX="xxxs">
+          <Box justifyContent="flex-end" alignItems="center" mt="xxxs">
             <Button
               onPress={() =>
                 navigation.navigate('NewAddress', {
                   isCheckout: true,
+                  receiveHome: true,
                   id: undefined,
                   onAddAddressCallBack: async () => await orderform(),
                 })
               }
+              height={50}
+              width={DEVICE_WIDTH * 0.8}
               inline
+              fontFamily="nunitoRegular"
+              fontSize={13}
+              lineHeight={24}
+              letterSpacing={1.6}
               title="ADICIONAR ENDEREÇO"
               variant="primarioEstreitoOutline"
-              padding="xl"
             />
           </Box>
         )}
-        {selectMethodDelivery && (
-          <Box flex={1} justifyContent="flex-end" paddingX="xxxs" pb="xxs">
+        {/* {selectMethodDelivery && (
+          <Box flex={1} paddingX="xxxs" pt="micro" pb="xxxs">
             <Button
-              justifyContent="flex-end"
               onPress={() =>
                 mapPermission
                   ? navigation.navigate('MapScreen', {
-                    geolocation: '',
-                    locationPermission: mapPermission,
-                  })
+                      geolocation: '',
+                      locationPermission: mapPermission,
+                    })
                   : navigation.navigate('WithdrawInStore', { isCheckout: true })
               }
               inline
-              title="LOJAS PRÓXIMAS A SUA REGIÃO"
+              title="VER MAIS LOJAS PRÓXIMAS"
               variant="primarioEstreitoOutline"
-              padding="xl"
+              fontFamily="nunitoRegular"
+              fontSize={13}
+              height={50}
             />
           </Box>
-        )}
+        )} */}
 
-        <Box justifyContent="flex-end">
+        <Box
+          flex={1}
+          justifyContent="flex-start"
+          mb="xs"
+          mt="xl"
+          // bg="verdeSucesso"
+        >
           <Button
-            disabled={!selectMethodDelivery
-              ? loading || !selectedAddress || !selectedDelivery
-              : pickupPoint === 0}
+            disabled={
+              !selectMethodDelivery
+                ? loading || !selectedAddress || !selectedDelivery
+                : pickupPoint === 0
+            }
             onPress={onGoToPayment}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"

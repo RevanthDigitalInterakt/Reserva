@@ -24,7 +24,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 
-const MenuScreen: React.FC<{}> = ({ }) => {
+const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
@@ -93,7 +93,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
         navigation.navigate('Login', { comeFrom: 'Profile' });
       }
     }
-  }
+  };
 
   useFocusEffect(() => {
     userIsLogged();
@@ -106,9 +106,8 @@ const MenuScreen: React.FC<{}> = ({ }) => {
           data: response.data,
           loading: false,
           error: response.error,
-        })
-      }
-      );
+        });
+      });
       remoteConfig().fetchAndActivate();
       const response = remoteConfig().getValue('balance_cashback_in_app');
 
@@ -238,7 +237,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
             </Box>
             <Box paddingX="xxxs">
               <ItemList
-                title="Meus dados"
+                title="Minha conta"
                 descr="Visualize e edite suas informações"
                 icon="Profile"
                 onPress={() => {
@@ -255,20 +254,18 @@ const MenuScreen: React.FC<{}> = ({ }) => {
                 navigation.navigate('ListCards');
               }}
             /> */}
-            {(screenCashbackInStoreActive || isTester) && (
-              <Box paddingX="xxxs">
-                <ItemList
-                  title="Meu Cashback"
-                  descr="Escaneie o QR Code e veja sua carteira"
-                  icon="Cashback"
-                  arrowDown
-                  dropdownActive={cashbackDropOpen}
-                  onPress={() => {
-                    setCashbackDropOpen(!cashbackDropOpen);
-                  }}
-                />
-              </Box>
-            )}
+            <Box paddingX="xxxs">
+              <ItemList
+                title="Meu Cashback"
+                descr="Escaneie o QR Code e veja sua carteira"
+                icon="Cashback"
+                arrowDown
+                dropdownActive={cashbackDropOpen}
+                onPress={() => {
+                  setCashbackDropOpen(!cashbackDropOpen);
+                }}
+              />
+            </Box>
             {cashbackDropOpen && (
               <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs">
                 <Box paddingX="xxs" pb="xxs">

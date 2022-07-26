@@ -29,6 +29,7 @@ import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavig
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
+import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
 import { ListCards } from '../modules/Profile/pages/ListCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
@@ -57,6 +58,7 @@ import {
 } from '../modules/ChangeRegionalization/pages/CEPList';
 
 import { Onboarding } from '../modules/Onboarding/pages/Onboarding';
+import { LandingPage } from '../modules/LandingPage/LandingPage';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -101,10 +103,14 @@ export type RootStackParamList = {
   ForgotPassword: {} | undefined;
   ForgotNewPassword: { email: string; code: string };
   ForgotEmailSuccess: {} | undefined;
+  LandingPage: {
+    landingPageId: string;
+  };
   NewAddress: {
     id?: number;
     isCheckout: boolean;
     edit?: boolean;
+    receiveHome?: boolean;
     onAddAddressCallBack?: () => void;
     editAddress?: {
       id: string;
@@ -213,6 +219,7 @@ export const MainStackScreen = () => (
         initialParams={flow.initialParams}
       />
     ))}
+    <MainStack.Screen name="LandingPage" component={LandingPage} />
     <MainStack.Screen name="SearchMenu" component={SearchScreen} />
     {/* <MainStack.Screen name="WishList" component={WishList} /> */}
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
@@ -270,6 +277,10 @@ export const MainStackScreen = () => (
 
     <MainStack.Screen name="EditProfile" component={EditProfile} />
     <MainStack.Screen name="EditPassword" component={EditPassword} />
+    <MainStack.Screen
+      name="AccountDeletedSuccessfully"
+      component={AccountDeletedSuccessfully}
+    />
     <MainStack.Screen
       name="NotificationProfile"
       component={NotificationProfile}

@@ -9,11 +9,11 @@ export const withAuthentication = (Component: React.FC, comeFrom: string) => ({
   const { cookie } = useAuth();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    if (cookie === null) {
-      navigation.navigate("Login", { comeFrom });
-    }
-  }, [cookie]);
+  // useEffect(() => {
+  //   if (cookie === null) {
+  //     navigation.navigate("Login", { comeFrom });
+  //   }
+  // }, [cookie]);
 
   return <Component {...props} />;
 };

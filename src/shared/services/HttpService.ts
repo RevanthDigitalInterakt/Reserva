@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from 'axios';
 
 export class HttpService {
   private axiosInstance: AxiosInstance;
@@ -15,5 +15,11 @@ export class HttpService {
 
   async post<T>(url: string, data?: any): Promise<AxiosResponse<T>> {
     return this.axiosInstance.post<T>(url, data);
+  }
+
+  async delete<T>(url: string, params?: any): Promise<AxiosResponse<T>> {
+    return this.axiosInstance.delete<T>(url, {
+      params,
+    });
   }
 }

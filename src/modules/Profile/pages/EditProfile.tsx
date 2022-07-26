@@ -46,6 +46,12 @@ import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
 import IsTestingModal from '../Components/IsTestingModal';
+import ModalDeleteAccount from '../Components/ModalDeleteAccount';
+import {
+  MyCashbackAPI,
+  MyProfileAPI,
+  ProfileHttpUrl,
+} from './api/MyProfileAPI';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -108,7 +114,8 @@ export const EditProfile = ({ route }: Props) => {
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false);
 
-  const { addCustomer, orderForm, identifyCustomer } = useCart();
+  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile } =
+    useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
 
@@ -124,6 +131,8 @@ export const EditProfile = ({ route }: Props) => {
   const [labelBirthDate, setLabelBirthDate] = useState(null);
   const [labelPhone, setLabelPhone] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [showModalDeleteAccount, setShowModalDeleteAccount] = useState(false);
+
   const [{ data, loading }, setProfileData] = useState({
     data: null,
     loading: true,
@@ -672,6 +681,18 @@ export const EditProfile = ({ route }: Props) => {
       await AsyncStorage.setItem('isAppFirstLaunched', 'false');
     }
     setOnboardingView(value);
+  }
+
+  const handleDeleteAccount = async () => {
+    if (userData) {
+      const { status } = await MyProfileAPI.delete(
+        `${ProfileHttpUrl.DELETE_CUSTOMER}CL-${userData.userId}`
+      );
+      if (status === 204) {
+        setShowModalDeleteAccount(false);
+        navigation.navigate('AccountDeletedSuccessfully');
+      }
+    }
   };
 
   return (
@@ -1305,29 +1326,65 @@ export const EditProfile = ({ route }: Props) => {
               )}
 
               {!isRegister && (
-                <Box mb="xs" mt="micro" flexDirection="row">
-                  <Checkbox
-                    color="dropDownBorderColor"
-                    selectedColor="preto"
-                    width="100%"
-                    // checked={data?.receiveEmail === "yes"}
-                    checked={subscribed}
-                    onCheck={async () => {
-                      const { data } = await updateNewsLetter({
-                        variables: {
-                          email: userData.email,
-                          isNewsletterOptIn: !subscribed,
-                        },
-                      });
-                      if (data.subscribeNewsletter) setSubscribed(!subscribed);
-                    }}
-                    optionName="Desejo receber e-mails com promoções das marcas Reserva."
+                <>
+                  <Box mb="xs" mt="micro" flexDirection="row" zIndex={2}>
+                    <Checkbox
+                      color="dropDownBorderColor"
+                      selectedColor="preto"
+                      width="100%"
+                      // checked={data?.receiveEmail === "yes"}
+                      checked={subscribed}
+                      onCheck={async () => {
+                        const { data } = await updateNewsLetter({
+                          variables: {
+                            email: userData.email,
+                            isNewsletterOptIn: !subscribed,
+                          },
+                        });
+                        if (data.subscribeNewsletter)
+                          setSubscribed(!subscribed);
+                      }}
+                      optionName="Desejo receber e-mails com promoções das marcas Reserva."
+                    />
+                  </Box>
+                  <Box flexDirection="row" mb={84} bg="white" marginX={-1}>
+                    <Button
+                      flexDirection="row"
+                      onPress={() => setShowModalDeleteAccount(true)}
+                    >
+                      <>
+                        <Icon
+                          name="Trash"
+                          color="vermelhoAlerta"
+                          size={24}
+                          marginRight="quarck"
+                        />
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={15}
+                          color="vermelhoAlerta"
+                        >
+                          Deletar minha conta
+                        </Typography>
+                      </>
+                    </Button>
+                  </Box>
+
+                  <ModalDeleteAccount
+                    isVisible={showModalDeleteAccount}
+                    handleDeleteAccount={handleDeleteAccount}
+                    setIsVisible={() => setShowModalDeleteAccount(false)}
                   />
-                </Box>
+                </>
               )}
 
-              <Box mb="nano" justifyContent="space-between" flexDirection="row">
-                {isRegister ? (
+              {isRegister && (
+                <Box
+                  mb="nano"
+                  justifyContent="space-between"
+                  flexDirection="row"
+                  zIndex={2}
+                >
                   <Box paddingLeft="nano" mt="sm" width={'100%'}>
                     <Button
                       title="SALVAR"
@@ -1345,43 +1402,57 @@ export const EditProfile = ({ route }: Props) => {
                       }
                     />
                   </Box>
-                ) : (
-                  <>
-                    <Box width={1 / 2} paddingRight="nano">
-                      <Button
-                        title="CANCELAR"
-                        variant="primarioEstreitoOutline"
-                        inline
-                        onPress={() => {
-                          navigation.goBack();
-                        }}
-                      />
-                    </Box>
-                    <Box paddingLeft="nano" width={1 / 2}>
-                      <Button
-                        title="SALVAR"
-                        variant="primarioEstreito"
-                        inline
-                        onPress={saveUserData}
-                        disabled={
-                          updateLoading ||
-                          loadingProfilePhoto ||
-                          loadingScreen ||
-                          isEmptyFullName ||
-                          cpfInvalid ||
-                          isEmptyHomePhone ||
-                          isEmptyBirthDate ||
-                          isEmptyGender
-                        }
-                      />
-                    </Box>
-                  </>
-                )}
-              </Box>
+                </Box>
+              )}
             </Box>
           </Box>
         </ScrollView>
       </KeyboardAvoidingView>
+      {!isRegister && (
+        <Box
+          flex={1}
+          width="100%"
+          justifyContent="space-between"
+          paddingX="xxxs"
+          alignItems="center"
+          flexDirection="row"
+          height={84}
+          style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
+          boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+          position="absolute"
+          backgroundColor="white"
+          bottom={0}
+        >
+          <Box width={1 / 2.2} paddingRight="nano">
+            <Button
+              title="CANCELAR"
+              variant="primarioEstreitoOutline"
+              inline
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          </Box>
+          <Box width={1 / 2.2} paddingLeft="nano">
+            <Button
+              title="SALVAR"
+              variant="primarioEstreito"
+              inline
+              onPress={saveUserData}
+              disabled={
+                updateLoading ||
+                loadingProfilePhoto ||
+                loadingScreen ||
+                isEmptyFullName ||
+                cpfInvalid ||
+                isEmptyHomePhone ||
+                isEmptyBirthDate ||
+                isEmptyGender
+              }
+            />
+          </Box>
+        </Box>
+      )}
     </SafeAreaView>
   );
 };

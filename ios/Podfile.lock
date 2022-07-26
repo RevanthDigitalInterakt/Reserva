@@ -349,8 +349,8 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
-  - BVLinearGradient (2.5.6):
-    - React
+  - BVLinearGradient (2.6.2):
+    - React-Core
   - CardScan (2.0.9)
   - CocoaAsyncSocket (7.6.5)
   - CodePush (7.0.4):
@@ -668,25 +668,34 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - OneSignal (3.11.1):
-    - OneSignal/OneSignalCore (= 3.11.1)
-    - OneSignal/OneSignalExtension (= 3.11.1)
-    - OneSignal/OneSignalOutcomes (= 3.11.1)
-  - OneSignal/OneSignalCore (3.11.1)
-  - OneSignal/OneSignalExtension (3.11.1):
+  - OneSignal (3.11.2):
+    - OneSignal/OneSignalCore (= 3.11.2)
+    - OneSignal/OneSignalExtension (= 3.11.2)
+    - OneSignal/OneSignalOutcomes (= 3.11.2)
+  - OneSignal/OneSignalCore (3.11.2)
+  - OneSignal/OneSignalExtension (3.11.2):
     - OneSignal/OneSignalCore
     - OneSignal/OneSignalOutcomes
-  - OneSignal/OneSignalOutcomes (3.11.1):
+  - OneSignal/OneSignalOutcomes (3.11.2):
     - OneSignal/OneSignalCore
-  - OneSignalXCFramework (3.10.3)
+  - OneSignalXCFramework (3.11.2):
+    - OneSignalXCFramework/OneSignalCore (= 3.11.2)
+    - OneSignalXCFramework/OneSignalExtension (= 3.11.2)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.11.2)
+  - OneSignalXCFramework/OneSignalCore (3.11.2)
+  - OneSignalXCFramework/OneSignalExtension (3.11.2):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
+    - OneSignalXCFramework/OneSignalCore
   - OpenSSL-Universal (1.1.1100)
-  - Permission-Camera (3.3.1):
+  - Permission-Camera (3.4.0):
     - RNPermissions
-  - Permission-LocationAlways (3.3.1):
+  - Permission-LocationAlways (3.4.0):
     - RNPermissions
-  - Permission-LocationWhenInUse (3.3.1):
+  - Permission-LocationWhenInUse (3.4.0):
     - RNPermissions
-  - PromisesObjC (2.1.0)
+  - PromisesObjC (2.1.1)
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -898,20 +907,20 @@ PODS:
     - React
   - react-native-flipper (0.119.0):
     - React-Core
-  - react-native-geolocation (2.0.2):
-    - React
+  - react-native-geolocation (2.1.0):
+    - React-Core
   - react-native-google-maps (0.28.1):
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.5.0)
     - React-Core
-  - react-native-image-picker (4.8.2):
+  - react-native-image-picker (4.8.4):
     - React-Core
   - react-native-maps (0.28.1):
     - React-Core
   - react-native-netinfo (8.1.0):
     - React-Core
-  - react-native-onesignal (4.3.9):
-    - OneSignalXCFramework (= 3.10.3)
+  - react-native-onesignal (4.3.11):
+    - OneSignalXCFramework (= 3.11.2)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-rsa-native (2.0.5):
     - React
@@ -919,9 +928,9 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-view-shot (3.1.2):
-    - React
-  - react-native-webview (11.18.2):
+  - react-native-view-shot (3.3.0):
+    - React-Core
+  - react-native-webview (11.22.5):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -1053,9 +1062,9 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNPermissions (3.3.1):
+  - RNPermissions (3.4.0):
     - React-Core
-  - RNReanimated (2.8.0):
+  - RNReanimated (2.9.1):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -1089,7 +1098,7 @@ PODS:
     - React
   - RNShare (6.5.0):
     - React-Core
-  - RNStoreReview (0.2.0):
+  - RNStoreReview (0.2.1):
     - React-Core
   - RNSVG (12.3.0):
     - React-Core
@@ -1198,7 +1207,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSha256 (from `../node_modules/react-native-sha256`)
   - RNShare (from `../node_modules/react-native-share`)
-  - RNStoreReview (from `../node_modules/react-native-store-review/ios`)
+  - RNStoreReview (from `../node_modules/react-native-store-review`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1408,7 +1417,7 @@ EXTERNAL SOURCES:
   RNShare:
     :path: "../node_modules/react-native-share"
   RNStoreReview:
-    :path: "../node_modules/react-native-store-review/ios"
+    :path: "../node_modules/react-native-store-review"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -1420,7 +1429,7 @@ SPEC CHECKSUMS:
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
+  BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CardScan: 2f7a3b39a37c0e2c67a9502b3a61a59f007c0710
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
@@ -1467,13 +1476,13 @@ SPEC CHECKSUMS:
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OneSignal: 60902887c93f91e9b5599583e7df5f55b2144755
-  OneSignalXCFramework: 4efd7bd68c2b14920955b3f14b5b75bbf8fb662c
+  OneSignal: 8861a1407c321ca1ae59d3adca6286eb7caf9d6e
+  OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
-  Permission-Camera: bae27a8503530770c35aadfecbb97ec71823382a
-  Permission-LocationAlways: fbf36cbdcabc3101f1168ad1ec45cfc5a6448cc4
-  Permission-LocationWhenInUse: 006c85c8de0c05b5d8be8e8029e4f6b813270293
-  PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  Permission-Camera: 40f43388fa8a648dc6ced73f145ef329ab3ff3fe
+  Permission-LocationAlways: bb11e757c44f61ad2a6a5e84a55afa1646ea100e
+  Permission-LocationWhenInUse: 34f03248f13150fe7ecf67a7ece595a7a51dfe29
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
   RCTTypeSafety: 512728b73549e72ad7330b92f3d42936f2a4de5b
@@ -1490,17 +1499,17 @@ SPEC CHECKSUMS:
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-cardscan: 8592ae8d474e4b1254ea7a4968caa00e559c8677
   react-native-flipper: e079eb24149005c71ca9067a6ae49d74cfb3dfbd
-  react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-geolocation: 69f4fd37650b8e7fee91816d395e62dd16f5ab8d
   react-native-google-maps: 915cea64470a6e7581b782d8659bf8a7e2dee302
-  react-native-image-picker: 1ccfc97709f680a7167ccb758c32466b466c96e2
+  react-native-image-picker: cffb727cf2f59bd5c0408e30b3dbe0b935f88835
   react-native-maps: 60a75aa547d576fdb91be1f95113665215b59461
   react-native-netinfo: 379ba2af7d2abcec0c062267abe1c9a977c72bf9
-  react-native-onesignal: 88a38450ee225600da7fbcfcf844a8af487db919
+  react-native-onesignal: dfc675fafef0bfdda49b09a8e2099903e5e85f15
   react-native-rsa-native: 12132eb627797529fdb1f0d22fd0f8f9678df64a
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
-  react-native-webview: 8ec7ddf9eb4ddcd92b32cee7907efec19a9ec7cb
+  react-native-view-shot: da768466e1cd371de50a3a5c722d1e95456b5b2c
+  react-native-webview: 28557a39f4c1f3f8faa69dae22858335ba63e7f9
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -1533,12 +1542,12 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 95812cc586fbe7a20dadd7eb4cd0a0f1b8e34ce2
   RNFBStorage: bffb285f037e0cb3937bdc2c72992dd7a6a83982
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
-  RNReanimated: 7f3eef39b48facdb0b053873abdaafaa6a953b0d
+  RNPermissions: eac721f71748c4472d6e876038270b75397d6ee7
+  RNReanimated: ae29a663c40a983e7fa42bff49073d329f0cffb4
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
-  RNStoreReview: d7d2a006e14030fe101cac9da487a17f98d73eff
+  RNStoreReview: e05edbbf426563070524cec384ac0b8df69be801
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9

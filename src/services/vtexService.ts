@@ -6,6 +6,7 @@ import {
   instance3,
   instance4,
   instance5,
+  instance6,
 } from '../config/vtexConfig';
 import axios from 'axios';
 const vtexConfig = instance;
@@ -13,6 +14,7 @@ const vtexConfig2 = instance2;
 const vtexConfig3 = instance3;
 const vtexConfig4 = instance4;
 const vtexConfig5 = instance5;
+const vtexConfig6 = instance6;
 
 const VerifyEmail = async (email: string) => {
   const response = await vtexConfig2.get(
@@ -379,6 +381,14 @@ const Attachment = async (
   return response;
 };
 
+const DeleteCustomerProfile = async (id: string) => {
+  const response = await vtexConfig6.delete(
+    `/dataentities/CL/documents/CL-${id}`
+  );
+  console.log(response);
+  return response;
+};
+
 export {
   CreateCart,
   CreateSession,
@@ -408,4 +418,5 @@ export {
   OrderDetail,
   Attachment,
   VerifyEmail,
+  DeleteCustomerProfile,
 };
