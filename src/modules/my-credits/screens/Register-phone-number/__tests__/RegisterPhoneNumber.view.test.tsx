@@ -1,16 +1,18 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { TextInput } from 'react-native'
 import TestRenderer from 'react-test-renderer';
-import { Box, Button, Divider, Icon, theme, Typography } from '@danilomsou/reserva-ui';
+import { Button, theme, Typography, TextField } from '@danilomsou/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import { screen } from '@testing-library/react-native'
-import userEvent from '@testing-library/user-event';
-import CodeInput from "../../../../../shared/components/CodeInput";
+import { fireEvent } from '@testing-library/react-native'
 
 import { RegisterPhoneNumberView, RegisterPhoneNumberViewProps } from '../RegisterPhoneNumber.view';
 
 const render = (props: RegisterPhoneNumberViewProps) => {
-  const testRenderer = TestRenderer.create(<RegisterPhoneNumberView {...props} /> )
+  const testRenderer = TestRenderer.create(
+    <ThemeProvider theme={theme}>
+      <RegisterPhoneNumberView {...props} />
+    </ThemeProvider>
+  )
   const testInstance = testRenderer.root;
 
   return {
@@ -37,30 +39,31 @@ describe('RegisterPhoneNumber', () => {
 
     it('verify if the screen is adapted to the isChangeNumber with false value', () => {
       const typography = testInstance.findAllByType(Typography);
-      expect(typography[0].props.children).toBe("Cashback em Lojas");
+      expect(typography[1].props.children).toBe("Cashback em Lojas");
     })
 
     it('should fill the phone field', () => {
-      const instanceOf = TestRenderer.create(<RegisterPhoneNumberView {...props} />).getInstance()
-      instanceOf.handleChangePhone('99987654321')
-      expect(instanceOf.state.phone).toEqual('99987654321')
+      const newPhone = '99987654321'
+      const textField = testInstance.findByType(TextField)
+      fireEvent.changeText(textField, newPhone)
+      expect(textField.props.value).toBe(newPhone)
     })
 
     it('should open a section to insert the code that the user received on the phone', () => {
-      const instanceOf = TestRenderer.create(<RegisterPhoneNumberView {...props} />).getInstance()
-      instanceOf.handleChangePhone('99987654321')
-      expect(instanceOf.state.phone).toEqual('99987654321')
+      const textField = testInstance.findByType(TextField)
+      fireEvent.changeText(textField, '99987654321')
+      expect(textField.props.value).toBe('99987654321')
       let button = testInstance.findAllByType(Button);
-      button[0].props.onPress();
+      button[1].props.onPress();
       const typography = testInstance.findAllByType(Typography);
-      expect(typography[4].props.children).toBe("Digite abaixo o código que acabamos de enviar para o número informado:");
+      expect(typography[5].props.children).toBe("Confirme seu código");
     })
 
     it('should match the 6 digit code', () => {
       const newCode = '123456'
-      const instanceOf = TestRenderer.create(<RegisterPhoneNumberView {...props} />).getInstance()
-      instanceOf.setCode(newCode)
-      expect(instanceOf.state.code).toEqual(newCode)
+      const codeInput = testInstance.findAllByType(TextInput)
+      fireEvent.changeText(codeInput[1], '123456')
+      expect(codeInput[1].props.value).toBe(newCode)
     })
   })
 
@@ -75,36 +78,37 @@ describe('RegisterPhoneNumber', () => {
         lastName: 'Last',
         homePhone: '00987654321'
       },
-      isChangeNumber: false
+      isChangeNumber: true
     };
     const { testInstance } = render(props);
 
     it('verify if the screen is adapted to the isChangeNumber with false value', () => {
       const typography = testInstance.findAllByType(Typography);
-      expect(typography[0].props.children).toBe("Atualizar telefone");
+      expect(typography[1].props.children).toBe("Atualizar telefone");
     })
 
     it('should fill the phone field', () => {
-      const instanceOf = TestRenderer.create(<RegisterPhoneNumberView {...props} />).getInstance()
-      instanceOf.handleChangePhone('99987654321')
-      expect(instanceOf.state.phone).toEqual('99987654321')
+      const newPhone = '99987654321'
+      const textField = testInstance.findByType(TextField)
+      fireEvent.changeText(textField, newPhone)
+      expect(textField.props.value).toBe(newPhone)
     })
 
     it('should open a section to insert the code that the user received on the phone', () => {
-      const instanceOf = TestRenderer.create(<RegisterPhoneNumberView {...props} />).getInstance()
-      instanceOf.handleChangePhone('99987654321')
-      expect(instanceOf.state.phone).toEqual('99987654321')
+      const textField = testInstance.findByType(TextField)
+      fireEvent.changeText(textField, '99987654321')
+      expect(textField.props.value).toBe('99987654321')
       let button = testInstance.findAllByType(Button);
-      button[0].props.onPress();
+      button[1].props.onPress();
       const typography = testInstance.findAllByType(Typography);
-      expect(typography[2].props.children).toBe("Digite abaixo o código que acabamos de enviar para o número informado:");
+      expect(typography[4].props.children).toBe("Digite abaixo o código que acabamos de enviar para o número informado:");
     })
 
     it('should match the 6 digit code', () => {
       const newCode = '123456'
-      const instanceOf = TestRenderer.create(<RegisterPhoneNumberView {...props} />).getInstance()
-      instanceOf.setCode(newCode)
-      expect(instanceOf.state.code).toEqual(newCode)
+      const codeInput = testInstance.findAllByType(TextInput)
+      fireEvent.changeText(codeInput[1], '123456')
+      expect(codeInput[1].props.value).toBe(newCode)
     })
   })
-});
+})

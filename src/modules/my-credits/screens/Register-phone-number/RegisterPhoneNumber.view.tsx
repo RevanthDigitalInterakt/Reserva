@@ -20,7 +20,6 @@ export const RegisterPhoneNumberView = (
         isChangeNumber = false,
     }: RegisterPhoneNumberViewProps
 ) => {
-    const route = useRoute();
     const navigation = useNavigation();
     const [phone, setPhone] = React.useState('');
     const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);

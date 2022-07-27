@@ -1,15 +1,16 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import { Box, Button, Divider, Icon, theme, Typography } from '@danilomsou/reserva-ui';
+import { theme, Typography } from '@danilomsou/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import { screen } from '@testing-library/react-native'
-import userEvent from '@testing-library/user-event';
-import CodeInput from "../../../../../shared/components/CodeInput";
 
 import { ChangePhoneNumberView, ChangePhoneNumberViewProps } from '../../Register-phone-number/ChangePhoneNumber.view';
 
 const render = (props: ChangePhoneNumberViewProps) => {
-  const testRenderer = TestRenderer.create(<ChangePhoneNumberView {...props} />)
+  const testRenderer = TestRenderer.create(
+    <ThemeProvider theme={theme}>
+      <ChangePhoneNumberView {...props} />
+    </ThemeProvider>
+  )
   const testInstance = testRenderer.root;
 
   return {
@@ -18,7 +19,7 @@ const render = (props: ChangePhoneNumberViewProps) => {
   };
 }
 
-describe('Cashback', () => {
+describe('ChangePhoneNumber', () => {
   const props: ChangePhoneNumberViewProps = {
     profile: {
       userId: '0',
@@ -35,6 +36,6 @@ describe('Cashback', () => {
 
   it('should show the number when it is already registered', () => {
     const typography = testInstance.findAllByType(Typography);
-    expect(typography[2].props.children).toBe(props.profile.homePhone.slice(3).replace(/(\d{2})(\d{5})(\d{4})/, "($1)*****-$3"));
+    expect(typography[3].props.children).toBe(props.profile.homePhone.slice(3).replace(/(\d{2})(\d{5})(\d{4})/, "($1)*****-$3"));
   })
 });
