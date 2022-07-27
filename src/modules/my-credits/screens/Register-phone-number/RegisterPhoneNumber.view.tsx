@@ -8,7 +8,7 @@ import {
 import CodeInput from "../../../../shared/components/CodeInput";
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import firestore from '@react-native-firebase/firestore';
-import { differenceInMonths } from 'date-fns';
+
 interface RegisterPhoneNumberViewProps {
     profile: ProfileVars;
     isChangeNumber?: boolean;
@@ -29,33 +29,37 @@ export const RegisterPhoneNumberView = (
     const [changePhoneNumber, setChangePhoneNumber] = useState(false);
     const [verifiedPhoneNumber, setVerifiedPhoneNumber] = useState(false);
 
-    useEffect(() => {
-        console.log('route1::::>', isChangeNumber)
-    }, [isChangeNumber]);
-
-    useEffect(() => {
-        console.log('profile::::>', profile)
-    }, [profile]);
-
-
     const handleChangePhone = (newPhone: string) => {
         if (!openConfirmCodeSection && newPhone.length < 16) {
             setPhone(newPhone)
         }
     }
 
-    const handleChangeCode = (newCode: string, index: number) => {
-        let codeCopy = [...code]
-        codeCopy[index] = newCode
-        // setCode(codeCopy);
-    }
-
-    const handleConfirmCodeSection = () => {
-        // const timeFirebase = firestore.Timestamp.now().toDate();
-        // const result = differenceInMonths(timeFirebase, new Date('2022-04-30T14:24:57.558Z'))
-        navigation.navigate('numberRegisteredSuccessfully', {
+    const handleConfirmCodeSection = async () => {
+        const virifyPhoneCollection = firestore().collection('verify-phone');
+        const numberRegisteredSuccessfully = navigation.navigate('numberRegisteredSuccessfully', {
             costumerDocument: profile?.document
         });
+        const user = await virifyPhoneCollection.where('userId', '==', profile.userId).get();
+        if (user.size > 0) {
+            virifyPhoneCollection
+                .doc(user.docs[0].id)
+                .update({
+                    date: firestore.Timestamp.now().toDate(),
+                })
+                .then((e) => {
+                    numberRegisteredSuccessfully
+                });
+        } else {
+            const response = await virifyPhoneCollection.add({
+                email: profile.email,
+                userId: profile.userId,
+                date: firestore.Timestamp.now().toDate(),
+            });
+            if (response) {
+                numberRegisteredSuccessfully
+            }
+        }
     }
 
     return (
