@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput } from 'react-native'
-import TestRenderer from 'react-test-renderer';
+import TestRenderer, { act } from 'react-test-renderer';
 import { Button, theme, Typography, TextField } from '@danilomsou/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { fireEvent } from '@testing-library/react-native'
@@ -45,16 +45,23 @@ describe('RegisterPhoneNumber', () => {
     it('should fill the phone field', () => {
       const newPhone = '99987654321'
       const textField = testInstance.findByType(TextField)
-      fireEvent.changeText(textField, newPhone)
+      act(() => {
+        fireEvent.changeText(textField, newPhone)
+      })
       expect(textField.props.value).toBe(newPhone)
     })
 
     it('should open a section to insert the code that the user received on the phone', () => {
+      const newPhone = '99987654321'
       const textField = testInstance.findByType(TextField)
-      fireEvent.changeText(textField, '99987654321')
-      expect(textField.props.value).toBe('99987654321')
+      act(() => {
+        fireEvent.changeText(textField, newPhone)
+      })
+      expect(textField.props.value).toBe(newPhone)
       let button = testInstance.findAllByType(Button);
-      button[1].props.onPress();
+      act(() => {
+        button[1].props.onPress();
+      })
       const typography = testInstance.findAllByType(Typography);
       expect(typography[5].props.children).toBe("Confirme seu código");
     })
@@ -90,16 +97,23 @@ describe('RegisterPhoneNumber', () => {
     it('should fill the phone field', () => {
       const newPhone = '99987654321'
       const textField = testInstance.findByType(TextField)
-      fireEvent.changeText(textField, newPhone)
+      act(() => {
+        fireEvent.changeText(textField, newPhone)
+      })
       expect(textField.props.value).toBe(newPhone)
     })
 
     it('should open a section to insert the code that the user received on the phone', () => {
+      const newPhone = '99987654321'
       const textField = testInstance.findByType(TextField)
-      fireEvent.changeText(textField, '99987654321')
-      expect(textField.props.value).toBe('99987654321')
+      act(() => {
+        fireEvent.changeText(textField, newPhone)
+      })
+      expect(textField.props.value).toBe(newPhone)
       let button = testInstance.findAllByType(Button);
-      button[1].props.onPress();
+      act(() => {
+        button[1].props.onPress();
+      })
       const typography = testInstance.findAllByType(Typography);
       expect(typography[4].props.children).toBe("Digite abaixo o código que acabamos de enviar para o número informado:");
     })
