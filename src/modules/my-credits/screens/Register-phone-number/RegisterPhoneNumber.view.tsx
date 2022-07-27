@@ -9,7 +9,7 @@ import CodeInput from "../../../../shared/components/CodeInput";
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import firestore from '@react-native-firebase/firestore';
 
-interface RegisterPhoneNumberViewProps {
+export interface RegisterPhoneNumberViewProps {
     profile: ProfileVars;
     isChangeNumber?: boolean;
 }

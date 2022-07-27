@@ -5,7 +5,7 @@ import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
-interface ChangePhoneNumberViewProps {
+export interface ChangePhoneNumberViewProps {
     profile: ProfileVars;
     navigateToRegisterPhoneNumber: () => void;
 }
