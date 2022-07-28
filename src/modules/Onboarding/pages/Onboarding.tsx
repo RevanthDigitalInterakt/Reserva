@@ -17,11 +17,14 @@ import { styles } from '../assets/Styles';
 import { ButtonClose } from '../components/Buttons';
 import {
   checkPermissionLocation,
+  requestATT,
   requestPermissionLocation,
 } from '../components/Permissions';
 import { staticsData } from '../data/staticsData';
 import { onboarding } from '../../../graphql/onboarding/onboarding';
 import { useLazyQuery, useQuery } from '@apollo/client';
+
+import ModalDataCollect from '../components/ModalDataCollect';
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,12 +39,10 @@ const Slide = ({
     console.log('itemContentful', itemContentful);
   }, [itemContentful]);
 
+  const [showModalDataCollect, setShowModalDataCollect] = useState(false);
+
   const navigation = useNavigation();
   const ButtonNext = () => {
-    // if (currentSlideShow === 2) {
-    //   console.log('teste');
-    //   await AsyncStorage.setItem('@user:accepted', 'false');
-    // }
     return (
       <TouchableOpacity
         onPress={goNextSlide}
@@ -58,6 +59,21 @@ const Slide = ({
         </Typography>
       </TouchableOpacity>
     );
+  };
+
+  const verifyPlatform = async () => {
+    if (Platform.OS === 'android') {
+      return setShowModalDataCollect(true);
+    }
+    if (Platform.OS === 'ios') {
+      return await requestATT().then((value) => {
+        if (value === true) {
+          goNextSlide();
+        } else {
+          openSettings().catch(() => console.warn('cannot open settings'));
+        }
+      });
+    }
   };
 
   const handleButtonSlide = async (idCurrent: number) => {
@@ -83,9 +99,7 @@ const Slide = ({
           });
         });
       case 2:
-        return await AsyncStorage.setItem('@user:accepted', 'true').then(() => {
-          goNextSlide();
-        });
+        return await verifyPlatform();
       case 3:
         return navigation.dispatch(StackActions.replace('Main'));
     }
@@ -136,6 +150,13 @@ const Slide = ({
       }}
     >
       <Box position={'absolute'}>
+        <ModalDataCollect
+          isVisible={showModalDataCollect}
+          setIsVisible={() => {
+            setShowModalDataCollect(false);
+            goNextSlide();
+          }}
+        />
         <Indicators />
 
         {item.imageHeader ? (
@@ -187,7 +208,6 @@ const Slide = ({
               ? height * 0.75
               : height * 0.85,
             position: 'absolute',
-            // backgroundColor: 'red',
           }}
           flex={1}
         >
@@ -200,7 +220,6 @@ const Slide = ({
                 marginLeft: width * 0.1,
                 marginRight: width * 0.05,
                 marginBottom: height * 0.02,
-                // backgroundColor: 'yellow',
               }}
             >
               {itemContentful[currentSlideShow]?.description}
@@ -278,13 +297,10 @@ export const Onboarding: React.FC<{}> = ({}) => {
 
   useEffect(() => {
     onboardingData().then((res) => {
-      console.log('res ::::::::::::>>>>>>>>>>>>>>>>>>', res.data);
-
       const items =
         res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
           ?.items;
 
-      console.log('ITEMSSSSSSSSSSSS:::: >>>>', items[0].imageBackground?.url);
       setItemContentful(items);
     });
   }, []);

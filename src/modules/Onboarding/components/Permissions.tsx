@@ -37,3 +37,12 @@ export const checkPermissionLocation = async () => {
     }
   } catch (err) {}
 };
+
+export const requestATT = async () => {
+  try {
+    const att = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+    if (att === 'granted') {
+      return true;
+    }
+  } catch (error) {}
+};

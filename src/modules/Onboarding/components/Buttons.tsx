@@ -1,16 +1,6 @@
-import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  ImageBackground,
-  SafeAreaView,
-  FlatList,
-  Image,
-  StatusBar,
-} from 'react-native';
-import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon } from '@danilomsou/reserva-ui';
+import React from 'react';
+import { Dimensions } from 'react-native';
 
 import { StackActions, useNavigation } from '@react-navigation/native';
 

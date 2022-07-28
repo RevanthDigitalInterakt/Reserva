@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.getbouncer.RNCardscanModule;
 import com.microsoft.codepush.react.CodePush;
-
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 //Reanimated  dependencies
 import com.facebook.react.bridge.JSIModulePackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
@@ -41,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          // packages.add(new SplashScreenReactPackage());
           return packages;
         }
 
