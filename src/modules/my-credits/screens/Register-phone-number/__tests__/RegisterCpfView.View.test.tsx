@@ -4,6 +4,7 @@ import { RegisterCpfView } from '../RegisterCpf.view';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '@danilomsou/reserva-ui';
 
+const cpf = '63814784030'
 const profile = {
     userId: '0',
     birthDate: null,
@@ -14,11 +15,14 @@ const profile = {
     homePhone: '00987654321'
 }
 const mockHandleNavigate = jest.fn();
+const mockOnChangeText = jest.fn();
 describe('RegisterCpfView', () => {
     test('SHOULD render correctly', () => {
         const { debug, getByText, getByPlaceholderText } = render(
             <ThemeProvider theme={theme}>
                 <RegisterCpfView
+                    valueCpf={cpf}
+                    onChangeText={mockOnChangeText}
                     profile={profile}
                     navigateToVerifyNumber={mockHandleNavigate}
                 />
@@ -38,6 +42,8 @@ describe('RegisterCpfView', () => {
         const { getByText, getByPlaceholderText } = render(
             <ThemeProvider theme={theme}>
                 <RegisterCpfView
+                    valueCpf={cpf}
+                    onChangeText={mockOnChangeText}
                     profile={profile}
                     navigateToVerifyNumber={mockHandleNavigate}
                 />
