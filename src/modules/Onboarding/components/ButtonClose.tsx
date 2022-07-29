@@ -3,21 +3,14 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 
 import { StackActions, useNavigation } from '@react-navigation/native';
+import { styles } from '../assets/Styles';
 
 const { width, height } = Dimensions.get('window');
 
 export const ButtonClose = () => {
   const navigation = useNavigation();
   return (
-    <Box
-      position={'absolute'}
-      top={height * 0.03}
-      right={width * 0.1}
-      zIndex={4}
-      style={{ marginTop: height * 0.03 }}
-      width={20}
-      height={20}
-    >
+    <Box style={[styles.boxButtonClose]}>
       <Button
         hitSlop={{
           top: 30,

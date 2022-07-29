@@ -7,12 +7,12 @@ export const staticsData = [
   {
     id: '2',
     buttonTitle: 'PERMITIR LOCALIZAÇÃO',
-    imageHeader: '',
+    imageHeader: null,
   },
   {
     id: '3',
     buttonTitle: 'PERMITIR ACESSO',
-    imageHeader: '',
+    imageHeader: null,
   },
   {
     id: '4',

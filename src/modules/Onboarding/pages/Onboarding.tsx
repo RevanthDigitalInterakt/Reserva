@@ -8,19 +8,20 @@ import {
   Image,
   ImageBackground,
   Platform,
+  SafeAreaView,
   StatusBar,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { openSettings, requestNotifications } from 'react-native-permissions';
 import { styles } from '../assets/Styles';
-import { ButtonClose } from '../components/Buttons';
+import { ButtonClose } from '../components/ButtonClose';
 import {
   checkPermissionLocation,
   requestATT,
   requestPermissionLocation,
 } from '../components/Permissions';
-import { staticsData } from '../data/staticsData';
+import { staticsData } from '../components/StaticsData';
 import { onboarding } from '../../../graphql/onboarding/onboarding';
 import { useLazyQuery, useQuery } from '@apollo/client';
 
@@ -35,31 +36,9 @@ const Slide = ({
   lengthArray,
   itemContentful,
 }) => {
-  useEffect(() => {
-    console.log('itemContentful', itemContentful);
-  }, [itemContentful]);
-
   const [showModalDataCollect, setShowModalDataCollect] = useState(false);
 
   const navigation = useNavigation();
-  const ButtonNext = () => {
-    return (
-      <TouchableOpacity
-        onPress={goNextSlide}
-        style={{
-          alignContent: 'center',
-          width: width,
-          flex: 1,
-          marginTop: 20,
-          alignItems: 'center',
-        }}
-      >
-        <Typography color={'white'} fontFamily="nunitoBold">
-          PULAR
-        </Typography>
-      </TouchableOpacity>
-    );
-  };
 
   const verifyPlatform = async () => {
     if (Platform.OS === 'android') {
@@ -82,7 +61,9 @@ const Slide = ({
         return await requestNotifications(['alert', 'sound']).then(
           ({ status, settings }) => {
             if (status === 'granted') {
-              goNextSlide();
+              openSettings()
+                .then(goNextSlide())
+                .catch(() => console.warn('cannot open settings'));
             } else {
               openSettings().catch(() => console.warn('cannot open settings'));
             }
@@ -107,23 +88,8 @@ const Slide = ({
 
   const Indicators = () => {
     return (
-      <View
-        style={{
-          height: height * 0.25,
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-          position: 'absolute',
-          marginLeft: width * 0.05,
-          marginTop: height * 0.03,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: 20,
-          }}
-        >
+      <View style={[styles.boxIndicatorMain]}>
+        <View style={[styles.boxIndicatorChild]}>
           {staticsData.map((_, index) => (
             <View
               key={index}
@@ -144,12 +110,9 @@ const Slide = ({
     <ImageBackground
       source={{ uri: itemContentful[currentSlideShow]?.imageBackground?.url }}
       resizeMode={'cover'}
-      style={{
-        height: height,
-        width: width,
-      }}
+      style={[styles.imageBackground]}
     >
-      <Box position={'absolute'}>
+      <Box flex={1}>
         <ModalDataCollect
           isVisible={showModalDataCollect}
           setIsVisible={() => {
@@ -160,111 +123,86 @@ const Slide = ({
         <Indicators />
 
         {item.imageHeader ? (
-          <Box
-            style={{
-              marginTop: height * 0.1,
-              marginLeft: width * 0.1,
-              marginRight: width * 0.1,
-              marginBottom: height * 0.03,
-            }}
-          >
+          <Box style={[styles.boxImageHeader]}>
             <Image source={item?.imageHeader} />
           </Box>
         ) : null}
 
         {itemContentful[currentSlideShow]?.title ? (
-          <Typography
-            fontFamily={'reservaSerifBold'}
-            fontSize={46}
-            color={'white'}
-            style={{
-              marginTop: height * 0.09,
-              marginLeft: width * 0.1,
-              marginRight: width * 0.1,
-            }}
-          >
+          <Typography style={[styles.typographyTitle]}>
             {itemContentful[currentSlideShow]?.title}
           </Typography>
         ) : null}
 
-        <Typography
-          fontFamily={'reservaSansRegular'}
-          fontSize={16}
-          color={'white'}
-          style={{
-            marginLeft: width * 0.1,
-            marginRight: width * 0.05,
-            marginTop: height * 0.01,
-          }}
-        >
+        <Typography style={[styles.typographySubtitle]}>
           {itemContentful[currentSlideShow]?.subtitle}
         </Typography>
 
         {/* Button */}
+
         <Box
-          width="100%"
           style={{
             marginTop: itemContentful[currentSlideShow]?.description
-              ? height * 0.75
-              : height * 0.85,
+              ? height * 0.7
+              : height * 0.81,
             position: 'absolute',
           }}
           flex={1}
         >
           {itemContentful[currentSlideShow]?.description ? (
-            <Typography
-              fontFamily={'reservaSansRegular'}
-              fontSize={14}
-              color={'white'}
-              style={{
-                marginLeft: width * 0.1,
-                marginRight: width * 0.05,
-                marginBottom: height * 0.02,
-              }}
-            >
+            <Typography style={[styles.typographyDescription]}>
               {itemContentful[currentSlideShow]?.description}
             </Typography>
           ) : null}
 
-          <Button
-            title={item?.buttonTitle}
-            onPress={() => handleButtonSlide(currentSlideShow)}
-            marginX={width * 0.09}
-            inline
-            backgroundColor={'white'}
-            style={{
-              alignItems: 'flex-start',
-              paddingLeft: 10,
-              alignContent: 'center',
-            }}
-            fontFamily={'nunitoRegular'}
-            fontSize={13}
-            height={50}
-            borderRadius={'xxxs'}
-          >
-            <Box flexDirection={'row'}>
-              <Box
-                flex={1}
-                marginLeft={'xxxs'}
-                alignContent={'center'}
-                alignSelf={'center'}
-              >
-                <Typography variant={'tituloSessao'}>
-                  {item.buttonTitle}
-                </Typography>
+          <Box>
+            <Button
+              title={item?.buttonTitle}
+              onPress={() => handleButtonSlide(currentSlideShow)}
+              inline
+              style={[styles.buttonTitle]}
+            >
+              <Box flexDirection={'row'}>
+                <Box
+                  flex={1}
+                  marginLeft={'xxxs'}
+                  alignContent={'center'}
+                  alignSelf={'center'}
+                >
+                  <Typography style={[styles.buttonTypographyTitle]}>
+                    {item?.buttonTitle}
+                  </Typography>
+                </Box>
+
+                <Icon
+                  name={'MenuArrowBack'}
+                  size={'25'}
+                  style={{
+                    transform: [{ rotate: '180deg' }],
+                    color: 'rgba(18,18,18,1)',
+                  }}
+                  marginRight={'xxxs'}
+                />
               </Box>
-
-              <Icon
-                name={'MenuArrowBack'}
-                color={'preto'}
-                size={'25'}
-                style={{ transform: [{ rotate: '180deg' }] }}
-                marginRight={'xxxs'}
+            </Button>
+          </Box>
+          <Box>
+            {currentSlideShow < lengthArray - 1 ? (
+              <TouchableOpacity
+                onPress={goNextSlide}
+                style={[styles.buttonNext]}
+              >
+                <Typography style={[styles.buttonTypographyNext]}>
+                  PULAR
+                </Typography>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={goNextSlide}
+                style={[styles.buttonNext]}
               />
-            </Box>
-          </Button>
-
-          {currentSlideShow < lengthArray - 1 ? <ButtonNext /> : null}
+            )}
+          </Box>
         </Box>
       </Box>
     </ImageBackground>
