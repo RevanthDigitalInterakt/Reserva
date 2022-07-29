@@ -1,26 +1,28 @@
 import React, { Fragment, useEffect } from "react";
-
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
-import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
-interface RegisterPhoneNumberContainerProps {
+import { RegisterCpfView } from "./RegisterCpf.view";
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
+interface RegisterCpfContainerProps {
     profile: ProfileVars;
-    isChangeNumber?: boolean;
     navigateBack: () => void;
     navigateToError: () => void;
+    navigateToVerifyNumber: () => void;
 }
 
-export const RegisterPhoneNumberContainer = (
+export const RegisterCpfContainer = (
     {
         profile,
-        isChangeNumber,
         navigateBack,
         navigateToError,
-    }: RegisterPhoneNumberContainerProps
+        navigateToVerifyNumber
+    }: RegisterCpfContainerProps
 ) => {
 
+    const handleNavigateToVerifyNumber = () => {
+        navigateToVerifyNumber();
+    }
     return (
         <Fragment>
             <TopBarBackButton
@@ -28,9 +30,9 @@ export const RegisterPhoneNumberContainer = (
                 showShadow
                 backButtonPress={navigateBack}
             />
-            <RegisterPhoneNumberView
+            <RegisterCpfView
                 profile={profile}
-                isChangeNumber={isChangeNumber}
+                navigateToVerifyNumber={handleNavigateToVerifyNumber}
             />
         </Fragment>
     );

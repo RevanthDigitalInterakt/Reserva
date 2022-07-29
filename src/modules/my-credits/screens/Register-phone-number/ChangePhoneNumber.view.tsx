@@ -31,11 +31,6 @@ export const ChangePhoneNumberView = (
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <ScrollView>
-                    <TopBarBackButton
-                        loading={false}
-                        showShadow
-                    // backButtonPress={}
-                    />
                     <Box mx="xxs" mt='xxs'>
                         <Box>
                             <Box mb="nano">

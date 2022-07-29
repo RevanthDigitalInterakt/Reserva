@@ -27,6 +27,11 @@ export const ChangePhoneNumberContainer = (
 
     return (
         <Fragment>
+            <TopBarBackButton
+                loading={false}
+                showShadow
+                backButtonPress={navigateBack}
+            />
             <ChangePhoneNumberView
                 profile={profile}
                 navigateToRegisterPhoneNumber={handlenNavigateToRegisterPhoneNumber}

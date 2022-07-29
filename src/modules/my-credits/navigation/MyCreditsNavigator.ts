@@ -1,9 +1,8 @@
 import { CashbackInStoreScreen } from "../screens/cashback-in-store/CashbackInStore.screen";
-import { ConfirmPhoneNumberView } from "../screens/cashback-in-store/ConfirmPhoneNumber.view";
-import { RegisterPhoneNumberView } from "../screens/cashback-in-store/RegisterPhoneNumber.view";
 import { CreditsScreen } from "../screens/credits/Credits.screen";
 import { RegisterPhoneNumberScreen } from "../screens/Register-phone-number/RegisterPhoneNumber.screen";
 import { ChangePhoneNumberScreen } from "../screens/Register-phone-number/ChangePhoneNumber.screen";
+import { RegisterCpfScreen } from "../screens/Register-phone-number/RegisterCpf..screen";
 import { NumberRegisteredSuccessfully } from "../screens/Register-phone-number/NumberRegisteredSuccessfully";
 
 import {
@@ -16,6 +15,7 @@ export enum MyCreditsScreensRoutes {
   REGISTER_PHONE_NUMBER = 'registerPhoneNumber',
   CHANGE_PHONE_NUMBER = 'changePhoneNumber',
   NUMBER_REGISTERED_SUCCESSFULLY = 'numberRegisteredSuccessfully',
+  REGISTER_CPF = 'registerCPF',
 }
 
 export type MyCreditsParamList = {
@@ -28,6 +28,9 @@ export type MyCreditsParamList = {
     profile: ProfileVars;
   };
   [MyCreditsScreensRoutes.NUMBER_REGISTERED_SUCCESSFULLY]: {
+    profile: ProfileVars;
+  };
+  [MyCreditsScreensRoutes.REGISTER_CPF]: {
     profile: ProfileVars;
   };
   [MyCreditsScreensRoutes.CASHBACK_IN_STORE]: {
@@ -52,6 +55,10 @@ export const MyCreditsRoutes = [
   {
     component: ChangePhoneNumberScreen,
     name: MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER,
+  },
+  {
+    component: RegisterCpfScreen,
+    name: MyCreditsScreensRoutes.REGISTER_CPF,
   },
   {
     component: NumberRegisteredSuccessfully,

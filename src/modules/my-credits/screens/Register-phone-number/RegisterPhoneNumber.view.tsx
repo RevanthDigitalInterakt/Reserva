@@ -63,17 +63,12 @@ export const RegisterPhoneNumberView = (
 
     return (
         <SafeAreaView>
-            <KeyboardAvoidingView
-                enabled
-                keyboardVerticalOffset={15}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
-                <ScrollView>
-                    <TopBarBackButton
-                        loading={false}
-                        showShadow
-                    // backButtonPress={}
-                    />
+            <ScrollView>
+                <KeyboardAvoidingView
+                    enabled
+                    keyboardVerticalOffset={15}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                >
                     <Box mx="xxs" mt='xxs'>
                         {isChangeNumber ?
                             <Box>
@@ -184,9 +179,8 @@ export const RegisterPhoneNumberView = (
                             </>
                         }
                     </Box>
-
-                </ScrollView>
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </ScrollView>
         </SafeAreaView >
     );
 }
