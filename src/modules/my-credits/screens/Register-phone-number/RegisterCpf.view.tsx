@@ -8,13 +8,17 @@ import {
 
 export interface RegisterCpfViewProps {
     profile: ProfileVars;
+    valueCpf: string;
     navigateToVerifyNumber: () => void;
+    onChangeText: (value: string) => void;
 }
 
 export const RegisterCpfView = (
     {
         profile,
-        navigateToVerifyNumber
+        valueCpf,
+        navigateToVerifyNumber,
+        onChangeText,
     }: RegisterCpfViewProps
 ) => {
     const [cpf, setCpf] = useState<string>('');
@@ -50,8 +54,8 @@ export const RegisterCpfView = (
                         <Box justifyContent="center" mb="xxs">
                             <TextField
                                 maskType="cpf"
-                                value={cpf}
-                                onChangeText={(cpf) => handleSaveCpf(cpf)}
+                                value={valueCpf}
+                                onChangeText={onChangeText}
                                 keyboardType='number-pad'
                                 placeholder="Digite somente os números do CPF"
                                 returnKeyType='done'

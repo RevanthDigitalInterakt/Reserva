@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
@@ -19,10 +19,16 @@ export const RegisterCpfContainer = (
         navigateToVerifyNumber
     }: RegisterCpfContainerProps
 ) => {
+    const [cpf, setCpf] = useState<string>('');
 
     const handleNavigateToVerifyNumber = () => {
         navigateToVerifyNumber();
     }
+
+    useEffect(() => {
+        console.log('cpff::>', cpf);
+    }, [cpf]);
+
     return (
         <Fragment>
             <TopBarBackButton
@@ -31,6 +37,8 @@ export const RegisterCpfContainer = (
                 backButtonPress={navigateBack}
             />
             <RegisterCpfView
+                valueCpf={cpf}
+                onChangeText={(cpf) => setCpf(cpf)}
                 profile={profile}
                 navigateToVerifyNumber={handleNavigateToVerifyNumber}
             />
