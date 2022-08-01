@@ -35,6 +35,13 @@ export const ChangePhoneNumberScreen = (
         });
     };
 
+    const navigateToConfirmPhone = () => {
+        navigation.navigate('registerPhoneNumber', {
+            confirmPhone: true,
+            profile: route?.params.profile
+        });
+    }
+
     return (
         <BaseScreen testID='ChangePhoneNumberScreen'>
             <ChangePhoneNumberContainer
@@ -42,6 +49,7 @@ export const ChangePhoneNumberScreen = (
                 navigateBack={navigateBack}
                 navigateToError={navigateToError}
                 navigateToRegisterPhoneNumber={navigateToRegisterPhoneNumber}
+                navigateToConfirmPhone={navigateToConfirmPhone}
             />
         </BaseScreen>
     )

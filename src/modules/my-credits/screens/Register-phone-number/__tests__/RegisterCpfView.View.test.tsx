@@ -4,7 +4,7 @@ import { RegisterCpfView } from '../RegisterCpf.view';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '@danilomsou/reserva-ui';
 
-const cpf = '63814784030'
+const cpf = '638.147.840-30'
 const profile = {
     userId: '0',
     birthDate: null,
@@ -51,20 +51,22 @@ describe('RegisterCpfView', () => {
         );
         const input = getByPlaceholderText('Digite somente os números do CPF');
         const button = getByText('CADASTRAR');
-        fireEvent.changeText(input, '13936704740');
-        expect(input.props.value).toBe('13936704740')
+        fireEvent.changeText(input, cpf);
+        expect(input.props.value).toBe(cpf)
     });
-    // test('SHOULD call navigateToVerifyNumber WHEN to click on Register Button', () => {
-    //     const { getByText } = render(
-    //         <ThemeProvider theme={theme}>
-    //             <RegisterCpfView
-    //                 profile={profile}
-    //                 navigateToVerifyNumber={mockHandleNavigate}
-    //             />
-    //         </ThemeProvider>
-    //     );
-    //     const registerButton = getByText('CADASTRAR');
-    //     fireEvent.press(registerButton);
-    //     expect(mockHandleNavigate).toBeCalledTimes(1);
-    // });
+    test('SHOULD call navigateToVerifyNumber WHEN to click on Register Button', () => {
+        const { getByText } = render(
+            <ThemeProvider theme={theme}>
+                <RegisterCpfView
+                    valueCpf={cpf}
+                    onChangeText={mockOnChangeText}
+                    profile={profile}
+                    navigateToVerifyNumber={mockHandleNavigate}
+                />
+            </ThemeProvider>
+        );
+        const registerButton = getByText('CADASTRAR');
+        fireEvent.press(registerButton);
+        expect(mockHandleNavigate).toBeCalledTimes(1);
+    });
 })

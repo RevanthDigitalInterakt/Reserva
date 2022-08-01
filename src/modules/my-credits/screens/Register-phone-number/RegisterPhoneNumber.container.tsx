@@ -8,6 +8,7 @@ import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
 interface RegisterPhoneNumberContainerProps {
     profile: ProfileVars;
     isChangeNumber?: boolean;
+    confirmPhone?: boolean;
     navigateBack: () => void;
     navigateToError: () => void;
 }
@@ -16,13 +17,14 @@ export const RegisterPhoneNumberContainer = (
     {
         profile,
         isChangeNumber,
+        confirmPhone,
         navigateBack,
         navigateToError,
     }: RegisterPhoneNumberContainerProps
 ) => {
 
     return (
-        <Fragment>
+        <>
             <TopBarBackButton
                 loading={false}
                 showShadow
@@ -31,7 +33,8 @@ export const RegisterPhoneNumberContainer = (
             <RegisterPhoneNumberView
                 profile={profile}
                 isChangeNumber={isChangeNumber}
+                confirmPhone={confirmPhone}
             />
-        </Fragment>
+        </>
     );
 };

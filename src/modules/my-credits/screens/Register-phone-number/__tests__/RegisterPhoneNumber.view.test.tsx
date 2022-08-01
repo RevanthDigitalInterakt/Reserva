@@ -1,128 +1,103 @@
+
 import React from 'react';
-import { TextInput } from 'react-native'
-import TestRenderer, { act } from 'react-test-renderer';
-import { Button, theme, Typography, TextField } from '@danilomsou/reserva-ui';
+import { fireEvent, render } from '@testing-library/react-native';
+import { RegisterPhoneNumberView } from '../RegisterPhoneNumber.view';
 import { ThemeProvider } from 'styled-components/native';
-import { fireEvent } from '@testing-library/react-native'
+import { theme } from '@danilomsou/reserva-ui';
 
-import { RegisterPhoneNumberView, RegisterPhoneNumberViewProps } from '../RegisterPhoneNumber.view';
-
-const render = (props: RegisterPhoneNumberViewProps) => {
-  const testRenderer = TestRenderer.create(
-    <ThemeProvider theme={theme}>
-      <RegisterPhoneNumberView {...props} />
-    </ThemeProvider>
-  )
-  const testInstance = testRenderer.root;
-
-  return {
-    testInstance,
-    testRenderer,
-  };
+const profile = {
+  userId: '0',
+  birthDate: null,
+  document: 'document',
+  email: 'teste@gmail.com',
+  firstName: 'First',
+  lastName: 'Last',
+  homePhone: '00987654321'
 }
 
-describe('RegisterPhoneNumber', () => {
-  describe('isChangeNumber with false value', () => {
-    const props: RegisterPhoneNumberViewProps = {
-      profile: {
-        userId: '0',
-        birthDate: null,
-        document: 'document',
-        email: 'teste@gmail.com',
-        firstName: 'First',
-        lastName: 'Last',
-        homePhone: '00987654321'
-      },
-      isChangeNumber: false
-    };
-    const { testInstance } = render(props);
+const mockHandleRegister = jest.fn();
 
-    it('verify if the screen is adapted to the isChangeNumber with false value', () => {
-      const typography = testInstance.findAllByType(Typography);
-      expect(typography[1].props.children).toBe("Cashback em Lojas");
-    })
+describe('RegisterPhoneNumberView', () => {
+  test('SHOULD render correctly WHEN isChangeNumber is true', () => {
+    const { debug, getByText, getByPlaceholderText } = render(
+      <ThemeProvider theme={theme}>
+        <RegisterPhoneNumberView
+          profile={profile}
+          confirmPhone={false}
+          isChangeNumber={true}
+        />
+      </ThemeProvider>
+    );
+    const titleIsChangeNumber = getByText('Atualizar telefone');
+    const subtitleIsChangeNumber = getByText('Digite seu número novo abaixo e continue para gerar seu QR Code.');
+    const inputPhoneNumber = getByPlaceholderText('(00) 00000-0000');
+    const buttonRegister = getByText('CADASTRAR');
+    expect(titleIsChangeNumber).toBeTruthy();
+    expect(subtitleIsChangeNumber).toBeTruthy();
+    expect(buttonRegister).toBeTruthy();
+    expect(inputPhoneNumber).toBeTruthy();
+  });
+  test('SHOULD render correctly WHEN isChangeNumber is false', () => {
+    const { debug, getByText, getByPlaceholderText } = render(
+      <ThemeProvider theme={theme}>
+        <RegisterPhoneNumberView
+          profile={profile}
+          confirmPhone={false}
+          isChangeNumber={false}
+        />
+      </ThemeProvider>
+    );
+    const titleRegisterPhone = getByText('Cashback em Lojas');
+    const subtitleRegisterPhone = getByText('Para utilizar o cashback em loja precisamos que mantenha o número de telefone atualizado.');
+    const subtitleQRCode = getByText('Digite seu número abaixo e continue para gerar seu QR Code.');
+    const inputPhoneNumber = getByPlaceholderText('(00) 00000-0000');
+    const buttonRegister = getByText('CADASTRAR');
+    expect(titleRegisterPhone).toBeTruthy();
+    expect(subtitleRegisterPhone).toBeTruthy();
+    expect(subtitleQRCode).toBeTruthy();
+    expect(buttonRegister).toBeTruthy();
+    expect(inputPhoneNumber).toBeTruthy();
+  });
 
-    it('should fill the phone field', () => {
-      const newPhone = '99987654321'
-      const textField = testInstance.findByType(TextField)
-      act(() => {
-        fireEvent.changeText(textField, newPhone)
-      })
-      expect(textField.props.value).toBe(newPhone)
-    })
+  test('SHOULD render correctly WHEN confirmPhone is true', () => {
+    const { debug, getByText, getByPlaceholderText, getByTestId } = render(
+      <ThemeProvider theme={theme}>
+        <RegisterPhoneNumberView
+          profile={profile}
+          confirmPhone={true}
+          isChangeNumber={false}
+        />
+      </ThemeProvider>
+    );
+    debug()
+    const titleConfirmPhone = getByText('Confirmar telefone');
+    const subtitleConfirmPhon = getByText('Digite abaixo o código que acabamos de enviar para seu telefone:');
+    const phoneNumber = getByTestId('phoneNumber');
+    const confirmButton = getByText('CONFIRMAR');
+    const resendCode = getByText('REENVIAR CÓDIGO EM ');
+    expect(titleConfirmPhone).toBeTruthy();
+    expect(subtitleConfirmPhon).toBeTruthy();
+    expect(phoneNumber).toBeTruthy();
+    expect(confirmButton).toBeTruthy();
+    expect(resendCode).toBeTruthy();
+  });
 
-    it('should open a section to insert the code that the user received on the phone', () => {
-      const newPhone = '99987654321'
-      const textField = testInstance.findByType(TextField)
-      act(() => {
-        fireEvent.changeText(textField, newPhone)
-      })
-      expect(textField.props.value).toBe(newPhone)
-      let button = testInstance.findAllByType(Button);
-      act(() => {
-        button[1].props.onPress();
-      })
-      const typography = testInstance.findAllByType(Typography);
-      expect(typography[5].props.children).toBe("Confirme seu código");
-    })
+  test('SHOULD send code to phone WHEN click on Register Button END isChangeNumber is true', () => {
+    const { debug, getByText, getByPlaceholderText } = render(
+      <ThemeProvider theme={theme}>
+        <RegisterPhoneNumberView
+          profile={profile}
+          confirmPhone={false}
+          isChangeNumber={true}
+        />
+      </ThemeProvider>
+    );
+    debug()
+    const inputPhoneNumber = getByPlaceholderText('(00) 00000-0000');
+    fireEvent.changeText(inputPhoneNumber, '27999999999');
 
-    it('should match the 6 digit code', () => {
-      const newCode = '123456'
-      const codeInput = testInstance.findAllByType(TextInput)
-      fireEvent.changeText(codeInput[1], '123456')
-      expect(codeInput[1].props.value).toBe(newCode)
-    })
-  })
+    const RegisterButton = getByText('CADASTRAR');
+    fireEvent.press(RegisterButton);
 
-  describe('isChangeNumber with true value', () => {
-    const props: RegisterPhoneNumberViewProps = {
-      profile: {
-        userId: '0',
-        birthDate: null,
-        document: 'document',
-        email: 'teste@gmail.com',
-        firstName: 'First',
-        lastName: 'Last',
-        homePhone: '00987654321'
-      },
-      isChangeNumber: true
-    };
-    const { testInstance } = render(props);
-
-    it('verify if the screen is adapted to the isChangeNumber with false value', () => {
-      const typography = testInstance.findAllByType(Typography);
-      expect(typography[1].props.children).toBe("Atualizar telefone");
-    })
-
-    it('should fill the phone field', () => {
-      const newPhone = '99987654321'
-      const textField = testInstance.findByType(TextField)
-      act(() => {
-        fireEvent.changeText(textField, newPhone)
-      })
-      expect(textField.props.value).toBe(newPhone)
-    })
-
-    it('should open a section to insert the code that the user received on the phone', () => {
-      const newPhone = '99987654321'
-      const textField = testInstance.findByType(TextField)
-      act(() => {
-        fireEvent.changeText(textField, newPhone)
-      })
-      expect(textField.props.value).toBe(newPhone)
-      let button = testInstance.findAllByType(Button);
-      act(() => {
-        button[1].props.onPress();
-      })
-      const typography = testInstance.findAllByType(Typography);
-      expect(typography[4].props.children).toBe("Digite abaixo o código que acabamos de enviar para o número informado:");
-    })
-
-    it('should match the 6 digit code', () => {
-      const newCode = '123456'
-      const codeInput = testInstance.findAllByType(TextInput)
-      fireEvent.changeText(codeInput[1], '123456')
-      expect(codeInput[1].props.value).toBe(newCode)
-    })
-  })
+  });
 })

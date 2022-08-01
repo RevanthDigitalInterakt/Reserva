@@ -8,12 +8,14 @@ import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 export interface ChangePhoneNumberViewProps {
     profile: ProfileVars;
     navigateToRegisterPhoneNumber: () => void;
+    navigateToConfirmPhone: () => void;
 }
 
 export const ChangePhoneNumberView = (
     {
         profile,
-        navigateToRegisterPhoneNumber
+        navigateToRegisterPhoneNumber,
+        navigateToConfirmPhone,
     }: ChangePhoneNumberViewProps
 ) => {
     const [phone, setPhone] = React.useState('');
@@ -59,7 +61,7 @@ export const ChangePhoneNumberView = (
                         </Box>
                         <Box mb="xs">
                             <Button
-                                // onPress={() => setOpenConfirmCodeSection(true)}
+                                onPress={navigateToConfirmPhone}
                                 title="CONFIRMAR"
                                 height={50}
                                 inline

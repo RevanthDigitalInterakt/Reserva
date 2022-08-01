@@ -33,7 +33,7 @@ export const RegisterCpfView = (
                 <KeyboardAvoidingView
                     enabled
                     keyboardVerticalOffset={15}
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    behavior={Platform.OS === "ios" ? "padding" : undefined}
                 >
                     <Box mx="xxs" mt='xxs'>
                         <Box>

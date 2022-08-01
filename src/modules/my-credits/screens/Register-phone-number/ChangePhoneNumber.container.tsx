@@ -10,6 +10,7 @@ interface ChangePhoneNumberContainerProps {
     navigateBack: () => void;
     navigateToError: () => void;
     navigateToRegisterPhoneNumber: () => void;
+    navigateToConfirmPhone: () => void;
 }
 
 export const ChangePhoneNumberContainer = (
@@ -17,7 +18,8 @@ export const ChangePhoneNumberContainer = (
         profile,
         navigateBack,
         navigateToError,
-        navigateToRegisterPhoneNumber
+        navigateToRegisterPhoneNumber,
+        navigateToConfirmPhone
     }: ChangePhoneNumberContainerProps
 ) => {
 
@@ -25,6 +27,9 @@ export const ChangePhoneNumberContainer = (
         navigateToRegisterPhoneNumber();
     };
 
+    const handleNavigateToConfirmPhone = () => {
+        navigateToConfirmPhone();
+    }
     return (
         <Fragment>
             <TopBarBackButton
@@ -35,6 +40,7 @@ export const ChangePhoneNumberContainer = (
             <ChangePhoneNumberView
                 profile={profile}
                 navigateToRegisterPhoneNumber={handlenNavigateToRegisterPhoneNumber}
+                navigateToConfirmPhone={handleNavigateToConfirmPhone}
             />
         </Fragment>
     );

@@ -22,6 +22,7 @@ export type MyCreditsParamList = {
   [MyCreditsScreensRoutes.CREDITS]: undefined;
   [MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER]: {
     isChangeNumber?: boolean;
+    confirmPhone?: boolean;
     profile: ProfileVars;
   };
   [MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER]: {

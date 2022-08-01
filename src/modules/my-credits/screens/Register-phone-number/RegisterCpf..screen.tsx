@@ -29,7 +29,7 @@ export const RegisterCpfScreen = (
     }
 
     const navigateToVerifyNumber = () => {
-        if (route?.params.profile.homePhone) {
+        if (route?.params?.profile?.homePhone) {
             navigation.navigate('changePhoneNumber', {
                 profile: route?.params.profile
             });

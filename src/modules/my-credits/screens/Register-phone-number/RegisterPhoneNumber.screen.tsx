@@ -33,6 +33,7 @@ export const RegisterPhoneNumberScreen = (
             <RegisterPhoneNumberContainer
                 profile={route?.params.profile}
                 isChangeNumber={route?.params.isChangeNumber}
+                confirmPhone={route?.params.confirmPhone}
                 navigateBack={navigateBack}
                 navigateToError={navigateToError}
             />
