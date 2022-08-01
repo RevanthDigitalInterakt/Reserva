@@ -205,13 +205,25 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   const handleCashback = () => {
     if (hasThreeMonths) {
       if (profile?.homePhone) {
-        navigation.navigate('changePhoneNumber', {
-          profile: profile,
-        })
+        if (profile?.document) {
+          navigation.navigate('registerPhoneNumber', {
+            profile: profile,
+          });
+        } else {
+          navigation.navigate('registerCPF', {
+            profile: profile,
+          });
+        }
       } else {
-        navigation.navigate('registerPhoneNumber', {
-          profile: profile
-        })
+        if (profile?.document) {
+          navigation.navigate('registerPhoneNumber', {
+            profile: profile
+          });
+        } else {
+          navigation.navigate('registerCPF', {
+            profile: profile,
+          });
+        }
       }
     } else {
       navigation.navigate('cashbackInStore', {
