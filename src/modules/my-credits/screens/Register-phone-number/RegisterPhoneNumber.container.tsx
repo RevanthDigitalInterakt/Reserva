@@ -30,8 +30,9 @@ export const RegisterPhoneNumberContainer = (
     const [phone, setPhone] = useState('');
     const [token, setToken] = useState('');
     const [code, setCode] = useState('');
-    const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
-    const [loadingToken, setLoadingToken] = React.useState(false);
+    const [openConfirmCodeSection, setOpenConfirmCodeSection] = useState(false);
+    const [loadingToken, setLoadingToken] = useState(false);
+    const [showCodeError, setShowCodeError] = useState(false);
 
     const handleRegisterPhoneNumber = async () => {
         const date = new Date();
@@ -93,16 +94,22 @@ export const RegisterPhoneNumberContainer = (
             }
         }
     }
+
     const handleConfirmCodeSection = async () => {
-        const response = await MyCashbackAPI.post(
-            `${CashbackHttpUrl.GetToken}${profile.document}/validate_authentication`,
-            {
-                type: "sms_token",
-                token: code
+        try {
+            const response = await MyCashbackAPI.post(
+                `${CashbackHttpUrl.GetToken}${profile.document}/validate_authentication`,
+                {
+                    type: "sms_token",
+                    token: code
+                }
+            );
+            if (response.status === 204) {
+                saveDataInFirestore();
+                setShowCodeError(false);
             }
-        );
-        if (response.status === 204) {
-            saveDataInFirestore();
+        } catch (error) {
+            setShowCodeError(true);
         }
     }
 
@@ -121,6 +128,7 @@ export const RegisterPhoneNumberContainer = (
                 valueCode={code}
                 onChageCode={(code) => setCode(code)}
                 onChangeText={(phone) => setPhone(phone)}
+                showCodeError={showCodeError}
                 registerPhoneNumber={handleRegisterPhoneNumber}
                 confirmCodeSection={handleConfirmCodeSection}
                 openConfirmCodeSection={openConfirmCodeSection}

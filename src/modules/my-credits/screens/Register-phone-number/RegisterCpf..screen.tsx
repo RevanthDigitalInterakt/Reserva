@@ -9,7 +9,7 @@ import { RegisterCpfContainer } from "./RegisterCpf..container";
 
 type RegisterCpfScreenProps = StackScreenProps<
     MyCreditsParamList,
-    MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER
+    MyCreditsScreensRoutes.REGISTER_CPF
 >;
 
 export const RegisterCpfScreen = (

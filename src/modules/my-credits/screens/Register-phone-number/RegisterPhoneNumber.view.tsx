@@ -12,8 +12,10 @@ export interface RegisterPhoneNumberViewProps {
     isChangeNumber?: boolean;
     confirmPhone?: boolean;
     openConfirmCodeSection?: boolean;
+    showCodeError?: boolean;
     valuePhone?: string;
     valueCode?: string;
+
     confirmCodeSection: () => void;
     registerPhoneNumber?: () => void;
     onChangeText?: (value: string) => void;
@@ -25,6 +27,7 @@ export const RegisterPhoneNumberView = (
         profile,
         isChangeNumber = false,
         confirmPhone = false,
+        showCodeError = false,
         valuePhone,
         openConfirmCodeSection,
         valueCode,
@@ -34,7 +37,6 @@ export const RegisterPhoneNumberView = (
         onChageCode,
     }: RegisterPhoneNumberViewProps
 ) => {
-    const [showError, setShowError] = useState(false);
     const [timer, setTimer] = useState();
     return (
         <SafeAreaView>
@@ -132,7 +134,7 @@ export const RegisterPhoneNumberView = (
                                         <CodeInput
                                             code={valueCode ? valueCode : ''}
                                             onChageCode={onChageCode}
-                                            showError={showError}
+                                            showError={showCodeError}
                                         />
                                         <Box mt={20}>
                                             <Button
@@ -146,8 +148,13 @@ export const RegisterPhoneNumberView = (
                                             />
 
                                             <Box mt="nano" alignSelf='center'>
-                                                <Typography fontFamily="nunitoRegular" fontSize={13} opacity={0.5}>
-                                                    REENVIAR CÓDIGO EM 0:59s
+                                                <Typography
+                                                    letterSpacing={1.6}
+                                                    fontFamily="nunitoSemiBold"
+                                                    fontSize={13}
+                                                    opacity={0.5}
+                                                >
+                                                    REENVIAR CÓDIGO EM {timer}
                                                 </Typography>
                                             </Box>
                                         </Box>
@@ -184,7 +191,7 @@ export const RegisterPhoneNumberView = (
                                 <CodeInput
                                     code={valueCode ? valueCode : ''}
                                     onChageCode={onChageCode}
-                                    showError={showError}
+                                    showError={showCodeError}
                                 />
                                 <Box mt={20}>
                                     <Button
@@ -198,7 +205,12 @@ export const RegisterPhoneNumberView = (
                                     />
 
                                     <Box mt="nano" alignSelf='center'>
-                                        <Typography fontFamily="nunitoRegular" fontSize={13} opacity={0.5}>
+                                        <Typography
+                                            letterSpacing={1.6}
+                                            fontFamily="nunitoSemiBold"
+                                            fontSize={13}
+                                            opacity={0.5}
+                                        >
                                             REENVIAR CÓDIGO EM {timer}
                                         </Typography>
                                     </Box>
