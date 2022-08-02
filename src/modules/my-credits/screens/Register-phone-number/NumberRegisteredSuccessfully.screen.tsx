@@ -5,18 +5,18 @@ import { useNavigation } from "@react-navigation/native";
 import { BaseScreen } from "../../../../common/components/BaseScreen";
 import { MyCreditsParamList, MyCreditsScreensRoutes } from "../../navigation/MyCreditsNavigator";
 
-import { RegisterPhoneNumberContainer } from "./RegisterPhoneNumber.container";
+import { NumberRegisteredSuccessfullyContainer } from "./NumberRegisteredSuccessfully.container";
 
-type RegisterPhoneNumberScreenProps = StackScreenProps<
+type NumberRegisteredSuccessfullyScreenProps = StackScreenProps<
     MyCreditsParamList,
-    MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER
+    MyCreditsScreensRoutes.NUMBER_REGISTERED_SUCCESSFULLY
 >;
 
-export const RegisterPhoneNumberScreen = (
+export const NumberRegisteredSuccessfullyScreen = (
     {
         route,
         navigation: navigate
-    }: RegisterPhoneNumberScreenProps
+    }: NumberRegisteredSuccessfullyScreenProps
 ) => {
     const navigation = useNavigation();
 
@@ -28,21 +28,18 @@ export const RegisterPhoneNumberScreen = (
         navigation.navigate(MyCreditsScreensRoutes.ERROR);
     }
 
-    const navigateToNumberRegisteredSuccessfully = () => {
-        navigation.navigate('numberRegisteredSuccessfully', {
-            costumerDocument: route?.params.profile.document
+    const navigateToCashbackInStore = () => {
+        navigation.navigate('cashbackInStore', {
+            isLoyal: true,
+            costumerDocument: route.params.costumerDocument,
         });
     };
-
     return (
-        <BaseScreen testID=''>
-            <RegisterPhoneNumberContainer
-                profile={route?.params.profile}
-                isChangeNumber={route?.params.isChangeNumber}
-                confirmPhone={route?.params.confirmPhone}
+        <BaseScreen testID='NumberRegisteredSuccessfullyScreen'>
+            <NumberRegisteredSuccessfullyContainer
                 navigateBack={navigateBack}
                 navigateToError={navigateToError}
-                navigateToNumberRegisteredSuccessfully={navigateToNumberRegisteredSuccessfully}
+                navigateToCashbackInStore={navigateToCashbackInStore}
             />
         </BaseScreen>
     )

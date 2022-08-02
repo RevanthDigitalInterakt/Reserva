@@ -3,7 +3,7 @@ import { CreditsScreen } from "../screens/credits/Credits.screen";
 import { RegisterPhoneNumberScreen } from "../screens/Register-phone-number/RegisterPhoneNumber.screen";
 import { ChangePhoneNumberScreen } from "../screens/Register-phone-number/ChangePhoneNumber.screen";
 import { RegisterCpfScreen } from "../screens/Register-phone-number/RegisterCpf..screen";
-import { NumberRegisteredSuccessfully } from "../screens/Register-phone-number/NumberRegisteredSuccessfully";
+import { NumberRegisteredSuccessfullyScreen } from "../screens/Register-phone-number/NumberRegisteredSuccessfully.screen";
 
 import {
   ProfileVars,
@@ -29,7 +29,7 @@ export type MyCreditsParamList = {
     profile: ProfileVars;
   };
   [MyCreditsScreensRoutes.NUMBER_REGISTERED_SUCCESSFULLY]: {
-    profile: ProfileVars;
+    costumerDocument: string;
   };
   [MyCreditsScreensRoutes.REGISTER_CPF]: {
     profile: ProfileVars;
@@ -62,7 +62,7 @@ export const MyCreditsRoutes = [
     name: MyCreditsScreensRoutes.REGISTER_CPF,
   },
   {
-    component: NumberRegisteredSuccessfully,
+    component: NumberRegisteredSuccessfullyScreen,
     name: MyCreditsScreensRoutes.NUMBER_REGISTERED_SUCCESSFULLY,
   }
 ];

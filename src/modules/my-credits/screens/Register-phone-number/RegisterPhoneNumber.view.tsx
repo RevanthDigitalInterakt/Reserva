@@ -6,12 +6,12 @@ import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
 import CodeInput from "../../../../shared/components/CodeInput";
-import firestore from '@react-native-firebase/firestore';
 
 export interface RegisterPhoneNumberViewProps {
     profile: ProfileVars;
     isChangeNumber?: boolean;
-    confirmPhone?: boolean
+    confirmPhone?: boolean;
+    confirmCodeSection: () => void;
 }
 
 export const RegisterPhoneNumberView = (
@@ -19,47 +19,18 @@ export const RegisterPhoneNumberView = (
         profile,
         isChangeNumber = false,
         confirmPhone = false,
+        confirmCodeSection,
     }: RegisterPhoneNumberViewProps
 ) => {
-    const navigation = useNavigation();
     const [phone, setPhone] = React.useState('');
     const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
     const [code, setCode] = useState("");
     const [showError, setShowError] = useState(false);
-    const [changePhoneNumber, setChangePhoneNumber] = useState(false);
-    const [verifiedPhoneNumber, setVerifiedPhoneNumber] = useState(false);
     const [timer, setTimer] = useState();
 
     const handleChangePhone = (newPhone: string) => {
         if (!openConfirmCodeSection && newPhone.length < 16) {
             setPhone(newPhone)
-        }
-    }
-
-    const handleConfirmCodeSection = async () => {
-        const virifyPhoneCollection = firestore().collection('verify-phone');
-        const numberRegisteredSuccessfully = navigation.navigate('numberRegisteredSuccessfully', {
-            costumerDocument: profile?.document
-        });
-        const user = await virifyPhoneCollection.where('userId', '==', profile.userId).get();
-        if (user.size > 0) {
-            virifyPhoneCollection
-                .doc(user.docs[0].id)
-                .update({
-                    date: firestore.Timestamp.now().toDate(),
-                })
-                .then((e) => {
-                    numberRegisteredSuccessfully
-                });
-        } else {
-            const response = await virifyPhoneCollection.add({
-                email: profile.email,
-                userId: profile.userId,
-                date: firestore.Timestamp.now().toDate(),
-            });
-            if (response) {
-                numberRegisteredSuccessfully
-            }
         }
     }
 
@@ -163,7 +134,7 @@ export const RegisterPhoneNumberView = (
                                         />
                                         <Box mt={20}>
                                             <Button
-                                                onPress={handleConfirmCodeSection}
+                                                onPress={confirmCodeSection}
                                                 title="CONFIRMAR"
                                                 height={50}
                                                 inline
@@ -215,7 +186,7 @@ export const RegisterPhoneNumberView = (
                                 />
                                 <Box mt={20}>
                                     <Button
-                                        onPress={handleConfirmCodeSection}
+                                        onPress={confirmCodeSection}
                                         title="CONFIRMAR"
                                         height={50}
                                         inline

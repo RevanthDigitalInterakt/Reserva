@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ScrollView, SafeAreaView } from "react-native";
-import { useRoute, useNavigation } from '@react-navigation/native';
 import { Box, Button, Typography, } from "@danilomsou/reserva-ui";
 
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
-interface NumberRegisteredSuccessfullyProps {
+interface NumberRegisteredSuccessfullyViewProps {
+    navigateToCashbackInStore: () => void;
 }
 
-export const NumberRegisteredSuccessfully = (
+export const NumberRegisteredSuccessfullyView = (
     {
-
-    }: NumberRegisteredSuccessfullyProps
+        navigateToCashbackInStore
+    }: NumberRegisteredSuccessfullyViewProps
 ) => {
-    const route = useRoute();
-    const navigation = useNavigation();
-    const { costumerDocument } = route?.params;
 
     return (
         <SafeAreaView>
             <ScrollView>
-                <TopBarBackButton
-                    loading={false}
-                    showShadow
-                // backButtonPress={}
-                />
                 <Box mx="xxs" mt='xxs'>
                     <Box mb="nano">
                         <Typography variant="tituloSessoes">
@@ -39,10 +30,7 @@ export const NumberRegisteredSuccessfully = (
                     </Box>
 
                     <Button
-                        onPress={() => navigation.navigate('cashbackInStore', {
-                            isLoyal: true,
-                            costumerDocument: costumerDocument,
-                        })}
+                        onPress={navigateToCashbackInStore}
                         title="CONTINUAR"
                         height={50}
                         inline
