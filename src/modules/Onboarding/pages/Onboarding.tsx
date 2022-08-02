@@ -1,19 +1,19 @@
+import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
-import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
   Image,
   ImageBackground,
   Platform,
-  SafeAreaView,
   StatusBar,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { openSettings, requestNotifications } from 'react-native-permissions';
+import { onboarding } from '../../../graphql/onboarding/onboarding';
 import { styles } from '../assets/Styles';
 import { ButtonClose } from '../components/ButtonClose';
 import {
@@ -21,11 +21,7 @@ import {
   requestATT,
   requestPermissionLocation,
 } from '../components/Permissions';
-import { staticsData } from '../components/StaticsData';
-import { onboarding } from '../../../graphql/onboarding/onboarding';
-import { useLazyQuery, useQuery } from '@apollo/client';
-
-import ModalDataCollect from '../components/ModalDataCollect';
+import { staticsDataAndroid, staticsDataIos } from '../components/StaticsData';
 
 const { width, height } = Dimensions.get('window');
 
@@ -35,14 +31,13 @@ const Slide = ({
   currentSlideShow,
   lengthArray,
   itemContentful,
+  staticsData,
 }) => {
-  const [showModalDataCollect, setShowModalDataCollect] = useState(false);
-
   const navigation = useNavigation();
 
   const verifyPlatform = async () => {
     if (Platform.OS === 'android') {
-      return setShowModalDataCollect(true);
+      return navigation.dispatch(StackActions.replace('Main'));
     }
     if (Platform.OS === 'ios') {
       return await requestATT().then((value) => {
@@ -62,7 +57,7 @@ const Slide = ({
           ({ status, settings }) => {
             if (status === 'granted') {
               openSettings()
-                .then(goNextSlide())
+                .then(() => goNextSlide())
                 .catch(() => console.warn('cannot open settings'));
             } else {
               openSettings().catch(() => console.warn('cannot open settings'));
@@ -90,7 +85,7 @@ const Slide = ({
     return (
       <View style={[styles.boxIndicatorMain]}>
         <View style={[styles.boxIndicatorChild]}>
-          {staticsData.map((_, index) => (
+          {staticsData.map((_: any, index: any) => (
             <View
               key={index}
               style={[
@@ -113,13 +108,6 @@ const Slide = ({
       style={[styles.imageBackground]}
     >
       <Box flex={1}>
-        <ModalDataCollect
-          isVisible={showModalDataCollect}
-          setIsVisible={() => {
-            setShowModalDataCollect(false);
-            goNextSlide();
-          }}
-        />
         <Indicators />
 
         {item.imageHeader ? (
@@ -143,8 +131,8 @@ const Slide = ({
         <Box
           style={{
             marginTop: itemContentful[currentSlideShow]?.description
-              ? height * 0.7
-              : height * 0.81,
+              ? height * 0.72
+              : height * 0.82,
             position: 'absolute',
           }}
           flex={1}
@@ -212,11 +200,26 @@ const Slide = ({
 export const Onboarding: React.FC<{}> = ({}) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [itemContentful, setItemContentful] = useState([]);
+  const [staticsData, setStaticsData] = useState([{}]);
+  const [loading, setLoading] = useState(true);
   const ref = React.useRef();
 
+  const [onboardingData] = useLazyQuery(onboarding, {
+    context: { clientName: 'contentful' },
+  });
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      setStaticsData(staticsDataAndroid);
+    }
+    if (Platform.OS === 'ios') {
+      setStaticsData(staticsDataIos);
+    }
+  }, []);
+
   const updateCurrentSlideIndex = (e) => {
-    const contentOfsetx = e.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOfsetx / width);
+    const contentOffsetX = e.nativeEvent.contentOffset.x;
+    const currentIndex = Math.round(contentOffsetX / width);
     setCurrentSlideIndex(currentIndex);
   };
 
@@ -229,17 +232,19 @@ export const Onboarding: React.FC<{}> = ({}) => {
     }
   };
 
-  const [onboardingData] = useLazyQuery(onboarding, {
-    context: { clientName: 'contentful' },
-  });
-
   useEffect(() => {
+    setLoading(true);
     onboardingData().then((res) => {
       const items =
-        res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
-          ?.items;
+        Platform.OS === 'android'
+          ? res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection?.items.filter(
+              (item: any) => item.visibleAndroid !== false
+            )
+          : res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
+              ?.items;
 
       setItemContentful(items);
+      setLoading(false);
     });
   }, []);
 
@@ -248,32 +253,36 @@ export const Onboarding: React.FC<{}> = ({}) => {
       <StatusBar
         animated
         barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-        backgroundColor={'rgba(0,0,0,0.9)'}
+        backgroundColor={Platform.OS === 'ios' ? null : 'rgba(0,0,0,1)'}
         translucent={true}
       />
-
-      <FlatList
-        ref={ref}
-        onMomentumScrollEnd={updateCurrentSlideIndex}
-        data={staticsData}
-        contentContainerStyle={{ height: height }}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        scrollEnabled={false}
-        pagingEnabled
-        renderItem={({ item }) => (
-          <>
-            <ButtonClose />
-            <Slide
-              item={item}
-              goNextSlide={goNextSlide}
-              currentSlideShow={currentSlideIndex}
-              lengthArray={staticsData.length}
-              itemContentful={itemContentful}
-            />
-          </>
-        )}
-      />
+      {!loading ? (
+        <FlatList
+          ref={ref}
+          onMomentumScrollEnd={updateCurrentSlideIndex}
+          data={staticsData}
+          contentContainerStyle={{ height: height }}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          scrollEnabled={false}
+          pagingEnabled
+          renderItem={({ item }) => (
+            <>
+              <ButtonClose />
+              <Slide
+                item={item}
+                goNextSlide={goNextSlide}
+                currentSlideShow={currentSlideIndex}
+                lengthArray={staticsData.length}
+                itemContentful={itemContentful}
+                staticsData={staticsData}
+              />
+            </>
+          )}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
