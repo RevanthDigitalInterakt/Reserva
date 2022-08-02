@@ -206,7 +206,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
     if (hasThreeMonths) {
       if (profile?.homePhone) {
         if (profile?.document) {
-          navigation.navigate('registerPhoneNumber', {
+          navigation.navigate('changePhoneNumber', {
             profile: profile,
           });
         } else {
