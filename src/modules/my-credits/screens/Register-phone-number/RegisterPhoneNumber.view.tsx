@@ -13,10 +13,11 @@ export interface RegisterPhoneNumberViewProps {
     confirmPhone?: boolean;
     openConfirmCodeSection?: boolean;
     valuePhone?: string;
+    valueCode?: string;
     confirmCodeSection: () => void;
     registerPhoneNumber?: () => void;
     onChangeText?: (value: string) => void;
-
+    onChageCode?: (value: string) => void;
 }
 
 export const RegisterPhoneNumberView = (
@@ -25,23 +26,16 @@ export const RegisterPhoneNumberView = (
         isChangeNumber = false,
         confirmPhone = false,
         valuePhone,
+        openConfirmCodeSection,
+        valueCode,
         confirmCodeSection,
         registerPhoneNumber,
         onChangeText,
-        openConfirmCodeSection
+        onChageCode,
     }: RegisterPhoneNumberViewProps
 ) => {
-    // const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
-    const [code, setCode] = useState("");
     const [showError, setShowError] = useState(false);
     const [timer, setTimer] = useState();
-
-    // const handleChangePhone = (newPhone: string) => {
-    //     if (!openConfirmCodeSection && newPhone.length < 16) {
-    //         setPhone(newPhone)
-    //     }
-    // }
-
     return (
         <SafeAreaView>
             <ScrollView>
@@ -136,8 +130,8 @@ export const RegisterPhoneNumberView = (
                                             </Typography>
                                         </Box>
                                         <CodeInput
-                                            code={code}
-                                            onChageCode={setCode}
+                                            code={valueCode ? valueCode : ''}
+                                            onChageCode={onChageCode}
                                             showError={showError}
                                         />
                                         <Box mt={20}>
@@ -147,7 +141,7 @@ export const RegisterPhoneNumberView = (
                                                 height={50}
                                                 inline
                                                 color='white'
-                                                disabled={code.length < 6}
+                                                disabled={valueCode?.length < 6}
                                                 bg='verdeSucesso'
                                             />
 
@@ -188,8 +182,8 @@ export const RegisterPhoneNumberView = (
                                     </Box>
                                 </Box>
                                 <CodeInput
-                                    code={code}
-                                    onChageCode={setCode}
+                                    code={valueCode ? valueCode : ''}
+                                    onChageCode={onChageCode}
                                     showError={showError}
                                 />
                                 <Box mt={20}>
@@ -199,7 +193,7 @@ export const RegisterPhoneNumberView = (
                                         height={50}
                                         inline
                                         color='white'
-                                        disabled={code.length < 6}
+                                        disabled={valueCode?.length < 6}
                                         bg='verdeSucesso'
                                     />
 

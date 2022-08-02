@@ -29,6 +29,7 @@ export const RegisterPhoneNumberContainer = (
 ) => {
     const [phone, setPhone] = useState('');
     const [token, setToken] = useState('');
+    const [code, setCode] = useState('');
     const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
     const [loadingToken, setLoadingToken] = React.useState(false);
 
@@ -50,46 +51,59 @@ export const RegisterPhoneNumberContainer = (
             );
             if (data) {
                 setLoadingToken(false);
-                setToken(data?.data?.token);
                 setOpenConfirmCodeSection(true);
 
             }
         }
+        setOpenConfirmCodeSection(true);
     }
 
     useEffect(() => {
         console.log('phone::>', `55${phone.replace(/[^\d\+]+/g, '')}`)
     }, [phone]);
+
     useEffect(() => {
         console.log('token::>', token)
     }, [token]);
 
-    const handleConfirmCodeSection = async () => {
-        navigateToNumberRegisteredSuccessfully();
+    useEffect(() => {
+        console.log('codee::>', code)
+    }, [code]);
 
-        // const virifyPhoneCollection = firestore().collection('verify-phone');
-        // const user = await virifyPhoneCollection.where('userId', '==', profile.userId).get();
-        // if (user.size > 0) {
-        //     virifyPhoneCollection
-        //         .doc(user.docs[0].id)
-        //         .update({
-        //             date: firestore.Timestamp.now().toDate(),
-        //         })
-        //         .then((e) => {
-        //             console.log('okkk1');
-        //             navigateToNumberRegisteredSuccessfully();
-        //         });
-        // } else {
-        //     const response = await virifyPhoneCollection.add({
-        //         email: profile.email,
-        //         userId: profile.userId,
-        //         date: firestore.Timestamp.now().toDate(),
-        //     });
-        //     if (response) {
-        //         console.log('okkk2');
-        //         navigateToNumberRegisteredSuccessfully();
-        //     }
-        // }
+    const saveDataInFirestore = async () => {
+        const virifyPhoneCollection = firestore().collection('verify-phone');
+        const user = await virifyPhoneCollection.where('userId', '==', profile.userId).get();
+        if (user.size > 0) {
+            virifyPhoneCollection
+                .doc(user.docs[0].id)
+                .update({
+                    date: firestore.Timestamp.now().toDate(),
+                })
+                .then((e) => {
+                    navigateToNumberRegisteredSuccessfully();
+                });
+        } else {
+            const response = await virifyPhoneCollection.add({
+                email: profile.email,
+                userId: profile.userId,
+                date: firestore.Timestamp.now().toDate(),
+            });
+            if (response) {
+                navigateToNumberRegisteredSuccessfully();
+            }
+        }
+    }
+    const handleConfirmCodeSection = async () => {
+        const response = await MyCashbackAPI.post(
+            `${CashbackHttpUrl.GetToken}${profile.document}/validate_authentication`,
+            {
+                type: "sms_token",
+                token: code
+            }
+        );
+        if (response.status === 204) {
+            saveDataInFirestore();
+        }
     }
 
     return (
@@ -104,6 +118,8 @@ export const RegisterPhoneNumberContainer = (
                 isChangeNumber={isChangeNumber}
                 confirmPhone={confirmPhone}
                 valuePhone={phone}
+                valueCode={code}
+                onChageCode={(code) => setCode(code)}
                 onChangeText={(phone) => setPhone(phone)}
                 registerPhoneNumber={handleRegisterPhoneNumber}
                 confirmCodeSection={handleConfirmCodeSection}
