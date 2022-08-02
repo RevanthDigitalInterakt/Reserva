@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import {
@@ -6,6 +6,7 @@ import {
 } from '../../../../graphql/profile/profileQuery';
 import { RegisterPhoneNumberView } from "./RegisterPhoneNumber.view";
 import firestore from '@react-native-firebase/firestore';
+import { CashbackHttpUrl, MyCashbackAPI } from "../../../my-cashback/api/MyCashbackAPI";
 
 interface RegisterPhoneNumberContainerProps {
     profile: ProfileVars;
@@ -26,9 +27,44 @@ export const RegisterPhoneNumberContainer = (
         navigateToNumberRegisteredSuccessfully,
     }: RegisterPhoneNumberContainerProps
 ) => {
+    const [phone, setPhone] = useState('');
+    const [token, setToken] = useState('');
+    const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
+    const [loadingToken, setLoadingToken] = React.useState(false);
+
+    const handleRegisterPhoneNumber = async () => {
+        const date = new Date();
+        // add 5 minute to current date
+        date.setMinutes(date.getMinutes() + 5);
+        const tomorrow = date.toISOString();
+
+        if (profile.document) {
+            setLoadingToken(true);
+            const { data } = await MyCashbackAPI.post(
+                `${CashbackHttpUrl.GetToken}${profile.document}/authenticate`,
+                {
+                    type: "sms",
+                    expire_date: tomorrow,
+                    phone: `55${phone.replace(/[^\d\+]+/g, '')}`
+                }
+            );
+            if (data) {
+                setLoadingToken(false);
+                setToken(data?.data?.token);
+                setOpenConfirmCodeSection(true);
+
+            }
+        }
+    }
+
+    useEffect(() => {
+        console.log('phone::>', `55${phone.replace(/[^\d\+]+/g, '')}`)
+    }, [phone]);
+    useEffect(() => {
+        console.log('token::>', token)
+    }, [token]);
 
     const handleConfirmCodeSection = async () => {
-        console.log('aquuiiiiiiii');
         navigateToNumberRegisteredSuccessfully();
 
         // const virifyPhoneCollection = firestore().collection('verify-phone');
@@ -59,7 +95,7 @@ export const RegisterPhoneNumberContainer = (
     return (
         <>
             <TopBarBackButton
-                loading={false}
+                loading={loadingToken}
                 showShadow
                 backButtonPress={navigateBack}
             />
@@ -67,7 +103,11 @@ export const RegisterPhoneNumberContainer = (
                 profile={profile}
                 isChangeNumber={isChangeNumber}
                 confirmPhone={confirmPhone}
+                valuePhone={phone}
+                onChangeText={(phone) => setPhone(phone)}
+                registerPhoneNumber={handleRegisterPhoneNumber}
                 confirmCodeSection={handleConfirmCodeSection}
+                openConfirmCodeSection={openConfirmCodeSection}
             />
         </>
     );

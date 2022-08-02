@@ -11,7 +11,12 @@ export interface RegisterPhoneNumberViewProps {
     profile: ProfileVars;
     isChangeNumber?: boolean;
     confirmPhone?: boolean;
+    openConfirmCodeSection?: boolean;
+    valuePhone?: string;
     confirmCodeSection: () => void;
+    registerPhoneNumber?: () => void;
+    onChangeText?: (value: string) => void;
+
 }
 
 export const RegisterPhoneNumberView = (
@@ -19,20 +24,23 @@ export const RegisterPhoneNumberView = (
         profile,
         isChangeNumber = false,
         confirmPhone = false,
+        valuePhone,
         confirmCodeSection,
+        registerPhoneNumber,
+        onChangeText,
+        openConfirmCodeSection
     }: RegisterPhoneNumberViewProps
 ) => {
-    const [phone, setPhone] = React.useState('');
-    const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
+    // const [openConfirmCodeSection, setOpenConfirmCodeSection] = React.useState(false);
     const [code, setCode] = useState("");
     const [showError, setShowError] = useState(false);
     const [timer, setTimer] = useState();
 
-    const handleChangePhone = (newPhone: string) => {
-        if (!openConfirmCodeSection && newPhone.length < 16) {
-            setPhone(newPhone)
-        }
-    }
+    // const handleChangePhone = (newPhone: string) => {
+    //     if (!openConfirmCodeSection && newPhone.length < 16) {
+    //         setPhone(newPhone)
+    //     }
+    // }
 
     return (
         <SafeAreaView>
@@ -85,8 +93,8 @@ export const RegisterPhoneNumberView = (
                                 <Box justifyContent="center">
                                     <TextField
                                         maskType="cel-phone"
-                                        value={phone}
-                                        onChangeText={(newPhone) => handleChangePhone(newPhone)}
+                                        value={valuePhone}
+                                        onChangeText={onChangeText}
                                         keyboardType='number-pad'
                                         placeholder="(00) 00000-0000"
                                         returnKeyType='done'
@@ -103,11 +111,11 @@ export const RegisterPhoneNumberView = (
                                 </Box>
                                 <Box mb='xs' mt="xxs">
                                     <Button
-                                        onPress={() => setOpenConfirmCodeSection(true)}
+                                        onPress={registerPhoneNumber}
                                         title="CADASTRAR"
                                         variant="primarioEstreito"
                                         inline
-                                        disabled={phone.length < 15}
+                                        disabled={valuePhone?.length < 15}
                                     />
                                 </Box>
 
