@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { ImageBackground } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-import { Box, Button, Image, Typography } from "@danilomsou/reserva-ui";
+import { Box, Button, Checkbox, Image, Typography } from "@danilomsou/reserva-ui";
 import { images } from '../../../../assets';
 
 
@@ -24,17 +24,18 @@ export const CashbackInStoreView = (
     acceptTermsAndConditions
   }: CashbackInStoreViewProps
 ) => {
+  const [isCheckedCashback, setIsCheckedCashback] = useState(false)
   return (
     <Fragment>
       <Box mx="xxs" mt="sm">
         <Box mb="nano">
           <Typography variant="tituloSessoes">
-          Cashback em Lojas
+            Cashback em Lojas
           </Typography>
         </Box>
         <Box mb="xxs">
           <Typography fontFamily="nunitoRegular" fontSize={14}>
-          Use o QR Code para gerar cashback nas compras em lojas físicas.
+            Use o QR Code para gerar cashback nas compras em lojas físicas.
           </Typography>
         </Box>
         <Box mt="xl" alignItems="center" justifyContent="center">
@@ -56,13 +57,61 @@ export const CashbackInStoreView = (
               )}
             </Box>
           </ImageBackground>
-          <Box mt="xl" mb="nano">
+          <Box mt="xl" mb="xxs" width='100%'>
             <Button
               onPress={() => generateToken()}
-              title="GERAR QR CODE"
-              variant="primarioMaior"
-            />
+              height={50}
+              bg='preto'
+              width='100%'
+            >
+              <Typography
+                color='white'
+              >
+                GERAR QR CODE
+              </Typography>
+            </Button>
           </Box>
+
+          <Box
+            borderRadius={4}
+            bg='#F9F8F6'
+            borderWidth={1}
+            borderColor='#C7C3B7'
+            flexDirection='row'
+            width='100%'
+            alignItems='center'
+            mb="nano"
+            height={42}>
+
+            <Box>
+              <Checkbox
+                marginLeft={13}
+                checked={isCheckedCashback}
+                color={'preto'}
+                onCheck={() => { setIsCheckedCashback(!isCheckedCashback) }}
+              />
+            </Box>
+            <Box>
+              <Button
+              // onPress={() => generateToken()}
+              >
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize={14}
+                  color='preto'
+                >
+                  {`Li e aceito os `}
+                  <Typography
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    {`termos e condições de uso.`}
+                  </Typography>
+
+                </Typography>
+              </Button>
+            </Box>
+          </Box>
+
         </Box>
       </Box>
     </Fragment>
