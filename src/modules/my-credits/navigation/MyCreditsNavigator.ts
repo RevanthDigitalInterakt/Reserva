@@ -1,13 +1,11 @@
-import { CashbackInStoreScreen } from "../screens/cashback-in-store/CashbackInStore.screen";
-import { CreditsScreen } from "../screens/credits/Credits.screen";
-import { RegisterPhoneNumberScreen } from "../screens/Register-phone-number/RegisterPhoneNumber.screen";
-import { ChangePhoneNumberScreen } from "../screens/Register-phone-number/ChangePhoneNumber.screen";
-import { RegisterCpfScreen } from "../screens/Register-phone-number/RegisterCpf..screen";
-import { NumberRegisteredSuccessfullyScreen } from "../screens/Register-phone-number/NumberRegisteredSuccessfully.screen";
+import { CashbackInStoreScreen } from '../screens/cashback-in-store/CashbackInStore.screen';
+import { CreditsScreen } from '../screens/credits/Credits.screen';
+import { RegisterPhoneNumberScreen } from '../screens/Register-phone-number/RegisterPhoneNumber.screen';
+import { ChangePhoneNumberScreen } from '../screens/Register-phone-number/ChangePhoneNumber.screen';
+import { RegisterCpfScreen } from '../screens/Register-phone-number/RegisterCpf.screen';
+import { NumberRegisteredSuccessfullyScreen } from '../screens/Register-phone-number/NumberRegisteredSuccessfully.screen';
 
-import {
-  ProfileVars,
-} from '../../../graphql/profile/profileQuery';
+import { ProfileVars } from '../../../graphql/profile/profileQuery';
 export enum MyCreditsScreensRoutes {
   CREDITS = 'credits',
   ERROR = 'error',
@@ -64,5 +62,5 @@ export const MyCreditsRoutes = [
   {
     component: NumberRegisteredSuccessfullyScreen,
     name: MyCreditsScreensRoutes.NUMBER_REGISTERED_SUCCESSFULLY,
-  }
+  },
 ];
