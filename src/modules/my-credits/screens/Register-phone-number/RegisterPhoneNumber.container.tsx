@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import {
@@ -33,12 +33,42 @@ export const RegisterPhoneNumberContainer = (
     const [openConfirmCodeSection, setOpenConfirmCodeSection] = useState(false);
     const [loadingToken, setLoadingToken] = useState(false);
     const [showCodeError, setShowCodeError] = useState(false);
+    const [timerCode, setTimerCode] = useState(60);
+    const [startChronometer, setStartChronometer] = useState(false);
+
+    const countRef = useRef(null);
+
+    useEffect(() => {
+        if (startChronometer) {
+            if (timerCode > 0) {
+                countRef.current = setInterval(() => {
+                    setTimerCode((timerPix) => timerPix - 1)
+                }, 1000);
+                return () => clearInterval(countRef.current);
+            }
+        }
+    }, [startChronometer === true, timerCode]);
+
+
+    useEffect(() => {
+        if (confirmPhone) {
+            setStartChronometer(true);
+        }
+    }, [confirmPhone]);
+
+    const formatTime = () => {
+        const getSeconds = `0${(timerCode % 60)}`.slice(-2)
+        const minutes = `${Math.floor(timerCode / 60)}`
+        const getMinutes = `0${minutes % 60}`.slice(-2)
+        return `${getMinutes}:${getSeconds}`
+    }
 
     const handleRegisterPhoneNumber = async () => {
         const date = new Date();
         // add 5 minute to current date
         date.setMinutes(date.getMinutes() + 5);
         const tomorrow = date.toISOString();
+        const newPhone = confirmPhone ? profile?.homePhone.split('+')[1] : `55${phone.replace(/[^\d\+]+/g, '')}`
 
         if (profile.document) {
             setLoadingToken(true);
@@ -47,29 +77,18 @@ export const RegisterPhoneNumberContainer = (
                 {
                     type: "sms",
                     expire_date: tomorrow,
-                    phone: `55${phone.replace(/[^\d\+]+/g, '')}`
+                    phone: newPhone
                 }
             );
             if (data) {
                 setLoadingToken(false);
                 setOpenConfirmCodeSection(true);
-
             }
         }
+        setTimerCode(60);
+        setStartChronometer(true)
         setOpenConfirmCodeSection(true);
     }
-
-    useEffect(() => {
-        console.log('phone::>', `55${phone.replace(/[^\d\+]+/g, '')}`)
-    }, [phone]);
-
-    useEffect(() => {
-        console.log('token::>', token)
-    }, [token]);
-
-    useEffect(() => {
-        console.log('codee::>', code)
-    }, [code]);
 
     const saveDataInFirestore = async () => {
         const virifyPhoneCollection = firestore().collection('verify-phone');
@@ -113,6 +132,10 @@ export const RegisterPhoneNumberContainer = (
         }
     }
 
+    const resendNewCode = () => {
+        handleRegisterPhoneNumber();
+    }
+
     return (
         <>
             <TopBarBackButton
@@ -128,9 +151,11 @@ export const RegisterPhoneNumberContainer = (
                 valueCode={code}
                 onChageCode={(code) => setCode(code)}
                 onChangeText={(phone) => setPhone(phone)}
+                timerCode={formatTime()}
                 showCodeError={showCodeError}
                 registerPhoneNumber={handleRegisterPhoneNumber}
                 confirmCodeSection={handleConfirmCodeSection}
+                resendNewCode={resendNewCode}
                 openConfirmCodeSection={openConfirmCodeSection}
             />
         </>

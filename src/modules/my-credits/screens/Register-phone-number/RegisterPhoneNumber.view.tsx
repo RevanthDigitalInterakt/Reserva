@@ -15,11 +15,12 @@ export interface RegisterPhoneNumberViewProps {
     showCodeError?: boolean;
     valuePhone?: string;
     valueCode?: string;
-
+    timerCode: string;
     confirmCodeSection: () => void;
     registerPhoneNumber?: () => void;
     onChangeText?: (value: string) => void;
     onChageCode?: (value: string) => void;
+    resendNewCode: () => void;
 }
 
 export const RegisterPhoneNumberView = (
@@ -31,13 +32,15 @@ export const RegisterPhoneNumberView = (
         valuePhone,
         openConfirmCodeSection,
         valueCode,
+        timerCode,
         confirmCodeSection,
         registerPhoneNumber,
         onChangeText,
         onChageCode,
+        resendNewCode
     }: RegisterPhoneNumberViewProps
 ) => {
-    const [timer, setTimer] = useState();
+
     return (
         <SafeAreaView>
             <ScrollView>
@@ -78,7 +81,7 @@ export const RegisterPhoneNumberView = (
                                             </Typography>
                                         </Box>
 
-                                        <Box mb="xxs">
+                                        <Box mb={13}>
                                             <Typography fontFamily="nunitoRegular" fontSize={14}>
                                                 Digite seu número abaixo e continue para gerar seu QR Code.
                                             </Typography>
@@ -105,7 +108,7 @@ export const RegisterPhoneNumberView = (
                                         }}
                                     />
                                 </Box>
-                                <Box mb='xs' mt="xxs">
+                                <Box mb='xs' mt={16}>
                                     <Button
                                         onPress={registerPhoneNumber}
                                         title="CADASTRAR"
@@ -125,7 +128,7 @@ export const RegisterPhoneNumberView = (
                                             </Box>
                                         }
 
-                                        <Box mb="nano">
+                                        <Box mb='nano'>
                                             <Typography fontFamily="nunitoRegular" fontSize={14}>
                                                 Digite abaixo o código que acabamos de enviar para
                                                 o número informado:
@@ -147,15 +150,31 @@ export const RegisterPhoneNumberView = (
                                                 bg='verdeSucesso'
                                             />
 
-                                            <Box mt="nano" alignSelf='center'>
-                                                <Typography
-                                                    letterSpacing={1.6}
-                                                    fontFamily="nunitoSemiBold"
-                                                    fontSize={13}
-                                                    opacity={0.5}
-                                                >
-                                                    REENVIAR CÓDIGO EM {timer}
-                                                </Typography>
+                                            <Box mt={19} alignSelf='center'>
+                                                {
+                                                    timerCode === '00:00' ?
+                                                        <Button
+                                                            onPress={resendNewCode}
+                                                        >
+                                                            <Typography
+                                                                style={{ textDecorationLine: 'underline' }}
+                                                                letterSpacing={1.6}
+                                                                fontFamily="nunitoSemiBold"
+                                                                fontSize={13}
+                                                            >
+                                                                REENVIAR NOVO CÓDIGO
+                                                            </Typography>
+                                                        </Button>
+                                                        :
+                                                        <Typography
+                                                            letterSpacing={1.6}
+                                                            fontFamily="nunitoSemiBold"
+                                                            fontSize={13}
+                                                            opacity={0.5}
+                                                        >
+                                                            REENVIAR CÓDIGO EM {timerCode}s
+                                                        </Typography>
+                                                }
                                             </Box>
                                         </Box>
                                     </Box>
@@ -171,7 +190,7 @@ export const RegisterPhoneNumberView = (
                                 </Box>
 
 
-                                <Box mb="xxxs">
+                                <Box mb={19}>
                                     <Typography fontFamily="nunitoRegular" fontSize={14}>
                                         Digite abaixo o código que acabamos de enviar para seu telefone:
                                     </Typography>
@@ -204,15 +223,32 @@ export const RegisterPhoneNumberView = (
                                         bg='verdeSucesso'
                                     />
 
-                                    <Box mt="nano" alignSelf='center'>
-                                        <Typography
-                                            letterSpacing={1.6}
-                                            fontFamily="nunitoSemiBold"
-                                            fontSize={13}
-                                            opacity={0.5}
-                                        >
-                                            REENVIAR CÓDIGO EM {timer}
-                                        </Typography>
+                                    <Box mt={19} alignSelf='center'>
+                                        {
+                                            timerCode === '00:00' ?
+                                                <Button
+                                                    onPress={resendNewCode}
+                                                >
+                                                    <Typography
+                                                        style={{ textDecorationLine: 'underline' }}
+                                                        letterSpacing={1.6}
+                                                        fontFamily="nunitoSemiBold"
+                                                        fontSize={13}
+                                                    >
+                                                        REENVIAR NOVO CÓDIGO
+                                                    </Typography>
+                                                </Button>
+                                                :
+
+                                                <Typography
+                                                    letterSpacing={1.6}
+                                                    fontFamily="nunitoSemiBold"
+                                                    fontSize={13}
+                                                    opacity={0.5}
+                                                >
+                                                    REENVIAR CÓDIGO EM {timerCode}s
+                                                </Typography>
+                                        }
                                     </Box>
                                 </Box>
                             </>
