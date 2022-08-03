@@ -22,7 +22,7 @@ export const CashbackInStoreContainer = (
 ) => {
   const [token, setToken] = useState<string>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [termsIsAccepted, setTermsIsAccepted] = useState<boolean>(true);
+  const [termsIsAccepted, setTermsIsAccepted] = useState<boolean>(false);
 
   const termAndConditionsIsAccepted = async () => {
     const isAccepted = await AsyncStorage.getItem('@RNAuth:terms');
@@ -32,11 +32,17 @@ export const CashbackInStoreContainer = (
 
   const acceptTermsAndConditions = async () => {
     await AsyncStorage.setItem('@RNAuth:terms', 'true');
-    setTermsIsAccepted(true);
+
+    if (modalVisible) {
+      setTermsIsAccepted(true);
+    } else {
+      setTermsIsAccepted(!termsIsAccepted);
+    }
+    setModalVisible(false);
   }
 
   useEffect(() => {
-    termAndConditionsIsAccepted();
+    // termAndConditionsIsAccepted();
   }, []);
 
   const toggleModal = () => {

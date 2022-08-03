@@ -3,6 +3,7 @@ import { ImageBackground } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
 import { Box, Button, Checkbox, Image, Typography } from "@danilomsou/reserva-ui";
 import { images } from '../../../../assets';
+import { ModalTermsAndConditionsCashback } from "./components/ModalTermsAndConditionsCashback";
 
 
 export interface CashbackInStoreViewProps {
@@ -24,7 +25,7 @@ export const CashbackInStoreView = (
     acceptTermsAndConditions
   }: CashbackInStoreViewProps
 ) => {
-  const [isCheckedCashback, setIsCheckedCashback] = useState(false)
+
   return (
     <Fragment>
       <Box mx="xxs" mt="sm">
@@ -63,6 +64,7 @@ export const CashbackInStoreView = (
               height={50}
               bg='preto'
               width='100%'
+              disabled={!termsIsAccepted}
             >
               <Typography
                 color='white'
@@ -71,6 +73,12 @@ export const CashbackInStoreView = (
               </Typography>
             </Button>
           </Box>
+
+          <ModalTermsAndConditionsCashback
+            isVisible={modalVisible}
+            setIsVisible={toggleModal}
+            setTermAndConditions={acceptTermsAndConditions}
+          />
 
           <Box
             borderRadius={4}
@@ -86,14 +94,14 @@ export const CashbackInStoreView = (
             <Box>
               <Checkbox
                 marginLeft={13}
-                checked={isCheckedCashback}
+                checked={termsIsAccepted}
                 color={'preto'}
-                onCheck={() => { setIsCheckedCashback(!isCheckedCashback) }}
+                onCheck={acceptTermsAndConditions}
               />
             </Box>
             <Box>
               <Button
-              // onPress={() => generateToken()}
+                onPress={toggleModal}
               >
                 <Typography
                   fontFamily="nunitoRegular"
@@ -106,7 +114,6 @@ export const CashbackInStoreView = (
                   >
                     {`termos e condições de uso.`}
                   </Typography>
-
                 </Typography>
               </Button>
             </Box>
