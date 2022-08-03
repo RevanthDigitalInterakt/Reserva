@@ -26,6 +26,7 @@ export type ProfileVars = {
   homePhone: string;
   lastName: string;
   userId: string;
+  gender?: string;
 };
 
 export const profileQuery = gql`
