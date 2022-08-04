@@ -60,9 +60,8 @@ export const RegisterCpfContainer = ({
 
   const handleNavigateToVerifyNumber = () => {
     if (!cpfInvalid) {
-      -navigateToVerifyNumber();
       handleSaveCpf();
-      +navigateToVerifyNumber();
+      navigateToVerifyNumber();
     }
   };
 

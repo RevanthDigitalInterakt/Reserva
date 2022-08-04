@@ -1,44 +1,55 @@
-import React from "react";
-import { ScrollView, SafeAreaView } from "react-native";
-import { Box, Button, Typography, } from "@danilomsou/reserva-ui";
+import React from 'react';
+import { ScrollView, SafeAreaView } from 'react-native';
+import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 
 interface NumberRegisteredSuccessfullyViewProps {
-    navigateToCashbackInStore: () => void;
+  navigateToCashbackInStore: () => void;
 }
 
-export const NumberRegisteredSuccessfullyView = (
-    {
-        navigateToCashbackInStore
-    }: NumberRegisteredSuccessfullyViewProps
-) => {
+export const NumberRegisteredSuccessfullyView = ({
+  navigateToCashbackInStore,
+}: NumberRegisteredSuccessfullyViewProps) => {
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        <Box mx="xxs" mt="xxs">
+          <Box mb="nano">
+            <Typography
+              style={{ lineHeight: 28 }}
+              fontFamily="reservaSerifMedium"
+              fontSize={28}
+            >
+              Obrigado!
+            </Typography>
+          </Box>
 
-    return (
-        <SafeAreaView>
-            <ScrollView>
-                <Box mx="xxs" mt='xxs'>
-                    <Box mb="nano">
-                        <Typography variant="tituloSessoes">
-                            Obrigado!
-                        </Typography>
-                    </Box>
+          <Box mb="xxs" mr={22}>
+            <Typography
+              fontFamily="nunitoRegular"
+              fontSize={14}
+              style={{ lineHeight: 19 }}
+            >
+              Seu número foi confirmado com sucesso. Aproveite o benefício!
+            </Typography>
+          </Box>
 
-                    <Box mb="xxs" mr={22}>
-                        <Typography fontFamily="nunitoRegular" fontSize={14}>
-                            Seu número foi confirmado com sucesso.
-                            Aproveite o benefício!
-                        </Typography>
-                    </Box>
-
-                    <Button
-                        onPress={navigateToCashbackInStore}
-                        title="CONTINUAR"
-                        height={50}
-                        inline
-                        color='white'
-                        bg='verdeSucesso'
-                    />
-                </Box>
-            </ScrollView>
-        </SafeAreaView >
-    );
-}
+          <Button
+            onPress={navigateToCashbackInStore}
+            height={50}
+            inline
+            bg="verdeSucesso"
+          >
+            <Typography
+              color="white"
+              fontFamily="nunitoSemiBold"
+              fontSize={13}
+              style={{ lineHeight: 24, letterSpacing: 1.6 }}
+            >
+              CONTINUAR
+            </Typography>
+          </Button>
+        </Box>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};

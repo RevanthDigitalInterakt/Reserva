@@ -63,7 +63,11 @@ export const RegisterPhoneNumberView = ({
                 {isChangeNumber ? (
                   <Box>
                     <Box mb="nano">
-                      <Typography variant="tituloSessoes">
+                      <Typography
+                        style={{ lineHeight: 25 }}
+                        fontFamily="reservaSerifMedium"
+                        fontSize={28}
+                      >
                         Atualizar telefone
                       </Typography>
                     </Box>
@@ -78,7 +82,11 @@ export const RegisterPhoneNumberView = ({
                 ) : (
                   <Box>
                     <Box mb="nano">
-                      <Typography variant="tituloSessoes">
+                      <Typography
+                        style={{ lineHeight: 28 }}
+                        fontFamily="reservaSerifMedium"
+                        fontSize={28}
+                      >
                         Cashback em Lojas
                       </Typography>
                     </Box>
@@ -123,25 +131,41 @@ export const RegisterPhoneNumberView = ({
                 <Box mb="xs" mt={16}>
                   <Button
                     onPress={registerPhoneNumber}
-                    title="CADASTRAR"
                     variant="primarioEstreito"
                     inline
                     disabled={phoneInvalid}
-                  />
+                  >
+                    <Typography
+                      color="white"
+                      fontFamily="nunitoSemiBold"
+                      fontSize={13}
+                      style={{ lineHeight: 24, letterSpacing: 1.6 }}
+                    >
+                      CADASTRAR
+                    </Typography>
+                  </Button>
                 </Box>
 
                 {openConfirmCodeSection && (
                   <Box>
                     {!isChangeNumber && (
                       <Box mb="nano">
-                        <Typography variant="tituloSessoes">
+                        <Typography
+                          style={{ lineHeight: 25 }}
+                          fontFamily="reservaSerifMedium"
+                          fontSize={28}
+                        >
                           Confirme seu código
                         </Typography>
                       </Box>
                     )}
 
                     <Box mb="nano">
-                      <Typography fontFamily="nunitoRegular" fontSize={14}>
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={14}
+                        style={{ lineHeight: 18 }}
+                      >
                         Digite abaixo o código que acabamos de enviar para o
                         número informado:
                       </Typography>
@@ -154,29 +178,43 @@ export const RegisterPhoneNumberView = ({
                     <Box mt={20}>
                       <Button
                         onPress={confirmCodeSection}
-                        title="CONFIRMAR"
                         height={50}
                         inline
-                        color="white"
                         // disabled={valueCode?.length < 6}
                         bg="verdeSucesso"
-                      />
+                      >
+                        <Typography
+                          color="white"
+                          fontFamily="nunitoSemiBold"
+                          fontSize={13}
+                          style={{ lineHeight: 24, letterSpacing: 1.6 }}
+                        >
+                          CONFIRMAR
+                        </Typography>
+                      </Button>
 
                       <Box mt={19} alignSelf="center">
                         {timerCode === '00:00' ? (
                           <Button onPress={resendNewCode}>
                             <Typography
-                              style={{ textDecorationLine: 'underline' }}
-                              letterSpacing={1.6}
+                              style={{
+                                textDecorationLine: 'underline',
+                                lineHeight: 24,
+                                letterSpacing: 1.6,
+                              }}
                               fontFamily="nunitoSemiBold"
                               fontSize={13}
+                              color="preto"
                             >
                               REENVIAR NOVO CÓDIGO
                             </Typography>
                           </Button>
                         ) : (
                           <Typography
-                            letterSpacing={1.6}
+                            style={{
+                              lineHeight: 24,
+                              letterSpacing: 1.6,
+                            }}
                             fontFamily="nunitoSemiBold"
                             fontSize={13}
                             opacity={0.5}
@@ -192,13 +230,21 @@ export const RegisterPhoneNumberView = ({
             ) : (
               <>
                 <Box mb="nano">
-                  <Typography variant="tituloSessoes">
+                  <Typography
+                    style={{ lineHeight: 25 }}
+                    fontFamily="reservaSerifMedium"
+                    fontSize={28}
+                  >
                     Confirmar telefone
                   </Typography>
                 </Box>
 
                 <Box mb={19}>
-                  <Typography fontFamily="nunitoRegular" fontSize={14}>
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize={14}
+                    style={{ lineHeight: 18 }}
+                  >
                     Digite abaixo o código que acabamos de enviar para seu
                     telefone:
                   </Typography>
@@ -213,7 +259,7 @@ export const RegisterPhoneNumberView = ({
                     >
                       {profile?.homePhone
                         ?.slice(3)
-                        .replace(/(\d{2})(\d{5})(\d{4})/, '($1)*****-$3')}
+                        .replace(/(\d{2})(\d{5})(\d{4})/, '($1) *****-$3')}
                     </Typography>
                   </Box>
                 </Box>
@@ -225,13 +271,20 @@ export const RegisterPhoneNumberView = ({
                 <Box mt={20}>
                   <Button
                     onPress={confirmCodeSection}
-                    title="CONFIRMAR"
                     height={50}
                     inline
-                    color="white"
                     // disabled={valueCode?.length < 6}
                     bg="verdeSucesso"
-                  />
+                  >
+                    <Typography
+                      color="white"
+                      fontFamily="nunitoSemiBold"
+                      fontSize={13}
+                      style={{ lineHeight: 24, letterSpacing: 1.6 }}
+                    >
+                      CONFIRMAR
+                    </Typography>
+                  </Button>
 
                   <Box mt={19} alignSelf="center">
                     {timerCode === '00:00' ? (
