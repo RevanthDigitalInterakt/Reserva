@@ -1,10 +1,15 @@
-import React, { Fragment, useState } from "react";
-import { ImageBackground } from "react-native";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Image,
+  Typography,
+} from '@danilomsou/reserva-ui';
+import React, { Fragment } from 'react';
+import { ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { Box, Button, Checkbox, Image, Typography } from "@danilomsou/reserva-ui";
 import { images } from '../../../../assets';
-import { ModalTermsAndConditionsCashback } from "./components/ModalTermsAndConditionsCashback";
-
+import { ModalTermsAndConditionsCashback } from './components/ModalTermsAndConditionsCashback';
 
 export interface CashbackInStoreViewProps {
   token?: string;
@@ -15,22 +20,23 @@ export interface CashbackInStoreViewProps {
   acceptTermsAndConditions: () => void;
 }
 
-export const CashbackInStoreView = (
-  {
-    token,
-    generateToken,
-    toggleModal,
-    modalVisible,
-    termsIsAccepted,
-    acceptTermsAndConditions
-  }: CashbackInStoreViewProps
-) => {
-
+export const CashbackInStoreView = ({
+  token,
+  generateToken,
+  toggleModal,
+  modalVisible,
+  termsIsAccepted,
+  acceptTermsAndConditions,
+}: CashbackInStoreViewProps) => {
   return (
     <Fragment>
       <Box mx="xxs" mt="sm">
         <Box mb="nano">
-          <Typography variant="tituloSessoes">
+          <Typography
+            style={{ lineHeight: 28 }}
+            fontFamily="reservaSerifMedium"
+            fontSize={28}
+          >
             Cashback em Lojas
           </Typography>
         </Box>
@@ -45,7 +51,7 @@ export const CashbackInStoreView = (
             style={{ width: 230, height: 230, justifyContent: 'center' }}
             resizeMode="contain"
           >
-            <Box alignItems="center" justifyContent="center" >
+            <Box alignItems="center" justifyContent="center">
               {token ? (
                 <QRCode
                   value={token}
@@ -58,19 +64,15 @@ export const CashbackInStoreView = (
               )}
             </Box>
           </ImageBackground>
-          <Box mt="xl" mb="xxs" width='100%'>
+          <Box mt="xl" mb="xxs" width="100%">
             <Button
               onPress={() => generateToken()}
               height={50}
-              bg='preto'
-              width='100%'
+              bg="preto"
+              width="100%"
               disabled={!termsIsAccepted}
             >
-              <Typography
-                color='white'
-              >
-                GERAR QR CODE
-              </Typography>
+              <Typography color="white">GERAR QR CODE</Typography>
             </Button>
           </Box>
 
@@ -82,15 +84,15 @@ export const CashbackInStoreView = (
 
           <Box
             borderRadius={4}
-            bg='#F9F8F6'
+            bg="#F9F8F6"
             borderWidth={1}
-            borderColor='#C7C3B7'
-            flexDirection='row'
-            width='100%'
-            alignItems='center'
+            borderColor="#C7C3B7"
+            flexDirection="row"
+            width="100%"
+            alignItems="center"
             mb="nano"
-            height={42}>
-
+            height={42}
+          >
             <Box>
               <Checkbox
                 marginLeft={13}
@@ -100,27 +102,22 @@ export const CashbackInStoreView = (
               />
             </Box>
             <Box>
-              <Button
-                onPress={toggleModal}
-              >
+              <Button onPress={toggleModal}>
                 <Typography
                   fontFamily="nunitoRegular"
                   fontSize={14}
-                  color='preto'
+                  color="preto"
                 >
                   {`Li e aceito os `}
-                  <Typography
-                    style={{ textDecorationLine: 'underline' }}
-                  >
+                  <Typography style={{ textDecorationLine: 'underline' }}>
                     {`termos e condições de uso.`}
                   </Typography>
                 </Typography>
               </Button>
             </Box>
           </Box>
-
         </Box>
       </Box>
     </Fragment>
   );
-}
+};

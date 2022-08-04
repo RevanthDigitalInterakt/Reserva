@@ -109,10 +109,11 @@ export const RegisterPhoneNumberContainer = ({
     setTimerCode(60);
     setStartChronometer(true);
     setOpenConfirmCodeSection(true);
+    handleSavePhone();
   };
 
   const handleSavePhone = async () => {
-    if (!phoneInvalid) {
+    if (!phoneInvalid && dataProfile !== null) {
       const user = {
         firstName: dataProfile?.profile?.firstName,
         lastName: dataProfile?.profile?.lastName,
@@ -135,7 +136,7 @@ export const RegisterPhoneNumberContainer = ({
       /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
     if (phone.length === 15) {
       phone.match(validatePhone)
-        ? (setPhoneInvalid(false), handleSavePhone())
+        ? setPhoneInvalid(false)
         : setPhoneInvalid(true);
     } else if (phone.length < 15) {
       setPhoneInvalid(false);

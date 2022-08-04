@@ -40,13 +40,21 @@ export const RegisterCpfView = ({
           <Box mx="xxs" mt="xxs">
             <Box>
               <Box mb="nano" mr="22%">
-                <Typography lineHeight={30} variant="tituloSessoes">
+                <Typography
+                  style={{ lineHeight: 28 }}
+                  fontFamily="reservaSerifMedium"
+                  fontSize={28}
+                >
                   Insira seu CPF e ative a sua carteira
                 </Typography>
               </Box>
 
               <Box mb="xxxs" mr={22}>
-                <Typography fontFamily="nunitoRegular" fontSize={14}>
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize={14}
+                  style={{ lineHeight: 19 }}
+                >
                   O cashback e sua carteira Reserva precisam ficar atrelada a um
                   número de CPF para você ter direito a todos os benefícios.
                 </Typography>
@@ -76,11 +84,19 @@ export const RegisterCpfView = ({
             <Box mb="xs">
               <Button
                 onPress={navigateToVerifyNumber}
-                title="CADASTRAR"
                 variant="primarioEstreito"
                 inline
                 disabled={cpfInvalid}
-              />
+              >
+                <Typography
+                  color="white"
+                  fontFamily="nunitoSemiBold"
+                  fontSize={13}
+                  style={{ lineHeight: 24, letterSpacing: 1.6 }}
+                >
+                  CADASTRAR
+                </Typography>
+              </Button>
             </Box>
           </Box>
         </KeyboardAvoidingView>

@@ -1,40 +1,53 @@
-import React from "react";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
-import { BaseScreen } from "../../../../common/components/BaseScreen";
-import { MyCreditsParamList, MyCreditsScreensRoutes } from "../../navigation/MyCreditsNavigator";
+import { BaseScreen } from '../../../../common/components/BaseScreen';
+import {
+  MyCreditsParamList,
+  MyCreditsScreensRoutes,
+} from '../../navigation/MyCreditsNavigator';
 
-import { CashbackInStoreContainer } from "./CashbackInStore.container";
+import { CashbackInStoreContainer } from './CashbackInStore.container';
+import { BackHandler } from 'react-native';
 
 type CashbackInStoreScreenProps = StackScreenProps<
   MyCreditsParamList,
   MyCreditsScreensRoutes.CASHBACK_IN_STORE
 >;
 
-export const CashbackInStoreScreen = (
-  {
-    route,
-    navigation: navigate
-  }: CashbackInStoreScreenProps
-) => {
+export const CashbackInStoreScreen = ({
+  route,
+  navigation: navigate,
+}: CashbackInStoreScreenProps) => {
   const navigation = useNavigation();
 
   const navigateBack = () => {
-    navigation.goBack();
-  }
+    navigation.dispatch(StackActions.popToTop());
+
+    navigation.navigate('Home');
+  };
 
   const navigateToError = () => {
     navigation.navigate(MyCreditsScreensRoutes.ERROR);
-  }
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.dispatch(StackActions.popToTop());
+
+      navigation.navigate('Home');
+      return true;
+    });
+  }, []);
 
   return (
-    <BaseScreen testID='CashbackInStoreScreen'>
+    <BaseScreen testID="CashbackInStoreScreen">
       <CashbackInStoreContainer
         costumerDocument={route.params.costumerDocument}
         navigateBack={navigateBack}
         navigateToError={navigateToError}
       />
     </BaseScreen>
-  )
-}
+  );
+};

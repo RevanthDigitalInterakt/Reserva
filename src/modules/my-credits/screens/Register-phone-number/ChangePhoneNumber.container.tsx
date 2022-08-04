@@ -25,7 +25,7 @@ export const ChangePhoneNumberContainer = ({
   const [phone, setPhone] = useState('');
   const [loadingToken, setLoadingToken] = React.useState(false);
 
-  const handlenNavigateToRegisterPhoneNumber = () => {
+  const handleNavigateToRegisterPhoneNumber = () => {
     navigateToRegisterPhoneNumber();
   };
 
@@ -60,7 +60,7 @@ export const ChangePhoneNumberContainer = ({
       />
       <ChangePhoneNumberView
         profile={profile}
-        navigateToRegisterPhoneNumber={handlenNavigateToRegisterPhoneNumber}
+        navigateToRegisterPhoneNumber={handleNavigateToRegisterPhoneNumber}
         navigateToConfirmPhone={handleNavigateToConfirmPhone}
       />
     </Fragment>
