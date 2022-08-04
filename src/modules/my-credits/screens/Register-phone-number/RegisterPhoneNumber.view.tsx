@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import {
   ScrollView,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import {
   Box,
@@ -50,271 +46,267 @@ export const RegisterPhoneNumberView = ({
   phoneInvalid,
 }: RegisterPhoneNumberViewProps) => {
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <KeyboardAvoidingView
-          enabled
-          keyboardVerticalOffset={15}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        >
-          <Box mx="xxs" mt="xxs">
-            {!confirmPhone ? (
-              <>
-                {isChangeNumber ? (
-                  <Box>
+    <Box flex={1}>
+      <ScrollView
+        style={{ height: '100%' }}
+      >
+        <Box mx="xxs" mt="xxs" mb={30}>
+          {!confirmPhone ? (
+            <>
+              {isChangeNumber ? (
+                <Box>
+                  <Box mb="nano">
+                    <Typography
+                      style={{ lineHeight: 25 }}
+                      fontFamily="reservaSerifMedium"
+                      fontSize={28}
+                    >
+                      Atualizar telefone
+                    </Typography>
+                  </Box>
+
+                  <Box mb="xxs">
+                    <Typography fontFamily="nunitoRegular" fontSize={14}>
+                      Digite seu número novo abaixo e continue para gerar seu
+                      QR Code.
+                    </Typography>
+                  </Box>
+                </Box>
+              ) : (
+                <Box>
+                  <Box mb="nano">
+                    <Typography
+                      style={{ lineHeight: 28 }}
+                      fontFamily="reservaSerifMedium"
+                      fontSize={28}
+                    >
+                      Cashback em Lojas
+                    </Typography>
+                  </Box>
+
+                  <Box mb={13}>
+                    <Typography fontFamily="nunitoRegular" fontSize={14}>
+                      Para utilizar o cashback em loja precisamos que mantenha
+                      o número de telefone atualizado.
+                    </Typography>
+                  </Box>
+
+                  <Box mb={13}>
+                    <Typography fontFamily="nunitoRegular" fontSize={14}>
+                      Digite seu número abaixo e continue para gerar seu QR
+                      Code.
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
+
+              <Box justifyContent="center">
+                <TextField
+                  maskType="cel-phone"
+                  value={valuePhone}
+                  onChangeText={onChangeText}
+                  keyboardType="number-pad"
+                  placeholder="(00) 00000-0000"
+                  returnKeyType="done"
+                  textContentType="oneTimeCode"
+                  style={{
+                    fontFamily: theme.fonts.nunitoItalic,
+                    backgroundColor: '#f0f0f0',
+                    height: 51,
+                    width: '100%',
+                    textAlign: 'center',
+                    fontSize: 15,
+                  }}
+                  error={'Verifique o número de telefone digitado.'}
+                  touched={phoneInvalid}
+                />
+              </Box>
+              <Box mb="xs" mt={16}>
+                <Button
+                  onPress={registerPhoneNumber}
+                  variant="primarioEstreito"
+                  inline
+                  disabled={phoneInvalid}
+                >
+                  <Typography
+                    color="white"
+                    fontFamily="nunitoSemiBold"
+                    fontSize={13}
+                    style={{ lineHeight: 24, letterSpacing: 1.6 }}
+                  >
+                    CADASTRAR
+                  </Typography>
+                </Button>
+              </Box>
+
+              {openConfirmCodeSection && (
+                <Box>
+                  {!isChangeNumber && (
                     <Box mb="nano">
                       <Typography
                         style={{ lineHeight: 25 }}
                         fontFamily="reservaSerifMedium"
                         fontSize={28}
                       >
-                        Atualizar telefone
+                        Confirme seu código
                       </Typography>
                     </Box>
+                  )}
 
-                    <Box mb="xxs">
-                      <Typography fontFamily="nunitoRegular" fontSize={14}>
-                        Digite seu número novo abaixo e continue para gerar seu
-                        QR Code.
-                      </Typography>
-                    </Box>
-                  </Box>
-                ) : (
-                  <Box>
-                    <Box mb="nano">
-                      <Typography
-                        style={{ lineHeight: 28 }}
-                        fontFamily="reservaSerifMedium"
-                        fontSize={28}
-                      >
-                        Cashback em Lojas
-                      </Typography>
-                    </Box>
-
-                    <Box mb={13}>
-                      <Typography fontFamily="nunitoRegular" fontSize={14}>
-                        Para utilizar o cashback em loja precisamos que mantenha
-                        o número de telefone atualizado.
-                      </Typography>
-                    </Box>
-
-                    <Box mb={13}>
-                      <Typography fontFamily="nunitoRegular" fontSize={14}>
-                        Digite seu número abaixo e continue para gerar seu QR
-                        Code.
-                      </Typography>
-                    </Box>
-                  </Box>
-                )}
-
-                <Box justifyContent="center">
-                  <TextField
-                    maskType="cel-phone"
-                    value={valuePhone}
-                    onChangeText={onChangeText}
-                    keyboardType="number-pad"
-                    placeholder="(00) 00000-0000"
-                    returnKeyType="done"
-                    textContentType="oneTimeCode"
-                    style={{
-                      fontFamily: theme.fonts.nunitoItalic,
-                      backgroundColor: '#f0f0f0',
-                      height: 51,
-                      width: '100%',
-                      textAlign: 'center',
-                      fontSize: 15,
-                    }}
-                    error={'Verifique o número de telefone digitado.'}
-                    touched={phoneInvalid}
-                  />
-                </Box>
-                <Box mb="xs" mt={16}>
-                  <Button
-                    onPress={registerPhoneNumber}
-                    variant="primarioEstreito"
-                    inline
-                    disabled={phoneInvalid}
-                  >
+                  <Box mb="nano">
                     <Typography
-                      color="white"
-                      fontFamily="nunitoSemiBold"
-                      fontSize={13}
-                      style={{ lineHeight: 24, letterSpacing: 1.6 }}
+                      fontFamily="nunitoRegular"
+                      fontSize={14}
+                      style={{ lineHeight: 18 }}
                     >
-                      CADASTRAR
+                      Digite abaixo o código que acabamos de enviar para o
+                      número informado:
                     </Typography>
-                  </Button>
-                </Box>
-
-                {openConfirmCodeSection && (
-                  <Box>
-                    {!isChangeNumber && (
-                      <Box mb="nano">
-                        <Typography
-                          style={{ lineHeight: 25 }}
-                          fontFamily="reservaSerifMedium"
-                          fontSize={28}
-                        >
-                          Confirme seu código
-                        </Typography>
-                      </Box>
-                    )}
-
-                    <Box mb="nano">
+                  </Box>
+                  <CodeInput
+                    code={valueCode ? valueCode : ''}
+                    onChageCode={onChageCode}
+                    showError={showCodeError}
+                  />
+                  <Box mt={20}>
+                    <Button
+                      onPress={confirmCodeSection}
+                      height={50}
+                      inline
+                      // disabled={valueCode?.length < 6}
+                      bg="verdeSucesso"
+                    >
                       <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={14}
-                        style={{ lineHeight: 18 }}
+                        color="white"
+                        fontFamily="nunitoSemiBold"
+                        fontSize={13}
+                        style={{ lineHeight: 24, letterSpacing: 1.6 }}
                       >
-                        Digite abaixo o código que acabamos de enviar para o
-                        número informado:
+                        CONFIRMAR
                       </Typography>
-                    </Box>
-                    <CodeInput
-                      code={valueCode ? valueCode : ''}
-                      onChageCode={onChageCode}
-                      showError={showCodeError}
-                    />
-                    <Box mt={20}>
-                      <Button
-                        onPress={confirmCodeSection}
-                        height={50}
-                        inline
-                        // disabled={valueCode?.length < 6}
-                        bg="verdeSucesso"
-                      >
-                        <Typography
-                          color="white"
-                          fontFamily="nunitoSemiBold"
-                          fontSize={13}
-                          style={{ lineHeight: 24, letterSpacing: 1.6 }}
-                        >
-                          CONFIRMAR
-                        </Typography>
-                      </Button>
+                    </Button>
 
-                      <Box mt={19} alignSelf="center">
-                        {timerCode === '00:00' ? (
-                          <Button onPress={resendNewCode}>
-                            <Typography
-                              style={{
-                                textDecorationLine: 'underline',
-                                lineHeight: 24,
-                                letterSpacing: 1.6,
-                              }}
-                              fontFamily="nunitoSemiBold"
-                              fontSize={13}
-                              color="preto"
-                            >
-                              REENVIAR NOVO CÓDIGO
-                            </Typography>
-                          </Button>
-                        ) : (
+                    <Box mt={19} alignSelf="center">
+                      {timerCode === '00:00' ? (
+                        <Button onPress={resendNewCode}>
                           <Typography
                             style={{
+                              textDecorationLine: 'underline',
                               lineHeight: 24,
                               letterSpacing: 1.6,
                             }}
                             fontFamily="nunitoSemiBold"
                             fontSize={13}
-                            opacity={0.5}
+                            color="preto"
                           >
-                            REENVIAR CÓDIGO EM {timerCode}s
+                            REENVIAR NOVO CÓDIGO
                           </Typography>
-                        )}
-                      </Box>
-                    </Box>
-                  </Box>
-                )}
-              </>
-            ) : (
-              <>
-                <Box mb="nano">
-                  <Typography
-                    style={{ lineHeight: 25 }}
-                    fontFamily="reservaSerifMedium"
-                    fontSize={28}
-                  >
-                    Confirmar telefone
-                  </Typography>
-                </Box>
-
-                <Box mb={19}>
-                  <Typography
-                    fontFamily="nunitoRegular"
-                    fontSize={14}
-                    style={{ lineHeight: 18 }}
-                  >
-                    Digite abaixo o código que acabamos de enviar para seu
-                    telefone:
-                  </Typography>
-                </Box>
-                <Box justifyContent="center" mb="xxs">
-                  <Box alignItems="center">
-                    <Typography
-                      testID="phoneNumber"
-                      fontFamily="reservaSerifBold"
-                      fontSize={22}
-                      color="preto"
-                    >
-                      {profile?.homePhone
-                        ?.slice(3)
-                        .replace(/(\d{2})(\d{5})(\d{4})/, '($1) *****-$3')}
-                    </Typography>
-                  </Box>
-                </Box>
-                <CodeInput
-                  code={valueCode ? valueCode : ''}
-                  onChageCode={onChageCode}
-                  showError={showCodeError}
-                />
-                <Box mt={20}>
-                  <Button
-                    onPress={confirmCodeSection}
-                    height={50}
-                    inline
-                    // disabled={valueCode?.length < 6}
-                    bg="verdeSucesso"
-                  >
-                    <Typography
-                      color="white"
-                      fontFamily="nunitoSemiBold"
-                      fontSize={13}
-                      style={{ lineHeight: 24, letterSpacing: 1.6 }}
-                    >
-                      CONFIRMAR
-                    </Typography>
-                  </Button>
-
-                  <Box mt={19} alignSelf="center">
-                    {timerCode === '00:00' ? (
-                      <Button onPress={resendNewCode}>
+                        </Button>
+                      ) : (
                         <Typography
-                          style={{ textDecorationLine: 'underline' }}
-                          letterSpacing={1.6}
+                          style={{
+                            lineHeight: 24,
+                            letterSpacing: 1.6,
+                          }}
                           fontFamily="nunitoSemiBold"
                           fontSize={13}
+                          opacity={0.5}
                         >
-                          REENVIAR NOVO CÓDIGO
+                          REENVIAR CÓDIGO EM {timerCode}s
                         </Typography>
-                      </Button>
-                    ) : (
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+            </>
+          ) : (
+            <>
+              <Box mb="nano">
+                <Typography
+                  style={{ lineHeight: 25 }}
+                  fontFamily="reservaSerifMedium"
+                  fontSize={28}
+                >
+                  Confirmar telefone
+                </Typography>
+              </Box>
+
+              <Box mb={19}>
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize={14}
+                  style={{ lineHeight: 18 }}
+                >
+                  Digite abaixo o código que acabamos de enviar para seu
+                  telefone:
+                </Typography>
+              </Box>
+              <Box justifyContent="center" mb="xxs">
+                <Box alignItems="center">
+                  <Typography
+                    testID="phoneNumber"
+                    fontFamily="reservaSerifBold"
+                    fontSize={22}
+                    color="preto"
+                  >
+                    {profile?.homePhone
+                      ?.slice(3)
+                      .replace(/(\d{2})(\d{5})(\d{4})/, '($1) *****-$3')}
+                  </Typography>
+                </Box>
+              </Box>
+              <CodeInput
+                code={valueCode ? valueCode : ''}
+                onChageCode={onChageCode}
+                showError={showCodeError}
+              />
+              <Box mt={20}>
+                <Button
+                  onPress={confirmCodeSection}
+                  height={50}
+                  inline
+                  // disabled={valueCode?.length < 6}
+                  bg="verdeSucesso"
+                >
+                  <Typography
+                    color="white"
+                    fontFamily="nunitoSemiBold"
+                    fontSize={13}
+                    style={{ lineHeight: 24, letterSpacing: 1.6 }}
+                  >
+                    CONFIRMAR
+                  </Typography>
+                </Button>
+
+                <Box mt={19} alignSelf="center">
+                  {timerCode === '00:00' ? (
+                    <Button onPress={resendNewCode}>
                       <Typography
+                        style={{ textDecorationLine: 'underline' }}
                         letterSpacing={1.6}
                         fontFamily="nunitoSemiBold"
                         fontSize={13}
-                        opacity={0.5}
                       >
-                        REENVIAR CÓDIGO EM {timerCode}s
+                        REENVIAR NOVO CÓDIGO
                       </Typography>
-                    )}
-                  </Box>
+                    </Button>
+                  ) : (
+                    <Typography
+                      letterSpacing={1.6}
+                      fontFamily="nunitoSemiBold"
+                      fontSize={13}
+                      opacity={0.5}
+                    >
+                      REENVIAR CÓDIGO EM {timerCode}s
+                    </Typography>
+                  )}
                 </Box>
-              </>
-            )}
-          </Box>
-        </KeyboardAvoidingView>
+              </Box>
+            </>
+          )}
+        </Box>
       </ScrollView>
-    </SafeAreaView>
+    </Box>
   );
 };

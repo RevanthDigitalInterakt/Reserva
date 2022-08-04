@@ -37,7 +37,7 @@ export const RegisterPhoneNumberContainer = ({
   const [openConfirmCodeSection, setOpenConfirmCodeSection] = useState(false);
   const [loadingToken, setLoadingToken] = useState(false);
   const [showCodeError, setShowCodeError] = useState(false);
-  const [timerCode, setTimerCode] = useState(60);
+  const [timerCode, setTimerCode] = useState(120);
   const [startChronometer, setStartChronometer] = useState(false);
   const [phoneInvalid, setPhoneInvalid] = useState<boolean>(false);
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -84,8 +84,8 @@ export const RegisterPhoneNumberContainer = ({
 
   const handleRegisterPhoneNumber = async () => {
     const date = new Date();
-    // add 5 minute to current date
-    date.setMinutes(date.getMinutes() + 1);
+    // add 2 minute to current date
+    date.setMinutes(date.getMinutes() + 2);
     const tomorrow = date.toISOString();
     const newPhone = confirmPhone
       ? profile?.homePhone.split('+')[1]
@@ -106,7 +106,7 @@ export const RegisterPhoneNumberContainer = ({
         setOpenConfirmCodeSection(true);
       }
     }
-    setTimerCode(60);
+    setTimerCode(120);
     setStartChronometer(true);
     setOpenConfirmCodeSection(true);
     handleSavePhone();
