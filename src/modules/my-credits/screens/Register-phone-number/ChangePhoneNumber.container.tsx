@@ -32,7 +32,7 @@ export const ChangePhoneNumberContainer = ({
   const handleNavigateToConfirmPhone = async () => {
     const date = new Date();
     // add 5 minute to current date
-    date.setMinutes(date.getMinutes() + 1);
+    date.setMinutes(date.getMinutes() + 2);
     const tomorrow = date.toISOString();
 
     if (profile.document) {

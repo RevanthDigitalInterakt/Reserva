@@ -84,10 +84,6 @@ export const RegisterCpfContainer = ({
     }
   };
 
-  useEffect(() => {
-    console.log('cpff::>', cpf);
-  }, [cpf]);
-
   return (
     <Fragment>
       <TopBarBackButton
