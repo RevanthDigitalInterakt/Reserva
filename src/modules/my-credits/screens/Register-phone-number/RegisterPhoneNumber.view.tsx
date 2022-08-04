@@ -57,7 +57,6 @@ export const RegisterPhoneNumberView = ({
                 <Box>
                   <Box mb="nano">
                     <Typography
-                      style={{ lineHeight: 25 }}
                       fontFamily="reservaSerifMedium"
                       fontSize={28}
                     >
@@ -76,7 +75,7 @@ export const RegisterPhoneNumberView = ({
                 <Box>
                   <Box mb="nano">
                     <Typography
-                      style={{ lineHeight: 28 }}
+                      // style={{ lineHeight: 28 }}
                       fontFamily="reservaSerifMedium"
                       fontSize={28}
                     >
@@ -144,7 +143,7 @@ export const RegisterPhoneNumberView = ({
                   {!isChangeNumber && (
                     <Box mb="nano">
                       <Typography
-                        style={{ lineHeight: 25 }}
+                        // style={{ lineHeight: 25 }}
                         fontFamily="reservaSerifMedium"
                         fontSize={28}
                       >
@@ -224,7 +223,7 @@ export const RegisterPhoneNumberView = ({
             <>
               <Box mb="nano">
                 <Typography
-                  style={{ lineHeight: 25 }}
+                  // style={{ lineHeight: 25 }}
                   fontFamily="reservaSerifMedium"
                   fontSize={28}
                 >

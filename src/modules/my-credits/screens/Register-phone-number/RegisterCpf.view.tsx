@@ -41,7 +41,7 @@ export const RegisterCpfView = ({
             <Box>
               <Box mb="nano" mr="22%">
                 <Typography
-                  style={{ lineHeight: 28 }}
+                  style={{ lineHeight: 30 }}
                   fontFamily="reservaSerifMedium"
                   fontSize={28}
                 >

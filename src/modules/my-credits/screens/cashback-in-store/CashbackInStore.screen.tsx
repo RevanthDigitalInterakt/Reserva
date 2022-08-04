@@ -39,6 +39,11 @@ export const CashbackInStoreScreen = ({
       navigation.navigate('Home');
       return true;
     });
+
+    navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault()
+      //clear setInterval here and go back
+    })
   }, []);
 
   return (

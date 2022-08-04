@@ -23,7 +23,7 @@ export const ChangePhoneNumberView = ({
                     <Box>
                         <Box mb="nano">
                             <Typography
-                                style={{ lineHeight: 28 }}
+                                // style={{ lineHeight: 28 }}
                                 fontFamily="reservaSerifMedium"
                                 fontSize={28}
                             >
