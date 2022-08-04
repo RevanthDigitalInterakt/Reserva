@@ -60,28 +60,25 @@ export const RegisterCpfContainer = ({
 
   const handleNavigateToVerifyNumber = () => {
     if (!cpfInvalid) {
-      handleSaveCpf();
-      navigateToVerifyNumber();
+      handleSaveCpf().then(() => navigateToVerifyNumber());
     }
   };
 
   const handleSaveCpf = async () => {
-    if (!cpfInvalid) {
-      const user = {
-        firstName: profile?.firstName,
-        lastName: profile?.lastName,
-        email: profile?.email,
-        document: cpf.replace(/[^\d]+/g, ''),
-        birthDate: profile?.birthDate,
-        homePhone: profile?.homePhone,
-        gender: profile?.gender,
-      };
-      await updateUserData({
-        variables: {
-          fields: user,
-        },
-      });
-    }
+    const user = {
+      firstName: profile?.firstName,
+      lastName: profile?.lastName,
+      email: profile?.email,
+      document: cpf.replace(/[^\d]+/g, ''),
+      birthDate: profile?.birthDate,
+      homePhone: profile?.homePhone,
+      gender: profile?.gender,
+    };
+    await updateUserData({
+      variables: {
+        fields: user,
+      },
+    });
   };
 
   return (

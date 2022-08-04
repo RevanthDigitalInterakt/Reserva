@@ -1,11 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
-import { ProfileVars } from '../../../../graphql/profile/profileQuery';
+import {
+  profileQuery,
+  ProfileVars,
+} from '../../../../graphql/profile/profileQuery';
 import { ChangePhoneNumberView } from './ChangePhoneNumber.view';
 import {
   CashbackHttpUrl,
   MyCashbackAPI,
 } from '../../../my-cashback/api/MyCashbackAPI';
+import { useLazyQuery } from '@apollo/client';
 
 interface ChangePhoneNumberContainerProps {
   profile: ProfileVars;
@@ -24,6 +28,20 @@ export const ChangePhoneNumberContainer = ({
 }: ChangePhoneNumberContainerProps) => {
   const [phone, setPhone] = useState('');
   const [loadingToken, setLoadingToken] = React.useState(false);
+  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
+  const [{ data: dataProfile, loadingProfile }, setDataProfile] = useState({
+    data: null,
+    loadingProfile: true,
+  });
+
+  useEffect(() => {
+    getProfile().then((response) => {
+      setDataProfile({
+        data: response.data,
+        loadingProfile: false,
+      });
+    });
+  }, []);
 
   const handleNavigateToRegisterPhoneNumber = () => {
     navigateToRegisterPhoneNumber();
@@ -35,10 +53,10 @@ export const ChangePhoneNumberContainer = ({
     date.setMinutes(date.getMinutes() + 2);
     const tomorrow = date.toISOString();
 
-    if (profile.document) {
+    if (dataProfile?.profile?.document) {
       setLoadingToken(true);
       const { data } = await MyCashbackAPI.post(
-        `${CashbackHttpUrl.GetToken}${profile.document}/authenticate`,
+        `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
         {
           type: 'sms',
           expire_date: tomorrow,
