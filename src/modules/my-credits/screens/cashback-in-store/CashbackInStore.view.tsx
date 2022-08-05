@@ -33,7 +33,6 @@ export const CashbackInStoreView = ({
       <Box mx="xxs" mt="sm">
         <Box mb="nano">
           <Typography
-            style={{ lineHeight: 28 }}
             fontFamily="reservaSerifMedium"
             fontSize={28}
           >

@@ -15,7 +15,6 @@ export const NumberRegisteredSuccessfullyView = ({
         <Box mx="xxs" mt="xxs">
           <Box mb="nano">
             <Typography
-              style={{ lineHeight: 28 }}
               fontFamily="reservaSerifMedium"
               fontSize={28}
             >
