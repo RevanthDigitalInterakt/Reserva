@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Reserva</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">_CyCenf4C_4tD8IewIaT1sxJ-ANV8bQI_keCY</string>
+
+    <!-- Responsys configuration -->
+    <string name="uri_identifier">pio-YOUR_API_KEY</string>
+    <string name="app_links_url_host">YOUR_ANDROID_APP_LINKS_DOMAIN</string>
+    <!-- Responsys configuration -->
+
+    <string name="one_link_url_host">usereserva.onelink.me</string>
 </resources>

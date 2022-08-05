@@ -16,6 +16,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.firebase.crashlytics'
 
+
 import com.android.build.OutputFile
 
 /**
@@ -228,6 +229,10 @@ dependencies {
     implementation "com.getbouncer:scan-payment-card-detect:2.0.0084"
     implementation "com.getbouncer:scan-payment-ocr:2.0.0084"
     implementation "com.getbouncer:tensorflow-lite:2.0.0084"
+
+
+    // Responsys dependencies
+    implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
     // If your app supports Android versions before Ice Cream Sandwich (API level 14)
     implementation 'com.facebook.fresco:animated-base-support:1.3.0'
