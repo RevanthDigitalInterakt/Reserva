@@ -922,6 +922,8 @@ PODS:
   - react-native-onesignal (4.3.11):
     - OneSignalXCFramework (= 3.11.2)
     - React (< 1.0.0, >= 0.13.0)
+  - react-native-pushiomanager (6.52.2):
+    - React
   - react-native-rsa-native (2.0.5):
     - React
   - react-native-safe-area-context (3.4.1):
@@ -1064,7 +1066,7 @@ PODS:
     - React-Core
   - RNPermissions (3.4.0):
     - React-Core
-  - RNReanimated (2.9.1):
+  - RNReanimated (2.3.0-beta.3):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -1072,6 +1074,7 @@ PODS:
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
+    - React
     - React-callinvoker
     - React-Core
     - React-Core/DevSupport
@@ -1089,6 +1092,7 @@ PODS:
     - React-RCTNetwork
     - React-RCTSettings
     - React-RCTText
+    - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
   - RNScreens (3.10.2):
@@ -1165,6 +1169,7 @@ DEPENDENCIES:
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
+  - "react-native-pushiomanager (from `../node_modules/@oracle/react-native-pushiomanager`)"
   - react-native-rsa-native (from `../node_modules/react-native-rsa-native`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -1332,6 +1337,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-onesignal:
     :path: "../node_modules/react-native-onesignal"
+  react-native-pushiomanager:
+    :path: "../node_modules/@oracle/react-native-pushiomanager"
   react-native-rsa-native:
     :path: "../node_modules/react-native-rsa-native"
   react-native-safe-area-context:
@@ -1505,6 +1512,7 @@ SPEC CHECKSUMS:
   react-native-maps: 60a75aa547d576fdb91be1f95113665215b59461
   react-native-netinfo: 379ba2af7d2abcec0c062267abe1c9a977c72bf9
   react-native-onesignal: dfc675fafef0bfdda49b09a8e2099903e5e85f15
+  react-native-pushiomanager: b7b142682993d57d19fb6b6d61fba202b05071b0
   react-native-rsa-native: 12132eb627797529fdb1f0d22fd0f8f9678df64a
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
@@ -1543,7 +1551,7 @@ SPEC CHECKSUMS:
   RNFBStorage: bffb285f037e0cb3937bdc2c72992dd7a6a83982
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: eac721f71748c4472d6e876038270b75397d6ee7
-  RNReanimated: ae29a663c40a983e7fa42bff49073d329f0cffb4
+  RNReanimated: c1b0bb200ff39d8499340c32559d9760c9b4a181
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
@@ -1556,4 +1564,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b5663396a152ef2dd88ec1537cf0e9b234bda134
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
