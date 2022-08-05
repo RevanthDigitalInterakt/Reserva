@@ -35,6 +35,7 @@ import {
   apolloClientTesting,
 } from './services/apolloClient';
 import AsyncStorage from '@react-native-community/async-storage';
+import { responsysConfig } from './config/responsys';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -84,14 +85,13 @@ const requestUserPermission = async () => {
   }
 };
 
-
 let onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
-  console.log('onDeepLinkCanceller DLValue::>', res)
+  console.log('onDeepLinkCanceller DLValue::>', res);
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
     const DLValue = res?.data.deep_link_value;
     await Linking.openURL(DLValue);
   }
-})
+});
 
 appsFlyer.initSdk(
   {
@@ -161,13 +161,13 @@ const App = () => {
       onDeepLinkCanceller();
       onDeepLinkCanceller = null;
     }
-
   });
 
   useEffect(() => {
     requestUserPermission();
     logAppOpenAnalytics();
     CodepushConfig();
+    responsysConfig();
     oneSignalConfig();
     setTimeout(() => {
       getMaintenanceValue();
