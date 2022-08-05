@@ -83,33 +83,38 @@ export const RegisterPhoneNumberContainer = ({
   };
 
   const handleRegisterPhoneNumber = async () => {
-    const date = new Date();
-    // add 2 minute to current date
-    date.setMinutes(date.getMinutes() + 2);
-    const tomorrow = date.toISOString();
-    const newPhone = confirmPhone
-      ? profile?.homePhone.split('+')[1]
-      : `55${phone.replace(/[^\d\+]+/g, '')}`;
+    if (!phoneInvalid && phone.length === 15) {
+      const date = new Date();
+      // add 2 minute to current date
+      date.setMinutes(date.getMinutes() + 2);
+      const tomorrow = date.toISOString();
+      const newPhone = confirmPhone
+        ? profile?.homePhone.split('+')[1]
+        : `55${phone.replace(/[^\d\+]+/g, '')}`;
 
-    if (dataProfile?.profile?.document) {
-      setLoadingToken(true);
-      const { data } = await MyCashbackAPI.post(
-        `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
-        {
-          type: 'sms',
-          expire_date: tomorrow,
-          phone: newPhone,
+      if (dataProfile?.profile?.document) {
+        setLoadingToken(true);
+        const { data } = await MyCashbackAPI.post(
+          `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
+          {
+            type: 'sms',
+            expire_date: tomorrow,
+            phone: newPhone,
+          }
+        );
+        if (data) {
+          setLoadingToken(false);
+          setOpenConfirmCodeSection(true);
         }
-      );
-      if (data) {
-        setLoadingToken(false);
-        setOpenConfirmCodeSection(true);
       }
+      setTimerCode(120);
+      setStartChronometer(true);
+      setOpenConfirmCodeSection(true);
+      handleSavePhone();
+    } else {
+      setPhoneInvalid(true);
+      setOpenConfirmCodeSection(false);
     }
-    setTimerCode(120);
-    setStartChronometer(true);
-    setOpenConfirmCodeSection(true);
-    handleSavePhone();
   };
 
   const handleSavePhone = async () => {
@@ -139,7 +144,7 @@ export const RegisterPhoneNumberContainer = ({
         ? setPhoneInvalid(false)
         : setPhoneInvalid(true);
     } else if (phone.length < 15) {
-      setPhoneInvalid(false);
+      setOpenConfirmCodeSection(false);
     }
   }, [phone]);
 
