@@ -24,6 +24,7 @@
     "@apollo/client": "^3.6.2",
     "@danilomsou/reserva-ui": "0.26.0",
     "@monterosa/react-native-parallax-scroll": "^1.8.0",
+    "@oracle/react-native-pushiomanager": "^6.52.2",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/geolocation": "^2.0.2",
