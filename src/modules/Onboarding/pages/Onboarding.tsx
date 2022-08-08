@@ -128,20 +128,16 @@ const Slide = ({
 
         {/* Button */}
 
-        <Box
-          style={{
-            marginTop: itemContentful[currentSlideShow]?.description
-              ? height * 0.72
-              : height * 0.82,
-            position: 'absolute',
-          }}
-          flex={1}
-        >
+        <Box flex={1}>
           {itemContentful[currentSlideShow]?.description ? (
-            <Typography style={[styles.typographyDescription]}>
-              {itemContentful[currentSlideShow]?.description}
-            </Typography>
-          ) : null}
+            <Box flex={1}>
+              <Typography style={[styles.typographyDescription]}>
+                {itemContentful[currentSlideShow]?.description}
+              </Typography>
+            </Box>
+          ) : (
+            <Box flex={1} />
+          )}
 
           <Box>
             <Button
@@ -176,19 +172,23 @@ const Slide = ({
           </Box>
           <Box>
             {currentSlideShow < lengthArray - 1 ? (
-              <TouchableOpacity
-                onPress={goNextSlide}
-                style={[styles.buttonNext]}
-              >
-                <Typography style={[styles.buttonTypographyNext]}>
-                  PULAR
-                </Typography>
-              </TouchableOpacity>
+              <Box>
+                <TouchableOpacity
+                  onPress={goNextSlide}
+                  style={[styles.buttonNext]}
+                >
+                  <Typography style={[styles.buttonTypographyNext]}>
+                    PULAR
+                  </Typography>
+                </TouchableOpacity>
+              </Box>
             ) : (
               <TouchableOpacity
                 onPress={goNextSlide}
                 style={[styles.buttonNext]}
-              />
+              >
+                <Box></Box>
+              </TouchableOpacity>
             )}
           </Box>
         </Box>
@@ -253,7 +253,7 @@ export const Onboarding: React.FC<{}> = ({}) => {
       <StatusBar
         animated
         barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-        backgroundColor={Platform.OS === 'ios' ? null : 'rgba(0,0,0,1)'}
+        backgroundColor={Platform.OS === 'ios' ? undefined : 'rgba(0,0,0,1)'}
         translucent={true}
       />
       {!loading ? (

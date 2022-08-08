@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 import { theme } from '@danilomsou/reserva-ui';
 
 const { width, height } = Dimensions.get('window');
@@ -35,8 +35,8 @@ export const styles = StyleSheet.create({
     height: 20,
   },
   imageBackground: {
-    height: height * 1,
-    width: width * 1,
+    height: height,
+    width: width,
   },
   boxImageHeader: {
     marginTop: 66,
@@ -47,10 +47,10 @@ export const styles = StyleSheet.create({
     fontFamily: theme.fonts.reservaSerifBold,
     fontSize: 46,
     color: theme.colors.white,
-    marginTop: 48,
+    marginTop: 62,
     marginLeft: 34,
     marginRight: width * 0.2,
-    marginBottom: 13,
+    marginBottom: 15,
     lineHeight: 47,
   },
   typographySubtitle: {
@@ -68,7 +68,8 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
     marginLeft: 34,
     marginRight: 33,
-    marginBottom: 20,
+    bottom: 20,
+    position: 'absolute',
   },
   buttonTitle: {
     backgroundColor: theme.colors.white,
@@ -78,7 +79,7 @@ export const styles = StyleSheet.create({
     marginLeft: 36,
     marginRight: 36,
     height: 50,
-    borderRadius: 12,
+    borderRadius: 8,
   },
   buttonTypographyTitle: {
     fontFamily: theme.fonts.nunitoRegular,
@@ -90,10 +91,12 @@ export const styles = StyleSheet.create({
   buttonNext: {
     alignContent: 'center',
     width: width,
-    flex: 1,
+    height: 27,
     marginBottom: 40,
     marginTop: 16,
     alignItems: 'center',
+
+    alignSelf: 'flex-end',
   },
   buttonTypographyNext: {
     fontFamily: theme.fonts.nunitoBold,
