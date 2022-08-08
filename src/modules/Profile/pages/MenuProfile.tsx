@@ -208,34 +208,34 @@ const MenuScreen: React.FC<{}> = ({}) => {
   }, [profile]);
 
   const handleCashback = () => {
-    // if (hasThreeMonths) {
-    if (profile?.homePhone) {
-      if (profile?.document) {
-        navigation.navigate('changePhoneNumber', {
-          profile: profile,
-        });
+    if (hasThreeMonths) {
+      if (profile?.homePhone) {
+        if (profile?.document) {
+          navigation.navigate('changePhoneNumber', {
+            profile: profile,
+          });
+        } else {
+          navigation.navigate('registerCPF', {
+            profile: profile,
+          });
+        }
       } else {
-        navigation.navigate('registerCPF', {
-          profile: profile,
-        });
+        if (profile?.document) {
+          navigation.navigate('registerPhoneNumber', {
+            profile: profile,
+          });
+        } else {
+          navigation.navigate('registerCPF', {
+            profile: profile,
+          });
+        }
       }
     } else {
-      if (profile?.document) {
-        navigation.navigate('registerPhoneNumber', {
-          profile: profile,
-        });
-      } else {
-        navigation.navigate('registerCPF', {
-          profile: profile,
-        });
-      }
+      navigation.navigate('cashbackInStore', {
+        isLoyal: true,
+        costumerDocument: profile?.document,
+      });
     }
-    // } else {
-    //   navigation.navigate('cashbackInStore', {
-    //     isLoyal: true,
-    //     costumerDocument: profile?.document,
-    //   })
-    // }
   };
   return (
     <Box flex={1} backgroundColor="white">

@@ -1232,15 +1232,15 @@ export const EditProfile = ({ route }: Props) => {
                       variant="primarioEstreito"
                       inline
                       onPress={saveUserData}
-                      // disabled={
-                      //   updateLoading ||
-                      //   loadingProfilePhoto ||
-                      //   isEmptyFullName ||
-                      //   cpfInvalid ||
-                      //   isEmptyHomePhone ||
-                      //   isEmptyBirthDate ||
-                      //   isEmptyGender
-                      // }
+                      disabled={
+                        updateLoading ||
+                        loadingProfilePhoto ||
+                        isEmptyFullName ||
+                        cpfInvalid ||
+                        isEmptyHomePhone ||
+                        isEmptyBirthDate ||
+                        isEmptyGender
+                      }
                     />
                   </Box>
                 </Box>
@@ -1280,16 +1280,16 @@ export const EditProfile = ({ route }: Props) => {
               variant="primarioEstreito"
               inline
               onPress={saveUserData}
-              // disabled={
-              //   updateLoading ||
-              //   loadingProfilePhoto ||
-              //   loadingScreen ||
-              //   isEmptyFullName ||
-              //   cpfInvalid ||
-              //   isEmptyHomePhone ||
-              //   isEmptyBirthDate ||
-              //   isEmptyGender
-              // }
+              disabled={
+                updateLoading ||
+                loadingProfilePhoto ||
+                loadingScreen ||
+                isEmptyFullName ||
+                cpfInvalid ||
+                isEmptyHomePhone ||
+                isEmptyBirthDate ||
+                isEmptyGender
+              }
             />
           </Box>
         </Box>
