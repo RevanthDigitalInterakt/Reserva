@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 
 export const responsysConfig = async () => {
   PushIOManager.configure(
-    '../../../pushio_config.json',
+    './pushio_config.json',
     (error: any, response: any) => {}
   );
   if (Platform.OS === 'android') {

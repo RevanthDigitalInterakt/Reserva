@@ -6,7 +6,7 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
   <uses-permission android:name="com.usereserva.permission.PUSHIO_MESSAGE" />
   <uses-permission android:name="com.usereserva.permission.RSYS_SHOW_IAM" />
-  <permission android:name=".permission.PUSHIO_MESSAGE" android:protectionLevel="signature" />
+  <permission android:name="com.usereserva.permission.PUSHIO_MESSAGE" android:protectionLevel="signature" />
   <permission android:name="com.usereserva.permission.RSYS_SHOW_IAM" android:protectionLevel="signature" />
   <!-- Responsys configuration -->
 

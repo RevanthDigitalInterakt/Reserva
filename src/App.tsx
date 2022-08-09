@@ -3,7 +3,7 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Linking } from 'react-native';
+import { Alert, Linking, Platform, ToastAndroid } from 'react-native';
 import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
@@ -13,6 +13,7 @@ import { env } from './config/env';
 import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
 import './config/ReactotronConfig';
+import PushIOManager from '@oracle/react-native-pushiomanager';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
@@ -119,6 +120,63 @@ const maintenanceHandler = async () => {
 };
 
 const App = () => {
+  const [canRegisterUser, setCanRegisterUser] = useState(true);
+  const [userId, setUserId] = useState('06869751110');
+
+  useEffect(() => {
+    PushIOManager.configure(
+      'pushio_config.json',
+      (configureError: any, configureResponse: any) => {
+        if (configureResponse === 'success') {
+          if (Platform.OS === 'android') {
+            PushIOManager.registerApp(
+              true,
+              (registerError: any, registerResponse: any) => {
+                if (registerResponse === 'success') {
+                  Alert.alert('Success', 'Registered for push notifications');
+                  setCanRegisterUser(true);
+                  registerUser();
+                } else {
+                  setCanRegisterUser(false);
+                }
+              }
+            );
+            registerUser();
+          } else {
+            PushIOManager.registerForAllRemoteNotificationTypes(
+              (error: any, response: any) => {
+                PushIOManager.registerApp(
+                  true,
+                  (error: any, response: any) => {}
+                );
+              }
+            );
+          }
+        } else {
+          setCanRegisterUser(false);
+        }
+      }
+    );
+  }, []);
+
+  const registerUser = () => {
+    if (!canRegisterUser) {
+      Alert.alert('Unable to register user.');
+      return;
+    }
+    if (userId) {
+      PushIOManager.registerUserId(userId);
+      ToastAndroid.show('User ID registered', ToastAndroid.SHORT);
+    } else {
+      Alert.alert('Please informe the user ID first.');
+    }
+  };
+
+  const unregisterUser = () => {
+    PushIOManager.unregisterUserId();
+    ToastAndroid.show('User ID unregistered', ToastAndroid.SHORT);
+  };
+
   const { getValue } = useFirebaseContext();
   const [isTesting, setIsTesting] = useState<boolean>(false);
 

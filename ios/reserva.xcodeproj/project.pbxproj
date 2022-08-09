@@ -41,6 +41,11 @@
 		77438DA846CC4BCE839443FD /* ReservaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B243AAA5F4E4FC1B9E526DA /* ReservaSans-Bold.ttf */; };
 		7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */; };
 		7F89DA7DE1904133832A1841 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */; };
+		80C6B808289D9FF60044A93B /* pushio_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 80C6B807289D9FF60044A93B /* pushio_config.json */; };
+		80C6B80C289DA0A40044A93B /* PIOMediaAttachmentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B80B289DA0A40044A93B /* PIOMediaAttachmentExtension.framework */; };
+		80C6B80E289DA0AC0044A93B /* PIOContentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B80D289DA0AC0044A93B /* PIOContentExtension.framework */; };
+		80C6B80F289DA0F40044A93B /* PushIOManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B809289DA0940044A93B /* PushIOManager.framework */; };
+		80C6B810289DA0F40044A93B /* PushIOManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B809289DA0940044A93B /* PushIOManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E22B81276A5A0900E246B9 /* BridgingFile.swift */; };
 		80F6B009278F18DC00778D4E /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -95,6 +100,17 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		80C6B811289DA0F40044A93B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				80C6B810289DA0F40044A93B /* PushIOManager.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -146,6 +162,10 @@
 		7750F6CCFEF8B2EADE12C5DA /* libPods-reserva.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		7F2BB4A802EC4270991D6A74 /* ReservaSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-LightItalic.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		80C6B807289D9FF60044A93B /* pushio_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pushio_config.json; path = ../../../../Downloads/pushio_config.json; sourceTree = "<group>"; };
+		80C6B809289DA0940044A93B /* PushIOManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushIOManager.framework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/Framework/PushIOManager.framework"; sourceTree = "<group>"; };
+		80C6B80B289DA0A40044A93B /* PIOMediaAttachmentExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PIOMediaAttachmentExtension.framework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/Framework/PIOMediaAttachmentExtension.framework"; sourceTree = "<group>"; };
+		80C6B80D289DA0AC0044A93B /* PIOContentExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PIOContentExtension.framework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/Framework/PIOContentExtension.framework"; sourceTree = "<group>"; };
 		80E22B81276A5A0900E246B9 /* BridgingFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgingFile.swift; sourceTree = "<group>"; };
 		80F6AFF7278F170300778D4E /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		80F6AFF8278F170300778D4E /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
@@ -197,9 +217,12 @@
 				390DCAAA2639E4FB00070997 /* liblottie-ios.a in Frameworks */,
 				676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */,
 				390DCA9C2639E46700070997 /* liblottie-react-native.a in Frameworks */,
+				80C6B80F289DA0F40044A93B /* PushIOManager.framework in Frameworks */,
 				39C607C2264A0F9A0030C19F /* libCodePush.a in Frameworks */,
 				67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */,
 				2F982B618F76DD036C6E0145 /* libPods-reserva.a in Frameworks */,
+				80C6B80E289DA0AC0044A93B /* PIOContentExtension.framework in Frameworks */,
+				80C6B80C289DA0A40044A93B /* PIOMediaAttachmentExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +273,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				80C6B80D289DA0AC0044A93B /* PIOContentExtension.framework */,
+				80C6B80B289DA0A40044A93B /* PIOMediaAttachmentExtension.framework */,
+				80C6B809289DA0940044A93B /* PushIOManager.framework */,
 				67C2577B276280BC00793131 /* LinkPresentation.framework */,
 				675379EA273B048E00FB2439 /* AdSupport.framework */,
 				39C607C1264A0F9A0030C19F /* libCodePush.a */,
@@ -318,6 +344,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				80C6B807289D9FF60044A93B /* pushio_config.json */,
 				80E22B81276A5A0900E246B9 /* BridgingFile.swift */,
 				67D475692735B77D00D1346C /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* reserva */,
@@ -431,6 +458,7 @@
 				6A1EB2F400ED159F66DC8AD6 /* [CP] Copy Pods Resources */,
 				1DB3AD7B8E0813180441108F /* [CP-User] [RNFB] Core Configuration */,
 				F9BFA5463D90E51F6DF1DAB1 /* [CP-User] [RNFB] Crashlytics Configuration */,
+				80C6B811289DA0F40044A93B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -543,6 +571,7 @@
 				EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */,
 				4F22604933F54DB880365BB4 /* ReservaSerif-ThinItalic.otf in Resources */,
 				FBD65EAEFF024DD5965323A9 /* ReservaSans-Black.ttf in Resources */,
+				80C6B808289D9FF60044A93B /* pushio_config.json in Resources */,
 				000BDDDA5C0348D6B89EADAD /* ReservaSans-BlackItalic.ttf in Resources */,
 				77438DA846CC4BCE839443FD /* ReservaSans-Bold.ttf in Resources */,
 				88C8053163184C32933A407B /* ReservaSans-BoldItalic.ttf in Resources */,
@@ -865,7 +894,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0FD5782AB851106A3E217CE0 /* Pods-reserva.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -948,7 +976,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 85993834AFF6908CA29F0FC1 /* Pods-reserva.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
