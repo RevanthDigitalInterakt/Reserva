@@ -44,7 +44,7 @@ static void InitializeFlipper(UIApplication *application) {
   RCTRootView *rootView = [[RCTRootView alloc]  initWithBridge:bridge moduleName:@"reserva" initialProperties:nil];
 
 //  rootView.layoutMargins = UIEdgeInsetsMake(0, 64, 64, 0);
-  
+
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
   } else {
@@ -52,29 +52,28 @@ static void InitializeFlipper(UIApplication *application) {
   }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  
+
   UIViewController *rootViewController = [UIViewController new];
-  
+
   rootViewController.view = rootView;
 //  rootView.frame = [CGRect];
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [ScanViewController configureWithApiKey:@"l86jNJBFrP9A-_pTvvho-g54rybCp2d1"];
-  
+
   Dynamic *t = [Dynamic new];
   UIView *animationView = [t createAnimationViewWithRootView:rootView lottieName:@"loading"];
-  animationView.backgroundColor = [UIColor blackColor];
 //  rootView.backgroundColor = [UIColor blackColor];
   [RNSplashScreen showLottieSplash:animationView inRootView:rootView];
 
     // play
   [t playWithAnimationView:animationView];
 
-  
+
   // If you want the animation layout to be forced to remove when hide is called, use this code
   [RNSplashScreen setAnimationFinished:true];
-  
-  
+
+
   [RNSplashScreen show];
   return YES;
 }
