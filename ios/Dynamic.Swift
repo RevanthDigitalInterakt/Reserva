@@ -11,7 +11,9 @@ import React
     animationView.frame = rootView.frame
     animationView.contentMode = .center
     animationView.backgroundColor = UIColor.black
-    
+
+    rootView.backgroundColor = UIColor.black
+
     return animationView;
   }
 
