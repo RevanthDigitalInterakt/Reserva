@@ -7,23 +7,20 @@ import React
 
   @objc func createAnimationView(rootView: UIView, lottieName: String) -> AnimationView {
     let animationView = AnimationView(name: lottieName)
-    let container = AnimationView(name: lottieName)
-    
 
-    
-    animationView.layoutMargins = UIEdgeInsets(top:0,left:64,bottom:0,right:64);
-//    rootView.layoutMargins = UIEdgeInsets(top:0,left:64,bottom:0,right:64);
-    animationView.frame = CGRect(x:0, y:0, width:285, height: 45)//rootView.frame
-    animationView.center = rootView.center;
+    animationView.frame = rootView.frame
+    animationView.contentMode = .center
+    animationView.currentFrame = 49
     animationView.backgroundColor = UIColor.black
-    
-    rootView.backgroundColor = UIColor.black
     
     return animationView;
   }
 
   @objc func play(animationView: AnimationView) {
     animationView.play(
+      fromFrame: 49,
+      toFrame: 165,
+      loopMode: LottieLoopMode.playOnce,
       completion: { (success) in
         RNSplashScreen.setAnimationFinished(true)
       }
