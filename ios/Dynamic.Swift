@@ -10,7 +10,6 @@ import React
 
     animationView.frame = rootView.frame
     animationView.contentMode = .center
-    animationView.currentFrame = 49
     animationView.backgroundColor = UIColor.black
     
     return animationView;
@@ -18,9 +17,6 @@ import React
 
   @objc func play(animationView: AnimationView) {
     animationView.play(
-      fromFrame: 49,
-      toFrame: 165,
-      loopMode: LottieLoopMode.playOnce,
       completion: { (success) in
         RNSplashScreen.setAnimationFinished(true)
       }
