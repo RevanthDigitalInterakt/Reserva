@@ -11,13 +11,14 @@ import React
     
 
     
-    animationView.layoutMargins = UIEdgeInsets(top:0,left:64,bottom:0,right:64);
+//    animationView.layoutMargins = UIEdgeInsets(top:0,left:64,bottom:0,right:64);
 //    rootView.layoutMargins = UIEdgeInsets(top:0,left:64,bottom:0,right:64);
-    animationView.frame = CGRect(x:0, y:0, width:285, height: 45)//rootView.frame
-    animationView.center = rootView.center;
+//    animationView.frame = CGRect(x:0, y:0, width:285, height: 45)//rootView.frame
+    animationView.frame = rootView.frame
+    animationView.center = rootView.center
     animationView.backgroundColor = UIColor.black
     
-    rootView.backgroundColor = UIColor.black
+//    rootView.backgroundColor = UIColor.black
     
     return animationView;
   }
