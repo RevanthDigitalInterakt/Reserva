@@ -1,6 +1,0 @@
-framework module PIOContentExtension {
-  umbrella header "PIOContentExtension.h"
-
-  export *
-  module * { export * }
-}

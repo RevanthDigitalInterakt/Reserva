@@ -41,11 +41,15 @@
 		77438DA846CC4BCE839443FD /* ReservaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B243AAA5F4E4FC1B9E526DA /* ReservaSans-Bold.ttf */; };
 		7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */; };
 		7F89DA7DE1904133832A1841 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */; };
-		80C6B808289D9FF60044A93B /* pushio_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 80C6B807289D9FF60044A93B /* pushio_config.json */; };
+		80AA37B628A52F3200A1094F /* pushio_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 80AA37B528A52F3200A1094F /* pushio_config.json */; };
+		80AA37BE28A5313700A1094F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AA37BD28A5313700A1094F /* NotificationService.swift */; };
+		80AA37C228A5313700A1094F /* MediaExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 80AA37BB28A5313700A1094F /* MediaExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		80AA37C728A5319100A1094F /* PIOMediaAttachmentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37C628A5319100A1094F /* PIOMediaAttachmentExtension.framework */; };
+		80AA37C928A531E400A1094F /* PIOMediaAttachmentExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37C828A531E400A1094F /* PIOMediaAttachmentExtension.xcframework */; };
+		80AA37CA28A531E400A1094F /* PIOMediaAttachmentExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37C828A531E400A1094F /* PIOMediaAttachmentExtension.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		80C6B80C289DA0A40044A93B /* PIOMediaAttachmentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B80B289DA0A40044A93B /* PIOMediaAttachmentExtension.framework */; };
 		80C6B80E289DA0AC0044A93B /* PIOContentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B80D289DA0AC0044A93B /* PIOContentExtension.framework */; };
 		80C6B80F289DA0F40044A93B /* PushIOManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B809289DA0940044A93B /* PushIOManager.framework */; };
-		80C6B810289DA0F40044A93B /* PushIOManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80C6B809289DA0940044A93B /* PushIOManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E22B81276A5A0900E246B9 /* BridgingFile.swift */; };
 		80F6B009278F18DC00778D4E /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -79,6 +83,13 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = reserva;
 		};
+		80AA37C028A5313700A1094F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80AA37BA28A5313700A1094F;
+			remoteInfo = MediaExtension;
+		};
 		80F6B00B278F18DC00778D4E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -96,17 +107,18 @@
 			dstSubfolderSpec = 13;
 			files = (
 				80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
+				80AA37C228A5313700A1094F /* MediaExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		80C6B811289DA0F40044A93B /* Embed Frameworks */ = {
+		80AA37CB28A531E400A1094F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				80C6B810289DA0F40044A93B /* PushIOManager.framework in Embed Frameworks */,
+				80AA37CA28A531E400A1094F /* PIOMediaAttachmentExtension.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,7 +174,12 @@
 		7750F6CCFEF8B2EADE12C5DA /* libPods-reserva.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		7F2BB4A802EC4270991D6A74 /* ReservaSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-LightItalic.ttf"; path = "../node_modules/@danilomsou/reserva-ui/.storybook/fonts/ReservaSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		80C6B807289D9FF60044A93B /* pushio_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pushio_config.json; path = ../../../../Downloads/pushio_config.json; sourceTree = "<group>"; };
+		80AA37B528A52F3200A1094F /* pushio_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushio_config.json; sourceTree = "<group>"; };
+		80AA37BB28A5313700A1094F /* MediaExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MediaExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		80AA37BD28A5313700A1094F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		80AA37BF28A5313700A1094F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80AA37C628A5319100A1094F /* PIOMediaAttachmentExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PIOMediaAttachmentExtension.framework; path = "../../../../../Downloads/oracle-responsys-sdk-6-1.52-0/Framework/PIOMediaAttachmentExtension.framework"; sourceTree = "<group>"; };
+		80AA37C828A531E400A1094F /* PIOMediaAttachmentExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PIOMediaAttachmentExtension.xcframework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/XCFramework/PIOMediaAttachmentExtension.xcframework"; sourceTree = "<group>"; };
 		80C6B809289DA0940044A93B /* PushIOManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushIOManager.framework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/Framework/PushIOManager.framework"; sourceTree = "<group>"; };
 		80C6B80B289DA0A40044A93B /* PIOMediaAttachmentExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PIOMediaAttachmentExtension.framework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/Framework/PIOMediaAttachmentExtension.framework"; sourceTree = "<group>"; };
 		80C6B80D289DA0AC0044A93B /* PIOContentExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PIOContentExtension.framework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/Framework/PIOContentExtension.framework"; sourceTree = "<group>"; };
@@ -226,6 +243,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		80AA37B828A5313700A1094F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80AA37C928A531E400A1094F /* PIOMediaAttachmentExtension.xcframework in Frameworks */,
+				80AA37C728A5319100A1094F /* PIOMediaAttachmentExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		80F6B002278F18DC00778D4E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -257,6 +283,7 @@
 		13B07FAE1A68108700A75B9A /* reserva */ = {
 			isa = PBXGroup;
 			children = (
+				80AA37B528A52F3200A1094F /* pushio_config.json */,
 				39A334752651655600206E04 /* reserva.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -273,6 +300,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				80AA37C828A531E400A1094F /* PIOMediaAttachmentExtension.xcframework */,
 				80C6B80D289DA0AC0044A93B /* PIOContentExtension.framework */,
 				80C6B80B289DA0A40044A93B /* PIOMediaAttachmentExtension.framework */,
 				80C6B809289DA0940044A93B /* PushIOManager.framework */,
@@ -314,6 +342,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		80AA37BC28A5313700A1094F /* MediaExtension */ = {
+			isa = PBXGroup;
+			children = (
+				80AA37C628A5319100A1094F /* PIOMediaAttachmentExtension.framework */,
+				80AA37BD28A5313700A1094F /* NotificationService.swift */,
+				80AA37BF28A5313700A1094F /* Info.plist */,
+			);
+			path = MediaExtension;
+			sourceTree = "<group>";
+		};
 		80F6AFF6278F170300778D4E /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,7 +382,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				80C6B807289D9FF60044A93B /* pushio_config.json */,
 				80E22B81276A5A0900E246B9 /* BridgingFile.swift */,
 				67D475692735B77D00D1346C /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* reserva */,
@@ -353,6 +390,7 @@
 				39A3347B265165DD00206E04 /* OneSignalNotificationServiceExtension */,
 				80F6AFF6278F170300778D4E /* OneSignalNotificationServiceExtension */,
 				80F6B006278F18DC00778D4E /* OneSignalNotificationServiceExtension */,
+				80AA37BC28A5313700A1094F /* MediaExtension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				70A1DDA707B9D4A2A392C23C /* Pods */,
@@ -369,6 +407,7 @@
 				13B07F961A680F5B00A75B9A /* reserva.app */,
 				00E356EE1AD99517003FC87E /* reservaTests.xctest */,
 				80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */,
+				80AA37BB28A5313700A1094F /* MediaExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -458,17 +497,35 @@
 				6A1EB2F400ED159F66DC8AD6 /* [CP] Copy Pods Resources */,
 				1DB3AD7B8E0813180441108F /* [CP-User] [RNFB] Core Configuration */,
 				F9BFA5463D90E51F6DF1DAB1 /* [CP-User] [RNFB] Crashlytics Configuration */,
-				80C6B811289DA0F40044A93B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				80F6B00C278F18DC00778D4E /* PBXTargetDependency */,
+				80AA37C128A5313700A1094F /* PBXTargetDependency */,
 			);
 			name = reserva;
 			productName = reserva;
 			productReference = 13B07F961A680F5B00A75B9A /* reserva.app */;
 			productType = "com.apple.product-type.application";
+		};
+		80AA37BA28A5313700A1094F /* MediaExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80AA37C528A5313700A1094F /* Build configuration list for PBXNativeTarget "MediaExtension" */;
+			buildPhases = (
+				80AA37B728A5313700A1094F /* Sources */,
+				80AA37B828A5313700A1094F /* Frameworks */,
+				80AA37B928A5313700A1094F /* Resources */,
+				80AA37CB28A531E400A1094F /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MediaExtension;
+			productName = MediaExtension;
+			productReference = 80AA37BB28A5313700A1094F /* MediaExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		80F6B004278F18DC00778D4E /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXNativeTarget;
@@ -494,7 +551,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -503,6 +560,9 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1240;
+					};
+					80AA37BA28A5313700A1094F = {
+						CreatedOnToolsVersion = 13.4.1;
 					};
 					80F6B004278F18DC00778D4E = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -525,6 +585,7 @@
 				13B07F861A680F5B00A75B9A /* reserva */,
 				00E356ED1AD99517003FC87E /* reservaTests */,
 				80F6B004278F18DC00778D4E /* OneSignalNotificationServiceExtension */,
+				80AA37BA28A5313700A1094F /* MediaExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -571,7 +632,7 @@
 				EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */,
 				4F22604933F54DB880365BB4 /* ReservaSerif-ThinItalic.otf in Resources */,
 				FBD65EAEFF024DD5965323A9 /* ReservaSans-Black.ttf in Resources */,
-				80C6B808289D9FF60044A93B /* pushio_config.json in Resources */,
+				80AA37B628A52F3200A1094F /* pushio_config.json in Resources */,
 				000BDDDA5C0348D6B89EADAD /* ReservaSans-BlackItalic.ttf in Resources */,
 				77438DA846CC4BCE839443FD /* ReservaSans-Bold.ttf in Resources */,
 				88C8053163184C32933A407B /* ReservaSans-BoldItalic.ttf in Resources */,
@@ -584,6 +645,13 @@
 				50396DA55C7B4ACB8412483F /* ReservaSans-Thin.ttf in Resources */,
 				D755E1976E754020B4824BCE /* ReservaSans-ThinItalic.ttf in Resources */,
 				67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80AA37B928A5313700A1094F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -813,6 +881,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		80AA37B728A5313700A1094F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80AA37BE28A5313700A1094F /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		80F6B001278F18DC00778D4E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -828,6 +904,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* reserva */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		80AA37C128A5313700A1094F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 80AA37BA28A5313700A1094F /* MediaExtension */;
+			targetProxy = 80AA37C028A5313700A1094F /* PBXContainerItemProxy */;
 		};
 		80F6B00C278F18DC00778D4E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -894,6 +975,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0FD5782AB851106A3E217CE0 /* Pods-reserva.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -976,6 +1058,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 85993834AFF6908CA29F0FC1 /* Pods-reserva.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1049,6 +1132,84 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "reserva-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		80AA37C328A5313700A1094F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2022071401;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N3UDSXJ25B;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MediaExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MediaExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.5.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.MediaExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		80AA37C428A5313700A1094F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2022071401;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N3UDSXJ25B;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MediaExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MediaExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.5.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.MediaExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1263,6 +1424,15 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80AA37C528A5313700A1094F /* Build configuration list for PBXNativeTarget "MediaExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80AA37C328A5313700A1094F /* Debug */,
+				80AA37C428A5313700A1094F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

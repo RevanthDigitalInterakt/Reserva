@@ -72,7 +72,46 @@ static void InitializeFlipper(UIApplication *application) {
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
+  [[PushIOManager sharedInstance] openURL:url options:options];
   return [RCTLinkingManager application:application openURL:url options:options];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:
+    (NSData *)deviceToken
+{
+    [[PushIOManager sharedInstance]  didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    [[PushIOManager sharedInstance]  didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [[PushIOManager sharedInstance] didReceiveRemoteNotification:userInfo];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:
+(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [[PushIOManager sharedInstance] didReceiveRemoteNotification:userInfo
+fetchCompletionResult:UIBackgroundFetchResultNewData fetchCompletionHandler:completionHandler];
+}
+
+//iOS 10 or later
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:
+(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
+{
+    [[PushIOManager sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response
+withCompletionHandler:completionHandler];
+}
+
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:
+(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+    [[PushIOManager sharedInstance] userNotificationCenter:center willPresentNotification:notification
+withCompletionHandler:completionHandler];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
