@@ -13,7 +13,6 @@ import {
   View,
 } from 'react-native';
 import { openSettings, requestNotifications } from 'react-native-permissions';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { onboarding } from '../../../graphql/onboarding/onboarding';
 import { styles } from '../assets/Styles';
 import { ButtonClose } from '../components/ButtonClose';
@@ -61,7 +60,9 @@ const Slide = ({
                 .then(() => goNextSlide())
                 .catch(() => console.warn('cannot open settings'));
             } else {
-              openSettings().catch(() => console.warn('cannot open settings'));
+              openSettings()
+                .then(() => goNextSlide())
+                .catch(() => console.warn('cannot open settings'));
             }
           }
         );
@@ -103,7 +104,7 @@ const Slide = ({
   };
 
   return (
-    <SafeAreaView>
+    <>
       <ImageBackground
         source={{ uri: itemContentful[currentSlideShow]?.imageBackground?.url }}
         resizeMode={'cover'}
@@ -202,7 +203,7 @@ const Slide = ({
           </Box>
         </Box>
       </ImageBackground>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -261,7 +262,7 @@ export const Onboarding: React.FC<{}> = ({ }) => {
     <>
       <StatusBar
         animated
-        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+        barStyle={Platform.OS === 'ios' ? 'light-content' : 'light-content'}
         backgroundColor={Platform.OS === 'ios' ? undefined : 'rgba(0,0,0,1)'}
         translucent={true}
       />
