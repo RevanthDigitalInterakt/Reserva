@@ -1,8 +1,8 @@
 package com.usereserva;
 import android.os.Bundle;// splash screen
-import org.devio.rn.splashscreen.SplashScreen;// splash screen
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,10 +12,11 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-      SplashScreen.show(this);  //splash screen.
+      SplashScreen.show(this, R.id.lottie);
+      SplashScreen.setAnimationFinished(true);
       super.onCreate(null);
   }
-  
+
   @Override
   protected String getMainComponentName() {
     return "reserva";

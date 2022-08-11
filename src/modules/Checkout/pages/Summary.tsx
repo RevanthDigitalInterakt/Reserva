@@ -55,7 +55,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
     //     )
     //   }, 0)
     // )
-    // setTotalDiscountPrice(
+    //   setTotalDiscountPrice(
     //   orders.orders.reduce((acc, currentValue) => {
     //     return (
     //       acc +
