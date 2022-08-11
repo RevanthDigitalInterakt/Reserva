@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 @import CardScan;
+@import PushIOManager;
 #import <Firebase.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -7,6 +8,7 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <CodePush/CodePush.h>
 #import "RNSplashScreen.h"
+#import "reserva-Swift.h"
 #import "reserva-Swift.h"
 
 #import <React/RCTLinkingManager.h>
