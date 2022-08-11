@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { openSettings, requestNotifications } from 'react-native-permissions';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { onboarding } from '../../../graphql/onboarding/onboarding';
 import { styles } from '../assets/Styles';
 import { ButtonClose } from '../components/ButtonClose';
@@ -102,43 +103,51 @@ const Slide = ({
   };
 
   return (
-    <ImageBackground
-      source={{ uri: itemContentful[currentSlideShow]?.imageBackground?.url }}
-      resizeMode={'cover'}
-      style={[styles.imageBackground]}
-    >
-      <Box flex={1}>
-        <Indicators />
+    <SafeAreaView>
+      <ImageBackground
+        source={{ uri: itemContentful[currentSlideShow]?.imageBackground?.url }}
+        resizeMode={'cover'}
+        style={[styles.imageBackground]}
+      >
+        <Box
+          flex={1}
+        >
+          <Box flex={1}>
+            <Indicators />
 
-        {item.imageHeader ? (
-          <Box style={[styles.boxImageHeader]}>
-            <Image source={item?.imageHeader} />
-          </Box>
-        ) : null}
+            {item.imageHeader ? (
+              <Box style={[styles.boxImageHeader]}>
+                <Image source={item?.imageHeader} />
+              </Box>
+            ) : null}
 
-        {itemContentful[currentSlideShow]?.title ? (
-          <Typography style={[styles.typographyTitle]}>
-            {itemContentful[currentSlideShow]?.title}
-          </Typography>
-        ) : null}
-
-        <Typography style={[styles.typographySubtitle]}>
-          {itemContentful[currentSlideShow]?.subtitle}
-        </Typography>
-
-        {/* Button */}
-
-        <Box flex={1}>
-          {itemContentful[currentSlideShow]?.description ? (
-            <Box flex={1}>
-              <Typography style={[styles.typographyDescription]}>
-                {itemContentful[currentSlideShow]?.description}
+            {itemContentful[currentSlideShow]?.title ? (
+              <Typography style={[styles.typographyTitle]}>
+                {itemContentful[currentSlideShow]?.title}
               </Typography>
-            </Box>
-          ) : (
-            <Box flex={1} />
-          )}
+            ) : null}
 
+            <Typography style={[styles.typographySubtitle]}>
+              {itemContentful[currentSlideShow]?.subtitle}
+            </Typography>
+
+            {/* Button */}
+
+            <Box flex={1}>
+              {itemContentful[currentSlideShow]?.description ? (
+                <Box flex={1}>
+                  <Typography style={[styles.typographyDescription]}>
+                    {itemContentful[currentSlideShow]?.description}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box flex={1} />
+              )}
+            </Box>
+          </Box>
+        </Box>
+
+        <Box>
           <Box>
             <Button
               title={item?.buttonTitle}
@@ -192,12 +201,12 @@ const Slide = ({
             )}
           </Box>
         </Box>
-      </Box>
-    </ImageBackground>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
-export const Onboarding: React.FC<{}> = ({}) => {
+export const Onboarding: React.FC<{}> = ({ }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [itemContentful, setItemContentful] = useState([]);
   const [staticsData, setStaticsData] = useState([{}]);
@@ -238,10 +247,10 @@ export const Onboarding: React.FC<{}> = ({}) => {
       const items =
         Platform.OS === 'android'
           ? res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection?.items.filter(
-              (item: any) => item.visibleAndroid !== false
-            )
+            (item: any) => item.visibleAndroid !== false
+          )
           : res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
-              ?.items;
+            ?.items;
 
       setItemContentful(items);
       setLoading(false);
@@ -261,9 +270,10 @@ export const Onboarding: React.FC<{}> = ({}) => {
           ref={ref}
           onMomentumScrollEnd={updateCurrentSlideIndex}
           data={staticsData}
-          contentContainerStyle={{ height: height }}
+          // contentContainerStyle={{ height: height }}
           showsHorizontalScrollIndicator={false}
           horizontal
+          bounces={false}
           scrollEnabled={false}
           pagingEnabled
           renderItem={({ item }) => (

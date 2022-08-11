@@ -35,7 +35,8 @@ export const styles = StyleSheet.create({
     height: 20,
   },
   imageBackground: {
-    height: height,
+    // height: height,
+    flex: 1,
     width: width,
   },
   boxImageHeader: {
