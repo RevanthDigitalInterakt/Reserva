@@ -1,19 +1,20 @@
+import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
-import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
   Image,
   ImageBackground,
   Platform,
-  SafeAreaView,
   StatusBar,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { openSettings, requestNotifications } from 'react-native-permissions';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { onboarding } from '../../../graphql/onboarding/onboarding';
 import { styles } from '../assets/Styles';
 import { ButtonClose } from '../components/ButtonClose';
 import {
@@ -21,11 +22,7 @@ import {
   requestATT,
   requestPermissionLocation,
 } from '../components/Permissions';
-import { staticsData } from '../components/StaticsData';
-import { onboarding } from '../../../graphql/onboarding/onboarding';
-import { useLazyQuery, useQuery } from '@apollo/client';
-
-import ModalDataCollect from '../components/ModalDataCollect';
+import { staticsDataAndroid, staticsDataIos } from '../components/StaticsData';
 
 const { width, height } = Dimensions.get('window');
 
@@ -35,14 +32,13 @@ const Slide = ({
   currentSlideShow,
   lengthArray,
   itemContentful,
+  staticsData,
 }) => {
-  const [showModalDataCollect, setShowModalDataCollect] = useState(false);
-
   const navigation = useNavigation();
 
   const verifyPlatform = async () => {
     if (Platform.OS === 'android') {
-      return setShowModalDataCollect(true);
+      return navigation.dispatch(StackActions.replace('Main'));
     }
     if (Platform.OS === 'ios') {
       return await requestATT().then((value) => {
@@ -62,7 +58,7 @@ const Slide = ({
           ({ status, settings }) => {
             if (status === 'granted') {
               openSettings()
-                .then(goNextSlide())
+                .then(() => goNextSlide())
                 .catch(() => console.warn('cannot open settings'));
             } else {
               openSettings().catch(() => console.warn('cannot open settings'));
@@ -90,7 +86,7 @@ const Slide = ({
     return (
       <View style={[styles.boxIndicatorMain]}>
         <View style={[styles.boxIndicatorChild]}>
-          {staticsData.map((_, index) => (
+          {staticsData.map((_: any, index: any) => (
             <View
               key={index}
               style={[
@@ -107,54 +103,51 @@ const Slide = ({
   };
 
   return (
-    <ImageBackground
-      source={{ uri: itemContentful[currentSlideShow]?.imageBackground?.url }}
-      resizeMode={'cover'}
-      style={[styles.imageBackground]}
-    >
-      <Box flex={1}>
-        <ModalDataCollect
-          isVisible={showModalDataCollect}
-          setIsVisible={() => {
-            setShowModalDataCollect(false);
-            goNextSlide();
-          }}
-        />
-        <Indicators />
-
-        {item.imageHeader ? (
-          <Box style={[styles.boxImageHeader]}>
-            <Image source={item?.imageHeader} />
-          </Box>
-        ) : null}
-
-        {itemContentful[currentSlideShow]?.title ? (
-          <Typography style={[styles.typographyTitle]}>
-            {itemContentful[currentSlideShow]?.title}
-          </Typography>
-        ) : null}
-
-        <Typography style={[styles.typographySubtitle]}>
-          {itemContentful[currentSlideShow]?.subtitle}
-        </Typography>
-
-        {/* Button */}
-
+    <SafeAreaView>
+      <ImageBackground
+        source={{ uri: itemContentful[currentSlideShow]?.imageBackground?.url }}
+        resizeMode={'cover'}
+        style={[styles.imageBackground]}
+      >
         <Box
-          style={{
-            marginTop: itemContentful[currentSlideShow]?.description
-              ? height * 0.7
-              : height * 0.81,
-            position: 'absolute',
-          }}
           flex={1}
         >
-          {itemContentful[currentSlideShow]?.description ? (
-            <Typography style={[styles.typographyDescription]}>
-              {itemContentful[currentSlideShow]?.description}
-            </Typography>
-          ) : null}
+          <Box flex={1}>
+            <Indicators />
 
+            {item.imageHeader ? (
+              <Box style={[styles.boxImageHeader]}>
+                <Image source={item?.imageHeader} />
+              </Box>
+            ) : null}
+
+            {itemContentful[currentSlideShow]?.title ? (
+              <Typography style={[styles.typographyTitle]}>
+                {itemContentful[currentSlideShow]?.title}
+              </Typography>
+            ) : null}
+
+            <Typography style={[styles.typographySubtitle]}>
+              {itemContentful[currentSlideShow]?.subtitle}
+            </Typography>
+
+            {/* Button */}
+
+            <Box flex={1}>
+              {itemContentful[currentSlideShow]?.description ? (
+                <Box flex={1}>
+                  <Typography style={[styles.typographyDescription]}>
+                    {itemContentful[currentSlideShow]?.description}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box flex={1} />
+              )}
+            </Box>
+          </Box>
+        </Box>
+
+        <Box>
           <Box>
             <Button
               title={item?.buttonTitle}
@@ -188,35 +181,54 @@ const Slide = ({
           </Box>
           <Box>
             {currentSlideShow < lengthArray - 1 ? (
-              <TouchableOpacity
-                onPress={goNextSlide}
-                style={[styles.buttonNext]}
-              >
-                <Typography style={[styles.buttonTypographyNext]}>
-                  PULAR
-                </Typography>
-              </TouchableOpacity>
+              <Box>
+                <TouchableOpacity
+                  onPress={goNextSlide}
+                  style={[styles.buttonNext]}
+                >
+                  <Typography style={[styles.buttonTypographyNext]}>
+                    PULAR
+                  </Typography>
+                </TouchableOpacity>
+              </Box>
             ) : (
               <TouchableOpacity
                 onPress={goNextSlide}
                 style={[styles.buttonNext]}
-              />
+              >
+                <Box></Box>
+              </TouchableOpacity>
             )}
           </Box>
         </Box>
-      </Box>
-    </ImageBackground>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
-export const Onboarding: React.FC<{}> = ({}) => {
+export const Onboarding: React.FC<{}> = ({ }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [itemContentful, setItemContentful] = useState([]);
+  const [staticsData, setStaticsData] = useState([{}]);
+  const [loading, setLoading] = useState(true);
   const ref = React.useRef();
 
+  const [onboardingData] = useLazyQuery(onboarding, {
+    context: { clientName: 'contentful' },
+  });
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      setStaticsData(staticsDataAndroid);
+    }
+    if (Platform.OS === 'ios') {
+      setStaticsData(staticsDataIos);
+    }
+  }, []);
+
   const updateCurrentSlideIndex = (e) => {
-    const contentOfsetx = e.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOfsetx / width);
+    const contentOffsetX = e.nativeEvent.contentOffset.x;
+    const currentIndex = Math.round(contentOffsetX / width);
     setCurrentSlideIndex(currentIndex);
   };
 
@@ -229,17 +241,19 @@ export const Onboarding: React.FC<{}> = ({}) => {
     }
   };
 
-  const [onboardingData] = useLazyQuery(onboarding, {
-    context: { clientName: 'contentful' },
-  });
-
   useEffect(() => {
+    setLoading(true);
     onboardingData().then((res) => {
       const items =
-        res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
-          ?.items;
+        Platform.OS === 'android'
+          ? res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection?.items.filter(
+            (item: any) => item.visibleAndroid !== false
+          )
+          : res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
+            ?.items;
 
       setItemContentful(items);
+      setLoading(false);
     });
   }, []);
 
@@ -248,32 +262,37 @@ export const Onboarding: React.FC<{}> = ({}) => {
       <StatusBar
         animated
         barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-        backgroundColor={'rgba(0,0,0,0.9)'}
+        backgroundColor={Platform.OS === 'ios' ? undefined : 'rgba(0,0,0,1)'}
         translucent={true}
       />
-
-      <FlatList
-        ref={ref}
-        onMomentumScrollEnd={updateCurrentSlideIndex}
-        data={staticsData}
-        contentContainerStyle={{ height: height }}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        scrollEnabled={false}
-        pagingEnabled
-        renderItem={({ item }) => (
-          <>
-            <ButtonClose />
-            <Slide
-              item={item}
-              goNextSlide={goNextSlide}
-              currentSlideShow={currentSlideIndex}
-              lengthArray={staticsData.length}
-              itemContentful={itemContentful}
-            />
-          </>
-        )}
-      />
+      {!loading ? (
+        <FlatList
+          ref={ref}
+          onMomentumScrollEnd={updateCurrentSlideIndex}
+          data={staticsData}
+          // contentContainerStyle={{ height: height }}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          bounces={false}
+          scrollEnabled={false}
+          pagingEnabled
+          renderItem={({ item }) => (
+            <>
+              <ButtonClose />
+              <Slide
+                item={item}
+                goNextSlide={goNextSlide}
+                currentSlideShow={currentSlideIndex}
+                lengthArray={staticsData.length}
+                itemContentful={itemContentful}
+                staticsData={staticsData}
+              />
+            </>
+          )}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
