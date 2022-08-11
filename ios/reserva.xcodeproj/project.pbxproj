@@ -43,8 +43,7 @@
 		80AA37E928A539FF00A1094F /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 80AA37E828A539FF00A1094F /* loading.json */; };
 		80AA37EA28A5460F00A1094F /* PushIOManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37CC28A5347E00A1094F /* PushIOManager.framework */; };
 		80AA37EE28A55FE200A1094F /* pushio_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 80AA37ED28A55FE100A1094F /* pushio_config.json */; };
-		80AA37F528A587D800A1094F /* PushIOManager.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37F328A587D500A1094F /* PushIOManager.xcframework */; };
-		80AA37F628A587D800A1094F /* PushIOManager.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37F328A587D500A1094F /* PushIOManager.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		80AA37F828A59BD800A1094F /* PushIOManager.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37F728A59BD800A1094F /* PushIOManager.xcframework */; };
 		80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E22B81276A5A0900E246B9 /* BridgingFile.swift */; };
 		80F6B009278F18DC00778D4E /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -105,7 +104,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				80AA37F628A587D800A1094F /* PushIOManager.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,7 +162,7 @@
 		80AA37E428A5360600A1094F /* PIOMediaAttachmentExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PIOMediaAttachmentExtension.xcframework; path = xcframework/PIOMediaAttachmentExtension.xcframework; sourceTree = "<group>"; };
 		80AA37E828A539FF00A1094F /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		80AA37ED28A55FE100A1094F /* pushio_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushio_config.json; sourceTree = "<group>"; };
-		80AA37F328A587D500A1094F /* PushIOManager.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PushIOManager.xcframework; path = "../../../../Downloads/oracle-responsys-sdk-6-1.52-0/XCFramework/PushIOManager.xcframework"; sourceTree = "<group>"; };
+		80AA37F728A59BD800A1094F /* PushIOManager.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PushIOManager.xcframework; path = xcframework/PushIOManager.xcframework; sourceTree = "<group>"; };
 		80E22B81276A5A0900E246B9 /* BridgingFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgingFile.swift; sourceTree = "<group>"; };
 		80F6AFF7278F170300778D4E /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		80F6AFF8278F170300778D4E /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
@@ -216,7 +214,7 @@
 				390DCAAA2639E4FB00070997 /* liblottie-ios.a in Frameworks */,
 				676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */,
 				390DCA9C2639E46700070997 /* liblottie-react-native.a in Frameworks */,
-				80AA37F528A587D800A1094F /* PushIOManager.xcframework in Frameworks */,
+				80AA37F828A59BD800A1094F /* PushIOManager.xcframework in Frameworks */,
 				39C607C2264A0F9A0030C19F /* libCodePush.a in Frameworks */,
 				67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */,
 				80AA37EA28A5460F00A1094F /* PushIOManager.framework in Frameworks */,
@@ -272,7 +270,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				80AA37F328A587D500A1094F /* PushIOManager.xcframework */,
+				80AA37F728A59BD800A1094F /* PushIOManager.xcframework */,
 				80AA37E428A5360600A1094F /* PIOMediaAttachmentExtension.xcframework */,
 				80AA37CC28A5347E00A1094F /* PushIOManager.framework */,
 				67C2577B276280BC00793131 /* LinkPresentation.framework */,
