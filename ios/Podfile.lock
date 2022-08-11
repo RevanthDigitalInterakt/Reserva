@@ -689,11 +689,15 @@ PODS:
   - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
     - OneSignalXCFramework/OneSignalCore
   - OpenSSL-Universal (1.1.1100)
+  - Permission-AppTrackingTransparency (3.4.0):
+    - RNPermissions
   - Permission-Camera (3.4.0):
     - RNPermissions
   - Permission-LocationAlways (3.4.0):
     - RNPermissions
   - Permission-LocationWhenInUse (3.4.0):
+    - RNPermissions
+  - Permission-Notifications (3.4.0):
     - RNPermissions
   - PromisesObjC (2.1.1)
   - RCT-Folly (2020.01.13.00):
@@ -1142,9 +1146,11 @@ DEPENDENCIES:
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - OneSignal (< 4.0, >= 3.0)
+  - Permission-AppTrackingTransparency (from `../node_modules/react-native-permissions/ios/AppTrackingTransparency`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
+  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -1287,12 +1293,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  Permission-AppTrackingTransparency:
+    :path: "../node_modules/react-native-permissions/ios/AppTrackingTransparency"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera"
   Permission-LocationAlways:
     :path: "../node_modules/react-native-permissions/ios/LocationAlways"
   Permission-LocationWhenInUse:
     :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse"
+  Permission-Notifications:
+    :path: "../node_modules/react-native-permissions/ios/Notifications"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -1486,9 +1496,11 @@ SPEC CHECKSUMS:
   OneSignal: 8861a1407c321ca1ae59d3adca6286eb7caf9d6e
   OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+  Permission-AppTrackingTransparency: c77e8473bb57a54c8f85b5c57438df85ce72c2f5
   Permission-Camera: 40f43388fa8a648dc6ced73f145ef329ab3ff3fe
   Permission-LocationAlways: bb11e757c44f61ad2a6a5e84a55afa1646ea100e
   Permission-LocationWhenInUse: 34f03248f13150fe7ecf67a7ece595a7a51dfe29
+  Permission-Notifications: ef95aa52bcba35f394f2ba706b368a6e8902efff
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
@@ -1562,6 +1574,6 @@ SPEC CHECKSUMS:
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b5663396a152ef2dd88ec1537cf0e9b234bda134
+PODFILE CHECKSUM: bd432717b25e1eea496fdf18fbe077c644c58a52
 
 COCOAPODS: 1.11.3
