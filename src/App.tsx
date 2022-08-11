@@ -154,8 +154,25 @@ const App = () => {
   }, []);
 
   const [isTesting, setIsTesting] = useState<boolean>(false);
-
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
+  const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean>(null);
+
+  const firstLaunchedData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+    if (appData === null) {
+      setIsAppFirstLaunched(true);
+      AsyncStorage.setItem('isAppFirstLaunched', 'false');
+    } else if (appData === 'true') {
+      setIsAppFirstLaunched(true);
+    } else {
+      setIsAppFirstLaunched(false);
+    }
+  };
+
+  useEffect(() => {
+    // AsyncStorage.removeItem('isAppFirstLaunched');
+    firstLaunchedData();
+  }, []);
 
   const getTestEnvironment = async () => {
     const res = await AsyncStorage.getItem('isTesting');
@@ -228,7 +245,7 @@ const App = () => {
                           }
                         >
                           <InitialScreen>
-                            <AppRouting />
+                            <AppRouting isFirstLaunched={isAppFirstLaunched} />
                           </InitialScreen>
                         </ApolloProvider>
                       </ChronometerContextProvider>

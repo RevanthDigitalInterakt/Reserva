@@ -47,6 +47,7 @@ import {
   ProductFlow,
   TimeRaceFlow,
   RegisterFlow,
+  OnboardingFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
@@ -55,6 +56,8 @@ import {
   CepsInfo,
   SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
+
+import { Onboarding } from '../modules/Onboarding/pages/Onboarding';
 import { LandingPage } from '../modules/LandingPage/LandingPage';
 
 export type RootStackParamList = {
@@ -178,6 +181,7 @@ export type RootStackParamList = {
   VirtualDebitCardCaixaScreen: {
     cashback: boolean;
   };
+  Onboarding: {};
   BagScreen: {
     isProfileComplete: boolean;
   };
@@ -194,6 +198,7 @@ const flows: Flow[] = [
   ...MyCreditsRoutes,
   ...RegisterFlow,
   ...MyCashbackRoutes,
+  ...OnboardingFlow,
 ];
 
 export const MainStack = createStackNavigator();
