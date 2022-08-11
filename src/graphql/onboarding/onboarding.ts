@@ -12,6 +12,7 @@ export const onboarding = gql`
             title
             subtitle
             description
+            visibleAndroid
           }
         }
       }
