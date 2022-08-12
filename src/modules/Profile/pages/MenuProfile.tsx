@@ -26,7 +26,7 @@ import { withAuthentication } from '../HOC/withAuthentication';
 import firestore from '@react-native-firebase/firestore';
 import { differenceInMonths } from 'date-fns';
 
-const MenuScreen: React.FC<{}> = ({}) => {
+const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
@@ -208,34 +208,34 @@ const MenuScreen: React.FC<{}> = ({}) => {
   }, [profile]);
 
   const handleCashback = () => {
-    if (hasThreeMonths) {
-      if (profile?.homePhone) {
-        if (profile?.document) {
-          navigation.navigate('changePhoneNumber', {
-            profile: profile,
-          });
-        } else {
-          navigation.navigate('registerCPF', {
-            profile: profile,
-          });
-        }
+    // if (hasThreeMonths) {
+    if (profile?.homePhone) {
+      if (profile?.document) {
+        navigation.navigate('changePhoneNumber', {
+          profile: profile,
+        });
       } else {
-        if (profile?.document) {
-          navigation.navigate('registerPhoneNumber', {
-            profile: profile,
-          });
-        } else {
-          navigation.navigate('registerCPF', {
-            profile: profile,
-          });
-        }
+        navigation.navigate('registerCPF', {
+          profile: profile,
+        });
       }
     } else {
-      navigation.navigate('cashbackInStore', {
-        isLoyal: true,
-        costumerDocument: profile?.document,
-      });
+      if (profile?.document) {
+        navigation.navigate('registerPhoneNumber', {
+          profile: profile,
+        });
+      } else {
+        navigation.navigate('registerCPF', {
+          profile: profile,
+        });
+      }
     }
+    // } else {
+    //   navigation.navigate('cashbackInStore', {
+    //     isLoyal: true,
+    //     costumerDocument: profile?.document,
+    //   });
+    // }
   };
   return (
     <Box flex={1} backgroundColor="white">

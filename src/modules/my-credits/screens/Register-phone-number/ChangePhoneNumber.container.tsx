@@ -53,19 +53,24 @@ export const ChangePhoneNumberContainer = ({
     date.setMinutes(date.getMinutes() + 2);
     const tomorrow = date.toISOString();
 
+
     if (dataProfile?.profile?.document) {
       setLoadingToken(true);
-      const { data } = await MyCashbackAPI.post(
-        `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
-        {
-          type: 'sms',
-          expire_date: tomorrow,
-          phone: profile.homePhone.split('+')[1],
+      try {
+        const { data } = await MyCashbackAPI.post(
+          `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
+          {
+            type: 'sms',
+            expire_date: tomorrow,
+            phone: profile.homePhone.split('+')[1],
+          }
+        );
+        if (data) {
+          setLoadingToken(false);
+          navigateToConfirmPhone();
         }
-      );
-      if (data) {
-        setLoadingToken(false);
-        navigateToConfirmPhone();
+      } catch (error) {
+        console.log('err', error)
       }
     }
   };
