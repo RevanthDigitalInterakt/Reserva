@@ -253,7 +253,10 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const handleAddSellerCoupons = async () => {
-    const dataSellerCoupon = await addSellerCoupon(sellerCoupon);
+    setLoadingGoDelivery(true);
+    const dataSellerCoupon = await addSellerCoupon(sellerCoupon).finally(() =>
+      setLoadingGoDelivery(false)
+    );
     setSellerCouponIsValid(dataSellerCoupon);
     setSellerCoupon('');
     orderform();
@@ -843,7 +846,7 @@ export const BagScreen = ({ route }: Props) => {
                     title="APLICAR"
                     onPress={handleAddSellerCoupons}
                     variant="primarioEstreito"
-                    disabled={!hasSellerCoupon()}
+                    disabled={!hasSellerCoupon() || loadingGoDelivery}
                   />
                 </Box>
               </Box>
