@@ -1252,7 +1252,7 @@ export const EditProfile = ({ route }: Props) => {
                 </Typography>
               )}
 
-              <Picker
+              {/* <Picker
                 onAndroidBackButtonPress={() => {}}
                 onClose={() => setIsVisibleGenderPicker(false)}
                 onSelect={(selected) => {
@@ -1279,7 +1279,7 @@ export const EditProfile = ({ route }: Props) => {
                   },
                 ]}
                 title="Identidade de gênero"
-              />
+              /> */}
 
               {isTester && (
                 <Box mb="sm" mt="sm">
