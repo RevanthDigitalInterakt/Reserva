@@ -82,12 +82,34 @@ export const RegisterPhoneNumberContainer = ({
     return `${getMinutes}:${getSeconds}`;
   };
 
+  function toIsoString(date) {
+    var tzo = -date.getTimezoneOffset(),
+      dif = tzo >= 0 ? '+' : '-',
+      pad = function (num) {
+        return (num < 10 ? '0' : '') + num;
+      };
+
+    return date.getFullYear() +
+      '-' + pad(date.getMonth() + 1) +
+      '-' + pad(date.getDate()) +
+      'T' + pad(date.getHours()) +
+      ':' + pad(date.getMinutes()) +
+      ':' + pad(date.getSeconds()) +
+      dif + pad(Math.floor(Math.abs(tzo) / 60)) +
+      ':' + pad(Math.abs(tzo) % 60);
+  }
+
   const handleRegisterPhoneNumber = async () => {
+    console.log('phoneInvalid::>', phoneInvalid);
+    console.log('phone::>', phone);
+
+
     if (!phoneInvalid && phone.length === 15) {
-      const date = new Date();
+
+      const expiredDate = toIsoString(new Date());
       // add 2 minute to current date
-      date.setMinutes(date.getMinutes() + 2);
-      const tomorrow = date.toISOString();
+      // date.setMinutes(date.getMinutes() + 2);
+      // const tomorrow = date.toISOString();
       const newPhone = confirmPhone
         ? profile?.homePhone.split('+')[1]
         : `55${phone.replace(/[^\d\+]+/g, '')}`;
@@ -98,7 +120,7 @@ export const RegisterPhoneNumberContainer = ({
           `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
           {
             type: 'sms',
-            expire_date: tomorrow,
+            expire_date: expiredDate,
             phone: newPhone,
           }
         );
@@ -175,6 +197,7 @@ export const RegisterPhoneNumberContainer = ({
   };
 
   const handleConfirmCodeSection = async () => {
+    setLoadingToken(true);
     try {
       const response = await MyCashbackAPI.post(
         `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/validate_authentication`,
@@ -184,15 +207,21 @@ export const RegisterPhoneNumberContainer = ({
         }
       );
       if (response.status === 204) {
+        setLoadingToken(false);
         saveDataInFirestore();
         setShowCodeError(false);
+
       }
     } catch (error) {
+      setLoadingToken(false);
       setShowCodeError(true);
     }
   };
 
   const resendNewCode = () => {
+    console.log('aqui');
+    // console.log('phoneInvalid::>', phoneInvalid);
+    // console.log('phone::>', phone);
     handleRegisterPhoneNumber();
   };
 

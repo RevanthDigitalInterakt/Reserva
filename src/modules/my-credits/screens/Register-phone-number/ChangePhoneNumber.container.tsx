@@ -47,13 +47,27 @@ export const ChangePhoneNumberContainer = ({
     navigateToRegisterPhoneNumber();
   };
 
+  function toIsoString(date) {
+    var tzo = -date.getTimezoneOffset(),
+      dif = tzo >= 0 ? '+' : '-',
+      pad = function (num) {
+        return (num < 10 ? '0' : '') + num;
+      };
+    date.setMinutes(date.getMinutes() + 5);
+    return date.getFullYear() +
+      '-' + pad(date.getMonth() + 1) +
+      '-' + pad(date.getDate()) +
+      'T' + pad(date.getHours()) +
+      ':' + pad(date.getMinutes()) +
+      ':' + pad(date.getSeconds()) +
+      dif + pad(Math.floor(Math.abs(tzo) / 60)) +
+      ':' + pad(Math.abs(tzo) % 60);
+  }
+
   const handleNavigateToConfirmPhone = async () => {
-    const date = new Date();
-    // add 5 minute to current date
-    date.setMinutes(date.getMinutes() + 2);
-    const tomorrow = date.toISOString();
+    const expiredDate = toIsoString(new Date());
 
-
+    console.log('expiredDate', expiredDate)
     if (dataProfile?.profile?.document) {
       setLoadingToken(true);
       try {
@@ -61,7 +75,7 @@ export const ChangePhoneNumberContainer = ({
           `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
           {
             type: 'sms',
-            expire_date: tomorrow,
+            expire_date: expiredDate,
             phone: profile.homePhone.split('+')[1],
           }
         );

@@ -172,7 +172,7 @@ export const RegisterPhoneNumberView = ({
                       onPress={confirmCodeSection}
                       height={50}
                       inline
-                      // disabled={valueCode?.length < 6}
+                      disabled={valueCode?.length < 6}
                       bg="verdeSucesso"
                     >
                       <Typography
@@ -265,7 +265,7 @@ export const RegisterPhoneNumberView = ({
                   onPress={confirmCodeSection}
                   height={50}
                   inline
-                  // disabled={valueCode?.length < 6}
+                  disabled={valueCode?.length < 6}
                   bg="verdeSucesso"
                 >
                   <Typography
