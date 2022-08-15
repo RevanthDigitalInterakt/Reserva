@@ -20,6 +20,7 @@ export interface RegisterCpfViewProps {
   navigateToVerifyNumber: () => void;
   onChangeText: (value: string) => void;
   cpfInvalid?: boolean;
+  disableButton?: boolean;
 }
 
 export const RegisterCpfView = ({
@@ -28,6 +29,7 @@ export const RegisterCpfView = ({
   navigateToVerifyNumber,
   onChangeText,
   cpfInvalid,
+  disableButton,
 }: RegisterCpfViewProps) => {
   return (
     <SafeAreaView>
@@ -86,7 +88,7 @@ export const RegisterCpfView = ({
                 onPress={navigateToVerifyNumber}
                 variant="primarioEstreito"
                 inline
-                disabled={cpfInvalid}
+                disabled={cpfInvalid || disableButton}
               >
                 <Typography
                   color="white"

@@ -89,6 +89,9 @@ export const RegisterPhoneNumberContainer = ({
         return (num < 10 ? '0' : '') + num;
       };
 
+    // Adiciona 10 minutos 
+    date.setMinutes(date.getMinutes() + 10);
+
     return date.getFullYear() +
       '-' + pad(date.getMonth() + 1) +
       '-' + pad(date.getDate()) +
@@ -100,16 +103,9 @@ export const RegisterPhoneNumberContainer = ({
   }
 
   const handleRegisterPhoneNumber = async () => {
-    console.log('phoneInvalid::>', phoneInvalid);
-    console.log('phone::>', phone);
-
-
-    if (!phoneInvalid && phone.length === 15) {
-
+    if (!phoneInvalid && phone.length === 15 || confirmPhone) {
       const expiredDate = toIsoString(new Date());
-      // add 2 minute to current date
-      // date.setMinutes(date.getMinutes() + 2);
-      // const tomorrow = date.toISOString();
+
       const newPhone = confirmPhone
         ? profile?.homePhone.split('+')[1]
         : `55${phone.replace(/[^\d\+]+/g, '')}`;
@@ -247,6 +243,7 @@ export const RegisterPhoneNumberContainer = ({
         resendNewCode={resendNewCode}
         openConfirmCodeSection={openConfirmCodeSection}
         phoneInvalid={phoneInvalid}
+        disableButton={loadingToken}
       />
     </>
   );

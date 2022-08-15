@@ -53,7 +53,10 @@ export const ChangePhoneNumberContainer = ({
       pad = function (num) {
         return (num < 10 ? '0' : '') + num;
       };
-    date.setMinutes(date.getMinutes() + 5);
+
+    // Adiciona 10 minutos 
+    date.setMinutes(date.getMinutes() + 10);
+
     return date.getFullYear() +
       '-' + pad(date.getMonth() + 1) +
       '-' + pad(date.getDate()) +
@@ -67,7 +70,6 @@ export const ChangePhoneNumberContainer = ({
   const handleNavigateToConfirmPhone = async () => {
     const expiredDate = toIsoString(new Date());
 
-    console.log('expiredDate', expiredDate)
     if (dataProfile?.profile?.document) {
       setLoadingToken(true);
       try {
@@ -99,6 +101,7 @@ export const ChangePhoneNumberContainer = ({
         profile={profile}
         navigateToRegisterPhoneNumber={handleNavigateToRegisterPhoneNumber}
         navigateToConfirmPhone={handleNavigateToConfirmPhone}
+        disableButton={loadingToken}
       />
     </Fragment>
   );

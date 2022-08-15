@@ -7,12 +7,14 @@ import {
 
 export interface ChangePhoneNumberViewProps {
     profile: ProfileVars;
+    disableButton: boolean;
     navigateToRegisterPhoneNumber: () => void;
     navigateToConfirmPhone: () => void;
 }
 
 export const ChangePhoneNumberView = ({
     profile,
+    disableButton,
     navigateToRegisterPhoneNumber,
     navigateToConfirmPhone,
 }: ChangePhoneNumberViewProps) => {
@@ -58,6 +60,7 @@ export const ChangePhoneNumberView = ({
                             height={50}
                             inline
                             bg="verdeSucesso"
+                            disabled={disableButton}
                         >
                             <Typography
                                 color="white"

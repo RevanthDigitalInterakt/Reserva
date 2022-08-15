@@ -27,6 +27,7 @@ export interface RegisterPhoneNumberViewProps {
   onChageCode?: (value: string) => void;
   resendNewCode: () => void;
   phoneInvalid?: boolean;
+  disableButton?: boolean;
 }
 
 export const RegisterPhoneNumberView = ({
@@ -44,6 +45,7 @@ export const RegisterPhoneNumberView = ({
   onChageCode,
   resendNewCode,
   phoneInvalid,
+  disableButton,
 }: RegisterPhoneNumberViewProps) => {
   return (
     <Box flex={1}>
@@ -125,7 +127,7 @@ export const RegisterPhoneNumberView = ({
                   onPress={registerPhoneNumber}
                   variant="primarioEstreito"
                   inline
-                  disabled={phoneInvalid}
+                  disabled={phoneInvalid || disableButton}
                 >
                   <Typography
                     color="white"
@@ -172,7 +174,7 @@ export const RegisterPhoneNumberView = ({
                       onPress={confirmCodeSection}
                       height={50}
                       inline
-                      disabled={valueCode?.length < 6}
+                      disabled={valueCode?.length < 6 || disableButton}
                       bg="verdeSucesso"
                     >
                       <Typography
@@ -265,7 +267,7 @@ export const RegisterPhoneNumberView = ({
                   onPress={confirmCodeSection}
                   height={50}
                   inline
-                  disabled={valueCode?.length < 6}
+                  disabled={valueCode?.length < 6 || disableButton}
                   bg="verdeSucesso"
                 >
                   <Typography

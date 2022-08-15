@@ -20,6 +20,8 @@ export const RegisterCpfContainer = ({
 }: RegisterCpfContainerProps) => {
   const [cpf, setCpf] = useState<string>('');
   const [cpfInvalid, setCpfInvalid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [updateUserData] = useMutation(profileMutation);
   const cpfValidate = async (cpf: string) => {
     cpf = cpf.replace(/[^\d]+/g, '');
@@ -59,9 +61,12 @@ export const RegisterCpfContainer = ({
   };
 
   const handleNavigateToVerifyNumber = () => {
+    setLoading(true);
     if (!cpfInvalid && cpf.length > 0) {
       handleSaveCpf().then(() => navigateToVerifyNumber());
+
     } else {
+      setLoading(false);
       setCpfInvalid(true);
     }
   };
@@ -81,12 +86,13 @@ export const RegisterCpfContainer = ({
         fields: user,
       },
     });
+    setLoading(false);
   };
 
   return (
     <Fragment>
       <TopBarBackButton
-        loading={false}
+        loading={loading}
         showShadow
         backButtonPress={navigateBack}
       />
@@ -98,6 +104,7 @@ export const RegisterCpfContainer = ({
         profile={profile}
         navigateToVerifyNumber={handleNavigateToVerifyNumber}
         cpfInvalid={cpfInvalid}
+        disableButton={loading}
       />
     </Fragment>
   );
