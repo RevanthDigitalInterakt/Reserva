@@ -24,7 +24,6 @@ const CorreReservaStack = createStackNavigator<CorreReservaStackParamList>();
 
 export const CorreReservaStackScreen = () => (
   <CorreContextProvider>
-    <StatusBar backgroundColor="#000" />
     <CorreReservaStack.Navigator
       screenOptions={{
         header: () => <HeaderCorreReserva showBackButton />,
