@@ -254,10 +254,20 @@ export const BagScreen = ({ route }: Props) => {
 
   const handleAddSellerCoupons = async () => {
     setLoadingGoDelivery(true);
-    const dataSellerCoupon = await addSellerCoupon(sellerCoupon).finally(() =>
-      setLoadingGoDelivery(false)
+    const dataSellerCoupon = await addSellerCoupon(sellerCoupon).then(
+      (response) => {
+        if (response) {
+          setSellerCouponIsValid(true);
+          setTimeout(() => {
+            setLoadingGoDelivery(false);
+          }, 2000);
+        } else {
+          setSellerCouponIsValid(false);
+          setLoadingGoDelivery(false);
+        }
+      }
     );
-    setSellerCouponIsValid(dataSellerCoupon);
+
     setSellerCoupon('');
     orderform();
   };
