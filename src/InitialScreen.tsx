@@ -12,6 +12,7 @@ import { StorageService } from './shared/services/StorageService';
 
 import { ModalPush } from './modules/Update/components/ModalPush';
 import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
+import { useStatusBar } from './context/StatusBarContext';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -30,6 +31,7 @@ async function requestUserPermission() {
 }
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
+  const { barStyle } = useStatusBar();
   const [pushNotification, setPushNotification] = useState<any>();
   const [showNotification, setShowNotification] = useState(false);
   const [onboardingView, setOnboardingView] = useState(false);
@@ -82,11 +84,13 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1, backgroundColor: onboardingView ? '#000' : undefined }}>
-        <StatusBar
-          animated
-          barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-        />
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: onboardingView ? '#000' : undefined,
+        }}
+      >
+        <StatusBar animated barStyle={barStyle} />
         {showNotification && (
           <ModalPush
             closeModal={() => setShowNotification(false)}

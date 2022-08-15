@@ -1,6 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 import { StackActions, useNavigation } from '@react-navigation/native';
+import { StatusBarStyle, useStatusBar } from '../../../context/StatusBarContext';
 import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
@@ -110,9 +111,7 @@ const Slide = ({
         resizeMode={'cover'}
         style={[styles.imageBackground]}
       >
-        <Box
-          flex={1}
-        >
+        <Box flex={1}>
           <Box flex={1}>
             <Indicators />
 
@@ -207,12 +206,17 @@ const Slide = ({
   );
 };
 
-export const Onboarding: React.FC<{}> = ({ }) => {
+export const Onboarding: React.FC<{}> = ({}) => {
+  const { changeBarStyle } = useStatusBar();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [itemContentful, setItemContentful] = useState([]);
   const [staticsData, setStaticsData] = useState([{}]);
   const [loading, setLoading] = useState(true);
   const ref = React.useRef();
+
+  useEffect(() => {
+    changeBarStyle(StatusBarStyle.LIGHT_CONTENT);
+  }, []);
 
   const [onboardingData] = useLazyQuery(onboarding, {
     context: { clientName: 'contentful' },
@@ -248,10 +252,10 @@ export const Onboarding: React.FC<{}> = ({ }) => {
       const items =
         Platform.OS === 'android'
           ? res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection?.items.filter(
-            (item: any) => item.visibleAndroid !== false
-          )
+              (item: any) => item.visibleAndroid !== false
+            )
           : res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
-            ?.items;
+              ?.items;
 
       setItemContentful(items);
       setLoading(false);
@@ -260,12 +264,12 @@ export const Onboarding: React.FC<{}> = ({ }) => {
 
   return (
     <>
-      <StatusBar
+      {/* <StatusBar
         animated
-        barStyle={Platform.OS === 'ios' ? 'light-content' : 'light-content'}
+        barStyle="light-content"
         backgroundColor={Platform.OS === 'ios' ? undefined : 'rgba(0,0,0,1)'}
         translucent={true}
-      />
+      /> */}
       {!loading ? (
         <FlatList
           ref={ref}

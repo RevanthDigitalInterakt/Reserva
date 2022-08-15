@@ -34,6 +34,7 @@ import {
 } from './services/apolloClient';
 import AsyncStorage from '@react-native-community/async-storage';
 import { responsysConfig } from './config/responsys';
+import StatusBarContextProvider from './context/StatusBarContext';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -226,37 +227,41 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
-        {isOnMaintenance ? (
-          <Maintenance isVisible />
-        ) : (
-          <CartContextProvider>
-            <AuthContextProvider>
-              <ContentfullContextProvider>
-                <RegionalSearchContextProvider>
-                  <CacheImagesProvider>
-                    <FirebaseContextProvider>
-                      <ChronometerContextProvider>
-                        <ApolloProvider
-                          client={
-                            isTesting
-                              ? apolloClientTesting
-                              : apolloClientProduction
-                          }
-                        >
-                          <InitialScreen>
-                            <AppRouting isFirstLaunched={isAppFirstLaunched} />
-                          </InitialScreen>
-                        </ApolloProvider>
-                      </ChronometerContextProvider>
-                    </FirebaseContextProvider>
-                  </CacheImagesProvider>
-                </RegionalSearchContextProvider>
-              </ContentfullContextProvider>
-            </AuthContextProvider>
-          </CartContextProvider>
-        )}
-      </NavigationContainer>
+      <StatusBarContextProvider>
+        <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+          {isOnMaintenance ? (
+            <Maintenance isVisible />
+          ) : (
+            <CartContextProvider>
+              <AuthContextProvider>
+                <ContentfullContextProvider>
+                  <RegionalSearchContextProvider>
+                    <CacheImagesProvider>
+                      <FirebaseContextProvider>
+                        <ChronometerContextProvider>
+                          <ApolloProvider
+                            client={
+                              isTesting
+                                ? apolloClientTesting
+                                : apolloClientProduction
+                            }
+                          >
+                            <InitialScreen>
+                              <AppRouting
+                                isFirstLaunched={isAppFirstLaunched}
+                              />
+                            </InitialScreen>
+                          </ApolloProvider>
+                        </ChronometerContextProvider>
+                      </FirebaseContextProvider>
+                    </CacheImagesProvider>
+                  </RegionalSearchContextProvider>
+                </ContentfullContextProvider>
+              </AuthContextProvider>
+            </CartContextProvider>
+          )}
+        </NavigationContainer>
+      </StatusBarContextProvider>
     </ThemeProvider>
   );
 };
