@@ -297,10 +297,10 @@ export const ListVerticalProducts = ({
             renderItem={({ item, index }) => {
               const installments =
                 item.items[0].sellers[0].commertialOffer.Installments;
-              const installmentsNumber =
-                installments.length > 0
-                  ? installments[0].NumberOfInstallments
-                  : 1;
+
+              const installmentsNumber = installments.reduce((prev, next) =>
+                prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+                { NumberOfInstallments: 0, Value: 0 })
 
               const discountTag = getPercent(
                 item.priceRange?.sellingPrice.lowPrice,
@@ -337,7 +337,7 @@ export const ListVerticalProducts = ({
                   }}
                   // colors={null}
                   imageSource={item.items[0].images[0].imageUrl}
-                  installmentsNumber={installmentsNumber} // numero de parcelas
+                  installmentsNumber={installmentsNumber?.NumberOfInstallments || 1} // numero de parcelas
                   installmentsPrice={installmentPrice || 0} // valor das parcelas
                   currency="R$"
                   discountTag={getPercent(
@@ -354,7 +354,7 @@ export const ListVerticalProducts = ({
                       colorSelected: getVariant(
                         item.items[0].variations,
                         'ID_COR_ORIGINAL'
-                      ),
+                      )
                     });
 
                     if (handleScrollToTheTop) {
