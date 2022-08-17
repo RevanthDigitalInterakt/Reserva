@@ -681,7 +681,7 @@ export const EditProfile = ({ route }: Props) => {
       await AsyncStorage.setItem('isAppFirstLaunched', 'false');
     }
     setOnboardingView(value);
-  }
+  };
 
   const handleDeleteAccount = async () => {
     if (userData) {
@@ -1085,32 +1085,6 @@ export const EditProfile = ({ route }: Props) => {
                 )}
               </Box>
 
-              {/* <Picker
-                onAndroidBackButtonPress={() => { }}
-                onClose={() => setIsVisibleGenderPicker(false)}
-                onSelect={(selected) => {
-                  setGender(selected.text)
-                  setUserData({ ...userData, gender: genderPtToEng[selected.text] })
-                  setIsEmptyGender(false)
-                }}
-                isVisible={isVisibleGenderPicker}
-                items={[
-                  {
-                    text: 'Homem',
-                  },
-                  {
-                    text: 'Mulher',
-                  },
-                  {
-                    text: 'Não-binário',
-                  },
-                  {
-                    text: 'Outro',
-                  }
-                ]}
-                title="Identidade de gênero"
-              /> */}
-
               <Box mb="xxs">
                 <TextField
                   keyboardType="number-pad"
@@ -1177,66 +1151,6 @@ export const EditProfile = ({ route }: Props) => {
                   error="Preencha seu telefone."
                   touched={isEmptyHomePhone}
                 />
-              </Box>
-
-              <Box
-                mb="nano"
-                backgroundColor="backgoundInput"
-                alignItems="center"
-                flexDirection="row"
-                height={60}
-                borderWidth="hairline"
-                borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
-              >
-                <Box ml="xxxs">
-                  <TouchableOpacity
-                    onPress={() => setIsVisibleGenderPicker(true)}
-                  >
-                    {!isEmptyGender ? (
-                      <Box
-                        style={{
-                          marginTop: -12,
-                        }}
-                      >
-                        <Typography
-                          variant="descricaoCampoDePreenchimento"
-                          color="neutroFrio2"
-                        >
-                          Identidade de gênero
-                        </Typography>
-
-                        <Box mt="nano" pl="quarck">
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            color="preto"
-                            fontSize={15}
-                          >
-                            {gender}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    ) : (
-                      <Typography
-                        variant="descricaoCampoDePreenchimento"
-                        color="neutroFrio2"
-                        fontSize={15}
-                      >
-                        Selecione sua identidade de gênero
-                      </Typography>
-                    )}
-                  </TouchableOpacity>
-                </Box>
-
-                {!isEmptyGender && (
-                  <Box position={'absolute'} right={0}>
-                    <Icon
-                      color="preto"
-                      name="Check"
-                      size={18}
-                      marginX="micro"
-                    />
-                  </Box>
-                )}
               </Box>
 
               {isEmptyGender && (

@@ -65,9 +65,9 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Your message to user when the microsphone is accessed for the first time</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
+	<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
+	<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>We need permission to collect your data</string>
 	<key>UIAppFonts</key>
