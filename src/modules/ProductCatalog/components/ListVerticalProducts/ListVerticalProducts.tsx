@@ -295,8 +295,14 @@ export const ListVerticalProducts = ({
             onEndReachedThreshold={0.5}
             ListHeaderComponent={listHeader}
             renderItem={({ item, index }) => {
-              const installments =
-                item.items[0].sellers[0].commertialOffer.Installments;
+              let installments;
+
+              let countPosition = 0;
+              while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
+                countPosition++
+              }
+
+              installments = item.items[0].sellers[countPosition].commertialOffer.Installments
 
               const installmentsNumber = installments.reduce((prev, next) =>
                 prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
@@ -312,10 +318,9 @@ export const ListVerticalProducts = ({
                   ? item.priceRange?.sellingPrice.lowPrice
                   : item.priceRange?.listPrice?.lowPrice || 0;
 
-              const installmentPrice =
-                installments.length > 0
-                  ? installments[0].Value
-                  : cashPaymentPrice;
+              const installmentPrice = installments.reduce((prev, next) =>
+                prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+                { NumberOfInstallments: 0, Value: 0 })
 
               // item.priceRange?.listPrice?.lowPrice;
               const colors = new ProductUtils().getColorsArray(item);
@@ -338,7 +343,7 @@ export const ListVerticalProducts = ({
                   // colors={null}
                   imageSource={item.items[0].images[0].imageUrl}
                   installmentsNumber={installmentsNumber?.NumberOfInstallments || 1} // numero de parcelas
-                  installmentsPrice={installmentPrice || 0} // valor das parcelas
+                  installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0} // valor das parcelas
                   currency="R$"
                   discountTag={getPercent(
                     item.priceRange?.sellingPrice.lowPrice,
