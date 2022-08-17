@@ -253,8 +253,21 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const handleAddSellerCoupons = async () => {
-    const dataSellerCoupon = await addSellerCoupon(sellerCoupon);
-    setSellerCouponIsValid(dataSellerCoupon);
+    setLoadingGoDelivery(true);
+    const dataSellerCoupon = await addSellerCoupon(sellerCoupon).then(
+      (response) => {
+        if (response) {
+          setSellerCouponIsValid(true);
+          setTimeout(() => {
+            setLoadingGoDelivery(false);
+          }, 2000);
+        } else {
+          setSellerCouponIsValid(false);
+          setLoadingGoDelivery(false);
+        }
+      }
+    );
+
     setSellerCoupon('');
     orderform();
   };
@@ -843,7 +856,7 @@ export const BagScreen = ({ route }: Props) => {
                     title="APLICAR"
                     onPress={handleAddSellerCoupons}
                     variant="primarioEstreito"
-                    disabled={!hasSellerCoupon()}
+                    disabled={!hasSellerCoupon() || loadingGoDelivery}
                   />
                 </Box>
               </Box>
