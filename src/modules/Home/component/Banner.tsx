@@ -5,6 +5,7 @@ import { Box, Image } from '@danilomsou/reserva-ui';
 
 export interface BannerProps {
   route?: string;
+  landingPageId?: string;
   reference: string;
   height: number;
   url: string;
@@ -15,6 +16,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 const Banner: React.FC<BannerProps> = ({
   route,
+  landingPageId,
   reference,
   height,
   url,
@@ -27,7 +29,7 @@ const Banner: React.FC<BannerProps> = ({
         <TouchableHighlight
           onPress={() => {
             if (route) {
-              navigation.navigate(route);
+              navigation.navigate(route, { landingPageId });
             } else {
               const facetInput = [];
               const [categoryType, categoryData] = reference.split(':');

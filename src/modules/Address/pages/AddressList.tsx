@@ -12,8 +12,6 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import AddressSelector from '../Components/AddressSelector';
 
-
-
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 
 const AddressList: React.FC<Props> = ({ route }) => {
@@ -46,8 +44,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       setDataProfile({
         data: response.data,
         loadingProfile: false,
-      })
-    })
+      });
+    });
   }, []);
 
   const refetch = async () => {
@@ -68,7 +66,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
     if (comeFrom === 'Home') {
       setEditAndDelete(true);
     } else {
-      setEditAndDelete(false);
+      setEditAndDelete(true);
     }
   }, []);
 

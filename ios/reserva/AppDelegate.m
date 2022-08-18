@@ -6,7 +6,10 @@
 #import <React/RCTRootView.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <CodePush/CodePush.h>
-#import <RNSplashScreen.h>
+#import "RNSplashScreen.h"
+#import "reserva-Swift.h"
+#import "reserva-Swift.h"
+
 #import <React/RCTLinkingManager.h>
 
 #ifdef FB_SONARKIT_ENABLED
@@ -33,6 +36,8 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[AppsFlyerLib shared] registerUninstall:deviceToken];
+  
+  [[PushIOManager sharedInstance]  didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
   }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -54,9 +59,9 @@ static void InitializeFlipper(UIApplication *application) {
 
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"reserva"
-                                            initialProperties:nil];
+  RCTRootView *rootView = [[RCTRootView alloc]  initWithBridge:bridge moduleName:@"reserva" initialProperties:nil];
+
+//  rootView.layoutMargins = UIEdgeInsetsMake(0, 64, 64, 0);
 
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
@@ -65,11 +70,28 @@ static void InitializeFlipper(UIApplication *application) {
   }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+
   UIViewController *rootViewController = [UIViewController new];
+
   rootViewController.view = rootView;
+//  rootView.frame = [CGRect];
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [ScanViewController configureWithApiKey:@"l86jNJBFrP9A-_pTvvho-g54rybCp2d1"];
+
+  Dynamic *t = [Dynamic new];
+  UIView *animationView = [t createAnimationViewWithRootView:rootView lottieName:@"loading"];
+//  rootView.backgroundColor = [UIColor blackColor];
+  [RNSplashScreen showLottieSplash:animationView inRootView:rootView];
+
+    // play
+  [t playWithAnimationView:animationView];
+
+
+  // If you want the animation layout to be forced to remove when hide is called, use this code
+  [RNSplashScreen setAnimationFinished:true];
+
+
   [RNSplashScreen show];
   return YES;
 }
@@ -87,7 +109,36 @@ static void InitializeFlipper(UIApplication *application) {
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
+  [[PushIOManager sharedInstance] openURL:url options:options];
   return [RCTLinkingManager application:application openURL:url options:options];
+}
+
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    [[PushIOManager sharedInstance]  didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:
+(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [[PushIOManager sharedInstance] didReceiveRemoteNotification:userInfo
+fetchCompletionResult:UIBackgroundFetchResultNewData fetchCompletionHandler:completionHandler];
+}
+
+//iOS 10 or later
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:
+(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
+{
+    [[PushIOManager sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response
+withCompletionHandler:completionHandler];
+}
+
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:
+(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+    [[PushIOManager sharedInstance] userNotificationCenter:center willPresentNotification:notification
+withCompletionHandler:completionHandler];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity

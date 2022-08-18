@@ -32,19 +32,18 @@ const AddressSelector = ({
   const { address, title, zipcode, id } = addressData;
   return (
     <>
-      <TouchableOpacity
-        disabled={disabled}
-        onPress={select}>
+      <TouchableOpacity disabled={disabled} onPress={select}>
         <Box
           bg="white"
           borderWidth="hairline"
-          borderColor={'divider'}
+          borderColor="preto"
           width="100%"
-          height={"auto"}
+          height={'auto'}
           flexDirection="row"
           p="nano"
-          mt={'nano'}
+          mt="xxxs"
           alignItems="center"
+          mb="nano"
         >
           <Box
             height={50}
@@ -62,50 +61,71 @@ const AddressSelector = ({
                   alignItems="center"
                   justifyContent="center"
                 >
-                  {selected &&
+                  {selected && (
                     <Box
                       height={10}
                       width={10}
                       borderRadius="nano"
                       bg="preto"
                     />
-                  }
+                  )}
                 </Box>
               </Box>
             </Box>
           </Box>
           <Box paddingX="micro" flex={1}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+            <Typography
+              fontFamily="reservaSerifRegular"
+              fontSize={16}
+              lineHeight={21}
+            >
               {title}
             </Typography>
             <Box mt="nano" mb="quarck">
               <Typography
                 style={{ flexWrap: 'wrap' }}
                 fontFamily="nunitoRegular"
-                fontSize={12}
+                fontSize={13}
+                lineHeight={16}
               >
                 {address}
               </Typography>
             </Box>
 
-            <Typography fontFamily="nunitoRegular" fontSize={12}>
-              {zipcode}
-            </Typography>
-
-            <Box
-              flexDirection="row"
-              mb={'xxxs'}
-              justifyContent="flex-end"
-              alignItems="flex-end"
+            <Typography
+              fontFamily="nunitoRegular"
+              fontSize={13}
+              lineHeight={16}
             >
-              {editAndDelete &&
-                <>
+              {zipcode
+                .replace(/\D/g, '')
+                .replace(/(\d{2})(\d)/, '$1.$2')
+                .replace(/(\d{3})(\d)/, '$1-$2')
+                .replace(/(-\d{3})\d+?$/, '$1')}
+            </Typography>
+          </Box>
+        </Box>
+        {selected && (
+          <Box
+            flexDirection="row"
+            mb="nano"
+            justifyContent="flex-end"
+            alignItems="flex-end"
+          >
+            {editAndDelete && (
+              <>
+                <Box flexDirection="row">
                   <Button
                     onPress={edit}
                     pb={'quarck'}
                     hitSlop={{ top: 10, left: 10, bottom: 30, right: 10 }}
                   >
-                    <Typography style={{ textDecorationLine: 'underline' }}>
+                    <Typography
+                      fontFamily="nunitoRegular"
+                      fontSize={13}
+                      lineHeight={16}
+                      style={{ textDecorationLine: 'underline' }}
+                    >
                       editar
                     </Typography>
                   </Button>
@@ -114,13 +134,13 @@ const AddressSelector = ({
                     hitSlop={{ top: 10, left: -10, bottom: 30, right: 10 }}
                     onPress={deleteAddress}
                   >
-                    <Icon ml={'xxs'} name="Trash" color="preto" size={24} />
+                    <Icon ml={'xxs'} name="Trash" color="preto" size={15} />
                   </Button>
-                </>
-              }
-            </Box>
+                </Box>
+              </>
+            )}
           </Box>
-        </Box>
+        )}
       </TouchableOpacity>
     </>
   );

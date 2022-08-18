@@ -6,6 +6,8 @@ const urlBase2 = 'https://lojausereserva.myvtex.com/api/';
 
 const urlUser = 'https://www.usereserva.com/';
 
+const urlDeleteUser = 'http://api.vtex.com/applojausereserva/';
+
 const sendEmail = 'https://reservapto.com.br/recapi/v2/'
 
 const url = urlBase;
@@ -59,4 +61,13 @@ const instance5 = axios.create({
   },
 });
 
-export { instance, url, urlBase, instance2, instance3, instance4, instance5 };
+const instance6 = axios.create({
+  baseURL: urlDeleteUser,
+  timeout: 30000,
+  headers: {
+    'X-VTEX-API-APPKEY': AppKey,
+    'X-VTEX-API-APPTOKEN': AppToken,
+  },
+});
+
+export { instance, url, urlBase, instance2, instance3, instance4, instance5, instance6 };

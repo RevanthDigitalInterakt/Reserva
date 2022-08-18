@@ -112,6 +112,8 @@ export const homeQuery = gql`
           items {
             reference
             reservaMini
+            isLandingPage
+            landingPageId
             image {
               fileName
               title
