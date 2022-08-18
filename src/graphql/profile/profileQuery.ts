@@ -30,8 +30,9 @@ export type ProfileVars = {
 
 export const profileQuery = gql`
   query Profile {
-    profile(customFields: "profileImagePath,isNewsletterOptIn")
-      @context(provider: "vtex.store-graphql") {
+    profile(
+      customFields: "profileImagePath,isNewsletterOptIn,userAcceptedTerms"
+    ) @context(provider: "vtex.store-graphql") {
       userId
       firstName
       lastName

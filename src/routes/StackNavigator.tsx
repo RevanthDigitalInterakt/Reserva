@@ -29,6 +29,7 @@ import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavig
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
 import { EditProfile } from '../modules/Profile/pages/EditProfile';
+import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
 import { ListCards } from '../modules/Profile/pages/ListCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
@@ -46,10 +47,18 @@ import {
   ProductFlow,
   TimeRaceFlow,
   RegisterFlow,
+  OnboardingFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
-import { CEPList, CepsInfo, SearchBy } from '../modules/ChangeRegionalization/pages/CEPList';
+import {
+  CEPList,
+  CepsInfo,
+  SearchBy,
+} from '../modules/ChangeRegionalization/pages/CEPList';
+
+import { Onboarding } from '../modules/Onboarding/pages/Onboarding';
+import { LandingPage } from '../modules/LandingPage/LandingPage';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -78,8 +87,8 @@ export type RootStackParamList = {
   };
   ChangeRegionalization: undefined;
   CEPList: {
-    list: CepsInfo,
-    searchBy: SearchBy
+    list: CepsInfo;
+    searchBy: SearchBy;
   };
   WishList: {};
   OrderDetail: {
@@ -94,11 +103,15 @@ export type RootStackParamList = {
   ForgotPassword: {} | undefined;
   ForgotNewPassword: { email: string; code: string };
   ForgotEmailSuccess: {} | undefined;
+  LandingPage: {
+    landingPageId: string;
+  };
   NewAddress: {
     id?: number;
     isCheckout: boolean;
     edit?: boolean;
-    onAddAddressCallBack?: () => void
+    receiveHome?: boolean;
+    onAddAddressCallBack?: () => void;
     editAddress?: {
       id: string;
       postalCode: string;
@@ -139,22 +152,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -168,9 +181,10 @@ export type RootStackParamList = {
   VirtualDebitCardCaixaScreen: {
     cashback: boolean;
   };
+  Onboarding: {};
   BagScreen: {
     isProfileComplete: boolean;
-  }
+  };
 };
 
 const flows: Flow[] = [
@@ -184,6 +198,7 @@ const flows: Flow[] = [
   ...MyCreditsRoutes,
   ...RegisterFlow,
   ...MyCashbackRoutes,
+  ...OnboardingFlow,
 ];
 
 export const MainStack = createStackNavigator();
@@ -204,18 +219,26 @@ export const MainStackScreen = () => (
         initialParams={flow.initialParams}
       />
     ))}
+    <MainStack.Screen name="LandingPage" component={LandingPage} />
     <MainStack.Screen name="SearchMenu" component={SearchScreen} />
     {/* <MainStack.Screen name="WishList" component={WishList} /> */}
     <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
     <MainStack.Screen name="WishListCategory" component={WishListCategory} />
-    <MainStack.Screen name="ChangeRegionalization" component={ChangeRegionalization} />
+    <MainStack.Screen
+      name="ChangeRegionalization"
+      component={ChangeRegionalization}
+    />
     <MainStack.Screen name="CEPList" component={CEPList} />
     <MainStack.Screen
       name="ShowListByCategory"
       component={ShowListByCategory}
     />
 
-    <MainStack.Screen name="BagScreen" component={BagScreen} initialParams={{ isProfileComplete: false }} />
+    <MainStack.Screen
+      name="BagScreen"
+      component={BagScreen}
+      initialParams={{ isProfileComplete: false }}
+    />
     <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
     <MainStack.Screen name="Update" component={Update} />
     <MainStack.Screen
@@ -254,6 +277,10 @@ export const MainStackScreen = () => (
 
     <MainStack.Screen name="EditProfile" component={EditProfile} />
     <MainStack.Screen name="EditPassword" component={EditPassword} />
+    <MainStack.Screen
+      name="AccountDeletedSuccessfully"
+      component={AccountDeletedSuccessfully}
+    />
     <MainStack.Screen
       name="NotificationProfile"
       component={NotificationProfile}

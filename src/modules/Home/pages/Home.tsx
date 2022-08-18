@@ -10,24 +10,25 @@ import moment from 'moment';
 import React, {
   useCallback,
   useEffect,
-  useLayoutEffect, useMemo, useState
+  useLayoutEffect,
+  useMemo,
+  useState,
 } from 'react';
-import {
-  Dimensions, SafeAreaView,
-  ScrollView
-} from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { PrimeProductList } from '../../../shared/components/PrimeProductList';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
 import { useContentfull } from '../../../context/ContentfullContext';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import {
-  Carrousel, CarrouselTypes,
+  Carrousel,
+  CarrouselTypes,
   configCollection,
   homeQuery,
   HomeQuery,
   ICountDownClock,
-  ICountDownClockReservaMini
+  ICountDownClockReservaMini,
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
@@ -41,7 +42,6 @@ import { DefaultCarrousel } from '../component/Carrousel';
 import { CountDownBanner } from '../component/CountDown';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
-
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -132,6 +132,8 @@ export const HomeScreen: FC<{
           url: imageDescription.image.url,
           reference: imageDescription.reference,
           route: imageDescription.route,
+          isLandingPage: imageDescription.isLandingPage,
+          landingPageId: imageDescription.landingPageId,
           reservaMini: imageDescription.reservaMini,
         })
       );
@@ -154,8 +156,9 @@ export const HomeScreen: FC<{
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
-            }:${limitDate?.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${
+            limitDate?.minutes
+          }:${limitDate?.seconds}`,
         });
       }
     }
@@ -180,8 +183,9 @@ export const HomeScreen: FC<{
         if (limitDate) {
           setCountDownClock({
             ...countDownClock,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+              limitDate.minutes
+            }:${limitDate.seconds}`,
           });
         }
       }
@@ -353,7 +357,8 @@ export const HomeScreen: FC<{
                     height={item.height}
                     reference={item.reference}
                     url={item.url}
-                    route={item.route}
+                    route={item.isLandingPage ? 'LandingPage' : item.route}
+                    landingPageId={item.landingPageId}
                     reservaMini={item.reservaMini}
                   />
                 );

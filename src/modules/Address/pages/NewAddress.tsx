@@ -4,29 +4,29 @@ import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  KeyboardAvoidingView, SafeAreaView,
-  ScrollView, StyleProp,
-  TextStyle
+  KeyboardAvoidingView,
+  SafeAreaView,
+  ScrollView,
+  StyleProp,
+  TextStyle,
 } from 'react-native';
 import {
   TextInputMaskOptionProp,
-  TextInputMaskTypeProp
+  TextInputMaskTypeProp,
 } from 'react-native-masked-text';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import {
   saveAddressMutation,
-  updateAddress
+  updateAddress,
 } from '../../../graphql/address/addressMutations';
 import {
   profileQuery,
-  ProfileVars
+  ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-
-
 
 interface IAddress {
   postalCode: string;
@@ -45,19 +45,20 @@ type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit, editAddress, isCheckout, onAddAddressCallBack } = route?.params;
+  const { edit, editAddress, isCheckout, onAddAddressCallBack, receiveHome } =
+    route?.params;
   const [addressId, setAddressId] = useState(editAddress?.id);
   const [toggleActivated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
   const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
-  const [getProfile, { }] = useLazyQuery(profileQuery);
+  const [getProfile, {}] = useLazyQuery(profileQuery);
 
   const [{ profileData, loadingProfile }, setProfileData] = useState({
     profileData: null,
-    loadingProfile: true
-  })
+    loadingProfile: true,
+  });
 
   const [profile, setProfile] = useState<ProfileVars>();
   const [initialValues, setInitialValues] = useState<IAddress>({
@@ -90,28 +91,27 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const { email } = useAuth();
 
-
   const handleSaveAddress = async () => {
     setLoading(true);
 
     edit
       ? await addressUpdate({
-        variables: {
-          id: addressId,
-          fields: {
-            ...initialValues,
-            receiverName: `${profile?.firstName} ${profile?.lastName}`,
+          variables: {
+            id: editAddress?.id,
+            fields: {
+              ...initialValues,
+              receiverName: `${profile?.firstName} ${profile?.lastName}`,
+            },
           },
-        },
-      })
+        })
       : await saveAddress({
-        variables: {
-          fields: {
-            ...initialValues,
-            receiverName: `${profile?.firstName} ${profile?.lastName}`,
+          variables: {
+            fields: {
+              ...initialValues,
+              receiverName: `${profile?.firstName} ${profile?.lastName}`,
+            },
           },
-        },
-      });
+        });
 
     onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
@@ -233,9 +233,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       setProfileData({
         profileData: response.data,
         loadingProfile: false,
-      })
-    })
-  }, [])
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (profileData) {
@@ -284,7 +284,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         complement: editAddress.complement,
         street: editAddress.street,
         neighborhood: editAddress.neighborhood,
-
       });
       setLabelNeighborhood('Bairro');
       setLabelCity('Cidade');
@@ -310,18 +309,36 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
           style={{ marginBottom: 30 }}
         >
           <KeyboardAvoidingView>
-            <Box pb="sm">
-              <Box paddingX="xxxs" justifyContent="flex-start" pt="sm">
+            <Box pt="xxxs">
+              <Box paddingX="xxxs" justifyContent="flex-start">
                 <Box alignSelf="flex-start" mb="nano">
                   {edit ? (
-                    <Typography variant="tituloSessoes">
-                      Editar endereço
+                    <Typography
+                      fontFamily="reservaSerifRegular"
+                      fontSize={28}
+                      lineHeight={32}
+                    >
+                      Alterar endereço
                     </Typography>
                   ) : (
-                    <Typography variant="tituloSessoes" fontSize={20}>
+                    <Typography
+                      fontFamily="reservaSerifRegular"
+                      fontSize={28}
+                      lineHeight={32}
+                    >
                       Adicionar endereço
                     </Typography>
                   )}
+                </Box>
+
+                <Box mt="micro">
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize={15}
+                    lineHeight={18}
+                  >
+                    Insira o endereço do destinatário:
+                  </Typography>
                 </Box>
 
                 <InputOption
@@ -480,7 +497,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   </Box>
                 )}
 
-                {edit && (
+                {edit && !receiveHome ? (
                   <Button
                     disabled={loading || !buttonEnabled}
                     // width="240px"
@@ -489,7 +506,24 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     title="SALVAR ALTERAÇÕES"
                     variant="primarioEstreitoOutline"
                   />
-                )}
+                ) : null}
+              </Box>
+              <Box mt="xxl" mb="xxxs">
+                {edit && receiveHome ? (
+                  <Button
+                    disabled={loading || !buttonEnabled}
+                    // width="240px"
+
+                    onPress={handleSaveAddress}
+                    title="SALVAR"
+                    variant="primarioEstreito"
+                    inline
+                    fontFamily="nunitoRegular"
+                    fontSize={13}
+                    lineHeight={24}
+                    letterSpacing={1.6}
+                  />
+                ) : null}
               </Box>
             </Box>
           </KeyboardAvoidingView>
@@ -499,7 +533,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             onPress={
               !isCheckout ? handleSaveAddress : handlePaymentMethodScreen
             }
-            title="INCLUIR ENDEREÇO"
+            title={receiveHome ? 'IR PARA ENTREGA' : 'INCLUIR ENDEREÇO'}
             variant="primarioEstreito"
             inline
             disabled={!validateForm || !validateNumber || loading}

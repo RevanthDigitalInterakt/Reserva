@@ -1,12 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { Linking, SafeAreaView, ScrollView } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { Linking, SafeAreaView, ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { Typography, Box, Icon, Divider } from "@danilomsou/reserva-ui";
+import { Typography, Box, Icon, Divider } from '@danilomsou/reserva-ui';
 
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 type ItemContactProps = {
   local: string;
@@ -20,11 +20,7 @@ export const ContactUs: React.FC<{}> = () => {
   const navigation = useNavigation();
 
   const onClickWhatsappButton = () => {
-    Linking.openURL("https://whts.co/reserva");
-  };
-
-  const onClickMail = () => {
-    Linking.openURL(`mailto:sac@usereserva.com`);
+    Linking.openURL(`whatsapp://send?phone=${552121084990}`);
   };
 
   const ItemContact = ({
@@ -35,20 +31,20 @@ export const ContactUs: React.FC<{}> = () => {
     divider,
   }: ItemContactProps) => {
     return (
-      <Box width={"100%"}>
+      <Box width={'100%'}>
         <TouchableOpacity onPress={onPress}>
           <Box
-            pb={"xxxs"}
-            pt={"xxxs"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
+            pb={'xxxs'}
+            pt={'xxxs'}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
           >
             <Box
-              justifyContent={"center"}
-              flexDirection={"row"}
+              justifyContent={'center'}
+              flexDirection={'row'}
               alignItems="center"
             >
-              <Box mr={"micro"}>
+              <Box mr={'micro'}>
                 <Icon name={icon} size={20} />
               </Box>
 
@@ -56,7 +52,7 @@ export const ContactUs: React.FC<{}> = () => {
                 {local && (
                   <Typography color="borderColorProduct">{local}</Typography>
                 )}
-                <Typography fontFamily={"nunitoRegular"} fontSize={15}>
+                <Typography fontFamily={'nunitoRegular'} fontSize={15}>
                   {label}
                 </Typography>
               </Box>
@@ -65,7 +61,7 @@ export const ContactUs: React.FC<{}> = () => {
             <Icon name="ArrowProcced" size={26} />
           </Box>
         </TouchableOpacity>
-        {divider === true && <Divider variant={"fullWidth"} />}
+        {divider === true && <Divider variant={'fullWidth'} />}
       </Box>
     );
   };
@@ -73,23 +69,23 @@ export const ContactUs: React.FC<{}> = () => {
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: "space-between" }}
+      style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
       <TopBarBackButton />
 
       <ScrollView>
-        <Box variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography variant={"tituloSessoes"}>Fale conosco</Typography>
+        <Box variant="container" flex={1} pt={'xs'} paddingX={'xxxs'}>
+          <Box mb={'micro'} alignSelf={'flex-start'}>
+            <Typography variant={'tituloSessoes'}>Fale conosco</Typography>
           </Box>
 
-          <ItemContact
+          {/* <ItemContact
             divider={true}
             icon="Mail"
             label="sac@usereserva.com"
             onPress={onClickMail}
-          />
+          /> */}
 
           <ItemContact
             divider={true}
@@ -100,8 +96,8 @@ export const ContactUs: React.FC<{}> = () => {
             }}
           />
           <ItemContact
-            icon={"Whatsapp"}
-            label={"Whatsapp Reserva"}
+            icon={'Whatsapp'}
+            label={'Whatsapp Reserva'}
             onPress={onClickWhatsappButton}
           />
         </Box>

@@ -32,6 +32,10 @@ target 'reserva' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+
+  pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
+
   target 'reservaTests' do
     inherit! :complete
     # Pods for testing

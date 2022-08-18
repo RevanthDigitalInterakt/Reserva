@@ -28,7 +28,7 @@ import {
   TextField,
   Toggle,
   Typography,
-  Picker
+  Picker,
 } from '@danilomsou/reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
@@ -46,24 +46,30 @@ import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
 import IsTestingModal from '../Components/IsTestingModal';
+import ModalDeleteAccount from '../Components/ModalDeleteAccount';
+import {
+  MyCashbackAPI,
+  MyProfileAPI,
+  ProfileHttpUrl,
+} from './api/MyProfileAPI';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
 const genderPtToEng = {
-  'Homem': 'male',
-  'Mulher': 'female',
+  Homem: 'male',
+  Mulher: 'female',
   'Não binário': 'genderqueer',
-  'Outro': 'other',
-}
+  Outro: 'other',
+};
 
 const genderEngToPt = {
-  'male': 'Homem',
-  'female': 'Mulher',
-  'genderqueer': 'Não binário',
-  'other': 'Outro',
-}
+  male: 'Homem',
+  female: 'Mulher',
+  genderqueer: 'Não binário',
+  other: 'Outro',
+};
 
-const genderType = ['Homem', 'Mulher', 'Não binário', 'Outro']
+const genderType = ['Homem', 'Mulher', 'Não binário', 'Outro'];
 
 export const EditProfile = ({ route }: Props) => {
   const navigation = useNavigation();
@@ -106,9 +112,10 @@ export const EditProfile = ({ route }: Props) => {
     });
   }, []);
   const [loadingScreen, setLoadingScreen] = useState(false);
-  const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false)
+  const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false);
 
-  const { addCustomer, orderForm, identifyCustomer } = useCart();
+  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile } =
+    useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
 
@@ -124,19 +131,22 @@ export const EditProfile = ({ route }: Props) => {
   const [labelBirthDate, setLabelBirthDate] = useState(null);
   const [labelPhone, setLabelPhone] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [showModalDeleteAccount, setShowModalDeleteAccount] = useState(false);
+
   const [{ data, loading }, setProfileData] = useState({
     data: null,
     loading: true,
   });
 
-  const [getProfile] = useLazyQuery(profileQuery,
-    {
-      fetchPolicy: 'no-cache'
-    }
-  );
+  const [userAccept, setUserAccept] = useState(false);
+  const [onboardingView, setOnboardingView] = useState(false);
+  const [getProfile] = useLazyQuery(profileQuery, {
+    fetchPolicy: 'no-cache',
+  });
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
+      console.log('res ::::::::::::>>>>>>>>>>>>>>>>>>', res);
       setProfileData({
         data: res.data,
         loading: false,
@@ -228,7 +238,7 @@ export const EditProfile = ({ route }: Props) => {
           setIsEmptyGender(true);
         } else {
           setIsEmptyGender(false);
-          setGender(genderEngToPt[data?.profile?.gender])
+          setGender(genderEngToPt[data?.profile?.gender]);
         }
       }
       setLoadingScreen(false);
@@ -248,6 +258,13 @@ export const EditProfile = ({ route }: Props) => {
       });
     }
     getToken();
+    async function userAcceptData() {
+      const res = await AsyncStorage.getItem('@user:accepted');
+      if (res === 'true') {
+        setUserAccept(true);
+      }
+    }
+    userAcceptData();
   }, []);
 
   useEffect(() => {
@@ -324,7 +341,7 @@ export const EditProfile = ({ route }: Props) => {
       document: userData.document.replace(/[^\d]+/g, ''),
       birthDate: splittedBirthDate?.reverse().join('-'),
       homePhone: newPhone.replace(/[^\d\+]+/g, ''),
-      gender: userData.gender
+      gender: userData.gender,
     };
 
     let profileImage = profileImagePath;
@@ -353,6 +370,8 @@ export const EditProfile = ({ route }: Props) => {
       }
     }
 
+    console.log('RESPONSE USER ACCEPT', userAccept);
+
     const customField: ProfileCustomFieldsInput[] = [
       {
         key: 'isNewsletterOptIn',
@@ -365,6 +384,10 @@ export const EditProfile = ({ route }: Props) => {
       {
         key: 'profileImagePath',
         value: `${profileImage}`,
+      },
+      {
+        key: 'userAcceptedTerms',
+        value: `${userAccept}`,
       },
     ];
 
@@ -399,7 +422,9 @@ export const EditProfile = ({ route }: Props) => {
         })
           .then(async () => await identifyCustomer(email))
           .then(() => setLoadingScreen(false))
-          .then(() => navigation.navigate('BagScreen', { isProfileComplete: true }));
+          .then(() =>
+            navigation.navigate('BagScreen', { isProfileComplete: true })
+          );
       }
     }
   };
@@ -626,8 +651,19 @@ export const EditProfile = ({ route }: Props) => {
     }
   };
 
+  const getOnboardingData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+
+    if (appData === 'true') {
+      setOnboardingView(true);
+    } else {
+      setOnboardingView(false);
+    }
+  };
+
   useEffect(() => {
     getTestEnvironment();
+    getOnboardingData();
   }, []);
 
   const handleChangeTesting = async (value: boolean) => {
@@ -636,6 +672,27 @@ export const EditProfile = ({ route }: Props) => {
     await AsyncStorage.setItem('isTesting', JSON.stringify(value));
 
     setIsTesting(value);
+  };
+
+  const handleViewOnboarding = async (value: boolean) => {
+    if (value === true) {
+      await AsyncStorage.setItem('isAppFirstLaunched', 'true');
+    } else {
+      await AsyncStorage.setItem('isAppFirstLaunched', 'false');
+    }
+    setOnboardingView(value);
+  };
+
+  const handleDeleteAccount = async () => {
+    if (userData) {
+      const { status } = await MyProfileAPI.delete(
+        `${ProfileHttpUrl.DELETE_CUSTOMER}CL-${userData.userId}`
+      );
+      if (status === 204) {
+        setShowModalDeleteAccount(false);
+        navigation.navigate('AccountDeletedSuccessfully');
+      }
+    }
   };
 
   return (
@@ -909,14 +966,14 @@ export const EditProfile = ({ route }: Props) => {
                 <TouchableOpacity
                   onPress={() => {
                     if (isVisibleGenderPicker) {
-                      setIsVisibleGenderPicker(false)
+                      setIsVisibleGenderPicker(false);
 
                       if (gender === '') {
-                        setIsEmptyGender(true)
+                        setIsEmptyGender(true);
                       }
                     } else {
-                      setIsVisibleGenderPicker(true)
-                      setIsEmptyGender(false)
+                      setIsVisibleGenderPicker(true);
+                      setIsEmptyGender(false);
                     }
                   }}
                 >
@@ -926,15 +983,15 @@ export const EditProfile = ({ route }: Props) => {
                     flexDirection="row"
                     height={60}
                     borderWidth="hairline"
-                    borderColor={isEmptyGender ? 'vermelhoAlerta' : 'transparente'}
+                    borderColor={
+                      isEmptyGender ? 'vermelhoAlerta' : 'transparente'
+                    }
                   >
-                    <Box
-                      ml="xxxs"
-                    >
-                      {gender !== ''
-                        ? <Box
+                    <Box ml="xxxs">
+                      {gender !== '' ? (
+                        <Box
                           style={{
-                            marginTop: -12
+                            marginTop: -12,
                           }}
                         >
                           <Typography
@@ -944,12 +1001,9 @@ export const EditProfile = ({ route }: Props) => {
                             Gênero
                           </Typography>
 
-                          <Box
-                            mt='nano'
-                            pl='quarck'
-                          >
+                          <Box mt="nano" pl="quarck">
                             <Typography
-                              fontFamily='nunitoRegular'
+                              fontFamily="nunitoRegular"
                               color="preto"
                               fontSize={15}
                             >
@@ -957,22 +1011,18 @@ export const EditProfile = ({ route }: Props) => {
                             </Typography>
                           </Box>
                         </Box>
-                        : <Typography
+                      ) : (
+                        <Typography
                           variant="descricaoCampoDePreenchimento"
                           color="neutroFrio2"
                           fontSize={15}
                         >
                           Selecione sua identidade de gênero
                         </Typography>
-                      }
-
+                      )}
                     </Box>
 
-                    <Box
-                      position={'absolute'}
-                      right={0}
-                      top={24}
-                    >
+                    <Box position={'absolute'} right={0} top={24}>
                       <Icon
                         color="preto"
                         name="ArrowDown"
@@ -983,20 +1033,23 @@ export const EditProfile = ({ route }: Props) => {
                   </Box>
                 </TouchableOpacity>
 
-                {isVisibleGenderPicker &&
+                {isVisibleGenderPicker && (
                   <Box
                     position={'absolute'}
-                    width='100%'
+                    width="100%"
                     top={60}
                     zIndex={10000000}
                   >
                     {genderType.map((gender) => (
                       <TouchableOpacity
                         onPress={() => {
-                          setGender(gender)
-                          setUserData({ ...userData, gender: genderPtToEng[gender] })
-                          setIsEmptyGender(false)
-                          setIsVisibleGenderPicker(false)
+                          setGender(gender);
+                          setUserData({
+                            ...userData,
+                            gender: genderPtToEng[gender],
+                          });
+                          setIsEmptyGender(false);
+                          setIsVisibleGenderPicker(false);
                         }}
                       >
                         <Box
@@ -1006,10 +1059,10 @@ export const EditProfile = ({ route }: Props) => {
                           height={60}
                           borderWidth="hairline"
                           borderColor={'transparente'}
-                          pl='xxxs'
+                          pl="xxxs"
                         >
                           <Typography
-                            fontFamily='nunitoRegular'
+                            fontFamily="nunitoRegular"
                             color="preto"
                             fontSize={15}
                           >
@@ -1019,9 +1072,9 @@ export const EditProfile = ({ route }: Props) => {
                       </TouchableOpacity>
                     ))}
                   </Box>
-                }
+                )}
 
-                {isEmptyGender &&
+                {isEmptyGender && (
                   <Typography
                     fontFamily="nunitoRegular"
                     fontSize="13px"
@@ -1029,34 +1082,8 @@ export const EditProfile = ({ route }: Props) => {
                   >
                     Preencha sua identidade de gênero
                   </Typography>
-                }
+                )}
               </Box>
-
-              {/* <Picker
-                onAndroidBackButtonPress={() => { }}
-                onClose={() => setIsVisibleGenderPicker(false)}
-                onSelect={(selected) => {
-                  setGender(selected.text)
-                  setUserData({ ...userData, gender: genderPtToEng[selected.text] })
-                  setIsEmptyGender(false)
-                }}
-                isVisible={isVisibleGenderPicker}
-                items={[
-                  {
-                    text: 'Homem',
-                  },
-                  {
-                    text: 'Mulher',
-                  },
-                  {
-                    text: 'Não-binário',
-                  },
-                  {
-                    text: 'Outro',
-                  }
-                ]}
-                title="Identidade de gênero"
-              /> */}
 
               <Box mb="xxs">
                 <TextField
@@ -1092,7 +1119,7 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="nano" >
+              <Box mb="nano">
                 <TextField
                   keyboardType="number-pad"
                   maskType="custom"
@@ -1126,14 +1153,56 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
+              {isEmptyGender && (
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize="13px"
+                  color="vermelhoAlerta"
+                  style={{
+                    marginTop: -8,
+                  }}
+                >
+                  Preencha sua identidade de gênero
+                </Typography>
+              )}
+
+              {/* <Picker
+                onAndroidBackButtonPress={() => {}}
+                onClose={() => setIsVisibleGenderPicker(false)}
+                onSelect={(selected) => {
+                  setGender(selected.text);
+                  setUserData({
+                    ...userData,
+                    gender: genderPtToEng[selected.text],
+                  });
+                  setIsEmptyGender(false);
+                }}
+                isVisible={isVisibleGenderPicker}
+                items={[
+                  {
+                    text: 'Homem',
+                  },
+                  {
+                    text: 'Mulher',
+                  },
+                  {
+                    text: 'Não-binário',
+                  },
+                  {
+                    text: 'Outro',
+                  },
+                ]}
+                title="Identidade de gênero"
+              /> */}
+
               {isTester && (
-                <Box mb="sm" mt="sm" >
+                <Box mb="sm" mt="sm">
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
                     </TouchableOpacity>
                   </Box>
-                  <Box flexDirection="row" marginY="xxs" alignItems="center">
+                  <Box flexDirection="row" marginY="micro" alignItems="center">
                     <Box flex={1}>
                       <Typography variant="subtituloSessoes">
                         Ambiente de testes
@@ -1150,33 +1219,86 @@ export const EditProfile = ({ route }: Props) => {
                       />
                     </Box>
                   </Box>
+                  <Box flexDirection="row" marginY="micro" alignItems="center">
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Ativar Onboarding
+                      </Typography>
+                    </Box>
+                    <Box marginLeft="micro">
+                      <Toggle
+                        onValueChange={(onboardingView: boolean) =>
+                          handleViewOnboarding(!!onboardingView)
+                        }
+                        thumbColor="vermelhoAlerta"
+                        color="preto"
+                        value={onboardingView}
+                      />
+                    </Box>
+                  </Box>
                 </Box>
               )}
 
               {!isRegister && (
-                <Box mb="xs" mt="micro" flexDirection="row" >
-                  <Checkbox
-                    color="dropDownBorderColor"
-                    selectedColor="preto"
-                    width="100%"
-                    // checked={data?.receiveEmail === "yes"}
-                    checked={subscribed}
-                    onCheck={async () => {
-                      const { data } = await updateNewsLetter({
-                        variables: {
-                          email: userData.email,
-                          isNewsletterOptIn: !subscribed,
-                        },
-                      });
-                      if (data.subscribeNewsletter) setSubscribed(!subscribed);
-                    }}
-                    optionName="Desejo receber e-mails com promoções das marcas Reserva."
+                <>
+                  <Box mb="xs" mt="micro" flexDirection="row" zIndex={2}>
+                    <Checkbox
+                      color="dropDownBorderColor"
+                      selectedColor="preto"
+                      width="100%"
+                      // checked={data?.receiveEmail === "yes"}
+                      checked={subscribed}
+                      onCheck={async () => {
+                        const { data } = await updateNewsLetter({
+                          variables: {
+                            email: userData.email,
+                            isNewsletterOptIn: !subscribed,
+                          },
+                        });
+                        if (data.subscribeNewsletter)
+                          setSubscribed(!subscribed);
+                      }}
+                      optionName="Desejo receber e-mails com promoções das marcas Reserva."
+                    />
+                  </Box>
+                  <Box flexDirection="row" mb={84} bg="white" marginX={-1}>
+                    <Button
+                      flexDirection="row"
+                      onPress={() => setShowModalDeleteAccount(true)}
+                    >
+                      <>
+                        <Icon
+                          name="Trash"
+                          color="vermelhoAlerta"
+                          size={24}
+                          marginRight="quarck"
+                        />
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={15}
+                          color="vermelhoAlerta"
+                        >
+                          Deletar minha conta
+                        </Typography>
+                      </>
+                    </Button>
+                  </Box>
+
+                  <ModalDeleteAccount
+                    isVisible={showModalDeleteAccount}
+                    handleDeleteAccount={handleDeleteAccount}
+                    setIsVisible={() => setShowModalDeleteAccount(false)}
                   />
-                </Box>
+                </>
               )}
 
-              <Box mb="nano" justifyContent="space-between" flexDirection="row" >
-                {isRegister ? (
+              {isRegister && (
+                <Box
+                  mb="nano"
+                  justifyContent="space-between"
+                  flexDirection="row"
+                  zIndex={2}
+                >
                   <Box paddingLeft="nano" mt="sm" width={'100%'}>
                     <Button
                       title="SALVAR"
@@ -1194,43 +1316,57 @@ export const EditProfile = ({ route }: Props) => {
                       }
                     />
                   </Box>
-                ) : (
-                  <>
-                    <Box width={1 / 2} paddingRight="nano">
-                      <Button
-                        title="CANCELAR"
-                        variant="primarioEstreitoOutline"
-                        inline
-                        onPress={() => {
-                          navigation.goBack();
-                        }}
-                      />
-                    </Box>
-                    <Box paddingLeft="nano" width={1 / 2}>
-                      <Button
-                        title="SALVAR"
-                        variant="primarioEstreito"
-                        inline
-                        onPress={saveUserData}
-                        disabled={
-                          updateLoading ||
-                          loadingProfilePhoto ||
-                          loadingScreen ||
-                          isEmptyFullName ||
-                          cpfInvalid ||
-                          isEmptyHomePhone ||
-                          isEmptyBirthDate ||
-                          isEmptyGender
-                        }
-                      />
-                    </Box>
-                  </>
-                )}
-              </Box>
+                </Box>
+              )}
             </Box>
           </Box>
         </ScrollView>
       </KeyboardAvoidingView>
+      {!isRegister && (
+        <Box
+          flex={1}
+          width="100%"
+          justifyContent="space-between"
+          paddingX="xxxs"
+          alignItems="center"
+          flexDirection="row"
+          height={84}
+          style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
+          boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+          position="absolute"
+          backgroundColor="white"
+          bottom={0}
+        >
+          <Box width={1 / 2.2} paddingRight="nano">
+            <Button
+              title="CANCELAR"
+              variant="primarioEstreitoOutline"
+              inline
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          </Box>
+          <Box width={1 / 2.2} paddingLeft="nano">
+            <Button
+              title="SALVAR"
+              variant="primarioEstreito"
+              inline
+              onPress={saveUserData}
+              disabled={
+                updateLoading ||
+                loadingProfilePhoto ||
+                loadingScreen ||
+                isEmptyFullName ||
+                cpfInvalid ||
+                isEmptyHomePhone ||
+                isEmptyBirthDate ||
+                isEmptyGender
+              }
+            />
+          </Box>
+        </Box>
+      )}
     </SafeAreaView>
   );
 };

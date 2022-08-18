@@ -10,7 +10,7 @@ import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 
-import { images } from '../assets/index'
+import { images } from '../assets/index';
 
 import { TabBar } from './TabBar';
 import { Text } from 'react-native-svg';
