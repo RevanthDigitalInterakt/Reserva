@@ -207,12 +207,18 @@ export const ListHorizontalProducts = ({
           )}
           ListHeaderComponent={listHeader}
           renderItem={({ item, index }) => {
-            const installments =
-              item.items[0].sellers[0].commertialOffer.Installments;
-            const installmentsNumber =
-              installments.length > 0
-                ? installments[0].NumberOfInstallments
-                : 1;
+            let installments;
+
+            let countPosition = 0;
+            while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
+              countPosition++
+            }
+
+            installments = item.items[0].sellers[countPosition].commertialOffer.Installments
+
+            const installmentsNumber = installments.reduce((prev, next) =>
+              prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+              { NumberOfInstallments: 0, Value: 0 })
 
             const discountTag = getPercent(
               item.priceRange?.sellingPrice.lowPrice,
@@ -224,11 +230,9 @@ export const ListHorizontalProducts = ({
                 ? item.priceRange?.sellingPrice.lowPrice
                 : item.priceRange?.listPrice?.lowPrice || 0;
 
-            const installmentPrice =
-              installments.length > 0
-                ? installments[0].Value
-                : cashPaymentPrice;
-
+            const installmentPrice = installments.reduce((prev, next) =>
+              prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+              { NumberOfInstallments: 0, Value: 0 })
             // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
@@ -249,8 +253,8 @@ export const ListHorizontalProducts = ({
                 }}
                 // colors={null}
                 imageSource={item.items[0].images[0].imageUrl}
-                installmentsNumber={installmentsNumber} // numero de parcelas
-                installmentsPrice={installmentPrice || 0} // valor das parcelas
+                installmentsNumber={installmentsNumber?.NumberOfInstallments || 1} // numero de parcelas
+                installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0} // valor das parcelas
                 currency="R$"
                 discountTag={getPercent(
                   item.priceRange?.sellingPrice.lowPrice,
