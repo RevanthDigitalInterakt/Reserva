@@ -1,10 +1,19 @@
 import React from 'react';
 
-import { Dimensions, Platform, StyleSheet } from 'react-native';
+import { Dimensions, Platform, StyleSheet, PixelRatio } from 'react-native';
 import { theme } from '@danilomsou/reserva-ui';
 
 const { width, height } = Dimensions.get('window');
 
+let fontTitle = width * 0.10;
+let Subtitle = width * 0.038
+let description = width * 0.035
+if (PixelRatio.get() <= 2) {
+  fontTitle = width * 0.105;
+}
+
+console.log('fontTitle1', width * 0.10)
+console.log('fontTitle2', width * 0.105)
 export const styles = StyleSheet.create({
   boxIndicatorMain: {
     height: height * 0.25,
@@ -46,7 +55,7 @@ export const styles = StyleSheet.create({
   },
   typographyTitle: {
     fontFamily: theme.fonts.reservaSerifBold,
-    fontSize: 46,
+    fontSize: fontTitle,
     color: theme.colors.white,
     marginTop: 62,
     marginLeft: 34,
@@ -56,7 +65,7 @@ export const styles = StyleSheet.create({
   },
   typographySubtitle: {
     fontFamily: theme.fonts.reservaSansRegular,
-    fontSize: 16,
+    fontSize: Subtitle,
     color: theme.colors.white,
     marginLeft: 34,
     marginRight: 33,
@@ -64,7 +73,7 @@ export const styles = StyleSheet.create({
   },
   typographyDescription: {
     fontFamily: theme.fonts.reservaSansRegular,
-    fontSize: 14,
+    fontSize: description,
     color: theme.colors.white,
     lineHeight: 19,
     marginLeft: 34,
