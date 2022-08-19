@@ -198,6 +198,7 @@ export const configCollection = gql`
           descriptionModal
           reference
         }
+        offersPage
         searchMedia {
           title
           secionMediaCollection(limit: 10) {

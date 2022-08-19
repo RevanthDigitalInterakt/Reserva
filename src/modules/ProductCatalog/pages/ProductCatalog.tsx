@@ -7,11 +7,12 @@ import {
   Picker,
   SearchBar,
   theme,
-  Typography
+  Typography,
 } from '@danilomsou/reserva-ui';
 import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useConfigContext } from '../../../context/ConfigContext';
 import { intervalToDuration } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Linking } from 'react-native';
@@ -20,14 +21,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import {
   bannerDefaultQuery,
-  bannerQuery, configCollection,
-  ICountDownClock, ICountDownClockReservaMini
+  bannerQuery,
+  configCollection,
+  ICountDownClock,
+  ICountDownClockReservaMini,
 } from '../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
   productSearch,
-  ProductSearchData
+  ProductSearchData,
 } from '../../../graphql/products/productSearch';
 import { CountDownRsvMini } from '../../../modules/Home/component/reservaMini/CountDownRsvMini';
 import { RootStackParamList } from '../../../routes/StackNavigator';
@@ -40,16 +43,24 @@ import { EmptyProductCatalog } from '../components/EmptyProductCatalog/EmptyProd
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
 
-
-
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 export const ProductCatalog: React.FC<Props> = ({ route }) => {
+  const { offersPage } = useConfigContext();
+  const [referenceString, setReferenceString] = useState('');
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData
   );
   const pageSize = 12;
   const { safeArea, search, referenceId, title, reservaMini } = route.params;
+
+  useEffect(() => {
+    if (referenceId === 'offers-page') {
+      setReferenceString(offersPage);
+    } else {
+      setReferenceString(referenceId);
+    }
+  }, [referenceId]);
 
   const categoryId = 'camisetas';
   const navigation = useNavigation();
@@ -75,12 +86,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
   const [countDownClockRsvMini, setCountDownClockRsvMini] =
     React.useState<ICountDownClockReservaMini>();
-  const [{ collectionData }, setConfigCollection] = useState<{ collectionData: any }>({ collectionData: null });
+  const [{ collectionData }, setConfigCollection] = useState<{
+    collectionData: any;
+  }>({ collectionData: null });
   const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
-
-
 
   const generateFacets = (reference: string) => {
     const facetInput: any[] = [];
@@ -104,16 +115,19 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     return facetInput;
   };
 
-  const [{
-    data,
-    loading,
-    error,
-    // fetchMore,
-    // refetch,
-  }, setProductSearch] = useState<{
-    data: any | null,
-    loading: boolean,
-    error: any,
+  const [
+    {
+      data,
+      loading,
+      error,
+      // fetchMore,
+      // refetch,
+    },
+    setProductSearch,
+  ] = useState<{
+    data: any | null;
+    loading: boolean;
+    error: any;
     // fetchMore: (...props: any) => any,
     // refetch: (...props: any | undefined) => any,
   }>({
@@ -122,10 +136,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     error: null,
     // fetchMore: () => { },
     // refetch: () => { }
-  })
+  });
 
   const refetch = async () => {
-    const response = await getProductSearch()
+    const response = await getProductSearch();
 
     setProductSearch({
       data: response.data,
@@ -133,42 +147,39 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       error: response.error,
       // fetchMore: fetchMore,
       // refetch: refetch
-    })
-    return response
-  }
+    });
+    return response;
+  };
 
   const fetchMore = async (props: any) => {
-    const response = await getProductSearch(props)
+    const response = await getProductSearch(props);
     setProductSearch({
       data: response.data,
       loading: false,
       error: response.error,
       fetchMore: fetchMore,
-      refetch: refetch
-    })
-    return response
-  }
+      refetch: refetch,
+    });
+    return response;
+  };
 
-  const [getProductSearch] = useLazyQuery(
-    productSearch,
-    {
-      // skip,
-      variables: {
-        skusFilter: 'ALL_AVAILABLE',
-        hideUnavailableItems: true,
-        selectedFacets: [].concat(
-          generateFacets(referenceId),
-          filterRequestList
-        ),
-        orderBy: selectedOrder,
-        to: pageSize - 1,
-        simulationBehavior: 'default',
-        productOriginVtex: false,
-      },
-      fetchPolicy: 'no-cache',
-      nextFetchPolicy: 'no-cache',
-    }
-  );
+  const [getProductSearch] = useLazyQuery(productSearch, {
+    // skip,
+    variables: {
+      skusFilter: 'ALL_AVAILABLE',
+      hideUnavailableItems: true,
+      selectedFacets: [].concat(
+        generateFacets(referenceString),
+        filterRequestList
+      ),
+      orderBy: selectedOrder,
+      to: pageSize - 1,
+      simulationBehavior: 'default',
+      productOriginVtex: false,
+    },
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
 
   const [isReservaMini, setIsReservaMini] = useState(false);
   useEffect(() => {
@@ -194,8 +205,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-            }:${limitDate.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+            limitDate.minutes
+          }:${limitDate.seconds}`,
         });
       }
     }
@@ -223,112 +235,123 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     appsFlyer.logEvent('af_list_view', {
-      af_content_type: referenceId,
+      af_content_type: referenceString,
     });
     analytics().logEvent('product_list_view', {
-      content_type: referenceId,
+      content_type: referenceString,
     });
   }, []);
 
-  const [{
-    facetsData,
-    lodingFacets,
-  }, setFacets] = useState<{
-    facetsData: any,
-    lodingFacets: boolean,
+  const [{ facetsData, lodingFacets }, setFacets] = useState<{
+    facetsData: any;
+    lodingFacets: boolean;
   }>({
     facetsData: null,
     lodingFacets: true,
   });
 
-
   const [getFacets] = useLazyQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets: [].concat(generateFacets(referenceId), filterRequestList),
+      selectedFacets: [].concat(
+        generateFacets(referenceString),
+        filterRequestList
+      ),
     },
     fetchPolicy: 'no-cache',
   });
 
-  const [{
-    bannerData,
-    loadingBanner,
-    // refetchBanner
-  }, setBannerData] = useState<{
-    bannerData: any | null,
-    loadingBanner: boolean,
+  const [
+    {
+      bannerData,
+      loadingBanner,
+      // refetchBanner
+    },
+    setBannerData,
+  ] = useState<{
+    bannerData: any | null;
+    loadingBanner: boolean;
   }>({
     bannerData: null,
     loadingBanner: false,
-  })
+  });
 
   const refetchBanner = async () => {
-    const response = await getBanner()
+    const response = await getBanner();
     setBannerData({
       bannerData: response.data,
       loadingBanner: false,
-    })
-    return response
-  }
+    });
+    return response;
+  };
 
   const [getBanner] = useLazyQuery(bannerQuery, {
     context: { clientName: 'contentful' },
     variables: {
-      category: referenceId,
+      category: referenceString,
     },
   });
 
-  const [{
-    defaultBanner,
-    loadingDefaultBanner,
-  }, setDefaultBanner] = useState<{
-    defaultBanner: any,
-    loadingDefaultBanner: boolean,
+  const [{ defaultBanner, loadingDefaultBanner }, setDefaultBanner] = useState<{
+    defaultBanner: any;
+    loadingDefaultBanner: boolean;
   }>({
     defaultBanner: null,
-    loadingDefaultBanner: false
+    loadingDefaultBanner: false,
     // refetchDefaultBanner: () => { return {}},
-  })
+  });
 
   const refetchDefaultBanner = async () => {
-    const response = await getDefaultBanner()
+    const response = await getDefaultBanner();
     setDefaultBanner({
       defaultBanner: response.data,
       // refetchDefaultBanner,
-      loadingDefaultBanner: false
-    })
-    return response
-  }
+      loadingDefaultBanner: false,
+    });
+    return response;
+  };
 
-  const [getDefaultBanner] = useLazyQuery(bannerDefaultQuery, { context: { clientName: 'contentful' } });
+  const [getDefaultBanner] = useLazyQuery(bannerDefaultQuery, {
+    context: { clientName: 'contentful' },
+  });
 
   useEffect(() => {
-    getFacets().then(response => setFacets({
-      facetsData: response.data,
-      lodingFacets: false,
-      // refetchFacets: facetsData.refetch
-    }))
-    getBanner().then(response => setBannerData({
-      bannerData: response.data,
-      loadingBanner: false,
-      // refetchBanner
-    }))
-    getDefaultBanner().then(response => setDefaultBanner({
-      defaultBanner: response.data,
-      // refetchDefaultBanner: defaultBanner.refetch,
-      loadingDefaultBanner: false
-    }))
-    getCollection().then(response => setConfigCollection({
-      collectionData: response.data,
-    }))
-    getProductSearch().then(response => setProductSearch({
-      data: response.data,
-      loading: false,
-      error: response.error,
-      // fetchMore: response.fetchMore,
-      // refetch
-    }))
-  }, [])
+    getFacets().then((response) =>
+      setFacets({
+        facetsData: response.data,
+        lodingFacets: false,
+        // refetchFacets: facetsData.refetch
+      })
+    );
+    getBanner().then((response) =>
+      setBannerData({
+        bannerData: response.data,
+        loadingBanner: false,
+        // refetchBanner
+      })
+    );
+    getDefaultBanner().then((response) =>
+      setDefaultBanner({
+        defaultBanner: response.data,
+        // refetchDefaultBanner: defaultBanner.refetch,
+        loadingDefaultBanner: false,
+      })
+    );
+    getCollection().then((response) =>
+      setConfigCollection({
+        collectionData: response.data,
+      })
+    );
+    getProductSearch().then((response) =>
+      setProductSearch({
+        data: response.data,
+        loading: false,
+        error: response.error,
+        // fetchMore: response.fetchMore,
+        // refetch
+      })
+    );
+  }, []);
 
   const setBannerDefaultImage = async () => {
     const { data } = await refetchDefaultBanner();
@@ -343,9 +366,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     setSkeletonLoading(true);
     setSkip(true);
     const { data, loading } = await refetch();
-    setProductSearch({ data, loading, fetchMore, refetch, error })
+    setProductSearch({ data, loading, fetchMore, refetch, error });
     setSkeletonLoading(false);
-    await refetchBanner({ category: referenceId });
+    await refetchBanner({ category: referenceString });
   };
 
   useEffect(() => {
@@ -378,9 +401,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value: ColorsToHexEnum[value],
-          }))
+              key,
+              value: ColorsToHexEnum[value],
+            }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -390,9 +413,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // CATEGORY
@@ -402,9 +425,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // PRICE
@@ -412,9 +435,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-            key,
-            range,
-          }))
+              key,
+              range,
+            }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -439,12 +462,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
         selectedFacets: [].concat(
-          generateFacets(referenceId),
+          generateFacets(referenceString),
           filterRequestList
         ),
       },
     });
-    setProductSearch({ data, loading, fetchMore, refetch, error })
+    setProductSearch({ data, loading, fetchMore, refetch, error });
     // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
 
@@ -466,7 +489,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
         selectedFacets: [].concat(
-          generateFacets(referenceId),
+          generateFacets(referenceString),
           filterRequestList
         ),
         orderBy: selectedOrder,
@@ -476,7 +499,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       });
 
       if (!loading && !!data) {
-        setProductSearch({ data, loading, fetchMore, refetch, error })
+        setProductSearch({ data, loading, fetchMore, refetch, error });
         setProducts(data.productSearch);
       }
     };
@@ -508,7 +531,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   // recarrega a página de promoção do relógio
   const loadWatchPromotionPage = async () => {
     if (countDownClock) {
-      if (countDownClock?.reference === referenceId) {
+      if (countDownClock?.reference === referenceString) {
         setWatchLoading(true);
         setSkeletonLoading(true);
         setSkip(true);
@@ -518,7 +541,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             skusFilter: 'ALL_AVAILABLE',
             hideUnavailableItems: true,
             selectedFacets: [].concat(
-              generateFacets(referenceId),
+              generateFacets(referenceString),
               filterRequestList
             ),
             orderBy: selectedOrder,
@@ -527,12 +550,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             productOriginVtex: false,
           });
           if (!loading && !!data) {
-            setProductSearch({ data, loading, fetchMore, refetch, error })
+            setProductSearch({ data, loading, fetchMore, refetch, error });
             setWatchLoading(loading);
             setProducts(data.productSearch);
           }
           setSkeletonLoading(false);
-          await refetchBanner({ category: referenceId });
+          await refetchBanner({ category: referenceString });
         };
         fetch();
       } else {
@@ -552,8 +575,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         'countDownClockRsvMini?.reference',
         countDownClockRsvMini?.reference
       );
-      console.log('referenceId', referenceId);
-      if (countDownClockRsvMini?.reference === referenceId) {
+      console.log('referenceString', referenceString);
+      if (countDownClockRsvMini?.reference === referenceString) {
         console.log('entrou');
         setWatchLoading(true);
         setSkeletonLoading(true);
@@ -564,7 +587,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             skusFilter: 'ALL_AVAILABLE',
             hideUnavailableItems: true,
             selectedFacets: [].concat(
-              generateFacets(referenceId),
+              generateFacets(referenceString),
               filterRequestList
             ),
             orderBy: selectedOrder,
@@ -573,12 +596,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             productOriginVtex: false,
           });
           if (!loading && !!data) {
-            setProductSearch({ data, loading, fetchMore, refetch, error })
+            setProductSearch({ data, loading, fetchMore, refetch, error });
             setWatchLoading(loading);
             setProducts(data.productSearch);
           }
           setSkeletonLoading(false);
-          await refetchBanner({ category: referenceId });
+          await refetchBanner({ category: referenceString });
         };
         fetch();
       } else {
@@ -593,11 +616,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     loadWatchPromotionPage();
-  }, [countDownClock, referenceId]);
+  }, [countDownClock, referenceString]);
 
   useEffect(() => {
     loadWatchPromotionPageMini();
-  }, [countDownClockRsvMini, referenceId]);
+  }, [countDownClockRsvMini, referenceString]);
 
   useEffect(() => {
     console.log('loading::>', loading);
@@ -843,11 +866,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <Text>Carregando...</Text>
         </Box>
       </Modal> */}
-      {productsQuery.products &&
-        productsQuery.products.length > 0 ?
+      {productsQuery.products && productsQuery.products.length > 0 ? (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
-          products={data.productSearch.products}//productsQuery.products}
+          products={data.productSearch.products} //productsQuery.products}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}
@@ -910,7 +932,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontSize="14px"
                     >
                       {productsQuery.products?.length == 0 &&
-                        filterRequestList.length > 0
+                      filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
                     </Typography>
@@ -965,11 +987,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             </>
           }
         />
-        :
-        <EmptyProductCatalog
-          onPress={() => navigation.navigate('Home')}
-        />
-      }
+      ) : (
+        <EmptyProductCatalog onPress={() => navigation.navigate('Home')} />
+      )}
     </DynamicComponent>
   );
 };

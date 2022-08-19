@@ -42,6 +42,7 @@ import { DefaultCarrousel } from '../component/Carrousel';
 import { CountDownBanner } from '../component/CountDown';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
+import { useConfigContext } from '../../../context/ConfigContext';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -49,6 +50,7 @@ dayjs.extend(timezone);
 export const HomeScreen: FC<{
   title: string;
 }> = () => {
+  const { setOffersPage } = useConfigContext();
   const navigation = useNavigation();
   const { isTesting } = useContentfull();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
@@ -143,6 +145,8 @@ export const HomeScreen: FC<{
 
   useEffect(() => {
     if (collectionData) {
+      setOffersPage(collectionData?.configCollection.items[0].offersPage);
+
       let countDownClockMini =
         collectionData?.configCollection?.items[0].countDownClockReservaMini;
 
