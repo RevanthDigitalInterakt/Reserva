@@ -5,15 +5,12 @@ import { theme } from '@danilomsou/reserva-ui';
 
 const { width, height } = Dimensions.get('window');
 
-let fontTitle = width * 0.10;
+let fontTitle = Platform.OS === 'android' ? width * 0.10 : width * 0.116;
 let Subtitle = width * 0.038
 let description = width * 0.035
 if (PixelRatio.get() <= 2) {
   fontTitle = width * 0.105;
 }
-
-console.log('fontTitle1', width * 0.10)
-console.log('fontTitle2', width * 0.105)
 export const styles = StyleSheet.create({
   boxIndicatorMain: {
     height: height * 0.25,
