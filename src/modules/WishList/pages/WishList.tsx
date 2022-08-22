@@ -34,9 +34,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
-  useEffect(() => {
-    console.log('wishIds123', wishIds);
-  }, [wishIds]);
+  // useEffect(() => {
+  //   console.log('wishIds123', wishIds);
+  // }, [wishIds]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
@@ -183,10 +183,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
-      console.log(
-        'products123',
-        products?.productsByIdentifier.map((x) => x.productId)
-      );
+      // console.log(
+      //   'products123',
+      //   products?.productsByIdentifier.map((x) => x.productId)
+      // );
       setWishProducts(products.productsByIdentifier);
     }
   }, [products]);
@@ -250,9 +250,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       // )
     }, [cookie])
   );
-  useEffect(() => {
-    console.log('wishProducts', wishProducts);
-  }, [wishProducts]);
+  // useEffect(() => {
+  //   console.log('wishProducts', wishProducts);
+  // }, [wishProducts]);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
@@ -407,11 +407,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   </Box>
                 }
                 renderItem={({ item }) => {
-                  console.log(
-                    'wishProducts',
-                    wishProducts.map((prod) => prod.productId),
-                    item.productId.split('-')[0]
-                  );
+                  // console.log(
+                  //   'wishProducts',
+                  //   wishProducts.map((prod) => prod.productId),
+                  //   item.productId.split('-')[0]
+                  // );
                   const product = wishProducts.find(
                     (prod) => prod.productId == item.productId.split('-')[0]
                   );
