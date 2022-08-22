@@ -5,7 +5,7 @@ import { theme } from '@danilomsou/reserva-ui';
 
 const { width, height } = Dimensions.get('window');
 
-let fontTitle = Platform.OS === 'android' ? width * 0.10 : width * 0.116;
+let fontTitle = Platform.OS === 'android' ? width * 0.10 : width * 0.11;
 let Subtitle = width * 0.038
 let description = width * 0.035
 if (PixelRatio.get() <= 2) {
