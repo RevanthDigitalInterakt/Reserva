@@ -34,9 +34,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
-  useEffect(() => {
-    console.log('wishIds123', wishIds)
-  }, [wishIds])
+  // useEffect(() => {
+  //   console.log('wishIds123', wishIds);
+  // }, [wishIds]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
@@ -73,13 +73,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       error: null,
     });
 
-    const response = await getWishList()
+    const response = await getWishList();
     setWishList({
       productIds: response.data,
       loading: false,
       error: response.error,
-    })
-
+    });
   };
 
   const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
@@ -94,8 +93,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   );
 
   const [{ loadingProducts, products }, setWishListProducts] = useState<{
-    products: any | null,
-    loadingProducts: boolean,
+    products: any | null;
+    loadingProducts: boolean;
   }>({
     loadingProducts: true,
     products: null,
@@ -109,8 +108,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
     await getWishListProducts({
       variables: {
-        idArray: !!props ? props.idArray : []
-      }
+        idArray: !!props ? props.idArray : [],
+      },
     }).then((response) => {
       setWishListProducts({
         products: response.data,
@@ -184,7 +183,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
-      console.log('products123', products?.productsByIdentifier.map(x => x.productId))
+      // console.log(
+      //   'products123',
+      //   products?.productsByIdentifier.map((x) => x.productId)
+      // );
       setWishProducts(products.productsByIdentifier);
     }
   }, [products]);
@@ -248,9 +250,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       // )
     }, [cookie])
   );
-  useEffect(() => {
-    console.log('wishProducts', wishProducts);
-  }, [wishProducts]);
+  // useEffect(() => {
+  //   console.log('wishProducts', wishProducts);
+  // }, [wishProducts]);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
@@ -401,12 +403,15 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                 }}
                 ListHeaderComponent={
                   <Box paddingX="xxxs" paddingTop="md" pb={36}>
-                    <Typography variant="tituloSessoes">Favoritos
-                    </Typography>
+                    <Typography variant="tituloSessoes">Favoritos</Typography>
                   </Box>
                 }
                 renderItem={({ item }) => {
-                  console.log('wishProducts', wishProducts.map(prod => prod.productId), item.productId.split('-')[0])
+                  // console.log(
+                  //   'wishProducts',
+                  //   wishProducts.map((prod) => prod.productId),
+                  //   item.productId.split('-')[0]
+                  // );
                   const product = wishProducts.find(
                     (prod) => prod.productId == item.productId.split('-')[0]
                   );
@@ -437,19 +442,20 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        handleNavigateToProductDetail={() => {
-                          navigation.navigate('ProductDetail', {
-                            productId: product?.productId,
-                            colorSelected: productSku?.variations[2].values[0],
-                            sizeSelected: productSku?.name.split('-')[1],
-                          });
-                        }}
-                        onClickAddCount={() => { }}
+                        // handleNavigateToProductDetail={() => {
+                        //   navigation.navigate('ProductDetail', {
+                        //     productId: product?.productId,
+                        //     colorSelected: productSku?.variations[2].values[0],
+                        //     sizeSelected: productSku?.name.split('-')[1],
+                        //   });
+                        // }}
+                        onClickAddCount={() => {}}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
-                          }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${
+                          product?.productName.length > 30 ? '...' : ''
+                        }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
@@ -487,6 +493,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           // .split("-55-55")
                           // .join("")
                         }
+                        handleNavigateToProductDetail={() => {
+                          navigation.navigate('ProductDetail', {
+                            productId: product?.productId,
+                            itemId: productSku?.itemId,
+                            sizeSelected: productSku?.name.split('-')[1],
+                          });
+                        }}
                       />
                     </Box>
                   );
