@@ -128,7 +128,11 @@ export const RegisterPhoneNumberContainer = ({
       setTimerCode(120);
       setStartChronometer(true);
       setOpenConfirmCodeSection(true);
-      handleSavePhone();
+
+      // só vai salvar o telefone se não existir telefone ou for alterado
+      if (!confirmPhone) {
+        handleSavePhone();
+      }
     } else {
       setPhoneInvalid(true);
       setOpenConfirmCodeSection(false);
