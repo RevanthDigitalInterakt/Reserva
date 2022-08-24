@@ -6,6 +6,7 @@ import { OrderFlow } from './order.flow';
 import { ProductFlow } from './product.flow';
 import { TimeRaceFlow } from './time-racer.flow';
 import { RegisterFlow } from './register.flow';
+import { OnboardingFlow } from './onboarding.flow';
 export {
   AddressFlow,
   ForgotFlow,
@@ -15,4 +16,5 @@ export {
   ProductFlow,
   TimeRaceFlow,
   RegisterFlow,
+  OnboardingFlow,
 };

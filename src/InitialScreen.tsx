@@ -5,12 +5,14 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { StatusBar, Platform, Alert, Linking } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-lottie-splash-screen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { StorageService } from './shared/services/StorageService';
 
 import { ModalPush } from './modules/Update/components/ModalPush';
 import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
+import { useStatusBar } from './context/StatusBarContext';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -29,8 +31,10 @@ async function requestUserPermission() {
 }
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
-  const [pushNotification, setPushNotification] = useState<any>()
-  const [showNotification, setShowNotification] = useState(false)
+  const { barStyle } = useStatusBar();
+  const [pushNotification, setPushNotification] = useState<any>();
+  const [showNotification, setShowNotification] = useState(false);
+  const [onboardingView, setOnboardingView] = useState(false);
   const setFetchInterval = async () => {
     await remoteConfig().setConfigSettings({
       minimumFetchIntervalMillis: 30000,
@@ -52,9 +56,9 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     StorageService.setInstallationToken();
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      if (remoteMessage.data.link === "usereserva://storeUpdate") {
-        setPushNotification(remoteMessage)
-        setShowNotification(true)
+      if (remoteMessage.data.link === 'usereserva://storeUpdate') {
+        setPushNotification(remoteMessage);
+        setShowNotification(true);
       }
     });
 
@@ -62,26 +66,41 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000);
+
+    getOnboardingData();
   }, []);
+
+  const getOnboardingData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+    if (appData === 'true') {
+      setOnboardingView(true);
+    } else {
+      setOnboardingView(false);
+    }
+  };
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar
-          animated
-          barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-        />
-        {showNotification &&
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: onboardingView ? '#000' : undefined,
+        }}
+      >
+        <StatusBar animated barStyle={barStyle} />
+        {showNotification && (
           <ModalPush
             closeModal={() => setShowNotification(false)}
             data={pushNotification}
             handleNavigation={() => {
-              StoreUpdatePush()
-              setShowNotification(false)
+              StoreUpdatePush();
+              setShowNotification(false);
             }}
           />
-        }
+        )}
         <Animatable.View animation="fadeIn" style={{ height: '100%' }}>
           {children}
         </Animatable.View>

@@ -138,12 +138,15 @@ export const EditProfile = ({ route }: Props) => {
     loading: true,
   });
 
+  const [userAccept, setUserAccept] = useState(false);
+  const [onboardingView, setOnboardingView] = useState(false);
   const [getProfile] = useLazyQuery(profileQuery, {
     fetchPolicy: 'no-cache',
   });
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
+      console.log('res ::::::::::::>>>>>>>>>>>>>>>>>>', res);
       setProfileData({
         data: res.data,
         loading: false,
@@ -255,6 +258,13 @@ export const EditProfile = ({ route }: Props) => {
       });
     }
     getToken();
+    async function userAcceptData() {
+      const res = await AsyncStorage.getItem('@user:accepted');
+      if (res === 'true') {
+        setUserAccept(true);
+      }
+    }
+    userAcceptData();
   }, []);
 
   useEffect(() => {
@@ -360,6 +370,8 @@ export const EditProfile = ({ route }: Props) => {
       }
     }
 
+    console.log('RESPONSE USER ACCEPT', userAccept);
+
     const customField: ProfileCustomFieldsInput[] = [
       {
         key: 'isNewsletterOptIn',
@@ -372,6 +384,10 @@ export const EditProfile = ({ route }: Props) => {
       {
         key: 'profileImagePath',
         value: `${profileImage}`,
+      },
+      {
+        key: 'userAcceptedTerms',
+        value: `${userAccept}`,
       },
     ];
 
@@ -635,8 +651,19 @@ export const EditProfile = ({ route }: Props) => {
     }
   };
 
+  const getOnboardingData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+
+    if (appData === 'true') {
+      setOnboardingView(true);
+    } else {
+      setOnboardingView(false);
+    }
+  };
+
   useEffect(() => {
     getTestEnvironment();
+    getOnboardingData();
   }, []);
 
   const handleChangeTesting = async (value: boolean) => {
@@ -645,6 +672,15 @@ export const EditProfile = ({ route }: Props) => {
     await AsyncStorage.setItem('isTesting', JSON.stringify(value));
 
     setIsTesting(value);
+  };
+
+  const handleViewOnboarding = async (value: boolean) => {
+    if (value === true) {
+      await AsyncStorage.setItem('isAppFirstLaunched', 'true');
+    } else {
+      await AsyncStorage.setItem('isAppFirstLaunched', 'false');
+    }
+    setOnboardingView(value);
   };
 
   const handleDeleteAccount = async () => {
@@ -922,7 +958,11 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="xxs" position={'relative'}>
+              <Box
+                mb="xxs"
+                position={'relative'}
+                style={Platform.OS === 'ios' ? { zIndex: 1 } : {}}
+              >
                 <TouchableOpacity
                   onPress={() => {
                     if (isVisibleGenderPicker) {
@@ -1045,33 +1085,7 @@ export const EditProfile = ({ route }: Props) => {
                 )}
               </Box>
 
-              {/* <Picker
-                onAndroidBackButtonPress={() => { }}
-                onClose={() => setIsVisibleGenderPicker(false)}
-                onSelect={(selected) => {
-                  setGender(selected.text)
-                  setUserData({ ...userData, gender: genderPtToEng[selected.text] })
-                  setIsEmptyGender(false)
-                }}
-                isVisible={isVisibleGenderPicker}
-                items={[
-                  {
-                    text: 'Homem',
-                  },
-                  {
-                    text: 'Mulher',
-                  },
-                  {
-                    text: 'Não-binário',
-                  },
-                  {
-                    text: 'Outro',
-                  }
-                ]}
-                title="Identidade de gênero"
-              /> */}
-
-              <Box mb="xxs" zIndex={2}>
+              <Box mb="xxs">
                 <TextField
                   keyboardType="number-pad"
                   label={labelBirthDate}
@@ -1105,7 +1119,7 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
-              <Box mb="nano" zIndex={2}>
+              <Box mb="nano">
                 <TextField
                   keyboardType="number-pad"
                   maskType="custom"
@@ -1139,14 +1153,56 @@ export const EditProfile = ({ route }: Props) => {
                 />
               </Box>
 
+              {isEmptyGender && (
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize="13px"
+                  color="vermelhoAlerta"
+                  style={{
+                    marginTop: -8,
+                  }}
+                >
+                  Preencha sua identidade de gênero
+                </Typography>
+              )}
+
+              {/* <Picker
+                onAndroidBackButtonPress={() => {}}
+                onClose={() => setIsVisibleGenderPicker(false)}
+                onSelect={(selected) => {
+                  setGender(selected.text);
+                  setUserData({
+                    ...userData,
+                    gender: genderPtToEng[selected.text],
+                  });
+                  setIsEmptyGender(false);
+                }}
+                isVisible={isVisibleGenderPicker}
+                items={[
+                  {
+                    text: 'Homem',
+                  },
+                  {
+                    text: 'Mulher',
+                  },
+                  {
+                    text: 'Não-binário',
+                  },
+                  {
+                    text: 'Outro',
+                  },
+                ]}
+                title="Identidade de gênero"
+              /> */}
+
               {isTester && (
-                <Box mb="sm" mt="sm" zIndex={2}>
+                <Box mb="sm" mt="sm">
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
                     </TouchableOpacity>
                   </Box>
-                  <Box flexDirection="row" marginY="xxs" alignItems="center">
+                  <Box flexDirection="row" marginY="micro" alignItems="center">
                     <Box flex={1}>
                       <Typography variant="subtituloSessoes">
                         Ambiente de testes
@@ -1160,6 +1216,23 @@ export const EditProfile = ({ route }: Props) => {
                         thumbColor="vermelhoAlerta"
                         color="preto"
                         value={isTesting}
+                      />
+                    </Box>
+                  </Box>
+                  <Box flexDirection="row" marginY="micro" alignItems="center">
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Ativar Onboarding
+                      </Typography>
+                    </Box>
+                    <Box marginLeft="micro">
+                      <Toggle
+                        onValueChange={(onboardingView: boolean) =>
+                          handleViewOnboarding(!!onboardingView)
+                        }
+                        thumbColor="vermelhoAlerta"
+                        color="preto"
+                        value={onboardingView}
                       />
                     </Box>
                   </Box>

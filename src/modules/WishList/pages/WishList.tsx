@@ -34,9 +34,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
-  useEffect(() => {
-    console.log('wishIds123', wishIds)
-  }, [wishIds])
+  // useEffect(() => {
+  //   console.log('wishIds123', wishIds);
+  // }, [wishIds]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
@@ -62,25 +62,25 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     productIds: null,
   });
 
-  useEffect(() => {
-    refetch();
-  }, []);
-
   const refetch = async () => {
-    setWishList({
-      productIds: null,
-      loading: false,
-      error: null,
+    // setWishList({
+    //   productIds: null,
+    //   loading: false,
+    //   error: null,
+    // });
+
+    await getWishList().then((response) => {
+      setWishList({
+        productIds: response.data,
+        loading: false,
+        error: response.error,
+      });
     });
-
-    const response = await getWishList()
-    setWishList({
-      productIds: response.data,
-      loading: false,
-      error: response.error,
-    })
-
   };
+
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
 
   const [addWish, { data }] = useMutation(wishListQueries.ADD_WISH_LIST);
 
@@ -94,23 +94,23 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   );
 
   const [{ loadingProducts, products }, setWishListProducts] = useState<{
-    products: any | null,
-    loadingProducts: boolean,
+    products: any | null;
+    loadingProducts: boolean;
   }>({
-    loadingProducts: true,
+    loadingProducts: false,
     products: null,
   });
 
   const refetchProducts = async (props?: { idArray: any[] }) => {
-    setWishListProducts({
-      loadingProducts: true,
-      products: null,
-    });
+    // setWishListProducts({
+    //   loadingProducts: true,
+    //   products: null,
+    // });
 
     await getWishListProducts({
       variables: {
-        idArray: !!props ? props.idArray : []
-      }
+        idArray: !!props ? props.idArray : [],
+      },
     }).then((response) => {
       setWishListProducts({
         products: response.data,
@@ -119,9 +119,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     });
   };
 
-  useEffect(() => {
-    refetchProducts();
-  }, []);
+  // useEffect(() => {
+  //   refetchProducts();
+  // }, []);
 
   const getStorage = async () => {
     const wishListData = await AsyncStorage.getItem('@WishData');
@@ -174,58 +174,70 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   }, [wishIds]);
 
+  // useFocusEffect(
+  //   React.useCallback(() => {
+
+  //     if (productIds?.viewList.data.length <= 0) {
+  //       getStorage();
+
+  //     }
+  //   }, [productIds])
+  // );
+
   useFocusEffect(
     React.useCallback(() => {
-      if (productIds?.viewList.data.length <= 0) {
-        getStorage();
-      }
-    }, [productIds])
+      getStorage();
+    }, [])
   );
 
   useEffect(() => {
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
-      console.log('products123', products?.productsByIdentifier.map(x => x.productId))
+      // console.log(
+      //   'products123',
+      //   products?.productsByIdentifier.map((x) => x.productId)
+      // );
+
       setWishProducts(products.productsByIdentifier);
     }
   }, [products]);
 
-  useEffect(() => {
-    // setWishIds(productIds?.viewList.data);
-    // if (productIds?.viewList.data.length > 0) {
-    //   AsyncStorage.setItem(
-    //     '@WishData',
-    //     JSON.stringify(productIds?.viewList.data)
-    //   );
-    // }
-    const idArray =
-      productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
-    if (idArray.length) {
-      refetch();
+  // useEffect(() => {
+  //   // setWishIds(productIds?.viewList.data);
+  //   // if (productIds?.viewList.data.length > 0) {
+  //   //   AsyncStorage.setItem(
+  //   //     '@WishData',
+  //   //     JSON.stringify(productIds?.viewList.data)
+  //   //   );
+  //   // }
+  //   const idArray =
+  //     productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
+  //   if (idArray.length) {
+  //     refetch();
 
-      // refetchProducts(
-      //   { idArray }
-      // )
-    }
-  }, [productIds]);
+  //     // refetchProducts(
+  //     //   { idArray }
+  //     // )
+  //   }
+  // }, [productIds]);
 
-  useEffect(() => {
-    // addWish({
-    //   variables: {
-    //     shopperId: 'erick.fraga@globalsys.com.br',
-    //     productId: '2213'
-    //   }
-    // })
+  // useEffect(() => {
+  //   // addWish({
+  //   //   variables: {
+  //   //     shopperId: 'erick.fraga@globalsys.com.br',
+  //   //     productId: '2213'
+  //   //   }
+  //   // })
 
-    // if (!!email) {
+  //   // if (!!email) {
 
-    // const idArray = productIds?.viewList.data.map((x) => x.productId) || [];
+  //   // const idArray = productIds?.viewList.data.map((x) => x.productId) || [];
 
-    refetch();
-    // refetchProducts({ idArray });
-    // } else {
-    //   navigation.navigate('Login', { comeFrom: 'Profile' })
-    // }
-  }, []);
+  //   refetch();
+  //   // refetchProducts({ idArray });
+  //   // } else {
+  //   //   navigation.navigate('Login', { comeFrom: 'Profile' })
+  //   // }
+  // }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -242,15 +254,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       }
 
       // const idArray = productIds?.viewList.data.map(x => x.productId) || []
-      refetch();
+      // refetch();
+
       // refetchProducts(
       //   { idArray }
       // )
     }, [cookie])
   );
-  useEffect(() => {
-    console.log('wishProducts', wishProducts);
-  }, [wishProducts]);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>
@@ -335,7 +345,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       {/* <Box paddingX='xxxs'> */}
 
       {loading || loadingProducts || loadingIds ? ( // || wishProducts.length <= 0 ?
-        <Box>
+        <Box flex={1}>
           <Box paddingX="xxxs" paddingTop="md" mb={37}>
             <Typography variant="tituloSessoes">Favoritos</Typography>
           </Box>
@@ -400,13 +410,16 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   paddingHorizontal: 16,
                 }}
                 ListHeaderComponent={
-                  <Box paddingX="xxxs" paddingTop="md" pb={36}>
-                    <Typography variant="tituloSessoes">Favoritos
-                    </Typography>
+                  <Box paddingTop="md" pb={36}>
+                    <Typography variant="tituloSessoes">Favoritos</Typography>
                   </Box>
                 }
                 renderItem={({ item }) => {
-                  console.log('wishProducts', wishProducts.map(prod => prod.productId), item.productId.split('-')[0])
+                  // console.log(
+                  //   'wishProducts',
+                  //   wishProducts.map((prod) => prod.productId),
+                  //   item.productId.split('-')[0]
+                  // );
                   const product = wishProducts.find(
                     (prod) => prod.productId == item.productId.split('-')[0]
                   );
@@ -437,19 +450,20 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   ) : (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        handleNavigateToProductDetail={() => {
-                          navigation.navigate('ProductDetail', {
-                            productId: product?.productId,
-                            colorSelected: productSku?.variations[2].values[0],
-                            sizeSelected: productSku?.name.split('-')[1],
-                          });
-                        }}
-                        onClickAddCount={() => { }}
+                        // handleNavigateToProductDetail={() => {
+                        //   navigation.navigate('ProductDetail', {
+                        //     productId: product?.productId,
+                        //     colorSelected: productSku?.variations[2].values[0],
+                        //     sizeSelected: productSku?.name.split('-')[1],
+                        //   });
+                        // }}
+                        onClickAddCount={() => {}}
                         isFavorited
                         itemColor={productSku?.name.split('-')[0] || ''}
                         ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${product?.productName.length > 30 ? '...' : ''
-                          }`}
+                        productTitle={`${product?.productName.slice(0, 30)}${
+                          product?.productName.length > 30 ? '...' : ''
+                        }`}
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
@@ -487,6 +501,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           // .split("-55-55")
                           // .join("")
                         }
+                        handleNavigateToProductDetail={() => {
+                          navigation.navigate('ProductDetail', {
+                            productId: product?.productId,
+                            itemId: productSku?.itemId,
+                            sizeSelected: productSku?.name.split('-')[1],
+                          });
+                        }}
                       />
                     </Box>
                   );
