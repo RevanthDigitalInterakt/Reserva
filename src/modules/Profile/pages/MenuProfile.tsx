@@ -208,7 +208,7 @@ const MenuScreen: React.FC<{}> = ({ }) => {
   }, [profile]);
 
   const handleCashback = () => {
-    // if (hasThreeMonths) {
+    if (hasThreeMonths) {
     if (profile?.homePhone) {
       if (profile?.document) {
         navigation.navigate('changePhoneNumber', {
@@ -230,12 +230,12 @@ const MenuScreen: React.FC<{}> = ({ }) => {
         });
       }
     }
-    // } else {
-    //   navigation.navigate('cashbackInStore', {
-    //     isLoyal: true,
-    //     costumerDocument: profile?.document,
-    //   });
-    // }
+    } else {
+      navigation.navigate('cashbackInStore', {
+        isLoyal: true,
+        costumerDocument: profile?.document,
+      });
+    }
   };
   return (
     <Box flex={1} backgroundColor="white">
