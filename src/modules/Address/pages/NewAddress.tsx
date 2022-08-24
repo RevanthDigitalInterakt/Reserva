@@ -460,6 +460,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                         setLabelCity('Cidade');
                       }
                     }}
+                    editable={false}
                   />
                 </Box>
 
@@ -477,6 +478,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                         setLabelState('Estado');
                       }
                     }}
+                    editable={false}
                   />
                 </Box>
 
