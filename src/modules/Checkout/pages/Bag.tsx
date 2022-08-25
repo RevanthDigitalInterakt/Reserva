@@ -218,7 +218,7 @@ export const BagScreen = ({ route }: Props) => {
         ?.installments?.reverse()[0] || null;
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
-
+ 
     setInstallmentInfo(
       installment
         ? {
@@ -930,7 +930,7 @@ export const BagScreen = ({ route }: Props) => {
                     />
                   </Box>
                 )}
-                {totalDelivery > 0 && (
+                {/* {totalDelivery > 0 && (
                   <Box
                     marginBottom="micro"
                     flexDirection="row"
@@ -946,7 +946,7 @@ export const BagScreen = ({ route }: Props) => {
                       num={Math.abs(totalDelivery)}
                     />
                   </Box>
-                )}
+                )} */}
               </>
 
               <Box
@@ -960,7 +960,7 @@ export const BagScreen = ({ route }: Props) => {
                   fontFamily="nunitoBold"
                   sizeInterger={20}
                   sizeDecimal={11}
-                  num={totalBag + totalDiscountPrice + totalDelivery}
+                  num={totalBag + totalDiscountPrice}
                 />
               </Box>
             </Box>
@@ -1014,7 +1014,7 @@ export const BagScreen = ({ route }: Props) => {
                     fontFamily="nunitoBold"
                     sizeInterger={15}
                     sizeDecimal={11}
-                    num={totalBag + totalDiscountPrice + totalDelivery}
+                    num={totalBag + totalDiscountPrice}
                   />
                 </Box>
                 {totalBag > 0 && (
@@ -1036,7 +1036,7 @@ export const BagScreen = ({ route }: Props) => {
                         color="vermelhoRSV"
                         sizeInterger={15}
                         sizeDecimal={11}
-                        num={installmentInfo.installmentPrice / 100}
+                        num={(installmentInfo.installmentPrice / 100)-totalDelivery}
                       />
                     </Box>
                   </Box>
