@@ -46,10 +46,6 @@ export const ShippingBar = ({
   };
 
   const defineProgressBar = () => {
-    console.log('TOTAL DELIVERY', totalDelivery);
-    console.log('sum price shipping', sumPriceShipping);
-    console.log('sum price', sumPrice);
-
     if (isFreeShipping) {
       setValueProgressBar(freeShippingValue);
     } else if (sumPriceShipping >= freeShippingValue) {
@@ -88,10 +84,6 @@ export const ShippingBar = ({
 
   useFocusEffect(
     useCallback(() => {
-      console.log(
-        'COLLECTION DATA :::::::::::::>>>>>>>',
-        collectionData?.configCollection?.items[0]?.shippingBar?.isFreeShipping
-      );
       if (collectionData !== null) {
         const freeShippingValueData =
           collectionData?.configCollection?.items[0]?.shippingBar
