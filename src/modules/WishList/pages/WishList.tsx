@@ -53,7 +53,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     variables: {
       shopperId: email,
     },
-    skip,
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
   });
 
   const [{ loading, productIds, error }, setWishList] = useState({
@@ -123,30 +124,18 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   //   refetchProducts();
   // }, []);
 
-  const getStorage = async () => {
-    const wishListData = await AsyncStorage.getItem('@WishData');
-    if (wishListData) {
-      setWishIds(JSON.parse(wishListData));
-    }
-  };
-
   const handleFavorite = async (wishId: any) => {
     if (email) {
       if (wishId) {
         // remove wishlist
-        const newWishIds = wishIds.filter((x) => x.sku !== wishId);
-        AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
-        getStorage();
-
-        /*  await removeFromWishList({
+   
+         const { data } = await removeFromWishList({
           variables: {
-            id: wishId,
             shopperId: email,
+            id: wishId,
           },
-        }); */
-        /*  await refetch({
-          shopperId: email,
-        }); */
+        });
+        if(data) await refetch(); 
       }
     }
   };
@@ -174,22 +163,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   }, [wishIds]);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-
-  //     if (productIds?.viewList.data.length <= 0) {
-  //       getStorage();
-
-  //     }
-  //   }, [productIds])
-  // );
-
-  useFocusEffect(
-    React.useCallback(() => {
-      getStorage();
-    }, [])
-  );
-
   useEffect(() => {
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
       // console.log(
@@ -201,24 +174,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   }, [products]);
 
-  // useEffect(() => {
-  //   // setWishIds(productIds?.viewList.data);
-  //   // if (productIds?.viewList.data.length > 0) {
-  //   //   AsyncStorage.setItem(
-  //   //     '@WishData',
-  //   //     JSON.stringify(productIds?.viewList.data)
-  //   //   );
-  //   // }
-  //   const idArray =
-  //     productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
-  //   if (idArray.length) {
-  //     refetch();
+  useEffect(() => {
+    setWishIds(productIds?.viewList.data);
+  }, [productIds]);
 
-  //     // refetchProducts(
-  //     //   { idArray }
-  //     // )
-  //   }
-  // }, [productIds]);
 
   // useEffect(() => {
   //   // addWish({
@@ -241,8 +200,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      /* const idArray = wishIds.map((x) => x.productId) || [];
-      refetchProducts({ idArray }); */
       refetch();
     }, [])
   );
@@ -467,7 +424,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                         installmentsNumber={installmentsNumber}
                         installmentsPrice={installmentPrice}
                         price={productSku?.sellers[0].commertialOffer.Price}
-                        onClickFavorite={() => handleFavorite(item.sku)}
+                        onClickFavorite={() => handleFavorite(item.id)}
                         onClickBagButton={() => {
                           // setSelectedVariantItemId(productSku?.itemId);
 
