@@ -1,9 +1,9 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Typography } from '@danilomsou/reserva-ui';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useFocusEffect } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { RootStackParamList } from 'routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
@@ -13,23 +13,15 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 
-type DeliveryNavigator = StackNavigationProp<
-  RootStackParamList,
-  'DeliveryScreen'
->;
+type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
-const Delivery: React.FC<{}> = () => {
-  const navigation = useNavigation<DeliveryNavigator>();
-  const {
-    orderForm,
-    addShippingOrPickupInfo,
-    addShippingData,
-    identifyCustomer,
-    orderform,
-  } = useCart();
+const Delivery: React.FC<Props> = ({ route, navigation }) => {
+  const { comeFrom } = route.params;
+
+  const { orderForm, addShippingOrPickupInfo, orderform } = useCart();
   const { cookie, setCookie, email } = useAuth();
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
@@ -319,9 +311,23 @@ const Delivery: React.FC<{}> = () => {
     updateAddresses();
   }, [profile, orderForm]);
 
+  const handlePressBackButton = () => {
+    if (comeFrom === 'Login') {
+      navigation.navigate('BagScreen', {});
+
+      return;
+    }
+
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView flex={1} backgroundColor="white">
-      <TopBarBackButton showShadow loading={loadingProfile || loading} />
+      <TopBarBackButton
+        backButtonPress={handlePressBackButton}
+        showShadow
+        loading={loadingProfile || loading}
+      />
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
       >
