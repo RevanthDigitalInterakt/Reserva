@@ -33,9 +33,11 @@ import {
   Tracking,
   PickupPoint,
   Orders,
+  SearchNewOrders,
+  SearchNewOrderDetail,
   OrderDetail,
   VerifyEmail,
-  DeleteCustomerProfile
+  DeleteCustomerProfile,
 } from '../services/vtexService';
 import { CategoriesParserString } from '../utils/categoriesParserString';
 
@@ -478,6 +480,16 @@ interface CartContextProps {
     latitude: string
   ) => Promise<items | undefined>;
   orders: (page: string) => Promise<IOrder[] | undefined>;
+  searchNewOrders: (
+    page: string,
+    email: string,
+    cookie: string
+  ) => Promise<IOrder[] | undefined>;
+  searchNewOrderDetail: (
+    page: string,
+    email: string,
+    cookie: string
+  ) => Promise<IOrder[] | undefined>;
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
   verifyEmail: (email: string) => Promise<boolean | undefined>;
   deleteCustomerProfile: (id: string) => Promise<boolean | undefined>;
@@ -503,13 +515,13 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const verifyEmail = async (email: string) => {
     try {
-      const { data } = await VerifyEmail(email)
+      const { data } = await VerifyEmail(email);
 
-      return data.length > 0
+      return data.length > 0;
     } catch (error) {
-      console.log('error', error.response.data)
+      console.log('error', error.response.data);
     }
-  }
+  };
 
   const addItem = async (quantity: number, itemId: string, seller: string) => {
     try {
@@ -839,9 +851,36 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       console.log('error', error.response.data);
     }
   };
+
   const orderDetail = async (orderId: string) => {
     try {
       const { data } = await OrderDetail(orderId);
+      return data || [];
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  };
+
+  const searchNewOrders = async (
+    page: string,
+    email: string,
+    cookie: string
+  ) => {
+    try {
+      const { data } = await SearchNewOrders(page, email, cookie);
+      return data || [];
+    } catch (error) {
+      console.log('error', error.response.data);
+    }
+  };
+
+  const searchNewOrderDetail = async (
+    page: string,
+    email: string,
+    cookie: string
+  ) => {
+    try {
+      const { data } = await SearchNewOrderDetail(page, email, cookie);
       return data || [];
     } catch (error) {
       console.log('error', error.response.data);
@@ -855,7 +894,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     } catch (error) {
       console.log('error', error.response.data);
     }
-  }
+  };
 
   return (
     <CartContext.Provider
@@ -879,9 +918,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         tracking,
         pickupPoint,
         orders,
+        searchNewOrders,
         orderDetail,
+        searchNewOrderDetail,
         verifyEmail,
-        deleteCustomerProfile
+        deleteCustomerProfile,
       }}
     >
       {children}
@@ -918,6 +959,8 @@ export const useCart = () => {
     tracking,
     pickupPoint,
     orders,
+    searchNewOrders,
+    searchNewOrderDetail,
     orderDetail,
     verifyEmail,
     deleteCustomerProfile,
@@ -942,8 +985,10 @@ export const useCart = () => {
     tracking,
     pickupPoint,
     orders,
+    searchNewOrders,
+    searchNewOrderDetail,
     orderDetail,
     verifyEmail,
-    deleteCustomerProfile
+    deleteCustomerProfile,
   };
 };

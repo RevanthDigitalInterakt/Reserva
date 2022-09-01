@@ -7,6 +7,7 @@ import {
   instance4,
   instance5,
   instance6,
+  instance7,
 } from '../config/vtexConfig';
 import axios from 'axios';
 const vtexConfig = instance;
@@ -360,12 +361,41 @@ const Orders = async (page: string) => {
   });
   return response;
 };
+
 const OrderDetail = async (orderId: string) => {
   const response = await instance2.get(`/oms/user/orders/${orderId}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
     },
   });
+  return response;
+};
+
+const SearchNewOrders = async (page: string, email: string, cookie: string) => {
+  const response = await instance7.get(
+    `oms/user/orders/?clientEmail=${email}&page=${page}&per_page=20&includeProfileLastPurchases=true`,
+    {
+      headers: {
+        cookie: cookie,
+      },
+    }
+  );
+  return response;
+};
+
+const SearchNewOrderDetail = async (
+  orderId: string,
+  email: string,
+  cookie: string
+) => {
+  const response = await instance7.get(
+    `/oms/user/orders/${orderId}?clientEmail=${email}`,
+    {
+      headers: {
+        cookie: cookie,
+      },
+    }
+  );
   return response;
 };
 
@@ -415,6 +445,8 @@ export {
   Tracking,
   PickupPoint,
   Orders,
+  SearchNewOrders,
+  SearchNewOrderDetail,
   OrderDetail,
   Attachment,
   VerifyEmail,

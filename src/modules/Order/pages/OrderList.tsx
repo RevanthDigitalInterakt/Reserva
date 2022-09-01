@@ -8,16 +8,16 @@ import { BackHandler, FlatList, SafeAreaView } from 'react-native';
 import { IOrder, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
-
-
+import { useAuth } from '../../../context/AuthContext';
 
 const OrderList = () => {
-  const { orders } = useCart();
+  const { orders, searchNewOrders } = useCart();
   const [ordersList, setOrdersList] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
   const navigation = useNavigation();
+  const { cookie, email } = useAuth();
 
   useEffect(() => {
     fetchOrders();
@@ -25,7 +25,7 @@ const OrderList = () => {
 
   const fetchOrders = async () => {
     setLoading(true);
-    const data = await orders(page.toString());
+    const data = await searchNewOrders(page.toString(), email, cookie);
     if (data) {
       setOrdersList([...ordersList, ...data.list]);
       setTotalOrders(data.paging.total);
