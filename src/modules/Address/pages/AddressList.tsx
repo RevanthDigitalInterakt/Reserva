@@ -171,6 +171,16 @@ const AddressList: React.FC<Props> = ({ route }) => {
     refetch();
   });
 
+  const handleClickGoBackButton = () => {
+    if (comeFrom === 'Login') {
+      navigation.navigate('BagScreen');
+
+      return;
+    }
+
+    navigation.goBack();
+  };
+
   return (
     <>
       <Alert
@@ -240,7 +250,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
         <TopBarBackButton
           loading={loading || loadingProfile || loadingAddressDelete}
           showShadow
-          backButtonPress={() => navigation.goBack()}
+          backButtonPress={handleClickGoBackButton}
         />
 
         <Box

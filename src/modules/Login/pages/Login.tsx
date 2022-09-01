@@ -1,29 +1,29 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
+import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
+import appsFlyer from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Box, Button, Typography } from '@danilomsou/reserva-ui';
+import OneSignal from 'react-native-onesignal';
+import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
   classicSignInMutation,
-  sendEmailVerificationMutation
+  sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
-import OneSignal from 'react-native-onesignal';
-import { sha256 } from 'react-native-sha256';
 
 enum CryptType {
-  SHA256 = 3
+  SHA256 = 3,
 }
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
@@ -85,7 +85,9 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
-        const emailHash = await sha256(loginCredentials.username.trim().toLowerCase());
+        const emailHash = await sha256(
+          loginCredentials.username.trim().toLowerCase()
+        );
 
         console.log('emailHash', emailHash);
 
@@ -94,7 +96,9 @@ export const LoginScreen: React.FC<Props> = ({
           password: loginCredentials.password,
         });
 
-        OneSignal.setExternalUserId(loginCredentials.username.trim().toLowerCase());
+        OneSignal.setExternalUserId(
+          loginCredentials.username.trim().toLowerCase()
+        );
 
         appsFlyer.logEvent(
           'af_login',
@@ -107,10 +111,11 @@ export const LoginScreen: React.FC<Props> = ({
           }
         );
 
-        appsFlyer.setUserEmails({
-          emails: [emailHash],
-          emailsCryptType: CryptType.SHA256,
-        },
+        appsFlyer.setUserEmails(
+          {
+            emails: [emailHash],
+            emailsCryptType: CryptType.SHA256,
+          },
           (success) => {
             console.log('appsFlyer setUserEmails success', success);
           },
@@ -118,13 +123,15 @@ export const LoginScreen: React.FC<Props> = ({
             if (error) {
               console.log('Error setting user emails: ', error);
             }
-          });
+          }
+        );
 
         setEmail(loginCredentials.username.trim().toLowerCase());
 
-        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim().toLowerCase()).then(
-          () => { }
-        );
+        AsyncStorage.setItem(
+          '@RNAuth:email',
+          loginCredentials.username.trim().toLowerCase()
+        ).then(() => {});
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
       } else {
@@ -170,13 +177,21 @@ export const LoginScreen: React.FC<Props> = ({
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
+        if (comeFrom === 'Checkout') {
+          navigation.navigate('AddressList', {
+            comeFrom: 'Login',
+            isCheckout: true,
+          });
+          return;
+        }
+
         navigation.navigate('Home');
       });
     }
   }, [data]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={() => {
@@ -302,7 +317,7 @@ export const LoginScreen: React.FC<Props> = ({
               borderColor="divider"
             />
             <Typography textAlign="center">
-              {"Ainda não possui uma conta?"}
+              {'Ainda não possui uma conta?'}
             </Typography>
             <Box
               borderWidth={1}
@@ -317,9 +332,10 @@ export const LoginScreen: React.FC<Props> = ({
             inline
             variant="primarioEstreito"
             disabled={loadingSendMail || loading}
-            onPress={() => { navigation.navigate('RegisterEmail', {}); }}
+            onPress={() => {
+              navigation.navigate('RegisterEmail', {});
+            }}
           />
-
         </Box>
       </ScrollView>
     </SafeAreaView>

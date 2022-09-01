@@ -13,6 +13,7 @@ import {
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import analytics from '@react-native-firebase/analytics';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
@@ -23,6 +24,7 @@ import Modal from 'react-native-modal';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment } from '../../../services/vtexService';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -33,8 +35,6 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../routes/StackNavigator';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -218,7 +218,7 @@ export const BagScreen = ({ route }: Props) => {
         ?.installments?.reverse()[0] || null;
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
- 
+
     setInstallmentInfo(
       installment
         ? {
@@ -310,7 +310,8 @@ export const BagScreen = ({ route }: Props) => {
 
       if (!email) {
         setLoadingGoDelivery(false);
-        navigation.navigate('EnterYourEmail');
+
+        navigation.navigate('Login', { comeFrom: 'Checkout' });
       } else if (isEmptyProfile && !isProfileComplete) {
         // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
@@ -1036,7 +1037,9 @@ export const BagScreen = ({ route }: Props) => {
                         color="vermelhoRSV"
                         sizeInterger={15}
                         sizeDecimal={11}
-                        num={(installmentInfo.installmentPrice / 100)-totalDelivery}
+                        num={
+                          installmentInfo.installmentPrice / 100 - totalDelivery
+                        }
                       />
                     </Box>
                   </Box>
