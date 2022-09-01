@@ -23,8 +23,8 @@ type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation();
-  const { cookie } = useAuth();
-  const { orderDetail } = useCart();
+  const { email, cookie } = useAuth();
+  const { orderDetail, searchNewOrderDetail } = useCart();
   const [orderDetails, setOrderDetails] = useState<IOrderId>();
   const [copiedText, setCopiedText] = useClipboard();
   const [clickedIcon, setClickedIcon] = useState(false);
@@ -45,6 +45,13 @@ const OrderList: React.FC<any> = ({ route }) => {
       setOrderDetails(data);
     }
   };
+
+  // const fetchOrderDetail = async () => {
+  //   if (cookie != null) {
+  //     const data = await searchNewOrderDetail(order.orderId, email, cookie);
+  //     setOrderDetails(data);
+  //   }
+  // };
 
   const getDeliveryPreview = () => {
     if (orderDetails) {

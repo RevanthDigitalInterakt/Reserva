@@ -4,11 +4,13 @@ const urlBase = 'https://app-vtex.usereserva.com/api/';
 
 const urlBase2 = 'https://lojausereserva.myvtex.com/api/';
 
+const urlBase3 = 'https://www.usereserva.com/api/';
+
 const urlUser = 'https://www.usereserva.com/';
 
 const urlDeleteUser = 'http://api.vtex.com/applojausereserva/';
 
-const sendEmail = 'https://reservapto.com.br/recapi/v2/'
+const sendEmail = 'https://reservapto.com.br/recapi/v2/';
 
 const url = urlBase;
 
@@ -70,4 +72,20 @@ const instance6 = axios.create({
   },
 });
 
-export { instance, url, urlBase, instance2, instance3, instance4, instance5, instance6 };
+const instance7 = axios.create({
+  baseURL: urlBase3,
+  timeout: 30000,
+  headers: headers,
+});
+
+export {
+  instance,
+  url,
+  urlBase,
+  instance2,
+  instance3,
+  instance4,
+  instance5,
+  instance6,
+  instance7,
+};
