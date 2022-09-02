@@ -69,7 +69,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>We need permission to collect your data</string>
+	<string>Precisamos de acesso para oferecer conteúdo personalizável para você.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Black.ttf</string>
