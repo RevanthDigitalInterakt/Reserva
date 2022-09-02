@@ -6,11 +6,11 @@ import appsFlyer from 'react-native-appsflyer';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
 import { Box, Button } from '@danilomsou/reserva-ui';
-import analytics from '@react-native-firebase/analytics';
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import analytics from '@react-native-firebase/analytics';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -18,7 +18,6 @@ const Checkout: React.FC<{}> = () => {
   const [navState, setNavState] = useState('');
   const [checkoutCompleted, setCheckoutCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const goToHome = () => {
     const check = navState.includes('/checkout/orderPlaced');
 
@@ -27,6 +26,29 @@ const Checkout: React.FC<{}> = () => {
       setTimeout(() => {
         navigation.navigate('Home');
       }, 500);
+    }
+  };
+
+  const logStartEvent = async () => {
+    if (orderForm) {
+      const revenue_total = orderForm.totalizers.find(
+        (item) => item.id === 'Items'
+      )?.value;
+      let af_revenue = '0';
+
+      if (revenue_total) {
+        af_revenue = (revenue_total / 100).toFixed(2);
+      }
+
+      await analytics().logEvent('start_purchase_webview', {
+        revenue: `${af_revenue}`,
+        price: `${(orderForm.value / 100).toFixed(2)}`,
+        content_id: orderForm.items.map((item) => item.id),
+        content_type: orderForm.items.map((item) => item.productCategoryIds),
+        currency: 'BRL',
+        quantity: orderForm.items.map((item) => item.quantity),
+        order_id: orderForm.orderFormId,
+      });
     }
   };
 
@@ -42,6 +64,7 @@ const Checkout: React.FC<{}> = () => {
         if (revenue_total) {
           af_revenue = (revenue_total / 100).toFixed(2);
         }
+
         appsFlyer.logEvent('af_purchase', {
           af_revenue: `${af_revenue}`,
           af_price: `${(orderForm.value / 100).toFixed(2)}`,

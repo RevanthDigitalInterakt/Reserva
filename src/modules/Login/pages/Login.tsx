@@ -177,11 +177,6 @@ export const LoginScreen: React.FC<Props> = ({
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        if (comeFrom === 'Checkout') {
-          navigation.navigate('DeliveryScreen', { comeFrom: 'Login' });
-          return;
-        }
-
         navigation.navigate('Home');
       });
     }

@@ -315,7 +315,7 @@ export const BagScreen = ({ route }: Props) => {
       if (!email) {
         setLoadingGoDelivery(false);
 
-        navigation.navigate('Login', { comeFrom: 'Checkout' });
+        navigation.navigate('EnterYourEmail');
       } else if (isEmptyProfile && !isProfileComplete) {
         // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
@@ -324,7 +324,7 @@ export const BagScreen = ({ route }: Props) => {
         // updateClientProfileData(profile);
         await identifyCustomer(email)
           .then(() => setLoadingGoDelivery(false))
-          .then(() => navigation.navigate('DeliveryScreen', {}));
+          .then(() => navigation.navigate('DeliveryScreen'));
       }
     }
   };
