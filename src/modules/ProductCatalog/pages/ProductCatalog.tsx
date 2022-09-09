@@ -454,6 +454,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     setLoadingFetchMore(true);
     const { data: dataFetchMore, loading } = await fetchMore({
       variables: {
+        skusFilter: 'ALL_AVAILABLE',
+        hideUnavailableItems: true,
         orderBy: selectedOrder,
         from: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
@@ -461,7 +463,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           generateFacets(referenceString),
           filterRequestList
         ),
-      },
+        simulationBehavior: 'default',
+        productOriginVtex: false,
+      }, 
     });
     if (data) {
       const newDataProductSearch = {

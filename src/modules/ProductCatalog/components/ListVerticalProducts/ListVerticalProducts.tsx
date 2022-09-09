@@ -271,7 +271,11 @@ export const ListVerticalProducts = ({
                     await loadMoreProducts(products.length);
                   }
                   setIsLoadingMore(false);
+                }else{
+                  setIsLoadingMore(false);
                 }
+              }else{
+                setIsLoadingMore(false);
               }
             }}
             ListFooterComponent={() => {
@@ -301,13 +305,13 @@ export const ListVerticalProducts = ({
               let installments;
 
               let countPosition = 0;
-              while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
+              while (item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments.length === 0) {
                 countPosition++
               }
 
-              installments = item.items[0].sellers[countPosition].commertialOffer.Installments
+              installments = item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments
 
-              const installmentsNumber = installments.reduce((prev, next) =>
+              const installmentsNumber = installments?.reduce((prev, next) =>
                 prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
                 { NumberOfInstallments: 0, Value: 0 })
 
