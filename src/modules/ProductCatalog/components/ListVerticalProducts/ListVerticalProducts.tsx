@@ -250,6 +250,7 @@ export const ListVerticalProducts = ({
           <FlatList
             horizontal={horizontal}
             data={products}
+            bounces={false}
             keyExtractor={(item, index) => `${item.productId} ${index}`}
             numColumns={horizontal ? 1 : 2}
             ListEmptyComponent={() => (
@@ -271,10 +272,10 @@ export const ListVerticalProducts = ({
                     await loadMoreProducts(products.length);
                   }
                   setIsLoadingMore(false);
-                }else{
+                } else {
                   setIsLoadingMore(false);
                 }
-              }else{
+              } else {
                 setIsLoadingMore(false);
               }
             }}
