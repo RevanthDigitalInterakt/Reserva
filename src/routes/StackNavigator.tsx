@@ -1,10 +1,10 @@
 // In App.js in a new project
 import { createStackNavigator } from '@react-navigation/stack';
-import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
 import React from 'react';
 import CallCenter from '../modules/CallCenter';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
 import { Cashback } from '../modules/Cashback/pages/Cashback';
+import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
 import { BagScreen } from '../modules/Checkout/pages/Bag';
 import { BarCodePayment } from '../modules/Checkout/pages/BarCodePayment';
 import { CreateCartProfile } from '../modules/Checkout/pages/CreateCartProfile';
@@ -28,8 +28,13 @@ import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNa
 import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 // profile
-import { EditProfile } from '../modules/Profile/pages/EditProfile';
+import {
+  CEPList,
+  CepsInfo,
+  SearchBy,
+} from '../modules/ChangeRegionalization/pages/CEPList';
 import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
+import { EditProfile } from '../modules/Profile/pages/EditProfile';
 import { ListCards } from '../modules/Profile/pages/ListCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
@@ -43,21 +48,15 @@ import {
   ForgotFlow,
   HelpCenterFLow,
   LoginFlow,
+  OnboardingFlow,
   OrderFlow,
   ProductFlow,
-  TimeRaceFlow,
   RegisterFlow,
-  OnboardingFlow,
+  TimeRaceFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
-import {
-  CEPList,
-  CepsInfo,
-  SearchBy,
-} from '../modules/ChangeRegionalization/pages/CEPList';
 
-import { Onboarding } from '../modules/Onboarding/pages/Onboarding';
 import { LandingPage } from '../modules/LandingPage/LandingPage';
 
 export type RootStackParamList = {
@@ -67,7 +66,7 @@ export type RootStackParamList = {
     colorSelected: string;
     sizeSelected: string;
   };
-  DeliveryScreen: undefined;
+  DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };

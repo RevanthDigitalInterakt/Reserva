@@ -320,7 +320,7 @@ export const BagScreen = ({ route }: Props) => {
         // updateClientProfileData(profile);
         await identifyCustomer(email)
           .then(() => setLoadingGoDelivery(false))
-          .then(() => navigation.navigate('DeliveryScreen'));
+          .then(() => navigation.navigate('DeliveryScreen', {}));
       }
     }
   };

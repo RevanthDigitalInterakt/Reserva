@@ -13,6 +13,8 @@ import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
+import { useCart } from '../../../context/CartContext';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import {
   classicSignInMutation,
   sendEmailVerificationMutation,
@@ -55,8 +57,25 @@ export const LoginScreen: React.FC<Props> = ({
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
 
+  const [isLoadingEmail, setIsLoadingEmail] = useState(false);
+
   const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
     useMutation(sendEmailVerificationMutation);
+  const { email } = useAuth();
+
+  const {
+    orderForm,
+    addItem,
+    orderform,
+    removeItem,
+    addCoupon,
+    identifyCustomer,
+    addSellerCoupon,
+    removeCoupon,
+    removeSellerCoupon,
+    addCustomer,
+    addShippingData,
+  } = useCart();
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -173,21 +192,35 @@ export const LoginScreen: React.FC<Props> = ({
     }
   }, []);
 
-  useEffect(() => {
+  async function verifyUserEmail() {
+    if (loginCredentials.username.trim().toLowerCase()) {
+      setIsLoadingEmail(true);
+      await identifyCustomer(loginCredentials.username.trim().toLowerCase())
+        .then(() => setIsLoadingEmail(false))
+        .then(() =>
+          navigation.navigate('DeliveryScreen', { comeFrom: 'Login' })
+        );
+    }
+  }
+
+  const ClientDelivery = async () => {
+    console.log('EMAIL ===>', loginCredentials.username.trim().toLowerCase());
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         if (comeFrom === 'Checkout') {
-          navigation.navigate('AddressList', {
-            comeFrom: 'Login',
-            isCheckout: true,
-          });
+          verifyUserEmail();
+          // navigation.navigate('DeliveryScreen', { comeFrom: 'Login' });
           return;
         }
 
         navigation.navigate('Home');
       });
     }
+  };
+
+  useEffect(() => {
+    ClientDelivery();
   }, [data]);
 
   return (
@@ -197,6 +230,7 @@ export const LoginScreen: React.FC<Props> = ({
         onClickGoBack={() => {
           navigation.navigate('Home');
         }}
+        loading={isLoadingEmail}
       />
       <ScrollView>
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
@@ -276,7 +310,7 @@ export const LoginScreen: React.FC<Props> = ({
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant="primarioEstreitoOutline"
-            disabled={loadingSendMail || loading}
+            disabled={loadingSendMail || loading || isLoadingEmail}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
           {/* }
@@ -331,7 +365,7 @@ export const LoginScreen: React.FC<Props> = ({
             title={'CADASTRE-SE'}
             inline
             variant="primarioEstreito"
-            disabled={loadingSendMail || loading}
+            disabled={loadingSendMail || loading || isLoadingEmail}
             onPress={() => {
               navigation.navigate('RegisterEmail', {});
             }}
