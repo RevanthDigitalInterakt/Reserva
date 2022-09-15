@@ -38,6 +38,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   //   console.log('wishIds123', wishIds);
   // }, [wishIds]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
+  const [loadingWishProducts, setLoadingWishProducts] = useState(false);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -53,7 +54,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     variables: {
       shopperId: email,
     },
-    skip,
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
   });
 
   const [{ loading, productIds, error }, setWishList] = useState({
@@ -123,30 +125,19 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   //   refetchProducts();
   // }, []);
 
-  const getStorage = async () => {
-    const wishListData = await AsyncStorage.getItem('@WishData');
-    if (wishListData) {
-      setWishIds(JSON.parse(wishListData));
-    }
-  };
-
   const handleFavorite = async (wishId: any) => {
     if (email) {
+      setLoadingWishProducts(true);
       if (wishId) {
         // remove wishlist
-        const newWishIds = wishIds.filter((x) => x.sku !== wishId);
-        AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
-        getStorage();
 
-        /*  await removeFromWishList({
+        const { data } = await removeFromWishList({
           variables: {
-            id: wishId,
             shopperId: email,
+            id: wishId,
           },
-        }); */
-        /*  await refetch({
-          shopperId: email,
-        }); */
+        });
+        if (data) await refetch();
       }
     }
   };
@@ -174,51 +165,56 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     }
   }, [wishIds]);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-
-  //     if (productIds?.viewList.data.length <= 0) {
-  //       getStorage();
-
-  //     }
-  //   }, [productIds])
-  // );
-
-  useFocusEffect(
-    React.useCallback(() => {
-      getStorage();
-    }, [])
-  );
-
   useEffect(() => {
+    setLoadingWishProducts(true);
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
-      // console.log(
-      //   'products123',
-      //   products?.productsByIdentifier.map((x) => x.productId)
-      // );
+      let newWishList: any[] = [];
 
-      setWishProducts(products.productsByIdentifier);
+
+      wishIds.forEach((item) => {
+        const product = products.productsByIdentifier.find(
+          (prod) => prod.productId == item.productId.split('-')[0]
+        );
+        if (product) {
+          const productSku = product?.items.find(
+            (i) => i.itemId == item.sku
+          );
+          const installments =
+            productSku?.sellers[0].commertialOffer.Installments;
+
+          const availableProduct =
+            productSku?.sellers[0].commertialOffer.AvailableQuantity >
+            0;
+
+          const installmentsNumber =
+            installments?.length > 0
+              ? installments[0].NumberOfInstallments
+              : 1;
+
+          const installmentPrice =
+            !!installments && installments.length > 0
+              ? installments[0].Value
+              : product?.priceRange?.listPrice?.lowPrice;
+          const wish = {
+            id: item.id,
+            product,
+            productSku,
+            availableProduct,
+            installmentsNumber,
+            installmentPrice
+          }
+          newWishList.push(wish)
+        }
+      })
+      setWishProducts(newWishList);
+      setLoadingWishProducts(false);
     }
   }, [products]);
 
-  // useEffect(() => {
-  //   // setWishIds(productIds?.viewList.data);
-  //   // if (productIds?.viewList.data.length > 0) {
-  //   //   AsyncStorage.setItem(
-  //   //     '@WishData',
-  //   //     JSON.stringify(productIds?.viewList.data)
-  //   //   );
-  //   // }
-  //   const idArray =
-  //     productIds?.viewList.data.map((x) => x.productId.split('-')[0]) || [];
-  //   if (idArray.length) {
-  //     refetch();
+  useEffect(() => {
+    setWishIds(productIds?.viewList.data);
+  }, [productIds]);
 
-  //     // refetchProducts(
-  //     //   { idArray }
-  //     // )
-  //   }
-  // }, [productIds]);
 
   // useEffect(() => {
   //   // addWish({
@@ -241,8 +237,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      /* const idArray = wishIds.map((x) => x.productId) || [];
-      refetchProducts({ idArray }); */
       refetch();
     }, [])
   );
@@ -344,7 +338,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       {/* {!showWishListCategory ? ( */}
       {/* <Box paddingX='xxxs'> */}
 
-      {loading || loadingProducts || loadingIds ? ( // || wishProducts.length <= 0 ?
+      {loading || loadingProducts || loadingIds || loadingWishProducts ? (
         <Box flex={1}>
           <Box paddingX="xxxs" paddingTop="md" mb={37}>
             <Typography variant="tituloSessoes">Favoritos</Typography>
@@ -404,7 +398,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
           ) : (
             <Box flex={1}>
               <FlatList
-                data={wishIds}
+                data={wishProducts}
                 keyExtractor={(item, index) => index.toString()}
                 style={{
                   paddingHorizontal: 16,
@@ -420,34 +414,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   //   wishProducts.map((prod) => prod.productId),
                   //   item.productId.split('-')[0]
                   // );
-                  const product = wishProducts.find(
-                    (prod) => prod.productId == item.productId.split('-')[0]
-                  );
-                  const productSku = product?.items.find(
-                    (i) => i.itemId == item.sku
-                  );
 
-                  const installments =
-                    productSku?.sellers[0].commertialOffer.Installments;
-
-                  const availableProduct =
-                    productSku?.sellers[0].commertialOffer.AvailableQuantity >
-                    0;
-
-                  const installmentsNumber =
-                    installments?.length > 0
-                      ? installments[0].NumberOfInstallments
-                      : 1;
-
-                  const installmentPrice =
-                    !!installments && installments.length > 0
-                      ? installments[0].Value
-                      : product?.priceRange?.listPrice?.lowPrice;
-
-                  // const wishId = wishIds?.find(x => x.productId == product?.productId)
-                  return !product ? (
-                    <></>
-                  ) : (
+              
+                  return (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
                         // handleNavigateToProductDetail={() => {
@@ -457,36 +426,35 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                         //     sizeSelected: productSku?.name.split('-')[1],
                         //   });
                         // }}
-                        onClickAddCount={() => {}}
+                        onClickAddCount={() => { }}
                         isFavorited
-                        itemColor={productSku?.name.split('-')[0] || ''}
-                        ItemSize={productSku?.name.split('-')[1] || ''}
-                        productTitle={`${product?.productName.slice(0, 30)}${
-                          product?.productName.length > 30 ? '...' : ''
-                        }`}
-                        installmentsNumber={installmentsNumber}
-                        installmentsPrice={installmentPrice}
-                        price={productSku?.sellers[0].commertialOffer.Price}
-                        onClickFavorite={() => handleFavorite(item.sku)}
+                        itemColor={item.productSku?.name.split('-')[0] || ''}
+                        ItemSize={item.productSku?.name.split('-')[1] || ''}
+                        productTitle={`${item.product?.productName.slice(0, 30)}${item.product?.productName.length > 30 ? '...' : ''
+                          }`}
+                        installmentsNumber={item.installmentsNumber}
+                        installmentsPrice={item.installmentPrice}
+                        price={item.productSku?.sellers[0].commertialOffer.Price}
+                        onClickFavorite={() => handleFavorite(item.id)}
                         onClickBagButton={() => {
                           // setSelectedVariantItemId(productSku?.itemId);
 
-                          if (availableProduct) {
-                            const sellers = productSku?.sellers[0].sellerId;
+                          if (item.availableProduct) {
+                            const sellers = item.productSku?.sellers[0].sellerId;
 
                             if (
-                              product.description.includes(
+                              item.product.description.includes(
                                 'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
                               )
                             ) {
                               navigation.navigate('ProductDetail', {
-                                productId: product?.productId,
+                                productId: item.product?.productId,
                                 colorSelected:
-                                  productSku?.variations[2].values[0],
-                                sizeSelected: productSku?.name.split('-')[1],
+                                  item.productSku?.variations[2].values[0],
+                                sizeSelected: item.productSku?.name.split('-')[1],
                               });
                             } else {
-                              onProductAdd(productSku?.itemId, sellers);
+                              onProductAdd(item.productSku?.itemId, sellers);
                             }
                           } else {
                             Alert.alert('Produto sem estoque :(');
@@ -496,16 +464,16 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           // console.log('item', productSku?.variations[2].values[0])
                         }}
                         imageSource={
-                          productSku?.images[0].imageUrl
+                          item.productSku?.images[0].imageUrl
                           // .replace("http", "https")
                           // .split("-55-55")
                           // .join("")
                         }
                         handleNavigateToProductDetail={() => {
                           navigation.navigate('ProductDetail', {
-                            productId: product?.productId,
-                            itemId: productSku?.itemId,
-                            sizeSelected: productSku?.name.split('-')[1],
+                            productId: item.product?.productId,
+                            itemId: item.productSku?.itemId,
+                            sizeSelected: item.productSku?.name.split('-')[1],
                           });
                         }}
                       />

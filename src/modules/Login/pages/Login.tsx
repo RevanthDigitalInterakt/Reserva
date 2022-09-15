@@ -210,7 +210,6 @@ export const LoginScreen: React.FC<Props> = ({
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         if (comeFrom === 'Checkout') {
           verifyUserEmail();
-          // navigation.navigate('DeliveryScreen', { comeFrom: 'Login' });
           return;
         }
 

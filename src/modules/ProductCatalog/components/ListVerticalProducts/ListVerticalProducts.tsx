@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import {
   Box,
   Button,
@@ -74,6 +74,15 @@ export const ListVerticalProducts = ({
     addWishList,
     { data: addWishListData, error: addWishListError, loading: addWishLoading },
   ] = useMutation(wishListQueries.ADD_WISH_LIST);
+
+  const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, { 
+    variables: {
+      shopperId: email,
+    },
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
+
   const [
     removeWishList,
     {
@@ -104,36 +113,32 @@ export const ListVerticalProducts = ({
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId, listId } = item;
-    console.log('item', item);
     if (email) {
       if (favorite) {
-        /* const { data } = await addWishList({
+        const { data } = await addWishList({
           variables: {
             shopperId: email,
             productId,
             sku: skuId,
           },
-        }); */
-        /* setFavorites([
-          ...favorites,
-          { productId, listId: data.addToList, sku: skuId },
-        ]); */
-        const handleFavorites = [...favorites, { productId, sku: skuId }];
-        await AsyncStorage.setItem(
-          '@WishData',
-          JSON.stringify(handleFavorites)
-        );
-        setFavorites(handleFavorites);
+        }); 
+        if(data){
+          setFavorites([
+            ...favorites,
+            { productId, listId: data.addToList, sku: skuId },
+          ]); 
+        }
       } else {
-        /*   await removeWishList({
+        const { data } =  await removeWishList({
           variables: {
             shopperId: email,
             id: favorites.find((x) => x.productId == productId).listId,
           },
-        }); */
-        const newWishIds = favorites.filter((x) => x.sku !== skuId);
-        AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
-        setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
+        });
+
+        if(data){
+          setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
+        }
       }
       setLoading(false);
       await populateListWithFavorite();
@@ -149,23 +154,21 @@ export const ListVerticalProducts = ({
   const populateWishlist = async () => {
     setSkip(true);
 
-    /* const {
+    const {
       data: {
         viewList: { data: wishlist },
       },
-    } = await refetchWishlist({ shopperId: email }); */
+    } = await getWishList({ variables:{shopperId:email} });
 
-    const wishData: any = await AsyncStorage.getItem('@WishData');
-
-    if (wishData)
+    if (wishlist){
       setFavorites([
-        ...JSON.parse(wishData).map((x: any) => ({
+        ...wishlist.map((x: any) => ({
           productId: x.productId,
           listId: x.id,
           sku: x.sku,
         })),
-      ]);
-    // await populateListWithFavorite();
+      ]);  
+    }
   };
 
   useEffect(() => {

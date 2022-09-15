@@ -177,6 +177,11 @@ export const ProductDetail: React.FC<Props> = ({
     },
   });
 
+  const [checkListRefetch]= useLazyQuery(wishListQueries.CHECK_LIST, {
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
+
   const refetch = () => {
     setProductLoad({
       data: null,
@@ -628,71 +633,39 @@ export const ProductDetail: React.FC<Props> = ({
   const refetchChecklist = async () => {
     setSkip(true);
     if (product && product.productId) {
-      /* const { data: { checkList } } = await checkListRefetch({
+      const { data: { checkList } } = await checkListRefetch({variables:{
         shopperId: email,
-        productId: product.productId.split('-')[0],
-      }) */
+        productId: product?.productId.split('-')[0],
+      }}) 
 
-      const wishListData = await AsyncStorage.getItem('@WishData');
-      if (selectedVariant) {
-        if (wishListData) {
-          const newWishIds = JSON.parse(wishListData).some(
-            (x) => x.sku === selectedVariant?.itemId
-          );
-          setWishInfo({
-            ...wishInfo,
-            inList: newWishIds,
-          });
+        if(checkList){
+          setWishInfo({ ...checkList })
         }
-      }
-
-      //setWishInfo({ ...checkList })
+      
     }
   };
 
   const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
-      const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
         setLoadingFavorite(true);
 
         if (favorite) {
-          /* const { data } = await addWishList({
+          const { data } = await addWishList({
             variables: {
               shopperId: email,
-              productId: product.productId.split('-')[0],
-              sku: selectedVariant?.itemId
-            }
-          }) */
-
-          const handleFavorites = {
-            productId: product.productId.split('-')[0],
-            sku: selectedVariant?.itemId,
-          };
-
-          if (wishListData) {
-            await AsyncStorage.setItem(
-              '@WishData',
-              JSON.stringify([...JSON.parse(wishListData), handleFavorites])
-            );
-          } else {
-            await AsyncStorage.setItem(
-              '@WishData',
-              JSON.stringify([handleFavorites])
-            );
-          }
+              productId:product.productId.split('-')[0],
+              sku: selectedVariant?.itemId,
+            },
+          }); 
+          
         } else {
-          /* await removeWishList({
+          await removeWishList({
             variables: {
               shopperId: email,
               id: wishInfo.listIds[0]
             }
-          }) */
-
-          const newWishIds = JSON.parse(wishListData).filter(
-            (x) => x.sku !== selectedVariant?.itemId
-          );
-          await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+          }) 
         }
         await refetchChecklist();
         setLoadingFavorite(false);

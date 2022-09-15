@@ -23,8 +23,10 @@ import {
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
+import firestore from '@react-native-firebase/firestore';
+import { differenceInMonths } from 'date-fns';
 
-const MenuScreen: React.FC<{}> = ({}) => {
+const MenuScreen: React.FC<{}> = ({ }) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
   const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
@@ -35,6 +37,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
+  const [hasThreeMonths, setHasThreeMonths] = useState<boolean>(false);
   const [screenCashbackInStoreActive, setScreenCashbackInStoreActive] =
     useState<boolean>(false);
 
@@ -176,6 +179,64 @@ const MenuScreen: React.FC<{}> = ({}) => {
     updateImageUrl();
   }, [profileImagePath]);
 
+  const checkPhoneTime = async (userId: string) => {
+    const virifyPhoneCollection = firestore().collection('verify-phone');
+    const user = await virifyPhoneCollection
+      .where('userId', '==', userId)
+      .get();
+    if (user.size > 0) {
+      const serverDate = user.docs[0].data()['date'].toDate().toISOString();
+      const timeFirebase = firestore.Timestamp.now().toDate();
+      const differenceAmountInMonths = differenceInMonths(
+        timeFirebase,
+        new Date(serverDate)
+      );
+      if (differenceAmountInMonths === 3) {
+        setHasThreeMonths(true);
+      } else {
+        setHasThreeMonths(false);
+      }
+    } else {
+      setHasThreeMonths(true);
+    }
+  };
+
+  useEffect(() => {
+    if (profile) {
+      checkPhoneTime(profile.userId);
+    }
+  }, [profile]);
+
+  const handleCashback = () => {
+    if (hasThreeMonths) {
+    if (profile?.homePhone) {
+      if (profile?.document) {
+        navigation.navigate('changePhoneNumber', {
+          profile: profile,
+        });
+      } else {
+        navigation.navigate('registerCPF', {
+          profile: profile,
+        });
+      }
+    } else {
+      if (profile?.document) {
+        navigation.navigate('registerPhoneNumber', {
+          profile: profile,
+        });
+      } else {
+        navigation.navigate('registerCPF', {
+          profile: profile,
+        });
+      }
+    }
+    } else {
+      navigation.navigate('cashbackInStore', {
+        isLoyal: true,
+        costumerDocument: profile?.document,
+      });
+    }
+  };
   return (
     <Box flex={1} backgroundColor="white">
       <TopBarDefault loading={loading} />
@@ -269,14 +330,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
             {cashbackDropOpen && (
               <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs">
                 <Box paddingX="xxs" pb="xxs">
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('cashbackInStore', {
-                        isLoyal: true,
-                        costumerDocument: profile?.document,
-                      })
-                    }
-                  >
+                  <TouchableOpacity onPress={handleCashback}>
                     <Typography fontFamily="nunitoRegular" fontSize={14}>
                       QR Code para cashback
                     </Typography>

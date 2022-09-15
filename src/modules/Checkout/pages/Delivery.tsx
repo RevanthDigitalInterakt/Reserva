@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Typography } from '@danilomsou/reserva-ui';
-import { useFocusEffect } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';

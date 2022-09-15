@@ -62,8 +62,10 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
 
   const fetchRegionId = async (segmentId: string) => {
     console.log('fetchRegionId');
-    const { data } = await instance.get(`/segment/${segmentId}`);
-    return data
+    if(segmentId){
+      const { data } = await instance.get(`/segments/${segmentId}`);
+      return data
+    }
   }
 
   useEffect(() => {

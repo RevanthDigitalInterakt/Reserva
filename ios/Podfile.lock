@@ -689,6 +689,7 @@ PODS:
   - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
     - OneSignalXCFramework/OneSignalCore
   - OpenSSL-Universal (1.1.1100)
+<<<<<<< HEAD
   - Permission-AppTrackingTransparency (3.6.0):
     - RNPermissions
   - Permission-Camera (3.6.0):
@@ -698,6 +699,17 @@ PODS:
   - Permission-LocationWhenInUse (3.6.0):
     - RNPermissions
   - Permission-Notifications (3.6.0):
+=======
+  - Permission-AppTrackingTransparency (3.6.1):
+    - RNPermissions
+  - Permission-Camera (3.6.1):
+    - RNPermissions
+  - Permission-LocationAlways (3.6.1):
+    - RNPermissions
+  - Permission-LocationWhenInUse (3.6.1):
+    - RNPermissions
+  - Permission-Notifications (3.6.1):
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
     - RNPermissions
   - PromisesObjC (2.1.1)
   - RCT-Folly (2020.01.13.00):
@@ -1068,7 +1080,11 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
+<<<<<<< HEAD
   - RNPermissions (3.6.0):
+=======
+  - RNPermissions (3.6.1):
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
     - React-Core
   - RNReanimated (2.2.0):
     - DoubleConversion
@@ -1496,11 +1512,19 @@ SPEC CHECKSUMS:
   OneSignal: 8861a1407c321ca1ae59d3adca6286eb7caf9d6e
   OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+<<<<<<< HEAD
   Permission-AppTrackingTransparency: e7db3d7a30b90efc97fd9008873f03432b09f1a7
   Permission-Camera: 0a0fb4341f50ab242f496fb2f73380e0ec454fe7
   Permission-LocationAlways: 6b9874937f2092664dd71fbc53a10f7f0adfff51
   Permission-LocationWhenInUse: 51aa065819cd582517e98e89b564e2465a4a83c6
   Permission-Notifications: 7f2a467ab97a130a847519705340830d52cfc5f0
+=======
+  Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d
+  Permission-Camera: bf6791b17c7f614b6826019fcfdcc286d3a107f6
+  Permission-LocationAlways: 8d99b025c9f73c696e0cdb367e42525f2e9a26f2
+  Permission-LocationWhenInUse: 3ba99e45c852763f730eabecec2870c2382b7bd4
+  Permission-Notifications: 150484ae586eb9be4e32217582a78350a9bb31c3
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
@@ -1562,7 +1586,11 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 95812cc586fbe7a20dadd7eb4cd0a0f1b8e34ce2
   RNFBStorage: bffb285f037e0cb3937bdc2c72992dd7a6a83982
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+<<<<<<< HEAD
   RNPermissions: de7b7c3fe1680d974ac7a85e3e97aa539c0e68ea
+=======
+  RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34

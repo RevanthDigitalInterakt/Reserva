@@ -922,7 +922,11 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 2022091501;
+=======
+				CURRENT_PROJECT_VERSION = 2022091301;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -982,7 +986,11 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
+<<<<<<< HEAD
 				MARKETING_VERSION = 1.8.21;
+=======
+				MARKETING_VERSION = 1.8.19;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1009,7 +1017,11 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 2022091501;
+=======
+				CURRENT_PROJECT_VERSION = 2022091301;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1068,7 +1080,11 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
+<<<<<<< HEAD
 				MARKETING_VERSION = 1.8.21;
+=======
+				MARKETING_VERSION = 1.8.19;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1096,7 +1112,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 2022091501;
+=======
+				CURRENT_PROJECT_VERSION = 2022091301;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1111,7 +1131,11 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+<<<<<<< HEAD
 				MARKETING_VERSION = 1.8.21;
+=======
+				MARKETING_VERSION = 1.8.19;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
@@ -1135,7 +1159,11 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 2022091501;
+=======
+				CURRENT_PROJECT_VERSION = 2022091301;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1150,7 +1178,11 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+<<<<<<< HEAD
 				MARKETING_VERSION = 1.8.21;
+=======
+				MARKETING_VERSION = 1.8.19;
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";

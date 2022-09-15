@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import styles from './styles';
 
 interface BaseScreenProps {
@@ -10,7 +10,7 @@ const BaseScreen: React.FC<BaseScreenProps> = ({ children, testID }) => (
   <KeyboardAvoidingView
     testID={testID}
     style={styles.wrapper}
-    behavior='padding'
+    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     enabled
     keyboardVerticalOffset={120}
   >
