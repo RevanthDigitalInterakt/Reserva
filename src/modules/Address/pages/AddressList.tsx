@@ -272,6 +272,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                   street,
                   neighborhood,
                   addressId,
+                  receiverName,
                 } = item;
 
                 if (cookie) {
@@ -285,8 +286,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
                 return (
                   <AddressSelector
                     addressData={{
-                      address: `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`,
-                      title: street,
+                      address: `${street}, ${number}, ${complement},
+${neighborhood}, ${city} - ${state}`,
+                      title: receiverName,
                       zipcode: postalCode,
                     }}
                     deleteAddress={() => {
@@ -306,6 +308,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
                           neighborhood,
                           number,
                           complement,
+                          receiverName,
                         },
                       });
                     }}
