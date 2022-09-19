@@ -157,8 +157,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       data: response.data,
       loading: false,
       error: response.error,
-      fetchMore: fetchMore,
-      refetch: refetch,
     });
     return response;
   };
@@ -172,6 +170,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         generateFacets(referenceString),
         filterRequestList
       ),
+      salesChannel: 4,
       orderBy: selectedOrder,
       to: pageSize - 1,
       simulationBehavior: 'default',
@@ -205,9 +204,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-            limitDate.minutes
-          }:${limitDate.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+            }:${limitDate.seconds}`,
         });
       }
     }
@@ -401,9 +399,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -413,9 +411,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -425,9 +423,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // PRICE
@@ -435,9 +433,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -455,23 +453,40 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   const loadMoreProducts = async (offset: number) => {
     setLoadingFetchMore(true);
-
-    const { data, loading } = await fetchMore({
+    const { data: dataFetchMore, loading } = await fetchMore({
       variables: {
+        skusFilter: 'ALL_AVAILABLE',
+        hideUnavailableItems: true,
         orderBy: selectedOrder,
-        form: offset < pageSize ? pageSize : offset,
+        from: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
         selectedFacets: [].concat(
           generateFacets(referenceString),
           filterRequestList
         ),
-      },
+        simulationBehavior: 'default',
+        productOriginVtex: false,
+      }, 
     });
-    setProductSearch({ data, loading, fetchMore, refetch, error });
-    // setLoadingFetchMore(false);
-    setLoadingFetchMore(loading);
-
-    setProducts(data.productSearch);
+    if (data) {
+      const newDataProductSearch = {
+        productSearch: {
+          ...dataFetchMore.productSearch,
+          products: [...data.productSearch.products, ...dataFetchMore.productSearch.products]
+        }
+      }
+      setProductSearch({
+        data: newDataProductSearch, loading,
+        fetchMore, refetch,
+        error
+      });
+      setProducts(newDataProductSearch.productSearch);
+      setLoadingFetchMore(loading);
+    } else {
+      setProductSearch({ data: dataFetchMore, loading, fetchMore, refetch, error });
+      setProducts(dataFetchMore.productSearch);
+      setLoadingFetchMore(loading);
+    }
   };
 
   useEffect(() => {
@@ -932,7 +947,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontSize="14px"
                     >
                       {productsQuery.products?.length == 0 &&
-                      filterRequestList.length > 0
+                        filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
                     </Typography>

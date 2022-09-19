@@ -44,5 +44,9 @@ export const requestATT = async () => {
     if (att === 'granted') {
       return true;
     }
+
+    if (att === 'denied') {
+      return true;
+    }
   } catch (error) {}
 };
