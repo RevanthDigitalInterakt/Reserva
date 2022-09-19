@@ -36,7 +36,7 @@ interface IAddress {
   complement: string;
   street: string;
   neighborhood: string;
-  receiverName?: string;
+  receiverName: string;
   addressType?: string;
   country?: string;
 }
@@ -69,17 +69,19 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     complement: editAddress?.complement || '',
     street: editAddress?.street || '',
     neighborhood: editAddress?.neighborhood || '',
-    receiverName: '',
+    receiverName: editAddress?.receiverName || '',
     addressType: 'residential',
     country: 'BRA',
   });
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [validateNeighborhood, setValidateNeighborhood] = useState(false);
   const [validateStreet, setValidateStreet] = useState(false);
+  const [validateReceiverName, setValidateReceiverName] = useState(true);
 
   // State labels
   const [labelNeighborhood, setLabelNeighborhood] = useState(null);
   const [labelPostalCode, setLabelPostalCode] = useState(null);
+  const [labelReceiverName, setLabelReceiverName] = useState(null);
   const [labelState, setLabelState] = useState(null);
   const [labelCity, setLabelCity] = useState(null);
   const [labelNumber, setLabelNumber] = useState(null);
@@ -100,7 +102,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             id: editAddress?.id,
             fields: {
               ...initialValues,
-              receiverName: `${profile?.firstName} ${profile?.lastName}`,
+              // receiverName: `${profile?.firstName} ${profile?.lastName}`,
             },
           },
         })
@@ -108,7 +110,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
           variables: {
             fields: {
               ...initialValues,
-              receiverName: `${profile?.firstName} ${profile?.lastName}`,
             },
           },
         });
@@ -122,7 +123,11 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const handlePaymentMethodScreen = async () => {
     setLoading(true);
-    const receiverName = `${profile?.firstName} ${profile?.lastName}`;
+
+    const receiverName = initialValues?.receiverName
+      ? initialValues.receiverName
+      : `${profile?.firstName} ${profile?.lastName}`;
+
     const {
       postalCode,
       state,
@@ -152,7 +157,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       variables: {
         fields: {
           ...initialValues,
-          receiverName,
+          receiverName: receiverName,
         },
       },
     });
@@ -167,6 +172,11 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const cepHandler = async (postalCode: string) => {
     setLoading(true);
+
+    if (initialValues?.receiverName.length <= 0) {
+      setValidateReceiverName(false);
+    }
+
     const isValidPostalCode = postalCode.length == 8;
 
     if (isValidPostalCode) {
@@ -254,9 +264,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       state,
       city,
       number,
-      complement,
       street,
       neighborhood,
+      receiverName,
     } = initialValues;
 
     if (
@@ -265,7 +275,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       city?.length > 0 &&
       number.length > 0 &&
       street?.length > 0 &&
-      neighborhood?.length > 0
+      neighborhood?.length > 0 &&
+      receiverName?.length > 0
     ) {
       setButtonEnabled(true);
     } else {
@@ -284,6 +295,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         complement: editAddress.complement,
         street: editAddress.street,
         neighborhood: editAddress.neighborhood,
+        receiverName: editAddress.receiverName,
       });
       setLabelNeighborhood('Bairro');
       setLabelCity('Cidade');
@@ -292,8 +304,28 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       setLabelState('Estado');
       setLabelPostalCode('CEP');
       setLabelStreet('Endereço');
+      setLabelReceiverName('Nome do destinatário');
     }
   }, [edit]);
+
+  const handlerValidationReceiverName = (text: string) => {
+    const [firstName, ...rest] = text.trim().split(' ');
+    const lastName = rest.join(' ');
+    if (
+      text.match(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
+      ) &&
+      !lastName.match(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú](\s{1,}){2,19}\b/gi
+      )
+    ) {
+      setLabelReceiverName('Nome do destinatário');
+      setValidateReceiverName(true);
+    } else {
+      setLabelReceiverName(null);
+      setValidateReceiverName(false);
+    }
+  };
 
   return (
     <>
@@ -340,6 +372,24 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     Insira o endereço do destinatário:
                   </Typography>
                 </Box>
+
+                <InputOption
+                  label={labelReceiverName}
+                  placeholder="Nome do destinatário"
+                  value={initialValues.receiverName}
+                  onChangeText={(text) => {
+                    setInitialValues({ ...initialValues, receiverName: text });
+
+                    if (!text) {
+                      setLabelReceiverName(null);
+                      setValidateReceiverName(false);
+                    } else {
+                      handlerValidationReceiverName(text.trim());
+                    }
+                  }}
+                  touched={!validateReceiverName}
+                  error="Por favor, insira o nome completo do destinatário"
+                />
 
                 <InputOption
                   label={labelPostalCode}
@@ -538,7 +588,12 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             title={receiveHome ? 'IR PARA ENTREGA' : 'INCLUIR ENDEREÇO'}
             variant="primarioEstreito"
             inline
-            disabled={!validateForm || !validateNumber || loading}
+            disabled={
+              !validateForm ||
+              !validateNumber ||
+              !validateReceiverName ||
+              loading
+            }
           />
         )}
       </SafeAreaView>

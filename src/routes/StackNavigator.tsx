@@ -125,6 +125,7 @@ export type RootStackParamList = {
       phoneNumber: string;
       jobTitle: string;
       neighborhood: string;
+      receiverName: string;
     };
   };
   ForgotEmail: {};

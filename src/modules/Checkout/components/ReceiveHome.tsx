@@ -164,6 +164,7 @@ const ReceiveHome = ({
                 street,
                 neighborhood,
                 addressId,
+                receiverName,
               } = item;
               // if (cookie != null) {
               //   if (selectedAddress) {
@@ -179,7 +180,7 @@ const ReceiveHome = ({
                   addressData={{
                     address: `${street}, ${number}, ${complement},
 ${neighborhood}, ${city} - ${state}`,
-                    title: street,
+                    title: receiverName,
                     zipcode: postalCode,
                   }}
                   disabled={addressId === selectedAddress.addressId}
@@ -203,6 +204,7 @@ ${neighborhood}, ${city} - ${state}`,
                         neighborhood,
                         number,
                         complement,
+                        receiverName,
                       },
                     });
                   }}
