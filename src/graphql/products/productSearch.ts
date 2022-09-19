@@ -13,7 +13,7 @@ export const productSearch = gql`
     $specificationFilters: [String]
     $priceRange: String = ""
     $collection: String = ""
-    $salesChannel: String = ""
+    $salesChannel: String = "4"
     $orderBy: String = "OrderByReviewRateDESC"
     $from: Int = 0
     $to: Int = 9
