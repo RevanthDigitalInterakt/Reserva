@@ -11,7 +11,7 @@ export const staticsDataIos = [
   },
   {
     id: '3',
-    buttonTitle: 'PERMITIR ACESSO',
+    buttonTitle: 'CONTINUAR',
     imageHeader: null,
   },
   {
