@@ -689,6 +689,17 @@ PODS:
   - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
     - OneSignalXCFramework/OneSignalCore
   - OpenSSL-Universal (1.1.1100)
+<<<<<<< HEAD
+  - Permission-AppTrackingTransparency (3.6.0):
+    - RNPermissions
+  - Permission-Camera (3.6.0):
+    - RNPermissions
+  - Permission-LocationAlways (3.6.0):
+    - RNPermissions
+  - Permission-LocationWhenInUse (3.6.0):
+    - RNPermissions
+  - Permission-Notifications (3.6.0):
+=======
   - Permission-AppTrackingTransparency (3.6.1):
     - RNPermissions
   - Permission-Camera (3.6.1):
@@ -698,6 +709,7 @@ PODS:
   - Permission-LocationWhenInUse (3.6.1):
     - RNPermissions
   - Permission-Notifications (3.6.1):
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
     - RNPermissions
   - PromisesObjC (2.1.1)
   - RCT-Folly (2020.01.13.00):
@@ -936,7 +948,7 @@ PODS:
     - React-Core
   - react-native-view-shot (3.3.0):
     - React-Core
-  - react-native-webview (11.22.5):
+  - react-native-webview (11.22.7):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -1068,7 +1080,11 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
+<<<<<<< HEAD
+  - RNPermissions (3.6.0):
+=======
   - RNPermissions (3.6.1):
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
     - React-Core
   - RNReanimated (2.2.0):
     - DoubleConversion
@@ -1108,7 +1124,7 @@ PODS:
     - React-Core
   - RNStoreReview (0.2.1):
     - React-Core
-  - RNSVG (12.3.0):
+  - RNSVG (12.4.0):
     - React-Core
   - SocketRocket (0.6.0)
   - SSZipArchive (2.2.3)
@@ -1452,7 +1468,7 @@ SPEC CHECKSUMS:
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: caeac8f7118b8f7b05c5b9b4e6ffa71ba9d22edc
+  FBReactNativeSpec: 0cedaf00e13e24c3ef4c2b2032a0e50fa3923c07
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1496,11 +1512,19 @@ SPEC CHECKSUMS:
   OneSignal: 8861a1407c321ca1ae59d3adca6286eb7caf9d6e
   OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+<<<<<<< HEAD
+  Permission-AppTrackingTransparency: e7db3d7a30b90efc97fd9008873f03432b09f1a7
+  Permission-Camera: 0a0fb4341f50ab242f496fb2f73380e0ec454fe7
+  Permission-LocationAlways: 6b9874937f2092664dd71fbc53a10f7f0adfff51
+  Permission-LocationWhenInUse: 51aa065819cd582517e98e89b564e2465a4a83c6
+  Permission-Notifications: 7f2a467ab97a130a847519705340830d52cfc5f0
+=======
   Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d
   Permission-Camera: bf6791b17c7f614b6826019fcfdcc286d3a107f6
   Permission-LocationAlways: 8d99b025c9f73c696e0cdb367e42525f2e9a26f2
   Permission-LocationWhenInUse: 3ba99e45c852763f730eabecec2870c2382b7bd4
   Permission-Notifications: 150484ae586eb9be4e32217582a78350a9bb31c3
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
@@ -1529,7 +1553,7 @@ SPEC CHECKSUMS:
   react-native-rsa-native: 12132eb627797529fdb1f0d22fd0f8f9678df64a
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-view-shot: da768466e1cd371de50a3a5c722d1e95456b5b2c
-  react-native-webview: 28557a39f4c1f3f8faa69dae22858335ba63e7f9
+  react-native-webview: 227ba9205abb8579116b69ea5774d9744267c65a
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -1562,13 +1586,17 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 95812cc586fbe7a20dadd7eb4cd0a0f1b8e34ce2
   RNFBStorage: bffb285f037e0cb3937bdc2c72992dd7a6a83982
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+<<<<<<< HEAD
+  RNPermissions: de7b7c3fe1680d974ac7a85e3e97aa539c0e68ea
+=======
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
+>>>>>>> 030d49cb1844c877fdcac8c4a98d86f4d90580ed
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNStoreReview: e05edbbf426563070524cec384ac0b8df69be801
-  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
+  RNSVG: 3dd44d99d1c18e1342aee4bfa53ab3f6a8c4865f
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf

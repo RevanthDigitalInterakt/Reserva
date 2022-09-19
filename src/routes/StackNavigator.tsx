@@ -66,7 +66,7 @@ export type RootStackParamList = {
     colorSelected: string;
     sizeSelected: string;
   };
-  DeliveryScreen: undefined;
+  DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
