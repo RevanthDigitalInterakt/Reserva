@@ -14,10 +14,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import com.appsflyer.AppsFlyerLib;
 import com.getbouncer.RNCardscanModule;
 import com.microsoft.codepush.react.CodePush;
-import com.appsflyer.AppsFlyerLib;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 //Reanimated  dependencies
 import com.facebook.react.bridge.JSIModulePackage;
@@ -68,7 +66,6 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-    AppsFlyerLib.getInstance().addPushNotificationDeepLinkPath("af_push_link");
 
      // set your generated API key
     RNCardscanModule.apiKey = "l86jNJBFrP9A-_pTvvho-g54rybCp2d1";
