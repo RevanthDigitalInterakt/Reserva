@@ -498,6 +498,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                 <Box flex={1}>
                   <InputOption
+                    style={{ color: '#8A8C8E' }}
                     label={labelCity}
                     placeholder="Cidade"
                     value={initialValues.city}
@@ -516,6 +517,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
                 <Box flex={1}>
                   <InputOption
+                    style={{ color: '#8A8C8E' }}
                     label={labelState}
                     placeholder="Estado"
                     value={initialValues.state}
