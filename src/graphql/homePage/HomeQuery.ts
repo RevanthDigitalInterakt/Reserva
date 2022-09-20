@@ -54,6 +54,7 @@ export interface CarrouselCard {
   name: string;
   description: string;
   reference: string;
+  orderBy: string;
   referenceLabel?: string;
   mkt: boolean;
 }
@@ -83,24 +84,30 @@ export interface ICountDownClockReservaMini {
 }
 
 export const homeQuery = gql`
-query homePageCollection {
-  homePageCollection(limit: 12) {
-    items {
-      carrouselHomeCollection(limit: 3) {
-        items {
-          type
-          title
-          showtime
-          itemsCollection(limit: 3) {
-            items {
-              mkt
-              image {
-                fileName
-                size
-                title
-                url
-                width
-                height
+  query homePageCollection {
+    homePageCollection(limit: 12) {
+      items {
+        carrouselHomeCollection(limit: 3) {
+          items {
+            type
+            title
+            showtime
+            itemsCollection(limit: 3) {
+              items {
+                mkt
+                image {
+                  fileName
+                  size
+                  title
+                  url
+                  width
+                  height
+                }
+                reservaMini
+                name
+                description
+                reference
+                orderBy
               }
               reservaMini
               name
@@ -109,21 +116,22 @@ query homePageCollection {
             }
           }
         }
-      }
-      mediasCollection {
-        items {
-          mkt
-          reference
-          reservaMini
-          isLandingPage
-          landingPageId
-          image {
-            fileName
-            title
-            width
-            height
-            size
-            url
+        mediasCollection {
+          items {
+            mkt
+            orderBy
+            reference
+            reservaMini
+            isLandingPage
+            landingPageId
+            image {
+              fileName
+              title
+              width
+              height
+              size
+              url
+            }
           }
         }
       }

@@ -56,6 +56,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
                 referenceLabel={item.referenceLabel}
                 key={index}
                 reservaMini={item.reservaMini}
+                orderBy={item.orderBy}
               />
             </Box>
           )}
@@ -116,6 +117,7 @@ const Card: React.FC<CardProps> = ({
   description,
   name,
   reservaMini,
+  orderBy
 }) => {
   const navigation = useNavigation();
 
@@ -145,6 +147,7 @@ const Card: React.FC<CardProps> = ({
       navigation.navigate('ProductCatalog', {
         referenceId: reference,
         reservaMini: reservaMini,
+        orderBy: orderBy,
       });
     }
   };
