@@ -51,8 +51,20 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData
   );
+
+  const orderProducts: any = {
+    RELEVANCIA: OrderByEnum.OrderByReviewRateDESC,
+    MAIS_VENDIDOS: OrderByEnum.OrderByTopSaleDESC,
+    MAIS_RECENTES: OrderByEnum.OrderByReleaseDateDESC,
+    DESCONTOS: OrderByEnum.OrderByBestDiscountDESC,
+    MAIOR_PRECO: OrderByEnum.OrderByPriceDESC,
+    MENOR_PRECO: OrderByEnum.OrderByPriceASC,
+    DE_A_Z: OrderByEnum.OrderByNameDESC,
+    DE_Z_A: OrderByEnum.OrderByNameASC,
+  }
+
   const pageSize = 12;
-  const { safeArea, search, referenceId, title, reservaMini } = route.params;
+  const { safeArea, search, referenceId, title, reservaMini, orderBy } = route.params;
 
   useEffect(() => {
     if (referenceId === 'offers-page') {
@@ -92,6 +104,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
+
+  useEffect(() => {
+    if (orderBy) {
+      setSelectedOrder(orderProducts[orderBy]);
+    }
+  }, [orderBy]);
 
   const generateFacets = (reference: string) => {
     const facetInput: any[] = [];

@@ -52,6 +52,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
       facetInput,
       referenceId: item.reference,
       reservaMini: item.reservaMini,
+      orderBy: item.orderBy,
     });
   };
 

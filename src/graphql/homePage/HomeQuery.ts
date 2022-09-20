@@ -54,6 +54,7 @@ export interface CarrouselCard {
   name: string;
   description: string;
   reference: string;
+  orderBy: string;
   referenceLabel?: string;
 }
 
@@ -104,12 +105,14 @@ export const homeQuery = gql`
                 name
                 description
                 reference
+                orderBy
               }
             }
           }
         }
         mediasCollection {
           items {
+            orderBy
             reference
             reservaMini
             isLandingPage
