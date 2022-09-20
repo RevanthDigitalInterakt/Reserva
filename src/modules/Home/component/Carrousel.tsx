@@ -29,7 +29,8 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
 
   const navigation = useNavigation();
 
-  const carrouselCards = carrousel.itemsCollection.items;
+  // const carrouselCards = carrousel.itemsCollection.items;
+  const [carrouselCards, setCarrouselCards] = useState<any[]>()
 
   const onPressImage = (item: CarrouselCard) => {
     const facetInput = [];
@@ -87,10 +88,17 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
   };
 
   useEffect(() => {
+    let cc: any[] = []
+    carrousel.itemsCollection.items.map(c => {
+      if(!c.mkt){
+        cc.push(c)
+      }
+    });
+    setCarrouselCards(cc)
     setActualPosition(0);
     console.log(
       'Carousel',
-      carrouselCards.map((item: CarrouselCard) => item.reservaMini == true)
+      carrouselCards?.map((item: CarrouselCard) => item.reservaMini == true)
     );
   }, []);
 
