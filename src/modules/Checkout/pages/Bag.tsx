@@ -246,13 +246,9 @@ export const BagScreen = ({ route }: Props) => {
   }, [noProduct]);
 
   const handleAddCoupons = async () => {
-    setLoadingGoDelivery(true);
-
     const isCouponInvalid = await addCoupon(discountCoupon);
-
     setCouponIsInvalid(isCouponInvalid);
     setDiscountCoupon('');
-    setLoadingGoDelivery(false);
     orderform();
   };
 
@@ -315,7 +311,7 @@ export const BagScreen = ({ route }: Props) => {
       if (!email) {
         setLoadingGoDelivery(false);
 
-        navigation.navigate('EnterYourEmail');
+        navigation.navigate('Login', { comeFrom: 'Checkout' });
       } else if (isEmptyProfile && !isProfileComplete) {
         // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
@@ -324,7 +320,7 @@ export const BagScreen = ({ route }: Props) => {
         // updateClientProfileData(profile);
         await identifyCustomer(email)
           .then(() => setLoadingGoDelivery(false))
-          .then(() => navigation.navigate('DeliveryScreen'));
+          .then(() => navigation.navigate('DeliveryScreen', {}));
       }
     }
   };
@@ -887,7 +883,7 @@ export const BagScreen = ({ route }: Props) => {
                     title="APLICAR"
                     onPress={handleAddCoupons}
                     variant="primarioEstreito"
-                    disabled={!hasDiscountCoupon() || loadingGoDelivery}
+                    disabled={!hasDiscountCoupon()}
                   />
                 </Box>
               </Box>

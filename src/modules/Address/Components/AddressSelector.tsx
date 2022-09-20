@@ -43,7 +43,6 @@ const AddressSelector = ({
           p="nano"
           mt="xxxs"
           alignItems="center"
-          mb="nano"
         >
           <Box
             height={50}
@@ -54,10 +53,10 @@ const AddressSelector = ({
             <Box m={'nano'} alignItems="center">
               <Box width="10%">
                 <Box
-                  height={20}
-                  width={20}
+                  height={15}
+                  width={15}
                   borderRadius="infinity"
-                  borderWidth="thin"
+                  borderWidth="hairline"
                   alignItems="center"
                   justifyContent="center"
                 >
@@ -73,15 +72,15 @@ const AddressSelector = ({
               </Box>
             </Box>
           </Box>
-          <Box paddingX="micro" flex={1}>
+          <Box paddingX="quarck" mt="nano" flex={1}>
             <Typography
-              fontFamily="reservaSerifRegular"
-              fontSize={16}
-              lineHeight={21}
+              fontFamily={theme.fonts.nunitoBold}
+              fontSize={13}
+              lineHeight={18}
             >
               {title}
             </Typography>
-            <Box mt="nano" mb="quarck">
+            <Box mb="nano">
               <Typography
                 style={{ flexWrap: 'wrap' }}
                 fontFamily="nunitoRegular"
@@ -92,55 +91,63 @@ const AddressSelector = ({
               </Typography>
             </Box>
 
-            <Typography
-              fontFamily="nunitoRegular"
-              fontSize={13}
-              lineHeight={16}
-            >
-              {zipcode
-                .replace(/\D/g, '')
-                .replace(/(\d{2})(\d)/, '$1.$2')
-                .replace(/(\d{3})(\d)/, '$1-$2')
-                .replace(/(-\d{3})\d+?$/, '$1')}
-            </Typography>
+            <Box flexDirection="row" width={'100%'}>
+              <Box width={1 / 2}>
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize={13}
+                  lineHeight={16}
+                >
+                  CEP:
+                  {` ${zipcode
+                    .replace(/\D/g, '')
+                    .replace(/(\d{2})(\d)/, '$1.$2')
+                    .replace(/(\d{3})(\d)/, '$1-$2')
+                    .replace(/(-\d{3})\d+?$/, '$1')}`}
+                </Typography>
+              </Box>
+
+              <Box
+                width={1 / 2}
+                justifyContent="flex-end"
+                alignItems="flex-end"
+              >
+                {editAndDelete && (
+                  <>
+                    <Box flexDirection="row">
+                      <Button
+                        onPress={edit}
+                        pb={'quarck'}
+                        hitSlop={{ top: 10, left: 10, bottom: 30, right: 10 }}
+                      >
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={13}
+                          lineHeight={16}
+                          style={{ textDecorationLine: 'underline' }}
+                        >
+                          editar
+                        </Typography>
+                      </Button>
+
+                      <Button
+                        hitSlop={{
+                          top: 10,
+                          left: -10,
+                          bottom: 30,
+                          right: 10,
+                        }}
+                        onPress={deleteAddress}
+                      >
+                        <Icon ml={'xxs'} name="Trash" color="preto" size={15} />
+                      </Button>
+                    </Box>
+                  </>
+                )}
+              </Box>
+            </Box>
           </Box>
         </Box>
-        {selected && (
-          <Box
-            flexDirection="row"
-            mb="nano"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-          >
-            {editAndDelete && (
-              <>
-                <Box flexDirection="row">
-                  <Button
-                    onPress={edit}
-                    pb={'quarck'}
-                    hitSlop={{ top: 10, left: 10, bottom: 30, right: 10 }}
-                  >
-                    <Typography
-                      fontFamily="nunitoRegular"
-                      fontSize={13}
-                      lineHeight={16}
-                      style={{ textDecorationLine: 'underline' }}
-                    >
-                      editar
-                    </Typography>
-                  </Button>
-
-                  <Button
-                    hitSlop={{ top: 10, left: -10, bottom: 30, right: 10 }}
-                    onPress={deleteAddress}
-                  >
-                    <Icon ml={'xxs'} name="Trash" color="preto" size={15} />
-                  </Button>
-                </Box>
-              </>
-            )}
-          </Box>
-        )}
       </TouchableOpacity>
     </>
   );

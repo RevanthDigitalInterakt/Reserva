@@ -75,7 +75,7 @@ export const ListVerticalProducts = ({
     { data: addWishListData, error: addWishListError, loading: addWishLoading },
   ] = useMutation(wishListQueries.ADD_WISH_LIST);
 
-  const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, { 
+  const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, {
     variables: {
       shopperId: email,
     },
@@ -121,22 +121,22 @@ export const ListVerticalProducts = ({
             productId,
             sku: skuId,
           },
-        }); 
-        if(data){
+        });
+        if (data) {
           setFavorites([
             ...favorites,
             { productId, listId: data.addToList, sku: skuId },
-          ]); 
+          ]);
         }
       } else {
-        const { data } =  await removeWishList({
+        const { data } = await removeWishList({
           variables: {
             shopperId: email,
             id: favorites.find((x) => x.productId == productId).listId,
           },
         });
 
-        if(data){
+        if (data) {
           setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
         }
       }
@@ -158,16 +158,16 @@ export const ListVerticalProducts = ({
       data: {
         viewList: { data: wishlist },
       },
-    } = await getWishList({ variables:{shopperId:email} });
+    } = await getWishList({ variables: { shopperId: email } });
 
-    if (wishlist){
+    if (wishlist) {
       setFavorites([
         ...wishlist.map((x: any) => ({
           productId: x.productId,
           listId: x.id,
           sku: x.sku,
         })),
-      ]);  
+      ]);
     }
   };
 
@@ -203,7 +203,7 @@ export const ListVerticalProducts = ({
       />
       {/* {(productList.length > 0 || loading) && !error ? ( */}
 
-      {products.length <= 0 && (
+      {products && products.length <= 0 && (
         <Box
           position="absolute"
           flex={1}
@@ -250,6 +250,7 @@ export const ListVerticalProducts = ({
           <FlatList
             horizontal={horizontal}
             data={products}
+            bounces={false}
             keyExtractor={(item, index) => `${item.productId} ${index}`}
             numColumns={horizontal ? 1 : 2}
             ListEmptyComponent={() => (
@@ -264,13 +265,17 @@ export const ListVerticalProducts = ({
               </Box>
             )}
             onEndReached={async () => {
-              console.log('onEndReached');
-              console.log(products.length);
-              if (products.length < 96) {
-                setIsLoadingMore(true);
-                if (totalProducts && totalProducts > products.length) {
-                  await loadMoreProducts(products.length);
+              if (totalProducts) {
+                if (products.length < totalProducts) {
+                  setIsLoadingMore(true);
+                  if (totalProducts > products.length) {
+                    await loadMoreProducts(products.length);
+                  }
+                  setIsLoadingMore(false);
+                } else {
+                  setIsLoadingMore(false);
                 }
+              } else {
                 setIsLoadingMore(false);
               }
             }}
@@ -301,13 +306,13 @@ export const ListVerticalProducts = ({
               let installments;
 
               let countPosition = 0;
-              while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
+              while (item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments.length === 0) {
                 countPosition++
               }
 
-              installments = item.items[0].sellers[countPosition].commertialOffer.Installments
+              installments = item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments
 
-              const installmentsNumber = installments.reduce((prev, next) =>
+              const installmentsNumber = installments?.reduce((prev, next) =>
                 prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
                 { NumberOfInstallments: 0, Value: 0 })
 

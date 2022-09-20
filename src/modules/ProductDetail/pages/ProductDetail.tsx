@@ -174,10 +174,11 @@ export const ProductDetail: React.FC<Props> = ({
   const [getProduct] = useLazyQuery(GET_PRODUCTS, {
     variables: {
       id: route.params.productId.split('-')[0],
+      salesChannel: 4,
     },
   });
 
-  const [checkListRefetch]= useLazyQuery(wishListQueries.CHECK_LIST, {
+  const [checkListRefetch] = useLazyQuery(wishListQueries.CHECK_LIST, {
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   });
@@ -633,15 +634,18 @@ export const ProductDetail: React.FC<Props> = ({
   const refetchChecklist = async () => {
     setSkip(true);
     if (product && product.productId) {
-      const { data: { checkList } } = await checkListRefetch({variables:{
-        shopperId: email,
-        productId: product?.productId.split('-')[0],
-      }}) 
+      const {
+        data: { checkList },
+      } = await checkListRefetch({
+        variables: {
+          shopperId: email,
+          productId: product?.productId.split('-')[0],
+        },
+      });
 
-        if(checkList){
-          setWishInfo({ ...checkList })
-        }
-      
+      if (checkList) {
+        setWishInfo({ ...checkList });
+      }
     }
   };
 
@@ -654,18 +658,17 @@ export const ProductDetail: React.FC<Props> = ({
           const { data } = await addWishList({
             variables: {
               shopperId: email,
-              productId:product.productId.split('-')[0],
+              productId: product.productId.split('-')[0],
               sku: selectedVariant?.itemId,
             },
-          }); 
-          
+          });
         } else {
           await removeWishList({
             variables: {
               shopperId: email,
-              id: wishInfo.listIds[0]
-            }
-          }) 
+              id: wishInfo.listIds[0],
+            },
+          });
         }
         await refetchChecklist();
         setLoadingFavorite(false);

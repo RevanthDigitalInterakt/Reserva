@@ -689,15 +689,15 @@ PODS:
   - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
     - OneSignalXCFramework/OneSignalCore
   - OpenSSL-Universal (1.1.1100)
-  - Permission-AppTrackingTransparency (3.4.0):
+  - Permission-AppTrackingTransparency (3.6.1):
     - RNPermissions
-  - Permission-Camera (3.4.0):
+  - Permission-Camera (3.6.1):
     - RNPermissions
-  - Permission-LocationAlways (3.4.0):
+  - Permission-LocationAlways (3.6.1):
     - RNPermissions
-  - Permission-LocationWhenInUse (3.4.0):
+  - Permission-LocationWhenInUse (3.6.1):
     - RNPermissions
-  - Permission-Notifications (3.4.0):
+  - Permission-Notifications (3.6.1):
     - RNPermissions
   - PromisesObjC (2.1.1)
   - RCT-Folly (2020.01.13.00):
@@ -1068,7 +1068,7 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNPermissions (3.4.0):
+  - RNPermissions (3.6.1):
     - React-Core
   - RNReanimated (2.2.0):
     - DoubleConversion
@@ -1496,11 +1496,11 @@ SPEC CHECKSUMS:
   OneSignal: 8861a1407c321ca1ae59d3adca6286eb7caf9d6e
   OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
-  Permission-AppTrackingTransparency: c77e8473bb57a54c8f85b5c57438df85ce72c2f5
-  Permission-Camera: 40f43388fa8a648dc6ced73f145ef329ab3ff3fe
-  Permission-LocationAlways: bb11e757c44f61ad2a6a5e84a55afa1646ea100e
-  Permission-LocationWhenInUse: 34f03248f13150fe7ecf67a7ece595a7a51dfe29
-  Permission-Notifications: ef95aa52bcba35f394f2ba706b368a6e8902efff
+  Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d
+  Permission-Camera: bf6791b17c7f614b6826019fcfdcc286d3a107f6
+  Permission-LocationAlways: 8d99b025c9f73c696e0cdb367e42525f2e9a26f2
+  Permission-LocationWhenInUse: 3ba99e45c852763f730eabecec2870c2382b7bd4
+  Permission-Notifications: 150484ae586eb9be4e32217582a78350a9bb31c3
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
@@ -1562,7 +1562,7 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 95812cc586fbe7a20dadd7eb4cd0a0f1b8e34ce2
   RNFBStorage: bffb285f037e0cb3937bdc2c72992dd7a6a83982
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNPermissions: eac721f71748c4472d6e876038270b75397d6ee7
+  RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34

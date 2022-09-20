@@ -1,7 +1,10 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 import { StackActions, useNavigation } from '@react-navigation/native';
-import { StatusBarStyle, useStatusBar } from '../../../context/StatusBarContext';
+import {
+  StatusBarStyle,
+  useStatusBar,
+} from '../../../context/StatusBarContext';
 import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
@@ -45,7 +48,7 @@ const Slide = ({
         if (value === true) {
           goNextSlide();
         } else {
-          openSettings().catch(() => console.warn('cannot open settings'));
+          goNextSlide();
         }
       });
     }
@@ -180,7 +183,8 @@ const Slide = ({
             </Button>
           </Box>
           <Box>
-            {currentSlideShow < lengthArray - 1 ? (
+            {currentSlideShow < lengthArray - 1 &&
+            itemContentful[currentSlideShow]?.visibleAndroid ? (
               <Box>
                 <TouchableOpacity
                   onPress={goNextSlide}
