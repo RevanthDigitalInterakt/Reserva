@@ -559,4 +559,5 @@ export enum OrderByEnum {
   OrderByNameDESC = 'OrderByNameDESC',
   OrderByReleaseDateDESC = 'OrderByReleaseDateDESC',
   OrderByBestDiscountDESC = 'OrderByBestDiscountDESC',
+  OrderByScoreDESC = 'OrderByScoreDESC',
 }
