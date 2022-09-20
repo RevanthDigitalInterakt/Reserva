@@ -13,6 +13,7 @@ export type CategoryQuery = {
   children: [CategoryQuery]
   highlight?: boolean;
   opened?: boolean;
+  mkt?: boolean
 }
 
 export const categoriesQuery = gql`

@@ -232,6 +232,7 @@ export interface Category {
   opened: boolean;
   highlight: boolean;
   referenceId: string;
+  mkt?: boolean;
 }
 type Profile = {
   birthDate: string | null;
@@ -380,7 +381,8 @@ export const Menu: React.FC<{}> = () => {
           {categories && (
             <Animatable.View animation="fadeIn">
               {categories.map((item, index) => (
-                <MenuItem
+                !item.mkt ? (
+                  <MenuItem
                   key={index}
                   highlight={item.highlight}
                   subItemList={item.children}
@@ -389,6 +391,7 @@ export const Menu: React.FC<{}> = () => {
                   index={index}
                   title={item.name}
                 />
+                ) : null
               ))}
               <Divider
                 variant="fullWidth"
