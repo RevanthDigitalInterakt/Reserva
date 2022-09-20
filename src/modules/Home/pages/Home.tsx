@@ -160,9 +160,8 @@ export const HomeScreen: FC<{
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${
-            limitDate?.minutes
-          }:${limitDate?.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
+            }:${limitDate?.seconds}`,
         });
       }
     }
@@ -187,9 +186,8 @@ export const HomeScreen: FC<{
         if (limitDate) {
           setCountDownClock({
             ...countDownClock,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-              limitDate.minutes
-            }:${limitDate.seconds}`,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
           });
         }
       }
@@ -268,6 +266,7 @@ export const HomeScreen: FC<{
   );
 
   const renderCarouselBanners = useMemo(() => {
+
     return carrousels.map((carrousel) => {
       switch (carrousel?.type) {
         case CarrouselTypes.mainCarrousel: {
