@@ -512,6 +512,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     const fetch = async () => {
+      setLoadingFetchMore(true);
       const { data, loading } = await refetch({
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
@@ -528,6 +529,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (!loading && !!data) {
         setProductSearch({ data, loading, fetchMore, refetch, error });
         setProducts(data.productSearch);
+      }
+      if (!loading) {
+        setLoadingFetchMore(loading);
       }
     };
     fetch();
@@ -768,11 +772,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           },
           {
             text: 'De A a Z',
-            value: OrderByEnum.OrderByNameDESC,
+            value: OrderByEnum.OrderByNameASC,
           },
           {
             text: 'De Z a A',
-            value: OrderByEnum.OrderByNameASC,
+            value: OrderByEnum.OrderByNameDESC,
           },
           // {
           //   text: 'Menor Preço',
