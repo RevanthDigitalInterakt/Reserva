@@ -413,16 +413,20 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                 <News
                   data={productNews}
                   onPress={(item) => {
-                    const facetInput: any[] = [];
-                    const [collecion, valueCollecion] = item.split(':');
-                    facetInput.push({
-                      key: 'productClusterIds',
-                      value: valueCollecion,
-                    });
-                    navigation.navigate('ProductCatalog', {
-                      facetInput,
-                      referenceId: item,
-                    });
+                    const { reference, orderBy } = item
+                    if (reference) {
+                      const facetInput: any[] = [];
+                      const [collecion, valueCollecion] = reference?.split(':');
+                      facetInput.push({
+                        key: 'productClusterIds',
+                        value: valueCollecion,
+                      });
+                      navigation.navigate('ProductCatalog', {
+                        facetInput,
+                        referenceId: reference,
+                        orderBy: orderBy
+                      });
+                    }
                   }}
                 />
 

@@ -59,8 +59,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     DESCONTOS: OrderByEnum.OrderByBestDiscountDESC,
     MAIOR_PRECO: OrderByEnum.OrderByPriceDESC,
     MENOR_PRECO: OrderByEnum.OrderByPriceASC,
-    DE_A_Z: OrderByEnum.OrderByNameDESC,
-    DE_Z_A: OrderByEnum.OrderByNameASC,
+    DE_A_Z: OrderByEnum.OrderByNameASC,
+    DE_Z_A: OrderByEnum.OrderByNameDESC,
   }
 
   const pageSize = 12;
@@ -484,7 +484,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         ),
         simulationBehavior: 'default',
         productOriginVtex: false,
-      }, 
+      },
     });
     if (data) {
       const newDataProductSearch = {

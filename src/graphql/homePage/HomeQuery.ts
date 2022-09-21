@@ -13,6 +13,7 @@ export interface HomeQuery {
 
 export interface ConfigCollection {
   reference: string;
+  orderBy: string;
   image: {
     url: string;
   };
@@ -217,6 +218,7 @@ export const configCollection = gql`
           secionMediaCollection(limit: 10) {
             items {
               reference
+              orderBy
               image {
                 url
               }
