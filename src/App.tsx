@@ -228,35 +228,43 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
-        {isOnMaintenance ? (
-          <Maintenance isVisible />
-        ) : (
-          <CartContextProvider>
-            <AuthContextProvider>
-              <ContentfullContextProvider>
-                <RegionalSearchContextProvider>
-                  <CacheImagesProvider>
-                    <FirebaseContextProvider>
-                      <ChronometerContextProvider>
-                        <ApolloProvider
-                          client={
-                            true ? apolloClientTesting : apolloClientProduction
-                          }
-                        >
-                          <InitialScreen>
-                            <AppRouting />
-                          </InitialScreen>
-                        </ApolloProvider>
-                      </ChronometerContextProvider>
-                    </FirebaseContextProvider>
-                  </CacheImagesProvider>
-                </RegionalSearchContextProvider>
-              </ContentfullContextProvider>
-            </AuthContextProvider>
-          </CartContextProvider>
-        )}
-      </NavigationContainer>
+      <ConfigContextProvider>
+        <StatusBarContextProvider>
+          <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+            {isOnMaintenance ? (
+              <Maintenance isVisible />
+            ) : (
+              <CartContextProvider>
+                <AuthContextProvider>
+                  <ContentfullContextProvider>
+                    <RegionalSearchContextProvider>
+                      <CacheImagesProvider>
+                        <FirebaseContextProvider>
+                          <ChronometerContextProvider>
+                            <ApolloProvider
+                              client={
+                                isTesting
+                                  ? apolloClientTesting
+                                  : apolloClientProduction
+                              }
+                            >
+                              <InitialScreen>
+                                <AppRouting
+                                  isFirstLaunched={isAppFirstLaunched}
+                                />
+                              </InitialScreen>
+                            </ApolloProvider>
+                          </ChronometerContextProvider>
+                        </FirebaseContextProvider>
+                      </CacheImagesProvider>
+                    </RegionalSearchContextProvider>
+                  </ContentfullContextProvider>
+                </AuthContextProvider>
+              </CartContextProvider>
+            )}
+          </NavigationContainer>
+        </StatusBarContextProvider>
+      </ConfigContextProvider>
     </ThemeProvider>
   );
 };
