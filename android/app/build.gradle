@@ -159,8 +159,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2022091901
-        versionName "1.9.22"
+        versionCode 2022090801
+        versionName "1.5.0"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
@@ -221,6 +221,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation 'com.google.android.play:core:1.10.0'
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
