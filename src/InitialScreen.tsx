@@ -30,7 +30,6 @@ type UpdateInAppType = {
   updateInApp: {
     onlyPlatform: string;
     targetVersion: string;
-    targetVersionInStore: string;
     updateAllVersions: string;
     updateDescription: string;
     updateTitle: string;
@@ -127,12 +126,14 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     versionLocalTarget,
     updateInAppType,
     onlyPlatform,
+    updateAllVersions,
   }: {
     updateTitle?: string;
     updateDescription?: string;
     versionLocalTarget?: string;
     updateInAppType?: string;
     onlyPlatform?: string;
+    updateAllVersions?: boolean;
   }) => {
     const platform = Platform.OS;
     try {
@@ -148,7 +149,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         curVersion: local,
         customVersionComparator: () => {
           if (remote > local) {
-            if (versionLocalTarget === local) {
+            if (versionLocalTarget === local || updateAllVersions) {
               return 1;
             }
           }
@@ -198,6 +199,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         updateTitle: updateInApp?.updateTitle,
         updateDescription: updateInApp?.updateDescription,
         onlyPlatform: updateInApp?.onlyPlatform,
+        updateAllVersions: updateInApp?.updateAllVersions,
       });
       console.log(
         '🚀 ~ file: InitialScreen.tsx ~ line 164 ~ getUpdateInApp ~ data',

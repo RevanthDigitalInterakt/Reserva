@@ -8,7 +8,6 @@ export const UPDATE_IN_APP_QUERY = gql`
       updateAllVersions
       targetVersion
       onlyPlatform
-      targetVersionInStore
       updateType
     }
   }
