@@ -1,23 +1,23 @@
-import { useMutation } from "@apollo/client";
-import AsyncStorage from "@react-native-community/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { KeyboardAvoidingView, SafeAreaView, ScrollView } from "react-native";
-import { Box, Button, Typography, Icon } from "@danilomsou/reserva-ui";
-import { images } from "../../../assets";
-import { useAuth } from "../../../context/AuthContext";
-import { accessKeySignInMutation } from "../../../graphql/login/loginMutations";
-import { recoveryPasswordMutation } from "../../../graphql/login/loginMutations";
-import { recoveryPassword } from "../../../graphql/login/recoveryPassword";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import CodeInput from "../../Login/components/CodeInput";
-import HeaderBanner from "../componet/HeaderBanner";
-import UnderlineInput from "../../Login/components/UnderlineInput";
+import { useMutation } from '@apollo/client';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
+import { Box, Button, Typography, Icon } from '@danilomsou/reserva-ui';
+import { images } from '../../../assets';
+import { useAuth } from '../../../context/AuthContext';
+import { accessKeySignInMutation } from '../../../graphql/login/loginMutations';
+import { recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
+import { recoveryPassword } from '../../../graphql/login/recoveryPassword';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import CodeInput from '../../Login/components/CodeInput';
+import HeaderBanner from '../componet/HeaderBanner';
+import UnderlineInput from '../../Login/components/UnderlineInput';
 
 export interface ForgotAccessCodeProps
-  extends StackScreenProps<RootStackParamList, "ForgotAccessCode"> { }
+  extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> {}
 
 export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   navigation,
@@ -26,7 +26,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   const { cookie, setCookie } = useAuth();
   const { email } = route.params;
   const [showError, setShowError] = useState(false);
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState('');
 
   const [loginWithCode, { data, loading }] = useMutation(
     accessKeySignInMutation
@@ -66,21 +66,23 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
 
       recoveryPassword({
         variables,
-      }).then((x) => {
-        x.data.recoveryPassword != null
-          ? navigation.navigate("ForgotEmailSuccess")
-          : navigation.navigate("ForgotEmail", {});
-      }).catch(() => {
-        setShowError(true);
       })
+        .then((x) => {
+          x.data.recoveryPassword != null
+            ? navigation.navigate('ForgotEmailSuccess')
+            : navigation.navigate('ForgotEmail', {});
+        })
+        .catch(() => {
+          setShowError(true);
+        });
     }
   };
 
   //const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
 
   const [passwords, setPasswords] = useState({
-    first: "",
-    confirm: "",
+    first: '',
+    confirm: '',
   });
 
   const [passwordsChecker, setPasswordChecker] = useState(
@@ -104,9 +106,9 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   useEffect(() => {
     if (!loading && data?.cookie) {
       setShowError(false);
-      navigation.navigate("ForgotNewPassword", { email, code });
+      navigation.navigate('ForgotNewPassword', { email, code });
     }
-    if (data?.accessKeySignIn === "WrongCredentials") {
+    if (data?.accessKeySignIn === 'WrongCredentials') {
       setShowError(true);
     }
   }, [data]);
@@ -118,8 +120,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   const scrollRef = React.useRef<ScrollView>(null);
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-
+    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <ScrollView
         ref={scrollRef}
         onContentSizeChange={() => scrollRef.current?.scrollToEnd()}
@@ -131,9 +132,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
               navigation.goBack();
             }}
           />
-          <KeyboardAvoidingView
-            behavior="padding"
-          >
+          <KeyboardAvoidingView behavior="padding">
             <Box mx={20} mt={13}>
               <Typography fontFamily="reservaSerifRegular" fontSize={22}>
                 Atualize sua senha
@@ -228,7 +227,7 @@ export const PasswordCheck: React.FC<PasswordCheckProps> = ({
   text,
   checked,
 }) => {
-  const color = checked ? "verdeSucesso" : "neutroFrio2";
+  const color = checked ? 'verdeSucesso' : 'neutroFrio2';
   return (
     <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
       <Box mt="nano" mr={2}>
