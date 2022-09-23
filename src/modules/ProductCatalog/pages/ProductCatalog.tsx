@@ -204,8 +204,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-            }:${limitDate.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+            limitDate.minutes
+          }:${limitDate.seconds}`,
         });
       }
     }
@@ -399,9 +400,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value: ColorsToHexEnum[value],
-          }))
+              key,
+              value: ColorsToHexEnum[value],
+            }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -411,9 +412,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // CATEGORY
@@ -423,9 +424,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // PRICE
@@ -433,9 +434,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-            key,
-            range,
-          }))
+              key,
+              range,
+            }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -466,24 +467,35 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         ),
         simulationBehavior: 'default',
         productOriginVtex: false,
-      }, 
+      },
     });
     if (data) {
       const newDataProductSearch = {
         productSearch: {
           ...dataFetchMore.productSearch,
-          products: [...data.productSearch.products, ...dataFetchMore.productSearch.products]
-        }
-      }
+          products: [
+            ...data.productSearch.products,
+            ...dataFetchMore.productSearch.products,
+          ],
+        },
+      };
       setProductSearch({
-        data: newDataProductSearch, loading,
-        fetchMore, refetch,
-        error
+        data: newDataProductSearch,
+        loading,
+        fetchMore,
+        refetch,
+        error,
       });
       setProducts(newDataProductSearch.productSearch);
       setLoadingFetchMore(loading);
     } else {
-      setProductSearch({ data: dataFetchMore, loading, fetchMore, refetch, error });
+      setProductSearch({
+        data: dataFetchMore,
+        loading,
+        fetchMore,
+        refetch,
+        error,
+      });
       setProducts(dataFetchMore.productSearch);
       setLoadingFetchMore(loading);
     }
@@ -881,10 +893,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <Text>Carregando...</Text>
         </Box>
       </Modal> */}
-      {productsQuery.products && productsQuery.products.length > 0 ? (
+      {data?.productSearch?.products ? (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
-          products={data.productSearch.products} //productsQuery.products}
+          products={data?.productSearch?.products} //productsQuery.products}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}
@@ -947,7 +959,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontSize="14px"
                     >
                       {productsQuery.products?.length == 0 &&
-                        filterRequestList.length > 0
+                      filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
                     </Typography>
@@ -1003,7 +1015,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           }
         />
       ) : (
-        <EmptyProductCatalog onPress={() => navigation.navigate('Home')} />
+        !loading && (
+          <EmptyProductCatalog onPress={() => navigation.navigate('Home')} />
+        )
       )}
     </DynamicComponent>
   );
