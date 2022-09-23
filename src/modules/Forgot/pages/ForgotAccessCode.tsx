@@ -27,7 +27,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   const { email } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState("");
-  
+
   const [loginWithCode, { data, loading }] = useMutation(
     accessKeySignInMutation
   );
@@ -115,9 +115,14 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     setPasswordChecker(passwordCheckHandler());
   }, [passwords]);
 
+  const scrollRef = React.useRef<ScrollView>(null);
+
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <ScrollView>
+      <ScrollView
+        ref={scrollRef}
+        onContentSizeChange={() => scrollRef.current?.scrollToEnd()}
+      >
         <>
           <HeaderBanner
             imageHeader={images.headerLogin}
@@ -157,11 +162,13 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
               onChangeText={(text) =>
                 setPasswords({ ...passwords, first: text })
               }
+              onFocus={() => scrollRef.current?.scrollToEnd()}
               placeholder="Digite sua nova senha"
               isSecureText
             />
             <Box mt="sm">
               <UnderlineInput
+                onFocus={() => scrollRef.current?.scrollToEnd()}
                 onChangeText={(text) =>
                   setPasswords({ ...passwords, confirm: text })
                 }
