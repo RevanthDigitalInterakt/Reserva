@@ -21,6 +21,7 @@ import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
 import Modal from 'react-native-modal';
+import { chechoutService } from '../../../services/checkoutService';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
@@ -41,7 +42,7 @@ const BoxAnimated = createAnimatableComponent(Box);
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 export const BagScreen = ({ route }: Props) => {
-  const { email } = useAuth();
+  const { email, cookie } = useAuth();
   const navigation = useNavigation();
   const {
     orderForm,
@@ -339,6 +340,10 @@ export const BagScreen = ({ route }: Props) => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    console.log('DATAAAAAAAAAAAAAAA====>>>>>>>>', orderForm?.items);
+  }, []);
 
   return (
     <SafeAreaView
@@ -703,6 +708,43 @@ export const BagScreen = ({ route }: Props) => {
                       });
                     }}
                   />
+                  {/* <Box
+                    key={index}
+                    flexDirection="row"
+                    marginY="xxs"
+                    alignItems="center"
+                  >
+                    <Box marginRight="micro">
+                      <Icon name="Presente" size={20} />
+                    </Box>
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Embalagem para presente
+                      </Typography>
+                    </Box>
+                    <Box marginLeft="micro">
+                      <Toggle
+                        onValueChange={(value) => {
+                          if (cookie)
+                            chechoutService.activeGitEmballage(
+                              orderForm.orderFormId,
+                              index,
+                              cookie
+                            );
+
+                          console.log(
+                            'BOOLEANNN',
+                            index,
+                            orderForm.orderFormId,
+                            item.bundleItems
+                          );
+                        }}
+                        thumbColor="vermelhoAlerta"
+                        color="preto"
+                        value={hasBagGift}
+                      />
+                    </Box>
+                  </Box> */}
                 </Box>
               ))}
             </Box>
@@ -776,24 +818,31 @@ export const BagScreen = ({ route }: Props) => {
             <Box paddingX="micro">
               {showLikelyProducts && <Divider variant="fullWidth" />}
 
-              <Box flexDirection="row" marginY="xxs" alignItems="center">
-                <Box marginRight="micro">
-                  <Icon name="Presente" size={20} />
+              {/* {orderForm.items.map((index) => (
+                <Box
+                  key={index}
+                  flexDirection="row"
+                  marginY="xxs"
+                  alignItems="center"
+                >
+                  <Box marginRight="micro">
+                    <Icon name="Presente" size={20} />
+                  </Box>
+                  <Box flex={1}>
+                    <Typography variant="subtituloSessoes">
+                      Embalagem para presente
+                    </Typography>
+                  </Box>
+                  <Box marginLeft="micro">
+                    <Toggle
+                      onValueChange={setHasBagGift}
+                      thumbColor="vermelhoAlerta"
+                      color="preto"
+                      value={hasBagGift}
+                    />
+                  </Box>
                 </Box>
-                <Box flex={1}>
-                  <Typography variant="subtituloSessoes">
-                    Embalagem para presente
-                  </Typography>
-                </Box>
-                <Box marginLeft="micro">
-                  <Toggle
-                    onValueChange={setHasBagGift}
-                    thumbColor="vermelhoAlerta"
-                    color="preto"
-                    value={hasBagGift}
-                  />
-                </Box>
-              </Box>
+              ))} */}
 
               <Divider variant="fullWidth" />
 
