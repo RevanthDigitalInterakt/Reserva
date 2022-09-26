@@ -25,6 +25,7 @@ import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
 import { useLazyQuery } from '@apollo/client';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
+import { requestATT } from './modules/Onboarding/components/Permissions';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -191,7 +192,14 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     }
   };
 
+  const getAtt = async () => {
+    if (Platform.OS === 'ios') {
+      return await requestATT();
+    }
+  };
+
   useEffect(() => {
+    getAtt();
     getUpdateInApp().then(({ data: { updateInApp } }) => {
       startUpdateInApp({
         versionLocalTarget: updateInApp?.targetVersion,

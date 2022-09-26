@@ -110,10 +110,6 @@ export const homeQuery = gql`
                 reference
                 orderBy
               }
-              reservaMini
-              name
-              description
-              reference
             }
           }
         }
@@ -138,7 +134,6 @@ export const homeQuery = gql`
       }
     }
   }
-}
 `;
 
 export const bannerQuery = gql`
