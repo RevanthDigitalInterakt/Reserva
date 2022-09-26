@@ -49,6 +49,8 @@ export const GET_PRODUCTS = gql`
           commertialOffer {
             AvailableQuantity
             Price
+            ListPrice
+            spotPrice
             Tax
             taxPercentage
             discountHighlights {

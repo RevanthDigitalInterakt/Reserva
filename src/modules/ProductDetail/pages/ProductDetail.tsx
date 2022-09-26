@@ -74,6 +74,8 @@ type CommercialOffer = {
   taxPercentage: number;
   AvailableQuantity: number;
   Price: number;
+  ListPrice: number;
+  spotPrice: number;
   PriceWithoutDiscont: number;
   discountHighlights: any[];
   Installments: {
@@ -235,6 +237,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [errorSize, setErrorSize] = useState(false);
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
+  const [sellerProduct,setSellerProduct] = useState<Seller | undefined>()
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
@@ -625,6 +628,7 @@ export const ProductDetail: React.FC<Props> = ({
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
       }
+      setSellerProduct(seller)
     });
   };
 
@@ -925,7 +929,7 @@ export const ProductDetail: React.FC<Props> = ({
             style={{ marginBottom: 24 }}
             ref={scrollRef}
           >
-            {product && (
+            {product && sellerProduct && (
               <>
                 {/*  <Button
                   title="CLIQUE"
@@ -955,9 +959,9 @@ export const ProductDetail: React.FC<Props> = ({
                     )
                   }
                   onClickFavorite={handleOnFavorite}
-                  price={product.priceRange.listPrice.lowPrice || 0}
+                  price={sellerProduct.commertialOffer.ListPrice || 0}
                   priceWithDiscount={
-                    product.priceRange.sellingPrice.lowPrice || 0
+                    sellerProduct.commertialOffer.Price || 0
                   }
                   imagesWidth={screenWidth}
                   images={
@@ -970,14 +974,14 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   installmentsPrice={
                     getInstallments()?.Value ||
-                    product.priceRange.sellingPrice.lowPrice ||
+                    sellerProduct.commertialOffer.Price ||
                     0
                   }
                   onClickShare={() => onShare(product.link)}
                   discountTag={
                     getPercent(
-                      product.priceRange.sellingPrice.lowPrice,
-                      product.priceRange.listPrice.lowPrice
+                      sellerProduct.commertialOffer.Price,
+                      sellerProduct.commertialOffer.ListPrice
                     ) || 0
                   }
                   saleOff={getSaleOff(product)}

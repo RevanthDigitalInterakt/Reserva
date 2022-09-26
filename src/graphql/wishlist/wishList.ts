@@ -77,6 +77,8 @@ const GET_PRODUCT_BY_IDENTIFIER = gql`
             taxPercentage
             AvailableQuantity
             Price
+            ListPrice
+            spotPrice
             PriceWithoutDiscount
             discountHighlights {
               name

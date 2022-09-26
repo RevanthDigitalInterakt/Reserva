@@ -71,6 +71,8 @@ export const productSearch = gql`
             taxPercentage
             AvailableQuantity
             Price
+            ListPrice
+            spotPrice
             PriceWithoutDiscount
             discountHighlights {
               name
