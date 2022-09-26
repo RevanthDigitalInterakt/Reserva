@@ -522,6 +522,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
+                      style={{ color: '#8A8C8E' }}
                       value={fields.city}
                       onChangeText={(text) => {
                         setFields({ ...fields, city: text });
@@ -539,6 +540,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15} marginBottom={35}>
                     <TextField
+                      style={{ color: '#8A8C8E' }}
                       editable={false}
                       value={fields.state}
                       onChangeText={(text) => {
