@@ -267,6 +267,7 @@ export const HomeScreen: FC<{
   );
 
   const renderCarouselBanners = useMemo(() => {
+
     return carrousels.map((carrousel) => {
       switch (carrousel?.type) {
         case CarrouselTypes.mainCarrousel: {
