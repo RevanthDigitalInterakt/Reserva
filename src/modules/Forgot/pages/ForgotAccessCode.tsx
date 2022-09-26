@@ -4,7 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import { Box, Button, Typography, Icon } from '@danilomsou/reserva-ui';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
@@ -132,7 +137,11 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
               navigation.goBack();
             }}
           />
-          <KeyboardAvoidingView behavior="padding">
+          <KeyboardAvoidingView
+            enabled
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            style={{ marginBottom: 100 }}
+          >
             <Box mx={20} mt={13}>
               <Typography fontFamily="reservaSerifRegular" fontSize={22}>
                 Atualize sua senha
