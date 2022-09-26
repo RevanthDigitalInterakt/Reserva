@@ -233,6 +233,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
   const [unavailableSizes, setUnavailableSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [errorSize, setErrorSize] = useState(false);
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
@@ -399,12 +400,12 @@ export const ProductDetail: React.FC<Props> = ({
         ?.find((item) => item.color == route.params.colorSelected)
         ?.sizeList.find((size) => size?.available);
 
-      if (route.params?.sizeSelected) {
-        const favoritedSize = route.params?.sizeSelected;
-        setSelectedSize(favoritedSize.trim()); //item favorite
-      } else {
-        defaultSize?.size && setSelectedSize(defaultSize?.size);
-      }
+      // if (route.params?.sizeSelected) {
+      //   const favoritedSize = route.params?.sizeSelected;
+      //   setSelectedSize(favoritedSize.trim()); //item favorite
+      // } else {
+      //   defaultSize?.size && setSelectedSize(defaultSize?.size);
+      // }
 
       setItemsSKU(itemList);
       appsFlyer.logEvent('af_content_view', {
@@ -429,7 +430,7 @@ export const ProductDetail: React.FC<Props> = ({
       route.params.selectedSize !== undefined &&
       route.params.selectedSize !== ''
     ) {
-      setSelectedSize(route.params.selectedSize.trim());
+      // setSelectedSize(route.params.selectedSize.trim());
     }
   }, [route.params.selectedSize]);
 
@@ -560,19 +561,19 @@ export const ProductDetail: React.FC<Props> = ({
             (x) => x.tamanho === selectedSize
           );
 
-          if (sizeIndex === -1) {
-            if (availableProduct.length > 0) {
-              setSelectedSize(availableProduct[0]?.size);
-            } else {
-              setSelectedSize(sizeAndColor[0].tamanho);
-            }
-          } else {
-            if (availableProduct.length > 0) {
-              setSelectedSize(availableProduct[0]?.size);
-            } else {
-              setSelectedSize(sizeAndColor[0].tamanho);
-            }
-          }
+          // if (sizeIndex === -1) {
+          //   if (availableProduct.length > 0) {
+          //     setSelectedSize(availableProduct[0]?.size);
+          //   } else {
+          //     setSelectedSize(sizeAndColor[0].tamanho);
+          //   }
+          // } else {
+          //   if (availableProduct.length > 0) {
+          //     setSelectedSize(availableProduct[0]?.size);
+          //   } else {
+          //     setSelectedSize(sizeAndColor[0].tamanho);
+          //   }
+          // }
         }
       }
       if (sizeColorSkuVariations) {
@@ -705,6 +706,10 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const onProductAdd = async () => {
+    if (!selectedSize) {
+      setErrorSize(true);
+      return;
+    }
     if (selectedVariant) {
       const quantities =
         orderForm?.items
@@ -1051,6 +1056,17 @@ export const ProductDetail: React.FC<Props> = ({
                         selectedItem={selectedSize}
                       />
                     </Box>
+                    {errorSize && !selectedSize && (
+                      <Box>
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize="13px"
+                          color="vermelhoAlerta"
+                        >
+                          Selecione um tamanho para continuar
+                        </Typography>
+                      </Box>
+                    )}
                   </Box>
                   {outOfStock && (
                     <Box mt="xxs" flexDirection="row" alignItems="center">
@@ -1075,9 +1091,7 @@ export const ProductDetail: React.FC<Props> = ({
                     title="ADICIONAR À SACOLA"
                     variant="primarioEstreito"
                     disabled={
-                      outOfStock ||
-                      !!!selectedSize ||
-                      (isAssinaturaSimples && !acceptConditions)
+                      outOfStock || (isAssinaturaSimples && !acceptConditions)
                     }
                     onPress={onProductAdd}
                     inline

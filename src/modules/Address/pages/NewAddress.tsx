@@ -25,7 +25,7 @@ import {
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { CepVerify } from '../../../services/vtexService';
+import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 interface IAddress {
@@ -181,7 +181,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
     if (isValidPostalCode) {
       const { street, neighborhood, city, state, cep, errors } =
-        await CepVerify(postalCode);
+        await CepVerifyPostalCode(postalCode);
 
       setInitialValues({
         ...initialValues,

@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 
 import { useCart } from '../../../context/CartContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { CepVerify } from '../../../services/vtexService';
+import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
@@ -109,7 +109,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     if (isValidPostalCode) {
       setLoading(true);
       const { street, neighborhood, city, state, cep, errors } =
-        await CepVerify(postalCode);
+        await CepVerifyPostalCode(postalCode);
       setShowCepDescription(!!cep);
       setFields({
         ...fields,
