@@ -20,6 +20,7 @@ interface UnderlineInputProps {
   width?: number;
   iconSize?: number;
   onChangeText: (value: string) => void;
+  onFocus?: () => void;
   keyboardType?: KeyboardTypeOptions | undefined;
 }
 
@@ -28,6 +29,7 @@ const screenWidth = Dimensions.get('window').width;
 const UnderlineInput: React.FC<UnderlineInputProps> = ({
   placeholder,
   onChangeText,
+  onFocus,
   errorMsg,
   value,
   showError,
@@ -51,6 +53,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
       >
         <Box flexGrow={4}>
           <TextInput
+            onFocus={() => onFocus && onFocus()}
             secureTextEntry={isSecureText && hidePassword}
             placeholder={placeholder}
             onChangeText={(value) => onChangeText(value.trim())}
