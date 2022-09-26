@@ -14,7 +14,7 @@ export const productSearch = gql`
     $priceRange: String = ""
     $collection: String = ""
     $salesChannel: String = "4"
-    $orderBy: String = "OrderByReviewRateDESC"
+    $orderBy: String = "OrderByScoreDESC"
     $from: Int = 0
     $to: Int = 9
     $hideUnavailableItems: Boolean = true
@@ -559,4 +559,5 @@ export enum OrderByEnum {
   OrderByNameDESC = 'OrderByNameDESC',
   OrderByReleaseDateDESC = 'OrderByReleaseDateDESC',
   OrderByBestDiscountDESC = 'OrderByBestDiscountDESC',
+  OrderByScoreDESC = 'OrderByScoreDESC',
 }

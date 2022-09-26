@@ -530,6 +530,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     const fetch = async () => {
+      setLoadingFetchMore(true);
       const { data, loading } = await refetch({
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
@@ -546,6 +547,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (!loading && !!data) {
         setProductSearch({ data, loading, fetchMore, refetch, error });
         setProducts(data.productSearch);
+      }
+      if (!loading) {
+        setLoadingFetchMore(loading);
       }
     };
     fetch();
@@ -761,21 +765,53 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: 'Menor Preço',
-            value: OrderByEnum.OrderByPriceASC,
+            text: 'Relevância',
+            value: OrderByEnum.OrderByScoreDESC,
           },
           {
-            text: 'Maior Preço',
-            value: OrderByEnum.OrderByPriceDESC,
+            text: 'Mais Vendidos',
+            value: OrderByEnum.OrderByTopSaleDESC,
           },
           {
             text: 'Mais Recentes',
             value: OrderByEnum.OrderByReleaseDateDESC,
           },
           {
-            text: 'Relevante',
-            value: OrderByEnum.OrderByReviewRateDESC,
+            text: 'Descontos',
+            value: OrderByEnum.OrderByBestDiscountDESC,
           },
+          {
+            text: 'Maior Preço',
+            value: OrderByEnum.OrderByPriceDESC,
+          },
+          {
+            text: 'Menor Preço',
+            value: OrderByEnum.OrderByPriceASC,
+          },
+          {
+            text: 'De A a Z',
+            value: OrderByEnum.OrderByNameASC,
+          },
+          {
+            text: 'De Z a A',
+            value: OrderByEnum.OrderByNameDESC,
+          },
+          // {
+          //   text: 'Menor Preço',
+          //   value: OrderByEnum.OrderByPriceASC,
+          // },
+          // {
+          //   text: 'Maior Preço',
+          //   value: OrderByEnum.OrderByPriceDESC,
+          // },
+          // {
+          //   text: 'Mais Recentes',
+          //   value: OrderByEnum.OrderByReleaseDateDESC,
+          // },
+          // {
+          //   text: 'Relevante',
+          //   value: OrderByEnum.OrderByReviewRateDESC,
+          // },
         ]}
         onConfirm={() => {
           setSorterVisible(false);

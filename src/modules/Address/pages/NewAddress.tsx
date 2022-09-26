@@ -555,49 +555,50 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   <Button
                     disabled={loading || !buttonEnabled}
                     // width="240px"
-                    mt="xs"
+                    mt="xxs"
                     onPress={handleSaveAddress}
                     title="SALVAR ALTERAÇÕES"
                     variant="primarioEstreitoOutline"
                   />
                 ) : null}
               </Box>
-              <Box mt="xxl" mb="xxxs">
-                {edit && receiveHome ? (
-                  <Button
-                    disabled={loading || !buttonEnabled}
-                    // width="240px"
 
-                    onPress={handleSaveAddress}
-                    title="SALVAR"
-                    variant="primarioEstreito"
-                    inline
-                    fontFamily="nunitoRegular"
-                    fontSize={13}
-                    lineHeight={24}
-                    letterSpacing={1.6}
-                  />
-                ) : null}
-              </Box>
+              {edit && receiveHome ? (
+                <Button
+                  mt="xxs"
+                  disabled={loading || !buttonEnabled}
+                  // width="240px"
+                  onPress={handleSaveAddress}
+                  title="SALVAR"
+                  variant="primarioEstreito"
+                  inline
+                  fontFamily="nunitoRegular"
+                  fontSize={13}
+                  lineHeight={24}
+                  letterSpacing={1.6}
+                />
+              ) : null}
+
+              {!edit && (
+                <Button
+                  mt="xxs"
+                  onPress={
+                    !isCheckout ? handleSaveAddress : handlePaymentMethodScreen
+                  }
+                  title={receiveHome ? 'IR PARA ENTREGA' : 'INCLUIR ENDEREÇO'}
+                  variant="primarioEstreito"
+                  inline
+                  disabled={
+                    !validateForm ||
+                    !validateNumber ||
+                    !validateReceiverName ||
+                    loading
+                  }
+                />
+              )}
             </Box>
           </KeyboardAvoidingView>
         </ScrollView>
-        {!edit && (
-          <Button
-            onPress={
-              !isCheckout ? handleSaveAddress : handlePaymentMethodScreen
-            }
-            title={receiveHome ? 'IR PARA ENTREGA' : 'INCLUIR ENDEREÇO'}
-            variant="primarioEstreito"
-            inline
-            disabled={
-              !validateForm ||
-              !validateNumber ||
-              !validateReceiverName ||
-              loading
-            }
-          />
-        )}
       </SafeAreaView>
     </>
   );
