@@ -55,6 +55,7 @@ export interface CarrouselCard {
   description: string;
   reference: string;
   referenceLabel?: string;
+  mkt: boolean;
 }
 
 export interface ICountDownClock {
@@ -82,51 +83,53 @@ export interface ICountDownClockReservaMini {
 }
 
 export const homeQuery = gql`
-  query homePageCollection {
-    homePageCollection(limit: 12) {
-      items {
-        carrouselHomeCollection(limit: 3) {
-          items {
-            type
-            title
-            showtime
-            itemsCollection(limit: 3) {
-              items {
-                image {
-                  fileName
-                  size
-                  title
-                  url
-                  width
-                  height
-                }
-                reservaMini
-                name
-                description
-                reference
+query homePageCollection {
+  homePageCollection(limit: 12) {
+    items {
+      carrouselHomeCollection(limit: 3) {
+        items {
+          type
+          title
+          showtime
+          itemsCollection(limit: 3) {
+            items {
+              mkt
+              image {
+                fileName
+                size
+                title
+                url
+                width
+                height
               }
+              reservaMini
+              name
+              description
+              reference
             }
           }
         }
-        mediasCollection {
-          items {
-            reference
-            reservaMini
-            isLandingPage
-            landingPageId
-            image {
-              fileName
-              title
-              width
-              height
-              size
-              url
-            }
+      }
+      mediasCollection {
+        items {
+          mkt
+          reference
+          reservaMini
+          isLandingPage
+          landingPageId
+          image {
+            fileName
+            title
+            width
+            height
+            size
+            url
           }
         }
       }
     }
   }
+}
 `;
 
 export const bannerQuery = gql`
@@ -135,6 +138,7 @@ export const bannerQuery = gql`
       items {
         name
         item {
+          mkt
           image {
             url
           }
@@ -144,11 +148,12 @@ export const bannerQuery = gql`
   }
 `;
 export const bannerDefaultQuery = gql`
-  query BannerCategoryCollection {
-    bannerCategoryCollection(where: { item: { reference: "default" } }) {
+  query BannerCategoryCollection($category: String) {
+    bannerCategoryCollection(where: { item: { reference: $category } }) {
       items {
         name
         item {
+          mkt
           image {
             url
           }
