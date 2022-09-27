@@ -207,28 +207,38 @@ export const ListHorizontalProducts = ({
           )}
           ListHeaderComponent={listHeader}
           renderItem={({ item, index }) => {
-            const installments =
-              item.items[0].sellers[0].commertialOffer.Installments;
-            const installmentsNumber =
-              installments.length > 0
-                ? installments[0].NumberOfInstallments
-                : 1;
+            let installments;
 
-            const discountTag = getPercent(
-              item.priceRange?.sellingPrice.lowPrice,
-              item.priceRange?.listPrice.lowPrice
-            );
+            let countPosition = 0;
+            while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
+              countPosition++
+            }
 
+            const listPrice =  item?.items[0]?.sellers[countPosition]?.commertialOffer.ListPrice || 0
+            const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price || 0
+
+            installments = item.items[0].sellers[countPosition].commertialOffer.Installments
+
+            const installmentsNumber = installments.reduce((prev, next) =>
+              prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+              { NumberOfInstallments: 0, Value: 0 })
+
+            let discountTag;
+            if(listPrice && sellingPrice){
+                discountTag = getPercent(
+                sellingPrice,
+                listPrice
+                );
+              }
+            
             const cashPaymentPrice =
               !!discountTag && discountTag > 0
-                ? item.priceRange?.sellingPrice.lowPrice
-                : item.priceRange?.listPrice?.lowPrice || 0;
-
-            const installmentPrice =
-              installments.length > 0
-                ? installments[0].Value
-                : cashPaymentPrice;
-
+                ? sellingPrice
+                : listPrice || 0;
+            
+            const installmentPrice = installments.reduce((prev, next) =>
+              prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+              { NumberOfInstallments: 0, Value: 0 })
             // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
@@ -249,16 +259,16 @@ export const ListHorizontalProducts = ({
                 }}
                 // colors={null}
                 imageSource={item.items[0].images[0].imageUrl}
-                installmentsNumber={installmentsNumber} // numero de parcelas
-                installmentsPrice={installmentPrice || 0} // valor das parcelas
+                installmentsNumber={installmentsNumber?.NumberOfInstallments || 1} // numero de parcelas
+                installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0} // valor das parcelas
                 currency="R$"
                 discountTag={getPercent(
-                  item.priceRange?.sellingPrice.lowPrice,
-                  item.priceRange?.listPrice.lowPrice
+                  sellingPrice,
+                  listPrice
                 )}
                 saleOff={getSaleOff(item)}
-                priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                price={item.priceRange?.listPrice?.lowPrice || 0}
+                priceWithDiscount={sellingPrice}
+                price={listPrice || 0}
                 productTitle={item.productName}
                 onClickImage={() => {
                   navigation.navigate('ProductDetail', {

@@ -10,6 +10,7 @@ export interface BannerProps {
   height: number;
   url: string;
   reservaMini?: boolean;
+  orderBy: string;
 }
 
 const deviceWidth = Dimensions.get('window').width;
@@ -21,6 +22,7 @@ const Banner: React.FC<BannerProps> = ({
   height,
   url,
   reservaMini,
+  orderBy
 }) => {
   const navigation = useNavigation();
   return (
@@ -57,6 +59,7 @@ const Banner: React.FC<BannerProps> = ({
                   facetInput,
                   referenceId: reference,
                   reservaMini: reservaMini,
+                  orderBy: orderBy,
                 });
               }
             }

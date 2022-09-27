@@ -13,6 +13,7 @@ import {
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import analytics from '@react-native-firebase/analytics';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
@@ -20,9 +21,11 @@ import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
 import Modal from 'react-native-modal';
+import { chechoutService } from '../../../services/checkoutService';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment } from '../../../services/vtexService';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -33,15 +36,13 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../routes/StackNavigator';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 export const BagScreen = ({ route }: Props) => {
-  const { email } = useAuth();
+  const { email, cookie } = useAuth();
   const navigation = useNavigation();
   const {
     orderForm,
@@ -253,8 +254,21 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const handleAddSellerCoupons = async () => {
-    const dataSellerCoupon = await addSellerCoupon(sellerCoupon);
-    setSellerCouponIsValid(dataSellerCoupon);
+    setLoadingGoDelivery(true);
+    const dataSellerCoupon = await addSellerCoupon(sellerCoupon).then(
+      (response) => {
+        if (response) {
+          setSellerCouponIsValid(true);
+          setTimeout(() => {
+            setLoadingGoDelivery(false);
+          }, 2000);
+        } else {
+          setSellerCouponIsValid(false);
+          setLoadingGoDelivery(false);
+        }
+      }
+    );
+
     setSellerCoupon('');
     orderform();
   };
@@ -297,7 +311,8 @@ export const BagScreen = ({ route }: Props) => {
 
       if (!email) {
         setLoadingGoDelivery(false);
-        navigation.navigate('EnterYourEmail');
+
+        navigation.navigate('Login', { comeFrom: 'Checkout' });
       } else if (isEmptyProfile && !isProfileComplete) {
         // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
@@ -306,7 +321,7 @@ export const BagScreen = ({ route }: Props) => {
         // updateClientProfileData(profile);
         await identifyCustomer(email)
           .then(() => setLoadingGoDelivery(false))
-          .then(() => navigation.navigate('DeliveryScreen'));
+          .then(() => navigation.navigate('DeliveryScreen', {}));
       }
     }
   };
@@ -325,6 +340,10 @@ export const BagScreen = ({ route }: Props) => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    console.log('DATAAAAAAAAAAAAAAA====>>>>>>>>', orderForm?.items);
+  }, []);
 
   return (
     <SafeAreaView
@@ -689,6 +708,43 @@ export const BagScreen = ({ route }: Props) => {
                       });
                     }}
                   />
+                  {/* <Box
+                    key={index}
+                    flexDirection="row"
+                    marginY="xxs"
+                    alignItems="center"
+                  >
+                    <Box marginRight="micro">
+                      <Icon name="Presente" size={20} />
+                    </Box>
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Embalagem para presente
+                      </Typography>
+                    </Box>
+                    <Box marginLeft="micro">
+                      <Toggle
+                        onValueChange={(value) => {
+                          if (cookie)
+                            chechoutService.activeGitEmballage(
+                              orderForm.orderFormId,
+                              index,
+                              cookie
+                            );
+
+                          console.log(
+                            'BOOLEANNN',
+                            index,
+                            orderForm.orderFormId,
+                            item.bundleItems
+                          );
+                        }}
+                        thumbColor="vermelhoAlerta"
+                        color="preto"
+                        value={hasBagGift}
+                      />
+                    </Box>
+                  </Box> */}
                 </Box>
               ))}
             </Box>
@@ -762,24 +818,31 @@ export const BagScreen = ({ route }: Props) => {
             <Box paddingX="micro">
               {showLikelyProducts && <Divider variant="fullWidth" />}
 
-              <Box flexDirection="row" marginY="xxs" alignItems="center">
-                <Box marginRight="micro">
-                  <Icon name="Presente" size={20} />
+              {/* {orderForm.items.map((index) => (
+                <Box
+                  key={index}
+                  flexDirection="row"
+                  marginY="xxs"
+                  alignItems="center"
+                >
+                  <Box marginRight="micro">
+                    <Icon name="Presente" size={20} />
+                  </Box>
+                  <Box flex={1}>
+                    <Typography variant="subtituloSessoes">
+                      Embalagem para presente
+                    </Typography>
+                  </Box>
+                  <Box marginLeft="micro">
+                    <Toggle
+                      onValueChange={setHasBagGift}
+                      thumbColor="vermelhoAlerta"
+                      color="preto"
+                      value={hasBagGift}
+                    />
+                  </Box>
                 </Box>
-                <Box flex={1}>
-                  <Typography variant="subtituloSessoes">
-                    Embalagem para presente
-                  </Typography>
-                </Box>
-                <Box marginLeft="micro">
-                  <Toggle
-                    onValueChange={setHasBagGift}
-                    thumbColor="vermelhoAlerta"
-                    color="preto"
-                    value={hasBagGift}
-                  />
-                </Box>
-              </Box>
+              ))} */}
 
               <Divider variant="fullWidth" />
 
@@ -843,7 +906,7 @@ export const BagScreen = ({ route }: Props) => {
                     title="APLICAR"
                     onPress={handleAddSellerCoupons}
                     variant="primarioEstreito"
-                    disabled={!hasSellerCoupon()}
+                    disabled={!hasSellerCoupon() || loadingGoDelivery}
                   />
                 </Box>
               </Box>
@@ -917,7 +980,7 @@ export const BagScreen = ({ route }: Props) => {
                     />
                   </Box>
                 )}
-                {totalDelivery > 0 && (
+                {/* {totalDelivery > 0 && (
                   <Box
                     marginBottom="micro"
                     flexDirection="row"
@@ -933,7 +996,7 @@ export const BagScreen = ({ route }: Props) => {
                       num={Math.abs(totalDelivery)}
                     />
                   </Box>
-                )}
+                )} */}
               </>
 
               <Box
@@ -947,7 +1010,7 @@ export const BagScreen = ({ route }: Props) => {
                   fontFamily="nunitoBold"
                   sizeInterger={20}
                   sizeDecimal={11}
-                  num={totalBag + totalDiscountPrice + totalDelivery}
+                  num={totalBag + totalDiscountPrice}
                 />
               </Box>
             </Box>
@@ -1001,7 +1064,7 @@ export const BagScreen = ({ route }: Props) => {
                     fontFamily="nunitoBold"
                     sizeInterger={15}
                     sizeDecimal={11}
-                    num={totalBag + totalDiscountPrice + totalDelivery}
+                    num={totalBag + totalDiscountPrice}
                   />
                 </Box>
                 {totalBag > 0 && (
@@ -1023,7 +1086,10 @@ export const BagScreen = ({ route }: Props) => {
                         color="vermelhoRSV"
                         sizeInterger={15}
                         sizeDecimal={11}
-                        num={installmentInfo.installmentPrice / 100}
+                        num={
+                          (totalBag + totalDiscountPrice) /
+                          installmentInfo.installmentsNumber
+                        }
                       />
                     </Box>
                   </Box>

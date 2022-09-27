@@ -1,23 +1,22 @@
 import { useMutation } from '@apollo/client';
+import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
-import { Box, Button, Typography, Icon } from '@danilomsou/reserva-ui';
+import appsFlyer from 'react-native-appsflyer';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import moment from 'moment';
-import { accessKeySignInMutation } from '../../../graphql/login/loginMutations';
-import { recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
-import { recoveryPassword } from '../../../graphql/login/recoveryPassword';
+import {
+  accessKeySignInMutation,
+  recoveryPasswordMutation,
+} from '../../../graphql/login/loginMutations';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import CodeInput from '../../Login/components/CodeInput';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
-import appsFlyer from 'react-native-appsflyer';
+import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
-import Clipboard from '@react-native-community/clipboard';
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> {}
@@ -182,6 +181,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                 </Typography>
               </Box>
               <UnderlineInput
+                isSecureText
                 onChangeText={(text) =>
                   setPasswords({ ...passwords, first: text })
                 }
@@ -189,6 +189,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
               />
               <Box mt="sm">
                 <UnderlineInput
+                  isSecureText
                   onChangeText={(text) =>
                     setPasswords({ ...passwords, confirm: text })
                   }

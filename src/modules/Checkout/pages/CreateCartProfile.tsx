@@ -5,17 +5,23 @@ import { Formik, useFormik, useFormikContext } from 'formik';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Button, TextField, Typography, theme } from '@danilomsou/reserva-ui';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  theme,
+} from '@danilomsou/reserva-ui';
 import * as Yup from 'yup';
 
 import { useCart } from '../../../context/CartContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { CepVerify } from '../../../services/vtexService';
+import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
 interface CreateCartProfileProfile
-  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> { }
+  extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> {}
 
 export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
   navigation,
@@ -103,7 +109,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     if (isValidPostalCode) {
       setLoading(true);
       const { street, neighborhood, city, state, cep, errors } =
-        await CepVerify(postalCode);
+        await CepVerifyPostalCode(postalCode);
       setShowCepDescription(!!cep);
       setFields({
         ...fields,
@@ -516,6 +522,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
                   <Box mt={15}>
                     <TextField
+                      style={{ color: '#8A8C8E' }}
                       value={fields.city}
                       onChangeText={(text) => {
                         setFields({ ...fields, city: text });
@@ -527,12 +534,14 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                       }}
                       label={labelCity}
                       placeholder="Cidade"
+                      editable={false}
                     />
                   </Box>
 
                   <Box mt={15} marginBottom={35}>
                     <TextField
-                      editable={true}
+                      style={{ color: '#8A8C8E' }}
+                      editable={false}
                       value={fields.state}
                       onChangeText={(text) => {
                         setFields({ ...fields, state: text });

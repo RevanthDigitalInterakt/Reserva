@@ -13,6 +13,7 @@ export interface HomeQuery {
 
 export interface ConfigCollection {
   reference: string;
+  orderBy: string;
   image: {
     url: string;
   };
@@ -54,7 +55,9 @@ export interface CarrouselCard {
   name: string;
   description: string;
   reference: string;
+  orderBy: string;
   referenceLabel?: string;
+  mkt: boolean;
 }
 
 export interface ICountDownClock {
@@ -92,6 +95,7 @@ export const homeQuery = gql`
             showtime
             itemsCollection(limit: 3) {
               items {
+                mkt
                 image {
                   fileName
                   size
@@ -104,12 +108,15 @@ export const homeQuery = gql`
                 name
                 description
                 reference
+                orderBy
               }
             }
           }
         }
         mediasCollection {
           items {
+            mkt
+            orderBy
             reference
             reservaMini
             isLandingPage
@@ -135,6 +142,7 @@ export const bannerQuery = gql`
       items {
         name
         item {
+          mkt
           image {
             url
           }
@@ -144,11 +152,12 @@ export const bannerQuery = gql`
   }
 `;
 export const bannerDefaultQuery = gql`
-  query BannerCategoryCollection {
-    bannerCategoryCollection(where: { item: { reference: "default" } }) {
+  query BannerCategoryCollection($category: String) {
+    bannerCategoryCollection(where: { item: { reference: $category } }) {
       items {
         name
         item {
+          mkt
           image {
             url
           }
@@ -198,11 +207,13 @@ export const configCollection = gql`
           descriptionModal
           reference
         }
+        offersPage
         searchMedia {
           title
           secionMediaCollection(limit: 10) {
             items {
               reference
+              orderBy
               image {
                 url
               }

@@ -29,7 +29,8 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
 
   const navigation = useNavigation();
 
-  const carrouselCards = carrousel.itemsCollection.items;
+  // const carrouselCards = carrousel.itemsCollection.items;
+  const [carrouselCards, setCarrouselCards] = useState<any[]>(carrousel.itemsCollection.items)
 
   const onPressImage = (item: CarrouselCard) => {
     const facetInput = [];
@@ -52,6 +53,7 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
       facetInput,
       referenceId: item.reference,
       reservaMini: item.reservaMini,
+      orderBy: item.orderBy,
     });
   };
 
@@ -86,74 +88,84 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
     setPressCarousel(true);
   };
 
+  const filterCarousel = () =>{
+    let cc: any[] = []
+    carrousel.itemsCollection.items.map((c:any) => {
+      if(!c.mkt){
+        cc.push(c)
+      }
+    });
+    setCarrouselCards(cc)
+  }
+
   useEffect(() => {
+    filterCarousel()
     setActualPosition(0);
     console.log(
       'Carousel',
-      carrouselCards.map((item: CarrouselCard) => item.reservaMini == true)
+      carrouselCards?.map((item: CarrouselCard) => item.reservaMini == true)
     );
   }, []);
 
-  return (
-    <Box>
-      <FlatList
-        ref={(reference) => setFlatListRef(reference)}
-        data={carrouselCards}
-        style={{ position: 'relative' }}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        decelerationRate={0}
-        snapToInterval={DEVICE_WIDTH}
-        snapToAlignment="center"
-        disableIntervalMomentum
-        bounces={false}
-        pagingEnabled
-        onScrollBeginDrag={() => {
-          onBeginDragTouch();
-        }}
-        onScrollEndDrag={() => {
-          onEndDragTouch();
-        }}
-        onViewableItemsChanged={onViewRef.current}
-        viewabilityConfig={viewabilityConfig}
-        renderItem={({ item, index }) => {
-          setItemIndex(index);
-          return (
-            <Box alignItems="flex-start">
-              <Box mb="quarck" width={1 / 1}>
-                <TouchableHighlight
-                  onPress={() => onPressImage(item)}
-                  onLongPress={touchLongPress}
-                  onPressOut={() => setPressCarousel(false)}
-                  delayLongPress={100}
-                  delayPressOut={10}
-                >
-                  <Image
-                    resizeMode="cover"
-                    height={item.image.height}
-                    autoHeight
-                    width={DEVICE_WIDTH}
-                    source={{ uri: item.image.url }}
-                    isSkeletonLoading
-                  />
-                </TouchableHighlight>
-              </Box>
+  return (carrouselCards?.length > 0 ? 
+  <Box>
+    <FlatList
+      ref={(reference) => setFlatListRef(reference)}
+      data={carrouselCards}
+      style={{ position: 'relative' }}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      decelerationRate={0}
+      snapToInterval={DEVICE_WIDTH}
+      snapToAlignment="center"
+      disableIntervalMomentum
+      bounces={false}
+      pagingEnabled
+      onScrollBeginDrag={() => {
+        onBeginDragTouch();
+      }}
+      onScrollEndDrag={() => {
+        onEndDragTouch();
+      }}
+      onViewableItemsChanged={onViewRef.current}
+      viewabilityConfig={viewabilityConfig}
+      renderItem={({ item, index }) => {
+        setItemIndex(index);
+        return (
+          <Box alignItems="flex-start">
+            <Box mb="quarck" width={1 / 1}>
+              <TouchableHighlight
+                onPress={() => onPressImage(item)}
+                onLongPress={touchLongPress}
+                onPressOut={() => setPressCarousel(false)}
+                delayLongPress={100}
+                delayPressOut={10}
+              >
+                <Image
+                  resizeMode="cover"
+                  height={item.image.height}
+                  autoHeight
+                  width={DEVICE_WIDTH}
+                  source={{ uri: item.image.url }}
+                  isSkeletonLoading
+                />
+              </TouchableHighlight>
             </Box>
-          );
-        }}
-        keyExtractor={(_, index) => index.toString()}
-      />
+          </Box>
+        );
+      }}
+      keyExtractor={(_, index) => index.toString()}
+    />
 
-      <CarrouselScrollIndicator
-        carouselRef={flatListRef}
-        actualPosition={actualPosition}
-        showtime={carrousel.showtime || 10}
-        onEndDragTouch={onEndDrag}
-        onBeginDragTouch={onBeginDrag}
-        onPressCarousel={pressCarousel}
-      />
-    </Box>
-  );
+    <CarrouselScrollIndicator
+      carouselRef={flatListRef}
+      actualPosition={actualPosition}
+      showtime={carrousel.showtime || 10}
+      onEndDragTouch={onEndDrag}
+      onBeginDragTouch={onBeginDrag}
+      onPressCarousel={pressCarousel}
+    />
+  </Box> : <></>);
 };
 
 interface CarrouselScrollIndicatorProps {

@@ -44,10 +44,10 @@ const DeliverySelector = ({
             <Box m={'nano'} alignItems="center">
               <Box width="10%">
                 <Box
-                  height={20}
-                  width={20}
+                  height={15}
+                  width={15}
                   borderRadius="infinity"
-                  borderWidth="thin"
+                  borderWidth="hairline"
                   alignItems="center"
                   justifyContent="center"
                 >

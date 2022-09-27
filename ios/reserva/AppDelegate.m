@@ -20,6 +20,8 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <UserNotifications/UserNotifications.h>
+#import <AppsFlyerLib/AppsFlyerLib.h>
+
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -36,7 +38,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[AppsFlyerLib shared] registerUninstall:deviceToken];
-  
+
   [[PushIOManager sharedInstance]  didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
   }
 
@@ -44,6 +46,12 @@ static void InitializeFlipper(UIApplication *application) {
 {
   [FIRApp configure];
   [GMSServices provideAPIKey:@"AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"];
+  [[AppsFlyerLib shared] addPushNotificationDeepLinkPath:@[@"af_push_link"]];
+  
+  NSDictionary *userInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+  if ( userInfo != nil )
+    [[AppsFlyerLib shared] handlePushNotification: userInfo];
+  
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif

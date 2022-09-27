@@ -74,6 +74,8 @@ type CommercialOffer = {
   taxPercentage: number;
   AvailableQuantity: number;
   Price: number;
+  ListPrice: number;
+  spotPrice: number;
   PriceWithoutDiscont: number;
   discountHighlights: any[];
   Installments: {
@@ -174,7 +176,13 @@ export const ProductDetail: React.FC<Props> = ({
   const [getProduct] = useLazyQuery(GET_PRODUCTS, {
     variables: {
       id: route.params.productId.split('-')[0],
+      salesChannel: 4,
     },
+  });
+
+  const [checkListRefetch] = useLazyQuery(wishListQueries.CHECK_LIST, {
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
   });
 
   const refetch = () => {
@@ -227,7 +235,9 @@ export const ProductDetail: React.FC<Props> = ({
   const [sizeFilters, setSizeFilters] = useState<string[] | undefined>([]);
   const [unavailableSizes, setUnavailableSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [errorSize, setErrorSize] = useState(false);
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
+  const [sellerProduct,setSellerProduct] = useState<Seller | undefined>()
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
@@ -393,12 +403,12 @@ export const ProductDetail: React.FC<Props> = ({
         ?.find((item) => item.color == route.params.colorSelected)
         ?.sizeList.find((size) => size?.available);
 
-      if (route.params?.sizeSelected) {
-        const favoritedSize = route.params?.sizeSelected;
-        setSelectedSize(favoritedSize.trim()); //item favorite
-      } else {
-        defaultSize?.size && setSelectedSize(defaultSize?.size);
-      }
+      // if (route.params?.sizeSelected) {
+      //   const favoritedSize = route.params?.sizeSelected;
+      //   setSelectedSize(favoritedSize.trim()); //item favorite
+      // } else {
+      //   defaultSize?.size && setSelectedSize(defaultSize?.size);
+      // }
 
       setItemsSKU(itemList);
       appsFlyer.logEvent('af_content_view', {
@@ -423,7 +433,7 @@ export const ProductDetail: React.FC<Props> = ({
       route.params.selectedSize !== undefined &&
       route.params.selectedSize !== ''
     ) {
-      setSelectedSize(route.params.selectedSize.trim());
+      // setSelectedSize(route.params.selectedSize.trim());
     }
   }, [route.params.selectedSize]);
 
@@ -554,19 +564,19 @@ export const ProductDetail: React.FC<Props> = ({
             (x) => x.tamanho === selectedSize
           );
 
-          if (sizeIndex === -1) {
-            if (availableProduct.length > 0) {
-              setSelectedSize(availableProduct[0]?.size);
-            } else {
-              setSelectedSize(sizeAndColor[0].tamanho);
-            }
-          } else {
-            if (availableProduct.length > 0) {
-              setSelectedSize(availableProduct[0]?.size);
-            } else {
-              setSelectedSize(sizeAndColor[0].tamanho);
-            }
-          }
+          // if (sizeIndex === -1) {
+          //   if (availableProduct.length > 0) {
+          //     setSelectedSize(availableProduct[0]?.size);
+          //   } else {
+          //     setSelectedSize(sizeAndColor[0].tamanho);
+          //   }
+          // } else {
+          //   if (availableProduct.length > 0) {
+          //     setSelectedSize(availableProduct[0]?.size);
+          //   } else {
+          //     setSelectedSize(sizeAndColor[0].tamanho);
+          //   }
+          // }
         }
       }
       if (sizeColorSkuVariations) {
@@ -618,6 +628,7 @@ export const ProductDetail: React.FC<Props> = ({
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
       }
+      setSellerProduct(seller)
     });
   };
 
@@ -628,71 +639,41 @@ export const ProductDetail: React.FC<Props> = ({
   const refetchChecklist = async () => {
     setSkip(true);
     if (product && product.productId) {
-      /* const { data: { checkList } } = await checkListRefetch({
-        shopperId: email,
-        productId: product.productId.split('-')[0],
-      }) */
+      const {
+        data: { checkList },
+      } = await checkListRefetch({
+        variables: {
+          shopperId: email,
+          productId: product?.productId.split('-')[0],
+        },
+      });
 
-      const wishListData = await AsyncStorage.getItem('@WishData');
-      if (selectedVariant) {
-        if (wishListData) {
-          const newWishIds = JSON.parse(wishListData).some(
-            (x) => x.sku === selectedVariant?.itemId
-          );
-          setWishInfo({
-            ...wishInfo,
-            inList: newWishIds,
-          });
-        }
+      if (checkList) {
+        setWishInfo({ ...checkList });
       }
-
-      //setWishInfo({ ...checkList })
     }
   };
 
   const handleOnFavorite = async (favorite: boolean) => {
     if (!!email) {
-      const wishListData = await AsyncStorage.getItem('@WishData');
       if (product && product.productId) {
         setLoadingFavorite(true);
 
         if (favorite) {
-          /* const { data } = await addWishList({
+          const { data } = await addWishList({
             variables: {
               shopperId: email,
               productId: product.productId.split('-')[0],
-              sku: selectedVariant?.itemId
-            }
-          }) */
-
-          const handleFavorites = {
-            productId: product.productId.split('-')[0],
-            sku: selectedVariant?.itemId,
-          };
-
-          if (wishListData) {
-            await AsyncStorage.setItem(
-              '@WishData',
-              JSON.stringify([...JSON.parse(wishListData), handleFavorites])
-            );
-          } else {
-            await AsyncStorage.setItem(
-              '@WishData',
-              JSON.stringify([handleFavorites])
-            );
-          }
+              sku: selectedVariant?.itemId,
+            },
+          });
         } else {
-          /* await removeWishList({
+          await removeWishList({
             variables: {
               shopperId: email,
-              id: wishInfo.listIds[0]
-            }
-          }) */
-
-          const newWishIds = JSON.parse(wishListData).filter(
-            (x) => x.sku !== selectedVariant?.itemId
-          );
-          await AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
+              id: wishInfo.listIds[0],
+            },
+          });
         }
         await refetchChecklist();
         setLoadingFavorite(false);
@@ -729,6 +710,10 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const onProductAdd = async () => {
+    if (!selectedSize) {
+      setErrorSize(true);
+      return;
+    }
     if (selectedVariant) {
       const quantities =
         orderForm?.items
@@ -944,7 +929,7 @@ export const ProductDetail: React.FC<Props> = ({
             style={{ marginBottom: 24 }}
             ref={scrollRef}
           >
-            {product && (
+            {product && sellerProduct && (
               <>
                 {/*  <Button
                   title="CLIQUE"
@@ -974,9 +959,9 @@ export const ProductDetail: React.FC<Props> = ({
                     )
                   }
                   onClickFavorite={handleOnFavorite}
-                  price={product.priceRange.listPrice.lowPrice || 0}
+                  price={sellerProduct.commertialOffer.ListPrice || 0}
                   priceWithDiscount={
-                    product.priceRange.sellingPrice.lowPrice || 0
+                    sellerProduct.commertialOffer.Price || 0
                   }
                   imagesWidth={screenWidth}
                   images={
@@ -989,14 +974,14 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   installmentsPrice={
                     getInstallments()?.Value ||
-                    product.priceRange.sellingPrice.lowPrice ||
+                    sellerProduct.commertialOffer.Price ||
                     0
                   }
                   onClickShare={() => onShare(product.link)}
                   discountTag={
                     getPercent(
-                      product.priceRange.sellingPrice.lowPrice,
-                      product.priceRange.listPrice.lowPrice
+                      sellerProduct.commertialOffer.Price,
+                      sellerProduct.commertialOffer.ListPrice
                     ) || 0
                   }
                   saleOff={getSaleOff(product)}
@@ -1075,6 +1060,17 @@ export const ProductDetail: React.FC<Props> = ({
                         selectedItem={selectedSize}
                       />
                     </Box>
+                    {errorSize && !selectedSize && (
+                      <Box>
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize="13px"
+                          color="vermelhoAlerta"
+                        >
+                          Selecione um tamanho para continuar
+                        </Typography>
+                      </Box>
+                    )}
                   </Box>
                   {outOfStock && (
                     <Box mt="xxs" flexDirection="row" alignItems="center">
@@ -1099,9 +1095,7 @@ export const ProductDetail: React.FC<Props> = ({
                     title="ADICIONAR À SACOLA"
                     variant="primarioEstreito"
                     disabled={
-                      outOfStock ||
-                      !!!selectedSize ||
-                      (isAssinaturaSimples && !acceptConditions)
+                      outOfStock || (isAssinaturaSimples && !acceptConditions)
                     }
                     onPress={onProductAdd}
                     inline

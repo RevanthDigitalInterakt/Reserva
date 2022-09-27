@@ -1,29 +1,32 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
+import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import appsFlyer, { AF_EMAIL_CRYPT_TYPE } from 'react-native-appsflyer';
+import appsFlyer from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Box, Button, Typography } from '@danilomsou/reserva-ui';
+import OneSignal from 'react-native-onesignal';
+import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
+import PushIOManager from '@oracle/react-native-pushiomanager';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
+import { useCart } from '../../../context/CartContext';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import {
   classicSignInMutation,
-  sendEmailVerificationMutation
+  sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
-import OneSignal from 'react-native-onesignal';
-import { sha256 } from 'react-native-sha256';
 
 enum CryptType {
-  SHA256 = 3
+  SHA256 = 3,
 }
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
@@ -55,8 +58,25 @@ export const LoginScreen: React.FC<Props> = ({
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
 
+  const [isLoadingEmail, setIsLoadingEmail] = useState(false);
+
   const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
     useMutation(sendEmailVerificationMutation);
+  const { email } = useAuth();
+
+  const {
+    orderForm,
+    addItem,
+    orderform,
+    removeItem,
+    addCoupon,
+    identifyCustomer,
+    addSellerCoupon,
+    removeCoupon,
+    removeSellerCoupon,
+    addCustomer,
+    addShippingData,
+  } = useCart();
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -85,7 +105,9 @@ export const LoginScreen: React.FC<Props> = ({
         },
       });
       if (data.classicSignIn === 'Success') {
-        const emailHash = await sha256(loginCredentials.username.trim().toLowerCase());
+        const emailHash = await sha256(
+          loginCredentials.username.trim().toLowerCase()
+        );
 
         console.log('emailHash', emailHash);
 
@@ -94,7 +116,13 @@ export const LoginScreen: React.FC<Props> = ({
           password: loginCredentials.password,
         });
 
-        OneSignal.setExternalUserId(loginCredentials.username.trim().toLowerCase());
+        OneSignal.setExternalUserId(
+          loginCredentials.username.trim().toLowerCase()
+        );
+
+        PushIOManager.registerUserId(
+          loginCredentials.username.trim().toLowerCase()
+        );
 
         appsFlyer.logEvent(
           'af_login',
@@ -107,10 +135,11 @@ export const LoginScreen: React.FC<Props> = ({
           }
         );
 
-        appsFlyer.setUserEmails({
-          emails: [emailHash],
-          emailsCryptType: CryptType.SHA256,
-        },
+        appsFlyer.setUserEmails(
+          {
+            emails: [emailHash],
+            emailsCryptType: CryptType.SHA256,
+          },
           (success) => {
             console.log('appsFlyer setUserEmails success', success);
           },
@@ -118,13 +147,15 @@ export const LoginScreen: React.FC<Props> = ({
             if (error) {
               console.log('Error setting user emails: ', error);
             }
-          });
+          }
+        );
 
         setEmail(loginCredentials.username.trim().toLowerCase());
 
-        AsyncStorage.setItem('@RNAuth:email', loginCredentials.username.trim().toLowerCase()).then(
-          () => { }
-        );
+        AsyncStorage.setItem(
+          '@RNAuth:email',
+          loginCredentials.username.trim().toLowerCase()
+        ).then(() => {});
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
       } else {
@@ -166,22 +197,44 @@ export const LoginScreen: React.FC<Props> = ({
     }
   }, []);
 
-  useEffect(() => {
+  async function verifyUserEmail() {
+    if (loginCredentials.username.trim().toLowerCase()) {
+      setIsLoadingEmail(true);
+      await identifyCustomer(loginCredentials.username.trim().toLowerCase())
+        .then(() => setIsLoadingEmail(false))
+        .then(() =>
+          navigation.navigate('DeliveryScreen', { comeFrom: 'Login' })
+        );
+    }
+  }
+
+  const ClientDelivery = async () => {
+    console.log('EMAIL ===>', loginCredentials.username.trim().toLowerCase());
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
+        if (comeFrom === 'Checkout') {
+          verifyUserEmail();
+          return;
+        }
+
         navigation.navigate('Home');
       });
     }
+  };
+
+  useEffect(() => {
+    ClientDelivery();
   }, [data]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={() => {
           navigation.navigate('Home');
         }}
+        loading={isLoadingEmail}
       />
       <ScrollView>
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
@@ -261,7 +314,7 @@ export const LoginScreen: React.FC<Props> = ({
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant="primarioEstreitoOutline"
-            disabled={loadingSendMail || loading}
+            disabled={loadingSendMail || loading || isLoadingEmail}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
           {/* }
@@ -302,7 +355,7 @@ export const LoginScreen: React.FC<Props> = ({
               borderColor="divider"
             />
             <Typography textAlign="center">
-              {"Ainda não possui uma conta?"}
+              {'Ainda não possui uma conta?'}
             </Typography>
             <Box
               borderWidth={1}
@@ -316,10 +369,11 @@ export const LoginScreen: React.FC<Props> = ({
             title={'CADASTRE-SE'}
             inline
             variant="primarioEstreito"
-            disabled={loadingSendMail || loading}
-            onPress={() => { navigation.navigate('RegisterEmail', {}); }}
+            disabled={loadingSendMail || loading || isLoadingEmail}
+            onPress={() => {
+              navigation.navigate('RegisterEmail', {});
+            }}
           />
-
         </Box>
       </ScrollView>
     </SafeAreaView>

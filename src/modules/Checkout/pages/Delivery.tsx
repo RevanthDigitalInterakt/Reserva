@@ -1,9 +1,9 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { RootStackParamList } from 'routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
@@ -13,26 +13,19 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 
-type DeliveryNavigator = StackNavigationProp<
-  RootStackParamList,
-  'DeliveryScreen'
->;
+type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
-const Delivery: React.FC<{}> = () => {
-  const navigation = useNavigation<DeliveryNavigator>();
-  const {
-    orderForm,
-    addShippingOrPickupInfo,
-    addShippingData,
-    identifyCustomer,
-    orderform,
-  } = useCart();
+const Delivery: React.FC<Props> = ({ route, navigation }) => {
+  const { comeFrom } = route.params;
+
+  const { orderForm, addShippingOrPickupInfo, orderform } = useCart();
   const { cookie, setCookie, email } = useAuth();
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
+  const [shippingValue, setShippingValue] = useState(0);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [selectedDelivery, setSelectedDelivery] = useState<any>(null);
@@ -229,6 +222,23 @@ const Delivery: React.FC<{}> = () => {
         return false;
       });
 
+    const valueShipping = orderForm?.shippingData?.logisticsInfo.map(
+      (item: any) => {
+        const valuePrice = item.slas.find((sla: any) => {
+          if (sla.id === 'Padrão') {
+            return sla;
+          }
+        });
+        return valuePrice.price;
+      }
+    );
+
+    const shippingPrice = valueShipping?.reduce((a: any, b: any) => {
+      return a + b;
+    }, 0);
+
+    setShippingValue(shippingPrice);
+
     const pickupPoint = orderForm?.shippingData?.logisticsInfo[0].slas.filter(
       (x) => {
         if (x.deliveryChannel === 'pickup-in-point') return true;
@@ -257,11 +267,7 @@ const Delivery: React.FC<{}> = () => {
   }, [orderForm]);
 
   const updateAddresses = () => {
-    console.log('updateAddresses1234');
     if (!selectMethodDelivery) {
-      // se for para entregar em casa
-      console.log('updateAddresses1234 - casa');
-
       const availableAddressesOrderForm =
         orderForm &&
         orderForm?.shippingData &&
@@ -275,27 +281,10 @@ const Delivery: React.FC<{}> = () => {
         orderForm?.shippingData &&
         orderForm?.shippingData.selectedAddresses[0];
 
-      // if (selectedAddressOrderFom?.addressType === "search") {
-      //   selectShippingAddress(selectedAddressOrderFom)
-      // }
-      // if (cookie != null) {
-      //   const { addresses } = profile;
-      //   const newAddresses = addresses?.map((item: any) => {
-      //     const addressId = item.id;
-      //     return ({ ...item, addressId })
-      //   })
-      //   setAddresses(newAddresses);
-      // } else {
-      //   if (availableAddressesOrderForm &&
-      //     availableAddressesOrderForm?.length > 0) {
-      //     setAddresses(availableAddressesOrderForm);
-      //   }
-      // }
       if (
         availableAddressesOrderForm &&
         availableAddressesOrderForm?.length > 0
       ) {
-        console.log('updateAddresses1234 - casa - if');
         const addresses = availableAddressesOrderForm?.filter(
           (x) => x.addressType != 'search'
         );
@@ -304,12 +293,17 @@ const Delivery: React.FC<{}> = () => {
           selectShippingAddress(addresses[0]);
         }
 
-        console.log(
-          'updateAddresses1234 - casa - if - addresses',
-          addresses.length,
-          selectedAddressOrderFom
-        );
-        setAddresses(addresses);
+        const sortAddresses = addresses?.sort((a, b) => {
+          if (a.receiverName < b.receiverName) {
+            return -1;
+          }
+          if (a.receiverName > b.receiverName) {
+            return 1;
+          }
+          return 0;
+        });
+
+        setAddresses(sortAddresses);
         setSelectedAddress(selectedAddressOrderFom);
       }
     }
@@ -319,9 +313,23 @@ const Delivery: React.FC<{}> = () => {
     updateAddresses();
   }, [profile, orderForm]);
 
+  const handlePressBackButton = () => {
+    if (comeFrom === 'Login') {
+      navigation.navigate('BagScreen', {});
+
+      return;
+    }
+
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView flex={1} backgroundColor="white">
-      <TopBarBackButton showShadow loading={loadingProfile || loading} />
+      <TopBarBackButton
+        backButtonPress={handlePressBackButton}
+        showShadow
+        loading={loadingProfile || loading}
+      />
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
       >
@@ -434,6 +442,7 @@ const Delivery: React.FC<{}> = () => {
               <ReceiveHome
                 loading={loading}
                 typeOfDelivery={typeOfDelivery}
+                shippingValue={shippingValue}
                 selectedDelivery={selectedDelivery}
                 addresses={addresses}
                 selectedAddress={selectedAddress}

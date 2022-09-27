@@ -1,15 +1,11 @@
 import React from 'react';
 import { FlatList, Platform, Dimensions } from 'react-native';
 import { Box, Button, Typography, Image, } from '@danilomsou/reserva-ui';
+import { ConfigCollection } from 'graphql/homePage/HomeQuery';
 
 interface INews {
-    data: {
-        reference: string;
-        image: {
-            url: string;
-        };
-    }[];
-    onPress: (value: string) => void;
+    data: ConfigCollection[];
+    onPress: (value: ConfigCollection) => void;
 }
 
 export const News = ({ data, onPress }: INews) => {
@@ -30,26 +26,28 @@ export const News = ({ data, onPress }: INews) => {
                     horizontal={true}
                     data={data}
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <Button
-                            onPress={() => onPress(item.reference)}
-                            ml="nano"
-                            mr="nano"
-                            width={286}
-                            height={154}
-                            borderRadius="nano"
-                            style={{ elevation: Platform.OS == "android" ? 4 : 0 }}
-                            boxShadow={Platform.OS == "android" ? null : "topBarShadow"}
-                        >
-                            <Image
-                                borderRadius={8}
-                                autoHeight={true}
-                                height={154}
+                    renderItem={({ item }) => {
+                        return (
+                            <Button
+                                onPress={() => onPress(item)}
+                                ml="nano"
+                                mr="nano"
                                 width={286}
-                                source={{ uri: item.image.url }}
-                            />
-                        </Button>
-                    )}
+                                height={154}
+                                borderRadius="nano"
+                                style={{ elevation: Platform.OS == "android" ? 4 : 0 }}
+                                boxShadow={Platform.OS == "android" ? null : "topBarShadow"}
+                            >
+                                <Image
+                                    borderRadius={8}
+                                    autoHeight={true}
+                                    height={154}
+                                    width={286}
+                                    source={{ uri: item.image.url }}
+                                />
+                            </Button>
+                        )
+                    }}
                     keyExtractor={item => item.id}
                 />
             </Box>

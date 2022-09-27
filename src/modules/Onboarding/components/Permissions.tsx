@@ -2,6 +2,7 @@ import React from 'react';
 import {
   request,
   checkMultiple,
+  check,
   PERMISSIONS,
   RESULTS,
 } from 'react-native-permissions';
@@ -40,9 +41,12 @@ export const checkPermissionLocation = async () => {
 
 export const requestATT = async () => {
   try {
-    const att = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
-    if (att === 'granted') {
-      return true;
+    const response = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+    if (response === RESULTS.DENIED) {
+      const response = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+      if (response === RESULTS.GRANTED) {
+        return true;
+      }
     }
   } catch (error) {}
 };

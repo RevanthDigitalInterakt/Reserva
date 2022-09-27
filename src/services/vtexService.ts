@@ -1,5 +1,7 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
+import { postalCode } from '../config/postalCode';
+import xmlJs from 'xml-js';
 import {
   instance,
   instance2,
@@ -7,6 +9,7 @@ import {
   instance4,
   instance5,
   instance6,
+  instance7,
 } from '../config/vtexConfig';
 import axios from 'axios';
 const vtexConfig = instance;
@@ -264,6 +267,16 @@ const CepVerify = async (cep: string) => {
   }
 };
 
+const CepVerifyPostalCode = async (cep: string) => {
+  try {
+    const { data } = await postalCode.get(cep);
+    return data;
+  } catch (err) {
+    console.log(err);
+    return { errors: err } as CepResponse;
+  }
+};
+
 const addToCoupon = async (orderFormId: string | undefined, coupon: string) => {
   const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
@@ -360,12 +373,41 @@ const Orders = async (page: string) => {
   });
   return response;
 };
+
 const OrderDetail = async (orderId: string) => {
   const response = await instance2.get(`/oms/user/orders/${orderId}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
     },
   });
+  return response;
+};
+
+const SearchNewOrders = async (page: string, email: string, cookie: string) => {
+  const response = await instance7.get(
+    `oms/user/orders/?clientEmail=${email}&page=${page}&per_page=20&includeProfileLastPurchases=true`,
+    {
+      headers: {
+        cookie: cookie,
+      },
+    }
+  );
+  return response;
+};
+
+const SearchNewOrderDetail = async (
+  orderId: string,
+  email: string,
+  cookie: string
+) => {
+  const response = await instance7.get(
+    `/oms/user/orders/${orderId}?clientEmail=${email}`,
+    {
+      headers: {
+        cookie: cookie,
+      },
+    }
+  );
   return response;
 };
 
@@ -394,6 +436,7 @@ export {
   CreateSession,
   GetSession,
   CepVerify,
+  CepVerifyPostalCode,
   AddItemToCart,
   AddCouponToCart,
   RemoveCoupon,
@@ -415,6 +458,8 @@ export {
   Tracking,
   PickupPoint,
   Orders,
+  SearchNewOrders,
+  SearchNewOrderDetail,
   OrderDetail,
   Attachment,
   VerifyEmail,

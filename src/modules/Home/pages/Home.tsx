@@ -42,6 +42,7 @@ import { DefaultCarrousel } from '../component/Carrousel';
 import { CountDownBanner } from '../component/CountDown';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
+import { useConfigContext } from '../../../context/ConfigContext';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -49,6 +50,7 @@ dayjs.extend(timezone);
 export const HomeScreen: FC<{
   title: string;
 }> = () => {
+  const { setOffersPage } = useConfigContext();
   const navigation = useNavigation();
   const { isTesting } = useContentfull();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
@@ -135,6 +137,7 @@ export const HomeScreen: FC<{
           isLandingPage: imageDescription.isLandingPage,
           landingPageId: imageDescription.landingPageId,
           reservaMini: imageDescription.reservaMini,
+          orderBy: imageDescription.orderBy,
         })
       );
 
@@ -143,6 +146,8 @@ export const HomeScreen: FC<{
 
   useEffect(() => {
     if (collectionData) {
+      setOffersPage(collectionData?.configCollection.items[0].offersPage);
+
       let countDownClockMini =
         collectionData?.configCollection?.items[0].countDownClockReservaMini;
 
@@ -156,9 +161,8 @@ export const HomeScreen: FC<{
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${
-            limitDate?.minutes
-          }:${limitDate?.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
+            }:${limitDate?.seconds}`,
         });
       }
     }
@@ -183,9 +187,8 @@ export const HomeScreen: FC<{
         if (limitDate) {
           setCountDownClock({
             ...countDownClock,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-              limitDate.minutes
-            }:${limitDate.seconds}`,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
           });
         }
       }
@@ -264,6 +267,7 @@ export const HomeScreen: FC<{
   );
 
   const renderCarouselBanners = useMemo(() => {
+
     return carrousels.map((carrousel) => {
       switch (carrousel?.type) {
         case CarrouselTypes.mainCarrousel: {
@@ -281,6 +285,7 @@ export const HomeScreen: FC<{
             <CardsCarrousel carrousel={carrousel} />
           ) : (
             <Banner
+              orderBy={items[0].orderBy}
               height={items[0].image.height}
               reference={items[0].reference}
               url={items[0].image.url}
@@ -290,10 +295,11 @@ export const HomeScreen: FC<{
           break;
         }
         case CarrouselTypes.banner: {
-          const { image, reference, reservaMini } =
+          const { image, reference, reservaMini, orderBy } =
             carrousel.itemsCollection.items[0];
           return (
             <Banner
+              orderBy={orderBy}
               height={image.height}
               reference={reference}
               url={image.url}
@@ -354,6 +360,7 @@ export const HomeScreen: FC<{
               renderItem={({ item }) => {
                 return (
                   <Banner
+                    orderBy={item.orderBy}
                     height={item.height}
                     reference={item.reference}
                     url={item.url}
