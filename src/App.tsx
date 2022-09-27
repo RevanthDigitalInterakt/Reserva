@@ -36,6 +36,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { responsysConfig } from './config/responsys';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
+import SentryConfig from './config/sentryConfig';
 
 // SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
@@ -269,4 +270,5 @@ const App = () => {
   );
 };
 
-export default App;
+// export default App;
+export default SentryConfig.wrap(App);
