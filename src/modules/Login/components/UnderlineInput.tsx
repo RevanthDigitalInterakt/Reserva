@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Dimensions, KeyboardTypeOptions, Platform } from 'react-native';
+import { Dimensions, KeyboardTypeOptions, NativeSyntheticEvent, Platform, TextInputFocusEventData } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import {
   Box,
@@ -20,7 +20,7 @@ interface UnderlineInputProps {
   width?: number;
   iconSize?: number;
   onChangeText: (value: string) => void;
-  onFocus?: () => void;
+  onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   keyboardType?: KeyboardTypeOptions | undefined;
 }
 
@@ -53,7 +53,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
       >
         <Box flexGrow={4}>
           <TextInput
-            onFocus={() => onFocus && onFocus()}
+            onFocus={(e) => onFocus && onFocus(e)}
             secureTextEntry={isSecureText && hidePassword}
             placeholder={placeholder}
             onChangeText={(value) => onChangeText(value.trim())}
