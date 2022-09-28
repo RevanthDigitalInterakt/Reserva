@@ -36,6 +36,7 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import Sentry from '../../../config/sentryConfig';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -92,6 +93,10 @@ export const BagScreen = ({ route }: Props) => {
     installmentPrice: 0,
     totalPrice: 0,
   });
+
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('BagScreen'));
+  }, []);
 
   const hasSellerCoupon = useCallback(
     (): boolean => sellerCoupon.length > 0,
@@ -319,9 +324,18 @@ export const BagScreen = ({ route }: Props) => {
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
         // updateClientProfileData(profile);
-        await identifyCustomer(email)
-          .then(() => setLoadingGoDelivery(false))
-          .then(() => navigation.navigate('DeliveryScreen', {}));
+        try {
+          await identifyCustomer(email)
+            .then(() => setLoadingGoDelivery(false))
+            .then(() => navigation.navigate('DeliveryScreen', {}));
+        } catch (error) {
+          Sentry.addBreadcrumb({
+            message: 'Erro na chamada para tela de entrega',
+            data: {
+              error: error,
+            },
+          });
+        }
       }
     }
   };

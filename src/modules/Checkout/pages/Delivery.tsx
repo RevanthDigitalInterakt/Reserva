@@ -12,6 +12,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
+import Sentry from '../../../config/sentryConfig';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -56,10 +57,20 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
+    Sentry.configureScope((scope) =>
+      scope.setTransactionName('DeliveryScreen')
+    );
+  }, []);
+
+  useEffect(() => {
     if (data) {
       const { profile } = data;
       if (profile) {
         setProfile(profile);
+
+        Sentry.setUser({
+          address: profile?.addresses,
+        });
       }
       orderform();
     }
