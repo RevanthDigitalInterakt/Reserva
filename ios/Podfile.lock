@@ -1102,6 +1102,9 @@ PODS:
   - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
+  - RNSentry (4.5.0):
+    - React-Core
+    - Sentry (= 7.25.1)
   - RNSha256 (1.4.7):
     - React
   - RNShare (6.5.0):
@@ -1110,6 +1113,9 @@ PODS:
     - React-Core
   - RNSVG (12.3.0):
     - React-Core
+  - Sentry (7.25.1):
+    - Sentry/Core (= 7.25.1)
+  - Sentry/Core (7.25.1)
   - SocketRocket (0.6.0)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
@@ -1216,6 +1222,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSha256 (from `../node_modules/react-native-sha256`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNStoreReview (from `../node_modules/react-native-store-review`)
@@ -1272,6 +1279,7 @@ SPEC REPOS:
     - OneSignalXCFramework
     - OpenSSL-Universal
     - PromisesObjC
+    - Sentry
     - SocketRocket
     - SSZipArchive
     - YogaKit
@@ -1429,6 +1437,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSha256:
     :path: "../node_modules/react-native-sha256"
   RNShare:
@@ -1452,7 +1462,7 @@ SPEC CHECKSUMS:
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 24d3b8ecc8acb89ae1ae7ff3c9b81c1fc62c2957
+  FBReactNativeSpec: ccc70edc2aa8980962db8e0025a274fec37efa45
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1565,15 +1575,17 @@ SPEC CHECKSUMS:
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
+  RNSentry: a034d0e81e3d3c04b770dd2df953fe634d372d22
   RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNStoreReview: e05edbbf426563070524cec384ac0b8df69be801
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
+  Sentry: dd29c18c32b0af9269949f079cf631d581ca76ca
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: bd432717b25e1eea496fdf18fbe077c644c58a52
+PODFILE CHECKSUM: cce6d391cc5b20ec2ea61ebba8d6e17fe9e20b0a
 
 COCOAPODS: 1.11.3

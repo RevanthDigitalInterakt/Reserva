@@ -304,32 +304,37 @@ export const ListVerticalProducts = ({
             ListHeaderComponent={listHeader}
             renderItem={({ item, index }) => {
               let installments;
-
+              
               let countPosition = 0;
               while (item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments.length === 0) {
                 countPosition++
               }
 
+              const listPrice =  item?.items[0]?.sellers[countPosition]?.commertialOffer.ListPrice || 0
+              const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price || 0
               installments = item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments
 
               const installmentsNumber = installments?.reduce((prev, next) =>
                 prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
                 { NumberOfInstallments: 0, Value: 0 })
-
-              const discountTag = getPercent(
-                item.priceRange?.sellingPrice.lowPrice,
-                item.priceRange?.listPrice.lowPrice
-              );
+              
+              let discountTag;
+              if(listPrice && sellingPrice){
+                 discountTag = getPercent(
+                  sellingPrice,
+                  listPrice
+                  );
+                }
 
               const cashPaymentPrice =
                 !!discountTag && discountTag > 0
-                  ? item.priceRange?.sellingPrice.lowPrice
-                  : item.priceRange?.listPrice?.lowPrice || 0;
+                  ? sellingPrice
+                  : listPrice || 0;
 
-              const installmentPrice = installments.reduce((prev, next) =>
+              const installmentPrice = installments?.reduce((prev, next) =>
                 prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
                 { NumberOfInstallments: 0, Value: 0 })
-
+              
               // item.priceRange?.listPrice?.lowPrice;
               const colors = new ProductUtils().getColorsArray(item);
               return (
@@ -354,12 +359,12 @@ export const ListVerticalProducts = ({
                   installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0} // valor das parcelas
                   currency="R$"
                   discountTag={getPercent(
-                    item.priceRange?.sellingPrice.lowPrice,
-                    item.priceRange?.listPrice.lowPrice
+                    sellingPrice,
+                    listPrice
                   )}
                   saleOff={getSaleOff(item)}
-                  priceWithDiscount={item.priceRange?.sellingPrice.lowPrice}
-                  price={item.priceRange?.listPrice?.lowPrice || 0}
+                  priceWithDiscount={sellingPrice}
+                  price={listPrice || 0}
                   productTitle={item.productName}
                   onClickImage={() => {
                     navigation.navigate('ProductDetail', {

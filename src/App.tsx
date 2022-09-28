@@ -36,8 +36,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { responsysConfig } from './config/responsys';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
+import SentryConfig from './config/sentryConfig';
 
-// SET THE DEFAULT BACKGROUND COLOR TO ENTIRE APP
 const DefaultTheme = {
   colors: {
     background: theme.colors.backgroundApp,
@@ -98,9 +98,9 @@ appsFlyer.initSdk(
     devKey: env.APPSFLYER.DEV_KEY,
     isDebug: false,
     appId: env.APPSFLYER.APP_ID,
-    onInstallConversionDataListener: true, // Optional
-    onDeepLinkListener: true, // Optional
-    timeToWaitForATTUserAuthorization: 10, // for iOS 14.5
+    onInstallConversionDataListener: true,
+    onDeepLinkListener: true,
+    timeToWaitForATTUserAuthorization: 10,
   },
   (result) => {
     console.log('AAPPFLYERS', result);
@@ -114,7 +114,7 @@ const maintenanceHandler = async () => {
   const maintenance = result.find(
     (x) => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE
   );
-  //setIsOnMaintenance(maintenance.value)
+
   return maintenance.value;
 };
 
@@ -172,7 +172,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    // AsyncStorage.removeItem('isAppFirstLaunched');
     firstLaunchedData();
   }, []);
 
@@ -269,4 +268,5 @@ const App = () => {
   );
 };
 
-export default App;
+// export default App;
+export default SentryConfig.wrap(App);

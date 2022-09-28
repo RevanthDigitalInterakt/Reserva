@@ -36,6 +36,8 @@ target 'reserva' do
 
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
 
+  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
+
   target 'reservaTests' do
     inherit! :complete
     # Pods for testing

@@ -25,6 +25,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const { cookie, setCookie, email } = useAuth();
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
+  const [shippingValue, setShippingValue] = useState(0);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [selectedDelivery, setSelectedDelivery] = useState<any>(null);
@@ -221,6 +222,23 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         return false;
       });
 
+    const valueShipping = orderForm?.shippingData?.logisticsInfo.map(
+      (item: any) => {
+        const valuePrice = item.slas.find((sla: any) => {
+          if (sla.id === 'Padrão') {
+            return sla;
+          }
+        });
+        return valuePrice.price;
+      }
+    );
+
+    const shippingPrice = valueShipping?.reduce((a: any, b: any) => {
+      return a + b;
+    }, 0);
+
+    setShippingValue(shippingPrice);
+
     const pickupPoint = orderForm?.shippingData?.logisticsInfo[0].slas.filter(
       (x) => {
         if (x.deliveryChannel === 'pickup-in-point') return true;
@@ -249,11 +267,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   }, [orderForm]);
 
   const updateAddresses = () => {
-    console.log('updateAddresses1234');
     if (!selectMethodDelivery) {
-      // se for para entregar em casa
-      console.log('updateAddresses1234 - casa');
-
       const availableAddressesOrderForm =
         orderForm &&
         orderForm?.shippingData &&
@@ -267,27 +281,10 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         orderForm?.shippingData &&
         orderForm?.shippingData.selectedAddresses[0];
 
-      // if (selectedAddressOrderFom?.addressType === "search") {
-      //   selectShippingAddress(selectedAddressOrderFom)
-      // }
-      // if (cookie != null) {
-      //   const { addresses } = profile;
-      //   const newAddresses = addresses?.map((item: any) => {
-      //     const addressId = item.id;
-      //     return ({ ...item, addressId })
-      //   })
-      //   setAddresses(newAddresses);
-      // } else {
-      //   if (availableAddressesOrderForm &&
-      //     availableAddressesOrderForm?.length > 0) {
-      //     setAddresses(availableAddressesOrderForm);
-      //   }
-      // }
       if (
         availableAddressesOrderForm &&
         availableAddressesOrderForm?.length > 0
       ) {
-        console.log('updateAddresses1234 - casa - if');
         const addresses = availableAddressesOrderForm?.filter(
           (x) => x.addressType != 'search'
         );
@@ -296,12 +293,17 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           selectShippingAddress(addresses[0]);
         }
 
-        console.log(
-          'updateAddresses1234 - casa - if - addresses',
-          addresses.length,
-          selectedAddressOrderFom
-        );
-        setAddresses(addresses);
+        const sortAddresses = addresses?.sort((a, b) => {
+          if (a.receiverName < b.receiverName) {
+            return -1;
+          }
+          if (a.receiverName > b.receiverName) {
+            return 1;
+          }
+          return 0;
+        });
+
+        setAddresses(sortAddresses);
         setSelectedAddress(selectedAddressOrderFom);
       }
     }
@@ -440,6 +442,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
               <ReceiveHome
                 loading={loading}
                 typeOfDelivery={typeOfDelivery}
+                shippingValue={shippingValue}
                 selectedDelivery={selectedDelivery}
                 addresses={addresses}
                 selectedAddress={selectedAddress}

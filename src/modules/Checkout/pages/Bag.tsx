@@ -1087,7 +1087,8 @@ export const BagScreen = ({ route }: Props) => {
                         sizeInterger={15}
                         sizeDecimal={11}
                         num={
-                          installmentInfo.installmentPrice / 100 - totalDelivery
+                          (totalBag + totalDiscountPrice) /
+                          installmentInfo.installmentsNumber
                         }
                       />
                     </Box>
