@@ -12,8 +12,14 @@ export interface ChangeRegionalizationProps {
 
 }
 
-export const ChangeRegionalization = () => {
-
+export const ChangeRegionalization = ({ ...props }) => {
+  const {
+    route: {
+      params: {
+        isCepAddress
+      }
+    }
+  } = props
   const [cepInputText, setCepInputText] = useState("")
   const [streetInputText, setStreetInputText] = useState("")
   const [address, setAddress] = useState<{
@@ -122,7 +128,7 @@ export const ChangeRegionalization = () => {
         onSubmit={
           async (values) => {
             const data = await fetchCepInfo(values.cep)
-            navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText })
+            navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText, isCepAddress: isCepAddress ? isCepAddress : false })
           }
         }
       >
@@ -319,7 +325,7 @@ export const ChangeRegionalization = () => {
           onPress={() => {
             fetchAddressInfo().then(data => {
               console.log('data123', data)
-              navigate.navigate('CEPList', { list: data, searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}` })
+              navigate.navigate('CEPList', { list: data, searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}`, isCepAddress: isCepAddress ? isCepAddress : false })
             })
           }}
           variant='primarioEstreito'

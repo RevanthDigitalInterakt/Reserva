@@ -45,7 +45,7 @@ type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit, editAddress, isCheckout, onAddAddressCallBack, receiveHome } =
+  const { edit, editAddress, isCheckout, onAddAddressCallBack, receiveHome, hasCep } =
     route?.params;
   const [addressId, setAddressId] = useState(editAddress?.id);
   const [toggleActivated] = useState(false);
@@ -53,7 +53,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
   const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
-  const [getProfile, {}] = useLazyQuery(profileQuery);
+  const [getProfile, { }] = useLazyQuery(profileQuery);
 
   const [{ profileData, loadingProfile }, setProfileData] = useState({
     profileData: null,
@@ -98,21 +98,21 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
     edit
       ? await addressUpdate({
-          variables: {
-            id: editAddress?.id,
-            fields: {
-              ...initialValues,
-              // receiverName: `${profile?.firstName} ${profile?.lastName}`,
-            },
+        variables: {
+          id: editAddress?.id,
+          fields: {
+            ...initialValues,
+            // receiverName: `${profile?.firstName} ${profile?.lastName}`,
           },
-        })
+        },
+      })
       : await saveAddress({
-          variables: {
-            fields: {
-              ...initialValues,
-            },
+        variables: {
+          fields: {
+            ...initialValues,
           },
-        });
+        },
+      });
 
     onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
@@ -327,6 +327,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     }
   };
 
+  useEffect(() => {
+    if (hasCep) {
+      setInitialValues({ ...initialValues, postalCode: hasCep });
+      cepHandler(hasCep.replace('-', ''));
+    }
+  }, [hasCep]);
+
   return (
     <>
       <SafeAreaView
@@ -407,6 +414,22 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     }
                   }}
                 />
+                <Button
+                  alignSelf='flex-end'
+                  marginTop="quarck"
+                  onPress={() => {
+                    navigation.navigate('ChangeRegionalization', {
+                      isCepAddress: true
+                    });
+                  }}
+                >
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize={14}
+                  >
+                    Não sei meu CEP
+                  </Typography>
+                </Button>
 
                 {/* {initialValues.street ? <Typography>teste</Typography> : null} */}
                 <InputOption

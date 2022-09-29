@@ -111,6 +111,7 @@ export type RootStackParamList = {
     isCheckout: boolean;
     edit?: boolean;
     receiveHome?: boolean;
+    hasCep?: string;
     onAddAddressCallBack?: () => void;
     editAddress?: {
       id: string;
