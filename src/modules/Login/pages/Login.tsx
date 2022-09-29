@@ -24,6 +24,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
+import Sentry from '../../../config/sentryConfig';
 
 enum CryptType {
   SHA256 = 3,
@@ -227,6 +228,10 @@ export const LoginScreen: React.FC<Props> = ({
     ClientDelivery();
   }, [data]);
 
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('LoginScreen'));
+  }, []);
+
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderBanner
@@ -256,10 +261,18 @@ export const LoginScreen: React.FC<Props> = ({
               showError={loginCredentials.showUsernameError}
               errorMsg={loginCredentials.usernameError}
               onChangeText={(text) => {
-                setLoginCredentials({ ...loginCredentials, username: text });
-                setEmailIsValid(
-                  Yup.string().required().email().isValidSync(text.trim())
-                );
+                try {
+                  setLoginCredentials({ ...loginCredentials, username: text });
+                  setEmailIsValid(
+                    Yup.string().required().email().isValidSync(text.trim())
+                  );
+                } catch (error) {
+                  Sentry.captureException(error, {
+                    extra: {
+                      writtenEmail: text,
+                    },
+                  });
+                }
               }}
             />
 
