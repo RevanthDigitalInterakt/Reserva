@@ -27,6 +27,7 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import Sentry from '../../../config/sentryConfig';
 
 interface IAddress {
   postalCode: string;
@@ -92,6 +93,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [validateNumber, setValidateNumber] = useState(true);
 
   const { email } = useAuth();
+
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('NewAddress'));
+  }, []);
 
   const handleSaveAddress = async () => {
     setLoading(true);

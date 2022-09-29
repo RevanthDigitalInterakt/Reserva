@@ -7,6 +7,7 @@ import { Box, Button, Icon, Picker, TextField, Typography } from "@danilomsou/re
 import { FormikTextInput } from "../../../shared/components/FormikTextInput"
 import * as Yup from "yup"
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo"
+import Sentry from '../../../config/sentryConfig';
 
 export interface ChangeRegionalizationProps {
 
@@ -91,6 +92,10 @@ export const ChangeRegionalization = ({ ...props }) => {
     const response = await fetch(`https://viacep.com.br/ws/${address?.uf}/${address?.city?.replace(/\s/g, '%20')}/${address?.street?.replace(/\s/g, '%20')}/json/`)
     return await response.json()
   }
+
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('ChangeRegionalization'));
+  }, []);
 
   useEffect(() => {
     fetch('https://brasilapi.com.br/api/ibge/uf/v1')

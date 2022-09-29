@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { instance } from "../../../config/vtexConfig"
 import { useRegionalSearch } from "../../../context/RegionalSearchContext"
 import AsyncStorage from "@react-native-community/async-storage"
+import Sentry from '../../../config/sentryConfig';
 
 export interface CepsInfo {
   cep: string,
@@ -67,6 +68,10 @@ export const CEPList = ({ ...props }) => {
       navigation.navigate('Home')
     }
   }
+
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('CEPList'));
+  }, []);
 
   useEffect(() => {
     setCeps(list)
