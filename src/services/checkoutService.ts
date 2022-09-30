@@ -1,5 +1,4 @@
-
-import { checkoutInstance } from '../config/checkoutConfig'
+import { checkoutInstance } from '../config/checkoutConfig';
 
 export const chechoutService = {
   setPaymentMethod: async (
@@ -7,40 +6,42 @@ export const chechoutService = {
     value: number,
     accountId: string,
     installments: number,
-    interestRate: number,
+    interestRate: number
   ) => {
     try {
-      const response = await checkoutInstance.post(`${orderFormId}/attachments/paymentData`, {
-        payments: [
-          {
-            paymentSystem: "4",
-            bin: "537435",
-            accountId,
-            tokenId: null,
-            installments,
-            referenceValue: value,
-            value: value,
-            merchantSellerPayments: [
-              {
-                id: "LOJAUSERESERVA",
-                installments,
-                referenceValue: value,
-                value: value,
-                interestRate,
-                installmentValue: value
-              }
-            ]
-          }
-        ],
-        giftCards: [],
-      })
+      const response = await checkoutInstance.post(
+        `${orderFormId}/attachments/paymentData`,
+        {
+          payments: [
+            {
+              paymentSystem: '4',
+              bin: '537435',
+              accountId,
+              tokenId: null,
+              installments,
+              referenceValue: value,
+              value: value,
+              merchantSellerPayments: [
+                {
+                  id: 'LOJAUSERESERVA',
+                  installments,
+                  referenceValue: value,
+                  value: value,
+                  interestRate,
+                  installmentValue: value,
+                },
+              ],
+            },
+          ],
+          giftCards: [],
+        }
+      );
 
-      console.log('setPaymentMethod', response)
+      console.log('setPaymentMethod', response);
 
-      return response
-
+      return response;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
 
@@ -52,18 +53,21 @@ export const chechoutService = {
     optinNewsLetter: boolean
   ) => {
     try {
-      const response = await checkoutInstance.post(`/transaction/${orderFormId}/transaction?sc=4`, {
-        referenceId: orderFormId,
-        value: value,
-        referenceValue: value,
-        savePersonalData,
-        optinNewsLetter,
-        interestValue,
-      })
-      console.log('transaction', response)
-      return response
+      const response = await checkoutInstance.post(
+        `/transaction/${orderFormId}/transaction?sc=4`,
+        {
+          referenceId: orderFormId,
+          value: value,
+          referenceValue: value,
+          savePersonalData,
+          optinNewsLetter,
+          interestValue,
+        }
+      );
+      console.log('transaction', response);
+      return response;
     } catch (error) {
-      console.log('error', error)
+      console.log('error', error);
     }
   },
 
@@ -81,37 +85,60 @@ export const chechoutService = {
           data: [
             {
               paymentSystem: 125,
-              paymentSystemName: "Pix",
-              group: "instantPaymentPaymentGroup",
+              paymentSystemName: 'Pix',
+              group: 'instantPaymentPaymentGroup',
               installments,
               installmentsInterestRate: 0,
               installmentsValue: value,
               value: value,
               referenceValue: value,
-              id: "LOJAUSERESERVA",
+              id: 'LOJAUSERESERVA',
               interestRate,
               installmentValue: value,
               transaction: {
                 id: transactionId,
-                merchantName: "LOJAUSERESERVA"
+                merchantName: 'LOJAUSERESERVA',
               },
-              currencyCode: "BRL",
-              originalPaymentIndex: 0
-            }
-          ]
+              currencyCode: 'BRL',
+              originalPaymentIndex: 0,
+            },
+          ],
         }
-      )
-      console.log('paymentGetway', response)
-      return response
+      );
+      console.log('paymentGetway', response);
+      return response;
     } catch (error) {
-      console.log('error', error)
+      console.log('error', error);
     }
   },
   getPixCode: async (orderGroup: string) => {
     try {
-      const response = await checkoutInstance.get(`https://www.usereserva.com/api/checkout/pub/gatewayCallback/${orderGroup}`)
-    }catch(error){
-      console.log('error', error)
+      const response = await checkoutInstance.get(
+        `https://www.usereserva.com/api/checkout/pub/gatewayCallback/${orderGroup}`
+      );
+    } catch (error) {
+      console.log('error', error);
     }
   },
-}
+
+  activeGitEmballage: async (
+    orderID: string,
+    indexDoItems: number,
+    cookie: string
+  ) => {
+    try {
+      const response = await checkoutInstance.post(
+        `https://www.usereserva.com/api/checkout/pub/orderForm/${orderID}/items/${indexDoItems}/offerings`,
+        {},
+        {
+          headers: {
+            Cookie: cookie,
+          },
+        }
+      );
+      console.log('CHECKOUT RESPONSE ===>>>', response.status);
+    } catch (error) {
+      console.log('error', error);
+    }
+  },
+};

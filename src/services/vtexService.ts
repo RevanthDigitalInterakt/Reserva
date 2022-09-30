@@ -1,5 +1,7 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
+import { postalCode } from '../config/postalCode';
+import xmlJs from 'xml-js';
 import {
   instance,
   instance2,
@@ -265,6 +267,16 @@ const CepVerify = async (cep: string) => {
   }
 };
 
+const CepVerifyPostalCode = async (cep: string) => {
+  try {
+    const { data } = await postalCode.get(cep);
+    return data;
+  } catch (err) {
+    console.log(err);
+    return { errors: err } as CepResponse;
+  }
+};
+
 const addToCoupon = async (orderFormId: string | undefined, coupon: string) => {
   const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
@@ -424,6 +436,7 @@ export {
   CreateSession,
   GetSession,
   CepVerify,
+  CepVerifyPostalCode,
   AddItemToCart,
   AddCouponToCart,
   RemoveCoupon,

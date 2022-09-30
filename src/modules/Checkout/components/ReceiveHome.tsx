@@ -15,6 +15,7 @@ interface IReceiveHome {
   selectedDelivery: any;
   addresses: any[];
   selectedAddress: any;
+  shippingValue: number;
   onDeliveryChosen: (item: any) => void;
   onAddressChosen: (item: any) => void;
   loading: boolean;
@@ -27,6 +28,7 @@ const ReceiveHome = ({
   selectedAddress,
   onDeliveryChosen,
   onAddressChosen,
+  shippingValue,
   loading,
 }: IReceiveHome) => {
   const { cookie, setCookie, email } = useAuth();
@@ -35,7 +37,7 @@ const ReceiveHome = ({
   const [addressId, setAddressId] = useState('');
   const navigation = useNavigation();
   const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
-  const { identifyCustomer } = useCart();
+  const { identifyCustomer, orderForm } = useCart();
   const modalRef = useRef(false);
   const [successModal, setSuccessModal] = useState(false);
   const [
@@ -254,7 +256,7 @@ ${neighborhood}, ${city} - ${state}`,
               <DeliverySelector
                 deliveryData={{
                   name: name,
-                  price: price,
+                  price: shippingValue,
                   shippingEstimate: shippingEstimate,
                 }}
                 selected={selected}

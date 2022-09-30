@@ -99,6 +99,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
@@ -159,8 +160,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2022092104
-        versionName "1.9.24"
+        versionCode 2022092801
+        versionName "1.10.6"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {

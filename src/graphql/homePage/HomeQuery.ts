@@ -13,6 +13,7 @@ export interface HomeQuery {
 
 export interface ConfigCollection {
   reference: string;
+  orderBy: string;
   image: {
     url: string;
   };
@@ -54,6 +55,7 @@ export interface CarrouselCard {
   name: string;
   description: string;
   reference: string;
+  orderBy: string;
   referenceLabel?: string;
   mkt: boolean;
 }
@@ -83,53 +85,55 @@ export interface ICountDownClockReservaMini {
 }
 
 export const homeQuery = gql`
-query homePageCollection {
-  homePageCollection(limit: 12) {
-    items {
-      carrouselHomeCollection(limit: 3) {
-        items {
-          type
-          title
-          showtime
-          itemsCollection(limit: 3) {
-            items {
-              mkt
-              image {
-                fileName
-                size
-                title
-                url
-                width
-                height
+  query homePageCollection {
+    homePageCollection(limit: 12) {
+      items {
+        carrouselHomeCollection(limit: 3) {
+          items {
+            type
+            title
+            showtime
+            itemsCollection(limit: 3) {
+              items {
+                mkt
+                image {
+                  fileName
+                  size
+                  title
+                  url
+                  width
+                  height
+                }
+                reservaMini
+                name
+                description
+                reference
+                orderBy
               }
-              reservaMini
-              name
-              description
-              reference
             }
           }
         }
-      }
-      mediasCollection {
-        items {
-          mkt
-          reference
-          reservaMini
-          isLandingPage
-          landingPageId
-          image {
-            fileName
-            title
-            width
-            height
-            size
-            url
+        mediasCollection {
+          items {
+            mkt
+            orderBy
+            reference
+            reservaMini
+            isLandingPage
+            landingPageId
+            image {
+              fileName
+              title
+              width
+              height
+              size
+              url
+            }
           }
         }
       }
     }
   }
-}
 `;
 
 export const bannerQuery = gql`
@@ -209,6 +213,7 @@ export const configCollection = gql`
           secionMediaCollection(limit: 10) {
             items {
               reference
+              orderBy
               image {
                 url
               }

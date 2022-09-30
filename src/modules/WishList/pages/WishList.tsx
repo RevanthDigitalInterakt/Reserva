@@ -186,15 +186,14 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
             productSku?.sellers[0].commertialOffer.AvailableQuantity >
             0;
 
-          const installmentsNumber =
-            installments?.length > 0
-              ? installments[0].NumberOfInstallments
-              : 1;
+          const installmentsNumber = installments?.reduce((prev, next) =>
+            prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+            { NumberOfInstallments: 0, Value: 0 })
+          
+          const installmentPrice = installments?.reduce((prev, next) =>
+            prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
+            { NumberOfInstallments: 0, Value: 0 })
 
-          const installmentPrice =
-            !!installments && installments.length > 0
-              ? installments[0].Value
-              : product?.priceRange?.listPrice?.lowPrice;
           const wish = {
             id: item.id,
             product,

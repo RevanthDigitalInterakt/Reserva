@@ -51,8 +51,20 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData
   );
+
+  const orderProducts: any = {
+    RELEVANCIA: OrderByEnum.OrderByReviewRateDESC,
+    MAIS_VENDIDOS: OrderByEnum.OrderByTopSaleDESC,
+    MAIS_RECENTES: OrderByEnum.OrderByReleaseDateDESC,
+    DESCONTOS: OrderByEnum.OrderByBestDiscountDESC,
+    MAIOR_PRECO: OrderByEnum.OrderByPriceDESC,
+    MENOR_PRECO: OrderByEnum.OrderByPriceASC,
+    DE_A_Z: OrderByEnum.OrderByNameASC,
+    DE_Z_A: OrderByEnum.OrderByNameDESC,
+  }
+
   const pageSize = 12;
-  const { safeArea, search, referenceId, title, reservaMini } = route.params;
+  const { safeArea, search, referenceId, title, reservaMini, orderBy } = route.params;
 
   useEffect(() => {
     if (referenceId === 'offers-page') {
@@ -92,6 +104,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
+
+  useEffect(() => {
+    if (orderBy) {
+      setSelectedOrder(orderProducts[orderBy]);
+    }
+  }, [orderBy]);
 
   const generateFacets = (reference: string) => {
     const facetInput: any[] = [];
@@ -204,8 +222,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-            }:${limitDate.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+            limitDate.minutes
+          }:${limitDate.seconds}`,
         });
       }
     }
@@ -399,9 +418,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value: ColorsToHexEnum[value],
-          }))
+              key,
+              value: ColorsToHexEnum[value],
+            }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -411,9 +430,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // CATEGORY
@@ -423,9 +442,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
+              key,
+              value,
+            }))
           : [];
 
       // PRICE
@@ -433,9 +452,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-            key,
-            range,
-          }))
+              key,
+              range,
+            }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -466,24 +485,35 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         ),
         simulationBehavior: 'default',
         productOriginVtex: false,
-      }, 
+      },
     });
     if (data) {
       const newDataProductSearch = {
         productSearch: {
           ...dataFetchMore.productSearch,
-          products: [...data.productSearch.products, ...dataFetchMore.productSearch.products]
-        }
-      }
+          products: [
+            ...data.productSearch.products,
+            ...dataFetchMore.productSearch.products,
+          ],
+        },
+      };
       setProductSearch({
-        data: newDataProductSearch, loading,
-        fetchMore, refetch,
-        error
+        data: newDataProductSearch,
+        loading,
+        fetchMore,
+        refetch,
+        error,
       });
       setProducts(newDataProductSearch.productSearch);
       setLoadingFetchMore(loading);
     } else {
-      setProductSearch({ data: dataFetchMore, loading, fetchMore, refetch, error });
+      setProductSearch({
+        data: dataFetchMore,
+        loading,
+        fetchMore,
+        refetch,
+        error,
+      });
       setProducts(dataFetchMore.productSearch);
       setLoadingFetchMore(loading);
     }
@@ -500,6 +530,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     const fetch = async () => {
+      setLoadingFetchMore(true);
       const { data, loading } = await refetch({
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
@@ -516,6 +547,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (!loading && !!data) {
         setProductSearch({ data, loading, fetchMore, refetch, error });
         setProducts(data.productSearch);
+      }
+      if (!loading) {
+        setLoadingFetchMore(loading);
       }
     };
     fetch();
@@ -731,21 +765,53 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         isVisible={sorterVisible}
         items={[
           {
-            text: 'Menor Preço',
-            value: OrderByEnum.OrderByPriceASC,
+            text: 'Relevância',
+            value: OrderByEnum.OrderByScoreDESC,
           },
           {
-            text: 'Maior Preço',
-            value: OrderByEnum.OrderByPriceDESC,
+            text: 'Mais Vendidos',
+            value: OrderByEnum.OrderByTopSaleDESC,
           },
           {
             text: 'Mais Recentes',
             value: OrderByEnum.OrderByReleaseDateDESC,
           },
           {
-            text: 'Relevante',
-            value: OrderByEnum.OrderByReviewRateDESC,
+            text: 'Descontos',
+            value: OrderByEnum.OrderByBestDiscountDESC,
           },
+          {
+            text: 'Maior Preço',
+            value: OrderByEnum.OrderByPriceDESC,
+          },
+          {
+            text: 'Menor Preço',
+            value: OrderByEnum.OrderByPriceASC,
+          },
+          {
+            text: 'De A a Z',
+            value: OrderByEnum.OrderByNameASC,
+          },
+          {
+            text: 'De Z a A',
+            value: OrderByEnum.OrderByNameDESC,
+          },
+          // {
+          //   text: 'Menor Preço',
+          //   value: OrderByEnum.OrderByPriceASC,
+          // },
+          // {
+          //   text: 'Maior Preço',
+          //   value: OrderByEnum.OrderByPriceDESC,
+          // },
+          // {
+          //   text: 'Mais Recentes',
+          //   value: OrderByEnum.OrderByReleaseDateDESC,
+          // },
+          // {
+          //   text: 'Relevante',
+          //   value: OrderByEnum.OrderByReviewRateDESC,
+          // },
         ]}
         onConfirm={() => {
           setSorterVisible(false);
@@ -881,10 +947,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <Text>Carregando...</Text>
         </Box>
       </Modal> */}
-      {productsQuery.products && productsQuery.products.length > 0 ? (
+      {data?.productSearch?.products ? (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
-          products={data.productSearch.products} //productsQuery.products}
+          products={data?.productSearch?.products} //productsQuery.products}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}
@@ -947,7 +1013,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontSize="14px"
                     >
                       {productsQuery.products?.length == 0 &&
-                        filterRequestList.length > 0
+                      filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
                     </Typography>
@@ -1003,7 +1069,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           }
         />
       ) : (
-        <EmptyProductCatalog onPress={() => navigation.navigate('Home')} />
+        !loading && (
+          <EmptyProductCatalog onPress={() => navigation.navigate('Home')} />
+        )
       )}
     </DynamicComponent>
   );

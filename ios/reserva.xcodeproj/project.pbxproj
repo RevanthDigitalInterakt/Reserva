@@ -40,8 +40,8 @@
 		77438DA846CC4BCE839443FD /* ReservaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B243AAA5F4E4FC1B9E526DA /* ReservaSans-Bold.ttf */; };
 		7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */; };
 		7F89DA7DE1904133832A1841 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */; };
+		80732FDD28DDF7F8004580CA /* PushIOManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37CC28A5347E00A1094F /* PushIOManager.framework */; };
 		80AA37E928A539FF00A1094F /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 80AA37E828A539FF00A1094F /* loading.json */; };
-		80AA37EA28A5460F00A1094F /* PushIOManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37CC28A5347E00A1094F /* PushIOManager.framework */; };
 		80AA37EE28A55FE200A1094F /* pushio_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 80AA37ED28A55FE100A1094F /* pushio_config.json */; };
 		80D3EA6128A6A52100FD5047 /* PushIOManager.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37F728A59BD800A1094F /* PushIOManager.xcframework */; };
 		80D3EA6228A6A52100FD5047 /* PushIOManager.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80AA37F728A59BD800A1094F /* PushIOManager.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -219,7 +219,7 @@
 				80D3EA6128A6A52100FD5047 /* PushIOManager.xcframework in Frameworks */,
 				39C607C2264A0F9A0030C19F /* libCodePush.a in Frameworks */,
 				67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */,
-				80AA37EA28A5460F00A1094F /* PushIOManager.framework in Frameworks */,
+				80732FDD28DDF7F8004580CA /* PushIOManager.framework in Frameworks */,
 				069361C4C1B4A8C0118C7BFD /* libPods-reserva.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,6 +457,7 @@
 				17739DBB1C3FEEBC6B3FCC80 /* [CP] Copy Pods Resources */,
 				6F457FCFF3AF5B79CEB63EFC /* [CP-User] [RNFB] Core Configuration */,
 				4EC59155BD2DBE465ED08FCD /* [CP-User] [RNFB] Crashlytics Configuration */,
+				F74552FFFD3F4009964264D4 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -607,7 +608,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nset -e\n\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		17739DBB1C3FEEBC6B3FCC80 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -770,6 +771,20 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F74552FFFD3F4009964264D4 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -898,7 +913,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022092802;
+				CURRENT_PROJECT_VERSION = 2022092603;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -958,7 +973,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.10.6;
+				MARKETING_VERSION = 1.10.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -985,7 +1000,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022092802;
+				CURRENT_PROJECT_VERSION = 2022092603;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1044,7 +1059,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.10.6;
+				MARKETING_VERSION = 1.10.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1072,7 +1087,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022092802;
+				CURRENT_PROJECT_VERSION = 2022092603;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1087,7 +1102,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.10.6;
+				MARKETING_VERSION = 1.10.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
@@ -1111,7 +1126,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2022092802;
+				CURRENT_PROJECT_VERSION = 2022092603;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1126,7 +1141,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.10.6;
+				MARKETING_VERSION = 1.10.5;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";

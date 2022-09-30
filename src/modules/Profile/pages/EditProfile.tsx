@@ -1225,7 +1225,7 @@ export const EditProfile = ({ route }: Props) => {
                         Ativar Onboarding
                       </Typography>
                     </Box>
-                    <Box marginLeft="micro">
+                    <Box marginLeft="xxxs">
                       <Toggle
                         onValueChange={(onboardingView: boolean) =>
                           handleViewOnboarding(!!onboardingView)

@@ -38,6 +38,7 @@ import {
   OrderDetail,
   VerifyEmail,
   DeleteCustomerProfile,
+  CepVerifyPostalCode,
 } from '../services/vtexService';
 import { CategoriesParserString } from '../utils/categoriesParserString';
 
@@ -699,7 +700,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const getCepData = async (postalCode: string) => {
     try {
-      const data = await CepVerify(postalCode);
+      const data = await CepVerifyPostalCode(postalCode);
 
       return data;
     } catch (err) {
