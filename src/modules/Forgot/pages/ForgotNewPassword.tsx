@@ -5,7 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import { Platform, SafeAreaView, ScrollView } from "react-native";
 import { Typography, Box, TextField, Button, Icon } from "@danilomsou/reserva-ui";
 import { setLocale } from "yup";
 import { images } from "../../../assets";
@@ -17,6 +17,7 @@ import { apolloClient } from "../../../services/apolloClient";
 import UnderlineInput from "../../Login/components/UnderlineInput";
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo";
 import HeaderBanner from "../componet/HeaderBanner";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export interface ForgotPasswordProps extends StackScreenProps<RootStackParamList, "ForgotNewPassword"> { }
 
@@ -68,35 +69,43 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
     setPasswordChecker(passwordCheckHandler())
   }, [passwords])
 
-
+  const scrollViewRef = React.useRef<ScrollView>(null);
 
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }} flex={1}>
-      <ScrollView>
-        <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
-        <Box mx={20} mt={13}>
-          <Typography fontFamily='reservaSerifRegular' fontSize={22} >Atualize sua senha</Typography>
-          <Box mt={27} >
-            <Typography fontFamily='nunitoRegular' fontSize={15} >Por favor, cadastre sua nova senha:</Typography>
-          </Box>
-          <Box mt={27}>
-            <UnderlineInput onChangeText={(text) => setPasswords({ ...passwords, first: text })} placeholder='Digite sua nova senha' />
-            <Box mt='sm'>
-              <UnderlineInput onChangeText={(text) => setPasswords({ ...passwords, confirm: text })} placeholder='Confirme sua nova senha' />
+      <ScrollView ref={scrollViewRef}>
+        <KeyboardAwareScrollView
+          enableOnAndroid={true}
+          enableAutomaticScroll={(Platform.OS === 'ios')}
+          extraScrollHeight={155}
+        >
+
+
+          <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack() }} />
+          <Box mx={20} mt={13}>
+            <Typography fontFamily='reservaSerifRegular' fontSize={22} >Atualize sua senha</Typography>
+            <Box mt={27} >
+              <Typography fontFamily='nunitoRegular' fontSize={15} >Por favor, cadastre sua nova senha:</Typography>
             </Box>
+            <Box mt={27}>
+              <UnderlineInput onFocus={(event) => scrollViewRef.current?.scrollToEnd()} onChangeText={(text) => setPasswords({ ...passwords, first: text })} placeholder='Digite sua nova senha' />
+              <Box mt='sm'>
+                <UnderlineInput onFocus={(event) => scrollViewRef.current?.scrollToEnd()} onChangeText={(text) => setPasswords({ ...passwords, confirm: text })} placeholder='Confirme sua nova senha' />
+              </Box>
+            </Box>
+            <Box mt={22}>
+              <Typography>Sua senha deve ter pelo menos:</Typography>
+            </Box>
+            <Box mx={44} flexDirection='row' flexWrap='wrap' pt={2}>
+              <PasswordCheck checked={passwordsChecker.digitsCount} text='8 dígitos' />
+              <PasswordCheck checked={passwordsChecker.lowercase} text='1 letra maiúscula' />
+              <PasswordCheck checked={passwordsChecker.number} text='1 número' />
+              <PasswordCheck checked={passwordsChecker.uppercase} text='1 letra minúscula' />
+            </Box>
+            <Button mt={28} variant='primarioEstreito' title='ATUALIZAR SENHA' onPress={handleUpdaePassword} disabled={!enabledButton()} inline />
           </Box>
-          <Box mt={22}>
-            <Typography>Sua senha deve ter pelo menos:</Typography>
-          </Box>
-          <Box mx={44} flexDirection='row' flexWrap='wrap' pt={2}>
-            <PasswordCheck checked={passwordsChecker.digitsCount} text='8 dígitos' />
-            <PasswordCheck checked={passwordsChecker.lowercase} text='1 letra maiúscula' />
-            <PasswordCheck checked={passwordsChecker.number} text='1 número' />
-            <PasswordCheck checked={passwordsChecker.uppercase} text='1 letra minúscula' />
-          </Box>
-          <Button mt={28} variant='primarioEstreito' title='ATUALIZAR SENHA' onPress={handleUpdaePassword} disabled={!enabledButton()} inline />
-        </Box>
+        </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>
   );
