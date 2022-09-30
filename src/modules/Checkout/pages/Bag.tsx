@@ -36,6 +36,7 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import Sentry from '../../../config/sentryConfig';
 
 const BoxAnimated = createAnimatableComponent(Box);
 
@@ -81,7 +82,9 @@ export const BagScreen = ({ route }: Props) => {
   const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
   const [sellerName, setSellerName] = React.useState<string | undefined>('');
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
-  const [couponIsInvalid, setCouponIsInvalid] = useState<boolean>(false);
+  const [couponIsInvalid, setCouponIsInvalid] = useState<boolean | undefined>(
+    false
+  );
   const [noProduct, setNoProduct] = useState<any>('');
   const [errorsMessages, setErrorsMessages] = useState<any>([]);
   const [optimistQuantities, setOptimistQuantities] = useState(
@@ -247,10 +250,19 @@ export const BagScreen = ({ route }: Props) => {
   }, [noProduct]);
 
   const handleAddCoupons = async () => {
-    const isCouponInvalid = await addCoupon(discountCoupon);
-    setCouponIsInvalid(isCouponInvalid);
-    setDiscountCoupon('');
-    orderform();
+    try {
+      const isCouponInvalid = await addCoupon(discountCoupon);
+      setCouponIsInvalid(isCouponInvalid);
+      setDiscountCoupon('');
+      orderform();
+    } catch (error) {
+      Sentry.addBreadcrumb({
+        message: 'Erro ao inserir o cupom de desconto',
+        data: {
+          error: error,
+        },
+      });
+    }
   };
 
   const handleAddSellerCoupons = async () => {
@@ -939,7 +951,7 @@ export const BagScreen = ({ route }: Props) => {
               {couponIsInvalid && (
                 <Box marginRight="micro">
                   <Typography color="vermelhoAlerta" variant="precoAntigo3">
-                    Digite um coupom válido
+                    Digite um cupom válido
                   </Typography>
                 </Box>
               )}
