@@ -22,6 +22,7 @@ import {
   Image,
   ProductVerticalListCard,
   Icon,
+  Picker,
 } from '@danilomsou/reserva-ui';
 
 import { images } from '../../../assets';
@@ -30,6 +31,7 @@ import {
   ConfigCollection,
 } from '../../../graphql/homePage/HomeQuery';
 import {
+  OrderByEnum,
   productSearch,
   ProductSearchData,
 } from '../../../graphql/products/productSearch';
@@ -87,6 +89,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const categoryId = 'camisetas';
   const [colorsfilters, setColorsFilters] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
+  const [sorterVisible, setSorterVisible] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<string>();
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const [{ collectionData, loadingCollection }, setCollectionData] = useState({
     collectionData: null,
@@ -122,6 +126,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         },
       ],
       to: 7,
+      orderBy: selectedOrder,
       simulationBehavior: 'default',
       productOriginVtex: false,
     },
@@ -136,6 +141,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       salesChannel: '4',
       to: pageSize - 1,
       fullText: '',
+      orderBy: selectedOrder,
       selectedFacets: [
         {
           key: 'region-id',
@@ -537,6 +543,31 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
   }, [data, featuredData]);
 
+  const refetch = async () => {
+    const response = await getProducts({
+      variables: {
+        salesChannel: '4',
+        to: pageSize - 1,
+        fullText: '',
+        orderBy: selectedOrder,
+        selectedFacets: [
+          {
+            key: 'region-id',
+            value: regionId,
+          },
+        ],
+      } as any,
+    });
+
+    setProducts(response.data.productSearch.products);
+
+    return response;
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [selectedOrder]);
+
   return (
     <Box backgroundColor="white" flex={1}>
       <TopBarDefaultBackButton
@@ -692,35 +723,60 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         </ScrollView>
       ) : products && products?.length > 0 ? (
         <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-          <Box width={1 / 2} mb="micro">
-            <Button
-              onPress={() => {
-                if (productsQuery.products.length > 0) {
-                  setFilterVisible(true);
-                } else {
-                  setFilterRequestList([]);
-                }
-              }}
-              marginRight="nano"
-              marginLeft="micro"
-              borderRadius="nano"
-              borderColor="dropDownBorderColor"
-              borderWidth="hairline"
-              flexDirection="row"
-              inline
-              height={40}
-            >
-              <Typography
-                color="preto"
-                fontFamily="nunitoSemiBold"
-                fontSize="14px"
+          <Box paddingY="micro" flexDirection="row" justifyContent="center">
+            <Box width={1 / 2}>
+              <Button
+                onPress={() => {
+                  if (productsQuery.products.length > 0) {
+                    setFilterVisible(true);
+                  } else {
+                    setFilterRequestList([]);
+                  }
+                }}
+                marginRight="nano"
+                marginLeft="micro"
+                borderRadius="nano"
+                borderColor="dropDownBorderColor"
+                borderWidth="hairline"
+                flexDirection="row"
+                inline
+                height={40}
               >
-                {productsQuery?.products?.length == 0 &&
-                filterRequestList.length > 0
-                  ? 'Limpar Filtros'
-                  : 'Filtrar'}
-              </Typography>
-            </Button>
+                <Typography
+                  color="preto"
+                  fontFamily="nunitoSemiBold"
+                  fontSize="14px"
+                >
+                  {productsQuery?.products?.length == 0 &&
+                  filterRequestList.length > 0
+                    ? 'Limpar Filtros'
+                    : 'Filtrar'}
+                </Typography>
+              </Button>
+            </Box>
+            <Box width={1 / 2}>
+              <Button
+                marginRight="micro"
+                marginLeft="nano"
+                borderRadius="nano"
+                borderColor="dropDownBorderColor"
+                borderWidth="hairline"
+                flexDirection="row"
+                inline
+                height={40}
+                onPress={() => {
+                  setSorterVisible(true);
+                }}
+              >
+                <Typography
+                  color="preto"
+                  fontFamily="nunitoSemiBold"
+                  fontSize="14px"
+                >
+                  Ordenar
+                </Typography>
+              </Button>
+            </Box>
           </Box>
           <FilterModal
             setFilterRequestList={setFilterRequestList}
@@ -738,27 +794,71 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
             // confirmText={"Ok"}
             subtitle=""
           />
-          <Box
-            paddingX="micro"
-            paddingY="quarck"
-            flexDirection="row"
-            justifyContent="space-between"
-          >
-            <Typography fontFamily="nunitoRegular" fontSize="13px">
-              {products?.length} produtos encontrados
-            </Typography>
-            {!!filterRequestList && filterRequestList.length > 0 && (
-              <Button onPress={() => setFilterRequestList([])}>
-                <Typography
-                  color="progressTextColor"
-                  variant="precoAntigo3"
-                  style={{ textDecorationLine: 'underline' }}
-                >
-                  Limpar tudo
-                </Typography>
-              </Button>
-            )}
-          </Box>
+          <Picker
+            onSelect={(item) => {
+              setSorterVisible(false);
+              setSelectedOrder(item?.value);
+            }}
+            isVisible={sorterVisible}
+            items={[
+              {
+                text: 'Relevância',
+                value: OrderByEnum.OrderByScoreDESC,
+              },
+              {
+                text: 'Mais Vendidos',
+                value: OrderByEnum.OrderByTopSaleDESC,
+              },
+              {
+                text: 'Mais Recentes',
+                value: OrderByEnum.OrderByReleaseDateDESC,
+              },
+              {
+                text: 'Descontos',
+                value: OrderByEnum.OrderByBestDiscountDESC,
+              },
+              {
+                text: 'Maior Preço',
+                value: OrderByEnum.OrderByPriceDESC,
+              },
+              {
+                text: 'Menor Preço',
+                value: OrderByEnum.OrderByPriceASC,
+              },
+              {
+                text: 'De A a Z',
+                value: OrderByEnum.OrderByNameASC,
+              },
+              {
+                text: 'De Z a A',
+                value: OrderByEnum.OrderByNameDESC,
+              },
+              // {
+              //   text: 'Menor Preço',
+              //   value: OrderByEnum.OrderByPriceASC,
+              // },
+              // {
+              //   text: 'Maior Preço',
+              //   value: OrderByEnum.OrderByPriceDESC,
+              // },
+              // {
+              //   text: 'Mais Recentes',
+              //   value: OrderByEnum.OrderByReleaseDateDESC,
+              // },
+              // {
+              //   text: 'Relevante',
+              //   value: OrderByEnum.OrderByReviewRateDESC,
+              // },
+            ]}
+            onConfirm={() => {
+              setSorterVisible(false);
+            }}
+            onClose={() => {
+              setSorterVisible(false);
+            }}
+            onBackDropPress={() => setSorterVisible(false)}
+            title="Ordenar Por"
+          />
           <ListVerticalProducts
             products={products || featuredData?.productSearch || []}
             isLoading={loadingRefetch}
