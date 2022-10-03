@@ -359,6 +359,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       variables: {
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
+        selectedFacets: [].concat(
+          generateFacets(referenceString),
+          filterRequestList
+        ),
       },
     });
 
@@ -367,6 +371,15 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
     setLoadingRefetch(false);
   };
+
+  useEffect(() => {
+    if (filterRequestList) {
+      setProducts({
+        products: [],
+      });
+      loadMoreProducts(0);
+    }
+  }, [filterRequestList]);
 
   const [{ facetsData, lodingFacets }, setFacets] = useState<{
     facetsData: any;
@@ -725,6 +738,27 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
             // confirmText={"Ok"}
             subtitle=""
           />
+          <Box
+            paddingX="micro"
+            paddingY="quarck"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Typography fontFamily="nunitoRegular" fontSize="13px">
+              {products?.length} produtos encontrados
+            </Typography>
+            {!!filterRequestList && filterRequestList.length > 0 && (
+              <Button onPress={() => setFilterRequestList([])}>
+                <Typography
+                  color="progressTextColor"
+                  variant="precoAntigo3"
+                  style={{ textDecorationLine: 'underline' }}
+                >
+                  Limpar tudo
+                </Typography>
+              </Button>
+            )}
+          </Box>
           <ListVerticalProducts
             products={products || featuredData?.productSearch || []}
             isLoading={loadingRefetch}
