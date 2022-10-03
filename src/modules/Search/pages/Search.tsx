@@ -12,6 +12,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { ScrollView, Dimensions, BackHandler } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
+import { FilterModal } from '../../../modules/ProductCatalog/modals/FilterModal';
 import {
   Box,
   Button,
@@ -28,7 +29,10 @@ import {
   configCollection,
   ConfigCollection,
 } from '../../../graphql/homePage/HomeQuery';
-import { productSearch } from '../../../graphql/products/productSearch';
+import {
+  productSearch,
+  ProductSearchData,
+} from '../../../graphql/products/productSearch';
 import {
   searchSuggestions as searchSuggestionsQuery,
   SearchSuggestionsVars,
@@ -47,6 +51,8 @@ import { News } from '../components/News';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { object } from 'yup';
+import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
+import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -71,6 +77,17 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [suggestionsFound, setSuggestionsFound] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(false);
   const [returnSearch, setReturnSearch] = useState<boolean>(false);
+  const [productsQuery, setProductsQuery] = useState<ProductSearchData>(
+    {} as ProductSearchData
+  );
+  const [sizefilters, setSizeFilters] = useState([]);
+  const [categoryfilters, setCategoryFilters] = useState([]);
+  const [priceRangefilters, setPriceRangeFilters] = useState<any[]>([]);
+  const [filterList, setFilterList] = useState<string[]>([]);
+  const categoryId = 'camisetas';
+  const [colorsfilters, setColorsFilters] = useState([]);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const [{ collectionData, loadingCollection }, setCollectionData] = useState({
     collectionData: null,
     loadingCollection: false,
@@ -83,6 +100,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     data: null,
     loading: false,
   });
+
+  const [referenceString, setReferenceString] = useState('');
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
@@ -127,15 +146,22 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   });
 
   const redirectWightList = {
-    camiseta: [{ "key": "c", "value": "reserva" }, { "key": "c", "value": "masculino" }, { "key": "c", "value": "camisetas" }],
-    camisetas: [{ "key": "c", "value": "reserva" }, { "key": "c", "value": "masculino" }, { "key": "c", "value": "camisetas" }],
-    mochila: [{ "key": "productClusterIds", "value": "902" }],
-    mochilas: [{ "key": "productClusterIds", "value": "902" }],
-  }
+    camiseta: [
+      { key: 'c', value: 'reserva' },
+      { key: 'c', value: 'masculino' },
+      { key: 'c', value: 'camisetas' },
+    ],
+    camisetas: [
+      { key: 'c', value: 'reserva' },
+      { key: 'c', value: 'masculino' },
+      { key: 'c', value: 'camisetas' },
+    ],
+    mochila: [{ key: 'productClusterIds', value: '902' }],
+    mochilas: [{ key: 'productClusterIds', value: '902' }],
+  };
 
   const gambiarraRedirect = async (searchTerm: string) => {
     if (Object.keys(redirectWightList).includes(searchTerm.toLowerCase())) {
-
       const { data, variables } = await getProducts({
         variables: {
           salesChannel: '4',
@@ -143,14 +169,16 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           fullText: '',
           map: '',
           //@ts-ignore
-          selectedFacets: redirectWightList[searchTerm.toLowerCase()],
-        }
-      })
+          selectedFacets: [].concat(
+            redirectWightList[searchTerm.toLowerCase()],
+            filterRequestList
+          ),
+        },
+      });
 
-
-      return { data }
+      return { data };
     }
-    return null
+    return null;
   };
 
   useEffect(() => {
@@ -184,7 +212,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (suggestionsData) {
-
       const { searchSuggestions, productSearch } = suggestionsData;
 
       setSuggestions(searchSuggestions.searches);
@@ -247,7 +274,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
   }, [returnSearch]);
 
-
   const handleSearch = (text: string) => {
     setProductData({ data: null, loading: true });
     if (Object.keys(redirectWightList).includes(text.toLowerCase())) {
@@ -271,9 +297,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           search_string: text,
           search_ids: searchIds,
         });
-      })
+      });
     } else {
-
       getProducts({
         variables: {
           fullText: text,
@@ -323,7 +348,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     setShowAllProducts(false);
   };
 
-
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
     console.log('loadMore***');
     setLoadingRefetch(true);
@@ -343,6 +367,162 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
     setLoadingRefetch(false);
   };
+
+  const [{ facetsData, lodingFacets }, setFacets] = useState<{
+    facetsData: any;
+    lodingFacets: boolean;
+  }>({
+    facetsData: null,
+    lodingFacets: true,
+  });
+
+  const generateFacets = (reference: string) => {
+    const facetInput: any[] = [];
+    const [subType, subcategories] = reference.split(':');
+
+    if (subType === 'category') {
+      subcategories.split('|').forEach((sub) => {
+        if (sub !== '') {
+          facetInput.push({
+            key: 'c',
+            value: sub,
+          });
+        }
+      });
+    } else {
+      facetInput.push({
+        key: 'productClusterIds',
+        value: subcategories,
+      });
+    }
+    return facetInput;
+  };
+
+  // const { referenceId } = route.params;
+
+  useEffect(() => {
+    // if (referenceId === 'offers-page') {
+    //   setReferenceString('collection:1438');
+    // } else {
+    setReferenceString('collection:1438');
+    // }
+  }, []);
+
+  const [getFacets] = useLazyQuery(facetsQuery, {
+    variables: {
+      hideUnavailableItems: true,
+      selectedFacets: [].concat(
+        generateFacets(referenceString),
+        filterRequestList
+      ),
+    },
+    fetchPolicy: 'no-cache',
+  });
+
+  useEffect(() => {
+    getFacets().then((response) =>
+      setFacets({
+        facetsData: response.data,
+        lodingFacets: false,
+        // refetchFacets: facetsData.refetch
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    console.log('SDJFLJLDKSLFJLKD', facetsData);
+
+    if (!lodingFacets) {
+      const { facets } = facetsData.facets;
+
+      // COLOR
+      const colorFacets = facets.filter(
+        ({ name }: any) =>
+          name.toUpperCase() === 'COR' ||
+          name.toUpperCase() === 'DESC_COR_CONSOLIDADA'
+      );
+      const colorFacetValues =
+        !!colorFacets && colorFacets.length > 0
+          ? colorFacets[0].values.map(({ key, value }: any) => ({
+              key,
+              value: ColorsToHexEnum[value],
+            }))
+          : [];
+      // SIZE
+      const sizeFacets = facets.filter(
+        ({ name }: any) =>
+          name.toUpperCase() === 'TAMANHO' || name === 'Tamanho'
+      );
+      const sizeFacetValues =
+        !!sizeFacets && sizeFacets.length > 0
+          ? sizeFacets[0].values.map(({ key, value }: any) => ({
+              key,
+              value,
+            }))
+          : [];
+
+      // CATEGORY
+      const categoryFacets = facets.filter(
+        ({ name }: any) => name === 'Categoria'
+      );
+      const categoryFacetValues =
+        !!categoryFacets && categoryFacets.length > 0
+          ? categoryFacets[0].values.map(({ key, value }: any) => ({
+              key,
+              value,
+            }))
+          : [];
+
+      // PRICE
+      const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
+      const priceFacetValues =
+        !!priceFacets && priceFacets.length > 0
+          ? priceFacets[0].values.map(({ key, range }: any) => ({
+              key,
+              range,
+            }))
+          : [];
+
+      setPriceRangeFilters(priceFacetValues);
+      setCategoryFilters(categoryFacetValues);
+      setSizeFilters(sizeFacetValues);
+      setColorsFilters(colorFacetValues);
+    }
+  }, [facetsData]);
+
+  // const [
+  //   {
+  //     data,
+  //     loading,
+  //     error,
+  //     // fetchMore,
+  //     // refetch,
+  //   },
+  //   setProductSearch,
+  // ] = useState<{
+  //   data: any | null;
+  //   loading: boolean;
+  //   error: any;
+  //   // fetchMore: (...props: any) => any,
+  //   // refetch: (...props: any | undefined) => any,
+  // }>({
+  //   data: null,
+  //   loading: false,
+  //   error: null,
+  //   // fetchMore: () => { },
+  //   // refetch: () => { }
+  // });
+
+  useEffect(() => {
+    // console.log('ofidhsoihfoidhfio', featuredData?.productSearch);
+
+    // if (!loading && !!productSearch) {
+    //   setProductsQuery(featuredData?.productSearch);
+    // }
+    if (!loading && !!productSearch) {
+      setProductsQuery(data?.productSearch);
+    }
+  }, [data, featuredData]);
 
   return (
     <Box backgroundColor="white" flex={1}>
@@ -413,7 +593,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                 <News
                   data={productNews}
                   onPress={(item) => {
-                    const { reference, orderBy } = item
+                    const { reference, orderBy } = item;
                     if (reference) {
                       const facetInput: any[] = [];
                       const [collecion, valueCollecion] = reference?.split(':');
@@ -424,7 +604,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                       navigation.navigate('ProductCatalog', {
                         facetInput,
                         referenceId: reference,
-                        orderBy: orderBy
+                        orderBy: orderBy,
                       });
                     }
                   }}
@@ -497,22 +677,65 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           </>
           <>{!suggestionsFound && <ProductNotFound />}</>
         </ScrollView>
-      ) : (
-
-        products && products?.length > 0 ? (
-          <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
-            <ListVerticalProducts
-              products={products || []}
-              isLoading={loadingRefetch}
-              totalProducts={data?.productSearch.recordsFiltered}
-              loadMoreProducts={(offset) => {
-                loadMoreProducts(offset, searchTerm);
+      ) : products && products?.length > 0 ? (
+        <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
+          <Box width={1 / 2} mb="micro">
+            <Button
+              onPress={() => {
+                if (productsQuery.products.length > 0) {
+                  setFilterVisible(true);
+                } else {
+                  setFilterRequestList([]);
+                }
               }}
-            />
-          </Animatable.View>
-        ) : (
-          <ProductNotFound />
-        )
+              marginRight="nano"
+              marginLeft="micro"
+              borderRadius="nano"
+              borderColor="dropDownBorderColor"
+              borderWidth="hairline"
+              flexDirection="row"
+              inline
+              height={40}
+            >
+              <Typography
+                color="preto"
+                fontFamily="nunitoSemiBold"
+                fontSize="14px"
+              >
+                {productsQuery?.products?.length == 0 &&
+                filterRequestList.length > 0
+                  ? 'Limpar Filtros'
+                  : 'Filtrar'}
+              </Typography>
+            </Button>
+          </Box>
+          <FilterModal
+            setFilterRequestList={setFilterRequestList}
+            categoryId={categoryId}
+            filterList={filterList}
+            setFilterList={setFilterList}
+            isVisible={filterVisible}
+            colors={colorsfilters}
+            sizes={sizefilters}
+            categories={categoryfilters}
+            priceRange={priceRangefilters}
+            onCancel={() => setFilterVisible(false)}
+            onClose={() => setFilterVisible(false)}
+            title=""
+            // confirmText={"Ok"}
+            subtitle=""
+          />
+          <ListVerticalProducts
+            products={products || featuredData?.productSearch || []}
+            isLoading={loadingRefetch}
+            totalProducts={data?.productSearch.recordsFiltered}
+            loadMoreProducts={(offset) => {
+              loadMoreProducts(offset, searchTerm);
+            }}
+          />
+        </Animatable.View>
+      ) : (
+        <ProductNotFound />
       )}
     </Box>
   );
