@@ -1,28 +1,25 @@
-import { useMutation } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import { Box, Button, Typography, Icon } from '@danilomsou/reserva-ui';
-import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
-import { accessKeySignInMutation } from '../../../graphql/login/loginMutations';
-import { recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
-import { recoveryPassword } from '../../../graphql/login/recoveryPassword';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import CodeInput from '../../Login/components/CodeInput';
-import HeaderBanner from '../componet/HeaderBanner';
-import UnderlineInput from '../../Login/components/UnderlineInput';
+import { useMutation } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import ReactNative, { Dimensions, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView } from "react-native";
+import { Box, Button, Typography, Icon } from "@danilomsou/reserva-ui";
+import { images } from "../../../assets";
+import { useAuth } from "../../../context/AuthContext";
+import { accessKeySignInMutation } from "../../../graphql/login/loginMutations";
+import { recoveryPasswordMutation } from "../../../graphql/login/loginMutations";
+import { recoveryPassword } from "../../../graphql/login/recoveryPassword";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import CodeInput from "../../Login/components/CodeInput";
+import HeaderBanner from "../componet/HeaderBanner";
+import UnderlineInput from "../../Login/components/UnderlineInput";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+const { width, height } = Dimensions.get("window");
 
 export interface ForgotAccessCodeProps
-  extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> {}
+  extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> { }
 
 export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   navigation,
@@ -122,26 +119,31 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     setPasswordChecker(passwordCheckHandler());
   }, [passwords]);
 
-  const scrollRef = React.useRef<ScrollView>(null);
+  const awareScrollRef = React.useRef<KeyboardAwareScrollView>(null);
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <ScrollView
-        ref={scrollRef}
-        onContentSizeChange={() => scrollRef.current?.scrollToEnd()}
+        // ref={scrollRef}
+        ref={scrollViewRef}
+      // onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
+      // onContentSizeChange={() => scrollRef.current?.scrollToEnd()}
       >
         <>
-          <HeaderBanner
-            imageHeader={images.headerLogin}
-            onClickGoBack={() => {
-              navigation.goBack();
-            }}
-          />
-          <KeyboardAvoidingView
-            enabled
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            style={{ marginBottom: 100 }}
+          <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            enableAutomaticScroll={(Platform.OS === 'ios')}
+            // ref={scrollRef}
+            extraScrollHeight={155}
           >
+            <HeaderBanner
+              imageHeader={images.headerLogin}
+              onClickGoBack={() => {
+                navigation.goBack();
+              }}
+            />
             <Box mx={20} mt={13}>
               <Typography fontFamily="reservaSerifRegular" fontSize={22}>
                 Atualize sua senha
@@ -174,13 +176,13 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                 onChangeText={(text) =>
                   setPasswords({ ...passwords, first: text })
                 }
-                onFocus={() => scrollRef.current?.scrollToEnd()}
+                onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                 placeholder="Digite sua nova senha"
                 isSecureText
               />
               <Box mt="sm">
                 <UnderlineInput
-                  onFocus={() => scrollRef.current?.scrollToEnd()}
+                  onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                   onChangeText={(text) =>
                     setPasswords({ ...passwords, confirm: text })
                   }
@@ -220,7 +222,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                 />
               </Box>
             </Box>
-          </KeyboardAvoidingView>
+          </KeyboardAwareScrollView>
         </>
       </ScrollView>
     </SafeAreaView>
