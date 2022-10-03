@@ -1,6 +1,6 @@
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { Formik } from "formik"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Box, Button, Icon, Picker, TextField, Typography } from "@danilomsou/reserva-ui"
@@ -72,6 +72,12 @@ export const ChangeRegionalization = ({ ...props }) => {
     formRef.current.submitForm()
   }
 
+  useFocusEffect(
+    useCallback(() => {
+      formRef.current.resetForm();
+    }, [formRef])
+  );
+
   const parseInput2Url = async (input: string) => {
     let url: string[] = input.split(/(,\s*)|(-\s*)|(\\\s*)/g)
     url = url.filter(item =>
@@ -115,7 +121,7 @@ export const ChangeRegionalization = ({ ...props }) => {
   }, [address?.uf])
 
   // return <CEPList />
-  return <SafeAreaView>
+  return <SafeAreaView style={{ flex: 1 }}>
     <TopBarBackButtonWithoutLogo
       loading={false}
       backButtonPress={() => {
@@ -123,20 +129,64 @@ export const ChangeRegionalization = ({ ...props }) => {
 
       }}
     />
-    <ScrollView contentContainerStyle={{ paddingBottom: 350 }} >
-      <Formik
-        innerRef={formRef}
-        initialValues={formState}
-        validationSchema={validation}
-        validateOnBlur={true}
-        validateOnChange={true}
-        onSubmit={
-          async (values) => {
-            const data = await fetchCepInfo(values.cep)
-            navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText, isCepAddress: isCepAddress ? isCepAddress : false })
+    <ScrollView >
+      <Box flex={1}>
+        <Formik
+          innerRef={formRef}
+          initialValues={formState}
+          validationSchema={validation}
+          validateOnBlur={true}
+          validateOnChange={true}
+          onSubmit={
+            async (values) => {
+              const data = await fetchCepInfo(values.cep)
+              navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText, isCepAddress: isCepAddress ? isCepAddress : false })
+            }
           }
-        }
-      >
+        >
+          {({ values }) => (
+            <Box
+              paddingX={34}
+              paddingTop={26}
+              backgroundColor="white"
+            >
+              <Typography
+                fontFamily="reservaSerifBold"
+                fontSize={26}
+              >Usar meu CEP</Typography>
+              <Typography
+                fontFamily="reservaSansLight"
+                fontSize={18}
+                style={{
+                  marginTop: 29,
+                  marginBottom: 12,
+                }}
+              >
+                Digite seu CEP
+              </Typography>
+              <FormikTextInput
+                field="cep"
+                maskType="zip-code"
+                placeholder="Digite seu CEP"
+                keyboardType="number-pad"
+                maskOptions={{
+                  mask: '99999-999',
+                }}
+              />
+
+              <Button
+                disabled={values.cep.length < 9}
+                marginTop={40}
+                width='100%'
+                title="PESQUISAR"
+                onPress={() => {
+                  handleSubmit()
+                }}
+                variant='primarioEstreito'
+              />
+            </Box>
+          )}
+        </Formik>
         <Box
           paddingX={34}
           paddingTop={26}
@@ -145,7 +195,9 @@ export const ChangeRegionalization = ({ ...props }) => {
           <Typography
             fontFamily="reservaSerifBold"
             fontSize={26}
-          >Usar meu CEP</Typography>
+          >
+            Descobrir meu CEP
+          </Typography>
           <Typography
             fontFamily="reservaSansLight"
             fontSize={18}
@@ -154,120 +206,29 @@ export const ChangeRegionalization = ({ ...props }) => {
               marginBottom: 12,
             }}
           >
-            Digite seu CEP
+            Selecione o estado e cidade
           </Typography>
-          <FormikTextInput
-            field="cep"
-            maskType="zip-code"
-            placeholder="Digite seu CEP"
-            keyboardType="number-pad"
-            maskOptions={{
-              mask: '99999-999',
-            }}
-          />
-
-          <Button
-            // disabled={cepInputText.length < 8}
-            marginTop={40}
-            width='100%'
-            title="PESQUISAR"
-            onPress={() => {
-              handleSubmit()
-            }}
-            variant='primarioEstreito'
-          />
-        </Box>
-      </Formik>
-      <Box
-        paddingX={34}
-        paddingTop={26}
-        backgroundColor="white"
-      >
-        <Typography
-          fontFamily="reservaSerifBold"
-          fontSize={26}
-        >
-          Descobrir meu CEP
-        </Typography>
-        <Typography
-          fontFamily="reservaSansLight"
-          fontSize={18}
-          style={{
-            marginTop: 29,
-            marginBottom: 12,
-          }}
-        >
-          Selecione o estado e cidade
-        </Typography>
-        <Box
-          flexDirection="row"
-          flexGrow={1}
-        >
-          <TouchableOpacity
-            onPress={() => setIsVisibleStatePicker(true)}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              height: 60,
-              width: 99,
-              borderWidth: 1,
-              borderColor: '#000',
-            }}
-          >
-            <Box
-              height='100%'
-              justifyContent='center'
-              alignItems='center'
-              pading={2}
-              flexGrow={1}
-            >
-              <Typography
-                fontFamily="reservaSansLight"
-                fontSize={20}
-                textAlign='center'
-              >
-                {!!address?.uf ? address.uf : 'UF'}
-              </Typography>
-            </Box>
-            <Box
-              height='100%'
-              justifyContent='center'
-              alignItems='center'
-              pading={7}
-            >
-              <Box
-                marginTop={11}
-              >
-                <Icon
-                  name="ArrowDown"
-                  size={22}
-                  color="preto"
-                />
-              </Box>
-            </Box>
-          </TouchableOpacity>
           <Box
+            flexDirection="row"
             flexGrow={1}
           >
             <TouchableOpacity
-              disabled={!address?.uf && cities.length == 0}
-              onPress={() => setIsVisibleCityPicker(true)}
+              onPress={() => setIsVisibleStatePicker(true)}
               style={{
                 flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
                 height: 60,
-                width: '100%',
-                marginLeft: 9,
+                width: 99,
                 borderWidth: 1,
                 borderColor: '#000',
               }}
             >
               <Box
                 height='100%'
-                flexGrow={1}
                 justifyContent='center'
                 alignItems='center'
-                pading={2}
+                padding={2}
                 flexGrow={1}
               >
                 <Typography
@@ -275,14 +236,14 @@ export const ChangeRegionalization = ({ ...props }) => {
                   fontSize={20}
                   textAlign='center'
                 >
-                  {!!address?.city ? address.city : 'Selecione a cidade...'}
+                  {!!address?.uf ? address.uf : 'UF'}
                 </Typography>
               </Box>
               <Box
                 height='100%'
                 justifyContent='center'
                 alignItems='center'
-                pading={7}
+                padding={7}
               >
                 <Box
                   marginTop={11}
@@ -295,75 +256,128 @@ export const ChangeRegionalization = ({ ...props }) => {
                 </Box>
               </Box>
             </TouchableOpacity>
+            <Box
+              flexGrow={1}
+            >
+              <TouchableOpacity
+                disabled={!address?.uf && cities.length == 0}
+                onPress={() => setIsVisibleCityPicker(true)}
+                style={{
+                  flexDirection: 'row',
+                  height: 60,
+                  width: '100%',
+                  marginLeft: 9,
+                  borderWidth: 1,
+                  borderColor: '#000',
+                }}
+              >
+                <Box
+                  height='100%'
+                  flexGrow={1}
+                  justifyContent='center'
+                  alignItems='center'
+                  padding={2}
+                  flexGrow={1}
+                  flex={1}
+                >
+                  <Typography
+                    fontFamily="reservaSansLight"
+                    fontSize={20}
+                    textAlign='center'
+                  >
+                    {!!address?.city ? address.city : 'Selecione a cidade...'}
+                  </Typography>
+                </Box>
+                <Box
+                  height='100%'
+                  justifyContent='center'
+                  alignItems='center'
+                  padding={7}
+                >
+                  <Box
+                    marginTop={11}
+                  >
+                    <Icon
+                      name="ArrowDown"
+                      size={22}
+                      color="preto"
+                    />
+                  </Box>
+                </Box>
+              </TouchableOpacity>
+            </Box>
           </Box>
-        </Box>
-        <Typography
-          fontFamily="reservaSansLight"
-          fontSize={18}
-          style={{
-            marginTop: 29,
-            marginBottom: 12,
-          }}
-        >
-          Digite o nome da rua
-        </Typography>
-        <TextField
-          value={address?.street}
-          onChangeText={(text) => setAddress({ ...address, street: text })}
-          placeholder="Rua da Luz"
-        />
-        <Typography
-          fontFamily="reservaSansLight"
-          fontSize={15}
-          style={{
-            marginTop: 14,
-          }}
-        >
-          Não utilize número de casa, apartamento, lote, prédio
-          ou abreviatura.
-        </Typography>
-        <Button
-          marginTop={40}
-          width='100%'
-          title="BUSCAR"
-          disabled={!address?.street && !address?.city && !address?.uf}
-          onPress={() => {
-            fetchAddressInfo().then(data => {
-              console.log('data123', data)
-              navigate.navigate('CEPList', { list: data, searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}`, isCepAddress: isCepAddress ? isCepAddress : false })
-            })
-          }}
-          variant='primarioEstreito'
-        />
-        <Picker
-          isVisible={isVisibleStatePicker}
-          onAndroidBackButtonPress={() => { }}
-          onClose={() => setIsVisibleStatePicker(false)}
-          onSelect={(selected) => {
-            setAddress({
-              ...address,
-              uf: selected.text,
-            })
-            console.log('selected', selected)
-          }}
-          title="Selecione o estado"
-          items={states}
-        />
-        <Picker
-          isVisible={isVisibleCityPicker}
-          onAndroidBackButtonPress={() => { }}
-          onClose={() => setIsVisibleCityPicker(false)}
-          onSelect={(selected) => {
-            setAddress({
-              ...address,
-              city: selected.text,
-            })
+          <Typography
+            fontFamily="reservaSansLight"
+            fontSize={18}
+            style={{
+              marginTop: 29,
+              marginBottom: 12,
+            }}
+          >
+            Digite o nome da rua
+          </Typography>
+          <TextField
+            value={address?.street}
+            onChangeText={(text) => setAddress({ ...address, street: text })}
+            placeholder="Rua da Luz"
+          />
+          <Typography
+            fontFamily="reservaSansLight"
+            fontSize={15}
+            style={{
+              marginTop: 14,
+            }}
+          >
+            Não utilize número de casa, apartamento, lote, prédio
+            ou abreviatura.
+          </Typography>
+          <Button
+            marginTop={40}
+            marginBottom={40}
+            width='100%'
+            title="BUSCAR"
+            disabled={address?.street && address?.city && address?.uf ? false : true}
+            onPress={() => {
+              fetchAddressInfo().then(data => {
+                console.log('data123', data)
+                navigate.navigate('CEPList', { list: data, searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}`, isCepAddress: isCepAddress ? isCepAddress : false })
+              })
+            }}
+            variant='primarioEstreito'
+          />
+          <Picker
+            swipeDirection={false}
+            isVisible={isVisibleStatePicker}
+            onBackDropPress={() => setIsVisibleStatePicker(false)}
+            onAndroidBackButtonPress={() => { }}
+            onClose={() => setIsVisibleStatePicker(false)}
+            onSelect={(selected) => {
+              setAddress({
+                uf: selected.text,
+              })
+              console.log('selected', selected)
+            }}
+            title="Selecione o estado"
+            items={states}
+          />
+          <Picker
+            swipeDirection={false}
+            isVisible={isVisibleCityPicker}
+            onBackDropPress={() => setIsVisibleCityPicker(false)}
+            onAndroidBackButtonPress={() => { }}
+            onClose={() => setIsVisibleCityPicker(false)}
+            onSelect={(selected) => {
+              setAddress({
+                ...address,
+                city: selected.text,
+              })
 
-            console.log('selected', selected)
-          }}
-          title="Selecione a cidade"
-          items={cities}
-        />
+            }}
+            title="Selecione a cidade"
+            items={cities}
+          />
+        </Box>
       </Box>
     </ScrollView>
   </SafeAreaView>

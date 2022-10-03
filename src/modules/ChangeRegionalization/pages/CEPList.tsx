@@ -102,7 +102,7 @@ export const CEPList = ({ ...props }) => {
           Resultados encontrados para
         </Typography>
         <Typography
-          fontFamily="reservaSansReglar"
+          fontFamily="reservaSansRegular"
           fontSize={21}
         >
           {searchTerm}
