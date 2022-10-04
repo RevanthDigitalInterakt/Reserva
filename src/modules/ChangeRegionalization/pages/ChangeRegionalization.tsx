@@ -8,20 +8,19 @@ import { FormikTextInput } from "../../../shared/components/FormikTextInput"
 import * as Yup from "yup"
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo"
 import Sentry from '../../../config/sentryConfig';
-
+import { RootStackParamList } from "routes/StackNavigator"
+import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 export interface ChangeRegionalizationProps {
 
 }
 
-export const ChangeRegionalization = ({ ...props }) => {
-  const {
-    route: {
-      params: {
-        isCepAddress
-      }
-    }
-  } = props
+type Props = StackScreenProps<RootStackParamList, 'ChangeRegionalization'> &
+  ChangeRegionalizationProps;
+
+export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
   const [cepInputText, setCepInputText] = useState("")
+  const [isCepAddress, setIsCepAddress] = useState<boolean | undefined>(false);
+  const [isCepProductDetail, setIsCepProductDetail] = useState<boolean | undefined>(false);
   const [streetInputText, setStreetInputText] = useState("")
   const [address, setAddress] = useState<{
     uf?: string,
@@ -47,6 +46,16 @@ export const ChangeRegionalization = ({ ...props }) => {
     "88888888",
     "99999999",
   ]
+
+  useEffect(() => {
+    if (route) {
+      if (route?.params?.isCepAddress || route?.params?.isCepProductDetail) {
+        const { isCepAddress, isCepProductDetail } = route?.params
+        setIsCepAddress(isCepAddress);
+        setIsCepProductDetail(isCepProductDetail)
+      }
+    }
+  }, [route]);
 
   const [formState, setFormState] = useState({
     cep: "",
@@ -140,7 +149,12 @@ export const ChangeRegionalization = ({ ...props }) => {
           onSubmit={
             async (values) => {
               const data = await fetchCepInfo(values.cep)
-              navigate.navigate('CEPList', { list: [data], searchTerm: cepInputText, isCepAddress: isCepAddress ? isCepAddress : false })
+              navigate.navigate('CEPList', {
+                list: [data],
+                searchTerm: cepInputText,
+                isCepAddress: isCepAddress ? isCepAddress : false,
+                isCepProductDetail: isCepProductDetail ? isCepProductDetail : false
+              })
             }
           }
         >
@@ -341,7 +355,12 @@ export const ChangeRegionalization = ({ ...props }) => {
             onPress={() => {
               fetchAddressInfo().then(data => {
                 console.log('data123', data)
-                navigate.navigate('CEPList', { list: data, searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}`, isCepAddress: isCepAddress ? isCepAddress : false })
+                navigate.navigate('CEPList', {
+                  list: data,
+                  searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}`,
+                  isCepAddress: isCepAddress ? isCepAddress : false,
+                  isCepProductDetail: isCepProductDetail ? isCepProductDetail : false
+                })
               })
             }}
             variant='primarioEstreito'

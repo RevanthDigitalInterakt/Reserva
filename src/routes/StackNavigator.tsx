@@ -65,6 +65,7 @@ export type RootStackParamList = {
     productId: string;
     colorSelected: string;
     sizeSelected: string;
+    hasCep?: string;
   };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
@@ -85,7 +86,7 @@ export type RootStackParamList = {
     reservaMini?: boolean;
     orderBy: string;
   };
-  ChangeRegionalization: undefined;
+  ChangeRegionalization: { isCepAddress?: boolean, isCepProductDetail?: boolean }
   CEPList: {
     list: CepsInfo;
     searchBy: SearchBy;

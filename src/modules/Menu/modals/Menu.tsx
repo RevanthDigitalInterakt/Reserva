@@ -412,9 +412,7 @@ export const Menu: React.FC<{}> = () => {
                     </Typography>
                   }
                   onPress={() => {
-                    navigation.navigate('ChangeRegionalization', {
-                      isCepAddress: false
-                    });
+                    navigation.navigate('ChangeRegionalization');
                   }}
                 />
               )}

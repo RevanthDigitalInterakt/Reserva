@@ -32,7 +32,8 @@ export const CEPList = ({ ...props }) => {
       params: {
         list,
         searchTerm,
-        isCepAddress
+        isCepAddress,
+        isCepProductDetail
       }
     }
   } = props
@@ -48,24 +49,30 @@ export const CEPList = ({ ...props }) => {
         hasCep: cep
       })
     } else {
-      const { data } = await instance.post('/sessions', {
-        public: {
-          country: {
-            value: "BRA"
-          },
-          postalCode: {
-            value: cep
+      if (isCepProductDetail) {
+        navigation.navigate('ProductDetail', {
+          hasCep: cep
+        })
+      } else {
+        const { data } = await instance.post('/sessions', {
+          public: {
+            country: {
+              value: "BRA"
+            },
+            postalCode: {
+              value: cep
+            }
           }
-        }
-      })
-      const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
-      const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)//.then(value => console.log('valeu2222a', value))
-      console.log('value2222a', cep)
-      console.log('response.regionId', response.regionId)
-      setRegionId(response.regionId)
-      setSegmentToken(data.segmentToken)
-      // setCep(cep)
-      navigation.navigate('Home')
+        })
+        const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
+        const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)//.then(value => console.log('valeu2222a', value))
+        console.log('value2222a', cep)
+        console.log('response.regionId', response.regionId)
+        setRegionId(response.regionId)
+        setSegmentToken(data.segmentToken)
+        // setCep(cep)
+        navigation.navigate('Home')
+      }
     }
   }
 
