@@ -1,4 +1,7 @@
 {
   "name": "reserva",
-  "displayName": "Reserva"
+  "displayName": "Reserva",
+  "android": {
+    "softwareKeyboardLayoutMode": "pan"
+  }
 }

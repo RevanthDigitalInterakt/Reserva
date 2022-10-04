@@ -25,6 +25,7 @@ interface AuthContextProps {
   isCookieEmpty: () => boolean;
   saveCredentials: (data: LoginCredentials | null) => Promise<any>;
   getCredentials: () => Promise<LoginCredentials>;
+  getProfile: () => Promise<ProfileVars>;
   profile: Promise<ProfileVars> | null;
 }
 
@@ -48,10 +49,11 @@ export const AuthContext = createContext<AuthContextProps>({
   cookie: getCookie(),
   setCookie: async () => (await AsyncStorage.getItem('@RNAuth:cookie')) || '',
   setEmail: async () => (await AsyncStorage.getItem('@RNAuth:email')) || '',
-  cleanEmailAndCookie: () => { },
+  cleanEmailAndCookie: () => {},
   isCookieEmpty: () => true,
-  saveCredentials: async () => { },
-  getCredentials: async () => { },
+  saveCredentials: async () => {},
+  getCredentials: async () => {},
+  getProfile: async () => {},
   profile: getProfile(),
 });
 
@@ -97,6 +99,13 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     return null;
   };
 
+  const getProfile = async () => {
+    const profile = await StorageService.getItem<string>({
+      key: StorageServiceKeys.PROFILE,
+    });
+    return JSON.parse(profile);
+  };
+
   useEffect(() => {
     AsyncStorage.getItem('@RNAuth:RSAKey').then((value) => {
       if (!value) {
@@ -131,6 +140,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         isCookieEmpty,
         saveCredentials,
         getCredentials,
+        getProfile,
       }}
     >
       {children}
@@ -154,6 +164,7 @@ export const useAuth = () => {
     isCookieEmpty,
     saveCredentials,
     getCredentials,
+    getProfile,
     profile,
   } = authContext;
   return {
@@ -165,6 +176,7 @@ export const useAuth = () => {
     isCookieEmpty,
     saveCredentials,
     getCredentials,
+    getProfile,
     profile,
   };
 };

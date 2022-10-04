@@ -27,6 +27,7 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import Sentry from '../../../config/sentryConfig';
 
 interface IAddress {
   postalCode: string;
@@ -45,8 +46,14 @@ type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit, editAddress, isCheckout, onAddAddressCallBack, receiveHome } =
-    route?.params;
+  const {
+    edit,
+    editAddress,
+    isCheckout,
+    onAddAddressCallBack,
+    receiveHome,
+    hasCep,
+  } = route?.params;
   const [addressId, setAddressId] = useState(editAddress?.id);
   const [toggleActivated] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -93,26 +100,39 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const { email } = useAuth();
 
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('NewAddress'));
+  }, []);
+
   const handleSaveAddress = async () => {
     setLoading(true);
 
-    edit
-      ? await addressUpdate({
-          variables: {
-            id: editAddress?.id,
-            fields: {
-              ...initialValues,
-              // receiverName: `${profile?.firstName} ${profile?.lastName}`,
+    try {
+      edit
+        ? await addressUpdate({
+            variables: {
+              id: editAddress?.id,
+              fields: {
+                ...initialValues,
+                // receiverName: `${profile?.firstName} ${profile?.lastName}`,
+              },
             },
-          },
-        })
-      : await saveAddress({
-          variables: {
-            fields: {
-              ...initialValues,
+          })
+        : await saveAddress({
+            variables: {
+              fields: {
+                ...initialValues,
+              },
             },
-          },
-        });
+          });
+    } catch (error) {
+      Sentry.addBreadcrumb({
+        message: 'Erro ao salvar endereço',
+        data: {
+          error: error,
+        },
+      });
+    }
 
     onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
@@ -327,6 +347,14 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     }
   };
 
+  useEffect(() => {
+    if (hasCep) {
+      setInitialValues({ ...initialValues, postalCode: hasCep });
+      cepHandler(hasCep.replace('-', ''));
+    }
+    Sentry.configureScope((scope) => scope.setTransactionName('AddressScreen'));
+  }, [hasCep]);
+
   return (
     <>
       <SafeAreaView
@@ -407,6 +435,19 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                     }
                   }}
                 />
+                <Button
+                  alignSelf="flex-start"
+                  marginTop="quarck"
+                  onPress={() => {
+                    navigation.navigate('ChangeRegionalization', {
+                      isCepAddress: true,
+                    });
+                  }}
+                >
+                  <Typography fontFamily="nunitoRegular" fontSize={14}>
+                    Não sei meu CEP
+                  </Typography>
+                </Button>
 
                 {/* {initialValues.street ? <Typography>teste</Typography> : null} */}
                 <InputOption

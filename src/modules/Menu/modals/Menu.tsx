@@ -258,7 +258,7 @@ export const Menu: React.FC<{}> = () => {
 
   const [{ dataProfile, refetch }, setProfileData] = useState({
     dataProfile: null,
-    refetch: () => {},
+    refetch: () => { },
   });
 
   const [getProfile] = useLazyQuery(profileQuery);
@@ -383,14 +383,14 @@ export const Menu: React.FC<{}> = () => {
               {categories.map((item, index) => (
                 !item.mkt ? (
                   <MenuItem
-                  key={index}
-                  highlight={item.highlight}
-                  subItemList={item.children}
-                  onPress={openMenuItem}
-                  opened={item.opened}
-                  index={index}
-                  title={item.name}
-                />
+                    key={index}
+                    highlight={item.highlight}
+                    subItemList={item.children}
+                    onPress={openMenuItem}
+                    opened={item.opened}
+                    index={index}
+                    title={item.name}
+                  />
                 ) : null
               ))}
               <Divider

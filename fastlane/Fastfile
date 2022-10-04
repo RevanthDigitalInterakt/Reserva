@@ -39,13 +39,13 @@ platform :android do
   # STAGING
   desc "Android internal test build"
   lane :beta do |options|
-    updateAndroidVersionName
+    # updateAndroidVersionName
     gradle(task: "clean", project_dir: "android/");
 
     if options.nil? or options[:deploy].nil?
       gradle(task: "assemble", build_type: "Release", project_dir: "android/")
     elsif options[:deploy] == true
-      updateAndroidVersionCode(track: "internal", package: "#{AND_APP_SPECIFIER}");
+      # updateAndroidVersionCode(track: "internal", package: "#{AND_APP_SPECIFIER}");
       gradle(task: "bundle", build_type: "Release", project_dir: "android/")
       supply(track: "internal", json_key: PLAY_STORE_JSON_KEY, package_name: "#{AND_APP_SPECIFIER}")
     end

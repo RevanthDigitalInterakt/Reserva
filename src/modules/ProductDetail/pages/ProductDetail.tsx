@@ -237,7 +237,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [errorSize, setErrorSize] = useState(false);
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
-  const [sellerProduct,setSellerProduct] = useState<Seller | undefined>()
+  const [sellerProduct, setSellerProduct] = useState<Seller | undefined>()
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
@@ -809,7 +809,7 @@ export const ProductDetail: React.FC<Props> = ({
     });
   };
 
-  const consultZipCode = async () => {
+  const consultZipCode = async (cep: string) => {
     const { data } = await getShippingData({
       variables: {
         items: [
@@ -903,6 +903,13 @@ export const ProductDetail: React.FC<Props> = ({
     setShippingData({});
     setCep('');
   };
+
+  useEffect(() => {
+    if (route.params.hasCep) {
+      setCep(route.params.hasCep)
+      consultZipCode(route.params.hasCep);
+    }
+  }, [route.params.hasCep]);
 
   return (
     <SafeAreaView>
@@ -1480,9 +1487,27 @@ export const ProductDetail: React.FC<Props> = ({
                       onPressIcon={consultZipCode}
                     />
                   </Box>
+                  <Button
+                    marginBottom='nano'
+                    alignSelf='flex-start'
+                    marginTop="quarck"
+                    onPress={() => {
+                      navigation.navigate('ChangeRegionalization', {
+                        isCepProductDetail: true
+                      });
+                    }}
+                  >
+                    <Typography
+                      fontFamily="nunitoRegular"
+                      fontSize={14}
+                    >
+                      Não sei meu CEP
+                    </Typography>
+                  </Button>
                   {shippingCost?.length > 0 &&
-                    shippingCost[0]?.slas.map((item) => (
+                    shippingCost[0]?.slas.map((item, key) => (
                       <Box
+                        key={key}
                         flexDirection="row"
                         justifyContent="space-between"
                         marginTop="nano"

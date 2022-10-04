@@ -18,6 +18,7 @@ interface IFormikTextInput {
   iconRight?: ViewComponent;
   textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center' | undefined;
   keyboardType?: KeyboardTypeOptions;
+  onFocus?: () => void;
 }
 export const FormikTextInput = ({
   label,
@@ -30,6 +31,7 @@ export const FormikTextInput = ({
   field,
   iconRight,
   keyboardType,
+  onFocus,
 }: IFormikTextInput) => {
   const { values, handleChange, touched, errors } = useFormikContext<any>();
   const [labelDisplay, setLabelDisplay] = useState(label);
@@ -46,6 +48,7 @@ export const FormikTextInput = ({
     <>
       <TextField
         label={labelDisplay}
+        onFocus={onFocus}
         textAlignVertical={textAlignVertical}
         fontFamily="nunitoRegular"
         secureTextEntry={secureTextEntry}

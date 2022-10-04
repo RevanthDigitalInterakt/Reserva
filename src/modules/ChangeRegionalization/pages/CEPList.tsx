@@ -2,12 +2,13 @@ import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackBut
 import React, { useEffect } from "react"
 import { View } from "react-native"
 import { Box, Button, Typography } from "@danilomsou/reserva-ui"
-import { FlatList, ScrollView, TouchableOpacity } from "react-native-gesture-handler"
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useNavigation } from "@react-navigation/native"
 import { instance } from "../../../config/vtexConfig"
 import { useRegionalSearch } from "../../../context/RegionalSearchContext"
 import AsyncStorage from "@react-native-community/async-storage"
+import Sentry from '../../../config/sentryConfig';
 
 export interface CepsInfo {
   cep: string,
@@ -30,7 +31,9 @@ export const CEPList = ({ ...props }) => {
     route: {
       params: {
         list,
-        searchTerm
+        searchTerm,
+        isCepAddress,
+        isCepProductDetail
       }
     }
   } = props
@@ -41,25 +44,41 @@ export const CEPList = ({ ...props }) => {
   const [ceps, setCeps] = React.useState<CepsInfo[]>([])
 
   const selectCep = async (cep: string) => {
-    const { data } = await instance.post('/sessions', {
-      public: {
-        country: {
-          value: "BRA"
-        },
-        postalCode: {
-          value: cep
-        }
+    if (isCepAddress) {
+      navigation.navigate('NewAddress', {
+        hasCep: cep
+      })
+    } else {
+      if (isCepProductDetail) {
+        navigation.navigate('ProductDetail', {
+          hasCep: cep
+        })
+      } else {
+        const { data } = await instance.post('/sessions', {
+          public: {
+            country: {
+              value: "BRA"
+            },
+            postalCode: {
+              value: cep
+            }
+          }
+        })
+        const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
+        const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)//.then(value => console.log('valeu2222a', value))
+        console.log('value2222a', cep)
+        console.log('response.regionId', response.regionId)
+        setRegionId(response.regionId)
+        setSegmentToken(data.segmentToken)
+        // setCep(cep)
+        navigation.navigate('Home')
       }
-    })
-    const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
-    const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)//.then(value => console.log('valeu2222a', value))
-    console.log('value2222a', cep)
-    console.log('response.regionId', response.regionId)
-    setRegionId(response.regionId)
-    setSegmentToken(data.segmentToken)
-    // setCep(cep)
-    navigation.navigate('Home')
+    }
   }
+
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('CEPList'));
+  }, []);
 
   useEffect(() => {
     setCeps(list)
@@ -68,7 +87,8 @@ export const CEPList = ({ ...props }) => {
   return (
     <SafeAreaView
       style={{
-        flex: 1
+        flex: 1,
+        backgroundColor: '#FFF'
       }}
     >
       <TopBarBackButtonWithoutLogo
@@ -77,49 +97,49 @@ export const CEPList = ({ ...props }) => {
           navigation.goBack()
         }}
       />
-      <ScrollView
+      <Box
+        paddingX={22}
+        paddingTop={26}
+        bg='white'
+      >
+        <Typography
+          fontFamily="reservaSerifBold"
+          fontSize={26}
+        >
+          Resultados encontrados para
+        </Typography>
+        <Typography
+          fontFamily="reservaSansRegular"
+          fontSize={21}
+        >
+          {searchTerm}
+        </Typography>
+      </Box>
+      <FlatList
         style={{
+          marginTop: 30,
           backgroundColor: "white",
         }}
-      >
-        <Box
-          paddingX={22}
-          paddingTop={26}
-        >
-          <Typography
-            fontFamily="reservaSerifBold"
-            fontSize={26}
-          >
-            Resultados encontrados para
-          </Typography>
-          <Typography
-            fontFamily="reservaSansReglar"
-            fontSize={21}
-          >
-            {searchTerm}
-          </Typography>
-        </Box>
-        <FlatList
-          style={{
-            marginTop: 30,
-          }}
-          data={ceps}
-          contentContainerStyle={{
-          }}
-          renderItem={({ item }) => (
-            <TouchableOpacity
+        data={ceps}
+        contentContainerStyle={{
+        }}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item, index }) => {
+          return (
+            < TouchableOpacity
               onPress={() => selectCep(item.cep)}
               containerStyle={{
                 width: "100%",
-                paddingHorizontal: 22,
               }}
             >
-              <View
+              <Box
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
                   paddingHorizontal: 23,
+                  marginHorizontal: 22,
+                  marginTop: 3,
                   paddingTop: 20,
                   paddingBottom: 14,
                   marginBottom: 22,
@@ -135,7 +155,7 @@ export const CEPList = ({ ...props }) => {
                   elevation: 6,
                 }}
               >
-                <View>
+                <Box flex={1}>
                   <Typography
                     fontFamily="reservaSansMedium"
                     fontSize={19}
@@ -154,7 +174,7 @@ export const CEPList = ({ ...props }) => {
                   >
                     {item.bairro}, {item.localidade}/{item.uf}
                   </Typography>
-                </View>
+                </Box>
                 <Typography
                   fontFamily="reservaSansRegular"
                   fontSize={18}
@@ -164,27 +184,29 @@ export const CEPList = ({ ...props }) => {
                 >
                   Usar CEP
                 </Typography>
-              </View>
+              </Box>
             </TouchableOpacity>
-          )}
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate('ChangeRegionalization')
-          }}
-        >
-          <Typography
-            fontFamily="reservaSansRegular"
-            fontSize={18}
-            style={{
-              textDecorationLine: "underline",
-              marginBottom: 230
+          )
+        }}
+        ListFooterComponent={() => (
+          <Button
+            onPress={() => {
+              navigation.navigate('ChangeRegionalization')
             }}
           >
-            Buscar outro CEP
-          </Typography>
-        </Button>
-      </ScrollView>
+            <Typography
+              fontFamily="reservaSansRegular"
+              fontSize={18}
+              style={{
+                textDecorationLine: "underline",
+                marginBottom: 230
+              }}
+            >
+              Buscar outro CEP
+            </Typography>
+          </Button>
+        )}
+      />
     </SafeAreaView>
   )
 }
