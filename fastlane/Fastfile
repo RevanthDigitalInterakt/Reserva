@@ -39,7 +39,7 @@ platform :android do
   # STAGING
   desc "Android internal test build"
   lane :beta do |options|
-    updateAndroidVersionName
+    # updateAndroidVersionName
     gradle(task: "clean", project_dir: "android/");
 
     if options.nil? or options[:deploy].nil?
