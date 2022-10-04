@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,10 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
-} from "react-native";
+} from 'react-native';
 
-import { Icon, Box, Typography, Divider } from "@danilomsou/reserva-ui";
-import { TopBarDefault } from "../Menu/components/TopBarDefault";
+import { Icon, Box, Typography, Divider, Button } from '@danilomsou/reserva-ui';
+import { TopBarDefault } from '../Menu/components/TopBarDefault';
 
 type ItemContactProps = {
   local?: string;
@@ -27,20 +27,20 @@ const ItemContact = ({
   divider,
 }: ItemContactProps) => {
   return (
-    <Box width={"100%"}>
+    <Box width={'100%'}>
       <TouchableOpacity onPress={onPress}>
         <Box
-          pb={"xxxs"}
-          pt={"xxxs"}
-          flexDirection={"row"}
-          justifyContent={"space-between"}
+          pb={'xxxs'}
+          pt={'xxxs'}
+          flexDirection={'row'}
+          justifyContent={'space-between'}
         >
           <Box
-            justifyContent={"center"}
-            flexDirection={"row"}
+            justifyContent={'center'}
+            flexDirection={'row'}
             alignItems="center"
           >
-            <Box mr={"micro"}>
+            <Box mr={'micro'}>
               <Icon name={icon} size={20} />
             </Box>
 
@@ -48,7 +48,7 @@ const ItemContact = ({
               {local && (
                 <Typography color="borderColorProduct">{local}</Typography>
               )}
-              <Typography fontFamily={"nunitoRegular"} fontSize={15}>
+              <Typography fontFamily={'nunitoRegular'} fontSize={15}>
                 {label}
               </Typography>
             </Box>
@@ -57,7 +57,7 @@ const ItemContact = ({
           <Icon name="ArrowProcced" size={26} />
         </Box>
       </TouchableOpacity>
-      {divider === true && <Divider variant={"fullWidth"} />}
+      {divider === true && <Divider variant={'fullWidth'} />}
     </Box>
   );
 };
@@ -69,7 +69,7 @@ const CallCenter = ({
   divider,
 }: ItemContactProps) => {
   const onClickWhatsappButton = () => {
-    Linking.openURL("https://whts.co/reserva");
+    Linking.openURL('https://whts.co/reserva');
   };
 
   const onClickMail = () => {
@@ -79,17 +79,62 @@ const CallCenter = ({
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: "space-between" }}
+      style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
       <TopBarDefault />
 
       <ScrollView>
-        <Box variant="container" flex={1} pt={"xs"} paddingX={"xxxs"}>
-          <Box mb={"micro"} alignSelf={"flex-start"}>
-            <Typography variant={"tituloSessoes"}>
+        <Box variant="container" flex={1} pt={'xs'} paddingX={'xxxs'}>
+          <Box mb={'xxxs'} alignSelf={'flex-start'}>
+            <Typography variant={'tituloSessoes'}>
               Central de Atendimento
             </Typography>
+            <Box mb={'micro'} mt={'micro'} alignSelf={'flex-start'}>
+              <Typography
+                variant="subtituloSessoes"
+                fontSize={16}
+                // style={{ marginTop: 7, marginBottom: 32 }}
+              >
+                Aqui você encontra todos os canais de contato com a Reserva.
+                Escolha a melhor opção pra você.
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box width={'100%'}>
+            <Button
+              onPress={() => {
+                Linking.openURL(`whatsapp://send?phone=${552121084990}`);
+              }}
+              title="WHATSAPP RESERVA"
+              variant="primarioEstreito"
+              inline
+              borderRadius={'nano'}
+            />
+            <Box mb={'micro'} alignItems="center" mt={'nano'}>
+              <Typography variant="subtituloSessoes" fontSize={12}>
+                Segunda a Sexta: 08 às 21hrs e aos Sábados: 08 às 18hrs
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box width={'100%'} mt={'xxs'}>
+            <Button
+              onPress={() => {
+                Linking.openURL(`sms:(21) 3900-7052`);
+              }}
+              title="ENVIE UMA MENSAGEM"
+              variant="primarioEstreitoOutline"
+              inline
+              borderRadius={'nano'}
+              backgroundColor={'transparente'}
+            />
+            <Box mb={'micro'} alignItems="center" mt={'nano'}>
+              <Typography variant="subtituloSessoes" fontSize={12}>
+                Disponível 24hrs por dia, 7 dias por semana.
+              </Typography>
+            </Box>
           </Box>
 
           {/* <ItemContact
@@ -98,7 +143,7 @@ const CallCenter = ({
             label="sac@usereserva.com"
             onPress={onClickMail}
           /> */}
-
+          {/*
           <ItemContact
             divider={true}
             icon={'Phone'}
@@ -108,13 +153,12 @@ const CallCenter = ({
             }}
           />
           <ItemContact
-            icon={"Whatsapp"}
-            label={"Whatsapp Reserva"}
+            icon={'Whatsapp'}
+            label={'Whatsapp Reserva'}
             onPress={() => {
               Linking.openURL(`whatsapp://send?phone=${552121084990}`);
-            }
-            }
-          />
+            }}
+          /> */}
         </Box>
       </ScrollView>
     </SafeAreaView>
