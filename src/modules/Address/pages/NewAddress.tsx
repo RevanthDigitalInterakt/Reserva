@@ -420,7 +420,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   }}
                 />
                 <Button
-                  alignSelf='flex-end'
+                  alignSelf='flex-start'
                   marginTop="quarck"
                   onPress={() => {
                     navigation.navigate('ChangeRegionalization', {
