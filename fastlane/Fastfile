@@ -37,8 +37,8 @@ platform :android do
   end
 
   # STAGING
-  desc "Android development build"
-  lane :staging do |options|
+  desc "Android internal test build"
+  lane :beta do |options|
     updateAndroidVersionName
     gradle(task: "clean", project_dir: "android/");
 

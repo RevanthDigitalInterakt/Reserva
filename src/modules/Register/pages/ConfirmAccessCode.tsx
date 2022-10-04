@@ -5,8 +5,9 @@ import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -19,7 +20,7 @@ import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 
 export interface ConfirmAccessCodeProps
-  extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> {}
+  extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
 
 export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   navigation,
@@ -87,7 +88,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
           }
         );
         setEmail(email);
-        AsyncStorage.setItem('@RNAuth:email', email).then(() => {});
+        AsyncStorage.setItem('@RNAuth:email', email).then(() => { });
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
         navigation.navigate('Home');
@@ -136,111 +137,122 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     setPasswordChecker(passwordCheckHandler());
   }, [passwords]);
 
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
-      <ScrollView>
+      <ScrollView ref={scrollViewRef}>
         <>
-          <HeaderBanner
-            imageHeader={images.headerLogin}
-            onClickGoBack={() => {
-              navigation.goBack();
-            }}
-          />
-          <Box mx={20} mt={13}>
-            <Typography fontFamily="reservaSerifRegular" fontSize={22}>
-              Confirme seu código
-            </Typography>
-            <Box mt={10}>
-              <Typography fontFamily="nunitoRegular" fontSize={15}>
-                Digite o código enviado para o e-mail:
-              </Typography>
-              {email && (
-                <Typography
-                  fontFamily="nunitoRegular"
-                  fontSize={15}
-                  color="neutroFrio2"
-                >
-                  {email}
-                </Typography>
-              )}
-            </Box>
-            <Box mt={11}>
-              <CodeInput
-                code={code}
-                onChageCode={setCode}
-                showError={showError}
-              />
-            </Box>
-          </Box>
+          <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            enableAutomaticScroll={(Platform.OS === 'ios')}
+            extraScrollHeight={155}
+          >
 
-          {code.length > 0 ? (
-            <Box mx={20} mt={32}>
-              <Box mb={20}>
-                <Typography fontFamily="reservaSerifRegular" fontSize={22}>
-                  Agora, crie sua senha
+            <HeaderBanner
+              imageHeader={images.headerLogin}
+              onClickGoBack={() => {
+                navigation.goBack();
+              }}
+            />
+            <Box mx={20} mt={13}>
+              <Typography fontFamily="reservaSerifRegular" fontSize={22}>
+                Confirme seu código
+              </Typography>
+              <Box mt={10}>
+                <Typography fontFamily="nunitoRegular" fontSize={15}>
+                  Digite o código enviado para o e-mail:
                 </Typography>
+                {email && (
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize={15}
+                    color="neutroFrio2"
+                  >
+                    {email}
+                  </Typography>
+                )}
               </Box>
-              <UnderlineInput
-                isSecureText
-                onChangeText={(text) =>
-                  setPasswords({ ...passwords, first: text })
-                }
-                placeholder="Digite sua nova senha"
-              />
-              <Box mt="sm">
+              <Box mt={11}>
+                <CodeInput
+                  code={code}
+                  onChageCode={setCode}
+                  showError={showError}
+                />
+              </Box>
+            </Box>
+
+            {code.length > 0 ? (
+              <Box mx={20} mt={32}>
+                <Box mb={20}>
+                  <Typography fontFamily="reservaSerifRegular" fontSize={22}>
+                    Agora, crie sua senha
+                  </Typography>
+                </Box>
                 <UnderlineInput
                   isSecureText
+                  onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                   onChangeText={(text) =>
-                    setPasswords({ ...passwords, confirm: text })
+                    setPasswords({ ...passwords, first: text })
                   }
-                  placeholder="Confirme sua nova senha"
+                  placeholder="Digite sua nova senha"
                 />
+                <Box mt="sm">
+                  <UnderlineInput
+                    isSecureText
+                    onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
+                    onChangeText={(text) =>
+                      setPasswords({ ...passwords, confirm: text })
+                    }
+                    placeholder="Confirme sua nova senha"
+                  />
+                </Box>
+                <Box mt={22}>
+                  <Typography>Sua senha deve ter pelo menos:</Typography>
+                </Box>
+                <Box mx={44} flexDirection="row" flexWrap="wrap" pt={2}>
+                  <PasswordCheck
+                    checked={passwordsChecker.digitsCount}
+                    text="8 dígitos"
+                  />
+                  <PasswordCheck
+                    checked={passwordsChecker.lowercase}
+                    text="1 letra maiúscula"
+                  />
+                  <PasswordCheck
+                    checked={passwordsChecker.number}
+                    text="1 número"
+                  />
+                  <PasswordCheck
+                    checked={passwordsChecker.uppercase}
+                    text="1 letra minúscula"
+                  />
+                </Box>
+                <Box mb={20}>
+                  <Button
+                    mt={28}
+                    variant="primarioEstreito"
+                    title="CRIAR SENHA"
+                    onPress={handleCreatePassword}
+                    disabled={!enabledButton()}
+                    inline
+                  />
+                </Box>
               </Box>
-              <Box mt={22}>
-                <Typography>Sua senha deve ter pelo menos:</Typography>
+            ) : (
+              <Box alignItems="center" mt="nano" mb="quarck">
+                <TouchableOpacity onPress={pasteCode}>
+                  <Typography
+                    fontFamily="nunitoRegular"
+                    fontSize={13}
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    Colar código
+                  </Typography>
+                </TouchableOpacity>
               </Box>
-              <Box mx={44} flexDirection="row" flexWrap="wrap" pt={2}>
-                <PasswordCheck
-                  checked={passwordsChecker.digitsCount}
-                  text="8 dígitos"
-                />
-                <PasswordCheck
-                  checked={passwordsChecker.lowercase}
-                  text="1 letra maiúscula"
-                />
-                <PasswordCheck
-                  checked={passwordsChecker.number}
-                  text="1 número"
-                />
-                <PasswordCheck
-                  checked={passwordsChecker.uppercase}
-                  text="1 letra minúscula"
-                />
-              </Box>
-              <Box mb={20}>
-                <Button
-                  mt={28}
-                  variant="primarioEstreito"
-                  title="CRIAR SENHA"
-                  onPress={handleCreatePassword}
-                  disabled={!enabledButton()}
-                  inline
-                />
-              </Box>
-            </Box>
-          ) : (
-            <Box alignItems="center" mt="nano" mb="quarck">
-              <TouchableOpacity onPress={pasteCode}>
-                <Typography
-                  fontFamily="nunitoRegular"
-                  fontSize={13}
-                  style={{ textDecorationLine: 'underline' }}
-                >
-                  Colar código
-                </Typography>
-              </TouchableOpacity>
-            </Box>
-          )}
+            )}
+          </KeyboardAwareScrollView>
         </>
       </ScrollView>
     </SafeAreaView>
