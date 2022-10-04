@@ -27,6 +27,7 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import Sentry from '../../../config/sentryConfig';
 
 interface IAddress {
   postalCode: string;
@@ -96,23 +97,32 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const handleSaveAddress = async () => {
     setLoading(true);
 
-    edit
-      ? await addressUpdate({
-          variables: {
-            id: editAddress?.id,
-            fields: {
-              ...initialValues,
-              // receiverName: `${profile?.firstName} ${profile?.lastName}`,
+    try {
+      edit
+        ? await addressUpdate({
+            variables: {
+              id: editAddress?.id,
+              fields: {
+                ...initialValues,
+                // receiverName: `${profile?.firstName} ${profile?.lastName}`,
+              },
             },
-          },
-        })
-      : await saveAddress({
-          variables: {
-            fields: {
-              ...initialValues,
+          })
+        : await saveAddress({
+            variables: {
+              fields: {
+                ...initialValues,
+              },
             },
-          },
-        });
+          });
+    } catch (error) {
+      Sentry.addBreadcrumb({
+        message: 'Erro ao salvar endereço',
+        data: {
+          error: error,
+        },
+      });
+    }
 
     onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
@@ -326,6 +336,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       setValidateReceiverName(false);
     }
   };
+
+  useEffect(() => {
+    Sentry.configureScope((scope) => scope.setTransactionName('AddressScreen'));
+  }, []);
 
   return (
     <>
