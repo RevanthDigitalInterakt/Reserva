@@ -5,67 +5,47 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="00: default_platform" time="0.000168">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000689">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="01: get_version_name" time="0.000272">
+      <testcase classname="fastlane.lanes" name="1: get_version_name" time="0.000292">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="02: get_version_code" time="0.000226">
+      <testcase classname="fastlane.lanes" name="2: get_version_code" time="0.00023">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="03: Switch to android updateAndroidVersionName lane" time="0.000185">
+      <testcase classname="fastlane.lanes" name="3: clean" time="20.440485">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="04: google_play_track_release_names" time="3.682557">
+      <testcase classname="fastlane.lanes" name="4: Switch to android updateAndroidVersionCode lane" time="0.001227">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="05: google_play_track_release_names" time="3.022927">
+      <testcase classname="fastlane.lanes" name="5: google_play_track_version_codes" time="3.049723">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="06: android_set_version_name" time="0.005419">
+      <testcase classname="fastlane.lanes" name="6: android_set_version_code" time="0.005224">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="07: clean" time="21.368617">
+      <testcase classname="fastlane.lanes" name="7: bundleRelease" time="317.744533">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="08: Switch to android updateAndroidVersionCode lane" time="0.000794">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="09: google_play_track_version_codes" time="3.249721">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="10: android_set_version_code" time="0.003708">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="11: bundleRelease" time="250.354899">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="12: supply" time="36.075106">
+      <testcase classname="fastlane.lanes" name="8: supply" time="50.884179">
         
       </testcase>
     

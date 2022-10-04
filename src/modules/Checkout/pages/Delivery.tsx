@@ -12,6 +12,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
+import Sentry from '../../../config/sentryConfig';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -56,10 +57,20 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
+    Sentry.configureScope((scope) =>
+      scope.setTransactionName('DeliveryScreen')
+    );
+  }, []);
+
+  useEffect(() => {
     if (data) {
       const { profile } = data;
       if (profile) {
         setProfile(profile);
+
+        Sentry.setUser({
+          address: profile?.addresses,
+        });
       }
       orderform();
     }
@@ -216,20 +227,38 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    const typeOfDeliveries =
-      orderForm?.shippingData?.logisticsInfo[0].slas.filter((x) => {
-        if (x.deliveryChannel === 'delivery') return true;
+    const defaultDelivery = orderForm?.shippingData?.logisticsInfo?.find(
+      (delivery) => {
+        const defaultSlaExists = delivery.slas?.find(
+          (sla) => sla.id === 'Padrão'
+        );
+
+        if (defaultSlaExists) {
+          return true;
+        }
+
         return false;
-      });
+      }
+    );
+    const typeOfDeliveries = defaultDelivery
+      ? defaultDelivery.slas?.filter((x) => {
+          if (x.deliveryChannel === 'delivery') return true;
+          return false;
+        })
+      : orderForm?.shippingData?.logisticsInfo[0].slas?.filter((x) => {
+          if (x.deliveryChannel === 'delivery') return true;
+          return false;
+        });
 
     const valueShipping = orderForm?.shippingData?.logisticsInfo.map(
       (item: any) => {
-        const valuePrice = item.slas.find((sla: any) => {
+        const valuePrice = item.slas?.find((sla: any) => {
           if (sla.id === 'Padrão') {
             return sla;
           }
         });
-        return valuePrice.price;
+        const value = valuePrice ? valuePrice : item.slas[0];
+        return value?.price;
       }
     );
 

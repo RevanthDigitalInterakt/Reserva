@@ -1,6 +1,9 @@
 import { useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { profileQuery } from '../../../../graphql/profile/profileQuery';
+import {
+  profileQuery,
+  ProfileVars,
+} from '../../../../graphql/profile/profileQuery';
 import React, { Fragment, useEffect, useState } from 'react';
 import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
 import { MyCashbackAPI } from '../../../../modules/my-cashback/api/MyCashbackAPI';
@@ -9,6 +12,7 @@ import {
   GetTokenResponse,
 } from '../../../my-credits/api/MyCreditsAPI';
 import { CashbackInStoreView } from './CashbackInStore.view';
+import { useAuth } from '../../../../context/AuthContext';
 interface CashbackInStoreContainerProps {
   costumerDocument: string;
   navigateBack: () => void;
@@ -20,22 +24,14 @@ export const CashbackInStoreContainer = ({
   navigateBack,
   navigateToError,
 }: CashbackInStoreContainerProps) => {
+  const { getProfile } = useAuth();
   const [token, setToken] = useState<string>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [termsIsAccepted, setTermsIsAccepted] = useState<boolean>(false);
-  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
-  const [{ data: dataProfile, loadingProfile }, setDataProfile] = useState({
-    data: null,
-    loadingProfile: true,
-  });
+  const [dataProfile, setDataProfile] = useState<ProfileVars>();
 
   useEffect(() => {
-    getProfile().then((response) => {
-      setDataProfile({
-        data: response.data,
-        loadingProfile: false,
-      });
-    });
+    getProfile().then((x: ProfileVars) => setDataProfile(x));
   }, []);
 
   const termAndConditionsIsAccepted = async () => {
@@ -69,9 +65,9 @@ export const CashbackInStoreContainer = ({
     date.setMinutes(date.getMinutes() + 5);
     const tomorrow = date.toISOString();
 
-    if (dataProfile?.profile?.document) {
+    if (dataProfile?.document) {
       const { data } = await MyCashbackAPI.post<GetTokenResponse>(
-        `${CashbackHttpUrl.GetToken}${dataProfile?.profile?.document}/authenticate`,
+        `${CashbackHttpUrl.GetToken}${dataProfile?.document}/authenticate`,
         {
           type: 'qrcode',
           expire_date: tomorrow,

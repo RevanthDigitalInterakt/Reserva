@@ -160,8 +160,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2022092801
-        versionName "1.10.6"
+        versionCode 2022093003
+        versionName "1.10.7"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
@@ -252,6 +252,14 @@ dependencies {
 
     //For Lottie Support
     implementation "com.airbnb.android:lottie:5.2.0"
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+
+    // Add the dependencies for the Dynamic Links and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-dynamic-links'
+    implementation 'com.google.firebase:firebase-analytics'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'

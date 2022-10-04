@@ -46,15 +46,21 @@ type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { edit, editAddress, isCheckout, onAddAddressCallBack, receiveHome, hasCep } =
-    route?.params;
+  const {
+    edit,
+    editAddress,
+    isCheckout,
+    onAddAddressCallBack,
+    receiveHome,
+    hasCep,
+  } = route?.params;
   const [addressId, setAddressId] = useState(editAddress?.id);
   const [toggleActivated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
   const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
-  const [getProfile, { }] = useLazyQuery(profileQuery);
+  const [getProfile, {}] = useLazyQuery(profileQuery);
 
   const [{ profileData, loadingProfile }, setProfileData] = useState({
     profileData: null,
@@ -101,23 +107,32 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const handleSaveAddress = async () => {
     setLoading(true);
 
-    edit
-      ? await addressUpdate({
-        variables: {
-          id: editAddress?.id,
-          fields: {
-            ...initialValues,
-            // receiverName: `${profile?.firstName} ${profile?.lastName}`,
-          },
-        },
-      })
-      : await saveAddress({
-        variables: {
-          fields: {
-            ...initialValues,
-          },
+    try {
+      edit
+        ? await addressUpdate({
+            variables: {
+              id: editAddress?.id,
+              fields: {
+                ...initialValues,
+                // receiverName: `${profile?.firstName} ${profile?.lastName}`,
+              },
+            },
+          })
+        : await saveAddress({
+            variables: {
+              fields: {
+                ...initialValues,
+              },
+            },
+          });
+    } catch (error) {
+      Sentry.addBreadcrumb({
+        message: 'Erro ao salvar endereço',
+        data: {
+          error: error,
         },
       });
+    }
 
     onAddAddressCallBack && onAddAddressCallBack();
     await identifyCustomer(email);
@@ -337,6 +352,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       setInitialValues({ ...initialValues, postalCode: hasCep });
       cepHandler(hasCep.replace('-', ''));
     }
+    Sentry.configureScope((scope) => scope.setTransactionName('AddressScreen'));
   }, [hasCep]);
 
   return (
@@ -420,18 +436,15 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   }}
                 />
                 <Button
-                  alignSelf='flex-start'
+                  alignSelf="flex-start"
                   marginTop="quarck"
                   onPress={() => {
                     navigation.navigate('ChangeRegionalization', {
-                      isCepAddress: true
+                      isCepAddress: true,
                     });
                   }}
                 >
-                  <Typography
-                    fontFamily="nunitoRegular"
-                    fontSize={14}
-                  >
+                  <Typography fontFamily="nunitoRegular" fontSize={14}>
                     Não sei meu CEP
                   </Typography>
                 </Button>
