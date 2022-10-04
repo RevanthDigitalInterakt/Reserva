@@ -61,10 +61,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     MENOR_PRECO: OrderByEnum.OrderByPriceASC,
     DE_A_Z: OrderByEnum.OrderByNameASC,
     DE_Z_A: OrderByEnum.OrderByNameDESC,
-  }
+  };
 
   const pageSize = 12;
-  const { safeArea, search, referenceId, title, reservaMini, orderBy } = route.params;
+  const { safeArea, search, referenceId, title, reservaMini, orderBy } =
+    route.params;
 
   useEffect(() => {
     if (referenceId === 'offers-page') {
@@ -465,6 +466,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [facetsData]);
 
   useEffect(() => {
+    console.log('dfshjfklhaklfjhklhlf', data?.productSearch);
+
     if (!loading && !!data) {
       setProducts(data.productSearch);
     }
