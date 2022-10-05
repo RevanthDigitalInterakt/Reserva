@@ -94,8 +94,8 @@ const Checkout: React.FC<{}> = () => {
             (orderForm.totalizers.find((x) => x.name === 'Shipping')?.value ||
               0) / 100,
           tax:
-            (orderForm.paymentData.payments[0].merchantSellerPayments[0]
-              .interestRate || 0) / 100,
+            (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
+              ?.interestRate || 0) / 100,
           transaction_id: '',
           value: orderForm.value / 100,
         });
