@@ -94,7 +94,7 @@ const CallCenter = ({
             </Typography>
             <Box mb={'micro'} mt={'micro'} alignSelf={'flex-start'}>
               <Typography
-                variant="subtituloSessoes"
+                fontFamily="nunitoRegular"
                 fontSize={16}
               // style={{ marginTop: 7, marginBottom: 32 }}
               >
@@ -115,7 +115,7 @@ const CallCenter = ({
               borderRadius={'nano'}
             />
             <Box mb={'micro'} alignItems="center" mt={'nano'}>
-              <Typography variant="subtituloSessoes" fontSize={12}>
+              <Typography fontFamily="nunitoRegular" fontSize={12}>
                 Segunda a Sexta: 08 às 21hrs e aos Sábados: 08 às 18hrs
               </Typography>
             </Box>
@@ -134,7 +134,7 @@ const CallCenter = ({
               backgroundColor={'transparente'}
             />
             <Box mb={'micro'} alignItems="center" mt={'nano'}>
-              <Typography variant="subtituloSessoes" fontSize={12}>
+              <Typography fontFamily="nunitoRegular" fontSize={12}>
                 Disponível 24hrs por dia, 7 dias por semana.
               </Typography>
             </Box>
