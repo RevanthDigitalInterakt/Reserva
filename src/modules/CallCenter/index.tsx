@@ -10,6 +10,7 @@ import {
 
 import { Icon, Box, Typography, Divider, Button } from '@danilomsou/reserva-ui';
 import { TopBarDefault } from '../Menu/components/TopBarDefault';
+import { useNavigation } from '@react-navigation/native';
 
 type ItemContactProps = {
   local?: string;
@@ -68,6 +69,7 @@ const CallCenter = ({
   onPress,
   divider,
 }: ItemContactProps) => {
+  const navigation = useNavigation();
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');
   };
@@ -94,7 +96,7 @@ const CallCenter = ({
               <Typography
                 variant="subtituloSessoes"
                 fontSize={16}
-                // style={{ marginTop: 7, marginBottom: 32 }}
+              // style={{ marginTop: 7, marginBottom: 32 }}
               >
                 Aqui você encontra todos os canais de contato com a Reserva.
                 Escolha a melhor opção pra você.
@@ -122,7 +124,8 @@ const CallCenter = ({
           <Box width={'100%'} mt={'xxs'}>
             <Button
               onPress={() => {
-                Linking.openURL(`sms:(21) 3900-7052`);
+                navigation.navigate('WebviewZendesk')
+                // Linking.openURL(`sms:(21) 3900-7052`);
               }}
               title="ENVIE UMA MENSAGEM"
               variant="primarioEstreitoOutline"
