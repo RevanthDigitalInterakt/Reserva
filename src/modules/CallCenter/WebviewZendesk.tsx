@@ -9,14 +9,14 @@ export const WebviewZendesk: React.FC<{}> = () => {
     const [loading, setLoading] = useState(true);
     const [navState, setNavState] = useState('');
     const webref = useRef(false);
-    
+
     const scripts = `
       document.querySelector("header").style.display = 'none';
       document.querySelector("ol").style.display = 'none';
       document.getElementsByClassName("footer-inner")[0].style.display = 'none';
       true;
     `;
-    
+
     return (
         <Box flex={1} backgroundColor={'white'}>
               {loading && (
