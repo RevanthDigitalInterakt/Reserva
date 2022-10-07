@@ -560,12 +560,10 @@ export const EditProfile = ({ route }: Props) => {
   const handlerValidationFullName = (text: string) => {
     const [firstName, ...rest] = text.trim().split(' ');
     const lastName = rest.join(' ');
+    // regex to validate full name with at least 2 words and no numbers
     if (
       text.match(
-        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
-      ) &&
-      !lastName.match(
-        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
+        /^[a-zA-ZÀ-ú]{2,}\s[a-zA-ZÀ-ú ']{2,}$/
       )
     ) {
       console.log('TRUE ::::::::::::::::::::');
