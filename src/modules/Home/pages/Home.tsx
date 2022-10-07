@@ -123,6 +123,11 @@ export const HomeScreen: FC<{
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
     setCarrousels(carrouselsItems);
 
+    console.log(
+      'carrouselsItems',
+      data?.homePageCollection.items[0].mediasCollection
+    );
+
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
         (imageDescription: any) => ({
