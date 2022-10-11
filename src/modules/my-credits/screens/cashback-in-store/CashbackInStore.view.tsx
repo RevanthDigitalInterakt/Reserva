@@ -42,6 +42,7 @@ export const CashbackInStoreView = ({
     getProfile().then((response) => {
       if (!response.data?.profile)
         navigation.navigate('Login', { comeFrom: 'Profile' });
+      console.log(response.data?.profile);
     });
   }, []);
 
