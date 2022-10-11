@@ -25,6 +25,7 @@ import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
 import { useLazyQuery } from '@apollo/client';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
+import CodePushModal from './shared/components/CodePushModal';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -226,6 +227,8 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         }}
       >
         <StatusBar animated barStyle={barStyle} />
+        <CodePushModal />
+        {/* {CodePushModal()} */}
         {showNotification && (
           <ModalPush
             closeModal={() => setShowNotification(false)}
