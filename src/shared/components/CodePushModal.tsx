@@ -1,7 +1,6 @@
-import { Box } from '@danilomsou/reserva-ui'
+import { Box, Typography } from '@danilomsou/reserva-ui'
 import AnimatedLottieView from 'lottie-react-native'
-import React, { createContext, useContext } from 'react'
-import { Text, View } from 'react-native'
+import React from 'react'
 import codePush, { DownloadProgress } from 'react-native-code-push'
 import ReactNativeModal from 'react-native-modal'
 import { animations } from "../../assets";
@@ -15,25 +14,27 @@ class CodePushComponent extends React.Component {
   constructor() {
     super();
     this.state = {
-      progress: 0
+      progress: 0,
+      showModal: false,
     }
   }
+
   teste() {
-    codePush({
-      updateDialog: {
-        appendReleaseDescription: false,
-        descriptionPrefix: '\n\n',
-        mandatoryContinueButtonLabel: 'Atualizar',
-        optionalIgnoreButtonLabel: 'Continuar',
-        mandatoryUpdateMessage:
-          'Está disponível uma nova versão do App, realizamos melhorias para tornar sua experiência a mais tranquila possível.',
-        optionalInstallButtonLabel: 'Atualizar',
-        optionalUpdateMessage:
-          'Está disponível uma nova versão do App, realizamos melhorias para tornar sua experiência a mais tranquila possível.',
-        title: 'Hora de atualizar',
-      },
-      installMode: codePush.InstallMode.IMMEDIATE,
-    })
+    codePush.checkForUpdate()
+      .then((update) => {
+        console.log('update', update)
+        if (!update) {
+          console.log("The app is up to date!");
+          this.setState({
+            showModal: false
+          });
+        } else {
+          console.log("vamos atualizar");
+          this.setState({
+            showModal: true
+          });
+        }
+      });
   }
 
   componentDidMount() {
@@ -41,9 +42,6 @@ class CodePushComponent extends React.Component {
   }
 
   codePushDownloadDidProgress(progress) {
-    console.log('progress::>', progress);
-    // let msg = ((progress.receivedBytes / progress.totalBytes) * 100);
-    // console.log(msg);
     this.setState({
       progress: ((progress.receivedBytes / progress.totalBytes) * 100)
     });
@@ -52,6 +50,30 @@ class CodePushComponent extends React.Component {
   render() {
     return (
       <>
+        {
+          this.state.showModal &&
+          <ReactNativeModal
+            isVisible={true}
+            backdropOpacity={0.5}
+            // backdropColor={'white'}
+            // animationInTiming={300}
+            animationIn="fadeIn"
+            animationOut="fadeIn"
+          >
+            <Box
+              // flex={1}
+              // bg='amareloAtencao'
+              height={175}
+              marginX={8}
+              borderRadius={4}
+              paddingX={22}
+            >
+              <Box>
+                <Typography>Hora de atualizar</Typography>
+              </Box>
+            </Box>
+          </ReactNativeModal>
+        }
         {this.state.progress > 0 && this.state.progress < 100 ?
           <ReactNativeModal
             isVisible={true}
@@ -63,26 +85,13 @@ class CodePushComponent extends React.Component {
             testID="LottieLoader"
           >
             <Box
-              // style={{
-              //   marginHorizontal: 50
-              // }}
               style={{ flex: 1, marginHorizontal: 107 }}
             >
               <AnimatedLottieView
-                style={{ flex: 1 }}
                 onAnimationFinish={() => { }}
-                // onAnimationFinish={() => {
-                //   setShowLottieConfirmation(true);
-                //   paymentType === 'Credit' ?
-                //     navigation.navigate('PurchaseConfirmationScreen', { paymentType: 'Credit', orderGroupId: orderGroupId })
-                //     :
-                //     navigation.navigate('PurchaseConfirmationScreen', {
-                //       paymentType: route.params.paymentType,
-                //     });
-                // }}
-                // ref={lottieLoaderRef}
+                autoPlay={this.state.progress > 0 && this.state.progress < 100}
                 loop={true}
-                source={animations.confirmation}
+                source={animations.loader}
               />
             </Box>
           </ReactNativeModal>
