@@ -13,6 +13,7 @@ import { env } from './config/env';
 import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
 import './config/ReactotronConfig';
+import { requestTrackingPermission } from 'react-native-tracking-transparency';
 import PushIOManager from '@oracle/react-native-pushiomanager';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
@@ -215,6 +216,9 @@ const App = () => {
   });
 
   useEffect(() => {
+    (async () => {
+      await requestTrackingPermission();
+    })();
     requestUserPermission();
     logAppOpenAnalytics();
     CodepushConfig();

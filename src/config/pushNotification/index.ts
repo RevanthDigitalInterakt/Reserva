@@ -1,6 +1,7 @@
 import { Alert } from 'react-native';
 import OneSignal from 'react-native-onesignal';
-import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush'
+import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush';
+import { requestATT } from '../../modules/Onboarding/components/Permissions';
 import { env } from '../env';
 
 export const oneSignalConfig = async () => {
@@ -51,7 +52,7 @@ export const oneSignalConfig = async () => {
     // );
     console.log('OneSignal: notification opened:', notification);
 
-    if (notification.notification.launchURL === "usereserva://storeUpdate") {
+    if (notification.notification.launchURL === 'usereserva://storeUpdate') {
       StoreUpdatePush();
     }
   });
