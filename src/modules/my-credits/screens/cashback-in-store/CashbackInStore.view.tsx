@@ -5,11 +5,18 @@ import {
   Image,
   Typography,
 } from '@danilomsou/reserva-ui';
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import { ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { images } from '../../../../assets';
 import { ModalTermsAndConditionsCashback } from './components/ModalTermsAndConditionsCashback';
+import { useLazyQuery } from '@apollo/client';
+
+import {
+  profileQuery,
+  ProfileVars,
+} from '../../../../graphql/profile/profileQuery';
+import { useNavigation } from '@react-navigation/native';
 
 export interface CashbackInStoreViewProps {
   token?: string;
@@ -28,6 +35,16 @@ export const CashbackInStoreView = ({
   termsIsAccepted,
   acceptTermsAndConditions,
 }: CashbackInStoreViewProps) => {
+  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    getProfile().then((response) => {
+      if (!response.data?.profile)
+        navigation.navigate('Login', { comeFrom: 'Profile' });
+    });
+  }, []);
+
   return (
     <Fragment>
       <Box mx="xxs" mt="sm">
