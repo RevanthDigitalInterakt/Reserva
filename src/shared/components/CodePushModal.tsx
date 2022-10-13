@@ -1,35 +1,42 @@
-import { Box, Typography } from '@danilomsou/reserva-ui'
+import { Box, Button, Typography } from '@danilomsou/reserva-ui'
 import AnimatedLottieView from 'lottie-react-native'
 import React from 'react'
+import { BackHandler, Platform } from 'react-native'
+import RNExitApp from 'react-native-exit-app';
 import codePush, { DownloadProgress } from 'react-native-code-push'
 import ReactNativeModal from 'react-native-modal'
 import { animations } from "../../assets";
 
 interface CodePushContext {
-  status: null | codePush.SyncStatus
-  progress: null | number
+  status: null | codePush.SyncStatus;
+  progress: null | number;
+  showModal: boolean;
+  immediateUpdate: boolean;
 }
 
-class CodePushComponent extends React.Component {
-  constructor() {
-    super();
+class CodePushComponent extends React.Component<{}, CodePushContext> {
+  constructor(props) {
+    super(props);
     this.state = {
       progress: 0,
       showModal: false,
+      status: null,
+      immediateUpdate: false,
     }
   }
 
-  teste() {
+  codePushStatusDidChange(status: codePush.SyncStatus) {
+    this.setState({ status })
+  }
+
+  syncImmediate() {
     codePush.checkForUpdate()
       .then((update) => {
-        console.log('update', update)
         if (!update) {
-          console.log("The app is up to date!");
           this.setState({
             showModal: false
           });
         } else {
-          console.log("vamos atualizar");
           this.setState({
             showModal: true
           });
@@ -38,13 +45,25 @@ class CodePushComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.teste();
+    this.syncImmediate();
   }
 
-  codePushDownloadDidProgress(progress) {
-    this.setState({
-      progress: ((progress.receivedBytes / progress.totalBytes) * 100)
+  _immediateUpdate() {
+    this.setState({ immediateUpdate: true, showModal: false }, () => {
+      codePush.sync(
+        { installMode: codePush.InstallMode.IMMEDIATE },
+        this.codePushStatusDidChange.bind(this),
+        this.codePushDownloadDidProgress.bind(this)
+      );
     });
+  }
+
+  codePushDownloadDidProgress(progress: DownloadProgress) {
+    if (this.state.immediateUpdate) {
+      this.setState({
+        progress: ((progress.receivedBytes / progress.totalBytes) * 100)
+      });
+    }
   }
 
   render() {
@@ -55,21 +74,35 @@ class CodePushComponent extends React.Component {
           <ReactNativeModal
             isVisible={true}
             backdropOpacity={0.5}
-            // backdropColor={'white'}
-            // animationInTiming={300}
             animationIn="fadeIn"
             animationOut="fadeIn"
           >
             <Box
-              // flex={1}
-              // bg='amareloAtencao'
-              height={175}
+              bg='white'
+              minHeight={175}
               marginX={8}
               borderRadius={4}
               paddingX={22}
+              paddingY={20}
             >
+              <Box mb={8}>
+                <Typography fontSize={6} fontFamily="reservaSerifBold">Hora de atualizar</Typography>
+              </Box>
+
               <Box>
-                <Typography>Hora de atualizar</Typography>
+                <Typography fontSize={5} fontFamily="reservaSerifRegular">
+                  Está disponível uma nova versão do App, realizamos melhorias para tornar sua experiência a mais tranquila possível.
+                </Typography>
+              </Box>
+
+              <Box flexDirection='row' alignSelf='flex-end' mt={8}>
+                <Button
+                  onPress={() => this._immediateUpdate()}
+                  title='ATUALIZAR'
+                  fontFamily='reservaSerifBold'
+                  marginRight={20}
+                />
+                <Button onPress={() => { Platform.OS === 'android' ? BackHandler.exitApp() : RNExitApp.exitApp() }} title='SAIR' fontFamily='reservaSerifBold' />
               </Box>
             </Box>
           </ReactNativeModal>
@@ -101,19 +134,7 @@ class CodePushComponent extends React.Component {
   }
 }
 const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_START,
-  updateDialog: {
-    appendReleaseDescription: false,
-    title: 'Hora de atualizar',
-    mandatoryUpdateMessage:
-      'Está disponível uma nova versão do App, realizamos melhorias para tornar sua experiência a mais tranquila possível.',
-    mandatoryContinueButtonLabel: 'Atualizar',
-    optionalUpdateMessage:
-      'Está disponível uma nova versão do App, realizamos melhorias para tornar sua experiência a mais tranquila possível.',
-    optionalInstallButtonLabel: 'Atualizar',
-    optionalIgnoreButtonLabel: 'Continuar',
-  },
-  installMode: codePush.InstallMode.IMMEDIATE,
+  checkFrequency: codePush.CheckFrequency.MANUAL,
 };
 
 const CodePushModal = codePush(codePushOptions)(CodePushComponent)
