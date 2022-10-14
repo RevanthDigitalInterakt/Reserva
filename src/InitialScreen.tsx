@@ -237,7 +237,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       >
         <StatusBar animated barStyle={barStyle} />
         <CodePushModal />
-        {/* {CodePushModal()} */}
         {showNotification && (
           <ModalPush
             closeModal={() => setShowNotification(false)}
