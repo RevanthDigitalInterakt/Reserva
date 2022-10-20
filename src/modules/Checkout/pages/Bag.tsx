@@ -34,7 +34,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { Attachment } from '../../../services/vtexService';
+import { Attachment, SetGiftSize } from '../../../services/vtexService';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
@@ -94,6 +94,7 @@ export const BagScreen = ({ route }: Props) => {
   const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
   const [sellerName, setSellerName] = React.useState<string | undefined>('');
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
+  const [selectedSizeGift, setSelectedSizeGift] = useState<string | undefined>('');
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean | undefined>(
     false
   );
@@ -257,6 +258,9 @@ export const BagScreen = ({ route }: Props) => {
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
     setSellerName(sellerName);
+
+    const gift = orderForm?.items.find((x) => x.isGift == true);
+    setSelectedSizeGift(gift?.skuName.split('-')[1]);
   }, [orderForm]);
 
   useEffect(() => {
@@ -394,11 +398,14 @@ export const BagScreen = ({ route }: Props) => {
   const selectGiftSize = async (size: string) => {
     const availableGifts = orderForm.selectableGifts[0].availableGifts.find((x) => x.skuName.split('-')[1] === size);
     try {
-      const data = chechoutService.setGiftSize(availableGifts.uniqueId, orderForm?.selectableGifts[0]?.id,)
+      const data = await SetGiftSize(orderForm?.orderFormId, orderForm?.selectableGifts[0]?.id.trim(), availableGifts.id, availableGifts.seller);
+      if (data) {
+        orderform();
+        setSelectedSizeGift(size);
+      }
     } catch (error) {
+      throw error;
     }
-    console.log('availableGifts uniqueId', availableGifts.uniqueId);
-    console.log('availableGifts', availableGifts);
   }
 
 
@@ -731,8 +738,8 @@ export const BagScreen = ({ route }: Props) => {
                           optionsList={showMoreSizes ? orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]) : orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]).slice(0, 5)}
 
                           showMoreSizes={showMoreSizes}
-                          defaultSelectedItem=""
-                        // selectedItem={selectedSize}
+                          // defaultSelectedItem="M"
+                          selectedItem={selectedSizeGift}
                         />
                       </Box>
                     </Box>
