@@ -128,7 +128,7 @@ export const BagScreen = ({ route }: Props) => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => {},
+    refetch: () => { },
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -242,13 +242,13 @@ export const BagScreen = ({ route }: Props) => {
     setInstallmentInfo(
       installment
         ? {
-            installmentPrice: installment.value,
-            installmentsNumber: installment.count,
-            totalPrice: installment.total,
-          }
+          installmentPrice: installment.value,
+          installmentsNumber: installment.count,
+          totalPrice: installment.total,
+        }
         : {
-            ...installmentInfo,
-          }
+          ...installmentInfo,
+        }
     );
 
     setOptimistQuantities(quantities);
@@ -390,6 +390,17 @@ export const BagScreen = ({ route }: Props) => {
       return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3;
     }
   }
+
+  const selectGiftSize = async (size: string) => {
+    const availableGifts = orderForm.selectableGifts[0].availableGifts.find((x) => x.skuName.split('-')[1] === size);
+    try {
+      const data = chechoutService.setGiftSize(availableGifts.uniqueId, orderForm?.selectableGifts[0]?.id,)
+    } catch (error) {
+    }
+    console.log('availableGifts uniqueId', availableGifts.uniqueId);
+    console.log('availableGifts', availableGifts);
+  }
+
 
   return (
     <SafeAreaView
@@ -609,174 +620,155 @@ export const BagScreen = ({ route }: Props) => {
                 sumPriceShipping={totalBag + totalDiscountPrice}
                 totalDelivery={totalDelivery != 0 ? totalDelivery : 0}
               />
-
-              <Box flexDirection="row" minHeight={152} mt={20}>
-                <Image
-                  source={'http://lojausereserva.vtexassets.com/arquivos/ids/6444563-55-55/0059850748_01.jpg?v=637692127594930000'
-                    .replace('http', 'https')
-                    .split('-55-55')
-                    .join('')}
-                  width={screenWidth * 0.25}
-                  // resizeMode='contain'
-                  height={152}
+              {orderForm && orderForm.selectableGifts.length > 0 && (
+                <Box flexDirection="row" minHeight={152} mt={20}>
+                  <Image
+                    source={orderForm?.selectableGifts[0]?.availableGifts[0].imageUrl
+                      .replace('http', 'https')
+                      .split('-55-55')
+                      .join('')}
+                    width={screenWidth * 0.25}
+                    // resizeMode='contain'
+                    height={152}
                   // height={screenWidth * 0.38}
-                />
+                  />
 
-                <Box ml={12} flex={1} minHeight={152}>
-                  <Box bg="pink" minHeight={93}>
-                    <Box>
-                      <Typography
-                        fontFamily="reservaSerifBold"
-                        fontSize={normalize(15)}
-                        lineHeight={normalize(19)}
-                      >
-                        Parabéns, você ganhou um brinde!
-                      </Typography>
-                    </Box>
-
-                    <Box minHeight={53}>
-                      <Typography
-                        fontFamily="reservaSansLight"
-                        fontSize={normalize(14)}
-                        lineHeight={normalize(16)}
-                      >
-                        Sua compra tem uma vantagem especial:
-                      </Typography>
-                      <Typography
-                        fontFamily="reservaSansLight"
-                        fontSize={normalize(14)}
-                        lineHeight={normalize(16)}
-                      >
-                        você ganhou
+                  <Box ml={12} flex={1} minHeight={152}>
+                    <Box minHeight={93}>
+                      <Box>
                         <Typography
-                          fontFamily="reservaSansBold"
-                          fontSize={14}
-                          lineHeight={16}
+                          fontFamily="reservaSerifBold"
+                          fontSize={normalize(15)}
+                          lineHeight={normalize(19)}
                         >
-                          {' '}
-                          1 Sandália Trancoso RSV1493 PRETO/PRETO.
+                          Parabéns, você ganhou um brinde!
                         </Typography>
-                      </Typography>
-                    </Box>
-                  </Box>
+                      </Box>
 
-                  <Box>
-                    <Box
-                      // mt={20}
-                      mb={10}
-                      flexDirection="row"
-                      justifyContent="space-between"
+                      <Box minHeight={53}>
+                        <Typography
+                          fontFamily="reservaSansLight"
+                          fontSize={normalize(14)}
+                          lineHeight={normalize(16)}
+                        >
+                          Sua compra tem uma vantagem especial:
+                        </Typography>
+                        <Typography
+                          fontFamily="reservaSansLight"
+                          fontSize={normalize(14)}
+                          lineHeight={normalize(16)}
+                        >
+                          você ganhou
+                          <Typography
+                            fontFamily="reservaSansBold"
+                            fontSize={14}
+                            lineHeight={16}
+                          >
+                            {' '}
+                            1 {orderForm?.selectableGifts[0]?.availableGifts[0]?.name.split('-')[0]}
+                          </Typography>
+                        </Typography>
+                      </Box>
+                    </Box>
+
+                    <Box>
+                      <Box
+                        // mt={20}
+                        mb={10}
+                        flexDirection="row"
+                        justifyContent="space-between"
                       // flex={1}
                       // bg="red"
-                    >
-                      <Typography
-                        fontFamily="reservaSerifBold"
-                        fontSize={normalize(13)}
-                        lineHeight={normalize(14)}
                       >
-                        Selecione o tamanho:
-                      </Typography>
-
-                      <Button
-                        onPress={() => setShowMoreSizes(!showMoreSizes)}
-                        hitSlop={{ left: 50, top: 15, bottom: 15 }}
-                      >
-                        <BoxAnimation
-                          flexDirection="row"
-                          justifyContent="space-between"
-                          alignItems="center"
+                        <Typography
+                          fontFamily="reservaSerifBold"
+                          fontSize={normalize(13)}
+                          lineHeight={normalize(14)}
                         >
-                          <Typography
-                            fontFamily="reservaSerifRegular"
-                            fontSize={normalize(13)}
+                          Selecione o tamanho:
+                        </Typography>
+
+                        <Button
+                          onPress={() => setShowMoreSizes(!showMoreSizes)}
+                          hitSlop={{ left: 50, top: 15, bottom: 15 }}
+                        >
+                          <BoxAnimation
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            alignItems="center"
                           >
-                            Ver mais
-                          </Typography>
+                            <Typography
+                              fontFamily="reservaSerifRegular"
+                              fontSize={normalize(13)}
+                            >
+                              Ver mais
+                            </Typography>
 
-                          <Icon
-                            style={
-                              showMoreSizes
-                                ? { transform: [{ rotate: '-90deg' }] }
-                                : { transform: [{ translateY: 4 }] }
-                            }
-                            name={showMoreSizes ? 'ChevronRight' : 'ArrowDown'}
-                            color="preto"
-                            // marginY="quarck"
-                            marginLeft="nano"
-                            size={12}
-                          />
-                        </BoxAnimation>
-                      </Button>
-                    </Box>
+                            <Icon
+                              style={
+                                showMoreSizes
+                                  ? { transform: [{ rotate: '-90deg' }] }
+                                  : { transform: [{ translateY: 4 }] }
+                              }
+                              name={showMoreSizes ? 'ChevronRight' : 'ArrowDown'}
+                              color="preto"
+                              // marginY="quarck"
+                              marginLeft="nano"
+                              size={12}
+                            />
+                          </BoxAnimation>
+                        </Button>
+                      </Box>
 
-                    <Box>
-                      <RadioButtons
-                        size={screenWidth * 0.09}
-                        fontSize={12}
-                        disbledOptions={[]}
-                        // onSelectedChange={(item) => {
-                        //   setSelectedSize(item);
-                        // }}
-                        optionsList={
-                          showMoreSizes
-                            ? [
-                                '37/8',
-                                '39/0',
-                                '41/2',
-                                '43/4',
-                                '45/6',
-                                '43/4',
-                                '45/6',
-                              ]
-                            : [
-                                '37/8',
-                                '39/0',
-                                '41/2',
-                                '43/4',
-                                '45/6',
-                                '43/4',
-                                '45/6',
-                              ].slice(0, 5)
-                        }
-                        showMoreSizes={showMoreSizes}
-                        defaultSelectedItem=""
+                      <Box>
+                        <RadioButtons
+                          size={screenWidth * 0.09}
+                          fontSize={12}
+                          disbledOptions={[]}
+                          onSelectedChange={(item) => {
+                            selectGiftSize(item);
+                          }}
+                          optionsList={showMoreSizes ? orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]) : orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]).slice(0, 5)}
+
+                          showMoreSizes={showMoreSizes}
+                          defaultSelectedItem=""
                         // selectedItem={selectedSize}
-                      />
+                        />
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
-              </Box>
-
+              )}
               {orderForm?.items.map((item, index, array) => (
                 <Box key={index} bg="white" marginTop="xxxs">
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box paddingBottom="nano">
-                      <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                        color="verdeSucesso"
-                      >
-                        Desconto de 1° compra aplicado neste produto!
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box paddingBottom="nano">
+                        <Typography
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                          color="verdeSucesso"
+                        >
+                          Desconto de 1° compra aplicado neste produto!
+                        </Typography>
+                      </Box>
+                    )}
                   {item.priceTags.find(
                     (x) =>
                       x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                   ) && (
-                    <Box position="absolute" zIndex={5} top={84} right={21}>
-                      <Typography
-                        color="verdeSucesso"
-                        fontFamily="nunitoRegular"
-                        fontSize={11}
-                      >
-                        -R$ 50
-                      </Typography>
-                    </Box>
-                  )}
+                      <Box position="absolute" zIndex={5} top={84} right={21}>
+                        <Typography
+                          color="verdeSucesso"
+                          fontFamily="nunitoRegular"
+                          fontSize={11}
+                        >
+                          -R$ 50
+                        </Typography>
+                      </Box>
+                    )}
                   <ProductHorizontalListCard
                     isBag
                     discountApi={
@@ -795,7 +787,7 @@ export const BagScreen = ({ route }: Props) => {
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) &&
                       array.filter((x) => x.uniqueId == item.uniqueId).length >
-                        1
+                      1
                     }
                     currency="R$"
                     discountTag={getPercent(item.sellingPrice, item.listPrice)}
