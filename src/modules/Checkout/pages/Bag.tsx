@@ -5,7 +5,9 @@ import {
   Button,
   Divider,
   Icon,
+  Image,
   ProductHorizontalListCard,
+  RadioButtons,
   TextField,
   Toggle,
   Typography,
@@ -16,7 +18,13 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import {
+  Dimensions,
+  PixelRatio,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import appsFlyer from 'react-native-appsflyer';
@@ -38,7 +46,10 @@ import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 import Sentry from '../../../config/sentryConfig';
 
-const BoxAnimated = createAnimatableComponent(Box);
+const screenWidth = Dimensions.get('window').width;
+const scale = screenWidth * 0.003;
+
+const BoxAnimation = createAnimatableComponent(Box);
 
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -77,6 +88,7 @@ export const BagScreen = ({ route }: Props) => {
   const [totalDelivery, setTotalDelivery] = useState(0);
   const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
+  const [showMoreSizes, setShowMoreSizes] = useState(false);
   const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
   const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
   const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
@@ -367,8 +379,17 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   useEffect(() => {
-    console.log('DATAAAAAAAAAAAAAAA====>>>>>>>>', orderForm?.items);
+    console.log('DATAAAAAAAAAAAAAAA====>>>>>>>>', orderForm);
   }, []);
+
+  function normalize(size) {
+    const newSize = size * scale;
+    if (Platform.OS === 'ios') {
+      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4;
+    } else {
+      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3;
+    }
+  }
 
   return (
     <SafeAreaView
@@ -588,6 +609,143 @@ export const BagScreen = ({ route }: Props) => {
                 sumPriceShipping={totalBag + totalDiscountPrice}
                 totalDelivery={totalDelivery != 0 ? totalDelivery : 0}
               />
+
+              <Box flexDirection="row" minHeight={152} mt={20}>
+                <Image
+                  source={'http://lojausereserva.vtexassets.com/arquivos/ids/6444563-55-55/0059850748_01.jpg?v=637692127594930000'
+                    .replace('http', 'https')
+                    .split('-55-55')
+                    .join('')}
+                  width={screenWidth * 0.25}
+                  // resizeMode='contain'
+                  height={152}
+                  // height={screenWidth * 0.38}
+                />
+
+                <Box ml={12} flex={1} minHeight={152}>
+                  <Box bg="pink" minHeight={93}>
+                    <Box>
+                      <Typography
+                        fontFamily="reservaSerifBold"
+                        fontSize={normalize(15)}
+                        lineHeight={normalize(19)}
+                      >
+                        Parabéns, você ganhou um brinde!
+                      </Typography>
+                    </Box>
+
+                    <Box minHeight={53}>
+                      <Typography
+                        fontFamily="reservaSansLight"
+                        fontSize={normalize(14)}
+                        lineHeight={normalize(16)}
+                      >
+                        Sua compra tem uma vantagem especial:
+                      </Typography>
+                      <Typography
+                        fontFamily="reservaSansLight"
+                        fontSize={normalize(14)}
+                        lineHeight={normalize(16)}
+                      >
+                        você ganhou
+                        <Typography
+                          fontFamily="reservaSansBold"
+                          fontSize={14}
+                          lineHeight={16}
+                        >
+                          {' '}
+                          1 Sandália Trancoso RSV1493 PRETO/PRETO.
+                        </Typography>
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Box>
+                    <Box
+                      // mt={20}
+                      mb={10}
+                      flexDirection="row"
+                      justifyContent="space-between"
+                      // flex={1}
+                      // bg="red"
+                    >
+                      <Typography
+                        fontFamily="reservaSerifBold"
+                        fontSize={normalize(13)}
+                        lineHeight={normalize(14)}
+                      >
+                        Selecione o tamanho:
+                      </Typography>
+
+                      <Button
+                        onPress={() => setShowMoreSizes(!showMoreSizes)}
+                        hitSlop={{ left: 50, top: 15, bottom: 15 }}
+                      >
+                        <BoxAnimation
+                          flexDirection="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Typography
+                            fontFamily="reservaSerifRegular"
+                            fontSize={normalize(13)}
+                          >
+                            Ver mais
+                          </Typography>
+
+                          <Icon
+                            style={
+                              showMoreSizes
+                                ? { transform: [{ rotate: '-90deg' }] }
+                                : { transform: [{ translateY: 4 }] }
+                            }
+                            name={showMoreSizes ? 'ChevronRight' : 'ArrowDown'}
+                            color="preto"
+                            // marginY="quarck"
+                            marginLeft="nano"
+                            size={12}
+                          />
+                        </BoxAnimation>
+                      </Button>
+                    </Box>
+
+                    <Box>
+                      <RadioButtons
+                        size={screenWidth * 0.09}
+                        fontSize={12}
+                        disbledOptions={[]}
+                        // onSelectedChange={(item) => {
+                        //   setSelectedSize(item);
+                        // }}
+                        optionsList={
+                          showMoreSizes
+                            ? [
+                                '37/8',
+                                '39/0',
+                                '41/2',
+                                '43/4',
+                                '45/6',
+                                '43/4',
+                                '45/6',
+                              ]
+                            : [
+                                '37/8',
+                                '39/0',
+                                '41/2',
+                                '43/4',
+                                '45/6',
+                                '43/4',
+                                '45/6',
+                              ].slice(0, 5)
+                        }
+                        showMoreSizes={showMoreSizes}
+                        defaultSelectedItem=""
+                        // selectedItem={selectedSize}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
 
               {orderForm?.items.map((item, index, array) => (
                 <Box key={index} bg="white" marginTop="xxxs">
