@@ -240,6 +240,15 @@ export const BagScreen = ({ route }: Props) => {
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
 
+    let giftSize: string | undefined;
+    const alreadySelectedGift = orderForm?.items.find((x) => x.isGift == true && x.sellingPrice == 0);
+    if (!!alreadySelectedGift) {
+      setSelectedSizeGift(alreadySelectedGift?.skuName.split('-')[1]);
+    } else {
+      giftSize = orderForm?.selectableGifts[0]?.availableGifts[0]?.skuName.split('-')[1];
+      if (!!giftSize) fetchSelectGiftSize(giftSize);
+    }
+
     setInstallmentInfo(
       installment
         ? {
@@ -251,13 +260,13 @@ export const BagScreen = ({ route }: Props) => {
           ...installmentInfo,
         }
     );
+
     setOptimistQuantities(quantities);
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
     setSellerCode(sellerCode);
     setSellerName(sellerName);
-    setSelectedSizeGift(gift?.skuName.split('-')[1]);
   }, [orderForm]);
 
   useEffect(() => {
@@ -392,7 +401,7 @@ export const BagScreen = ({ route }: Props) => {
     }
   }
 
-  const selectGiftSize = async (size: string) => {
+  const fetchSelectGiftSize = async (size: string) => {
     const availableGifts = orderForm.selectableGifts[0].availableGifts.find((x) => x.skuName.split('-')[1] === size);
     try {
       const data = await SetGiftSize(orderForm?.orderFormId, orderForm?.selectableGifts[0]?.id.trim(), availableGifts.id, availableGifts.seller);
@@ -685,11 +694,11 @@ export const BagScreen = ({ route }: Props) => {
                       // bg="red"
                       >
                         <Typography
-                          fontFamily="reservaSerifBold"
+                          fontFamily="reservaSansBold"
                           fontSize={normalize(13)}
                           lineHeight={normalize(14)}
                         >
-                          Selecione o tamanho:
+                          Selecione o tamanho
                         </Typography>
 
                         <Button
@@ -702,7 +711,7 @@ export const BagScreen = ({ route }: Props) => {
                             alignItems="center"
                           >
                             <Typography
-                              fontFamily="reservaSerifRegular"
+                              fontFamily="reservaSansRegular"
                               fontSize={normalize(13)}
                             >
                               Ver mais
@@ -730,7 +739,7 @@ export const BagScreen = ({ route }: Props) => {
                           fontSize={12}
                           disbledOptions={[]}
                           onSelectedChange={(item) => {
-                            selectGiftSize(item);
+                            fetchSelectGiftSize(item);
                           }}
                           optionsList={showMoreSizes ? orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]).reverse() : orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]).slice(0, 5).reverse()}
                           showMoreSizes={showMoreSizes}
