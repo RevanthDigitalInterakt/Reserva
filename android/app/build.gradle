@@ -163,6 +163,7 @@ android {
         versionCode 2022102005
         versionName "1.12.2"
         missingDimensionStrategy 'react-native-camera', 'general'
+        resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
     }
     splits {
         abi {

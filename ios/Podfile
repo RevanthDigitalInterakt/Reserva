@@ -39,6 +39,8 @@ target 'reserva' do
 
   pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
 
+  pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
+
   target 'reservaTests' do
     inherit! :complete
     # Pods for testing
