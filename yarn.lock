@@ -904,10 +904,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@danilomsou/reserva-ui@0.33.0":
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/@danilomsou/reserva-ui/-/reserva-ui-0.33.0.tgz#b5384d2c8c214fbd0c6c4106776749fb2d51df71"
-  integrity sha512-yIMbnk6XEPuRV9X9Jurmwl3ZJSeffQDKQ0G2JohH//R16GCpWx2n7JJq1S6QMJkz9Hx0cjEUPuTnp3H//3ZPuQ==
+"@danilomsou/reserva-ui@0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@danilomsou/reserva-ui/-/reserva-ui-0.34.0.tgz#cd34b0e60c99d82dd8fc0dc791ecc9c5e69b5cb1"
+  integrity sha512-KOUUx09vPF64yqBlXPX5xPLjEc4occmCBgu77VlcqKfsjqhGFt8/JIkXtDtrKdI+e8pihhn7evi8e6yDRUdUUw==
   dependencies:
     lottie-react-native "^4.0.3"
     react-native-linear-gradient "^2.5.6"
