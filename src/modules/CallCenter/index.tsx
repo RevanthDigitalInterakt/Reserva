@@ -96,7 +96,7 @@ const CallCenter = ({
               <Typography
                 fontFamily="nunitoRegular"
                 fontSize={16}
-              // style={{ marginTop: 7, marginBottom: 32 }}
+                // style={{ marginTop: 7, marginBottom: 32 }}
               >
                 Aqui você encontra todos os canais de contato com a Reserva.
                 Escolha a melhor opção pra você.
@@ -124,7 +124,7 @@ const CallCenter = ({
           <Box width={'100%'} mt={'xxs'}>
             <Button
               onPress={() => {
-                navigation.navigate('WebviewZendesk')
+                navigation.navigate('WebviewZendesk');
                 // Linking.openURL(`sms:(21) 3900-7052`);
               }}
               title="ENVIE UMA MENSAGEM"
