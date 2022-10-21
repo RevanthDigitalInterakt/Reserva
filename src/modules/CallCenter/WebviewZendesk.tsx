@@ -6,61 +6,64 @@ import LottieView from 'lottie-react-native';
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 
 export const WebviewZendesk: React.FC<{}> = () => {
-    const [loading, setLoading] = useState(true);
-    const [navState, setNavState] = useState('');
-    const webref = useRef(false);
+  const [loading, setLoading] = useState(true);
+  const [navState, setNavState] = useState('');
+  const webref = useRef(false);
 
-    const scripts = `
+  const scripts = `
       document.querySelector("header").style.display = 'none';
       document.querySelector("ol").style.display = 'none';
       document.getElementsByClassName("footer-inner")[0].style.display = 'none';
       true;
     `;
 
-    return (
-        <Box flex={1} backgroundColor={'white'}>
-              {loading && (
-                <Box
-                zIndex={5}
-                height="100%"
-                width="100%"
-                backgroundColor="white"
-                position="absolute"
-                justifyContent="center"
-                alignItems="center"
-                >
-                <LottieView
-                    source={loadingSpinner}
-                    style={{
-                    width: 60,
-                    }}
-                    autoPlay
-                    loop
-                />
-                </Box>
-            )}
-            <TopBarBackButton loading={loading} showShadow />
-            <WebView
-                ref={webref}
-                onLoadStart={() => {
-                    setLoading(true);
-                }}
-                onLoadEnd={() => {
-                    setTimeout(() => setLoading(false), 1500);
-                }}
-                onNavigationStateChange={(navState) => {
-                    if(navState.url !== 'https://usereserva.zendesk.com/hc/pt-br/requests/new'){
-                        setLoading(false)
-                    }
-                    setNavState(navState.url);
-                }}
-                onLoadProgress={e => {
-                      webref.current.injectJavaScript(scripts);
-                  }}
-                source={{
-                    uri: `https://usereserva.zendesk.com/hc/pt-br/requests/new`,
-                }}
-            />
+  return (
+    <Box flex={1} backgroundColor={'white'}>
+      {loading && (
+        <Box
+          zIndex={5}
+          height="100%"
+          width="100%"
+          backgroundColor="white"
+          position="absolute"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <LottieView
+            source={loadingSpinner}
+            style={{
+              width: 60,
+            }}
+            autoPlay
+            loop
+          />
         </Box>
-    );
+      )}
+      <TopBarBackButton loading={loading} showShadow />
+      <WebView
+        ref={webref}
+        onLoadStart={() => {
+          setLoading(true);
+        }}
+        onLoadEnd={() => {
+          setTimeout(() => setLoading(false), 1500);
+        }}
+        onNavigationStateChange={(navState) => {
+          if (
+            navState.url !==
+            'https://usereserva.zendesk.com/hc/pt-br/requests/new'
+          ) {
+            setLoading(false);
+          }
+          setNavState(navState.url);
+        }}
+        onLoadProgress={(e) => {
+          webref.current.injectJavaScript(scripts);
+        }}
+        source={{
+          uri: `https://usereserva.zendesk.com/hc/pt-br/requests/new`,
+        }}
+      />
+    </Box>
+  );
 };
