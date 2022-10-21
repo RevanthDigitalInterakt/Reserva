@@ -65,6 +65,7 @@ export interface ICountDownClock {
   subtitle: string;
   watchType: number;
   countdown: string;
+  countdownStart: string;
   titleButton: string;
   titleModal: string;
   descriptionModal: string;
@@ -192,6 +193,7 @@ export const configCollection = gql`
           subtitle
           watchType
           countdown
+          countdownStart
           titleButton
           titleModal
           descriptionModal
