@@ -94,7 +94,9 @@ export const BagScreen = ({ route }: Props) => {
   const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
   const [sellerName, setSellerName] = React.useState<string | undefined>('');
   const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
-  const [selectedSizeGift, setSelectedSizeGift] = useState<string | undefined>('');
+  const [selectedSizeGift, setSelectedSizeGift] = useState<string | undefined>(
+    ''
+  );
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean | undefined>(
     false
   );
@@ -129,7 +131,7 @@ export const BagScreen = ({ route }: Props) => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => { },
+    refetch: () => {},
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -241,24 +243,27 @@ export const BagScreen = ({ route }: Props) => {
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
 
     let giftSize: string | undefined;
-    const alreadySelectedGift = orderForm?.items.find((x) => x.isGift == true && x.sellingPrice == 0);
+    const alreadySelectedGift = orderForm?.items.find(
+      (x) => x.isGift == true && x.sellingPrice == 0
+    );
     if (!!alreadySelectedGift) {
       setSelectedSizeGift(alreadySelectedGift?.skuName.split('-')[1]);
     } else {
-      giftSize = orderForm?.selectableGifts[0]?.availableGifts[0]?.skuName.split('-')[1];
+      giftSize =
+        orderForm?.selectableGifts[0]?.availableGifts[0]?.skuName.split('-')[1];
       if (!!giftSize) fetchSelectGiftSize(giftSize);
     }
 
     setInstallmentInfo(
       installment
         ? {
-          installmentPrice: installment.value,
-          installmentsNumber: installment.count,
-          totalPrice: installment.total,
-        }
+            installmentPrice: installment.value,
+            installmentsNumber: installment.count,
+            totalPrice: installment.total,
+          }
         : {
-          ...installmentInfo,
-        }
+            ...installmentInfo,
+          }
     );
 
     setOptimistQuantities(quantities);
@@ -388,10 +393,6 @@ export const BagScreen = ({ route }: Props) => {
     }
   };
 
-  useEffect(() => {
-    console.log('DATAAAAAAAAAAAAAAA====>>>>>>>>', orderForm);
-  }, []);
-
   function normalize(size) {
     const newSize = size * scale;
     if (Platform.OS === 'ios') {
@@ -402,9 +403,17 @@ export const BagScreen = ({ route }: Props) => {
   }
 
   const fetchSelectGiftSize = async (size: string) => {
-    const availableGifts = orderForm.selectableGifts[0].availableGifts.find((x) => x.skuName.split('-')[1] === size);
+    const availableGifts = orderForm.selectableGifts[0].availableGifts.find(
+      (x) => x.skuName.split('-')[1] === size
+    );
+
     try {
-      const data = await SetGiftSize(orderForm?.orderFormId, orderForm?.selectableGifts[0]?.id.trim(), availableGifts.id, availableGifts.seller);
+      const data = await SetGiftSize(
+        orderForm?.orderFormId,
+        orderForm?.selectableGifts[0]?.id.trim(),
+        availableGifts.id,
+        availableGifts.seller
+      );
       if (data) {
         orderform();
         setSelectedSizeGift(size);
@@ -412,8 +421,7 @@ export const BagScreen = ({ route }: Props) => {
     } catch (error) {
       throw error;
     }
-  }
-
+  };
 
   return (
     <SafeAreaView
@@ -643,7 +651,7 @@ export const BagScreen = ({ route }: Props) => {
                     width={screenWidth * 0.25}
                     // resizeMode='contain'
                     height={152}
-                  // height={screenWidth * 0.38}
+                    // height={screenWidth * 0.38}
                   />
 
                   <Box ml={12} flex={1} minHeight={152}>
@@ -678,7 +686,12 @@ export const BagScreen = ({ route }: Props) => {
                             lineHeight={16}
                           >
                             {' '}
-                            1 {orderForm?.selectableGifts[0]?.availableGifts[0]?.name.split('-')[0]}
+                            1{' '}
+                            {
+                              orderForm?.selectableGifts[0]?.availableGifts[0]?.name.split(
+                                '-'
+                              )[0]
+                            }
                           </Typography>
                         </Typography>
                       </Box>
@@ -690,8 +703,8 @@ export const BagScreen = ({ route }: Props) => {
                         mb={10}
                         flexDirection="row"
                         justifyContent="space-between"
-                      // flex={1}
-                      // bg="red"
+                        // flex={1}
+                        // bg="red"
                       >
                         <Typography
                           fontFamily="reservaSansBold"
@@ -701,36 +714,43 @@ export const BagScreen = ({ route }: Props) => {
                           Selecione o tamanho
                         </Typography>
 
-                        <Button
-                          onPress={() => setShowMoreSizes(!showMoreSizes)}
-                          hitSlop={{ left: 50, top: 15, bottom: 15 }}
-                        >
-                          <BoxAnimation
-                            flexDirection="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-                          >
-                            <Typography
-                              fontFamily="reservaSansRegular"
-                              fontSize={normalize(13)}
+                        {orderForm &&
+                          orderForm.selectableGifts[0].availableGifts.map(
+                            (x) => x.skuName.split('-')[1]
+                          ).length > 5 && (
+                            <Button
+                              onPress={() => setShowMoreSizes(!showMoreSizes)}
+                              hitSlop={{ left: 50, top: 15, bottom: 15 }}
                             >
-                              Ver mais
-                            </Typography>
+                              <BoxAnimation
+                                flexDirection="row"
+                                justifyContent="space-between"
+                                alignItems="center"
+                              >
+                                <Typography
+                                  fontFamily="reservaSansRegular"
+                                  fontSize={normalize(13)}
+                                >
+                                  Ver mais
+                                </Typography>
 
-                            <Icon
-                              style={
-                                showMoreSizes
-                                  ? { transform: [{ rotate: '-90deg' }] }
-                                  : { transform: [{ translateY: 4 }] }
-                              }
-                              name={showMoreSizes ? 'ChevronRight' : 'ArrowDown'}
-                              color="preto"
-                              // marginY="quarck"
-                              marginLeft="nano"
-                              size={12}
-                            />
-                          </BoxAnimation>
-                        </Button>
+                                <Icon
+                                  style={
+                                    showMoreSizes
+                                      ? { transform: [{ rotate: '-90deg' }] }
+                                      : { transform: [{ translateY: 4 }] }
+                                  }
+                                  name={
+                                    showMoreSizes ? 'ChevronRight' : 'ArrowDown'
+                                  }
+                                  color="preto"
+                                  // marginY="quarck"
+                                  marginLeft="nano"
+                                  size={12}
+                                />
+                              </BoxAnimation>
+                            </Button>
+                          )}
                       </Box>
 
                       <Box>
@@ -741,7 +761,16 @@ export const BagScreen = ({ route }: Props) => {
                           onSelectedChange={(item) => {
                             fetchSelectGiftSize(item);
                           }}
-                          optionsList={showMoreSizes ? orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]).reverse() : orderForm.selectableGifts[0].availableGifts.map((x) => x.skuName.split('-')[1]).slice(0, 5).reverse()}
+                          optionsList={
+                            showMoreSizes
+                              ? orderForm.selectableGifts[0].availableGifts
+                                  .map((x) => x.skuName.split('-')[1])
+                                  .reverse()
+                              : orderForm.selectableGifts[0].availableGifts
+                                  .map((x) => x.skuName.split('-')[1])
+                                  .slice(0, 5)
+                                  .reverse()
+                          }
                           showMoreSizes={showMoreSizes}
                           defaultSelectedItem=""
                           selectedItem={selectedSizeGift}
@@ -751,13 +780,16 @@ export const BagScreen = ({ route }: Props) => {
                   </Box>
                 </Box>
               )}
-              {orderForm?.items.map((item, index, array) => (
-                item.sellingPrice !== 0 && item.isGift === false && (
-                  <Box key={index} bg="white" marginTop="xxxs">
-                    {item.priceTags.find(
-                      (x) =>
-                        x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                    ) && (
+              {orderForm?.items.map(
+                (item, index, array) =>
+                  item.sellingPrice !== 0 &&
+                  item.isGift === false && (
+                    <Box key={index} bg="white" marginTop="xxxs">
+                      {item.priceTags.find(
+                        (x) =>
+                          x.identifier ===
+                          'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                      ) && (
                         <Box paddingBottom="nano">
                           <Typography
                             fontFamily="nunitoRegular"
@@ -768,10 +800,11 @@ export const BagScreen = ({ route }: Props) => {
                           </Typography>
                         </Box>
                       )}
-                    {item.priceTags.find(
-                      (x) =>
-                        x.identifier === 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                    ) && (
+                      {item.priceTags.find(
+                        (x) =>
+                          x.identifier ===
+                          'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                      ) && (
                         <Box position="absolute" zIndex={5} top={84} right={21}>
                           <Typography
                             color="verdeSucesso"
@@ -782,121 +815,127 @@ export const BagScreen = ({ route }: Props) => {
                           </Typography>
                         </Box>
                       )}
-                    <ProductHorizontalListCard
-                      isBag
-                      discountApi={
-                        item.priceTags.find(
-                          (x) =>
-                            x.identifier ===
-                            'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                        )
-                          ? parseInt(`${item.priceTags[0].rawValue}`)
-                          : undefined
-                      }
-                      disableCounter={
-                        item.priceTags.find(
-                          (x) =>
-                            x.identifier ===
-                            'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                        ) &&
-                        array.filter((x) => x.uniqueId == item.uniqueId).length >
-                        1
-                      }
-                      currency="R$"
-                      discountTag={getPercent(item.sellingPrice, item.listPrice)}
-                      itemColor={item.skuName.split('-')[0] || ''}
-                      ItemSize={item.skuName.split('-')[1] || ''}
-                      productTitle={item.name.split(' - ')[0]}
-                      // installmentsNumber={item.installmentNumber}
-                      // installmentsPrice={item.installmentPrice}
-                      price={item.listPrice / 100}
-                      priceWithDiscount={
-                        item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
-                      }
-                      count={optimistQuantities[index]}
-                      onClickAddCount={async (countUpdated) => {
-                        const itemIndex = array.findIndex(
-                          (x) => x.refId == item.refId
-                        );
-
-                        let isAssinaturaSimples =
-                          item?.attachmentOfferings?.find((x) => x.schema.aceito)
-                            ?.required || false;
-
-                        const quantities = isAssinaturaSimples ? 1 : countUpdated;
-
-                        const { ok } = await addItem(
-                          quantities,
-                          item.id,
-                          item.seller
-                        );
-                        if (!ok) {
-                          const erros = errorsMessages?.filter((erro) =>
-                            erro.includes(item.name)
-                          );
-                          setNoProduct(erros[0]);
-                        } else {
-                          if (!isAssinaturaSimples) {
-                            setOptimistQuantities([
-                              ...optimistQuantities.slice(0, itemIndex),
-                              countUpdated,
-                              ...optimistQuantities.slice(itemIndex + 1),
-                            ]);
-                          } else {
-                            await addAttachmentsInProducts();
-                          }
+                      <ProductHorizontalListCard
+                        isBag
+                        discountApi={
+                          item.priceTags.find(
+                            (x) =>
+                              x.identifier ===
+                              'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                          )
+                            ? parseInt(`${item.priceTags[0].rawValue}`)
+                            : undefined
                         }
-                      }}
-                      onClickSubCount={async (count) => {
-                        const prevCont = optimistQuantities[index];
-                        if (prevCont <= 1) {
+                        disableCounter={
+                          item.priceTags.find(
+                            (x) =>
+                              x.identifier ===
+                              'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                          ) &&
+                          array.filter((x) => x.uniqueId == item.uniqueId)
+                            .length > 1
+                        }
+                        currency="R$"
+                        discountTag={getPercent(
+                          item.sellingPrice,
+                          item.listPrice
+                        )}
+                        itemColor={item.skuName.split('-')[0] || ''}
+                        ItemSize={item.skuName.split('-')[1] || ''}
+                        productTitle={item.name.split(' - ')[0]}
+                        // installmentsNumber={item.installmentNumber}
+                        // installmentsPrice={item.installmentPrice}
+                        price={item.listPrice / 100}
+                        priceWithDiscount={
+                          item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0
+                        }
+                        count={optimistQuantities[index]}
+                        onClickAddCount={async (countUpdated) => {
+                          const itemIndex = array.findIndex(
+                            (x) => x.refId == item.refId
+                          );
+
+                          let isAssinaturaSimples =
+                            item?.attachmentOfferings?.find(
+                              (x) => x.schema.aceito
+                            )?.required || false;
+
+                          const quantities = isAssinaturaSimples
+                            ? 1
+                            : countUpdated;
+
+                          const { ok } = await addItem(
+                            quantities,
+                            item.id,
+                            item.seller
+                          );
+                          if (!ok) {
+                            const erros = errorsMessages?.filter((erro) =>
+                              erro.includes(item.name)
+                            );
+                            setNoProduct(erros[0]);
+                          } else {
+                            if (!isAssinaturaSimples) {
+                              setOptimistQuantities([
+                                ...optimistQuantities.slice(0, itemIndex),
+                                countUpdated,
+                                ...optimistQuantities.slice(itemIndex + 1),
+                              ]);
+                            } else {
+                              await addAttachmentsInProducts();
+                            }
+                          }
+                        }}
+                        onClickSubCount={async (count) => {
+                          const prevCont = optimistQuantities[index];
+                          if (prevCont <= 1) {
+                            setShowModal(true);
+                            setRemoveProduct({
+                              id: item.id,
+                              index,
+                              seller: item.seller,
+                            });
+                          } else {
+                            setOptimistQuantities([
+                              ...optimistQuantities.slice(0, index),
+                              count,
+                              ...optimistQuantities.slice(index + 1),
+                            ]);
+                            const { ok } = await removeItem(
+                              item.id,
+                              index,
+                              item.seller,
+                              item.quantity - 1
+                            );
+                            if (!ok)
+                              setOptimistQuantities([
+                                ...optimistQuantities.slice(0, index),
+                                prevCont,
+                                ...optimistQuantities.slice(index + 1),
+                              ]);
+                          }
+                        }}
+                        onClickClose={() => {
                           setShowModal(true);
                           setRemoveProduct({
                             id: item.id,
                             index,
                             seller: item.seller,
                           });
-                        } else {
-                          setOptimistQuantities([
-                            ...optimistQuantities.slice(0, index),
-                            count,
-                            ...optimistQuantities.slice(index + 1),
-                          ]);
-                          const { ok } = await removeItem(
-                            item.id,
-                            index,
-                            item.seller,
-                            item.quantity - 1
-                          );
-                          if (!ok)
-                            setOptimistQuantities([
-                              ...optimistQuantities.slice(0, index),
-                              prevCont,
-                              ...optimistQuantities.slice(index + 1),
-                            ]);
-                        }
-                      }}
-                      onClickClose={() => {
-                        setShowModal(true);
-                        setRemoveProduct({
-                          id: item.id,
-                          index,
-                          seller: item.seller,
-                        });
-                      }}
-                      imageSource={item.imageUrl
-                        .replace('http', 'https')
-                        .split('-55-55')
-                        .join('')}
-                      handleNavigateToProductDetail={() => {
-                        navigation.navigate('ProductDetail', {
-                          productId: item.productId,
-                          itemId: item.id,
-                          sizeSelected: item.skuName.split('-')[1] || '',
-                        });
-                      }}
-                    />
-                    {/* <Box
+                        }}
+                        imageSource={item.imageUrl
+                          .replace('http', 'https')
+                          .split('-55-55')
+                          .join('')}
+                        handleNavigateToProductDetail={() => {
+                          navigation.navigate('ProductDetail', {
+                            productId: item.productId,
+                            itemId: item.id,
+                            sizeSelected: item.skuName.split('-')[1] || '',
+                          });
+                        }}
+                      />
+                      {/* <Box
                     key={index}
                     flexDirection="row"
                     marginY="xxs"
@@ -933,8 +972,9 @@ export const BagScreen = ({ route }: Props) => {
                       />
                     </Box>
                   </Box> */}
-                  </Box>
-                )))}
+                    </Box>
+                  )
+              )}
             </Box>
 
             {/* <Box paddingX={'xxxs'}>
