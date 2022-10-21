@@ -42,7 +42,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { useCart } from '../../../context/CartContext';
+import { OrderForm, useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
 import IsTestingModal from '../Components/IsTestingModal';
@@ -618,6 +618,10 @@ export const EditProfile = ({ route }: Props) => {
 
   const handleCopyToken = () => {
     Clipboard.setString(tokenOneSignal);
+  };
+  const handleCopyOrderFormId = () => {
+    const { orderFormId } = orderForm as OrderForm;
+    Clipboard.setString(orderFormId);
   };
 
   const styles = StyleSheet.create({
@@ -1200,6 +1204,11 @@ export const EditProfile = ({ route }: Props) => {
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
+                    </TouchableOpacity>
+                  </Box>
+                  <Box mb="nano" mt="nano">
+                    <TouchableOpacity onPress={() => handleCopyOrderFormId()}>
+                      <Typography>{orderForm?.orderFormId}</Typography>
                     </TouchableOpacity>
                   </Box>
                   <Box flexDirection="row" marginY="micro" alignItems="center">

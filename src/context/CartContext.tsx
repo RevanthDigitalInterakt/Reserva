@@ -208,7 +208,7 @@ interface StorePreferencesData {
   currencyFormatInfo: CurrencyFormatInfo;
 }
 
-interface OrderForm {
+export interface OrderForm {
   canEditData: boolean;
   clientPreferencesData: ClientPreferencesData;
   clientProfileData: ClientProfileData;
