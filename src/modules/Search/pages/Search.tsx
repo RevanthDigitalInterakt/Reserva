@@ -287,11 +287,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         setShowResults(true);
         setSelectedTerm(false);
         // resetProductsArray()
-        setProducts(data?.productSearch.products);
+        setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
         console.log('data--', data);
-        const searchIds = data?.productSearch.products.map(
-          (x: any) => x.productId
+        const searchIds = data?.productSearch?.products.map(
+          (x: any) => x?.productId
         );
 
         appsFlyer.logEvent('af_search', {
@@ -319,11 +319,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         setShowResults(true);
         setSelectedTerm(false);
         // resetProductsArray();
-        setProducts(data?.productSearch.products);
+        setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
 
-        const searchIds = data?.productSearch.products.map(
-          (x: any) => x.productId
+        const searchIds = data?.productSearch?.products.map(
+          (x: any) => x?.productId
         );
 
         appsFlyer.logEvent('af_search', {
@@ -373,7 +373,13 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     });
 
     if (!loading) {
-      setProducts(newProducts);
+      // setProducts([...products, newProducts]);
+      if (Array.isArray(newProducts) && newProducts.length) {
+        setProducts(newProducts);
+      } else {
+        const newProduct = [...products] as any[] | undefined;
+        setProducts(newProduct);
+      }
     }
     setLoadingRefetch(false);
   };
