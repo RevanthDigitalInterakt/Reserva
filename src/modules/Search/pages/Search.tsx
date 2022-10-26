@@ -585,7 +585,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           }}
           onClickIcon={() => {
             suggestionsData && setSelectedTerm(true);
-            handleSearch(searchTerm);
+            handleSearch(searchTerm.replace(/^\s+|\s+$/gm, ''));
           }}
           height={36}
           placeholder="Buscar"
