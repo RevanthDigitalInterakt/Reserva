@@ -160,9 +160,10 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2022100403
-        versionName "1.10.13"
+        versionCode 2022130704
+        versionName "1.12.4"
         missingDimensionStrategy 'react-native-camera', 'general'
+        resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
     }
     splits {
         abi {

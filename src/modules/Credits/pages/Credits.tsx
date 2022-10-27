@@ -7,18 +7,16 @@ import { BackHandler } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   profileQuery,
-  ProfileVars
+  ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
 import {
   StorageService,
-  StorageServiceKeys
+  StorageServiceKeys,
 } from '../../../shared/services/StorageService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-
-
 
 type Props = StackScreenProps<RootStackParamList, 'Credits'>;
 
@@ -29,22 +27,21 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
   const [profile, setProfile] = useState<ProfileVars>();
   const [credit, setCredit] = useState(0);
 
-  const [{
-    data,
-    loading,
-  }, setProfileData] = useState({
+  const [{ data, loading }, setProfileData] = useState({
     loading: true,
-    data: {} as any
-  })
+    data: {} as any,
+  });
 
   const [getProfile] = useLazyQuery(profileQuery);
 
   useEffect(() => {
-    getProfile().then(response => setProfileData({
-      loading: false,
-      data: response.data
-    }))
-  }, [])
+    getProfile().then((response) =>
+      setProfileData({
+        loading: false,
+        data: response.data,
+      })
+    );
+  }, []);
 
   useEffect(() => {
     StorageService.getItem<ProfileVars>({

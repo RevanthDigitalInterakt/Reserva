@@ -23,8 +23,10 @@ import { useStatusBar } from './context/StatusBarContext';
 import { haveVersionUpdates } from './updates/InAppUpdates/InAppUpdates';
 import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
+import semver from 'semver'
 import { useLazyQuery } from '@apollo/client';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
+import CodePushModal from './shared/components/CodePushModal';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -143,13 +145,21 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         androidStoreURL: ANDROID_STORE_URL,
         country: 'BR',
       });
-      const inAppUpdates = new SpInAppUpdates(true);
+
+      const inAppUpdates = new SpInAppUpdates(false);
 
       const response = await inAppUpdates.checkNeedsUpdate({
         curVersion: local,
         customVersionComparator: () => {
-          if (remote > local) {
-            if (versionLocalTarget === local || updateAllVersions) {
+          const isMajor = semver.gt(remote, local)
+
+          let isMajorLocalTarget: boolean = false;
+          if (versionLocalTarget) {
+            isMajorLocalTarget = semver.eq(versionLocalTarget, local)
+          }
+
+          if (isMajor) {
+            if (isMajorLocalTarget || updateAllVersions) {
               return 1;
             }
           }
@@ -226,6 +236,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         }}
       >
         <StatusBar animated barStyle={barStyle} />
+        <CodePushModal />
         {showNotification && (
           <ModalPush
             closeModal={() => setShowNotification(false)}

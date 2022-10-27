@@ -2,6 +2,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CallCenter from '../modules/CallCenter';
+import { WebviewZendesk } from '../modules/CallCenter/WebviewZendesk';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
 import { Cashback } from '../modules/Cashback/pages/Cashback';
 import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
@@ -155,22 +156,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -301,5 +302,7 @@ export const MainStackScreen = () => (
     />
     <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
+    <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
+
   </MainStack.Navigator>
 );

@@ -1,7 +1,6 @@
-import React, { Fragment } from "react";
-import { Box, Divider, Typography } from "@danilomsou/reserva-ui";
+import React, { Fragment } from 'react';
+import { Box, Divider, Typography } from '@danilomsou/reserva-ui';
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
-
 
 export interface CreditsViewProps {
   creditsBalance?: number;
@@ -9,13 +8,11 @@ export interface CreditsViewProps {
   handleNavigateToCashbackInStore: () => void;
 }
 
-export const CreditsView = (
-  {
-    creditsBalance,
-    handleNavigateToCashbackInStore,
-    screenCashbackInStoreActive
-  }: CreditsViewProps
-) => {
+export const CreditsView = ({
+  creditsBalance,
+  handleNavigateToCashbackInStore,
+  screenCashbackInStoreActive,
+}: CreditsViewProps) => {
   return (
     <Fragment>
       <Box mx="xxs" mt="sm">
@@ -29,9 +26,7 @@ export const CreditsView = (
         <Box mt="xxs">
           <Divider variant="fullWidth" />
           <Box py="xxs" flexDirection="row" justifyContent="space-between">
-            <Typography variant="subtituloSessoes">
-              Créditos
-            </Typography>
+            <Typography variant="subtituloSessoes">Créditos</Typography>
             <PriceCustom
               fontFamily="nunitoBold"
               num={creditsBalance || 0}
@@ -52,11 +47,10 @@ export const CreditsView = (
               podem ser transferidos ou convertidos em outra forma de pagamento.
               E atenção à data de validade dos seus créditos, hein? Você deve
               utilizá-los nas lojas, no site ou aqui no App, antes que expirem.
-
             </Typography>
           </Box>
         </Box>
       </Box>
     </Fragment>
-  )
+  );
 };

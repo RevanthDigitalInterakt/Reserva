@@ -166,9 +166,8 @@ export const HomeScreen: FC<{
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${
-            limitDate?.minutes
-          }:${limitDate?.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
+            }:${limitDate?.seconds}`,
         });
       }
     }
@@ -191,11 +190,12 @@ export const HomeScreen: FC<{
           });
         }
         if (limitDate) {
+          console.log('conuntDownClock', countDownClock?.countdownStart);
           setCountDownClock({
             ...countDownClock,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-              limitDate.minutes
-            }:${limitDate.seconds}`,
+            countdownStart: countDownClock?.countdownStart,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
           });
         }
       }
