@@ -1548,10 +1548,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-13.1.1.tgz#f2c7b386f3a64f80234091203f87ed4ca0c90388"
   integrity sha512-CXyYdEK+ZQOfrEMEd6zZw+8IAA7fIWsaHlbHN78iCktns9/7lSvFaD4lD37Ycv7xfJ/iD0pf69Dgh99cRx9zGg==
 
-"@react-native-firebase/dynamic-links@^13.0.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-13.1.1.tgz#99d9f6f01c87cd19741affa30367e96948de2b39"
-  integrity sha512-k7wlg/CQgZ3Ttjs1KMRDrwZngWFHX0p8vP4vtgxIMtrkH5jYd8w2BNnn6cuFPmGXPtMxcVk3EYoaNKfFC54Bhg==
+"@react-native-firebase/dynamic-links@^16.2.0":
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-16.2.0.tgz#d90829d5adafd6df0e465fa0647a7b9b0f6bc735"
+  integrity sha512-RgsWtoJMlKo7jUMSiuQUHQiC5LBa57oLdpTMFSo6ulQVMILsS6BpUjDIUslzBD2w8unxRZEfbOe9Le+e2D3VUw==
 
 "@react-native-firebase/firestore@^13.0.1":
   version "13.1.1"

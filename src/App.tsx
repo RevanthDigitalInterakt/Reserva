@@ -3,7 +3,7 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Linking, Platform } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
@@ -38,12 +38,26 @@ import { responsysConfig } from './config/responsys';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const DefaultTheme = {
   colors: {
     background: theme.colors.backgroundApp,
   },
 };
+
+async function buildLink() {
+  const link = await dynamicLinks().buildLink({
+    link: 'https://www.usereserva.com',
+    domainUriPrefix: 'https://usereserva.page.link/1Crm',
+    analytics: {
+      campaign: 'banner',
+    }
+
+  })
+
+  return link
+}
 
 let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
@@ -123,6 +137,29 @@ const App = () => {
   const [canRegisterUser, setCanRegisterUser] = useState(true);
   const [userId, setUserId] = useState('06869751110');
 
+  const handleDynamicLink = link => {
+    console.log('getInitialLink 1', link);
+    Alert.alert(link);
+    if (link.url) {
+
+      console.log('getInitialLink 2', link.url);
+      // Linking.openURL(link.url);
+    }
+  }
+
+  useEffect(() => {
+    // dynamicLinks()
+    //   .getInitialLink()
+    //   .then(link => {
+    //     console.log('getInitialLink', link);
+    //   })
+    // dynamicLinks().getInitialLink().then(val => console.log('getInitialLink 3', val)).then(val => console.log('getInitialLink 4', val));
+    // Alert.alert('teste')
+    const unsubscribe = dynamicLinks().onLink(handleDynamicLink)
+    return () => unsubscribe();
+
+  }, [])
+
   useEffect(() => {
     PushIOManager.configure(
       'pushio_config.json',
@@ -144,7 +181,7 @@ const App = () => {
               (error: any, response: any) => {
                 PushIOManager.registerApp(
                   true,
-                  (error: any, response: any) => {}
+                  (error: any, response: any) => { }
                 );
               }
             );
@@ -155,6 +192,7 @@ const App = () => {
       }
     );
   }, []);
+
 
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);

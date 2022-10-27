@@ -35,7 +35,7 @@
     "@react-native-firebase/app-check": "^13.0.1",
     "@react-native-firebase/crashlytics": "^13.0.1",
     "@react-native-firebase/database": "^13.0.1",
-    "@react-native-firebase/dynamic-links": "^13.0.1",
+    "@react-native-firebase/dynamic-links": "^16.2.0",
     "@react-native-firebase/firestore": "^13.0.1",
     "@react-native-firebase/in-app-messaging": "^13.0.1",
     "@react-native-firebase/installations": "^13.0.1",
