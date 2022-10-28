@@ -24,7 +24,6 @@ import {
   bannerQuery,
   configCollection,
   ICountDownClock,
-  ICountDownClockReservaMini,
 } from '../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
@@ -32,7 +31,7 @@ import {
   productSearch,
   ProductSearchData,
 } from '../../../graphql/products/productSearch';
-import { CountDownRsvMini } from '../../../modules/Home/component/reservaMini/CountDownRsvMini';
+import { CountDownLocal } from '../../Home/component/countDownLocal/CountDownLocal';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { Skeleton } from '../../Checkout/components/Skeleton';
@@ -90,7 +89,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [watchLoading, setWatchLoading] = useState(false);
   const [showWatch, setShowWatch] = useState(false);
-  const [showWatchMini, setShowWatchMini] = useState(false);
+  const [showWatchLocal, setShowWatchLocal] = useState(false);
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -104,8 +103,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const [skip, setSkip] = useState(false);
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
-  const [countDownClockRsvMini, setCountDownClockRsvMini] =
-    React.useState<ICountDownClockReservaMini>();
+  const [countDownClockLocal, setCountDownClockLocal] =
+    React.useState<ICountDownClock>();
   const [{ collectionData }, setConfigCollection] = useState<{
     collectionData: any;
   }>({ collectionData: null });
@@ -228,7 +227,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         });
       }
       if (limitDate) {
-        setCountDownClockRsvMini({
+        setCountDownClockLocal({
           ...countDownClockMini,
           formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
             }:${limitDate.seconds}`,
@@ -628,18 +627,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   // recarrega a página de promoção do relógio Reserva Mini
   const loadWatchPromotionPageMini = async () => {
-    if (countDownClockRsvMini) {
+    if (countDownClockLocal) {
       console.log(
         'countDownClockRsvMini?.reference',
-        countDownClockRsvMini?.reference
+        countDownClockLocal?.reference
       );
       console.log('referenceString', referenceString);
-      if (countDownClockRsvMini?.reference === referenceString) {
+      if (countDownClockLocal?.reference === referenceString) {
         console.log('entrou');
         setWatchLoading(true);
         setSkeletonLoading(true);
         setSkip(true);
-        setShowWatchMini(false);
+        setShowWatchLocal(false);
         const fetch = async () => {
           const { data, loading } = await refetch({
             skusFilter: 'ALL_AVAILABLE',
@@ -664,9 +663,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         fetch();
       } else {
         if (isReservaMini || reservaMini) {
-          setShowWatchMini(true);
+          setShowWatchLocal(true);
         } else {
-          setShowWatchMini(false);
+          setShowWatchLocal(false);
         }
       }
     }
@@ -678,7 +677,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     loadWatchPromotionPageMini();
-  }, [countDownClockRsvMini, referenceString]);
+  }, [countDownClockLocal, referenceString]);
 
   useEffect(() => {
     console.log('loading::>', loading);
@@ -967,8 +966,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           totalProducts={productsQuery.recordsFiltered}
           listHeader={
             <>
-              {countDownClockRsvMini && showWatchMini && (
-                <CountDownRsvMini countDownMini={countDownClockRsvMini} />
+              {countDownClockLocal && showWatchLocal && (
+                <CountDownLocal countDownLocal={countDownClockLocal} />
               )}
               {countDownClock && showWatch && (
                 <Box>

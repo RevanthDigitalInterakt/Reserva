@@ -47,6 +47,11 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
       colorButton: '#4A4A4A',
       clockBackgroundColor: '#1A1A1A',
     },
+    {
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
+    },
   ];
 
   const [clockColor, setClockColor] = useState<
