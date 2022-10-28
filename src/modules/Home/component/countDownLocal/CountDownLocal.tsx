@@ -12,53 +12,55 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {
-  ICountDownClockReservaMini
+  ICountDownClockLocal
 } from '../../../../graphql/homePage/HomeQuery';
 import FlipNumber from '../flipcountdoun/FlipNumber';
-import { useChronometerRsvMini } from './useChronometerRsvMini';
-
-
+import { useChronometerLocal } from './useChronometerLocal';
 
 const deviceWidth = Dimensions.get('window').width;
 
 export interface CountDownProps {
-  countDownMini?: ICountDownClockReservaMini;
+  countDownLocal?: ICountDownClockLocal;
 }
 
 const scale = deviceWidth / 320;
 
-export const CountDownRsvMini: React.FC<CountDownProps> = ({
-  countDownMini,
+export const CountDownLocal: React.FC<CountDownProps> = ({
+  countDownLocal,
 }: CountDownProps) => {
   const navigation = useNavigation();
-  const [countDownClockRsvMini, setCountDownClockRsvMini] =
-    React.useState<ICountDownClockReservaMini>();
+
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
   const [watchType, setWatchType] = useState<number>(0);
 
-  const { currentValue, start } = useChronometerRsvMini({
-    initial: countDownMini?.formattedValue,
+  const { currentValue, start } = useChronometerLocal({
+    initial: countDownLocal?.formattedValue,
   });
 
   useEffect(() => {
-    if (countDownMini) {
-      if (new Date(countDownMini?.countdown).getTime() > Date.now()) {
+    if (countDownLocal) {
+      if (new Date(countDownLocal?.countdown).getTime() > Date.now()) {
         start();
       }
     }
-  }, [countDownMini]);
+  }, [countDownLocal]);
 
-  const colorsReservaMini = [
+  const colorsReservaLocal = [
     {
-      colorBanner: '#0B243B',
-      colorButton: '#B40404',
-      clockBackgroundColor: '#243A4F',
+      colorBanner: '#000000',
+      colorButton: '#E40C2B',
+      clockBackgroundColor: '#1A1A1A',
     },
     {
-      colorBanner: '#0B243B',
-      colorButton: '#B40404',
-      clockBackgroundColor: '#243A4F',
+      colorBanner: '#BB181B',
+      colorButton: '#000000',
+      clockBackgroundColor: '#C23032',
+    },
+    {
+      colorBanner: '#000000',
+      colorButton: '#4A4A4A',
+      clockBackgroundColor: '#1A1A1A',
     },
     {
       colorBanner: '#0B243B',
@@ -72,22 +74,22 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
       colorButton: string;
       clockBackgroundColor: string;
     }[]
-  >(colorsReservaMini);
+  >(colorsReservaLocal);
 
   useEffect(() => {
-    if (Date.now() > new Date(countDownMini?.countdown).getTime()) {
+    if (Date.now() > new Date(countDownLocal?.countdown).getTime()) {
       setShowClock(true);
     } else {
       setShowClock(false);
     }
-    if (countDownMini) {
-      setWatchType(countDownMini?.watchType.split('-')[0]);
+    if (countDownLocal) {
+      setWatchType(countDownLocal?.watchType.split('-')[0]);
     }
-  }, [countDownMini]);
+  }, [countDownLocal]);
 
   const goToPromotion = () => {
     const facetInput = [];
-    const [categoryType, categoryData] = countDownMini?.reference?.split(':');
+    const [categoryType, categoryData] = countDownLocal?.reference?.split(':');
     if (categoryType === 'product') {
       navigation.navigate('ProductDetail', {
         productId: categoryData,
@@ -110,7 +112,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
       }
       navigation.navigate('ProductCatalog', {
         // facetInput,
-        referenceId: countDownMini?.reference,
+        referenceId: countDownLocal?.reference,
       });
     }
   };
@@ -142,15 +144,15 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
             fontFamily="reservaSerifMedium"
             fontSize={normalize(26)}
           >
-            {countDownMini?.title}{' '}
-            {countDownMini?.subtitle && (
+            {countDownLocal?.title}{' '}
+            {countDownLocal?.subtitle && (
               <Typography
                 lineHeight={normalize(28)}
                 color={textColor}
                 fontFamily="reservaSerifLight"
                 fontSize={normalize(26)}
               >
-                {countDownMini?.subtitle}
+                {countDownLocal?.subtitle}
               </Typography>
             )}
           </Typography>
@@ -216,7 +218,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
                 mb={4}
               >
                 <Typography textAlign="center" color={textColor}>
-                  {countDownMini?.titleButton}
+                  {countDownLocal?.titleButton}
                 </Typography>
               </Box>
             </TouchableOpacity>
@@ -235,7 +237,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
         <CheckTheRules
           isVisible={ShowModal}
           setIsVisible={() => setShowModal(false)}
-          rulesData={countDownMini}
+          rulesData={countDownLocal}
           goToPromotion={() => {
             goToPromotion();
           }}
@@ -248,7 +250,7 @@ export const CountDownRsvMini: React.FC<CountDownProps> = ({
 interface IcheckTheRules {
   isVisible: boolean;
   setIsVisible: Dispatch<SetStateAction<boolean>>;
-  rulesData?: ICountDownClockReservaMini;
+  rulesData?: ICountDownClockLocal;
   goToPromotion?: () => void;
 }
 const CheckTheRules = ({
