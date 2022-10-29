@@ -188,20 +188,20 @@ export const HomeScreen: FC<{
       // let countDownClockMini =
       //   collectionData?.configCollection?.items[0].countDownClockReservaMini;
 
-      // let limitDate;
-      // if (countDownClockMini?.countdown) {
-      //   limitDate = intervalToDuration({
-      //     start: Date.now(),
-      //     end: new Date(countDownClockMini?.countdown),
-      //   });
-      // }
-      // if (limitDate) {
-      //   setCountDownClockRsvMini({
-      //     ...countDownClockMini,
-      //     formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
-      //       }:${limitDate?.seconds}`,
-      //   });
-      // }
+      let limitDate;
+      if (countDownClockMini?.countdown) {
+        limitDate = intervalToDuration({
+          start: Date.now(),
+          end: new Date(countDownClockMini?.countdown),
+        });
+      }
+      if (limitDate) {
+        setCountDownClockRsvMini({
+          ...countDownClockMini,
+          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
+            }:${limitDate?.seconds}`,
+        });
+      }
     }
   }, [collectionData]);
 
@@ -222,9 +222,10 @@ export const HomeScreen: FC<{
           });
         }
         if (limitDate) {
-          console.log('limitDate', limitDate)
+          console.log('conuntDownClock', countDownClock?.countdownStart);
           setCountDownClock({
             ...countDownClock,
+            countdownStart: countDownClock?.countdownStart,
             formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
               }:${limitDate.seconds}`,
           });

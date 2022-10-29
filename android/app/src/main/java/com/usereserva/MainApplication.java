@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.github.wumke.RNExitApp.RNExitAppPackage;
+import com.github.wumke.RNExitApp.RNExitAppPackage;
 import io.sentry.react.RNSentryPackage;
 import io.sentry.react.RNSentryPackage;
 import com.imagepicker.ImagePickerPackage;

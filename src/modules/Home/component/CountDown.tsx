@@ -30,7 +30,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
   const [watchType, setWatchType] = useState<number>(0);
-
+  console.log()
   const colors = [
     {
       colorBanner: '#000000',
@@ -63,14 +63,25 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
   >(colors);
   const { time = '00:00:00', setTime } = useCountDown();
 
+  const shouldShowClock = () => {
+    const isTimeToShow = Date.now() > new Date(countDown?.countdownStart).getTime()
+    const timeIsOver = Date.now() > new Date(countDown?.countdown).getTime()
+
+    console.log('countDownData?.countdownStart', isTimeToShow, countDown?.countdownStart);
+    console.log('countDownData?.countdown', timeIsOver, countDown?.countdown);
+    console.log('shouldShowClock', isTimeToShow && !timeIsOver);
+    return isTimeToShow && !timeIsOver
+  }
+
   useEffect(() => {
-    if (Date.now() > new Date(countDown?.countdown).getTime()) {
-      setShowClock(true);
-    } else {
-      setShowClock(false);
-    }
+
     if (countDown) {
       setWatchType(countDown?.watchType.split('-')[0]);
+      if (shouldShowClock()) {
+        setShowClock(true);
+      } else {
+        setShowClock(false);
+      }
     }
   }, [countDown]);
 
@@ -114,7 +125,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
     }
   }
 
-  return !showClock && time !== '00:00:00' ? (
+  return showClock && time !== '00:00:00' ? (
     <Box
       mb={5}
       minHeight={90}
