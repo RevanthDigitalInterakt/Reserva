@@ -45,6 +45,7 @@ import {
   countdownClockQuery,
   ICountDownClock,
 } from '../../../graphql/countDownClock/countdownClockQuery';
+import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -75,9 +76,12 @@ export const HomeScreen: FC<{
     collectionData: null,
   });
 
-  const [countDownClockLocal, setCountDownLocal] = useState<ICountDownClock>();
+  const [countDownClockLocal, setCountDownClockLocal] =
+    useState<ICountDownClock>();
 
-  const [countDownClockGlobal, setCountDownGlobal] =
+  const [showClockHome, setShowClockHome] = useState<boolean>(false);
+
+  const [countDownClockGlobal, setCountDownClockGlobal] =
     useState<ICountDownClock>();
   const deviceWidth = Dimensions.get('screen').width;
 
@@ -96,7 +100,7 @@ export const HomeScreen: FC<{
 
   const { currentValue, start, stop, reset } = useChronometer({
     countDown: true,
-    initial: countDownClock?.formattedValue,
+    initial: countDownClockGlobal?.formattedValue,
   });
 
   const { WithoutInternet } = useCheckConnection({ refetch });
@@ -123,35 +127,75 @@ export const HomeScreen: FC<{
 
     getcountdownClock().then((response) => {
       setCountDownClock(response.data.countdownClockCollection.items);
-      // console.log('response::>', response)
     });
   }, []);
 
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
-      console.log('countDownClock', countDownClock);
-      const clockHome = countDownClock?.filter(
+      const clockHome = countDownClock?.find(
         (x) => x?.selectClockScreen == 'HOME'
       );
-      const clockALL = countDownClock?.filter(
+      const clockALL = countDownClock?.find(
         (x) => x?.selectClockScreen == 'ALL'
       );
-      console.log('clockHome', clockHome);
 
-      console.log('clockALL', clockALL);
       if (clockHome) {
-        setCountDownLocal(clockHome);
+        if (
+          new Date(clockHome?.countdown).getTime() > Date.now() &&
+          Date.now() > new Date(clockHome?.countdownStart).getTime()
+        ) {
+          setShowClockHome(true);
+        } else {
+          setShowClockHome(false);
+        }
+
+        let limitDate;
+
+        if (clockHome?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(clockHome?.countdown),
+          });
+        }
+        if (limitDate) {
+          setCountDownClockLocal({
+            ...clockHome,
+            countdownStart: clockHome?.countdownStart,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+              limitDate.minutes
+            }:${limitDate.seconds}`,
+          });
+        }
       }
 
-      if (clockALL) {
-        setCountDownLocal(clockALL);
+      if (clockALL && !showClockHome) {
+        let limitDate;
+        if (clockALL?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(clockALL?.countdown),
+          });
+        }
+        if (limitDate) {
+          setCountDownClockGlobal({
+            ...clockALL,
+            countdownStart: clockALL?.countdownStart,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+              limitDate.minutes
+            }:${limitDate.seconds}`,
+          });
+        }
       }
-
-      // if (new Date(countDownClock?.countdown).getTime() > Date.now()) {
-      //   start();
-      // }
     }
   }, [countDownClock]);
+
+  useEffect(() => {
+    if (countDownClockGlobal) {
+      if (new Date(countDownClockGlobal?.countdown).getTime() > Date.now()) {
+        start();
+      }
+    }
+  }, [countDownClockGlobal]);
 
   useEffect(() => {
     if (currentValue) setTime(currentValue);
@@ -191,53 +235,9 @@ export const HomeScreen: FC<{
   useEffect(() => {
     if (collectionData) {
       setOffersPage(collectionData?.configCollection.items[0].offersPage);
-
-      // let countDownClockMini =
-      //   collectionData?.configCollection?.items[0].countDownClockReservaMini;
-
-      // let limitDate;
-      // if (countDownClockMini?.countdown) {
-      //   limitDate = intervalToDuration({
-      //     start: Date.now(),
-      //     end: new Date(countDownClockMini?.countdown),
-      //   });
-      // }
-      // if (limitDate) {
-      //   setCountDownClockRsvMini({
-      //     ...countDownClockMini,
-      //     formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
-      //       }:${limitDate?.seconds}`,
-      //   });
-      // }
-    }
-  }, [collectionData]);
-
-  useEffect(() => {
-    if (collectionData) {
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
-
-      if (collectionData) {
-        const countDownClock =
-          collectionData?.configCollection?.items[0].countDownClock;
-        let limitDate;
-        if (countDownClock?.countdown) {
-          limitDate = intervalToDuration({
-            start: Date.now(),
-            end: new Date(countDownClock?.countdown),
-          });
-        }
-        if (limitDate) {
-          console.log('limitDate', limitDate);
-          setCountDownClock({
-            ...countDownClock,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-              limitDate.minutes
-            }:${limitDate.seconds}`,
-          });
-        }
-      }
     }
   }, [collectionData]);
 
@@ -361,6 +361,28 @@ export const HomeScreen: FC<{
     });
   }, [carrousels]);
 
+  const renderBannersFlatList = useMemo(() => {
+    return (
+      <FlatList
+        data={images}
+        renderItem={({ item }) => {
+          return (
+            <Banner
+              orderBy={item.orderBy}
+              height={item.height}
+              reference={item.reference}
+              url={item.url}
+              route={item.isLandingPage ? 'LandingPage' : item.route}
+              landingPageId={item.landingPageId}
+              reservaMini={item.reservaMini}
+            />
+          );
+        }}
+        keyExtractor={(item) => item.id}
+      />
+    );
+  }, [images]);
+
   const handleModalCodeIsVisible = useCallback(() => {
     setModalCodeIsVisible(false);
   }, []);
@@ -396,27 +418,14 @@ export const HomeScreen: FC<{
                 overflow: 'hidden',
               }}
             >
-              {/* {countDownClock && <CountDownBanner countDown={countDownClock} />} */}
+              {countDownClockLocal && showClockHome ? (
+                <CountDownLocal countDownLocal={countDownClockLocal} />
+              ) : (
+                <CountDownBanner countDown={countDownClockGlobal} />
+              )}
               {renderCarouselBanners}
             </Box>
-
-            <FlatList
-              data={images}
-              renderItem={({ item }) => {
-                return (
-                  <Banner
-                    orderBy={item.orderBy}
-                    height={item.height}
-                    reference={item.reference}
-                    url={item.url}
-                    route={item.isLandingPage ? 'LandingPage' : item.route}
-                    landingPageId={item.landingPageId}
-                    reservaMini={item.reservaMini}
-                  />
-                );
-              }}
-              keyExtractor={(item) => item.id}
-            />
+            {renderBannersFlatList}
           </ScrollView>
         </SafeAreaView>
       )}

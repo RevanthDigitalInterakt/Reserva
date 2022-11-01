@@ -1,5 +1,6 @@
 import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
+import { ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import React, {
   Dispatch,
   SetStateAction, useEffect,
@@ -11,16 +12,13 @@ import {
   Platform, TouchableOpacity
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {
-  ICountDownClockLocal
-} from '../../../../graphql/homePage/HomeQuery';
 import FlipNumber from '../flipcountdoun/FlipNumber';
 import { useChronometerLocal } from './useChronometerLocal';
 
 const deviceWidth = Dimensions.get('window').width;
 
 export interface CountDownProps {
-  countDownLocal?: ICountDownClockLocal;
+  countDownLocal?: ICountDownClock;
 }
 
 const scale = deviceWidth / 320;
@@ -76,14 +74,22 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
     }[]
   >(colorsReservaLocal);
 
-  useEffect(() => {
-    if (Date.now() > new Date(countDownLocal?.countdown).getTime()) {
-      setShowClock(true);
-    } else {
-      setShowClock(false);
+  const shouldShowClock = () => {
+    if (countDownLocal) {
+      const isTimeToShow = Date.now() > new Date(countDownLocal?.countdownStart).getTime()
+      const timeIsOver = Date.now() > new Date(countDownLocal?.countdown).getTime()
+      return isTimeToShow && !timeIsOver
     }
+  }
+
+  useEffect(() => {
     if (countDownLocal) {
       setWatchType(countDownLocal?.watchType.split('-')[0]);
+      if (shouldShowClock()) {
+        setShowClock(true);
+      } else {
+        setShowClock(false);
+      }
     }
   }, [countDownLocal]);
 
@@ -110,7 +116,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
           value: categoryData,
         });
       }
-      navigation.navigate('ProductCatalog', {
+      navigation.push('ProductCatalog', {
         // facetInput,
         referenceId: countDownLocal?.reference,
       });
@@ -127,7 +133,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
     }
   }
 
-  return !showClock ? (
+  return showClock && currentValue !== '00:00:00' ? (
     <Box
       mb={5}
       minHeight={90}

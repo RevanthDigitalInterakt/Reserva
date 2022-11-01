@@ -23,7 +23,6 @@ import {
   bannerDefaultQuery,
   bannerQuery,
   configCollection,
-  ICountDownClock,
 } from '../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import {
@@ -41,6 +40,7 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { EmptyProductCatalog } from '../components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
+import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -76,8 +76,24 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     if (referenceId === 'offers-page') {
       setReferenceString(offersPage);
+      getcountdownClock({
+        variables: {
+          selectClockScreenHome: "OFFERS",
+          selectClockScreenAll: "ALL"
+        },
+      }).then((response) => {
+        setCountDownClock(response.data.countdownClockCollection.items);
+      })
     } else {
       setReferenceString(referenceId);
+      getcountdownClock({
+        variables: {
+          categoryReference: referenceId,
+          selectClockScreenAll: "ALL"
+        },
+      }).then((response) => {
+        setCountDownClock(response.data.countdownClockCollection.items);
+      })
     }
   }, [referenceId]);
 
@@ -104,13 +120,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [skip, setSkip] = useState(false);
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
   const [countDownClockLocal, setCountDownClockLocal] =
-    React.useState<ICountDownClock>();
+    useState<ICountDownClock>();
+  const [countDownClockGlobal, setCountDownClockGlobal] =
+    useState<ICountDownClock>();
+  const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
   const [{ collectionData }, setConfigCollection] = useState<{
     collectionData: any;
   }>({ collectionData: null });
   const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
+
+  const [getcountdownClock] = useLazyQuery(countdownClockQuery, { context: { clientName: 'contentful' } });
 
   useEffect(() => {
     if (orderBy) {
@@ -205,56 +226,60 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     nextFetchPolicy: 'no-cache',
   });
 
-  const [isReservaMini, setIsReservaMini] = useState(false);
   useEffect(() => {
-    if (title) {
-      if (title === 'Reserva Mini') {
-        setIsReservaMini(true);
+    if (countDownClock && countDownClock?.length > 0) {
+
+      const clockOffers = countDownClock?.find((x) => x?.selectClockScreen == "OFFERS" || x?.selectClockScreen == "CATEGORY")
+      const clockALL = countDownClock?.find((x) => x?.selectClockScreen == "ALL")
+
+      if (clockOffers) {
+        if (new Date(clockOffers?.countdown).getTime() > Date.now()
+          && Date.now() > new Date(clockOffers?.countdownStart).getTime()) {
+          setShowClockOffers(true);
+
+        } else {
+          setShowClockOffers(false);
+        }
+
+        let limitDate;
+
+        if (clockOffers?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(clockOffers?.countdown),
+          });
+        }
+        if (limitDate) {
+          setCountDownClockLocal({
+            ...clockOffers,
+            countdownStart: clockOffers?.countdownStart,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
+          });
+        }
+      }
+
+      if (clockALL && !showClockOffers && clockALL.reference != referenceId) {
+
+        let limitDate;
+        if (clockALL?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(clockALL?.countdown),
+          });
+        }
+        if (limitDate) {
+
+          setCountDownClockGlobal({
+            ...clockALL,
+            countdownStart: clockALL?.countdownStart,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
+          });
+        }
       }
     }
-  }, [title]);
-
-  useEffect(() => {
-    if (collectionData) {
-      let countDownClockMini =
-        collectionData?.configCollection?.items[0].countDownClockReservaMini;
-
-      let limitDate;
-      if (countDownClockMini?.countdown) {
-        limitDate = intervalToDuration({
-          start: Date.now(),
-          end: new Date(countDownClockMini?.countdown),
-        });
-      }
-      if (limitDate) {
-        setCountDownClockLocal({
-          ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-            }:${limitDate.seconds}`,
-        });
-      }
-    }
-  }, [collectionData]);
-
-  useEffect(() => {
-    if (collectionData) {
-      let countDownClock =
-        collectionData?.configCollection?.items[0].countDownClock;
-
-      let limitDate;
-      if (countDownClock?.countdown) {
-        limitDate = intervalToDuration({
-          start: Date.now(),
-          end: new Date(countDownClock?.countdown),
-        });
-      }
-      if (limitDate) {
-        setCountDownClock({
-          ...countDownClock,
-        });
-      }
-    }
-  }, [collectionData]);
+  }, [countDownClock]);
 
   useEffect(() => {
     appsFlyer.logEvent('af_list_view', {
@@ -585,100 +610,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     ).start();
   };
 
-  // recarrega a página de promoção do relógio
-  const loadWatchPromotionPage = async () => {
-    if (countDownClock) {
-      if (countDownClock?.reference === referenceString) {
-        setWatchLoading(true);
-        setSkeletonLoading(true);
-        setSkip(true);
-        setShowWatch(false);
-        const fetch = async () => {
-          const { data, loading } = await refetch({
-            skusFilter: 'ALL_AVAILABLE',
-            hideUnavailableItems: true,
-            selectedFacets: [].concat(
-              generateFacets(referenceString),
-              filterRequestList
-            ),
-            orderBy: selectedOrder,
-            to: pageSize - 1,
-            simulationBehavior: 'default',
-            productOriginVtex: false,
-          });
-          if (!loading && !!data) {
-            setProductSearch({ data, loading, fetchMore, refetch, error });
-            setWatchLoading(loading);
-            setProducts(data.productSearch);
-          }
-          setSkeletonLoading(false);
-          await refetchBanner({ category: referenceString });
-        };
-        fetch();
-      } else {
-        if (isReservaMini || reservaMini) {
-          setShowWatch(false);
-        } else {
-          setShowWatch(true);
-        }
-      }
-    }
-  };
-
-  // recarrega a página de promoção do relógio Reserva Mini
-  const loadWatchPromotionPageMini = async () => {
-    if (countDownClockLocal) {
-      console.log(
-        'countDownClockRsvMini?.reference',
-        countDownClockLocal?.reference
-      );
-      console.log('referenceString', referenceString);
-      if (countDownClockLocal?.reference === referenceString) {
-        console.log('entrou');
-        setWatchLoading(true);
-        setSkeletonLoading(true);
-        setSkip(true);
-        setShowWatchLocal(false);
-        const fetch = async () => {
-          const { data, loading } = await refetch({
-            skusFilter: 'ALL_AVAILABLE',
-            hideUnavailableItems: true,
-            selectedFacets: [].concat(
-              generateFacets(referenceString),
-              filterRequestList
-            ),
-            orderBy: selectedOrder,
-            to: pageSize - 1,
-            simulationBehavior: 'default',
-            productOriginVtex: false,
-          });
-          if (!loading && !!data) {
-            setProductSearch({ data, loading, fetchMore, refetch, error });
-            setWatchLoading(loading);
-            setProducts(data.productSearch);
-          }
-          setSkeletonLoading(false);
-          await refetchBanner({ category: referenceString });
-        };
-        fetch();
-      } else {
-        if (isReservaMini || reservaMini) {
-          setShowWatchLocal(true);
-        } else {
-          setShowWatchLocal(false);
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    loadWatchPromotionPage();
-  }, [countDownClock, referenceString]);
-
-  useEffect(() => {
-    loadWatchPromotionPageMini();
-  }, [countDownClockLocal, referenceString]);
-
   useEffect(() => {
     console.log('loading::>', loading);
   }, [loading]);
@@ -966,14 +897,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           totalProducts={productsQuery.recordsFiltered}
           listHeader={
             <>
-              {countDownClockLocal && showWatchLocal && (
+              {countDownClockLocal && showClockOffers ?
                 <CountDownLocal countDownLocal={countDownClockLocal} />
-              )}
-              {countDownClock && showWatch && (
-                <Box>
-                  <CountDownBanner countDown={countDownClock} />
-                </Box>
-              )}
+                : <CountDownBanner countDown={countDownClockGlobal} />
+              }
               <Box>
                 <Image height={200} source={bannerImage} width={1 / 1} />
               </Box>

@@ -4,7 +4,7 @@ export interface ICountDownClock {
   title: string;
   subtitle: string;
   watchType: number;
-  countdownStart: number;
+  countdownStart: string;
   countdown: string;
   titleButton: string;
   titleModal: string;
@@ -20,12 +20,15 @@ export const countdownClockQuery = gql`
     $selectClockScreenHome: String, 
     $selectClockScreenAll: String,
     $selectClockScreenCategory: String, 
-    $selectClockScreenOffers: String) {
+    $selectClockScreenOffers: String,
+    $categoryReference: String,
+    ) {
     countdownClockCollection (where: { OR: [
         { selectClockScreen: $selectClockScreenHome }
         { selectClockScreen: $selectClockScreenAll }
         { selectClockScreen: $selectClockScreenCategory }
         { selectClockScreen: $selectClockScreenOffers }
+        { categoryReference: $categoryReference}
       ]}) {
         items {
             watchType
