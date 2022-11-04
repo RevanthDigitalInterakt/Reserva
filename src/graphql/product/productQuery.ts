@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_PRODUCTS = gql`
-  query Product($id: ID!, $salesChannel: Int) {
-    product(identifier: { field: id, value: $id }, salesChannel: $salesChannel)
+  query Product($field: ProductUniqueIdentifierField!, $value: ID!, $salesChannel: Int) {
+    product(identifier: { field: $field, value: $value }, salesChannel: $salesChannel)
       @context(provider: "vtex.search-graphql") {
       productId
       productName

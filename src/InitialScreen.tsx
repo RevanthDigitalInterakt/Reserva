@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import messaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { Platform, StatusBar } from 'react-native';
+import { Linking, Platform, StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-lottie-splash-screen';
@@ -25,6 +25,7 @@ import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
 import { useLazyQuery } from '@apollo/client';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
+import { useNavigation } from '@react-navigation/native';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -79,6 +80,15 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       fetchTimeMillis: 30000,
     });
   };
+  // const { navigate } = useNavigation()
+  // useEffect(() => {
+  //   Linking.addEventListener('url', ({ url }) => {
+  //     if (url.includes('/ofertas')) {
+  //       console.log('deeplinkTest', url)
+  //       navigate('HomeTabs', { screen: 'Offers' })
+  //     }
+  //   })
+  // }, [])
   useEffect(() => {
     requestUserPermission();
     remoteConfig().setDefaults({

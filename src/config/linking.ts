@@ -1,41 +1,64 @@
-import { LinkingOptions } from '@react-navigation/native';
+import { getPathFromState, LinkingOptions, PathConfigMap } from '@react-navigation/native';
 import { Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush'
 
-const routesConfig = {
+const routesConfig= {
   screens: {
+
     Main: {
+
       screens: {
         WishList: 'wishlist',
         HomeTabs: {
-          path: 'home-tabs',
+          path: 'home',
           screens: {
-            Offers: 'offers',
+            Offers: 'ofertas',
             WishList: 'wishlist',
             Profile: 'profile',
             Call: 'call-center',
           },
         },
-        ProductCatalog: {
-          path: 'catalog/:referenceId',
-        },
         ProductDetail: {
-          path: 'product/:productId/:colorSelected',
+          path: ':linkText/p',
+        },
+        ProductCatalog: {
+          path: 'c/:path1/:path2/:path3',///:path4/:path5/:path6/:path7',
         },
       },
     },
   },
 };
 export const linkingConfig: LinkingOptions = {
-  prefixes: ['usereserva://', 'https://www.usereserva.com'],
+  prefixes: ['usereserva://', 'https://www.usereserva.com/'],
   config: routesConfig,
-
+  getPathFromState(state) {
+    console.log('getInitialURL 2');
+    const path = getPathFromState(state);
+    if (path) {
+      return path;
+    }
+    return '';
+  },
   // Push notification firebase
   async getInitialURL() {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();
+
     if (url != null) {
+    if(url.includes('colecao-reserva/ofertas')){
+      return 'https://www.usereserva.com/home/ofertas'
+    }
+
+    if(url.includes('account#/wishlist')){
+      return 'https://www.usereserva.com/home/wishlist'
+    }
+
+    if(url.includes('account#')){
+      return 'https://www.usereserva.com/home/profile'
+    }
+
+    console.log('getInitialURL 1', url);
       return url;
     }
 

@@ -1,9 +1,9 @@
 import { ApolloProvider } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Alert, Linking, Platform } from 'react-native';
+import { Alert, Linking, Platform, } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
@@ -137,27 +137,11 @@ const App = () => {
   const [canRegisterUser, setCanRegisterUser] = useState(true);
   const [userId, setUserId] = useState('06869751110');
 
-  const handleDynamicLink = link => {
-    console.log('getInitialLink 1', link);
-    Alert.alert(link);
-    if (link.url) {
-
-      console.log('getInitialLink 2', link.url);
-      // Linking.openURL(link.url);
-    }
-  }
 
   useEffect(() => {
-    // dynamicLinks()
-    //   .getInitialLink()
-    //   .then(link => {
-    //     console.log('getInitialLink', link);
-    //   })
-    // dynamicLinks().getInitialLink().then(val => console.log('getInitialLink 3', val)).then(val => console.log('getInitialLink 4', val));
-    // Alert.alert('teste')
-    const unsubscribe = dynamicLinks().onLink(handleDynamicLink)
-    return () => unsubscribe();
-
+    Linking.addEventListener('url', ({ url }) => {
+      console.log('getInitialURL url', url)
+    })
   }, [])
 
   useEffect(() => {

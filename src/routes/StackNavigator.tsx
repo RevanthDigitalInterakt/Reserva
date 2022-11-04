@@ -62,10 +62,11 @@ import { LandingPage } from '../modules/LandingPage/LandingPage';
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
   ProductDetail: {
-    productId: string;
+    productId?: string;
     colorSelected: string;
     sizeSelected: string;
     hasCep?: string;
+    idsku?: string;
   };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
@@ -155,22 +156,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;

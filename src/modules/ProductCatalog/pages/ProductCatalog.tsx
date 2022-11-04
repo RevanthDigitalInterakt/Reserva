@@ -66,7 +66,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const pageSize = 12;
   const { safeArea, search, referenceId, title, reservaMini, orderBy } =
     route.params;
-
+  console.log('route.params', route.params);
   useEffect(() => {
     if (referenceId === 'offers-page') {
       setReferenceString(offersPage);
@@ -223,9 +223,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       if (limitDate) {
         setCountDownClockRsvMini({
           ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-            limitDate.minutes
-          }:${limitDate.seconds}`,
+          formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+            }:${limitDate.seconds}`,
         });
       }
     }
@@ -419,9 +418,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const colorFacetValues =
         !!colorFacets && colorFacets.length > 0
           ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
+            key,
+            value: ColorsToHexEnum[value],
+          }))
           : [];
       // SIZE
       const sizeFacets = facets.filter(
@@ -431,9 +430,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const sizeFacetValues =
         !!sizeFacets && sizeFacets.length > 0
           ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // CATEGORY
@@ -443,9 +442,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const categoryFacetValues =
         !!categoryFacets && categoryFacets.length > 0
           ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
+            key,
+            value,
+          }))
           : [];
 
       // PRICE
@@ -453,9 +452,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const priceFacetValues =
         !!priceFacets && priceFacets.length > 0
           ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
+            key,
+            range,
+          }))
           : [];
 
       setPriceRangeFilters(priceFacetValues);
@@ -1016,7 +1015,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontSize="14px"
                     >
                       {productsQuery.products?.length == 0 &&
-                      filterRequestList.length > 0
+                        filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
                     </Typography>
