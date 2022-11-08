@@ -14,6 +14,8 @@
 #import "FirebaseAuth"
 
 
+
+
 #import <React/RCTLinkingManager.h>
 
 #ifdef FB_SONARKIT_ENABLED
@@ -51,11 +53,11 @@ static void InitializeFlipper(UIApplication *application) {
   [FIRApp configure];
   [GMSServices provideAPIKey:@"AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"];
   [[AppsFlyerLib shared] addPushNotificationDeepLinkPath:@[@"af_push_link"]];
-  
+
   NSDictionary *userInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
   if ( userInfo != nil )
     [[AppsFlyerLib shared] handlePushNotification: userInfo];
-  
+
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
@@ -178,7 +180,7 @@ continueUserActivity:(nonnull NSUserActivity *)userActivity
                                                           }];
   return handled;
 }
-  
+
   - (BOOL)application:(UIApplication *)app
               openURL:(NSURL *)url
               options:(NSDictionary<NSString *, id> *)options {
