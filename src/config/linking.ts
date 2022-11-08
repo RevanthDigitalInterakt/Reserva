@@ -20,7 +20,7 @@ const routesConfig= {
           },
         },
         ProductDetail: {
-          path: ':linkText/p',
+          path: 'product',
         },
         ProductCatalog: {
           path: 'c/:path1/:path2/:path3',///:path4/:path5/:path6/:path7',
@@ -46,16 +46,26 @@ export const linkingConfig: LinkingOptions = {
     const url = await Linking.getInitialURL();
 
     if (url != null) {
+
+    if(url.includes('/p?')){
+      // get query params from url
+      const urlParams = url.split('/p?')[1]
+      // const skuId = urlParams.searchParams.get('idsku');
+      console.log('url product', url.split('/p?')[1])
+      console.log('url product 1', `usereserva://product?${urlParams}`)
+      return `usereserva://product?${urlParams}`;
+    }
+
     if(url.includes('colecao-reserva/ofertas')){
-      return 'https://www.usereserva.com/home/ofertas'
+      return 'usereserva://home/ofertas'
     }
 
     if(url.includes('account#/wishlist')){
-      return 'https://www.usereserva.com/home/wishlist'
+      return 'usereserva://home/wishlist'
     }
 
     if(url.includes('account#')){
-      return 'https://www.usereserva.com/home/profile'
+      return 'usereserva://home/profile'
     }
 
     console.log('getInitialURL 1', url);
