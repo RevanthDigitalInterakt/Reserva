@@ -668,15 +668,15 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - OneSignal (3.11.3):
-    - OneSignal/OneSignalCore (= 3.11.3)
-    - OneSignal/OneSignalExtension (= 3.11.3)
-    - OneSignal/OneSignalOutcomes (= 3.11.3)
-  - OneSignal/OneSignalCore (3.11.3)
-  - OneSignal/OneSignalExtension (3.11.3):
+  - OneSignal (3.11.4):
+    - OneSignal/OneSignalCore (= 3.11.4)
+    - OneSignal/OneSignalExtension (= 3.11.4)
+    - OneSignal/OneSignalOutcomes (= 3.11.4)
+  - OneSignal/OneSignalCore (3.11.4)
+  - OneSignal/OneSignalExtension (3.11.4):
     - OneSignal/OneSignalCore
     - OneSignal/OneSignalOutcomes
-  - OneSignal/OneSignalOutcomes (3.11.3):
+  - OneSignal/OneSignalOutcomes (3.11.4):
     - OneSignal/OneSignalCore
   - OneSignalXCFramework (3.11.2):
     - OneSignalXCFramework/OneSignalCore (= 3.11.2)
@@ -1514,7 +1514,7 @@ SPEC CHECKSUMS:
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OneSignal: d24237738defb21acdd41046f90435e6ad12bf23
+  OneSignal: 81271660d860f857d20f38117bbf3d47a4f0151e
   OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d

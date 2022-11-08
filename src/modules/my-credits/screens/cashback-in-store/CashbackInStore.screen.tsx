@@ -25,7 +25,7 @@ export const CashbackInStoreScreen = ({
   const navigateBack = () => {
     navigation.dispatch(StackActions.popToTop());
 
-    navigation.navigate('Home');
+    navigation.navigate('Profile');
   };
 
   const navigateToError = () => {
@@ -41,9 +41,9 @@ export const CashbackInStoreScreen = ({
     });
 
     navigation.addListener('beforeRemove', (e) => {
-      e.preventDefault()
+      e.preventDefault();
       //clear setInterval here and go back
-    })
+    });
   }, []);
 
   return (

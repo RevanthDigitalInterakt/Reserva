@@ -52,6 +52,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     {} as ProductSearchData
   );
 
+  const navigateGoBack = () => {
+    navigation.goBack();
+    route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu', {
+      indexMenuOpened: route?.params?.indexMenuOpened,
+    });
+  };
+
   const orderProducts: any = {
     RELEVANCIA: OrderByEnum.OrderByReviewRateDESC,
     MAIS_VENDIDOS: OrderByEnum.OrderByTopSaleDESC,
@@ -690,6 +697,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           loading={
             loading || loadingFetchMore || loadingHandlerState || watchLoading
           }
+          backButtonPress={() => navigateGoBack()}
         />
       ) : (
         <TopBarDefault
