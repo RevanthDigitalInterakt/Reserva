@@ -13,7 +13,7 @@ export const productSearch = gql`
     $specificationFilters: [String]
     $priceRange: String = ""
     $collection: String = ""
-    $salesChannel: String = "4"
+    $salesChannel: String
     $orderBy: String = "OrderByScoreDESC"
     $from: Int = 0
     $to: Int = 9
@@ -46,65 +46,65 @@ export const productSearch = gql`
       searchState: $searchState
       options: $options
     ) @context(provider: "vtex.search-graphql") {
-    products {
-      categoryTree {
-        href
-      }
-      clusterHighlights {
-        id
-        name
-      }
-      items(filter: FIRST_AVAILABLE) {
-        images {
-          imageUrl
+      products {
+        categoryTree {
+          href
         }
-        itemId
-        variations {
-          originalName
+        clusterHighlights {
+          id
           name
-          values
         }
-        sellers {
-          sellerId
-          commertialOffer {
-            Tax
-            taxPercentage
-            AvailableQuantity
-            Price
-            ListPrice
-            spotPrice
-            PriceWithoutDiscount
-            discountHighlights {
-              name
-            }
-            Installments {
-              Value
-              TotalValuePlusInterestRate
-              NumberOfInstallments
+        items(filter: FIRST_AVAILABLE) {
+          images {
+            imageUrl
+          }
+          itemId
+          variations {
+            originalName
+            name
+            values
+          }
+          sellers {
+            sellerId
+            commertialOffer {
+              Tax
+              taxPercentage
+              AvailableQuantity
+              Price
+              ListPrice
+              spotPrice
+              PriceWithoutDiscount
+              discountHighlights {
+                name
+              }
+              Installments {
+                Value
+                TotalValuePlusInterestRate
+                NumberOfInstallments
+              }
             }
           }
         }
-      }
-      productId
-      productName
-      priceRange {
-        sellingPrice {
-          highPrice
-          lowPrice
+        productId
+        productName
+        priceRange {
+          sellingPrice {
+            highPrice
+            lowPrice
+          }
+          listPrice {
+            highPrice
+            lowPrice
+          }
         }
-        listPrice {
-          highPrice
-          lowPrice
-        }
       }
-    }
-    recordsFiltered
-    breadcrumb {
-      name
-      href
+      recordsFiltered
+      breadcrumb {
+        name
+        href
+      }
     }
   }
-}
 `;
 
 export interface ProductSearchVars {

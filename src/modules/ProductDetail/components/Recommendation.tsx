@@ -11,7 +11,7 @@ interface RecommendationProps {
 }
 
 export const Recommendation = ({
-  handleScrollToTheTop
+  handleScrollToTheTop,
 }: RecommendationProps) => {
   const [skip, setSkip] = useState(false);
   const pageSize = 36;
@@ -29,31 +29,32 @@ export const Recommendation = ({
       to: pageSize - 1,
       simulationBehavior: 'default',
       productOriginVtex: false,
+      salesChannel: '4',
     },
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   });
 
   const saveItems = async (items: any) => {
-    const arrayProductsId = items.map(elem => elem.productId)
+    const arrayProductsId = items.map((elem) => elem.productId);
 
     const arrayWithoutDuplicates = items.filter((element, index) => {
       return index === arrayProductsId.indexOf(element.productId);
     });
 
-    setProducts(arrayWithoutDuplicates.slice(0,6));
+    setProducts(arrayWithoutDuplicates.slice(0, 6));
   };
 
   useEffect(() => {
     const handleSearch = async () => {
-      const { data, loading } = await getProductData()
+      const { data, loading } = await getProductData();
 
       if (!loading) {
-        await saveItems(data.productSearch.products)
+        await saveItems(data.productSearch.products);
       }
-    }
+    };
 
-    handleSearch()
+    handleSearch();
   }, []);
 
   return (
@@ -62,7 +63,7 @@ export const Recommendation = ({
         <Divider marginTop="xs" variant="fullWidth" />
       </Box>
 
-      <Box paddingLeft="quarck" marginTop='xxxs' marginBottom='xxxs'>
+      <Box paddingLeft="quarck" marginTop="xxxs" marginBottom="xxxs">
         <Button
           onPress={() => setShowMore(!showMore)}
           hitSlop={{ left: 50, top: 15, bottom: 15 }}

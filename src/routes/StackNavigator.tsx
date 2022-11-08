@@ -68,6 +68,7 @@ export type RootStackParamList = {
     sizeSelected: string;
     hasCep?: string;
   };
+  HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -86,8 +87,16 @@ export type RootStackParamList = {
     title?: string;
     reservaMini?: boolean;
     orderBy: string;
+    comeFrom?: 'Menu' | 'Other';
+    indexMenuOpened?: number;
   };
-  ChangeRegionalization: { isCepAddress?: boolean, isCepProductDetail?: boolean }
+  Menu: {
+    indexMenuOpened?: number;
+  }
+  ChangeRegionalization: {
+    isCepAddress?: boolean;
+    isCepProductDetail?: boolean;
+  };
   CEPList: {
     list: CepsInfo;
     searchBy: SearchBy;
