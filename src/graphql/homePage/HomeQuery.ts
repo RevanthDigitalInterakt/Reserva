@@ -66,7 +66,6 @@ export interface ICountDownClock {
   watchType: number;
   countdownStart: string;
   countdown: string;
-  countdownStart: string;
   titleButton: string;
   titleModal: string;
   descriptionModal: string;
