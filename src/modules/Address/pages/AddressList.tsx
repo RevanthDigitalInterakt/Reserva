@@ -127,6 +127,17 @@ const AddressList: React.FC<Props> = ({ route }) => {
     navigation.navigate('Checkout');
   };
 
+  const handleNatigateToNewAddress = () => {
+    if (!data?.profile) {
+      navigation.navigate('Login', { comeFrom: 'Profile' });
+    } else {
+      navigation.navigate('NewAddress', {
+        isCheckout,
+        id: null,
+      });
+    }
+  };
+
   useEffect(() => {
     const availableAddressesOrderForm =
       orderForm &&
@@ -332,12 +343,7 @@ ${neighborhood}, ${city} - ${state}`,
           {cookie && (
             <Box marginX="md" justifyContent="flex-end" mb="xxxs">
               <Button
-                onPress={() =>
-                  navigation.navigate('NewAddress', {
-                    isCheckout,
-                    id: null,
-                  })
-                }
+                onPress={handleNatigateToNewAddress}
                 title="NOVO ENDEREÇO"
                 variant="primarioEstreitoOutline"
                 padding="xl"

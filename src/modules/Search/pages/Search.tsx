@@ -205,6 +205,9 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     { data: suggestionsData, loading: suggestionsLoading },
   ] = useLazyQuery(searchSuggestionsAndProductSearch, {
     fetchPolicy: 'no-cache',
+    variables: {
+      salesChannel: '4',
+    },
   });
 
   const { WithoutInternet } = useCheckConnection({});
@@ -591,7 +594,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           }}
           onClickIcon={() => {
             suggestionsData && setSelectedTerm(true);
-            handleSearch(searchTerm);
+            handleSearch(searchTerm.replace(/^\s+|\s+$/gm, ''));
           }}
           height={36}
           placeholder="Buscar"

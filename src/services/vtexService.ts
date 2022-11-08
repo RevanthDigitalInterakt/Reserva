@@ -423,6 +423,45 @@ const Attachment = async (
   return response;
 };
 
+const SetGiftSize = async (
+  orderFormId?: string | undefined,
+  giftId?: string | undefined,
+  id?: string | undefined,
+  seller?: string | undefined,
+) => {
+  const response = await instance7.post(
+    `/checkout/pub/orderForm/${orderFormId}/selectable-gifts/${giftId}`,
+    {
+      id: giftId,
+      selectedGifts:
+        [{
+          id: id,
+          seller: seller,
+          index: 0
+        }],
+      expectedOrderFormSections:
+        [
+          "items",
+          "totalizers",
+          "clientProfileData",
+          "shippingData",
+          "paymentData",
+          "sellers",
+          "messages",
+          "marketingData",
+          "clientPreferencesData",
+          "storePreferencesData",
+          "giftRegistryData",
+          "ratesAndBenefitsData",
+          "openTextField",
+          "commercialConditionData",
+          "customData"
+        ]
+    }
+  );
+  return response;
+};
+
 const DeleteCustomerProfile = async (id: string) => {
   const response = await vtexConfig6.delete(
     `/dataentities/CL/documents/CL-${id}`
@@ -464,4 +503,5 @@ export {
   Attachment,
   VerifyEmail,
   DeleteCustomerProfile,
+  SetGiftSize
 };

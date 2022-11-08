@@ -1,8 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from 'react';;
-import { Alert, Platform } from "react-native";
-import { TopBar } from "@danilomsou/reserva-ui";
-import { useCart } from "../../../context/CartContext";
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Platform } from 'react-native';
+import { TopBar } from '@danilomsou/reserva-ui';
+import { useCart } from '../../../context/CartContext';
 
 export const TopBarDefault: React.FC<{
   showShadow?: Boolean;
@@ -13,41 +13,44 @@ export const TopBarDefault: React.FC<{
   const [bagQuantity, setBagQuantity] = useState(0);
   useEffect(() => {
     if (orderForm?.items) {
-      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)
-      setBagQuantity(quantity)
+      const quantity = orderForm?.items?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.quantity,
+        0
+      );
+      setBagQuantity(quantity);
     }
   }, [orderForm]);
 
   useEffect(() => {
-    console.log('bagQuantity', bagQuantity)
-  }, [bagQuantity])
+    console.log('bagQuantity', bagQuantity);
+  }, [bagQuantity]);
   return (
     <TopBar
       loading={loading}
       paddingX="quarck"
       bg="white"
       style={{ elevation: 10 }}
-      boxShadow={showShadow && Platform.OS === "ios" ? "topBarShadow" : null}
+      boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
       leftButton={{
-        name: "SideMenu",
+        name: 'SideMenu',
         size: 24,
         onPress: () => {
-          navigation.navigate("Menu");
+          navigation.navigate('Menu');
         },
       }}
       rightButton1={{
-        name: "Search",
+        name: 'Search',
         size: 24,
         onPress: () => {
-          navigation.navigate("SearchMenu");
+          navigation.navigate('SearchMenu');
         },
       }}
       rightButton2={{
-        name: "Handbag",
+        name: 'Handbag',
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
-          navigation.navigate("BagScreen");
+          navigation.navigate('BagScreen');
         },
         badgeCount: bagQuantity,
       }}
