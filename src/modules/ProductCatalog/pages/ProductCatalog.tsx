@@ -196,7 +196,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         generateFacets(referenceString),
         filterRequestList
       ),
-      salesChannel: 4,
+      salesChannel: '4',
       orderBy: selectedOrder,
       to: pageSize - 1,
       simulationBehavior: 'default',
