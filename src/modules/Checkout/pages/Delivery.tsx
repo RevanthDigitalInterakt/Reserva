@@ -13,7 +13,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 import Sentry from '../../../config/sentryConfig';
-import { isValidMinimalProfileData } from 'utils/clientProfileData';
+import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
