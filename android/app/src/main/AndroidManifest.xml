@@ -23,6 +23,7 @@
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"/>
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
+
     <!-- Responsys configuration -->
     <receiver android:enabled="true" android:exported="false" android:name="com.pushio.manager.PushIOUriReceiver">
         <intent-filter>
