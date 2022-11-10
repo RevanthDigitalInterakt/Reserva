@@ -4,6 +4,9 @@ import { SafeAreaView, ScrollView, Linking, Dimensions, TouchableOpacity } from 
 import { Typography, Box, ExpansePanel, Divider } from "@danilomsou/reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../routes/StackNavigator";
+import { useNavigation } from "@react-navigation/native";
 
 interface DataExplanationProps {
   origin: string;
@@ -298,7 +301,15 @@ const dataRightOfHolders: RightOfHoldersProps[] = [
   },
 ]
 
-export const PrivacyPolicy = () => {
+type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
+
+export const PrivacyPolicy = ({ route }: Props) => {
+  const navigation = useNavigation();
+
+  const navigateGoBack = () => {
+    navigation.goBack();
+    route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu');
+  };
 
   return (
     <SafeAreaView
@@ -306,7 +317,7 @@ export const PrivacyPolicy = () => {
       style={{ justifyContent: "space-between" }}
       backgroundColor="white"
     >
-      <TopBarBackButton />
+      <TopBarBackButton backButtonPress={() => navigateGoBack()} />
 
       <ScrollView>
         <Box flex={1} pt={"xxxs"} paddingX={"xxxs"}>

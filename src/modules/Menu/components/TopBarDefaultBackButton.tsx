@@ -10,8 +10,8 @@ export const TopBarDefaultBackButton: React.FC<{
   loading: Boolean;
   showShadow?: Boolean;
   navigateGoBack?: Boolean;
-  exiteApp?: Boolean;
-}> = ({ showShadow = true, loading = false, navigateGoBack = false, exiteApp }) => {
+  backButtonPress?: () => void;
+}> = ({ showShadow = true, loading = false, navigateGoBack = false, backButtonPress }) => {
   const navigation = useNavigation();
   const { orderForm } = useCart();
   const [bagQuantity, setBagQuantity] = useState(0);
@@ -33,12 +33,15 @@ export const TopBarDefaultBackButton: React.FC<{
         name: 'ArrowBack',
         size: 24,
         onPress: () => {
-
-          if (exiteApp) BackHandler.exitApp()
-
-          if (navigateGoBack) navigation.goBack()
-          else navigation.navigate('Home')
-
+          if (backButtonPress) {
+            backButtonPress();
+            return;
+          }
+          if (!navigateGoBack) {
+            navigation.navigate('Home');
+            return;
+          }
+          navigation.goBack();
         },
       }}
       rightButton1={{

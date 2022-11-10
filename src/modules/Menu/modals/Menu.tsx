@@ -9,6 +9,7 @@ import {
 } from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
@@ -20,6 +21,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
@@ -27,6 +29,7 @@ import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
+import { responsePathAsArray } from 'graphql';
 
 interface IBreadCrumbs {
   title: string;
@@ -118,7 +121,7 @@ const MenuItem: React.FC<IMenuItem> = ({
   title,
   opened,
   onPress,
-  index,
+  index: indexProp,
   subItemList,
   highlight,
 }) => {
@@ -128,7 +131,7 @@ const MenuItem: React.FC<IMenuItem> = ({
     <Box>
       <TouchableOpacity
         onPress={() => {
-          onPress(index);
+          onPress(indexProp);
         }}
       >
         <Box
@@ -187,6 +190,8 @@ const MenuItem: React.FC<IMenuItem> = ({
                     facetInput,
                     referenceId: item.referenceId,
                     title: title,
+                    comeFrom: 'Menu',
+                    indexMenuOpened: indexProp
                   });
                 }}
               />
@@ -244,7 +249,10 @@ type Profile = {
   userId: string;
 };
 
-export const Menu: React.FC<{}> = () => {
+type Props = StackScreenProps<RootStackParamList, 'Menu'>;
+
+export const Menu = ({ route }: Props) => {
+  const indexOpened = route?.params?.indexMenuOpened;
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const { cookie } = useAuth();
@@ -258,7 +266,7 @@ export const Menu: React.FC<{}> = () => {
 
   const [{ dataProfile, refetch }, setProfileData] = useState({
     dataProfile: null,
-    refetch: () => { },
+    refetch: () => {},
   });
 
   const [getProfile] = useLazyQuery(profileQuery);
@@ -273,11 +281,12 @@ export const Menu: React.FC<{}> = () => {
   });
 
   useEffect(() => {
-    getCategories().then((reponse) =>
-      setCategoriesData({
-        loading: false,
-        data: reponse.data,
-      })
+    getCategories().then((response) => {
+        setCategoriesData({
+          loading: false,
+          data: response.data,
+        })
+      }
     );
     getProfile().then((response) =>
       setProfileData({
@@ -314,11 +323,11 @@ export const Menu: React.FC<{}> = () => {
 
   useEffect(() => {
     setCategories(
-      categoryItems.map((item: any) => ({
+      categoryItems.map((item: any, index: number) => ({
         ...item,
         name: item.name,
         children: item.childCategoryCollection,
-        opened: false,
+        opened: indexOpened === index,
         highlight: false,
       }))
     );
@@ -366,6 +375,12 @@ export const Menu: React.FC<{}> = () => {
     }
   };
 
+  const navigateFromMenu = (route: string) => {
+    navigation.navigate(route, {
+      comeFrom: 'Menu',
+    });
+  };
+
   useEffect(() => {
     getTestEnvironment();
   }, []);
@@ -380,7 +395,7 @@ export const Menu: React.FC<{}> = () => {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           {categories && (
             <Animatable.View animation="fadeIn">
-              {categories.map((item, index) => (
+              {categories.map((item, index) =>
                 !item.mkt ? (
                   <MenuItem
                     key={index}
@@ -392,7 +407,7 @@ export const Menu: React.FC<{}> = () => {
                     title={item.name}
                   />
                 ) : null
-              ))}
+              )}
               <Divider
                 variant="fullWidth"
                 marginBottom="nano"
@@ -475,7 +490,7 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate('HelpCenter');
+                  navigateFromMenu('HelpCenter');
                 }}
               />
               <FixedMenuItem
@@ -507,7 +522,7 @@ export const Menu: React.FC<{}> = () => {
                   </Typography>
                 }
                 onPress={() => {
-                  navigation.navigate('PrivacyPolicy');
+                  navigateFromMenu('PrivacyPolicy');
                 }}
               />
             </Animatable.View>

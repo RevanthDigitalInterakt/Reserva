@@ -13,8 +13,12 @@ import {
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ItemListHelp from '../Components/ItemListHelp';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
-export const HelpCenter: React.FC<{}> = () => {
+type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
+
+export const HelpCenter = ({ route }: Props) => {
   const navigation = useNavigation();
 
   const [search, setSearch] = useState('');
@@ -38,13 +42,18 @@ export const HelpCenter: React.FC<{}> = () => {
 
   useEffect(() => {}, []);
 
+  const navigateGoBack = () => {
+    navigation.goBack();
+    route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu');
+  };
+
   return (
     <SafeAreaView
       flex={1}
       style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
-      <TopBarBackButton />
+      <TopBarBackButton backButtonPress={() => navigateGoBack()} />
 
       <Box flex={1} alignContent="flex-start" pt="xs" paddingX="xxxs">
         <Box mb="nano" alignSelf="flex-start">

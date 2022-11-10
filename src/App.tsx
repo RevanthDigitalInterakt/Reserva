@@ -8,7 +8,6 @@ import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import CodepushConfig from './config/codepush';
 import { env } from './config/env';
 import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
@@ -181,7 +180,6 @@ const App = () => {
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
   const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean>(null);
-
   const firstLaunchedData = async () => {
     const appData = await AsyncStorage.getItem('isAppFirstLaunched');
     if (appData === null) {
@@ -243,7 +241,6 @@ const App = () => {
     })();
     requestUserPermission();
     logAppOpenAnalytics();
-    CodepushConfig();
     responsysConfig();
     oneSignalConfig();
     setTimeout(() => {

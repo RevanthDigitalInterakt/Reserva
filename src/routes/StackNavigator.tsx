@@ -2,6 +2,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CallCenter from '../modules/CallCenter';
+import { WebviewZendesk } from '../modules/CallCenter/WebviewZendesk';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
 import { Cashback } from '../modules/Cashback/pages/Cashback';
 import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
@@ -68,6 +69,7 @@ export type RootStackParamList = {
     hasCep?: string;
     idsku?: string;
   };
+  HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -86,8 +88,16 @@ export type RootStackParamList = {
     title?: string;
     reservaMini?: boolean;
     orderBy: string;
+    comeFrom?: 'Menu' | 'Other';
+    indexMenuOpened?: number;
   };
-  ChangeRegionalization: { isCepAddress?: boolean, isCepProductDetail?: boolean }
+  Menu: {
+    indexMenuOpened?: number;
+  }
+  ChangeRegionalization: {
+    isCepAddress?: boolean;
+    isCepProductDetail?: boolean;
+  };
   CEPList: {
     list: CepsInfo;
     searchBy: SearchBy;
@@ -302,5 +312,7 @@ export const MainStackScreen = () => (
     />
     <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
+    <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
+
   </MainStack.Navigator>
 );

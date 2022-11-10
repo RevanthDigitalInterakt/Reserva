@@ -205,6 +205,9 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     { data: suggestionsData, loading: suggestionsLoading },
   ] = useLazyQuery(searchSuggestionsAndProductSearch, {
     fetchPolicy: 'no-cache',
+    variables: {
+      salesChannel: '4',
+    },
   });
 
   const { WithoutInternet } = useCheckConnection({});
@@ -287,11 +290,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         setShowResults(true);
         setSelectedTerm(false);
         // resetProductsArray()
-        setProducts(data?.productSearch.products);
+        setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
         console.log('data--', data);
-        const searchIds = data?.productSearch.products.map(
-          (x: any) => x.productId
+        const searchIds = data?.productSearch?.products.map(
+          (x: any) => x?.productId
         );
 
         appsFlyer.logEvent('af_search', {
@@ -319,11 +322,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         setShowResults(true);
         setSelectedTerm(false);
         // resetProductsArray();
-        setProducts(data?.productSearch.products);
+        setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
 
-        const searchIds = data?.productSearch.products.map(
-          (x: any) => x.productId
+        const searchIds = data?.productSearch?.products.map(
+          (x: any) => x?.productId
         );
 
         appsFlyer.logEvent('af_search', {
@@ -373,7 +376,13 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     });
 
     if (!loading) {
-      setProducts(newProducts);
+      // setProducts([...products, newProducts]);
+      if (Array.isArray(newProducts) && newProducts.length) {
+        setProducts(newProducts);
+      } else {
+        const newProduct = [...products] as any[] | undefined;
+        setProducts(newProduct);
+      }
     }
     setLoadingRefetch(false);
   };
@@ -585,7 +594,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           }}
           onClickIcon={() => {
             suggestionsData && setSelectedTerm(true);
-            handleSearch(searchTerm);
+            handleSearch(searchTerm.replace(/^\s+|\s+$/gm, ''));
           }}
           height={36}
           placeholder="Buscar"

@@ -85,7 +85,11 @@ interface Seller {
   name: string;
   logo: string;
 }
-
+interface SelectableGifts {
+  availableGifts: Item[];
+  availableQuantity: number;
+  id: string;
+}
 interface Totalizers {
   id: string;
   name: string;
@@ -208,7 +212,7 @@ interface StorePreferencesData {
   currencyFormatInfo: CurrencyFormatInfo;
 }
 
-interface OrderForm {
+export interface OrderForm {
   canEditData: boolean;
   clientPreferencesData: ClientPreferencesData;
   clientProfileData: ClientProfileData;
@@ -221,6 +225,7 @@ interface OrderForm {
   paymentData: any;
   salesChannel: string;
   sellers: Seller[];
+  selectableGifts: SelectableGifts[];
   shippingData: ShippingData;
   storePreferencesData: StorePreferencesData;
   totalizers: Totalizers[];

@@ -668,15 +668,15 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - OneSignal (3.11.2):
-    - OneSignal/OneSignalCore (= 3.11.2)
-    - OneSignal/OneSignalExtension (= 3.11.2)
-    - OneSignal/OneSignalOutcomes (= 3.11.2)
-  - OneSignal/OneSignalCore (3.11.2)
-  - OneSignal/OneSignalExtension (3.11.2):
+  - OneSignal (3.11.4):
+    - OneSignal/OneSignalCore (= 3.11.4)
+    - OneSignal/OneSignalExtension (= 3.11.4)
+    - OneSignal/OneSignalOutcomes (= 3.11.4)
+  - OneSignal/OneSignalCore (3.11.4)
+  - OneSignal/OneSignalExtension (3.11.4):
     - OneSignal/OneSignalCore
     - OneSignal/OneSignalOutcomes
-  - OneSignal/OneSignalOutcomes (3.11.2):
+  - OneSignal/OneSignalOutcomes (3.11.4):
     - OneSignal/OneSignalCore
   - OneSignalXCFramework (3.11.2):
     - OneSignalXCFramework/OneSignalCore (= 3.11.2)
@@ -1016,6 +1016,8 @@ PODS:
     - React-Core
   - RNDeviceInfo (8.7.1):
     - React-Core
+  - RNExitApp (1.1.0):
+    - React
   - RNFBAnalytics (13.1.1):
     - Firebase/Analytics (= 8.10.0)
     - React-Core
@@ -1131,6 +1133,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - Firebase/Core (~> 8.10.0)
   - Flipper (= 0.119.0)
   - Flipper-DoubleConversion (= 1.1.7)
   - Flipper-Folly (~> 2.5)
@@ -1208,6 +1211,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNExitApp (from `../node_modules/react-native-exit-app`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAppCheck (from `../node_modules/@react-native-firebase/app-check`)"
@@ -1408,6 +1412,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/picker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNExitApp:
+    :path: "../node_modules/react-native-exit-app"
   RNFBAnalytics:
     :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
@@ -1467,7 +1473,7 @@ SPEC CHECKSUMS:
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: caeac8f7118b8f7b05c5b9b4e6ffa71ba9d22edc
+  FBReactNativeSpec: a6ac9cebd1b0f4ad7d60b5761f48cf14bd29cbad
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1508,7 +1514,7 @@ SPEC CHECKSUMS:
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OneSignal: 8861a1407c321ca1ae59d3adca6286eb7caf9d6e
+  OneSignal: 81271660d860f857d20f38117bbf3d47a4f0151e
   OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d
@@ -1564,6 +1570,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNDeviceInfo: aad3c663b25752a52bf8fce93f2354001dd185aa
+  RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
   RNFBAnalytics: 9337a84539ea8497409a8c1db1c301dc1b2b3858
   RNFBApp: 6e20f07b316346d96737191f377777f61f51a8d2
   RNFBAppCheck: 15a77362b86217fb43b7b15858c6f04dce895064
@@ -1592,6 +1599,6 @@ SPEC CHECKSUMS:
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: cce6d391cc5b20ec2ea61ebba8d6e17fe9e20b0a
+PODFILE CHECKSUM: acebc1c7c69e2f26ca74f8c172c9e9cec98489f8
 
 COCOAPODS: 1.11.3

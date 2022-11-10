@@ -42,7 +42,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { useCart } from '../../../context/CartContext';
+import { OrderForm, useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
 import IsTestingModal from '../Components/IsTestingModal';
@@ -560,12 +560,10 @@ export const EditProfile = ({ route }: Props) => {
   const handlerValidationFullName = (text: string) => {
     const [firstName, ...rest] = text.trim().split(' ');
     const lastName = rest.join(' ');
+    // regex to validate full name with at least 2 words and no numbers
     if (
       text.match(
-        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
-      ) &&
-      !lastName.match(
-        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
+        /^[a-zA-ZÀ-ú]{2,}\s[a-zA-ZÀ-ú ']{2,}$/
       )
     ) {
       console.log('TRUE ::::::::::::::::::::');
@@ -618,6 +616,10 @@ export const EditProfile = ({ route }: Props) => {
 
   const handleCopyToken = () => {
     Clipboard.setString(tokenOneSignal);
+  };
+  const handleCopyOrderFormId = () => {
+    const { orderFormId } = orderForm as OrderForm;
+    Clipboard.setString(orderFormId);
   };
 
   const styles = StyleSheet.create({
@@ -1200,6 +1202,11 @@ export const EditProfile = ({ route }: Props) => {
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
+                    </TouchableOpacity>
+                  </Box>
+                  <Box mb="nano" mt="nano">
+                    <TouchableOpacity onPress={() => handleCopyOrderFormId()}>
+                      <Typography>{orderForm?.orderFormId}</Typography>
                     </TouchableOpacity>
                   </Box>
                   <Box flexDirection="row" marginY="micro" alignItems="center">

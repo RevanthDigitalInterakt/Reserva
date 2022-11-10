@@ -141,4 +141,19 @@ export const chechoutService = {
       console.log('error', error);
     }
   },
+
+  setGiftSize: async (
+    uniqueId: string,
+    giftId: string
+  ) => {
+    try {
+      const response = await checkoutInstance.post(
+        `/pub/orderForm/${uniqueId}/selectable-gifts/${giftId}`,
+        {},
+      );
+      console.log('CHECKOUT RESPONSE ===>>>', response.status);
+    } catch (error) {
+      console.log('error', error);
+    }
+  },
 };

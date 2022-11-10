@@ -76,4 +76,5 @@ export const animations = {
   splash: require('./animations/splash.json'),
   bag: require('./animations/bag.json'),
   confirmation: require('./animations/confirmation.json'),
+  loader: require('./animations/loader.json'),
 };
