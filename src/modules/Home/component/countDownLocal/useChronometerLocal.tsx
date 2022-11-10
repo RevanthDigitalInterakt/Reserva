@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export const useChronometerRsvMini = ({ initial = '00:00:00' }) => {
+export const useChronometerLocal = ({ initial = '00:00:00' }) => {
   const [valueFormatted, setValueFormatted] = useState(initial);
   const value = useRef(initial);
   const intervalIDRef = useRef();
