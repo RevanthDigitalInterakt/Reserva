@@ -41,7 +41,10 @@ import { CountDownBanner } from '../component/CountDown';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
 import { useConfigContext } from '../../../context/ConfigContext';
-import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
+import {
+  countdownClockQuery,
+  ICountDownClock,
+} from '../../../graphql/countDownClock/countdownClockQuery';
 import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 
 dayjs.extend(utc);
@@ -62,7 +65,9 @@ export const HomeScreen: FC<{
   const [images, setImages] = useState<HomeQuery[]>([]);
   const [carrousels, setCarrousels] = useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = useState<any>();
-  const [countDownClock, setCountDownClock] = useState<ICountDownClock[] | undefined>();
+  const [countDownClock, setCountDownClock] = useState<
+    ICountDownClock[] | undefined
+  >();
   const [{ data, loading }, setDataHome] = useState({
     data: null,
     loading: true,
@@ -88,8 +93,8 @@ export const HomeScreen: FC<{
   const [getcountdownClock] = useLazyQuery(countdownClockQuery, {
     context: { clientName: 'contentful' },
     variables: {
-      selectClockScreenHome: "HOME",
-      selectClockScreenAll: "ALL"
+      selectClockScreenHome: 'HOME',
+      selectClockScreenAll: 'ALL',
     },
   });
 
@@ -127,13 +132,18 @@ export const HomeScreen: FC<{
 
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
-
-      const clockHome = countDownClock?.find((x) => x?.selectClockScreen == "HOME")
-      const clockALL = countDownClock?.find((x) => x?.selectClockScreen == "ALL")
+      const clockHome = countDownClock?.find(
+        (x) => x?.selectClockScreen == 'HOME'
+      );
+      const clockALL = countDownClock?.find(
+        (x) => x?.selectClockScreen == 'ALL'
+      );
 
       if (clockHome) {
-        if (new Date(clockHome?.countdown).getTime() > Date.now() &&
-          Date.now() > new Date(clockHome?.countdownStart).getTime()) {
+        if (
+          new Date(clockHome?.countdown).getTime() > Date.now() &&
+          Date.now() > new Date(clockHome?.countdownStart).getTime()
+        ) {
           setShowClockHome(true);
         } else {
           setShowClockHome(false);
@@ -148,12 +158,12 @@ export const HomeScreen: FC<{
           });
         }
         if (limitDate) {
-
           setCountDownClockLocal({
             ...clockHome,
             countdownStart: clockHome?.countdownStart,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+              limitDate.minutes
+            }:${limitDate.seconds}`,
           });
         }
       }
@@ -170,8 +180,9 @@ export const HomeScreen: FC<{
           setCountDownClockGlobal({
             ...clockALL,
             countdownStart: clockALL?.countdownStart,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
+              limitDate.minutes
+            }:${limitDate.seconds}`,
           });
         }
       }
@@ -227,7 +238,10 @@ export const HomeScreen: FC<{
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/APP2022-138-react-native-configurar-link
     }
   }, [collectionData]);
 
@@ -352,23 +366,25 @@ export const HomeScreen: FC<{
   }, [carrousels]);
 
   const renderBannersFlatList = useMemo(() => {
-    return <FlatList
-      data={images}
-      renderItem={({ item }) => {
-        return (
-          <Banner
-            orderBy={item.orderBy}
-            height={item.height}
-            reference={item.reference}
-            url={item.url}
-            route={item.isLandingPage ? 'LandingPage' : item.route}
-            landingPageId={item.landingPageId}
-            reservaMini={item.reservaMini}
-          />
-        );
-      }}
-      keyExtractor={(item) => item.id}
-    />
+    return (
+      <FlatList
+        data={images}
+        renderItem={({ item }) => {
+          return (
+            <Banner
+              orderBy={item.orderBy}
+              height={item.height}
+              reference={item.reference}
+              url={item.url}
+              route={item.isLandingPage ? 'LandingPage' : item.route}
+              landingPageId={item.landingPageId}
+              reservaMini={item.reservaMini}
+            />
+          );
+        }}
+        keyExtractor={(item) => item.id}
+      />
+    );
   }, [images]);
 
   const handleModalCodeIsVisible = useCallback(() => {
@@ -406,7 +422,11 @@ export const HomeScreen: FC<{
                 overflow: 'hidden',
               }}
             >
-              {countDownClockLocal && showClockHome ? <CountDownLocal countDownLocal={countDownClockLocal} /> : <CountDownBanner countDown={countDownClockGlobal} />}
+              {countDownClockLocal && showClockHome ? (
+                <CountDownLocal countDownLocal={countDownClockLocal} />
+              ) : (
+                <CountDownBanner countDown={countDownClockGlobal} />
+              )}
               {renderCarouselBanners}
             </Box>
             {renderBannersFlatList}

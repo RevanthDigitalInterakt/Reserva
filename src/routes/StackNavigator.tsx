@@ -63,10 +63,11 @@ import { LandingPage } from '../modules/LandingPage/LandingPage';
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
   ProductDetail: {
-    productId: string;
+    productId?: string;
     colorSelected: string;
     sizeSelected: string;
     hasCep?: string;
+    idsku?: string;
   };
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };

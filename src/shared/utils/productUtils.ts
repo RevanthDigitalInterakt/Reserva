@@ -17,7 +17,7 @@ export class ProductUtils {
     console.log('SIZES', sizes);
 
     return sizes
-      .sort((itemA, itemB) => {
+      ?.sort((itemA, itemB) => {
         const b = itemA;
         const a = itemB;
         if (parseInt(a) > 0) {

@@ -72,7 +72,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const pageSize = 12;
   const { safeArea, search, referenceId, title, reservaMini, orderBy } =
     route.params;
-
+  console.log('route.params', route.params);
   useEffect(() => {
     if (referenceId === 'offers-page') {
       setReferenceString(offersPage);
