@@ -1,7 +1,7 @@
 import { getPathFromState, LinkingOptions, PathConfigMap } from '@react-navigation/native';
 import { Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush'
+import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 
 const routesConfig= {
   screens: {
@@ -25,6 +25,9 @@ const routesConfig= {
         ProductCatalog: {
           path: 'c/:path1/:path2/:path3',///:path4/:path5/:path6/:path7',
         },
+        "MY_CASHBACK_MY_WALLET": {
+          path: 'wallet-cashback'
+        }
       },
     },
   },

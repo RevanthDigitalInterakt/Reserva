@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import { BaseScreen } from "../../../../common/components/BaseScreen";
@@ -19,7 +19,13 @@ export const MyWalletScreen = (
   const navigation = useNavigation();
 
   const navigateBack = () => {
-    navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+
+      return;
+    }
+
+    navigation.dispatch(CommonActions.navigate({ name: 'HomeTabs' }));
   }
 
   const navigateToError = () => {
