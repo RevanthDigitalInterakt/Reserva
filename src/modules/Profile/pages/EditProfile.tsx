@@ -108,7 +108,6 @@ export const EditProfile = ({ route }: Props) => {
     useState<boolean>(false);
   useEffect(() => {
     OneSignal.getDeviceState().then((deviceState: any) => {
-      console.error(deviceState.userId);
       setTokenOneSignal(deviceState.userId);
     });
   }, []);

@@ -8,5 +8,5 @@
     <!-- Responsys configuration -->
 
     <string name="one_link_url_host">usereserva.onelink.me</string>
-    <string name="onesignal_notification_accent_color">FF1100</string>
+    <string name="onesignal_notification_accent_color">FF0000</string>
 </resources>
