@@ -11,7 +11,7 @@ const routesConfig= {
       screens: {
         WishList: 'wishlist',
         HomeTabs: {
-          path: 'home',
+          path: 'home-tabs',
           screens: {
             Offers: 'ofertas',
             WishList: 'wishlist',
@@ -50,22 +50,20 @@ export const linkingConfig: LinkingOptions = {
     if(url.includes('/p?')){
       // get query params from url
       const urlParams = url.split('/p?')[1]
-      // const skuId = urlParams.searchParams.get('idsku');
-      console.log('url product', url.split('/p?')[1])
-      console.log('url product 1', `usereserva://product?${urlParams}`)
+
       return `usereserva://product?${urlParams}`;
     }
 
     if(url.includes('colecao-reserva/ofertas')){
-      return 'usereserva://home/ofertas'
+      return 'usereserva://home-tabs/ofertas'
     }
 
     if(url.includes('account#/wishlist')){
-      return 'usereserva://home/wishlist'
+      return 'usereserva://home-tabs/wishlist'
     }
 
     if(url.includes('account#')){
-      return 'usereserva://home/profile'
+      return 'usereserva://home-tabs/profile'
     }
 
     console.log('getInitialURL 1', url);
