@@ -652,7 +652,7 @@ export const BagScreen = ({ route }: Props) => {
                         <Typography
                           fontFamily="reservaSerifBold"
                           fontSize={fontTitle}
-                          
+
                         >
                           Parabéns, você ganhou um brinde!
                         </Typography>
@@ -737,29 +737,29 @@ export const BagScreen = ({ route }: Props) => {
                           )}
                       </Box>
                       <Box flex={1} justifyContent='flex-end'>
-                      <Box>
-                        <RadioButtons
-                          size={screenWidth * 0.080}
-                          fontSize={12}
-                          disbledOptions={[]}
-                          onSelectedChange={(item) => {
-                            fetchSelectGiftSize(item);
-                          }}
-                          optionsList={
-                            showMoreSizes
-                              ? orderForm.selectableGifts[0].availableGifts
-                                .map((x) => x.skuName.split('-')[1])
-                                .reverse()
-                              : orderForm.selectableGifts[0].availableGifts
-                                .map((x) => x.skuName.split('-')[1])
-                                .slice(0, 5)
-                                .reverse()
-                          }
-                          showMoreSizes={showMoreSizes}
-                          defaultSelectedItem=""
-                          selectedItem={selectedSizeGift}
-                        />
-                      </Box>
+                        <Box>
+                          <RadioButtons
+                            size={screenWidth * 0.080}
+                            fontSize={11.5}
+                            disbledOptions={[]}
+                            onSelectedChange={(item) => {
+                              fetchSelectGiftSize(item);
+                            }}
+                            optionsList={
+                              showMoreSizes
+                                ? orderForm.selectableGifts[0].availableGifts
+                                  .map((x) => x.skuName.split('-')[1].trim())
+                                  .reverse()
+                                : orderForm.selectableGifts[0].availableGifts
+                                  .map((x) => x.skuName.split('-')[1].trim())
+                                  .slice(0, 5)
+                                  .reverse()
+                            }
+                            showMoreSizes={showMoreSizes}
+                            defaultSelectedItem=""
+                            selectedItem={selectedSizeGift?.trim()}
+                          />
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
