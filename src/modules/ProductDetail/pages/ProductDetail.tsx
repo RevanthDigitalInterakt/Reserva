@@ -7,6 +7,7 @@ import { addDays, format } from 'date-fns';
 import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
+  BackHandler,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
@@ -168,17 +169,25 @@ export const ProductDetail: React.FC<Props> = ({
   /**
    * States, queries and mutations
    */
+
   const [product, setProduct] = useState<Product | null>(null);
   const [{ data, loading }, setProductLoad] = useState({
     data: null,
     loading: true,
   });
+
+
+
   const [getProduct] = useLazyQuery(GET_PRODUCTS, {
     variables: {
-      id: route.params.productId.split('-')[0],
+      // id: route?.params?.productId?.split('-')[0],
+      field: route.params.idsku ? 'sku' : 'id',
+      value: route.params.idsku ? route.params.idsku : route?.params?.productId?.split('-')[0],
       salesChannel: 4,
     },
   });
+
+
 
   const [checkListRefetch] = useLazyQuery(wishListQueries.CHECK_LIST, {
     fetchPolicy: 'no-cache',
@@ -297,6 +306,7 @@ export const ProductDetail: React.FC<Props> = ({
    * Effects
    */
   useEffect(() => {
+    console.log('getInitialURL pdp', route.params);
     remoteConfig().fetchAndActivate();
     const value = remoteConfig().getValue('sale_off_tag');
     setSaleOffTag(value.asBoolean());
@@ -312,9 +322,12 @@ export const ProductDetail: React.FC<Props> = ({
     refetchChecklist();
   }, [selectedVariant]);
 
+
+
   // selectedVariant?.itemId
 
   useEffect(() => {
+    console.log('idsku', route.params.idsku);
     if (data) {
       const { product } = data;
       setProduct(product);
@@ -329,6 +342,8 @@ export const ProductDetail: React.FC<Props> = ({
 
       const disabledColors = getUnavailableColors(product);
       getAllUnavailableColors(product);
+      console.log('idsku variant', variant);
+      console.log('idsku product', product);
 
       // set colors filter
       getColorsList(product);
@@ -351,6 +366,7 @@ export const ProductDetail: React.FC<Props> = ({
       setColorFilters(colorList);
 
       // set initial selected color
+      console.log('idsku itemId', route.params?.itemId);
       if (route.params?.itemId) {
         if (colorItemId) {
           setSelectedColor(colorItemId[0]);
@@ -372,13 +388,23 @@ export const ProductDetail: React.FC<Props> = ({
           }
         }
       } else {
-        setSelectedColor(colorList ? route.params.colorSelected : '');
-        setSelectedNewColor(colorList ? route.params.colorSelected : '');
-        variant = product.items.find(
-          (x) =>
-            x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0] ==
-            route.params.colorSelected
-        );
+        if (route.params.idsku) {
+          variant = product.items.find(
+            (x) => x.itemId == route.params.idsku
+          );
+          console.log('idsku variant', variant);
+          setSelectedColor(variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0]);
+          setSelectedNewColor(variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0]);
+        } else {
+
+          setSelectedColor(colorList ? route.params.colorSelected : '');
+          setSelectedNewColor(colorList ? route.params.colorSelected : '');
+          variant = product.items.find(
+            (x) =>
+              x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0] ==
+              route.params.colorSelected
+          );
+        }
       }
 
       setSelectedVariant(variant);
@@ -461,8 +487,8 @@ export const ProductDetail: React.FC<Props> = ({
             (p) =>
               p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
           )
-          .filter((a) => a !== false)[0]
-          .filter((x) => x !== '')
+          ?.filter((a) => a !== false)[0]
+          ?.filter((x) => x !== '')
       );
       setSizeFilters(sizeFilters);
 
@@ -472,7 +498,7 @@ export const ProductDetail: React.FC<Props> = ({
             p.color === selectedColor &&
             p.sizeList.map((sizes) => !sizes.available && sizes.size)
         )
-        .filter((a) => a !== false)[0];
+        ?.filter((a) => a !== false)[0];
 
       setUnavailableSizes(unavailableSizes);
 
@@ -643,7 +669,7 @@ export const ProductDetail: React.FC<Props> = ({
         data: { checkList },
       } = await checkListRefetch({
         variables: {
-          shopperId: email,
+          shopperId: email || '',
           productId: product?.productId.split('-')[0],
         },
       });
@@ -662,7 +688,7 @@ export const ProductDetail: React.FC<Props> = ({
         if (favorite) {
           const { data } = await addWishList({
             variables: {
-              shopperId: email,
+              shopperId: email || '',
               productId: product.productId.split('-')[0],
               sku: selectedVariant?.itemId,
             },
@@ -670,7 +696,7 @@ export const ProductDetail: React.FC<Props> = ({
         } else {
           await removeWishList({
             variables: {
-              shopperId: email,
+              shopperId: email || '',
               id: wishInfo.listIds[0],
             },
           });
@@ -911,6 +937,15 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }, [route.params.hasCep]);
 
+  // useEffect(() => {
+  //   if (route.params?.idsku) {
+  //     BackHandler.addEventListener('hardwareBackPress', () => {
+  //       navigation.navigate('Home');
+  //       return true;
+  //     })
+  //   }
+  // }, [])
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -925,7 +960,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
+        <TopBarDefaultBackButton loading={loading} navigateGoBack={true} exiteApp={!!route.params.idsku} />
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
