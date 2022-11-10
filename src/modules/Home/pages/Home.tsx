@@ -238,10 +238,6 @@ export const HomeScreen: FC<{
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
-<<<<<<< HEAD
-
-=======
->>>>>>> feature/APP2022-138-react-native-configurar-link
     }
   }, [collectionData]);
 
