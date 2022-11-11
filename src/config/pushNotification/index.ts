@@ -10,7 +10,7 @@ export const oneSignalConfig = async () => {
     OneSignal.setLogLevel(6, 0);
   }
 
-  console.log(OneSignal.getDeviceState());
+  console.log('OneSignal.getDeviceState()', await OneSignal.getDeviceState());
   OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
 
   OneSignal.promptForPushNotificationsWithUserResponse((response) => {

@@ -53,6 +53,7 @@ import { ModalZoomImage } from '../components/ModalZoomImage';
 import { Recommendation } from '../components/Recommendation';
 import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
+import OneSignal from 'react-native-onesignal';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -735,6 +736,25 @@ export const ProductDetail: React.FC<Props> = ({
     Share.open(options);
   };
 
+  useEffect(() => {
+    let timestamp = Math.floor(Date.now() / 1000);
+    console.log('timestamp::>', timestamp)
+    console.log('Date.now()::>', Date.now())
+  }, []);
+
+  const addTagsUponCartUpdate = (productName: string, productImageURL: string) => {
+    let timestamp = Math.floor(Date.now() / 1000);
+    console.log('entrou aqui', timestamp)
+    console.log('productName', productName)
+    console.log('productImageURL', productImageURL)
+    OneSignal.sendTags({
+      cart_update: timestamp.toString(),
+      product_name: productName,
+      product_image: productImageURL,
+    })
+    console.log('passou aqui')
+  }
+
   const onProductAdd = async () => {
     if (!selectedSize) {
       setErrorSize(true);
@@ -758,6 +778,7 @@ export const ProductDetail: React.FC<Props> = ({
           } else {
             setIsVisible(true);
             await addAttachmentsInProducts();
+            addTagsUponCartUpdate(product?.productName, selectedVariant.images[0].imageUrl);
           }
         }
       } else {
@@ -771,6 +792,7 @@ export const ProductDetail: React.FC<Props> = ({
           Alert.alert('Produto sem estoque', message);
         } else {
           setIsVisible(true);
+          addTagsUponCartUpdate(product?.productName, selectedVariant.images[0].imageUrl);
         }
       }
     }

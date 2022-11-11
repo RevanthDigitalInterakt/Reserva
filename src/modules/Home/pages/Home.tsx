@@ -161,9 +161,8 @@ export const HomeScreen: FC<{
           setCountDownClockLocal({
             ...clockHome,
             countdownStart: clockHome?.countdownStart,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-              limitDate.minutes
-            }:${limitDate.seconds}`,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
           });
         }
       }
@@ -180,9 +179,8 @@ export const HomeScreen: FC<{
           setCountDownClockGlobal({
             ...clockALL,
             countdownStart: clockALL?.countdownStart,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${
-              limitDate.minutes
-            }:${limitDate.seconds}`,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
           });
         }
       }
@@ -238,10 +236,7 @@ export const HomeScreen: FC<{
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
-<<<<<<< HEAD
 
-=======
->>>>>>> feature/APP2022-138-react-native-configurar-link
     }
   }, [collectionData]);
 

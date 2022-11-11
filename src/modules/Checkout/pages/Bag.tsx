@@ -45,6 +45,7 @@ import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 import Sentry from '../../../config/sentryConfig';
+import OneSignal from 'react-native-onesignal';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -267,6 +268,15 @@ export const BagScreen = ({ route }: Props) => {
         }
     );
 
+    // if(orderForm && orderForm?.items.length > 0){
+    //   let timestamp = Math.floor(Date.now() / 1000);
+    //   OneSignal.sendTags({
+    //     cart_update: timestamp.toString(),
+    //     product_name: orderForm?.items[0]?.name,
+    //     product_image: orderForm?.items[0]?.imageUrl.replace('http', 'https'),
+    //   })
+    // }
+    console.log('orderForm::>', orderForm);
     setOptimistQuantities(quantities);
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
@@ -416,6 +426,23 @@ export const BagScreen = ({ route }: Props) => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    OneSignal.getTags((receivedTags) => {
+      console.log('receivedTags', receivedTags);
+    });
+  }, []);
+
+  const removeCartTags = () => {
+    let timestamp = Math.floor(Date.now() / 1000);
+    console.log('entrou aqui', timestamp)
+    OneSignal.sendTags({
+      cart_update: "",
+      product_name: "",
+      product_image: "",
+    })
+    console.log('passou aqui')
+  }
 
   return (
     <SafeAreaView
@@ -600,12 +627,21 @@ export const BagScreen = ({ route }: Props) => {
                 if (removeProduct) {
                   setShowModal(false);
                   setLoadingModal(true);
-                  await removeItem(
+                  console.log('removeProduct::>', removeProduct)
+                  console.log('oorderForm::>', orderForm.items.length);
+                  const respo = await removeItem(
                     removeProduct?.id,
                     removeProduct?.index,
                     removeProduct?.seller,
                     0
                   );
+
+                  console.log('removel?::>', respo)
+
+                  if (removeProduct.index === orderForm.items.length - 1) {
+                    console.log('oorderForm é sim ::>', orderForm.items.length);
+                    // removeCartTags();
+                  }
                   setRemoveProduct(undefined);
                   setLoadingModal(false);
                 }

@@ -10,6 +10,7 @@ const routesConfig= {
 
       screens: {
         WishList: 'wishlist',
+        BagScreen: 'bag',
         HomeTabs: {
           path: 'home-tabs',
           screens: {
