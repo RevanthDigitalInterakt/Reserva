@@ -778,7 +778,10 @@ export const ProductDetail: React.FC<Props> = ({
           } else {
             setIsVisible(true);
             await addAttachmentsInProducts();
-            addTagsUponCartUpdate(product?.productName, selectedVariant.images[0].imageUrl);
+
+            if (quantities === 0 && orderForm?.items.length == 0) {
+              addTagsUponCartUpdate(product?.productName, selectedVariant.images[0].imageUrl);
+            }
           }
         }
       } else {
@@ -792,7 +795,10 @@ export const ProductDetail: React.FC<Props> = ({
           Alert.alert('Produto sem estoque', message);
         } else {
           setIsVisible(true);
-          addTagsUponCartUpdate(product?.productName, selectedVariant.images[0].imageUrl);
+
+          if (quantities === 0 && orderForm?.items.length == 0) {
+            addTagsUponCartUpdate(product?.productName, selectedVariant.images[0].imageUrl);
+          }
         }
       }
     }

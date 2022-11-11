@@ -81,6 +81,7 @@ export const BagScreen = ({ route }: Props) => {
   const [totalBag, setTotalBag] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
+  const [isRemoveCartTags, setIsRemoveCartTags] = useState(false);
   const [loadingGift, setLoadingGift] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<
     { id: string; index: number; seller: string; quantity: number } | undefined
@@ -268,15 +269,6 @@ export const BagScreen = ({ route }: Props) => {
         }
     );
 
-    // if(orderForm && orderForm?.items.length > 0){
-    //   let timestamp = Math.floor(Date.now() / 1000);
-    //   OneSignal.sendTags({
-    //     cart_update: timestamp.toString(),
-    //     product_name: orderForm?.items[0]?.name,
-    //     product_image: orderForm?.items[0]?.imageUrl.replace('http', 'https'),
-    //   })
-    // }
-    console.log('orderForm::>', orderForm);
     setOptimistQuantities(quantities);
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
@@ -284,6 +276,19 @@ export const BagScreen = ({ route }: Props) => {
     setSellerCode(sellerCode);
     setSellerName(sellerName);
   }, [orderForm]);
+
+  useEffect(() => {
+    if (orderForm && orderForm.items.length > 0) {
+      if (isRemoveCartTags) {
+        let timestamp = Math.floor(Date.now() / 1000);
+        OneSignal.sendTags({
+          cart_update: timestamp.toString(),
+          product_name: orderForm?.items[0]?.name,
+          product_image: orderForm?.items[0]?.imageUrl.replace('http', 'https'),
+        })
+      }
+    }
+  }, [isRemoveCartTags]);
 
   useEffect(() => {
     if (viewRef.current) {
@@ -627,20 +632,20 @@ export const BagScreen = ({ route }: Props) => {
                 if (removeProduct) {
                   setShowModal(false);
                   setLoadingModal(true);
-                  console.log('removeProduct::>', removeProduct)
-                  console.log('oorderForm::>', orderForm.items.length);
-                  const respo = await removeItem(
+                  let removedProductIndex = removeProduct?.index;
+
+                  const { ok } = await removeItem(
                     removeProduct?.id,
                     removeProduct?.index,
                     removeProduct?.seller,
                     0
                   );
 
-                  console.log('removel?::>', respo)
-
-                  if (removeProduct.index === orderForm.items.length - 1) {
-                    console.log('oorderForm é sim ::>', orderForm.items.length);
-                    // removeCartTags();
+                  if (ok) {
+                    if (removedProductIndex === 0) {
+                      setIsRemoveCartTags(true);
+                      removeCartTags();
+                    }
                   }
                   setRemoveProduct(undefined);
                   setLoadingModal(false);
