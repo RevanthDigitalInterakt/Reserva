@@ -70,8 +70,9 @@ export const BagScreen = ({ route }: Props) => {
   } = useCart();
 
   const { isProfileComplete } = route?.params;
-  let fontTitle = Platform.OS === 'android' ? screenWidth * 0.0352 : screenWidth * 0.036;
-  let subtitle = screenWidth * 0.032
+  let fontTitle =
+    Platform.OS === 'android' ? screenWidth * 0.0352 : screenWidth * 0.036;
+  let subtitle = screenWidth * 0.032;
   const [loading, setLoading] = useState(false);
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -132,7 +133,7 @@ export const BagScreen = ({ route }: Props) => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => { },
+    refetch: () => {},
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -258,13 +259,13 @@ export const BagScreen = ({ route }: Props) => {
     setInstallmentInfo(
       installment
         ? {
-          installmentPrice: installment.value,
-          installmentsNumber: installment.count,
-          totalPrice: installment.total,
-        }
+            installmentPrice: installment.value,
+            installmentsNumber: installment.count,
+            totalPrice: installment.total,
+          }
         : {
-          ...installmentInfo,
-        }
+            ...installmentInfo,
+          }
     );
 
     setOptimistQuantities(quantities);
@@ -396,7 +397,7 @@ export const BagScreen = ({ route }: Props) => {
 
   const fetchSelectGiftSize = async (size: string) => {
     const availableGifts = orderForm.selectableGifts[0].availableGifts.find(
-      (x) => x.skuName.split('-')[1] === size
+      (x) => x.skuName.split('-')[1].trim() === size
     );
 
     try {
@@ -652,13 +653,12 @@ export const BagScreen = ({ route }: Props) => {
                         <Typography
                           fontFamily="reservaSerifBold"
                           fontSize={fontTitle}
-
                         >
                           Parabéns, você ganhou um brinde!
                         </Typography>
                       </Box>
 
-                      <Box minHeight={48} >
+                      <Box minHeight={48}>
                         <Typography
                           fontFamily="reservaSansLight"
                           fontSize={subtitle}
@@ -676,11 +676,9 @@ export const BagScreen = ({ route }: Props) => {
                           >
                             {' '}
                             1{' '}
-                            {
-                              `${orderForm?.selectableGifts[0]?.availableGifts[0]?.name.split(
-                                '-'
-                              )[0].trim()}.`
-                            }
+                            {`${orderForm?.selectableGifts[0]?.availableGifts[0]?.name
+                              .split('-')[0]
+                              .trim()}.`}
                           </Typography>
                         </Typography>
                       </Box>
@@ -736,10 +734,10 @@ export const BagScreen = ({ route }: Props) => {
                             </Button>
                           )}
                       </Box>
-                      <Box flex={1} justifyContent='flex-end'>
+                      <Box flex={1} justifyContent="flex-end">
                         <Box>
                           <RadioButtons
-                            size={screenWidth * 0.080}
+                            size={screenWidth * 0.08}
                             fontSize={11.5}
                             disbledOptions={[]}
                             onSelectedChange={(item) => {
@@ -748,12 +746,12 @@ export const BagScreen = ({ route }: Props) => {
                             optionsList={
                               showMoreSizes
                                 ? orderForm.selectableGifts[0].availableGifts
-                                  .map((x) => x.skuName.split('-')[1].trim())
-                                  .reverse()
+                                    .map((x) => x.skuName.split('-')[1].trim())
+                                    .reverse()
                                 : orderForm.selectableGifts[0].availableGifts
-                                  .map((x) => x.skuName.split('-')[1].trim())
-                                  .slice(0, 5)
-                                  .reverse()
+                                    .map((x) => x.skuName.split('-')[1].trim())
+                                    .slice(0, 5)
+                                    .reverse()
                             }
                             showMoreSizes={showMoreSizes}
                             defaultSelectedItem=""
@@ -775,31 +773,31 @@ export const BagScreen = ({ route }: Props) => {
                           x.identifier ===
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) && (
-                          <Box paddingBottom="nano">
-                            <Typography
-                              fontFamily="nunitoRegular"
-                              fontSize={11}
-                              color="verdeSucesso"
-                            >
-                              Desconto de 1° compra aplicado neste produto!
-                            </Typography>
-                          </Box>
-                        )}
+                        <Box paddingBottom="nano">
+                          <Typography
+                            fontFamily="nunitoRegular"
+                            fontSize={11}
+                            color="verdeSucesso"
+                          >
+                            Desconto de 1° compra aplicado neste produto!
+                          </Typography>
+                        </Box>
+                      )}
                       {item.priceTags.find(
                         (x) =>
                           x.identifier ===
                           'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                       ) && (
-                          <Box position="absolute" zIndex={5} top={84} right={21}>
-                            <Typography
-                              color="verdeSucesso"
-                              fontFamily="nunitoRegular"
-                              fontSize={11}
-                            >
-                              -R$ 50
-                            </Typography>
-                          </Box>
-                        )}
+                        <Box position="absolute" zIndex={5} top={84} right={21}>
+                          <Typography
+                            color="verdeSucesso"
+                            fontFamily="nunitoRegular"
+                            fontSize={11}
+                          >
+                            -R$ 50
+                          </Typography>
+                        </Box>
+                      )}
                       <ProductHorizontalListCard
                         isBag
                         discountApi={
