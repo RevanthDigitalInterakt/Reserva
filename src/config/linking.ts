@@ -23,7 +23,7 @@ const routesConfig= {
           path: 'product',
         },
         ProductCatalog: {
-          path: 'c/:path1/:path2/:path3',///:path4/:path5/:path6/:path7',
+          path: 'catalog/:referenceId',
         },
       },
     },
@@ -46,7 +46,7 @@ export const linkingConfig: LinkingOptions = {
     const url = await Linking.getInitialURL();
 
     if (url != null) {
-
+    console.log('url test', url);
     if(url.includes('/p?')){
       // get query params from url
       const urlParams = url.split('/p?')[1]
