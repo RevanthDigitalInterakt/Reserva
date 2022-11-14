@@ -7,12 +7,13 @@ import { Alert, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { RootStackParamList } from 'routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
-import { useCart } from '../../../context/CartContext';
+import { useCart, OrderForm } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 import Sentry from '../../../config/sentryConfig';
+import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -162,6 +163,14 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const onGoToPayment = async () => {
     if (orderForm) {
       setLoading(true);
+
+      // valida se o clientProfileData contem os campos minimos para seguir para o pagamento
+      if (!isValidMinimalProfileData({ ...orderForm.clientProfileData })) {
+        navigation.navigate('EditProfile', { isRegister: true });
+        setLoading(false);
+
+        return;
+      }
 
       if (selectMethodDelivery) {
         // se for igual a true, retirar na loja

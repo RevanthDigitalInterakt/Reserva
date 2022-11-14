@@ -48,7 +48,7 @@ interface ClientPreferencesData {
   optinNewsLetter: boolean;
 }
 
-interface ClientProfileData {
+export interface ClientProfileData {
   attachmentId: string;
   email: string;
   firstName: string;
