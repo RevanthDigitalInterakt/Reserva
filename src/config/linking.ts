@@ -10,6 +10,7 @@ import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 const routesConfig = {
   screens: {
     Main: {
+      initialRouteName: 'HomeTabs',
       screens: {
         WishList: 'wishlist',
         HomeTabs: {

@@ -171,6 +171,10 @@ export const ProductDetail: React.FC<Props> = ({
    * States, queries and mutations
    */
 
+  if (route.params?.productId) {
+    delete route.params.idsku;
+  }
+
   const [product, setProduct] = useState<Product | null>(null);
   const [{ data, loading }, setProductLoad] = useState({
     data: null,
@@ -180,10 +184,10 @@ export const ProductDetail: React.FC<Props> = ({
   const [getProduct] = useLazyQuery(GET_PRODUCTS, {
     variables: {
       // id: route?.params?.productId?.split('-')[0],
-      field: route.params.idsku ? 'sku' : 'id',
-      value: route.params.idsku
-        ? route.params.idsku
-        : route?.params?.productId?.split('-')[0],
+      field: route?.params?.productId ? 'id' : 'sku',
+      value: route?.params?.productId
+        ? route?.params?.productId?.split('-')[0]
+        : route.params.idsku,
       salesChannel: 4,
     },
   });
@@ -960,15 +964,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton
-          loading={loading}
-          exiteApp={!!route.params.idsku}
-          backButtonPress={() => {
-            !route.params.productId
-              ? navigation.navigate('HomeTabs')
-              : navigation.goBack();
-          }}
-        />
+        <TopBarDefaultBackButton loading={loading} navigateGoBack />
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
