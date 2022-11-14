@@ -736,23 +736,13 @@ export const ProductDetail: React.FC<Props> = ({
     Share.open(options);
   };
 
-  useEffect(() => {
-    let timestamp = Math.floor(Date.now() / 1000);
-    console.log('timestamp::>', timestamp)
-    console.log('Date.now()::>', Date.now())
-  }, []);
-
   const addTagsUponCartUpdate = (productName: string, productImageURL: string) => {
     let timestamp = Math.floor(Date.now() / 1000);
-    console.log('entrou aqui', timestamp)
-    console.log('productName', productName)
-    console.log('productImageURL', productImageURL)
     OneSignal.sendTags({
       cart_update: timestamp.toString(),
       product_name: productName,
       product_image: productImageURL,
     })
-    console.log('passou aqui')
   }
 
   const onProductAdd = async () => {

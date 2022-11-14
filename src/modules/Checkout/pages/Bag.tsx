@@ -432,21 +432,12 @@ export const BagScreen = ({ route }: Props) => {
     }
   };
 
-  useEffect(() => {
-    OneSignal.getTags((receivedTags) => {
-      console.log('receivedTags', receivedTags);
-    });
-  }, []);
-
-  const removeCartTags = () => {
-    let timestamp = Math.floor(Date.now() / 1000);
-    console.log('entrou aqui', timestamp)
+  const removeAbandonedCartTags = () => {
     OneSignal.sendTags({
       cart_update: "",
       product_name: "",
       product_image: "",
     })
-    console.log('passou aqui')
   }
 
   return (
@@ -644,7 +635,7 @@ export const BagScreen = ({ route }: Props) => {
                   if (ok) {
                     if (removedProductIndex === 0) {
                       setIsRemoveCartTags(true);
-                      removeCartTags();
+                      removeAbandonedCartTags();
                     }
                   }
                   setRemoveProduct(undefined);
