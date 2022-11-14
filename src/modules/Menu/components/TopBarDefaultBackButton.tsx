@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Alert, Platform } from 'react-native';
+import { Alert, BackHandler, Platform } from 'react-native';
 import { TopBar } from '@danilomsou/reserva-ui';
 
 import { useCart } from '../../../context/CartContext';
@@ -37,7 +37,7 @@ export const TopBarDefaultBackButton: React.FC<{
             backButtonPress();
             return;
           }
-          if(!navigateGoBack){
+          if (!navigateGoBack) {
             navigation.navigate('Home');
             return;
           }

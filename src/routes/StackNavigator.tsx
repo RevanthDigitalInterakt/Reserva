@@ -63,10 +63,12 @@ import { LandingPage } from '../modules/LandingPage/LandingPage';
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
   ProductDetail: {
-    productId: string;
+    productId?: string;
     colorSelected: string;
     sizeSelected: string;
     hasCep?: string;
+    idsku?: string;
+    comeFrom: 'DeepLink' | 'Catalog' | 'Search';
   };
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
@@ -92,7 +94,7 @@ export type RootStackParamList = {
   };
   Menu: {
     indexMenuOpened?: number;
-  }
+  };
   ChangeRegionalization: {
     isCepAddress?: boolean;
     isCepProductDetail?: boolean;
@@ -165,22 +167,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
+      | 'PIX'
+      | 'Credit'
+      | 'Debit'
+      | 'Boleto'
+      | 'GiftCard'
+      | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;
@@ -312,6 +314,5 @@ export const MainStackScreen = () => (
     <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
     <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
-
   </MainStack.Navigator>
 );
