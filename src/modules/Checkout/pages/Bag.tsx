@@ -53,6 +53,18 @@ const BoxAnimation = createAnimatableComponent(Box);
 
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
+const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
+  if (Platform.OS === 'ios') {
+    return (
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        {children}
+      </KeyboardAvoidingView>
+    );
+  }
+
+  return <>{children}</>;
+};
+
 export const BagScreen = ({ route }: Props) => {
   const { email, cookie } = useAuth();
   const navigation = useNavigation();
@@ -434,11 +446,7 @@ export const BagScreen = ({ route }: Props) => {
           <EmptyBag onPress={() => navigation.navigate('Offers')} />
         </Box>
       ) : (
-        <KeyboardAvoidingView
-          enabled
-          behavior={Platform.OS === 'ios' ? 'position' : undefined}
-          style={{ marginBottom: 145, flex: 1 }}
-        >
+        <WithAvoidingView>
           {loading ? (
             <Box>
               <Skeleton>
@@ -1420,7 +1428,7 @@ export const BagScreen = ({ route }: Props) => {
               )
             )}
           </Box>
-        </KeyboardAvoidingView>
+        </WithAvoidingView>
       )}
     </SafeAreaView>
   );
