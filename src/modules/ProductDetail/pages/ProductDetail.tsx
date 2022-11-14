@@ -170,9 +170,19 @@ export const ProductDetail: React.FC<Props> = ({
   /**
    * States, queries and mutations
    */
+  const [idSku, setIdSku] = useState<string>('');
+
+  useEffect(() => {
+    if (route.params?.skuId) {
+      setIdSku(route.params.skuId);
+    } else {
+      setIdSku(route.params.idsku);
+    }
+  }, [route.params?.skuId, route.params?.idsku]);
 
   if (route.params?.productId) {
     delete route.params.idsku;
+    delete route.params.skuId;
   }
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -187,7 +197,7 @@ export const ProductDetail: React.FC<Props> = ({
       field: route?.params?.productId ? 'id' : 'sku',
       value: route?.params?.productId
         ? route?.params?.productId?.split('-')[0]
-        : route.params.idsku,
+        : idSku,
       salesChannel: 4,
     },
   });
@@ -389,8 +399,8 @@ export const ProductDetail: React.FC<Props> = ({
           }
         }
       } else {
-        if (route.params.idsku) {
-          variant = product.items.find((x) => x.itemId == route.params.idsku);
+        if (idSku) {
+          variant = product.items.find((x) => x.itemId == idSku);
           console.log('idsku variant', variant);
           setSelectedColor(
             variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
