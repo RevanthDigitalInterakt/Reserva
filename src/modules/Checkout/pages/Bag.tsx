@@ -284,7 +284,9 @@ export const BagScreen = ({ route }: Props) => {
         OneSignal.sendTags({
           cart_update: timestamp.toString(),
           product_name: orderForm?.items[0]?.name,
-          product_image: orderForm?.items[0]?.imageUrl.replace('http', 'https'),
+          product_image: orderForm?.items[0]?.imageUrl.replace('http', 'https')
+          .split('-55-55')
+          .join(''),
         })
       }
     }
