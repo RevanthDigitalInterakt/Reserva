@@ -236,7 +236,6 @@ export const HomeScreen: FC<{
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
-
     }
   }, [collectionData]);
 

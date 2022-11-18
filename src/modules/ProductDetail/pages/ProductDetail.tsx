@@ -11,6 +11,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
+  Text,
   TouchableOpacity,
 } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
@@ -170,6 +171,20 @@ export const ProductDetail: React.FC<Props> = ({
   /**
    * States, queries and mutations
    */
+  const [idSku, setIdSku] = useState<string>('');
+
+  useEffect(() => {
+    if (route.params?.skuId) {
+      setIdSku(route.params.skuId);
+    } else {
+      setIdSku(route.params.idsku);
+    }
+  }, [route.params?.skuId, route.params?.idsku]);
+
+  if (route.params?.productId) {
+    delete route.params.idsku;
+    delete route.params.skuId;
+  }
 
   const [product, setProduct] = useState<Product | null>(null);
   const [{ data, loading }, setProductLoad] = useState({
@@ -177,18 +192,16 @@ export const ProductDetail: React.FC<Props> = ({
     loading: true,
   });
 
-
-
   const [getProduct] = useLazyQuery(GET_PRODUCTS, {
     variables: {
       // id: route?.params?.productId?.split('-')[0],
-      field: route.params.idsku ? 'sku' : 'id',
-      value: route.params.idsku ? route.params.idsku : route?.params?.productId?.split('-')[0],
+      field: route?.params?.productId ? 'id' : 'sku',
+      value: route?.params?.productId
+        ? route?.params?.productId?.split('-')[0]
+        : idSku,
       salesChannel: 4,
     },
   });
-
-
 
   const [checkListRefetch] = useLazyQuery(wishListQueries.CHECK_LIST, {
     fetchPolicy: 'no-cache',
@@ -247,7 +260,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [errorSize, setErrorSize] = useState(false);
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
-  const [sellerProduct, setSellerProduct] = useState<Seller | undefined>()
+  const [sellerProduct, setSellerProduct] = useState<Seller | undefined>();
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
@@ -323,8 +336,6 @@ export const ProductDetail: React.FC<Props> = ({
     refetchChecklist();
   }, [selectedVariant]);
 
-
-
   // selectedVariant?.itemId
 
   useEffect(() => {
@@ -389,21 +400,24 @@ export const ProductDetail: React.FC<Props> = ({
           }
         }
       } else {
-        if (route.params.idsku) {
-          variant = product.items.find(
-            (x) => x.itemId == route.params.idsku
-          );
+        if (idSku) {
+          variant = product.items.find((x) => x.itemId == idSku);
           console.log('idsku variant', variant);
-          setSelectedColor(variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0]);
-          setSelectedNewColor(variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0]);
+          setSelectedColor(
+            variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+              ?.values[0]
+          );
+          setSelectedNewColor(
+            variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+              ?.values[0]
+          );
         } else {
-
           setSelectedColor(colorList ? route.params.colorSelected : '');
           setSelectedNewColor(colorList ? route.params.colorSelected : '');
           variant = product.items.find(
             (x) =>
-              x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0] ==
-              route.params.colorSelected
+              x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+                ?.values[0] == route.params.colorSelected
           );
         }
       }
@@ -655,7 +669,7 @@ export const ProductDetail: React.FC<Props> = ({
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
       }
-      setSellerProduct(seller)
+      setSellerProduct(seller);
     });
   };
 
@@ -950,7 +964,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   useEffect(() => {
     if (route.params.hasCep) {
-      setCep(route.params.hasCep)
+      setCep(route.params.hasCep);
       consultZipCode(route.params.hasCep);
     }
   }, [route.params.hasCep]);
@@ -978,7 +992,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton loading={loading} navigateGoBack={true} exiteApp={!!route.params.idsku} />
+        <TopBarDefaultBackButton loading={loading} navigateGoBack />
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -1020,9 +1034,7 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   onClickFavorite={handleOnFavorite}
                   price={sellerProduct.commertialOffer.ListPrice || 0}
-                  priceWithDiscount={
-                    sellerProduct.commertialOffer.Price || 0
-                  }
+                  priceWithDiscount={sellerProduct.commertialOffer.Price || 0}
                   imagesWidth={screenWidth}
                   images={
                     imageSelected.length > 0
@@ -1541,19 +1553,16 @@ export const ProductDetail: React.FC<Props> = ({
                     />
                   </Box>
                   <Button
-                    marginBottom='nano'
-                    alignSelf='flex-start'
+                    marginBottom="nano"
+                    alignSelf="flex-start"
                     marginTop="quarck"
                     onPress={() => {
                       navigation.navigate('ChangeRegionalization', {
-                        isCepProductDetail: true
+                        isCepProductDetail: true,
                       });
                     }}
                   >
-                    <Typography
-                      fontFamily="nunitoRegular"
-                      fontSize={14}
-                    >
+                    <Typography fontFamily="nunitoRegular" fontSize={14}>
                       Não sei meu CEP
                     </Typography>
                   </Button>
