@@ -182,7 +182,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       },
     });
 
-    await identifyCustomer(email).then(() => setLoading(false));
+    // await identifyCustomer(email).then(() => setLoading(false));
 
     if (isAddressSaved) {
       onAddAddressCallBack && onAddAddressCallBack();

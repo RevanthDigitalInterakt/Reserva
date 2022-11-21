@@ -19,26 +19,26 @@
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:allowBackup="false" android:theme="@style/AppTheme">
+  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher_best" android:roundIcon="@mipmap/ic_launcher_best" android:allowBackup="false" android:theme="@style/AppTheme">
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"/>
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
 
     <!-- Responsys configuration -->
     <receiver android:enabled="true" android:exported="false" android:name="com.pushio.manager.PushIOUriReceiver">
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <data android:scheme="@string/uri_identifier" />
-        </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="@string/uri_identifier" />
+      </intent-filter>
     </receiver>
     <activity android:name="com.pushio.manager.iam.ui.PushIOMessageViewActivity" android:permission="com.usereserva.permission.SHOW_IAM" android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        <intent-filter>
+      <intent-filter>
         <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <data android:scheme="@string/uri_identifier" />
-        </intent-filter>
+        <category android:name="android.intent.category.BROWSABLE" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="@string/uri_identifier" />
+      </intent-filter>
     </activity>
     <!-- Responsys configuration -->
 
@@ -56,21 +56,30 @@
         <action android:name="com.usereserva.NOTIFICATIONPRESSED" />
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
-      <intent-filter android:autoVerify="true">
+      <!-- <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:host="@string/app_links_url_host" android:pathPrefix="/pub/acc" android:scheme="https" />
-      </intent-filter>
+      </intent-filter> -->
       <!-- Responsys configuration -->
 
-    <intent-filter>
-      <action android:name="android.intent.action.VIEW"/>
-      <category android:name="android.intent.category.DEFAULT"/>
-      <category android:name="android.intent.category.BROWSABLE"/>
-      <data android:host="usereserva.page.link" android:scheme="http"/>
-      <data android:host="usereserva.page.link" android:scheme="https"/>
-    </intent-filter>
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <!-- <data android:host="www.usereserva.com" android:scheme="http" /> -->
+        <data android:scheme="https" android:host="www.usereserva.com" />
+      </intent-filter>
+
+      <!--
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:host="usereserva.page.link" android:scheme="http"/>
+        <data android:host="usereserva.page.link" android:scheme="https"/>
+      </intent-filter> -->
 
       <intent-filter>
         <action android:name="android.intent.action.VIEW"/>

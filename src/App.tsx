@@ -1,9 +1,9 @@
 import { ApolloProvider } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Linking, Platform } from 'react-native';
+import { Alert, Linking, Platform, } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
@@ -37,12 +37,26 @@ import { responsysConfig } from './config/responsys';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const DefaultTheme = {
   colors: {
     background: theme.colors.backgroundApp,
   },
 };
+
+async function buildLink() {
+  const link = await dynamicLinks().buildLink({
+    link: 'https://www.usereserva.com',
+    domainUriPrefix: 'https://usereserva.page.link/1Crm',
+    analytics: {
+      campaign: 'banner',
+    }
+
+  })
+
+  return link
+}
 
 let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
@@ -122,6 +136,13 @@ const App = () => {
   const [canRegisterUser, setCanRegisterUser] = useState(true);
   const [userId, setUserId] = useState('06869751110');
 
+
+  useEffect(() => {
+    Linking.addEventListener('url', ({ url }) => {
+      console.log('getInitialURL url', url)
+    })
+  }, [])
+
   useEffect(() => {
     PushIOManager.configure(
       'pushio_config.json',
@@ -154,6 +175,7 @@ const App = () => {
       }
     );
   }, []);
+
 
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);

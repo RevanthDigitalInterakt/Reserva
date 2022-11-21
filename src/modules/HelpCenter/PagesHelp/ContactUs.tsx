@@ -111,7 +111,8 @@ export const ContactUs: React.FC<{}> = () => {
           <Box width={'100%'} mt={'xxs'}>
             <Button
               onPress={() => {
-                Linking.openURL(`sms:(21) 3900-7052`);
+                // Linking.openURL(`sms:(21) 3900-7052`);
+                navigation.navigate('WebviewZendesk');
               }}
               title="ENVIE UMA MENSAGEM"
               variant="primarioEstreitoOutline"
