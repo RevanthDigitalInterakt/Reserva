@@ -29,6 +29,9 @@ const routesConfig = {
         ProductCatalog: {
           path: 'catalog/:referenceId',
         },
+        "MY_CASHBACK_MY_WALLET": {
+          path: 'wallet-cashback'
+        }
       },
     },
   },
