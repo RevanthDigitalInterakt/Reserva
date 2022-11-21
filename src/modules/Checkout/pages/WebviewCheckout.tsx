@@ -1,6 +1,5 @@
 import { Box, Button } from '@danilomsou/reserva-ui';
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
-import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
