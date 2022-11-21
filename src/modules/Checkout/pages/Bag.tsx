@@ -46,6 +46,7 @@ import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 import Sentry from '../../../config/sentryConfig';
+import OneSignal from 'react-native-onesignal';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -94,6 +95,7 @@ export const BagScreen = ({ route }: Props) => {
   const [totalBag, setTotalBag] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
+  const [isRemoveCartTags, setIsRemoveCartTags] = useState(false);
   const [loadingGift, setLoadingGift] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<
     { id: string; index: number; seller: string; quantity: number } | undefined
@@ -146,7 +148,7 @@ export const BagScreen = ({ route }: Props) => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => {},
+    refetch: () => { },
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -272,13 +274,13 @@ export const BagScreen = ({ route }: Props) => {
     setInstallmentInfo(
       installment
         ? {
-            installmentPrice: installment.value,
-            installmentsNumber: installment.count,
-            totalPrice: installment.total,
-          }
+          installmentPrice: installment.value,
+          installmentsNumber: installment.count,
+          totalPrice: installment.total,
+        }
         : {
-            ...installmentInfo,
-          }
+          ...installmentInfo,
+        }
     );
 
     setOptimistQuantities(quantities);
@@ -288,6 +290,21 @@ export const BagScreen = ({ route }: Props) => {
     setSellerCode(sellerCode);
     setSellerName(sellerName);
   }, [orderForm]);
+
+  useEffect(() => {
+    if (orderForm && orderForm.items.length > 0) {
+      if (isRemoveCartTags) {
+        let timestamp = Math.floor(Date.now() / 1000);
+        OneSignal.sendTags({
+          cart_update: timestamp.toString(),
+          product_name: orderForm?.items[0]?.name,
+          product_image: orderForm?.items[0]?.imageUrl.replace('http', 'https')
+            .split('-55-55')
+            .join(''),
+        })
+      }
+    }
+  }, [isRemoveCartTags]);
 
   useEffect(() => {
     if (viewRef.current) {
@@ -430,6 +447,14 @@ export const BagScreen = ({ route }: Props) => {
       throw error;
     }
   };
+
+  const removeAbandonedCartTags = () => {
+    OneSignal.sendTags({
+      cart_update: "",
+      product_name: "",
+      product_image: "",
+    })
+  }
 
   return (
     <SafeAreaView
@@ -776,10 +801,10 @@ export const BagScreen = ({ route }: Props) => {
                                         style={
                                           showMoreSizes
                                             ? {
-                                                transform: [
-                                                  { rotate: '-90deg' },
-                                                ],
-                                              }
+                                              transform: [
+                                                { rotate: '-90deg' },
+                                              ],
+                                            }
                                             : { transform: [{ translateY: 4 }] }
                                         }
                                         name={
@@ -807,16 +832,16 @@ export const BagScreen = ({ route }: Props) => {
                                   optionsList={
                                     showMoreSizes
                                       ? orderForm.selectableGifts[0].availableGifts
-                                          .map((x) =>
-                                            x.skuName.split('-')[1].trim()
-                                          )
-                                          .reverse()
+                                        .map((x) =>
+                                          x.skuName.split('-')[1].trim()
+                                        )
+                                        .reverse()
                                       : orderForm.selectableGifts[0].availableGifts
-                                          .map((x) =>
-                                            x.skuName.split('-')[1].trim()
-                                          )
-                                          .slice(0, 5)
-                                          .reverse()
+                                        .map((x) =>
+                                          x.skuName.split('-')[1].trim()
+                                        )
+                                        .slice(0, 5)
+                                        .reverse()
                                   }
                                   showMoreSizes={showMoreSizes}
                                   defaultSelectedItem=""
@@ -838,36 +863,36 @@ export const BagScreen = ({ route }: Props) => {
                                 x.identifier ===
                                 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                             ) && (
-                              <Box paddingBottom="nano">
-                                <Typography
-                                  fontFamily="nunitoRegular"
-                                  fontSize={11}
-                                  color="verdeSucesso"
-                                >
-                                  Desconto de 1° compra aplicado neste produto!
-                                </Typography>
-                              </Box>
-                            )}
+                                <Box paddingBottom="nano">
+                                  <Typography
+                                    fontFamily="nunitoRegular"
+                                    fontSize={11}
+                                    color="verdeSucesso"
+                                  >
+                                    Desconto de 1° compra aplicado neste produto!
+                                  </Typography>
+                                </Box>
+                              )}
                             {item.priceTags.find(
                               (x) =>
                                 x.identifier ===
                                 'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                             ) && (
-                              <Box
-                                position="absolute"
-                                zIndex={5}
-                                top={84}
-                                right={21}
-                              >
-                                <Typography
-                                  color="verdeSucesso"
-                                  fontFamily="nunitoRegular"
-                                  fontSize={11}
+                                <Box
+                                  position="absolute"
+                                  zIndex={5}
+                                  top={84}
+                                  right={21}
                                 >
-                                  -R$ 50
-                                </Typography>
-                              </Box>
-                            )}
+                                  <Typography
+                                    color="verdeSucesso"
+                                    fontFamily="nunitoRegular"
+                                    fontSize={11}
+                                  >
+                                    -R$ 50
+                                  </Typography>
+                                </Box>
+                              )}
                             <ProductHorizontalListCard
                               isBag
                               discountApi={

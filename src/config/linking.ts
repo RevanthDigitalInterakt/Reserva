@@ -13,6 +13,7 @@ const routesConfig = {
       initialRouteName: 'HomeTabs',
       screens: {
         WishList: 'wishlist',
+        BagScreen: 'bag',
         HomeTabs: {
           path: 'home-tabs',
           screens: {

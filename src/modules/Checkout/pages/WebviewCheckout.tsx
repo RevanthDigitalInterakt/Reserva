@@ -12,6 +12,7 @@ import { WebView } from 'react-native-webview';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import analytics from '@react-native-firebase/analytics';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -19,6 +20,15 @@ const Checkout: React.FC<{}> = () => {
   const [navState, setNavState] = useState('');
   const [checkoutCompleted, setCheckoutCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const removeAbandonedCartTags = () => {
+    OneSignal.sendTags({
+      cart_update: "",
+      product_name: "",
+      product_image: "",
+    })
+  }
+
   const goToHome = () => {
     const check = navState.includes('/checkout/orderPlaced');
 
@@ -107,6 +117,7 @@ const Checkout: React.FC<{}> = () => {
         });
       }
       orderform();
+      removeAbandonedCartTags();
       setCheckoutCompleted(true);
     }
   }, [navState]);
