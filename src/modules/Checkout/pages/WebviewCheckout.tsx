@@ -1,17 +1,18 @@
+import { Box, Button } from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
+import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, View } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
+import OneSignal from 'react-native-onesignal';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
-import { Box, Button } from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import analytics from '@react-native-firebase/analytics';
-import OneSignal from 'react-native-onesignal';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -59,6 +60,7 @@ const Checkout: React.FC<{}> = () => {
         quantity: orderForm.items.map((item) => item.quantity),
         order_id: orderForm.orderFormId,
       });
+
     }
   };
 
@@ -75,6 +77,8 @@ const Checkout: React.FC<{}> = () => {
           af_revenue = (revenue_total / 100).toFixed(2);
         }
 
+        OneSignal.sendOutcomeWithValue('Purchase', (orderForm.value / 100).toFixed(2));
+
         appsFlyer.logEvent('af_purchase', {
           af_revenue: `${af_revenue}`,
           af_price: `${(orderForm.value / 100).toFixed(2)}`,
@@ -87,6 +91,8 @@ const Checkout: React.FC<{}> = () => {
           af_order_id: orderForm.orderFormId,
           // af_receipt_id: orderForm.paymentData,
         });
+
+
 
         analytics().logPurchase({
           affiliation: 'APP',
