@@ -561,11 +561,7 @@ export const EditProfile = ({ route }: Props) => {
     const [firstName, ...rest] = text.trim().split(' ');
     const lastName = rest.join(' ');
     // regex to validate full name with at least 2 words and no numbers
-    if (
-      text.match(
-        /^[a-zA-ZÀ-ú]{2,}\s[a-zA-ZÀ-ú ']{2,}$/
-      )
-    ) {
+    if (text.match(/^[a-zA-ZÀ-ú]{2,}\s[a-zA-ZÀ-ú ']{2,}$/)) {
       console.log('TRUE ::::::::::::::::::::');
       setIsEmptyFullName(false);
       setLabelFullName('Nome completo');
