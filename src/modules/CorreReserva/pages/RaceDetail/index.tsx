@@ -86,10 +86,6 @@ export const RaceDetail: React.FC = () => {
   }, [totalVibration]);
 
   useEffect(() => {
-    console.log('totalVibration', totalVibration);
-  }, [totalVibration]);
-
-  useEffect(() => {
     if (visibility) {
       setCount(3);
       const interval = setInterval(() => {
@@ -147,7 +143,6 @@ export const RaceDetail: React.FC = () => {
         ]);
       },
       (suss) => {
-        console.log('suss', suss);
       },
       {
         enableHighAccuracy: true,
@@ -160,9 +155,6 @@ export const RaceDetail: React.FC = () => {
   };
 
   const handleOnPress = (isToggled: boolean) => {
-    console.log('isToggled', isToggled);
-    console.log('hasStarted', hasStarted);
-    console.log('aaaaaa', totalDistance);
     setRaceResume({
       distance: totalDistance.toString(),
       duration: currentValue,
@@ -227,7 +219,7 @@ export const RaceDetail: React.FC = () => {
     timeElapsed += mins * 60;
     timeElapsed += secs;
     const calculatedPace = Math.floor(timeElapsed / dist);
-    // console.log(calculatedPace);
+
     const paceMins = Math.floor(calculatedPace / 60) | 0;
     const paceSecs = (calculatedPace - paceMins * 60) | 0;
     pace = `${paceMins}:${paceSecs}`;
@@ -330,7 +322,6 @@ export const RaceDetail: React.FC = () => {
   }, [travelledDistance]);
 
   useEffect(() => {
-    // console.log('totalDistance', totalDistance)
   }, [totalDistance]);
   return (
     <SafeAreaView

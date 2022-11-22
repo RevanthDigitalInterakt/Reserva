@@ -114,7 +114,6 @@ export const EditPassword = ({ route }: Props) => {
                   validationSchema={validation}
                   innerRef={formRef}
                   onSubmit={(values: any) => {
-                    console.log('values', values);
                     const { password, current_password } = values;
                     changePassword(password, current_password);
                   }}

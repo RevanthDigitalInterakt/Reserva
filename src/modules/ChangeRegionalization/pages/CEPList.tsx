@@ -65,9 +65,8 @@ export const CEPList = ({ ...props }) => {
           }
         })
         const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
-        const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)//.then(value => console.log('valeu2222a', value))
-        console.log('value2222a', cep)
-        console.log('response.regionId', response.regionId)
+        const value = await AsyncStorage.setItem('RegionalSearch:cep', cep)
+
         setRegionId(response.regionId)
         setSegmentToken(data.segmentToken)
         // setCep(cep)

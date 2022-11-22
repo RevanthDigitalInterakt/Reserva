@@ -34,9 +34,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
-  // useEffect(() => {
-  //   console.log('wishIds123', wishIds);
-  // }, [wishIds]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const [loadingWishProducts, setLoadingWishProducts] = useState(false);
   const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
@@ -189,7 +186,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
           const installmentsNumber = installments?.reduce((prev, next) =>
             prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
             { NumberOfInstallments: 0, Value: 0 })
-          
+
           const installmentPrice = installments?.reduce((prev, next) =>
             prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
             { NumberOfInstallments: 0, Value: 0 })
@@ -408,13 +405,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   </Box>
                 }
                 renderItem={({ item }) => {
-                  // console.log(
-                  //   'wishProducts',
-                  //   wishProducts.map((prod) => prod.productId),
-                  //   item.productId.split('-')[0]
-                  // );
-
-              
                   return (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
@@ -458,9 +448,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           } else {
                             Alert.alert('Produto sem estoque :(');
                           }
-
-                          // navigation.navigate(')
-                          // console.log('item', productSku?.variations[2].values[0])
                         }}
                         imageSource={
                           item.productSku?.images[0].imageUrl

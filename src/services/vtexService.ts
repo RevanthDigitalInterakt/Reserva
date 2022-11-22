@@ -1,7 +1,7 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
 import { postalCode } from '../config/postalCode';
-import xmlJs from 'xml-js';
+import * as Sentry from '@sentry/react-native';
 import {
   instance,
   instance2,
@@ -222,7 +222,7 @@ const ValidateProfile = async (email: string) => {
     );
     return data;
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
   }
 };
 
@@ -238,7 +238,7 @@ const IdentifyCustomer = async (
 
     return data;
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
   }
 };
 
@@ -254,7 +254,7 @@ const AddCustomerToOrder = async (
 
     return data;
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
   }
 };
 const CepVerify = async (cep: string) => {
@@ -262,7 +262,7 @@ const CepVerify = async (cep: string) => {
     const { data } = await brasilApi.get(`/cep/v2/${cep}`);
     return data;
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
     return { errors: err } as CepResponse;
   }
 };
@@ -272,7 +272,7 @@ const CepVerifyPostalCode = async (cep: string) => {
     const { data } = await postalCode.get(cep);
     return data;
   } catch (err) {
-    console.log(err);
+    Sentry.captureException(err);
     return { errors: err } as CepResponse;
   }
 };
@@ -466,7 +466,7 @@ const DeleteCustomerProfile = async (id: string) => {
   const response = await vtexConfig6.delete(
     `/dataentities/CL/documents/CL-${id}`
   );
-  console.log(response);
+
   return response;
 };
 

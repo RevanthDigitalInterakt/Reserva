@@ -1,5 +1,5 @@
-import { QueryResult, useLazyQuery, useMutation } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import * as Sentry from '@sentry/react-native';
 import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
@@ -7,11 +7,9 @@ import { addDays, format } from 'date-fns';
 import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
-  BackHandler,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
-  Text,
   TouchableOpacity,
 } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
@@ -320,7 +318,6 @@ export const ProductDetail: React.FC<Props> = ({
    * Effects
    */
   useEffect(() => {
-    console.log('getInitialURL pdp', route.params);
     remoteConfig().fetchAndActivate();
     const value = remoteConfig().getValue('sale_off_tag');
     setSaleOffTag(value.asBoolean());
@@ -339,7 +336,6 @@ export const ProductDetail: React.FC<Props> = ({
   // selectedVariant?.itemId
 
   useEffect(() => {
-    console.log('idsku', route.params.idsku);
     if (data) {
       const { product } = data;
       setProduct(product);
@@ -354,8 +350,6 @@ export const ProductDetail: React.FC<Props> = ({
 
       const disabledColors = getUnavailableColors(product);
       getAllUnavailableColors(product);
-      console.log('idsku variant', variant);
-      console.log('idsku product', product);
 
       // set colors filter
       getColorsList(product);
@@ -377,8 +371,6 @@ export const ProductDetail: React.FC<Props> = ({
 
       setColorFilters(colorList);
 
-      // set initial selected color
-      console.log('idsku itemId', route.params?.itemId);
       if (route.params?.itemId) {
         if (colorItemId) {
           setSelectedColor(colorItemId[0]);
@@ -402,7 +394,7 @@ export const ProductDetail: React.FC<Props> = ({
       } else {
         if (idSku) {
           variant = product.items.find((x) => x.itemId == idSku);
-          console.log('idsku variant', variant);
+
           setSelectedColor(
             variant?.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
               ?.values[0]
@@ -485,16 +477,6 @@ export const ProductDetail: React.FC<Props> = ({
           .map((p) => p.color === selectedColor && p.images)
           .filter((a) => a !== false)
       );
-
-      // console.log(
-      //   'sku',
-      //   itemsSKU
-      //     .map(
-      //       (p) =>
-      //         p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
-      //     )
-      //     .filter((a) => a !== false)[0]
-      // );
 
       const sizeFilters = new ProductUtils().orderSizes(
         itemsSKU
@@ -941,7 +923,8 @@ export const ProductDetail: React.FC<Props> = ({
 
       Attachment(orderFormId, productOrderFormIndex, attachmentName);
     } catch (error) {
-      console.log('error - addAttachmentsInProducts', error);
+      Sentry.captureException(error);
+
       throw error;
     }
   };

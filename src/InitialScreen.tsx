@@ -28,6 +28,7 @@ import { useLazyQuery } from '@apollo/client';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
 import CodePushModal from './shared/components/CodePushModal';
 import { useNavigation } from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -48,16 +49,10 @@ async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
   await messaging()
     .getToken()
-    .then((token) => {
-      console.log('token', token);
-    });
+    .then((token) => {});
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-  }
 }
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
@@ -82,15 +77,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       fetchTimeMillis: 30000,
     });
   };
-  // const { navigate } = useNavigation()
-  // useEffect(() => {
-  //   Linking.addEventListener('url', ({ url }) => {
-  //     if (url.includes('/ofertas')) {
-  //       console.log('deeplinkTest', url)
-  //       navigate('HomeTabs', { screen: 'Offers' })
-  //     }
-  //   })
-  // }, [])
+
   useEffect(() => {
     requestUserPermission();
     remoteConfig().setDefaults({
@@ -99,9 +86,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     });
     remoteConfig()
       .fetchAndActivate()
-      .then(() => {
-        console.log('Remote Config fetched');
-      });
+      .then(() => {});
     setFetchInterval();
     StorageService.setInstallationToken();
 
@@ -126,10 +111,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   const onStatusUpdate: AndroidStatusEventListener = (
     status: StatusUpdateEvent
   ) => {
-    console.log(
-      '🚀 ~ file: InitialScreen.tsx ~ line 90 ~ onStatusUpdate ~ status',
-      status
-    );
   };
 
   const startUpdateInApp = async ({
@@ -176,10 +157,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
           return -1;
         },
       });
-      console.log(
-        '🚀 ~ file: InitialScreen.tsx ~ line 119 ~ init ~ response',
-        response
-      );
       if (response.shouldUpdate) {
         inAppUpdates.addStatusUpdateListener(onStatusUpdate);
 
@@ -207,7 +184,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       }
       return response.shouldUpdate;
     } catch (error) {
-      console.log(error);
+      Sentry.captureException(error);
     }
   };
 
@@ -221,10 +198,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         onlyPlatform: updateInApp?.onlyPlatform,
         updateAllVersions: updateInApp?.updateAllVersions,
       });
-      console.log(
-        '🚀 ~ file: InitialScreen.tsx ~ line 164 ~ getUpdateInApp ~ data',
-        updateInApp
-      );
     });
   }, []);
 

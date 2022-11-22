@@ -110,7 +110,6 @@ export const LoginScreen: React.FC<Props> = ({
           loginCredentials.username.trim().toLowerCase()
         );
 
-        console.log('emailHash', emailHash);
 
         saveCredentials({
           email: loginCredentials.username.trim().toLowerCase(),
@@ -128,11 +127,9 @@ export const LoginScreen: React.FC<Props> = ({
         appsFlyer.logEvent(
           'af_login',
           {},
-          (res) => {
-            console.log('AppsFlyer', res);
-          },
-          (err) => {
-            console.error('AppsFlyer Error', err);
+          (res) => { },
+          (error) => {
+            Sentry.captureException(error);
           }
         );
 
@@ -141,13 +138,9 @@ export const LoginScreen: React.FC<Props> = ({
             emails: [emailHash],
             emailsCryptType: CryptType.SHA256,
           },
-          (success) => {
-            console.log('appsFlyer setUserEmails success', success);
-          },
+          (success) => { },
           (error) => {
-            if (error) {
-              console.log('Error setting user emails: ', error);
-            }
+            Sentry.captureException(error);
           }
         );
 
@@ -210,7 +203,6 @@ export const LoginScreen: React.FC<Props> = ({
   }
 
   const ClientDelivery = async () => {
-    console.log('EMAIL ===>', loginCredentials.username.trim().toLowerCase());
     if (!loading && data?.cookie) {
       setCookie(data?.cookie);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {

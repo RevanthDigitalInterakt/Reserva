@@ -39,7 +39,6 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
 
   const modalWidth = screenWidth - 20 * 2;
   const modalHeight = modalWidth - 45;
-  // console.log('ModalImage', images.cupomModalBackground);
 
   const closeModal = () => {
     setIsVisibleModal(false);

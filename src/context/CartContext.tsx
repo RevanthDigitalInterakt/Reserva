@@ -8,6 +8,8 @@ import React, {
   useEffect,
 } from 'react';
 
+import * as Sentry from '@sentry/react-native';
+
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import appsFlyer from 'react-native-appsflyer';
@@ -515,7 +517,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await CreateCart();
       setOrderForm(data);
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -525,7 +527,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return data.length > 0;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -567,11 +569,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
           af_quantity: quantity,
           af_seller: seller,
         },
-        (res) => {
-          console.log('AppsFlyer', res);
-        },
+        (res) => { },
         (err) => {
-          console.error('AppsFlyer Error', err);
+          Sentry.captureException(err);
         }
       );
       analytics().logEvent('add_to_cart', {
@@ -585,7 +585,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       });
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -616,11 +616,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
             productRemoved?.productCategories
           ),
         },
-        (res) => {
-          console.log('AppsFlyer', res);
-        },
+        (res) => { },
         (err) => {
-          console.error('AppsFlyer Error', err);
+          Sentry.captureException(err);
         }
       );
 
@@ -633,7 +631,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return { ok: true };
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(err);
     }
   };
 
@@ -653,17 +651,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
   const resetUserCheckout = async () => {
     try {
       const { data } = await ResetUserCheckout(orderForm?.orderFormId);
-      console.log('resetUserCheckout', data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -675,7 +672,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       // TODO - change this later, find a better way to check if theres's no user
       return !!data.clientProfileData.firstName;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -699,7 +696,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -709,7 +706,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return data;
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(err);
     }
   };
 
@@ -729,7 +726,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -748,7 +745,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -764,7 +761,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!isCouponInValid;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -785,7 +782,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       }
       return false;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
   const removeCoupon = async (coupon: string) => {
@@ -794,7 +791,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -807,7 +804,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
   useEffect(() => {
@@ -819,7 +816,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SendUserEmail(email);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -828,7 +825,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await ConvertZipCode(postalCode);
       return data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
   const tracking = async (cookie: string, order: string) => {
@@ -836,7 +833,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await Tracking(cookie, order);
       return data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -845,7 +842,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await PickupPoint(longitude, latitude);
       return data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -854,7 +851,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await Orders(page);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -863,7 +860,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await OrderDetail(orderId);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -876,7 +873,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SearchNewOrders(page, email, cookie);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -889,7 +886,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SearchNewOrderDetail(page, email, cookie);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -898,7 +895,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await DeleteCustomerProfile(id);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 

@@ -34,11 +34,9 @@ const OrderList = () => {
     }
   };
   useEffect(() => {
-    console.log('totalOrders', totalOrders);
   }, [totalOrders]);
 
   useEffect(() => {
-    console.log('ordersList', ordersList);
   }, [ordersList]);
 
   useEffect(() => {

@@ -125,8 +125,8 @@ const MenuItem: React.FC<IMenuItem> = ({
   subItemList,
   highlight,
 }) => {
-  // console.log(subItemList)
   const navigation = useNavigation();
+
   return (
     <Box>
       <TouchableOpacity
@@ -185,7 +185,6 @@ const MenuItem: React.FC<IMenuItem> = ({
                       value: subcategories,
                     });
                   }
-                  console.log('itemReferenceId', item.referenceId, facetInput);
                   navigation.navigate('ProductCatalog', {
                     facetInput,
                     referenceId: item.referenceId,
@@ -312,8 +311,7 @@ export const Menu = ({ route }: Props) => {
     data?.appMenuCollection.items[0].itemsCollection.items || [];
 
   const getCep = async () => {
-    const value = await AsyncStorage.getItem('RegionalSearch:cep'); //.then((x) => (regionId = x));
-    console.log('value', value);
+    const value = await AsyncStorage.getItem('RegionalSearch:cep');
     setCep(value);
   };
 

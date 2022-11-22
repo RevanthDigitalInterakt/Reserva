@@ -3,6 +3,7 @@ import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';
+import * as Sentry from '@sentry/react-native';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
@@ -80,11 +81,9 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         appsFlyer.logEvent(
           'af_login',
           {},
-          (res) => {
-            console.log('AppsFlyer', res);
-          },
+          (res) => { },
           (err) => {
-            console.error('AppsFlyer Error', err);
+            Sentry.captureException(err);
           }
         );
         setEmail(email);

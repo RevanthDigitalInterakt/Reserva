@@ -225,9 +225,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
       setSuggestions(searchSuggestions.searches);
       setRelatedProducts(productSearch.products);
-      if (!!productSearch.redirect) {
-        console.log('redirect--', productSearch.redirect);
-      }
       if (searchSuggestions?.searches.length > 0) {
         setSuggestionsFound(true);
       } else {
@@ -292,7 +289,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         // resetProductsArray()
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
-        console.log('data--', data);
         const searchIds = data?.productSearch?.products.map(
           (x: any) => x?.productId
         );
@@ -342,10 +338,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
   };
 
-  useEffect(() => {
-    console.log('products--', products);
-  }, [products]);
-
   const handleDebouncedSearchTerm = async () => {
     const { data } = await getSuggestions({
       variables: {
@@ -358,7 +350,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   };
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
-    console.log('loadMore***');
     setLoadingRefetch(true);
     const {
       data: {
@@ -458,8 +449,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   }, []);
 
   useEffect(() => {
-    console.log('SDJFLJLDKSLFJLKD', facetsData);
-
     if (!lodingFacets) {
       const { facets } = facetsData.facets;
 
@@ -518,35 +507,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     }
   }, [facetsData]);
 
-  // const [
-  //   {
-  //     data,
-  //     loading,
-  //     error,
-  //     // fetchMore,
-  //     // refetch,
-  //   },
-  //   setProductSearch,
-  // ] = useState<{
-  //   data: any | null;
-  //   loading: boolean;
-  //   error: any;
-  //   // fetchMore: (...props: any) => any,
-  //   // refetch: (...props: any | undefined) => any,
-  // }>({
-  //   data: null,
-  //   loading: false,
-  //   error: null,
-  //   // fetchMore: () => { },
-  //   // refetch: () => { }
-  // });
-
   useEffect(() => {
-    // console.log('ofidhsoihfoidhfio', featuredData?.productSearch);
-
-    // if (!loading && !!productSearch) {
-    //   setProductsQuery(featuredData?.productSearch);
-    // }
     if (!loading && !!productSearch) {
       setProductsQuery(data?.productSearch);
     }

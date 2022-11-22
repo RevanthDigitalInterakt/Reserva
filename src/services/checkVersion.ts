@@ -43,12 +43,10 @@ export default () => {
 
   const downloadProgressCallback = useCallback(progress => {
     setProgress(progress);
-    console.log('[codepush] progress', progress);
   }, []);
 
   const checkExtraCodepush = useCallback(async () => {
     const meta = await CodePush.getUpdateMetadata();
-    console.log('[codepush] meta', meta);
   }, []);
 
   useEffect(() => {

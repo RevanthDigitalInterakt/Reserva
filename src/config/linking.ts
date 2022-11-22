@@ -40,7 +40,6 @@ export const linkingConfig: LinkingOptions = {
   prefixes: ['usereserva://', 'https://www.usereserva.com/'],
   config: routesConfig,
   getPathFromState(state) {
-    console.log('getInitialURL 2');
     const path = getPathFromState(state);
     if (path) {
       return path;
@@ -53,15 +52,13 @@ export const linkingConfig: LinkingOptions = {
     const url = await Linking.getInitialURL();
 
     if (url != null) {
-      console.log('url test', url);
       if (url.includes('/p?')) {
-        // get query params from url
         const urlParams = url.split('/p?')[1];
 
         return `usereserva://product?${urlParams}`;
       }
 
-      if (url.includes('colecao-reserva/ofertas')) {
+      if (url.endsWith('colecao-reserva/ofertas')) {
         return 'usereserva://home-tabs/ofertas';
       }
 
@@ -73,7 +70,8 @@ export const linkingConfig: LinkingOptions = {
         return 'usereserva://home-tabs/profile';
       }
 
-      console.log('getInitialURL 1', url);
+      Linking.openURL(url);
+
       return url;
     }
 

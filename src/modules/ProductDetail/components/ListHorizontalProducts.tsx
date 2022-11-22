@@ -70,7 +70,7 @@ export const ListHorizontalProducts = ({
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId, listId } = item;
-    console.log('item', item);
+
     if (email) {
       if (favorite) {
         const handleFavorites = [...favorites, { productId, sku: skuId }];
@@ -230,12 +230,12 @@ export const ListHorizontalProducts = ({
                 listPrice
                 );
               }
-            
+
             const cashPaymentPrice =
               !!discountTag && discountTag > 0
                 ? sellingPrice
                 : listPrice || 0;
-            
+
             const installmentPrice = installments.reduce((prev, next) =>
               prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
               { NumberOfInstallments: 0, Value: 0 })

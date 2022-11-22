@@ -61,7 +61,6 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
   const [segmentToken, setSegmentToken] = useState('');
 
   const fetchRegionId = async (segmentId: string) => {
-    console.log('fetchRegionId');
     if(segmentId){
       const { data } = await instance.get(`/segments/${segmentId}`);
       return data
@@ -69,16 +68,22 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
   }
 
   useEffect(() => {
-    AsyncStorage.setItem('@RNRegionalSearch:regionId', regionId);
+    if (regionId) {
+      AsyncStorage.setItem('@RNRegionalSearch:regionId', regionId);
+    }
   }, [regionId]);
 
   useEffect(() => {
-    AsyncStorage.setItem('@RNRegionalSearch:cep', cep)
+    if (cep) {
+      AsyncStorage.setItem('@RNRegionalSearch:cep', cep)
+    }
   }, [cep]);
 
   useLayoutEffect(() => {
     fetchRegionId(segmentToken)
-    AsyncStorage.setItem('@RNRegionalSearch:segmentToken', segmentToken);
+    if (segmentToken) {
+      AsyncStorage.setItem('@RNRegionalSearch:segmentToken', segmentToken);
+    }
   }, [segmentToken]);
 
   useEffect(() => {

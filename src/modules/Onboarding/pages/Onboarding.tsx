@@ -1,6 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
 import { StackActions, useNavigation } from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
 import {
   StatusBarStyle,
   useStatusBar,
@@ -62,11 +63,11 @@ const Slide = ({
             if (status === 'granted') {
               openSettings()
                 .then(() => goNextSlide())
-                .catch(() => console.warn('cannot open settings'));
+                .catch(Sentry.captureException);
             } else {
               openSettings()
                 .then(() => goNextSlide())
-                .catch(() => console.warn('cannot open settings'));
+                .catch(Sentry.captureException);
             }
           }
         );

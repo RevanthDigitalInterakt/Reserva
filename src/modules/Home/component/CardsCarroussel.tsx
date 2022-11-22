@@ -16,7 +16,6 @@ interface CardsCarrouselProps {
 export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   carrousel,
 }) => {
-  // console.log('carrousel', carrousel);
   const myCards = carrousel.itemsCollection.items;
   const scrollX = useRef(new Animated.Value(0)).current;
 

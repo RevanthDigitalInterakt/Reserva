@@ -22,7 +22,6 @@ export const TopBarDefault: React.FC<{
   }, [orderForm]);
 
   useEffect(() => {
-    console.log('bagQuantity', bagQuantity);
   }, [bagQuantity]);
   return (
     <TopBar
