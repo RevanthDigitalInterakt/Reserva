@@ -22,6 +22,7 @@ interface UnderlineInputProps {
   onChangeText: (value: string) => void;
   onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   keyboardType?: KeyboardTypeOptions | undefined;
+  testID?: string;
 }
 
 const screenWidth = Dimensions.get('window').width;
@@ -37,6 +38,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
   width,
   iconSize,
   keyboardType,
+  testID,
 }) => {
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
@@ -72,6 +74,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
               maxWidth: isSecureText ? width - (iconSize + 4) : width,
             }}
             autoCorrect={isSecureText ? false : true}
+            testID={testID}
           />
         </Box>
         {isSecureText && (

@@ -228,6 +228,7 @@ export const LoginScreen: React.FC<Props> = ({
               value={loginCredentials.username}
               showError={loginCredentials.showUsernameError}
               errorMsg={loginCredentials.usernameError}
+              testID="login_input_email"
               onChangeText={(text) => {
                 try {
                   setLoginCredentials({ ...loginCredentials, username: text });
@@ -266,6 +267,7 @@ export const LoginScreen: React.FC<Props> = ({
                         .isValidSync(text)
                     );
                   }}
+                  testID="login_input_password"
                 />
                 <Box mt="micro" mb="quarck">
                   <TouchableOpacity
@@ -297,6 +299,7 @@ export const LoginScreen: React.FC<Props> = ({
             variant="primarioEstreitoOutline"
             disabled={loadingSendMail || loading || isLoadingEmail}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
+            testID={"login_button_entrar"}
           />
           {/* }
           <Box my={50}>
