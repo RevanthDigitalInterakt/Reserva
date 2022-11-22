@@ -46,7 +46,7 @@ export class RemoteConfigService {
         }
       }
     });
-    console.log(returnValue);
+
     return returnValue;
   }
 

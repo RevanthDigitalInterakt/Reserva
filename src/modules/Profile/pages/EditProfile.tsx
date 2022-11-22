@@ -52,6 +52,7 @@ import {
   MyProfileAPI,
   ProfileHttpUrl,
 } from './api/MyProfileAPI';
+import * as Sentry from '@sentry/react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -146,7 +147,6 @@ export const EditProfile = ({ route }: Props) => {
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
-      console.log('res ::::::::::::>>>>>>>>>>>>>>>>>>', res);
       setProfileData({
         data: res.data,
         loading: false,
@@ -247,15 +247,9 @@ export const EditProfile = ({ route }: Props) => {
 
   useEffect(() => {
     async function getToken() {
-      await AsyncStorage.getItem('@RNAuth:cookie').then((value) => {
-        console.log('Token: ', value);
-      });
-      await AsyncStorage.getItem('@RNAuth:typeLogin').then((value) => {
-        console.log('typeLogin: ', value);
-      });
-      await AsyncStorage.getItem('@RNAuth:lastLogin').then((value) => {
-        console.log('lastLogin: ', value);
-      });
+      await AsyncStorage.getItem('@RNAuth:cookie').then((value) => {});
+      await AsyncStorage.getItem('@RNAuth:typeLogin').then((value) => {});
+      await AsyncStorage.getItem('@RNAuth:lastLogin').then((value) => {});
     }
     getToken();
     async function userAcceptData() {
@@ -370,8 +364,6 @@ export const EditProfile = ({ route }: Props) => {
       }
     }
 
-    console.log('RESPONSE USER ACCEPT', userAccept);
-
     const customField: ProfileCustomFieldsInput[] = [
       {
         key: 'isNewsletterOptIn',
@@ -441,7 +433,7 @@ export const EditProfile = ({ route }: Props) => {
         );
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
-        console.warn(err);
+        Sentry.captureException(err);
         return false;
       }
     } else return true;
@@ -460,7 +452,7 @@ export const EditProfile = ({ route }: Props) => {
 
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
-        console.warn(err);
+        Sentry.captureException(err);
       }
       return false;
     } else return true;
@@ -488,9 +480,9 @@ export const EditProfile = ({ route }: Props) => {
       if (isCameraPermitted && isStoragePermitted) {
         if (response) {
           if (response.didCancel) {
-            console.log('Usuário cancelou a seleção');
+            //
           } else if (response.errorMessage) {
-            console.log('Ocorreu um erro.', response.errorMessage);
+            //
           } else {
             const photoFile = {
               uri: response.assets[0].uri,
@@ -525,9 +517,9 @@ export const EditProfile = ({ route }: Props) => {
       await launchCamera(options, async (response) => {
         if (response) {
           if (response.didCancel) {
-            console.log('Usuário cancelou a seleção');
+            //
           } else if (response.errorMessage) {
-            console.log('Ocorreu um erro.', response.errorMessage);
+            //
           } else {
             const photoFile = {
               uri: response.assets[0].uri,
@@ -562,11 +554,9 @@ export const EditProfile = ({ route }: Props) => {
     const lastName = rest.join(' ');
     // regex to validate full name with at least 2 words and no numbers
     if (text.match(/^[a-zA-ZÀ-ú]{2,}\s[a-zA-ZÀ-ú ']{2,}$/)) {
-      console.log('TRUE ::::::::::::::::::::');
       setIsEmptyFullName(false);
       setLabelFullName('Nome completo');
     } else {
-      console.log('false ::::::::::::::::::::');
       setIsEmptyFullName(true);
       setLabelFullName(null);
     }

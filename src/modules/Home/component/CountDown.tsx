@@ -65,9 +65,6 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
     const isTimeToShow = Date.now() > new Date(countDown?.countdownStart).getTime()
     const timeIsOver = Date.now() > new Date(countDown?.countdown).getTime()
 
-    console.log('countDownData?.countdownStart', isTimeToShow, countDown?.countdownStart);
-    console.log('countDownData?.countdown', timeIsOver, countDown?.countdown);
-    console.log('shouldShowClock', isTimeToShow && !timeIsOver);
     return isTimeToShow && !timeIsOver
   }
 

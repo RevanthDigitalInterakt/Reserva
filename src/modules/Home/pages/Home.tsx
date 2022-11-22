@@ -8,6 +8,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
 import React, {
+  FC,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -204,11 +205,6 @@ export const HomeScreen: FC<{
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
     setCarrousels(carrouselsItems);
 
-    console.log(
-      'carrouselsItems',
-      data?.homePageCollection.items[0].mediasCollection
-    );
-
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
         (imageDescription: any) => ({
@@ -315,19 +311,20 @@ export const HomeScreen: FC<{
       switch (carrousel?.type) {
         case CarrouselTypes.mainCarrousel: {
           return (
-            <>
-              <DefaultCarrousel carrousel={carrousel} />
-            </>
+            <DefaultCarrousel carrousel={carrousel} key={`carousel-${carrousel.title}-${carrousel.type}`} />
           );
-          break;
         }
         case CarrouselTypes.cardsCarrousel: {
           const { items } = carrousel.itemsCollection;
 
           return items.length > 1 ? (
-            <CardsCarrousel carrousel={carrousel} />
+            <CardsCarrousel
+              key={`carousel-${carrousel.title}-${carrousel.type}`}
+              carrousel={carrousel}
+              />
           ) : (
             <Banner
+              key={`carousel-${carrousel.title}-${carrousel.type}`}
               orderBy={items[0].orderBy}
               height={items[0].image.height}
               reference={items[0].reference}
@@ -335,13 +332,15 @@ export const HomeScreen: FC<{
               reservaMini={items[0].reservaMini}
             />
           );
-          break;
         }
+
         case CarrouselTypes.banner: {
           const { image, reference, reservaMini, orderBy } =
             carrousel.itemsCollection.items[0];
+
           return (
             <Banner
+              key={`carousel-${carrousel.title}-${carrousel.type}`}
               orderBy={orderBy}
               height={image.height}
               reference={reference}
@@ -349,11 +348,10 @@ export const HomeScreen: FC<{
               reservaMini={reservaMini}
             />
           );
-          break;
         }
+
         default: {
           return <></>;
-          break;
         }
       }
     });

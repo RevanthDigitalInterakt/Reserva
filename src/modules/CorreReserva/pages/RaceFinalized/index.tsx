@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   ImageSourcePropType,
@@ -67,41 +67,41 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('instagram://')
         .then((val) => setShowInstagramStory(val))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     } else {
       Share.isPackageInstalled('com.instagram.android')
         .then(({ isInstalled }) => setShowInstagramStory(isInstalled))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     }
 
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('whatsapp://')
         .then((val) => setHasWhatsApp(val))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     } else {
       Share.isPackageInstalled('com.whatsapp.android')
         .then(({ isInstalled }) => setHasWhatsApp(isInstalled))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     }
 
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('facebook://')
         .then((val) => setHasFacebook(val))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     } else {
       Share.isPackageInstalled('com.facebook.android')
         .then(({ isInstalled }) => setHasFacebook(isInstalled))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     }
 
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('twitter://')
         .then((val) => setHasTwitter(val))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     } else {
       Share.isPackageInstalled('com.twitter.android')
         .then(({ isInstalled }) => setHasTwitter(isInstalled))
-        .catch((err) => console.error(err));
+        .catch(Sentry.captureException);
     }
   }, []);
 
@@ -113,7 +113,6 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
           const uri = await viewRef.current.capture();
           setShowBackgroundShare(false);
           const uriBackgroundImage = await viewRefImage.current.capture();
-          console.log('uriuri', uri);
           if (showInstagramStory) {
             await Share.shareSingle({
               title: '',
@@ -127,7 +126,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          console.error(err);
+          Sentry.captureException(err);
         }
         break;
       case 'whatsApp':
@@ -148,7 +147,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          console.error(err);
+          Sentry.captureException(err);
         }
         break;
       case 'facebook':
@@ -167,7 +166,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          console.error(err);
+          Sentry.captureException(err);
         }
         break;
       case 'twitter':
@@ -185,7 +184,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          console.error(err);
+          Sentry.captureException(err);
         }
         break;
       default:

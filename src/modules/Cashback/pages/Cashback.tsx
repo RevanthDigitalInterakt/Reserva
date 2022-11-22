@@ -62,7 +62,6 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
         key: StorageServiceKeys.INSTALLATION_TOKEN,
       },
     ]).then((values) => {
-      console.log('values', values.profile.birthDate);
     });
 
     StorageService.getItem({

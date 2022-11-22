@@ -95,7 +95,7 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
     url = url.filter(item =>
       item != undefined && !item.match(/^((,\s*)|(-\s*)|(\\\s*))/g)
     )
-    console.log('url00', url)
+
     url = url.map(param => param.replace(/\s/g, '%20'))
     let params = url.join('/')
     return params
@@ -127,7 +127,7 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
     fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${address?.uf}`)
       .then(async (response) => {
         const parsedCities: any[] = await response.json()
-        console.log('parsedCities', parsedCities.sort((a, b) => a.nome.localeCompare(b.nome)).map(city => ({ text: city.nome, subText: '' })))
+
         setCities(parsedCities.sort((a, b) => a.nome.localeCompare(b.nome)).map(city => ({ text: city.nome })))
       })
   }, [address?.uf])
@@ -364,7 +364,6 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
               disabled={address?.street && address?.city && address?.uf ? false : true}
               onPress={() => {
                 fetchAddressInfo().then(data => {
-                  console.log('data123', data)
                   navigate.navigate('CEPList', {
                     list: data,
                     searchTerm: `${address?.street}, ${address?.city} - ${address?.uf}`,
@@ -385,7 +384,6 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
                 setAddress({
                   uf: selected.text,
                 })
-                console.log('selected', selected)
               }}
               title="Selecione o estado"
               items={states}

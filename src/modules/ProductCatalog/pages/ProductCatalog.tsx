@@ -72,7 +72,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const pageSize = 12;
   const { safeArea, search, referenceId, title, reservaMini, orderBy } =
     route.params;
-  console.log('route.params', route.params);
+
   useEffect(() => {
     if (referenceId === 'offers-page') {
       setReferenceString(offersPage);
@@ -496,8 +496,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [facetsData]);
 
   useEffect(() => {
-    console.log('dfshjfklhaklfjhklhlf', data?.productSearch);
-
     if (!loading && !!data) {
       setProducts(data.productSearch);
     }
@@ -609,10 +607,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       }
     ).start();
   };
-
-  useEffect(() => {
-    console.log('loading::>', loading);
-  }, [loading]);
 
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');

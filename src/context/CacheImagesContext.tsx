@@ -57,7 +57,6 @@ export const CacheImagesProvider = ({ children }: { children: React.ReactNode })
 
   const getImageSize = async (path: string) => {
     const stat = await RNFetchBlob.fs.stat(path);
-    // console.log('getImageSize', stat.size)
     return Number(stat.size) / 1024; // size in KB
   }
 
@@ -112,7 +111,6 @@ export const CacheImagesProvider = ({ children }: { children: React.ReactNode })
   const fetchImage = async (url: string) => {
     const cachedImage = cache.images.find(image => image.uri === url);
     if (cachedImage) {
-      // console.log('image already cached');
       reorderCache(url);
       return cachedImage.path;
     } else {
@@ -121,7 +119,6 @@ export const CacheImagesProvider = ({ children }: { children: React.ReactNode })
       })
         .fetch('GET', url)
 
-      // console.log('image downloaded', res.path());
       addImageToCache(url, `${res.path()}`);
       return `file://${res.path()}`;
 
@@ -129,16 +126,12 @@ export const CacheImagesProvider = ({ children }: { children: React.ReactNode })
   }
 
   useEffect(() => {
-    // console.log('cache images context loaded');
     loadCache();
   }, []);
 
   useEffect(() => {
     saveCache();
     controlCacheSize();
-    // console.log('cache images context saved');
-    // console.log('cache images context size', cache.size);
-    // console.log('cache images context images', cache.images.length);
   }, [cache]);
 
   return (

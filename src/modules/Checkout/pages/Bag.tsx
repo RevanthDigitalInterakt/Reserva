@@ -1018,43 +1018,6 @@ export const BagScreen = ({ route }: Props) => {
                                 });
                               }}
                             />
-                            {/* <Box
-                    key={index}
-                    flexDirection="row"
-                    marginY="xxs"
-                    alignItems="center"
-                  >
-                    <Box marginRight="micro">
-                      <Icon name="Presente" size={20} />
-                    </Box>
-                    <Box flex={1}>
-                      <Typography variant="subtituloSessoes">
-                        Embalagem para presente
-                      </Typography>
-                    </Box>
-                    <Box marginLeft="micro">
-                      <Toggle
-                        onValueChange={(value) => {
-                          if (cookie)
-                            chechoutService.activeGitEmballage(
-                              orderForm.orderFormId,
-                              index,
-                              cookie
-                            );
-
-                          console.log(
-                            'BOOLEANNN',
-                            index,
-                            orderForm.orderFormId,
-                            item.bundleItems
-                          );
-                        }}
-                        thumbColor="vermelhoAlerta"
-                        color="preto"
-                        value={hasBagGift}
-                      />
-                    </Box>
-                  </Box> */}
                           </Box>
                         )
                     )}

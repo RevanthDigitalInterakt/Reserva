@@ -3,6 +3,7 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import * as Sentry from '@sentry/react-native';
 import { Alert, Linking, Platform, } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
@@ -64,27 +65,21 @@ let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
       if (res.data.af_status === 'Non-organic') {
         const { media_source } = res.data;
         const { campaign } = res.data;
-        console.log(
-          `This is first launch and a Non-Organic install. Media source: ${media_source} Campaign: ${campaign}`
-        );
       } else if (res.data.af_status === 'Organic') {
-        console.log('This is first launch and a Organic Install');
       }
     } else {
-      console.log('This is not first launch');
     }
   }
 );
 
 let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-  console.log(res);
 });
 
 const logAppOpenAnalytics = async () => {
   try {
     await analytics().logAppOpen();
   } catch (e) {
-    console.log(e);
+    Sentry.captureException(e);
   }
 };
 
@@ -93,14 +88,9 @@ const requestUserPermission = async () => {
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-  }
 };
 
 let onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
-  console.log('onDeepLinkCanceller DLValue::>', res);
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
     const DLValue = res?.data.deep_link_value;
     await Linking.openURL(DLValue);
@@ -117,10 +107,9 @@ appsFlyer.initSdk(
     timeToWaitForATTUserAuthorization: 10,
   },
   (result) => {
-    console.log('AAPPFLYERS', result);
   },
   (error) => {
-    console.log('AAPPFLYERS', error);
+    Sentry.captureException(error);
   }
 );
 const maintenanceHandler = async () => {
@@ -134,12 +123,9 @@ const maintenanceHandler = async () => {
 
 const App = () => {
   const [canRegisterUser, setCanRegisterUser] = useState(true);
-  const [userId, setUserId] = useState('06869751110');
-
 
   useEffect(() => {
     Linking.addEventListener('url', ({ url }) => {
-      console.log('getInitialURL url', url)
     })
   }, [])
 
@@ -220,13 +206,11 @@ const App = () => {
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
       onInstallConversionDataCanceller();
-      console.log('unregister onInstallConversionDataCanceller');
       onInstallConversionDataCanceller = null;
     }
 
     if (onAppOpenAttributionCanceller) {
       onAppOpenAttributionCanceller();
-      console.log('unregister onAppOpenAttributionCanceller');
       onAppOpenAttributionCanceller = null;
     }
     if (onDeepLinkCanceller) {

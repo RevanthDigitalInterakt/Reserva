@@ -1,5 +1,6 @@
 import checkVersion from 'react-native-store-version';
 import DeviceInfo from 'react-native-device-info';
+import * as Sentry from '@sentry/react-native';
 import SpInAppUpdates, { IAUUpdateKind } from 'sp-react-native-in-app-updates';
 
 const IOS_STORE_URL = 'https://apps.apple.com/br/app/reserva/id1566861458';
@@ -27,6 +28,6 @@ export const haveVersionUpdates = async () => {
     }
     return response.shouldUpdate;
   } catch (error) {
-    console.log(error);
+    Sentry.captureException(error);
   }
 };

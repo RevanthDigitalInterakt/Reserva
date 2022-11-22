@@ -53,7 +53,6 @@ const ReceiveHome = ({
 
   useEffect(() => {
     if (selectedAddress) {
-      console.log('updateAddresses1234 - addressId', selectedAddress.addressId);
       setSelectedId(selectedAddress.addressId);
     }
   }, [selectedAddress]);

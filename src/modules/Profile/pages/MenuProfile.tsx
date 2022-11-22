@@ -86,7 +86,6 @@ const MenuScreen: React.FC<{}> = ({}) => {
       'FEATURE_CASHBACK_IN_STORE'
     );
 
-    console.log('cashback_in_store', cashback_in_store);
     setScreenCashbackInStoreActive(cashback_in_store);
   };
 

@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native';
 import { checkoutInstance } from '../config/checkoutConfig';
 
 export const chechoutService = {
@@ -37,11 +38,9 @@ export const chechoutService = {
         }
       );
 
-      console.log('setPaymentMethod', response);
-
       return response;
     } catch (error) {
-      console.log(error);
+      Sentry.captureException(error);
     }
   },
 
@@ -64,10 +63,9 @@ export const chechoutService = {
           interestValue,
         }
       );
-      console.log('transaction', response);
       return response;
     } catch (error) {
-      console.log('error', error);
+      Sentry.captureException(error);
     }
   },
 
@@ -105,10 +103,10 @@ export const chechoutService = {
           ],
         }
       );
-      console.log('paymentGetway', response);
+
       return response;
     } catch (error) {
-      console.log('error', error);
+      Sentry.captureException(error);
     }
   },
   getPixCode: async (orderGroup: string) => {
@@ -117,7 +115,7 @@ export const chechoutService = {
         `https://www.usereserva.com/api/checkout/pub/gatewayCallback/${orderGroup}`
       );
     } catch (error) {
-      console.log('error', error);
+      Sentry.captureException(error);
     }
   },
 
@@ -136,9 +134,8 @@ export const chechoutService = {
           },
         }
       );
-      console.log('CHECKOUT RESPONSE ===>>>', response.status);
     } catch (error) {
-      console.log('error', error);
+      Sentry.captureException(error);
     }
   },
 
@@ -151,9 +148,8 @@ export const chechoutService = {
         `/pub/orderForm/${uniqueId}/selectable-gifts/${giftId}`,
         {},
       );
-      console.log('CHECKOUT RESPONSE ===>>>', response.status);
     } catch (error) {
-      console.log('error', error);
+      Sentry.captureException(error);
     }
   },
 };

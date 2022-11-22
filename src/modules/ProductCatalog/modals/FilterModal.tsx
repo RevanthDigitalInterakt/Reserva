@@ -122,7 +122,7 @@ export const FilterModal = ({
     ...size,
     value: size.value.toUpperCase()
   }))
-  console.log('priceRange', priceRange.length)
+
   const loadMoreProducts = () => {
     const colors = selectedColors
       .map((color) => ({
@@ -201,10 +201,6 @@ export const FilterModal = ({
     setFilterList([]);
   };
 
-  useEffect(() => {
-    console.log(selectedColors)
-  }, [selectedColors])
-
   return (
     <Box>
       <Modal
@@ -281,12 +277,12 @@ export const FilterModal = ({
                     const mappedSelectedColor = selectedColors.map(
                       (color) => color
                     );
-                    console.log('mappedSelectedColor', mappedSelectedColor)
+
                     if (mappedSelectedColor.includes(color)) {
                       const newColors = selectedColors.filter(
                         (value) => value !== color
                       );
-                      console.log('newColors', newColors)
+
                       setSelectedColors(newColors);
                     } else {
                       setSelectedColors((preview) => {

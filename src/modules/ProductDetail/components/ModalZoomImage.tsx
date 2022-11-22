@@ -214,21 +214,6 @@ export const ModalZoomImage = ({
   const [currentImage, setCurrentImage] = useState(0);
   const [openTutorial, setOpenTutorial] = useState(false)
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     console.log('ENTROUUUU AQUIII')
-  //     console.log(isVisible)
-  //     if (isVisible) {
-  //       console.log('foi')
-  //       StatusBar.setHidden(true)
-
-  //       return () => {
-  //         StatusBar.setHidden(false)
-  //       }
-  //     }
-  //   }, [isVisible])
-  // )
-
   useEffect(() => {
     async function checkIsFirstTime() {
       const isFirstTime = await AsyncStorage.getItem('@IsFisrtTime')

@@ -69,7 +69,7 @@ export const ListHorizontalProducts = ({
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId, listId } = item;
-    console.log('item', item);
+
     if (email) {
       if (favorite) {
         const handleFavorites = [...favorites, { productId, sku: skuId }];

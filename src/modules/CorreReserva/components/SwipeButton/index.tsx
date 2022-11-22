@@ -41,7 +41,6 @@ const SwipeButton = ({ onToggle, forceToggle, swipeText }) => {
     }
   };
   useEffect(() => {
-    console.log('toggled', forceToggle);
     if (forceToggle) {
       X.value = withSpring(0);
       setToggled(true);

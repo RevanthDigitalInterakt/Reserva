@@ -5,7 +5,7 @@ import { Animated, Easing, TouchableHighlight, useWindowDimensions } from 'react
 import { FlatList } from 'react-native-gesture-handler';
 import { Box, Image, theme } from '@danilomsou/reserva-ui';
 
-import { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import {Carrousel, CarrouselCard} from '../../../graphql/homePage/HomeQuery';
 
 interface DefaultCarrouselProps {
   carrousel: Carrousel;
@@ -101,13 +101,9 @@ export const DefaultCarrousel: React.FC<DefaultCarrouselProps> = ({
   useEffect(() => {
     filterCarousel()
     setActualPosition(0);
-    console.log(
-      'Carousel',
-      carrouselCards?.map((item: CarrouselCard) => item.reservaMini == true)
-    );
   }, []);
 
-  return (carrouselCards?.length > 0 ? 
+  return (carrouselCards?.length > 0 ?
   <Box>
     <FlatList
       ref={(reference) => setFlatListRef(reference)}
@@ -256,7 +252,7 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
   return carouselRef?.props.data?.length ? (
     <Box position="absolute" zIndex={3} bottom={10} flexDirection="row">
       {[...Array(carouselLength)].map((item, index) => (
-        <>
+        <React.Fragment key={`carousel-${index}`}>
           <Box
             style={{
               overflow: 'hidden',
@@ -290,7 +286,7 @@ const CarrouselScrollIndicator: React.FC<CarrouselScrollIndicatorProps> = ({
               />
             )}
           </Box>
-        </>
+        </React.Fragment>
       ))}
     </Box>
   ) : null;

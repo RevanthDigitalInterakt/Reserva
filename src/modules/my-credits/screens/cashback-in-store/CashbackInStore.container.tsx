@@ -36,7 +36,7 @@ export const CashbackInStoreContainer = ({
 
   const termAndConditionsIsAccepted = async () => {
     const isAccepted = await AsyncStorage.getItem('@RNAuth:terms');
-    console.log('isAccepted', isAccepted);
+
     setTermsIsAccepted(isAccepted === 'true');
   };
 
