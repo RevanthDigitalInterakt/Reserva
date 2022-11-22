@@ -58,7 +58,7 @@ export const linkingConfig: LinkingOptions = {
         return `usereserva://product?${urlParams}`;
       }
 
-      if (url.includes('colecao-reserva/ofertas')) {
+      if (url.endsWith('colecao-reserva/ofertas')) {
         return 'usereserva://home-tabs/ofertas';
       }
 
@@ -69,6 +69,8 @@ export const linkingConfig: LinkingOptions = {
       if (url.includes('account#')) {
         return 'usereserva://home-tabs/profile';
       }
+
+      Linking.openURL(url);
 
       return url;
     }
