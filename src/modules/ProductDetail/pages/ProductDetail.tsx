@@ -717,6 +717,7 @@ export const ProductDetail: React.FC<Props> = ({
     });
 
     if (typeof error !== 'undefined') {
+      navigation.goBack();
       return;
     }
 
@@ -939,6 +940,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
+
         <TopBarDefaultBackButton loading={loading} navigateGoBack />
         <KeyboardAvoidingView
           enabled
