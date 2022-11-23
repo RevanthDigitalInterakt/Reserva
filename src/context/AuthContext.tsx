@@ -7,7 +7,6 @@ import React, {
   Dispatch,
   useEffect,
 } from 'react';
-
 import AsyncStorage from '@react-native-community/async-storage';
 import { RSA } from 'react-native-rsa-native';
 import { ProfileVars } from 'graphql/profile/profileQuery';
@@ -62,7 +61,7 @@ interface AuthContextProviderProps {
 }
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState<string>('');
   const [cookie, setCookie] = useState('');
   const [RSAKey, setRSAKey] = useState({ private: '', public: '' });
   const [isInitializing, setIsInitializing] = useState(true);
@@ -120,7 +119,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       setIsInitializing(false);
     });
     AsyncStorage.getItem('@RNAuth:email').then((value) => {
-      setEmail(value);
+      setEmail(value || '');
     });
   }, []);
 

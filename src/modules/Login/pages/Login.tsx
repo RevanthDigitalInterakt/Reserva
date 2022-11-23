@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Box, Button, Typography } from '@danilomsou/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -11,16 +11,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import OneSignal from 'react-native-onesignal';
 import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
+// @ts-ignore
 import PushIOManager from '@oracle/react-native-pushiomanager';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import {
   classicSignInMutation,
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
@@ -38,9 +37,9 @@ export const LoginScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { comeFrom } = route.params;
-  const { cookie, setCookie, setEmail, saveCredentials } = useAuth();
-  // const navigation = useNavigation();
-  const [loginCredentials, setLoginCredentials] = React.useState({
+  const { setCookie, setEmail, saveCredentials } = useAuth();
+
+  const [loginCredentials, setLoginCredentials] = useState({
     username: '',
     password: '',
     showPasswordError: false,
@@ -50,34 +49,15 @@ export const LoginScreen: React.FC<Props> = ({
     hasError: false,
     showMessageError: '',
   });
-  const [isSecureText, setIsSecureText] = useState(true);
-  const [showError, setShowError] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
-  const [login, { data, loading }] = useMutation(classicSignInMutation);
-  const [loginWithCode, setLoginWithCode] = useState(false);
-  const [getProfile, { data: profileData, loading: profileLoading }] =
-    useLazyQuery(profileQuery);
-
+  const [loginWithCode] = useState(false);
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
 
-  const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
-    useMutation(sendEmailVerificationMutation);
-  const { email } = useAuth();
+  const [login, { data, loading }] = useMutation(classicSignInMutation);
+  const [sendEmail, { loading: loadingSendMail }] = useMutation(sendEmailVerificationMutation);
 
-  const {
-    orderForm,
-    addItem,
-    orderform,
-    removeItem,
-    addCoupon,
-    identifyCustomer,
-    addSellerCoupon,
-    removeCoupon,
-    removeSellerCoupon,
-    addCustomer,
-    addShippingData,
-  } = useCart();
+  const { identifyCustomer } = useCart();
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -99,30 +79,26 @@ export const LoginScreen: React.FC<Props> = ({
   };
   const handleLogin = async () => {
     if (emailIsValid && passwordIsValid) {
+      const email = loginCredentials.username.trim().toLowerCase();
+
       const { data, errors } = await login({
         variables: {
-          email: loginCredentials.username.trim().toLowerCase(),
+          email,
           password: loginCredentials.password,
         },
       });
-      if (data.classicSignIn === 'Success') {
-        const emailHash = await sha256(
-          loginCredentials.username.trim().toLowerCase()
-        );
 
+      if (data.classicSignIn === 'Success') {
+        const emailHash = await sha256(email);
 
         saveCredentials({
-          email: loginCredentials.username.trim().toLowerCase(),
+          email,
           password: loginCredentials.password,
         });
 
-        OneSignal.setExternalUserId(
-          loginCredentials.username.trim().toLowerCase()
-        );
+        OneSignal.setExternalUserId(email);
 
-        PushIOManager.registerUserId(
-          loginCredentials.username.trim().toLowerCase()
-        );
+        PushIOManager.registerUserId(email);
 
         appsFlyer.logEvent(
           'af_login',
@@ -144,7 +120,7 @@ export const LoginScreen: React.FC<Props> = ({
           }
         );
 
-        setEmail(loginCredentials.username.trim().toLowerCase());
+        if (setEmail) setEmail(email);
 
         AsyncStorage.setItem(
           '@RNAuth:email',
@@ -370,6 +346,7 @@ export const LoginScreen: React.FC<Props> = ({
               borderColor="divider"
             />
           </Box>
+
           <Button
             title={'CADASTRE-SE'}
             inline
