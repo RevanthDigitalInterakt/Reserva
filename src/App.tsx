@@ -3,12 +3,8 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
 import * as Sentry from '@sentry/react-native';
 import { Alert, Linking, Platform, } from 'react-native';
-=======
-import { Alert, Linking, Platform } from 'react-native';
->>>>>>> 3d843517 (fix add pattern for product url)
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';

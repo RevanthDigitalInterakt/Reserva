@@ -63,16 +63,12 @@ export const linkingConfig: LinkingOptions = {
       if (url.includes('/p')) {
         const productUrl = new URL(url);
 
-        console.log('url1', productUrl);
-
         if (!productUrl.search.length) {
           productUrl.searchParams.append(
             'slug',
             productUrl.pathname.replace('/p', '').replace('/', '')
           );
         }
-
-        console.log('search', productUrl.search);
 
         return `usereserva://product?${productUrl.search.replace('?', '')}`;
       }
