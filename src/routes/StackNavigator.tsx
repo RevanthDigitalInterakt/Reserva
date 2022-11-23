@@ -69,6 +69,10 @@ export type RootStackParamList = {
     hasCep?: string;
     idsku?: string;
     comeFrom: 'DeepLink' | 'Catalog' | 'Search';
+    skuId?: string;
+    itemId?: string;
+    selectedSize?: string;
+    slug?: string;
   };
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };

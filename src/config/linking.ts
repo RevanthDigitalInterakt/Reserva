@@ -3,9 +3,10 @@ import {
   LinkingOptions,
   PathConfigMap,
 } from '@react-navigation/native';
-import {Alert, Linking, Platform} from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
+import { URL } from 'react-native-url-polyfill';
 
 const routesConfig = {
   screens: {
@@ -29,9 +30,9 @@ const routesConfig = {
         ProductCatalog: {
           path: 'catalog/:referenceId',
         },
-        "MY_CASHBACK_MY_WALLET": {
-          path: 'wallet-cashback'
-        }
+        MY_CASHBACK_MY_WALLET: {
+          path: 'wallet-cashback',
+        },
       },
     },
   },
@@ -53,16 +54,27 @@ export const linkingConfig: LinkingOptions = {
 
     if (url != null) {
       if (
-        url === 'https://www.usereserva.com'
-        || url === 'https://www.usereserva.com/'
+        url === 'https://www.usereserva.com' ||
+        url === 'https://www.usereserva.com/'
       ) {
         return 'usereserva://home-tabs';
       }
 
-      if (url.includes('/p?')) {
-        const urlParams = url.split('/p?')[1];
+      if (url.includes('/p')) {
+        const productUrl = new URL(url);
 
-        return `usereserva://product?${urlParams}`;
+        console.log('url1', productUrl);
+
+        if (!productUrl.search.length) {
+          productUrl.searchParams.append(
+            'slug',
+            productUrl.pathname.replace('/p', '').replace('/', '')
+          );
+        }
+
+        console.log('search', productUrl.search);
+
+        return `usereserva://product?${productUrl.search.replace('?', '')}`;
       }
 
       if (url.endsWith('colecao-reserva/ofertas')) {
