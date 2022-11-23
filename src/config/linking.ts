@@ -66,7 +66,7 @@ export const linkingConfig: LinkingOptions = {
         if (!productUrl.search.length) {
           productUrl.searchParams.append(
             'slug',
-            productUrl.pathname.replace('/p', '').replace('/', '')
+            productUrl.pathname.replace(/\b\/p\b/gi, '').replace('/', '')
           );
         }
 
