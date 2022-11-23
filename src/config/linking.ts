@@ -3,7 +3,7 @@ import {
   LinkingOptions,
   PathConfigMap,
 } from '@react-navigation/native';
-import { Linking } from 'react-native';
+import {Alert, Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 
@@ -59,7 +59,7 @@ export const linkingConfig: LinkingOptions = {
       }
 
       if (url.endsWith('colecao-reserva/ofertas')) {
-        return 'usereserva://home-tabs/ofertas';
+        return 'usereserva://home-tabs';
       }
 
       if (url.includes('account#/wishlist')) {
@@ -72,7 +72,7 @@ export const linkingConfig: LinkingOptions = {
 
       Linking.openURL(url);
 
-      return url;
+      return 'usereserva://home-tabs';
     }
 
     // Check if there is an initial firebase notification

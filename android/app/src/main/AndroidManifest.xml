@@ -19,6 +19,18 @@
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <data android:scheme="http" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <data android:scheme="https" />
+    </intent>
+  </queries>
+
   <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher_best" android:roundIcon="@mipmap/ic_launcher_best" android:allowBackup="false" android:theme="@style/AppTheme">
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"/>
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
@@ -68,8 +80,10 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <!-- <data android:host="www.usereserva.com" android:scheme="http" /> -->
-        <data android:scheme="https" android:host="www.usereserva.com" />
+        <data android:scheme="https" android:host="www.usereserva.com" android:pathPrefix="/account" />
+        <data android:scheme="https" android:host="www.usereserva.com" android:pathPattern="/.*/p" />
+        <data android:scheme="https" android:host="www.usereserva.com" android:path="/" />
+        <data android:scheme="https" android:host="www.usereserva.com" android:path="/colecao-reserva/ofertas" />
       </intent-filter>
 
       <!--
