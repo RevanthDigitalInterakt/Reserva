@@ -60,7 +60,7 @@ export const linkingConfig: LinkingOptions = {
         return 'usereserva://home-tabs';
       }
 
-      if (url.includes('/p')) {
+      if (/(?:\b\/p\b.?)/gm.test(url)) {
         const productUrl = new URL(url);
 
         if (!productUrl.search.length) {
