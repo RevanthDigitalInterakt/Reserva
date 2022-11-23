@@ -209,9 +209,9 @@ export const LoginScreen: React.FC<Props> = ({
         }}
         loading={isLoadingEmail}
       />
-      <ScrollView>
+      <ScrollView testID="login_scrollview">
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
-          <Typography fontFamily="reservaSerifRegular" fontSize={22}>
+          <Typography fontFamily="reservaSerifRegular" fontSize={22} testID="login_text_boasvindas">
             Boas-vindas!
           </Typography>
 
@@ -248,6 +248,7 @@ export const LoginScreen: React.FC<Props> = ({
             {!loginWithCode && (
               <Box mt="md" width="100%">
                 <UnderlineInput
+                  testID="login_input_password"
                   isSecureText
                   placeholder="Digite sua senha"
                   value={loginCredentials.password}
@@ -267,7 +268,6 @@ export const LoginScreen: React.FC<Props> = ({
                         .isValidSync(text)
                     );
                   }}
-                  testID="login_input_password"
                 />
                 <Box mt="micro" mb="quarck">
                   <TouchableOpacity
@@ -294,12 +294,12 @@ export const LoginScreen: React.FC<Props> = ({
           </Box>
           <Box mt="md" />
           <Button
+            testID="login_button_entrar"
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant="primarioEstreitoOutline"
             disabled={loadingSendMail || loading || isLoadingEmail}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
-            testID={"login_button_entrar"}
           />
           {/* }
           <Box my={50}>
@@ -351,6 +351,7 @@ export const LoginScreen: React.FC<Props> = ({
           </Box>
 
           <Button
+            testID="login_button_cadastrese"
             title={'CADASTRE-SE'}
             inline
             variant="primarioEstreito"
