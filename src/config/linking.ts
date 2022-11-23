@@ -3,7 +3,7 @@ import {
   LinkingOptions,
   PathConfigMap,
 } from '@react-navigation/native';
-import {Alert, Linking } from 'react-native';
+import {Alert, Linking, Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 
@@ -52,6 +52,13 @@ export const linkingConfig: LinkingOptions = {
     const url = await Linking.getInitialURL();
 
     if (url != null) {
+      if (
+        url === 'https://www.usereserva.com'
+        || url === 'https://www.usereserva.com/'
+      ) {
+        return 'usereserva://home-tabs';
+      }
+
       if (url.includes('/p?')) {
         const urlParams = url.split('/p?')[1];
 
@@ -70,7 +77,9 @@ export const linkingConfig: LinkingOptions = {
         return 'usereserva://home-tabs/profile';
       }
 
-      Linking.openURL(url);
+      if (Platform.OS === 'ios') {
+        Linking.openURL(url);
+      }
 
       return 'usereserva://home-tabs';
     }
