@@ -60,7 +60,7 @@ export const linkingConfig: LinkingOptions = {
         return 'usereserva://home-tabs';
       }
 
-      if (/(?:\b\/p\b.?)/gm.test(url)) {
+      if (/(?:\b\/p\b.?)/gm.test(url.toLowerCase())) {
         const productUrl = new URL(url);
 
         if (!productUrl.search.length) {
