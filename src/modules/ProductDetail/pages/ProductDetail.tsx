@@ -61,11 +61,9 @@ import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
 import OneSignal from 'react-native-onesignal';
 import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSlug';
-import { ListCards } from 'modules/Profile/pages/ListCards';
+import * as Sentry from '@sentry/react-native';
 
 const screenWidth = Dimensions.get('window').width;
-
-let recomendedScroll = createRef<ScrollView>();
 
 interface ProductDetailProps {
   recomendedProducts?: ProductVerticalListCardProps[];
@@ -147,9 +145,6 @@ type Product = {
   description: string;
 };
 
-type ProductQueryResponse = {
-  product: Product;
-};
 export interface ClusterHighlight {
   id?: string;
   name?: string;
@@ -233,7 +228,6 @@ export const ProductDetail: React.FC<Props> = ({
    */
   const [getProduct] = useLazyQuery(GET_PRODUCTS, {
     variables: {
-      // id: route?.params?.productId?.split('-')[0],
       field: route?.params?.productId ? 'id' : 'sku',
       value: route?.params?.productId
         ? route?.params?.productId?.split('-')[0]
@@ -281,7 +275,7 @@ export const ProductDetail: React.FC<Props> = ({
     });
   };
 
-  const getAllUnavailableColors = ({ items, skuSpecifications }: Product) => {
+  const getAllUnavailableColors = ({ items }: Product) => {
     const colorsUnavailable = items.map((item) => {
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
         return item.variations?.find(
@@ -455,7 +449,7 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
-  const getUnavailableColors = ({ items, skuSpecifications }: Product) => {
+  const getUnavailableColors = ({ items }: Product) => {
     return items.map((item) => {
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
         return item.variations?.find(
@@ -521,9 +515,7 @@ export const ProductDetail: React.FC<Props> = ({
           {
             quantity: '1',
             id: selectedVariant?.itemId.trim(),
-            // id: '354688',
             seller: selectedSellerId.trim(),
-            // seller: '1',
           },
         ],
         postalCode: cep.trim(),
@@ -578,6 +570,7 @@ export const ProductDetail: React.FC<Props> = ({
 
       Attachment(orderFormId, productOrderFormIndex, attachmentName);
     } catch (error) {
+      Sentry.captureException(error);
       throw error;
     }
   };
@@ -623,11 +616,6 @@ export const ProductDetail: React.FC<Props> = ({
       const colorItemId = product.items
         .find((item: any) => item.itemId == route.params?.itemId)
         ?.variations?.find((x: any) => x.name == 'ID_COR_ORIGINAL')?.values;
-
-      // get the product color
-      const sizeItemId = product.items
-        .find((item: any) => item.itemId == route.params?.itemId)
-        ?.variations?.find((x: any) => x.name == 'Tamanho')?.values;
 
       setColorFilters(colorList);
 
@@ -773,15 +761,6 @@ export const ProductDetail: React.FC<Props> = ({
   }, [data]);
 
   useEffect(() => {
-    if (
-      route.params?.selectedSize !== undefined &&
-      route.params?.selectedSize !== ''
-    ) {
-      // setSelectedSize(route.params.selectedSize.trim());
-    }
-  }, [route.params?.selectedSize]);
-
-  useEffect(() => {
     if (itemsSKU !== undefined && itemsSKU.length > 0 && selectedColor !== '') {
       setImageSelected(
         itemsSKU
@@ -841,26 +820,8 @@ export const ProductDetail: React.FC<Props> = ({
 
       if (selectedColor != selectedNewColor) {
         setSelectedNewColor(selectedColor);
-        const selectedProduct = itemsSKU
-          .map((p) => p.color === selectedColor && p.sizeList)
-          .filter((a) => a !== false);
-
-        // const availableProduct = selectedProduct[0].filter(
-        //   (x) => x.available == true
-        // );
-
-        const variations = sizeColorSkuVariations
-          .map((x) => x.variations)
-          .map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }));
-
-        const sizeAndColor = variations.filter((x) => x.cor === selectedColor);
-
-        if (sizeAndColor) {
-          const sizeIndex = sizeAndColor.findIndex(
-            (x) => x.tamanho === selectedSize
-          );
-        }
       }
+
       if (sizeColorSkuVariations) {
         const selectedSkuVariations: Facets[] = [
           {
@@ -954,10 +915,6 @@ export const ProductDetail: React.FC<Props> = ({
           >
             {product && sellerProduct && (
               <>
-                {/*  <Button
-                  title="CLIQUE"
-                  onPress={() => setIsVisibleZoomImage(true)}
-                /> */}
                 <ModalZoomImage
                   isVisible={isVisibleZoomImage}
                   image={
@@ -1012,15 +969,6 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   avaibleUnits={!outOfStock && avaibleUnits}
                 />
-
-                {/*
-                    isLastUnits && !outOfStock ?
-                    <Box position='absolute' top={650} right={20} zIndex={4}>
-                      <Typography color="vermelhoAlerta" fontWeight="SemiBold" fontFamily="nunitoRegular" fontSize={18} textAlign="center" style={{textTransform: "uppercase"}}>Últimas unidades!</Typography>
-                    </Box>
-                    : null
-                    */}
-
                 {/* COLORS SECTION */}
                 <Box mt="xs">
                   <Box px="xxxs" mb="xxxs">
@@ -1054,14 +1002,6 @@ export const ProductDetail: React.FC<Props> = ({
                       <Typography variant={'subtituloSessoes'}>
                         Tamanhos:
                       </Typography>
-                      {/* <Button>
-                      <Box flexDirection="row" alignItems="center">
-                      <Icon name="Ruler" size={35} />
-                      <Typography fontFamily="nunitoRegular" fontSize={11}>
-                      Guia de medidas
-                      </Typography>
-                      </Box>
-                    </Button> */}
                       {!!product.categoryTree.find((x) =>
                         Object.keys(SizeGuideImages).includes(x.name)
                       ) && <SizeGuide categoryTree={product.categoryTree} />}
@@ -1621,80 +1561,6 @@ export const ProductDetail: React.FC<Props> = ({
                 </Box>
               </>
             )}
-
-            {/*
-
-            <Box mt="xs" mb="xxl">
-              <Box mb="xxxs">
-                <Typography fontFamily="nunitoBold" fontSize={14}>
-                  Seu produto combina com
-                </Typography>
-              </Box>
-              <Box mb="md">
-                <ScrollView
-                  horizontal
-                  pagingEnabled
-                  scrollEventThrottle={138}
-                  snapToInterval={(138 + theme.space.micro) * 2}
-                  ref={recomendedScroll}
-                  showsHorizontalScrollIndicator={false}
-                  onScroll={onChangeRecomended}
-                >
-                  {recomendedProducts.map((product, index) => (
-                    <>
-                      <Box mr={'micro'} key={index} height={230}>
-                        <ProductVerticalListCard
-                          imageWidth={138}
-                          small
-                          {...product}
-                        />
-                      </Box>
-                      <Box
-                        width={
-                          recomendedProducts?.length - 1 == index
-                            ? 138 / 2 + theme.space.micro
-                            : 0
-                        }
-                      />
-                    </>
-                  ))}
-                </ScrollView>
-                <Box
-                  paddingTop="nano"
-                  flexDirection="row"
-                  justifyContent="center"
-                >
-                  {recomendedProducts.map(
-                    (i, k) =>
-                      k % 2 == 0 && (
-                        <Button
-                          paddingX="quarck"
-                          variant="icone"
-                          onPress={() => {
-                            let width = (138 + theme.space.micro) * 2;
-                            recomendedScroll.current?.scrollTo({
-                              x: width * (k / 2),
-                            });
-                          }}
-                          icon={
-                            <Icon
-                              name="Circle"
-                              size={6}
-                              color={
-                                actualRecomendedindex == Math.ceil(k / 2)
-                                  ? 'preto'
-                                  : 'neutroFrio1'
-                              }
-                            />
-                          }
-                        />
-                      )
-                  )}
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-         */}
           </ScrollView>
         </KeyboardAvoidingView>
       </Box>
