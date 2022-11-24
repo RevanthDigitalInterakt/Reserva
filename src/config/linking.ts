@@ -8,6 +8,11 @@ import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 import { URL } from 'react-native-url-polyfill';
 
+const REGEX_PRODUCT_URL = {
+  _IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
+  _REMOVE_INVALID_WORDS: /\b\/p\b/gi,
+} as const;
+
 const routesConfig = {
   screens: {
     Main: {
@@ -60,13 +65,15 @@ export const linkingConfig: LinkingOptions = {
         return 'usereserva://home-tabs';
       }
 
-      if (/(?:\b\/p\b.?)/gm.test(url.toLowerCase())) {
+      if (REGEX_PRODUCT_URL._IS_PRODUCT_URL.test(url.toLowerCase())) {
         const productUrl = new URL(url);
 
         if (!productUrl.search.length) {
           productUrl.searchParams.append(
             'slug',
-            productUrl.pathname.replace(/\b\/p\b/gi, '').replace('/', '')
+            productUrl.pathname
+              .replace(REGEX_PRODUCT_URL._REMOVE_INVALID_WORDS, '')
+              .replace('/', '')
           );
         }
 
