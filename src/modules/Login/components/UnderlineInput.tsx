@@ -6,8 +6,6 @@ import {
   Box,
   Button,
   Icon,
-  neutroFrio2,
-  theme,
   Typography,
 } from '@danilomsou/reserva-ui';
 
@@ -22,7 +20,7 @@ interface UnderlineInputProps {
   onChangeText: (value: string) => void;
   onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   keyboardType?: KeyboardTypeOptions | undefined;
-  testID?: string;
+  accessibilityLabel?: string;
 }
 
 const screenWidth = Dimensions.get('window').width;
@@ -38,12 +36,12 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
   width,
   iconSize,
   keyboardType,
-  testID,
+  accessibilityLabel,
 }) => {
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
   const [hidePassword, setHidePassword] = useState(true);
-  // const [InputValue, setInputValue] = useState(value);
+
   return (
     <Box width={width}>
       <Box
@@ -74,7 +72,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
               maxWidth: isSecureText ? width - (iconSize + 4) : width,
             }}
             autoCorrect={isSecureText ? false : true}
-            testID={testID}
+            accessibilityLabel={accessibilityLabel}
           />
         </Box>
         {isSecureText && (

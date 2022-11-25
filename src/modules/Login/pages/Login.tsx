@@ -211,7 +211,7 @@ export const LoginScreen: React.FC<Props> = ({
       />
       <ScrollView testID="login_scrollview">
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
-          <Typography fontFamily="reservaSerifRegular" fontSize={22} testID="login_text_boasvindas">
+          <Typography fontFamily="reservaSerifRegular" fontSize={22}>
             Boas-vindas!
           </Typography>
 
@@ -221,14 +221,15 @@ export const LoginScreen: React.FC<Props> = ({
                 Insira seu e-mail para continuar:
               </Typography>
             </Box>
+
             <UnderlineInput
+              accessibilityLabel="login_input_email"
               placeholder="Digite seu e-mail"
               keyboardType="email-address"
               isSecureText={false}
               value={loginCredentials.username}
               showError={loginCredentials.showUsernameError}
               errorMsg={loginCredentials.usernameError}
-              testID="login_input_email"
               onChangeText={(text) => {
                 try {
                   setLoginCredentials({ ...loginCredentials, username: text });
@@ -248,7 +249,7 @@ export const LoginScreen: React.FC<Props> = ({
             {!loginWithCode && (
               <Box mt="md" width="100%">
                 <UnderlineInput
-                  testID="login_input_password"
+                  accessibilityLabel="login_input_password"
                   isSecureText
                   placeholder="Digite sua senha"
                   value={loginCredentials.password}
