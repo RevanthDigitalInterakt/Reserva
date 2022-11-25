@@ -546,6 +546,7 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
+  //TODO tentar adicionar tipagem para o salOff
   const getSaleOff = (salOff: any) => {
     const idImage = salOff.clusterHighlights?.find((x: any) => x.id === '371');
     if (!saleOffTag) return null;
