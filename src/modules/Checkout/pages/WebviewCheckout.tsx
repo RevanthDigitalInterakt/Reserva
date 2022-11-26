@@ -156,7 +156,6 @@ const Checkout: React.FC<{}> = () => {
               height:
                 Dimensions.get('window').height -
                 (navState.includes('/checkout/orderPlaced') ? 200 : 100),
-              backgroundColor: 'red',
             }}
           >
             <WebView
