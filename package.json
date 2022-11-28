@@ -77,6 +77,7 @@
     "react-native-cardscan": "^1.1.30",
     "react-native-code-push": "7.0.4",
     "react-native-confetti-cannon": "^1.5.2",
+    "react-native-config": "^1.4.11",
     "react-native-countdown-component": "^2.7.1",
     "react-native-credit-card-display": "https://github.com/ebellumat/react-native-credit-card-display",
     "react-native-credit-card-input-view": "^0.0.7",

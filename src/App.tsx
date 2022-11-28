@@ -39,6 +39,7 @@ import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
+import Config from 'react-native-config';
 
 const DefaultTheme = {
   colors: {
@@ -247,7 +248,7 @@ const App = () => {
                           <ChronometerContextProvider>
                             <ApolloProvider
                               client={
-                                isTesting
+                                (isTesting || Config.ENVIRONMENT !== 'production')
                                   ? apolloClientTesting
                                   : apolloClientProduction
                               }

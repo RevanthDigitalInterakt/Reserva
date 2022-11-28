@@ -1,22 +1,23 @@
+import Config from 'react-native-config';
+
 import axios from 'axios';
 
-const urlBase = 'https://app-vtex.usereserva.com/api/';
+const urlBase = Config.URL_BASE;
 
-const urlBase2 = 'https://lojausereserva.myvtex.com/api/';
+const urlBase2 = Config.URL_BASE2;
 
-const urlBase3 = 'https://www.usereserva.com/api/';
+const urlBase3 = Config.URL_BASE3;
 
-const urlUser = 'https://www.usereserva.com/';
+const urlUser = Config.URL_USER;
 
-const urlDeleteUser = 'http://api.vtex.com/applojausereserva/';
+const urlDeleteUser = Config.URL_DELETE_USER;
 
-const sendEmail = 'https://reservapto.com.br/recapi/v2/';
+const sendEmail = Config.URL_SEND_EMAIL;
 
 const url = urlBase;
 
-const AppKey = 'vtexappkey-lojausereserva-SJLOOC';
-const AppToken =
-  'HNTVHRYYICABKZUFEXCSBIZQFUWLUBRQSBWKNCBDDQKCZCZGGGCNHGMYNDPNUNDHKJJJCKRBVZPKXWQDUQFOYEILOXWKNOJPMDRPTQEWPBRIRBBQMMSEIPIGBXUFNGOH';
+const AppKey = Config.APP_KEY;
+const AppToken = Config.APP_TOKEN;
 
 const headers = {
   Accept: 'application/json',

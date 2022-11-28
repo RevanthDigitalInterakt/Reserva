@@ -59,6 +59,7 @@ import { ModalZoomImage } from '../components/ModalZoomImage';
 import { Recommendation } from '../components/Recommendation';
 import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
+import Config from 'react-native-config';
 import OneSignal from 'react-native-onesignal';
 import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSlug';
 import * as Sentry from '@sentry/react-native';
@@ -288,7 +289,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getUrlFromIdColor = (idColor: string) => {
     return {
-      url: `https://lojausereserva.vtexassets.com/arquivos/color-thumb-${idColor}.jpg`,
+      url: `${Config.URL_VTEX_ASSETS}/color-thumb-${idColor}.jpg`,
       id: idColor,
     };
   };
@@ -376,7 +377,7 @@ export const ProductDetail: React.FC<Props> = ({
     const options = {
       message: 'Olha o que acabei de encontrar na Reserva: \n',
       title: 'Compartilhar',
-      url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
+      url: `${Config.URL_USER}${path}?skuId=${selectedVariant.itemId}`,
     };
 
     Share.open(options);

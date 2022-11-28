@@ -8,34 +8,36 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { RetryLink } from '@apollo/client/link/retry';
 import AsyncStorage from '@react-native-community/async-storage';
+import Config from 'react-native-config';
+
 
 const httpLink = new HttpLink({
-  uri: 'https://lojausereserva.myvtex.com/_v/private/graphql/v1',
+  uri: Config.URL_VTEX_GRAPHQL,
 });
 
 const directionalLinkProduction = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
   new HttpLink({
-    uri: 'https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4/environments/master',
+    uri: Config.URL_CONTENTFUL_PROD,
     headers: {
-      Authorization: 'Bearer e7GuVP-T2J7zqAR8NWZK6IhteMokbshJIx1_c16TG6U',
+      Authorization: Config.CONTETFUL_AUTH,
     },
   }),
   new HttpLink({
-    uri: 'https://lojausereserva.myvtex.com/_v/private/graphql/v1',
+    uri: Config.URL_VTEX_GRAPHQL,
   })
 );
 
 const directionalLinkTesting = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
   new HttpLink({
-    uri: 'https://graphql.contentful.com/content/v1/spaces/6jsfqc13oxv4/environments/testing',
+    uri: Config.URL_CONTENTFUL_TEST,
     headers: {
-      Authorization: 'Bearer e7GuVP-T2J7zqAR8NWZK6IhteMokbshJIx1_c16TG6U',
+      Authorization: Config.CONTETFUL_AUTH,
     },
   }),
   new HttpLink({
-    uri: 'https://lojausereserva.myvtex.com/_v/private/graphql/v1',
+    uri: Config.URL_VTEX_GRAPHQL,
   })
 );
 

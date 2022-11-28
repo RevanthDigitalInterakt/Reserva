@@ -11,6 +11,8 @@ import { WebView } from 'react-native-webview';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import Config from 'react-native-config';
+
 import analytics from '@react-native-firebase/analytics';
 
 const Checkout: React.FC<{}> = () => {
@@ -188,7 +190,7 @@ const Checkout: React.FC<{}> = () => {
                 setAttemps((at) => at + 1);
               }}
               source={{
-                uri: url,
+                uri: `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
               }}
             />
           </View>

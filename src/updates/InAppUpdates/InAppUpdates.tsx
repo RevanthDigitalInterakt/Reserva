@@ -2,17 +2,15 @@ import checkVersion from 'react-native-store-version';
 import DeviceInfo from 'react-native-device-info';
 import * as Sentry from '@sentry/react-native';
 import SpInAppUpdates, { IAUUpdateKind } from 'sp-react-native-in-app-updates';
+import Config from 'react-native-config';
 
-const IOS_STORE_URL = 'https://apps.apple.com/br/app/reserva/id1566861458';
-const ANDROID_STORE_URL =
-  'https://play.google.com/store/apps/details?id=com.usereserva';
 
 export const haveVersionUpdates = async () => {
   try {
     const { remote, local } = await checkVersion({
       version: DeviceInfo.getVersion(),
-      iosStoreURL: IOS_STORE_URL,
-      androidStoreURL: ANDROID_STORE_URL,
+      iosStoreURL: Config.IOS_STORE_URL,
+      androidStoreURL: Config.ANDROID_STORE_URL,
       country: 'BR',
     });
     const inAppUpdates = new SpInAppUpdates(false);
