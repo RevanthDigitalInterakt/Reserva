@@ -19,6 +19,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
+import OneSignal from "react-native-onesignal";
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
@@ -91,6 +92,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
         navigation.navigate('Home');
+        OneSignal.setExternalUserId(email);
       }
     } catch (error) {
       if (error.message === 'Request failed with status code 400') {
