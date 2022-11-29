@@ -184,8 +184,6 @@ const Checkout: React.FC<{}> = () => {
                 }
               }}
               onNavigationStateChange={(navState) => {
-                console.log('new navstate', navState);
-
                 setNavState(navState.url);
                 setAttemps((at) => at + 1);
               }}
