@@ -115,7 +115,7 @@ export const EditProfile = ({ route }: Props) => {
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false);
 
-  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile } =
+  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile, updateOrderForm } =
     useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
@@ -414,9 +414,10 @@ export const EditProfile = ({ route }: Props) => {
         })
           .then(async () => await identifyCustomer(email))
           .then(() => setLoadingScreen(false))
-          .then(() =>
+          .then(() => {
+            updateOrderForm();
             navigation.navigate('BagScreen', { isProfileComplete: true })
-          );
+          });
       }
     }
   };
