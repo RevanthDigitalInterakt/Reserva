@@ -40,6 +40,7 @@ import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import Config from 'react-native-config';
+import { IS_DEV } from 'utils/enviromentUtils';
 
 const DefaultTheme = {
   colors: {
@@ -248,7 +249,7 @@ const App = () => {
                           <ChronometerContextProvider>
                             <ApolloProvider
                               client={
-                                (isTesting || Config.ENVIRONMENT !== 'production')
+                                (isTesting || IS_DEV)
                                   ? apolloClientTesting
                                   : apolloClientProduction
                               }
