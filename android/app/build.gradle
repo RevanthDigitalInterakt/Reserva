@@ -162,8 +162,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2022131425
-        versionName "1.15.7"
+        versionCode 2022112903
+        versionName "1.15.12"
         missingDimensionStrategy 'react-native-camera', 'general'
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
     }
