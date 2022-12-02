@@ -39,8 +39,7 @@ import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import Config from 'react-native-config';
-import { IS_DEV } from 'utils/enviromentUtils';
+import { IS_DEV } from './utils/enviromentUtils';
 
 const DefaultTheme = {
   colors: {
