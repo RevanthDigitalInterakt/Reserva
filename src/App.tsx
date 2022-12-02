@@ -4,7 +4,7 @@ import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/react-native';
-import { Alert, Linking, Platform, } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
@@ -72,8 +72,7 @@ let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   }
 );
 
-let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-});
+let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {});
 
 const logAppOpenAnalytics = async () => {
   try {
@@ -106,8 +105,7 @@ appsFlyer.initSdk(
     onDeepLinkListener: true,
     timeToWaitForATTUserAuthorization: 10,
   },
-  (result) => {
-  },
+  (result) => {},
   (error) => {
     Sentry.captureException(error);
   }
@@ -123,11 +121,6 @@ const maintenanceHandler = async () => {
 
 const App = () => {
   const [canRegisterUser, setCanRegisterUser] = useState(true);
-
-  useEffect(() => {
-    Linking.addEventListener('url', ({ url }) => {
-    })
-  }, [])
 
   useEffect(() => {
     PushIOManager.configure(

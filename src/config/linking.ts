@@ -6,12 +6,11 @@ import {
 import { Alert, Linking, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
-import { URL } from 'react-native-url-polyfill';
 
-const REGEX_PRODUCT_URL = {
-  _IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
-  _REMOVE_INVALID_WORDS: /\b\/p\b/gi,
-} as const;
+import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
+import { URL } from 'react-native-url-polyfill';
+import {REGEX_PRODUCT_URL} from "../utils/LinkingUtils/static/deepLinkMethods";
+
 
 const routesConfig = {
   screens: {
@@ -57,6 +56,7 @@ export const linkingConfig: LinkingOptions = {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();
 
+    //TODO trocar todo o bloco do if pela funcao linkingUrlListenerHelper src/utils/linkingUtils.ts
     if (url != null) {
       if (
         url === 'https://www.usereserva.com' ||
@@ -113,7 +113,9 @@ export const linkingConfig: LinkingOptions = {
     return message?.data?.link;
   },
   subscribe(listener) {
-    const onReceiveURL = ({ url }: { url: string }) => listener(url);
+    const onReceiveURL = ({ url }: { url: string }) => {
+      listener(deepLinkHelper(url));
+    };
 
     // Listen to incoming links from deep linking
     Linking.addEventListener('url', onReceiveURL);

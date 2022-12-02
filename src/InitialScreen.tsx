@@ -23,7 +23,7 @@ import { useStatusBar } from './context/StatusBarContext';
 import { haveVersionUpdates } from './updates/InAppUpdates/InAppUpdates';
 import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
-import semver from 'semver'
+import semver from 'semver';
 import { useLazyQuery } from '@apollo/client';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
 import CodePushModal from './shared/components/CodePushModal';
@@ -78,40 +78,9 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     });
   };
 
-  useEffect(() => {
-    requestUserPermission();
-    remoteConfig().setDefaults({
-      appName: 'My App',
-      appVersion: '1.0.0',
-    });
-    remoteConfig()
-      .fetchAndActivate()
-      .then(() => {});
-    setFetchInterval();
-    StorageService.setInstallationToken();
-
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      if (remoteMessage.data.link === 'usereserva://storeUpdate') {
-        setPushNotification(remoteMessage);
-        setShowNotification(true);
-      }
-    });
-
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 3000);
-
-    getOnboardingData();
-  }, []);
-
   const onStatusUpdate: AndroidStatusEventListener = (
     status: StatusUpdateEvent
-  ) => {
-  };
+  ) => {};
 
   const startUpdateInApp = async ({
     updateTitle,
@@ -142,11 +111,11 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       const response = await inAppUpdates.checkNeedsUpdate({
         curVersion: local,
         customVersionComparator: () => {
-          const isMajor = semver.gt(remote, local)
+          const isMajor = semver.gt(remote, local);
 
           let isMajorLocalTarget: boolean = false;
           if (versionLocalTarget) {
-            isMajorLocalTarget = semver.eq(versionLocalTarget, local)
+            isMajorLocalTarget = semver.eq(versionLocalTarget, local);
           }
 
           if (isMajor) {
@@ -188,6 +157,45 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
     }
   };
 
+  const getOnboardingData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+    if (appData === 'true') {
+      setOnboardingView(true);
+    } else {
+      setOnboardingView(false);
+    }
+  };
+
+  useEffect(() => {
+    requestUserPermission();
+    remoteConfig().setDefaults({
+      appName: 'My App',
+      appVersion: '1.0.0',
+    });
+    remoteConfig()
+      .fetchAndActivate()
+      .then(() => {});
+    setFetchInterval();
+    StorageService.setInstallationToken();
+
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      if (remoteMessage.data.link === 'usereserva://storeUpdate') {
+        setPushNotification(remoteMessage);
+        setShowNotification(true);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000);
+
+    getOnboardingData();
+  }, []);
+
   useEffect(() => {
     getUpdateInApp().then(({ data: { updateInApp } }) => {
       startUpdateInApp({
@@ -200,15 +208,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       });
     });
   }, []);
-
-  const getOnboardingData = async () => {
-    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
-    if (appData === 'true') {
-      setOnboardingView(true);
-    } else {
-      setOnboardingView(false);
-    }
-  };
 
   return (
     <>

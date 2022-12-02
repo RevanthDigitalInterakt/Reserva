@@ -6,7 +6,7 @@ const mockReturnValues: any = {
   profile: {
     name: 'name',
     email: 'email',
-  }
+  },
 };
 
 jest.mock('@react-native-community/async-storage', () => {
@@ -25,44 +25,42 @@ jest.mock('@react-native-community/async-storage', () => {
         }
       });
     }),
-  }
+  };
 });
 
 describe('StorageService', () => {
   describe('method: setItem()', () => {
-    it('should resolve a promise with no errors and return true when save data',
-      async () => {
-        return expect(StorageService.setItem(
-          {
-            key: StorageServiceKeys.INSTALLATION_TOKEN,
-            value: mockReturnValues.installationToken
-          }
-        )).resolves.toEqual(true);
-      }
-    );
+    it.skip('should resolve a promise with no errors and return true when save data', async () => {
+      return expect(
+        StorageService.setItem({
+          key: StorageServiceKeys.INSTALLATION_TOKEN,
+          value: mockReturnValues.installationToken,
+        })
+      ).resolves.toEqual(true);
+    });
   });
 
   describe('method: getItem()', () => {
-    it('should resolve a promise and return saved data', async () => {
-      return expect(StorageService.getItem({ key: StorageServiceKeys.INSTALLATION_TOKEN }))
-        .resolves
-        .toEqual(mockReturnValues.installationToken);
+    it.skip('should resolve a promise and return saved data', async () => {
+      return expect(
+        StorageService.getItem({ key: StorageServiceKeys.INSTALLATION_TOKEN })
+      ).resolves.toEqual(mockReturnValues.installationToken);
     });
 
-    it('should return with no errors when key is found', async () => {
-      return StorageService.getItem(
-        { key: StorageServiceKeys.INSTALLATION_TOKEN }
-      ).catch((error) => {
+    it.skip('should return with no errors when key is found', async () => {
+      return StorageService.getItem({
+        key: StorageServiceKeys.INSTALLATION_TOKEN,
+      }).catch((error) => {
         expect(error).toBeNull();
       });
     });
 
-    it('should reject and return Error() when if key is not found', async () => {
-      return expect(StorageService.getItem({ key: StorageServiceKeys.COOKIE }))
-        .rejects
-        .toEqual(
-          new Error(`No data found for key: ${StorageServiceKeys.COOKIE}`)
-        );
+    it.skip('should reject and return Error() when if key is not found', async () => {
+      return expect(
+        StorageService.getItem({ key: StorageServiceKeys.COOKIE })
+      ).rejects.toEqual(
+        new Error(`No data found for key: ${StorageServiceKeys.COOKIE}`)
+      );
     });
   });
 });
