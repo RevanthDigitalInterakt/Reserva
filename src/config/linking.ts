@@ -1,8 +1,4 @@
-import {
-  getPathFromState,
-  LinkingOptions,
-  PathConfigMap,
-} from '@react-navigation/native';
+import { getPathFromState, LinkingOptions } from '@react-navigation/native';
 import { Alert, Linking, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';

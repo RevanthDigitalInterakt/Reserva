@@ -14,7 +14,7 @@ import {
   Alert,
   BackHandler,
   Dimensions,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, Linking,
   Platform,
   Text,
   TouchableOpacity,
