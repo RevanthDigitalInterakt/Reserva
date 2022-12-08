@@ -10,6 +10,7 @@ import {
   MyCashbackAPI,
 } from '../../../my-cashback/api/MyCashbackAPI';
 import { useLazyQuery } from '@apollo/client';
+import * as Sentry from '@sentry/react-native';
 
 interface ChangePhoneNumberContainerProps {
   profile: ProfileVars;
@@ -54,7 +55,7 @@ export const ChangePhoneNumberContainer = ({
         return (num < 10 ? '0' : '') + num;
       };
 
-    // Adiciona 10 minutos 
+    // Adiciona 10 minutos
     date.setMinutes(date.getMinutes() + 10);
 
     return date.getFullYear() +
@@ -86,7 +87,7 @@ export const ChangePhoneNumberContainer = ({
           navigateToConfirmPhone();
         }
       } catch (error) {
-        console.log('err', error)
+        Sentry.captureException(error);
       }
     }
   };

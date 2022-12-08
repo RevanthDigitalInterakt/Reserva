@@ -1,15 +1,18 @@
+import { Box, Button } from '@danilomsou/reserva-ui';
+import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, View } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
+import OneSignal from 'react-native-onesignal';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
-import { Box, Button } from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import Config from 'react-native-config';
+
 import analytics from '@react-native-firebase/analytics';
 
 const Checkout: React.FC<{}> = () => {
@@ -18,6 +21,17 @@ const Checkout: React.FC<{}> = () => {
   const [navState, setNavState] = useState('');
   const [checkoutCompleted, setCheckoutCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [url, setUrl] = useState('');
+  const [attemps, setAttemps] = useState(0);
+
+  const removeAbandonedCartTags = () => {
+    OneSignal.sendTags({
+      cart_update: "",
+      product_name: "",
+      product_image: "",
+    })
+  }
+
   const goToHome = () => {
     const check = navState.includes('/checkout/orderPlaced');
 
@@ -49,6 +63,7 @@ const Checkout: React.FC<{}> = () => {
         quantity: orderForm.items.map((item) => item.quantity),
         order_id: orderForm.orderFormId,
       });
+
     }
   };
 
@@ -65,6 +80,8 @@ const Checkout: React.FC<{}> = () => {
           af_revenue = (revenue_total / 100).toFixed(2);
         }
 
+        OneSignal.sendOutcomeWithValue('Purchase', (orderForm.value / 100).toFixed(2));
+
         appsFlyer.logEvent('af_purchase', {
           af_revenue: `${af_revenue}`,
           af_price: `${(orderForm.value / 100).toFixed(2)}`,
@@ -77,6 +94,8 @@ const Checkout: React.FC<{}> = () => {
           af_order_id: orderForm.orderFormId,
           // af_receipt_id: orderForm.paymentData,
         });
+
+
 
         analytics().logPurchase({
           affiliation: 'APP',
@@ -101,9 +120,22 @@ const Checkout: React.FC<{}> = () => {
         });
       }
       orderform();
+      removeAbandonedCartTags();
       setCheckoutCompleted(true);
     }
   }, [navState]);
+
+  useEffect(() => {
+    setUrl(
+      `https://applojausereserva.vtexcommercestable.com.br/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`
+    );
+  }, []);
+
+  useEffect(() => {
+    if (attemps > 15) {
+      setUrl(`https://www.usereserva.com/checkout/?orderFormId=${orderForm?.orderFormId}#/cart&sc=4`)
+    }
+  }, [attemps])
 
   return (
     <View flex={1} backgroundColor={'white'}>
@@ -119,9 +151,7 @@ const Checkout: React.FC<{}> = () => {
         >
           <LottieView
             source={loadingSpinner}
-            style={{
-              width: 60,
-            }}
+            style={{ width: 60 }}
             autoPlay
             loop
           />
@@ -133,14 +163,14 @@ const Checkout: React.FC<{}> = () => {
         <TopBarBackButton showShadow />
       )}
       <Box>
-        {orderForm?.orderFormId !== '' && (
+        {!!(orderForm?.orderFormId !== '' && url) && (
           <View
             style={{
               width: '100%',
               height:
                 Dimensions.get('window').height -
                 (navState.includes('/checkout/orderPlaced') ? 200 : 100),
-              backgroundColor: 'red',
+              backgroundColor: '#ffffff',
             }}
           >
             <WebView
@@ -157,9 +187,10 @@ const Checkout: React.FC<{}> = () => {
               }}
               onNavigationStateChange={(navState) => {
                 setNavState(navState.url);
+                setAttemps((at) => at + 1);
               }}
               source={{
-                uri: `https://applojausereserva.vtexcommercestable.com.br/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
+                uri: `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
               }}
             />
           </View>

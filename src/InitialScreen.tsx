@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import messaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { Platform, StatusBar } from 'react-native';
+import { Linking, Platform, StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-lottie-splash-screen';
@@ -23,10 +23,12 @@ import { useStatusBar } from './context/StatusBarContext';
 import { haveVersionUpdates } from './updates/InAppUpdates/InAppUpdates';
 import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
-import semver from 'semver'
+import semver from 'semver';
 import { useLazyQuery } from '@apollo/client';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
 import CodePushModal from './shared/components/CodePushModal';
+import { useNavigation } from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -47,16 +49,10 @@ async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
   await messaging()
     .getToken()
-    .then((token) => {
-      console.log('token', token);
-    });
+    .then((token) => {});
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-  }
 }
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
@@ -81,46 +77,10 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       fetchTimeMillis: 30000,
     });
   };
-  useEffect(() => {
-    requestUserPermission();
-    remoteConfig().setDefaults({
-      appName: 'My App',
-      appVersion: '1.0.0',
-    });
-    remoteConfig()
-      .fetchAndActivate()
-      .then(() => {
-        console.log('Remote Config fetched');
-      });
-    setFetchInterval();
-    StorageService.setInstallationToken();
-
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      if (remoteMessage.data.link === 'usereserva://storeUpdate') {
-        setPushNotification(remoteMessage);
-        setShowNotification(true);
-      }
-    });
-
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 3000);
-
-    getOnboardingData();
-  }, []);
 
   const onStatusUpdate: AndroidStatusEventListener = (
     status: StatusUpdateEvent
-  ) => {
-    console.log(
-      '🚀 ~ file: InitialScreen.tsx ~ line 90 ~ onStatusUpdate ~ status',
-      status
-    );
-  };
+  ) => {};
 
   const startUpdateInApp = async ({
     updateTitle,
@@ -151,11 +111,11 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       const response = await inAppUpdates.checkNeedsUpdate({
         curVersion: local,
         customVersionComparator: () => {
-          const isMajor = semver.gt(remote, local)
+          const isMajor = semver.gt(remote, local);
 
           let isMajorLocalTarget: boolean = false;
           if (versionLocalTarget) {
-            isMajorLocalTarget = semver.eq(versionLocalTarget, local)
+            isMajorLocalTarget = semver.eq(versionLocalTarget, local);
           }
 
           if (isMajor) {
@@ -166,10 +126,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
           return -1;
         },
       });
-      console.log(
-        '🚀 ~ file: InitialScreen.tsx ~ line 119 ~ init ~ response',
-        response
-      );
       if (response.shouldUpdate) {
         inAppUpdates.addStatusUpdateListener(onStatusUpdate);
 
@@ -197,9 +153,48 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       }
       return response.shouldUpdate;
     } catch (error) {
-      console.log(error);
+      Sentry.captureException(error);
     }
   };
+
+  const getOnboardingData = async () => {
+    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+    if (appData === 'true') {
+      setOnboardingView(true);
+    } else {
+      setOnboardingView(false);
+    }
+  };
+
+  useEffect(() => {
+    requestUserPermission();
+    remoteConfig().setDefaults({
+      appName: 'My App',
+      appVersion: '1.0.0',
+    });
+    remoteConfig()
+      .fetchAndActivate()
+      .then(() => {});
+    setFetchInterval();
+    StorageService.setInstallationToken();
+
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      if (remoteMessage.data.link === 'usereserva://storeUpdate') {
+        setPushNotification(remoteMessage);
+        setShowNotification(true);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000);
+
+    getOnboardingData();
+  }, []);
 
   useEffect(() => {
     getUpdateInApp().then(({ data: { updateInApp } }) => {
@@ -211,21 +206,8 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
         onlyPlatform: updateInApp?.onlyPlatform,
         updateAllVersions: updateInApp?.updateAllVersions,
       });
-      console.log(
-        '🚀 ~ file: InitialScreen.tsx ~ line 164 ~ getUpdateInApp ~ data',
-        updateInApp
-      );
     });
   }, []);
-
-  const getOnboardingData = async () => {
-    const appData = await AsyncStorage.getItem('isAppFirstLaunched');
-    if (appData === 'true') {
-      setOnboardingView(true);
-    } else {
-      setOnboardingView(false);
-    }
-  };
 
   return (
     <>

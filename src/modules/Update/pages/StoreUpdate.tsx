@@ -36,13 +36,11 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
       const id = Platform.OS == 'ios' ? '1566861458' : 'com.usereserva'
 
       const { version: storeVersion } = await getAppstoreAppMetadata(id)
-      console.log('store data: ', storeVersion, DeviceInfo.getVersion())
-      // setIsVisible(true)
 
       const storeUpdateAsyncStorageKey = 'store-update-date-time'
 
       let storeUpdateDateTime = await AsyncStorage.getItem(storeUpdateAsyncStorageKey)
-      console.log('storeUpdateDateTime', storeUpdateDateTime)
+
       await AsyncStorage.setItem(storeUpdateAsyncStorageKey, '')
 
       if (needUpdate(DeviceInfo.getVersion(), storeVersion)) {

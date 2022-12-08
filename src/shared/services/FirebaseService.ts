@@ -20,13 +20,9 @@ export class FirebaseService {
     const uploading = reference.putFile(pathToFileOnDevice);
 
     uploading.on('state_changed', (taskSnapshot: any) => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-      );
     });
 
     await uploading.then(() => {
-      console.log('Image uploaded to the bucket!');
     });
 
     return reference.fullPath;

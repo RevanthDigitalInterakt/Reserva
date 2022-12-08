@@ -64,24 +64,6 @@ export const ShippingBar = ({
     });
   }, [sumPriceShipping]);
 
-  // useEffect(() => {
-  //   console.log(
-  //     'COLLECTION DATA :::::::::::::>>>>>>>',
-  //     collectionData?.configCollection?.items[0]?.shippingBar?.isFreeShipping
-  //   );
-  //   if (collectionData !== null) {
-  //     const freeShippingValueData =
-  //       collectionData?.configCollection?.items[0]?.shippingBar
-  //         ?.freeShippingValue;
-
-  //     const isFreeShippingData =
-  //       collectionData?.configCollection?.items[0]?.shippingBar?.isFreeShipping;
-
-  //     setFreeShippingValue(freeShippingValueData);
-  //     setIsFreeShipping(isFreeShippingData);
-  //   }
-  // }, [collectionData]);
-
   useFocusEffect(
     useCallback(() => {
       if (collectionData !== null) {

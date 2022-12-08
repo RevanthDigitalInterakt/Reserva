@@ -668,15 +668,15 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - OneSignal (3.11.3):
-    - OneSignal/OneSignalCore (= 3.11.3)
-    - OneSignal/OneSignalExtension (= 3.11.3)
-    - OneSignal/OneSignalOutcomes (= 3.11.3)
-  - OneSignal/OneSignalCore (3.11.3)
-  - OneSignal/OneSignalExtension (3.11.3):
+  - OneSignal (3.11.5):
+    - OneSignal/OneSignalCore (= 3.11.5)
+    - OneSignal/OneSignalExtension (= 3.11.5)
+    - OneSignal/OneSignalOutcomes (= 3.11.5)
+  - OneSignal/OneSignalCore (3.11.5)
+  - OneSignal/OneSignalExtension (3.11.5):
     - OneSignal/OneSignalCore
     - OneSignal/OneSignalOutcomes
-  - OneSignal/OneSignalOutcomes (3.11.3):
+  - OneSignal/OneSignalOutcomes (3.11.5):
     - OneSignal/OneSignalCore
   - OneSignalXCFramework (3.11.2):
     - OneSignalXCFramework/OneSignalCore (= 3.11.2)
@@ -909,6 +909,10 @@ PODS:
   - react-native-cardscan (1.1.30):
     - CardScan (~> 2.0.9)
     - React
+  - react-native-config (1.4.11):
+    - react-native-config/App (= 1.4.11)
+  - react-native-config/App (1.4.11):
+    - React-Core
   - react-native-flipper (0.119.0):
     - React-Core
   - react-native-geolocation (2.1.0):
@@ -1179,6 +1183,7 @@ DEPENDENCIES:
   - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-cardscan (from `../node_modules/react-native-cardscan/react-native-cardscan.podspec`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps`)
@@ -1348,6 +1353,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-cardscan:
     :path: "../node_modules/react-native-cardscan/react-native-cardscan.podspec"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-flipper:
     :path: "../node_modules/react-native-flipper"
   react-native-geolocation:
@@ -1473,7 +1480,7 @@ SPEC CHECKSUMS:
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: caeac8f7118b8f7b05c5b9b4e6ffa71ba9d22edc
+  FBReactNativeSpec: b6c055d3bc39446d586a0cd9622c29e8eb099ee1
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1514,7 +1521,7 @@ SPEC CHECKSUMS:
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OneSignal: d24237738defb21acdd41046f90435e6ad12bf23
+  OneSignal: ec0981cf056f4723da54bfd46842c3c2adf00df3
   OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d
@@ -1538,6 +1545,7 @@ SPEC CHECKSUMS:
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-cardscan: 8592ae8d474e4b1254ea7a4968caa00e559c8677
+  react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-flipper: e079eb24149005c71ca9067a6ae49d74cfb3dfbd
   react-native-geolocation: 69f4fd37650b8e7fee91816d395e62dd16f5ab8d
   react-native-google-maps: 915cea64470a6e7581b782d8659bf8a7e2dee302

@@ -8,8 +8,6 @@
 #import <CodePush/CodePush.h>
 #import "RNSplashScreen.h"
 #import "reserva-Swift.h"
-#import "reserva-Swift.h"
-
 #import <React/RCTLinkingManager.h>
 
 #ifdef FB_SONARKIT_ENABLED
@@ -156,4 +154,5 @@ withCompletionHandler:completionHandler];
                   continueUserActivity:userActivity
                     restorationHandler:restorationHandler];
 }
+
 @end

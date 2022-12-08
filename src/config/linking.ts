@@ -1,42 +1,98 @@
-import { LinkingOptions } from '@react-navigation/native';
-import { Linking } from 'react-native';
+import { getPathFromState, LinkingOptions } from '@react-navigation/native';
+import { Alert, Linking, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush'
+import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
+
+import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
+import { URL } from 'react-native-url-polyfill';
+import {REGEX_PRODUCT_URL} from "../utils/LinkingUtils/static/deepLinkMethods";
+
 
 const routesConfig = {
   screens: {
     Main: {
+      initialRouteName: 'HomeTabs',
       screens: {
         WishList: 'wishlist',
+        BagScreen: 'bag',
         HomeTabs: {
           path: 'home-tabs',
           screens: {
-            Offers: 'offers',
+            Offers: 'ofertas',
             WishList: 'wishlist',
             Profile: 'profile',
             Call: 'call-center',
           },
         },
+        ProductDetail: {
+          path: 'product',
+        },
         ProductCatalog: {
           path: 'catalog/:referenceId',
         },
-        ProductDetail: {
-          path: 'product/:productId/:colorSelected',
+        MY_CASHBACK_MY_WALLET: {
+          path: 'wallet-cashback',
         },
       },
     },
   },
 };
 export const linkingConfig: LinkingOptions = {
-  prefixes: ['usereserva://', 'https://www.usereserva.com'],
+  prefixes: ['usereserva://', 'https://www.usereserva.com/'],
   config: routesConfig,
-
+  getPathFromState(state) {
+    const path = getPathFromState(state);
+    if (path) {
+      return path;
+    }
+    return '';
+  },
   // Push notification firebase
   async getInitialURL() {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();
+
+    //TODO trocar todo o bloco do if pela funcao linkingUrlListenerHelper src/utils/linkingUtils.ts
     if (url != null) {
-      return url;
+      if (
+        url === 'https://www.usereserva.com' ||
+        url === 'https://www.usereserva.com/'
+      ) {
+        return 'usereserva://home-tabs';
+      }
+
+      if (REGEX_PRODUCT_URL._IS_PRODUCT_URL.test(url.toLowerCase())) {
+        const productUrl = new URL(url);
+
+        if (!productUrl.search.length) {
+          productUrl.searchParams.append(
+            'slug',
+            productUrl.pathname
+              .replace(REGEX_PRODUCT_URL._REMOVE_INVALID_WORDS, '')
+              .replace('/', '')
+          );
+        }
+
+        return `usereserva://product?${productUrl.search.replace('?', '')}`;
+      }
+
+      if (url.endsWith('colecao-reserva/ofertas')) {
+        return 'usereserva://home-tabs';
+      }
+
+      if (url.includes('account#/wishlist')) {
+        return 'usereserva://home-tabs/wishlist';
+      }
+
+      if (url.includes('account#')) {
+        return 'usereserva://home-tabs/profile';
+      }
+
+      if (Platform.OS === 'ios') {
+        Linking.openURL(url);
+      }
+
+      return 'usereserva://home-tabs';
     }
 
     // Check if there is an initial firebase notification
@@ -44,8 +100,8 @@ export const linkingConfig: LinkingOptions = {
     const message = await messaging().getInitialNotification();
 
     //update app in store
-    if (message?.data?.link === "usereserva://storeUpdate") {
-      StoreUpdatePush()
+    if (message?.data?.link === 'usereserva://storeUpdate') {
+      StoreUpdatePush();
     }
 
     // Get deep link from data
@@ -53,7 +109,9 @@ export const linkingConfig: LinkingOptions = {
     return message?.data?.link;
   },
   subscribe(listener) {
-    const onReceiveURL = ({ url }: { url: string }) => listener(url);
+    const onReceiveURL = ({ url }: { url: string }) => {
+      listener(deepLinkHelper(url));
+    };
 
     // Listen to incoming links from deep linking
     Linking.addEventListener('url', onReceiveURL);
@@ -67,13 +125,13 @@ export const linkingConfig: LinkingOptions = {
         if (url) {
           // Any custom logic to check whether the URL needs to be handled
           // Call the listener to let React Navigation handle the URL
-          if (url === "usereserva://storeUpdate") {
-            StoreUpdatePush()
+          if (url === 'usereserva://storeUpdate') {
+            StoreUpdatePush();
           } else {
             listener(url);
           }
         }
-      },
+      }
     );
 
     return () => {
@@ -82,5 +140,4 @@ export const linkingConfig: LinkingOptions = {
       unsubscribeNotification();
     };
   },
-
-}
+};

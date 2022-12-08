@@ -64,8 +64,8 @@ export interface ICountDownClock {
   title: string;
   subtitle: string;
   watchType: number;
-  countdown: string;
   countdownStart: string;
+  countdown: string;
   titleButton: string;
   titleModal: string;
   descriptionModal: string;
@@ -73,17 +73,6 @@ export interface ICountDownClock {
   formattedValue?: string | undefined;
 }
 
-export interface ICountDownClockReservaMini {
-  title: string;
-  subtitle: string;
-  watchType: number;
-  countdown: string;
-  titleButton: string;
-  titleModal: string;
-  descriptionModal: string;
-  reference: string;
-  formattedValue?: string | undefined;
-}
 
 export const homeQuery = gql`
   query homePageCollection {

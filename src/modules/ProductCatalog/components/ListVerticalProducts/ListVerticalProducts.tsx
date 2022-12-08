@@ -4,7 +4,7 @@ import {
   Button,
   ProductVerticalListCard,
   ProductVerticalListCardProps,
-  Typography
+  Typography,
 } from '@danilomsou/reserva-ui';
 import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -28,8 +28,8 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-  | React.ComponentType<any>
-  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
   handleScrollToTheTop?: () => void;
 }
@@ -266,10 +266,10 @@ export const ListVerticalProducts = ({
             )}
             onEndReached={async () => {
               if (totalProducts) {
-                if (products.length < totalProducts) {
+                if (products?.length < totalProducts) {
                   setIsLoadingMore(true);
-                  if (totalProducts > products.length) {
-                    await loadMoreProducts(products.length);
+                  if (totalProducts > products?.length) {
+                    await loadMoreProducts(products?.length);
                   }
                   setIsLoadingMore(false);
                 } else {
@@ -304,37 +304,51 @@ export const ListVerticalProducts = ({
             ListHeaderComponent={listHeader}
             renderItem={({ item, index }) => {
               let installments;
-              
+
               let countPosition = 0;
-              while (item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments.length === 0) {
-                countPosition++
+              while (
+                item?.items[0]?.sellers[countPosition]?.commertialOffer
+                  ?.Installments?.length === 0
+              ) {
+                countPosition++;
               }
 
-              const listPrice =  item?.items[0]?.sellers[countPosition]?.commertialOffer.ListPrice || 0
-              const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price || 0
-              installments = item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments
+              const listPrice =
+                item?.items[0]?.sellers[countPosition]?.commertialOffer
+                  .ListPrice || 0;
+              const sellingPrice =
+                item?.items[0]?.sellers[countPosition]?.commertialOffer.Price ||
+                0;
+              installments =
+                item?.items[0]?.sellers[countPosition]?.commertialOffer
+                  ?.Installments;
 
-              const installmentsNumber = installments?.reduce((prev, next) =>
-                prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
-                { NumberOfInstallments: 0, Value: 0 })
-              
+              const installmentsNumber = installments?.reduce(
+                (prev, next) =>
+                  prev.NumberOfInstallments > next.NumberOfInstallments
+                    ? prev
+                    : next,
+                { NumberOfInstallments: 0, Value: 0 }
+              );
+
               let discountTag;
-              if(listPrice && sellingPrice){
-                 discountTag = getPercent(
-                  sellingPrice,
-                  listPrice
-                  );
-                }
+              if (listPrice && sellingPrice) {
+                discountTag = getPercent(sellingPrice, listPrice);
+              }
 
               const cashPaymentPrice =
                 !!discountTag && discountTag > 0
                   ? sellingPrice
                   : listPrice || 0;
 
-              const installmentPrice = installments?.reduce((prev, next) =>
-                prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
-                { NumberOfInstallments: 0, Value: 0 })
-              
+              const installmentPrice = installments?.reduce(
+                (prev, next) =>
+                  prev.NumberOfInstallments > next.NumberOfInstallments
+                    ? prev
+                    : next,
+                { NumberOfInstallments: 0, Value: 0 }
+              );
+
               // item.priceRange?.listPrice?.lowPrice;
               const colors = new ProductUtils().getColorsArray(item);
               return (
@@ -343,10 +357,10 @@ export const ListVerticalProducts = ({
                   index={index}
                   horizontal={horizontal}
                   loadingFavorite={
-                    !!loadingFavorite.find((x) => x == item.items[0].itemId)
+                    !!loadingFavorite.find((x) => x == item?.items[0]?.itemId)
                   }
                   isFavorited={
-                    !!favorites.find((x) => x.sku == item.items[0].itemId)
+                    !!favorites.find((x) => x.sku == item?.items[0]?.itemId)
                   } // item.isFavorite}
                   onClickFavorite={(isFavorite) => {
                     // setLoafingFavorite([...loadingFavorite, item.productId])
@@ -354,14 +368,15 @@ export const ListVerticalProducts = ({
                     // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
                   }}
                   // colors={null}
-                  imageSource={item.items[0].images[0].imageUrl}
-                  installmentsNumber={installmentsNumber?.NumberOfInstallments || 1} // numero de parcelas
-                  installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0} // valor das parcelas
+                  imageSource={item?.items[0]?.images[0]?.imageUrl}
+                  installmentsNumber={
+                    installmentsNumber?.NumberOfInstallments || 1
+                  } // numero de parcelas
+                  installmentsPrice={
+                    installmentPrice?.Value || cashPaymentPrice || 0
+                  } // valor das parcelas
                   currency="R$"
-                  discountTag={getPercent(
-                    sellingPrice,
-                    listPrice
-                  )}
+                  discountTag={getPercent(sellingPrice, listPrice)}
                   saleOff={getSaleOff(item)}
                   priceWithDiscount={sellingPrice}
                   price={listPrice || 0}
@@ -370,9 +385,9 @@ export const ListVerticalProducts = ({
                     navigation.navigate('ProductDetail', {
                       productId: item.productId,
                       colorSelected: getVariant(
-                        item.items[0].variations,
+                        item?.items[0]?.variations,
                         'ID_COR_ORIGINAL'
-                      )
+                      ),
                     });
 
                     if (handleScrollToTheTop) {
@@ -429,10 +444,10 @@ const ProductItem: React.FC<ProductItemInterface> = ({
       height={353}
       mr={horizontal && 'xxxs'}
     >
-      {!!item.items[0].images[0].imageUrl && (
+      {!!item?.items[0]?.images[0]?.imageUrl && (
         <ProductVerticalListCard
           {...props}
-          imageSource={item.items[0].images[0].imageUrl}
+          imageSource={item?.items[0]?.images[0]?.imageUrl}
         />
       )}
     </Box>

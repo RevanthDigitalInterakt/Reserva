@@ -89,7 +89,7 @@ export const RegisterPhoneNumberContainer = ({
         return (num < 10 ? '0' : '') + num;
       };
 
-    // Adiciona 10 minutos 
+    // Adiciona 10 minutos
     date.setMinutes(date.getMinutes() + 10);
 
     return date.getFullYear() +
@@ -219,9 +219,6 @@ export const RegisterPhoneNumberContainer = ({
   };
 
   const resendNewCode = () => {
-    console.log('aqui');
-    // console.log('phoneInvalid::>', phoneInvalid);
-    // console.log('phone::>', phone);
     handleRegisterPhoneNumber();
   };
 

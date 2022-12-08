@@ -51,7 +51,6 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
   const edgesSpacing = edgesSize * (innerQrDetailSize / edgesSize - 2);
 
   const HandleOnPressBottom = () => {
-    console.log('isFinalizingRace', isFinalizingRace);
     if (isFinalizingRace && selectedModality === 'presential') {
       navigation.navigate('RaceFinalized');
     } else {
@@ -69,9 +68,6 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
     );
 
   const onSuccess = (qrEvent: BarCodeReadEvent) => {
-    console.log(
-      ValidCodes.find((validCode) => validCode.code === qrEvent.data.trim())
-    );
     if (isFinalizingRace) {
       if (getFinalValidQr(qrEvent.data.trim()))
         setSelectedKit(getFinalValidQr(qrEvent.data.trim()));

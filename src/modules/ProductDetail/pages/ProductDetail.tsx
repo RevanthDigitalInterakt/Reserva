@@ -1,15 +1,22 @@
-import { QueryResult, useLazyQuery, useMutation } from '@apollo/client';
+import {
+  QueryResult,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
-import { addDays, format } from 'date-fns';
+import { addDays, format, lightFormat } from 'date-fns';
 import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
+  BackHandler,
   Dimensions,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, Linking,
   Platform,
+  Text,
   TouchableOpacity,
 } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
@@ -52,10 +59,12 @@ import { ModalZoomImage } from '../components/ModalZoomImage';
 import { Recommendation } from '../components/Recommendation';
 import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
+import Config from 'react-native-config';
+import OneSignal from 'react-native-onesignal';
+import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSlug';
+import * as Sentry from '@sentry/react-native';
 
 const screenWidth = Dimensions.get('window').width;
-
-let recomendedScroll = createRef<ScrollView>();
 
 interface ProductDetailProps {
   recomendedProducts?: ProductVerticalListCardProps[];
@@ -137,9 +146,6 @@ type Product = {
   description: string;
 };
 
-type ProductQueryResponse = {
-  product: Product;
-};
 export interface ClusterHighlight {
   id?: string;
   name?: string;
@@ -166,64 +172,9 @@ export const ProductDetail: React.FC<Props> = ({
   recomendedProducts,
 }) => {
   /**
-   * States, queries and mutations
+   * States
    */
-  const [product, setProduct] = useState<Product | null>(null);
-  const [{ data, loading }, setProductLoad] = useState({
-    data: null,
-    loading: true,
-  });
-  const [getProduct] = useLazyQuery(GET_PRODUCTS, {
-    variables: {
-      id: route.params.productId.split('-')[0],
-      salesChannel: 4,
-    },
-  });
-
-  const [checkListRefetch] = useLazyQuery(wishListQueries.CHECK_LIST, {
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
-  });
-
-  const refetch = () => {
-    setProductLoad({
-      data: null,
-      loading: true,
-    });
-
-    getProduct().then((response) => {
-      setProductLoad({
-        data: response.data,
-        loading: false,
-      });
-    });
-  };
-
-  useEffect(() => {
-    refetch();
-  }, [route.params.productId]);
-
-  const [
-    subscribeNewsletter,
-    {
-      loading: newsletterLoading,
-      data: newsletterData,
-      error: newsletterError,
-    },
-  ] = useMutation(SUBSCRIBE_NEWSLETTER);
-
-  const [shippingCost, setShippingCost] = useState<ShippingCost[]>([]);
-
-  const [
-    getShippingData,
-    {
-      loading: shippingLoading,
-      error,
-      // data: shippingData,
-      refetch: shippingRefetch,
-    },
-  ] = useLazyQuery(GET_SHIPPING, { fetchPolicy: 'no-cache' });
-
+  const [idSku, setIdSku] = useState<string>('');
   const [imageSelected, setImageSelected] = useState<any>([]);
   const [itemsSKU, setItemsSKU] = useState<any>([]);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
@@ -237,7 +188,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [errorSize, setErrorSize] = useState(false);
   const [selectedSellerId, setSelectedSellerId] = useState<string>('');
-  const [sellerProduct, setSellerProduct] = useState<Seller | undefined>()
+  const [sellerProduct, setSellerProduct] = useState<Seller | undefined>();
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleZoomImage, setIsVisibleZoomImage] = useState(false);
   const [skip, setSkip] = useState(false);
@@ -254,239 +205,78 @@ export const ProductDetail: React.FC<Props> = ({
     listIds: [''],
     inList: false,
   });
-  const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
-
+  const [product, setProduct] = useState<Product | null>(null);
+  const [{ data, loading }, setProductLoad] = useState({
+    data: null,
+    loading: true,
+  });
   const [cep, setCep] = useState('');
   const [emailPromotions, setEmailPromotions] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [showMessageError, setShowMessageError] = useState(false);
-  const [
-    addWishList,
-    { data: addWishListData, error: addWishListError, loading: addWishLoading },
-  ] = useMutation(wishListQueries.ADD_WISH_LIST);
-  const [
-    removeWishList,
-    {
-      data: removeWishListData,
-      error: removeWishListError,
-      loading: removeWishLoading,
-    },
-  ] = useMutation(wishListQueries.REMOVE_WISH_LIST);
-
-  const { email } = useAuth();
   const [isLastUnits, setIsLastUnits] = useState(false);
   const [imageIndexActual, setImageIndexActual] = useState<number>(0);
-  // const [imagesUri, setImagesUri] = useState<string[]>([]);
-  // const { fetchImage } = useCacheImages();
-
   const scrollRef = useRef<ScrollView>();
-
   const [shippingData, setShippingData] = useState<any | null>({});
+  const [shippingCost, setShippingCost] = useState<ShippingCost[]>([]);
 
-  // useEffect(() => {
-  //   if (imageSelected.length > 0) {
-  //     Promise.all([
-  //       ...imageSelected[0][0].map((image) => fetchImage(image.imageUrl)),
-  //     ]).then((images) => {
-  //       setImagesUri(images);
-  //     });
-  //   }
-  // }, [imageSelected]);
+  /** Contexts */
+  const { addItem, orderForm } = useCart();
+  const { email } = useAuth();
 
-  /***
-   * Effects
+  /**
+   * Queries
    */
-  useEffect(() => {
-    remoteConfig().fetchAndActivate();
-    const value = remoteConfig().getValue('sale_off_tag');
-    setSaleOffTag(value.asBoolean());
+  const [getProduct] = useLazyQuery(GET_PRODUCTS, {
+    variables: {
+      field: route?.params?.productId ? 'id' : 'sku',
+      value: route?.params?.productId
+        ? route?.params?.productId?.split('-')[0]
+        : idSku,
+      salesChannel: 4,
+    },
+  });
 
-    refetch();
-  }, []);
+  const [checkListRefetch] = useLazyQuery(wishListQueries.CHECK_LIST, {
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
+  });
 
-  useEffect(() => {
-    refetchChecklist();
+  const [getProductWithSlug] = useLazyQuery(GET_PRODUCT_WITH_SLUG);
+
+  const [getShippingData] = useLazyQuery(GET_SHIPPING, {
+    fetchPolicy: 'no-cache',
+  });
+
+  /**
+   * Mutations
+   */
+  const [subscribeNewsletter] = useMutation(SUBSCRIBE_NEWSLETTER);
+  const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
+  const [removeWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
+
+  const isAssinaturaSimples = useMemo(() => {
+    const description =
+      'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)';
+
+    return product?.description.includes(description);
   }, [product]);
 
-  useEffect(() => {
-    refetchChecklist();
-  }, [selectedVariant]);
+  const refetch = () => {
+    setProductLoad({
+      data: null,
+      loading: true,
+    });
 
-  // selectedVariant?.itemId
-
-  useEffect(() => {
-    if (data) {
-      const { product } = data;
-      setProduct(product);
-
-      // set default first selected variant
-      let variant = product.items.find(
-        (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
-      );
-
-      setAvaibleUnits(variant?.sellers[0].commertialOffer.AvailableQuantity);
-      setSelectedVariant(variant);
-
-      const disabledColors = getUnavailableColors(product);
-      getAllUnavailableColors(product);
-
-      // set colors filter
-      getColorsList(product);
-
-      const colorList = getAllColors(product);
-
-      // set size filter
-      const sizeList = getSizeList(product);
-      setSizeFilters(sizeList);
-
-      const colorItemId = product.items
-        .find((item) => item.itemId == route.params?.itemId)
-        ?.variations?.find((x) => x.name == 'ID_COR_ORIGINAL')?.values;
-
-      // get the product color
-      const sizeItemId = product.items
-        .find((item) => item.itemId == route.params?.itemId)
-        ?.variations?.find((x) => x.name == 'Tamanho')?.values;
-
-      setColorFilters(colorList);
-
-      // set initial selected color
-      if (route.params?.itemId) {
-        if (colorItemId) {
-          setSelectedColor(colorItemId[0]);
-          setSelectedNewColor(colorItemId[0]);
-          variant = product.items.find(
-            (x) =>
-              x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
-                ?.values[0] == colorItemId[0]
-          );
-        } else {
-          if (colorList) {
-            setSelectedColor(colorList[0]);
-            setSelectedNewColor(colorList[0]);
-            variant = product.items.find(
-              (x) =>
-                x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
-                  ?.values[0] == colorList[0]
-            );
-          }
-        }
-      } else {
-        setSelectedColor(colorList ? route.params.colorSelected : '');
-        setSelectedNewColor(colorList ? route.params.colorSelected : '');
-        variant = product.items.find(
-          (x) =>
-            x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')?.values[0] ==
-            route.params.colorSelected
-        );
-      }
-
-      setSelectedVariant(variant);
-      // setSelectedColor(colorList
-      //   ? route.params.colorSelected
-      //     ? route.params.colorSelected
-      //     : variant
-      //       ? variant?.variations[2]?.values[0]
-      //       : ''
-      //   : ''
-      // );
-
-      let itemList = colorList?.map((color) => {
-        return {
-          color,
-          images: getImagesPerColor(product, color),
-          sizeList: getSizePerColor(product, color),
-        };
+    getProduct().then((response) => {
+      setProductLoad({
+        data: response.data,
+        loading: false,
       });
+    });
+  };
 
-      let defaultSize = itemList
-        ?.find((item) => item.color == route.params.colorSelected)
-        ?.sizeList.find((size) => size?.available);
-
-      // if (route.params?.sizeSelected) {
-      //   const favoritedSize = route.params?.sizeSelected;
-      //   setSelectedSize(favoritedSize.trim()); //item favorite
-      // } else {
-      //   defaultSize?.size && setSelectedSize(defaultSize?.size);
-      // }
-
-      setItemsSKU(itemList);
-      appsFlyer.logEvent('af_content_view', {
-        af_price: product.priceRange.listPrice.lowPrice,
-        af_content: product.productName,
-        af_content_id: product.productId,
-        af_content_type: product.categoryTree.map((x) => x.name).join(),
-        af_currency: 'BRL',
-      });
-      analytics().logEvent('product_view', {
-        product_id: product.productId,
-        product_name: product.productName,
-        product_category: product.categoryTree.map((x) => x.name).join(),
-        product_price: product.priceRange.listPrice.lowPrice,
-        product_currency: 'BRL',
-      });
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (
-      route.params.selectedSize !== undefined &&
-      route.params.selectedSize !== ''
-    ) {
-      // setSelectedSize(route.params.selectedSize.trim());
-    }
-  }, [route.params.selectedSize]);
-
-  useEffect(() => {
-    if (itemsSKU !== undefined && itemsSKU.length > 0 && selectedColor !== '') {
-      setImageSelected(
-        itemsSKU
-          .map((p) => p.color === selectedColor && p.images)
-          .filter((a) => a !== false)
-      );
-
-      // console.log(
-      //   'sku',
-      //   itemsSKU
-      //     .map(
-      //       (p) =>
-      //         p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
-      //     )
-      //     .filter((a) => a !== false)[0]
-      // );
-
-      const sizeFilters = new ProductUtils().orderSizes(
-        itemsSKU
-          .map(
-            (p) =>
-              p.color === selectedColor && p.sizeList.map((sizes) => sizes.size)
-          )
-          .filter((a) => a !== false)[0]
-          .filter((x) => x !== '')
-      );
-      setSizeFilters(sizeFilters);
-
-      const unavailableSizes = itemsSKU
-        .map(
-          (p) =>
-            p.color === selectedColor &&
-            p.sizeList.map((sizes) => !sizes.available && sizes.size)
-        )
-        .filter((a) => a !== false)[0];
-
-      setUnavailableSizes(unavailableSizes);
-
-      const hasSize = sizeFilters?.map((x) => unavailableSizes.includes(x));
-      const index = hasSize?.findIndex((x) => x === false);
-      if (index === -1) {
-        setoutOfStock(true);
-      } else {
-        setoutOfStock(false);
-      }
-    }
-  }, [selectedColor, itemsSKU]);
-
-  const getAllUnavailableColors = ({ items, skuSpecifications }: Product) => {
+  const getAllUnavailableColors = ({ items }: Product) => {
     const colorsUnavailable = items.map((item) => {
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
         return item.variations?.find(
@@ -499,7 +289,7 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getUrlFromIdColor = (idColor: string) => {
     return {
-      url: `https://lojausereserva.vtexassets.com/arquivos/color-thumb-${idColor}.jpg`,
+      url: `${Config.URL_VTEX_ASSETS}/color-thumb-${idColor}.jpg`,
       id: idColor,
     };
   };
@@ -511,130 +301,14 @@ export const ProductDetail: React.FC<Props> = ({
     return colors;
   };
 
-  const getHexColor = (idColor: string, { skuSpecifications }: Product) => {
-    // get index of color
-    const index = skuSpecifications
-      .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
-      ?.values.findIndex(({ name }) => name === idColor);
-
-    // get color by index
-    const color = skuSpecifications.find(
-      ({ field }) => field.name === 'VALOR_HEX_ORIGINAL'
-    )?.values[index || 0]?.name;
-
-    return idColor;
-  };
-
-  // change sku effect
-  useEffect(() => {
-    if (product && selectedColor && selectedSize) {
-      const { items } = product;
-      // map sku variant hex
-      const sizeColorSkuVariations = items.flatMap((i) => {
-        const variants = i.variations
-          ?.map((v) => {
-            if (['ID_COR_ORIGINAL', 'Tamanho'].includes(v.name)) return v;
-          })
-          .filter((a) => a !== undefined);
-
-        return {
-          ...i,
-          variations: variants,
-        };
-      });
-
-      if (selectedColor != selectedNewColor) {
-        setSelectedNewColor(selectedColor);
-        const selectedProduct = itemsSKU
-          .map((p) => p.color === selectedColor && p.sizeList)
-          .filter((a) => a !== false);
-
-        const availableProduct = selectedProduct[0].filter(
-          (x) => x.available == true
-        );
-
-        const variations = sizeColorSkuVariations
-          .map((x) => x.variations)
-          .map((x) => ({ tamanho: x[0]?.values[0], cor: x[1]?.values[0] }));
-
-        const sizeAndColor = variations.filter((x) => x.cor === selectedColor);
-
-        if (sizeAndColor) {
-          const sizeIndex = sizeAndColor.findIndex(
-            (x) => x.tamanho === selectedSize
-          );
-
-          // if (sizeIndex === -1) {
-          //   if (availableProduct.length > 0) {
-          //     setSelectedSize(availableProduct[0]?.size);
-          //   } else {
-          //     setSelectedSize(sizeAndColor[0].tamanho);
-          //   }
-          // } else {
-          //   if (availableProduct.length > 0) {
-          //     setSelectedSize(availableProduct[0]?.size);
-          //   } else {
-          //     setSelectedSize(sizeAndColor[0].tamanho);
-          //   }
-          // }
-        }
-      }
-      if (sizeColorSkuVariations) {
-        const selectedSkuVariations: Facets[] = [
-          {
-            name: 'Tamanho',
-            originalName: null,
-            values: [selectedSize],
-          },
-          {
-            name: 'ID_COR_ORIGINAL',
-            originalName: null,
-            values: [selectedColor],
-          },
-        ];
-        const getVariant = (variants: any, getVariantId: string) =>
-          variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] ||
-          '';
-
-        const isSkuEqual = (sku1: any, sku2: any) => {
-          if (sku1 && sku2) {
-            const size1 = getVariant(sku1, 'Tamanho');
-            const color1 = getVariant(sku1, 'ID_COR_ORIGINAL');
-            const size2 = getVariant(sku2, 'Tamanho');
-            const color2 = getVariant(sku2, 'ID_COR_ORIGINAL');
-
-            return size1 === size2 && color1 === color2;
-          }
-        };
-        const variantToSelect = sizeColorSkuVariations.find((i) => {
-          if (i.variations) {
-            const a = i.variations.map(
-              ({ name, originalName, values }: any) => ({
-                name,
-                originalName,
-                values: values,
-              })
-            );
-            return isSkuEqual(a, selectedSkuVariations);
-          }
-        });
-        setSelectedVariant(variantToSelect);
-      }
-    }
-  }, [selectedColor, selectedSize]);
-
   const getSeller = (sellers: Seller[]) => {
     sellers.map((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
       }
-      setSellerProduct(seller)
+      setSellerProduct(seller);
     });
   };
-
-  useEffect(() => {
-    if (selectedVariant) getSeller(selectedVariant?.sellers);
-  }, [selectedVariant]);
 
   const refetchChecklist = async () => {
     setSkip(true);
@@ -643,7 +317,7 @@ export const ProductDetail: React.FC<Props> = ({
         data: { checkList },
       } = await checkListRefetch({
         variables: {
-          shopperId: email,
+          shopperId: email || '',
           productId: product?.productId.split('-')[0],
         },
       });
@@ -662,7 +336,7 @@ export const ProductDetail: React.FC<Props> = ({
         if (favorite) {
           const { data } = await addWishList({
             variables: {
-              shopperId: email,
+              shopperId: email || '',
               productId: product.productId.split('-')[0],
               sku: selectedVariant?.itemId,
             },
@@ -670,7 +344,7 @@ export const ProductDetail: React.FC<Props> = ({
         } else {
           await removeWishList({
             variables: {
-              shopperId: email,
+              shopperId: email || '',
               id: wishInfo.listIds[0],
             },
           });
@@ -703,10 +377,22 @@ export const ProductDetail: React.FC<Props> = ({
     const options = {
       message: 'Olha o que acabei de encontrar na Reserva: \n',
       title: 'Compartilhar',
-      url: `https://www.usereserva.com${path}?skuId=${selectedVariant.itemId}`,
+      url: `${Config.URL_USER}${path}?skuId=${selectedVariant.itemId}`,
     };
 
     Share.open(options);
+  };
+
+  const addTagsUponCartUpdate = (
+    productName: string,
+    productImageURL: string
+  ) => {
+    let timestamp = Math.floor(Date.now() / 1000);
+    OneSignal.sendTags({
+      cart_update: timestamp.toString(),
+      product_name: productName,
+      product_image: productImageURL,
+    });
   };
 
   const onProductAdd = async () => {
@@ -732,6 +418,13 @@ export const ProductDetail: React.FC<Props> = ({
           } else {
             setIsVisible(true);
             await addAttachmentsInProducts();
+
+            if (quantities === 0 && orderForm?.items.length == 0) {
+              addTagsUponCartUpdate(
+                product?.productName,
+                selectedVariant.images[0].imageUrl
+              );
+            }
           }
         }
       } else {
@@ -745,12 +438,19 @@ export const ProductDetail: React.FC<Props> = ({
           Alert.alert('Produto sem estoque', message);
         } else {
           setIsVisible(true);
+
+          if (quantities === 0 && orderForm?.items.length == 0) {
+            addTagsUponCartUpdate(
+              product?.productName!,
+              selectedVariant.images[0].imageUrl
+            );
+          }
         }
       }
     }
   };
 
-  const getUnavailableColors = ({ items, skuSpecifications }: Product) => {
+  const getUnavailableColors = ({ items }: Product) => {
     return items.map((item) => {
       if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
         return item.variations?.find(
@@ -816,9 +516,7 @@ export const ProductDetail: React.FC<Props> = ({
           {
             quantity: '1',
             id: selectedVariant?.itemId.trim(),
-            // id: '354688',
             seller: selectedSellerId.trim(),
-            // seller: '1',
           },
         ],
         postalCode: cep.trim(),
@@ -849,14 +547,9 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
-  useEffect(() => {
-    if (shippingData) {
-      setShippingCost(shippingData?.shipping?.logisticsInfo);
-    }
-  }, [shippingData]);
-
-  const getSaleOff = (salOff) => {
-    const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');
+  //TODO tentar adicionar tipagem para o salOff
+  const getSaleOff = (salOff: any) => {
+    const idImage = salOff.clusterHighlights?.find((x: any) => x.id === '371');
     if (!saleOffTag) return null;
     if (idImage) return images.saleOff;
   };
@@ -871,10 +564,6 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
-  useEffect(() => {
-    getLastUnits();
-  }, [selectedColor, selectedSize]);
-
   const addAttachmentsInProducts = async () => {
     try {
       const orderFormId = orderForm?.orderFormId;
@@ -883,17 +572,10 @@ export const ProductDetail: React.FC<Props> = ({
 
       Attachment(orderFormId, productOrderFormIndex, attachmentName);
     } catch (error) {
-      console.log('error - addAttachmentsInProducts', error);
+      Sentry.captureException(error);
       throw error;
     }
   };
-
-  const isAssinaturaSimples = useMemo(() => {
-    const description =
-      'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)';
-
-    return product?.description.includes(description);
-  }, [product]);
 
   const handleScrollToTheTop = () => {
     scrollRef.current?.scrollTo({
@@ -904,12 +586,308 @@ export const ProductDetail: React.FC<Props> = ({
     setCep('');
   };
 
+  const initializePdp = (responseGrapthQl: any): void => {
+    if (responseGrapthQl) {
+      const { product } = responseGrapthQl;
+      setProduct(product);
+
+      // set default first selected variant
+      let variant = product.items.find(
+        (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
+      );
+
+      setAvaibleUnits(variant?.sellers[0].commertialOffer.AvailableQuantity);
+      setSelectedVariant(variant);
+
+      const disabledColors = getUnavailableColors(product);
+      getAllUnavailableColors(product);
+
+      // set colors filter
+      getColorsList(product);
+
+      const colorList = getAllColors(product);
+
+      // set size filter
+      const sizeList = getSizeList(product);
+      setSizeFilters(sizeList);
+
+      if (sizeList?.length) {
+        setSelectedSize(sizeList[0]);
+      }
+
+      const colorItemId = product.items
+        .find((item: any) => item.itemId == route.params?.itemId)
+        ?.variations?.find((x: any) => x.name == 'ID_COR_ORIGINAL')?.values;
+
+      setColorFilters(colorList);
+
+      // set initial selected color
+
+      if (route.params?.itemId) {
+        if (colorItemId) {
+          setSelectedColor(colorItemId[0]);
+          setSelectedNewColor(colorItemId[0]);
+          variant = product.items.find(
+            (x: any) =>
+              x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+                ?.values[0] == colorItemId[0]
+          );
+        } else {
+          if (colorList) {
+            setSelectedColor(colorList[0]);
+            setSelectedNewColor(colorList[0]);
+            variant = product.items.find(
+              (x: any) =>
+                x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+                  ?.values[0] == colorList[0]
+            );
+          }
+        }
+      } else {
+        const skuId = (() => {
+          if (idSku) return idSku;
+          if (product.items.length) return product.items[0].itemId;
+        })();
+
+        if (skuId) {
+          variant = product.items.find((x: any) => x.itemId == skuId);
+
+          setSelectedColor(
+            variant?.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+              ?.values[0]
+          );
+          setSelectedNewColor(
+            variant?.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+              ?.values[0]
+          );
+        } else {
+          setSelectedColor(colorList ? route.params.colorSelected : '');
+          setSelectedNewColor(colorList ? route.params.colorSelected : '');
+          variant = product.items.find(
+            (x: any) =>
+              x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+                ?.values[0] == route.params.colorSelected
+          );
+        }
+      }
+
+      setSelectedVariant(variant);
+
+      let itemList = colorList?.map((color) => {
+        return {
+          color,
+          images: getImagesPerColor(product, color),
+          sizeList: getSizePerColor(product, color),
+        };
+      });
+
+      setItemsSKU(itemList);
+      appsFlyer.logEvent('af_content_view', {
+        af_price: product.priceRange.listPrice.lowPrice,
+        af_content: product.productName,
+        af_content_id: product.productId,
+        af_content_type: product.categoryTree.map((x: any) => x.name).join(),
+        af_currency: 'BRL',
+      });
+      analytics().logEvent('product_view', {
+        product_id: product.productId,
+        product_name: product.productName,
+        product_category: product.categoryTree.map((x: any) => x.name).join(),
+        product_price: product.priceRange.listPrice.lowPrice,
+        product_currency: 'BRL',
+      });
+    }
+  };
+
+  const initialComponentWithProductSlug = async (
+    slug: string
+  ): Promise<void> => {
+    const { data, error } = await getProductWithSlug({
+      variables: { slug },
+    });
+
+    if (typeof error !== 'undefined') {
+      navigation.goBack();
+      return;
+    }
+
+    initializePdp(data);
+  };
+
+  /***
+   * Effects
+   */
   useEffect(() => {
-    if (route.params.hasCep) {
-      setCep(route.params.hasCep)
+    if (route.params?.slug) {
+      initialComponentWithProductSlug(route.params.slug);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (route.params?.skuId) {
+      setIdSku(route.params.skuId);
+    } else {
+      if (route.params?.idsku) {
+        setIdSku(route.params.idsku);
+      }
+    }
+  }, [route.params?.skuId, route.params?.idsku]);
+
+  if (route.params?.productId) {
+    delete route.params.idsku;
+    delete route.params.skuId;
+  }
+
+  useEffect(() => {
+    refetch();
+  }, [route.params?.productId]);
+
+  useEffect(() => {
+    remoteConfig().fetchAndActivate();
+    const value = remoteConfig().getValue('sale_off_tag');
+    setSaleOffTag(value.asBoolean());
+
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    refetchChecklist();
+  }, [product]);
+
+  useEffect(() => {
+    refetchChecklist();
+  }, [selectedVariant]);
+
+  useEffect(() => {
+    initializePdp(data);
+  }, [data]);
+
+  useEffect(() => {
+    if (itemsSKU !== undefined && itemsSKU.length > 0 && selectedColor !== '') {
+      setImageSelected(
+        itemsSKU
+          .map((p: any) => p.color === selectedColor && p.images)
+          .filter((a: any) => a !== false)
+      );
+
+      const sizeFilters = new ProductUtils().orderSizes(
+        itemsSKU
+          .map(
+            (p: any) =>
+              p.color === selectedColor &&
+              p.sizeList.map((sizes: any) => sizes.size)
+          )
+          ?.filter((a: any) => a !== false)[0]
+          ?.filter((x: any) => x !== '')
+      );
+      setSizeFilters(sizeFilters);
+
+      const unavailableSizes = itemsSKU
+        .map(
+          (p: any) =>
+            p.color === selectedColor &&
+            p.sizeList.map((sizes: any) => !sizes.available && sizes.size)
+        )
+        ?.filter((a: any) => a !== false)[0];
+
+      setUnavailableSizes(unavailableSizes);
+
+      const hasSize = sizeFilters?.map((x) => unavailableSizes.includes(x));
+      const index = hasSize?.findIndex((x) => x === false);
+      if (index === -1) {
+        setoutOfStock(true);
+      } else {
+        setoutOfStock(false);
+      }
+    }
+  }, [selectedColor, itemsSKU]);
+
+  // change sku effect
+  useEffect(() => {
+    if (product && selectedColor && selectedSize) {
+      const { items } = product;
+      // map sku variant hex
+      const sizeColorSkuVariations = items.flatMap((i) => {
+        const variants = i.variations
+          ?.map((v) => {
+            if (['ID_COR_ORIGINAL', 'Tamanho'].includes(v.name)) return v;
+          })
+          .filter((a) => a !== undefined);
+
+        return {
+          ...i,
+          variations: variants,
+        };
+      });
+
+      if (selectedColor != selectedNewColor) {
+        setSelectedNewColor(selectedColor);
+      }
+
+      if (sizeColorSkuVariations) {
+        const selectedSkuVariations: Facets[] = [
+          {
+            name: 'Tamanho',
+            originalName: null,
+            values: [selectedSize],
+          },
+          {
+            name: 'ID_COR_ORIGINAL',
+            originalName: null,
+            values: [selectedColor],
+          },
+        ];
+        const getVariant = (variants: any, getVariantId: string) =>
+          variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] ||
+          '';
+
+        const isSkuEqual = (sku1: any, sku2: any) => {
+          if (sku1 && sku2) {
+            const size1 = getVariant(sku1, 'Tamanho');
+            const color1 = getVariant(sku1, 'ID_COR_ORIGINAL');
+            const size2 = getVariant(sku2, 'Tamanho');
+            const color2 = getVariant(sku2, 'ID_COR_ORIGINAL');
+
+            return size1 === size2 && color1 === color2;
+          }
+        };
+        const variantToSelect = sizeColorSkuVariations.find((i) => {
+          if (i.variations) {
+            const a = i.variations.map(
+              ({ name, originalName, values }: any) => ({
+                name,
+                originalName,
+                values: values,
+              })
+            );
+            return isSkuEqual(a, selectedSkuVariations);
+          }
+        });
+        setSelectedVariant(variantToSelect);
+      }
+    }
+  }, [selectedColor, selectedSize]);
+
+  useEffect(() => {
+    if (selectedVariant) getSeller(selectedVariant?.sellers);
+  }, [selectedVariant]);
+
+  useEffect(() => {
+    if (shippingData) {
+      setShippingCost(shippingData?.shipping?.logisticsInfo);
+    }
+  }, [shippingData]);
+
+  useEffect(() => {
+    getLastUnits();
+  }, [selectedColor, selectedSize]);
+
+  useEffect(() => {
+    if (route.params?.hasCep) {
+      setCep(route.params.hasCep);
       consultZipCode(route.params.hasCep);
     }
-  }, [route.params.hasCep]);
+  }, [route.params?.hasCep]);
 
   return (
     <SafeAreaView>
@@ -925,7 +903,8 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(false);
           }}
         />
-        <TopBarDefaultBackButton loading={loading} navigateGoBack={true} />
+
+        <TopBarDefaultBackButton loading={loading} navigateGoBack />
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -938,15 +917,11 @@ export const ProductDetail: React.FC<Props> = ({
           >
             {product && sellerProduct && (
               <>
-                {/*  <Button
-                  title="CLIQUE"
-                  onPress={() => setIsVisibleZoomImage(true)}
-                /> */}
                 <ModalZoomImage
                   isVisible={isVisibleZoomImage}
                   image={
                     imageSelected.length > 0
-                      ? imageSelected[0][0].map((image) => image.imageUrl)
+                      ? imageSelected[0][0].map((image: any) => image.imageUrl)
                       : []
                   }
                   setIsVisibleZoom={setIsVisibleZoomImage}
@@ -967,13 +942,11 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   onClickFavorite={handleOnFavorite}
                   price={sellerProduct.commertialOffer.ListPrice || 0}
-                  priceWithDiscount={
-                    sellerProduct.commertialOffer.Price || 0
-                  }
+                  priceWithDiscount={sellerProduct.commertialOffer.Price || 0}
                   imagesWidth={screenWidth}
                   images={
                     imageSelected.length > 0
-                      ? imageSelected[0][0].map((image) => image.imageUrl)
+                      ? imageSelected[0][0].map((image: any) => image.imageUrl)
                       : []
                   }
                   installmentsNumber={
@@ -998,15 +971,6 @@ export const ProductDetail: React.FC<Props> = ({
                   }
                   avaibleUnits={!outOfStock && avaibleUnits}
                 />
-
-                {/*
-                    isLastUnits && !outOfStock ?
-                    <Box position='absolute' top={650} right={20} zIndex={4}>
-                      <Typography color="vermelhoAlerta" fontWeight="SemiBold" fontFamily="nunitoRegular" fontSize={18} textAlign="center" style={{textTransform: "uppercase"}}>Últimas unidades!</Typography>
-                    </Box>
-                    : null
-                    */}
-
                 {/* COLORS SECTION */}
                 <Box mt="xs">
                   <Box px="xxxs" mb="xxxs">
@@ -1040,14 +1004,6 @@ export const ProductDetail: React.FC<Props> = ({
                       <Typography variant={'subtituloSessoes'}>
                         Tamanhos:
                       </Typography>
-                      {/* <Button>
-                      <Box flexDirection="row" alignItems="center">
-                      <Icon name="Ruler" size={35} />
-                      <Typography fontFamily="nunitoRegular" fontSize={11}>
-                      Guia de medidas
-                      </Typography>
-                      </Box>
-                    </Button> */}
                       {!!product.categoryTree.find((x) =>
                         Object.keys(SizeGuideImages).includes(x.name)
                       ) && <SizeGuide categoryTree={product.categoryTree} />}
@@ -1488,19 +1444,16 @@ export const ProductDetail: React.FC<Props> = ({
                     />
                   </Box>
                   <Button
-                    marginBottom='nano'
-                    alignSelf='flex-start'
+                    marginBottom="nano"
+                    alignSelf="flex-start"
                     marginTop="quarck"
                     onPress={() => {
                       navigation.navigate('ChangeRegionalization', {
-                        isCepProductDetail: true
+                        isCepProductDetail: true,
                       });
                     }}
                   >
-                    <Typography
-                      fontFamily="nunitoRegular"
-                      fontSize={14}
-                    >
+                    <Typography fontFamily="nunitoRegular" fontSize={14}>
                       Não sei meu CEP
                     </Typography>
                   </Button>
@@ -1610,80 +1563,6 @@ export const ProductDetail: React.FC<Props> = ({
                 </Box>
               </>
             )}
-
-            {/*
-
-            <Box mt="xs" mb="xxl">
-              <Box mb="xxxs">
-                <Typography fontFamily="nunitoBold" fontSize={14}>
-                  Seu produto combina com
-                </Typography>
-              </Box>
-              <Box mb="md">
-                <ScrollView
-                  horizontal
-                  pagingEnabled
-                  scrollEventThrottle={138}
-                  snapToInterval={(138 + theme.space.micro) * 2}
-                  ref={recomendedScroll}
-                  showsHorizontalScrollIndicator={false}
-                  onScroll={onChangeRecomended}
-                >
-                  {recomendedProducts.map((product, index) => (
-                    <>
-                      <Box mr={'micro'} key={index} height={230}>
-                        <ProductVerticalListCard
-                          imageWidth={138}
-                          small
-                          {...product}
-                        />
-                      </Box>
-                      <Box
-                        width={
-                          recomendedProducts?.length - 1 == index
-                            ? 138 / 2 + theme.space.micro
-                            : 0
-                        }
-                      />
-                    </>
-                  ))}
-                </ScrollView>
-                <Box
-                  paddingTop="nano"
-                  flexDirection="row"
-                  justifyContent="center"
-                >
-                  {recomendedProducts.map(
-                    (i, k) =>
-                      k % 2 == 0 && (
-                        <Button
-                          paddingX="quarck"
-                          variant="icone"
-                          onPress={() => {
-                            let width = (138 + theme.space.micro) * 2;
-                            recomendedScroll.current?.scrollTo({
-                              x: width * (k / 2),
-                            });
-                          }}
-                          icon={
-                            <Icon
-                              name="Circle"
-                              size={6}
-                              color={
-                                actualRecomendedindex == Math.ceil(k / 2)
-                                  ? 'preto'
-                                  : 'neutroFrio1'
-                              }
-                            />
-                          }
-                        />
-                      )
-                  )}
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-         */}
           </ScrollView>
         </KeyboardAvoidingView>
       </Box>

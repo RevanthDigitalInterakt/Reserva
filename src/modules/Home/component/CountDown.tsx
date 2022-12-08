@@ -9,10 +9,9 @@ import {
 } from 'react-native';
 import { Box, theme, Typography, Button, Icon } from '@danilomsou/reserva-ui';
 import Modal from 'react-native-modal';
-import { ICountDownClock } from '../../../graphql/homePage/HomeQuery';
 import FlipNumber from './flipcountdoun/FlipNumber';
 import { useCountDown } from '../../../context/ChronometerContext';
-import { useChronometer } from '../../../modules/CorreReserva/hooks/useChronometer';
+import { ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
 export interface CountDownProps {
   countDown?: ICountDownClock;
   loadingCountDownBanner?: boolean;
@@ -26,11 +25,10 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
   loadingCountDownBanner,
 }: CountDownProps) => {
   const navigation = useNavigation();
-  const [countDownData, setCountDownData] = useState<ICountDownClock>();
   const [ShowModal, setShowModal] = useState<boolean>(false);
   const [showClock, setShowClock] = useState<boolean>(false);
   const [watchType, setWatchType] = useState<number>(0);
-  console.log()
+
   const colors = [
     {
       colorBanner: '#000000',
@@ -47,6 +45,11 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
       colorButton: '#4A4A4A',
       clockBackgroundColor: '#1A1A1A',
     },
+    {
+      colorBanner: '#0B243B',
+      colorButton: '#B40404',
+      clockBackgroundColor: '#243A4F',
+    },
   ];
 
   const [clockColor, setClockColor] = useState<
@@ -62,9 +65,6 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
     const isTimeToShow = Date.now() > new Date(countDown?.countdownStart).getTime()
     const timeIsOver = Date.now() > new Date(countDown?.countdown).getTime()
 
-    console.log('countDownData?.countdownStart', isTimeToShow, countDown?.countdownStart);
-    console.log('countDownData?.countdown', timeIsOver, countDown?.countdown);
-    console.log('shouldShowClock', isTimeToShow && !timeIsOver);
     return isTimeToShow && !timeIsOver
   }
 
@@ -103,7 +103,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
           value: categoryData,
         });
       }
-      navigation.navigate('ProductCatalog', {
+      navigation.push('ProductCatalog', {
         // facetInput,
         referenceId: countDown?.reference,
       });

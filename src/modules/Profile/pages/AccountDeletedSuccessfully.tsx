@@ -7,6 +7,7 @@ import { Box, Typography, Button } from '@danilomsou/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useAuth } from '../../../context/AuthContext';
+import OneSignal from "react-native-onesignal";
 
 export const AccountDeletedSuccessfully = () => {
   const navigation = useNavigation();
@@ -17,6 +18,7 @@ export const AccountDeletedSuccessfully = () => {
     AsyncStorage.removeItem('@RNAuth:email');
     AsyncStorage.removeItem('@RNAuth:typeLogin');
     AsyncStorage.removeItem('@RNAuth:lastLogin');
+    OneSignal.removeExternalUserId();
     setCookie(null);
     setEmail(null);
   };
@@ -46,6 +48,7 @@ export const AccountDeletedSuccessfully = () => {
           </Typography>
         </Box>
       </Box>
+
       <Box paddingX={20} mb={24}>
         <Button
           variant="primarioEstreitoOutline"

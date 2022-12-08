@@ -1,9 +1,10 @@
 import { ApolloProvider } from '@apollo/client';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Linking, Platform } from 'react-native';
+import * as Sentry from '@sentry/react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@danilomsou/reserva-ui';
@@ -37,6 +38,8 @@ import { responsysConfig } from './config/responsys';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import { IS_DEV } from './utils/enviromentUtils';
 
 const DefaultTheme = {
   colors: {
@@ -44,33 +47,38 @@ const DefaultTheme = {
   },
 };
 
+async function buildLink() {
+  const link = await dynamicLinks().buildLink({
+    link: 'https://www.usereserva.com',
+    domainUriPrefix: 'https://usereserva.page.link/1Crm',
+    analytics: {
+      campaign: 'banner',
+    },
+  });
+
+  return link;
+}
+
 let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
     if (JSON.parse(res.data.is_first_launch) == true) {
       if (res.data.af_status === 'Non-organic') {
         const { media_source } = res.data;
         const { campaign } = res.data;
-        console.log(
-          `This is first launch and a Non-Organic install. Media source: ${media_source} Campaign: ${campaign}`
-        );
       } else if (res.data.af_status === 'Organic') {
-        console.log('This is first launch and a Organic Install');
       }
     } else {
-      console.log('This is not first launch');
     }
   }
 );
 
-let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-  console.log(res);
-});
+let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {});
 
 const logAppOpenAnalytics = async () => {
   try {
     await analytics().logAppOpen();
   } catch (e) {
-    console.log(e);
+    Sentry.captureException(e);
   }
 };
 
@@ -79,14 +87,9 @@ const requestUserPermission = async () => {
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-  }
 };
 
 let onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
-  console.log('onDeepLinkCanceller DLValue::>', res);
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
     const DLValue = res?.data.deep_link_value;
     await Linking.openURL(DLValue);
@@ -102,11 +105,9 @@ appsFlyer.initSdk(
     onDeepLinkListener: true,
     timeToWaitForATTUserAuthorization: 10,
   },
-  (result) => {
-    console.log('AAPPFLYERS', result);
-  },
+  (result) => {},
   (error) => {
-    console.log('AAPPFLYERS', error);
+    Sentry.captureException(error);
   }
 );
 const maintenanceHandler = async () => {
@@ -120,7 +121,6 @@ const maintenanceHandler = async () => {
 
 const App = () => {
   const [canRegisterUser, setCanRegisterUser] = useState(true);
-  const [userId, setUserId] = useState('06869751110');
 
   useEffect(() => {
     PushIOManager.configure(
@@ -143,7 +143,7 @@ const App = () => {
               (error: any, response: any) => {
                 PushIOManager.registerApp(
                   true,
-                  (error: any, response: any) => { }
+                  (error: any, response: any) => {}
                 );
               }
             );
@@ -198,13 +198,11 @@ const App = () => {
   useEffect(() => () => {
     if (onInstallConversionDataCanceller) {
       onInstallConversionDataCanceller();
-      console.log('unregister onInstallConversionDataCanceller');
       onInstallConversionDataCanceller = null;
     }
 
     if (onAppOpenAttributionCanceller) {
       onAppOpenAttributionCanceller();
-      console.log('unregister onAppOpenAttributionCanceller');
       onAppOpenAttributionCanceller = null;
     }
     if (onDeepLinkCanceller) {
@@ -243,7 +241,7 @@ const App = () => {
                           <ChronometerContextProvider>
                             <ApolloProvider
                               client={
-                                isTesting
+                                (isTesting || IS_DEV)
                                   ? apolloClientTesting
                                   : apolloClientProduction
                               }

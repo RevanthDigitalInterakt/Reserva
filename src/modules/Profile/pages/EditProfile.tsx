@@ -42,7 +42,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { useCart } from '../../../context/CartContext';
+import { OrderForm, useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useContentfull } from '../../../context/ContentfullContext';
 import IsTestingModal from '../Components/IsTestingModal';
@@ -52,6 +52,7 @@ import {
   MyProfileAPI,
   ProfileHttpUrl,
 } from './api/MyProfileAPI';
+import * as Sentry from '@sentry/react-native';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -114,7 +115,7 @@ export const EditProfile = ({ route }: Props) => {
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false);
 
-  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile } =
+  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile, updateOrderForm } =
     useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
@@ -146,7 +147,6 @@ export const EditProfile = ({ route }: Props) => {
 
   const refetch = useCallback(() => {
     getProfile().then((res) => {
-      console.log('res ::::::::::::>>>>>>>>>>>>>>>>>>', res);
       setProfileData({
         data: res.data,
         loading: false,
@@ -247,15 +247,9 @@ export const EditProfile = ({ route }: Props) => {
 
   useEffect(() => {
     async function getToken() {
-      await AsyncStorage.getItem('@RNAuth:cookie').then((value) => {
-        console.log('Token: ', value);
-      });
-      await AsyncStorage.getItem('@RNAuth:typeLogin').then((value) => {
-        console.log('typeLogin: ', value);
-      });
-      await AsyncStorage.getItem('@RNAuth:lastLogin').then((value) => {
-        console.log('lastLogin: ', value);
-      });
+      await AsyncStorage.getItem('@RNAuth:cookie').then((value) => {});
+      await AsyncStorage.getItem('@RNAuth:typeLogin').then((value) => {});
+      await AsyncStorage.getItem('@RNAuth:lastLogin').then((value) => {});
     }
     getToken();
     async function userAcceptData() {
@@ -370,8 +364,6 @@ export const EditProfile = ({ route }: Props) => {
       }
     }
 
-    console.log('RESPONSE USER ACCEPT', userAccept);
-
     const customField: ProfileCustomFieldsInput[] = [
       {
         key: 'isNewsletterOptIn',
@@ -422,9 +414,10 @@ export const EditProfile = ({ route }: Props) => {
         })
           .then(async () => await identifyCustomer(email))
           .then(() => setLoadingScreen(false))
-          .then(() =>
+          .then(() => {
+            updateOrderForm();
             navigation.navigate('BagScreen', { isProfileComplete: true })
-          );
+          });
       }
     }
   };
@@ -441,7 +434,7 @@ export const EditProfile = ({ route }: Props) => {
         );
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
-        console.warn(err);
+        Sentry.captureException(err);
         return false;
       }
     } else return true;
@@ -460,7 +453,7 @@ export const EditProfile = ({ route }: Props) => {
 
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
-        console.warn(err);
+        Sentry.captureException(err);
       }
       return false;
     } else return true;
@@ -488,9 +481,9 @@ export const EditProfile = ({ route }: Props) => {
       if (isCameraPermitted && isStoragePermitted) {
         if (response) {
           if (response.didCancel) {
-            console.log('Usuário cancelou a seleção');
+            //
           } else if (response.errorMessage) {
-            console.log('Ocorreu um erro.', response.errorMessage);
+            //
           } else {
             const photoFile = {
               uri: response.assets[0].uri,
@@ -525,9 +518,9 @@ export const EditProfile = ({ route }: Props) => {
       await launchCamera(options, async (response) => {
         if (response) {
           if (response.didCancel) {
-            console.log('Usuário cancelou a seleção');
+            //
           } else if (response.errorMessage) {
-            console.log('Ocorreu um erro.', response.errorMessage);
+            //
           } else {
             const photoFile = {
               uri: response.assets[0].uri,
@@ -561,16 +554,10 @@ export const EditProfile = ({ route }: Props) => {
     const [firstName, ...rest] = text.trim().split(' ');
     const lastName = rest.join(' ');
     // regex to validate full name with at least 2 words and no numbers
-    if (
-      text.match(
-        /^[a-zA-ZÀ-ú]{2,}\s[a-zA-ZÀ-ú ']{2,}$/
-      )
-    ) {
-      console.log('TRUE ::::::::::::::::::::');
+    if (text.match(/^[a-zA-ZÀ-ú]{2,}\s[a-zA-ZÀ-ú ']{2,}$/)) {
       setIsEmptyFullName(false);
       setLabelFullName('Nome completo');
     } else {
-      console.log('false ::::::::::::::::::::');
       setIsEmptyFullName(true);
       setLabelFullName(null);
     }
@@ -616,6 +603,10 @@ export const EditProfile = ({ route }: Props) => {
 
   const handleCopyToken = () => {
     Clipboard.setString(tokenOneSignal);
+  };
+  const handleCopyOrderFormId = () => {
+    const { orderFormId } = orderForm as OrderForm;
+    Clipboard.setString(orderFormId);
   };
 
   const styles = StyleSheet.create({
@@ -1198,6 +1189,11 @@ export const EditProfile = ({ route }: Props) => {
                   <Box mb="nano" mt="nano">
                     <TouchableOpacity onPress={() => handleCopyToken()}>
                       <Typography>{tokenOneSignal}</Typography>
+                    </TouchableOpacity>
+                  </Box>
+                  <Box mb="nano" mt="nano">
+                    <TouchableOpacity onPress={() => handleCopyOrderFormId()}>
+                      <Typography>{orderForm?.orderFormId}</Typography>
                     </TouchableOpacity>
                   </Box>
                   <Box flexDirection="row" marginY="micro" alignItems="center">

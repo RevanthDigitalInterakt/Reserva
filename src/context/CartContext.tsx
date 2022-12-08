@@ -8,6 +8,8 @@ import React, {
   useEffect,
 } from 'react';
 
+import * as Sentry from '@sentry/react-native';
+
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import appsFlyer from 'react-native-appsflyer';
@@ -48,7 +50,7 @@ interface ClientPreferencesData {
   optinNewsLetter: boolean;
 }
 
-interface ClientProfileData {
+export interface ClientProfileData {
   attachmentId: string;
   email: string;
   firstName: string;
@@ -85,7 +87,11 @@ interface Seller {
   name: string;
   logo: string;
 }
-
+interface SelectableGifts {
+  availableGifts: Item[];
+  availableQuantity: number;
+  id: string;
+}
 interface Totalizers {
   id: string;
   name: string;
@@ -208,7 +214,7 @@ interface StorePreferencesData {
   currencyFormatInfo: CurrencyFormatInfo;
 }
 
-interface OrderForm {
+export interface OrderForm {
   canEditData: boolean;
   clientPreferencesData: ClientPreferencesData;
   clientProfileData: ClientProfileData;
@@ -221,6 +227,7 @@ interface OrderForm {
   paymentData: any;
   salesChannel: string;
   sellers: Seller[];
+  selectableGifts: SelectableGifts[];
   shippingData: ShippingData;
   storePreferencesData: StorePreferencesData;
   totalizers: Totalizers[];
@@ -450,6 +457,7 @@ export interface IOrderId {
 }
 interface CartContextProps {
   orderForm: OrderForm | undefined;
+  updateOrderForm: () => Promise<OrderForm | void>;
   addItem: (
     quantity: number,
     itemId: string,
@@ -510,7 +518,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await CreateCart();
       setOrderForm(data);
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -520,7 +528,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return data.length > 0;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -562,11 +570,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
           af_quantity: quantity,
           af_seller: seller,
         },
-        (res) => {
-          console.log('AppsFlyer', res);
-        },
+        (res) => { },
         (err) => {
-          console.error('AppsFlyer Error', err);
+          Sentry.captureException(err);
         }
       );
       analytics().logEvent('add_to_cart', {
@@ -580,7 +586,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       });
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -611,11 +617,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
             productRemoved?.productCategories
           ),
         },
-        (res) => {
-          console.log('AppsFlyer', res);
-        },
+        (res) => { },
         (err) => {
-          console.error('AppsFlyer Error', err);
+          Sentry.captureException(err);
         }
       );
 
@@ -628,7 +632,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return { ok: true };
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(err);
     }
   };
 
@@ -648,17 +652,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
   const resetUserCheckout = async () => {
     try {
       const { data } = await ResetUserCheckout(orderForm?.orderFormId);
-      console.log('resetUserCheckout', data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -670,7 +673,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       // TODO - change this later, find a better way to check if theres's no user
       return !!data.clientProfileData.firstName;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -694,7 +697,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -704,7 +707,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return data;
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(err);
     }
   };
 
@@ -724,7 +727,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -743,7 +746,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -759,7 +762,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!isCouponInValid;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -780,7 +783,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       }
       return false;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
   const removeCoupon = async (coupon: string) => {
@@ -789,7 +792,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -802,7 +805,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
   useEffect(() => {
@@ -814,7 +817,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SendUserEmail(email);
       return !!data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -823,7 +826,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await ConvertZipCode(postalCode);
       return data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
   const tracking = async (cookie: string, order: string) => {
@@ -831,7 +834,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await Tracking(cookie, order);
       return data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -840,7 +843,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await PickupPoint(longitude, latitude);
       return data;
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -849,7 +852,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await Orders(page);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -858,7 +861,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await OrderDetail(orderId);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -871,7 +874,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SearchNewOrders(page, email, cookie);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -884,7 +887,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SearchNewOrderDetail(page, email, cookie);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
 
@@ -893,14 +896,34 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await DeleteCustomerProfile(id);
       return data || [];
     } catch (error) {
-      console.log('error', error.response.data);
+      Sentry.captureException(error);
     }
   };
+
+  const updateOrderForm = async () => {
+    if (orderForm) {
+      const fetchOptions: any = {
+        headers: {
+          accept: 'application/json, text/javascript, */*; q=0.01',
+          'content-type': 'application/json; charset=UTF-8',
+          'sec-fetch-mode': 'cors',
+        },
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
+      }
+      const response = await fetch(`https://app-vtex.usereserva.com/api/checkout/pub/orderform/${orderForm?.orderFormId}?sc=4`, fetchOptions);
+      const newOrderForm = await response.json();
+      setOrderForm(newOrderForm);
+      return newOrderForm;
+    }
+  }
 
   return (
     <CartContext.Provider
       value={{
         orderForm,
+        updateOrderForm,
         addItem,
         identifyCustomer,
         addCustomer,
@@ -942,6 +965,7 @@ export const useCart = () => {
 
   const {
     orderForm,
+    updateOrderForm,
     addItem,
     identifyCustomer,
     addCustomer,
@@ -968,6 +992,7 @@ export const useCart = () => {
   } = cartContext;
   return {
     orderForm,
+    updateOrderForm,
     addItem,
     identifyCustomer,
     addCustomer,

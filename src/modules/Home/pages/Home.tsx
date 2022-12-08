@@ -8,6 +8,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
 import React, {
+  FC,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -27,8 +28,6 @@ import {
   configCollection,
   homeQuery,
   HomeQuery,
-  ICountDownClock,
-  ICountDownClockReservaMini,
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
@@ -43,6 +42,11 @@ import { CountDownBanner } from '../component/CountDown';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
 import { useConfigContext } from '../../../context/ConfigContext';
+import {
+  countdownClockQuery,
+  ICountDownClock,
+} from '../../../graphql/countDownClock/countdownClockQuery';
+import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -62,7 +66,9 @@ export const HomeScreen: FC<{
   const [images, setImages] = useState<HomeQuery[]>([]);
   const [carrousels, setCarrousels] = useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = useState<any>();
-  const [countDownClock, setCountDownClock] = useState<ICountDownClock>();
+  const [countDownClock, setCountDownClock] = useState<
+    ICountDownClock[] | undefined
+  >();
   const [{ data, loading }, setDataHome] = useState({
     data: null,
     loading: true,
@@ -70,17 +76,32 @@ export const HomeScreen: FC<{
   const [{ collectionData }, setDataConfig] = useState({
     collectionData: null,
   });
-  const [countDownClockRsvMini, setCountDownClockRsvMini] =
-    useState<ICountDownClockReservaMini>();
+
+  const [countDownClockLocal, setCountDownClockLocal] =
+    useState<ICountDownClock>();
+
+  const [showClockHome, setShowClockHome] = useState<boolean>(false);
+
+  const [countDownClockGlobal, setCountDownClockGlobal] =
+    useState<ICountDownClock>();
   const deviceWidth = Dimensions.get('screen').width;
 
   const [getHome, { refetch }] = useLazyQuery(homeQuery, {
     context: { clientName: 'contentful' },
     variables: { limit: 0 }, // quantidade de itens que iram renderizar
   });
+
+  const [getcountdownClock] = useLazyQuery(countdownClockQuery, {
+    context: { clientName: 'contentful' },
+    variables: {
+      selectClockScreenHome: 'HOME',
+      selectClockScreenAll: 'ALL',
+    },
+  });
+
   const { currentValue, start, stop, reset } = useChronometer({
     countDown: true,
-    initial: countDownClock?.formattedValue,
+    initial: countDownClockGlobal?.formattedValue,
   });
 
   const { WithoutInternet } = useCheckConnection({ refetch });
@@ -104,15 +125,76 @@ export const HomeScreen: FC<{
         collectionData: response.data,
       });
     });
+
+    getcountdownClock().then((response) => {
+      setCountDownClock(response.data.countdownClockCollection.items);
+    });
   }, []);
 
   useEffect(() => {
-    if (countDownClock) {
-      if (new Date(countDownClock?.countdown).getTime() > Date.now()) {
-        start();
+    if (countDownClock && countDownClock?.length > 0) {
+      const clockHome = countDownClock?.find(
+        (x) => x?.selectClockScreen == 'HOME'
+      );
+      const clockALL = countDownClock?.find(
+        (x) => x?.selectClockScreen == 'ALL'
+      );
+
+      if (clockHome) {
+        if (
+          new Date(clockHome?.countdown).getTime() > Date.now() &&
+          Date.now() > new Date(clockHome?.countdownStart).getTime()
+        ) {
+          setShowClockHome(true);
+        } else {
+          setShowClockHome(false);
+        }
+
+        let limitDate;
+
+        if (clockHome?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(clockHome?.countdown),
+          });
+        }
+        if (limitDate) {
+          setCountDownClockLocal({
+            ...clockHome,
+            countdownStart: clockHome?.countdownStart,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
+          });
+        }
+      }
+
+      if (clockALL && !showClockHome) {
+        let limitDate;
+        if (clockALL?.countdown) {
+          limitDate = intervalToDuration({
+            start: Date.now(),
+            end: new Date(clockALL?.countdown),
+          });
+        }
+        if (limitDate) {
+          setCountDownClockGlobal({
+            ...clockALL,
+            countdownStart: clockALL?.countdownStart,
+            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
+          });
+        }
       }
     }
   }, [countDownClock]);
+
+  useEffect(() => {
+    if (countDownClockGlobal) {
+      if (new Date(countDownClockGlobal?.countdown).getTime() > Date.now()) {
+        start();
+      }
+    }
+  }, [countDownClockGlobal]);
 
   useEffect(() => {
     if (currentValue) setTime(currentValue);
@@ -122,11 +204,6 @@ export const HomeScreen: FC<{
     const carrouselsItems: Carrousel[] =
       data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
     setCarrousels(carrouselsItems);
-
-    console.log(
-      'carrouselsItems',
-      data?.homePageCollection.items[0].mediasCollection
-    );
 
     const arrayImages =
       data?.homePageCollection.items[0].mediasCollection.items.map(
@@ -152,53 +229,9 @@ export const HomeScreen: FC<{
   useEffect(() => {
     if (collectionData) {
       setOffersPage(collectionData?.configCollection.items[0].offersPage);
-
-      let countDownClockMini =
-        collectionData?.configCollection?.items[0].countDownClockReservaMini;
-
-      let limitDate;
-      if (countDownClockMini?.countdown) {
-        limitDate = intervalToDuration({
-          start: Date.now(),
-          end: new Date(countDownClockMini?.countdown),
-        });
-      }
-      if (limitDate) {
-        setCountDownClockRsvMini({
-          ...countDownClockMini,
-          formattedValue: `${limitDate?.days * 24 + limitDate?.hours}:${limitDate?.minutes
-            }:${limitDate?.seconds}`,
-        });
-      }
-    }
-  }, [collectionData]);
-
-  useEffect(() => {
-    if (collectionData) {
       setModalDiscount(
         collectionData?.configCollection?.items[0].discountCodeBar
       );
-
-      if (collectionData) {
-        const countDownClock =
-          collectionData?.configCollection?.items[0].countDownClock;
-        let limitDate;
-        if (countDownClock?.countdown) {
-          limitDate = intervalToDuration({
-            start: Date.now(),
-            end: new Date(countDownClock?.countdown),
-          });
-        }
-        if (limitDate) {
-          console.log('conuntDownClock', countDownClock?.countdownStart);
-          setCountDownClock({
-            ...countDownClock,
-            countdownStart: countDownClock?.countdownStart,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
-          });
-        }
-      }
     }
   }, [collectionData]);
 
@@ -278,19 +311,20 @@ export const HomeScreen: FC<{
       switch (carrousel?.type) {
         case CarrouselTypes.mainCarrousel: {
           return (
-            <>
-              <DefaultCarrousel carrousel={carrousel} />
-            </>
+            <DefaultCarrousel carrousel={carrousel} key={`carousel-${carrousel.title}-${carrousel.type}`} />
           );
-          break;
         }
         case CarrouselTypes.cardsCarrousel: {
           const { items } = carrousel.itemsCollection;
 
           return items.length > 1 ? (
-            <CardsCarrousel carrousel={carrousel} />
+            <CardsCarrousel
+              key={`carousel-${carrousel.title}-${carrousel.type}`}
+              carrousel={carrousel}
+              />
           ) : (
             <Banner
+              key={`carousel-${carrousel.title}-${carrousel.type}`}
               orderBy={items[0].orderBy}
               height={items[0].image.height}
               reference={items[0].reference}
@@ -298,13 +332,15 @@ export const HomeScreen: FC<{
               reservaMini={items[0].reservaMini}
             />
           );
-          break;
         }
+
         case CarrouselTypes.banner: {
           const { image, reference, reservaMini, orderBy } =
             carrousel.itemsCollection.items[0];
+
           return (
             <Banner
+              key={`carousel-${carrousel.title}-${carrousel.type}`}
               orderBy={orderBy}
               height={image.height}
               reference={reference}
@@ -312,15 +348,36 @@ export const HomeScreen: FC<{
               reservaMini={reservaMini}
             />
           );
-          break;
         }
+
         default: {
           return <></>;
-          break;
         }
       }
     });
   }, [carrousels]);
+
+  const renderBannersFlatList = useMemo(() => {
+    return (
+      <FlatList
+        data={images}
+        renderItem={({ item }) => {
+          return (
+            <Banner
+              orderBy={item.orderBy}
+              height={item.height}
+              reference={item.reference}
+              url={item.url}
+              route={item.isLandingPage ? 'LandingPage' : item.route}
+              landingPageId={item.landingPageId}
+              reservaMini={item.reservaMini}
+            />
+          );
+        }}
+        keyExtractor={(item) => item.id}
+      />
+    );
+  }, [images]);
 
   const handleModalCodeIsVisible = useCallback(() => {
     setModalCodeIsVisible(false);
@@ -357,27 +414,14 @@ export const HomeScreen: FC<{
                 overflow: 'hidden',
               }}
             >
-              {countDownClock && <CountDownBanner countDown={countDownClock} />}
+              {countDownClockLocal && showClockHome ? (
+                <CountDownLocal countDownLocal={countDownClockLocal} />
+              ) : (
+                <CountDownBanner countDown={countDownClockGlobal} />
+              )}
               {renderCarouselBanners}
             </Box>
-
-            <FlatList
-              data={images}
-              renderItem={({ item }) => {
-                return (
-                  <Banner
-                    orderBy={item.orderBy}
-                    height={item.height}
-                    reference={item.reference}
-                    url={item.url}
-                    route={item.isLandingPage ? 'LandingPage' : item.route}
-                    landingPageId={item.landingPageId}
-                    reservaMini={item.reservaMini}
-                  />
-                );
-              }}
-              keyExtractor={(item) => item.id}
-            />
+            {renderBannersFlatList}
           </ScrollView>
         </SafeAreaView>
       )}

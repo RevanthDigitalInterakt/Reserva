@@ -25,20 +25,21 @@ import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 import firestore from '@react-native-firebase/firestore';
 import { differenceInMonths } from 'date-fns';
+import OneSignal from "react-native-onesignal";
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
-  const { cookie, setCookie, setEmail, isCookieEmpty } = useAuth();
+  const { setCookie, setEmail, isCookieEmpty } = useAuth();
   const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
   const [profile, setProfile] = useState<ProfileVars>();
   const [imageProfile, setImageProfile] = useState<any>();
   const firebaseRef = new FirebaseService();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
   const [profileImagePath, setProfileImagePath] = useState<any>();
-  const [isTester, setIsTester] = useState<boolean>(false);
+  const [, setIsTester] = useState<boolean>(false);
   const [hasThreeMonths, setHasThreeMonths] = useState<boolean>(false);
-  const [screenCashbackInStoreActive, setScreenCashbackInStoreActive] =
+  const [, setScreenCashbackInStoreActive] =
     useState<boolean>(false);
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -70,6 +71,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
     AsyncStorage.removeItem('@RNAuth:email');
     AsyncStorage.removeItem('@RNAuth:typeLogin');
     AsyncStorage.removeItem('@RNAuth:lastLogin');
+    OneSignal.removeExternalUserId();
     setCookie(null);
     setEmail(null);
   };
@@ -86,7 +88,6 @@ const MenuScreen: React.FC<{}> = ({}) => {
       'FEATURE_CASHBACK_IN_STORE'
     );
 
-    console.log('cashback_in_store', cashback_in_store);
     setScreenCashbackInStoreActive(cashback_in_store);
   };
 
