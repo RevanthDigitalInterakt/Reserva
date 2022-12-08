@@ -1,15 +1,17 @@
 import { deepLinkHelper } from '../linkingUtils';
 import {baseTabUrl, defaultInitialUrl, productUrl} from '../static/deepLinkMethods';
 
+const DONTMATCHURL = undefined;
+
 describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   test('should return default url', () => {
     const result = deepLinkHelper('');
-    expect(result).toEqual(defaultInitialUrl);
+    expect(result).toEqual(DONTMATCHURL);
   });
 
   test('should return default url when is another domain', () => {
     const result = deepLinkHelper('https://www.google.com.br');
-    expect(result).toEqual(defaultInitialUrl);
+    expect(result).toEqual(DONTMATCHURL);
   });
 
   test('should return default url when call urlSiteCase', () => {
@@ -74,8 +76,8 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   test("should return default url when call colectionUseCase", () => {
     const endsWithColection = deepLinkHelper(`https://www.usereserva.com/colecao-reserva/ofertas`);
     const notEndWithColection = deepLinkHelper(`https://www.usereserva.com/colecao-reserva/ofertas/novo-path`);
-    expect(endsWithColection).toEqual(defaultInitialUrl)
-    expect(notEndWithColection).toEqual(defaultInitialUrl)
+    expect(endsWithColection).toEqual(`${baseTabUrl}/ofertas`)
+    expect(notEndWithColection).toEqual(DONTMATCHURL)
   });
 
   describe("test account use cases", ()  => {
@@ -91,6 +93,23 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     test("should return account use case", () => {
         const result = deepLinkHelper(baseUrlAccount);
         expect(result).toEqual(`${baseTabUrl}/profile`)
+    })
+
+    test("should return cart use case", () => {
+      const orderFormId = "dasdasd-321-312312";
+      const successCartUrl = deepLinkHelper(`https://www.usereserva.com/#/cart?orderFormId=${orderFormId}`)
+      const badCardUrl = deepLinkHelper(`https://www.usereserva.com/#/cart?`)
+
+      expect(successCartUrl).toEqual(`usereserva://bag/${orderFormId}`)
+      expect(badCardUrl).toEqual(undefined)
+    })
+
+    test("should return collection catalog use case", () => {
+      const collectionCase = "usereserva://catalog/collection:1627";
+
+      const result = deepLinkHelper(collectionCase)
+
+      expect(result).toEqual(collectionCase);
     })
   })
 });

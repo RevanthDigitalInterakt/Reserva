@@ -48,6 +48,34 @@ const GetSession = async () => {
   return response;
 };
 
+const UpdateItemToCart = async (
+  orderFormId: string | undefined,
+  quantity: number,
+  id: string,
+  seller: string,
+  index: number,
+  hasBundleItems = false,
+) => {
+  const response = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/items/update?sc=4`,
+    {
+      noSplitItem: false,
+      orderItems: [
+        {
+          hasBundleItems,
+          index,
+          quantity,
+          id,
+          seller,
+        },
+      ],
+    }
+  );
+
+  // o retorno é o proprio carrinho com todos os itens
+  return response;
+};
+
 const AddItemToCart = async (
   orderFormId: string | undefined,
   quantity: number,
@@ -70,6 +98,18 @@ const AddItemToCart = async (
 
   // o retorno é o proprio carrinho com todos os itens
   return response;
+};
+
+const RestoreCart = async (orderFormId: string | undefined) => {
+  try {
+    const response = await vtexConfig.get(
+      `/checkout/pub/orderForm/${orderFormId}?sc=4&${new Date().getTime()}=cache`
+    );
+
+    return response;
+  } catch (error) {
+    Sentry.captureException(error);
+  }
 };
 
 const RemoveItemFromCart = async (
@@ -427,36 +467,36 @@ const SetGiftSize = async (
   orderFormId?: string | undefined,
   giftId?: string | undefined,
   id?: string | undefined,
-  seller?: string | undefined,
+  seller?: string | undefined
 ) => {
   const response = await instance7.post(
     `/checkout/pub/orderForm/${orderFormId}/selectable-gifts/${giftId}`,
     {
       id: giftId,
-      selectedGifts:
-        [{
+      selectedGifts: [
+        {
           id: id,
           seller: seller,
-          index: 0
-        }],
-      expectedOrderFormSections:
-        [
-          "items",
-          "totalizers",
-          "clientProfileData",
-          "shippingData",
-          "paymentData",
-          "sellers",
-          "messages",
-          "marketingData",
-          "clientPreferencesData",
-          "storePreferencesData",
-          "giftRegistryData",
-          "ratesAndBenefitsData",
-          "openTextField",
-          "commercialConditionData",
-          "customData"
-        ]
+          index: 0,
+        },
+      ],
+      expectedOrderFormSections: [
+        'items',
+        'totalizers',
+        'clientProfileData',
+        'shippingData',
+        'paymentData',
+        'sellers',
+        'messages',
+        'marketingData',
+        'clientPreferencesData',
+        'storePreferencesData',
+        'giftRegistryData',
+        'ratesAndBenefitsData',
+        'openTextField',
+        'commercialConditionData',
+        'customData',
+      ],
     }
   );
   return response;
@@ -476,6 +516,7 @@ export {
   GetSession,
   CepVerify,
   CepVerifyPostalCode,
+  UpdateItemToCart,
   AddItemToCart,
   AddCouponToCart,
   RemoveCoupon,
@@ -503,5 +544,6 @@ export {
   Attachment,
   VerifyEmail,
   DeleteCustomerProfile,
-  SetGiftSize
+  SetGiftSize,
+  RestoreCart,
 };

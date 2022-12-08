@@ -143,15 +143,15 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     const selectedVariantId = itemId;
     const selectedSellerId = sellers;
 
-    const { message, ok } = await addItem(
-      1,
-      selectedVariantId,
-      selectedSellerId
-    );
+    const addItemResponse = await addItem({
+      quantity: 1,
+      itemId: selectedVariantId,
+      seller: selectedSellerId
+    });
     setIsVisible(true);
 
-    if (!ok) {
-      Alert.alert('Produto sem estoque', message);
+    if (!addItemResponse?.ok) {
+      Alert.alert('Produto sem estoque', addItemResponse?.message);
     }
   };
 

@@ -62,7 +62,7 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.endsWith('colecao-reserva/ofertas')) {
     return {
       match: true,
-      strUrl: defaultInitialUrl,
+      strUrl: `${baseTabUrl}/ofertas`,
     };
   }
 
@@ -92,12 +92,42 @@ const accountUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defautlCustomMethodReturn;
 };
 
+const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if(initialUrl.includes("catalog/collection")) {
+    return {
+      match: true,
+      strUrl: initialUrl
+    }
+  }
+
+  return defautlCustomMethodReturn
+}
+
+const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (initialUrl.includes("#/cart")) {
+    if (initialUrl.includes("?orderFormId")) {
+      const splitOrderFormId = initialUrl
+        .split('?orderFormId=')[1]
+        .split('#/cart')[0];
+
+      return {
+        match: true,
+        strUrl: `usereserva://bag/${splitOrderFormId}`
+      }
+    }
+  }
+
+  return defautlCustomMethodReturn;
+}
+
 const registerMethods = [
   urlSiteCase,
   urlProductCase,
   colectionUseCase,
   accountWishListUseCase,
   accountUseCase,
+  cartUseCase,
+  catalogCollectionUseCase
 ];
 
-export { registerMethods };
+export {registerMethods};

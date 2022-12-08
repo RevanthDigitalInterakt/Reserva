@@ -15,7 +15,7 @@ export const ModalBook: React.FC<ModalBookProps> = ({ isVisible, onAddBag, onClo
   const { addItem } = useCart()
 
   const onPressAddToBag = async () => {
-    const { message, ok } = await addItem(1, "202207", '1')
+    await addItem({ quantity: 1, itemId: "202207", seller: '1'})
     onClose()
   }
   const onPressNoThanks = async () => {

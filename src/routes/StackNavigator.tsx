@@ -203,6 +203,7 @@ export type RootStackParamList = {
   Onboarding: {};
   BagScreen: {
     isProfileComplete: boolean;
+    orderFormId: string | undefined;
   };
 };
 

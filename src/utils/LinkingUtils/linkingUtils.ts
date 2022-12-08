@@ -1,5 +1,4 @@
 import {
-  defaultInitialUrl as defautlInitialUrlReturnDeepLink,
   registerMethods,
 } from './static/deepLinkMethods';
 
@@ -9,9 +8,9 @@ import {
  * if yes, it returns to the proper navigation, otherwise,
  * it redirects to the home page.
  * @param initialUrl string
- * @returns string
+ * @returns string | undefined
  */
-const deepLinkHelper = (initialUrl: string): string => {
+const deepLinkHelper = (initialUrl: string): string | undefined => {
   for (const executeDeepLinkcase of registerMethods) {
     const route = executeDeepLinkcase(initialUrl);
     if (route.match) {
@@ -20,7 +19,7 @@ const deepLinkHelper = (initialUrl: string): string => {
   }
 
 
-  return defautlInitialUrlReturnDeepLink;
+  return undefined;
 };
 
 export { deepLinkHelper };

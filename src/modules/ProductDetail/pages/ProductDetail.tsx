@@ -407,14 +407,14 @@ export const ProductDetail: React.FC<Props> = ({
           .map((x) => x.quantity)[0] || 0;
       if (isAssinaturaSimples) {
         if (acceptConditions) {
-          const { message, ok } = await addItem(
-            1,
-            selectedVariant?.itemId,
-            selectedSellerId
-          );
+          const addItemResponse = await addItem({
+            quantity: 1,
+            itemId: selectedVariant?.itemId,
+            seller: selectedSellerId,
+          });
 
-          if (!ok) {
-            Alert.alert('Produto sem estoque', message);
+          if (!addItemResponse?.ok) {
+            Alert.alert('Produto sem estoque', addItemResponse?.message);
           } else {
             setIsVisible(true);
             await addAttachmentsInProducts();
@@ -428,14 +428,14 @@ export const ProductDetail: React.FC<Props> = ({
           }
         }
       } else {
-        const { message, ok } = await addItem(
-          quantities + 1,
-          selectedVariant?.itemId,
-          selectedSellerId
-        );
+        const addItemResponse = await addItem({
+          quantity: quantities + 1,
+          itemId: selectedVariant?.itemId,
+          seller: selectedSellerId
+        });
 
-        if (!ok) {
-          Alert.alert('Produto sem estoque', message);
+        if (!addItemResponse?.ok) {
+          Alert.alert('Produto sem estoque', addItemResponse?.message);
         } else {
           setIsVisible(true);
 

@@ -3,14 +3,11 @@ import React, {
   createContext,
   ReactNode,
   useContext,
-  SetStateAction,
-  Dispatch,
   useEffect,
 } from 'react';
 
 import * as Sentry from '@sentry/react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import appsFlyer from 'react-native-appsflyer';
 
@@ -19,9 +16,7 @@ import {
   AddAddressToCart,
   AddCustomerToOrder,
   AddItemToCart,
-  CepVerify,
   CreateCart,
-  ValidateProfile,
   IdentifyCustomer,
   RemoveItemFromCart,
   addToCoupon,
@@ -41,8 +36,12 @@ import {
   VerifyEmail,
   DeleteCustomerProfile,
   CepVerifyPostalCode,
+  RestoreCart,
+  SetGiftSize,
+  UpdateItemToCart,
 } from '../services/vtexService';
 import { CategoriesParserString } from '../utils/categoriesParserString';
+import {checkoutService} from "../services/checkoutService";
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -235,7 +234,7 @@ export interface OrderForm {
   userType: any;
   value: number;
 }
-interface Item {
+export interface Item {
   unique: string;
   id: string;
   productId: string;
@@ -455,14 +454,30 @@ export interface IOrderId {
   checkedInPickupPointId: null;
   cancellationData: null;
 }
+
+interface IAddItemDTO {
+  quantity: number,
+  itemId: string,
+  seller: string,
+  isUpdate?: boolean,
+  index?: number,
+  hasBundleItems?: boolean,
+}
+
+type TAddItemResponse = {
+  message: string;
+  ok?: undefined;
+} | {
+  ok: boolean;
+  message?: undefined;
+} | undefined;
+
 interface CartContextProps {
+  loading: boolean;
+  topBarLoading: boolean;
   orderForm: OrderForm | undefined;
   updateOrderForm: () => Promise<OrderForm | void>;
-  addItem: (
-    quantity: number,
-    itemId: string,
-    seller: string
-  ) => Promise<{ message: string; ok: boolean }>;
+  addItem: (dto: IAddItemDTO) => Promise<TAddItemResponse>;
   identifyCustomer: (email: string) => Promise<boolean | undefined>;
   addCustomer: (customer: any) => Promise<boolean | undefined>;
   addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
@@ -472,10 +487,19 @@ interface CartContextProps {
     selectedAddresses: any[]
   ) => Promise<boolean | undefined>; // todo - type later,
   orderform: () => void;
-  removeItem: () => Promise<{ ok: boolean }>;
+  removeItem: (
+    itemId: string,
+    index: number,
+    seller: string,
+    qty: number
+  ) => Promise<
+    | {
+        ok: boolean;
+      }
+    | undefined
+  >;
   resetUserCheckout: () => Promise<boolean | undefined>;
   addCoupon: (coupon: string) => Promise<boolean | undefined>;
-  addSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   removeCoupon: (coupon: string) => Promise<boolean | undefined>;
   removeSellerCoupon: (coupon: string) => Promise<boolean | undefined>;
   sendUserEmail: (email: string) => Promise<boolean | undefined>;
@@ -502,6 +526,20 @@ interface CartContextProps {
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
   verifyEmail: (email: string) => Promise<boolean | undefined>;
   deleteCustomerProfile: (id: string) => Promise<boolean | undefined>;
+  restoreCart: (orderFormId: string) => Promise<void>;
+  sellerCode: string;
+  sellerName: string;
+  applyCouponOnPressed: (value: string) => Promise<void>;
+  hasErrorApplyCoupon: boolean;
+  setGiftSizeRequest: (
+    orderFormId: string,
+    selectableGiftsId: string,
+    id: string,
+    seller: string
+  ) => void;
+  toggleGiftWrapping: (flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => (
+    Promise<void>
+  );
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -512,13 +550,75 @@ interface CartContextProviderProps {
 
 const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [sellerCode, setSellerCode] = useState<string>('');
+  const [sellerName, setSellerName] = useState<string>('');
+  const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
+  const [hasErrorApplyCoupon, setHasErrorApplyCoupon] =
+    useState<boolean>(false);
 
-  const orderform = async () => {
+  const _requestOrderForm = async () => {
+    const { data } = await CreateCart();
+    setOrderForm(data);
+  };
+
+  const _requestRestoreCart = async (orderFormId: string) => {
+    const { data } = await RestoreCart(orderFormId);
+    setOrderForm(data);
+
+    return data;
+  };
+
+  const _selectedCouponSeller = async (sellerCouponCode: string) => {
+    setLoading(true);
     try {
-      const { data } = await CreateCart();
-      setOrderForm(data);
+      const { data } = await validateSellerCoupon(sellerCouponCode);
+
+      if (data.length > 0 && data[0].ativo) {
+        setSellerCode(sellerCouponCode);
+        setSellerName(data[0].vendedor_apelido.split(' ')[0]);
+        return !!data;
+      }
+      return false;
     } catch (error) {
       Sentry.captureException(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const orderform = async () => {
+    setLoading(true);
+    try {
+      await _requestOrderForm();
+    } catch (error) {
+      Sentry.captureException(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const setGiftSizeRequest = async (
+    orderFormId: string,
+    selectableGiftsId: string,
+    id: string,
+    seller: string
+  ) => {
+    setTopBarLoading(true);
+    try {
+      const data = await SetGiftSize(
+        orderFormId,
+        selectableGiftsId,
+        id,
+        seller
+      );
+      if (data) {
+        await _requestOrderForm();
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+    } finally {
+      setTopBarLoading(false);
     }
   };
 
@@ -532,23 +632,34 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const addItem = async (quantity: number, itemId: string, seller: string) => {
-    try {
-      const { data } = await AddItemToCart(
-        orderForm?.orderFormId,
-        quantity,
-        itemId,
-        seller
-      );
+  const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> => {
+    const { quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false } = dto;
 
-      // check produt availability
-      const index = data.items.findIndex(({ id }: any) => id === itemId);
-      const product = data.items[index];
+    try {
+      const isUpdateItem = hasBundleItems && isUpdate && index >= 0;
+
+      const { data } = isUpdateItem
+        ? await UpdateItemToCart(
+          orderForm?.orderFormId,
+          quantity,
+          itemId,
+          seller,
+          index,
+          hasBundleItems,
+        ) : await AddItemToCart(
+          orderForm?.orderFormId,
+          quantity,
+          itemId,
+          seller,
+        );
+
+      const idx = data.items.findIndex(({ id }: any) => id === itemId);
+      const product = data.items[idx];
 
       if (product.availability !== 'available') {
         const productRemoved = await removeUnavailableProduct(
           product.id,
-          index,
+          idx,
           seller
         );
 
@@ -570,7 +681,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
           af_quantity: quantity,
           af_seller: seller,
         },
-        (res) => { },
+        (res) => {},
         (err) => {
           Sentry.captureException(err);
         }
@@ -617,7 +728,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
             productRemoved?.productCategories
           ),
         },
-        (res) => { },
+        (res) => {},
         (err) => {
           Sentry.captureException(err);
         }
@@ -766,48 +877,37 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const addSellerCoupon = async (coupon: string) => {
-    try {
-      const { data } = await validateSellerCoupon(coupon);
-      if (data.length > 0 && data[0].ativo) {
-        await addToSellerCoupon(orderForm?.orderFormId, {
-          ...orderForm?.marketingData,
-          marketingTags: [
-            'CodigoVendedor',
-            `code_CodigoVendedor=${coupon}`,
-            `vendedor_apelido=${data[0].vendedor_apelido}`,
-            'ron=false',
-          ],
-        });
-        return !!data;
-      }
-      return false;
-    } catch (error) {
-      Sentry.captureException(error);
-    }
-  };
   const removeCoupon = async (coupon: string) => {
+    setLoading(true);
     try {
       const { data } = await removeCouponToOder(orderForm?.orderFormId, coupon);
       setOrderForm(data);
       return !!data;
     } catch (error) {
       Sentry.captureException(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const removeSellerCoupon = async (coupon: string) => {
+    setTopBarLoading(true);
     try {
       const { data } = await removeSellerCouponToOder(orderForm?.orderFormId, {
         ...orderForm?.marketingData,
         marketingTags: [''],
       });
+      setSellerCode('');
+      setSellerName('');
       setOrderForm(data);
       return !!data;
     } catch (error) {
       Sentry.captureException(error);
+    } finally {
+      setTopBarLoading(false);
     }
   };
+
   useEffect(() => {
     orderform();
   }, []);
@@ -900,6 +1000,67 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
+  const applyCouponOnPressed = async (sellerCouponCode?: string) => {
+    if (!sellerCouponCode) {
+      return setHasErrorApplyCoupon(true);
+    }
+
+    setTopBarLoading(true);
+    try {
+      const { data } = await validateSellerCoupon(sellerCouponCode);
+
+      await addToSellerCoupon(orderForm?.orderFormId, {
+        ...orderForm?.marketingData,
+        marketingTags: [
+          `code_CodigoVendedor=${sellerCouponCode}`,
+          'CodigoVendedor',
+          `vendedor_apelido=${data[0].vendedor_apelido}`,
+          'ron=false',
+        ],
+      });
+
+      const sellerName = data[0].vendedor_apelido.split(' ')[0];
+
+      //TODO if no found sellerName, should be do default name;
+      if (!sellerName) {
+        setHasErrorApplyCoupon(true);
+        return;
+      }
+
+      setSellerCode(sellerCouponCode);
+      setSellerName(data[0].vendedor_apelido.split(' ')[0]);
+
+      await _requestOrderForm();
+    } catch (error) {
+      Sentry.captureException(error);
+      setHasErrorApplyCoupon(true);
+    } finally {
+      setTopBarLoading(false);
+    }
+  };
+
+  const restoreCart = async (orderFormId: string) => {
+    setLoading(true);
+    try {
+      //TODO create interface
+      const data = await _requestRestoreCart(orderFormId);
+
+      const sellerCodeData = data?.marketingData?.marketingTags?.filter(
+        (item) => item.startsWith('code_CodigoVendedor=')
+      )[0];
+
+      if (sellerCodeData) {
+        const sellerCode = sellerCodeData.split('=')[1];
+        await _selectedCouponSeller(sellerCode);
+      }
+      setOrderForm(data);
+    } catch (error) {
+      Sentry.captureException(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const updateOrderForm = async () => {
     if (orderForm) {
       const fetchOptions: any = {
@@ -911,17 +1072,63 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
-      }
-      const response = await fetch(`https://app-vtex.usereserva.com/api/checkout/pub/orderform/${orderForm?.orderFormId}?sc=4`, fetchOptions);
+      };
+      const response = await fetch(
+        `https://app-vtex.usereserva.com/api/checkout/pub/orderform/${orderForm?.orderFormId}?sc=4`,
+        fetchOptions
+      );
       const newOrderForm = await response.json();
       setOrderForm(newOrderForm);
       return newOrderForm;
     }
-  }
+  };
+
+  const toggleGiftWrapping = async (flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => {
+    try {
+      setTopBarLoading(true);
+
+      if (flag) {
+        const offeringId = item.offerings.filter(offering => offering?.type === 'Embalagem pra Presente')[0].id
+
+        if (!offeringId) return;
+
+        await checkoutService.activeGiftWrapping(
+          orderFormId,
+          index,
+          { id: offeringId },
+          cookie ?? undefined,
+        );
+
+        await _requestRestoreCart(orderFormId);
+
+        return;
+      }
+
+      // Check if item has bundle_items
+      const hasGift = item.bundleItems[0].id;
+
+      if (!hasGift) return;
+
+      await checkoutService.removeGiftWrapping(
+        orderFormId,
+        index,
+        hasGift,
+        cookie ?? undefined,
+      );
+
+      await _requestRestoreCart(orderFormId);
+    } catch (err) {
+      Sentry.captureException(err);
+    } finally {
+      setTopBarLoading(false);
+    }
+  };
 
   return (
     <CartContext.Provider
       value={{
+        loading,
+        topBarLoading,
         orderForm,
         updateOrderForm,
         addItem,
@@ -933,7 +1140,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         orderform,
         removeItem,
         addCoupon,
-        addSellerCoupon,
         removeCoupon,
         removeSellerCoupon,
         resetUserCheckout,
@@ -947,6 +1153,13 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         searchNewOrderDetail,
         verifyEmail,
         deleteCustomerProfile,
+        restoreCart,
+        sellerCode,
+        sellerName,
+        applyCouponOnPressed,
+        hasErrorApplyCoupon,
+        setGiftSizeRequest,
+        toggleGiftWrapping,
       }}
     >
       {children}
@@ -964,6 +1177,8 @@ export const useCart = () => {
   }
 
   const {
+    loading,
+    topBarLoading,
     orderForm,
     updateOrderForm,
     addItem,
@@ -975,7 +1190,6 @@ export const useCart = () => {
     orderform,
     removeItem,
     addCoupon,
-    addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
     resetUserCheckout,
@@ -989,8 +1203,17 @@ export const useCart = () => {
     orderDetail,
     verifyEmail,
     deleteCustomerProfile,
+    restoreCart,
+    sellerCode,
+    sellerName,
+    applyCouponOnPressed,
+    hasErrorApplyCoupon,
+    setGiftSizeRequest,
+    toggleGiftWrapping,
   } = cartContext;
   return {
+    loading,
+    topBarLoading,
     orderForm,
     updateOrderForm,
     addItem,
@@ -1002,7 +1225,6 @@ export const useCart = () => {
     orderform,
     removeItem,
     addCoupon,
-    addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
     resetUserCheckout,
@@ -1016,5 +1238,12 @@ export const useCart = () => {
     orderDetail,
     verifyEmail,
     deleteCustomerProfile,
+    restoreCart,
+    sellerCode,
+    sellerName,
+    applyCouponOnPressed,
+    hasErrorApplyCoupon,
+    setGiftSizeRequest,
+    toggleGiftWrapping,
   };
 };

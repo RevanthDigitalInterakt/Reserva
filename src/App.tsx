@@ -14,7 +14,6 @@ import { linkingConfig } from './config/linking';
 import { oneSignalConfig } from './config/pushNotification';
 import './config/ReactotronConfig';
 import { requestTrackingPermission } from 'react-native-tracking-transparency';
-import PushIOManager from '@oracle/react-native-pushiomanager';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
@@ -34,7 +33,6 @@ import {
   apolloClientTesting,
 } from './services/apolloClient';
 import AsyncStorage from '@react-native-community/async-storage';
-import { responsysConfig } from './config/responsys';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
@@ -120,41 +118,6 @@ const maintenanceHandler = async () => {
 };
 
 const App = () => {
-  const [canRegisterUser, setCanRegisterUser] = useState(true);
-
-  useEffect(() => {
-    PushIOManager.configure(
-      'pushio_config.json',
-      (configureError: any, configureResponse: any) => {
-        if (configureResponse === 'success') {
-          if (Platform.OS === 'android') {
-            PushIOManager.registerApp(
-              true,
-              (registerError: any, registerResponse: any) => {
-                if (registerResponse === 'success') {
-                  setCanRegisterUser(true);
-                } else {
-                  setCanRegisterUser(false);
-                }
-              }
-            );
-          } else {
-            PushIOManager.registerForAllRemoteNotificationTypes(
-              (error: any, response: any) => {
-                PushIOManager.registerApp(
-                  true,
-                  (error: any, response: any) => {}
-                );
-              }
-            );
-          }
-        } else {
-          setCanRegisterUser(false);
-        }
-      }
-    );
-  }, []);
-
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
   const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean>(null);
@@ -217,7 +180,6 @@ const App = () => {
     })();
     requestUserPermission();
     logAppOpenAnalytics();
-    responsysConfig();
     oneSignalConfig();
     setTimeout(() => {
       getMaintenanceValue();

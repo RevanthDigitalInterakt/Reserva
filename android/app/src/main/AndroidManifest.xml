@@ -82,6 +82,7 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="https" android:host="www.usereserva.com" android:pathPrefix="/account" />
         <data android:scheme="https" android:host="www.usereserva.com" android:pathPattern="/.*/p" />
+        <data android:scheme="https" android:host="www.usereserva.com" android:pathPrefix="/checkout/" />
         <data android:scheme="https" android:host="www.usereserva.com" android:path="/" />
         <data android:scheme="https" android:host="www.usereserva.com" android:path="/colecao-reserva/ofertas" />
       </intent-filter>

@@ -1,7 +1,12 @@
 import * as Sentry from '@sentry/react-native';
 import { checkoutInstance } from '../config/checkoutConfig';
+import { OrderForm, Item } from "../context/CartContext";
 
-export const chechoutService = {
+type TActiveCheckoutGift = {
+  id: string;
+}
+
+export const checkoutService = {
   setPaymentMethod: async (
     orderFormId: string,
     value: number,
@@ -78,7 +83,7 @@ export const chechoutService = {
   ) => {
     try {
       const response = await checkoutInstance.get(
-        `https://lojausereserva.vtexpayments.com.br/api/pub/transactions/${transactionId}/payments?orderId=${order}&redirect=false&callbackUrl=https%3A%2F%2Fwww.usereserva.com%2Fcheckout%2FgatewayCallback%2F${orderGroup}%2F%7BmessageCode%7D&macId=f056cea2-e01b-4572-8c3d-2a58acbf0085&sessionId=a23041b6-c669-4494-8722-2aa8b9d07f22&deviceInfo=c3c9MjU2MCZzaD0xMDgwJmNkPTI0JnR6PTE4MCZsYW5nPXB0LUJSJmphdmE9ZmFsc2Umc291cmNlQXBwbGljYXRpb249dmNzLmNoZWNrb3V0LXVpQHY2LjQ5LjUmaW5zdGFsbGVkQXBwbGljYXRpb25zPVsicGl4LXBheW1lbnQiXQ==`,
+        `https://lojausereserva.vtexpayments.com.br/api/pub/transactions/${transactionId}/payments?orderId=${value}&redirect=false&callbackUrl=https%3A%2F%2Fwww.usereserva.com%2Fcheckout%2FgatewayCallback%2F${orderGroup}%2F%7BmessageCode%7D&macId=f056cea2-e01b-4572-8c3d-2a58acbf0085&sessionId=a23041b6-c669-4494-8722-2aa8b9d07f22&deviceInfo=c3c9MjU2MCZzaD0xMDgwJmNkPTI0JnR6PTE4MCZsYW5nPXB0LUJSJmphdmE9ZmFsc2Umc291cmNlQXBwbGljYXRpb249dmNzLmNoZWNrb3V0LXVpQHY2LjQ5LjUmaW5zdGFsbGVkQXBwbGljYXRpb25zPVsicGl4LXBheW1lbnQiXQ==`,
         {
           data: [
             {
@@ -119,15 +124,36 @@ export const chechoutService = {
     }
   },
 
-  activeGitEmballage: async (
+  activeGiftWrapping: async (
     orderID: string,
     indexDoItems: number,
-    cookie: string
+    payload: TActiveCheckoutGift,
+    cookie?: string,
   ) => {
     try {
-      const response = await checkoutInstance.post(
-        `https://www.usereserva.com/api/checkout/pub/orderForm/${orderID}/items/${indexDoItems}/offerings`,
-        {},
+      await checkoutInstance.post(
+        `https://app-vtex.usereserva.com/api/checkout/pub/orderForm/${orderID}/items/${indexDoItems}/offerings`,
+        payload,
+        {
+          headers: {
+            Cookie: cookie,
+          },
+        }
+      );
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+  },
+
+  removeGiftWrapping: async (
+    orderID: string,
+    indexDoItems: number,
+    idDoItem: string,
+    cookie?: string,
+  ) => {
+    try {
+      await checkoutInstance.post(
+        `https://app-vtex.usereserva.com/api/checkout/pub/orderForm/${orderID}/items/${indexDoItems}/offerings/${idDoItem}/remove`,
         {
           headers: {
             Cookie: cookie,

@@ -11,8 +11,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import OneSignal from 'react-native-onesignal';
 import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
-// @ts-ignore
-import PushIOManager from '@oracle/react-native-pushiomanager';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
@@ -97,8 +95,6 @@ export const LoginScreen: React.FC<Props> = ({
         });
 
         OneSignal.setExternalUserId(email);
-
-        PushIOManager.registerUserId(email);
 
         appsFlyer.logEvent(
           'af_login',

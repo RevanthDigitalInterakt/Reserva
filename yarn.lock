@@ -904,10 +904,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@danilomsou/reserva-ui@0.34.0":
-  version "0.34.0"
-  resolved "https://registry.yarnpkg.com/@danilomsou/reserva-ui/-/reserva-ui-0.34.0.tgz#cd34b0e60c99d82dd8fc0dc791ecc9c5e69b5cb1"
-  integrity sha512-KOUUx09vPF64yqBlXPX5xPLjEc4occmCBgu77VlcqKfsjqhGFt8/JIkXtDtrKdI+e8pihhn7evi8e6yDRUdUUw==
+"@danilomsou/reserva-ui@0.35.0":
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/@danilomsou/reserva-ui/-/reserva-ui-0.35.0.tgz#ba7607214d29ab5bf5259c12f2c4b5c1c9cc43c0"
+  integrity sha512-13KuXSZpZYOdLFmZjDplEQhYx+3KgSSio0QQTRF5PLxhtDEZekZqwCmVA8nOq8i9D+4I80E7Zb7/k1PvKeb7gg==
   dependencies:
     lottie-react-native "^4.0.3"
     react-native-linear-gradient "^2.5.6"
@@ -1281,11 +1281,6 @@
   dependencies:
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
-
-"@monterosa/react-native-parallax-scroll@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@monterosa/react-native-parallax-scroll/-/react-native-parallax-scroll-1.8.0.tgz#04339a772c02818b229582a8b903aca4f9106005"
-  integrity sha512-fFzJvMNN77d78haErRrZ/X64H0Vjz+5CvXSHBqxjlRQmhUB/R7BnqHwO3WFKGv2/Hv30LpL+0MSfHZeukglvDA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2525,11 +2520,6 @@ acorn@^8.2.4, acorn@^8.7.0, acorn@^8.7.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.7.1.tgz#0197122c843d1bf6d0a5e83220a788f278f63c30"
   integrity sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A==
 
-add@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
-  integrity sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==
-
 agent-base@6, agent-base@^6.0.0, agent-base@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
@@ -3240,13 +3230,6 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-card-validator@^8.1.0:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/card-validator/-/card-validator-8.1.1.tgz#418f5f32435553fb9ca2a02634ad413bb38697a9"
-  integrity sha512-cN4FsKwoTfTFnqPwVc7TQLSsH/QMDB3n/gWm0XelcApz4sKipnOQ6k33sa3bWsNnnIpgs7eXOF+mUV2UQAX2Sw==
-  dependencies:
-    credit-card-type "^9.1.0"
-
 caseless@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
@@ -3624,11 +3607,6 @@ cosmiconfig@^5.0.5, cosmiconfig@^5.1.0:
     is-directory "^0.3.1"
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
-
-credit-card-type@^9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/credit-card-type/-/credit-card-type-9.1.0.tgz#54dd96c93b6579623e9c8656e6798fc2b93f5f05"
-  integrity sha512-CpNFuLxiPFxuZqhSKml3M+t0K/484pMAnfYWH14JoD7OZMnmC0Lmo+P7JX9SobqFpRoo7ifA18kOHdxJywYPEA==
 
 creditcardutils@^1.0.0:
   version "1.0.0"
@@ -5387,11 +5365,6 @@ inquirer@^8.1.5:
     through "^2.3.6"
     wrap-ansi "^7.0.0"
 
-install@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/install/-/install-0.13.0.tgz#6af6e9da9dd0987de2ab420f78e60d9c17260776"
-  integrity sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==
-
 internal-slot@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/internal-slot/-/internal-slot-1.0.3.tgz#7347e307deeea2faac2ac6205d4bc7d34967f59c"
@@ -6490,11 +6463,6 @@ lodash-es@^4.17.21:
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
 
-lodash.compact@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/lodash.compact/-/lodash.compact-3.0.1.tgz#540ce3837745975807471e16b4a2ba21e7256ca5"
-  integrity sha512-2ozeiPi+5eBXW1CLtzjk8XQFhQOEMwwfxblqeq6EGyTxZJ1bPATqilY0e6g2SLQpP4KuMeuioBhEnWz5Pr7ICQ==
-
 lodash.curry@^4.0.1, lodash.curry@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.curry/-/lodash.curry-4.1.1.tgz#248e36072ede906501d75966200a86dab8b23170"
@@ -6504,11 +6472,6 @@ lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
-
-lodash.every@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.every/-/lodash.every-4.6.0.tgz#eb89984bebc4364279bb3aefbbd1ca19bfa6c6a7"
-  integrity sha512-isF82d+65/sNvQ3aaQAW7LLHnnTxSN/2fm4rhYyuufLzA4VtHz6y6S5vFwe6PQVr2xdqUOyxBbTNKDpnmeu50w==
 
 lodash.flow@^3.3.0:
   version "3.5.0"
@@ -6520,11 +6483,6 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash.pick@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
-  integrity sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==
-
 lodash.result@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.result/-/lodash.result-4.5.2.tgz#cb45b27fb914eaa8d8ee6f0ce7b2870b87cb70aa"
@@ -6535,12 +6493,7 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
-lodash.values@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/lodash.values/-/lodash.values-4.3.0.tgz#a3a6c2b0ebecc5c2cba1c17e6e620fe81b53d347"
-  integrity sha512-r0RwvdCv8id9TUblb/O7rYPwVy6lerCbcawrfdo9iC/1t1wsNMJknO79WNBgwkH0hIeJ08jmvvESbFpNb4jH0Q==
-
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.7.0:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -8175,34 +8128,12 @@ react-native-config@^1.4.11:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.11.tgz#f9ea08a8dffbe3fd4f2187d80d2594756526dee8"
   integrity sha512-PdBFnfR3pljUNrJu4B2wiJ9TbAiz1J1WcG5KP8AFBqZi8ve5MV/CTCDnANaGrqhOxkBDJV73D/SrMENHe7TKBg==
 
-react-native-countdown-component@^2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/react-native-countdown-component/-/react-native-countdown-component-2.7.1.tgz#d1e1278d792b0bb6b1bf58972e8a3ad758926a86"
-  integrity sha512-H7D/YvMjY1hCJf9xFrNh5CsIwkcel/Suno2gYR6ulWwoa2xnUgmltFWoMyEIODsUy7lIK1KCPm+Zn26QajbRaw==
-  dependencies:
-    lodash "^4.17.13"
-    prop-types "^15.5.8"
-    sprintf-js "^1.1.1"
-
 "react-native-credit-card-display@https://github.com/ebellumat/react-native-credit-card-display":
   version "0.3.6"
   resolved "https://github.com/ebellumat/react-native-credit-card-display#5b103b5672dc64d5a7c194fa7742534478ee5d58"
   dependencies:
     creditcardutils "^1.0.0"
     react-native-flip-card "^3.5.6"
-
-react-native-credit-card-input-view@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/react-native-credit-card-input-view/-/react-native-credit-card-input-view-0.0.7.tgz#acf09591f05047dfc32a393479f72b146a5ecc85"
-  integrity sha512-wH2e7QRv7v/EWbmPhDSdgL8wR1wddD6lLrQ9hMHXpU+jy916Ld2ar7CUrug84Mci/CVvVHMaLw7e156lOX/7VQ==
-  dependencies:
-    card-validator "^8.1.0"
-    lodash.compact "^3.0.1"
-    lodash.every "^4.6.0"
-    lodash.pick "^4.4.0"
-    lodash.values "^4.3.0"
-    prop-types "^15.7.2"
-    react-native-flip-card-plus "^1.0.4"
 
 react-native-device-info@^0.9.3:
   version "0.9.9"
@@ -8218,14 +8149,6 @@ react-native-exit-app@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-exit-app/-/react-native-exit-app-1.1.0.tgz#5ec082152974240e2d6a93f1608efb49a4385f21"
   integrity sha512-Spne19zfMfJvnUTX909EHUqWMk69rATtLJq9XMBGpNSHhx0M7v5yetx2Z87egBhLOqQm+CWfD/oxWzDG8rbIQA==
-
-react-native-flip-card-plus@^1.0.4:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-native-flip-card-plus/-/react-native-flip-card-plus-1.0.5.tgz#a976e846fdd3a9a6736026188687b15660f4b7d9"
-  integrity sha512-fu/HWnYGHCE9U1aD1+4cbWO52SPZAVVY6HbR4CPXhMgU3S6XJkCau1f975d21Mv6WVBGuyjyCPfYGJjO8iXdQw==
-  dependencies:
-    prop-types "^15.7.2"
-    react-native-swipe-gestures-plus "^1.1.2"
 
 react-native-flip-card@^3.5.6:
   version "3.5.6"
@@ -8444,11 +8367,6 @@ react-native-svg@^12.1.1:
   dependencies:
     css-select "^4.2.1"
     css-tree "^1.0.0-alpha.39"
-
-react-native-swipe-gestures-plus@^1.1.2:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/react-native-swipe-gestures-plus/-/react-native-swipe-gestures-plus-1.1.3.tgz#a0f5a975dc2fa78f7ca4afe995acdbb21c05e3ea"
-  integrity sha512-mqq83sR+G3X4s/nbH86RYoMbo1qYyiLp6BPk56rk1HCT8J6AuJ3EdtFEtZtxKP3kBYj17SohEdvMvr9fDseA1Q==
 
 react-native-toast-message@^1.4.9:
   version "1.6.0"
@@ -9375,11 +9293,6 @@ split-string@^3.0.1, split-string@^3.0.2:
   dependencies:
     extend-shallow "^3.0.0"
 
-sprintf-js@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.2.tgz#da1765262bf8c0f571749f2ad6c26300207ae673"
-  integrity sha512-VE0SOVEHCk7Qc8ulkWw3ntAzXuqf7S2lvwQaDLRnUeIEaKNQJzV6BwmLKhOqT61aGhfUMrXeaBk+oDGCzvhcug==
-
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
@@ -9996,11 +9909,6 @@ typedoc@^0.22.10:
     marked "^4.0.16"
     minimatch "^5.1.0"
     shiki "^0.10.1"
-
-typesafe-actions@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/typesafe-actions/-/typesafe-actions-5.1.0.tgz#9afe8b1e6a323af1fd59e6a57b11b7dd6623d2f1"
-  integrity sha512-bna6Yi1pRznoo6Bz1cE6btB/Yy8Xywytyfrzu/wc+NFW3ZF0I+2iCGImhBsoYYCOWuICtRO4yHcnDlzgo1AdNg==
 
 typescript-compare@^0.0.2:
   version "0.0.2"
