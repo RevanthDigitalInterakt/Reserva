@@ -1,3 +1,4 @@
+import { removeLastCharacterSlash } from '../removeLastCharacterSlash'
 import {
   registerMethods,
 } from './static/deepLinkMethods';
@@ -10,9 +11,12 @@ import {
  * @param initialUrl string
  * @returns string | undefined
  */
+
 const deepLinkHelper = (initialUrl: string): string | undefined => {
+
+  const url = removeLastCharacterSlash(initialUrl)
   for (const executeDeepLinkcase of registerMethods) {
-    const route = executeDeepLinkcase(initialUrl);
+    const route = executeDeepLinkcase(url);
     if (route.match) {
       return route.strUrl;
     }

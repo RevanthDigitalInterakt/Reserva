@@ -6,7 +6,7 @@ import {
   Icon,
   Divider,
   Image,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import Modal from 'react-native-modal';
 import { Platform } from 'react-native';

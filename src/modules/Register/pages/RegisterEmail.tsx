@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
-import { Typography, Box, Button } from '@danilomsou/reserva-ui';
+import { Typography, Box, Button } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { sendEmailVerificationMutation } from '../../../graphql/login/loginMutations';

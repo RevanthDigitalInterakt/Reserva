@@ -1,4 +1,4 @@
-import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';

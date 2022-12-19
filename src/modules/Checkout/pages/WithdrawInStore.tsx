@@ -9,7 +9,7 @@ import {
   OutlineInput,
   Icon,
   Picker,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';

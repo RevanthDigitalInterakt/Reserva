@@ -1,5 +1,5 @@
-import { Box, Button, Typography } from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
+import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import * as React from 'react';

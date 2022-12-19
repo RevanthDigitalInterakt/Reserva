@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, ExpansePanel, Divider } from '@danilomsou/reserva-ui';
+import { Typography, Box, ExpansePanel, Divider } from '@usereservaapp/reserva-ui';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 

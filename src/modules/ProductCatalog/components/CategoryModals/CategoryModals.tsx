@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Picker, TextField, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Picker, TextField, Typography } from '@usereservaapp/reserva-ui';
 interface CreateCategoryModalProps {
   isVisible: boolean;
   favoritedProduct?: any;

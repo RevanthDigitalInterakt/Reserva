@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Linking, SafeAreaView, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { Typography, Box, Icon, Divider, Button } from '@danilomsou/reserva-ui';
+import { Typography, Box, Icon, Divider, Button } from '@usereservaapp/reserva-ui';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';

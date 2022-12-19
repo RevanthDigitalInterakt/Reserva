@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Icon
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 export interface ICouponBadge {
   value: string;
   onPress: () => void;

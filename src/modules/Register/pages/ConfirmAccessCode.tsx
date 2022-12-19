@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Typography, Box, Alert } from '@danilomsou/reserva-ui';
+import { Typography, Box, Alert } from '@usereservaapp/reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import AddressSelector from '../../Address/Components/AddressSelector';
 import DeliverySelector from '../components/DeliverySelector';

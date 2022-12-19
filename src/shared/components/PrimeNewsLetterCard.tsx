@@ -4,7 +4,7 @@ import {
   TextField,
   Button,
   OutlineInput,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
 import { Platform } from 'react-native';
 import React from 'react';

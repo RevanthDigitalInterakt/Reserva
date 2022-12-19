@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Alert, Platform } from 'react-native';
-import { TopBar } from '@danilomsou/reserva-ui';
+import { TopBar } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
 
 export const TopBarDefault: React.FC<{

@@ -8,7 +8,7 @@ import {
   Linking,
 } from 'react-native';
 
-import { Icon, Box, Typography, Divider, Button } from '@danilomsou/reserva-ui';
+import { Icon, Box, Typography, Divider, Button } from '@usereservaapp/reserva-ui';
 import { TopBarDefault } from '../Menu/components/TopBarDefault';
 import { useNavigation } from '@react-navigation/native';
 

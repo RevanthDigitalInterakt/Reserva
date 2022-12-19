@@ -7,7 +7,7 @@ import {
   Icon,
   Divider,
   theme,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 interface IPrimeFAQ {
   data: any;

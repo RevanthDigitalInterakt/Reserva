@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Divider, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Divider, Icon, Typography } from '@usereservaapp/reserva-ui';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';

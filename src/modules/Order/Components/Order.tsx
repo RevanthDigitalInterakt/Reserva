@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
-import { Typography, Box, Button, Icon, Divider } from '@danilomsou/reserva-ui';
+import { Typography, Box, Button, Icon, Divider } from '@usereservaapp/reserva-ui';
 import { stringToReal } from '../../../utils/stringToReal';
 import { useState } from 'react';
 import { format, } from 'date-fns';

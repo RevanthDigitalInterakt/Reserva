@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 import ModalDeleteAccount from '../ModalDeleteAccount';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@danilomsou/reserva-ui';
+import { theme } from '@usereservaapp/reserva-ui';
 // test e it são a mesma coisa
 
 const mockHandleDeleteAccount = jest.fn();

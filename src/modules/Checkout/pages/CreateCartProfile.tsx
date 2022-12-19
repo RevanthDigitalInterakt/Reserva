@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
   theme,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 
 import { useCart } from '../../../context/CartContext';

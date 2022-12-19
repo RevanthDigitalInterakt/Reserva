@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Animated, Easing, View, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Box } from '@danilomsou/reserva-ui';
+import { Box } from '@usereservaapp/reserva-ui';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 

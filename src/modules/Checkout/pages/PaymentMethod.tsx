@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, Button, Icon, Divider, Checkbox, theme } from '@danilomsou/reserva-ui';
+import { Typography, Box, Button, Icon, Divider, Checkbox, theme } from '@usereservaapp/reserva-ui';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useNavigation } from '@react-navigation/native';
 import { PriceCustom } from '../components/PriceCustom';

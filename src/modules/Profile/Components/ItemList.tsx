@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { TouchableOpacity } from "react-native";
-import { Box, Divider, Icon, Typography } from "@danilomsou/reserva-ui";
+import { Box, Divider, Icon, Typography } from "@usereservaapp/reserva-ui";
 
 interface ItemListProps {
   title: string;

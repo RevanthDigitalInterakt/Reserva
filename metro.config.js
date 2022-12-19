@@ -7,7 +7,7 @@
  const { getDefaultConfig } = require("metro-config");
  const { resolver: defaultResolver } = getDefaultConfig.getDefaultValues();
 
-// Uncomment for use @danilomsou/reserva-ui from NPM
+// Uncomment for use @usereservaapp/reserva-ui from NPM
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -27,7 +27,7 @@ module.exports = {
 };
 
 
-// This allow to use external module as internal module, for example @danilomsou/reserva-ui, uncomment to allow chances in real time. Usefull to test fixes.
+// This allow to use external module as internal module, for example @usereservaapp/reserva-ui, uncomment to allow chances in real time. Usefull to test fixes.
 // const path = require('path');
 //  const extraNodeModules = {
 //    'common': path.resolve(__dirname + '/../common'),

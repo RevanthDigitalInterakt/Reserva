@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 import { RegisterCpfView } from '../RegisterCpf.view';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@danilomsou/reserva-ui';
+import { theme } from '@usereservaapp/reserva-ui';
 
 const cpf = '638.147.840-30';
 const profile = {

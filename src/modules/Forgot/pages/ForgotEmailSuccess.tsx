@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import * as React from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { Typography, Box, TextField, Button } from "@danilomsou/reserva-ui";
+import { Typography, Box, TextField, Button } from "@usereservaapp/reserva-ui";
 import { images } from "../../../assets";
 import { RootStackParamList } from "../../../routes/StackNavigator";
 import CodeInput from "../../Login/components/CodeInput";

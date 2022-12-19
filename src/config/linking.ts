@@ -2,9 +2,11 @@ import { Linking, Platform } from 'react-native';
 import { getPathFromState, LinkingOptions } from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
+import appsFlyer from 'react-native-appsflyer';
+import { env } from './env';
+
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
-import { URL } from 'react-native-url-polyfill';
-import {defaultInitialUrl, REGEX_PRODUCT_URL} from "../utils/LinkingUtils/static/deepLinkMethods";
+import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
 
 const _PLATAFORMIOSNAME = 'ios' as const;
 
@@ -39,6 +41,7 @@ const routesConfig = {
     },
   },
 };
+
 export const linkingConfig: LinkingOptions = {
   prefixes: ['usereserva://', 'https://www.usereserva.com/'],
   config: routesConfig,
@@ -57,7 +60,7 @@ export const linkingConfig: LinkingOptions = {
 
     if (url != null) {
       const currentDeepLink = deepLinkHelper(url);
-      if(currentDeepLink) return currentDeepLink;
+      if (currentDeepLink) return currentDeepLink;
 
       if (Platform.OS === _PLATAFORMIOSNAME) {
         Linking.openURL(url);
@@ -84,6 +87,31 @@ export const linkingConfig: LinkingOptions = {
       listener(deepLinkHelper(url) || defaultInitialUrl);
     };
 
+    let onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {
+      if (res?.deepLinkStatus !== 'NOT_FOUND') {
+        const url = res.data?.deep_link_value;
+        if (url) {
+          const newUrl = deepLinkHelper(url);
+          if (newUrl) {
+            listener(newUrl);
+          }
+        }
+      }
+    });
+
+    appsFlyer.initSdk(
+      {
+        devKey: env.APPSFLYER.DEV_KEY,
+        isDebug: false,
+        appId: env.APPSFLYER.APP_ID,
+        onInstallConversionDataListener: true,
+        onDeepLinkListener: true,
+        timeToWaitForATTUserAuthorization: 10,
+      },
+      (result) => {},
+      (error) => {}
+    );
+
     // Listen to incoming links from deep linking
     Linking.addEventListener('url', onReceiveURL);
 
@@ -109,6 +137,7 @@ export const linkingConfig: LinkingOptions = {
       // Clean up the event listeners
       Linking.removeEventListener('url', onReceiveURL);
       unsubscribeNotification();
+      onDeepLinkCanceller();
     };
   },
 };

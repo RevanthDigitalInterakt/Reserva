@@ -6,7 +6,7 @@ import {
   Icon,
   theme,
   Typography,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';

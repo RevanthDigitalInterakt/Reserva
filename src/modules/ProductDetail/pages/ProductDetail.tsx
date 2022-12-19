@@ -34,7 +34,7 @@ import {
   RadioButtons,
   SelectColor,
   Typography,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';

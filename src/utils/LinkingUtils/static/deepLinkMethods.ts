@@ -1,4 +1,4 @@
-import {URL} from "react-native-url-polyfill";
+import { URL } from "react-native-url-polyfill";
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -24,7 +24,9 @@ const defautlCustomMethodReturn: ICustomMethodReturnParams = {
 const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
   const isUrlSiteCase =
     initialUrl === 'https://www.usereserva.com' ||
-    initialUrl === 'https://www.usereserva.com/';
+    initialUrl === 'http://www.usereserva.com' ||
+    initialUrl === 'www.usereserva.com' ||
+    initialUrl === 'http://usereserva.com'
   if (isUrlSiteCase) {
     return {
       match: true,

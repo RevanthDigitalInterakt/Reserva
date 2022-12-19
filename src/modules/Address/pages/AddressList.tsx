@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Alert, Box, Button, Typography } from '@danilomsou/reserva-ui';
+import { Alert, Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';

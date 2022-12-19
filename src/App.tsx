@@ -7,7 +7,7 @@ import * as Sentry from '@sentry/react-native';
 import { Alert, Linking, Platform } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
-import { theme } from '@danilomsou/reserva-ui';
+import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { env } from './config/env';
 import { linkingConfig } from './config/linking';
@@ -57,21 +57,6 @@ async function buildLink() {
   return link;
 }
 
-let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
-  (res) => {
-    if (JSON.parse(res.data.is_first_launch) == true) {
-      if (res.data.af_status === 'Non-organic') {
-        const { media_source } = res.data;
-        const { campaign } = res.data;
-      } else if (res.data.af_status === 'Organic') {
-      }
-    } else {
-    }
-  }
-);
-
-let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {});
-
 const logAppOpenAnalytics = async () => {
   try {
     await analytics().logAppOpen();
@@ -87,27 +72,6 @@ const requestUserPermission = async () => {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 };
 
-let onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
-  if (res?.deepLinkStatus !== 'NOT_FOUND') {
-    const DLValue = res?.data.deep_link_value;
-    await Linking.openURL(DLValue);
-  }
-});
-
-appsFlyer.initSdk(
-  {
-    devKey: env.APPSFLYER.DEV_KEY,
-    isDebug: false,
-    appId: env.APPSFLYER.APP_ID,
-    onInstallConversionDataListener: true,
-    onDeepLinkListener: true,
-    timeToWaitForATTUserAuthorization: 10,
-  },
-  (result) => {},
-  (error) => {
-    Sentry.captureException(error);
-  }
-);
 const maintenanceHandler = async () => {
   const result = await RemoteConfigService.fetchValues();
   const maintenance = result.find(
@@ -158,22 +122,6 @@ const App = () => {
     getTestEnvironment();
   }, []);
 
-  useEffect(() => () => {
-    if (onInstallConversionDataCanceller) {
-      onInstallConversionDataCanceller();
-      onInstallConversionDataCanceller = null;
-    }
-
-    if (onAppOpenAttributionCanceller) {
-      onAppOpenAttributionCanceller();
-      onAppOpenAttributionCanceller = null;
-    }
-    if (onDeepLinkCanceller) {
-      onDeepLinkCanceller();
-      onDeepLinkCanceller = null;
-    }
-  });
-
   useEffect(() => {
     (async () => {
       await requestTrackingPermission();
@@ -203,7 +151,7 @@ const App = () => {
                           <ChronometerContextProvider>
                             <ApolloProvider
                               client={
-                                (isTesting || IS_DEV)
+                                isTesting || IS_DEV
                                   ? apolloClientTesting
                                   : apolloClientProduction
                               }
@@ -229,5 +177,4 @@ const App = () => {
   );
 };
 
-// export default App;
 export default SentryConfig.wrap(App);

@@ -6,7 +6,7 @@ import {
     StyleSheet,
     ImageBackground
 } from 'react-native';
-import { Box, Image, Typography } from '@danilomsou/reserva-ui';
+import { Box, Image, Typography } from '@usereservaapp/reserva-ui';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 

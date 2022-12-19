@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Box, Icon, Typography, Image, Button } from '@danilomsou/reserva-ui';
+import { Box, Icon, Typography, Image, Button } from '@usereservaapp/reserva-ui';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { images } from '../../../assets';
 import { RootStackParamList } from '../../../routes/StackNavigator';

@@ -7,7 +7,7 @@ import {
   Button,
   Icon,
   Typography,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 interface UnderlineInputProps {
   placeholder?: string;

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native';
-import { Typography, Box, Button, Icon, Image } from '@danilomsou/reserva-ui';
+import { Typography, Box, Button, Icon, Image } from '@usereservaapp/reserva-ui';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import OrderProduct from './OrderProduct';
 import React, { useState, useEffect } from 'react';

@@ -29,7 +29,7 @@ import {
   Toggle,
   Typography,
   Picker,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
   ProfileCustomFieldsInput,

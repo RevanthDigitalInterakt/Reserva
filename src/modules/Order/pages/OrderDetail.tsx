@@ -10,7 +10,7 @@ import {
   Box,
   Button, Icon,
   Stepper, Typography
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import { IOrderId, useCart } from '../../../context/CartContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';

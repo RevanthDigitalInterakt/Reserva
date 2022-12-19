@@ -17,7 +17,7 @@ import MapView, {
   LatLng,
 } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Typography, Image } from '@danilomsou/reserva-ui';
+import { Box, Typography, Image } from '@usereservaapp/reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';

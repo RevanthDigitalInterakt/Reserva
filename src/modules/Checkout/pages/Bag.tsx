@@ -10,8 +10,8 @@ import {
   RadioButtons,
   TextField,
   Typography,
-} from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
+} from '@usereservaapp/reserva-ui';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import analytics from '@react-native-firebase/analytics';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';

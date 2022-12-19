@@ -1,5 +1,5 @@
-import { Box, Button } from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
+import { Box, Button } from '@usereservaapp/reserva-ui';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
@@ -26,11 +26,11 @@ const Checkout: React.FC<{}> = () => {
 
   const removeAbandonedCartTags = () => {
     OneSignal.sendTags({
-      cart_update: "",
-      product_name: "",
-      product_image: "",
-    })
-  }
+      cart_update: '',
+      product_name: '',
+      product_image: '',
+    });
+  };
 
   const goToHome = () => {
     const check = navState.includes('/checkout/orderPlaced');
@@ -63,7 +63,6 @@ const Checkout: React.FC<{}> = () => {
         quantity: orderForm.items.map((item) => item.quantity),
         order_id: orderForm.orderFormId,
       });
-
     }
   };
 
@@ -80,7 +79,10 @@ const Checkout: React.FC<{}> = () => {
           af_revenue = (revenue_total / 100).toFixed(2);
         }
 
-        OneSignal.sendOutcomeWithValue('Purchase', (orderForm.value / 100).toFixed(2));
+        OneSignal.sendOutcomeWithValue(
+          'Purchase',
+          (orderForm.value / 100).toFixed(2)
+        );
 
         appsFlyer.logEvent('af_purchase', {
           af_revenue: `${af_revenue}`,
@@ -94,8 +96,6 @@ const Checkout: React.FC<{}> = () => {
           af_order_id: orderForm.orderFormId,
           // af_receipt_id: orderForm.paymentData,
         });
-
-
 
         analytics().logPurchase({
           affiliation: 'APP',
@@ -127,15 +127,17 @@ const Checkout: React.FC<{}> = () => {
 
   useEffect(() => {
     setUrl(
-      `https://applojausereserva.vtexcommercestable.com.br/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`
+      `https://app-vtex.usereserva.com/checkout/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`
     );
   }, []);
 
   useEffect(() => {
     if (attemps > 15) {
-      setUrl(`https://www.usereserva.com/checkout/?orderFormId=${orderForm?.orderFormId}#/cart&sc=4`)
+      setUrl(
+        `https://www.usereserva.com/checkout/?orderFormId=${orderForm?.orderFormId}#/cart&sc=4`
+      );
     }
-  }, [attemps])
+  }, [attemps]);
 
   return (
     <View flex={1} backgroundColor={'white'}>
@@ -190,7 +192,7 @@ const Checkout: React.FC<{}> = () => {
                 setAttemps((at) => at + 1);
               }}
               source={{
-                uri: `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#payment`,
+                uri: `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`,
               }}
             />
           </View>

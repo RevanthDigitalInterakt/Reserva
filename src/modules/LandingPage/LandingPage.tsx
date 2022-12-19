@@ -1,4 +1,4 @@
-import { Box, Typography } from '@danilomsou/reserva-ui';
+import { Box, Typography } from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { GET_LANDING_PAGE, LandingPageData } from './api/LandingPageQuery';

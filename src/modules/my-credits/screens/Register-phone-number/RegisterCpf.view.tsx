@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
   theme,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { ProfileVars } from '../../../../graphql/profile/profileQuery';
 
 export interface RegisterCpfViewProps {

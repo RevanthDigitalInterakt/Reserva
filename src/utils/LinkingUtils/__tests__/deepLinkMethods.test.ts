@@ -1,5 +1,9 @@
 import { deepLinkHelper } from '../linkingUtils';
-import {baseTabUrl, defaultInitialUrl, productUrl} from '../static/deepLinkMethods';
+import {
+  baseTabUrl,
+  defaultInitialUrl,
+  productUrl,
+} from '../static/deepLinkMethods';
 
 const DONTMATCHURL = undefined;
 
@@ -15,11 +19,15 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   });
 
   test('should return default url when call urlSiteCase', () => {
-    const resultWithoutSlash = deepLinkHelper('https://www.usereserva.com');
-    const resultWithSlash = deepLinkHelper('https://www.usereserva.com/');
+    const expected1 = deepLinkHelper('https://www.usereserva.com');
+    const expected2 = deepLinkHelper('https://www.usereserva.com/');
+    const expected3 = deepLinkHelper('www.usereserva.com');
+    const expected4 = deepLinkHelper('http://usereserva.com');
 
-    expect(resultWithoutSlash).toEqual(defaultInitialUrl);
-    expect(resultWithSlash).toEqual(defaultInitialUrl);
+    expect(expected1).toEqual(defaultInitialUrl);
+    expect(expected2).toEqual(defaultInitialUrl);
+    expect(expected3).toEqual(defaultInitialUrl);
+    expect(expected4).toEqual(defaultInitialUrl);
   });
 
   describe('test urlProductCase ', () => {
@@ -59,7 +67,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
 
       describe('when not Query Params', () => {
         test('should return productUrl, without query params and slug param', () => {
-          const productSlug = "mochila-bold-331-0056263";
+          const productSlug = 'mochila-bold-331-0056263';
 
           const expectedResult = `${productUrl}slug=${productSlug}`;
 
@@ -73,43 +81,49 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     });
   });
 
-  test("should return default url when call colectionUseCase", () => {
-    const endsWithColection = deepLinkHelper(`https://www.usereserva.com/colecao-reserva/ofertas`);
-    const notEndWithColection = deepLinkHelper(`https://www.usereserva.com/colecao-reserva/ofertas/novo-path`);
-    expect(endsWithColection).toEqual(`${baseTabUrl}/ofertas`)
-    expect(notEndWithColection).toEqual(DONTMATCHURL)
+  test('should return default url when call colectionUseCase', () => {
+    const endsWithColection = deepLinkHelper(
+      `https://www.usereserva.com/colecao-reserva/ofertas`
+    );
+    const notEndWithColection = deepLinkHelper(
+      `https://www.usereserva.com/colecao-reserva/ofertas/novo-path`
+    );
+    expect(endsWithColection).toEqual(`${baseTabUrl}/ofertas`);
+    expect(notEndWithColection).toEqual(DONTMATCHURL);
   });
 
-  describe("test account use cases", ()  => {
+  describe('test account use cases', () => {
     const baseUrlAccount = `https://www.usereserva.com/account#`;
 
-    test("should return wishlist use case", () => {
+    test('should return wishlist use case', () => {
       const urlWishList = `${baseUrlAccount}/wishlist`;
 
       const result = deepLinkHelper(urlWishList);
       expect(result).toEqual(`${baseTabUrl}/wishlist`);
     });
 
-    test("should return account use case", () => {
-        const result = deepLinkHelper(baseUrlAccount);
-        expect(result).toEqual(`${baseTabUrl}/profile`)
-    })
+    test('should return account use case', () => {
+      const result = deepLinkHelper(baseUrlAccount);
+      expect(result).toEqual(`${baseTabUrl}/profile`);
+    });
 
-    test("should return cart use case", () => {
-      const orderFormId = "dasdasd-321-312312";
-      const successCartUrl = deepLinkHelper(`https://www.usereserva.com/#/cart?orderFormId=${orderFormId}`)
-      const badCardUrl = deepLinkHelper(`https://www.usereserva.com/#/cart?`)
+    test('should return cart use case', () => {
+      const orderFormId = 'dasdasd-321-312312';
+      const successCartUrl = deepLinkHelper(
+        `https://www.usereserva.com/#/cart?orderFormId=${orderFormId}`
+      );
+      const badCardUrl = deepLinkHelper(`https://www.usereserva.com/#/cart?`);
 
-      expect(successCartUrl).toEqual(`usereserva://bag/${orderFormId}`)
-      expect(badCardUrl).toEqual(undefined)
-    })
+      expect(successCartUrl).toEqual(`usereserva://bag/${orderFormId}`);
+      expect(badCardUrl).toEqual(undefined);
+    });
 
-    test("should return collection catalog use case", () => {
-      const collectionCase = "usereserva://catalog/collection:1627";
+    test('should return collection catalog use case', () => {
+      const collectionCase = 'usereserva://catalog/collection:1627';
 
-      const result = deepLinkHelper(collectionCase)
+      const result = deepLinkHelper(collectionCase);
 
       expect(result).toEqual(collectionCase);
-    })
-  })
+    });
+  });
 });

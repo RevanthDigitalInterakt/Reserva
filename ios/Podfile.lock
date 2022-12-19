@@ -349,8 +349,8 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
-  - BVLinearGradient (2.5.6):
-    - React
+  - BVLinearGradient (2.6.2):
+    - React-Core
   - CardScan (2.0.9)
   - CocoaAsyncSocket (7.6.5)
   - CodePush (7.0.4):
@@ -678,15 +678,15 @@ PODS:
     - OneSignal/OneSignalOutcomes
   - OneSignal/OneSignalOutcomes (3.12.3):
     - OneSignal/OneSignalCore
-  - OneSignalXCFramework (3.11.2):
-    - OneSignalXCFramework/OneSignalCore (= 3.11.2)
-    - OneSignalXCFramework/OneSignalExtension (= 3.11.2)
-    - OneSignalXCFramework/OneSignalOutcomes (= 3.11.2)
-  - OneSignalXCFramework/OneSignalCore (3.11.2)
-  - OneSignalXCFramework/OneSignalExtension (3.11.2):
+  - OneSignalXCFramework (3.12.3):
+    - OneSignalXCFramework/OneSignalCore (= 3.12.3)
+    - OneSignalXCFramework/OneSignalExtension (= 3.12.3)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.3)
+  - OneSignalXCFramework/OneSignalCore (3.12.3)
+  - OneSignalXCFramework/OneSignalExtension (3.12.3):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
+  - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
     - OneSignalXCFramework/OneSignalCore
   - OpenSSL-Universal (1.1.1100)
   - Permission-AppTrackingTransparency (3.6.1):
@@ -921,7 +921,7 @@ PODS:
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.5.0)
     - React-Core
-  - react-native-image-picker (4.8.4):
+  - react-native-image-picker (4.10.2):
     - React-Core
   - react-native-lottie-splash-screen (0.1.14):
     - React
@@ -929,8 +929,8 @@ PODS:
     - React-Core
   - react-native-netinfo (8.1.0):
     - React-Core
-  - react-native-onesignal (4.3.11):
-    - OneSignalXCFramework (= 3.11.2)
+  - react-native-onesignal (4.5.0):
+    - OneSignalXCFramework (= 3.12.3)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-pushiomanager (6.52.2):
     - React
@@ -940,9 +940,9 @@ PODS:
     - React-Core
   - react-native-tracking-transparency (0.1.2):
     - React
-  - react-native-view-shot (3.3.0):
+  - react-native-view-shot (3.5.0):
     - React-Core
-  - react-native-webview (11.22.5):
+  - react-native-webview (11.26.0):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -1110,20 +1110,18 @@ PODS:
   - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
-  - RNSentry (4.5.0):
+  - RNSentry (4.12.0):
     - React-Core
-    - Sentry (= 7.25.1)
-  - RNSha256 (1.4.7):
-    - React
+    - Sentry/HybridSDK (= 7.31.3)
+  - RNSha256 (1.4.9):
+    - React-Core
   - RNShare (6.5.0):
     - React-Core
   - RNStoreReview (0.2.1):
     - React-Core
-  - RNSVG (12.3.0):
+  - RNSVG (12.5.0):
     - React-Core
-  - Sentry (7.25.1):
-    - Sentry/Core (= 7.25.1)
-  - Sentry/Core (7.25.1)
+  - Sentry/HybridSDK (7.31.3)
   - SocketRocket (0.6.0)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
@@ -1474,7 +1472,7 @@ SPEC CHECKSUMS:
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
+  BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CardScan: 2f7a3b39a37c0e2c67a9502b3a61a59f007c0710
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
@@ -1522,7 +1520,7 @@ SPEC CHECKSUMS:
   lottie-react-native: b561920bba7ec727ec94a473b683cffba00faece
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OneSignal: cdff84e3d088caf7952e30140838b2ab296c8cbc
-  OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
+  OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d
   Permission-Camera: bf6791b17c7f614b6826019fcfdcc286d3a107f6
@@ -1549,17 +1547,17 @@ SPEC CHECKSUMS:
   react-native-flipper: e079eb24149005c71ca9067a6ae49d74cfb3dfbd
   react-native-geolocation: 69f4fd37650b8e7fee91816d395e62dd16f5ab8d
   react-native-google-maps: 915cea64470a6e7581b782d8659bf8a7e2dee302
-  react-native-image-picker: cffb727cf2f59bd5c0408e30b3dbe0b935f88835
+  react-native-image-picker: bf34f3f516d139ed3e24c5f5a381a91819e349ea
   react-native-lottie-splash-screen: 3bc897a60c7d37edaebc2a995f2f40c9a3259fa0
   react-native-maps: 60a75aa547d576fdb91be1f95113665215b59461
   react-native-netinfo: 379ba2af7d2abcec0c062267abe1c9a977c72bf9
-  react-native-onesignal: dfc675fafef0bfdda49b09a8e2099903e5e85f15
+  react-native-onesignal: fe498771f4a5c49fac0d8ff288b674e226bdb587
   react-native-pushiomanager: b7b142682993d57d19fb6b6d61fba202b05071b0
   react-native-rsa-native: 12132eb627797529fdb1f0d22fd0f8f9678df64a
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-tracking-transparency: 25ff1ff866e338c137c818bdec20526bb05ffcc1
-  react-native-view-shot: da768466e1cd371de50a3a5c722d1e95456b5b2c
-  react-native-webview: 28557a39f4c1f3f8faa69dae22858335ba63e7f9
+  react-native-view-shot: 792829857bbb23a9c8acdad9a640554bdee397a3
+  react-native-webview: 994b9f8fbb504d6314dc40d83f94f27c6831b3bf
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -1596,12 +1594,12 @@ SPEC CHECKSUMS:
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
-  RNSentry: a034d0e81e3d3c04b770dd2df953fe634d372d22
-  RNSha256: bf2c90a9e0cec6dcbcc4100e4e19715ae7feaa34
+  RNSentry: 4c09f4dd9740cb9b33e94303de5b6d0dbeb0737d
+  RNSha256: a6bc3640a34eb41907e363828b9ec742c274298d
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNStoreReview: e05edbbf426563070524cec384ac0b8df69be801
-  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
-  Sentry: dd29c18c32b0af9269949f079cf631d581ca76ca
+  RNSVG: 6adc5c52d2488a476248413064b7f2832e639057
+  Sentry: 08884c523575ec0f6690d94ed3ccb0246a1600bf
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf

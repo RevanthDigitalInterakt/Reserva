@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box } from '@danilomsou/reserva-ui';
+import { Box } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import {
   productSearch,

@@ -23,7 +23,7 @@ import {
   ProductVerticalListCard,
   Icon,
   Picker,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 import { images } from '../../../assets';
 import {

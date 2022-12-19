@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Dimensions, Platform, StyleSheet, PixelRatio } from 'react-native';
-import { theme } from '@danilomsou/reserva-ui';
+import { theme } from '@usereservaapp/reserva-ui';
 
 const { width, height } = Dimensions.get('window');
 

@@ -5,8 +5,8 @@ import {
   ProductVerticalListCard,
   ProductVerticalListCardProps,
   Typography,
-} from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
+} from '@usereservaapp/reserva-ui';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';

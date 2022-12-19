@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, Image } from 'react-native';
-import { Box, Button, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 
 export const EmptyWishList = () => {

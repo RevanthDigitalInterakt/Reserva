@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-import { Box, Typography, Button } from '@danilomsou/reserva-ui';
+import { Box, Typography, Button } from '@usereservaapp/reserva-ui';
 
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';

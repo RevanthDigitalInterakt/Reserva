@@ -13,7 +13,7 @@ import {
   ProductHorizontalListCard,
   Typography,
   Image,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';

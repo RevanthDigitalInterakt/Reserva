@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Button, Icon, Image, theme } from "@danilomsou/reserva-ui"
+import { Box, Button, Icon, Image, theme } from "@usereservaapp/reserva-ui"
 import ProgressBar from "react-native-progress/Bar";
 import { images } from '../../../assets/'
 import { TopBarDefault } from "../../Menu/components/TopBarDefault"

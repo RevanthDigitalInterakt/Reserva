@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import * as Sentry from '@sentry/react-native';
 import {

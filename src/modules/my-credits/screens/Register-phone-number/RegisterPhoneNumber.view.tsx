@@ -8,7 +8,7 @@ import {
   theme,
   Typography,
   TextField,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { ProfileVars } from '../../../../graphql/profile/profileQuery';
 import CodeInput from '../../../../shared/components/CodeInput';
 

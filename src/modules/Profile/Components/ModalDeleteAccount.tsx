@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React, { Dispatch, SetStateAction } from 'react';
 import Modal from 'react-native-modal';
 

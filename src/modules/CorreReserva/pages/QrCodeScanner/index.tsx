@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import QRCode from 'react-native-qrcode-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { backgroundApp, Box, theme, Typography } from '@danilomsou/reserva-ui';
+import { backgroundApp, Box, theme, Typography } from '@usereservaapp/reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { useCorre } from '../../context';

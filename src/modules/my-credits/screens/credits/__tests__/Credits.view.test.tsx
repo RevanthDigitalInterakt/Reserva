@@ -7,7 +7,7 @@ import {
   Icon,
   theme,
   Typography,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 
 import { CreditsView, CreditsViewProps } from '../Credits.view';
