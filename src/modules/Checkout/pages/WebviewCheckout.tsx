@@ -26,11 +26,11 @@ const Checkout: React.FC<{}> = () => {
 
   const removeAbandonedCartTags = () => {
     OneSignal.sendTags({
-      cart_update: "",
-      product_name: "",
-      product_image: "",
-    })
-  }
+      cart_update: '',
+      product_name: '',
+      product_image: '',
+    });
+  };
 
   const goToHome = () => {
     const check = navState.includes('/checkout/orderPlaced');
@@ -63,13 +63,15 @@ const Checkout: React.FC<{}> = () => {
         quantity: orderForm.items.map((item) => item.quantity),
         order_id: orderForm.orderFormId,
       });
-
     }
   };
 
   useEffect(() => {
     const check = navState.includes('/checkout/orderPlaced');
     if (check) {
+      let timestamp = Math.floor(Date.now() / 1000);
+      OneSignal.sendTag('last_purchase_date', timestamp.toString());
+
       if (orderForm) {
         const revenue_total = orderForm.totalizers.find(
           (item) => item.id === 'Items'
@@ -80,7 +82,10 @@ const Checkout: React.FC<{}> = () => {
           af_revenue = (revenue_total / 100).toFixed(2);
         }
 
-        OneSignal.sendOutcomeWithValue('Purchase', (orderForm.value / 100).toFixed(2));
+        OneSignal.sendOutcomeWithValue(
+          'Purchase',
+          (orderForm.value / 100).toFixed(2)
+        );
 
         appsFlyer.logEvent('af_purchase', {
           af_revenue: `${af_revenue}`,
@@ -94,8 +99,6 @@ const Checkout: React.FC<{}> = () => {
           af_order_id: orderForm.orderFormId,
           // af_receipt_id: orderForm.paymentData,
         });
-
-
 
         analytics().logPurchase({
           affiliation: 'APP',
@@ -133,9 +136,11 @@ const Checkout: React.FC<{}> = () => {
 
   useEffect(() => {
     if (attemps > 15) {
-      setUrl(`https://www.usereserva.com/checkout/?orderFormId=${orderForm?.orderFormId}#/cart&sc=4`)
+      setUrl(
+        `https://www.usereserva.com/checkout/?orderFormId=${orderForm?.orderFormId}#/cart&sc=4`
+      );
     }
-  }, [attemps])
+  }, [attemps]);
 
   return (
     <View flex={1} backgroundColor={'white'}>
