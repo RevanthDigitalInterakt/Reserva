@@ -5,7 +5,7 @@ import {
   TextInputMaskOptionProp,
   TextInputMaskTypeProp,
 } from 'react-native-masked-text';
-import { TextField } from '@danilomsou/reserva-ui';
+import { TextField } from '@usereservaapp/reserva-ui';
 
 interface IFormikTextInput {
   label?: string;

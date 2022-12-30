@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@danilomsou/reserva-ui'
+import { Box, Button, Typography } from '@usereservaapp/reserva-ui'
 import AnimatedLottieView from 'lottie-react-native'
 import React from 'react'
 import { BackHandler, Platform } from 'react-native'

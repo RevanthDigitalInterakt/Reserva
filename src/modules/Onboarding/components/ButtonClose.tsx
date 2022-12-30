@@ -1,4 +1,4 @@
-import { Box, Button, Icon } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { Dimensions } from 'react-native';
 

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native';
 import { Text } from 'react-native-svg';
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, theme, Typography, Image } from '@danilomsou/reserva-ui';
+import { Box, Button, theme, Typography, Image } from '@usereservaapp/reserva-ui';
 
 import CallCenter from '../modules/CallCenter';
 import { HomeScreen } from '../modules/Home/pages/Home';

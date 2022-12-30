@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Box, Button, Icon, TextField, Toggle, Typography } from "@danilomsou/reserva-ui";
+import { Box, Button, Icon, TextField, Toggle, Typography } from "@usereservaapp/reserva-ui";
 import CreditCardDisplay from "react-native-credit-card-display";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import {

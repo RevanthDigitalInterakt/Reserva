@@ -7,7 +7,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { Box, theme, Typography, Button, Icon } from '@danilomsou/reserva-ui';
+import { Box, theme, Typography, Button, Icon } from '@usereservaapp/reserva-ui';
 import Modal from 'react-native-modal';
 import FlipNumber from './flipcountdoun/FlipNumber';
 import { useCountDown } from '../../../context/ChronometerContext';

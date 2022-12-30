@@ -1,8 +1,8 @@
 import checkVersion from 'react-native-store-version';
 import DeviceInfo from 'react-native-device-info';
-import * as Sentry from '@sentry/react-native';
-import SpInAppUpdates, { IAUUpdateKind } from 'sp-react-native-in-app-updates';
+import SpInAppUpdates from 'sp-react-native-in-app-updates';
 import Config from 'react-native-config';
+import EventProvider from '../../utils/EventProvider';
 
 
 export const haveVersionUpdates = async () => {
@@ -26,6 +26,6 @@ export const haveVersionUpdates = async () => {
     }
     return response.shouldUpdate;
   } catch (error) {
-    Sentry.captureException(error);
+    EventProvider.captureException(error);
   }
 };

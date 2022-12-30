@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Box, Button, TextField, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, TextField, Typography } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 

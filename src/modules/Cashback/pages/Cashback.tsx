@@ -6,8 +6,8 @@ import LottieView from 'lottie-react-native';
 import { TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Typography, Icon } from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
+import { Box, Typography, Icon } from '@usereservaapp/reserva-ui';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
 import { images } from '../../../assets';
 import { ProfileVars } from '../../../graphql/profile/profileQuery';

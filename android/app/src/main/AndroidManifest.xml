@@ -2,13 +2,9 @@
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-  <!-- Responsys configuration -->
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-  <uses-permission android:name="com.usereserva.permission.PUSHIO_MESSAGE" />
   <uses-permission android:name="com.usereserva.permission.RSYS_SHOW_IAM" />
-  <permission android:name="com.usereserva.permission.PUSHIO_MESSAGE" android:protectionLevel="signature" />
   <permission android:name="com.usereserva.permission.RSYS_SHOW_IAM" android:protectionLevel="signature" />
-  <!-- Responsys configuration -->
 
   <uses-permission android:name="android.permission.VIBRATE"/>
   <uses-permission android:name="android.permission.CAMERA" />
@@ -31,28 +27,9 @@
     </intent>
   </queries>
 
-  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:allowBackup="false" android:theme="@style/AppTheme">
+  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher_white" android:roundIcon="@mipmap/ic_launcher_white" android:allowBackup="false" android:theme="@style/AppTheme">
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"/>
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-
-
-    <!-- Responsys configuration -->
-<!--    <receiver android:enabled="true" android:exported="false" android:name="com.pushio.manager.PushIOUriReceiver">-->
-<!--      <intent-filter>-->
-<!--        <action android:name="android.intent.action.VIEW" />-->
-<!--        <category android:name="android.intent.category.DEFAULT" />-->
-<!--        <data android:scheme="@string/uri_identifier" />-->
-<!--      </intent-filter>-->
-<!--    </receiver>-->
-<!--    <activity android:name="com.pushio.manager.iam.ui.PushIOMessageViewActivity" android:permission="com.usereserva.permission.SHOW_IAM" android:theme="@android:style/Theme.Translucent.NoTitleBar">-->
-<!--      <intent-filter>-->
-<!--        <action android:name="android.intent.action.VIEW" />-->
-<!--        <category android:name="android.intent.category.BROWSABLE" />-->
-<!--        <category android:name="android.intent.category.DEFAULT" />-->
-<!--        <data android:scheme="@string/uri_identifier" />-->
-<!--      </intent-filter>-->
-<!--    </activity>-->
-    <!-- Responsys configuration -->
 
     <activity android:name=".SplashActivity" android:theme="@style/SplashTheme" android:label="@string/app_name" android:exported="true">
       <intent-filter>
@@ -63,37 +40,31 @@
     </activity>
     <activity android:name=".MainActivity" android:label="@string/app_name" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" android:exported="true">
 
-      <!-- Responsys configuration -->
       <intent-filter>
         <action android:name="com.usereserva.NOTIFICATIONPRESSED" />
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
-      <!-- <intent-filter android:autoVerify="true">
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:host="@string/app_links_url_host" android:pathPrefix="/pub/acc" android:scheme="https" />
-      </intent-filter> -->
-      <!-- Responsys configuration -->
 
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="https" android:host="www.usereserva.com" android:pathPrefix="/account" />
-        <data android:scheme="https" android:host="www.usereserva.com" android:pathPattern="/.*/p" />
-        <data android:scheme="https" android:host="www.usereserva.com" android:path="/" />
-        <data android:scheme="https" android:host="www.usereserva.com" android:path="/colecao-reserva/ofertas" />
+        <data android:scheme="https"/>
+        <data android:host="www.usereserva.com"/>
+      </intent-filter>
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https"/>
+        <data android:host="www.usereserva.com"/>
+        <data android:pathPrefix="/account" />
+        <data android:pathPrefix="/checkout/" />
+        <data android:pathPattern="/.*/p" />
+        <data android:path="/" />
+        <data android:path="/colecao-reserva/ofertas" />
       </intent-filter>
 
-      <!--
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:host="usereserva.page.link" android:scheme="http"/>
-        <data android:host="usereserva.page.link" android:scheme="https"/>
-      </intent-filter> -->
 
       <intent-filter>
         <action android:name="android.intent.action.VIEW"/>

@@ -1,6 +1,6 @@
 module.exports = {
     dependency: {
-      assets: ['./node_modules/@danilomsou/reserva-ui/.storybook/fonts'],
+      assets: ['./node_modules/@usereservaapp/reserva-ui/.storybook/fonts'],
     },
   };
   

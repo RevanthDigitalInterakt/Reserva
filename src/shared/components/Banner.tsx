@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Image } from '@danilomsou/reserva-ui';
+import { Box, Image } from '@usereservaapp/reserva-ui';
 
 interface IBanner {
   bannerImage: string;

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
-import { Box } from '@danilomsou/reserva-ui';
+import { Box } from '@usereservaapp/reserva-ui';
 import { TopBarBackButton } from '../Menu/components/TopBarBackButton';
 import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
 export const WebviewZendesk: React.FC<{}> = () => {
   const [loading, setLoading] = useState(true);

@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Platform
 } from 'react-native';
-import { theme } from "@danilomsou/reserva-ui";
+import { theme } from "@usereservaapp/reserva-ui";
 interface ICard {
     type: 'upper' | 'lower';
     size: number;

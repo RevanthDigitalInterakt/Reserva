@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, SafeAreaView } from "react-native";
-import { Box, Button, Typography } from "@danilomsou/reserva-ui";
+import { Box, Button, Typography } from "@usereservaapp/reserva-ui";
 import {
     ProfileVars,
 } from '../../../../graphql/profile/profileQuery';

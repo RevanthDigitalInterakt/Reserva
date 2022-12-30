@@ -7,7 +7,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Avatar, Box, Button, Typography } from '@danilomsou/reserva-ui';
+import { Avatar, Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import {
   profileQuery,
@@ -402,6 +402,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
                 disabled={loading}
                 onPress={() => logout()}
                 title="LOGOUT"
+                testID="profile_button_logout"
                 variant="primarioEstreitoOutline"
               />
             </Box>

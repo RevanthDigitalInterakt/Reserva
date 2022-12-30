@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
-import { theme, TopBar } from '@danilomsou/reserva-ui';
-import { Typography, Box, Button, Icon } from '@danilomsou/reserva-ui';
+import { theme, TopBar } from '@usereservaapp/reserva-ui';
+import { Typography, Box, Button, Icon } from '@usereservaapp/reserva-ui';
 
 export interface Address {
   id?: string;

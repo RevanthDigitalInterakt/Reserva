@@ -1,20 +1,12 @@
 import { ApolloProvider } from '@apollo/client';
-import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import * as Sentry from '@sentry/react-native';
-import { Alert, Linking, Platform } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
-import { theme } from '@danilomsou/reserva-ui';
+import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import { env } from './config/env';
 import { linkingConfig } from './config/linking';
-import { oneSignalConfig } from './config/pushNotification';
-import './config/ReactotronConfig';
 import { requestTrackingPermission } from 'react-native-tracking-transparency';
-import PushIOManager from '@oracle/react-native-pushiomanager';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
@@ -34,12 +26,11 @@ import {
   apolloClientTesting,
 } from './services/apolloClient';
 import AsyncStorage from '@react-native-community/async-storage';
-import { responsysConfig } from './config/responsys';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { IS_DEV } from './utils/enviromentUtils';
+import EventProvider from './utils/EventProvider';
 
 const DefaultTheme = {
   colors: {
@@ -47,40 +38,6 @@ const DefaultTheme = {
   },
 };
 
-async function buildLink() {
-  const link = await dynamicLinks().buildLink({
-    link: 'https://www.usereserva.com',
-    domainUriPrefix: 'https://usereserva.page.link/1Crm',
-    analytics: {
-      campaign: 'banner',
-    },
-  });
-
-  return link;
-}
-
-let onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
-  (res) => {
-    if (JSON.parse(res.data.is_first_launch) == true) {
-      if (res.data.af_status === 'Non-organic') {
-        const { media_source } = res.data;
-        const { campaign } = res.data;
-      } else if (res.data.af_status === 'Organic') {
-      }
-    } else {
-    }
-  }
-);
-
-let onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {});
-
-const logAppOpenAnalytics = async () => {
-  try {
-    await analytics().logAppOpen();
-  } catch (e) {
-    Sentry.captureException(e);
-  }
-};
 
 const requestUserPermission = async () => {
   const authStatus = await messaging().requestPermission();
@@ -89,27 +46,6 @@ const requestUserPermission = async () => {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 };
 
-let onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
-  if (res?.deepLinkStatus !== 'NOT_FOUND') {
-    const DLValue = res?.data.deep_link_value;
-    await Linking.openURL(DLValue);
-  }
-});
-
-appsFlyer.initSdk(
-  {
-    devKey: env.APPSFLYER.DEV_KEY,
-    isDebug: false,
-    appId: env.APPSFLYER.APP_ID,
-    onInstallConversionDataListener: true,
-    onDeepLinkListener: true,
-    timeToWaitForATTUserAuthorization: 10,
-  },
-  (result) => {},
-  (error) => {
-    Sentry.captureException(error);
-  }
-);
 const maintenanceHandler = async () => {
   const result = await RemoteConfigService.fetchValues();
   const maintenance = result.find(
@@ -120,41 +56,6 @@ const maintenanceHandler = async () => {
 };
 
 const App = () => {
-  const [canRegisterUser, setCanRegisterUser] = useState(true);
-
-  useEffect(() => {
-    PushIOManager.configure(
-      'pushio_config.json',
-      (configureError: any, configureResponse: any) => {
-        if (configureResponse === 'success') {
-          if (Platform.OS === 'android') {
-            PushIOManager.registerApp(
-              true,
-              (registerError: any, registerResponse: any) => {
-                if (registerResponse === 'success') {
-                  setCanRegisterUser(true);
-                } else {
-                  setCanRegisterUser(false);
-                }
-              }
-            );
-          } else {
-            PushIOManager.registerForAllRemoteNotificationTypes(
-              (error: any, response: any) => {
-                PushIOManager.registerApp(
-                  true,
-                  (error: any, response: any) => {}
-                );
-              }
-            );
-          }
-        } else {
-          setCanRegisterUser(false);
-        }
-      }
-    );
-  }, []);
-
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
   const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean>(null);
@@ -195,30 +96,12 @@ const App = () => {
     getTestEnvironment();
   }, []);
 
-  useEffect(() => () => {
-    if (onInstallConversionDataCanceller) {
-      onInstallConversionDataCanceller();
-      onInstallConversionDataCanceller = null;
-    }
-
-    if (onAppOpenAttributionCanceller) {
-      onAppOpenAttributionCanceller();
-      onAppOpenAttributionCanceller = null;
-    }
-    if (onDeepLinkCanceller) {
-      onDeepLinkCanceller();
-      onDeepLinkCanceller = null;
-    }
-  });
-
   useEffect(() => {
     (async () => {
       await requestTrackingPermission();
     })();
     requestUserPermission();
-    logAppOpenAnalytics();
-    responsysConfig();
-    oneSignalConfig();
+    EventProvider.initializeModules();
     setTimeout(() => {
       getMaintenanceValue();
     }, 1000);
@@ -241,7 +124,7 @@ const App = () => {
                           <ChronometerContextProvider>
                             <ApolloProvider
                               client={
-                                (isTesting || IS_DEV)
+                                isTesting || IS_DEV
                                   ? apolloClientTesting
                                   : apolloClientProduction
                               }
@@ -267,5 +150,4 @@ const App = () => {
   );
 };
 
-// export default App;
 export default SentryConfig.wrap(App);

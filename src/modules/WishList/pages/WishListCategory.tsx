@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Box, Icon, Typography, Image, Button } from '@danilomsou/reserva-ui';
+import { Box, Icon, Typography, Image, Button } from '@usereservaapp/reserva-ui';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { images } from '../../../assets';
 import { RootStackParamList } from '../../../routes/StackNavigator';
@@ -26,8 +26,9 @@ export const WishListCategory: React.FC<{}> = () => {
       flexDirection='column'
       marginTop='xxxs'
     >
-      {categories.map((cat) => (
+      {categories.map((cat, index) => (
         <CategoryCard
+          key={`category-${index}`}
           title={cat}
           onClick={() => {
             navigation.navigate('ShowListByCategory', {
@@ -75,8 +76,8 @@ const CategoryCard = ({ urlsImages, title, onClick }: CategoryCardProd) => {
           </Typography>
         </Box>
         <Box flexDirection='row' marginTop='xxxs'>
-          {urlsImages.slice(0, 4).map((img) => (
-            <Box marginRight='micro'>
+          {urlsImages.slice(0, 4).map((img, key) => (
+            <Box marginRight='micro' key={`url-${key}`}>
               <Image source={img} height={97} width={(screenWidth - 116) / 4} />
             </Box>
           ))}

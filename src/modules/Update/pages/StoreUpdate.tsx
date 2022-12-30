@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import { Linking, NativeModules, Platform } from 'react-native'
 import { ScrollView } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { Box, Button, Image, Typography } from "@danilomsou/reserva-ui"
+import { Box, Button, Image, Typography } from "@usereservaapp/reserva-ui"
 import { images } from "../../../assets"
 import Modal from 'react-native-modal'
 import { padding } from "styled-system"

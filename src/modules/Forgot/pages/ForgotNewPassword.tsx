@@ -6,7 +6,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Platform, SafeAreaView, ScrollView } from "react-native";
-import { Typography, Box, TextField, Button, Icon } from "@danilomsou/reserva-ui";
+import { Typography, Box, TextField, Button, Icon } from "@usereservaapp/reserva-ui";
 import { setLocale } from "yup";
 import { images } from "../../../assets";
 import { useAuth } from "../../../context/AuthContext";

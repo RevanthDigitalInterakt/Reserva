@@ -6,7 +6,7 @@ import {
   Icon,
   theme,
   Typography,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -30,6 +30,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
 import { responsePathAsArray } from 'graphql';
+import {slugify} from "../../../utils/slugify";
 
 interface IBreadCrumbs {
   title: string;
@@ -39,7 +40,9 @@ interface IMenuSubItem {
   title: string;
   onPress?: Function;
   highlight?: boolean;
+  testID: string;
 }
+
 interface IMenuItem {
   title: string;
   subItemList: Subcategory;
@@ -71,7 +74,7 @@ const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
   );
 };
 
-const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
+const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight, testID }) => {
   const navigation = useNavigation();
   const [clickMenu, setClickMenu] = useState<boolean>(false);
 
@@ -98,6 +101,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight }) => {
 
         setClickMenu(true);
       }}
+      testID={testID}
     >
       <Box
         bg="backgroundMenuOpened"
@@ -130,9 +134,8 @@ const MenuItem: React.FC<IMenuItem> = ({
   return (
     <Box>
       <TouchableOpacity
-        onPress={() => {
-          onPress(indexProp);
-        }}
+        onPress={() => onPress(indexProp)}
+        testID={`menu_button_${slugify(title)}`}
       >
         <Box
           justifyContent="space-between"
@@ -166,6 +169,7 @@ const MenuItem: React.FC<IMenuItem> = ({
                 key={index}
                 highlight={item.highlight}
                 title={item.name}
+                testID={`submenu_button_${slugify(item.name)}`}
                 onPress={() => {
                   const facetInput: any[] = [];
                   const [subType, subcategories] = item.referenceId.split(':');
@@ -208,8 +212,9 @@ export const FixedMenuItem: React.FC<{
   onPress?: Function;
   underline?: boolean;
   disabled?: boolean;
-}> = ({ iconName, title, onPress, disabled, underline }) => (
-  <TouchableOpacity onPress={onPress} disabled={disabled}>
+  testID: string;
+}> = ({ iconName, title, onPress, disabled, underline, testID }) => (
+  <TouchableOpacity onPress={onPress} disabled={disabled} testID={testID}>
     <Box
       justifyContent="flex-start"
       alignItems="center"
@@ -414,6 +419,7 @@ export const Menu = ({ route }: Props) => {
               {screenRegionalizationActive && (
                 <FixedMenuItem
                   iconName="Pin"
+                  testID="menu_button_cep"
                   title={
                     <Typography
                       alignSelf="flex-end"
@@ -432,6 +438,7 @@ export const Menu = ({ route }: Props) => {
               <FixedMenuItem
                 iconName="Profile"
                 disabled={!!cookie}
+                testID="menu_button_account"
                 title={
                   <Typography
                     alignSelf="flex-end"
@@ -461,6 +468,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="Heart"
+                testID="menu_button_favorites"
                 title={
                   <Typography
                     alignSelf="flex-end"
@@ -477,6 +485,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="Message"
+                testID="menu_button_callcenter"
                 title={
                   <Typography
                     alignSelf="flex-end"
@@ -493,6 +502,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="Pin"
+                testID="menu_button_stores"
                 title={
                   <Typography
                     alignSelf="flex-end"
@@ -509,6 +519,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="PrivacyPolicy"
+                testID="menu_button_privacy"
                 title={
                   <Typography
                     alignSelf="flex-end"

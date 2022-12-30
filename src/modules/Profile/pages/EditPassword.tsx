@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';

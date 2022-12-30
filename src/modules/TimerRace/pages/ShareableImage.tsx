@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
-
-import * as Sentry from '@sentry/react-native';
+import EventProvider from '../../../utils/EventProvider'
 
 export const ShareableImage = () => {
   const viewRef = useRef();
@@ -21,11 +20,11 @@ export const ShareableImage = () => {
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('instagram://')
         .then((val) => setShowInstagramStory(val))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     } else {
       Share.isPackageInstalled('com.instagram.android')
         .then(({ isInstalled }) => setShowInstagramStory(isInstalled))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     }
   }, []);
 
@@ -44,7 +43,7 @@ export const ShareableImage = () => {
         await Share.open({ url: uri });
       }
     } catch (err) {
-      Sentry.captureException(err);
+      EventProvider.captureException(err);
     }
   };
   useEffect(() => {

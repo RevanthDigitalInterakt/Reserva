@@ -10,7 +10,7 @@ import {
   Toggle,
   TextField,
   ProductVerticalListCard,
-} from "@danilomsou/reserva-ui";
+} from "@usereservaapp/reserva-ui";
 import { animations } from "../../../assets";
 
 import { PriceCustom } from "../components/PriceCustom";

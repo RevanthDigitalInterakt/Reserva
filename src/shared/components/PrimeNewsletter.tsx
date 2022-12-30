@@ -8,7 +8,7 @@ import {
     Icon,
     Typography,
     theme
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 interface iPrimeNewsletter {
     prime: any;

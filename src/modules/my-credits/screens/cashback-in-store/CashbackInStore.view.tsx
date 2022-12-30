@@ -4,7 +4,7 @@ import {
   Checkbox,
   Image,
   Typography,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import React, { Fragment, useCallback, useEffect } from 'react';
 import { ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';

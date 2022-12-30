@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { TouchableOpacity } from "react-native";
-import { Box, Divider, Icon, Typography } from "@danilomsou/reserva-ui";
+import { Box, Divider, Icon, Typography } from "@usereservaapp/reserva-ui";
+import {slugify} from "../../../utils/slugify";
 
 interface ItemListProps {
   title: string;
@@ -17,7 +18,7 @@ const ItemList = ({ onPress, icon, title, descr, arrowDown, dropdownActive }: It
 
   return (
     <>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress} testID={`generic_button_${slugify(title)}`}>
         <Box mb={"micro"} mt={"micro"} flexDirection="row" alignItems="center" justifyContent="space-between">
           <Box flexDirection={"row"}  alignItems="center">
             <Box pr={"micro"} justifyContent="flex-start">

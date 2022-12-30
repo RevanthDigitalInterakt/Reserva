@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
-import { Typography, Box, Button } from '@danilomsou/reserva-ui';
+import { Typography, Box, Button } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { sendEmailVerificationMutation } from '../../../graphql/login/loginMutations';
@@ -79,6 +79,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         </Box>
         <Box mt={6}>
           <UnderlineInput
+            accessibilityLabel="register_input_email"
             onChangeText={(text) => {
               setEmail(text);
 
@@ -116,6 +117,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
           onPress={
             showRecoveryPassword ? handleEmailRecovery : handleEmailAccess
           }
+          testID={"register_button_recover"}
           disabled={emailEmpty}
           inline
         />

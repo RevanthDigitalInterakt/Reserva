@@ -1,7 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Box } from '@danilomsou/reserva-ui';
+import { Box } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { intervalToDuration } from 'date-fns';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -17,11 +17,8 @@ import React, {
 } from 'react';
 import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { PrimeProductList } from '../../../shared/components/PrimeProductList';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
-import { useContentfull } from '../../../context/ContentfullContext';
-import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import {
   Carrousel,
   CarrouselTypes,
@@ -47,6 +44,8 @@ import {
   ICountDownClock,
 } from '../../../graphql/countDownClock/countdownClockQuery';
 import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
+import ModalChristmasCoupon from "../../LandingPage/ModalChristmasCoupon";
+import useAsyncStorageProvider from "../../../hooks/useAsyncStorageProvider";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -54,12 +53,10 @@ dayjs.extend(timezone);
 export const HomeScreen: FC<{
   title: string;
 }> = () => {
+  const { getItem } = useAsyncStorageProvider()
   const { setOffersPage } = useConfigContext();
-  const navigation = useNavigation();
-  const { isTesting } = useContentfull();
   const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
-  const { cep, setRegionId } = useRegionalSearch();
-  const { setTime, time } = useCountDown();
+  const { setTime } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] =
     useLazyQuery(profileQuery);
@@ -75,6 +72,11 @@ export const HomeScreen: FC<{
   });
   const [{ collectionData }, setDataConfig] = useState({
     collectionData: null,
+  });
+
+  const [christmasModal, setChristmasModal] = useState({
+    orderId: '',
+    showModal: false,
   });
 
   const [countDownClockLocal, setCountDownClockLocal] =
@@ -239,6 +241,12 @@ export const HomeScreen: FC<{
     if (!isCookieEmpty()) {
       getProfile();
     }
+
+    getItem('@RNOrder:ChristmasCouponModalOrderId').then((res) => {
+      if (res) {
+        setChristmasModal({ showModal: true, orderId: res });
+      }
+    })
   }, []);
 
   const loginWithSavedCredentials = async () => {
@@ -307,11 +315,21 @@ export const HomeScreen: FC<{
   );
 
   const renderCarouselBanners = useMemo(() => {
-    return carrousels.map((carrousel) => {
+    return carrousels.map((carrousel, index) => {
       switch (carrousel?.type) {
         case CarrouselTypes.mainCarrousel: {
           return (
-            <DefaultCarrousel carrousel={carrousel} key={`carousel-${carrousel.title}-${carrousel.type}`} />
+            carrousel.itemsCollection.items.length > 1 ?
+              <DefaultCarrousel carrousel={carrousel} key={`carousel-${carrousel.title}-${carrousel.type}-${index}`} />
+              :
+              <Banner
+                key={`carousel-${carrousel.title}-${carrousel.type}-${index}`}
+                orderBy={carrousel.itemsCollection.items[0].orderBy}
+                height={carrousel.itemsCollection.items[0].image.height}
+                reference={carrousel.itemsCollection.items[0].reference}
+                url={carrousel.itemsCollection.items[0].image.url}
+                reservaMini={carrousel.itemsCollection.items[0].reservaMini}
+              />
           );
         }
         case CarrouselTypes.cardsCarrousel: {
@@ -321,7 +339,7 @@ export const HomeScreen: FC<{
             <CardsCarrousel
               key={`carousel-${carrousel.title}-${carrousel.type}`}
               carrousel={carrousel}
-              />
+            />
           ) : (
             <Banner
               key={`carousel-${carrousel.title}-${carrousel.type}`}
@@ -386,7 +404,9 @@ export const HomeScreen: FC<{
   return (
     <Box flex={1} bg="white">
       <TopBarDefault loading={loading} />
+
       <StoreUpdate />
+
       {modalDiscount && (
         <DiscoutCodeModal
           data={modalDiscount}
@@ -394,7 +414,17 @@ export const HomeScreen: FC<{
           onClose={handleModalCodeIsVisible}
         />
       )}
+
+      {!!(christmasModal?.showModal) && (
+        <ModalChristmasCoupon
+          isVisible={christmasModal.showModal}
+          orderId={christmasModal.orderId}
+          onClose={() => setChristmasModal({ showModal: false, orderId: '' })}
+        />
+      )}
+
       <WithoutInternet />
+
       {loading ? (
         <Skeleton />
       ) : (
@@ -419,8 +449,10 @@ export const HomeScreen: FC<{
               ) : (
                 <CountDownBanner countDown={countDownClockGlobal} />
               )}
+
               {renderCarouselBanners}
             </Box>
+
             {renderBannersFlatList}
           </ScrollView>
         </SafeAreaView>

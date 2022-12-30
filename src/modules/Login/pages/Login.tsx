@@ -1,18 +1,15 @@
 import { useMutation } from '@apollo/client';
-import { Box, Button, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import OneSignal from 'react-native-onesignal';
 import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
-// @ts-ignore
-import PushIOManager from '@oracle/react-native-pushiomanager';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
@@ -23,7 +20,7 @@ import {
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
-import Sentry from '../../../config/sentryConfig';
+import EventProvider from '../../../utils/EventProvider';
 
 enum CryptType {
   SHA256 = 3,
@@ -98,27 +95,26 @@ export const LoginScreen: React.FC<Props> = ({
 
         OneSignal.setExternalUserId(email);
 
-        PushIOManager.registerUserId(email);
-
-        appsFlyer.logEvent(
+        EventProvider.appsFlyer.logEvent(
           'af_login',
           {},
           (res) => { },
           (error) => {
-            Sentry.captureException(error);
+            EventProvider.captureException(error);
           }
         );
 
-        appsFlyer.setUserEmails(
+        EventProvider.appsFlyer.setUserEmails(
           {
             emails: [emailHash],
             emailsCryptType: CryptType.SHA256,
           },
           (success) => { },
           (error) => {
-            Sentry.captureException(error);
+            EventProvider.captureException(error);
           }
         );
+
 
         if (setEmail) setEmail(email);
 
@@ -197,7 +193,7 @@ export const LoginScreen: React.FC<Props> = ({
   }, [data]);
 
   useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('LoginScreen'));
+    EventProvider.sentry.configureScope((scope) => scope.setTransactionName('LoginScreen'));
   }, []);
 
   return (
@@ -237,7 +233,7 @@ export const LoginScreen: React.FC<Props> = ({
                     Yup.string().required().email().isValidSync(text.trim())
                   );
                 } catch (error) {
-                  Sentry.captureException(error, {
+                  EventProvider.sentry.captureException(error, {
                     extra: {
                       writtenEmail: text,
                     },

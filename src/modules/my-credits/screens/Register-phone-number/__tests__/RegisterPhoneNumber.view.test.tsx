@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 import { RegisterPhoneNumberView } from '../RegisterPhoneNumber.view';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@danilomsou/reserva-ui';
+import { theme } from '@usereservaapp/reserva-ui';
 
 const profile = {
   userId: '0',

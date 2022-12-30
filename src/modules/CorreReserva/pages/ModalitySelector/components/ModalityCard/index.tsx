@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import { Box, Typography } from '@danilomsou/reserva-ui';
+import { Box, Typography } from '@usereservaapp/reserva-ui';
 
 export interface ModalityCardProps {
   imageSource: ImageSourcePropType;

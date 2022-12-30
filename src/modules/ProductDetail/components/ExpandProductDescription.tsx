@@ -4,7 +4,7 @@ import {
     Button,
     Icon,
     Typography,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 interface IExpandProductDescription {
     description: string;
     composition: string;

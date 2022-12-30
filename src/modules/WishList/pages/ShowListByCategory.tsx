@@ -6,7 +6,7 @@ import {
   ProductHorizontalListCard,
   Typography,
   Picker,
-} from '@danilomsou/reserva-ui'
+} from '@usereservaapp/reserva-ui'
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
 import { images } from '../../../assets'
 import { WishListCategory } from './WishListCategory'
@@ -34,9 +34,9 @@ export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
                 (wish) =>
                   products.findIndex((x) => x.id != wish.id) != undefined
               )
-              .map((prod) => {
+              .map((prod, index) => {
                 return (
-                  <Box marginTop='xxxs' height={147}>
+                  <Box marginTop='xxxs' height={147} key={`product-${index}`}>
                     <ProductHorizontalListCard
                       isFavorited
                       currency={prod.currency}

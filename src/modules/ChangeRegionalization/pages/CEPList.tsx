@@ -1,7 +1,7 @@
 import { TopBarBackButtonWithoutLogo } from "../../Menu/components/TopBarBackButtonWithoutLogo"
 import React, { useEffect } from "react"
 import { View } from "react-native"
-import { Box, Button, Typography } from "@danilomsou/reserva-ui"
+import { Box, Button, Typography } from "@usereservaapp/reserva-ui"
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useNavigation } from "@react-navigation/native"

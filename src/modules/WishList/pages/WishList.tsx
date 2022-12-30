@@ -13,7 +13,7 @@ import {
   ProductHorizontalListCard,
   Typography,
   Image,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
@@ -24,6 +24,7 @@ import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ModalBag } from '../../ProductDetail/components/ModalBag';
 import { EmptyWishList } from '../components/EmptyWishList';
+import {slugify} from "../../../utils/slugify";
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
@@ -143,15 +144,15 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     const selectedVariantId = itemId;
     const selectedSellerId = sellers;
 
-    const { message, ok } = await addItem(
-      1,
-      selectedVariantId,
-      selectedSellerId
-    );
+    const addItemResponse = await addItem({
+      quantity: 1,
+      itemId: selectedVariantId,
+      seller: selectedSellerId
+    });
     setIsVisible(true);
 
-    if (!ok) {
-      Alert.alert('Produto sem estoque', message);
+    if (!addItemResponse?.ok) {
+      Alert.alert('Produto sem estoque', addItemResponse?.message);
     }
   };
 
@@ -408,13 +409,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                   return (
                     <Box marginBottom="xxxs" height={150}>
                       <ProductHorizontalListCard
-                        // handleNavigateToProductDetail={() => {
-                        //   navigation.navigate('ProductDetail', {
-                        //     productId: product?.productId,
-                        //     colorSelected: productSku?.variations[2].values[0],
-                        //     sizeSelected: productSku?.name.split('-')[1],
-                        //   });
-                        // }}
+                        testID={`producthorizontal_card_${slugify(item.productSku?.name)}`}
                         onClickAddCount={() => { }}
                         isFavorited
                         itemColor={item.productSku?.name.split('-')[0] || ''}

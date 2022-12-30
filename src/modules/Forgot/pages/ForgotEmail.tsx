@@ -5,7 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
-import { Typography, Box, TextField, Button } from '@danilomsou/reserva-ui';
+import { Typography, Box, TextField, Button } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -66,6 +66,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
             onChangeText={(text) => {
               setEmail(text);
             }}
+            accessibilityLabel="forgot_input_email"
             placeholder="Digite seu e-mail"
           />
         </Box>

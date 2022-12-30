@@ -1,12 +1,14 @@
+import { Linking, Platform } from 'react-native';
 import { getPathFromState, LinkingOptions } from '@react-navigation/native';
-import { Alert, Linking, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
+import appsFlyer from 'react-native-appsflyer';
+import { env } from './env';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
-import { URL } from 'react-native-url-polyfill';
-import {REGEX_PRODUCT_URL} from "../utils/LinkingUtils/static/deepLinkMethods";
+import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
 
+const _PLATAFORMIOSNAME = 'ios' as const;
 
 const routesConfig = {
   screens: {
@@ -14,7 +16,9 @@ const routesConfig = {
       initialRouteName: 'HomeTabs',
       screens: {
         WishList: 'wishlist',
-        BagScreen: 'bag',
+        BagScreen: {
+          path: 'bag/:orderFormId?',
+        },
         HomeTabs: {
           path: 'home-tabs',
           screens: {
@@ -37,6 +41,7 @@ const routesConfig = {
     },
   },
 };
+
 export const linkingConfig: LinkingOptions = {
   prefixes: ['usereserva://', 'https://www.usereserva.com/'],
   config: routesConfig,
@@ -47,52 +52,21 @@ export const linkingConfig: LinkingOptions = {
     }
     return '';
   },
+
   // Push notification firebase
   async getInitialURL() {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();
 
-    //TODO trocar todo o bloco do if pela funcao linkingUrlListenerHelper src/utils/linkingUtils.ts
     if (url != null) {
-      if (
-        url === 'https://www.usereserva.com' ||
-        url === 'https://www.usereserva.com/'
-      ) {
-        return 'usereserva://home-tabs';
-      }
+      const currentDeepLink = deepLinkHelper(url);
+      if (currentDeepLink) return currentDeepLink;
 
-      if (REGEX_PRODUCT_URL._IS_PRODUCT_URL.test(url.toLowerCase())) {
-        const productUrl = new URL(url);
-
-        if (!productUrl.search.length) {
-          productUrl.searchParams.append(
-            'slug',
-            productUrl.pathname
-              .replace(REGEX_PRODUCT_URL._REMOVE_INVALID_WORDS, '')
-              .replace('/', '')
-          );
-        }
-
-        return `usereserva://product?${productUrl.search.replace('?', '')}`;
-      }
-
-      if (url.endsWith('colecao-reserva/ofertas')) {
-        return 'usereserva://home-tabs';
-      }
-
-      if (url.includes('account#/wishlist')) {
-        return 'usereserva://home-tabs/wishlist';
-      }
-
-      if (url.includes('account#')) {
-        return 'usereserva://home-tabs/profile';
-      }
-
-      if (Platform.OS === 'ios') {
+      if (Platform.OS === _PLATAFORMIOSNAME) {
         Linking.openURL(url);
       }
 
-      return 'usereserva://home-tabs';
+      return defaultInitialUrl;
     }
 
     // Check if there is an initial firebase notification
@@ -110,8 +84,33 @@ export const linkingConfig: LinkingOptions = {
   },
   subscribe(listener) {
     const onReceiveURL = ({ url }: { url: string }) => {
-      listener(deepLinkHelper(url));
+      listener(deepLinkHelper(url) || defaultInitialUrl);
     };
+
+    let onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {
+      if (res?.deepLinkStatus !== 'NOT_FOUND') {
+        const url = res.data?.deep_link_value;
+        if (url) {
+          const newUrl = deepLinkHelper(url);
+          if (newUrl) {
+            listener(newUrl);
+          }
+        }
+      }
+    });
+
+    appsFlyer.initSdk(
+      {
+        devKey: env.APPSFLYER.DEV_KEY,
+        isDebug: false,
+        appId: env.APPSFLYER.APP_ID,
+        onInstallConversionDataListener: true,
+        onDeepLinkListener: true,
+        timeToWaitForATTUserAuthorization: 10,
+      },
+      (result) => {},
+      (error) => {}
+    );
 
     // Listen to incoming links from deep linking
     Linking.addEventListener('url', onReceiveURL);
@@ -138,6 +137,7 @@ export const linkingConfig: LinkingOptions = {
       // Clean up the event listeners
       Linking.removeEventListener('url', onReceiveURL);
       unsubscribeNotification();
+      onDeepLinkCanceller();
     };
   },
 };

@@ -1,4 +1,4 @@
-import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import React, {

@@ -8,15 +8,13 @@ import {
   SearchBar,
   theme,
   Typography,
-} from '@danilomsou/reserva-ui';
-import analytics from '@react-native-firebase/analytics';
+} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useConfigContext } from '../../../context/ConfigContext';
 import { intervalToDuration } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Linking } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import {
@@ -41,6 +39,7 @@ import { EmptyProductCatalog } from '../components/EmptyProductCatalog/EmptyProd
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
 import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
+import EventProvider from '../../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -282,10 +281,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [countDownClock]);
 
   useEffect(() => {
-    appsFlyer.logEvent('af_list_view', {
-      af_content_type: referenceString,
-    });
-    analytics().logEvent('product_list_view', {
+    EventProvider.logEvent('product_list_view', {
       content_type: referenceString,
     });
   }, []);
@@ -501,15 +497,32 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
   }, [data]);
 
-  const loadMoreProducts = async (offset: number) => {
+  const getOffsetRequest = (isFilteredRequest: boolean, offSet: number) => {
+      if(isFilteredRequest) {
+        return {
+          from: 0,
+          to: 11,
+        }
+      }
+
+      return {
+        from: offSet < pageSize ? pageSize : offSet,
+        to: offSet < pageSize ? pageSize * 2 - 1 : offSet + (pageSize - 1)
+      }
+  }
+
+  const loadMoreProducts = async (offset: number, isFilteredRequest: boolean = false) => {
     setLoadingFetchMore(true);
+
+    const offSetRequest = getOffsetRequest(isFilteredRequest, offset);
+
     const { data: dataFetchMore, loading } = await fetchMore({
       variables: {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
         orderBy: selectedOrder,
-        from: offset < pageSize ? pageSize : offset,
-        to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
+        from:  offSetRequest.from,
+        to: offSetRequest.to,
         selectedFacets: [].concat(
           generateFacets(referenceString),
           filterRequestList
@@ -528,6 +541,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           ],
         },
       };
+
+      if(isFilteredRequest) {
+        newDataProductSearch.productSearch.products = [
+          ...dataFetchMore.productSearch.products
+        ];
+      }
+
       setProductSearch({
         data: newDataProductSearch,
         loading,
@@ -552,10 +572,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (filterRequestList) {
-      setProducts({
-        products: [],
-      });
-      loadMoreProducts(0);
+      loadMoreProducts(0, true);
     }
   }, [filterRequestList]);
 
@@ -881,10 +898,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           <Text>Carregando...</Text>
         </Box>
       </Modal> */}
-      {data?.productSearch?.products ? (
+      {productsQuery.products ? (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
-          products={data?.productSearch?.products} //productsQuery.products}
+          products={productsQuery.products} //productsQuery.products}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}

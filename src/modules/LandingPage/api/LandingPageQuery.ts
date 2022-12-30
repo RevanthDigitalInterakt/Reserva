@@ -10,13 +10,28 @@ type LPLeads = {
   idCampanha: string;
 };
 
-export type LandingPageData = {
+export type LandingPageData<T = any> = {
   landingPage: {
     itemsCollection: {
-      items: any[];
+      items: T[];
     };
   };
 };
+
+export const GET_LEAD_LANDING_PAGE = gql`
+  query GetLandingPage($id: String!) {
+    landingPage(id: $id) {
+      itemsCollection {
+        items {
+          __typename
+          idCampanha
+          title
+          titleButton
+        }
+      }
+    }
+  }
+`;
 
 export const GET_LANDING_PAGE = gql`
   query GetLandingPage($id: String!) {

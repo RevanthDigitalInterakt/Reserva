@@ -1,7 +1,7 @@
 import React from "react";
 import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
-import { Box } from "@danilomsou/reserva-ui";
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import { Box } from "@usereservaapp/reserva-ui";
 
 const LoadingScreen = () => {
   return (

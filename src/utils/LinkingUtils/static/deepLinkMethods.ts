@@ -1,4 +1,4 @@
-import {URL} from "react-native-url-polyfill";
+import { URL } from "react-native-url-polyfill";
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -16,7 +16,7 @@ export const defaultInitialUrl = 'usereserva://home-tabs';
 
 export const productUrl = `usereserva://product?`;
 
-const defautlCustomMethodReturn: ICustomMethodReturnParams = {
+const defaultCustomMethodReturn: ICustomMethodReturnParams = {
   match: false,
   strUrl: defaultInitialUrl,
 };
@@ -24,14 +24,16 @@ const defautlCustomMethodReturn: ICustomMethodReturnParams = {
 const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
   const isUrlSiteCase =
     initialUrl === 'https://www.usereserva.com' ||
-    initialUrl === 'https://www.usereserva.com/';
+    initialUrl === 'http://www.usereserva.com' ||
+    initialUrl === 'www.usereserva.com' ||
+    initialUrl === 'http://usereserva.com'
   if (isUrlSiteCase) {
     return {
       match: true,
       strUrl: defaultInitialUrl,
     };
   }
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -55,18 +57,18 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
     };
   }
 
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.endsWith('colecao-reserva/ofertas')) {
     return {
       match: true,
-      strUrl: defaultInitialUrl,
+      strUrl: `${baseTabUrl}/ofertas`,
     };
   }
 
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const accountWishListUseCase = (
@@ -78,7 +80,7 @@ const accountWishListUseCase = (
       strUrl: `${baseTabUrl}/wishlist`,
     };
   }
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const accountUseCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -89,8 +91,46 @@ const accountUseCase = (initialUrl: string): ICustomMethodReturnParams => {
     };
   }
 
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
+
+const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if(initialUrl.includes("catalog/collection")) {
+    return {
+      match: true,
+      strUrl: initialUrl
+    }
+  }
+
+  return defaultCustomMethodReturn
+}
+
+const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (initialUrl.includes("#/cart")) {
+    if (initialUrl.includes("?orderFormId")) {
+      const splitOrderFormId = initialUrl
+        .split('?orderFormId=')[1]
+        .split('#/cart')[0];
+
+      return {
+        match: true,
+        strUrl: `usereserva://bag/${splitOrderFormId}`
+      }
+    }
+  }
+
+  return defaultCustomMethodReturn;
+}
+
+const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if(initialUrl.includes("bag")) {
+    return {
+      match: true,
+      strUrl: initialUrl
+    }
+  }
+  return defaultCustomMethodReturn;
+}
 
 const registerMethods = [
   urlSiteCase,
@@ -98,6 +138,9 @@ const registerMethods = [
   colectionUseCase,
   accountWishListUseCase,
   accountUseCase,
+  cartUseCase,
+  catalogCollectionUseCase,
+  abandonedBagUseCase
 ];
 
-export { registerMethods };
+export {registerMethods};

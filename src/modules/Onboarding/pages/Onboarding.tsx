@@ -1,7 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { StackActions, useNavigation } from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
 import {
   StatusBarStyle,
   useStatusBar,
@@ -13,7 +12,6 @@ import {
   Image,
   ImageBackground,
   Platform,
-  StatusBar,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -27,6 +25,7 @@ import {
   requestPermissionLocation,
 } from '../components/Permissions';
 import { staticsDataAndroid, staticsDataIos } from '../components/StaticsData';
+import EventProvider from '../../../utils/EventProvider';
 
 const { width, height } = Dimensions.get('window');
 
@@ -63,11 +62,11 @@ const Slide = ({
             if (status === 'granted') {
               openSettings()
                 .then(() => goNextSlide())
-                .catch(Sentry.captureException);
+                .catch(EventProvider.captureException);
             } else {
               openSettings()
                 .then(() => goNextSlide())
-                .catch(Sentry.captureException);
+                .catch(EventProvider.captureException);
             }
           }
         );

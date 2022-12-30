@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
-import { Typography, Box, Button, Image } from "@danilomsou/reserva-ui";
+import { Typography, Box, Button, Image } from "@usereservaapp/reserva-ui";
 import { images } from "../../assets";
 
 

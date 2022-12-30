@@ -9,11 +9,9 @@ import {
   ProductHorizontalListCard,
   RadioButtons,
   TextField,
-  Toggle,
   Typography,
-} from '@danilomsou/reserva-ui';
-import { loadingSpinner } from '@danilomsou/reserva-ui/src/assets/animations';
-import analytics from '@react-native-firebase/analytics';
+} from '@usereservaapp/reserva-ui';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
@@ -21,21 +19,24 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
   KeyboardAvoidingView,
-  PixelRatio,
   Platform,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import appsFlyer from 'react-native-appsflyer';
 import Modal from 'react-native-modal';
-import { chechoutService } from '../../../services/checkoutService';
 import { useAuth } from '../../../context/AuthContext';
-import { useCart } from '../../../context/CartContext';
+
+import { Item, OrderForm, useCart } from '../../../context/CartContext';
+
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { Attachment, SetGiftSize } from '../../../services/vtexService';
+import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
+
+import OneSignal from 'react-native-onesignal';
+import Sentry from '../../../config/sentryConfig';
+import { ProductUtils } from '../../../shared/utils/productUtils';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
@@ -45,8 +46,10 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import Sentry from '../../../config/sentryConfig';
-import OneSignal from 'react-native-onesignal';
+import EventProvider from '../../../utils/EventProvider';
+import { slugify } from "../../../utils/slugify";
+import { instance } from '../../../config/vtexConfig';
+import ToastProvider, { ShowToast } from '../../../utils/Toast/index';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -70,24 +73,31 @@ export const BagScreen = ({ route }: Props) => {
   const { email, cookie } = useAuth();
   const navigation = useNavigation();
   const {
+    loading,
+    topBarLoading,
     orderForm,
     addItem,
     orderform,
+    setGiftSizeRequest,
     removeItem,
     addCoupon,
     identifyCustomer,
-    addSellerCoupon,
     removeCoupon,
     removeSellerCoupon,
     addCustomer,
-    addShippingData,
+    restoreCart,
+    sellerCode,
+    sellerName,
+    applyCouponOnPressed,
+    hasErrorApplyCoupon,
+    toggleGiftWrapping,
   } = useCart();
 
   const { isProfileComplete } = route?.params;
+  const orderFormIdByDeepLink = route?.params?.orderFormId;
   let fontTitle =
     Platform.OS === 'android' ? screenWidth * 0.0352 : screenWidth * 0.036;
   let subtitle = screenWidth * 0.032;
-  const [loading, setLoading] = useState(false);
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
@@ -103,17 +113,17 @@ export const BagScreen = ({ route }: Props) => {
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [loadingShippingBar, setLoadingShippingBar] = useState(false);
   const [totalDelivery, setTotalDelivery] = useState(0);
-  const [hasBagGift, setHasBagGift] = React.useState(false);
   const [showLikelyProducts, setShowLikelyProducts] = React.useState(true);
   const [showMoreSizes, setShowMoreSizes] = useState(false);
   const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
   const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
-  const [sellerCode, setSellerCode] = React.useState<string | undefined>('');
-  const [sellerName, setSellerName] = React.useState<string | undefined>('');
-  const [sellerCouponIsValid, setSellerCouponIsValid] = useState<boolean>(true);
   const [selectedSizeGift, setSelectedSizeGift] = useState<string | undefined>(
     ''
   );
+  const [giftColors, setGiftColors] = useState<string[]>([]);
+  const [giftSizeList, setGiftSizeList] = useState<string[]>([]);
+  const [selectableGifts, setSelectableGifts] = useState<Item[]>([]);
+  const [selectedGiftColor, setSelectedGiftColor] = useState<string>('');
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean | undefined>(
     false
   );
@@ -127,6 +137,8 @@ export const BagScreen = ({ route }: Props) => {
     installmentPrice: 0,
     totalPrice: 0,
   });
+
+  const showMoreGiftSize = giftSizeList && giftSizeList.length > 5;
 
   useEffect(() => {
     Sentry.configureScope((scope) => scope.setTransactionName('BagScreen'));
@@ -162,12 +174,6 @@ export const BagScreen = ({ route }: Props) => {
       });
     });
   }, []);
-
-  const firstLoadOrderForm = async () => {
-    setLoading(true);
-    orderform();
-    setLoading(false);
-  };
 
   const setCustomer = async (email: string) => await identifyCustomer(email);
 
@@ -218,13 +224,25 @@ export const BagScreen = ({ route }: Props) => {
     }
   }, [data]);
 
+  const initialCartExecute = React.useCallback(async () => {
+    await orderform();
+
+    if (orderFormIdByDeepLink) {
+      await restoreCart(orderFormIdByDeepLink);
+    } else {
+      if (orderForm) {
+        await restoreCart(orderForm?.orderFormId);
+      }
+    }
+  }, [orderFormIdByDeepLink]);
+
   useEffect(() => {
-    firstLoadOrderForm();
+    initialCartExecute();
 
     if (email) {
       setCustomer(email);
     }
-  }, []);
+  }, [initialCartExecute, orderFormIdByDeepLink]);
 
   useFocusEffect(
     useCallback(() => {
@@ -247,11 +265,6 @@ export const BagScreen = ({ route }: Props) => {
     const errorMessages = orderForm?.messages.map(({ text }: any) => text);
     setErrorsMessages(errorMessages);
 
-    const sellerCode =
-      orderForm?.marketingData?.marketingTags[1]?.split('=')[1];
-    const sellerName = orderForm?.marketingData?.marketingTags[2]
-      ?.split('=')[1]
-      .split(' ')[0];
     const installment =
       orderForm?.paymentData?.installmentOptions
         ?.find((x) => x.paymentSystem == 4)
@@ -259,16 +272,49 @@ export const BagScreen = ({ route }: Props) => {
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
 
-    let giftSize: string | undefined;
+    let sizeFilters: string[] = [];
+    let giftSizeList: Item[] = [];
     const alreadySelectedGift = orderForm?.items.find(
       (x) => x.isGift == true && x.sellingPrice == 0
     );
+
+    const giftColors = orderForm?.selectableGifts[0]?.availableGifts.map(
+      (x) => x.skuName.split('-')[0]
+    );
+    const uniqueGiftColors = [...new Set(giftColors)];
+    setGiftColors(uniqueGiftColors);
     if (!!alreadySelectedGift) {
+      const result = orderForm?.selectableGifts[0]?.availableGifts.filter(
+        (x) =>
+          x.skuName.split('-')[0] === alreadySelectedGift?.skuName.split('-')[0]
+      );
+      if (result?.length) {
+        giftSizeList = result;
+      }
+    } else {
+      const result = orderForm?.selectableGifts[0]?.availableGifts.filter(
+        (x) => x.skuName.split('-')[0] === uniqueGiftColors[0]
+      );
+      if (result?.length) {
+        giftSizeList = result;
+      }
+      setSelectedGiftColor(uniqueGiftColors[0]);
+    }
+    if (giftSizeList.length) {
+      setSelectableGifts(giftSizeList);
+      sizeFilters = new ProductUtils().orderSizes(
+        giftSizeList.map((x) => x.skuName.split('-')[1].trim())
+      );
+      setGiftSizeList(sizeFilters);
+    }
+    if (!!alreadySelectedGift) {
+      setSelectedGiftColor(alreadySelectedGift?.skuName.split('-')[0]);
       setSelectedSizeGift(alreadySelectedGift?.skuName.split('-')[1]);
     } else {
-      giftSize =
-        orderForm?.selectableGifts[0]?.availableGifts[0]?.skuName.split('-')[1];
-      if (!!giftSize) fetchSelectGiftSize(giftSize);
+      if (Boolean(sizeFilters?.length)) {
+        handleSelectGiftSize(sizeFilters[0]);
+        setSelectedGiftColor(sizeFilters[0]);
+      }
     }
 
     setInstallmentInfo(
@@ -287,8 +333,6 @@ export const BagScreen = ({ route }: Props) => {
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
-    setSellerCode(sellerCode);
-    setSellerName(sellerName);
   }, [orderForm]);
 
   useEffect(() => {
@@ -298,10 +342,11 @@ export const BagScreen = ({ route }: Props) => {
         OneSignal.sendTags({
           cart_update: timestamp.toString(),
           product_name: orderForm?.items[0]?.name,
-          product_image: orderForm?.items[0]?.imageUrl.replace('http', 'https')
+          product_image: orderForm?.items[0]?.imageUrl
+            .replace('http', 'https')
             .split('-55-55')
             .join(''),
-        })
+        });
       }
     }
   }, [isRemoveCartTags]);
@@ -329,28 +374,18 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const handleAddSellerCoupons = async () => {
-    setLoadingGoDelivery(true);
-    const dataSellerCoupon = await addSellerCoupon(sellerCoupon).then(
-      (response) => {
-        if (response) {
-          setSellerCouponIsValid(true);
-          setTimeout(() => {
-            setLoadingGoDelivery(false);
-          }, 2000);
-        } else {
-          setSellerCouponIsValid(false);
-          setLoadingGoDelivery(false);
-        }
-      }
-    );
-
     setSellerCoupon('');
-    orderform();
+    await applyCouponOnPressed(sellerCoupon);
   };
 
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
+    const hasError = removeUnavailableItems();
+    if (hasError) {
+      return;
+    }
+
     setLoadingGoDelivery(true);
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
@@ -368,15 +403,7 @@ export const BagScreen = ({ route }: Props) => {
       );
       const af_quantity = orderForm.items.map((i) => i.quantity);
 
-      appsFlyer.logEvent('af_initiated_checkout', {
-        af_price: totalBag + totalDiscountPrice + totalDelivery,
-        af_content_id,
-        af_content_type,
-        af_currency: 'BRL',
-        af_quantity,
-      });
-
-      analytics().logEvent('checkout_initiated', {
+      EventProvider.logEvent('checkout_initiated', {
         price: totalBag + totalDiscountPrice + totalDelivery,
         content_type: af_content_type,
         content_ids: af_content_id,
@@ -425,38 +452,129 @@ export const BagScreen = ({ route }: Props) => {
     }
   };
 
-  const fetchSelectGiftSize = async (size: string) => {
-    const availableGifts = orderForm.selectableGifts[0].availableGifts.find(
-      (x) => x.skuName.split('-')[1].trim() === size
+  const handleSelectedGiftColor = async (color: string) => {
+    const giftSizeList = orderForm?.selectableGifts[0]?.availableGifts.filter(
+      (x) => x.skuName.split('-')[0] === color
     );
-
-    try {
-      setLoadingGift(true);
-      const data = await SetGiftSize(
-        orderForm?.orderFormId,
-        orderForm?.selectableGifts[0]?.id.trim(),
-        availableGifts.id,
-        availableGifts.seller
+    let sizeFilters: string[] = [];
+    if (giftSizeList?.length) {
+      setSelectableGifts(giftSizeList);
+      setSelectedGiftColor(giftSizeList[0].skuName.split('-')[0]);
+      sizeFilters = new ProductUtils().orderSizes(
+        giftSizeList.map((x) => x.skuName.split('-')[1].trim())
       );
-      if (data) {
-        orderform();
-        setSelectedSizeGift(size);
+      if (sizeFilters.length > 0) {
+        let hasSize: Item[] = [];
+        hasSize = giftSizeList.filter(
+          (item) =>
+            item?.skuName.split('-')[1].trim() === selectedSizeGift?.trim()
+        );
+        const firstSize = giftSizeList?.find(
+          (item) => item?.skuName.split('-')[1].trim() === sizeFilters[0]
+        );
+        setGiftSizeList(sizeFilters);
+        if (hasSize.length > 0) {
+          await fetchSelectGiftSize(hasSize[0]);
+          setSelectedSizeGift(hasSize[0].skuName.split('-')[1].trim());
+        } else {
+          if (firstSize) {
+            await fetchSelectGiftSize(firstSize);
+            setSelectedSizeGift(firstSize?.skuName?.split('-')[1].trim());
+          }
+        }
       }
-      setLoadingGift(false);
-    } catch (error) {
-      throw error;
     }
+  };
+
+  const handleSelectGiftSize = async (size: string) => {
+    const availableGifts = selectableGifts.find(
+      (x) => x.skuName.split('-')[1].trim() === size.trim()
+    );
+    if (availableGifts) {
+      await fetchSelectGiftSize(availableGifts);
+    }
+    setSelectedSizeGift(size);
+  };
+
+  const fetchSelectGiftSize = async (gift: Item) => {
+    await setGiftSizeRequest(
+      orderForm?.orderFormId,
+      orderForm?.selectableGifts[0]?.id.trim(),
+      gift.id,
+      gift.seller
+    );
   };
 
   const removeAbandonedCartTags = () => {
     OneSignal.sendTags({
-      cart_update: "",
-      product_name: "",
-      product_image: "",
+      cart_update: '',
+      product_name: '',
+      product_image: '',
+    });
+  };
+
+  const removeUnavailableItems = () => {
+    let hasError = false;
+
+    orderForm?.items.map(async ({ id, seller }, index) => {
+      await instance.get(`/logistics/pvt/inventory/skus/${id}`)
+        .then(resp => {
+
+          if (resp.data.balance[0].totalQuantity - resp.data.balance[0].reservedQuantity <= 1) {
+            RemoveItemFromCart(
+              orderForm?.orderFormId,
+              id,
+              index,
+              seller,
+              0
+            )
+            hasError = true
+            ShowToast('info', 'Alguns produtos da sua sacola estão indisponiveis')
+          }
+        })
     })
+    return hasError;
   }
 
+  // const setTeste = () => {
+  //   AddItemToCart(
+  //     orderForm?.orderFormId,
+  //     1,
+  //     '79900',
+  //     '1',
+  //   );
+  // }
+
+  // useEffect(() => {
+  //   setTeste()
+  // })
+
+
+  useEffect(() => {
+    removeUnavailableItems()
+  }, [])
+
+  const handleToggleGiftCheckbox = async (
+    value: boolean,
+    index: number,
+    item: Item,
+    orderForm: OrderForm
+  ) => {
+    const { orderFormId } = orderForm;
+
+    if (!orderFormId) return;
+
+    await toggleGiftWrapping(
+      value,
+      orderFormId,
+      item,
+      index,
+      cookie ?? undefined
+    );
+  };
+
   return (
+
     <SafeAreaView
       style={{
         justifyContent: 'space-between',
@@ -464,9 +582,13 @@ export const BagScreen = ({ route }: Props) => {
         backgroundColor: '#FFFFFF',
       }}
     >
-      <TopBarBackButton showShadow loading={loadingGoDelivery || loadingGift} />
 
-      {orderForm?.items.length === 0 ? (
+      <TopBarBackButton
+        showShadow
+        loading={loadingGoDelivery || loadingGift || topBarLoading}
+      />
+
+      {!orderForm?.items.length && !loading ? (
         <Box flex={1}>
           <EmptyBag onPress={() => navigation.navigate('Offers')} />
         </Box>
@@ -599,431 +721,482 @@ export const BagScreen = ({ route }: Props) => {
               </Skeleton>
             </Box>
           ) : (
-            orderForm &&
-            orderForm?.items.length > 0 && (
-              <>
-                {noProduct?.length > 0 && (
-                  <Animatable.View
-                    ref={viewRef}
-                    animation="slideInDown"
-                    style={{
-                      elevation: 10,
-                      position: 'absolute',
-                      right: 0,
-                      left: 0,
-                      zIndex: 2,
-                    }}
+            <>
+              {noProduct?.length > 0 && (
+                <Animatable.View
+                  ref={viewRef}
+                  animation="slideInDown"
+                  style={{
+                    elevation: 10,
+                    position: 'absolute',
+                    right: 0,
+                    left: 0,
+                    zIndex: 2,
+                  }}
+                >
+                  <Box
+                    minHeight={60}
+                    bg="white"
+                    paddingLeft="xxxs"
+                    py="micro"
+                    flexDirection="row"
+                    alignItems="center"
+                    paddingRight="xxxs"
+                    boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+                    style={{ elevation: 10 }}
                   >
-                    <Box
-                      minHeight={60}
-                      bg="white"
-                      paddingLeft="xxxs"
-                      py="micro"
-                      flexDirection="row"
-                      alignItems="center"
-                      paddingRight="xxxs"
-                      boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-                      style={{ elevation: 10 }}
-                    >
-                      <Box flex={1}>
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize={13}
-                          color="preto"
-                        >
-                          {noProduct}
-                        </Typography>
-                      </Box>
-                      <Button flex={1} onPress={() => setNoProduct('')}>
-                        <Icon name="Close" size={15} color="preto" ml="xxxs" />
-                      </Button>
-                    </Box>
-                  </Animatable.View>
-                )}
-
-                <ScrollView>
-                  <Modal isVisible={loadingModal}>
-                    <Box
-                      zIndex={5}
-                      height="100%"
-                      width="100%"
-                      opacity={0.65}
-                      position="absolute"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <LottieView
-                        source={loadingSpinner}
-                        style={{
-                          width: 60,
-                        }}
-                        autoPlay
-                        loop
-                      />
-                    </Box>
-                  </Modal>
-
-                  <Alert
-                    onModalHide={() => {
-                      modalRef.current && setSuccessModal(true);
-                    }}
-                    isVisible={showModal}
-                    title="Excluir produto"
-                    subtitle="Tem certeza que deseja excluir o produto salvo em sua sacola?"
-                    confirmText="SIM"
-                    cancelText="NÃO"
-                    disabled={loadingModal}
-                    onConfirm={async () => {
-                      modalRef.current = true;
-                      if (removeProduct) {
-                        setShowModal(false);
-                        setLoadingModal(true);
-                        await removeItem(
-                          removeProduct?.id,
-                          removeProduct?.index,
-                          removeProduct?.seller,
-                          0
-                        );
-                        setRemoveProduct(undefined);
-                        setLoadingModal(false);
-                      }
-                      setShowModal(false);
-                    }}
-                    onCancel={() => {
-                      setShowModal(false);
-                    }}
-                    onClose={() => {
-                      setShowModal(false);
-                    }}
-                  />
-                  <Box paddingX="xxxs" paddingY="xxs">
-                    <Box bg="white" marginTop="xxs">
-                      <Typography variant="tituloSessoes">
-                        Sacola (
-                        {optimistQuantities.reduce(
-                          (accumulator, currentValue) =>
-                            accumulator + currentValue,
-                          0
-                        )}
-                        )
+                    <Box flex={1}>
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize={13}
+                        color="preto"
+                      >
+                        {noProduct}
                       </Typography>
                     </Box>
+                    <Button flex={1} onPress={() => setNoProduct('')}>
+                      <Icon name="Close" size={15} color="preto" ml="xxxs" />
+                    </Button>
+                  </Box>
+                </Animatable.View>
+              )}
 
-                    <ShippingBar
-                      loading={loadingShippingBar}
-                      sumPriceShipping={totalBag + totalDiscountPrice}
-                      totalDelivery={totalDelivery != 0 ? totalDelivery : 0}
+              <ScrollView>
+                <Modal isVisible={loadingModal}>
+                  <Box
+                    zIndex={5}
+                    height="100%"
+                    width="100%"
+                    opacity={0.65}
+                    position="absolute"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <LottieView
+                      source={loadingSpinner}
+                      style={{
+                        width: 60,
+                      }}
+                      autoPlay
+                      loop
                     />
-                    {orderForm && orderForm.selectableGifts.length > 0 && (
-                      <Box flexDirection="row" minHeight={152} mt={20}>
-                        <Image
-                          source={orderForm?.selectableGifts[0]?.availableGifts[0].imageUrl
-                            .replace('http', 'https')
-                            .split('-55-55')
-                            .join('')}
-                          width={screenWidth * 0.25}
-                          height={152}
-                        />
+                  </Box>
+                </Modal>
 
-                        <Box ml={12} flex={1} minHeight={152}>
-                          <Box minHeight={93}>
-                            <Box>
-                              <Typography
-                                fontFamily="reservaSerifBold"
-                                fontSize={fontTitle}
-                              >
-                                Parabéns, você ganhou um brinde!
-                              </Typography>
-                            </Box>
+                <Alert
+                  onModalHide={() => {
+                    modalRef.current && setSuccessModal(true);
+                  }}
+                  isVisible={showModal}
+                  title="Excluir produto"
+                  subtitle="Tem certeza que deseja excluir o produto salvo em sua sacola?"
+                  confirmText="SIM"
+                  cancelText="NÃO"
+                  disabled={loadingModal}
+                  onConfirm={async () => {
+                    modalRef.current = true;
+                    if (removeProduct) {
+                      setShowModal(false);
+                      setLoadingModal(true);
+                      const removedProductIndex = removeProduct?.index;
 
-                            <Box minHeight={48}>
-                              <Typography
-                                fontFamily="reservaSansLight"
-                                fontSize={subtitle}
-                              >
-                                Sua compra tem uma vantagem especial:
-                              </Typography>
-                              <Typography
-                                fontFamily="reservaSansLight"
-                                fontSize={subtitle}
-                              >
-                                você ganhou
-                                <Typography
-                                  fontFamily="reservaSansBold"
-                                  fontSize={subtitle}
-                                >
-                                  {' '}
-                                  1{' '}
-                                  {`${orderForm?.selectableGifts[0]?.availableGifts[0]?.name
-                                    .split('-')[0]
-                                    .trim()}.`}
-                                </Typography>
-                              </Typography>
-                            </Box>
+                      const { ok } = await removeItem(
+                        removeProduct?.id,
+                        removeProduct?.index,
+                        removeProduct?.seller,
+                        0
+                      );
+
+                      if (ok) {
+                        if (removedProductIndex === 0) {
+                          setIsRemoveCartTags(true);
+                          removeAbandonedCartTags();
+                        }
+                      }
+                      setRemoveProduct(undefined);
+                      setLoadingModal(false);
+                    }
+                    setShowModal(false);
+                  }}
+                  onCancel={() => {
+                    setShowModal(false);
+                  }}
+                  onClose={() => {
+                    setShowModal(false);
+                  }}
+                />
+                <Box paddingX="xxxs" paddingY="xxs">
+                  <Box bg="white" marginTop="xxs">
+                    <Typography variant="tituloSessoes">
+                      Sacola (
+                      {optimistQuantities.reduce(
+                        (accumulator, currentValue) =>
+                          accumulator + currentValue,
+                        0
+                      )}
+                      )
+                    </Typography>
+                  </Box>
+
+                  <ShippingBar
+                    loading={loadingShippingBar}
+                    sumPriceShipping={totalBag + totalDiscountPrice}
+                    totalDelivery={totalDelivery != 0 ? totalDelivery : 0}
+                  />
+                  {orderForm && orderForm.selectableGifts.length > 0 && (
+                    <Box flexDirection="row" minHeight={152} mt={20}>
+                      <Image
+                        source={selectableGifts[0]?.imageUrl
+                          .replace('http', 'https')
+                          .split('-55-55')
+                          .join('')}
+                        width={screenWidth * 0.25}
+                        height={152}
+                      />
+
+                      <Box ml={12} flex={1} minHeight={152}>
+                        <Box minHeight={93}>
+                          <Box>
+                            <Typography
+                              fontFamily="reservaSerifBold"
+                              fontSize={fontTitle}
+                            >
+                              Parabéns, você ganhou um brinde!
+                            </Typography>
                           </Box>
 
-                          <Box minHeight={59}>
-                            <Box
-                              mb={10}
-                              flexDirection="row"
-                              justifyContent="space-between"
+                          <Box minHeight={48}>
+                            <Typography
+                              fontFamily="reservaSansLight"
+                              fontSize={subtitle}
                             >
+                              Sua compra tem uma vantagem especial:
+                            </Typography>
+                            <Typography
+                              fontFamily="reservaSansLight"
+                              fontSize={subtitle}
+                            >
+                              você ganhou
                               <Typography
                                 fontFamily="reservaSansBold"
                                 fontSize={subtitle}
                               >
-                                Selecione o tamanho
+                                {' '}
+                                1{' '}
+                                {selectableGifts[0]?.name.split('-')[0].trim()}
                               </Typography>
-
-                              {orderForm &&
-                                orderForm.selectableGifts[0].availableGifts.map(
-                                  (x) => x.skuName.split('-')[1]
-                                ).length > 5 && (
-                                  <Button
-                                    onPress={() =>
-                                      setShowMoreSizes(!showMoreSizes)
-                                    }
-                                    hitSlop={{ left: 50, top: 15, bottom: 15 }}
-                                  >
-                                    <BoxAnimation
-                                      flexDirection="row"
-                                      justifyContent="space-between"
-                                      alignItems="center"
-                                    >
-                                      <Typography
-                                        fontFamily="reservaSansRegular"
-                                        fontSize={subtitle}
-                                      >
-                                        Ver mais
-                                      </Typography>
-
-                                      <Icon
-                                        style={
-                                          showMoreSizes
-                                            ? {
-                                              transform: [
-                                                { rotate: '-90deg' },
-                                              ],
-                                            }
-                                            : { transform: [{ translateY: 4 }] }
-                                        }
-                                        name={
-                                          showMoreSizes
-                                            ? 'ChevronRight'
-                                            : 'ArrowDown'
-                                        }
-                                        color="preto"
-                                        marginLeft="nano"
-                                        size={12}
-                                      />
-                                    </BoxAnimation>
-                                  </Button>
-                                )}
-                            </Box>
-                            <Box flex={1} justifyContent="flex-end">
-                              <Box>
-                                <RadioButtons
-                                  size={screenWidth * 0.08}
-                                  fontSize={11.5}
-                                  disbledOptions={[]}
-                                  onSelectedChange={(item) => {
-                                    fetchSelectGiftSize(item);
+                            </Typography>
+                          </Box>
+                          <ScrollView horizontal>
+                            <Box
+                              alignItems="flex-start"
+                              flexWrap="wrap"
+                              flexDirection="row"
+                            >
+                              {giftColors.map((item, index) => (
+                                <Button
+                                  key={`${index}_btn`}
+                                  onPress={() => {
+                                    selectedGiftColor !== item &&
+                                      handleSelectedGiftColor(item);
                                   }}
-                                  optionsList={
-                                    showMoreSizes
-                                      ? orderForm.selectableGifts[0].availableGifts
-                                        .map((x) =>
-                                          x.skuName.split('-')[1].trim()
-                                        )
-                                        .reverse()
-                                      : orderForm.selectableGifts[0].availableGifts
-                                        .map((x) =>
-                                          x.skuName.split('-')[1].trim()
-                                        )
-                                        .slice(0, 5)
-                                        .reverse()
-                                  }
-                                  showMoreSizes={showMoreSizes}
-                                  defaultSelectedItem=""
-                                  selectedItem={selectedSizeGift?.trim()}
-                                />
-                              </Box>
+                                >
+                                  <Box
+                                    borderWidth="hairline"
+                                    borderColor="divider"
+                                    borderRadius="pico"
+                                    height={screenWidth * 0.06}
+                                    bg={
+                                      selectedGiftColor === item
+                                        ? 'preto'
+                                        : 'white'
+                                    }
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    paddingX="nano"
+                                    marginRight={
+                                      index < item.length ? 'micro' : null
+                                    }
+                                  >
+                                    <Typography
+                                      color={
+                                        selectedGiftColor === item
+                                          ? 'white'
+                                          : 'preto'
+                                      }
+                                      fontFamily="reservaSansBold"
+                                      fontSize={10.3}
+                                    >
+                                      {item}
+                                    </Typography>
+                                  </Box>
+                                </Button>
+                              ))}
+                            </Box>
+                          </ScrollView>
+                        </Box>
+
+                        <Box minHeight={59}>
+                          <Box
+                            mb={10}
+                            flexDirection="row"
+                            justifyContent="space-between"
+                          >
+                            <Typography
+                              fontFamily="reservaSansBold"
+                              fontSize={subtitle}
+                            >
+                              Selecione o tamanho
+                            </Typography>
+
+                            {showMoreGiftSize && (
+                              <Button
+                                onPress={() => setShowMoreSizes(!showMoreSizes)}
+                                hitSlop={{ left: 50, top: 15, bottom: 15 }}
+                              >
+                                <BoxAnimation
+                                  flexDirection="row"
+                                  justifyContent="space-between"
+                                  alignItems="center"
+                                >
+                                  <Typography
+                                    fontFamily="reservaSansRegular"
+                                    fontSize={subtitle}
+                                  >
+                                    Ver mais
+                                  </Typography>
+
+                                  <Icon
+                                    style={
+                                      showMoreSizes
+                                        ? {
+                                          transform: [{ rotate: '-90deg' }],
+                                        }
+                                        : { transform: [{ translateY: 4 }] }
+                                    }
+                                    name={
+                                      showMoreSizes
+                                        ? 'ChevronRight'
+                                        : 'ArrowDown'
+                                    }
+                                    color="preto"
+                                    marginLeft="nano"
+                                    size={12}
+                                  />
+                                </BoxAnimation>
+                              </Button>
+                            )}
+                          </Box>
+                          <Box flex={1} justifyContent="flex-end">
+                            <Box>
+                              <RadioButtons
+                                size={screenWidth * 0.08}
+                                fontSize={11.5}
+                                disbledOptions={[]}
+                                onSelectedChange={(item) => {
+                                  selectedSizeGift?.trim() !== item &&
+                                    handleSelectGiftSize(item);
+                                }}
+                                optionsList={
+                                  showMoreSizes
+                                    ? giftSizeList
+                                    : giftSizeList?.slice(0, 5)
+                                }
+                                showMoreSizes={showMoreSizes}
+                                defaultSelectedItem=""
+                                selectedItem={selectedSizeGift?.trim()}
+                              />
                             </Box>
                           </Box>
                         </Box>
                       </Box>
-                    )}
-                    {orderForm?.items.map(
-                      (item, index, array) =>
-                        item.sellingPrice !== 0 &&
-                        item.isGift === false && (
-                          <Box key={index} bg="white" marginTop="xxxs">
-                            {item.priceTags.find(
-                              (x) =>
-                                x.identifier ===
-                                'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                            ) && (
-                                <Box paddingBottom="nano">
-                                  <Typography
-                                    fontFamily="nunitoRegular"
-                                    fontSize={11}
-                                    color="verdeSucesso"
-                                  >
-                                    Desconto de 1° compra aplicado neste produto!
-                                  </Typography>
-                                </Box>
-                              )}
-                            {item.priceTags.find(
-                              (x) =>
-                                x.identifier ===
-                                'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                            ) && (
-                                <Box
-                                  position="absolute"
-                                  zIndex={5}
-                                  top={84}
-                                  right={21}
+                    </Box>
+                  )}
+                  {orderForm?.items.map(
+                    (item, index, array) =>
+                      item.sellingPrice !== 0 &&
+                      item.isGift === false && (
+                        <Box key={index} bg="white" marginTop="xxxs">
+                          {item.priceTags.find(
+                            (x) =>
+                              x.identifier ===
+                              'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                          ) && (
+                              <Box paddingBottom="nano">
+                                <Typography
+                                  fontFamily="nunitoRegular"
+                                  fontSize={11}
+                                  color="verdeSucesso"
                                 >
-                                  <Typography
-                                    color="verdeSucesso"
-                                    fontFamily="nunitoRegular"
-                                    fontSize={11}
-                                  >
-                                    -R$ 50
-                                  </Typography>
-                                </Box>
-                              )}
-                            <ProductHorizontalListCard
-                              isBag
-                              discountApi={
-                                item.priceTags.find(
-                                  (x) =>
-                                    x.identifier ===
-                                    'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                                )
-                                  ? parseInt(`${item.priceTags[0].rawValue}`)
-                                  : undefined
-                              }
-                              disableCounter={
-                                item.priceTags.find(
-                                  (x) =>
-                                    x.identifier ===
-                                    'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                                ) &&
-                                array.filter((x) => x.uniqueId == item.uniqueId)
-                                  .length > 1
-                              }
-                              currency="R$"
-                              discountTag={getPercent(
-                                item.sellingPrice,
-                                item.listPrice
-                              )}
-                              itemColor={item.skuName.split('-')[0] || ''}
-                              ItemSize={item.skuName.split('-')[1] || ''}
-                              productTitle={item.name.split(' - ')[0]}
-                              // installmentsNumber={item.installmentNumber}
-                              // installmentsPrice={item.installmentPrice}
-                              price={item.listPrice / 100}
-                              priceWithDiscount={
-                                item.sellingPrice !== 0
-                                  ? item.sellingPrice / 100
-                                  : 0
-                              }
-                              count={optimistQuantities[index]}
-                              onClickAddCount={async (countUpdated) => {
-                                const itemIndex = array.findIndex(
-                                  (x) => x.refId == item.refId
+                                  Desconto de 1° compra aplicado neste produto!
+                                </Typography>
+                              </Box>
+                            )}
+                          {item.priceTags.find(
+                            (x) =>
+                              x.identifier ===
+                              'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                          ) && (
+                              <Box
+                                position="absolute"
+                                zIndex={5}
+                                top={84}
+                                right={21}
+                              >
+                                <Typography
+                                  color="verdeSucesso"
+                                  fontFamily="nunitoRegular"
+                                  fontSize={11}
+                                >
+                                  -R$ 50
+                                </Typography>
+                              </Box>
+                            )}
+                          <ProductHorizontalListCard
+                            isBag
+                            discountApi={
+                              item.priceTags.find(
+                                (x) =>
+                                  x.identifier ===
+                                  'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                              )
+                                ? parseInt(`${item.priceTags[0].rawValue}`)
+                                : undefined
+                            }
+                            disableCounter={
+                              item.priceTags.find(
+                                (x) =>
+                                  x.identifier ===
+                                  'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                              ) &&
+                              array.filter((x) => x.uniqueId == item.uniqueId)
+                                .length > 1
+                            }
+                            currency="R$"
+                            discountTag={getPercent(
+                              item.sellingPrice,
+                              item.listPrice
+                            )}
+                            itemColor={item.skuName.split('-')[0] || ''}
+                            ItemSize={item.skuName.split('-')[1] || ''}
+                            productTitle={item.name.split(' - ')[0]}
+                            // installmentsNumber={item.installmentNumber}
+                            // installmentsPrice={item.installmentPrice}
+                            price={item.listPrice / 100}
+                            priceWithDiscount={
+                              item.sellingPrice !== 0
+                                ? item.sellingPrice / 100
+                                : 0
+                            }
+                            count={optimistQuantities[index]}
+                            testID={`product_card_bag_${slugify(item.productId + item.skuName)}`}
+                            isGift={item.bundleItems.length > 0}
+                            isGiftable={item.offerings.some(
+                              (offering) => offering?.type === 'Embalagem pra Presente'
+                            )}
+                            handleToggleGift={(value) =>
+                              handleToggleGiftCheckbox(
+                                value,
+                                index,
+                                item,
+                                orderForm
+                              )
+                            }
+                            onClickAddCount={async (countUpdated) => {
+                              const itemIndex = array.findIndex(
+                                (x) => x.refId == item.refId
+                              );
+
+                              let isAssinaturaSimples =
+                                item?.attachmentOfferings?.find(
+                                  (x) => x.schema.aceito
+                                )?.required || false;
+
+                              const quantities = isAssinaturaSimples
+                                ? 1
+                                : countUpdated;
+
+                              const addItemResponse = await addItem({
+                                quantity: quantities,
+                                itemId: item.id,
+                                seller: item.seller,
+                                index,
+                                hasBundleItems: !!item.bundleItems?.length,
+                                isUpdate: true,
+                              });
+
+                              if (!addItemResponse?.ok) {
+                                const erros = errorsMessages?.filter((erro) =>
+                                  erro.includes(item.name)
                                 );
-
-                                let isAssinaturaSimples =
-                                  item?.attachmentOfferings?.find(
-                                    (x) => x.schema.aceito
-                                  )?.required || false;
-
-                                const quantities = isAssinaturaSimples
-                                  ? 1
-                                  : countUpdated;
-
-                                const { ok } = await addItem(
-                                  quantities,
-                                  item.id,
-                                  item.seller
-                                );
-                                if (!ok) {
-                                  const erros = errorsMessages?.filter((erro) =>
-                                    erro.includes(item.name)
-                                  );
-                                  setNoProduct(erros[0]);
-                                } else {
-                                  if (!isAssinaturaSimples) {
-                                    setOptimistQuantities([
-                                      ...optimistQuantities.slice(0, itemIndex),
-                                      countUpdated,
-                                      ...optimistQuantities.slice(
-                                        itemIndex + 1
-                                      ),
-                                    ]);
-                                  } else {
-                                    await addAttachmentsInProducts();
-                                  }
-                                }
-                              }}
-                              onClickSubCount={async (count) => {
-                                const prevCont = optimistQuantities[index];
-                                if (prevCont <= 1) {
-                                  setShowModal(true);
-                                  setRemoveProduct({
-                                    id: item.id,
-                                    index,
-                                    seller: item.seller,
-                                  });
-                                } else {
+                                setNoProduct(erros[0]);
+                              } else {
+                                if (!isAssinaturaSimples) {
                                   setOptimistQuantities([
-                                    ...optimistQuantities.slice(0, index),
-                                    count,
-                                    ...optimistQuantities.slice(index + 1),
+                                    ...optimistQuantities.slice(0, itemIndex),
+                                    countUpdated,
+                                    ...optimistQuantities.slice(itemIndex + 1),
                                   ]);
-                                  const { ok } = await removeItem(
-                                    item.id,
-                                    index,
-                                    item.seller,
-                                    item.quantity - 1
-                                  );
-                                  if (!ok)
-                                    setOptimistQuantities([
-                                      ...optimistQuantities.slice(0, index),
-                                      prevCont,
-                                      ...optimistQuantities.slice(index + 1),
-                                    ]);
+                                } else {
+                                  await addAttachmentsInProducts();
                                 }
-                              }}
-                              onClickClose={() => {
+                              }
+                            }}
+                            onClickSubCount={async (count) => {
+                              const prevCont = optimistQuantities[index];
+                              if (prevCont <= 1) {
                                 setShowModal(true);
                                 setRemoveProduct({
                                   id: item.id,
                                   index,
                                   seller: item.seller,
                                 });
-                              }}
-                              imageSource={item.imageUrl
-                                .replace('http', 'https')
-                                .split('-55-55')
-                                .join('')}
-                              handleNavigateToProductDetail={() => {
-                                navigation.navigate('ProductDetail', {
-                                  productId: item.productId,
-                                  itemId: item.id,
-                                  sizeSelected:
-                                    item.skuName.split('-')[1] || '',
-                                });
-                              }}
-                            />
-                          </Box>
-                        )
-                    )}
-                  </Box>
+                              } else {
+                                setOptimistQuantities([
+                                  ...optimistQuantities.slice(0, index),
+                                  count,
+                                  ...optimistQuantities.slice(index + 1),
+                                ]);
+                                const { ok } = await removeItem(
+                                  item.id,
+                                  index,
+                                  item.seller,
+                                  item.quantity - 1
+                                );
+                                if (!ok)
+                                  setOptimistQuantities([
+                                    ...optimistQuantities.slice(0, index),
+                                    prevCont,
+                                    ...optimistQuantities.slice(index + 1),
+                                  ]);
+                              }
+                            }}
+                            onClickClose={() => {
+                              setShowModal(true);
+                              setRemoveProduct({
+                                id: item.id,
+                                index,
+                                seller: item.seller,
+                              });
+                            }}
+                            imageSource={item.imageUrl
+                              .replace('http', 'https')
+                              .split('-55-55')
+                              .join('')}
+                            handleNavigateToProductDetail={() => {
+                              navigation.navigate('ProductDetail', {
+                                productId: item.productId,
+                                itemId: item.id,
+                                sizeSelected: item.skuName.split('-')[1] || '',
+                              });
+                            }}
+                          />
+                        </Box>
+                      )
+                  )}
+                </Box>
 
-                  {/* <Box paddingX={'xxxs'}>
+                {/* <Box paddingX={'xxxs'}>
           <Divider variant={'fullWidth'} />
           <Button onPress={() => setShowLikelyProducts(!showLikelyProducts)}>
             <Box flexDirection={'row'} marginY={'xxs'} alignItems={'center'}>
@@ -1053,7 +1226,7 @@ export const BagScreen = ({ route }: Props) => {
           <Divider variant={'fullWidth'} />
         </Box> */}
 
-                  {/* {showLikelyProducts && (
+                {/* {showLikelyProducts && (
           <BoxAnimated
             paddingX={'xxxs'}
             bg={'whiteSecondary'}
@@ -1087,12 +1260,12 @@ export const BagScreen = ({ route }: Props) => {
           </BoxAnimated>
         )} */}
 
-                  <Recommendation />
+                <Recommendation />
 
-                  <Box paddingX="micro">
-                    {showLikelyProducts && <Divider variant="fullWidth" />}
+                <Box paddingX="micro">
+                  {showLikelyProducts && <Divider variant="fullWidth" />}
 
-                    {/* {orderForm.items.map((index) => (
+                  {/* {orderForm.items.map((index) => (
                 <Box
                   key={index}
                   flexDirection="row"
@@ -1118,154 +1291,143 @@ export const BagScreen = ({ route }: Props) => {
                 </Box>
               ))} */}
 
-                    <Divider variant="fullWidth" />
+                  <Divider variant="fullWidth" />
 
-                    <Box
-                      flexDirection="row"
-                      marginTop="xxs"
-                      marginBottom="xxxs"
-                      alignItems="center"
-                    >
-                      <Box marginRight="micro">
-                        <Icon name="Tag" size={20} color="preto" />
-                      </Box>
-                      <Box flex={1}>
-                        <Typography variant="subtituloSessoes">
-                          Código promocional{' '}
-                        </Typography>
-                      </Box>
+                  <Box
+                    flexDirection="row"
+                    marginTop="xxs"
+                    marginBottom="xxxs"
+                    alignItems="center"
+                  >
+                    <Box marginRight="micro">
+                      <Icon name="Tag" size={20} color="preto" />
                     </Box>
-                    <Box>
-                      <Typography variant="tituloSessao">
-                        Insira aqui o código do vendedor(a) e/ou cupom de
-                        desconto.
+                    <Box flex={1}>
+                      <Typography variant="subtituloSessoes">
+                        Código promocional{' '}
                       </Typography>
                     </Box>
-                    <Box flexDirection="row">
-                      {/* cupom vendedor */}
-                      {!!sellerCode && (
-                        <CouponBadge
-                          value={`${sellerName} | ${sellerCode.toUpperCase()}`}
-                          onPress={async () => {
-                            setLoading(true);
-                            await removeSellerCoupon(''); // remove passando ''
-                            setLoading(false);
-                          }}
-                        />
-                      )}
-                      {/* cupom desconto */}
-                      {orderForm?.marketingData?.coupon && (
-                        <CouponBadge
-                          value={orderForm?.marketingData?.coupon}
-                          onPress={async () => {
-                            setLoading(true);
-                            await removeCoupon(''); // remove passando ''
-                            setLoading(false);
-                          }}
-                        />
-                      )}
-                    </Box>
+                  </Box>
+                  <Box>
+                    <Typography variant="tituloSessao">
+                      Insira aqui o código do vendedor(a) e/ou cupom de
+                      desconto.
+                    </Typography>
+                  </Box>
+                  <Box flexDirection="row">
+                    {/* cupom vendedor */}
+                    {!!sellerCode && (
+                      <CouponBadge
+                        value={`${sellerName} | ${sellerCode.toUpperCase()}`}
+                        onPress={async () => {
+                          await removeSellerCoupon('');
+                        }}
+                      />
+                    )}
+                    {/* cupom desconto */}
+                    {orderForm?.marketingData?.coupon && (
+                      <CouponBadge
+                        value={orderForm?.marketingData?.coupon}
+                        onPress={async () => {
+                          await removeCoupon('');
+                        }}
+                      />
+                    )}
+                  </Box>
 
-                    <Box marginTop="nano" flexDirection="row">
-                      <Box flex={1} marginRight="micro">
-                        <TextField
-                          height={50}
-                          value={sellerCoupon}
-                          onChangeText={(text) => setSellerCoupon(text)}
-                          placeholder="Código do vendedor"
-                        />
-                      </Box>
-                      <Box>
-                        <Button
-                          width="100%"
-                          title="APLICAR"
-                          onPress={handleAddSellerCoupons}
-                          variant="primarioEstreito"
-                          disabled={!hasSellerCoupon() || loadingGoDelivery}
-                        />
-                      </Box>
+                  <Box marginTop="nano" flexDirection="row">
+                    <Box flex={1} marginRight="micro">
+                      <TextField
+                        height={50}
+                        value={sellerCoupon}
+                        onChangeText={(text) => setSellerCoupon(text)}
+                        placeholder="Código do vendedor"
+                      />
                     </Box>
-                    {!sellerCouponIsValid && (
-                      <Box marginRight="micro">
-                        <Typography
-                          color="vermelhoAlerta"
-                          variant="precoAntigo3"
-                        >
-                          Digite um código válido
+                    <Box>
+                      <Button
+                        width="100%"
+                        title="APLICAR"
+                        onPress={handleAddSellerCoupons}
+                        variant="primarioEstreito"
+                        disabled={!hasSellerCoupon() || loadingGoDelivery}
+                      />
+                    </Box>
+                  </Box>
+                  {hasErrorApplyCoupon && (
+                    <Box marginRight="micro">
+                      <Typography color="vermelhoAlerta" variant="precoAntigo3">
+                        Digite um código válido
+                      </Typography>
+                    </Box>
+                  )}
+                  <Box marginTop="xxxs" flexDirection="row">
+                    <Box flex={1} marginRight="micro">
+                      <TextField
+                        height={50}
+                        value={discountCoupon}
+                        onChangeText={(text) => setDiscountCoupon(text)}
+                        placeholder="Cupom de desconto"
+                      />
+                    </Box>
+                    <Box>
+                      <Button
+                        width="100%"
+                        title="APLICAR"
+                        onPress={handleAddCoupons}
+                        variant="primarioEstreito"
+                        disabled={!hasDiscountCoupon()}
+                      />
+                    </Box>
+                  </Box>
+                  {/*TODO refactor use hasErrorApplyCoupon or create hasErrorInvalidCoupon */}
+                  {couponIsInvalid && (
+                    <Box marginRight="micro">
+                      <Typography color="vermelhoAlerta" variant="precoAntigo3">
+                        Digite um cupom válido
+                      </Typography>
+                    </Box>
+                  )}
+
+                  <Divider variant="fullWidth" marginY="xs" />
+                  <>
+                    {totalDiscountPrice != 0 || totalDelivery ? (
+                      <Box
+                        marginBottom="micro"
+                        flexDirection="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Typography variant="precoAntigo3">Subtotal</Typography>
+                        <PriceCustom
+                          fontFamily="nunitoSemiBold"
+                          sizeInterger={15}
+                          sizeDecimal={11}
+                          num={totalBag}
+                        />
+                      </Box>
+                    ) : null}
+                    {totalDiscountPrice != 0 && (
+                      <Box
+                        marginBottom="micro"
+                        flexDirection="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Typography variant="precoAntigo3">
+                          Descontos
                         </Typography>
+
+                        <PriceCustom
+                          fontFamily="nunitoSemiBold"
+                          negative
+                          sizeInterger={15}
+                          sizeDecimal={11}
+                          num={Math.abs(totalDiscountPrice)}
+                        />
                       </Box>
                     )}
-                    <Box marginTop="xxxs" flexDirection="row">
-                      <Box flex={1} marginRight="micro">
-                        <TextField
-                          height={50}
-                          value={discountCoupon}
-                          onChangeText={(text) => setDiscountCoupon(text)}
-                          placeholder="Cupom de desconto"
-                        />
-                      </Box>
-                      <Box>
-                        <Button
-                          width="100%"
-                          title="APLICAR"
-                          onPress={handleAddCoupons}
-                          variant="primarioEstreito"
-                          disabled={!hasDiscountCoupon()}
-                        />
-                      </Box>
-                    </Box>
-                    {couponIsInvalid && (
-                      <Box marginRight="micro">
-                        <Typography
-                          color="vermelhoAlerta"
-                          variant="precoAntigo3"
-                        >
-                          Digite um cupom válido
-                        </Typography>
-                      </Box>
-                    )}
-
-                    <Divider variant="fullWidth" marginY="xs" />
-                    <>
-                      {totalDiscountPrice != 0 || totalDelivery ? (
-                        <Box
-                          marginBottom="micro"
-                          flexDirection="row"
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
-                          <Typography variant="precoAntigo3">
-                            Subtotal
-                          </Typography>
-                          <PriceCustom
-                            fontFamily="nunitoSemiBold"
-                            sizeInterger={15}
-                            sizeDecimal={11}
-                            num={totalBag}
-                          />
-                        </Box>
-                      ) : null}
-                      {totalDiscountPrice != 0 && (
-                        <Box
-                          marginBottom="micro"
-                          flexDirection="row"
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
-                          <Typography variant="precoAntigo3">
-                            Descontos
-                          </Typography>
-
-                          <PriceCustom
-                            fontFamily="nunitoSemiBold"
-                            negative
-                            sizeInterger={15}
-                            sizeDecimal={11}
-                            num={Math.abs(totalDiscountPrice)}
-                          />
-                        </Box>
-                      )}
-                      {/* {totalDelivery > 0 && (
+                    {/* {totalDelivery > 0 && (
                   <Box
                     marginBottom="micro"
                     flexDirection="row"
@@ -1282,26 +1444,25 @@ export const BagScreen = ({ route }: Props) => {
                     />
                   </Box>
                 )} */}
-                    </>
+                  </>
 
-                    <Box
-                      marginBottom="micro"
-                      flexDirection="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Typography variant="precoAntigo3">Total</Typography>
-                      <PriceCustom
-                        fontFamily="nunitoBold"
-                        sizeInterger={20}
-                        sizeDecimal={11}
-                        num={totalBag + totalDiscountPrice}
-                      />
-                    </Box>
+                  <Box
+                    marginBottom="micro"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Typography variant="precoAntigo3">Total</Typography>
+                    <PriceCustom
+                      fontFamily="nunitoBold"
+                      sizeInterger={20}
+                      sizeDecimal={11}
+                      num={totalBag + totalDiscountPrice}
+                    />
                   </Box>
-                </ScrollView>
-              </>
-            )
+                </Box>
+              </ScrollView>
+            </>
           )}
 
           <Box width="100%" height={145} bg="white">
@@ -1405,12 +1566,14 @@ export const BagScreen = ({ route }: Props) => {
                     disabled={
                       !!(orderForm && orderForm?.items?.length === 0) ||
                       loadingProfile ||
-                      loadingGoDelivery
+                      loadingGoDelivery ||
+                      topBarLoading
                     }
                     onPress={onGoToDelivery}
                     title="IR PARA ENTREGA"
                     variant="primarioEstreito"
                     inline
+                    testID="bag_button_go_to_delivery"
                   />
                 </Box>
               )
@@ -1418,6 +1581,8 @@ export const BagScreen = ({ route }: Props) => {
           </Box>
         </WithAvoidingView>
       )}
+      <ToastProvider />
     </SafeAreaView>
+
   );
 };

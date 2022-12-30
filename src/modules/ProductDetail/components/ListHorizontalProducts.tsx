@@ -1,4 +1,4 @@
-import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
@@ -192,7 +192,7 @@ export const ListHorizontalProducts = ({
           scrollEventThrottle={16}
           horizontal={horizontal}
           data={products}
-          keyExtractor={(item, index) => `${item.productId} ${index}`}
+          keyExtractor={(item, index) => `${item.productId}-${index}`}
           numColumns={horizontal ? 1 : 2}
           ListEmptyComponent={() => (
             <Box height="100%">
@@ -298,6 +298,7 @@ export const ListHorizontalProducts = ({
         {Array(3).fill(0).map((_, index) => (
           index != 0
             ? <Box
+              key={index}
               width={8}
               height={8}
               bg="divider"
@@ -305,6 +306,7 @@ export const ListHorizontalProducts = ({
               ml={'nano'}
             />
             : <Box
+              key={index}
               width={8}
               height={8}
               bg="divider"

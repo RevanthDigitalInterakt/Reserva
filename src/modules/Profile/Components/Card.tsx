@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Box, Button, Icon, Image, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Image, Typography } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 
 export type FlagTypes = 'elo' | 'mastercard' | 'visa' | 'americanExpress';

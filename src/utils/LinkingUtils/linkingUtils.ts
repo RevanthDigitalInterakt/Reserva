@@ -1,5 +1,5 @@
+import { removeLastCharacterSlash } from '../removeLastCharacterSlash'
 import {
-  defaultInitialUrl as defautlInitialUrlReturnDeepLink,
   registerMethods,
 } from './static/deepLinkMethods';
 
@@ -9,18 +9,21 @@ import {
  * if yes, it returns to the proper navigation, otherwise,
  * it redirects to the home page.
  * @param initialUrl string
- * @returns string
+ * @returns string | undefined
  */
-const deepLinkHelper = (initialUrl: string): string => {
+
+const deepLinkHelper = (initialUrl: string): string | undefined => {
+
+  const url = removeLastCharacterSlash(initialUrl)
   for (const executeDeepLinkcase of registerMethods) {
-    const route = executeDeepLinkcase(initialUrl);
+    const route = executeDeepLinkcase(url);
     if (route.match) {
       return route.strUrl;
     }
   }
 
 
-  return defautlInitialUrlReturnDeepLink;
+  return undefined;
 };
 
 export { deepLinkHelper };

@@ -3,7 +3,7 @@ import {
     Typography,
     Box,
     theme
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 export interface IpriceCustom {
     num: number;

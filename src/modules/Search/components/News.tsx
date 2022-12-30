@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Platform, Dimensions } from 'react-native';
-import { Box, Button, Typography, Image, } from '@danilomsou/reserva-ui';
+import { Box, Button, Typography, Image, } from '@usereservaapp/reserva-ui';
 import { ConfigCollection } from 'graphql/homePage/HomeQuery';
 
 interface INews {

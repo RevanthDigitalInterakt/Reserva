@@ -1,7 +1,7 @@
 import { types } from '@babel/core';
 import React, { Fragment, useState } from 'react';
 import { Dimensions, Modal, FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { Box, Button, Icon, Image, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Image, Typography } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets/index'
 
 const screen = Dimensions.get('window');

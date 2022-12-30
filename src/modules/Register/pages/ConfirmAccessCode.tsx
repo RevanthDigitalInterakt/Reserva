@@ -1,13 +1,11 @@
 import { useMutation } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';
-import * as Sentry from '@sentry/react-native';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
@@ -20,6 +18,7 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import OneSignal from "react-native-onesignal";
+import EventProvider from '../../../utils/EventProvider';
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
@@ -79,12 +78,12 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
           password: passwords.confirm,
         });
 
-        appsFlyer.logEvent(
+        EventProvider.appsFlyer.logEvent(
           'af_login',
           {},
           (res) => { },
           (err) => {
-            Sentry.captureException(err);
+            EventProvider.captureException(err);
           }
         );
         setEmail(email);
@@ -190,8 +189,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                     Agora, crie sua senha
                   </Typography>
                 </Box>
+
                 <UnderlineInput
                   isSecureText
+                  accessibilityLabel="confirmaccess_input_password"
                   onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                   onChangeText={(text) =>
                     setPasswords({ ...passwords, first: text })
@@ -200,6 +201,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                 />
                 <Box mt="sm">
                   <UnderlineInput
+                    accessibilityLabel="confirmaccess_input_confirm_password"
                     isSecureText
                     onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                     onChangeText={(text) =>

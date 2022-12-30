@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Button, Icon, Image, theme, Typography } from "@danilomsou/reserva-ui"
+import { Box, Button, Icon, Image, theme, Typography } from "@usereservaapp/reserva-ui"
 import Modal, { ModalProps } from 'react-native-modal';
 import { images } from "../../../assets";
 import { useCart } from "../../../context/CartContext";
@@ -15,7 +15,7 @@ export const ModalBook: React.FC<ModalBookProps> = ({ isVisible, onAddBag, onClo
   const { addItem } = useCart()
 
   const onPressAddToBag = async () => {
-    const { message, ok } = await addItem(1, "202207", '1')
+    await addItem({ quantity: 1, itemId: "202207", seller: '1'})
     onClose()
   }
   const onPressNoThanks = async () => {

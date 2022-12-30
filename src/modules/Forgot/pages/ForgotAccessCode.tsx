@@ -5,7 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import ReactNative, { Dimensions, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView } from "react-native";
-import { Box, Button, Typography, Icon } from "@danilomsou/reserva-ui";
+import { Box, Button, Typography, Icon } from "@usereservaapp/reserva-ui";
 import { images } from "../../../assets";
 import { useAuth } from "../../../context/AuthContext";
 import { accessKeySignInMutation } from "../../../graphql/login/loginMutations";
@@ -176,6 +176,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                 onChangeText={(text) =>
                   setPasswords({ ...passwords, first: text })
                 }
+                accessibilityLabel="forgot_input_password"
                 onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                 placeholder="Digite sua nova senha"
                 isSecureText
@@ -186,6 +187,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                   onChangeText={(text) =>
                     setPasswords({ ...passwords, confirm: text })
                   }
+                  accessibilityLabel="forgot_input_confirm_password"
                   placeholder="Confirme sua nova senha"
                   isSecureText
                 />

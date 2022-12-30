@@ -23,7 +23,7 @@ import {
   ProductVerticalListCard,
   Icon,
   Picker,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 
 import { images } from '../../../assets';
 import {
@@ -55,6 +55,7 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { object } from 'yup';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
+import EventProvider from '../../../utils/EventProvider';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -293,12 +294,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           (x: any) => x?.productId
         );
 
-        appsFlyer.logEvent('af_search', {
-          af_search_string: text,
-          af_content_list: searchIds,
-        });
-
-        analytics().logEvent('search', {
+        EventProvider.logEvent('search', {
           search_string: text,
           search_ids: searchIds,
         });
@@ -325,12 +321,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           (x: any) => x?.productId
         );
 
-        appsFlyer.logEvent('af_search', {
-          af_search_string: text,
-          af_content_list: searchIds,
-        });
-
-        analytics().logEvent('search', {
+        EventProvider.logEvent('search', {
           search_string: text,
           search_ids: searchIds,
         });
@@ -578,8 +569,9 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   </Box>
 
                   <Box flexDirection="row" flexWrap="wrap">
-                    {searchSuggestions.map((item) => (
+                    {searchSuggestions.map((item, index) => (
                       <Button
+                        key={`search-suggestion-${index}`}
                         onPress={async () => {
                           setSearchTerm(item.name);
                           // setReturnSearch(true);

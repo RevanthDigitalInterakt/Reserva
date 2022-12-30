@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import { theme, Typography } from '@danilomsou/reserva-ui';
+import { theme, Typography } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 
 import {

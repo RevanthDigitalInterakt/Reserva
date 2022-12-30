@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef } from "react"
 import { Animated, View } from "react-native"
-import { Box, BoxProps } from "@danilomsou/reserva-ui"
+import { Box, BoxProps } from "@usereservaapp/reserva-ui"
 
 interface SkeletonProps extends BoxProps {
 }

@@ -29,7 +29,7 @@ import {
   Toggle,
   Typography,
   Picker,
-} from '@danilomsou/reserva-ui';
+} from '@usereservaapp/reserva-ui';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
   ProfileCustomFieldsInput,
@@ -44,15 +44,13 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { OrderForm, useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
-import { useContentfull } from '../../../context/ContentfullContext';
 import IsTestingModal from '../Components/IsTestingModal';
 import ModalDeleteAccount from '../Components/ModalDeleteAccount';
 import {
-  MyCashbackAPI,
   MyProfileAPI,
   ProfileHttpUrl,
 } from './api/MyProfileAPI';
-import * as Sentry from '@sentry/react-native';
+import EventProvider from '../../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -434,7 +432,7 @@ export const EditProfile = ({ route }: Props) => {
         );
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
-        Sentry.captureException(err);
+        EventProvider.captureException(err);
         return false;
       }
     } else return true;
@@ -453,7 +451,7 @@ export const EditProfile = ({ route }: Props) => {
 
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
-        Sentry.captureException(err);
+        EventProvider.captureException(err);
       }
       return false;
     } else return true;

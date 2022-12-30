@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   ImageSourcePropType,
@@ -19,13 +18,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
-import { Box, Typography, Icon } from '@danilomsou/reserva-ui';
+import { Box, Typography, Icon } from '@usereservaapp/reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
 import { useCorre } from '../../context';
 import { images as imagesLogo } from '../../images';
+import EventProvider from '../../../../utils/EventProvider';
 
 const { height: DEVICE_HEIGHT } = Dimensions.get('window');
 
@@ -67,41 +67,41 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('instagram://')
         .then((val) => setShowInstagramStory(val))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     } else {
       Share.isPackageInstalled('com.instagram.android')
         .then(({ isInstalled }) => setShowInstagramStory(isInstalled))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     }
 
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('whatsapp://')
         .then((val) => setHasWhatsApp(val))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     } else {
       Share.isPackageInstalled('com.whatsapp.android')
         .then(({ isInstalled }) => setHasWhatsApp(isInstalled))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     }
 
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('facebook://')
         .then((val) => setHasFacebook(val))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     } else {
       Share.isPackageInstalled('com.facebook.android')
         .then(({ isInstalled }) => setHasFacebook(isInstalled))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     }
 
     if (Platform.OS === 'ios') {
       Linking.canOpenURL('twitter://')
         .then((val) => setHasTwitter(val))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     } else {
       Share.isPackageInstalled('com.twitter.android')
         .then(({ isInstalled }) => setHasTwitter(isInstalled))
-        .catch(Sentry.captureException);
+        .catch(EventProvider.captureException);
     }
   }, []);
 
@@ -126,7 +126,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          Sentry.captureException(err);
+          EventProvider.captureException(err);
         }
         break;
       case 'whatsApp':
@@ -147,7 +147,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          Sentry.captureException(err);
+          EventProvider.captureException(err);
         }
         break;
       case 'facebook':
@@ -166,7 +166,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          Sentry.captureException(err);
+          EventProvider.captureException(err);
         }
         break;
       case 'twitter':
@@ -184,7 +184,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
             await Share.open({ url: uri });
           }
         } catch (err) {
-          Sentry.captureException(err);
+          EventProvider.captureException(err);
         }
         break;
       default:

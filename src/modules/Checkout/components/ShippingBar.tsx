@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Box, Typography, ProgressBar } from '@danilomsou/reserva-ui';
+import { Box, Typography, ProgressBar } from '@usereservaapp/reserva-ui';
 
 import { PriceCustom } from './PriceCustom';
 import { configCollection } from '../../../graphql/homePage/HomeQuery';
@@ -82,7 +82,7 @@ export const ShippingBar = ({
   );
 
   useEffect(() => {
-    if (freeShippingValue > 0) {
+    if (freeShippingValue >= 0) {
       defineProgressBar();
     }
   }, [freeShippingValue, sumPriceShipping, loading]);
@@ -128,8 +128,8 @@ export const ShippingBar = ({
               colorBar="neutroFrio1"
               colorProgress="verdeSucesso"
               bg="white"
-              value={ValueProgressBar}
-              max={freeShippingValue}
+              value={freeShippingValue === 0 ? 1 : ValueProgressBar}
+              max={freeShippingValue === 0 ? 1 : freeShippingValue}
               barHeight={5}
               colorLabel="neutroFrio2"
               showPercent={false}

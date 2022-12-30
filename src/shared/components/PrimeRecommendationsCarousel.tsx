@@ -5,7 +5,7 @@ import {
   Animated,
   StyleSheet,
 } from 'react-native';
-import { Box, Image, Button, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Image, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 
 import { PriceCustom } from '../../modules/Checkout/components/PriceCustom';
 const DEVICE_WIDTH = Dimensions.get('window').width;

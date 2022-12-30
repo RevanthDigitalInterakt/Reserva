@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react"
 import { Animated } from 'react-native'
-import { Box, Typography } from "@danilomsou/reserva-ui"
+import { Box, Typography } from "@usereservaapp/reserva-ui"
 import { position } from "styled-system"
 
 interface TooltipProps {

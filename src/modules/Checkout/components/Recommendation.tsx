@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Divider, Icon, Typography } from '@danilomsou/reserva-ui';
+import { Box, Button, Divider, Icon, Typography } from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';

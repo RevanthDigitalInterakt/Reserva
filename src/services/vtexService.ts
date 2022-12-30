@@ -1,7 +1,6 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
 import { postalCode } from '../config/postalCode';
-import * as Sentry from '@sentry/react-native';
 import {
   instance,
   instance2,
@@ -11,7 +10,9 @@ import {
   instance6,
   instance7,
 } from '../config/vtexConfig';
-import axios from 'axios';
+import EventProvider from '../utils/EventProvider';
+
+
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
 const vtexConfig3 = instance3;
@@ -48,6 +49,34 @@ const GetSession = async () => {
   return response;
 };
 
+const UpdateItemToCart = async (
+  orderFormId: string | undefined,
+  quantity: number,
+  id: string,
+  seller: string,
+  index: number,
+  hasBundleItems = false,
+) => {
+  const response = await vtexConfig.post(
+    `/checkout/pub/orderForm/${orderFormId}/items/update?sc=4`,
+    {
+      noSplitItem: false,
+      orderItems: [
+        {
+          hasBundleItems,
+          index,
+          quantity,
+          id,
+          seller,
+        },
+      ],
+    }
+  );
+
+  // o retorno é o proprio carrinho com todos os itens
+  return response;
+};
+
 const AddItemToCart = async (
   orderFormId: string | undefined,
   quantity: number,
@@ -70,6 +99,18 @@ const AddItemToCart = async (
 
   // o retorno é o proprio carrinho com todos os itens
   return response;
+};
+
+const RestoreCart = async (orderFormId: string | undefined) => {
+  try {
+    const response = await vtexConfig.get(
+      `/checkout/pub/orderForm/${orderFormId}?sc=4&${new Date().getTime()}=cache`
+    );
+
+    return response;
+  } catch (error) {
+    EventProvider.captureException(error);
+  }
 };
 
 const RemoveItemFromCart = async (
@@ -222,7 +263,7 @@ const ValidateProfile = async (email: string) => {
     );
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
   }
 };
 
@@ -238,7 +279,7 @@ const IdentifyCustomer = async (
 
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
   }
 };
 
@@ -254,7 +295,7 @@ const AddCustomerToOrder = async (
 
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
   }
 };
 const CepVerify = async (cep: string) => {
@@ -262,7 +303,7 @@ const CepVerify = async (cep: string) => {
     const { data } = await brasilApi.get(`/cep/v2/${cep}`);
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
     return { errors: err } as CepResponse;
   }
 };
@@ -272,7 +313,7 @@ const CepVerifyPostalCode = async (cep: string) => {
     const { data } = await postalCode.get(cep);
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
     return { errors: err } as CepResponse;
   }
 };
@@ -427,36 +468,36 @@ const SetGiftSize = async (
   orderFormId?: string | undefined,
   giftId?: string | undefined,
   id?: string | undefined,
-  seller?: string | undefined,
+  seller?: string | undefined
 ) => {
   const response = await instance7.post(
     `/checkout/pub/orderForm/${orderFormId}/selectable-gifts/${giftId}`,
     {
       id: giftId,
-      selectedGifts:
-        [{
+      selectedGifts: [
+        {
           id: id,
           seller: seller,
-          index: 0
-        }],
-      expectedOrderFormSections:
-        [
-          "items",
-          "totalizers",
-          "clientProfileData",
-          "shippingData",
-          "paymentData",
-          "sellers",
-          "messages",
-          "marketingData",
-          "clientPreferencesData",
-          "storePreferencesData",
-          "giftRegistryData",
-          "ratesAndBenefitsData",
-          "openTextField",
-          "commercialConditionData",
-          "customData"
-        ]
+          index: 0,
+        },
+      ],
+      expectedOrderFormSections: [
+        'items',
+        'totalizers',
+        'clientProfileData',
+        'shippingData',
+        'paymentData',
+        'sellers',
+        'messages',
+        'marketingData',
+        'clientPreferencesData',
+        'storePreferencesData',
+        'giftRegistryData',
+        'ratesAndBenefitsData',
+        'openTextField',
+        'commercialConditionData',
+        'customData',
+      ],
     }
   );
   return response;
@@ -476,6 +517,7 @@ export {
   GetSession,
   CepVerify,
   CepVerifyPostalCode,
+  UpdateItemToCart,
   AddItemToCart,
   AddCouponToCart,
   RemoveCoupon,
@@ -503,5 +545,6 @@ export {
   Attachment,
   VerifyEmail,
   DeleteCustomerProfile,
-  SetGiftSize
+  SetGiftSize,
+  RestoreCart,
 };

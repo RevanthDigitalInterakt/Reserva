@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { Pressable, TextInput } from "react-native"
 import { Value } from "react-native-reanimated"
-import { Box, Typography } from "@danilomsou/reserva-ui"
+import { Box, Typography } from "@usereservaapp/reserva-ui"
 
 export interface CodeInputProps {
     //codeMaxSize?: number,

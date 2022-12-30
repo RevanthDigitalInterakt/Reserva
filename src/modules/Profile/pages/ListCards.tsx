@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useRef, useEffect, useState } from 'react';
-import { Box, Button, Icon, Typography, Alert } from '@danilomsou/reserva-ui';
+import { Box, Button, Icon, Typography, Alert } from '@usereservaapp/reserva-ui';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Card, { FlagTypes } from '../Components/Card';
@@ -130,11 +130,11 @@ export const ListCards = ({ navigation, route }: Props) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {cards &&
               cards.length > 0 &&
-              cards.map((card) => {
+              cards.map((card, index) => {
                 const { cardNumber, id } = card;
                 return (
                   <Card
-                    key={id}
+                    key={`${id}-${index}`}
                     flag="visa"
                     // isMain={main}
                     cardNumbers={cardNumber}

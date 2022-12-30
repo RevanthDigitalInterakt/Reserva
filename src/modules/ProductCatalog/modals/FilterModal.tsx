@@ -14,7 +14,7 @@ import {
   RadioButtonsFilter,
   SelectColorFilter,
   CheckboxListFilter,
-} from "@danilomsou/reserva-ui";
+} from "@usereservaapp/reserva-ui";
 import Modal from "react-native-modal";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState, useRef } from 'react';
 import * as Animatable from 'react-native-animatable';
-import { Box, Typography, Button, Icon } from '@danilomsou/reserva-ui';
+import { Box, Typography, Button, Icon } from '@usereservaapp/reserva-ui';
 import { StatusBar, Platform, Alert, Linking } from 'react-native';
 
 interface ModalPush {

@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { Typography, Box, Button, Checkbox } from "@danilomsou/reserva-ui";
+import { Typography, Box, Button, Checkbox } from "@usereservaapp/reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 

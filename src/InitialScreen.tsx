@@ -1,34 +1,31 @@
 import React, { FC, useEffect, useState } from 'react';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { Linking, Platform, StatusBar } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-lottie-splash-screen';
-import AsyncStorage from '@react-native-community/async-storage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import SpInAppUpdates, {
-  SemverVersion,
-  NeedsUpdateResponse,
   AndroidStatusEventListener,
-  StatusUpdateEvent,
-  StartUpdateOptions,
   IAUUpdateKind,
+  StartUpdateOptions,
+  StatusUpdateEvent,
 } from 'sp-react-native-in-app-updates';
 
-import { StorageService } from './shared/services/StorageService';
-import { ModalPush } from './modules/Update/components/ModalPush';
-import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
-import { useStatusBar } from './context/StatusBarContext';
-import { haveVersionUpdates } from './updates/InAppUpdates/InAppUpdates';
+import { useLazyQuery } from '@apollo/client';
+import appsFlyer from 'react-native-appsflyer';
 import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
 import semver from 'semver';
-import { useLazyQuery } from '@apollo/client';
+import { useStatusBar } from './context/StatusBarContext';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
+import { ModalPush } from './modules/Update/components/ModalPush';
+import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
 import CodePushModal from './shared/components/CodePushModal';
-import { useNavigation } from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
+import { StorageService } from './shared/services/StorageService';
+import EventProvider from './utils/EventProvider';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -49,27 +46,28 @@ async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
   await messaging()
     .getToken()
-    .then((token) => {});
+    .then((token) => {
+      appsFlyer.updateServerUninstallToken(token, (_success) => {});
+    });
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (Platform.OS === 'ios' && enabled)
+    deviceInfoModule.getDeviceToken().then((deviceToken) => {
+      appsFlyer.updateServerUninstallToken(deviceToken, (_success) => {});
+    });
 }
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   const { barStyle } = useStatusBar();
-  const [needUpdates, setNeedUpdates] = useState(false);
-  const [needUpdatesResponse, setNeedUpdatesResponse] =
-    useState<NeedsUpdateResponse>();
   const [pushNotification, setPushNotification] = useState<any>();
   const [showNotification, setShowNotification] = useState(false);
   const [onboardingView, setOnboardingView] = useState(false);
 
-  const [getUpdateInApp, { refetch }] = useLazyQuery<UpdateInAppType>(
-    UPDATE_IN_APP_QUERY,
-    {
-      context: { clientName: 'contentful' },
-    }
-  );
+  const [getUpdateInApp] = useLazyQuery<UpdateInAppType>(UPDATE_IN_APP_QUERY, {
+    context: { clientName: 'contentful' },
+  });
 
   const setFetchInterval = async () => {
     await remoteConfig().setConfigSettings({
@@ -153,7 +151,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       }
       return response.shouldUpdate;
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   };
 
