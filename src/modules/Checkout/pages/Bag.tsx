@@ -1,4 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import {
   Alert,
   Box,
@@ -9,11 +11,9 @@ import {
   ProductHorizontalListCard,
   RadioButtons,
   TextField,
-  Typography,
+  Typography
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -21,23 +21,22 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView,
+  ScrollView
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import Modal from 'react-native-modal';
-import { useAuth } from '../../../context/AuthContext';
-
-import { Item, OrderForm, useCart } from '../../../context/CartContext';
-
-import { profileQuery } from '../../../graphql/profile/profileQuery';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
-
 import OneSignal from 'react-native-onesignal';
 import Sentry from '../../../config/sentryConfig';
+import { useAuth } from '../../../context/AuthContext';
+import { Item, OrderForm, useCart } from '../../../context/CartContext';
+import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { Attachment } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
+import EventProvider from '../../../utils/EventProvider';
+import { slugify } from "../../../utils/slugify";
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
@@ -46,10 +45,6 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import EventProvider from '../../../utils/EventProvider';
-import { slugify } from "../../../utils/slugify";
-import { instance } from '../../../config/vtexConfig';
-import ToastProvider, { ShowToast } from '../../../utils/Toast/index';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -378,25 +373,9 @@ export const BagScreen = ({ route }: Props) => {
     await applyCouponOnPressed(sellerCoupon);
   };
 
-  //! ALTERAR PARA O FLUXO CORRETO
-
   const onGoToDelivery = async () => {
-    const hasError = removeUnavailableItems();
-    if (hasError) {
-      return;
-    }
-
     setLoadingGoDelivery(true);
     if (orderForm) {
-      const { clientProfileData, shippingData } = orderForm;
-      const hasCustomer =
-        clientProfileData &&
-        clientProfileData.email &&
-        clientProfileData.firstName;
-
-      const hasAddress =
-        shippingData && shippingData.availableAddresses.length > 0;
-
       const af_content_id = orderForm.items.map((i) => i.productId);
       const af_content_type = orderForm.items.map((i) =>
         CategoriesParserString(i.productCategories)
@@ -416,11 +395,9 @@ export const BagScreen = ({ route }: Props) => {
 
         navigation.navigate('Login', { comeFrom: 'Checkout' });
       } else if (isEmptyProfile && !isProfileComplete) {
-        // updateClientProfileData(profile);
         setLoadingGoDelivery(false);
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
-        // updateClientProfileData(profile);
         try {
           await identifyCustomer(email)
             .then(() => setLoadingGoDelivery(false))
@@ -512,47 +489,6 @@ export const BagScreen = ({ route }: Props) => {
       product_image: '',
     });
   };
-
-  const removeUnavailableItems = () => {
-    let hasError = false;
-
-    orderForm?.items.map(async ({ id, seller }, index) => {
-      await instance.get(`/logistics/pvt/inventory/skus/${id}`)
-        .then(resp => {
-
-          if (resp.data.balance[0].totalQuantity - resp.data.balance[0].reservedQuantity <= 1) {
-            RemoveItemFromCart(
-              orderForm?.orderFormId,
-              id,
-              index,
-              seller,
-              0
-            )
-            hasError = true
-            ShowToast('info', 'Alguns produtos da sua sacola estão indisponiveis')
-          }
-        })
-    })
-    return hasError;
-  }
-
-  // const setTeste = () => {
-  //   AddItemToCart(
-  //     orderForm?.orderFormId,
-  //     1,
-  //     '79900',
-  //     '1',
-  //   );
-  // }
-
-  // useEffect(() => {
-  //   setTeste()
-  // })
-
-
-  useEffect(() => {
-    removeUnavailableItems()
-  }, [])
 
   const handleToggleGiftCheckbox = async (
     value: boolean,
@@ -1080,8 +1016,6 @@ export const BagScreen = ({ route }: Props) => {
                             itemColor={item.skuName.split('-')[0] || ''}
                             ItemSize={item.skuName.split('-')[1] || ''}
                             productTitle={item.name.split(' - ')[0]}
-                            // installmentsNumber={item.installmentNumber}
-                            // installmentsPrice={item.installmentPrice}
                             price={item.listPrice / 100}
                             priceWithDiscount={
                               item.sellingPrice !== 0
@@ -1196,103 +1130,12 @@ export const BagScreen = ({ route }: Props) => {
                   )}
                 </Box>
 
-                {/* <Box paddingX={'xxxs'}>
-          <Divider variant={'fullWidth'} />
-          <Button onPress={() => setShowLikelyProducts(!showLikelyProducts)}>
-            <Box flexDirection={'row'} marginY={'xxs'} alignItems={'center'}>
-              <Box marginRight="micro">
-                <Icon name={'Handbag'} size={20} />
-              </Box>
-              <Box flex={1}>
-                <Typography variant={'subtituloSessoes'}>
-                  Você vai gostar destas aqui
-                </Typography>
-              </Box>
-              <Box marginRight="micro">
-                <Icon
-                  style={
-                    showLikelyProducts
-                      ? {
-                          transform: [{ rotate: '-180deg' }, { translateY: 8 }],
-                        }
-                      : { transform: [{ translateY: 4 }] }
-                  }
-                  name={'ArrowDown'}
-                  size={20}
-                />
-              </Box>
-            </Box>
-          </Button>
-          <Divider variant={'fullWidth'} />
-        </Box> */}
-
-                {/* {showLikelyProducts && (
-          <BoxAnimated
-            paddingX={'xxxs'}
-            bg={'whiteSecondary'}
-            animation={showLikelyProducts ? 'fadeIn' : ''}
-          >
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{
-                flex: 1,
-              }}
-            >
-              {lisProduct.map((product, index) => (
-                <Box mt="xxs" mr="xxs" key={`${index}-${product.productTitle}`}>
-                  <Box flex={1} mb="micro">
-                    <ProductVerticalListCard
-                      bg={'whiteSecondary'}
-                      small
-                      {...product}
-                      productTitle={product.productTitle.toUpperCase()}
-                    />
-                  </Box>
-                  <Button
-                    width="100%"
-                    title="ADICIONAR"
-                    variant="primarioEstreitoSmall"
-                  />
-                </Box>
-              ))}
-            </ScrollView>
-          </BoxAnimated>
-        )} */}
-
                 <Recommendation />
 
                 <Box paddingX="micro">
                   {showLikelyProducts && <Divider variant="fullWidth" />}
 
-                  {/* {orderForm.items.map((index) => (
-                <Box
-                  key={index}
-                  flexDirection="row"
-                  marginY="xxs"
-                  alignItems="center"
-                >
-                  <Box marginRight="micro">
-                    <Icon name="Presente" size={20} />
-                  </Box>
-                  <Box flex={1}>
-                    <Typography variant="subtituloSessoes">
-                      Embalagem para presente
-                    </Typography>
-                  </Box>
-                  <Box marginLeft="micro">
-                    <Toggle
-                      onValueChange={setHasBagGift}
-                      thumbColor="vermelhoAlerta"
-                      color="preto"
-                      value={hasBagGift}
-                    />
-                  </Box>
-                </Box>
-              ))} */}
-
                   <Divider variant="fullWidth" />
-
                   <Box
                     flexDirection="row"
                     marginTop="xxs"
@@ -1427,23 +1270,6 @@ export const BagScreen = ({ route }: Props) => {
                         />
                       </Box>
                     )}
-                    {/* {totalDelivery > 0 && (
-                  <Box
-                    marginBottom="micro"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography variant="precoAntigo3">Entrega</Typography>
-
-                    <PriceCustom
-                      fontFamily="nunitoSemiBold"
-                      sizeInterger={15}
-                      sizeDecimal={11}
-                      num={Math.abs(totalDelivery)}
-                    />
-                  </Box>
-                )} */}
                   </>
 
                   <Box
@@ -1581,7 +1407,6 @@ export const BagScreen = ({ route }: Props) => {
           </Box>
         </WithAvoidingView>
       )}
-      <ToastProvider />
     </SafeAreaView>
 
   );
