@@ -20,6 +20,7 @@ import { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
+import {slugify} from "../../../../utils/slugify";
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -381,6 +382,7 @@ export const ListVerticalProducts = ({
                   priceWithDiscount={sellingPrice}
                   price={listPrice || 0}
                   productTitle={item.productName}
+                  testID={`productcard_vertical_${slugify(item.productId)}`}
                   onClickImage={() => {
                     navigation.navigate('ProductDetail', {
                       productId: item.productId,
@@ -408,48 +410,29 @@ interface ProductItemInterface extends ProductVerticalListCardProps {
   item: any;
   index: number;
   horizontal?: boolean;
+  testID: string;
 }
 
 const ProductItem: React.FC<ProductItemInterface> = ({
   item,
   index,
   horizontal,
+  testID,
   ...props
-}) => {
-  const [imageUri, setImageUri] = useState<string>();
-  // const { fetchImage } = useCacheImages()
-
-  // const fetchUri = async () => {
-  //   if (item.items[0].images[0].imageUrl) {
-  //     const uri = await fetchImage(item.items[0].images[0].imageUrl);
-  //     if (uri) {
-  //       setImageUri(uri)
-  //     }
-  //   }
-  // }
-  useEffect(() => {
-    // if (item) {
-    //   fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
-    //     setImageUri(uri)
-    //   });
-    // }
-    // fetchUri();
-  }, []);
-
-  return (
-    <Box
-      flex={1}
-      alignItems="center"
-      justifyContent="center"
-      height={353}
-      mr={horizontal && 'xxxs'}
-    >
-      {!!item?.items[0]?.images[0]?.imageUrl && (
-        <ProductVerticalListCard
-          {...props}
-          imageSource={item?.items[0]?.images[0]?.imageUrl}
-        />
-      )}
-    </Box>
-  );
-};
+}) => (
+  <Box
+    flex={1}
+    alignItems="center"
+    justifyContent="center"
+    height={353}
+    mr={horizontal && 'xxxs'}
+  >
+    {!!item?.items[0]?.images[0]?.imageUrl && (
+      <ProductVerticalListCard
+        {...props}
+        testID={testID}
+        imageSource={item?.items[0]?.images[0]?.imageUrl}
+      />
+    )}
+  </Box>
+);

@@ -10,7 +10,7 @@ import {
   MyCashbackAPI,
 } from '../../../my-cashback/api/MyCashbackAPI';
 import { useLazyQuery } from '@apollo/client';
-import * as Sentry from '@sentry/react-native';
+import EventProvider from '../../../../utils/EventProvider';
 
 interface ChangePhoneNumberContainerProps {
   profile: ProfileVars;
@@ -87,7 +87,7 @@ export const ChangePhoneNumberContainer = ({
           navigateToConfirmPhone();
         }
       } catch (error) {
-        Sentry.captureException(error);
+        EventProvider.captureException(error);
       }
     }
   };

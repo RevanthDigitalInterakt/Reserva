@@ -66,6 +66,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
             onChangeText={(text) => {
               setEmail(text);
             }}
+            accessibilityLabel="forgot_input_email"
             placeholder="Digite seu e-mail"
           />
         </Box>

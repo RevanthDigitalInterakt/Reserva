@@ -5,7 +5,7 @@ import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
 
 import ImageViewer from 'react-native-image-zoom-viewer';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -81,6 +81,7 @@ const ImageSelection = ({
 
       {imagesArray.map((_, index) =>
         <Box
+          key={`image-${index}`}
           width={8}
           height={8}
           backgroundColor={index == currentImage ? 'fullBlack' : 'divider'}

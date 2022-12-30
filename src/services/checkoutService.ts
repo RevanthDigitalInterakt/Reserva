@@ -1,6 +1,6 @@
-import * as Sentry from '@sentry/react-native';
 import { checkoutInstance } from '../config/checkoutConfig';
 import { OrderForm, Item } from "../context/CartContext";
+import EventProvider from '../utils/EventProvider'
 
 type TActiveCheckoutGift = {
   id: string;
@@ -45,7 +45,7 @@ export const checkoutService = {
 
       return response;
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   },
 
@@ -70,7 +70,7 @@ export const checkoutService = {
       );
       return response;
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   },
 
@@ -111,7 +111,7 @@ export const checkoutService = {
 
       return response;
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   },
   getPixCode: async (orderGroup: string) => {
@@ -120,7 +120,7 @@ export const checkoutService = {
         `https://www.usereserva.com/api/checkout/pub/gatewayCallback/${orderGroup}`
       );
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   },
 
@@ -141,7 +141,7 @@ export const checkoutService = {
         }
       );
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   },
 
@@ -161,7 +161,7 @@ export const checkoutService = {
         }
       );
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   },
 
@@ -175,7 +175,7 @@ export const checkoutService = {
         {},
       );
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
     }
   },
 };

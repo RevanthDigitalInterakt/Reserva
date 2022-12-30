@@ -1,7 +1,6 @@
 #import <React/RCTBridgeDelegate.h>
 #import <UIKit/UIKit.h>
 #import <AppsFlyerLib/AppsFlyerLib.h>
-#import <PushIOManager/PushIOManager.h>
 #import <UserNotifications/UserNotifications.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate, AppsFlyerLibDelegate, UNUserNotificationCenterDelegate>

@@ -1,7 +1,6 @@
 import { CepResponse } from './../config/brasilApi';
 import { brasilApi } from '../config/brasilApi';
 import { postalCode } from '../config/postalCode';
-import * as Sentry from '@sentry/react-native';
 import {
   instance,
   instance2,
@@ -11,7 +10,9 @@ import {
   instance6,
   instance7,
 } from '../config/vtexConfig';
-import axios from 'axios';
+import EventProvider from '../utils/EventProvider';
+
+
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
 const vtexConfig3 = instance3;
@@ -108,7 +109,7 @@ const RestoreCart = async (orderFormId: string | undefined) => {
 
     return response;
   } catch (error) {
-    Sentry.captureException(error);
+    EventProvider.captureException(error);
   }
 };
 
@@ -262,7 +263,7 @@ const ValidateProfile = async (email: string) => {
     );
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
   }
 };
 
@@ -278,7 +279,7 @@ const IdentifyCustomer = async (
 
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
   }
 };
 
@@ -294,7 +295,7 @@ const AddCustomerToOrder = async (
 
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
   }
 };
 const CepVerify = async (cep: string) => {
@@ -302,7 +303,7 @@ const CepVerify = async (cep: string) => {
     const { data } = await brasilApi.get(`/cep/v2/${cep}`);
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
     return { errors: err } as CepResponse;
   }
 };
@@ -312,7 +313,7 @@ const CepVerifyPostalCode = async (cep: string) => {
     const { data } = await postalCode.get(cep);
     return data;
   } catch (err) {
-    Sentry.captureException(err);
+    EventProvider.captureException(err);
     return { errors: err } as CepResponse;
   }
 };

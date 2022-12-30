@@ -3,32 +3,33 @@ import {
   Typography,
   TextField,
   Button,
-  OutlineInput,
 } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
 import { Platform } from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
+import * as Sentry from '@sentry/react-native';
+import {Colors} from "../../Base/Colors";
 
-interface NewsLetterForm {
-  name: string;
-  phone: string;
-  email: string;
-}
+const formInitialState = { email: '', name: '', phone: '' };
 
-interface PrimeNewsLetterCardProps {
+export interface PrimeNewsLetterCardProps {
   title?: string;
   buttonTitle?: string;
   action: string;
+  onClose?: () => void;
 }
+
 export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
   buttonTitle,
   title,
   action,
+  onClose,
 }) => {
   const [isSuccess, setIsSuccess] = React.useState(false);
-  const sendLeads = async (email: string, name: string, phone: string) => {
+
+  const sendLeads = useCallback(async (email: string, name: string, phone: string) => {
     const response = await axios.post(
       'https://www.usereserva.com/api/dataentities/LF/documents',
       {
@@ -39,12 +40,10 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       }
     );
 
-    if (response.status === 201) {
-      setIsSuccess(true);
-    }
+    setIsSuccess(response.status === 201);
 
     return response;
-  };
+  }, []);
 
   const validationSchema = yup.object().shape({
     name: yup.string(),
@@ -58,23 +57,21 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
   });
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      phone: '',
-      email: '',
-    },
+    initialValues: formInitialState,
     validationSchema,
     onSubmit: (values) => {
-      sendLeads(values.email, values.name, values.phone).then((r) => {
-        if (r.status === 201)
-          formik.resetForm({
-            values: {
-              email: '',
-              name: '',
-              phone: '',
-            },
-          });
-      });
+      sendLeads(values.email, values.name, values.phone)
+        .then((r) => {
+          if (r.status === 201) {
+            formik.resetForm({ values: formInitialState });
+          }
+        })
+        .catch((err) => {
+          Sentry.withScope((scope) => {
+            scope.setExtra('values', values);
+            Sentry.captureException(err);
+          })
+        });
     },
   });
 
@@ -89,21 +86,36 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
     >
       <Box marginBottom={isSuccess ? 30 : 42} marginTop={20} marginX={27}>
-        <Typography
-          fontSize={26}
-          fontFamily="reservaSerifBlack"
-          lineHeight={29}
-        >
-          {title ? title : 'Fique por dentro dos nossos lançamentos'}
-        </Typography>
+        <Box alignItems={"center"} flexDirection={"row"} justifyContent={"space-between"}>
+          <Box flex={1}>
+            <Typography
+              fontSize={26}
+              fontFamily="reservaSerifBlack"
+              lineHeight={29}
+              testID="primenewslettermodal_title"
+            >
+              {title ? title : 'Fique por dentro dos nossos lançamentos'}
+            </Typography>
+          </Box>
+
+          {!!onClose && (
+            <Button
+              onPress={onClose}
+              variant="icone"
+              icon={<Icon size={12} name="Close" />}
+              testID="primenewslettermodal_button_close"
+            />
+          )}
+        </Box>
+
         <Box marginTop={16}>
           <TextField
             style={{
-              backgroundColor: '#fff',
-              borderColor: '#BCBCBC',
+              backgroundColor: Colors.INPUT_BACKGROUND,
+              borderColor: Colors.INPUT_BORDER,
+              color: Colors.INPUT_TEXT,
               borderWidth: 1,
               height: 40,
-              color: '#3A3A3A',
             }}
             value={formik.values.name}
             placeholder="NOME"
@@ -111,16 +123,18 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             onChangeText={(value) => formik.setFieldValue('name', value)}
             touched={formik.touched.name}
             error={formik.errors.name}
+            accessibilityLabel="primenewslettermodal_input_name"
           />
         </Box>
+
         <Box marginTop={16}>
           <TextField
             style={{
-              backgroundColor: '#fff',
-              borderColor: '#BCBCBC',
+              backgroundColor: Colors.INPUT_BACKGROUND,
+              borderColor: Colors.INPUT_BORDER,
+              color: Colors.INPUT_TEXT,
               borderWidth: 1,
               height: 40,
-              color: '#3A3A3A',
             }}
             value={formik.values.phone}
             maskType="cel-phone"
@@ -129,16 +143,18 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             onChangeText={(value) => formik.setFieldValue('phone', value)}
             touched={formik.touched.phone}
             error={formik.errors.phone}
+            accessibilityLabel="primenewslettermodal_input_phone"
           />
         </Box>
+
         <Box marginTop={16}>
           <TextField
             style={{
-              backgroundColor: '#fff',
-              borderColor: '#BCBCBC',
+              backgroundColor: Colors.INPUT_BACKGROUND,
+              borderColor: Colors.INPUT_BORDER,
+              color: Colors.INPUT_TEXT,
               borderWidth: 1,
               height: 40,
-              color: '#3A3A3A',
             }}
             value={formik.values.email}
             touched={formik.touched.email}
@@ -146,8 +162,10 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             height={40}
             onChangeText={(value) => formik.setFieldValue('email', value)}
             error={formik.errors.email}
+            accessibilityLabel="primenewslettermodal_input_email"
           />
         </Box>
+
         <Box>
           <Button
             inline
@@ -157,8 +175,10 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             variant="primarioEstreito"
             title={buttonTitle ? buttonTitle : 'ASSINAR NEWSLETTER'}
             onPress={() => formik.submitForm()}
+            testID="primenewslettermodal_button_submit"
           />
         </Box>
+
         {isSuccess && (
           <Box mt={32}>
             <Typography
@@ -168,6 +188,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             >
               Inscrição concluída com sucesso!
             </Typography>
+
             <Typography fontFamily="nunitoRegular" color="#3A3A3A">
               Agora é só aguardar o nosso contato.
             </Typography>
@@ -176,4 +197,6 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       </Box>
     </Box>
   );
-};
+}
+
+export default PrimeNewsLetterCard;

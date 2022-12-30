@@ -9,14 +9,12 @@ import {
   theme,
   Typography,
 } from '@usereservaapp/reserva-ui';
-import analytics from '@react-native-firebase/analytics';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useConfigContext } from '../../../context/ConfigContext';
 import { intervalToDuration } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Linking } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import {
@@ -41,6 +39,7 @@ import { EmptyProductCatalog } from '../components/EmptyProductCatalog/EmptyProd
 import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal } from '../modals/FilterModal';
 import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
+import EventProvider from '../../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -282,10 +281,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [countDownClock]);
 
   useEffect(() => {
-    appsFlyer.logEvent('af_list_view', {
-      af_content_type: referenceString,
-    });
-    analytics().logEvent('product_list_view', {
+    EventProvider.logEvent('product_list_view', {
       content_type: referenceString,
     });
   }, []);

@@ -17,7 +17,7 @@ const routesConfig = {
       screens: {
         WishList: 'wishlist',
         BagScreen: {
-          path: 'bag/:orderFormId',
+          path: 'bag/:orderFormId?',
         },
         HomeTabs: {
           path: 'home-tabs',

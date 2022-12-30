@@ -18,8 +18,6 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <UserNotifications/UserNotifications.h>
-#import <AppsFlyerLib/AppsFlyerLib.h>
-
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -33,12 +31,6 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 
 @implementation AppDelegate
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [[AppsFlyerLib shared] registerUninstall:deviceToken];
-
-  [[PushIOManager sharedInstance]  didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-  }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -55,7 +47,6 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 
 // AppsFlyer configuration
-
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
     [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
@@ -93,7 +84,6 @@ static void InitializeFlipper(UIApplication *application) {
     // play
   [t playWithAnimationView:animationView];
 
-
   // If you want the animation layout to be forced to remove when hide is called, use this code
   [RNSplashScreen setAnimationFinished:true];
 
@@ -101,6 +91,10 @@ static void InitializeFlipper(UIApplication *application) {
   [RNSplashScreen show];
   return YES;
 }
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [[AppsFlyerLib shared] registerUninstall:deviceToken];
+  }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
@@ -115,37 +109,9 @@ static void InitializeFlipper(UIApplication *application) {
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  [[PushIOManager sharedInstance] openURL:url options:options];
   return [RCTLinkingManager application:application openURL:url options:options];
 }
 
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-    [[PushIOManager sharedInstance]  didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:
-(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    [[PushIOManager sharedInstance] didReceiveRemoteNotification:userInfo
-fetchCompletionResult:UIBackgroundFetchResultNewData fetchCompletionHandler:completionHandler];
-}
-
-//iOS 10 or later
--(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:
-(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
-{
-    [[PushIOManager sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response
-withCompletionHandler:completionHandler];
-}
-
--(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:
-(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
-{
-    [[PushIOManager sharedInstance] userNotificationCenter:center willPresentNotification:notification
-withCompletionHandler:completionHandler];
-}
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
  restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler

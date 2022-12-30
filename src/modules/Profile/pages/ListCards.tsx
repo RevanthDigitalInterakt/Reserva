@@ -130,11 +130,11 @@ export const ListCards = ({ navigation, route }: Props) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {cards &&
               cards.length > 0 &&
-              cards.map((card) => {
+              cards.map((card, index) => {
                 const { cardNumber, id } = card;
                 return (
                   <Card
-                    key={id}
+                    key={`${id}-${index}`}
                     flag="visa"
                     // isMain={main}
                     cardNumbers={cardNumber}

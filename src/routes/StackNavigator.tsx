@@ -232,8 +232,9 @@ export const MainStackScreen = () => (
 
     <MainStack.Screen name="CorreReserva" component={CorreReservaStackScreen} />
 
-    {flows.map((flow: Flow) => (
+    {flows.map((flow: Flow, index: number) => (
       <MainStack.Screen
+        key={`${flow.name}-${index}`}
         name={flow.name}
         component={flow.component}
         initialParams={flow.initialParams}

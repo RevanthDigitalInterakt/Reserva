@@ -184,7 +184,7 @@ const OrderDetailComponent = ({ data }: IOrderDetailComponent) => {
         </Box>
         {/* {deliveryStateToMsg()} */}
         {data && data.items &&
-          data.items.map((item) => <OrderProduct orderItem={item} />)}
+          data.items.map((item, index) => <OrderProduct key={`orderItem-${index}`} orderItem={item} />)}
 
         {/* //preços */}
         {data &&

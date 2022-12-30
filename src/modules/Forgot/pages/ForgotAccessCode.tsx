@@ -176,6 +176,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                 onChangeText={(text) =>
                   setPasswords({ ...passwords, first: text })
                 }
+                accessibilityLabel="forgot_input_password"
                 onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                 placeholder="Digite sua nova senha"
                 isSecureText
@@ -186,6 +187,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
                   onChangeText={(text) =>
                     setPasswords({ ...passwords, confirm: text })
                   }
+                  accessibilityLabel="forgot_input_confirm_password"
                   placeholder="Confirme sua nova senha"
                   isSecureText
                 />

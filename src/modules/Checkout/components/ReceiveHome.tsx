@@ -237,7 +237,7 @@ ${neighborhood}, ${city} - ${state}`,
         ) : null}
       </Box>
       {typeOfDelivery && typeOfDelivery.length > 0
-        ? typeOfDelivery.map((item: any) => {
+        ? typeOfDelivery.map((item: any, index:number) => {
             let selected;
             const { id, name, shippingEstimate, price } = item;
 
@@ -253,6 +253,7 @@ ${neighborhood}, ${city} - ${state}`,
 
             return (
               <DeliverySelector
+                key={`delivery-${index}`}
                 deliveryData={{
                   name: name,
                   price: shippingValue,

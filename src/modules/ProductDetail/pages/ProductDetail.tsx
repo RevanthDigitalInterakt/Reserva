@@ -1,11 +1,7 @@
 import {
-  QueryResult,
   useLazyQuery,
   useMutation,
-  useQuery,
 } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
-import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { addDays, format, lightFormat } from 'date-fns';
@@ -19,7 +15,6 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
@@ -63,6 +58,8 @@ import Config from 'react-native-config';
 import OneSignal from 'react-native-onesignal';
 import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSlug';
 import * as Sentry from '@sentry/react-native';
+import {slugify} from "../../../utils/slugify";
+import EventProvider from '../../../utils/EventProvider';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -572,7 +569,7 @@ export const ProductDetail: React.FC<Props> = ({
 
       Attachment(orderFormId, productOrderFormIndex, attachmentName);
     } catch (error) {
-      Sentry.captureException(error);
+      EventProvider.captureException(error);
       throw error;
     }
   };
@@ -682,14 +679,8 @@ export const ProductDetail: React.FC<Props> = ({
       });
 
       setItemsSKU(itemList);
-      appsFlyer.logEvent('af_content_view', {
-        af_price: product.priceRange.listPrice.lowPrice,
-        af_content: product.productName,
-        af_content_id: product.productId,
-        af_content_type: product.categoryTree.map((x: any) => x.name).join(),
-        af_currency: 'BRL',
-      });
-      analytics().logEvent('product_view', {
+
+      EventProvider.logEvent('product_view', {
         product_id: product.productId,
         product_name: product.productName,
         product_category: product.categoryTree.map((x: any) => x.name).join(),
@@ -930,6 +921,7 @@ export const ProductDetail: React.FC<Props> = ({
                 {/* PRODUCT CARD SECTION */}
                 <ProductDetailCard
                   {...product}
+                  testID={`productdetail_card_${slugify(product.productId)}`}
                   imagesHeight={3 * (screenWidth / 2)}
                   loadingFavorite={loadingFavorite}
                   title={product.productName}
@@ -1062,6 +1054,7 @@ export const ProductDetail: React.FC<Props> = ({
                     }
                     onPress={onProductAdd}
                     inline
+                    testID="productdetail_button_add_cart"
                   />
                   <Box mt="nano" flexDirection="row"></Box>
                   <Divider variant="fullWidth" my="xs" />
@@ -1434,6 +1427,7 @@ export const ProductDetail: React.FC<Props> = ({
                       onChangeText={(text) => {
                         setCep(text);
                       }}
+                      accessibilityLabel="productdetail_input_cep"
                       value={cep}
                       placeholder="Digite seu CEP"
                       iconName="Search"
@@ -1447,6 +1441,7 @@ export const ProductDetail: React.FC<Props> = ({
                     marginBottom="nano"
                     alignSelf="flex-start"
                     marginTop="quarck"
+                    testID="productdetail_button_cep"
                     onPress={() => {
                       navigation.navigate('ChangeRegionalization', {
                         isCepProductDetail: true,
@@ -1544,6 +1539,7 @@ export const ProductDetail: React.FC<Props> = ({
                         Yup.string().required().email().isValidSync(email)
                       );
                     }}
+                    accessibilityLabel="productdetail_input_email"
                     iconName="ChevronRight"
                     autoCapitalize="none"
                     keyboardType="email-address"

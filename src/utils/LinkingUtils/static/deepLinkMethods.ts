@@ -16,7 +16,7 @@ export const defaultInitialUrl = 'usereserva://home-tabs';
 
 export const productUrl = `usereserva://product?`;
 
-const defautlCustomMethodReturn: ICustomMethodReturnParams = {
+const defaultCustomMethodReturn: ICustomMethodReturnParams = {
   match: false,
   strUrl: defaultInitialUrl,
 };
@@ -33,7 +33,7 @@ const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
       strUrl: defaultInitialUrl,
     };
   }
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -57,7 +57,7 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
     };
   }
 
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -68,7 +68,7 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
     };
   }
 
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const accountWishListUseCase = (
@@ -80,7 +80,7 @@ const accountWishListUseCase = (
       strUrl: `${baseTabUrl}/wishlist`,
     };
   }
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const accountUseCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -91,7 +91,7 @@ const accountUseCase = (initialUrl: string): ICustomMethodReturnParams => {
     };
   }
 
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
 };
 
 const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -102,7 +102,7 @@ const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams
     }
   }
 
-  return defautlCustomMethodReturn
+  return defaultCustomMethodReturn
 }
 
 const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -119,7 +119,17 @@ const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
     }
   }
 
-  return defautlCustomMethodReturn;
+  return defaultCustomMethodReturn;
+}
+
+const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if(initialUrl.includes("bag")) {
+    return {
+      match: true,
+      strUrl: initialUrl
+    }
+  }
+  return defaultCustomMethodReturn;
 }
 
 const registerMethods = [
@@ -129,7 +139,8 @@ const registerMethods = [
   accountWishListUseCase,
   accountUseCase,
   cartUseCase,
-  catalogCollectionUseCase
+  catalogCollectionUseCase,
+  abandonedBagUseCase
 ];
 
 export {registerMethods};

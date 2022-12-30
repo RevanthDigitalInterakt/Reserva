@@ -79,6 +79,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         </Box>
         <Box mt={6}>
           <UnderlineInput
+            accessibilityLabel="register_input_email"
             onChangeText={(text) => {
               setEmail(text);
 
@@ -116,6 +117,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
           onPress={
             showRecoveryPassword ? handleEmailRecovery : handleEmailAccess
           }
+          testID={"register_button_recover"}
           disabled={emailEmpty}
           inline
         />

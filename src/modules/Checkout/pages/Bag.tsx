@@ -12,7 +12,6 @@ import {
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import analytics from '@react-native-firebase/analytics';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
@@ -26,7 +25,6 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import appsFlyer from 'react-native-appsflyer';
 import Modal from 'react-native-modal';
 import { useAuth } from '../../../context/AuthContext';
 
@@ -34,9 +32,7 @@ import { Item, OrderForm, useCart } from '../../../context/CartContext';
 
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { Attachment } from '../../../services/vtexService';
-
-import { checkoutService } from '../../../services/checkoutService';
+import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
 
 import OneSignal from 'react-native-onesignal';
 import Sentry from '../../../config/sentryConfig';
@@ -50,6 +46,10 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import EventProvider from '../../../utils/EventProvider';
+import { slugify } from "../../../utils/slugify";
+import { instance } from '../../../config/vtexConfig';
+import ToastProvider, { ShowToast } from '../../../utils/Toast/index';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -160,7 +160,7 @@ export const BagScreen = ({ route }: Props) => {
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
     data: {} as any,
     loadingProfile: true,
-    refetch: () => {},
+    refetch: () => { },
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
@@ -320,13 +320,13 @@ export const BagScreen = ({ route }: Props) => {
     setInstallmentInfo(
       installment
         ? {
-            installmentPrice: installment.value,
-            installmentsNumber: installment.count,
-            totalPrice: installment.total,
-          }
+          installmentPrice: installment.value,
+          installmentsNumber: installment.count,
+          totalPrice: installment.total,
+        }
         : {
-            ...installmentInfo,
-          }
+          ...installmentInfo,
+        }
     );
 
     setOptimistQuantities(quantities);
@@ -381,6 +381,11 @@ export const BagScreen = ({ route }: Props) => {
   //! ALTERAR PARA O FLUXO CORRETO
 
   const onGoToDelivery = async () => {
+    const hasError = removeUnavailableItems();
+    if (hasError) {
+      return;
+    }
+
     setLoadingGoDelivery(true);
     if (orderForm) {
       const { clientProfileData, shippingData } = orderForm;
@@ -398,15 +403,7 @@ export const BagScreen = ({ route }: Props) => {
       );
       const af_quantity = orderForm.items.map((i) => i.quantity);
 
-      appsFlyer.logEvent('af_initiated_checkout', {
-        af_price: totalBag + totalDiscountPrice + totalDelivery,
-        af_content_id,
-        af_content_type,
-        af_currency: 'BRL',
-        af_quantity,
-      });
-
-      analytics().logEvent('checkout_initiated', {
+      EventProvider.logEvent('checkout_initiated', {
         price: totalBag + totalDiscountPrice + totalDelivery,
         content_type: af_content_type,
         content_ids: af_content_id,
@@ -516,6 +513,47 @@ export const BagScreen = ({ route }: Props) => {
     });
   };
 
+  const removeUnavailableItems = () => {
+    let hasError = false;
+
+    orderForm?.items.map(async ({ id, seller }, index) => {
+      await instance.get(`/logistics/pvt/inventory/skus/${id}`)
+        .then(resp => {
+
+          if (resp.data.balance[0].totalQuantity - resp.data.balance[0].reservedQuantity <= 1) {
+            RemoveItemFromCart(
+              orderForm?.orderFormId,
+              id,
+              index,
+              seller,
+              0
+            )
+            hasError = true
+            ShowToast('info', 'Alguns produtos da sua sacola estão indisponiveis')
+          }
+        })
+    })
+    return hasError;
+  }
+
+  // const setTeste = () => {
+  //   AddItemToCart(
+  //     orderForm?.orderFormId,
+  //     1,
+  //     '79900',
+  //     '1',
+  //   );
+  // }
+
+  // useEffect(() => {
+  //   setTeste()
+  // })
+
+
+  useEffect(() => {
+    removeUnavailableItems()
+  }, [])
+
   const handleToggleGiftCheckbox = async (
     value: boolean,
     index: number,
@@ -536,6 +574,7 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   return (
+
     <SafeAreaView
       style={{
         justifyContent: 'space-between',
@@ -543,6 +582,7 @@ export const BagScreen = ({ route }: Props) => {
         backgroundColor: '#FFFFFF',
       }}
     >
+
       <TopBarBackButton
         showShadow
         loading={loadingGoDelivery || loadingGift || topBarLoading}
@@ -758,12 +798,21 @@ export const BagScreen = ({ route }: Props) => {
                     if (removeProduct) {
                       setShowModal(false);
                       setLoadingModal(true);
-                      await removeItem(
+                      const removedProductIndex = removeProduct?.index;
+
+                      const { ok } = await removeItem(
                         removeProduct?.id,
                         removeProduct?.index,
                         removeProduct?.seller,
                         0
                       );
+
+                      if (ok) {
+                        if (removedProductIndex === 0) {
+                          setIsRemoveCartTags(true);
+                          removeAbandonedCartTags();
+                        }
+                      }
                       setRemoveProduct(undefined);
                       setLoadingModal(false);
                     }
@@ -921,8 +970,8 @@ export const BagScreen = ({ route }: Props) => {
                                     style={
                                       showMoreSizes
                                         ? {
-                                            transform: [{ rotate: '-90deg' }],
-                                          }
+                                          transform: [{ rotate: '-90deg' }],
+                                        }
                                         : { transform: [{ translateY: 4 }] }
                                     }
                                     name={
@@ -973,36 +1022,36 @@ export const BagScreen = ({ route }: Props) => {
                               x.identifier ===
                               'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                           ) && (
-                            <Box paddingBottom="nano">
-                              <Typography
-                                fontFamily="nunitoRegular"
-                                fontSize={11}
-                                color="verdeSucesso"
-                              >
-                                Desconto de 1° compra aplicado neste produto!
-                              </Typography>
-                            </Box>
-                          )}
+                              <Box paddingBottom="nano">
+                                <Typography
+                                  fontFamily="nunitoRegular"
+                                  fontSize={11}
+                                  color="verdeSucesso"
+                                >
+                                  Desconto de 1° compra aplicado neste produto!
+                                </Typography>
+                              </Box>
+                            )}
                           {item.priceTags.find(
                             (x) =>
                               x.identifier ===
                               'd51ad0ed-150b-4ed6-92de-6d025ea46368'
                           ) && (
-                            <Box
-                              position="absolute"
-                              zIndex={5}
-                              top={84}
-                              right={21}
-                            >
-                              <Typography
-                                color="verdeSucesso"
-                                fontFamily="nunitoRegular"
-                                fontSize={11}
+                              <Box
+                                position="absolute"
+                                zIndex={5}
+                                top={84}
+                                right={21}
                               >
-                                -R$ 50
-                              </Typography>
-                            </Box>
-                          )}
+                                <Typography
+                                  color="verdeSucesso"
+                                  fontFamily="nunitoRegular"
+                                  fontSize={11}
+                                >
+                                  -R$ 50
+                                </Typography>
+                              </Box>
+                            )}
                           <ProductHorizontalListCard
                             isBag
                             discountApi={
@@ -1040,9 +1089,10 @@ export const BagScreen = ({ route }: Props) => {
                                 : 0
                             }
                             count={optimistQuantities[index]}
+                            testID={`product_card_bag_${slugify(item.productId + item.skuName)}`}
                             isGift={item.bundleItems.length > 0}
                             isGiftable={item.offerings.some(
-                               (offering) => offering?.type === 'Embalagem pra Presente'
+                              (offering) => offering?.type === 'Embalagem pra Presente'
                             )}
                             handleToggleGift={(value) =>
                               handleToggleGiftCheckbox(
@@ -1523,6 +1573,7 @@ export const BagScreen = ({ route }: Props) => {
                     title="IR PARA ENTREGA"
                     variant="primarioEstreito"
                     inline
+                    testID="bag_button_go_to_delivery"
                   />
                 </Box>
               )
@@ -1530,6 +1581,8 @@ export const BagScreen = ({ route }: Props) => {
           </Box>
         </WithAvoidingView>
       )}
+      <ToastProvider />
     </SafeAreaView>
+
   );
 };

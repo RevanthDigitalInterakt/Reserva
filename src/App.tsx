@@ -1,18 +1,11 @@
 import { ApolloProvider } from '@apollo/client';
-import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import * as Sentry from '@sentry/react-native';
-import { Alert, Linking, Platform } from 'react-native';
-import appsFlyer from 'react-native-appsflyer';
 import 'react-native-gesture-handler';
 import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import { env } from './config/env';
 import { linkingConfig } from './config/linking';
-import { oneSignalConfig } from './config/pushNotification';
-import './config/ReactotronConfig';
 import { requestTrackingPermission } from 'react-native-tracking-transparency';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
@@ -36,8 +29,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { IS_DEV } from './utils/enviromentUtils';
+import EventProvider from './utils/EventProvider';
 
 const DefaultTheme = {
   colors: {
@@ -45,25 +38,6 @@ const DefaultTheme = {
   },
 };
 
-async function buildLink() {
-  const link = await dynamicLinks().buildLink({
-    link: 'https://www.usereserva.com',
-    domainUriPrefix: 'https://usereserva.page.link/1Crm',
-    analytics: {
-      campaign: 'banner',
-    },
-  });
-
-  return link;
-}
-
-const logAppOpenAnalytics = async () => {
-  try {
-    await analytics().logAppOpen();
-  } catch (e) {
-    Sentry.captureException(e);
-  }
-};
 
 const requestUserPermission = async () => {
   const authStatus = await messaging().requestPermission();
@@ -127,8 +101,7 @@ const App = () => {
       await requestTrackingPermission();
     })();
     requestUserPermission();
-    logAppOpenAnalytics();
-    oneSignalConfig();
+    EventProvider.initializeModules();
     setTimeout(() => {
       getMaintenanceValue();
     }, 1000);

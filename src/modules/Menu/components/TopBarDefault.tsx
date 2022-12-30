@@ -32,6 +32,7 @@ export const TopBarDefault: React.FC<{
       boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
       leftButton={{
         name: 'SideMenu',
+        testID: 'header_button_menu',
         size: 24,
         onPress: () => {
           navigation.navigate('Menu');
@@ -40,12 +41,14 @@ export const TopBarDefault: React.FC<{
       rightButton1={{
         name: 'Search',
         size: 24,
+        testID: 'header_button_search',
         onPress: () => {
           navigation.navigate('SearchMenu');
         },
       }}
       rightButton2={{
         name: 'Handbag',
+        testID: 'header_button_bag',
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
