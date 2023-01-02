@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -6,7 +6,6 @@ import { horizontalAnimationBackwards } from '../animations/animations';
 import { Menu } from '../modules/Menu/modals/Menu';
 
 import { MainStackScreen } from './StackNavigator';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const RootStack = createStackNavigator();
 

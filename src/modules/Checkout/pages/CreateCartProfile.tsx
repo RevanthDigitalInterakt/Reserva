@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
-import { Formik, useFormik, useFormikContext } from 'formik';
+import { Formik } from 'formik';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,13 +10,12 @@ import {
   Button,
   TextField,
   Typography,
-  theme,
 } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 
 import { useCart } from '../../../context/CartContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
+import { CepVerifyPostalCode } from '../../../services/vtexService';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 
@@ -80,26 +79,26 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
       .required('Insira seu nome.')
       .matches(
         /^[aA-zZ\s]+$/,
-        'Apenas alfabetos são permitidos para este campo.'
+        'Apenas alfabetos são permitidos para este campo.',
       ),
     lastName: Yup.string()
       .required('Insira seu sobrenome.')
       .matches(
         /^[aA-zZ\s]+$/,
-        'Apenas alfabetos são permitidos para este campo.'
+        'Apenas alfabetos são permitidos para este campo.',
       ),
     birthDate: Yup.string()
       .required('Insira a data de nascimento.')
       .matches(
         /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
-        'Verifique a data de nascimento.'
+        'Verifique a data de nascimento.',
       ),
     // document: Yup.string().required('Por favor, insira o seu cpf'),
     phone: Yup.string()
       .required('Por favor, insira o seu telefone')
       .matches(
         /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9 \d|[2-9])\d{3})\-?(\d{4}))$/,
-        'Verifique o número de telefone digitado.'
+        'Verifique o número de telefone digitado.',
       ),
   });
 
@@ -108,8 +107,9 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
 
     if (isValidPostalCode) {
       setLoading(true);
-      const { street, neighborhood, city, state, cep, errors } =
-        await CepVerifyPostalCode(postalCode);
+      const {
+        street, neighborhood, city, state, cep, errors,
+      } = await CepVerifyPostalCode(postalCode);
       setShowCepDescription(!!cep);
       setFields({
         ...fields,
@@ -168,19 +168,18 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     if (cpf == '') return setCpfInvalid(true);
 
     if (
-      cpf.length != 11 ||
-      cpf == '00000000000' ||
-      cpf == '11111111111' ||
-      cpf == '22222222222' ||
-      cpf == '33333333333' ||
-      cpf == '44444444444' ||
-      cpf == '55555555555' ||
-      cpf == '66666666666' ||
-      cpf == '77777777777' ||
-      cpf == '88888888888' ||
-      cpf == '99999999999'
-    )
-      return setCpfInvalid(true);
+      cpf.length != 11
+      || cpf == '00000000000'
+      || cpf == '11111111111'
+      || cpf == '22222222222'
+      || cpf == '33333333333'
+      || cpf == '44444444444'
+      || cpf == '55555555555'
+      || cpf == '66666666666'
+      || cpf == '77777777777'
+      || cpf == '88888888888'
+      || cpf == '99999999999'
+    ) return setCpfInvalid(true);
     let add = 0;
     let i = 0;
     let rev = 0;
@@ -204,7 +203,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     firstName: string,
     lastName: string,
     documentType: string,
-    phone: string
+    phone: string,
   ) => {
     setLoading(true);
 
@@ -213,9 +212,9 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     const isCustomerSave = await addCustomer({
       firstName,
       lastName,
-      document: document,
+      document,
       documentType,
-      phone: phone,
+      phone,
     });
 
     if (isCustomerSave) {
@@ -275,8 +274,8 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
               initialValues={fields}
               validationSchema={validation}
               innerRef={formRef}
-              validateOnChange={true}
-              validateOnBlur={true}
+              validateOnChange
+              validateOnBlur
               onSubmit={(values) => {
                 const {
                   firstName,
@@ -301,7 +300,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   neighborhood,
                   state,
                   number,
-                  complement
+                  complement,
                 );
               }}
             >
@@ -457,7 +456,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
                   <Box mt={15}>
                     <TextField
                       label={labelNeighborhood}
-                      editable={true}
+                      editable
                       value={fields.neighborhood}
                       onChangeText={(text) => {
                         setFields({ ...fields, neighborhood: text });

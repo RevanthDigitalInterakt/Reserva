@@ -6,7 +6,6 @@ import { FrequentDoubts } from '../../modules/HelpCenter/PagesHelp/FrequentDoubt
 import { HelpPaymentMethods } from '../../modules/HelpCenter/PagesHelp/HelpPaymentMethods';
 import { OrdersAndDeliveries } from '../../modules/HelpCenter/PagesHelp/OrdersAndDeliveries';
 import { PrivacyPolicy } from '../../modules/HelpCenter/PagesHelp/PrivacyPolicy';
-import { TermsOfUse } from '../../modules/HelpCenter/PagesHelp/TermsOfUse';
 import { Flow } from '../types/flow.type';
 
 export const HelpCenterFLow: Flow[] = [

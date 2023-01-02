@@ -1,5 +1,5 @@
-import { CepResponse } from './../config/brasilApi';
-import { brasilApi } from '../config/brasilApi';
+import { CepResponse, brasilApi } from '../config/brasilApi';
+
 import { postalCode } from '../config/postalCode';
 import {
   instance,
@@ -12,7 +12,6 @@ import {
 } from '../config/vtexConfig';
 import EventProvider from '../utils/EventProvider';
 
-
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
 const vtexConfig3 = instance3;
@@ -22,7 +21,7 @@ const vtexConfig6 = instance6;
 
 const VerifyEmail = async (email: string) => {
   const response = await vtexConfig2.get(
-    `/dataentities/CL/search?email=${email}`
+    `/dataentities/CL/search?email=${email}`,
   );
 
   return response;
@@ -31,13 +30,13 @@ const VerifyEmail = async (email: string) => {
 const CreateCart = async () => {
   // cria o carrinho
   // retorna um payload gigante pra ser preenchido de acordo.
-  const response = await vtexConfig.get(`/checkout/pub/orderForm/?sc=4`);
+  const response = await vtexConfig.get('/checkout/pub/orderForm/?sc=4');
   return response;
 };
 
 const CreateSession = async (country: any, postalCode: any) => {
   // cria a sessao e retorna o token pra ser salvo e usado em outro canto.
-  const response = await vtexConfig.post(`/sessions`, {
+  const response = await vtexConfig.post('/sessions', {
     Country: country,
     PostalCode: postalCode,
   });
@@ -45,7 +44,7 @@ const CreateSession = async (country: any, postalCode: any) => {
 };
 
 const GetSession = async () => {
-  const response = await vtexConfig.get(`/sessions`);
+  const response = await vtexConfig.get('/sessions');
   return response;
 };
 
@@ -70,7 +69,7 @@ const UpdateItemToCart = async (
           seller,
         },
       ],
-    }
+    },
   );
 
   // o retorno é o proprio carrinho com todos os itens
@@ -81,7 +80,7 @@ const AddItemToCart = async (
   orderFormId: string | undefined,
   quantity: number,
   id: string,
-  seller: string
+  seller: string,
 ) => {
   const response = await vtexConfig.post(
     `/checkout/pub/orderForm/${orderFormId}/items?sc=4`,
@@ -94,7 +93,7 @@ const AddItemToCart = async (
           seller,
         },
       ],
-    }
+    },
   );
 
   // o retorno é o proprio carrinho com todos os itens
@@ -104,7 +103,7 @@ const AddItemToCart = async (
 const RestoreCart = async (orderFormId: string | undefined) => {
   try {
     const response = await vtexConfig.get(
-      `/checkout/pub/orderForm/${orderFormId}?sc=4&${new Date().getTime()}=cache`
+      `/checkout/pub/orderForm/${orderFormId}?sc=4&${new Date().getTime()}=cache`,
     );
 
     return response;
@@ -118,7 +117,7 @@ const RemoveItemFromCart = async (
   id: string,
   index: number,
   seller: string,
-  quantity: number
+  quantity: number,
 ) => {
   const response = await vtexConfig.post(
     `/checkout/pub/orderForm/${orderFormId}/items/update?sc=4`,
@@ -132,7 +131,7 @@ const RemoveItemFromCart = async (
           index,
         },
       ],
-    }
+    },
   );
 
   // o retorno é o proprio carrinho com todos os itens
@@ -162,7 +161,7 @@ const AddCouponToCart = async (orderFormId: any) => {
         'commercialConditionData',
         'customData',
       ],
-    }
+    },
   );
   return response;
 };
@@ -190,16 +189,16 @@ const RemoveCoupon = async (orderFormId: any) => {
         'commercialConditionData',
         'customData',
       ],
-    }
+    },
   );
   return response;
 };
 
 const AddAddressToCart = async (orderFormId: any, address: any) => {
-  //APENAS adiciona endereço ao carrinho(orderForm)
+  // APENAS adiciona endereço ao carrinho(orderForm)
   const { data } = await vtexConfig.post(
     `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData?sc=4`,
-    address
+    address,
   );
 
   return data;
@@ -229,7 +228,7 @@ const DeliveryType = async (orderFormId: any) => {
         },
         // no caso da falta de todos os dados pode ser enviado apenas alguns igual no adc endereço acima.
       ],
-      //logisticInfo é o tipo de entrega de CADA PRODUTO.
+      // logisticInfo é o tipo de entrega de CADA PRODUTO.
       logisticsInfo: [
         {
           itemIndex: 0,
@@ -242,14 +241,14 @@ const DeliveryType = async (orderFormId: any) => {
           selectedSla: 'Scan & Go (XAR)',
         },
       ],
-    }
+    },
   );
   return response;
 };
 
 const GetPurchaseData = async (orderGroup: any) => {
   const response = await vtexConfig.get(
-    `/checkout/pub/orders/order-group/${orderGroup}?sc=4`
+    `/checkout/pub/orders/order-group/${orderGroup}?sc=4`,
   );
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
@@ -259,7 +258,7 @@ const GetPurchaseData = async (orderGroup: any) => {
 const ValidateProfile = async (email: string) => {
   try {
     const { data } = await vtexConfig.get(
-      `/checkout/pub/profiles/?email=${email}&sc=4`
+      `/checkout/pub/profiles/?email=${email}&sc=4`,
     );
     return data;
   } catch (err) {
@@ -269,12 +268,12 @@ const ValidateProfile = async (email: string) => {
 
 const IdentifyCustomer = async (
   orderFormId: string | undefined,
-  email: string
+  email: string,
 ) => {
   try {
     const { data } = await vtexConfig.post(
       `/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData?sc=4`,
-      { email }
+      { email },
     );
 
     return data;
@@ -285,12 +284,12 @@ const IdentifyCustomer = async (
 
 const AddCustomerToOrder = async (
   orderFormId: string | undefined,
-  customer: any
+  customer: any,
 ) => {
   try {
     const { data } = await vtexConfig.post(
       `/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`,
-      { ...customer }
+      { ...customer },
     );
 
     return data;
@@ -323,70 +322,70 @@ const addToCoupon = async (orderFormId: string | undefined, coupon: string) => {
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
     {
       text: coupon,
-    }
+    },
   );
   return response;
 };
 
 const removeCouponToOder = async (
   orderFormId: string | undefined,
-  coupon: string
+  coupon: string,
 ) => {
   const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/coupons`,
     {
       text: coupon,
-    }
+    },
   );
   return response;
 };
 
 const validateSellerCoupon = async (coupon: string) => {
   const response = await vtexConfig2.get(
-    `/dataentities/VE/search?_fields=id,coupon,ativo,vendedor_apelido&_where=((coupon=${coupon}) AND (ativo=true))`
+    `/dataentities/VE/search?_fields=id,coupon,ativo,vendedor_apelido&_where=((coupon=${coupon}) AND (ativo=true))`,
   );
   return response;
 };
 
 const addToSellerCoupon = async (
   orderFormId: string | undefined,
-  marketingData: any
+  marketingData: any,
 ) => {
   const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`,
-    marketingData
+    marketingData,
   );
   return response;
 };
 
 const removeSellerCouponToOder = async (
   orderFormId: string | undefined,
-  marketingData: any
+  marketingData: any,
 ) => {
   const response = await vtexConfig2.post(
     `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`,
-    marketingData
+    marketingData,
   );
   return response;
 };
 
-//reset user checkout
+// reset user checkout
 const ResetUserCheckout = async (orderFormId?: string) => {
   const response = await vtexConfig3.get(
-    `/checkout/changeToAnonymousUser/${orderFormId}`
+    `/checkout/changeToAnonymousUser/${orderFormId}`,
   );
   return response;
 };
 
 const SendUserEmail = async (email?: string) => {
   const response = await vtexConfig4.get(
-    `/contactlist/${email}/true/newsletter/reserva`
+    `/contactlist/${email}/true/newsletter/reserva`,
   );
   return response;
 };
 const ConvertZipCode = async (postalCode?: string) => {
   const response = await vtexConfig3.get(
-    `/api/checkout/pub/postal-code/BRA/${postalCode}`
+    `/api/checkout/pub/postal-code/BRA/${postalCode}`,
   );
   return response;
 };
@@ -401,7 +400,7 @@ const Tracking = async (cookie: string, order?: string) => {
 };
 const PickupPoint = async (longitude: string, latitude: string) => {
   const response = await instance2.get(
-    `/checkout/pub/pickup-points?geoCoordinates=${longitude};${latitude}`
+    `/checkout/pub/pickup-points?geoCoordinates=${longitude};${latitude}`,
   );
   return response;
 };
@@ -429,9 +428,9 @@ const SearchNewOrders = async (page: string, email: string, cookie: string) => {
     `oms/user/orders/?clientEmail=${email}&page=${page}&per_page=20&includeProfileLastPurchases=true`,
     {
       headers: {
-        cookie: cookie,
+        cookie,
       },
-    }
+    },
   );
   return response;
 };
@@ -439,15 +438,15 @@ const SearchNewOrders = async (page: string, email: string, cookie: string) => {
 const SearchNewOrderDetail = async (
   orderId: string,
   email: string,
-  cookie: string
+  cookie: string,
 ) => {
   const response = await instance7.get(
     `/oms/user/orders/${orderId}?clientEmail=${email}`,
     {
       headers: {
-        cookie: cookie,
+        cookie,
       },
-    }
+    },
   );
   return response;
 };
@@ -455,11 +454,11 @@ const SearchNewOrderDetail = async (
 const Attachment = async (
   orderFormId: string | undefined,
   productOrderFormIndex: any,
-  attachmentName: any
+  attachmentName: any,
 ) => {
   const response = await vtexConfig3.post(
     `/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
-    { content: { aceito: 'true' } }
+    { content: { aceito: 'true' } },
   );
   return response;
 };
@@ -468,7 +467,7 @@ const SetGiftSize = async (
   orderFormId?: string | undefined,
   giftId?: string | undefined,
   id?: string | undefined,
-  seller?: string | undefined
+  seller?: string | undefined,
 ) => {
   const response = await instance7.post(
     `/checkout/pub/orderForm/${orderFormId}/selectable-gifts/${giftId}`,
@@ -476,8 +475,8 @@ const SetGiftSize = async (
       id: giftId,
       selectedGifts: [
         {
-          id: id,
-          seller: seller,
+          id,
+          seller,
           index: 0,
         },
       ],
@@ -498,14 +497,14 @@ const SetGiftSize = async (
         'commercialConditionData',
         'customData',
       ],
-    }
+    },
   );
   return response;
 };
 
 const DeleteCustomerProfile = async (id: string) => {
   const response = await vtexConfig6.delete(
-    `/dataentities/CL/documents/CL-${id}`
+    `/dataentities/CL/documents/CL-${id}`,
   );
 
   return response;

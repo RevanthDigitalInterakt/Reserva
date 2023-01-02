@@ -1,11 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
-import { Typography, Box, Button, Icon, Divider } from '@usereservaapp/reserva-ui';
-import { stringToReal } from '../../../utils/stringToReal';
+import {
+  Typography, Box, Icon, Divider,
+} from '@usereservaapp/reserva-ui';
 import { useState } from 'react';
-import { format, } from 'date-fns';
+import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { stringToReal } from '../../../utils/stringToReal';
 
 type IOrderData = {
   orderId: string;
@@ -45,7 +47,7 @@ type IOrderData = {
   paymentApprovedDate: null;
   readyForHandlingDate: null;
   deliveryDates: null
-}
+};
 interface IOrder {
   onPress?: () => void;
   delivered?: boolean;
@@ -73,13 +75,13 @@ const Order = ({ data }: IOrder) => {
         style={{ elevation: 6 }}
         boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
         mb="xxxs"
-        width={'100%'}
+        width="100%"
         minHeight={132}
-        backgroundColor={'white'}
+        backgroundColor="white"
       >
         <Box
-          paddingY={'micro'}
-          paddingX={'micro'}
+          paddingY="micro"
+          paddingX="micro"
         >
           <Box flexDirection="row" justifyContent="space-between">
             <Typography
@@ -103,7 +105,8 @@ const Order = ({ data }: IOrder) => {
           </Typography>
           <Box mt="nano">
             <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
-              Data do Pedido:{' '}
+              Data do Pedido:
+              {' '}
               {format(new Date(order.creationDate), 'dd/MM/yy', { locale: ptBR })}
             </Typography>
           </Box>
@@ -178,7 +181,7 @@ const Order = ({ data }: IOrder) => {
           >
             <Typography
               style={{ marginTop: 5, marginBottom: 5 }}
-              mt={'micro'}
+              mt="micro"
               fontSize={14}
               fontFamily="nunitoBold"
               color={
@@ -194,7 +197,7 @@ const Order = ({ data }: IOrder) => {
         <Divider variant="fullWidth" mt="micro" />
         <Box
           alignItems="center"
-          pt={'micro'}
+          pt="micro"
         >
           <Icon name="ArrowDown" size={20} />
         </Box>

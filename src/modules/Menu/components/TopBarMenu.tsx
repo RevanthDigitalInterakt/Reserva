@@ -1,8 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Alert } from "react-native";
-import { TopBar } from "@usereservaapp/reserva-ui";
-import { useCart } from "../../../context/CartContext";
+import { TopBar } from '@usereservaapp/reserva-ui';
+import { useCart } from '../../../context/CartContext';
 
 export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
   loading = false,
@@ -13,8 +12,8 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
 
   useEffect(() => {
     if (orderForm?.items) {
-      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)
-      setBagQuantity(quantity)
+      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0);
+      setBagQuantity(quantity);
     }
   }, [orderForm]);
 
@@ -24,27 +23,27 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
       paddingX="quarck"
       bg="white"
       leftButton={{
-        marginTop: "nano",
-        color: "preto",
-        name: "Close",
+        marginTop: 'nano',
+        color: 'preto',
+        name: 'Close',
         size: 14,
         onPress: () => {
           navigation.goBack();
         },
       }}
       rightButton1={{
-        name: "Search",
+        name: 'Search',
         size: 24,
         onPress: () => {
-          navigation.navigate("SearchMenu");
+          navigation.navigate('SearchMenu');
         },
       }}
       rightButton2={{
-        name: "Handbag",
+        name: 'Handbag',
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');
-          navigation.navigate("BagScreen");
+          navigation.navigate('BagScreen');
         },
         badgeCount: bagQuantity,
       }}

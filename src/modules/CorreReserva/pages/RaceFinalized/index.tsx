@@ -32,8 +32,8 @@ const { height: DEVICE_HEIGHT } = Dimensions.get('window');
 export interface RaceFinalizedProps { }
 
 type RaceFinalizedNavigator = StackNavigationProp<
-  CorreReservaStackParamList,
-  'RaceFinalized'
+CorreReservaStackParamList,
+'RaceFinalized'
 >;
 
 export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
@@ -310,7 +310,8 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
                 Distância:
                 <Typography fontFamily="reservaSerifBold" fontSize={17}>
                   {' '}
-                  {Math.floor(parseFloat(raceResume?.distance))}km
+                  {Math.floor(parseFloat(raceResume?.distance))}
+                  km
                 </Typography>
               </Typography>
             </Box>

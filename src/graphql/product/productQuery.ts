@@ -110,4 +110,4 @@ export const SUBSCRIBE_NEWSLETTER = gql`
   ) {
   subscribeNewsletter(email: $email, isNewsletterOptIn: $isNewsletterOptIn)
 }
-`
+`;

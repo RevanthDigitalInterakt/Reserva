@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Alert, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { TopBar } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
 
@@ -15,7 +15,7 @@ export const TopBarDefault: React.FC<{
     if (orderForm?.items) {
       const quantity = orderForm?.items?.reduce(
         (accumulator, currentValue) => accumulator + currentValue.quantity,
-        0
+        0,
       );
       setBagQuantity(quantity);
     }

@@ -1,15 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Button, Icon, TextField, Toggle, Typography } from '@usereservaapp/reserva-ui';
+import React, {
+  useCallback, useEffect, useState,
+} from 'react';
+import {
+  Box, Button, Icon, TextField, Toggle, Typography,
+} from '@usereservaapp/reserva-ui';
 import CreditCardDisplay from 'react-native-credit-card-display';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { Alert, SafeAreaView } from 'react-native';
-import { images } from '../../../assets';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/core';
+import { Alert } from 'react-native';
 import Cardscan from 'react-native-cardscan';
-import { borderWidth } from 'styled-system';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { StackScreenProps } from '@react-navigation/stack';
+import { images } from '../../../assets';
 
 interface Card {
   holder: string;
@@ -42,19 +40,15 @@ export const CardCheckout = ({
 
   const [compatible, setCompatible] = useState(null);
   const [cardWritingType, setCardWritingType] = React.useState<CardWriting>(
-    'manually'
+    'manually',
   );
 
   const onChangeTextCardOne = (field: keyof Card, newValue: any) => {
-    onChangeCardOne((preview) => {
-      return { ...preview, [field]: newValue };
-    });
+    onChangeCardOne((preview) => ({ ...preview, [field]: newValue }));
   };
 
   const onChangeTextCardTwo = (field: keyof Card, newValue: any) => {
-    onChangeCardTwo((preview) => {
-      return { ...preview, [field]: newValue };
-    });
+    onChangeCardTwo((preview) => ({ ...preview, [field]: newValue }));
   };
   const checkCompatible = useCallback(async () => {
     const isCompatible = await Cardscan.isSupportedAsync();
@@ -66,7 +60,9 @@ export const CardCheckout = ({
   }, []);
 
   const scanCard = useCallback(async () => {
-    const { action, scanId, payload, canceledReason } = await Cardscan.scan();
+    const {
+      action, scanId, payload, canceledReason,
+    } = await Cardscan.scan();
 
     if (action === 'scanned') {
       setCardWritingType('scanned');
@@ -113,7 +109,9 @@ export const CardCheckout = ({
   }, [onChangeCardOne]);
 
   const canAddCard = useCallback((): boolean => {
-    const { CVC, expiration, holder, number } = cardOne;
+    const {
+      CVC, expiration, holder, number,
+    } = cardOne;
 
     if (CVC?.length && expiration?.length && holder?.length && number?.length) {
       return true;
@@ -123,9 +121,9 @@ export const CardCheckout = ({
 
   return (
     <Box>
-      <Box mt={'md'} overflow={'hidden'} paddingHorizontal={20}>
+      <Box mt="md" overflow="hidden" paddingHorizontal={20}>
         <Box
-          mb={'xxs'}
+          mb="xxs"
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
@@ -149,7 +147,7 @@ export const CardCheckout = ({
 
         <Button
           mb="xxs"
-          width={'100%'}
+          width="100%"
           onPress={() => setHandleNewTwoCards(!handleNewTwoCards)}
         >
           <Box alignSelf="flex-start">
@@ -204,26 +202,26 @@ export const CardCheckout = ({
             numberContainerStyles={
               cardOne.number
                 ? {
-                    borderWidth: 1,
-                    borderColor: 'red',
-                    borderRadius: 6,
-                    width: '45%',
-                    alignItems: 'center',
-                    paddingVertical: 4,
-                  }
+                  borderWidth: 1,
+                  borderColor: 'red',
+                  borderRadius: 6,
+                  width: '45%',
+                  alignItems: 'center',
+                  paddingVertical: 4,
+                }
                 : {}
             }
             nameContainerStyles={
               cardOne.holder
                 ? {
-                    borderWidth: 1,
-                    borderColor: 'red',
-                    borderRadius: 6,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingHorizontal: 4,
-                    paddingVertical: 5,
-                  }
+                  borderWidth: 1,
+                  borderColor: 'red',
+                  borderRadius: 6,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 4,
+                  paddingVertical: 5,
+                }
                 : {}
             }
             expirationContainerStyles={{
@@ -239,13 +237,13 @@ export const CardCheckout = ({
           />
         </Box>
         <Box>
-          <Box mt={'xxxs'}>
+          <Box mt="xxxs">
             <TextField
               height={55}
               placeholder="Nome do titular"
               value={cardOne.holder}
               onChangeText={(val) => onChangeTextCardOne('holder', val)}
-              iconRight={
+              iconRight={(
                 <Box ml="nano">
                   <Icon
                     color="neutroFrio2"
@@ -254,17 +252,17 @@ export const CardCheckout = ({
                     size={16}
                   />
                 </Box>
-              }
+              )}
             />
           </Box>
-          <Box mt={'xxxs'}>
+          <Box mt="xxxs">
             <TextField
               maskType="credit-card"
               height={55}
               placeholder="Número do cartão"
               value={cardOne.number}
               onChangeText={(val) => onChangeTextCardOne('number', val)}
-              iconRight={
+              iconRight={(
                 <Box ml="nano">
                   <Icon
                     color="neutroFrio2"
@@ -273,11 +271,11 @@ export const CardCheckout = ({
                     size={16}
                   />
                 </Box>
-              }
+              )}
             />
           </Box>
 
-          <Box mt={'xxxs'} flexDirection="row">
+          <Box mt="xxxs" flexDirection="row">
             <Box flex={1} mr="xxxs">
               <TextField
                 height={55}
@@ -289,7 +287,7 @@ export const CardCheckout = ({
                 placeholder="Vencimento"
                 value={cardOne.expiration}
                 onChangeText={(val) => onChangeTextCardOne('expiration', val)}
-                iconRight={
+                iconRight={(
                   <Box ml="nano">
                     <Icon
                       color="neutroFrio2"
@@ -298,7 +296,7 @@ export const CardCheckout = ({
                       size={16}
                     />
                   </Box>
-                }
+                )}
               />
             </Box>
             <Box flex={1}>
@@ -311,7 +309,7 @@ export const CardCheckout = ({
                 onFocus={() => setIsFlipped(true)}
                 onBlur={() => setIsFlipped(false)}
                 onChangeText={(val) => onChangeTextCardOne('CVC', val)}
-                iconRight={
+                iconRight={(
                   <Box ml="nano">
                     <Icon
                       color="neutroFrio2"
@@ -320,14 +318,14 @@ export const CardCheckout = ({
                       size={16}
                     />
                   </Box>
-                }
+                )}
               />
             </Box>
           </Box>
         </Box>
 
         {
-          //CARD 2
+          // CARD 2
 
           handleNewTwoCards && (
             <Box my="md">
@@ -372,26 +370,26 @@ export const CardCheckout = ({
                   numberContainerStyles={
                     cardTwo.number
                       ? {
-                          borderWidth: 1,
-                          borderColor: 'red',
-                          borderRadius: 6,
-                          width: '45%',
-                          alignItems: 'center',
-                          paddingVertical: 4,
-                        }
+                        borderWidth: 1,
+                        borderColor: 'red',
+                        borderRadius: 6,
+                        width: '45%',
+                        alignItems: 'center',
+                        paddingVertical: 4,
+                      }
                       : {}
                   }
                   nameContainerStyles={
                     cardTwo.holder
                       ? {
-                          borderWidth: 1,
-                          borderColor: 'red',
-                          borderRadius: 6,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          paddingHorizontal: 4,
-                          paddingVertical: 5,
-                        }
+                        borderWidth: 1,
+                        borderColor: 'red',
+                        borderRadius: 6,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        paddingHorizontal: 4,
+                        paddingVertical: 5,
+                      }
                       : {}
                   }
                   expirationContainerStyles={{
@@ -407,13 +405,13 @@ export const CardCheckout = ({
                 />
               </Box>
               <Box>
-                <Box mt={'xxxs'}>
+                <Box mt="xxxs">
                   <TextField
                     height={55}
                     placeholder="Nome do titular"
                     value={cardTwo.holder}
                     onChangeText={(val) => onChangeTextCardTwo('holder', val)}
-                    iconRight={
+                    iconRight={(
                       <Box ml="nano">
                         <Icon
                           color="neutroFrio2"
@@ -422,17 +420,17 @@ export const CardCheckout = ({
                           size={16}
                         />
                       </Box>
-                    }
+                    )}
                   />
                 </Box>
-                <Box mt={'xxxs'}>
+                <Box mt="xxxs">
                   <TextField
                     maskType="credit-card"
                     height={55}
                     placeholder="Número do cartão"
                     value={cardTwo.number}
                     onChangeText={(val) => onChangeTextCardTwo('number', val)}
-                    iconRight={
+                    iconRight={(
                       <Box ml="nano">
                         <Icon
                           color="neutroFrio2"
@@ -441,10 +439,10 @@ export const CardCheckout = ({
                           size={16}
                         />
                       </Box>
-                    }
+                    )}
                   />
                 </Box>
-                <Box mt={'xxxs'} flexDirection="row">
+                <Box mt="xxxs" flexDirection="row">
                   <Box flex={1} mr="xxxs">
                     <TextField
                       height={55}
@@ -455,10 +453,8 @@ export const CardCheckout = ({
                       keyboardType="numeric"
                       placeholder="Vencimento"
                       value={cardTwo.expiration}
-                      onChangeText={(val) =>
-                        onChangeTextCardTwo('expiration', val)
-                      }
-                      iconRight={
+                      onChangeText={(val) => onChangeTextCardTwo('expiration', val)}
+                      iconRight={(
                         <Box ml="nano">
                           <Icon
                             marginX="micro"
@@ -467,7 +463,7 @@ export const CardCheckout = ({
                             size={16}
                           />
                         </Box>
-                      }
+                      )}
                     />
                   </Box>
                   <Box flex={1}>
@@ -480,7 +476,7 @@ export const CardCheckout = ({
                       onFocus={() => setIsFlippedCardTwo(true)}
                       onBlur={() => setIsFlippedCardTwo(false)}
                       onChangeText={(val) => onChangeTextCardTwo('CVC', val)}
-                      iconRight={
+                      iconRight={(
                         <Box ml="nano">
                           <Icon
                             marginX="micro"
@@ -489,7 +485,7 @@ export const CardCheckout = ({
                             size={16}
                           />
                         </Box>
-                      }
+                      )}
                     />
                   </Box>
                 </Box>

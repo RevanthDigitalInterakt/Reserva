@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const topSearches = gql`
 query TopSearches {
@@ -10,9 +10,9 @@ query TopSearches {
       }
    }
 }
-`
+`;
 export interface TopSearches {
-    term: string;
-    count: number;
-    attributes: null
+  term: string;
+  count: number;
+  attributes: null
 }

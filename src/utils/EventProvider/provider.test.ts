@@ -1,14 +1,12 @@
-import React from 'react';
-
 import EventProvider from '.';
-import { EventValueOptions, eventsValue } from './misc';
+import { EventValueOptions } from './misc';
 
 // const spyLogEvent = spyOn(EventProvider, 'logEvent');
 
 jest.mock('react-native-onesignal', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
-  inFocusDisplaying: jest.fn()
+  inFocusDisplaying: jest.fn(),
 }));
 
 jest.mock('react-native-appsflyer', () => ({
@@ -22,12 +20,12 @@ jest.mock('@react-native-firebase/analytics', () => () => ({
 describe('Event Provider', () => {
   it('Should be able to transform analytics object into AppsFlyer object', () => {
     const expectedObject = {
-      af_search_string: "",
-      af_content_list: "",
+      af_search_string: '',
+      af_content_list: '',
     };
     const objectToTransform: EventValueOptions = {
-      search_ids: "",
-      search_string: "",
+      search_ids: '',
+      search_string: '',
     } as EventValueOptions;
 
     const transformed = EventProvider.parseValues(objectToTransform);

@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Box, Icon, Image, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 
 export interface CounterProps {
   distance?: string;
@@ -29,13 +31,15 @@ export const Counter: React.FC<CounterProps> = ({
           {timer?.split(':')[0]}
         </Typography>
         <Typography fontFamily="reservaSerifLight" color="#808080">
-          h{' '}
+          h
+          {' '}
         </Typography>
         <Typography fontFamily="reservaSerifBold" color="white">
           {timer?.split(':')[1]}
         </Typography>
         <Typography fontFamily="reservaSerifLight" color="#808080">
-          m{' '}
+          m
+          {' '}
         </Typography>
         <Typography fontFamily="reservaSerifBold" color="white">
           {timer?.split(':')[2]}
@@ -100,7 +104,8 @@ export const Counter: React.FC<CounterProps> = ({
                 fontSize={27}
                 color="white"
               >
-                +{distance?.split('.')[0]}
+                +
+                {distance?.split('.')[0]}
               </Typography>
               <Typography
                 fontFamily="reservaSerifLight"

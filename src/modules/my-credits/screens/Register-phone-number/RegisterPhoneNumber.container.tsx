@@ -1,18 +1,20 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, {
+  Fragment, useEffect, useState, useRef,
+} from 'react';
 
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
-import { ProfileVars } from '../../../../graphql/profile/profileQuery';
-import { RegisterPhoneNumberView } from './RegisterPhoneNumber.view';
 import firestore from '@react-native-firebase/firestore';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
+import {
+  ProfileVars,
+  profileQuery,
+  profileMutation,
+} from '../../../../graphql/profile/profileQuery';
+import { RegisterPhoneNumberView } from './RegisterPhoneNumber.view';
 import {
   CashbackHttpUrl,
   MyCashbackAPI,
 } from '../../../my-cashback/api/MyCashbackAPI';
-import {
-  profileQuery,
-  profileMutation,
-} from '../../../../graphql/profile/profileQuery';
-import { useLazyQuery, useMutation } from '@apollo/client';
 
 interface RegisterPhoneNumberContainerProps {
   profile: ProfileVars;
@@ -83,23 +85,23 @@ export const RegisterPhoneNumberContainer = ({
   };
 
   function toIsoString(date) {
-    var tzo = -date.getTimezoneOffset(),
-      dif = tzo >= 0 ? '+' : '-',
-      pad = function (num) {
-        return (num < 10 ? '0' : '') + num;
-      };
+    const tzo = -date.getTimezoneOffset();
+    const dif = tzo >= 0 ? '+' : '-';
+    const pad = function (num) {
+      return (num < 10 ? '0' : '') + num;
+    };
 
     // Adiciona 10 minutos
     date.setMinutes(date.getMinutes() + 10);
 
-    return date.getFullYear() +
-      '-' + pad(date.getMonth() + 1) +
-      '-' + pad(date.getDate()) +
-      'T' + pad(date.getHours()) +
-      ':' + pad(date.getMinutes()) +
-      ':' + pad(date.getSeconds()) +
-      dif + pad(Math.floor(Math.abs(tzo) / 60)) +
-      ':' + pad(Math.abs(tzo) % 60);
+    return `${date.getFullYear()
+    }-${pad(date.getMonth() + 1)
+    }-${pad(date.getDate())
+    }T${pad(date.getHours())
+    }:${pad(date.getMinutes())
+    }:${pad(date.getSeconds())
+    }${dif}${pad(Math.floor(Math.abs(tzo) / 60))
+    }:${pad(Math.abs(tzo) % 60)}`;
   }
 
   const handleRegisterPhoneNumber = async () => {
@@ -118,7 +120,7 @@ export const RegisterPhoneNumberContainer = ({
             type: 'sms',
             expire_date: expiredDate,
             phone: newPhone,
-          }
+          },
         );
         if (data) {
           setLoadingToken(false);
@@ -159,8 +161,7 @@ export const RegisterPhoneNumberContainer = ({
   };
 
   useEffect(() => {
-    let validatePhone =
-      /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
+    const validatePhone = /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
     if (phone.length === 15) {
       phone.match(validatePhone)
         ? setPhoneInvalid(false)
@@ -204,13 +205,12 @@ export const RegisterPhoneNumberContainer = ({
         {
           type: 'sms_token',
           token: code,
-        }
+        },
       );
       if (response.status === 204) {
         setLoadingToken(false);
         saveDataInFirestore();
         setShowCodeError(false);
-
       }
     } catch (error) {
       setLoadingToken(false);

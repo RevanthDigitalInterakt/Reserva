@@ -1,11 +1,11 @@
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui'
-import AnimatedLottieView from 'lottie-react-native'
-import React from 'react'
-import { BackHandler, Platform } from 'react-native'
+import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
+import AnimatedLottieView from 'lottie-react-native';
+import React from 'react';
+import { BackHandler, Platform } from 'react-native';
 import RNExitApp from 'react-native-exit-app';
-import codePush, { DownloadProgress } from 'react-native-code-push'
-import ReactNativeModal from 'react-native-modal'
-import { animations } from "../../assets";
+import codePush, { DownloadProgress } from 'react-native-code-push';
+import ReactNativeModal from 'react-native-modal';
+import { animations } from '../../assets';
 
 interface CodePushContext {
   status: null | codePush.SyncStatus;
@@ -22,11 +22,11 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
       showModal: false,
       status: null,
       immediateUpdate: false,
-    }
+    };
   }
 
   codePushStatusDidChange(status: codePush.SyncStatus) {
-    this.setState({ status })
+    this.setState({ status });
   }
 
   syncImmediate() {
@@ -34,11 +34,11 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
       .then((update) => {
         if (!update) {
           this.setState({
-            showModal: false
+            showModal: false,
           });
         } else {
           this.setState({
-            showModal: true
+            showModal: true,
           });
         }
       });
@@ -53,7 +53,7 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
       codePush.sync(
         { installMode: codePush.InstallMode.IMMEDIATE },
         this.codePushStatusDidChange.bind(this),
-        this.codePushDownloadDidProgress.bind(this)
+        this.codePushDownloadDidProgress.bind(this),
       );
     });
   }
@@ -61,7 +61,7 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
   codePushDownloadDidProgress(progress: DownloadProgress) {
     if (this.state.immediateUpdate) {
       this.setState({
-        progress: ((progress.receivedBytes / progress.totalBytes) * 100)
+        progress: ((progress.receivedBytes / progress.totalBytes) * 100),
       });
     }
   }
@@ -70,15 +70,16 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
     return (
       <>
         {
-          this.state.showModal &&
+          this.state.showModal
+          && (
           <ReactNativeModal
-            isVisible={true}
+            isVisible
             backdropOpacity={0.5}
             animationIn="fadeIn"
             animationOut="fadeIn"
           >
             <Box
-              bg='white'
+              bg="white"
               minHeight={175}
               marginX={8}
               borderRadius={4}
@@ -95,39 +96,42 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
                 </Typography>
               </Box>
 
-              <Box flexDirection='row' alignSelf='flex-end' mt={8}>
+              <Box flexDirection="row" alignSelf="flex-end" mt={8}>
                 <Button
                   onPress={() => this._immediateUpdate()}
-                  title='ATUALIZAR'
-                  fontFamily='reservaSerifBold'
+                  title="ATUALIZAR"
+                  fontFamily="reservaSerifBold"
                   marginRight={20}
                 />
-                <Button onPress={() => { Platform.OS === 'android' ? BackHandler.exitApp() : RNExitApp.exitApp() }} title='SAIR' fontFamily='reservaSerifBold' />
+                <Button onPress={() => { Platform.OS === 'android' ? BackHandler.exitApp() : RNExitApp.exitApp(); }} title="SAIR" fontFamily="reservaSerifBold" />
               </Box>
             </Box>
           </ReactNativeModal>
+          )
         }
-        {this.state.progress > 0 && this.state.progress < 100 ?
-          <ReactNativeModal
-            isVisible={true}
-            backdropOpacity={0.5}
-            backdropColor={'white'}
-            animationInTiming={300}
-            animationIn="fadeIn"
-            animationOut="fadeIn"
-            testID="LottieLoader"
-          >
-            <Box
-              style={{ flex: 1, marginHorizontal: 107 }}
+        {this.state.progress > 0 && this.state.progress < 100
+          ? (
+            <ReactNativeModal
+              isVisible
+              backdropOpacity={0.5}
+              backdropColor="white"
+              animationInTiming={300}
+              animationIn="fadeIn"
+              animationOut="fadeIn"
+              testID="LottieLoader"
             >
-              <AnimatedLottieView
-                onAnimationFinish={() => { }}
-                autoPlay={this.state.progress > 0 && this.state.progress < 100}
-                loop={true}
-                source={animations.loader}
-              />
-            </Box>
-          </ReactNativeModal>
+              <Box
+                style={{ flex: 1, marginHorizontal: 107 }}
+              >
+                <AnimatedLottieView
+                  onAnimationFinish={() => { }}
+                  autoPlay={this.state.progress > 0 && this.state.progress < 100}
+                  loop
+                  source={animations.loader}
+                />
+              </Box>
+            </ReactNativeModal>
+          )
           : <></>}
       </>
     );
@@ -137,5 +141,5 @@ const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.MANUAL,
 };
 
-const CodePushModal = codePush(codePushOptions)(CodePushComponent)
-export default CodePushModal 
+const CodePushModal = codePush(codePushOptions)(CodePushComponent);
+export default CodePushModal;

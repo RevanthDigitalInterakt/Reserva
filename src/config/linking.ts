@@ -1,8 +1,8 @@
 import { Linking, Platform } from 'react-native';
 import { getPathFromState, LinkingOptions } from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
-import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 import appsFlyer from 'react-native-appsflyer';
+import { StoreUpdatePush } from '../modules/Update/pages/StoreUpdatePush';
 import { env } from './env';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
@@ -73,7 +73,7 @@ export const linkingConfig: LinkingOptions = {
     // When the application is opened from a quit state.
     const message = await messaging().getInitialNotification();
 
-    //update app in store
+    // update app in store
     if (message?.data?.link === 'usereserva://storeUpdate') {
       StoreUpdatePush();
     }
@@ -87,7 +87,7 @@ export const linkingConfig: LinkingOptions = {
       listener(deepLinkHelper(url) || defaultInitialUrl);
     };
 
-    let onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {
+    const onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {
       if (res?.deepLinkStatus !== 'NOT_FOUND') {
         const url = res.data?.deep_link_value;
         if (url) {
@@ -109,7 +109,7 @@ export const linkingConfig: LinkingOptions = {
         timeToWaitForATTUserAuthorization: 10,
       },
       (result) => {},
-      (error) => {}
+      (error) => {},
     );
 
     // Listen to incoming links from deep linking
@@ -130,7 +130,7 @@ export const linkingConfig: LinkingOptions = {
             listener(url);
           }
         }
-      }
+      },
     );
 
     return () => {

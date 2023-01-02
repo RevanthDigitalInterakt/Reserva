@@ -26,15 +26,17 @@ import SwipeButton from '../../components/SwipeButton';
 import { useCorre } from '../../context';
 import { useChronometer } from '../../hooks/useChronometer';
 
-import { KM_15, KM_10, KM_5, KM_2 } from './polyline';
+import {
+  KM_15, KM_10, KM_5, KM_2,
+} from './polyline';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 export interface RaceDetailProps { }
 
 type RaceDetailNavigator = StackNavigationProp<
-  CorreReservaStackParamList,
-  'RaceDetail'
+CorreReservaStackParamList,
+'RaceDetail'
 >;
 
 export const RaceDetail: React.FC = () => {
@@ -57,7 +59,7 @@ export const RaceDetail: React.FC = () => {
     longitudeDelta: number;
   }>();
   const [travelledDistance, setTravelledDistance] = useState<
-    { latitude: number; longitude: number }[]
+  { latitude: number; longitude: number }[]
   >([]);
   const [totalDistance, setTotalDistance] = useState(0);
   const { currentValue, start, stop } = useChronometer({ initial: '00:00:00' });
@@ -147,7 +149,7 @@ export const RaceDetail: React.FC = () => {
       {
         enableHighAccuracy: true,
         distanceFilter: 2,
-      }
+      },
     );
     return () => {
       Geolocation.clearWatch(watchID);
@@ -187,17 +189,16 @@ export const RaceDetail: React.FC = () => {
       for (let i = 0; i < travelledDistance.length - 1; i++) {
         const R = 6371; // Radius of the earth in km
         const dLat = deg2rad(
-          travelledDistance[i + 1].latitude - travelledDistance[i].latitude
+          travelledDistance[i + 1].latitude - travelledDistance[i].latitude,
         ); // deg2rad below
         const dLon = deg2rad(
-          travelledDistance[i + 1].longitude - travelledDistance[i].longitude
+          travelledDistance[i + 1].longitude - travelledDistance[i].longitude,
         );
-        const a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(deg2rad(travelledDistance[i].latitude)) *
-          Math.cos(deg2rad(travelledDistance[i + 1].latitude)) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+          + Math.cos(deg2rad(travelledDistance[i].latitude))
+          * Math.cos(deg2rad(travelledDistance[i + 1].latitude))
+          * Math.sin(dLon / 2)
+          * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         d += R * c;
       }
@@ -372,14 +373,14 @@ export const RaceDetail: React.FC = () => {
                   <>
                     <Polyline
                       coordinates={generateCoordinates(
-                        selectedKit && selectedKit.km ? selectedKit.km : 15
+                        selectedKit && selectedKit.km ? selectedKit.km : 15,
                       )}
                       strokeColor="#EF1E1E" // fallback for when `strokeColors` is not supported by the map-provider
                       strokeWidth={6}
                     />
-                    {selectedKit &&
-                      selectedKit.km &&
-                      getKmMarker(selectedKit.km)}
+                    {selectedKit
+                      && selectedKit.km
+                      && getKmMarker(selectedKit.km)}
 
                     <Marker
                       coordinate={{

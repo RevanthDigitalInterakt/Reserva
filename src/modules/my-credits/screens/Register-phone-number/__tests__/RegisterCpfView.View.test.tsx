@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
-import { RegisterCpfView } from '../RegisterCpf.view';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '@usereservaapp/reserva-ui';
+import { RegisterCpfView } from '../RegisterCpf.view';
 
 const cpf = '638.147.840-30';
 const profile = {
@@ -26,11 +26,11 @@ describe('RegisterCpfView', () => {
           profile={profile}
           navigateToVerifyNumber={mockHandleNavigate}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const title = getByText('Insira seu CPF e ative a sua carteira');
     const subtitle = getByText(
-      'O cashback e sua carteira Reserva precisam ficar atrelada a um número de CPF para você ter direito a todos os benefícios.'
+      'O cashback e sua carteira Reserva precisam ficar atrelada a um número de CPF para você ter direito a todos os benefícios.',
     );
     const input = getByPlaceholderText('Digite somente os números do CPF');
     const button = getByText('CADASTRAR');
@@ -49,7 +49,7 @@ describe('RegisterCpfView', () => {
           profile={profile}
           navigateToVerifyNumber={mockHandleNavigate}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const input = getByPlaceholderText('Digite somente os números do CPF');
     const button = getByText('CADASTRAR');
@@ -65,7 +65,7 @@ describe('RegisterCpfView', () => {
           profile={profile}
           navigateToVerifyNumber={mockHandleNavigate}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const registerButton = getByText('CADASTRAR');
     fireEvent.press(registerButton);

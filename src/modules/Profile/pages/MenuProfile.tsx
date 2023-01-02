@@ -2,12 +2,17 @@ import { useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Avatar, Box, Button, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Avatar, Box, Button, Typography,
+} from '@usereservaapp/reserva-ui';
+import firestore from '@react-native-firebase/firestore';
+import { differenceInMonths } from 'date-fns';
+import OneSignal from 'react-native-onesignal';
+import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import { useAuth } from '../../../context/AuthContext';
 import {
   profileQuery,
@@ -23,9 +28,6 @@ import {
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
-import firestore from '@react-native-firebase/firestore';
-import { differenceInMonths } from 'date-fns';
-import OneSignal from "react-native-onesignal";
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
@@ -39,8 +41,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [, setIsTester] = useState<boolean>(false);
   const [hasThreeMonths, setHasThreeMonths] = useState<boolean>(false);
-  const [, setScreenCashbackInStoreActive] =
-    useState<boolean>(false);
+  const [, setScreenCashbackInStoreActive] = useState<boolean>(false);
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
@@ -85,7 +86,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
 
   const getIsScreenCashbackInStoreActive = async () => {
     const cashback_in_store = await RemoteConfigService.getValue<boolean>(
-      'FEATURE_CASHBACK_IN_STORE'
+      'FEATURE_CASHBACK_IN_STORE',
     );
 
     setScreenCashbackInStoreActive(cashback_in_store);
@@ -120,7 +121,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
       if (data) {
         refetch();
       }
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -134,10 +135,9 @@ const MenuScreen: React.FC<{}> = ({}) => {
           isJSON: true,
         });
         setProfile(profile);
-        const profileImagePath =
-          data?.profile?.customFields.find(
-            (x: any) => x.key == 'profileImagePath'
-          ).value || null;
+        const profileImagePath = data?.profile?.customFields.find(
+          (x: any) => x.key == 'profileImagePath',
+        ).value || null;
         setProfileImagePath(profileImagePath);
       }
       getTesters();
@@ -148,10 +148,9 @@ const MenuScreen: React.FC<{}> = ({}) => {
     if (profile) {
       const { profile } = data;
       setProfile(profile);
-      const profileImagePath =
-        data?.profile?.customFields.find(
-          (x: any) => x.key == 'profileImagePath'
-        ).value || null;
+      const profileImagePath = data?.profile?.customFields.find(
+        (x: any) => x.key == 'profileImagePath',
+      ).value || null;
       setProfileImagePath(profileImagePath);
     }
   }, [profile]);
@@ -186,11 +185,11 @@ const MenuScreen: React.FC<{}> = ({}) => {
       .where('userId', '==', userId)
       .get();
     if (user.size > 0) {
-      const serverDate = user.docs[0].data()['date'].toDate().toISOString();
+      const serverDate = user.docs[0].data().date.toDate().toISOString();
       const timeFirebase = firestore.Timestamp.now().toDate();
       const differenceAmountInMonths = differenceInMonths(
         timeFirebase,
-        new Date(serverDate)
+        new Date(serverDate),
       );
       if (differenceAmountInMonths === 3) {
         setHasThreeMonths(true);
@@ -213,23 +212,21 @@ const MenuScreen: React.FC<{}> = ({}) => {
       if (profile?.homePhone) {
         if (profile?.document) {
           navigation.navigate('changePhoneNumber', {
-            profile: profile,
+            profile,
           });
         } else {
           navigation.navigate('registerCPF', {
-            profile: profile,
+            profile,
           });
         }
+      } else if (profile?.document) {
+        navigation.navigate('registerPhoneNumber', {
+          profile,
+        });
       } else {
-        if (profile?.document) {
-          navigation.navigate('registerPhoneNumber', {
-            profile: profile,
-          });
-        } else {
-          navigation.navigate('registerCPF', {
-            profile: profile,
-          });
-        }
+        navigation.navigate('registerCPF', {
+          profile,
+        });
       }
     } else {
       navigation.navigate('cashbackInStore', {
@@ -339,9 +336,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
                 </Box>
                 <Box paddingX="xxs">
                   <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)
-                    }
+                    onPress={() => navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)}
                   >
                     <Typography fontFamily="nunitoRegular" fontSize={14}>
                       Ver minha carteira

@@ -1,21 +1,19 @@
 import React from 'react';
+import TestRenderer, { act } from 'react-test-renderer';
+import { theme } from '@usereservaapp/reserva-ui';
+import { ThemeProvider } from 'styled-components/native';
 import ModalChristmasCoupon from './ModalChristmasCoupon';
-import TestRenderer, { act } from "react-test-renderer";
-import { theme } from "@usereservaapp/reserva-ui";
-import { ThemeProvider } from "styled-components/native";
-import ModalChristmasCouponForm from "./ModalChristmasCouponForm";
+import ModalChristmasCouponForm from './ModalChristmasCouponForm';
 
-jest.mock('../../../hooks/useMasterdataProvider', () => {
-  return () => ({
-    onCheckChristmasModalVisibility: () => Promise.resolve({
-      showModal: true,
-      title: 'Titulo do modal',
-      titleButton: 'Submit',
-      subtitle: [],
-      fineline: '*Confira as regras'
-    }),
-  });
-});
+jest.mock('../../../hooks/useMasterdataProvider', () => () => ({
+  onCheckChristmasModalVisibility: () => Promise.resolve({
+    showModal: true,
+    title: 'Titulo do modal',
+    titleButton: 'Submit',
+    subtitle: [],
+    fineline: '*Confira as regras',
+  }),
+}));
 
 jest.useFakeTimers();
 
@@ -33,12 +31,12 @@ describe('ModalChristmasCouponTest', () => {
       const renderer = await TestRenderer.create(TestingComponent);
 
       act(() => { jest.runAllTimers(); });
-      await act(async () => {})
+      await act(async () => {});
 
       const instance = renderer.root;
 
       act(() => { jest.runAllTimers(); });
-      await act(async () => {})
+      await act(async () => {});
 
       const $modal = instance.findByType(ModalChristmasCouponForm);
       const $title = instance.findByProps({ testID: 'christmascouponform_title' });
@@ -54,12 +52,12 @@ describe('ModalChristmasCouponTest', () => {
       const renderer = await TestRenderer.create(TestingComponent);
 
       act(() => { jest.runAllTimers(); });
-      await act(async () => {})
+      await act(async () => {});
 
       const instance = renderer.root;
 
       act(() => { jest.runAllTimers(); });
-      await act(async () => {})
+      await act(async () => {});
 
       const modal = instance.findByProps({ testID: 'modalchristmas_container' });
       expect(modal.props.isVisible).toBeTruthy();

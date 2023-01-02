@@ -1,93 +1,98 @@
-import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { StackScreenProps } from '@react-navigation/stack';
+import React from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Box, Button, Divider, Icon, Typography, Image } from '@usereservaapp/reserva-ui'
-import { images } from '../../../assets'
-import { RootStackParamList } from '../../../routes/StackNavigator'
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton'
+import {
+  Box, Button, Divider, Typography, Image,
+} from '@usereservaapp/reserva-ui';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-type Props = StackScreenProps<RootStackParamList, 'PurchaseConfirmationScreen'>
+type Props = StackScreenProps<RootStackParamList, 'PurchaseConfirmationScreen'>;
 
 export const PurchaseConfirmationScreen = ({ navigation, route }: Props) => {
-  const { paymentType } = route?.params
+  const { paymentType } = route?.params;
   return (
     <SafeAreaView
       style={{
         justifyContent: 'space-between',
         flex: 1,
         backgroundColor: '#FFF',
-      }}>
+      }}
+    >
       <TopBarBackButton showShadow loading={false} />
 
       <ScrollView>
-        <Box paddingX={'xxxs'} paddingY={'xxs'}>
-          <Box flexDirection='row'>
+        <Box paddingX="xxxs" paddingY="xxs">
+          <Box flexDirection="row">
             <Image source={images.purchaseConfirmation} />
-            <Box width='80%' ml='xxs'>
-              <Typography variant='subtituloSessoes'>
+            <Box width="80%" ml="xxs">
+              <Typography variant="subtituloSessoes">
                 Parabéns, seu pedido foi recebido.
               </Typography>
             </Box>
           </Box>
-          <Box my='xxs'>
-            <Typography variant='tituloSessao'>
+          <Box my="xxs">
+            <Typography variant="tituloSessao">
               Confirmação de email enviada para
             </Typography>
-            <Typography variant='precoPromocional2'>
+            <Typography variant="precoPromocional2">
               email@emailc.com
             </Typography>
           </Box>
-          <Divider variant='fullWidth' />
-          <Box my='xxs'>
-            <Typography variant='precoPromocional2'>
+          <Divider variant="fullWidth" />
+          <Box my="xxs">
+            <Typography variant="precoPromocional2">
               Número do pedido
             </Typography>
             <Typography
-              fontFamily='reservaDisplayRegular'
+              fontFamily="reservaDisplayRegular"
               fontSize={20}
-              color='vermelhoRSV'>
+              color="vermelhoRSV"
+            >
               12-3456789
             </Typography>
           </Box>
-          <Divider variant='fullWidth' />
+          <Divider variant="fullWidth" />
           {paymentType === 'Boleto' && <BarCodeArea />}
           {paymentType === 'PIX' && <PixArea />}
 
           {paymentType !== 'PIX' && paymentType !== 'Boleto' && (
             <>
-              <Box my='xxs'>
-                <Box mb='micro'>
-                  <Typography variant='precoPromocional2'>
-                    Sua entrega chegará no dia{' '}
+              <Box my="xxs">
+                <Box mb="micro">
+                  <Typography variant="precoPromocional2">
+                    Sua entrega chegará no dia
+                    {' '}
                     <Typography style={{ textDecorationLine: 'underline' }}>
                       04 de Abril de 2021
                     </Typography>
                     .
                   </Typography>
                 </Box>
-                <Typography variant='tituloSessao'>
+                <Typography variant="tituloSessao">
                   Para maiores informações, consulte os detalhes do status da
                   entrega no botão abaixo.
                 </Typography>
               </Box>
-              <Divider variant='fullWidth' />
+              <Divider variant="fullWidth" />
 
-              <Box my='xxs'>
-                <Typography variant='precoPromocional2'>
+              <Box my="xxs">
+                <Typography variant="precoPromocional2">
                   Esses produtos logo serão seus:
                 </Typography>
               </Box>
               <ProductDescription
-                title='Camiseta Básica Reserva'
+                title="Camiseta Básica Reserva"
                 description={{
                   color: 'Branca',
                   size: 'M',
                 }}
               />
               <ProductDescription
-                title='Camiseta Básica Reserva'
+                title="Camiseta Básica Reserva"
                 description={{
                   color: 'Branca',
                   size: 'M',
@@ -97,12 +102,12 @@ export const PurchaseConfirmationScreen = ({ navigation, route }: Props) => {
           )}
         </Box>
         {paymentType !== 'PIX' && (
-          <Button variant='primarioEstreito' title='RASTREAR ENTREGA' inline />
+          <Button variant="primarioEstreito" title="RASTREAR ENTREGA" inline />
         )}
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 interface IProductDescription {
   title: string
@@ -111,177 +116,179 @@ interface IProductDescription {
     color: string
   }
 }
-const ProductDescription = ({ title, description }: IProductDescription) => {
-  return (
-    <Box my='micro' flexDirection='row'>
-      <Image variant='sm' source={images.shirt1} />
-      <Box ml='micro'>
-        <Typography variant='precoPromocional2'>{title}</Typography>
-        <Box flexDirection='row'>
-          <Typography variant='descricaoCampoDePreenchimento'>
-            Tam: {description.size}
+const ProductDescription = ({ title, description }: IProductDescription) => (
+  <Box my="micro" flexDirection="row">
+    <Image variant="sm" source={images.shirt1} />
+    <Box ml="micro">
+      <Typography variant="precoPromocional2">{title}</Typography>
+      <Box flexDirection="row">
+        <Typography variant="descricaoCampoDePreenchimento">
+          Tam:
+          {' '}
+          {description.size}
+        </Typography>
+        <Box ml="xxs">
+          <Typography variant="descricaoCampoDePreenchimento">
+            Cor:
+            {' '}
+            {description.color}
           </Typography>
-          <Box ml='xxs'>
-            <Typography variant='descricaoCampoDePreenchimento'>
-              Cor: {description.color}
-            </Typography>
-          </Box>
         </Box>
       </Box>
     </Box>
-  )
-}
+  </Box>
+);
 
-const BarCodeArea = () => {
-  return (
-    <Box>
-      <Box my='xxs'>
-        <Typography variant='precoPromocional2'>
-          Agora é só pagar seu boleto.
-        </Typography>
+const BarCodeArea = () => (
+  <Box>
+    <Box my="xxs">
+      <Typography variant="precoPromocional2">
+        Agora é só pagar seu boleto.
+      </Typography>
 
-        <Typography variant='tituloSessao'>
-          Você pode copiar o código abaixo:
-        </Typography>
-      </Box>
-      <Button
-        width='100%'
-        justifyContent='center'
-        alignItems='center'
-        mt='xxxs'>
-        <Box
-          borderColor='neutroFrio1'
-          borderBottomColor='transparente'
-          borderWidth='hairline'
-          borderTopLeftRadius='pico'
-          borderTopRightRadius='pico'
-          width='100%'
-          py='nano'
-          height={49}
-          px={20}>
-          <Typography
-            textAlign='center'
-            fontSize={13}
-            fontFamily='nunitoRegular'>
-            00000.00000000.00000000000.0000000.0000000.0000000
-          </Typography>
-        </Box>
-      </Button>
-
-      <Button
-        bg='verdeSucesso'
-        width='100%'
-        height={50}
-        title='COPIAR CÓDIGO DE BARRAS'
-        color='white'
-        fontFamily='nunitoRegular'
-        fontSize={13}
-      />
-
-      <Box my='xxxs'>
-        <Typography variant='tituloSessao'>ou imprimir boleto</Typography>
-      </Box>
-      <Button
-        bg='verdeSucesso'
-        width='100%'
-        height={50}
-        title='VER BOLETO EM PDF'
-        color='white'
-        fontFamily='nunitoRegular'
-        fontSize={13}
-      />
-      <Box my='xxxs'>
-        <Typography variant='tituloSessao'>
-          Após a confirmação do pagamento, você poderá acompanhar o rastreamento
-          da sua entrega pelo app ou pelo site.
-        </Typography>
-      </Box>
-      <Divider variant='fullWidth' />
+      <Typography variant="tituloSessao">
+        Você pode copiar o código abaixo:
+      </Typography>
     </Box>
-  )
-}
-
-const PixArea = () => {
-  return (
-    <Box>
-      <Box my='xxs'>
-        <Box mb='micro'>
-          <Typography variant='precoPromocional2'>PIX</Typography>
-        </Box>
-
-        <Typography variant='tituloSessao'>
-          Realize o pagamento e o seu pedido será liberado em nosso aplicativo.
+    <Button
+      width="100%"
+      justifyContent="center"
+      alignItems="center"
+      mt="xxxs"
+    >
+      <Box
+        borderColor="neutroFrio1"
+        borderBottomColor="transparente"
+        borderWidth="hairline"
+        borderTopLeftRadius="pico"
+        borderTopRightRadius="pico"
+        width="100%"
+        py="nano"
+        height={49}
+        px={20}
+      >
+        <Typography
+          textAlign="center"
+          fontSize={13}
+          fontFamily="nunitoRegular"
+        >
+          00000.00000000.00000000000.0000000.0000000.0000000
         </Typography>
       </Box>
-      <Information
-        number={'1'}
-        description={'Copie o código para pagamento:'}
-      />
-      <Button
-        width='100%'
-        justifyContent='center'
-        alignItems='center'
-        mt='xxxs'>
-        <Box
-          borderColor='neutroFrio1'
-          borderBottomColor='transparente'
-          borderWidth='hairline'
-          borderTopLeftRadius='pico'
-          borderTopRightRadius='pico'
-          width='100%'
-          py='nano'
-          height={49}
-          px={20}>
-          <Typography
-            textAlign='center'
-            fontSize={13}
-            fontFamily='nunitoRegular'>
-            00000.00000000.00000000000.0000000.0000000.0000000
-          </Typography>
-        </Box>
-      </Button>
+    </Button>
 
-      <Button
-        bg='verdeSucesso'
-        width='100%'
-        height={50}
-        title='COPIAR CÓDIGO PIX'
-        color='white'
-        fontFamily='nunitoRegular'
-        fontSize={13}
-      />
+    <Button
+      bg="verdeSucesso"
+      width="100%"
+      height={50}
+      title="COPIAR CÓDIGO DE BARRAS"
+      color="white"
+      fontFamily="nunitoRegular"
+      fontSize={13}
+    />
 
-      <Box alignItems='center' my='micro'>
-        <Box>
-          <Typography
-            fontFamily='nunitoItalic'
-            fontSize={13}
-            color='neutroFrio2'>
-            Esté código estará válido por{' '}
-            <Typography fontFamily='nunitoBold' fontSize={13}>
-              30 minutos
-            </Typography>
-          </Typography>
-        </Box>
-      </Box>
-      <Divider variant='fullWidth' />
-      <Box mb='xxxs' />
-      <Information
-        number={'2'}
-        description={
-          'Copie o código e faça o pagamento no aplicativo da sua instituição financeira.'
-        }
-        divider
-      />
-      <Information
-        number={'3'}
-        description={
-          'Quando realizado, o seu pedido será liberado em nosso aplicativo.'
-        }
-      />
+    <Box my="xxxs">
+      <Typography variant="tituloSessao">ou imprimir boleto</Typography>
     </Box>
-  )
-}
+    <Button
+      bg="verdeSucesso"
+      width="100%"
+      height={50}
+      title="VER BOLETO EM PDF"
+      color="white"
+      fontFamily="nunitoRegular"
+      fontSize={13}
+    />
+    <Box my="xxxs">
+      <Typography variant="tituloSessao">
+        Após a confirmação do pagamento, você poderá acompanhar o rastreamento
+        da sua entrega pelo app ou pelo site.
+      </Typography>
+    </Box>
+    <Divider variant="fullWidth" />
+  </Box>
+);
+
+const PixArea = () => (
+  <Box>
+    <Box my="xxs">
+      <Box mb="micro">
+        <Typography variant="precoPromocional2">PIX</Typography>
+      </Box>
+
+      <Typography variant="tituloSessao">
+        Realize o pagamento e o seu pedido será liberado em nosso aplicativo.
+      </Typography>
+    </Box>
+    <Information
+      number="1"
+      description="Copie o código para pagamento:"
+    />
+    <Button
+      width="100%"
+      justifyContent="center"
+      alignItems="center"
+      mt="xxxs"
+    >
+      <Box
+        borderColor="neutroFrio1"
+        borderBottomColor="transparente"
+        borderWidth="hairline"
+        borderTopLeftRadius="pico"
+        borderTopRightRadius="pico"
+        width="100%"
+        py="nano"
+        height={49}
+        px={20}
+      >
+        <Typography
+          textAlign="center"
+          fontSize={13}
+          fontFamily="nunitoRegular"
+        >
+          00000.00000000.00000000000.0000000.0000000.0000000
+        </Typography>
+      </Box>
+    </Button>
+
+    <Button
+      bg="verdeSucesso"
+      width="100%"
+      height={50}
+      title="COPIAR CÓDIGO PIX"
+      color="white"
+      fontFamily="nunitoRegular"
+      fontSize={13}
+    />
+
+    <Box alignItems="center" my="micro">
+      <Box>
+        <Typography
+          fontFamily="nunitoItalic"
+          fontSize={13}
+          color="neutroFrio2"
+        >
+          Esté código estará válido por
+          {' '}
+          <Typography fontFamily="nunitoBold" fontSize={13}>
+            30 minutos
+          </Typography>
+        </Typography>
+      </Box>
+    </Box>
+    <Divider variant="fullWidth" />
+    <Box mb="xxxs" />
+    <Information
+      number="2"
+      description="Copie o código e faça o pagamento no aplicativo da sua instituição financeira."
+      divider
+    />
+    <Information
+      number="3"
+      description="Quando realizado, o seu pedido será liberado em nosso aplicativo."
+    />
+  </Box>
+);
 
 interface IInformation {
   number?: string
@@ -289,30 +296,30 @@ interface IInformation {
   divider?: boolean
 }
 
-const Information = ({ number, description, divider }: IInformation) => {
-  return (
-    <>
-      <Box flexDirection={'row'}>
-        <Box
-          height={40}
-          width={40}
-          bg={'neutroFrio2'}
-          borderRadius={'infinity'}
-          marginRight={'xxxs'}
-          justifyContent={'center'}
-          alignItems={'center'}>
-          <Typography
-            fontFamily={'reservaSerifRegular'}
-            fontSize={20}
-            color={'white'}>
-            {number}
-          </Typography>
-        </Box>
-        <Box flex={1}>
-          <Typography variant={'tituloSessao'}>{description}</Typography>
-        </Box>
+const Information = ({ number, description, divider }: IInformation) => (
+  <>
+    <Box flexDirection="row">
+      <Box
+        height={40}
+        width={40}
+        bg="neutroFrio2"
+        borderRadius="infinity"
+        marginRight="xxxs"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography
+          fontFamily="reservaSerifRegular"
+          fontSize={20}
+          color="white"
+        >
+          {number}
+        </Typography>
       </Box>
-      {divider && <Divider marginY={'xxxs'} variant={'fullWidth'} />}
-    </>
-  )
-}
+      <Box flex={1}>
+        <Typography variant="tituloSessao">{description}</Typography>
+      </Box>
+    </Box>
+    {divider && <Divider marginY="xxxs" variant="fullWidth" />}
+  </>
+);

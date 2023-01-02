@@ -1,12 +1,17 @@
 import { useMutation } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Platform, SafeAreaView, ScrollView, TouchableOpacity,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import OneSignal from 'react-native-onesignal';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -17,7 +22,6 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
-import OneSignal from "react-native-onesignal";
 import EventProvider from '../../../utils/EventProvider';
 
 export interface ConfirmAccessCodeProps
@@ -30,9 +34,11 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const { email } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState('');
-  const { cookie, setCookie, setEmail, saveCredentials } = useAuth();
+  const {
+    cookie, setCookie, setEmail, saveCredentials,
+  } = useAuth();
   const [loginWithCode, { data, loading }] = useMutation(
-    accessKeySignInMutation
+    accessKeySignInMutation,
   );
 
   const pasteCode = async () => {
@@ -47,12 +53,11 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     number: passwords.first.match(/[0-9]/g) != null,
   });
 
-  const enabledButton = () =>
-    passwordsChecker.equal &&
-    passwordsChecker.digitsCount &&
-    passwordsChecker.uppercase &&
-    passwordsChecker.lowercase &&
-    passwordsChecker.number;
+  const enabledButton = () => passwordsChecker.equal
+    && passwordsChecker.digitsCount
+    && passwordsChecker.uppercase
+    && passwordsChecker.lowercase
+    && passwordsChecker.number;
 
   const [
     createPassword,
@@ -60,7 +65,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   ] = useMutation(recoveryPasswordMutation);
 
   const handleCreatePassword = async () => {
-    let variables = {
+    const variables = {
       email,
       code,
       newPassword: passwords.confirm,
@@ -74,7 +79,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
       const { data } = await createPassword({ variables });
       if (data.recoveryPassword === 'Success') {
         saveCredentials({
-          email: email,
+          email,
           password: passwords.confirm,
         });
 
@@ -84,7 +89,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
           (res) => { },
           (err) => {
             EventProvider.captureException(err);
-          }
+          },
         );
         setEmail(email);
         AsyncStorage.setItem('@RNAuth:email', email).then(() => { });
@@ -106,7 +111,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   });
 
   const [passwordsChecker, setPasswordChecker] = useState(
-    passwordCheckHandler()
+    passwordCheckHandler(),
   );
 
   const handleReset = () => {
@@ -117,7 +122,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     }
     loginWithCode({
       variables: {
-        email: email,
+        email,
         code: `${code}`,
       },
     });
@@ -144,7 +149,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
       <ScrollView ref={scrollViewRef}>
         <>
           <KeyboardAwareScrollView
-            enableOnAndroid={true}
+            enableOnAndroid
             enableAutomaticScroll={(Platform.OS === 'ios')}
             extraScrollHeight={155}
           >
@@ -194,9 +199,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                   isSecureText
                   accessibilityLabel="confirmaccess_input_password"
                   onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
-                  onChangeText={(text) =>
-                    setPasswords({ ...passwords, first: text })
-                  }
+                  onChangeText={(text) => setPasswords({ ...passwords, first: text })}
                   placeholder="Digite sua nova senha"
                 />
                 <Box mt="sm">
@@ -204,9 +207,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                     accessibilityLabel="confirmaccess_input_confirm_password"
                     isSecureText
                     onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
-                    onChangeText={(text) =>
-                      setPasswords({ ...passwords, confirm: text })
-                    }
+                    onChangeText={(text) => setPasswords({ ...passwords, confirm: text })}
                     placeholder="Confirme sua nova senha"
                   />
                 </Box>

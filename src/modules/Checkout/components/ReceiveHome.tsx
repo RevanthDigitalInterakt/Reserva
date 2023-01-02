@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef,
+} from 'react';
 import { Typography, Box, Alert } from '@usereservaapp/reserva-ui';
-import { useAuth } from '../../../context/AuthContext';
-import AddressSelector from '../../Address/Components/AddressSelector';
-import DeliverySelector from '../components/DeliverySelector';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { useCart } from '../../../context/CartContext';
 import { useLazyQuery, useMutation } from '@apollo/client';
+import { useAuth } from '../../../context/AuthContext';
+import AddressSelector from '../../Address/Components/AddressSelector';
+import DeliverySelector from './DeliverySelector';
+import { useCart } from '../../../context/CartContext';
 import { deleteAddress } from '../../../graphql/address/addressMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 
@@ -191,7 +193,7 @@ ${neighborhood}, ${city} - ${state}`,
                     setDeleteModal(true);
                     setAddressId(id || addressId);
                   }}
-                  editAndDelete={true}
+                  editAndDelete
                   edit={() => {
                     navigation.navigate('NewAddress', {
                       edit: true,
@@ -238,35 +240,35 @@ ${neighborhood}, ${city} - ${state}`,
       </Box>
       {typeOfDelivery && typeOfDelivery.length > 0
         ? typeOfDelivery.map((item: any, index:number) => {
-            let selected;
-            const { id, name, shippingEstimate, price } = item;
+          let selected;
+          const {
+            id, name, shippingEstimate, price,
+          } = item;
 
-            if (cookie != null) {
-              if (selectedDelivery) {
-                selected = id === selectedDelivery.id && item;
-              }
-            } else {
-              if (selectedDelivery) {
-                selected = id === selectedDelivery.id && item;
-              }
+          if (cookie != null) {
+            if (selectedDelivery) {
+              selected = id === selectedDelivery.id && item;
             }
+          } else if (selectedDelivery) {
+            selected = id === selectedDelivery.id && item;
+          }
 
-            return (
-              <DeliverySelector
-                key={`delivery-${index}`}
-                deliveryData={{
-                  name: name,
-                  price: shippingValue,
-                  shippingEstimate: shippingEstimate,
-                }}
-                selected={selected}
-                disabled={(selected = id === selectedDelivery.id)}
-                select={() => {
-                  onDeliveryChosen(item);
-                }}
-              />
-            );
-          })
+          return (
+            <DeliverySelector
+              key={`delivery-${index}`}
+              deliveryData={{
+                name,
+                price: shippingValue,
+                shippingEstimate,
+              }}
+              selected={selected}
+              disabled={(selected = id === selectedDelivery.id)}
+              select={() => {
+                onDeliveryChosen(item);
+              }}
+            />
+          );
+        })
         : null}
     </>
   );

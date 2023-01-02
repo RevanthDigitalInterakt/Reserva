@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
-import EventProvider from '../../../utils/EventProvider'
+import EventProvider from '../../../utils/EventProvider';
 
 export const ShareableImage = () => {
   const viewRef = useRef();

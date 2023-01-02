@@ -21,9 +21,8 @@ export class RemoteConfigService {
 
     if (this.isInStaging()) {
       return valueParsed.staging;
-    } else {
-      return valueParsed.production;
     }
+    return valueParsed.production;
   }
 
   static async fetchValues(): Promise<any[]> {

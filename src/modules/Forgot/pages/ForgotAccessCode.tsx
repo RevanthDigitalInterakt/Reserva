@@ -1,22 +1,24 @@
-import { useMutation } from "@apollo/client";
-import AsyncStorage from "@react-native-community/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import ReactNative, { Dimensions, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView } from "react-native";
-import { Box, Button, Typography, Icon } from "@usereservaapp/reserva-ui";
-import { images } from "../../../assets";
-import { useAuth } from "../../../context/AuthContext";
-import { accessKeySignInMutation } from "../../../graphql/login/loginMutations";
-import { recoveryPasswordMutation } from "../../../graphql/login/loginMutations";
-import { recoveryPassword } from "../../../graphql/login/recoveryPassword";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import CodeInput from "../../Login/components/CodeInput";
-import HeaderBanner from "../componet/HeaderBanner";
-import UnderlineInput from "../../Login/components/UnderlineInput";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-const { width, height } = Dimensions.get("window");
+import { useMutation } from '@apollo/client';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+
+import {
+  Dimensions, Platform, SafeAreaView, ScrollView,
+} from 'react-native';
+import {
+  Box, Button, Typography, Icon,
+} from '@usereservaapp/reserva-ui';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { images } from '../../../assets';
+import { useAuth } from '../../../context/AuthContext';
+import { accessKeySignInMutation, recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
+
+import { RootStackParamList } from '../../../routes/StackNavigator';
+import CodeInput from '../../Login/components/CodeInput';
+import HeaderBanner from '../componet/HeaderBanner';
+import UnderlineInput from '../../Login/components/UnderlineInput';
+
+const { width, height } = Dimensions.get('window');
 
 export interface ForgotAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> { }
@@ -31,7 +33,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   const [code, setCode] = useState('');
 
   const [loginWithCode, { data, loading }] = useMutation(
-    accessKeySignInMutation
+    accessKeySignInMutation,
   );
 
   const passwordCheckHandler = () => ({
@@ -42,12 +44,11 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     number: passwords.first.match(/[0-9]/g) != null,
   });
 
-  const enabledButton = () =>
-    passwordsChecker.equal &&
-    passwordsChecker.digitsCount &&
-    passwordsChecker.uppercase &&
-    passwordsChecker.lowercase &&
-    passwordsChecker.number;
+  const enabledButton = () => passwordsChecker.equal
+    && passwordsChecker.digitsCount
+    && passwordsChecker.uppercase
+    && passwordsChecker.lowercase
+    && passwordsChecker.number;
 
   const [
     recoveryPassword,
@@ -55,7 +56,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   ] = useMutation(recoveryPasswordMutation);
 
   const handleUpdatePassword = () => {
-    let variables = {
+    const variables = {
       email,
       code,
       newPassword: passwords.confirm,
@@ -80,7 +81,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     }
   };
 
-  //const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
+  // const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
 
   const [passwords, setPasswords] = useState({
     first: '',
@@ -88,7 +89,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   });
 
   const [passwordsChecker, setPasswordChecker] = useState(
-    passwordCheckHandler()
+    passwordCheckHandler(),
   );
 
   const handleReset = () => {
@@ -99,7 +100,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     }
     loginWithCode({
       variables: {
-        email: email,
+        email,
         code: `${code}`,
       },
     });
@@ -122,7 +123,6 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   const awareScrollRef = React.useRef<KeyboardAwareScrollView>(null);
   const scrollViewRef = React.useRef<ScrollView>(null);
 
-
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <ScrollView
@@ -133,7 +133,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       >
         <>
           <KeyboardAwareScrollView
-            enableOnAndroid={true}
+            enableOnAndroid
             enableAutomaticScroll={(Platform.OS === 'ios')}
             // ref={scrollRef}
             extraScrollHeight={155}
@@ -173,9 +173,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
             </Box>
             <Box mx={20} mt={13}>
               <UnderlineInput
-                onChangeText={(text) =>
-                  setPasswords({ ...passwords, first: text })
-                }
+                onChangeText={(text) => setPasswords({ ...passwords, first: text })}
                 accessibilityLabel="forgot_input_password"
                 onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                 placeholder="Digite sua nova senha"
@@ -184,9 +182,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
               <Box mt="sm">
                 <UnderlineInput
                   onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
-                  onChangeText={(text) =>
-                    setPasswords({ ...passwords, confirm: text })
-                  }
+                  onChangeText={(text) => setPasswords({ ...passwords, confirm: text })}
                   accessibilityLabel="forgot_input_confirm_password"
                   placeholder="Confirme sua nova senha"
                   isSecureText

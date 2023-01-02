@@ -1,4 +1,4 @@
-import { ProductQL, SKU } from '../../graphql/products/productSearch';
+import { ProductQL } from '../../graphql/products/productSearch';
 
 export class ProductUtils {
   getColorsArray(products: ProductQL) {

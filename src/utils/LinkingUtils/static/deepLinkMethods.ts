@@ -1,4 +1,4 @@
-import { URL } from "react-native-url-polyfill";
+import { URL } from 'react-native-url-polyfill';
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -14,7 +14,7 @@ export const baseTabUrl = 'usereserva://home-tabs';
 
 export const defaultInitialUrl = 'usereserva://home-tabs';
 
-export const productUrl = `usereserva://product?`;
+export const productUrl = 'usereserva://product?';
 
 const defaultCustomMethodReturn: ICustomMethodReturnParams = {
   match: false,
@@ -22,11 +22,10 @@ const defaultCustomMethodReturn: ICustomMethodReturnParams = {
 };
 
 const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
-  const isUrlSiteCase =
-    initialUrl === 'https://www.usereserva.com' ||
-    initialUrl === 'http://www.usereserva.com' ||
-    initialUrl === 'www.usereserva.com' ||
-    initialUrl === 'http://usereserva.com'
+  const isUrlSiteCase = initialUrl === 'https://www.usereserva.com'
+    || initialUrl === 'http://www.usereserva.com'
+    || initialUrl === 'www.usereserva.com'
+    || initialUrl === 'http://usereserva.com';
   if (isUrlSiteCase) {
     return {
       match: true,
@@ -47,13 +46,13 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
         'slug',
         url.pathname
           .replace(REGEX_PRODUCT_URL._REMOVE_INVALID_WORDS, '')
-          .replace('/', '')
+          .replace('/', ''),
       );
     }
 
     return {
       match: true,
-      strUrl: `${productUrl}${url.search.replace('?', '')}`
+      strUrl: `${productUrl}${url.search.replace('?', '')}`,
     };
   }
 
@@ -72,7 +71,7 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 };
 
 const accountWishListUseCase = (
-  initialUrl: string
+  initialUrl: string,
 ): ICustomMethodReturnParams => {
   if (initialUrl.includes('account#/wishlist')) {
     return {
@@ -95,42 +94,42 @@ const accountUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 };
 
 const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
-  if(initialUrl.includes("catalog/collection")) {
+  if (initialUrl.includes('catalog/collection')) {
     return {
       match: true,
-      strUrl: initialUrl
-    }
+      strUrl: initialUrl,
+    };
   }
 
-  return defaultCustomMethodReturn
-}
+  return defaultCustomMethodReturn;
+};
 
 const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
-  if (initialUrl.includes("#/cart")) {
-    if (initialUrl.includes("?orderFormId")) {
+  if (initialUrl.includes('#/cart')) {
+    if (initialUrl.includes('?orderFormId')) {
       const splitOrderFormId = initialUrl
         .split('?orderFormId=')[1]
         .split('#/cart')[0];
 
       return {
         match: true,
-        strUrl: `usereserva://bag/${splitOrderFormId}`
-      }
+        strUrl: `usereserva://bag/${splitOrderFormId}`,
+      };
     }
   }
 
   return defaultCustomMethodReturn;
-}
+};
 
 const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
-  if(initialUrl.includes("bag")) {
+  if (initialUrl.includes('bag')) {
     return {
       match: true,
-      strUrl: initialUrl
-    }
+      strUrl: initialUrl,
+    };
   }
   return defaultCustomMethodReturn;
-}
+};
 
 const registerMethods = [
   urlSiteCase,
@@ -140,7 +139,7 @@ const registerMethods = [
   accountUseCase,
   cartUseCase,
   catalogCollectionUseCase,
-  abandonedBagUseCase
+  abandonedBagUseCase,
 ];
 
-export {registerMethods};
+export { registerMethods };

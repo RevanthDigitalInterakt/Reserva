@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
@@ -20,7 +19,7 @@ import { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
-import {slugify} from "../../../../utils/slugify";
+import { slugify } from '../../../../utils/slugify';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -29,15 +28,15 @@ interface ListProductsProps {
   loadMoreProducts: (offSet: number) => void;
   loadingHandler?: (loadingState: boolean) => void;
   listHeader?:
-    | React.ComponentType<any>
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  | React.ComponentType<any>
+  | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   totalProducts?: number;
   handleScrollToTheTop?: () => void;
 }
 
 export const getPercent = (
   sellingPrice: number,
-  listPrice: number
+  listPrice: number,
 ): number | undefined => {
   if (sellingPrice === listPrice) {
     return undefined;
@@ -149,8 +148,7 @@ export const ListVerticalProducts = ({
     setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
   };
 
-  const getVariant = (variants: any, getVariantId: string) =>
-    variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+  const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
   const populateWishlist = async () => {
     setSkip(true);
@@ -181,7 +179,7 @@ export const ListVerticalProducts = ({
     useCallback(() => {
       populateListWithFavorite();
       populateWishlist();
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -314,22 +312,18 @@ export const ListVerticalProducts = ({
                 countPosition++;
               }
 
-              const listPrice =
-                item?.items[0]?.sellers[countPosition]?.commertialOffer
-                  .ListPrice || 0;
-              const sellingPrice =
-                item?.items[0]?.sellers[countPosition]?.commertialOffer.Price ||
-                0;
-              installments =
-                item?.items[0]?.sellers[countPosition]?.commertialOffer
-                  ?.Installments;
+              const listPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer
+                .ListPrice || 0;
+              const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price
+                || 0;
+              installments = item?.items[0]?.sellers[countPosition]?.commertialOffer
+                ?.Installments;
 
               const installmentsNumber = installments?.reduce(
-                (prev, next) =>
-                  prev.NumberOfInstallments > next.NumberOfInstallments
-                    ? prev
-                    : next,
-                { NumberOfInstallments: 0, Value: 0 }
+                (prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments
+                  ? prev
+                  : next),
+                { NumberOfInstallments: 0, Value: 0 },
               );
 
               let discountTag;
@@ -337,17 +331,15 @@ export const ListVerticalProducts = ({
                 discountTag = getPercent(sellingPrice, listPrice);
               }
 
-              const cashPaymentPrice =
-                !!discountTag && discountTag > 0
-                  ? sellingPrice
-                  : listPrice || 0;
+              const cashPaymentPrice = !!discountTag && discountTag > 0
+                ? sellingPrice
+                : listPrice || 0;
 
               const installmentPrice = installments?.reduce(
-                (prev, next) =>
-                  prev.NumberOfInstallments > next.NumberOfInstallments
-                    ? prev
-                    : next,
-                { NumberOfInstallments: 0, Value: 0 }
+                (prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments
+                  ? prev
+                  : next),
+                { NumberOfInstallments: 0, Value: 0 },
               );
 
               // item.priceRange?.listPrice?.lowPrice;
@@ -388,7 +380,7 @@ export const ListVerticalProducts = ({
                       productId: item.productId,
                       colorSelected: getVariant(
                         item?.items[0]?.variations,
-                        'ID_COR_ORIGINAL'
+                        'ID_COR_ORIGINAL',
                       ),
                     });
 

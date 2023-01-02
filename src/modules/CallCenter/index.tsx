@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-  View,
-  Text,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
   Linking,
 } from 'react-native';
 
-import { Icon, Box, Typography, Divider, Button } from '@usereservaapp/reserva-ui';
-import { TopBarDefault } from '../Menu/components/TopBarDefault';
+import {
+  Icon, Box, Typography, Divider, Button,
+} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
+import { TopBarDefault } from '../Menu/components/TopBarDefault';
 
 type ItemContactProps = {
   local?: string;
@@ -26,42 +26,40 @@ const ItemContact = ({
   icon,
   onPress,
   divider,
-}: ItemContactProps) => {
-  return (
-    <Box width={'100%'}>
-      <TouchableOpacity onPress={onPress}>
+}: ItemContactProps) => (
+  <Box width="100%">
+    <TouchableOpacity onPress={onPress}>
+      <Box
+        pb="xxxs"
+        pt="xxxs"
+        flexDirection="row"
+        justifyContent="space-between"
+      >
         <Box
-          pb={'xxxs'}
-          pt={'xxxs'}
-          flexDirection={'row'}
-          justifyContent={'space-between'}
+          justifyContent="center"
+          flexDirection="row"
+          alignItems="center"
         >
-          <Box
-            justifyContent={'center'}
-            flexDirection={'row'}
-            alignItems="center"
-          >
-            <Box mr={'micro'}>
-              <Icon name={icon} size={20} />
-            </Box>
-
-            <Box>
-              {local && (
-                <Typography color="borderColorProduct">{local}</Typography>
-              )}
-              <Typography fontFamily={'nunitoRegular'} fontSize={15}>
-                {label}
-              </Typography>
-            </Box>
+          <Box mr="micro">
+            <Icon name={icon} size={20} />
           </Box>
 
-          <Icon name="ArrowProcced" size={26} />
+          <Box>
+            {local && (
+            <Typography color="borderColorProduct">{local}</Typography>
+            )}
+            <Typography fontFamily="nunitoRegular" fontSize={15}>
+              {label}
+            </Typography>
+          </Box>
         </Box>
-      </TouchableOpacity>
-      {divider === true && <Divider variant={'fullWidth'} />}
-    </Box>
-  );
-};
+
+        <Icon name="ArrowProcced" size={26} />
+      </Box>
+    </TouchableOpacity>
+    {divider === true && <Divider variant="fullWidth" />}
+  </Box>
+);
 const CallCenter = ({
   local,
   label,
@@ -75,7 +73,7 @@ const CallCenter = ({
   };
 
   const onClickMail = () => {
-    Linking.openURL(`mailto:sac@usereserva.com`);
+    Linking.openURL('mailto:sac@usereserva.com');
   };
 
   return (
@@ -87,12 +85,12 @@ const CallCenter = ({
       <TopBarDefault />
 
       <ScrollView>
-        <Box variant="container" flex={1} pt={'xs'} paddingX={'xxxs'}>
-          <Box mb={'xxxs'} alignSelf={'flex-start'}>
-            <Typography variant={'tituloSessoes'}>
+        <Box variant="container" flex={1} pt="xs" paddingX="xxxs">
+          <Box mb="xxxs" alignSelf="flex-start">
+            <Typography variant="tituloSessoes">
               Central de Atendimento
             </Typography>
-            <Box mb={'micro'} mt={'micro'} alignSelf={'flex-start'}>
+            <Box mb="micro" mt="micro" alignSelf="flex-start">
               <Typography
                 fontFamily="nunitoRegular"
                 fontSize={16}
@@ -104,7 +102,7 @@ const CallCenter = ({
             </Box>
           </Box>
 
-          <Box width={'100%'}>
+          <Box width="100%">
             <Button
               onPress={() => {
                 Linking.openURL(`whatsapp://send?phone=${552121084990}`);
@@ -112,16 +110,16 @@ const CallCenter = ({
               title="WHATSAPP RESERVA"
               variant="primarioEstreito"
               inline
-              borderRadius={'nano'}
+              borderRadius="nano"
             />
-            <Box mb={'micro'} alignItems="center" mt={'nano'}>
+            <Box mb="micro" alignItems="center" mt="nano">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
                 Segunda a Sexta: 08 às 20hrs e aos Sábados: 08 às 18hrs
               </Typography>
             </Box>
           </Box>
 
-          <Box width={'100%'} mt={'xxs'}>
+          <Box width="100%" mt="xxs">
             <Button
               onPress={() => {
                 navigation.navigate('WebviewZendesk');
@@ -130,10 +128,10 @@ const CallCenter = ({
               title="ENVIE UMA MENSAGEM"
               variant="primarioEstreitoOutline"
               inline
-              borderRadius={'nano'}
-              backgroundColor={'transparente'}
+              borderRadius="nano"
+              backgroundColor="transparente"
             />
-            <Box mb={'micro'} alignItems="center" mt={'nano'}>
+            <Box mb="micro" alignItems="center" mt="nano">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
                 Disponível 24hrs por dia, 7 dias por semana.
               </Typography>

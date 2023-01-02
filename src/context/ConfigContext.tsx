@@ -1,5 +1,6 @@
-import React, { useState, createContext, ReactNode, useContext } from 'react';
-import { Platform } from 'react-native';
+import React, {
+  useState, createContext, ReactNode, useContext,
+} from 'react';
 
 interface ConfigContextProps {
   offersPage: string;

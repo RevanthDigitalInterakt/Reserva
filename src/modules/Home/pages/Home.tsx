@@ -44,8 +44,8 @@ import {
   ICountDownClock,
 } from '../../../graphql/countDownClock/countdownClockQuery';
 import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
-import ModalChristmasCoupon from "../../LandingPage/ModalChristmasCoupon";
-import useAsyncStorageProvider from "../../../hooks/useAsyncStorageProvider";
+import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -53,18 +53,19 @@ dayjs.extend(timezone);
 export const HomeScreen: FC<{
   title: string;
 }> = () => {
-  const { getItem } = useAsyncStorageProvider()
+  const { getItem } = useAsyncStorageProvider();
   const { setOffersPage } = useConfigContext();
-  const { setEmail, isCookieEmpty, getCredentials, setCookie } = useAuth();
+  const {
+    setEmail, isCookieEmpty, getCredentials, setCookie,
+  } = useAuth();
   const { setTime } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
-  const [getProfile, { data: profileData, loading: profileLoading }] =
-    useLazyQuery(profileQuery);
+  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const [images, setImages] = useState<HomeQuery[]>([]);
   const [carrousels, setCarrousels] = useState<Carrousel[]>([]);
   const [modalDiscount, setModalDiscount] = useState<any>();
   const [countDownClock, setCountDownClock] = useState<
-    ICountDownClock[] | undefined
+  ICountDownClock[] | undefined
   >();
   const [{ data, loading }, setDataHome] = useState({
     data: null,
@@ -79,13 +80,11 @@ export const HomeScreen: FC<{
     showModal: false,
   });
 
-  const [countDownClockLocal, setCountDownClockLocal] =
-    useState<ICountDownClock>();
+  const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
 
   const [showClockHome, setShowClockHome] = useState<boolean>(false);
 
-  const [countDownClockGlobal, setCountDownClockGlobal] =
-    useState<ICountDownClock>();
+  const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
   const deviceWidth = Dimensions.get('screen').width;
 
   const [getHome, { refetch }] = useLazyQuery(homeQuery, {
@@ -101,14 +100,16 @@ export const HomeScreen: FC<{
     },
   });
 
-  const { currentValue, start, stop, reset } = useChronometer({
+  const {
+    currentValue, start, stop, reset,
+  } = useChronometer({
     countDown: true,
     initial: countDownClockGlobal?.formattedValue,
   });
 
   const { WithoutInternet } = useCheckConnection({ refetch });
   const [login, { data: loginData, loading: loginLoading }] = useMutation(
-    classicSignInMutation
+    classicSignInMutation,
   );
 
   const [getConfig] = useLazyQuery(configCollection, {
@@ -136,16 +137,16 @@ export const HomeScreen: FC<{
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
       const clockHome = countDownClock?.find(
-        (x) => x?.selectClockScreen == 'HOME'
+        (x) => x?.selectClockScreen == 'HOME',
       );
       const clockALL = countDownClock?.find(
-        (x) => x?.selectClockScreen == 'ALL'
+        (x) => x?.selectClockScreen == 'ALL',
       );
 
       if (clockHome) {
         if (
-          new Date(clockHome?.countdown).getTime() > Date.now() &&
-          Date.now() > new Date(clockHome?.countdownStart).getTime()
+          new Date(clockHome?.countdown).getTime() > Date.now()
+          && Date.now() > new Date(clockHome?.countdownStart).getTime()
         ) {
           setShowClockHome(true);
         } else {
@@ -165,7 +166,7 @@ export const HomeScreen: FC<{
             ...clockHome,
             countdownStart: clockHome?.countdownStart,
             formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+            }:${limitDate.seconds}`,
           });
         }
       }
@@ -183,7 +184,7 @@ export const HomeScreen: FC<{
             ...clockALL,
             countdownStart: clockALL?.countdownStart,
             formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+            }:${limitDate.seconds}`,
           });
         }
       }
@@ -203,27 +204,25 @@ export const HomeScreen: FC<{
   }, [currentValue]);
 
   useEffect(() => {
-    const carrouselsItems: Carrousel[] =
-      data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
+    const carrouselsItems: Carrousel[] = data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
     setCarrousels(carrouselsItems);
 
-    const arrayImages =
-      data?.homePageCollection.items[0].mediasCollection.items.map(
-        (imageDescription: any) => ({
-          fileName: imageDescription.image.fileName,
-          title: imageDescription.image.title,
-          width: imageDescription.image.width,
-          height: imageDescription.image.height,
-          size: imageDescription.image.size,
-          url: imageDescription.image.url,
-          reference: imageDescription.reference,
-          route: imageDescription.route,
-          isLandingPage: imageDescription.isLandingPage,
-          landingPageId: imageDescription.landingPageId,
-          reservaMini: imageDescription.reservaMini,
-          orderBy: imageDescription.orderBy,
-        })
-      );
+    const arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map(
+      (imageDescription: any) => ({
+        fileName: imageDescription.image.fileName,
+        title: imageDescription.image.title,
+        width: imageDescription.image.width,
+        height: imageDescription.image.height,
+        size: imageDescription.image.size,
+        url: imageDescription.image.url,
+        reference: imageDescription.reference,
+        route: imageDescription.route,
+        isLandingPage: imageDescription.isLandingPage,
+        landingPageId: imageDescription.landingPageId,
+        reservaMini: imageDescription.reservaMini,
+        orderBy: imageDescription.orderBy,
+      }),
+    );
 
     setImages(arrayImages);
   }, [data]);
@@ -232,7 +231,7 @@ export const HomeScreen: FC<{
     if (collectionData) {
       setOffersPage(collectionData?.configCollection.items[0].offersPage);
       setModalDiscount(
-        collectionData?.configCollection?.items[0].discountCodeBar
+        collectionData?.configCollection?.items[0].discountCodeBar,
       );
     }
   }, [collectionData]);
@@ -246,7 +245,7 @@ export const HomeScreen: FC<{
       if (res) {
         setChristmasModal({ showModal: true, orderId: res });
       }
-    })
+    });
   }, []);
 
   const loginWithSavedCredentials = async () => {
@@ -270,7 +269,7 @@ export const HomeScreen: FC<{
           await AsyncStorage.setItem('@RNAuth:email', email);
           await AsyncStorage.setItem(
             LastLoginAsyncStorageKey,
-            `${moment.now()}`
+            `${moment.now()}`,
           );
           await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
           await AsyncStorage.setItem('@RNAuth:cookie', loginData.cookie);
@@ -311,17 +310,16 @@ export const HomeScreen: FC<{
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, [])
+    }, []),
   );
 
-  const renderCarouselBanners = useMemo(() => {
-    return carrousels.map((carrousel, index) => {
-      switch (carrousel?.type) {
-        case CarrouselTypes.mainCarrousel: {
-          return (
-            carrousel.itemsCollection.items.length > 1 ?
-              <DefaultCarrousel carrousel={carrousel} key={`carousel-${carrousel.title}-${carrousel.type}-${index}`} />
-              :
+  const renderCarouselBanners = useMemo(() => carrousels.map((carrousel, index) => {
+    switch (carrousel?.type) {
+      case CarrouselTypes.mainCarrousel: {
+        return (
+          carrousel.itemsCollection.items.length > 1
+            ? <DefaultCarrousel carrousel={carrousel} key={`carousel-${carrousel.title}-${carrousel.type}-${index}`} />
+            : (
               <Banner
                 key={`carousel-${carrousel.title}-${carrousel.type}-${index}`}
                 orderBy={carrousel.itemsCollection.items[0].orderBy}
@@ -330,72 +328,69 @@ export const HomeScreen: FC<{
                 url={carrousel.itemsCollection.items[0].image.url}
                 reservaMini={carrousel.itemsCollection.items[0].reservaMini}
               />
-          );
-        }
-        case CarrouselTypes.cardsCarrousel: {
-          const { items } = carrousel.itemsCollection;
-
-          return items.length > 1 ? (
-            <CardsCarrousel
-              key={`carousel-${carrousel.title}-${carrousel.type}`}
-              carrousel={carrousel}
-            />
-          ) : (
-            <Banner
-              key={`carousel-${carrousel.title}-${carrousel.type}`}
-              orderBy={items[0].orderBy}
-              height={items[0].image.height}
-              reference={items[0].reference}
-              url={items[0].image.url}
-              reservaMini={items[0].reservaMini}
-            />
-          );
-        }
-
-        case CarrouselTypes.banner: {
-          const { image, reference, reservaMini, orderBy } =
-            carrousel.itemsCollection.items[0];
-
-          return (
-            <Banner
-              key={`carousel-${carrousel.title}-${carrousel.type}`}
-              orderBy={orderBy}
-              height={image.height}
-              reference={reference}
-              url={image.url}
-              reservaMini={reservaMini}
-            />
-          );
-        }
-
-        default: {
-          return <></>;
-        }
+            )
+        );
       }
-    });
-  }, [carrousels]);
+      case CarrouselTypes.cardsCarrousel: {
+        const { items } = carrousel.itemsCollection;
 
-  const renderBannersFlatList = useMemo(() => {
-    return (
-      <FlatList
-        data={images}
-        renderItem={({ item }) => {
-          return (
-            <Banner
-              orderBy={item.orderBy}
-              height={item.height}
-              reference={item.reference}
-              url={item.url}
-              route={item.isLandingPage ? 'LandingPage' : item.route}
-              landingPageId={item.landingPageId}
-              reservaMini={item.reservaMini}
-            />
-          );
-        }}
-        keyExtractor={(item) => item.id}
-      />
-    );
-  }, [images]);
+        return items.length > 1 ? (
+          <CardsCarrousel
+            key={`carousel-${carrousel.title}-${carrousel.type}`}
+            carrousel={carrousel}
+          />
+        ) : (
+          <Banner
+            key={`carousel-${carrousel.title}-${carrousel.type}`}
+            orderBy={items[0].orderBy}
+            height={items[0].image.height}
+            reference={items[0].reference}
+            url={items[0].image.url}
+            reservaMini={items[0].reservaMini}
+          />
+        );
+      }
+
+      case CarrouselTypes.banner: {
+        const {
+          image, reference, reservaMini, orderBy,
+        } = carrousel.itemsCollection.items[0];
+
+        return (
+          <Banner
+            key={`carousel-${carrousel.title}-${carrousel.type}`}
+            orderBy={orderBy}
+            height={image.height}
+            reference={reference}
+            url={image.url}
+            reservaMini={reservaMini}
+          />
+        );
+      }
+
+      default: {
+        return <></>;
+      }
+    }
+  }), [carrousels]);
+
+  const renderBannersFlatList = useMemo(() => (
+    <FlatList
+      data={images}
+      renderItem={({ item }) => (
+        <Banner
+          orderBy={item.orderBy}
+          height={item.height}
+          reference={item.reference}
+          url={item.url}
+          route={item.isLandingPage ? 'LandingPage' : item.route}
+          landingPageId={item.landingPageId}
+          reservaMini={item.reservaMini}
+        />
+      )}
+      keyExtractor={(item) => item.id}
+    />
+  ), [images]);
 
   const handleModalCodeIsVisible = useCallback(() => {
     setModalCodeIsVisible(false);

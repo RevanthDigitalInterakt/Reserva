@@ -1,7 +1,6 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import {
-  Box,
   Button,
   Divider,
   Icon,
@@ -17,7 +16,7 @@ const render = (props: CreditsViewProps) => {
   const testRenderer = TestRenderer.create(
     <ThemeProvider theme={theme}>
       <CreditsView {...props} />
-    </ThemeProvider>
+    </ThemeProvider>,
   );
   const testInstance = testRenderer.root;
 

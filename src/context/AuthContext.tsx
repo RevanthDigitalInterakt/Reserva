@@ -39,10 +39,9 @@ const getCookie = () => {
   return cookie;
 };
 
-const getProfile = async () =>
-  await StorageService.getItem<ProfileVars>({
-    key: StorageServiceKeys.PROFILE,
-  });
+const getProfile = async () => StorageService.getItem<ProfileVars>({
+  key: StorageServiceKeys.PROFILE,
+});
 
 export const AuthContext = createContext<AuthContextProps>({
   cookie: getCookie(),
@@ -78,11 +77,11 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const isCookieEmpty = () => cookie === null || cookie === '';
 
   const saveCredentials = async (
-    data: { email: string; password: string } | null
+    data: { email: string; password: string } | null,
   ) => {
     const credentials = JSON.stringify(data);
     const encodedMessage = await RSA.encrypt(credentials, RSAKey.public);
-    return await AsyncStorage.setItem('@RNAuth:credentials', encodedMessage);
+    return AsyncStorage.setItem('@RNAuth:credentials', encodedMessage);
   };
 
   const getCredentials = async () => {

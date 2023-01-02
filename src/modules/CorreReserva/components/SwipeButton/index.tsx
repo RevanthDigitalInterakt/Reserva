@@ -94,7 +94,7 @@ const SwipeButton = ({ onToggle, forceToggle, swipeText }) => {
       backgroundColor: interpolateColor(
         X.value,
         [0, BUTTON_WIDTH - SWIPEABLE_DIMENSIONS - BUTTON_PADDING],
-        ['#efefef', '#efefef']
+        ['#efefef', '#efefef'],
       ),
       transform: [{ translateX: X.value }],
     })),
@@ -103,7 +103,7 @@ const SwipeButton = ({ onToggle, forceToggle, swipeText }) => {
         X.value,
         InterpolateXInput,
         [0.7, 0],
-        Extrapolate.CLAMP
+        Extrapolate.CLAMP,
       ),
       transform: [
         {
@@ -111,7 +111,7 @@ const SwipeButton = ({ onToggle, forceToggle, swipeText }) => {
             X.value,
             InterpolateXInput,
             [0, BUTTON_WIDTH / 2 - SWIPEABLE_DIMENSIONS],
-            Extrapolate.CLAMP
+            Extrapolate.CLAMP,
           ),
         },
       ],

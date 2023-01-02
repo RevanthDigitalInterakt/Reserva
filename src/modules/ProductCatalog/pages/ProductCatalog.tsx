@@ -11,11 +11,11 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { useConfigContext } from '../../../context/ConfigContext';
 import { intervalToDuration } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useConfigContext } from '../../../context/ConfigContext';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import {
   bannerDefaultQuery,
@@ -47,7 +47,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const { offersPage } = useConfigContext();
   const [referenceString, setReferenceString] = useState('');
   const [productsQuery, setProducts] = useState<ProductSearchData>(
-    {} as ProductSearchData
+    {} as ProductSearchData,
   );
 
   const navigateGoBack = () => {
@@ -69,30 +69,31 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   };
 
   const pageSize = 12;
-  const { safeArea, search, referenceId, title, reservaMini, orderBy } =
-    route.params;
+  const {
+    safeArea, search, referenceId, title, reservaMini, orderBy,
+  } = route.params;
 
   useEffect(() => {
     if (referenceId === 'offers-page') {
       setReferenceString(offersPage);
       getcountdownClock({
         variables: {
-          selectClockScreenHome: "OFFERS",
-          selectClockScreenAll: "ALL"
+          selectClockScreenHome: 'OFFERS',
+          selectClockScreenAll: 'ALL',
         },
       }).then((response) => {
         setCountDownClock(response.data.countdownClockCollection.items);
-      })
+      });
     } else {
       setReferenceString(referenceId);
       getcountdownClock({
         variables: {
           categoryReference: referenceId,
-          selectClockScreenAll: "ALL"
+          selectClockScreenAll: 'ALL',
         },
       }).then((response) => {
         setCountDownClock(response.data.countdownClockCollection.items);
-      })
+      });
     }
   }, [referenceId]);
 
@@ -118,10 +119,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
   const [skip, setSkip] = useState(false);
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
-  const [countDownClockLocal, setCountDownClockLocal] =
-    useState<ICountDownClock>();
-  const [countDownClockGlobal, setCountDownClockGlobal] =
-    useState<ICountDownClock>();
+  const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
+  const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
   const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
   const [{ collectionData }, setConfigCollection] = useState<{
     collectionData: any;
@@ -213,7 +212,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       hideUnavailableItems: true,
       selectedFacets: [].concat(
         generateFacets(referenceString),
-        filterRequestList
+        filterRequestList,
       ),
       salesChannel: '4',
       orderBy: selectedOrder,
@@ -227,15 +226,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
-
-      const clockOffers = countDownClock?.find((x) => x?.selectClockScreen == "OFFERS" || x?.selectClockScreen == "CATEGORY")
-      const clockALL = countDownClock?.find((x) => x?.selectClockScreen == "ALL")
+      const clockOffers = countDownClock?.find((x) => x?.selectClockScreen == 'OFFERS' || x?.selectClockScreen == 'CATEGORY');
+      const clockALL = countDownClock?.find((x) => x?.selectClockScreen == 'ALL');
 
       if (clockOffers) {
         if (new Date(clockOffers?.countdown).getTime() > Date.now()
           && Date.now() > new Date(clockOffers?.countdownStart).getTime()) {
           setShowClockOffers(true);
-
         } else {
           setShowClockOffers(false);
         }
@@ -253,13 +250,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             ...clockOffers,
             countdownStart: clockOffers?.countdownStart,
             formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+            }:${limitDate.seconds}`,
           });
         }
       }
 
       if (clockALL && !showClockOffers && clockALL.reference != referenceId) {
-
         let limitDate;
         if (clockALL?.countdown) {
           limitDate = intervalToDuration({
@@ -268,12 +264,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
           });
         }
         if (limitDate) {
-
           setCountDownClockGlobal({
             ...clockALL,
             countdownStart: clockALL?.countdownStart,
             formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+            }:${limitDate.seconds}`,
           });
         }
       }
@@ -299,7 +294,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       hideUnavailableItems: true,
       selectedFacets: [].concat(
         generateFacets(referenceString),
-        filterRequestList
+        filterRequestList,
       ),
     },
     fetchPolicy: 'no-cache',
@@ -360,41 +355,31 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   });
 
   useEffect(() => {
-    getFacets().then((response) =>
-      setFacets({
-        facetsData: response.data,
-        lodingFacets: false,
-        // refetchFacets: facetsData.refetch
-      })
-    );
-    getBanner().then((response) =>
-      setBannerData({
-        bannerData: response.data,
-        loadingBanner: false,
-        // refetchBanner
-      })
-    );
-    getDefaultBanner().then((response) =>
-      setDefaultBanner({
-        defaultBanner: response.data,
-        // refetchDefaultBanner: defaultBanner.refetch,
-        loadingDefaultBanner: false,
-      })
-    );
-    getCollection().then((response) =>
-      setConfigCollection({
-        collectionData: response.data,
-      })
-    );
-    getProductSearch().then((response) =>
-      setProductSearch({
-        data: response.data,
-        loading: false,
-        error: response.error,
-        // fetchMore: response.fetchMore,
-        // refetch
-      })
-    );
+    getFacets().then((response) => setFacets({
+      facetsData: response.data,
+      lodingFacets: false,
+      // refetchFacets: facetsData.refetch
+    }));
+    getBanner().then((response) => setBannerData({
+      bannerData: response.data,
+      loadingBanner: false,
+      // refetchBanner
+    }));
+    getDefaultBanner().then((response) => setDefaultBanner({
+      defaultBanner: response.data,
+      // refetchDefaultBanner: defaultBanner.refetch,
+      loadingDefaultBanner: false,
+    }));
+    getCollection().then((response) => setConfigCollection({
+      collectionData: response.data,
+    }));
+    getProductSearch().then((response) => setProductSearch({
+      data: response.data,
+      loading: false,
+      error: response.error,
+      // fetchMore: response.fetchMore,
+      // refetch
+    }));
   }, []);
 
   const setBannerDefaultImage = async () => {
@@ -410,7 +395,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     setSkeletonLoading(true);
     setSkip(true);
     const { data, loading } = await refetch();
-    setProductSearch({ data, loading, fetchMore, refetch, error });
+    setProductSearch({
+      data, loading, fetchMore, refetch, error,
+    });
     setSkeletonLoading(false);
     await refetchBanner({ category: referenceString });
   };
@@ -422,8 +409,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (bannerData) {
-      const bannerUrl =
-        bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.url;
+      const bannerUrl = bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.url;
       if (bannerUrl) {
         setBannerImage(bannerUrl);
       } else {
@@ -438,51 +424,45 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
       // COLOR
       const colorFacets = facets.filter(
-        ({ name }: any) =>
-          name.toUpperCase() === 'COR' ||
-          name.toUpperCase() === 'DESC_COR_CONSOLIDADA'
+        ({ name }: any) => name.toUpperCase() === 'COR'
+          || name.toUpperCase() === 'DESC_COR_CONSOLIDADA',
       );
-      const colorFacetValues =
-        !!colorFacets && colorFacets.length > 0
-          ? colorFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value: ColorsToHexEnum[value],
-          }))
-          : [];
+      const colorFacetValues = !!colorFacets && colorFacets.length > 0
+        ? colorFacets[0].values.map(({ key, value }: any) => ({
+          key,
+          value: ColorsToHexEnum[value],
+        }))
+        : [];
       // SIZE
       const sizeFacets = facets.filter(
-        ({ name }: any) =>
-          name.toUpperCase() === 'TAMANHO' || name === 'Tamanho'
+        ({ name }: any) => name.toUpperCase() === 'TAMANHO' || name === 'Tamanho',
       );
-      const sizeFacetValues =
-        !!sizeFacets && sizeFacets.length > 0
-          ? sizeFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
-          : [];
+      const sizeFacetValues = !!sizeFacets && sizeFacets.length > 0
+        ? sizeFacets[0].values.map(({ key, value }: any) => ({
+          key,
+          value,
+        }))
+        : [];
 
       // CATEGORY
       const categoryFacets = facets.filter(
-        ({ name }: any) => name === 'Categoria'
+        ({ name }: any) => name === 'Categoria',
       );
-      const categoryFacetValues =
-        !!categoryFacets && categoryFacets.length > 0
-          ? categoryFacets[0].values.map(({ key, value }: any) => ({
-            key,
-            value,
-          }))
-          : [];
+      const categoryFacetValues = !!categoryFacets && categoryFacets.length > 0
+        ? categoryFacets[0].values.map(({ key, value }: any) => ({
+          key,
+          value,
+        }))
+        : [];
 
       // PRICE
       const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
-      const priceFacetValues =
-        !!priceFacets && priceFacets.length > 0
-          ? priceFacets[0].values.map(({ key, range }: any) => ({
-            key,
-            range,
-          }))
-          : [];
+      const priceFacetValues = !!priceFacets && priceFacets.length > 0
+        ? priceFacets[0].values.map(({ key, range }: any) => ({
+          key,
+          range,
+        }))
+        : [];
 
       setPriceRangeFilters(priceFacetValues);
       setCategoryFilters(categoryFacetValues);
@@ -498,18 +478,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [data]);
 
   const getOffsetRequest = (isFilteredRequest: boolean, offSet: number) => {
-      if(isFilteredRequest) {
-        return {
-          from: 0,
-          to: 11,
-        }
-      }
-
+    if (isFilteredRequest) {
       return {
-        from: offSet < pageSize ? pageSize : offSet,
-        to: offSet < pageSize ? pageSize * 2 - 1 : offSet + (pageSize - 1)
-      }
-  }
+        from: 0,
+        to: 11,
+      };
+    }
+
+    return {
+      from: offSet < pageSize ? pageSize : offSet,
+      to: offSet < pageSize ? pageSize * 2 - 1 : offSet + (pageSize - 1),
+    };
+  };
 
   const loadMoreProducts = async (offset: number, isFilteredRequest: boolean = false) => {
     setLoadingFetchMore(true);
@@ -521,11 +501,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
         orderBy: selectedOrder,
-        from:  offSetRequest.from,
+        from: offSetRequest.from,
         to: offSetRequest.to,
         selectedFacets: [].concat(
           generateFacets(referenceString),
-          filterRequestList
+          filterRequestList,
         ),
         simulationBehavior: 'default',
         productOriginVtex: false,
@@ -542,9 +522,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         },
       };
 
-      if(isFilteredRequest) {
+      if (isFilteredRequest) {
         newDataProductSearch.productSearch.products = [
-          ...dataFetchMore.productSearch.products
+          ...dataFetchMore.productSearch.products,
         ];
       }
 
@@ -584,7 +564,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         hideUnavailableItems: true,
         selectedFacets: [].concat(
           generateFacets(referenceString),
-          filterRequestList
+          filterRequestList,
         ),
         orderBy: selectedOrder,
         to: pageSize - 1,
@@ -593,7 +573,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       });
 
       if (!loading && !!data) {
-        setProductSearch({ data, loading, fetchMore, refetch, error });
+        setProductSearch({
+          data, loading, fetchMore, refetch, error,
+        });
         setProducts(data.productSearch);
       }
       if (!loading) {
@@ -621,7 +603,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       ]),
       {
         iterations: -1,
-      }
+      },
     ).start();
   };
 
@@ -901,17 +883,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       {productsQuery.products ? (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
-          products={productsQuery.products} //productsQuery.products}
+          products={productsQuery.products} // productsQuery.products}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}
           totalProducts={productsQuery.recordsFiltered}
-          listHeader={
+          listHeader={(
             <>
-              {countDownClockLocal && showClockOffers ?
-                <CountDownLocal countDownLocal={countDownClockLocal} />
-                : <CountDownBanner countDown={countDownClockGlobal} />
-              }
+              {countDownClockLocal && showClockOffers
+                ? <CountDownLocal countDownLocal={countDownClockLocal} />
+                : <CountDownBanner countDown={countDownClockGlobal} />}
               <Box>
                 <Image height={200} source={bannerImage} width={1 / 1} />
               </Box>
@@ -926,7 +907,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                         fontFamily="nunitoSemiBold"
                         fontSize={11}
                       >
-                        Chama no Whats! Seja atendido sem sair de casa.{' '}
+                        Chama no Whats! Seja atendido sem sair de casa.
+                        {' '}
                         <Typography style={{ textDecorationLine: 'underline' }}>
                           Clique aqui!
                         </Typography>
@@ -959,8 +941,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontFamily="nunitoSemiBold"
                       fontSize="14px"
                     >
-                      {productsQuery.products?.length == 0 &&
-                        filterRequestList.length > 0
+                      {productsQuery.products?.length == 0
+                        && filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
                     </Typography>
@@ -998,7 +980,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                 justifyContent="space-between"
               >
                 <Typography fontFamily="nunitoRegular" fontSize="13px">
-                  {productsQuery.recordsFiltered} produtos encontrados
+                  {productsQuery.recordsFiltered}
+                  {' '}
+                  produtos encontrados
                 </Typography>
                 {!!filterRequestList && filterRequestList.length > 0 && (
                   <Button onPress={() => setFilterRequestList([])}>
@@ -1013,7 +997,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                 )}
               </Box>
             </>
-          }
+          )}
         />
       ) : (
         !loading && (

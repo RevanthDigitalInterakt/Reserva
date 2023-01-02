@@ -1,8 +1,7 @@
-
 const collection = jest.fn();
 
 const firestore = {
-    collection,
-}
+  collection,
+};
 
 export default firestore;

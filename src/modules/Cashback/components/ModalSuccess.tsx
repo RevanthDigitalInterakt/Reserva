@@ -1,7 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 import Modal from 'react-native-modal';
-import { Box, Button, Typography, Icon } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Typography, Icon,
+} from '@usereservaapp/reserva-ui';
 
 interface IModalSucess {
   isVisible: boolean;

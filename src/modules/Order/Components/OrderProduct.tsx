@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
-import { Typography, Box, Button, Icon, Image } from '@usereservaapp/reserva-ui';
+import React from 'react';
+import {
+  Typography, Box, Button, Image,
+} from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 
@@ -21,21 +22,22 @@ interface IOrderProduct {
 }
 
 const OrderProduct = ({ orderItem }: IOrderProduct) => {
-  //TODO: repassar nesse componente. se possivel trocar com o que ja foi feito anteriormente.
+  // TODO: repassar nesse componente. se possivel trocar com o que ja foi feito anteriormente.
   const { navigate } = useNavigation();
 
   return (
     <>
-      <Box flexDirection="row" mt={'xxs'}>
+      <Box flexDirection="row" mt="xxs">
         <Box>
-          {orderItem &&
+          {orderItem
+            && (
             <Button
               onPress={() => {
                 navigate('ProductDetail', {
                   productId: orderItem.productId.trim(),
                   itemId: orderItem.id.trim(),
-                  sizeSelected: orderItem.name.split('-')[1].trim() || ""
-                })
+                  sizeSelected: orderItem.name.split('-')[1].trim() || '',
+                });
               }}
             >
               <Image
@@ -43,12 +45,12 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
                 variant="sm"
                 source={{
                   uri: orderItem.imageUrl
-                    .split("-55-55")
-                    .join("")
+                    .split('-55-55')
+                    .join(''),
                 }}
               />
             </Button>
-          }
+            )}
         </Box>
 
         <Box ml="micro" flex={1}>
@@ -76,10 +78,11 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               fontSize={11}
               fontFamily="nunitoRegular"
             >
-              De:{' '}
+              De:
+              {' '}
             </Typography>
             <PriceCustom
-              fontFamily={'nunitoSemiBold'}
+              fontFamily="nunitoSemiBold"
               sizeInterger={15}
               sizeDecimal={11}
               num={orderItem.listPrice / 100}
@@ -107,7 +110,7 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
             </Typography> */}
           </Box>
           <PriceCustom
-            fontFamily={'nunitoSemiBold'}
+            fontFamily="nunitoSemiBold"
             sizeInterger={15}
             sizeDecimal={11}
             num={orderItem.price / 100}

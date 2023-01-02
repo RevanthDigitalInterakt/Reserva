@@ -1,13 +1,12 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   productSearch,
   ProductSearchData,
 } from '../../graphql/products/productSearch';
-import { EmptyProductCatalog } from '../../modules/ProductCatalog/components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../../modules/ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
-import React, { useEffect, useState } from 'react';
 
 interface PrimeProductListProps {
   referenceId: string;
@@ -45,7 +44,7 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
   };
 
   const [productsQuery, setProducts] = useState<ProductSearchData>(
-    {} as ProductSearchData
+    {} as ProductSearchData,
   );
 
   const loadMoreProducts = async (offset: number) => {
@@ -58,7 +57,9 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
         selectedFacets: generateFacets(referenceId),
       },
     });
-    setProductSearch({ data, loading, fetchMore, refetch, error });
+    setProductSearch({
+      data, loading, fetchMore, refetch, error,
+    });
     // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
 
@@ -116,7 +117,9 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
       const { data, loading } = await refetch();
 
       if (!loading && !!data) {
-        setProductSearch({ data, loading, fetchMore, refetch, error });
+        setProductSearch({
+          data, loading, fetchMore, refetch, error,
+        });
         setProducts(data.productSearch);
       }
     };
@@ -128,7 +131,7 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
       {productsQuery.products && productsQuery.products.length > 0 && (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
-          products={data.productSearch.products} //productsQuery.products}
+          products={data.productSearch.products} // productsQuery.products}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}

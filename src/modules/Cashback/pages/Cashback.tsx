@@ -33,13 +33,12 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
   const [loadingTerms, setLoadingTerms] = useState(false);
   const [loadingQrCode, setLoadingQrCode] = useState(false);
   const [installationToken, setInstallationToken] = useState<
-    string | undefined
+  string | undefined
   >('');
   const [profile, setProfile] = useState<ProfileVars>();
   const [acceptConditions, setAcceptConditions] = useState(false);
   const [modalSuccessVisible, setModalSuccessVisible] = useState(false);
-  const [showModalTermsAndConditions, setShowModalTermsAndConditions] =
-    useState(false);
+  const [showModalTermsAndConditions, setShowModalTermsAndConditions] = useState(false);
 
   const intervalTokenRef: { current: NodeJS.Timeout | null } = useRef(null);
 
@@ -77,7 +76,7 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
           setLoadingTerms(false);
           setAcceptConditions(true);
         }
-      }
+      },
     );
   }, []);
 
@@ -229,7 +228,8 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
               <Box>
                 <Box flexDirection="row" alignItems="center">
                   <Typography variant="precoAntigo3" color="preto">
-                    Li e aceito os{' '}
+                    Li e aceito os
+                    {' '}
                   </Typography>
 
                   <TouchableOpacity

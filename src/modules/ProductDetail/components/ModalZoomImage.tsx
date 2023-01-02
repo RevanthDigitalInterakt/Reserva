@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Dimensions, StyleSheet, Modal, StatusBar, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  Dimensions, StyleSheet, Modal, Image, TouchableOpacity,
+} from 'react-native';
 
-import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { useFocusEffect } from '@react-navigation/native';
-
-import { images } from '../../../assets/index'
+import { images } from '../../../assets/index';
 
 const screen = Dimensions.get('window');
 
@@ -62,148 +64,142 @@ const styles = StyleSheet.create({
 
 const ImageSelection = ({
   imagesArray,
-  currentImage
-}: ImageSelectionProps) => {
+  currentImage,
+}: ImageSelectionProps) => (
+  <Box
+    position="absolute"
+    bottom="6%"
+    flexDirection="row"
+    left="50%"
+    marginLeft={-42}
+    alignItems="center"
+    justifyContent="space-around"
+    width={84}
+    px="quarck"
+  >
+    <Image source={images.selectRectangle} height={24} width={84} style={{ position: 'absolute', left: 0 }} />
 
-  return (
-    <Box
-      position='absolute'
-      bottom='6%'
-      flexDirection='row'
-      left='50%'
-      marginLeft={-42}
-      alignItems='center'
-      justifyContent='space-around'
-      width={84}
-      px={'quarck'}
-    >
-      <Image source={images.selectRectangle} height={24} width={84} style={{ position: 'absolute', left: 0 }} />
-
-      {imagesArray.map((_, index) =>
-        <Box
-          key={`image-${index}`}
-          width={8}
-          height={8}
-          backgroundColor={index == currentImage ? 'fullBlack' : 'divider'}
-          borderRadius='xs'
-        ></Box>
-      )}
-    </Box>
-  )
-}
+    {imagesArray.map((_, index) => (
+      <Box
+        key={`image-${index}`}
+        width={8}
+        height={8}
+        backgroundColor={index == currentImage ? 'fullBlack' : 'divider'}
+        borderRadius="xs"
+      />
+    ))}
+  </Box>
+);
 
 const ModalTutorial = ({
-  setOpenTutorial
-}: ModalTutorialProps) => {
-
-  return (
-    <TouchableOpacity
-      onPress={() => setOpenTutorial(false)}
+  setOpenTutorial,
+}: ModalTutorialProps) => (
+  <TouchableOpacity
+    onPress={() => setOpenTutorial(false)}
+    style={{
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      width: DEVICE_WIDTH,
+      height: DEVICE_HEIGHT,
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    }}
+  >
+    <Box
       style={{
         position: 'absolute',
-        bottom: 0,
-        left: 0,
-        width: DEVICE_WIDTH,
-        height: DEVICE_HEIGHT,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)'
+        right: '7%',
+        top: '9%',
+        alignItems: 'center',
       }}
     >
-      <Box
+      <Image
+        source={images.arrowInstruction}
+        height={200}
+        width={200}
         style={{
-          position: 'absolute',
-          right: '7%',
-          top:'9%',
-          alignItems: 'center'
+          transform: [
+            { scaleY: -1 },
+            { rotate: '-20deg' },
+          ],
+          alignSelf: 'flex-end',
         }}
-      >
-        <Image
-          source={images.arrowInstruction}
-          height={200}
-          width={200}
-          style={{
-            transform: [
-              { scaleY: -1 },
-              { rotate: '-20deg' },
-            ],
-            alignSelf: 'flex-end'
-          }}
-        />
-        <Box
-          alignItems='center'
-          mt='xxxs'
-        >
-          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
-            Clique aqui para sair
-          </Typography>
-          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
-            do modo zoom.
-          </Typography>
-        </Box>
-      </Box>
+      />
       <Box
-        style={{
-          position: 'absolute',
-          right: '30%',
-          top:'42%',
-          alignItems: 'center'
-        }}
+        alignItems="center"
+        mt="xxxs"
       >
-        <Image
-          source={images.zoomHand}
-          height={200}
-          width={200}
-        />
-        <Box
-          alignItems='center'
-          mt='xxxs'
-        >
-          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
-            Faça o movimento de pinça
-          </Typography>
-          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
-            para dar zoom na foto.
-          </Typography>
-        </Box>
+        <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+          Clique aqui para sair
+        </Typography>
+        <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+          do modo zoom.
+        </Typography>
       </Box>
+    </Box>
+    <Box
+      style={{
+        position: 'absolute',
+        right: '30%',
+        top: '42%',
+        alignItems: 'center',
+      }}
+    >
+      <Image
+        source={images.zoomHand}
+        height={200}
+        width={200}
+      />
       <Box
-        style={{
-          position: 'absolute',
-          right: '25%',
-          bottom:'10%',
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          flexDirection: 'row'
-        }}
+        alignItems="center"
+        mt="xxxs"
       >
-        <Image
-          source={images.arrowInstruction}
-          height={200}
-          width={200}
-          style={{
-            transform: [
-              { scaleY: 1 },
-            ],
-          }}
-        />
-        <Box
-          alignItems='center'
-          bottom='18%'
-          marginLeft='-8%'
-        >
-          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
-            Arraste pro lado
-          </Typography>
-          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
-            para ver as outras
-          </Typography>
-          <Typography fontFamily="nunitoBold" fontSize={14} color="white">
-            fotos do produto.
-          </Typography>
-        </Box>
+        <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+          Faça o movimento de pinça
+        </Typography>
+        <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+          para dar zoom na foto.
+        </Typography>
       </Box>
-    </TouchableOpacity>
-  )
-}
+    </Box>
+    <Box
+      style={{
+        position: 'absolute',
+        right: '25%',
+        bottom: '10%',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        flexDirection: 'row',
+      }}
+    >
+      <Image
+        source={images.arrowInstruction}
+        height={200}
+        width={200}
+        style={{
+          transform: [
+            { scaleY: 1 },
+          ],
+        }}
+      />
+      <Box
+        alignItems="center"
+        bottom="18%"
+        marginLeft="-8%"
+      >
+        <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+          Arraste pro lado
+        </Typography>
+        <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+          para ver as outras
+        </Typography>
+        <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+          fotos do produto.
+        </Typography>
+      </Box>
+    </Box>
+  </TouchableOpacity>
+);
 
 export const ModalZoomImage = ({
   isVisible,
@@ -213,20 +209,20 @@ export const ModalZoomImage = ({
 }: ModalBagProps) => {
   const [newArrayImages, setNewArrayImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
-  const [openTutorial, setOpenTutorial] = useState(false)
+  const [openTutorial, setOpenTutorial] = useState(false);
 
   useEffect(() => {
     async function checkIsFirstTime() {
-      const isFirstTime = await AsyncStorage.getItem('@IsFisrtTime')
+      const isFirstTime = await AsyncStorage.getItem('@IsFisrtTime');
 
       if (isFirstTime == null) {
-        await AsyncStorage.setItem('@IsFisrtTime', 'false')
-        setOpenTutorial(true)
+        await AsyncStorage.setItem('@IsFisrtTime', 'false');
+        setOpenTutorial(true);
       }
     }
 
-    checkIsFirstTime()
-  }, [])
+    checkIsFirstTime();
+  }, []);
 
   useEffect(() => {
     const newArr = image.map((item: any) => ({ url: item }));
@@ -244,15 +240,15 @@ export const ModalZoomImage = ({
       <Box>
         <Modal
           visible={isVisible}
-          transparent={true}
+          transparent
           style={styles.modal}
           onRequestClose={closeModal}
         >
           <ImageViewer
             renderIndicator={(currentIndex: number) => {
-              setCurrentImage(currentIndex - 1)
+              setCurrentImage(currentIndex - 1);
 
-              return null
+              return null;
             }}
             // renderArrowLeft={() => null}
             // renderArrowRight={() => null}
@@ -272,8 +268,8 @@ export const ModalZoomImage = ({
             renderHeader={() => (
               <Box
                 position="absolute"
-                right={'4%'}
-                top={'5%'}
+                right="4%"
+                top="5%"
                 zIndex={2}
                 height={20}
                 width={20}
@@ -286,7 +282,9 @@ export const ModalZoomImage = ({
                   }}
                   variant="icone"
                   icon={<Icon size={13} name="Close" color="fullBlack" />}
-                  hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+                  hitSlop={{
+                    top: 15, bottom: 15, left: 15, right: 15,
+                  }}
                 />
               </Box>
             )}

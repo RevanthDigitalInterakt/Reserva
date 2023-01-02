@@ -5,18 +5,17 @@ import {
   Image,
   Typography,
 } from '@usereservaapp/reserva-ui';
-import React, { Fragment, useCallback, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import { useLazyQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
 import { images } from '../../../../assets';
 import { ModalTermsAndConditionsCashback } from './components/ModalTermsAndConditionsCashback';
-import { useLazyQuery } from '@apollo/client';
 
 import {
   profileQuery,
-  ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
-import { useNavigation } from '@react-navigation/native';
 
 export interface CashbackInStoreViewProps {
   token?: string;
@@ -40,13 +39,12 @@ export const CashbackInStoreView = ({
 
   useEffect(() => {
     getProfile().then((response) => {
-      if (!response.data?.profile)
-        navigation.navigate('Login', { comeFrom: 'Profile' });
+      if (!response.data?.profile) navigation.navigate('Login', { comeFrom: 'Profile' });
     });
   }, []);
 
   return (
-    <Fragment>
+    <>
       <Box mx="xxs" mt="sm">
         <Box mb="nano">
           <Typography fontFamily="reservaSerifMedium" fontSize={28}>
@@ -110,7 +108,7 @@ export const CashbackInStoreView = ({
               <Checkbox
                 marginLeft={13}
                 checked={termsIsAccepted}
-                color={'preto'}
+                color="preto"
                 onCheck={acceptTermsAndConditions}
               />
             </Box>
@@ -121,9 +119,9 @@ export const CashbackInStoreView = ({
                   fontSize={14}
                   color="preto"
                 >
-                  {`Li e aceito os `}
+                  {'Li e aceito os '}
                   <Typography style={{ textDecorationLine: 'underline' }}>
-                    {`termos e condições de uso.`}
+                    termos e condições de uso.
                   </Typography>
                 </Typography>
               </Button>
@@ -131,6 +129,6 @@ export const CashbackInStoreView = ({
           </Box>
         </Box>
       </Box>
-    </Fragment>
+    </>
   );
 };

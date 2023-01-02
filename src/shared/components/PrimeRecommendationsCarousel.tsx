@@ -3,11 +3,13 @@ import {
   Dimensions,
   TouchableHighlight,
   Animated,
-  StyleSheet,
 } from 'react-native';
-import { Box, Image, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Image, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 
 import { PriceCustom } from '../../modules/Checkout/components/PriceCustom';
+
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 interface IPrimeRecommendationsCarousel {
@@ -55,13 +57,13 @@ export const PrimeRecommendationsCarousel = ({
         <Animated.FlatList
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true }
+            { useNativeDriver: true },
           )}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
           snapToOffsets={[...Array(myCards.length)].map(
-            (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28
+            (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
           )}
           snapToAlignment="start"
           scrollEventThrottle={16}
@@ -90,18 +92,20 @@ const Card = ({ image, onPress }: ICard) => {
         <Button
           width={30}
           height={30}
-          hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+          hitSlop={{
+            top: 20, left: 20, bottom: 20, right: 20,
+          }}
           variant="icone"
           onPress={() => {
             setIsFavorited(!isFavorited);
           }}
-          icon={
+          icon={(
             <Icon
               name={isFavorited ? 'HeartRaised' : 'Heart'}
               size={18}
               color="preto"
             />
-          }
+          )}
         />
       </Box>
       <TouchableHighlight
@@ -131,7 +135,9 @@ const Card = ({ image, onPress }: ICard) => {
           />
           <Box flexDirection="row" alignItems="center">
             <Typography fontFamily="nunitoBold" color="fullBlack">
-              5x {''}
+              5x
+              {' '}
+
             </Typography>
             <PriceCustom
               fontFamily="nunitoBold"
@@ -164,7 +170,9 @@ const Card = ({ image, onPress }: ICard) => {
           </Box>
           <Box flexDirection="row" alignItems="center">
             <Typography fontFamily="nunitoBold" color="#A01E21">
-              6x {''}
+              6x
+              {' '}
+
             </Typography>
             <PriceCustom
               fontFamily="nunitoBold"

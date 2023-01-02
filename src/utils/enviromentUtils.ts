@@ -1,3 +1,3 @@
-import Config from "react-native-config";
+import Config from 'react-native-config';
 
-export const IS_DEV = Config.ENVIRONMENT !== "production";
+export const IS_DEV = Config.ENVIRONMENT !== 'production';

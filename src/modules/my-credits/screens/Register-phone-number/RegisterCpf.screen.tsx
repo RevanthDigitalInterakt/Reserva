@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,8 +11,8 @@ import {
 import { RegisterCpfContainer } from './RegisterCpf.container';
 
 type RegisterCpfScreenProps = StackScreenProps<
-  MyCreditsParamList,
-  MyCreditsScreensRoutes.REGISTER_CPF
+MyCreditsParamList,
+MyCreditsScreensRoutes.REGISTER_CPF
 >;
 
 export const RegisterCpfScreen = ({

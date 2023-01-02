@@ -24,13 +24,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 
 import { useAuth } from '../../../context/AuthContext';
-import { useContentfull } from '../../../context/ContentfullContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
-import { responsePathAsArray } from 'graphql';
-import {slugify} from "../../../utils/slugify";
+import { slugify } from '../../../utils/slugify';
 
 interface IBreadCrumbs {
   title: string;
@@ -74,7 +72,9 @@ const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
   );
 };
 
-const MenuSubItem: React.FC<IMenuSubItem> = ({ title, onPress, highlight, testID }) => {
+const MenuSubItem: React.FC<IMenuSubItem> = ({
+  title, onPress, highlight, testID,
+}) => {
   const navigation = useNavigation();
   const [clickMenu, setClickMenu] = useState<boolean>(false);
 
@@ -192,9 +192,9 @@ const MenuItem: React.FC<IMenuItem> = ({
                   navigation.navigate('ProductCatalog', {
                     facetInput,
                     referenceId: item.referenceId,
-                    title: title,
+                    title,
                     comeFrom: 'Menu',
-                    indexMenuOpened: indexProp
+                    indexMenuOpened: indexProp,
                   });
                 }}
               />
@@ -213,7 +213,9 @@ export const FixedMenuItem: React.FC<{
   underline?: boolean;
   disabled?: boolean;
   testID: string;
-}> = ({ iconName, title, onPress, disabled, underline, testID }) => (
+}> = ({
+  iconName, title, onPress, disabled, underline, testID,
+}) => (
   <TouchableOpacity onPress={onPress} disabled={disabled} testID={testID}>
     <Box
       justifyContent="flex-start"
@@ -264,8 +266,7 @@ export const Menu = ({ route }: Props) => {
   const [cep, setCep] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [profile, setProfile] = useState<Profile>();
-  const [screenRegionalizationActive, setScreenRegionalizationActive] =
-    useState(false);
+  const [screenRegionalizationActive, setScreenRegionalizationActive] = useState(false);
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
   const [{ dataProfile, refetch }, setProfileData] = useState({
@@ -286,23 +287,20 @@ export const Menu = ({ route }: Props) => {
 
   useEffect(() => {
     getCategories().then((response) => {
-        setCategoriesData({
-          loading: false,
-          data: response.data,
-        })
-      }
-    );
-    getProfile().then((response) =>
-      setProfileData({
-        dataProfile: response.data,
-        refetch: response.refetch,
-      })
-    );
+      setCategoriesData({
+        loading: false,
+        data: response.data,
+      });
+    });
+    getProfile().then((response) => setProfileData({
+      dataProfile: response.data,
+      refetch: response.refetch,
+    }));
   }, []);
 
   const getIsScreenRegionalizationActive = async () => {
     const cashback_in_store = await RemoteConfigService.getValue<boolean>(
-      'FEATURE_REGIONALIZATION'
+      'FEATURE_REGIONALIZATION',
     );
 
     setScreenRegionalizationActive(cashback_in_store);
@@ -312,8 +310,7 @@ export const Menu = ({ route }: Props) => {
     getIsScreenRegionalizationActive();
   }, []);
 
-  const categoryItems =
-    data?.appMenuCollection.items[0].itemsCollection.items || [];
+  const categoryItems = data?.appMenuCollection.items[0].itemsCollection.items || [];
 
   const getCep = async () => {
     const value = await AsyncStorage.getItem('RegionalSearch:cep');
@@ -332,7 +329,7 @@ export const Menu = ({ route }: Props) => {
         children: item.childCategoryCollection,
         opened: indexOpened === index,
         highlight: false,
-      }))
+      })),
     );
 
     setResetGoBackButton(true);
@@ -364,7 +361,7 @@ export const Menu = ({ route }: Props) => {
       categories.map((item, i) => ({
         ...item,
         opened: index === i && !item.opened,
-      }))
+      })),
     );
   };
 
@@ -398,19 +395,17 @@ export const Menu = ({ route }: Props) => {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           {categories && (
             <Animatable.View animation="fadeIn">
-              {categories.map((item, index) =>
-                !item.mkt ? (
-                  <MenuItem
-                    key={index}
-                    highlight={item.highlight}
-                    subItemList={item.children}
-                    onPress={openMenuItem}
-                    opened={item.opened}
-                    index={index}
-                    title={item.name}
-                  />
-                ) : null
-              )}
+              {categories.map((item, index) => (!item.mkt ? (
+                <MenuItem
+                  key={index}
+                  highlight={item.highlight}
+                  subItemList={item.children}
+                  onPress={openMenuItem}
+                  opened={item.opened}
+                  index={index}
+                  title={item.name}
+                />
+              ) : null))}
               <Divider
                 variant="fullWidth"
                 marginBottom="nano"
@@ -420,7 +415,7 @@ export const Menu = ({ route }: Props) => {
                 <FixedMenuItem
                   iconName="Pin"
                   testID="menu_button_cep"
-                  title={
+                  title={(
                     <Typography
                       alignSelf="flex-end"
                       color="preto"
@@ -429,7 +424,7 @@ export const Menu = ({ route }: Props) => {
                     >
                       {`${cep != null ? cep : 'Inserir'} ou alterar CEP`}
                     </Typography>
-                  }
+                  )}
                   onPress={() => {
                     navigation.navigate('ChangeRegionalization');
                   }}
@@ -439,7 +434,7 @@ export const Menu = ({ route }: Props) => {
                 iconName="Profile"
                 disabled={!!cookie}
                 testID="menu_button_account"
-                title={
+                title={(
                   <Typography
                     alignSelf="flex-end"
                     color="preto"
@@ -452,7 +447,9 @@ export const Menu = ({ route }: Props) => {
                           navigation.navigate('Profile');
                         }}
                       >
-                        Olá, {profile?.firstName || profile?.email}
+                        Olá,
+                        {' '}
+                        {profile?.firstName || profile?.email}
                       </Typography>
                     ) : (
                       <Typography
@@ -464,12 +461,12 @@ export const Menu = ({ route }: Props) => {
                       </Typography>
                     )}
                   </Typography>
-                }
+                )}
               />
               <FixedMenuItem
                 iconName="Heart"
                 testID="menu_button_favorites"
-                title={
+                title={(
                   <Typography
                     alignSelf="flex-end"
                     color="preto"
@@ -478,7 +475,7 @@ export const Menu = ({ route }: Props) => {
                   >
                     Favoritos
                   </Typography>
-                }
+                )}
                 onPress={() => {
                   navigation.navigate('WishList');
                 }}
@@ -486,7 +483,7 @@ export const Menu = ({ route }: Props) => {
               <FixedMenuItem
                 iconName="Message"
                 testID="menu_button_callcenter"
-                title={
+                title={(
                   <Typography
                     alignSelf="flex-end"
                     color="preto"
@@ -495,7 +492,7 @@ export const Menu = ({ route }: Props) => {
                   >
                     Central de Ajuda
                   </Typography>
-                }
+                )}
                 onPress={() => {
                   navigateFromMenu('HelpCenter');
                 }}
@@ -503,7 +500,7 @@ export const Menu = ({ route }: Props) => {
               <FixedMenuItem
                 iconName="Pin"
                 testID="menu_button_stores"
-                title={
+                title={(
                   <Typography
                     alignSelf="flex-end"
                     color="preto"
@@ -512,7 +509,7 @@ export const Menu = ({ route }: Props) => {
                   >
                     Lojas
                   </Typography>
-                }
+                )}
                 onPress={() => {
                   Linking.openURL('https://whts.co/reserva');
                 }}
@@ -520,7 +517,7 @@ export const Menu = ({ route }: Props) => {
               <FixedMenuItem
                 iconName="PrivacyPolicy"
                 testID="menu_button_privacy"
-                title={
+                title={(
                   <Typography
                     alignSelf="flex-end"
                     color="preto"
@@ -529,7 +526,7 @@ export const Menu = ({ route }: Props) => {
                   >
                     Política de Privacidade
                   </Typography>
-                }
+                )}
                 onPress={() => {
                   navigateFromMenu('PrivacyPolicy');
                 }}
@@ -542,7 +539,9 @@ export const Menu = ({ route }: Props) => {
               fontFamily="nunitoRegular"
               fontSize={11}
             >
-              Versão {DeviceInfo.getVersion()}
+              Versão
+              {' '}
+              {DeviceInfo.getVersion()}
               {isTesting ? ' - Teste' : ''}
             </Typography>
           </Box>

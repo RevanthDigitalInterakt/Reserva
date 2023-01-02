@@ -83,7 +83,7 @@ export class StorageService {
 
       AsyncStorage.setItem(
         StorageServiceKeys.INSTALLATION_TOKEN,
-        installationToken
+        installationToken,
       )
         .then(() => {
           resolve(true);
@@ -192,9 +192,7 @@ export class StorageService {
    *
    */
   static async multiGet<T>(options: GetSetOptions[]): Promise<T> {
-    const promises = options.map((option: GetSetOptions) =>
-      AsyncStorage.getItem(option.key)
-    );
+    const promises = options.map((option: GetSetOptions) => AsyncStorage.getItem(option.key));
     const processResult = (result: any) => {
       const resultObj: any = {};
       result.map((value: string, i: number) => {
@@ -213,7 +211,7 @@ export class StorageService {
         const value = processResult(result);
         return Promise.resolve(value);
       },
-      (errors) => Promise.reject(errors)
+      (errors) => Promise.reject(errors),
     );
   }
 }

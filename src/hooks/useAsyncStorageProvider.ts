@@ -1,6 +1,6 @@
-import AsyncStorage from "@react-native-community/async-storage";
-import * as Sentry from "@sentry/react-native";
-import EventProvider from "../utils/EventProvider";
+import AsyncStorage from '@react-native-community/async-storage';
+import * as Sentry from '@sentry/react-native';
+import EventProvider from '../utils/EventProvider';
 
 export interface IAsyncStorageKeys {
   '@RNOrder:ChristmasCouponModalOrderId': string;

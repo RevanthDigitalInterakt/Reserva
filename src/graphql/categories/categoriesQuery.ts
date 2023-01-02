@@ -1,6 +1,6 @@
-//#region Action Types
+// #region Action Types
 
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export type CategoryQuery = {
   id: number;
@@ -14,7 +14,7 @@ export type CategoryQuery = {
   highlight?: boolean;
   opened?: boolean;
   mkt?: boolean
-}
+};
 
 export const categoriesQuery = gql`
   query {

@@ -1,4 +1,6 @@
-import React, { useState, createContext, ReactNode, useContext } from 'react';
+import React, {
+  useState, createContext, ReactNode, useContext,
+} from 'react';
 import { Platform } from 'react-native';
 
 export enum StatusBarStyle {
@@ -34,7 +36,7 @@ const StatusBarContextProvider = ({
   const [barStyle, setBarStyle] = useState(
     Platform.OS === 'ios'
       ? StatusBarStyle.DARK_CONTENT
-      : StatusBarStyle.LIGHT_CONTENT
+      : StatusBarStyle.LIGHT_CONTENT,
   );
 
   const changeBackgroundColor = (color: string) => {
@@ -66,8 +68,9 @@ export const useStatusBar = () => {
   if (!statusBarContext) {
     throw new Error('use StatusBar must be used within a StatusBarContext');
   }
-  const { backgroundColor, changeBackgroundColor, barStyle, changeBarStyle } =
-    statusBarContext;
+  const {
+    backgroundColor, changeBackgroundColor, barStyle, changeBarStyle,
+  } = statusBarContext;
   return {
     backgroundColor,
     changeBackgroundColor,

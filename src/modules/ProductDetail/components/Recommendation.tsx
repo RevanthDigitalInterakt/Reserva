@@ -1,5 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Divider, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Divider, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
@@ -38,9 +40,7 @@ export const Recommendation = ({
   const saveItems = async (items: any) => {
     const arrayProductsId = items.map((elem) => elem.productId);
 
-    const arrayWithoutDuplicates = items.filter((element, index) => {
-      return index === arrayProductsId.indexOf(element.productId);
-    });
+    const arrayWithoutDuplicates = items.filter((element, index) => index === arrayProductsId.indexOf(element.productId));
 
     setProducts(arrayWithoutDuplicates.slice(0, 6));
   };
@@ -99,7 +99,7 @@ export const Recommendation = ({
           </BoxAnimated>
         </Button>
       </Box>
-      {!!showMore ? (
+      {showMore ? (
         <>
           <Box>
             <Divider marginBottom="xs" variant="fullWidth" />

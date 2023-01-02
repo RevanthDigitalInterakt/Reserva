@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { Box, Typography, ProgressBar } from '@usereservaapp/reserva-ui';
 
-import { PriceCustom } from './PriceCustom';
-import { configCollection } from '../../../graphql/homePage/HomeQuery';
 import { useLazyQuery } from '@apollo/client';
 import { useFocusEffect } from '@react-navigation/native';
+import { PriceCustom } from './PriceCustom';
+import { configCollection } from '../../../graphql/homePage/HomeQuery';
 
 export interface ShippingBarProps {
   sumPriceShipping: number;
@@ -67,18 +67,16 @@ export const ShippingBar = ({
   useFocusEffect(
     useCallback(() => {
       if (collectionData !== null) {
-        const freeShippingValueData =
-          collectionData?.configCollection?.items[0]?.shippingBar
-            ?.freeShippingValue;
+        const freeShippingValueData = collectionData?.configCollection?.items[0]?.shippingBar
+          ?.freeShippingValue;
 
-        const isFreeShippingData =
-          collectionData?.configCollection?.items[0]?.shippingBar
-            ?.isFreeShipping;
+        const isFreeShippingData = collectionData?.configCollection?.items[0]?.shippingBar
+          ?.isFreeShipping;
 
         setFreeShippingValue(freeShippingValueData);
         setIsFreeShipping(isFreeShippingData);
       }
-    }, [collectionData])
+    }, [collectionData]),
   );
 
   useEffect(() => {
@@ -101,7 +99,10 @@ export const ShippingBar = ({
           ) : sumPriceShipping < freeShippingValue ? (
             <Box flexDirection="row">
               <Box>
-                <Typography>Faltam apenas {''}</Typography>
+                <Typography>
+                  Faltam apenas
+
+                </Typography>
               </Box>
               <PriceCustom
                 fontFamily="nunitoBold"

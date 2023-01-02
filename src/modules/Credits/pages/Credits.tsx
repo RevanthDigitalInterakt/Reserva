@@ -1,5 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Divider, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Divider, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
@@ -35,12 +37,10 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
   const [getProfile] = useLazyQuery(profileQuery);
 
   useEffect(() => {
-    getProfile().then((response) =>
-      setProfileData({
-        loading: false,
-        data: response.data,
-      })
-    );
+    getProfile().then((response) => setProfileData({
+      loading: false,
+      data: response.data,
+    }));
   }, []);
 
   useEffect(() => {

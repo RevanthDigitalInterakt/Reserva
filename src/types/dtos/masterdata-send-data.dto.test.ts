@@ -1,4 +1,4 @@
-import { MasterDataSendDataDto } from "./masterdata-send-data.dto";
+import { MasterDataSendDataDto } from './masterdata-send-data.dto';
 
 describe('MasterDataSendDataDtoTest', () => {
   const dto = new MasterDataSendDataDto('email@email.com', 'name', '(11) 95590-5195', '123456');
@@ -12,11 +12,11 @@ describe('MasterDataSendDataDtoTest', () => {
       orderId: '123456',
       phone: '+5511955905195',
     }));
-  })
+  });
 
   it('should format the phone number', () => {
     const phone = dto.formatPhone('(11) 95590-5195');
 
     expect(phone).toBe('+5511955905195');
-  })
-})
+  });
+});

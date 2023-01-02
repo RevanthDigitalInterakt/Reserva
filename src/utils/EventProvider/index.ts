@@ -1,16 +1,21 @@
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import * as Sentry from '@sentry/react-native';
+import OneSignal from 'react-native-onesignal';
 import { env } from '../../config/env';
 import { oneSignalConfig } from '../../config/pushNotification';
-import { eventsName, eventsValue, EventValueOptions, Provider } from './misc';
+import {
+  eventsName, eventsValue, EventValueOptions,
+} from './misc';
 import { EventOptionsFn, EventsOptions } from './Event';
-import OneSignal from 'react-native-onesignal';
 
 class EventProvider {
   public static appsFlyer: typeof appsFlyer = appsFlyer;
+
   public static analytics = analytics();
+
   public static OneSignal = OneSignal;
+
   public static sentry: typeof Sentry = Sentry;
 
   public static initializeModules() {
@@ -27,7 +32,7 @@ class EventProvider {
       (result) => {},
       (error) => {
         this.captureException(error);
-      }
+      },
     );
     this.analytics
       .logAppOpen()
@@ -35,13 +40,11 @@ class EventProvider {
   }
 
   public static parseValues(values: EventValueOptions) {
-    return Object.keys(values).reduce((acc, curr) => {
-      return {
-        ...acc,
-        [eventsValue[curr as keyof EventValueOptions]]:
+    return Object.keys(values).reduce((acc, curr) => ({
+      ...acc,
+      [eventsValue[curr as keyof EventValueOptions]]:
           values[curr as keyof EventValueOptions],
-      };
-    }, {} as EventValueOptions);
+    }), {} as EventValueOptions);
   }
 
   public static logEvent<Type extends EventOptionsFn['type']>(

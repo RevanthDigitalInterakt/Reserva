@@ -1,13 +1,13 @@
 import { Box } from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
+import { ScrollView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from 'routes/StackNavigator';
 import { GET_LANDING_PAGE, LandingPageData } from './api/LandingPageQuery';
 import { PrimeNewsLetterCard } from '../../shared/components/PrimeNewsLetterCard';
 import { Banner } from '../../shared/components/Banner';
 import { PrimeProductList } from '../../shared/components/PrimeProductList';
-import { ScrollView } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from 'routes/StackNavigator';
 import { TopBarDefaultBackButton } from '../Menu/components/TopBarDefaultBackButton';
 
 type Props = StackScreenProps<RootStackParamList, 'LandingPage'>;
@@ -31,8 +31,8 @@ export const LandingPage: React.FC<Props> = ({ route }) => {
     <Box flex={1} bg="white">
       <TopBarDefaultBackButton loading={false} />
       <ScrollView>
-        {landingPage &&
-          landingPage.landingPage.itemsCollection.items.map((item, index) => {
+        {landingPage
+          && landingPage.landingPage.itemsCollection.items.map((item, index) => {
             switch (item.__typename) {
               case 'LpLeads':
                 return (

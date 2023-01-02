@@ -1,9 +1,11 @@
-import { ProfileVars } from "graphql/profile/profileQuery";
-import React, { Fragment, useEffect, useState } from "react";
-import { TopBarBackButton } from "../../../../modules/Menu/components/TopBarBackButton";
-import { StorageService, StorageServiceKeys } from "../../../../shared/services/StorageService";
-import { CashbackHttpUrl, GetDigitalWalletResponse, GetExpireBalanceResponse, GetUserOperationsResponse, MyCashbackAPI, UserOperations } from "../../api/MyCashbackAPI";
-import { MyWalletView } from "./MyWallet.view";
+import { ProfileVars } from 'graphql/profile/profileQuery';
+import React, { Fragment, useEffect, useState } from 'react';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
+import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
+import {
+  CashbackHttpUrl, GetDigitalWalletResponse, GetExpireBalanceResponse, GetUserOperationsResponse, MyCashbackAPI, UserOperations,
+} from '../../api/MyCashbackAPI';
+import { MyWalletView } from './MyWallet.view';
 
 interface MyWalletContainerProps {
   navigateBack: () => void;
@@ -11,10 +13,10 @@ interface MyWalletContainerProps {
 }
 
 export enum FilterOptions {
-  ALL = "ALL",
-  DEBIT = "DEBIT",
-  CREDIT = "CREDIT",
-  PENDING = "PENDING",
+  ALL = 'ALL',
+  DEBIT = 'DEBIT',
+  CREDIT = 'CREDIT',
+  PENDING = 'PENDING',
 }
 
 export enum BalanceType {
@@ -26,7 +28,7 @@ export enum BalanceType {
 export const MyWalletContainer = (
   {
     navigateBack,
-  }: MyWalletContainerProps
+  }: MyWalletContainerProps,
 ) => {
   const [balance, setBalance] = useState<number>(0);
   const [operationFilter, setOperationFilter] = useState<FilterOptions>(FilterOptions.ALL);
@@ -63,33 +65,33 @@ export const MyWalletContainer = (
 
   const getUserOperations = async (cpf: string) => {
     const response = await MyCashbackAPI.get<GetUserOperationsResponse>(
-      `${CashbackHttpUrl.GetUserOperations}${cpf}/operations`
+      `${CashbackHttpUrl.GetUserOperations}${cpf}/operations`,
     );
     setUserOperations(response.data);
   };
 
   const getUserExpireBalance = async (cpf: string) => {
     const response = await MyCashbackAPI.get<GetExpireBalanceResponse>(
-      `${CashbackHttpUrl.GetExpireBalance}${cpf}`
+      `${CashbackHttpUrl.GetExpireBalance}${cpf}`,
     );
     setUserExpireBalance(response.data);
   };
 
   const changeSelectedBalance = (balance: BalanceType) => {
-    if(balance === BalanceType.FUTURE) {
+    if (balance === BalanceType.FUTURE) {
       setOperationFilter(FilterOptions.PENDING);
     }
     setSelectedBalance(balance);
   };
 
-  const getCreditBalance = async ( cpf: string) => {
+  const getCreditBalance = async (cpf: string) => {
     const { data } = await MyCashbackAPI.get<GetDigitalWalletResponse>(
       `${CashbackHttpUrl.GetDigitalWallet}${cpf}`,
     );
 
     const balanceFormated = data.data.balance_in_cents > 0
-    ? convertCentsToReal(data.data.balance_in_cents)
-    : data.data.balance_in_cents;
+      ? convertCentsToReal(data.data.balance_in_cents)
+      : data.data.balance_in_cents;
 
     setBalance(balanceFormated);
   };
@@ -98,40 +100,40 @@ export const MyWalletContainer = (
     switch (filter) {
       case FilterOptions.ALL:
         return userOperations?.data?.filter(
-          operation => operation.applied_balance_in_cents > 0
+          (operation) => operation.applied_balance_in_cents > 0
           || operation.cashback_amount_in_cents > 0
-          && operation.status !== 'pending'
+          && operation.status !== 'pending',
         );
       case FilterOptions.DEBIT:
         return userOperations?.data?.filter(
-          operation => operation.applied_balance_in_cents > 0
-          && operation.status !== 'pending'
+          (operation) => operation.applied_balance_in_cents > 0
+          && operation.status !== 'pending',
         );
       case FilterOptions.PENDING:
         const filtered = userOperations?.data?.filter(
-          operation => operation.status === 'pending'
-        )
+          (operation) => operation.status === 'pending',
+        );
         const initialValue = 0;
         const sumWithInitial = filtered?.reduce(
           (previousValue, currentValue) => previousValue + currentValue.cashback_amount_in_cents,
-          initialValue
+          initialValue,
         );
         setTotalPending(sumWithInitial);
         return filtered;
       case FilterOptions.CREDIT:
         return userOperations?.data?.filter(
-          operation => operation.cashback_amount_in_cents > 0
-          && operation.status !== 'pending'
+          (operation) => operation.cashback_amount_in_cents > 0
+          && operation.status !== 'pending',
         );
       default:
-        return  userOperations?.data?.filter(
-          operation => operation.status !== 'pending'
+        return userOperations?.data?.filter(
+          (operation) => operation.status !== 'pending',
         );
     }
-  }
+  };
 
   useEffect(() => {
-    if(profile?.document) {
+    if (profile?.document) {
       getCreditBalance(profile.document);
       getUserOperations(profile.document);
       getUserExpireBalance(profile.document);
@@ -156,8 +158,8 @@ export const MyWalletContainer = (
     return `${day}/${month}/${year}`;
   };
 
-  return(
-    <Fragment>
+  return (
+    <>
       <TopBarBackButton
         loading={false}
         showShadow
@@ -178,6 +180,6 @@ export const MyWalletContainer = (
         handleToggleBalanceVisibility={handleToggleBalanceVisibility}
         changeOperationFilter={changeOperationFilter}
       />
-    </Fragment>
+    </>
   );
 };

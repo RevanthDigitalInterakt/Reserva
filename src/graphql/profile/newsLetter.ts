@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const subscribeNewsLetter = gql`
   mutation SubscribeNewsletter(
@@ -12,4 +12,4 @@ export const subscribeNewsLetter = gql`
       fields: $fields
       )
   }
-`
+`;

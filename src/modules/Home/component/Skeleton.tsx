@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { Animated, Easing, View, Dimensions } from 'react-native';
+import {
+  Animated, Easing, View, Dimensions,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Box } from '@usereservaapp/reserva-ui';
 
@@ -22,7 +24,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ height, width }) => {
         duration: 1000,
         easing: Easing.inOut(Easing.ease),
         useNativeDriver: true,
-      })
+      }),
     ).start();
   });
 

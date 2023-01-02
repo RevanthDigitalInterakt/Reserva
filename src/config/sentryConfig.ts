@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react-native';
-import Config from "react-native-config";
+import Config from 'react-native-config';
 
 const isDev = __DEV__;
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
-import { RegisterPhoneNumberView } from '../RegisterPhoneNumber.view';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '@usereservaapp/reserva-ui';
+import { RegisterPhoneNumberView } from '../RegisterPhoneNumber.view';
 
 const profile = {
   userId: '0',
@@ -23,13 +23,13 @@ describe('RegisterPhoneNumberView', () => {
         <RegisterPhoneNumberView
           profile={profile}
           confirmPhone={false}
-          isChangeNumber={true}
+          isChangeNumber
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const titleIsChangeNumber = getByText('Atualizar telefone');
     const subtitleIsChangeNumber = getByText(
-      'Digite seu número novo abaixo e continue para gerar seu QR Code.'
+      'Digite seu número novo abaixo e continue para gerar seu QR Code.',
     );
     const inputPhoneNumber = getByPlaceholderText('(00) 00000-0000');
     const buttonRegister = getByText('CADASTRAR');
@@ -46,14 +46,14 @@ describe('RegisterPhoneNumberView', () => {
           confirmPhone={false}
           isChangeNumber={false}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const titleRegisterPhone = getByText('Cashback em Lojas');
     const subtitleRegisterPhone = getByText(
-      'Para utilizar o cashback em loja precisamos que mantenha o número de telefone atualizado.'
+      'Para utilizar o cashback em loja precisamos que mantenha o número de telefone atualizado.',
     );
     const subtitleQRCode = getByText(
-      'Digite seu número abaixo e continue para gerar seu QR Code.'
+      'Digite seu número abaixo e continue para gerar seu QR Code.',
     );
     const inputPhoneNumber = getByPlaceholderText('(00) 00000-0000');
     const buttonRegister = getByText('CADASTRAR');
@@ -65,19 +65,21 @@ describe('RegisterPhoneNumberView', () => {
   });
 
   test.skip('SHOULD render correctly WHEN confirmPhone is true', () => {
-    const { debug, getByText, getByPlaceholderText, getByTestId } = render(
+    const {
+      debug, getByText, getByPlaceholderText, getByTestId,
+    } = render(
       <ThemeProvider theme={theme}>
         <RegisterPhoneNumberView
           profile={profile}
-          confirmPhone={true}
+          confirmPhone
           isChangeNumber={false}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     debug();
     const titleConfirmPhone = getByText('Confirmar telefone');
     const subtitleConfirmPhon = getByText(
-      'Digite abaixo o código que acabamos de enviar para seu telefone:'
+      'Digite abaixo o código que acabamos de enviar para seu telefone:',
     );
     const phoneNumber = getByTestId('phoneNumber');
     const confirmButton = getByText('CONFIRMAR');
@@ -95,9 +97,9 @@ describe('RegisterPhoneNumberView', () => {
         <RegisterPhoneNumberView
           profile={profile}
           confirmPhone={false}
-          isChangeNumber={true}
+          isChangeNumber
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     debug();
     const inputPhoneNumber = getByPlaceholderText('(00) 00000-0000');

@@ -44,74 +44,74 @@ export namespace EventsOptions {
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories'>;
   export type ProductListView = Pick<EventValues, 'content_type'>;
   export type CheckoutInitiated = Pick<
-    EventValues,
-    'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
+  EventValues,
+  'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
   >;
   export type CompleteRegistration = Pick<
-    EventValues,
-    'registration_method' | 'custumer_email'
+  EventValues,
+  'registration_method' | 'custumer_email'
   >;
   export type ProductView = Pick<
-    EventValues,
-    | 'product_id'
-    | 'product_name'
-    | 'product_category'
-    | 'product_price'
-    | 'product_currency'
+  EventValues,
+  | 'product_id'
+  | 'product_name'
+  | 'product_category'
+  | 'product_price'
+  | 'product_currency'
   >;
   export type AddToCart = Pick<
-    EventValues,
-    | 'item_id'
-    | 'item_name'
-    | 'item_price'
-    | 'item_quantity'
-    | 'item_category'
-    | 'currency'
-    | 'seller'
+  EventValues,
+  | 'item_id'
+  | 'item_name'
+  | 'item_price'
+  | 'item_quantity'
+  | 'item_category'
+  | 'currency'
+  | 'seller'
   >;
   export type Purchase = Pick<
-    EventValues,
-    | 'affiliation'
-    | 'coupon'
-    | 'currency'
-    | 'items'
-    | 'shipping'
-    | 'tax'
-    | 'transaction_id'
-    | 'value'
+  EventValues,
+  | 'affiliation'
+  | 'coupon'
+  | 'currency'
+  | 'items'
+  | 'shipping'
+  | 'tax'
+  | 'transaction_id'
+  | 'value'
   > & {};
 }
 
 export type EventOptionsFn =
   | {
-      type: 'login';
-      payload: EventsOptions.Login;
-    }
+    type: 'login';
+    payload: EventsOptions.Login;
+  }
   | {
-      type: 'search';
-      payload: EventsOptions.Search;
-    }
+    type: 'search';
+    payload: EventsOptions.Search;
+  }
   | {
-      type: 'add_to_cart';
-      payload: EventsOptions.AddToCart;
-    }
+    type: 'add_to_cart';
+    payload: EventsOptions.AddToCart;
+  }
   | {
-      type: 'remove_from_cart';
-      payload: EventsOptions.RemoveFromCart;
-    }
+    type: 'remove_from_cart';
+    payload: EventsOptions.RemoveFromCart;
+  }
   | {
-      type: 'checkout_initiated';
-      payload: EventsOptions.CheckoutInitiated;
-    }
+    type: 'checkout_initiated';
+    payload: EventsOptions.CheckoutInitiated;
+  }
   | {
-      type: 'product_list_view';
-      payload: EventsOptions.ProductListView;
-    }
+    type: 'product_list_view';
+    payload: EventsOptions.ProductListView;
+  }
   | {
-      type: 'product_view';
-      payload: EventsOptions.ProductView;
-    }
+    type: 'product_view';
+    payload: EventsOptions.ProductView;
+  }
   | {
-      type: 'complete_registration';
-      payload: EventsOptions.CompleteRegistration;
-    };
+    type: 'complete_registration';
+    payload: EventsOptions.CompleteRegistration;
+  };

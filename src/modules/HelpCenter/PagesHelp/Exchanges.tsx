@@ -1,7 +1,9 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, ExpansePanel, Divider } from '@usereservaapp/reserva-ui';
+import {
+  Typography, Box, ExpansePanel, Divider,
+} from '@usereservaapp/reserva-ui';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
@@ -53,21 +55,19 @@ export const Exchanges = () => {
       <TopBarBackButton />
 
       <ScrollView>
-        <Box flex={1} pt={'xs'} paddingX={'xxxs'}>
-          <Box mb={'nano'} alignSelf={'flex-start'}>
-            <Typography variant={'tituloSessoes'}>
+        <Box flex={1} pt="xs" paddingX="xxxs">
+          <Box mb="nano" alignSelf="flex-start">
+            <Typography variant="tituloSessoes">
               Trocas e devoluções
             </Typography>
           </Box>
 
-          {data.map((item, key) => {
-            return (
-              <Box key={key}>
-                <ExpansePanel information={{ ...item }} />
-                <Divider mt={'xxxs'} variant={'fullWidth'} />
-              </Box>
-            );
-          })}
+          {data.map((item, key) => (
+            <Box key={key}>
+              <ExpansePanel information={{ ...item }} />
+              <Divider mt="xxxs" variant="fullWidth" />
+            </Box>
+          ))}
         </Box>
       </ScrollView>
     </SafeAreaView>

@@ -1,10 +1,8 @@
 import { useLazyQuery } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
-import { StackActions, useNavigation } from '@react-navigation/native';
 import {
-  StatusBarStyle,
-  useStatusBar,
-} from '../../../context/StatusBarContext';
+  Box, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
+import { StackActions, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
@@ -16,6 +14,10 @@ import {
   View,
 } from 'react-native';
 import { openSettings, requestNotifications } from 'react-native-permissions';
+import {
+  StatusBarStyle,
+  useStatusBar,
+} from '../../../context/StatusBarContext';
 import { onboarding } from '../../../graphql/onboarding/onboarding';
 import { styles } from '../assets/Styles';
 import { ButtonClose } from '../components/ButtonClose';
@@ -44,7 +46,7 @@ const Slide = ({
       return navigation.dispatch(StackActions.replace('Main'));
     }
     if (Platform.OS === 'ios') {
-      return await requestATT().then((value) => {
+      return requestATT().then((value) => {
         if (value === true) {
           goNextSlide();
         } else {
@@ -57,7 +59,7 @@ const Slide = ({
   const handleButtonSlide = async (idCurrent: number) => {
     switch (idCurrent) {
       case 0:
-        return await requestNotifications(['alert', 'sound']).then(
+        return requestNotifications(['alert', 'sound']).then(
           ({ status, settings }) => {
             if (status === 'granted') {
               openSettings()
@@ -68,7 +70,7 @@ const Slide = ({
                 .then(() => goNextSlide())
                 .catch(EventProvider.captureException);
             }
-          }
+          },
         );
       case 1:
         return await requestPermissionLocation().then(() => {
@@ -87,31 +89,29 @@ const Slide = ({
     }
   };
 
-  const Indicators = () => {
-    return (
-      <View style={[styles.boxIndicatorMain]}>
-        <View style={[styles.boxIndicatorChild]}>
-          {staticsData.map((_: any, index: any) => (
-            <View
-              key={index}
-              style={[
-                styles.indicator,
-                currentSlideShow === index && {
-                  backgroundColor: '#FFFFFF',
-                },
-              ]}
-            />
-          ))}
-        </View>
+  const Indicators = () => (
+    <View style={[styles.boxIndicatorMain]}>
+      <View style={[styles.boxIndicatorChild]}>
+        {staticsData.map((_: any, index: any) => (
+          <View
+            key={index}
+            style={[
+              styles.indicator,
+              currentSlideShow === index && {
+                backgroundColor: '#FFFFFF',
+              },
+            ]}
+          />
+        ))}
       </View>
-    );
-  };
+    </View>
+  );
 
   return (
     <>
       <ImageBackground
         source={{ uri: itemContentful[currentSlideShow]?.imageBackground?.url }}
-        resizeMode={'cover'}
+        resizeMode="cover"
         style={[styles.imageBackground]}
       >
         <Box flex={1}>
@@ -158,12 +158,12 @@ const Slide = ({
               inline
               style={[styles.buttonTitle]}
             >
-              <Box flexDirection={'row'}>
+              <Box flexDirection="row">
                 <Box
                   flex={1}
-                  marginLeft={'xxxs'}
-                  alignContent={'center'}
-                  alignSelf={'center'}
+                  marginLeft="xxxs"
+                  alignContent="center"
+                  alignSelf="center"
                 >
                   <Typography style={[styles.buttonTypographyTitle]}>
                     {item?.buttonTitle}
@@ -171,20 +171,20 @@ const Slide = ({
                 </Box>
 
                 <Icon
-                  name={'MenuArrowBack'}
-                  size={'25'}
+                  name="MenuArrowBack"
+                  size="25"
                   style={{
                     transform: [{ rotate: '180deg' }],
                     color: 'rgba(18,18,18,1)',
                   }}
-                  marginRight={'xxxs'}
+                  marginRight="xxxs"
                 />
               </Box>
             </Button>
           </Box>
           <Box>
-            {currentSlideShow < lengthArray - 1 &&
-            itemContentful[currentSlideShow]?.visibleAndroid ? (
+            {currentSlideShow < lengthArray - 1
+            && itemContentful[currentSlideShow]?.visibleAndroid ? (
               <Box>
                 <TouchableOpacity
                   onPress={goNextSlide}
@@ -195,14 +195,14 @@ const Slide = ({
                   </Typography>
                 </TouchableOpacity>
               </Box>
-            ) : (
-              <TouchableOpacity
-                onPress={goNextSlide}
-                style={[styles.buttonNext]}
-              >
-                <Box></Box>
-              </TouchableOpacity>
-            )}
+              ) : (
+                <TouchableOpacity
+                  onPress={goNextSlide}
+                  style={[styles.buttonNext]}
+                >
+                  <Box />
+                </TouchableOpacity>
+              )}
           </Box>
         </Box>
       </ImageBackground>
@@ -253,13 +253,12 @@ export const Onboarding: React.FC<{}> = ({}) => {
   useEffect(() => {
     setLoading(true);
     onboardingData().then((res) => {
-      const items =
-        Platform.OS === 'android'
-          ? res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection?.items.filter(
-              (item: any) => item.visibleAndroid !== false
-            )
-          : res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
-              ?.items;
+      const items = Platform.OS === 'android'
+        ? res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection?.items.filter(
+          (item: any) => item.visibleAndroid !== false,
+        )
+        : res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection
+          ?.items;
 
       setItemContentful(items);
       setLoading(false);

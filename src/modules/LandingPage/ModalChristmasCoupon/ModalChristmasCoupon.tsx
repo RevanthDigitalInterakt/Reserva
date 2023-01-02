@@ -1,9 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import Modal from 'react-native-modal';
-import useMasterdataProvider from "../../../hooks/useMasterdataProvider";
-import ModalChristmasCouponForm from "./ModalChristmasCouponForm";
-import useAsyncStorageProvider from "../../../hooks/useAsyncStorageProvider";
-import { IResponseCouponShowModal } from "../../../types/interfaces/IResponseCouponShowModal";
+import useMasterdataProvider from '../../../hooks/useMasterdataProvider';
+import ModalChristmasCouponForm from './ModalChristmasCouponForm';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { IResponseCouponShowModal } from '../../../types/interfaces/IResponseCouponShowModal';
 
 export interface IModalChristmasCoupon {
   isVisible: boolean;
@@ -25,7 +27,7 @@ function ModalChristmasCoupon({ isVisible, orderId, onClose }: IModalChristmasCo
 
   const modalIsVisible = useMemo(() => !!(
     modalInfo?.showModal && isVisible
-  ), [modalInfo, isVisible])
+  ), [modalInfo, isVisible]);
 
   const onCloseModal = useCallback(() => {
     setItem('@RNOrder:ChristmasCouponModalOrderId', '');
@@ -33,14 +35,14 @@ function ModalChristmasCoupon({ isVisible, orderId, onClose }: IModalChristmasCo
   }, [onClose]);
 
   useEffect(() => {
-    onCheckChristmasModalVisibility().then(setModalInfo)
-  }, [])
+    onCheckChristmasModalVisibility().then(setModalInfo);
+  }, []);
 
   useEffect(() => {
     if (modalIsVisible && orderId) {
       setItem('@RNOrder:ChristmasCouponModalOrderId', orderId);
     }
-  }, [modalIsVisible, orderId])
+  }, [modalIsVisible, orderId]);
 
   return (
     <Modal

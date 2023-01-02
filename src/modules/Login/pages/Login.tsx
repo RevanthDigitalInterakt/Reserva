@@ -101,7 +101,7 @@ export const LoginScreen: React.FC<Props> = ({
           (res) => { },
           (error) => {
             EventProvider.captureException(error);
-          }
+          },
         );
 
         EventProvider.appsFlyer.setUserEmails(
@@ -112,15 +112,14 @@ export const LoginScreen: React.FC<Props> = ({
           (success) => { },
           (error) => {
             EventProvider.captureException(error);
-          }
+          },
         );
-
 
         if (setEmail) setEmail(email);
 
         AsyncStorage.setItem(
           '@RNAuth:email',
-          loginCredentials.username.trim().toLowerCase()
+          loginCredentials.username.trim().toLowerCase(),
         ).then(() => {});
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
@@ -168,9 +167,7 @@ export const LoginScreen: React.FC<Props> = ({
       setIsLoadingEmail(true);
       await identifyCustomer(loginCredentials.username.trim().toLowerCase())
         .then(() => setIsLoadingEmail(false))
-        .then(() =>
-          navigation.navigate('DeliveryScreen', { comeFrom: 'Login' })
-        );
+        .then(() => navigation.navigate('DeliveryScreen', { comeFrom: 'Login' }));
     }
   }
 
@@ -230,7 +227,7 @@ export const LoginScreen: React.FC<Props> = ({
                 try {
                   setLoginCredentials({ ...loginCredentials, username: text });
                   setEmailIsValid(
-                    Yup.string().required().email().isValidSync(text.trim())
+                    Yup.string().required().email().isValidSync(text.trim()),
                   );
                 } catch (error) {
                   EventProvider.sentry.captureException(error, {
@@ -262,7 +259,7 @@ export const LoginScreen: React.FC<Props> = ({
                         .matches(/^(?=.*[A-Z])/) // pelo menos uma maiuscula
                         .matches(/^(?=.*[a-z])/) // pelo menos uma minuscula
                         .matches(/^(?=.*[0-9])/) // pelo menos um nuemro
-                        .isValidSync(text)
+                        .isValidSync(text),
                     );
                   }}
                 />
@@ -336,7 +333,7 @@ export const LoginScreen: React.FC<Props> = ({
               borderColor="divider"
             />
             <Typography textAlign="center">
-              {'Ainda não possui uma conta?'}
+              Ainda não possui uma conta?
             </Typography>
             <Box
               borderWidth={1}
@@ -349,7 +346,7 @@ export const LoginScreen: React.FC<Props> = ({
 
           <Button
             testID="login_button_cadastrese"
-            title={'CADASTRE-SE'}
+            title="CADASTRE-SE"
             inline
             variant="primarioEstreito"
             disabled={loadingSendMail || loading || isLoadingEmail}

@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from "react"
-import { Animated } from 'react-native'
-import { Box, Typography } from "@usereservaapp/reserva-ui"
-import { position } from "styled-system"
+import React, { useEffect, useRef } from 'react';
+import { Animated } from 'react-native';
+import { Box, Typography } from '@usereservaapp/reserva-ui';
 
 interface TooltipProps {
   tooltipText: string,
@@ -10,7 +9,7 @@ interface TooltipProps {
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsVisible }) => {
-  const toastOpacity = useRef(new Animated.Value(0)).current
+  const toastOpacity = useRef(new Animated.Value(0)).current;
 
   const onShow = async () => {
     await Animated.sequence([
@@ -26,27 +25,28 @@ export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsV
         useNativeDriver: true,
       }),
     ]).start(() => { });
-    setIsVisible(false)
-  }
-
+    setIsVisible(false);
+  };
 
   useEffect(() => {
     if (isVisible) {
-      onShow()
+      onShow();
     }
-  }, [isVisible])
+  }, [isVisible]);
 
-  return <Animated.View style={{
-    opacity: toastOpacity,
-    position: 'absolute',
-    alignSelf: "center",
-    elevation: 10,
-    zIndex: 10
-  }}>
-    <Box
-      style={
+  return (
+    <Animated.View style={{
+      opacity: toastOpacity,
+      position: 'absolute',
+      alignSelf: 'center',
+      elevation: 10,
+      zIndex: 10,
+    }}
+    >
+      <Box
+        style={
         {
-          shadowColor: "#000",
+          shadowColor: '#000',
           shadowOffset: {
             width: 0,
             height: 2,
@@ -54,14 +54,16 @@ export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsV
           shadowOpacity: 0,
           shadowRadius: 2,
 
-          elevation: 5
-        }}
-      borderRadius='nano'
-      backgroundColor='white'
-      alignSelf='center'
-      padding={4}
-    >
-      <Typography fontFamily='nunitoRegular' fontSize={13}>{tooltipText}</Typography>
-    </Box>
-  </Animated.View>
+          elevation: 5,
+        }
 }
+        borderRadius="nano"
+        backgroundColor="white"
+        alignSelf="center"
+        padding={4}
+      >
+        <Typography fontFamily="nunitoRegular" fontSize={13}>{tooltipText}</Typography>
+      </Box>
+    </Animated.View>
+  );
+};

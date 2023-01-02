@@ -1,28 +1,17 @@
-import React, { createRef, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 
 import {
-  Alert,
   Dimensions,
-  KeyboardAvoidingView,
-  Platform,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Box,
   Button,
-  Divider,
   Icon,
-  ProductDetailCard,
-  SelectColor,
   Typography,
-  OutlineInput,
-  RadioButtons,
-  ProductVerticalListCardProps,
-  ExpansePanel,
 } from '@usereservaapp/reserva-ui';
 
 interface Props {

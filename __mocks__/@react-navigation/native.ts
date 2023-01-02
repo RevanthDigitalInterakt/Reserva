@@ -1,12 +1,9 @@
-
 const navigate = jest.fn();
 
-const useNavigation = () => {
-    return {
-        navigate
-    }
-}
+const useNavigation = () => ({
+  navigate,
+});
 
 export {
-    useNavigation
-}
+  useNavigation,
+};

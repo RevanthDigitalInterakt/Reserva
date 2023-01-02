@@ -22,7 +22,7 @@ const Banner: React.FC<BannerProps> = ({
   height,
   url,
   reservaMini,
-  orderBy
+  orderBy,
 }) => {
   const navigation = useNavigation();
   return (
@@ -58,8 +58,8 @@ const Banner: React.FC<BannerProps> = ({
                 navigation.navigate('ProductCatalog', {
                   facetInput,
                   referenceId: reference,
-                  reservaMini: reservaMini,
-                  orderBy: orderBy,
+                  reservaMini,
+                  orderBy,
                 });
               }
             }

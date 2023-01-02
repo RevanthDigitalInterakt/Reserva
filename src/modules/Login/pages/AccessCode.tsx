@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
-import { Pressable, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
@@ -15,7 +14,6 @@ import {
   accessKeySignInMutation,
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../components/CodeInput';
@@ -30,11 +28,10 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
   const [showError, setShowError] = useState(false);
 
   const [loginWithCode, { data, loading }] = useMutation(
-    accessKeySignInMutation
+    accessKeySignInMutation,
   );
 
-  const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] =
-    useMutation(sendEmailVerificationMutation);
+  const [sendEmail, { loading: loadingSendMail, data: dataSendMail }] = useMutation(sendEmailVerificationMutation);
 
   const handleLogin = () => {
     if (accessCode.length < 6) {

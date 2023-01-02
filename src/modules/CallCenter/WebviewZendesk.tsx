@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import { Box } from '@usereservaapp/reserva-ui';
-import { TopBarBackButton } from '../Menu/components/TopBarBackButton';
 import LottieView from 'lottie-react-native';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import { TopBarBackButton } from '../Menu/components/TopBarBackButton';
 
 export const WebviewZendesk: React.FC<{}> = () => {
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export const WebviewZendesk: React.FC<{}> = () => {
     `;
 
   return (
-    <Box flex={1} backgroundColor={'white'}>
+    <Box flex={1} backgroundColor="white">
       {loading && (
         <Box
           zIndex={5}
@@ -50,8 +50,8 @@ export const WebviewZendesk: React.FC<{}> = () => {
         }}
         onNavigationStateChange={(navState) => {
           if (
-            navState.url !==
-            'https://usereserva.zendesk.com/hc/pt-br/requests/new'
+            navState.url
+            !== 'https://usereserva.zendesk.com/hc/pt-br/requests/new'
           ) {
             setLoading(false);
           }
@@ -61,7 +61,7 @@ export const WebviewZendesk: React.FC<{}> = () => {
           webref.current.injectJavaScript(scripts);
         }}
         source={{
-          uri: `https://usereserva.zendesk.com/hc/pt-br/requests/new`,
+          uri: 'https://usereserva.zendesk.com/hc/pt-br/requests/new',
         }}
       />
     </Box>

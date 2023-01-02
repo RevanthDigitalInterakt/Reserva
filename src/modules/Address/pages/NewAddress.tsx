@@ -1,5 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Box, Button, TextField, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, TextField, Typography,
+} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
@@ -25,7 +27,7 @@ import {
   ProfileVars,
 } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { CepVerify, CepVerifyPostalCode } from '../../../services/vtexService';
+import { CepVerifyPostalCode } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Sentry from '../../../config/sentryConfig';
 
@@ -59,7 +61,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [saveAddress] = useMutation(saveAddressMutation);
   const [addressUpdate] = useMutation(updateAddress);
-  const { orderForm, orderform, addShippingData, identifyCustomer } = useCart();
+  const {
+    orderForm, orderform, addShippingData, identifyCustomer,
+  } = useCart();
   const [getProfile, {}] = useLazyQuery(profileQuery);
 
   const [{ profileData, loadingProfile }, setProfileData] = useState({
@@ -110,26 +114,26 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     try {
       edit
         ? await addressUpdate({
-            variables: {
-              id: editAddress?.id,
-              fields: {
-                ...initialValues,
-                // receiverName: `${profile?.firstName} ${profile?.lastName}`,
-              },
+          variables: {
+            id: editAddress?.id,
+            fields: {
+              ...initialValues,
+              // receiverName: `${profile?.firstName} ${profile?.lastName}`,
             },
-          })
+          },
+        })
         : await saveAddress({
-            variables: {
-              fields: {
-                ...initialValues,
-              },
+          variables: {
+            fields: {
+              ...initialValues,
             },
-          });
+          },
+        });
     } catch (error) {
       Sentry.addBreadcrumb({
         message: 'Erro ao salvar endereço',
         data: {
-          error: error,
+          error,
         },
       });
     }
@@ -177,7 +181,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       variables: {
         fields: {
           ...initialValues,
-          receiverName: receiverName,
+          receiverName,
         },
       },
     });
@@ -200,8 +204,9 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     const isValidPostalCode = postalCode.length == 8;
 
     if (isValidPostalCode) {
-      const { street, neighborhood, city, state, cep, errors } =
-        await CepVerifyPostalCode(postalCode);
+      const {
+        street, neighborhood, city, state, cep, errors,
+      } = await CepVerifyPostalCode(postalCode);
 
       setInitialValues({
         ...initialValues,
@@ -290,13 +295,13 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     } = initialValues;
 
     if (
-      postalCode.length > 0 &&
-      state?.length > 0 &&
-      city?.length > 0 &&
-      number.length > 0 &&
-      street?.length > 0 &&
-      neighborhood?.length > 0 &&
-      receiverName?.length > 0
+      postalCode.length > 0
+      && state?.length > 0
+      && city?.length > 0
+      && number.length > 0
+      && street?.length > 0
+      && neighborhood?.length > 0
+      && receiverName?.length > 0
     ) {
       setButtonEnabled(true);
     } else {
@@ -333,10 +338,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     const lastName = rest.join(' ');
     if (
       text.match(
-        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi
-      ) &&
-      !lastName.match(
-        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú](\s{1,}){2,19}\b/gi
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi,
+      )
+      && !lastName.match(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú](\s{1,}){2,19}\b/gi,
       )
     ) {
       setLabelReceiverName('Nome do destinatário');
@@ -630,10 +635,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   variant="primarioEstreito"
                   inline
                   disabled={
-                    !validateForm ||
-                    !validateNumber ||
-                    !validateReceiverName ||
-                    loading
+                    !validateForm
+                    || !validateNumber
+                    || !validateReceiverName
+                    || loading
                   }
                 />
               )}

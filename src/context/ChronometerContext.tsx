@@ -20,8 +20,7 @@ interface Time {
   time: string;
 }
 
-export const ChronometerContext =
-  createContext<ChronometerContextProps>(defaultState);
+export const ChronometerContext = createContext<ChronometerContextProps>(defaultState);
 
 interface ChronometerContextProviderProps {
   children?: ReactNode;
