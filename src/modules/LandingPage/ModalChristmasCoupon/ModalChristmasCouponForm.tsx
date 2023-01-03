@@ -7,14 +7,14 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
 import { Keyboard, Platform } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as yup from 'yup';
-import useMasterdataProvider, { IResponseSubmit } from "../../../hooks/useMasterdataProvider";
-import { MasterDataSendDataDto } from "../../../types/dtos/masterdata-send-data.dto";
-import ConfettiCannon from "react-native-confetti-cannon";
-import {theme} from "@usereservaapp/reserva-ui/src/themes";
-import {Colors} from "../../../Base/Colors";
-import useAsyncStorageProvider from "../../../hooks/useAsyncStorageProvider";
+import ConfettiCannon from 'react-native-confetti-cannon';
+import { theme } from '@usereservaapp/reserva-ui/src/themes';
+import useMasterdataProvider, { IResponseSubmit } from '../../../hooks/useMasterdataProvider';
+import { MasterDataSendDataDto } from '../../../types/dtos/masterdata-send-data.dto';
+import { Colors } from '../../../Base/Colors';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -40,7 +40,7 @@ const inputStyle = {
   color: Colors.INPUT_TEXT,
   borderWidth: 1,
   height: 40,
-}
+};
 
 export interface IFormModel { email: string; name: string; phone: string; }
 
@@ -89,7 +89,7 @@ function ModalChristmasCouponForm({
   const formik = useFormik({
     initialValues: formInitialState,
     validationSchema,
-    onSubmit: onSubmit,
+    onSubmit,
   });
 
   useEffect(() => {
@@ -114,7 +114,7 @@ function ModalChristmasCouponForm({
       boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
     >
       <Box marginBottom={feedback?.success ? 30 : 42} marginTop={20} marginX={27}>
-        <Box alignItems={"center"} flexDirection={"row"} justifyContent={"space-between"} marginBottom={5}>
+        <Box alignItems="center" flexDirection="row" justifyContent="space-between" marginBottom={5}>
           <Box flex={1}>
             <Typography
               fontSize={24}
@@ -193,7 +193,7 @@ function ModalChristmasCouponForm({
             value={formik.values.email}
             touched={formik.touched.email}
             placeholder="E-MAIL"
-            keyboardType={"email-address"}
+            keyboardType="email-address"
             height={40}
             onChangeText={(value) => formik.setFieldValue('email', value)}
             error={formik.errors.email}
@@ -209,7 +209,7 @@ function ModalChristmasCouponForm({
             marginBottom={26}
             variant="primarioEstreito"
             loading={loading}
-            title={buttonTitle ? buttonTitle : 'ASSINAR NEWSLETTER'}
+            title={buttonTitle || 'ASSINAR NEWSLETTER'}
             onPress={() => formik.submitForm()}
             testID="christmascouponform_button_submit"
           />

@@ -1,7 +1,9 @@
-//create a firebase context
+// create a firebase context
 
-import { RemoteConfigService } from "../shared/services/RemoteConfigService";
-import React, { ChildContextProvider, createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext, useContext, useEffect, useState,
+} from 'react';
+import { RemoteConfigService } from '../shared/services/RemoteConfigService';
 
 interface FirebaseContextProps {
   fetchValues: () => Promise<any[]>;
@@ -20,40 +22,40 @@ export const FirebaseContext = createContext<FirebaseContextProps>({
 });
 
 export enum RemoteConfigKeys {
-  SCREEN_MAINTENANCE = "SCREEN_MAINTENANCE",
-  FEATURE_CASHBACK_IN_STORE = 'FEATURE_CASHBACK_IN_STORE'
+  SCREEN_MAINTENANCE = 'SCREEN_MAINTENANCE',
+  FEATURE_CASHBACK_IN_STORE = 'FEATURE_CASHBACK_IN_STORE',
 }
 
 export type RemoteConfigKeysType = keyof typeof RemoteConfigKeys;
 
 export const FirebaseContextProvider = ({ children }: FirebaseContextProviderProps) => {
-
   const [remoteConfigs, setRemoteConfigs] = useState<any[]>([]);
 
   const fetchValues = async () => {
-    const result = await RemoteConfigService.fetchValues()
-    setRemoteConfigs(result)
-    return result
-  }
+    const result = await RemoteConfigService.fetchValues();
+    setRemoteConfigs(result);
+    return result;
+  };
 
   const getValue = async (key: RemoteConfigKeysType) => {
-    const result = await fetchValues()
-    return result.find(x => x.key === key)
-  }
+    const result = await fetchValues();
+    return result.find((x) => x.key === key);
+  };
 
   useEffect(() => {
-    fetchValues()
-  }, [])
+    fetchValues();
+  }, []);
 
-  return <FirebaseContext.Provider value={{
-    fetchValues,
-    getValue,
-    remoteConfigs
-  }}>
-    {children}
-  </FirebaseContext.Provider>
-}
+  return (
+    <FirebaseContext.Provider value={{
+      fetchValues,
+      getValue,
+      remoteConfigs,
+    }}
+    >
+      {children}
+    </FirebaseContext.Provider>
+  );
+};
 
-export const useFirebaseContext = () => {
-  return useContext(FirebaseContext);
-}
+export const useFirebaseContext = () => useContext(FirebaseContext);

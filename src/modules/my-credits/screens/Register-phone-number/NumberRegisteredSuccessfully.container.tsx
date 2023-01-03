@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect } from 'react';
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
+import React, { Fragment } from 'react';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 
 import { NumberRegisteredSuccessfullyView } from './NumberRegisteredSuccessfully.view';
 
@@ -19,7 +19,7 @@ export const NumberRegisteredSuccessfullyContainer = ({
   };
 
   return (
-    <Fragment>
+    <>
       <TopBarBackButton
         loading={false}
         showShadow
@@ -28,6 +28,6 @@ export const NumberRegisteredSuccessfullyContainer = ({
       <NumberRegisteredSuccessfullyView
         navigateToCashbackInStore={handleNavigateToCashbackInStore}
       />
-    </Fragment>
+    </>
   );
 };

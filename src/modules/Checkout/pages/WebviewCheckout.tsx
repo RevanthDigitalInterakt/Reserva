@@ -2,17 +2,19 @@ import { Box, Button } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { Dimensions, View } from 'react-native';
 import OneSignal from 'react-native-onesignal';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
+import Config from 'react-native-config';
+import { URL } from 'react-native-url-polyfill';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import Config from 'react-native-config';
-import ModalChristmasCoupon from "../../LandingPage/ModalChristmasCoupon";
-import { URL } from "react-native-url-polyfill";
+import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import EventProvider from '../../../utils/EventProvider';
 
 const Checkout: React.FC<{}> = () => {
@@ -48,7 +50,7 @@ const Checkout: React.FC<{}> = () => {
     const orderId = url.searchParams.get('og');
 
     return `${orderId}-01`;
-  }, [navState])
+  }, [navState]);
 
   const onHandlePromotionModal = useCallback((orderPrice: number) => {
     if (orderPrice < 250 || showPromotionModal) return;
@@ -59,7 +61,7 @@ const Checkout: React.FC<{}> = () => {
       setOrderId(orderId);
       setTimeout(() => setShowPromotionModal(true), 4000);
     }
-  }, [isOrderPlaced, getOrderId, showPromotionModal])
+  }, [isOrderPlaced, getOrderId, showPromotionModal]);
 
   const goToHome = () => {
     if (isOrderPlaced) {
@@ -72,7 +74,7 @@ const Checkout: React.FC<{}> = () => {
 
   useEffect(() => {
     if (isOrderPlaced) {
-      let timestamp = Math.floor(Date.now() / 1000);
+      const timestamp = Math.floor(Date.now() / 1000);
       OneSignal.sendTag('last_purchase_date', timestamp.toString());
       if (orderForm) {
         const orderValue = orderForm.value / 100;
@@ -92,7 +94,7 @@ const Checkout: React.FC<{}> = () => {
           af_price: `${orderValue.toFixed(2)}`,
           af_content_id: orderForm.items.map((item) => item.id),
           af_content_type: orderForm.items.map(
-            (item) => item.productCategoryIds
+            (item) => item.productCategoryIds,
           ),
           af_currency: 'BRL',
           af_quantity: orderForm.items.map((item) => item.quantity),
@@ -112,8 +114,8 @@ const Checkout: React.FC<{}> = () => {
             item_category: Object.values(item.productCategories).join('|'),
           })),
           shipping:
-            (orderForm.totalizers.find((x) => x.name === 'Shipping')?.value ||
-              0) / 100,
+            (orderForm.totalizers.find((x) => x.name === 'Shipping')?.value
+              || 0) / 100,
           tax:
             (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
               ?.interestRate || 0) / 100,
@@ -135,7 +137,7 @@ const Checkout: React.FC<{}> = () => {
     }
 
     setUrl(
-      `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`
+      `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`,
     );
   }, [navState]);
 
@@ -146,7 +148,7 @@ const Checkout: React.FC<{}> = () => {
   }, [attemps]);
 
   return (
-    <View flex={1} backgroundColor={'white'}>
+    <View flex={1} backgroundColor="white">
       {loading && (
         <Box
           zIndex={5}
@@ -205,7 +207,7 @@ const Checkout: React.FC<{}> = () => {
           title="VOLTAR PARA HOME"
           variant="primarioEstreito"
           inline
-          testID={"checkout_button_back_to_home"}
+          testID="checkout_button_back_to_home"
         />
       )}
 

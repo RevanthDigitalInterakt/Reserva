@@ -16,11 +16,11 @@ export const ContactUs: React.FC<{}> = () => {
       <TopBarDefault />
 
       <ScrollView>
-        <Box variant="container" flex={1} pt={'xs'} paddingX={'xxxs'}>
-          <Box mb={'xxxs'} alignSelf={'flex-start'}>
-            <Typography variant={'tituloSessoes'}>Fale conosco</Typography>
+        <Box variant="container" flex={1} pt="xs" paddingX="xxxs">
+          <Box mb="xxxs" alignSelf="flex-start">
+            <Typography variant="tituloSessoes">Fale conosco</Typography>
 
-            <Box mb={'micro'} mt={'micro'} alignSelf={'flex-start'}>
+            <Box mb="micro" mt="micro" alignSelf="flex-start">
               <Typography fontFamily="nunitoRegular" fontSize={16}>
                 Aqui você encontra todos os canais de contato com a Reserva.
                 Escolha a melhor opção pra você.
@@ -28,33 +28,33 @@ export const ContactUs: React.FC<{}> = () => {
             </Box>
           </Box>
 
-          <Box width={'100%'}>
+          <Box width="100%">
             <Button
               onPress={() => Linking.openURL(`whatsapp://send?phone=${552121084990}`)}
               testID="callcenter_button_whatsapp"
               title="WHATSAPP RESERVA"
               variant="primarioEstreito"
               inline
-              borderRadius={'nano'}
+              borderRadius="nano"
             />
-            <Box mb={'micro'} alignItems="center" mt={'nano'}>
+            <Box mb="micro" alignItems="center" mt="nano">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
                 Segunda a Sexta: 08 às 20hrs e aos Sábados: 08 às 18hrs
               </Typography>
             </Box>
           </Box>
 
-          <Box width={'100%'} mt={'xxs'}>
+          <Box width="100%" mt="xxs">
             <Button
               onPress={() => navigation.navigate('WebviewZendesk')}
               testID="callcenter_button_send_message"
               title="ENVIE UMA MENSAGEM"
               variant="primarioEstreitoOutline"
               inline
-              borderRadius={'nano'}
-              backgroundColor={'transparente'}
+              borderRadius="nano"
+              backgroundColor="transparente"
             />
-            <Box mb={'micro'} alignItems="center" mt={'nano'}>
+            <Box mb="micro" alignItems="center" mt="nano">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
                 Disponível 24hrs por dia, 7 dias por semana.
               </Typography>

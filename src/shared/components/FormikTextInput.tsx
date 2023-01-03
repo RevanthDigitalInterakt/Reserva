@@ -33,7 +33,9 @@ export const FormikTextInput = ({
   keyboardType,
   onFocus,
 }: IFormikTextInput) => {
-  const { values, handleChange, touched, errors } = useFormikContext<any>();
+  const {
+    values, handleChange, touched, errors,
+  } = useFormikContext<any>();
   const [labelDisplay, setLabelDisplay] = useState(label);
 
   const changeLabel = async () => {

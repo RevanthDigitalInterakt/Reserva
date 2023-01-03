@@ -6,9 +6,8 @@ import { Dimensions } from 'react-native';
 import { BarCodeReadEvent } from 'react-native-camera';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import QRCode from 'react-native-qrcode-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { backgroundApp, Box, theme, Typography } from '@usereservaapp/reserva-ui';
+import { Box, theme, Typography } from '@usereservaapp/reserva-ui';
 
 import { CorreReservaStackParamList } from '../..';
 import { useCorre } from '../../context';
@@ -21,21 +20,22 @@ export interface QrCodeScannerProps {
 }
 
 type QrCodeScannerNavigator = StackNavigationProp<
-  CorreReservaStackParamList,
-  'QrCodeScanner'
+CorreReservaStackParamList,
+'QrCodeScanner'
 >;
 
 type QrCodeScannerNav = StackScreenProps<
-  CorreReservaStackParamList,
-  'QrCodeScanner'
+CorreReservaStackParamList,
+'QrCodeScanner'
 >;
 
 export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
   route: { params },
 }) => {
   const navigation = useNavigation<QrCodeScannerNavigator>();
-  const { ValidCodes, setSelectedKit, selectedModality, setIsLastPage } =
-    useCorre();
+  const {
+    ValidCodes, setSelectedKit, selectedModality, setIsLastPage,
+  } = useCorre();
 
   useEffect(() => {
     setIsLastPage(false);
@@ -58,19 +58,16 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
     }
   };
 
-  const getStartValidQr = (code: string) =>
-    ValidCodes.find(
-      (validCode) => validCode.name !== 'finalizar' && validCode.code === code
-    );
-  const getFinalValidQr = (code: string) =>
-    ValidCodes.find(
-      (validCode) => validCode.name === 'finalizar' && validCode.code === code
-    );
+  const getStartValidQr = (code: string) => ValidCodes.find(
+    (validCode) => validCode.name !== 'finalizar' && validCode.code === code,
+  );
+  const getFinalValidQr = (code: string) => ValidCodes.find(
+    (validCode) => validCode.name === 'finalizar' && validCode.code === code,
+  );
 
   const onSuccess = (qrEvent: BarCodeReadEvent) => {
     if (isFinalizingRace) {
-      if (getFinalValidQr(qrEvent.data.trim()))
-        setSelectedKit(getFinalValidQr(qrEvent.data.trim()));
+      if (getFinalValidQr(qrEvent.data.trim())) setSelectedKit(getFinalValidQr(qrEvent.data.trim()));
       navigation.navigate('RaceFinalized');
     } else if (getStartValidQr(qrEvent.data.trim())) {
       setSelectedKit(getStartValidQr(qrEvent.data.trim()));
@@ -138,7 +135,8 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
             >
               Não deu pra ler o QR Code?
               <Typography fontFamily="reservaSansBold">
-                {'\nClique aqui'}{' '}
+                {'\nClique aqui'}
+                {' '}
               </Typography>
               e inicie agora mesmo.
             </Typography>

@@ -34,10 +34,10 @@ local.properties
 # node.js
 #
 node_modules/
-package-lock.json # include if you are using npm - don't use both yarn and npm
 npm-debug.log
+package-lock.json
 yarn-error.log
-yarn.lock # include if you are using yarn - don't use both npm and yarn
+coverage
 
 # BUCK
 buck-out/
@@ -51,11 +51,12 @@ buck-out/
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/
 
-*/fastlane/report.xml
-*/fastlane/Preview.html
-*/fastlane/screenshots
-*/fastlane/metadata
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
 
 # Bundle artifact
 *.jsbundle
 package-lock.json
+.eslintcache

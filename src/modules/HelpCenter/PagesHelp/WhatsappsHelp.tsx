@@ -1,17 +1,17 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect } from 'react';
+
 import {
   Linking,
   Platform,
   SafeAreaView,
   ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { Typography, Box, Image, Button } from "@usereservaapp/reserva-ui";
-import { images } from "../../../assets";
+} from 'react-native';
+import {
+  Typography, Box, Image, Button,
+} from '@usereservaapp/reserva-ui';
+import { images } from '../../../assets';
 
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 type ItemWhatsappProps = {
   local: string;
@@ -20,73 +20,70 @@ type ItemWhatsappProps = {
 };
 
 export const WhatsappsHelp: React.FC<{}> = () => {
-
   useEffect(() => { }, []);
 
-  const ItemWhatsapp = ({ local, address, whatsapp }: ItemWhatsappProps) => {
-    return (
+  const ItemWhatsapp = ({ local, address, whatsapp }: ItemWhatsappProps) => (
+    <Box
+      boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+      width="100%"
+      height={171}
+      backgroundColor="white"
+      style={{ elevation: 5 }}
+      mt="xxs"
+    >
       <Box
-        boxShadow={Platform.OS === "ios" ? "topBarShadow" : null}
-        width={"100%"}
-        height={171}
-        backgroundColor={"white"}
-        style={{ elevation: 5 }}
-        mt={"xxs"}
+        height={160}
+        borderColor="backgroundMenuOpened"
+        paddingY="xxxs"
+        paddingX="xxxs"
       >
-        <Box
-          height={160}
-          borderColor={"backgroundMenuOpened"}
-          paddingY={"xxxs"}
-          paddingX={"xxxs"}
-        >
-          <Box mb={"nano"} flexDirection="row">
-            <Box>
-              <Image
-                height={40}
-                source={images.localReserva}
-                resizeMode={"contain"}
-              />
-            </Box>
-            <Box>
-              <Box mb={"quarck"}>
-                <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                  {local}
-                </Typography>
-              </Box>
-              <Typography fontFamily="nunitoRegular" fontSize={14}>
-                {address}
+        <Box mb="nano" flexDirection="row">
+          <Box>
+            <Image
+              height={40}
+              source={images.localReserva}
+              resizeMode="contain"
+            />
+          </Box>
+          <Box>
+            <Box mb="quarck">
+              <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                {local}
               </Typography>
             </Box>
+            <Typography fontFamily="nunitoRegular" fontSize={14}>
+              {address}
+            </Typography>
           </Box>
-
-          <Button
-            title={"WHATSAPP"}
-            onPress={() => {
-              Linking.openURL(
-                `whatsapp://send?text=Olá quero comprar!&phone=${whatsapp}`
-              );
-            }}
-            variant={"primarioEstreitoOutline"}
-            width={"100%"}
-          />
         </Box>
+
+        <Button
+          title="WHATSAPP"
+          onPress={() => {
+            Linking.openURL(
+              `whatsapp://send?text=Olá quero comprar!&phone=${whatsapp}`,
+            );
+          }}
+          variant="primarioEstreitoOutline"
+          width="100%"
+        />
       </Box>
-    );
-  };
+    </Box>
+  );
 
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: "space-between" }}
+      style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
       <TopBarBackButton />
 
       <ScrollView>
-        <Box flex={1} pt={"xs"}>
-          <Box paddingX={"xxxs"}>
-            <Box mb={"nano"} alignSelf={"flex-start"}>
-              <Typography variant={"tituloSessoes"}>WhatsApp</Typography>
+        <Box flex={1} pt="xs">
+          <Box paddingX="xxxs">
+            <Box mb="nano" alignSelf="flex-start">
+              <Typography variant="tituloSessoes">WhatsApp</Typography>
             </Box>
 
             <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
@@ -94,7 +91,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
               mais próxima, das 10h às 21h.
             </Typography>
 
-            <Box mt={"nano"}>
+            <Box mt="nano">
               <Typography
                 fontSize={14}
                 fontFamily="nunitoRegular"
@@ -105,48 +102,48 @@ export const WhatsappsHelp: React.FC<{}> = () => {
             </Box>
           </Box>
 
-          <Box mt={"micro"} mb={"xs"}>
+          <Box mt="micro" mb="xs">
             <Button
-              variant={"primarioEstreito"}
-              title={"FALE COM O SAC"}
-              width={"80%"}
+              variant="primarioEstreito"
+              title="FALE COM O SAC"
+              width="80%"
               onPress={() => {
-                Linking.openURL(`whatsapp://send?phone=+5502139007052`);
+                Linking.openURL('whatsapp://send?phone=+5502139007052');
               }}
             />
           </Box>
 
-          <Box paddingX={"xxxs"} bg="backgoundInput">
+          <Box paddingX="xxxs" bg="backgoundInput">
             <ItemWhatsapp
-              local={"Shopping Praia Grande"}
+              local="Shopping Praia Grande"
               address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
+                'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'
               }
-              whatsapp={"99 99999 9999"}
+              whatsapp="99 99999 9999"
             />
 
             <ItemWhatsapp
-              local={"Shopping Praia Grande"}
+              local="Shopping Praia Grande"
               address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
+                'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'
               }
-              whatsapp={"99 99999 9999"}
+              whatsapp="99 99999 9999"
             />
 
             <ItemWhatsapp
-              local={"Shopping Praia Grande"}
+              local="Shopping Praia Grande"
               address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
+                'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'
               }
-              whatsapp={"99 99999 9999"}
+              whatsapp="99 99999 9999"
             />
 
             <ItemWhatsapp
-              local={"Shopping Praia Grande"}
+              local="Shopping Praia Grande"
               address={
-                "Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260"
+                'Av. Dr. Olivio Lira, 353 | Loja 302 \nK/L - Vila Velha / ES 29101-260'
               }
-              whatsapp={"99 99999 9999"}
+              whatsapp="99 99999 9999"
             />
           </Box>
         </Box>

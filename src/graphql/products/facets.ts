@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const Facets = gql`
 query Facets{
@@ -31,4 +31,4 @@ query Facets{
     }
   }
 }
-`
+`;

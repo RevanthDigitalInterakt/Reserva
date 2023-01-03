@@ -15,7 +15,9 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import {
   Dimensions,
   KeyboardAvoidingView,
@@ -90,9 +92,8 @@ export const BagScreen = ({ route }: Props) => {
 
   const { isProfileComplete } = route?.params;
   const orderFormIdByDeepLink = route?.params?.orderFormId;
-  let fontTitle =
-    Platform.OS === 'android' ? screenWidth * 0.0352 : screenWidth * 0.036;
-  let subtitle = screenWidth * 0.032;
+  const fontTitle = Platform.OS === 'android' ? screenWidth * 0.0352 : screenWidth * 0.036;
+  const subtitle = screenWidth * 0.032;
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const modalRef = useRef(false);
@@ -103,7 +104,7 @@ export const BagScreen = ({ route }: Props) => {
   const [isRemoveCartTags, setIsRemoveCartTags] = useState(false);
   const [loadingGift, setLoadingGift] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<
-    { id: string; index: number; seller: string; quantity: number } | undefined
+  { id: string; index: number; seller: string; quantity: number } | undefined
   >();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [loadingShippingBar, setLoadingShippingBar] = useState(false);
@@ -113,19 +114,19 @@ export const BagScreen = ({ route }: Props) => {
   const [sellerCoupon, setSellerCoupon] = React.useState<string>('');
   const [discountCoupon, setDiscountCoupon] = React.useState<string>('');
   const [selectedSizeGift, setSelectedSizeGift] = useState<string | undefined>(
-    ''
+    '',
   );
   const [giftColors, setGiftColors] = useState<string[]>([]);
   const [giftSizeList, setGiftSizeList] = useState<string[]>([]);
   const [selectableGifts, setSelectableGifts] = useState<Item[]>([]);
   const [selectedGiftColor, setSelectedGiftColor] = useState<string>('');
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean | undefined>(
-    false
+    false,
   );
   const [noProduct, setNoProduct] = useState<any>('');
   const [errorsMessages, setErrorsMessages] = useState<any>([]);
   const [optimistQuantities, setOptimistQuantities] = useState(
-    orderForm?.items.map((x) => x.quantity) || []
+    orderForm?.items.map((x) => x.quantity) || [],
   );
   const [installmentInfo, setInstallmentInfo] = useState({
     installmentsNumber: 0,
@@ -141,12 +142,12 @@ export const BagScreen = ({ route }: Props) => {
 
   const hasSellerCoupon = useCallback(
     (): boolean => sellerCoupon.length > 0,
-    [sellerCoupon]
+    [sellerCoupon],
   );
 
   const hasDiscountCoupon = useCallback(
     (): boolean => discountCoupon.length > 0,
-    [discountCoupon]
+    [discountCoupon],
   );
 
   const [isEmptyProfile, setIsEmptyProfile] = useState(false);
@@ -170,7 +171,7 @@ export const BagScreen = ({ route }: Props) => {
     });
   }, []);
 
-  const setCustomer = async (email: string) => await identifyCustomer(email);
+  const setCustomer = async (email: string) => identifyCustomer(email);
 
   // Updating ClientProfileData in orderForm
   const updateClientProfileData = async (profile: any) => {
@@ -188,18 +189,18 @@ export const BagScreen = ({ route }: Props) => {
   const validateFieldsProfile = async (profile: any) => {
     if (profile) {
       if (
-        profile?.firstName?.length === 0 ||
-        profile?.firstName === null ||
-        profile?.lastName?.length === 0 ||
-        profile?.lastName === null ||
-        profile?.birthDate?.length === 0 ||
-        profile?.birthDate === null ||
-        profile?.homePhone?.length === 0 ||
-        profile?.homePhone === null ||
-        profile?.document?.length === 0 ||
-        profile?.document === null ||
-        profile?.gender?.length === 0 ||
-        profile?.gender === null
+        profile?.firstName?.length === 0
+        || profile?.firstName === null
+        || profile?.lastName?.length === 0
+        || profile?.lastName === null
+        || profile?.birthDate?.length === 0
+        || profile?.birthDate === null
+        || profile?.homePhone?.length === 0
+        || profile?.homePhone === null
+        || profile?.document?.length === 0
+        || profile?.document === null
+        || profile?.gender?.length === 0
+        || profile?.gender === null
       ) {
         setIsEmptyProfile(true);
       } else {
@@ -224,10 +225,8 @@ export const BagScreen = ({ route }: Props) => {
 
     if (orderFormIdByDeepLink) {
       await restoreCart(orderFormIdByDeepLink);
-    } else {
-      if (orderForm) {
-        await restoreCart(orderForm?.orderFormId);
-      }
+    } else if (orderForm) {
+      await restoreCart(orderForm?.orderFormId);
     }
   }, [orderFormIdByDeepLink]);
 
@@ -244,51 +243,46 @@ export const BagScreen = ({ route }: Props) => {
       if (data) {
         refetch();
       }
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
-    const totalItensPrice =
-      (orderForm?.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
-    const totalDiscountPrice =
-      (orderForm?.totalizers.find((x) => x.id === 'Discounts')?.value || 0) /
-      100;
-    const totalDelivery =
-      (orderForm?.totalizers.find((x) => x.id === 'Shipping')?.value || 0) /
-      100;
+    const totalItensPrice = (orderForm?.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
+    const totalDiscountPrice = (orderForm?.totalizers.find((x) => x.id === 'Discounts')?.value || 0)
+      / 100;
+    const totalDelivery = (orderForm?.totalizers.find((x) => x.id === 'Shipping')?.value || 0)
+      / 100;
 
     const errorMessages = orderForm?.messages.map(({ text }: any) => text);
     setErrorsMessages(errorMessages);
 
-    const installment =
-      orderForm?.paymentData?.installmentOptions
-        ?.find((x) => x.paymentSystem == 4)
-        ?.installments?.reverse()[0] || null;
+    const installment = orderForm?.paymentData?.installmentOptions
+      ?.find((x) => x.paymentSystem == 4)
+      ?.installments?.reverse()[0] || null;
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
 
     let sizeFilters: string[] = [];
     let giftSizeList: Item[] = [];
     const alreadySelectedGift = orderForm?.items.find(
-      (x) => x.isGift == true && x.sellingPrice == 0
+      (x) => x.isGift == true && x.sellingPrice == 0,
     );
 
     const giftColors = orderForm?.selectableGifts[0]?.availableGifts.map(
-      (x) => x.skuName.split('-')[0]
+      (x) => x.skuName.split('-')[0],
     );
     const uniqueGiftColors = [...new Set(giftColors)];
     setGiftColors(uniqueGiftColors);
-    if (!!alreadySelectedGift) {
+    if (alreadySelectedGift) {
       const result = orderForm?.selectableGifts[0]?.availableGifts.filter(
-        (x) =>
-          x.skuName.split('-')[0] === alreadySelectedGift?.skuName.split('-')[0]
+        (x) => x.skuName.split('-')[0] === alreadySelectedGift?.skuName.split('-')[0],
       );
       if (result?.length) {
         giftSizeList = result;
       }
     } else {
       const result = orderForm?.selectableGifts[0]?.availableGifts.filter(
-        (x) => x.skuName.split('-')[0] === uniqueGiftColors[0]
+        (x) => x.skuName.split('-')[0] === uniqueGiftColors[0],
       );
       if (result?.length) {
         giftSizeList = result;
@@ -298,18 +292,16 @@ export const BagScreen = ({ route }: Props) => {
     if (giftSizeList.length) {
       setSelectableGifts(giftSizeList);
       sizeFilters = new ProductUtils().orderSizes(
-        giftSizeList.map((x) => x.skuName.split('-')[1].trim())
+        giftSizeList.map((x) => x.skuName.split('-')[1].trim()),
       );
       setGiftSizeList(sizeFilters);
     }
-    if (!!alreadySelectedGift) {
+    if (alreadySelectedGift) {
       setSelectedGiftColor(alreadySelectedGift?.skuName.split('-')[0]);
       setSelectedSizeGift(alreadySelectedGift?.skuName.split('-')[1]);
-    } else {
-      if (Boolean(sizeFilters?.length)) {
-        handleSelectGiftSize(sizeFilters[0]);
-        setSelectedGiftColor(sizeFilters[0]);
-      }
+    } else if (sizeFilters?.length) {
+      handleSelectGiftSize(sizeFilters[0]);
+      setSelectedGiftColor(sizeFilters[0]);
     }
 
     setInstallmentInfo(
@@ -321,7 +313,7 @@ export const BagScreen = ({ route }: Props) => {
         }
         : {
           ...installmentInfo,
-        }
+        },
     );
 
     setOptimistQuantities(quantities);
@@ -333,7 +325,7 @@ export const BagScreen = ({ route }: Props) => {
   useEffect(() => {
     if (orderForm && orderForm.items.length > 0) {
       if (isRemoveCartTags) {
-        let timestamp = Math.floor(Date.now() / 1000);
+        const timestamp = Math.floor(Date.now() / 1000);
         OneSignal.sendTags({
           cart_update: timestamp.toString(),
           product_name: orderForm?.items[0]?.name,
@@ -362,7 +354,7 @@ export const BagScreen = ({ route }: Props) => {
       Sentry.addBreadcrumb({
         message: 'Erro ao inserir o cupom de desconto',
         data: {
-          error: error,
+          error,
         },
       });
     }
@@ -377,9 +369,7 @@ export const BagScreen = ({ route }: Props) => {
     setLoadingGoDelivery(true);
     if (orderForm) {
       const af_content_id = orderForm.items.map((i) => i.productId);
-      const af_content_type = orderForm.items.map((i) =>
-        CategoriesParserString(i.productCategories)
-      );
+      const af_content_type = orderForm.items.map((i) => CategoriesParserString(i.productCategories));
       const af_quantity = orderForm.items.map((i) => i.quantity);
 
       EventProvider.logEvent('checkout_initiated', {
@@ -406,7 +396,7 @@ export const BagScreen = ({ route }: Props) => {
           Sentry.addBreadcrumb({
             message: 'Erro na chamada para tela de entrega',
             data: {
-              error: error,
+              error,
             },
           });
         }
@@ -431,33 +421,30 @@ export const BagScreen = ({ route }: Props) => {
 
   const handleSelectedGiftColor = async (color: string) => {
     const giftSizeList = orderForm?.selectableGifts[0]?.availableGifts.filter(
-      (x) => x.skuName.split('-')[0] === color
+      (x) => x.skuName.split('-')[0] === color,
     );
     let sizeFilters: string[] = [];
     if (giftSizeList?.length) {
       setSelectableGifts(giftSizeList);
       setSelectedGiftColor(giftSizeList[0].skuName.split('-')[0]);
       sizeFilters = new ProductUtils().orderSizes(
-        giftSizeList.map((x) => x.skuName.split('-')[1].trim())
+        giftSizeList.map((x) => x.skuName.split('-')[1].trim()),
       );
       if (sizeFilters.length > 0) {
         let hasSize: Item[] = [];
         hasSize = giftSizeList.filter(
-          (item) =>
-            item?.skuName.split('-')[1].trim() === selectedSizeGift?.trim()
+          (item) => item?.skuName.split('-')[1].trim() === selectedSizeGift?.trim(),
         );
         const firstSize = giftSizeList?.find(
-          (item) => item?.skuName.split('-')[1].trim() === sizeFilters[0]
+          (item) => item?.skuName.split('-')[1].trim() === sizeFilters[0],
         );
         setGiftSizeList(sizeFilters);
         if (hasSize.length > 0) {
           await fetchSelectGiftSize(hasSize[0]);
           setSelectedSizeGift(hasSize[0].skuName.split('-')[1].trim());
-        } else {
-          if (firstSize) {
-            await fetchSelectGiftSize(firstSize);
-            setSelectedSizeGift(firstSize?.skuName?.split('-')[1].trim());
-          }
+        } else if (firstSize) {
+          await fetchSelectGiftSize(firstSize);
+          setSelectedSizeGift(firstSize?.skuName?.split('-')[1].trim());
         }
       }
     }
@@ -465,7 +452,7 @@ export const BagScreen = ({ route }: Props) => {
 
   const handleSelectGiftSize = async (size: string) => {
     const availableGifts = selectableGifts.find(
-      (x) => x.skuName.split('-')[1].trim() === size.trim()
+      (x) => x.skuName.split('-')[1].trim() === size.trim(),
     );
     if (availableGifts) {
       await fetchSelectGiftSize(availableGifts);
@@ -478,7 +465,7 @@ export const BagScreen = ({ route }: Props) => {
       orderForm?.orderFormId,
       orderForm?.selectableGifts[0]?.id.trim(),
       gift.id,
-      gift.seller
+      gift.seller,
     );
   };
 
@@ -494,7 +481,7 @@ export const BagScreen = ({ route }: Props) => {
     value: boolean,
     index: number,
     item: Item,
-    orderForm: OrderForm
+    orderForm: OrderForm,
   ) => {
     const { orderFormId } = orderForm;
 
@@ -505,7 +492,7 @@ export const BagScreen = ({ route }: Props) => {
       orderFormId,
       item,
       index,
-      cookie ?? undefined
+      cookie ?? undefined,
     );
   };
 
@@ -740,7 +727,7 @@ export const BagScreen = ({ route }: Props) => {
                         removeProduct?.id,
                         removeProduct?.index,
                         removeProduct?.seller,
-                        0
+                        0,
                       );
 
                       if (ok) {
@@ -766,9 +753,8 @@ export const BagScreen = ({ route }: Props) => {
                     <Typography variant="tituloSessoes">
                       Sacola (
                       {optimistQuantities.reduce(
-                        (accumulator, currentValue) =>
-                          accumulator + currentValue,
-                        0
+                        (accumulator, currentValue) => accumulator + currentValue,
+                        0,
                       )}
                       )
                     </Typography>
@@ -818,7 +804,8 @@ export const BagScreen = ({ route }: Props) => {
                                 fontSize={subtitle}
                               >
                                 {' '}
-                                1{' '}
+                                1
+                                {' '}
                                 {selectableGifts[0]?.name.split('-')[0].trim()}
                               </Typography>
                             </Typography>
@@ -833,8 +820,8 @@ export const BagScreen = ({ route }: Props) => {
                                 <Button
                                   key={`${index}_btn`}
                                   onPress={() => {
-                                    selectedGiftColor !== item &&
-                                      handleSelectedGiftColor(item);
+                                    selectedGiftColor !== item
+                                      && handleSelectedGiftColor(item);
                                   }}
                                 >
                                   <Box
@@ -930,8 +917,8 @@ export const BagScreen = ({ route }: Props) => {
                                 fontSize={11.5}
                                 disbledOptions={[]}
                                 onSelectedChange={(item) => {
-                                  selectedSizeGift?.trim() !== item &&
-                                    handleSelectGiftSize(item);
+                                  selectedSizeGift?.trim() !== item
+                                    && handleSelectGiftSize(item);
                                 }}
                                 optionsList={
                                   showMoreSizes
@@ -949,69 +936,64 @@ export const BagScreen = ({ route }: Props) => {
                     </Box>
                   )}
                   {orderForm?.items.map(
-                    (item, index, array) =>
-                      item.sellingPrice !== 0 &&
-                      item.isGift === false && (
+                    (item, index, array) => item.sellingPrice !== 0
+                      && item.isGift === false && (
                         <Box key={index} bg="white" marginTop="xxxs">
                           {item.priceTags.find(
-                            (x) =>
-                              x.identifier ===
-                              'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                            (x) => x.identifier
+                              === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                              <Box paddingBottom="nano">
-                                <Typography
-                                  fontFamily="nunitoRegular"
-                                  fontSize={11}
-                                  color="verdeSucesso"
-                                >
-                                  Desconto de 1° compra aplicado neste produto!
-                                </Typography>
-                              </Box>
-                            )}
+                          <Box paddingBottom="nano">
+                            <Typography
+                              fontFamily="nunitoRegular"
+                              fontSize={11}
+                              color="verdeSucesso"
+                            >
+                              Desconto de 1° compra aplicado neste produto!
+                            </Typography>
+                          </Box>
+                          )}
                           {item.priceTags.find(
-                            (x) =>
-                              x.identifier ===
-                              'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                            (x) => x.identifier
+                              === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                              <Box
-                                position="absolute"
-                                zIndex={5}
-                                top={84}
-                                right={21}
-                              >
-                                <Typography
-                                  color="verdeSucesso"
-                                  fontFamily="nunitoRegular"
-                                  fontSize={11}
-                                >
-                                  -R$ 50
-                                </Typography>
-                              </Box>
-                            )}
+                          <Box
+                            position="absolute"
+                            zIndex={5}
+                            top={84}
+                            right={21}
+                          >
+                            <Typography
+                              color="verdeSucesso"
+                              fontFamily="nunitoRegular"
+                              fontSize={11}
+                            >
+                              -R$ 50
+                            </Typography>
+                          </Box>
+                          )}
                           <ProductHorizontalListCard
                             isBag
                             discountApi={
                               item.priceTags.find(
-                                (x) =>
-                                  x.identifier ===
-                                  'd51ad0ed-150b-4ed6-92de-6d025ea46368'
+                                (x) => x.identifier
+                                  === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                               )
                                 ? parseInt(`${item.priceTags[0].rawValue}`)
                                 : undefined
                             }
                             disableCounter={
                               item.priceTags.find(
-                                (x) =>
-                                  x.identifier ===
-                                  'd51ad0ed-150b-4ed6-92de-6d025ea46368'
-                              ) &&
-                              array.filter((x) => x.uniqueId == item.uniqueId)
+                                (x) => x.identifier
+                                  === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
+                              )
+                              && array.filter((x) => x.uniqueId == item.uniqueId)
                                 .length > 1
                             }
                             currency="R$"
                             discountTag={getPercent(
                               item.sellingPrice,
-                              item.listPrice
+                              item.listPrice,
                             )}
                             itemColor={item.skuName.split('-')[0] || ''}
                             ItemSize={item.skuName.split('-')[1] || ''}
@@ -1026,25 +1008,22 @@ export const BagScreen = ({ route }: Props) => {
                             testID={`product_card_bag_${slugify(item.productId + item.skuName)}`}
                             isGift={item.bundleItems.length > 0}
                             isGiftable={item.offerings.some(
-                              (offering) => offering?.type === 'Embalagem pra Presente'
+                              (offering) => offering?.type === 'Embalagem pra Presente',
                             )}
-                            handleToggleGift={(value) =>
-                              handleToggleGiftCheckbox(
-                                value,
-                                index,
-                                item,
-                                orderForm
-                              )
-                            }
+                            handleToggleGift={(value) => handleToggleGiftCheckbox(
+                              value,
+                              index,
+                              item,
+                              orderForm,
+                            )}
                             onClickAddCount={async (countUpdated) => {
                               const itemIndex = array.findIndex(
-                                (x) => x.refId == item.refId
+                                (x) => x.refId == item.refId,
                               );
 
-                              let isAssinaturaSimples =
-                                item?.attachmentOfferings?.find(
-                                  (x) => x.schema.aceito
-                                )?.required || false;
+                              const isAssinaturaSimples = item?.attachmentOfferings?.find(
+                                (x) => x.schema.aceito,
+                              )?.required || false;
 
                               const quantities = isAssinaturaSimples
                                 ? 1
@@ -1060,20 +1039,16 @@ export const BagScreen = ({ route }: Props) => {
                               });
 
                               if (!addItemResponse?.ok) {
-                                const erros = errorsMessages?.filter((erro) =>
-                                  erro.includes(item.name)
-                                );
+                                const erros = errorsMessages?.filter((erro) => erro.includes(item.name));
                                 setNoProduct(erros[0]);
+                              } else if (!isAssinaturaSimples) {
+                                setOptimistQuantities([
+                                  ...optimistQuantities.slice(0, itemIndex),
+                                  countUpdated,
+                                  ...optimistQuantities.slice(itemIndex + 1),
+                                ]);
                               } else {
-                                if (!isAssinaturaSimples) {
-                                  setOptimistQuantities([
-                                    ...optimistQuantities.slice(0, itemIndex),
-                                    countUpdated,
-                                    ...optimistQuantities.slice(itemIndex + 1),
-                                  ]);
-                                } else {
-                                  await addAttachmentsInProducts();
-                                }
+                                await addAttachmentsInProducts();
                               }
                             }}
                             onClickSubCount={async (count) => {
@@ -1095,14 +1070,15 @@ export const BagScreen = ({ route }: Props) => {
                                   item.id,
                                   index,
                                   item.seller,
-                                  item.quantity - 1
+                                  item.quantity - 1,
                                 );
-                                if (!ok)
+                                if (!ok) {
                                   setOptimistQuantities([
                                     ...optimistQuantities.slice(0, index),
                                     prevCont,
                                     ...optimistQuantities.slice(index + 1),
                                   ]);
+                                }
                               }
                             }}
                             onClickClose={() => {
@@ -1126,7 +1102,7 @@ export const BagScreen = ({ route }: Props) => {
                             }}
                           />
                         </Box>
-                      )
+                    ),
                   )}
                 </Box>
 
@@ -1147,7 +1123,8 @@ export const BagScreen = ({ route }: Props) => {
                     </Box>
                     <Box flex={1}>
                       <Typography variant="subtituloSessoes">
-                        Código promocional{' '}
+                        Código promocional
+                        {' '}
                       </Typography>
                     </Box>
                   </Box>
@@ -1223,7 +1200,7 @@ export const BagScreen = ({ route }: Props) => {
                       />
                     </Box>
                   </Box>
-                  {/*TODO refactor use hasErrorApplyCoupon or create hasErrorInvalidCoupon */}
+                  {/* TODO refactor use hasErrorApplyCoupon or create hasErrorInvalidCoupon */}
                   {couponIsInvalid && (
                     <Box marginRight="micro">
                       <Typography color="vermelhoAlerta" variant="precoAntigo3">
@@ -1330,8 +1307,8 @@ export const BagScreen = ({ route }: Props) => {
                 </Box>
               </Box>
             ) : (
-              orderForm &&
-              orderForm?.items.length > 0 && (
+              orderForm
+              && orderForm?.items.length > 0 && (
                 <Box
                   width="100%"
                   bg="white"
@@ -1370,7 +1347,9 @@ export const BagScreen = ({ route }: Props) => {
                             fontSize={15}
                             color="vermelhoRSV"
                           >
-                            {installmentInfo.installmentsNumber}x de{' '}
+                            {installmentInfo.installmentsNumber}
+                            x de
+                            {' '}
                           </Typography>
 
                           <PriceCustom
@@ -1379,8 +1358,8 @@ export const BagScreen = ({ route }: Props) => {
                             sizeInterger={15}
                             sizeDecimal={11}
                             num={
-                              (totalBag + totalDiscountPrice) /
-                              installmentInfo.installmentsNumber
+                              (totalBag + totalDiscountPrice)
+                              / installmentInfo.installmentsNumber
                             }
                           />
                         </Box>
@@ -1390,10 +1369,10 @@ export const BagScreen = ({ route }: Props) => {
 
                   <Button
                     disabled={
-                      !!(orderForm && orderForm?.items?.length === 0) ||
-                      loadingProfile ||
-                      loadingGoDelivery ||
-                      topBarLoading
+                      !!(orderForm && orderForm?.items?.length === 0)
+                      || loadingProfile
+                      || loadingGoDelivery
+                      || topBarLoading
                     }
                     onPress={onGoToDelivery}
                     title="IR PARA ENTREGA"

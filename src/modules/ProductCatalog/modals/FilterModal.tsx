@@ -1,32 +1,27 @@
-import React, { useState } from "react";
-import { Platform, ScrollView } from "react-native";
+import React, { useState } from 'react';
+import { Platform, ScrollView, Dimensions } from 'react-native';
 import {
   Box,
   Button,
-  CheckboxList,
   Divider,
   Icon,
-  RadioButtons,
   Range,
-  SelectColor,
   theme,
   Typography,
   RadioButtonsFilter,
   SelectColorFilter,
   CheckboxListFilter,
-} from "@usereservaapp/reserva-ui";
-import Modal from "react-native-modal";
-import { Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { createAnimatableComponent } from "react-native-animatable";
+} from '@usereservaapp/reserva-ui';
+import Modal from 'react-native-modal';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { createAnimatableComponent } from 'react-native-animatable';
 import {
-  ColorsToHexEnum,
   HexToColorsEnum,
-} from "../../../graphql/product/colorsToHexEnum";
-import { useEffect } from "react";
-import { ProductUtils } from "../../../shared/utils/productUtils";
-const deviceHeight = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").width;
+} from '../../../graphql/product/colorsToHexEnum';
+
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 const BoxAnimation = createAnimatableComponent(Box);
 
@@ -51,48 +46,46 @@ export const TitleFilter: React.FC<{
   title: string;
   showMore: boolean;
   setShowMore: (val: boolean) => void;
-}> = ({ title, showMore, setShowMore }) => {
-  return (
-    <Box
-      paddingX="micro"
-      paddingY="micro"
-      justifyContent="space-between"
-      flexDirection="row"
+}> = ({ title, showMore, setShowMore }) => (
+  <Box
+    paddingX="micro"
+    paddingY="micro"
+    justifyContent="space-between"
+    flexDirection="row"
+  >
+    <Typography fontFamily="reservaSerifRegular" fontSize="16px">
+      {title}
+    </Typography>
+
+    <Button
+      onPress={() => setShowMore(!showMore)}
+      hitSlop={{ left: 50, top: 15, bottom: 15 }}
     >
-      <Typography fontFamily="reservaSerifRegular" fontSize="16px">
-        {title}
-      </Typography>
-
-      <Button
-        onPress={() => setShowMore(!showMore)}
-        hitSlop={{ left: 50, top: 15, bottom: 15 }}
+      <BoxAnimation
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
       >
-        <BoxAnimation
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography fontFamily="nunitoRegular" fontSize="12px">
-            Ver mais
-          </Typography>
+        <Typography fontFamily="nunitoRegular" fontSize="12px">
+          Ver mais
+        </Typography>
 
-          <Icon
-            style={
+        <Icon
+          style={
               showMore
-                ? { transform: [{ rotate: "-90deg" }] }
+                ? { transform: [{ rotate: '-90deg' }] }
                 : { transform: [{ translateY: 4 }] }
             }
-            name={showMore ? "ChevronRight" : "ArrowDown"}
-            color="preto"
-            marginY="quarck"
-            marginX="nano"
-            size={12}
-          />
-        </BoxAnimation>
-      </Button>
-    </Box>
-  );
-};
+          name={showMore ? 'ChevronRight' : 'ArrowDown'}
+          color="preto"
+          marginY="quarck"
+          marginX="nano"
+          size={12}
+        />
+      </BoxAnimation>
+    </Button>
+  </Box>
+);
 
 export const FilterModal = ({
   setFilterRequestList,
@@ -120,13 +113,13 @@ export const FilterModal = ({
 
   sizes = sizes.map((size: any) => ({
     ...size,
-    value: size.value.toUpperCase()
-  }))
+    value: size.value.toUpperCase(),
+  }));
 
   const loadMoreProducts = () => {
     const colors = selectedColors
       .map((color) => ({
-        key: "cor",
+        key: 'cor',
         value: HexToColorsEnum[color],
       }))
       .filter(({ value }) => value !== undefined);
@@ -139,8 +132,8 @@ export const FilterModal = ({
         if (item) {
           return {
             key: 'tamanho',
-            value: item
-          }
+            value: item,
+          };
         }
       }).filter((item: any) => item),
       [...new Set(colors)],
@@ -158,7 +151,7 @@ export const FilterModal = ({
   };
 
   const androidCloseButton = () => {
-    if (Platform.OS !== "android") return;
+    if (Platform.OS !== 'android') return;
     if (onAndroidBackButtonPress) {
       onAndroidBackButtonPress();
       return;
@@ -171,7 +164,6 @@ export const FilterModal = ({
 
     if (!onAndroidBackButtonPress && !onClose && onCancel) {
       onCancel();
-      return;
     }
   };
 
@@ -228,8 +220,8 @@ export const FilterModal = ({
             <ScrollView>
               <Box
                 paddingX="micro"
-                paddingTop={"xs"}
-                paddingBottom={"nano"}
+                paddingTop="xs"
+                paddingBottom="nano"
                 flexDirection="row"
                 justifyContent="space-between"
               >
@@ -275,19 +267,17 @@ export const FilterModal = ({
                   listColors={showColors ? colors : colors.slice(0, 6)}
                   onPress={(color) => {
                     const mappedSelectedColor = selectedColors.map(
-                      (color) => color
+                      (color) => color,
                     );
 
                     if (mappedSelectedColor.includes(color)) {
                       const newColors = selectedColors.filter(
-                        (value) => value !== color
+                        (value) => value !== color,
                       );
 
                       setSelectedColors(newColors);
                     } else {
-                      setSelectedColors((preview) => {
-                        return [...preview, color];
-                      });
+                      setSelectedColors((preview) => [...preview, color]);
                     }
                   }}
                   selectedColors={selectedColors}
@@ -317,7 +307,7 @@ export const FilterModal = ({
                     setSelectedSize(size);
                   }}
                   optionsList={showSizes ? sizes : sizes.slice(0, 6)}
-                //defaultSelectedItem={"M"}
+                // defaultSelectedItem={"M"}
                 />
               </BoxAnimation>
 
@@ -350,7 +340,7 @@ export const FilterModal = ({
 
                         setSelectedPriceRange([
                           {
-                            key: "priceRange",
+                            key: 'priceRange',
                             range: { from: minPrice, to: maxPrice },
                           },
                         ]);
@@ -361,7 +351,8 @@ export const FilterModal = ({
                       width={deviceWidth - 100}
                     />
                   </BoxAnimation>
-                )}
+                )
+}
 
               <Box
                 paddingTop="micro"
@@ -374,9 +365,9 @@ export const FilterModal = ({
                     onPress={() => onClose()}
                     marginLeft="micro"
                     marginRight="nano"
-                    title={"VOLTAR"}
+                    title="VOLTAR"
                     variant="primarioEstreitoOutline"
-                    inline={true}
+                    inline
                   />
                 </Box>
 
@@ -385,9 +376,9 @@ export const FilterModal = ({
                     onPress={() => loadMoreProducts()}
                     marginRight="micro"
                     marginLeft="nano"
-                    title={"APLICAR"}
+                    title="APLICAR"
                     variant="primarioEstreito"
-                    inline={true}
+                    inline
                   />
                 </Box>
               </Box>
@@ -395,7 +386,7 @@ export const FilterModal = ({
                 <Typography
                   color="progressTextColor"
                   variant="precoAntigo3"
-                  style={{ textDecorationLine: "underline" }}
+                  style={{ textDecorationLine: 'underline' }}
                 >
                   Limpar filtros
                 </Typography>

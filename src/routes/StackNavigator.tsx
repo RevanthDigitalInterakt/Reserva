@@ -88,7 +88,7 @@ export type RootStackParamList = {
       {
         key: string;
         value: string;
-      }
+      },
     ];
     title?: string;
     reservaMini?: boolean;
@@ -171,22 +171,22 @@ export type RootStackParamList = {
   MapScreen: { geolocation: string; locationPermission: boolean };
   SummaryScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
     cashback: boolean;
   };
   PurchaseConfirmationScreen: {
     paymentType:
-      | 'PIX'
-      | 'Credit'
-      | 'Debit'
-      | 'Boleto'
-      | 'GiftCard'
-      | 'Cashback';
+    | 'PIX'
+    | 'Credit'
+    | 'Debit'
+    | 'Boleto'
+    | 'GiftCard'
+    | 'Cashback';
   };
   PixScreen: {
     cashback: boolean;

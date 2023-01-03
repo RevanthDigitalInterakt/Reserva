@@ -29,13 +29,13 @@ const headers = {
 const instance = axios.create({
   baseURL: url,
   timeout: 30000,
-  headers: headers,
+  headers,
 });
 
 const instance2 = axios.create({
   baseURL: urlBase2,
   timeout: 30000,
-  headers: headers,
+  headers,
 });
 
 const instance3 = axios.create({
@@ -76,7 +76,7 @@ const instance6 = axios.create({
 const instance7 = axios.create({
   baseURL: urlBase3,
   timeout: 30000,
-  headers: headers,
+  headers,
 });
 
 export {

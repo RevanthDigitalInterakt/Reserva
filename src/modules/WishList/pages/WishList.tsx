@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
 import { useLazyQuery, useMutation } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { FlatList, ScrollView, Alert } from 'react-native';
+import { FlatList, Alert } from 'react-native';
 import {
   Box,
-  Button,
-  Icon,
   Picker,
   ProductHorizontalListCard,
   Typography,
-  Image,
 } from '@usereservaapp/reserva-ui';
 
-import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import wishListQueries from '../../../graphql/wishlist/wishList';
@@ -24,7 +19,7 @@ import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ModalBag } from '../../ProductDetail/components/ModalBag';
 import { EmptyWishList } from '../components/EmptyWishList';
-import {slugify} from "../../../utils/slugify";
+import { slugify } from '../../../utils/slugify';
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
@@ -37,7 +32,9 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [wishIds, setWishIds] = useState<any[]>([]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const [loadingWishProducts, setLoadingWishProducts] = useState(false);
-  const { addItem, sendUserEmail, orderForm, removeItem } = useCart();
+  const {
+    addItem, sendUserEmail, orderForm, removeItem,
+  } = useCart();
   const [isVisible, setIsVisible] = useState(false);
 
   const { email, cookie } = useAuth();
@@ -45,7 +42,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [skip, setSkip] = useState(false);
 
   const [removeFromWishList, { loading: loadingIds }] = useMutation(
-    wishListQueries.REMOVE_WISH_LIST
+    wishListQueries.REMOVE_WISH_LIST,
   );
 
   const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, {
@@ -90,7 +87,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       variables: {
         idArray: [] as any[],
       },
-    }
+    },
   );
 
   const [{ loadingProducts, products }, setWishListProducts] = useState<{
@@ -109,7 +106,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
     await getWishListProducts({
       variables: {
-        idArray: !!props ? props.idArray : [],
+        idArray: props ? props.idArray : [],
       },
     }).then((response) => {
       setWishListProducts({
@@ -147,7 +144,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     const addItemResponse = await addItem({
       quantity: 1,
       itemId: selectedVariantId,
-      seller: selectedSellerId
+      seller: selectedSellerId,
     });
     setIsVisible(true);
 
@@ -166,31 +163,26 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     setLoadingWishProducts(true);
     if (!!products?.productsByIdentifier && !!wishIds && !!wishIds.length) {
-      let newWishList: any[] = [];
-
+      const newWishList: any[] = [];
 
       wishIds.forEach((item) => {
         const product = products.productsByIdentifier.find(
-          (prod) => prod.productId == item.productId.split('-')[0]
+          (prod) => prod.productId == item.productId.split('-')[0],
         );
         if (product) {
           const productSku = product?.items.find(
-            (i) => i.itemId == item.sku
+            (i) => i.itemId == item.sku,
           );
-          const installments =
-            productSku?.sellers[0].commertialOffer.Installments;
+          const installments = productSku?.sellers[0].commertialOffer.Installments;
 
-          const availableProduct =
-            productSku?.sellers[0].commertialOffer.AvailableQuantity >
-            0;
+          const availableProduct = productSku?.sellers[0].commertialOffer.AvailableQuantity
+            > 0;
 
-          const installmentsNumber = installments?.reduce((prev, next) =>
-            prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
-            { NumberOfInstallments: 0, Value: 0 })
+          const installmentsNumber = installments?.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+            { NumberOfInstallments: 0, Value: 0 });
 
-          const installmentPrice = installments?.reduce((prev, next) =>
-            prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
-            { NumberOfInstallments: 0, Value: 0 })
+          const installmentPrice = installments?.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+            { NumberOfInstallments: 0, Value: 0 });
 
           const wish = {
             id: item.id,
@@ -198,11 +190,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
             productSku,
             availableProduct,
             installmentsNumber,
-            installmentPrice
-          }
-          newWishList.push(wish)
+            installmentPrice,
+          };
+          newWishList.push(wish);
         }
-      })
+      });
       setWishProducts(newWishList);
       setLoadingWishProducts(false);
     }
@@ -211,7 +203,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     setWishIds(productIds?.viewList.data);
   }, [productIds]);
-
 
   // useEffect(() => {
   //   // addWish({
@@ -235,7 +226,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       refetch();
-    }, [])
+    }, []),
   );
 
   useFocusEffect(
@@ -250,7 +241,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       // refetchProducts(
       //   { idArray }
       // )
-    }, [cookie])
+    }, [cookie]),
   );
 
   return (
@@ -400,67 +391,65 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                 style={{
                   paddingHorizontal: 16,
                 }}
-                ListHeaderComponent={
+                ListHeaderComponent={(
                   <Box paddingTop="md" pb={36}>
                     <Typography variant="tituloSessoes">Favoritos</Typography>
                   </Box>
-                }
-                renderItem={({ item }) => {
-                  return (
-                    <Box marginBottom="xxxs" height={150}>
-                      <ProductHorizontalListCard
-                        testID={`producthorizontal_card_${slugify(item.productSku?.name)}`}
-                        onClickAddCount={() => { }}
-                        isFavorited
-                        itemColor={item.productSku?.name.split('-')[0] || ''}
-                        ItemSize={item.productSku?.name.split('-')[1] || ''}
-                        productTitle={`${item.product?.productName.slice(0, 30)}${item.product?.productName.length > 30 ? '...' : ''
-                          }`}
-                        installmentsNumber={item.installmentsNumber}
-                        installmentsPrice={item.installmentPrice}
-                        price={item.productSku?.sellers[0].commertialOffer.Price}
-                        onClickFavorite={() => handleFavorite(item.id)}
-                        onClickBagButton={() => {
-                          // setSelectedVariantItemId(productSku?.itemId);
+                )}
+                renderItem={({ item }) => (
+                  <Box marginBottom="xxxs" height={150}>
+                    <ProductHorizontalListCard
+                      testID={`producthorizontal_card_${slugify(item.productSku?.name)}`}
+                      onClickAddCount={() => { }}
+                      isFavorited
+                      itemColor={item.productSku?.name.split('-')[0] || ''}
+                      ItemSize={item.productSku?.name.split('-')[1] || ''}
+                      productTitle={`${item.product?.productName.slice(0, 30)}${item.product?.productName.length > 30 ? '...' : ''
+                      }`}
+                      installmentsNumber={item.installmentsNumber}
+                      installmentsPrice={item.installmentPrice}
+                      price={item.productSku?.sellers[0].commertialOffer.Price}
+                      onClickFavorite={() => handleFavorite(item.id)}
+                      onClickBagButton={() => {
+                        // setSelectedVariantItemId(productSku?.itemId);
 
-                          if (item.availableProduct) {
-                            const sellers = item.productSku?.sellers[0].sellerId;
+                        if (item.availableProduct) {
+                          const sellers = item.productSku?.sellers[0].sellerId;
 
-                            if (
-                              item.product.description.includes(
-                                'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)'
-                              )
-                            ) {
-                              navigation.navigate('ProductDetail', {
-                                productId: item.product?.productId,
-                                colorSelected:
+                          if (
+                            item.product.description.includes(
+                              'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)',
+                            )
+                          ) {
+                            navigation.navigate('ProductDetail', {
+                              productId: item.product?.productId,
+                              colorSelected:
                                   item.productSku?.variations[2].values[0],
-                                sizeSelected: item.productSku?.name.split('-')[1],
-                              });
-                            } else {
-                              onProductAdd(item.productSku?.itemId, sellers);
-                            }
+                              sizeSelected: item.productSku?.name.split('-')[1],
+                            });
                           } else {
-                            Alert.alert('Produto sem estoque :(');
+                            onProductAdd(item.productSku?.itemId, sellers);
                           }
-                        }}
-                        imageSource={
+                        } else {
+                          Alert.alert('Produto sem estoque :(');
+                        }
+                      }}
+                      imageSource={
                           item.productSku?.images[0].imageUrl
                           // .replace("http", "https")
                           // .split("-55-55")
                           // .join("")
                         }
-                        handleNavigateToProductDetail={() => {
-                          navigation.navigate('ProductDetail', {
-                            productId: item.product?.productId,
-                            itemId: item.productSku?.itemId,
-                            sizeSelected: item.productSku?.name.split('-')[1],
-                          });
-                        }}
-                      />
-                    </Box>
-                  );
-                }}
+                      handleNavigateToProductDetail={() => {
+                        navigation.navigate('ProductDetail', {
+                          productId: item.product?.productId,
+                          itemId: item.productSku?.itemId,
+                          sizeSelected: item.productSku?.name.split('-')[1],
+                        });
+                      }}
+                    />
+                  </Box>
+                )}
               />
             </Box>
           )}

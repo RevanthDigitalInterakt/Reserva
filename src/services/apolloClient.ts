@@ -24,7 +24,7 @@ const directionalLinkProduction = new RetryLink().split(
   }),
   new HttpLink({
     uri: Config.URL_VTEX_GRAPHQL,
-  })
+  }),
 );
 
 const directionalLinkTesting = new RetryLink().split(
@@ -37,25 +37,23 @@ const directionalLinkTesting = new RetryLink().split(
   }),
   new HttpLink({
     uri: Config.URL_VTEX_GRAPHQL,
-  })
+  }),
 );
 
-const authAfterware = new ApolloLink((operation, forward) =>
-  forward(operation).map((response) => {
-    const { data } = response;
+const authAfterware = new ApolloLink((operation, forward) => forward(operation).map((response) => {
+  const { data } = response;
 
-    if (
-      data?.classicSignIn === 'Success' ||
-      data?.accessKeySignIn === 'Success' ||
-      data?.sendEmailVerification === true
-    ) {
-      const { response: res } = operation.getContext();
+  if (
+    data?.classicSignIn === 'Success'
+      || data?.accessKeySignIn === 'Success'
+      || data?.sendEmailVerification === true
+  ) {
+    const { response: res } = operation.getContext();
 
-      response.data.cookie = res.headers.map['set-cookie'];
-    }
-    return response;
-  })
-);
+    response.data.cookie = res.headers.map['set-cookie'];
+  }
+  return response;
+}));
 
 const authLinkHeader = setContext(async (_, { headers }) => {
   const cookie = await AsyncStorage.getItem('@RNAuth:cookie');

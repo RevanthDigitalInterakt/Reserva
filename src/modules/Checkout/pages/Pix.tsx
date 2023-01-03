@@ -1,62 +1,56 @@
-import React, { useState } from "react";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
-import { Typography, Box, Button, Icon, Divider, TextField } from "@usereservaapp/reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
+import React from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
+import {
+  Typography, Box, Button, Divider,
+} from '@usereservaapp/reserva-ui';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
-type Props = StackScreenProps<RootStackParamList, "PixScreen">;
+type Props = StackScreenProps<RootStackParamList, 'PixScreen'>;
 export const PixScreen = ({ route }: Props) => {
   const { cashback } = route?.params;
   const navigation = useNavigation();
   return (
-    <SafeAreaView flex={1} backgroundColor={"white"}>
+    <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton showShadow />
       <ScrollView>
-        <Box paddingX={"xxxs"} paddingY={"sm"}>
-          <Box marginBottom={"xxxs"}>
-            <Typography variant={"tituloSessoes"}>
+        <Box paddingX="xxxs" paddingY="sm">
+          <Box marginBottom="xxxs">
+            <Typography variant="tituloSessoes">
               PIX
             </Typography>
           </Box>
 
-          <Box marginBottom={"xxs"}>
-            <Typography variant={"tituloSessao"}>
+          <Box marginBottom="xxs">
+            <Typography variant="tituloSessao">
               O QR Code e o código númerico serão exibidos após a confirmação da
               compra e poderá ser efetuado pagamento em qualquer banco pelo
               Internet Banking.
             </Typography>
           </Box>
           <Information
-            number={"1"}
-            description={
-              "Ao finalizar a compra será exibido um QR Code e um código númerico."
-            }
+            number="1"
+            description="Ao finalizar a compra será exibido um QR Code e um código númerico."
             divider
           />
 
           <Information
-            number={"2"}
-            description={
-              "Copie o código e faça o pagamento no aplicativo da sua instituição financeira."
-            }
+            number="2"
+            description="Copie o código e faça o pagamento no aplicativo da sua instituição financeira."
             divider
           />
 
           <Information
-            number={"3"}
-            description={
-              "Quando realizado, o seu pedido será liberado em nosso aplicativo."
-            }
+            number="3"
+            description="Quando realizado, o seu pedido será liberado em nosso aplicativo."
           />
         </Box>
       </ScrollView>
 
       <Button
-        onPress={() =>
-          navigation.navigate("SummaryScreen", { paymentType: "PIX", cashback: cashback })
-        }
+        onPress={() => navigation.navigate('SummaryScreen', { paymentType: 'PIX', cashback })}
         title="RESUMO"
         variant="primarioEstreito"
         inline
@@ -70,32 +64,30 @@ interface IInformation {
   description?: string;
   divider?: boolean;
 }
-const Information = ({ number, description, divider }: IInformation) => {
-  return (
-    <>
-      <Box flexDirection={"row"}>
-        <Box
-          height={40}
-          width={40}
-          bg={"neutroFrio2"}
-          borderRadius={"infinity"}
-          marginRight={"xxxs"}
-          justifyContent={"center"}
-          alignItems={"center"}
+const Information = ({ number, description, divider }: IInformation) => (
+  <>
+    <Box flexDirection="row">
+      <Box
+        height={40}
+        width={40}
+        bg="neutroFrio2"
+        borderRadius="infinity"
+        marginRight="xxxs"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography
+          fontFamily="reservaSerifRegular"
+          fontSize={20}
+          color="white"
         >
-          <Typography
-            fontFamily={"reservaSerifRegular"}
-            fontSize={20}
-            color={"white"}
-          >
-            {number}
-          </Typography>
-        </Box>
-        <Box flex={1}>
-          <Typography variant={"tituloSessao"}>{description}</Typography>
-        </Box>
+          {number}
+        </Typography>
       </Box>
-      {divider && <Divider marginY={"xxxs"} variant={"fullWidth"} />}
-    </>
-  );
-};
+      <Box flex={1}>
+        <Typography variant="tituloSessao">{description}</Typography>
+      </Box>
+    </Box>
+    {divider && <Divider marginY="xxxs" variant="fullWidth" />}
+  </>
+);

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Picker, TextField, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, TextField,
+} from '@usereservaapp/reserva-ui';
+
 interface CreateCategoryModalProps {
   isVisible: boolean;
   favoritedProduct?: any;
@@ -25,48 +28,48 @@ export const CreateCategoryModal = ({
     <>
       {modalIsVisible && (
         <Box
-          position='absolute'
-          backgroundColor='transparente'
-          justifyContent='center'
-          alignItems='center'
-          height={'100%'}
-          width={'100%'}
+          position="absolute"
+          backgroundColor="transparente"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+          width="100%"
           style={{ elevation: 4, zIndex: 4 }}
         >
           <Box
-            height={'100%'}
-            width={'100%'}
+            height="100%"
+            width="100%"
             style={{ backgroundColor: '#000', opacity: 0.6 }}
           >
             <Button
-              height={'100%'}
-              width={'100%'}
+              height="100%"
+              width="100%"
               onPress={() => {
                 setModalIsVisible(false);
               }}
             />
           </Box>
           <Box
-            px='micro'
-            py='xxs'
+            px="micro"
+            py="xxs"
             height={170}
             width={300}
-            position='absolute'
-            backgroundColor='white'
-            justifyContent='space-between'
+            position="absolute"
+            backgroundColor="white"
+            justifyContent="space-between"
           >
             <TextField
-              placeholder='nome da categoria'
+              placeholder="nome da categoria"
               onChangeText={(value) => {
                 setTextInput(value);
               }}
             />
             <Button
-              title='criar categoria'
-              variant='primarioEstreitoOutline'
+              title="criar categoria"
+              variant="primarioEstreitoOutline"
               onPress={() => {
-                favoritedProduct &&
-                  setModalIsVisible(false);
+                favoritedProduct
+                  && setModalIsVisible(false);
               }}
             />
           </Box>

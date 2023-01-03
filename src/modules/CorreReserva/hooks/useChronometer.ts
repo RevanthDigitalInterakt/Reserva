@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import BackgroundTimer from 'react-native-background-timer';
 
@@ -70,8 +70,7 @@ const convertSecondsToHours = (seconds = 0) => {
 
   horas = horas < 10 ? `0${horas}` : horas;
   minutos = minutos < 10 ? `0${minutos}` : minutos;
-  segundosRestantes =
-    segundosRestantes < 10 ? `0${segundosRestantes}` : segundosRestantes;
+  segundosRestantes = segundosRestantes < 10 ? `0${segundosRestantes}` : segundosRestantes;
 
   return `${horas}:${minutos}:${segundosRestantes}`;
 };

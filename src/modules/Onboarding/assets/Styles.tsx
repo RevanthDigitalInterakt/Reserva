@@ -1,13 +1,13 @@
-import React from 'react';
-
-import { Dimensions, Platform, StyleSheet, PixelRatio } from 'react-native';
+import {
+  Dimensions, Platform, StyleSheet, PixelRatio,
+} from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
 
 const { width, height } = Dimensions.get('window');
 
 let fontTitle = Platform.OS === 'android' ? width * 0.10 : width * 0.11;
-let Subtitle = width * 0.038
-let description = width * 0.035
+const Subtitle = width * 0.038;
+const description = width * 0.035;
 if (PixelRatio.get() <= 2) {
   fontTitle = width * 0.105;
 }
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
   imageBackground: {
     // height: height,
     flex: 1,
-    width: width,
+    width,
   },
   boxImageHeader: {
     marginTop: 66,
@@ -97,7 +97,7 @@ export const styles = StyleSheet.create({
   },
   buttonNext: {
     alignContent: 'center',
-    width: width,
+    width,
     height: 27,
     marginBottom: 40,
     marginTop: 16,

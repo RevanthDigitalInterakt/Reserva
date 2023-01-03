@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Box,
@@ -7,10 +7,10 @@ import {
   Divider,
   Image,
 } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets';
 import Modal from 'react-native-modal';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { images } from '../../../assets';
 
 interface IStore {
   storeDetail: any[];
@@ -69,8 +69,8 @@ const Store = ({ storeDetail, data, mapPermission }: IStore) => {
           </Typography>
           <Box
             flex={1}
-            backgroundColor={'white'}
-            my={'micro'}
+            backgroundColor="white"
+            my="micro"
             boxShadow={Platform.OS == 'ios' ? 'bottomBarShadow' : null}
             pt="micro"
             pb="xxxs"
@@ -81,22 +81,24 @@ const Store = ({ storeDetail, data, mapPermission }: IStore) => {
             }}
           >
             {pickupPoints ? (
-              <Box borderColor={'backgroundMenuOpened'} mt="nano">
+              <Box borderColor="backgroundMenuOpened" mt="nano">
                 <Box flexDirection="row">
                   <Box alignItems="center">
                     <Image
                       height={40}
                       source={images.localReserva}
-                      resizeMode={'contain'}
+                      resizeMode="contain"
                     />
                     <Box mt="quarck">
                       <Typography fontFamily="reservaSansMedium" fontSize={12}>
-                        {+data.pickupDistance.toFixed(1)} km
+                        {+data.pickupDistance.toFixed(1)}
+                        {' '}
+                        km
                       </Typography>
                     </Box>
                   </Box>
                   <Box flex={1} ml="xxxs">
-                    <Box mb={'quarck'}>
+                    <Box mb="quarck">
                       <Typography
                         fontFamily="reservaSansBold"
                         fontSize={14}
@@ -131,7 +133,10 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
                         color="verdeSucesso"
                         lineHeight={16}
                       >
-                        Pronto em até {data.shippingEstimate?.split('bd')[0]}{' '}
+                        Pronto em até
+                        {' '}
+                        {data.shippingEstimate?.split('bd')[0]}
+                        {' '}
                         dias
                       </Typography>
                     </Box>
@@ -192,8 +197,8 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
                   Horários de funcionamento
                 </Typography>
               </Box>
-              {storeDetail &&
-                storeDetail.map((item) => {
+              {storeDetail
+                && storeDetail.map((item) => {
                   const [
                     hoursOpeningTime,
                     minuteOpeningTime,
@@ -219,7 +224,10 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
                           fontFamily="reservaSansRegular"
                           fontSize={14}
                         >
-                          {`${hoursOpeningTime}:${minuteOpeningTime}`} às{' '}
+                          {`${hoursOpeningTime}:${minuteOpeningTime}`}
+                          {' '}
+                          às
+                          {' '}
                           {`${hoursClosingTime}:${minuteClosingTime}`}
                         </Typography>
                       </Box>
@@ -231,14 +239,12 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
           </Modal>
           <Box flex={1} pt="xxs">
             <Button
-              onPress={() =>
-                mapPermission
-                  ? navigation.navigate('MapScreen', {
-                      geolocation: '',
-                      locationPermission: mapPermission,
-                    })
-                  : navigation.navigate('WithdrawInStore', { isCheckout: true })
-              }
+              onPress={() => (mapPermission
+                ? navigation.navigate('MapScreen', {
+                  geolocation: '',
+                  locationPermission: mapPermission,
+                })
+                : navigation.navigate('WithdrawInStore', { isCheckout: true }))}
               inline
               title="VER MAIS LOJAS PRÓXIMAS"
               variant="primarioEstreitoOutline"
@@ -250,7 +256,7 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
         </Box>
       ) : (
         <Box bg="white" alignItems="center" px="micro" mt="xxl">
-          <Image source={images.noStoresFound} resizeMode={'contain'} />
+          <Image source={images.noStoresFound} resizeMode="contain" />
           <Box mb="xxs" mt="md">
             <Typography fontFamily="reservaSerifRegular" fontSize={24}>
               Nenhuma loja encontrada

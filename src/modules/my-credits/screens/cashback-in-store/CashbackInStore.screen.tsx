@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { StackActions, useNavigation } from '@react-navigation/native';
 
+import { BackHandler } from 'react-native';
 import { BaseScreen } from '../../../../common/components/BaseScreen';
 import {
   MyCreditsParamList,
@@ -9,11 +10,10 @@ import {
 } from '../../navigation/MyCreditsNavigator';
 
 import { CashbackInStoreContainer } from './CashbackInStore.container';
-import { BackHandler } from 'react-native';
 
 type CashbackInStoreScreenProps = StackScreenProps<
-  MyCreditsParamList,
-  MyCreditsScreensRoutes.CASHBACK_IN_STORE
+MyCreditsParamList,
+MyCreditsScreensRoutes.CASHBACK_IN_STORE
 >;
 
 export const CashbackInStoreScreen = ({
@@ -42,7 +42,7 @@ export const CashbackInStoreScreen = ({
 
     navigation.addListener('beforeRemove', (e) => {
       e.preventDefault();
-      //clear setInterval here and go back
+      // clear setInterval here and go back
     });
   }, []);
 

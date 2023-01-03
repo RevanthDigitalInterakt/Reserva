@@ -4,7 +4,6 @@ import SpInAppUpdates from 'sp-react-native-in-app-updates';
 import Config from 'react-native-config';
 import EventProvider from '../../utils/EventProvider';
 
-
 export const haveVersionUpdates = async () => {
   try {
     const { remote, local } = await checkVersion({
@@ -17,9 +16,7 @@ export const haveVersionUpdates = async () => {
 
     const response = await inAppUpdates.checkNeedsUpdate({
       curVersion: local,
-      customVersionComparator: () => {
-        return remote > local ? 1 : -1;
-      },
+      customVersionComparator: () => (remote > local ? 1 : -1),
     });
     if (response.shouldUpdate) {
       inAppUpdates.addStatusUpdateListener();

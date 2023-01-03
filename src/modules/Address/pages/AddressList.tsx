@@ -1,5 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Alert, Box, Button, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Alert, Box, Button, Typography,
+} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
@@ -96,7 +98,7 @@ const AddressList: React.FC<Props> = ({ route }) => {
             itemIndex,
             selectedDeliveryChannel: deliveryChannel,
             selectedSla: id,
-          })
+          }),
         );
         let addressId;
         if (selectedAddress.id) {
@@ -139,10 +141,9 @@ const AddressList: React.FC<Props> = ({ route }) => {
   };
 
   useEffect(() => {
-    const availableAddressesOrderForm =
-      orderForm &&
-      orderForm?.shippingData &&
-      orderForm?.shippingData.availableAddresses.map((a) => ({
+    const availableAddressesOrderForm = orderForm
+      && orderForm?.shippingData
+      && orderForm?.shippingData.availableAddresses.map((a) => ({
         ...a,
         country: 'BRA',
       }));
@@ -162,8 +163,8 @@ const AddressList: React.FC<Props> = ({ route }) => {
       const { addresses } = profile;
       setAddresses(addresses);
     } else if (
-      availableAddressesOrderForm &&
-      availableAddressesOrderForm?.length > 0
+      availableAddressesOrderForm
+      && availableAddressesOrderForm?.length > 0
     ) {
       setAddresses(availableAddressesOrderForm);
     }

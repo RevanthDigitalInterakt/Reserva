@@ -2,8 +2,11 @@ import { IDto } from '../interfaces/IDto';
 
 export class MasterDataSendDataDto implements IDto {
   email: string;
+
   name: string;
+
   orderId: string;
+
   phone: string;
 
   constructor(email: string, name: string, phone: string, orderId: string) {
@@ -23,7 +26,6 @@ export class MasterDataSendDataDto implements IDto {
       name: this.name,
       orderId: this.orderId,
       phone: this.formatPhone(this.phone),
-    }
+    };
   }
 }
-

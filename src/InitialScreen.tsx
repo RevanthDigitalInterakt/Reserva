@@ -39,8 +39,7 @@ type UpdateInAppType = {
 };
 
 const IOS_STORE_URL = 'https://apps.apple.com/br/app/reserva/id1566861458';
-const ANDROID_STORE_URL =
-  'https://play.google.com/store/apps/details?id=com.usereserva';
+const ANDROID_STORE_URL = 'https://play.google.com/store/apps/details?id=com.usereserva';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -49,14 +48,14 @@ async function requestUserPermission() {
     .then((token) => {
       appsFlyer.updateServerUninstallToken(token, (_success) => {});
     });
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED
+    || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-  if (Platform.OS === 'ios' && enabled)
+  if (Platform.OS === 'ios' && enabled) {
     deviceInfoModule.getDeviceToken().then((deviceToken) => {
       appsFlyer.updateServerUninstallToken(deviceToken, (_success) => {});
     });
+  }
 }
 
 const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
@@ -77,7 +76,7 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
   };
 
   const onStatusUpdate: AndroidStatusEventListener = (
-    status: StatusUpdateEvent
+    status: StatusUpdateEvent,
   ) => {};
 
   const startUpdateInApp = async ({
@@ -127,24 +126,23 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       if (response.shouldUpdate) {
         inAppUpdates.addStatusUpdateListener(onStatusUpdate);
 
-        const updateType: StartUpdateOptions =
-          Platform.select<StartUpdateOptions>({
-            ios: {
-              title: updateTitle,
-              message: updateDescription,
-              buttonUpgradeText: 'Atualizar',
-              buttonCancelText: 'Cancelar',
-              country: 'br',
-              forceUpgrade: updateInAppType === 'FLEXIBLE' ? false : true,
-              bundleId: deviceInfoModule.getBundleId(),
-            },
-            android: {
-              updateType:
+        const updateType: StartUpdateOptions = Platform.select<StartUpdateOptions>({
+          ios: {
+            title: updateTitle,
+            message: updateDescription,
+            buttonUpgradeText: 'Atualizar',
+            buttonCancelText: 'Cancelar',
+            country: 'br',
+            forceUpgrade: updateInAppType !== 'FLEXIBLE',
+            bundleId: deviceInfoModule.getBundleId(),
+          },
+          android: {
+            updateType:
                 updateInAppType === 'FLEXIBLE'
                   ? IAUUpdateKind.FLEXIBLE
                   : IAUUpdateKind.IMMEDIATE,
-            },
-          }) as StartUpdateOptions;
+          },
+        }) as StartUpdateOptions;
         if (onlyPlatform === platform || onlyPlatform === 'all') {
           inAppUpdates.startUpdate(updateType);
         }

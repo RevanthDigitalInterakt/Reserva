@@ -1,18 +1,17 @@
-import { useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
-  profileQuery,
   ProfileVars,
 } from '../../../../graphql/profile/profileQuery';
-import React, { Fragment, useEffect, useState } from 'react';
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
-import { MyCashbackAPI } from '../../../../modules/my-cashback/api/MyCashbackAPI';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
+import { MyCashbackAPI } from '../../../my-cashback/api/MyCashbackAPI';
 import {
   CashbackHttpUrl,
   GetTokenResponse,
-} from '../../../my-credits/api/MyCreditsAPI';
+} from '../../api/MyCreditsAPI';
 import { CashbackInStoreView } from './CashbackInStore.view';
 import { useAuth } from '../../../../context/AuthContext';
+
 interface CashbackInStoreContainerProps {
   costumerDocument: string;
   navigateBack: () => void;
@@ -71,14 +70,14 @@ export const CashbackInStoreContainer = ({
         {
           type: 'qrcode',
           expire_date: tomorrow,
-        }
+        },
       );
       setToken(data.data.token);
     }
   };
 
   return (
-    <Fragment>
+    <>
       <TopBarBackButton
         loading={false}
         showShadow
@@ -92,6 +91,6 @@ export const CashbackInStoreContainer = ({
         termsIsAccepted={termsIsAccepted}
         acceptTermsAndConditions={acceptTermsAndConditions}
       />
-    </Fragment>
+    </>
   );
 };

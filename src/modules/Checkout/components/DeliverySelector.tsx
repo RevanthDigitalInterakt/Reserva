@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Typography, Box, Button, Icon, theme } from '@usereservaapp/reserva-ui';
+import {
+  Typography, Box,
+} from '@usereservaapp/reserva-ui';
 
 export interface Delivery {
   id?: string;
@@ -21,7 +23,9 @@ const DeliverySelector = ({
   deliveryData,
   disabled,
 }: IDeliverySelector) => {
-  const { name, price, shippingEstimate, id } = deliveryData;
+  const {
+    name, price, shippingEstimate, id,
+  } = deliveryData;
   return (
     <>
       <TouchableOpacity disabled={disabled} onPress={select}>
@@ -41,7 +45,7 @@ const DeliverySelector = ({
             justifyContent="center"
             alignItems="center"
           >
-            <Box m={'nano'} alignItems="center">
+            <Box m="nano" alignItems="center">
               <Box width="10%">
                 <Box
                   height={15}
@@ -64,7 +68,7 @@ const DeliverySelector = ({
             </Box>
           </Box>
           <Box
-            alignContent={'center'}
+            alignContent="center"
             flex={1}
             marginX="micro"
             borderRightWidth="hairline"
@@ -84,14 +88,20 @@ const DeliverySelector = ({
               fontSize={13}
               lineHeight={16}
             >
-              Em até {shippingEstimate?.split('bd')[0]} dias úteis
+              Em até
+              {' '}
+              {shippingEstimate?.split('bd')[0]}
+              {' '}
+              dias úteis
             </Typography>
           </Box>
           <Box width="25%" alignItems="center">
             {price && price > 0 ? (
               <Box alignItems="center">
                 <Typography>
-                  R$ {(price / 100).toFixed(2).replace('.', ',')}
+                  R$
+                  {' '}
+                  {(price / 100).toFixed(2).replace('.', ',')}
                 </Typography>
               </Box>
             ) : (

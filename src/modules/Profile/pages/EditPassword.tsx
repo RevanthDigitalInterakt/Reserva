@@ -1,5 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';
@@ -11,8 +13,6 @@ import { redefinePasswordMutation } from '../../../graphql/profile/redefinePassw
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-
-
 
 type Props = StackScreenProps<RootStackParamList, 'EditPassword'>;
 export const EditPassword = ({ route }: Props) => {
@@ -31,18 +31,18 @@ export const EditPassword = ({ route }: Props) => {
   }, setProfileData] = useState({
     loading: true,
     data: {} as any,
-  })
+  });
   const [getProfileData] = useLazyQuery(profileQuery);
   const [changeSuccess, setChangeSuccess] = useState(false);
   const [resultChangePassword, setResultChangePassword] = useState<any>([]);
   const navigation = useNavigation();
 
   useEffect(() => {
-    getProfileData().then(response => setProfileData({
+    getProfileData().then((response) => setProfileData({
       loading: false,
       data: response.data,
-    }))
-  }, [])
+    }));
+  }, []);
   useEffect(() => {
     if (!loading) {
       setEmail(data?.profile?.email);
@@ -64,7 +64,7 @@ export const EditPassword = ({ route }: Props) => {
 
   const validation = Yup.object().shape({
     password: Yup.string().required(
-      'Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números.'
+      'Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números.',
     ),
     password_confirm: Yup.string()
       .required('Informe a senha novamente')
@@ -126,12 +126,10 @@ export const EditPassword = ({ route }: Props) => {
                           placeholder="Digite sua senha atual"
                           secureTextEntry={showCurrentPassword}
                           field="current_password"
-                          iconRight={
+                          iconRight={(
                             <Button
                               mr="xxxs"
-                              onPress={() =>
-                                setShowCurrentPassword(!showCurrentPassword)
-                              }
+                              onPress={() => setShowCurrentPassword(!showCurrentPassword)}
                             >
                               {showCurrentPassword ? (
                                 <Icon
@@ -147,7 +145,7 @@ export const EditPassword = ({ route }: Props) => {
                                 />
                               )}
                             </Button>
-                          }
+                          )}
                         />
                       </Box>
                       <Box mb="micro">
@@ -156,12 +154,10 @@ export const EditPassword = ({ route }: Props) => {
                           placeholder="Digite sua nova senha"
                           secureTextEntry={showNewPassword}
                           field="password"
-                          iconRight={
+                          iconRight={(
                             <Button
                               mr="xxxs"
-                              onPress={() =>
-                                setShowNewPassword(!showNewPassword)
-                              }
+                              onPress={() => setShowNewPassword(!showNewPassword)}
                             >
                               {showNewPassword ? (
                                 <Icon
@@ -177,7 +173,7 @@ export const EditPassword = ({ route }: Props) => {
                                 />
                               )}
                             </Button>
-                          }
+                          )}
                         />
                       </Box>
                       <Box mb="nano">
@@ -186,12 +182,10 @@ export const EditPassword = ({ route }: Props) => {
                           placeholder="Repita a senha"
                           field="password_confirm"
                           secureTextEntry={showRepeatPassword}
-                          iconRight={
+                          iconRight={(
                             <Button
                               mr="xxxs"
-                              onPress={() =>
-                                setShowRepeatPassword(!showRepeatPassword)
-                              }
+                              onPress={() => setShowRepeatPassword(!showRepeatPassword)}
                             >
                               {showRepeatPassword ? (
                                 <Icon
@@ -207,7 +201,7 @@ export const EditPassword = ({ route }: Props) => {
                                 />
                               )}
                             </Button>
-                          }
+                          )}
                         />
                       </Box>
                     </>

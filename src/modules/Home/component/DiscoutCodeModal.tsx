@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState, memo } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Clipboard from '@react-native-community/clipboard';
 import { Animated, Dimensions, ImageBackground } from 'react-native';
-import { View } from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import Share from 'react-native-share';
-import { Box, Button, Icon, theme, Typography } from '@usereservaapp/reserva-ui';
-import { left, opacity, padding, paddingBottom, right } from 'styled-system';
+import {
+  Box, Button, Icon, theme, Typography,
+} from '@usereservaapp/reserva-ui';
 
 import { images } from '../../../assets';
 
@@ -96,7 +96,9 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
               onPress={onClose}
               variant="icone"
               icon={<Icon name="Close" size={8} color="white" />}
-              hitSlop={{ top: 30, right: 30, bottom: 30, left: 30 }}
+              hitSlop={{
+                top: 30, right: 30, bottom: 30, left: 30,
+              }}
             />
           </Box>
         </Box>

@@ -1,17 +1,19 @@
-import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
-import { ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import React, {
   Dispatch,
   SetStateAction, useEffect,
-  useState
+  useState,
 } from 'react';
 import {
   Dimensions,
   PixelRatio,
-  Platform, TouchableOpacity
+  Platform, TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import { ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import FlipNumber from '../flipcountdoun/FlipNumber';
 import { useChronometerLocal } from './useChronometerLocal';
 
@@ -67,20 +69,20 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
     },
   ];
   const [clockColor, setClockColor] = useState<
-    {
-      colorBanner: string;
-      colorButton: string;
-      clockBackgroundColor: string;
-    }[]
+  {
+    colorBanner: string;
+    colorButton: string;
+    clockBackgroundColor: string;
+  }[]
   >(colorsReservaLocal);
 
   const shouldShowClock = () => {
     if (countDownLocal) {
-      const isTimeToShow = Date.now() > new Date(countDownLocal?.countdownStart).getTime()
-      const timeIsOver = Date.now() > new Date(countDownLocal?.countdown).getTime()
-      return isTimeToShow && !timeIsOver
+      const isTimeToShow = Date.now() > new Date(countDownLocal?.countdownStart).getTime();
+      const timeIsOver = Date.now() > new Date(countDownLocal?.countdown).getTime();
+      return isTimeToShow && !timeIsOver;
     }
-  }
+  };
 
   useEffect(() => {
     if (countDownLocal) {
@@ -128,9 +130,8 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
     const newSize = size * scale;
     if (Platform.OS === 'ios') {
       return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3;
-    } else {
-      return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4;
     }
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4;
   }
 
   return showClock && currentValue !== '00:00:00' ? (
@@ -150,7 +151,8 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
             fontFamily="reservaSerifMedium"
             fontSize={normalize(26)}
           >
-            {countDownLocal?.title}{' '}
+            {countDownLocal?.title}
+            {' '}
             {countDownLocal?.subtitle && (
               <Typography
                 lineHeight={normalize(28)}
@@ -264,66 +266,64 @@ const CheckTheRules = ({
   setIsVisible,
   rulesData,
   goToPromotion,
-}: IcheckTheRules) => {
-  return (
-    <Modal
-      avoidKeyboard
-      onBackdropPress={() => setIsVisible(false)}
-      isVisible={isVisible}
+}: IcheckTheRules) => (
+  <Modal
+    avoidKeyboard
+    onBackdropPress={() => setIsVisible(false)}
+    isVisible={isVisible}
+  >
+    {/* <ScrollView bounces={false}> */}
+    <Box
+      bg="white"
+      minHeight={184}
+      alignItems="center"
+      justifyContent="center"
+      px={34}
+      py={45}
     >
-      {/* <ScrollView bounces={false}> */}
-      <Box
-        bg="white"
-        minHeight={184}
-        alignItems="center"
-        justifyContent="center"
-        px={34}
-        py={45}
-      >
-        <Box position="absolute" top={16} right={20} zIndex={4}>
-          <Button
-            onPress={() => setIsVisible(false)}
-            variant="icone"
-            icon={<Icon size={17} name="Close" />}
-          />
-        </Box>
-        <Box>
-          <Typography
-            textAlign={'center'}
-            fontFamily="reservaSerifBold"
-            fontSize={34}
-          >
-            {rulesData?.titleModal}
-          </Typography>
-        </Box>
-        <Box mt={8}>
-          <Typography
-            // textAlign={'center'}
-            lineHeight={23}
-            fontFamily="reservaSansRegular"
-            fontSize={18}
-          >
-            {rulesData?.descriptionModal}
-          </Typography>
-        </Box>
-        <Box width="100%" mt={38} mb={5}>
-          <Button
-            variant="primarioEstreito"
-            width="100%"
-            height={50}
-            onPress={goToPromotion}
-          >
-            <Typography
-              color="white"
-              fontFamily="nunitoExtraBold"
-              fontSize={13}
-            >
-              IR PARA A PROMO
-            </Typography>
-          </Button>
-        </Box>
+      <Box position="absolute" top={16} right={20} zIndex={4}>
+        <Button
+          onPress={() => setIsVisible(false)}
+          variant="icone"
+          icon={<Icon size={17} name="Close" />}
+        />
       </Box>
-      {/* </ScrollView> */}
-    </Modal>
-  );
-};
+      <Box>
+        <Typography
+          textAlign="center"
+          fontFamily="reservaSerifBold"
+          fontSize={34}
+        >
+          {rulesData?.titleModal}
+        </Typography>
+      </Box>
+      <Box mt={8}>
+        <Typography
+            // textAlign={'center'}
+          lineHeight={23}
+          fontFamily="reservaSansRegular"
+          fontSize={18}
+        >
+          {rulesData?.descriptionModal}
+        </Typography>
+      </Box>
+      <Box width="100%" mt={38} mb={5}>
+        <Button
+          variant="primarioEstreito"
+          width="100%"
+          height={50}
+          onPress={goToPromotion}
+        >
+          <Typography
+            color="white"
+            fontFamily="nunitoExtraBold"
+            fontSize={13}
+          >
+            IR PARA A PROMO
+          </Typography>
+        </Button>
+      </Box>
+    </Box>
+    {/* </ScrollView> */}
+  </Modal>
+);

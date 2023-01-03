@@ -1,12 +1,13 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useRef, useEffect, useState } from 'react';
-import { Box, Button, Icon, Typography, Alert } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Typography, Alert,
+} from '@usereservaapp/reserva-ui';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import Card, { FlagTypes } from '../Components/Card';
-import { useNavigation } from '@react-navigation/core';
-import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useLazyQuery } from '@apollo/client';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import Card from '../Components/Card';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 
 interface ListCardsScreenProps {}
@@ -20,13 +21,12 @@ type Props = StackScreenProps<RootStackParamList, 'ListCards'>;
 export const ListCards = ({ navigation, route }: Props) => {
   const [cards, setCards] = React.useState<CardProps[]>();
   const [cardSelected, setCardSelected] = React.useState<CardProps>(
-    {} as CardProps
+    {} as CardProps,
   );
 
   const [isVisibleModalCard, setIsVisibleModalCard] = React.useState(false);
   const [isVisibleModalTrash, setIsVisibleModalTrash] = React.useState(false);
-  const [isVisibleSuccessTrash, setIsVisibleSuccessTrash] =
-    React.useState(false);
+  const [isVisibleSuccessTrash, setIsVisibleSuccessTrash] = React.useState(false);
   const modalTrash = useRef(false);
 
   const { isCheckout, cashback } = route.params;
@@ -36,40 +36,38 @@ export const ListCards = ({ navigation, route }: Props) => {
   const [{
     loading,
     data,
-    error
+    error,
   }, setProfile] = useState(
     {
       loading: true,
       error: {} as any,
       data: {} as any,
-      refetch: () => { return {} as any }
-    }
-  )
+      refetch: () => ({} as any),
+    },
+  );
 
   useEffect(() => {
     getProfile()
-    .then(response =>
-      setProfile({
+      .then((response) => setProfile({
         data: response.data,
         loading: false,
         error: response.error,
-        refetch
-      })
-    )
-  }, [])
+        refetch,
+      }));
+  }, []);
 
   const refetch = async () => {
-    const response = await getProfile()
+    const response = await getProfile();
 
     setProfile({
       loading,
       error,
       data,
-      refetch
-    })
+      refetch,
+    });
 
-    return response
-  }
+    return response;
+  };
 
   const handleDeleteCard = (id: string) => {
     // const restCards = cards.filter((card) => card.id !== id);
@@ -118,19 +116,19 @@ export const ListCards = ({ navigation, route }: Props) => {
         <TopBarBackButton loading={loading} showShadow />
 
         <Box
-          overflow={'hidden'}
+          overflow="hidden"
           // height={'80%'}
           paddingHorizontal={20}
-          pt={'md'}
+          pt="md"
         >
-          <Box mb={'xs'}>
+          <Box mb="xs">
             <Typography variant="tituloSessoes">Meus cartões</Typography>
           </Box>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            {cards &&
-              cards.length > 0 &&
-              cards.map((card, index) => {
+            {cards
+              && cards.length > 0
+              && cards.map((card, index) => {
                 const { cardNumber, id } = card;
                 return (
                   <Card
@@ -155,14 +153,12 @@ export const ListCards = ({ navigation, route }: Props) => {
         </Box>
         <Button
           mt="xs"
-          onPress={() =>
-            navigation.navigate('NewCard', {
-              isCheckout: isCheckout,
-            })
-          }
+          onPress={() => navigation.navigate('NewCard', {
+            isCheckout,
+          })}
           inline
           marginX="xl"
-          title={'ADICIONAR CARTÃO'}
+          title="ADICIONAR CARTÃO"
           variant="primarioEstreitoOutline"
           padding="xl"
         />
@@ -172,20 +168,18 @@ export const ListCards = ({ navigation, route }: Props) => {
               variant="primarioEstreito"
               inline
               title="PRÓXIMO"
-              onPress={() =>
-                navigation.navigate('SummaryScreen', {
-                  paymentType: 'Credit',
-                  cashback: cashback,
-                })
-              }
+              onPress={() => navigation.navigate('SummaryScreen', {
+                paymentType: 'Credit',
+                cashback,
+              })}
             />
           </Box>
         )}
       </SafeAreaView>
       <Alert
         isVisible={isVisibleSuccessTrash}
-        title={'Seu cartão foi excluído com sucesso'}
-        confirmText={'OK'}
+        title="Seu cartão foi excluído com sucesso"
+        confirmText="OK"
         onConfirm={() => {
           modalTrash.current = false;
           setIsVisibleSuccessTrash(false);
@@ -197,12 +191,12 @@ export const ListCards = ({ navigation, route }: Props) => {
       />
       <Alert
         isVisible={!isVisibleSuccessTrash && isVisibleModalCard}
-        title={'Cartão padrão'}
+        title="Cartão padrão"
         subtitle={`Deseja definir o cartão **** ${cardSelected?.cardNumber?.substring(
-          12
+          12,
         )} como principal?`}
-        confirmText={'SIM'}
-        cancelText={'NÃO'}
+        confirmText="SIM"
+        cancelText="NÃO"
         onConfirm={() => {
           handleMainCard(cardSelected.id);
         }}
@@ -221,10 +215,10 @@ export const ListCards = ({ navigation, route }: Props) => {
           modalTrash.current && setIsVisibleSuccessTrash(true);
         }}
         isVisible={isVisibleModalTrash}
-        title={'Excluir cartão'}
-        subtitle={`Tem certeza que deseja excluir o cartão salvo?`}
-        confirmText={'SIM'}
-        cancelText={'NÃO'}
+        title="Excluir cartão"
+        subtitle="Tem certeza que deseja excluir o cartão salvo?"
+        confirmText="SIM"
+        cancelText="NÃO"
         onConfirm={() => {
           handleDeleteCard(cardSelected.id);
           modalTrash.current = true;

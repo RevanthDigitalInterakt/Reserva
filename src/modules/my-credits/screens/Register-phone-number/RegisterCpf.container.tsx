@@ -1,9 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { ProfileVars } from '../../../../graphql/profile/profileQuery';
+import React, { Fragment, useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ProfileVars, profileMutation } from '../../../../graphql/profile/profileQuery';
 import { RegisterCpfView } from './RegisterCpf.view';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
-import { useMutation } from '@apollo/client';
-import { profileMutation } from '../../../../graphql/profile/profileQuery';
 
 interface RegisterCpfContainerProps {
   profile: ProfileVars;
@@ -28,19 +27,18 @@ export const RegisterCpfContainer = ({
     if (cpf == '') return setCpfInvalid(true);
 
     if (
-      cpf.length != 11 ||
-      cpf == '00000000000' ||
-      cpf == '11111111111' ||
-      cpf == '22222222222' ||
-      cpf == '33333333333' ||
-      cpf == '44444444444' ||
-      cpf == '55555555555' ||
-      cpf == '66666666666' ||
-      cpf == '77777777777' ||
-      cpf == '88888888888' ||
-      cpf == '99999999999'
-    )
-      return setCpfInvalid(true);
+      cpf.length != 11
+      || cpf == '00000000000'
+      || cpf == '11111111111'
+      || cpf == '22222222222'
+      || cpf == '33333333333'
+      || cpf == '44444444444'
+      || cpf == '55555555555'
+      || cpf == '66666666666'
+      || cpf == '77777777777'
+      || cpf == '88888888888'
+      || cpf == '99999999999'
+    ) return setCpfInvalid(true);
     let add = 0;
     let i = 0;
     let rev = 0;
@@ -64,7 +62,6 @@ export const RegisterCpfContainer = ({
     setLoading(true);
     if (!cpfInvalid && cpf.length > 0) {
       handleSaveCpf().then(() => navigateToVerifyNumber());
-
     } else {
       setLoading(false);
       setCpfInvalid(true);
@@ -90,7 +87,7 @@ export const RegisterCpfContainer = ({
   };
 
   return (
-    <Fragment>
+    <>
       <TopBarBackButton
         loading={loading}
         showShadow
@@ -106,6 +103,6 @@ export const RegisterCpfContainer = ({
         cpfInvalid={cpfInvalid}
         disableButton={loading}
       />
-    </Fragment>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 import CodePush from 'react-native-code-push';
 
 export default () => {
@@ -6,7 +6,7 @@ export default () => {
   const [progress, setProgress] = useState(true);
 
   const codePushStatusDidChange = useCallback(
-    syncStatus => {
+    (syncStatus) => {
       switch (syncStatus) {
         case CodePush.SyncStatus.CHECKING_FOR_UPDATE:
           setSyncMessage('Checking for update');
@@ -38,10 +38,10 @@ export default () => {
           break;
       }
     },
-    [setSyncMessage]
-  )
+    [setSyncMessage],
+  );
 
-  const downloadProgressCallback = useCallback(progress => {
+  const downloadProgressCallback = useCallback((progress) => {
     setProgress(progress);
   }, []);
 
@@ -69,5 +69,4 @@ export default () => {
 
     checkExtraCodepush();
   }, [checkExtraCodepush, codePushStatusDidChange, downloadProgressCallback]);
-
-}
+};

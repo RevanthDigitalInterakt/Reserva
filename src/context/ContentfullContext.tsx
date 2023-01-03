@@ -1,4 +1,6 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, {
+  createContext, ReactNode, useContext, useState,
+} from 'react';
 
 const CONTENTFUL_TESTING = true;
 
@@ -28,11 +30,11 @@ const ContentfullContextProvider = ({ children }: ContentfullContextProviderProp
       {children}
     </ContentfullContext.Provider>
   );
-}
+};
 
 export default ContentfullContextProvider;
 
-export const useContentfull= () => {
+export const useContentfull = () => {
   const contentfullContext = useContext(ContentfullContext);
   if (!contentfullContext) {
     throw new Error('use Auth must be used within a ContentfullContextProvider');
@@ -46,4 +48,3 @@ export const useContentfull= () => {
     toggleIsTesting,
   };
 };
-

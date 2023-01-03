@@ -1,7 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { useEffect } from "react";
-import { useAuth } from "../../../context/AuthContext";
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+
+import { useAuth } from '../../../context/AuthContext';
 
 export const withAuthentication = (Component: React.FC, comeFrom: string) => ({
   ...props

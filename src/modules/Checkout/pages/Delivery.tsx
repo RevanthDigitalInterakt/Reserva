@@ -1,13 +1,15 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { useFocusEffect } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Dimensions, SafeAreaView, ScrollView } from 'react-native';
+import {
+  Alert, Dimensions, SafeAreaView, ScrollView,
+} from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import { RootStackParamList } from 'routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
-import { useCart, OrderForm } from '../../../context/CartContext';
+import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
@@ -48,19 +50,15 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
-    getProfile().then((response) =>
-      setProfileData({
-        refetch: response.refetch,
-        data: response.data,
-        loadingProfile: false,
-      })
-    );
+    getProfile().then((response) => setProfileData({
+      refetch: response.refetch,
+      data: response.data,
+      loadingProfile: false,
+    }));
   }, []);
 
   useEffect(() => {
-    Sentry.configureScope((scope) =>
-      scope.setTransactionName('DeliveryScreen')
-    );
+    Sentry.configureScope((scope) => scope.setTransactionName('DeliveryScreen'));
   }, []);
 
   useEffect(() => {
@@ -82,7 +80,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       if (data) {
         refetch();
       }
-    }, [data])
+    }, [data]),
   );
 
   // permissão para acessar o mapa
@@ -91,12 +89,12 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       const lacationAlways = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
       const lacationInUse = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
       const fineLoation = await request(
-        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
       );
       if (
-        lacationAlways === 'granted' ||
-        lacationInUse === 'granted' ||
-        fineLoation === 'granted'
+        lacationAlways === 'granted'
+        || lacationInUse === 'granted'
+        || fineLoation === 'granted'
       ) {
         setPermission(true);
       }
@@ -112,9 +110,9 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
       ]);
       if (
-        check['ios.permission.LOCATION_WHEN_IN_USE'] === 'granted' ||
-        check['ios.permission.LOCATION_ALWAYS'] === 'granted' ||
-        check['android.permission.ACCESS_FINE_LOCATION'] === 'granted'
+        check['ios.permission.LOCATION_WHEN_IN_USE'] === 'granted'
+        || check['ios.permission.LOCATION_ALWAYS'] === 'granted'
+        || check['android.permission.ACCESS_FINE_LOCATION'] === 'granted'
       ) {
         setMapPermission(true);
       }
@@ -141,7 +139,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           itemIndex,
           selectedDeliveryChannel: 'delivery',
           selectedSla: 'Padrão',
-        })
+        }),
       );
 
       const data = await addShippingOrPickupInfo(logisticInfo, [
@@ -183,7 +181,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
               itemIndex,
               selectedDeliveryChannel: deliveryChannel,
               selectedSla: id,
-            })
+            }),
           );
 
           delete pickupStoreInfo.address.addressType;
@@ -204,7 +202,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           } else {
             Alert.alert(
               'Ocorreu um problema',
-              'Problema ao atualizar o pedido'
+              'Problema ao atualizar o pedido',
             );
           }
         }
@@ -217,7 +215,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
             itemIndex,
             selectedDeliveryChannel: deliveryChannel,
             selectedSla: id,
-          })
+          }),
         );
 
         const data = await addShippingOrPickupInfo(logisticInfo, [
@@ -239,7 +237,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     const defaultDelivery = orderForm?.shippingData?.logisticsInfo?.find(
       (delivery) => {
         const defaultSlaExists = delivery.slas?.find(
-          (sla) => sla.id === 'Padrão'
+          (sla) => sla.id === 'Padrão',
         );
 
         if (defaultSlaExists) {
@@ -247,17 +245,17 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         }
 
         return false;
-      }
+      },
     );
     const typeOfDeliveries = defaultDelivery
       ? defaultDelivery.slas?.filter((x) => {
-          if (x.deliveryChannel === 'delivery') return true;
-          return false;
-        })
+        if (x.deliveryChannel === 'delivery') return true;
+        return false;
+      })
       : orderForm?.shippingData?.logisticsInfo[0].slas?.filter((x) => {
-          if (x.deliveryChannel === 'delivery') return true;
-          return false;
-        });
+        if (x.deliveryChannel === 'delivery') return true;
+        return false;
+      });
 
     const valueShipping = orderForm?.shippingData?.logisticsInfo.map(
       (item: any) => {
@@ -266,14 +264,12 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
             return sla;
           }
         });
-        const value = valuePrice ? valuePrice : item.slas[0];
+        const value = valuePrice || item.slas[0];
         return value?.price;
-      }
+      },
     );
 
-    const shippingPrice = valueShipping?.reduce((a: any, b: any) => {
-      return a + b;
-    }, 0);
+    const shippingPrice = valueShipping?.reduce((a: any, b: any) => a + b, 0);
 
     setShippingValue(shippingPrice);
 
@@ -281,18 +277,17 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       (x) => {
         if (x.deliveryChannel === 'pickup-in-point') return true;
         return false;
-      }
+      },
     );
 
     // loja mais próxima
     if (pickupPoint) {
       const closer = pickupPoint.reduce(
-        (prev: any, curr: any) =>
-          prev.pickupDistance <= curr.pickupDistance ? prev : curr,
-        0
+        (prev: any, curr: any) => (prev.pickupDistance <= curr.pickupDistance ? prev : curr),
+        0,
       );
       const businessHours = orderForm?.shippingData?.pickupPoints.find(
-        (x) => x.id === closer.pickupPointId
+        (x) => x.id === closer.pickupPointId,
       );
       setPickupPoint(closer);
       setBusinessHours(businessHours?.businessHours);
@@ -306,25 +301,23 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
   const updateAddresses = () => {
     if (!selectMethodDelivery) {
-      const availableAddressesOrderForm =
-        orderForm &&
-        orderForm?.shippingData &&
-        orderForm?.shippingData.availableAddresses.map((a) => ({
+      const availableAddressesOrderForm = orderForm
+        && orderForm?.shippingData
+        && orderForm?.shippingData.availableAddresses.map((a) => ({
           ...a,
           country: 'BRA',
         }));
 
-      const selectedAddressOrderFom =
-        orderForm &&
-        orderForm?.shippingData &&
-        orderForm?.shippingData.selectedAddresses[0];
+      const selectedAddressOrderFom = orderForm
+        && orderForm?.shippingData
+        && orderForm?.shippingData.selectedAddresses[0];
 
       if (
-        availableAddressesOrderForm &&
-        availableAddressesOrderForm?.length > 0
+        availableAddressesOrderForm
+        && availableAddressesOrderForm?.length > 0
       ) {
         const addresses = availableAddressesOrderForm?.filter(
-          (x) => x.addressType != 'search'
+          (x) => x.addressType != 'search',
         );
 
         if (selectedAddressOrderFom?.addressType === 'search') {
@@ -399,7 +392,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                   fontSize={15}
                   lineHeight={18}
                 >
-                  {` gratuitamente.`}
+                  {' gratuitamente.'}
                 </Typography>
               </Typography>
             </Box>
@@ -416,7 +409,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 borderWidth="hairline"
                 inline
                 height={50}
-                testID={"delivery_button_receive_home"}
+                testID="delivery_button_receive_home"
                 bg={!selectMethodDelivery ? 'preto' : 'white'}
               >
                 <Typography
@@ -442,7 +435,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 onPress={() => {
                   setSelectMethodDelivery(true);
                 }}
-                testID={"delivery_button_pick_up_in_store"}
+                testID="delivery_button_pick_up_in_store"
                 bg={selectMethodDelivery ? 'preto' : 'white'}
               >
                 <Box>
@@ -456,14 +449,14 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                     RETIRAR NA LOJA
                   </Typography>
                   <Typography
-                    color={'verdeSucesso'}
+                    color="verdeSucesso"
                     fontFamily="nunitoRegular"
                     fontSize={11}
                     style={{ textAlign: 'center' }}
                     letterSpacing={1.6}
                     lineHeight={14}
                   >
-                    {`(GRÁTIS)`}
+                    (GRÁTIS)
                   </Typography>
                 </Box>
               </Button>
@@ -477,8 +470,8 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
               mapPermission={mapPermission}
             />
           ) : (
-            !selectMethodDelivery &&
-            profile && (
+            !selectMethodDelivery
+            && profile && (
               <ReceiveHome
                 loading={loading}
                 typeOfDelivery={typeOfDelivery}
@@ -495,14 +488,12 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         {cookie != null && !selectMethodDelivery && (
           <Box justifyContent="flex-end" alignItems="center" mt="xxxs">
             <Button
-              onPress={() =>
-                navigation.navigate('NewAddress', {
-                  isCheckout: true,
-                  receiveHome: true,
-                  id: undefined,
-                  onAddAddressCallBack: async () => await orderform(),
-                })
-              }
+              onPress={() => navigation.navigate('NewAddress', {
+                isCheckout: true,
+                receiveHome: true,
+                id: undefined,
+                onAddAddressCallBack: async () => orderform(),
+              })}
               height={50}
               width={DEVICE_WIDTH * 0.8}
               inline

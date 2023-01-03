@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useChronometerLocal = ({ initial = '00:00:00' }) => {
   const [valueFormatted, setValueFormatted] = useState(initial);
@@ -13,7 +13,7 @@ export const useChronometerLocal = ({ initial = '00:00:00' }) => {
     let seconds = convertHoursToSeconds(value.current);
 
     intervalIDRef.current = setInterval(() => {
-      seconds = seconds - 1;
+      seconds -= 1;
       const formatted = convertSecondsToHours(seconds);
       setValueFormatted(formatted);
     }, 1000);
@@ -31,12 +31,10 @@ export const useChronometerLocal = ({ initial = '00:00:00' }) => {
     start();
   };
 
-  useEffect(() => {
-    return () => {
-      if (intervalIDRef.current) {
-        clearInterval(intervalIDRef.current);
-      }
-    };
+  useEffect(() => () => {
+    if (intervalIDRef.current) {
+      clearInterval(intervalIDRef.current);
+    }
   }, []);
 
   return {
@@ -63,12 +61,11 @@ const convertSecondsToHours = (seconds = 0) => {
   let horas = Math.trunc(seconds / 3600);
   let segundosRestantes = seconds - horas * 3600;
   let minutos = Math.trunc(segundosRestantes / 60);
-  segundosRestantes = segundosRestantes - minutos * 60;
+  segundosRestantes -= minutos * 60;
 
   horas = horas < 10 ? `0${horas}` : horas;
   minutos = minutos < 10 ? `0${minutos}` : minutos;
-  segundosRestantes =
-    segundosRestantes < 10 ? `0${segundosRestantes}` : segundosRestantes;
+  segundosRestantes = segundosRestantes < 10 ? `0${segundosRestantes}` : segundosRestantes;
 
   return `${horas}:${minutos}:${segundosRestantes}`;
 };

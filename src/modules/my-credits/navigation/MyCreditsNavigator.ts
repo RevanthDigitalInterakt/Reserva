@@ -6,6 +6,7 @@ import { RegisterCpfScreen } from '../screens/Register-phone-number/RegisterCpf.
 import { NumberRegisteredSuccessfullyScreen } from '../screens/Register-phone-number/NumberRegisteredSuccessfully.screen';
 
 import { ProfileVars } from '../../../graphql/profile/profileQuery';
+
 export enum MyCreditsScreensRoutes {
   CREDITS = 'credits',
   ERROR = 'error',

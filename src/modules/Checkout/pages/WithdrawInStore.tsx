@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
   Button,
   TextField,
-  DropDown,
-  OutlineInput,
-  Icon,
-  Picker,
 } from '@usereservaapp/reserva-ui';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useNavigation } from '@react-navigation/native';
-import Modal from 'react-native-modal';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
-import { useFocusEffect } from '@react-navigation/native';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 export const WithdrawInStore = () => {
   const navigation = useNavigation();
@@ -29,9 +23,9 @@ export const WithdrawInStore = () => {
   // limpar o state e city quando focar na tela
   useFocusEffect(
     useCallback(() => {
-      setState('UF')
-      setCity('Cidade')
-    }, [])
+      setState('UF');
+      setCity('Cidade');
+    }, []),
   );
 
   const activateMapButton = useCallback((): boolean => {
@@ -42,38 +36,38 @@ export const WithdrawInStore = () => {
   }, [cep]);
 
   const activateContinueButton = useCallback((): boolean => {
-    if (state != "UF" && city != "Cidade") {
+    if (state != 'UF' && city != 'Cidade') {
       return true;
     }
     return false;
   }, [state, city]);
 
   return (
-    <SafeAreaView flex={1} backgroundColor={'white'}>
+    <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton showShadow />
       <ScrollView>
-        <Box paddingX={'xxxs'} paddingY={'sm'}>
-          <Box marginBottom={'xxs'}>
-            <Typography fontFamily={'reservaSerifRegular'} fontSize={20}>
+        <Box paddingX="xxxs" paddingY="sm">
+          <Box marginBottom="xxs">
+            <Typography fontFamily="reservaSerifRegular" fontSize={20}>
               Retirar na loja
             </Typography>
           </Box>
 
           <Box marginBottom="xxxs">
-            <Typography variant={'tituloSessao'}>
+            <Typography variant="tituloSessao">
               Digite o seu CEP para localizarmos as lojas mais próximas de você.
             </Typography>
           </Box>
 
-          <Box flexDirection={'row'}>
-            <Box flex={1} marginRight={'micro'}>
+          <Box flexDirection="row">
+            <Box flex={1} marginRight="micro">
               <TextField
-                maskType={'zip-code'}
+                maskType="zip-code"
                 value={cep}
                 onChangeText={(cep) => {
                   setCep(cep);
                 }}
-                placeholder={'Digite aqui o seu CEP'}
+                placeholder="Digite aqui o seu CEP"
               />
             </Box>
             <Box>

@@ -1,10 +1,9 @@
 import { checkoutInstance } from '../config/checkoutConfig';
-import { OrderForm, Item } from "../context/CartContext";
-import EventProvider from '../utils/EventProvider'
+import EventProvider from '../utils/EventProvider';
 
 type TActiveCheckoutGift = {
   id: string;
-}
+};
 
 export const checkoutService = {
   setPaymentMethod: async (
@@ -12,7 +11,7 @@ export const checkoutService = {
     value: number,
     accountId: string,
     installments: number,
-    interestRate: number
+    interestRate: number,
   ) => {
     try {
       const response = await checkoutInstance.post(
@@ -26,13 +25,13 @@ export const checkoutService = {
               tokenId: null,
               installments,
               referenceValue: value,
-              value: value,
+              value,
               merchantSellerPayments: [
                 {
                   id: 'LOJAUSERESERVA',
                   installments,
                   referenceValue: value,
-                  value: value,
+                  value,
                   interestRate,
                   installmentValue: value,
                 },
@@ -40,7 +39,7 @@ export const checkoutService = {
             },
           ],
           giftCards: [],
-        }
+        },
       );
 
       return response;
@@ -54,19 +53,19 @@ export const checkoutService = {
     value: number,
     interestValue: number,
     savePersonalData: boolean,
-    optinNewsLetter: boolean
+    optinNewsLetter: boolean,
   ) => {
     try {
       const response = await checkoutInstance.post(
         `/transaction/${orderFormId}/transaction?sc=4`,
         {
           referenceId: orderFormId,
-          value: value,
+          value,
           referenceValue: value,
           savePersonalData,
           optinNewsLetter,
           interestValue,
-        }
+        },
       );
       return response;
     } catch (error) {
@@ -79,7 +78,7 @@ export const checkoutService = {
     orderGroup: string,
     value: string,
     interestRate: number,
-    installments: number
+    installments: number,
   ) => {
     try {
       const response = await checkoutInstance.get(
@@ -93,7 +92,7 @@ export const checkoutService = {
               installments,
               installmentsInterestRate: 0,
               installmentsValue: value,
-              value: value,
+              value,
               referenceValue: value,
               id: 'LOJAUSERESERVA',
               interestRate,
@@ -106,7 +105,7 @@ export const checkoutService = {
               originalPaymentIndex: 0,
             },
           ],
-        }
+        },
       );
 
       return response;
@@ -117,7 +116,7 @@ export const checkoutService = {
   getPixCode: async (orderGroup: string) => {
     try {
       const response = await checkoutInstance.get(
-        `https://www.usereserva.com/api/checkout/pub/gatewayCallback/${orderGroup}`
+        `https://www.usereserva.com/api/checkout/pub/gatewayCallback/${orderGroup}`,
       );
     } catch (error) {
       EventProvider.captureException(error);
@@ -138,7 +137,7 @@ export const checkoutService = {
           headers: {
             Cookie: cookie,
           },
-        }
+        },
       );
     } catch (error) {
       EventProvider.captureException(error);
@@ -158,7 +157,7 @@ export const checkoutService = {
           headers: {
             Cookie: cookie,
           },
-        }
+        },
       );
     } catch (error) {
       EventProvider.captureException(error);
@@ -167,7 +166,7 @@ export const checkoutService = {
 
   setGiftSize: async (
     uniqueId: string,
-    giftId: string
+    giftId: string,
   ) => {
     try {
       const response = await checkoutInstance.post(

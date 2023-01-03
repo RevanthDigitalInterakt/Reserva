@@ -1,18 +1,14 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { QueryResult, useQuery, useLazyQuery } from '@apollo/client';
-import analytics from '@react-native-firebase/analytics';
+import { useLazyQuery } from '@apollo/client';
 import {
-  CommonActions,
   StackActions,
   useNavigation,
 } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ScrollView, Dimensions, BackHandler } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import appsFlyer from 'react-native-appsflyer';
-import { FilterModal } from '../../../modules/ProductCatalog/modals/FilterModal';
 import {
   Box,
   Button,
@@ -20,10 +16,9 @@ import {
   SearchBar,
   Typography,
   Image,
-  ProductVerticalListCard,
-  Icon,
   Picker,
 } from '@usereservaapp/reserva-ui';
+import { FilterModal } from '../../ProductCatalog/modals/FilterModal';
 
 import { images } from '../../../assets';
 import {
@@ -36,23 +31,17 @@ import {
   ProductSearchData,
 } from '../../../graphql/products/productSearch';
 import {
-  searchSuggestions as searchSuggestionsQuery,
   SearchSuggestionsVars,
   searchSuggestionsAndProductSearch,
 } from '../../../graphql/products/searchSuggestions';
-import {
-  topSearches,
-  TopSearches,
-} from '../../../graphql/products/topSearches';
+
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import useDebounce from '../../../shared/hooks/useDebounce';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { object } from 'yup';
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import EventProvider from '../../../utils/EventProvider';
@@ -81,7 +70,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [selectedTerm, setSelectedTerm] = useState(false);
   const [returnSearch, setReturnSearch] = useState<boolean>(false);
   const [productsQuery, setProductsQuery] = useState<ProductSearchData>(
-    {} as ProductSearchData
+    {} as ProductSearchData,
   );
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -175,10 +164,10 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           to: pageSize - 1,
           fullText: '',
           map: '',
-          //@ts-ignore
+          // @ts-ignore
           selectedFacets: [].concat(
             redirectWightList[searchTerm.toLowerCase()],
-            filterRequestList
+            filterRequestList,
           ),
         },
       });
@@ -238,11 +227,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     if (collectionData) {
       setProductNews(
         collectionData?.configCollection?.items[0].searchMedia
-          .secionMediaCollection.items
+          .secionMediaCollection.items,
       );
       setSearchSuggestions(
         collectionData?.configCollection?.items[0].searchSuggestionsCollection
-          .items
+          .items,
       );
       setReturnSearch(false);
     }
@@ -291,7 +280,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
         const searchIds = data?.productSearch?.products.map(
-          (x: any) => x?.productId
+          (x: any) => x?.productId,
         );
 
         EventProvider.logEvent('search', {
@@ -318,7 +307,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         setProductData({ data, loading: false });
 
         const searchIds = data?.productSearch?.products.map(
-          (x: any) => x?.productId
+          (x: any) => x?.productId,
         );
 
         EventProvider.logEvent('search', {
@@ -352,7 +341,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
         selectedFacets: [].concat(
           generateFacets(referenceString),
-          filterRequestList
+          filterRequestList,
         ),
       },
     });
@@ -423,20 +412,18 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       hideUnavailableItems: true,
       selectedFacets: [].concat(
         generateFacets(referenceString),
-        filterRequestList
+        filterRequestList,
       ),
     },
     fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
-    getFacets().then((response) =>
-      setFacets({
-        facetsData: response.data,
-        lodingFacets: false,
-        // refetchFacets: facetsData.refetch
-      })
-    );
+    getFacets().then((response) => setFacets({
+      facetsData: response.data,
+      lodingFacets: false,
+      // refetchFacets: facetsData.refetch
+    }));
   }, []);
 
   useEffect(() => {
@@ -445,51 +432,45 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
       // COLOR
       const colorFacets = facets.filter(
-        ({ name }: any) =>
-          name.toUpperCase() === 'COR' ||
-          name.toUpperCase() === 'DESC_COR_CONSOLIDADA'
+        ({ name }: any) => name.toUpperCase() === 'COR'
+          || name.toUpperCase() === 'DESC_COR_CONSOLIDADA',
       );
-      const colorFacetValues =
-        !!colorFacets && colorFacets.length > 0
-          ? colorFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value: ColorsToHexEnum[value],
-            }))
-          : [];
+      const colorFacetValues = !!colorFacets && colorFacets.length > 0
+        ? colorFacets[0].values.map(({ key, value }: any) => ({
+          key,
+          value: ColorsToHexEnum[value],
+        }))
+        : [];
       // SIZE
       const sizeFacets = facets.filter(
-        ({ name }: any) =>
-          name.toUpperCase() === 'TAMANHO' || name === 'Tamanho'
+        ({ name }: any) => name.toUpperCase() === 'TAMANHO' || name === 'Tamanho',
       );
-      const sizeFacetValues =
-        !!sizeFacets && sizeFacets.length > 0
-          ? sizeFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
-          : [];
+      const sizeFacetValues = !!sizeFacets && sizeFacets.length > 0
+        ? sizeFacets[0].values.map(({ key, value }: any) => ({
+          key,
+          value,
+        }))
+        : [];
 
       // CATEGORY
       const categoryFacets = facets.filter(
-        ({ name }: any) => name === 'Categoria'
+        ({ name }: any) => name === 'Categoria',
       );
-      const categoryFacetValues =
-        !!categoryFacets && categoryFacets.length > 0
-          ? categoryFacets[0].values.map(({ key, value }: any) => ({
-              key,
-              value,
-            }))
-          : [];
+      const categoryFacetValues = !!categoryFacets && categoryFacets.length > 0
+        ? categoryFacets[0].values.map(({ key, value }: any) => ({
+          key,
+          value,
+        }))
+        : [];
 
       // PRICE
       const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
-      const priceFacetValues =
-        !!priceFacets && priceFacets.length > 0
-          ? priceFacets[0].values.map(({ key, range }: any) => ({
-              key,
-              range,
-            }))
-          : [];
+      const priceFacetValues = !!priceFacets && priceFacets.length > 0
+        ? priceFacets[0].values.map(({ key, range }: any) => ({
+          key,
+          range,
+        }))
+        : [];
 
       setPriceRangeFilters(priceFacetValues);
       setCategoryFilters(categoryFacetValues);
@@ -610,7 +591,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                       navigation.navigate('ProductCatalog', {
                         facetInput,
                         referenceId: reference,
-                        orderBy: orderBy,
+                        orderBy,
                       });
                     }
                   }}
@@ -709,8 +690,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   fontFamily="nunitoSemiBold"
                   fontSize="14px"
                 >
-                  {productsQuery?.products?.length == 0 &&
-                  filterRequestList.length > 0
+                  {productsQuery?.products?.length == 0
+                  && filterRequestList.length > 0
                     ? 'Limpar Filtros'
                     : 'Filtrar'}
                 </Typography>

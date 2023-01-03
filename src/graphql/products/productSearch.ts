@@ -1,7 +1,4 @@
 import { gql } from '@apollo/client';
-import { number } from 'yup/lib/locale';
-
-import { recoveryPassword } from '../login/recoveryPassword';
 
 export const productSearch = gql`
   query ProductSearch(

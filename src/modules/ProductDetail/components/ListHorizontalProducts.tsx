@@ -1,18 +1,20 @@
-import { Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography,
+} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { Animated, Dimensions } from 'react-native';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
-  ProductQL
+  ProductQL,
 } from '../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../shared/utils/productUtils';
-
-
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -23,11 +25,11 @@ interface ListProductsProps {
   handleScrollToTheTop?: () => void;
 }
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window');
 
 export const getPercent = (
   sellingPrice: number,
-  listPrice: number
+  listPrice: number,
 ): number | undefined => {
   if (sellingPrice === listPrice) {
     return undefined;
@@ -39,7 +41,7 @@ export const ListHorizontalProducts = ({
   products,
   horizontal,
   listHeader,
-  handleScrollToTheTop
+  handleScrollToTheTop,
 }: ListProductsProps) => {
   const navigation = useNavigation();
   const [skip, setSkip] = useState(false);
@@ -48,12 +50,11 @@ export const ListHorizontalProducts = ({
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const { email } = useAuth();
-  const scrollX = useRef(new Animated.Value(0)).current
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     setLoading(loading);
   }, [loading]);
-
 
   const populateListWithFavorite = async () => {
     setLoading(true);
@@ -76,7 +77,7 @@ export const ListHorizontalProducts = ({
         const handleFavorites = [...favorites, { productId, sku: skuId }];
         await AsyncStorage.setItem(
           '@WishData',
-          JSON.stringify(handleFavorites)
+          JSON.stringify(handleFavorites),
         );
         setFavorites(handleFavorites);
       } else {
@@ -92,15 +93,14 @@ export const ListHorizontalProducts = ({
     setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
   };
 
-  const getVariant = (variants: any, getVariantId: string) =>
-    variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+  const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
   const populateWishlist = async () => {
     setSkip(true);
 
     const wishData: any = await AsyncStorage.getItem('@WishData');
 
-    if (wishData)
+    if (wishData) {
       setFavorites([
         ...JSON.parse(wishData).map((x: any) => ({
           productId: x.productId,
@@ -108,6 +108,7 @@ export const ListHorizontalProducts = ({
           sku: x.sku,
         })),
       ]);
+    }
   };
 
   useEffect(() => {
@@ -119,7 +120,7 @@ export const ListHorizontalProducts = ({
     useCallback(() => {
       populateListWithFavorite();
       populateWishlist();
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -183,12 +184,12 @@ export const ListHorizontalProducts = ({
           // viewabilityConfigCallbackPairs={[{ viewabilityConfig: { viewAreaCoveragePercentThreshold: 40 }, onViewableItemsChanged: onViewRef }]}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true }
+            { useNativeDriver: true },
           )}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={products && products.map((_, index) => index * (width - 10))}
-          snapToAlignment='start'
-          decelerationRate='fast'
+          snapToAlignment="start"
+          decelerationRate="fast"
           scrollEventThrottle={16}
           horizontal={horizontal}
           data={products}
@@ -211,34 +212,31 @@ export const ListHorizontalProducts = ({
 
             let countPosition = 0;
             while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
-              countPosition++
+              countPosition++;
             }
 
-            const listPrice =  item?.items[0]?.sellers[countPosition]?.commertialOffer.ListPrice || 0
-            const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price || 0
+            const listPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.ListPrice || 0;
+            const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price || 0;
 
-            installments = item.items[0].sellers[countPosition].commertialOffer.Installments
+            installments = item.items[0].sellers[countPosition].commertialOffer.Installments;
 
-            const installmentsNumber = installments.reduce((prev, next) =>
-              prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
-              { NumberOfInstallments: 0, Value: 0 })
+            const installmentsNumber = installments.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+              { NumberOfInstallments: 0, Value: 0 });
 
             let discountTag;
-            if(listPrice && sellingPrice){
-                discountTag = getPercent(
+            if (listPrice && sellingPrice) {
+              discountTag = getPercent(
                 sellingPrice,
-                listPrice
-                );
-              }
+                listPrice,
+              );
+            }
 
-            const cashPaymentPrice =
-              !!discountTag && discountTag > 0
-                ? sellingPrice
-                : listPrice || 0;
+            const cashPaymentPrice = !!discountTag && discountTag > 0
+              ? sellingPrice
+              : listPrice || 0;
 
-            const installmentPrice = installments.reduce((prev, next) =>
-              prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
-              { NumberOfInstallments: 0, Value: 0 })
+            const installmentPrice = installments.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+              { NumberOfInstallments: 0, Value: 0 });
             // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
@@ -264,7 +262,7 @@ export const ListHorizontalProducts = ({
                 currency="R$"
                 discountTag={getPercent(
                   sellingPrice,
-                  listPrice
+                  listPrice,
                 )}
                 saleOff={getSaleOff(item)}
                 priceWithDiscount={sellingPrice}
@@ -275,12 +273,12 @@ export const ListHorizontalProducts = ({
                     productId: item.productId,
                     colorSelected: getVariant(
                       item.items[0].variations,
-                      'ID_COR_ORIGINAL'
+                      'ID_COR_ORIGINAL',
                     ),
-                  })
+                  });
 
                   if (handleScrollToTheTop) {
-                    handleScrollToTheTop()
+                    handleScrollToTheTop();
                   }
                 }}
               />
@@ -292,26 +290,30 @@ export const ListHorizontalProducts = ({
 
       {/* )} */}
       <Box
-        flexDirection={'row'}
-        alignSelf={'center'}
+        flexDirection="row"
+        alignSelf="center"
       >
         {Array(3).fill(0).map((_, index) => (
           index != 0
-            ? <Box
-              key={index}
-              width={8}
-              height={8}
-              bg="divider"
-              borderRadius={'xxxs'}
-              ml={'nano'}
-            />
-            : <Box
-              key={index}
-              width={8}
-              height={8}
-              bg="divider"
-              borderRadius={'xxxs'}
-            />
+            ? (
+              <Box
+                key={index}
+                width={8}
+                height={8}
+                bg="divider"
+                borderRadius="xxxs"
+                ml="nano"
+              />
+            )
+            : (
+              <Box
+                key={index}
+                width={8}
+                height={8}
+                bg="divider"
+                borderRadius="xxxs"
+              />
+            )
         ))}
         <Animated.View
           style={{
@@ -323,16 +325,15 @@ export const ListHorizontalProducts = ({
             transform: [{
               translateX: Animated.divide(scrollX, width * 0.8).interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 13]
-              })
-            }]
+                outputRange: [0, 13],
+              }),
+            }],
           }}
         />
       </Box>
     </>
   );
 };
-
 
 interface ProductItemInterface extends ProductVerticalListCardProps {
   item: any,
@@ -346,15 +347,14 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   horizontal,
   ...props
 }) => {
-
-  const [imageUri, setImageUri] = useState<string>()
+  const [imageUri, setImageUri] = useState<string>();
   // const { fetchImage } = useCacheImages()
 
   useEffect(() => {
     // fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
     //   setImageUri(uri)
     // })
-  }, [])
+  }, []);
 
   return (
     <Box
@@ -374,5 +374,4 @@ const ProductItem: React.FC<ProductItemInterface> = ({
       }
     </Box>
   );
-}
-
+};

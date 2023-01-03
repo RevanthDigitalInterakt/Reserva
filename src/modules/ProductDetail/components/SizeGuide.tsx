@@ -1,42 +1,45 @@
-import { types } from '@babel/core';
 import React, { Fragment, useState } from 'react';
-import { Dimensions, Modal, FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { Box, Button, Icon, Image, Typography } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets/index'
+import {
+  Dimensions, Modal, FlatList,
+} from 'react-native';
+import {
+  Box, Button, Icon, Image, Typography,
+} from '@usereservaapp/reserva-ui';
+import { images } from '../../../assets/index';
 
 const screen = Dimensions.get('window');
 
 export const SizeGuideImages = Object.freeze({
-  'camisas': [images.GuideMangaCurta, images.GuideMangaLonga],
-  'camisetas': [images.GuideCamiseta],
-  'polos': [images.GuidePolo],
-  'casacos': [images.GuideHoodie, images.GuideJaqueta, images.GuideSueter],
-  'calças': [images.GuideCalca],
-  'shorts': [images.GuideShort],
-  'bermudas': [images.GuideBermuda],
-  'sungas': [images.GuideSungaCueca],
-})
+  camisas: [images.GuideMangaCurta, images.GuideMangaLonga],
+  camisetas: [images.GuideCamiseta],
+  polos: [images.GuidePolo],
+  casacos: [images.GuideHoodie, images.GuideJaqueta, images.GuideSueter],
+  calças: [images.GuideCalca],
+  shorts: [images.GuideShort],
+  bermudas: [images.GuideBermuda],
+  sungas: [images.GuideSungaCueca],
+});
 
 const DEVICE_WIDTH = screen.width;
 const DEVICE_HEIGHT = screen.height;
 
 interface SizeGuideProps {
-  categoryTree: any[]//keyof typeof SizeGuideImages
+  categoryTree: any[]// keyof typeof SizeGuideImages
 }
 
 export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
   const {
-    GuideCamiseta
-  } = images
+    GuideCamiseta,
+  } = images;
 
   const [isVisible, setIsVisible] = useState(false);
 
   const handleCategoryImage = () => {
-    const categoryNames = categoryTree.map(category => category.name)
-    const categoryName = categoryNames.find(category => category in SizeGuideImages) as keyof typeof SizeGuideImages
+    const categoryNames = categoryTree.map((category) => category.name);
+    const categoryName = categoryNames.find((category) => category in SizeGuideImages) as keyof typeof SizeGuideImages;
 
-    return SizeGuideImages[categoryName]
-  }
+    return SizeGuideImages[categoryName];
+  };
 
   return (
     <Box>
@@ -52,7 +55,7 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
       </Button>
       <Modal
         visible={isVisible}
-        transparent={true}
+        transparent
         style={{
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           position: 'absolute',
@@ -79,26 +82,26 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
 
         </Box>
       </Modal>
-    </Box>)
-}
+    </Box>
+  );
+};
 
 const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = ({ images, onClose }) => {
-
-  const IMAGES_PROPORTION = 1.7
+  const IMAGES_PROPORTION = 1.7;
   const CARD_WIDTH = DEVICE_WIDTH * 0.92;
   const CARD_HEIGHT = CARD_WIDTH * IMAGES_PROPORTION;
-  const CARD_PADDING = (DEVICE_WIDTH - CARD_WIDTH) * 0.5
+  const CARD_PADDING = (DEVICE_WIDTH - CARD_WIDTH) * 0.5;
 
   const [actualPosition, setActualPosition] = useState(0);
 
   const onViewRef = React.useRef(({ viewableItems }: any) => {
-    !!viewableItems &&
-      !!viewableItems[0] &&
-      setActualPosition(viewableItems[0].index);
+    !!viewableItems
+      && !!viewableItems[0]
+      && setActualPosition(viewableItems[0].index);
   });
 
   return (
-    <Fragment>
+    <>
 
       <FlatList
         horizontal
@@ -116,65 +119,68 @@ const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = (
         bounces={false}
         disableIntervalMomentum
         onScrollEndDrag={() => { }}
-        renderItem={({ item, index }) => {
-          return (
-            <Box
-              style={{
-                paddingRight: CARD_PADDING,
-                paddingLeft: CARD_PADDING,
-                width: DEVICE_WIDTH,
-                height: DEVICE_HEIGHT,
-                justifyContent: 'center',
-              }}
-            >
-              <Box>
-                <Box
-                  height={40}
-                  width={40}
-                  position='absolute'
-                  right={0}
-                  top={0}
-                  zIndex={16}
-                >
-                  <Button
-                    style={{
-                      width: 40,
-                      height: 40,
-                      zIndex: 16,
-                    }}
-                    onPress={onClose}
-                  />
-                </Box>
-                <Image
-                  source={
+        renderItem={({ item, index }) => (
+          <Box
+            style={{
+              paddingRight: CARD_PADDING,
+              paddingLeft: CARD_PADDING,
+              width: DEVICE_WIDTH,
+              height: DEVICE_HEIGHT,
+              justifyContent: 'center',
+            }}
+          >
+            <Box>
+              <Box
+                height={40}
+                width={40}
+                position="absolute"
+                right={0}
+                top={0}
+                zIndex={16}
+              >
+                <Button
+                  style={{
+                    width: 40,
+                    height: 40,
+                    zIndex: 16,
+                  }}
+                  onPress={onClose}
+                />
+              </Box>
+              <Image
+                source={
                     item
                   }
 
-                  width={CARD_WIDTH}
-                  height={CARD_HEIGHT}
-                />
-              </Box>
+                width={CARD_WIDTH}
+                height={CARD_HEIGHT}
+              />
             </Box>
-          )
-        }}
+          </Box>
+        )}
       />
-      {images.length > 1 && <Box
-        flexDirection={'row'}
+      {images.length > 1 && (
+      <Box
+        flexDirection="row"
         position="absolute"
         bottom={((DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
       >
         {
-          images.map((image, index) => <Box style={{
-            width: 6,
-            height: 6,
-            marginRight: 8,
-            backgroundColor: actualPosition == index ? '#fff' : 'transparent',
-            borderColor: '#fff',
-            borderRadius: 3,
-            borderWidth: 1,
-          }} />)
+          images.map((image, index) => (
+            <Box style={{
+              width: 6,
+              height: 6,
+              marginRight: 8,
+              backgroundColor: actualPosition == index ? '#fff' : 'transparent',
+              borderColor: '#fff',
+              borderRadius: 3,
+              borderWidth: 1,
+            }}
+            />
+          ))
         }
-      </Box>}
-    </Fragment>
-  )
-}
+      </Box>
+      )}
+    </>
+  );
+};

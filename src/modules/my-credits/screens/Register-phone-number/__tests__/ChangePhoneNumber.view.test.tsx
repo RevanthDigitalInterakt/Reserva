@@ -6,13 +6,13 @@ import { ThemeProvider } from 'styled-components/native';
 import {
   ChangePhoneNumberView,
   ChangePhoneNumberViewProps,
-} from '../../Register-phone-number/ChangePhoneNumber.view';
+} from '../ChangePhoneNumber.view';
 
 const render = (props: ChangePhoneNumberViewProps) => {
   const testRenderer = TestRenderer.create(
     <ThemeProvider theme={theme}>
       <ChangePhoneNumberView {...props} />
-    </ThemeProvider>
+    </ThemeProvider>,
   );
   const testInstance = testRenderer.root;
 

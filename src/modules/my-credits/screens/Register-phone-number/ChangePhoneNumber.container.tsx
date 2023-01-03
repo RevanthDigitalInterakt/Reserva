@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
+import { useLazyQuery } from '@apollo/client';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import {
   profileQuery,
   ProfileVars,
@@ -9,7 +10,6 @@ import {
   CashbackHttpUrl,
   MyCashbackAPI,
 } from '../../../my-cashback/api/MyCashbackAPI';
-import { useLazyQuery } from '@apollo/client';
 import EventProvider from '../../../../utils/EventProvider';
 
 interface ChangePhoneNumberContainerProps {
@@ -49,23 +49,23 @@ export const ChangePhoneNumberContainer = ({
   };
 
   function toIsoString(date) {
-    var tzo = -date.getTimezoneOffset(),
-      dif = tzo >= 0 ? '+' : '-',
-      pad = function (num) {
-        return (num < 10 ? '0' : '') + num;
-      };
+    const tzo = -date.getTimezoneOffset();
+    const dif = tzo >= 0 ? '+' : '-';
+    const pad = function (num) {
+      return (num < 10 ? '0' : '') + num;
+    };
 
     // Adiciona 10 minutos
     date.setMinutes(date.getMinutes() + 10);
 
-    return date.getFullYear() +
-      '-' + pad(date.getMonth() + 1) +
-      '-' + pad(date.getDate()) +
-      'T' + pad(date.getHours()) +
-      ':' + pad(date.getMinutes()) +
-      ':' + pad(date.getSeconds()) +
-      dif + pad(Math.floor(Math.abs(tzo) / 60)) +
-      ':' + pad(Math.abs(tzo) % 60);
+    return `${date.getFullYear()
+    }-${pad(date.getMonth() + 1)
+    }-${pad(date.getDate())
+    }T${pad(date.getHours())
+    }:${pad(date.getMinutes())
+    }:${pad(date.getSeconds())
+    }${dif}${pad(Math.floor(Math.abs(tzo) / 60))
+    }:${pad(Math.abs(tzo) % 60)}`;
   }
 
   const handleNavigateToConfirmPhone = async () => {
@@ -80,7 +80,7 @@ export const ChangePhoneNumberContainer = ({
             type: 'sms',
             expire_date: expiredDate,
             phone: profile.homePhone.split('+')[1],
-          }
+          },
         );
         if (data) {
           setLoadingToken(false);
@@ -92,7 +92,7 @@ export const ChangePhoneNumberContainer = ({
     }
   };
   return (
-    <Fragment>
+    <>
       <TopBarBackButton
         loading={loadingToken}
         showShadow
@@ -104,6 +104,6 @@ export const ChangePhoneNumberContainer = ({
         navigateToConfirmPhone={handleNavigateToConfirmPhone}
         disableButton={loadingToken}
       />
-    </Fragment>
+    </>
   );
 };

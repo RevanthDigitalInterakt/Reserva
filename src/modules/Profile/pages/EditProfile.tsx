@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -28,8 +28,8 @@ import {
   TextField,
   Toggle,
   Typography,
-  Picker,
 } from '@usereservaapp/reserva-ui';
+import { StackScreenProps } from '@react-navigation/stack';
 import { subscribeNewsLetter } from '../../../graphql/profile/newsLetter';
 import {
   ProfileCustomFieldsInput,
@@ -39,8 +39,6 @@ import {
 } from '../../../graphql/profile/profileQuery';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { OrderForm, useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -93,8 +91,7 @@ export const EditProfile = ({ route }: Props) => {
     { data: NewsLetterData, loading: newsLetterLoading },
   ] = useMutation(subscribeNewsLetter);
 
-  const [updateUserdata, { data: updateData, loading: updateLoading }] =
-    useMutation(profileMutation);
+  const [updateUserdata, { data: updateData, loading: updateLoading }] = useMutation(profileMutation);
 
   const [showModalProfile, setShowModalProfile] = useState<boolean>(false);
   const [file, setFile] = useState<any>(null);
@@ -103,8 +100,7 @@ export const EditProfile = ({ route }: Props) => {
   const [profileImagePath, setProfileImagePath] = useState<any>();
   const [isTester, setIsTester] = useState<boolean>(false);
   const firebaseRef = new FirebaseService();
-  const [loadingProfilePhoto, setLoadingProfilePhoto] =
-    useState<boolean>(false);
+  const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
   useEffect(() => {
     OneSignal.getDeviceState().then((deviceState: any) => {
       setTokenOneSignal(deviceState.userId);
@@ -113,8 +109,9 @@ export const EditProfile = ({ route }: Props) => {
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [isVisibleGenderPicker, setIsVisibleGenderPicker] = useState(false);
 
-  const { addCustomer, orderForm, identifyCustomer, deleteCustomerProfile, updateOrderForm } =
-    useCart();
+  const {
+    addCustomer, orderForm, identifyCustomer, deleteCustomerProfile, updateOrderForm,
+  } = useCart();
 
   const [cpfInvalid, setCpfInvalid] = useState(false);
 
@@ -179,23 +176,23 @@ export const EditProfile = ({ route }: Props) => {
           email: data?.profile?.email || '',
           document: data?.profile?.document || '',
           birthDate:
-            data?.profile?.birthDate &&
-            format(
+            data?.profile?.birthDate
+            && format(
               addHours(new Date(Date.parse(data.profile.birthDate)), 3),
-              'dd/MM/yyyy'
+              'dd/MM/yyyy',
             ),
           gender: data?.profile?.gender || '',
           homePhone: data?.profile?.homePhone || '',
         });
         setSubscribed(
           data?.profile?.customFields.find(
-            (x: any) => x.key == 'isNewsletterOptIn'
-          ).value === 'true' || subscribed
+            (x: any) => x.key == 'isNewsletterOptIn',
+          ).value === 'true' || subscribed,
         );
         setProfileImagePath(
           data?.profile?.customFields.find(
-            (x: any) => x.key == 'profileImagePath'
-          ).value || null
+            (x: any) => x.key == 'profileImagePath',
+          ).value || null,
         );
 
         // if (isRegister) refetch();
@@ -264,9 +261,7 @@ export const EditProfile = ({ route }: Props) => {
       if (!isRegister) {
         refetch();
         if (!loading) navigation.goBack();
-      } else {
-        if (!loading) navigation.goBack();
-      }
+      } else if (!loading) navigation.goBack();
     }
   }, [updateData]);
 
@@ -280,7 +275,7 @@ export const EditProfile = ({ route }: Props) => {
   useFocusEffect(
     useCallback(() => {
       setLoadingScreen(false);
-    }, [])
+    }, []),
   );
 
   const cpfValidate = async (cpf) => {
@@ -288,19 +283,18 @@ export const EditProfile = ({ route }: Props) => {
     if (cpf == '') return setCpfInvalid(true);
 
     if (
-      cpf.length != 11 ||
-      cpf == '00000000000' ||
-      cpf == '11111111111' ||
-      cpf == '22222222222' ||
-      cpf == '33333333333' ||
-      cpf == '44444444444' ||
-      cpf == '55555555555' ||
-      cpf == '66666666666' ||
-      cpf == '77777777777' ||
-      cpf == '88888888888' ||
-      cpf == '99999999999'
-    )
-      return setCpfInvalid(true);
+      cpf.length != 11
+      || cpf == '00000000000'
+      || cpf == '11111111111'
+      || cpf == '22222222222'
+      || cpf == '33333333333'
+      || cpf == '44444444444'
+      || cpf == '55555555555'
+      || cpf == '66666666666'
+      || cpf == '77777777777'
+      || cpf == '88888888888'
+      || cpf == '99999999999'
+    ) return setCpfInvalid(true);
     let add = 0;
     let i = 0;
     let rev = 0;
@@ -338,7 +332,7 @@ export const EditProfile = ({ route }: Props) => {
 
     let profileImage = profileImagePath;
 
-    //Deleta a foto antiga do usuário no firebase
+    // Deleta a foto antiga do usuário no firebase
     if (imageProfile !== null && profileImagePath !== null) {
       const isDifferent = imageProfile.includes(profileImagePath.split('/')[3]);
       if (!isDifferent) {
@@ -346,13 +340,13 @@ export const EditProfile = ({ route }: Props) => {
       }
     }
 
-    //Deleta a foto antiga do usuário no firebase
+    // Deleta a foto antiga do usuário no firebase
     if (deletePhoto && profileImagePath !== null) {
       await firebaseRef.deleteFS(`${profileImagePath}`);
       profileImage = null;
     }
 
-    //Salva uma nova foto do usuário no firebase
+    // Salva uma nova foto do usuário no firebase
     if (imageProfile !== null) {
       if (file !== null) {
         setLoadingProfilePhoto(true);
@@ -395,13 +389,11 @@ export const EditProfile = ({ route }: Props) => {
     if (isRegister) {
       if (orderForm) {
         const { clientProfileData, shippingData } = orderForm;
-        const hasCustomer =
-          clientProfileData &&
-          clientProfileData.email &&
-          clientProfileData.firstName;
+        const hasCustomer = clientProfileData
+          && clientProfileData.email
+          && clientProfileData.firstName;
 
-        const hasAddress =
-          shippingData && shippingData.availableAddresses.length > 0;
+        const hasAddress = shippingData && shippingData.availableAddresses.length > 0;
 
         const addCustomerData = await addCustomer({
           firstName: user?.firstName,
@@ -410,11 +402,11 @@ export const EditProfile = ({ route }: Props) => {
           documentType: 'cpf',
           phone: user?.homePhone,
         })
-          .then(async () => await identifyCustomer(email))
+          .then(async () => identifyCustomer(email))
           .then(() => setLoadingScreen(false))
           .then(() => {
             updateOrderForm();
-            navigation.navigate('BagScreen', { isProfileComplete: true })
+            navigation.navigate('BagScreen', { isProfileComplete: true });
           });
       }
     }
@@ -428,7 +420,7 @@ export const EditProfile = ({ route }: Props) => {
           {
             title: 'Camera Permission',
             message: 'App needs camera permission',
-          }
+          },
         );
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
@@ -446,7 +438,7 @@ export const EditProfile = ({ route }: Props) => {
           {
             title: 'External Storage Write Permission',
             message: 'App needs write permission',
-          }
+          },
         );
 
         return granted === PermissionsAndroid.RESULTS.GRANTED;
@@ -454,7 +446,7 @@ export const EditProfile = ({ route }: Props) => {
         EventProvider.captureException(err);
       }
       return false;
-    } else return true;
+    } return true;
   };
 
   /**
@@ -474,8 +466,8 @@ export const EditProfile = ({ route }: Props) => {
     };
 
     await launchImageLibrary(options, async (response) => {
-      let isCameraPermitted = await requestCameraPermission();
-      let isStoragePermitted = await requestExternalWritePermission();
+      const isCameraPermitted = await requestCameraPermission();
+      const isStoragePermitted = await requestExternalWritePermission();
       if (isCameraPermitted && isStoragePermitted) {
         if (response) {
           if (response.didCancel) {
@@ -499,8 +491,8 @@ export const EditProfile = ({ route }: Props) => {
   };
 
   const handleChooseCamera = async () => {
-    let isCameraPermitted = await requestCameraPermission();
-    let isStoragePermitted = await requestExternalWritePermission();
+    const isCameraPermitted = await requestCameraPermission();
+    const isStoragePermitted = await requestExternalWritePermission();
     if (isCameraPermitted && isStoragePermitted) {
       const options = {
         mediaType: 'photo',
@@ -543,7 +535,7 @@ export const EditProfile = ({ route }: Props) => {
         },
         (error) => {
           setProfileImagePath(null);
-        }
+        },
       );
     }
   };
@@ -564,7 +556,7 @@ export const EditProfile = ({ route }: Props) => {
   const handlerValidationBirthDate = (text: string) => {
     if (
       text.match(
-        /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+        /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
       )
     ) {
       setIsEmptyBirthDate(false);
@@ -578,7 +570,7 @@ export const EditProfile = ({ route }: Props) => {
   const handlerValidationHomePhone = (text: string) => {
     if (
       text.match(
-        /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9 \d|[2-9])\d{3})\-?(\d{4}))$/
+        /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)(?:((?:9 \d|[2-9])\d{3})\-?(\d{4}))$/,
       )
     ) {
       setIsEmptyHomePhone(false);
@@ -673,7 +665,7 @@ export const EditProfile = ({ route }: Props) => {
   const handleDeleteAccount = async () => {
     if (userData) {
       const { status } = await MyProfileAPI.delete(
-        `${ProfileHttpUrl.DELETE_CUSTOMER}CL-${userData.userId}`
+        `${ProfileHttpUrl.DELETE_CUSTOMER}CL-${userData.userId}`,
       );
       if (status === 204) {
         setShowModalDeleteAccount(false);
@@ -691,11 +683,11 @@ export const EditProfile = ({ route }: Props) => {
       >
         <TopBarBackButton
           loading={
-            loading ||
-            loadingProfilePhoto ||
-            updateLoading ||
-            newsLetterLoading ||
-            loadingScreen
+            loading
+            || loadingProfilePhoto
+            || updateLoading
+            || newsLetterLoading
+            || loadingScreen
           }
           backButtonPress={() => {
             isRegister ? navigation.navigate('Home') : navigation.goBack();
@@ -874,7 +866,7 @@ export const EditProfile = ({ route }: Props) => {
                         />
                       </Box>
                     ) : (
-                      <Box ml="nano"></Box>
+                      <Box ml="nano" />
                     )
                   }
                   placeholder="Digite seu nome completo."
@@ -903,7 +895,7 @@ export const EditProfile = ({ route }: Props) => {
                         />
                       </Box>
                     ) : (
-                      <Box ml="nano"></Box>
+                      <Box ml="nano" />
                     )
                   }
                 />
@@ -936,7 +928,7 @@ export const EditProfile = ({ route }: Props) => {
                         />
                       </Box>
                     ) : (
-                      <Box ml="nano"></Box>
+                      <Box ml="nano" />
                     )
                   }
                   placeholder="Digite seu CPF"
@@ -947,7 +939,7 @@ export const EditProfile = ({ route }: Props) => {
 
               <Box
                 mb="xxs"
-                position={'relative'}
+                position="relative"
                 style={Platform.OS === 'ios' ? { zIndex: 1 } : {}}
               >
                 <TouchableOpacity
@@ -1009,7 +1001,7 @@ export const EditProfile = ({ route }: Props) => {
                       )}
                     </Box>
 
-                    <Box position={'absolute'} right={0} top={24}>
+                    <Box position="absolute" right={0} top={24}>
                       <Icon
                         color="preto"
                         name="ArrowDown"
@@ -1022,7 +1014,7 @@ export const EditProfile = ({ route }: Props) => {
 
                 {isVisibleGenderPicker && (
                   <Box
-                    position={'absolute'}
+                    position="absolute"
                     width="100%"
                     top={60}
                     zIndex={10000000}
@@ -1045,7 +1037,7 @@ export const EditProfile = ({ route }: Props) => {
                           flexDirection="row"
                           height={60}
                           borderWidth="hairline"
-                          borderColor={'transparente'}
+                          borderColor="transparente"
                           pl="xxxs"
                         >
                           <Typography
@@ -1097,7 +1089,7 @@ export const EditProfile = ({ route }: Props) => {
                         />
                       </Box>
                     ) : (
-                      <Box ml="nano"></Box>
+                      <Box ml="nano" />
                     )
                   }
                   placeholder="Digite sua data de nascimento"
@@ -1131,7 +1123,7 @@ export const EditProfile = ({ route }: Props) => {
                         />
                       </Box>
                     ) : (
-                      <Box ml="nano"></Box>
+                      <Box ml="nano" />
                     )
                   }
                   placeholder="Digite seu telefone"
@@ -1202,9 +1194,7 @@ export const EditProfile = ({ route }: Props) => {
                     </Box>
                     <Box marginLeft="micro">
                       <Toggle
-                        onValueChange={(value: boolean) =>
-                          handleChangeTesting(!!value)
-                        }
+                        onValueChange={(value: boolean) => handleChangeTesting(!!value)}
                         thumbColor="vermelhoAlerta"
                         color="preto"
                         value={isTesting}
@@ -1219,9 +1209,7 @@ export const EditProfile = ({ route }: Props) => {
                     </Box>
                     <Box marginLeft="xxxs">
                       <Toggle
-                        onValueChange={(onboardingView: boolean) =>
-                          handleViewOnboarding(!!onboardingView)
-                        }
+                        onValueChange={(onboardingView: boolean) => handleViewOnboarding(!!onboardingView)}
                         thumbColor="vermelhoAlerta"
                         color="preto"
                         value={onboardingView}
@@ -1247,8 +1235,7 @@ export const EditProfile = ({ route }: Props) => {
                             isNewsletterOptIn: !subscribed,
                           },
                         });
-                        if (data.subscribeNewsletter)
-                          setSubscribed(!subscribed);
+                        if (data.subscribeNewsletter) setSubscribed(!subscribed);
                       }}
                       optionName="Desejo receber e-mails com promoções das marcas Reserva."
                     />
@@ -1291,20 +1278,20 @@ export const EditProfile = ({ route }: Props) => {
                   flexDirection="row"
                   zIndex={2}
                 >
-                  <Box paddingLeft="nano" mt="sm" width={'100%'}>
+                  <Box paddingLeft="nano" mt="sm" width="100%">
                     <Button
                       title="SALVAR"
                       variant="primarioEstreito"
                       inline
                       onPress={saveUserData}
                       disabled={
-                        updateLoading ||
-                        loadingProfilePhoto ||
-                        isEmptyFullName ||
-                        cpfInvalid ||
-                        isEmptyHomePhone ||
-                        isEmptyBirthDate ||
-                        isEmptyGender
+                        updateLoading
+                        || loadingProfilePhoto
+                        || isEmptyFullName
+                        || cpfInvalid
+                        || isEmptyHomePhone
+                        || isEmptyBirthDate
+                        || isEmptyGender
                       }
                     />
                   </Box>
@@ -1346,14 +1333,14 @@ export const EditProfile = ({ route }: Props) => {
               inline
               onPress={saveUserData}
               disabled={
-                updateLoading ||
-                loadingProfilePhoto ||
-                loadingScreen ||
-                isEmptyFullName ||
-                cpfInvalid ||
-                isEmptyHomePhone ||
-                isEmptyBirthDate ||
-                isEmptyGender
+                updateLoading
+                || loadingProfilePhoto
+                || loadingScreen
+                || isEmptyFullName
+                || cpfInvalid
+                || isEmptyHomePhone
+                || isEmptyBirthDate
+                || isEmptyGender
               }
             />
           </Box>

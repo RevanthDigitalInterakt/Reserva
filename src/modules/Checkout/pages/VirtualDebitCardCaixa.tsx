@@ -1,53 +1,54 @@
-import React, { useState } from "react";
-import { Alert, SafeAreaView, ScrollView } from "react-native";
-import { Typography, Box, Button, Icon, Divider, TextField } from "@usereservaapp/reserva-ui";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { useNavigation } from "@react-navigation/native";
+import React from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
 import {
-  TextInputMask,
+  Typography, Box, Button, Icon, TextField,
+} from '@usereservaapp/reserva-ui';
+import { useNavigation } from '@react-navigation/native';
+import {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
-} from "react-native-masked-text";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
+} from 'react-native-masked-text';
+import { StackScreenProps } from '@react-navigation/stack';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
-type Props = StackScreenProps<RootStackParamList, "VirtualDebitCardCaixaScreen">;
+type Props = StackScreenProps<RootStackParamList, 'VirtualDebitCardCaixaScreen'>;
 export const VirtualDebitCardCaixaScreen = ({ route }: Props) => {
   const { cashback } = route?.params;
   const navigation = useNavigation();
   return (
-    <SafeAreaView flex={1} backgroundColor={"white"}>
+    <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton showShadow />
       <ScrollView>
-        <Box paddingX={"xxxs"} paddingY={"sm"}>
-          <Box marginBottom={"xxs"}>
+        <Box paddingX="xxxs" paddingY="sm">
+          <Box marginBottom="xxs">
             <Typography variant="tituloSessoes">
               Cartão de Débito Virtual Caixa
             </Typography>
           </Box>
 
           <InputOption
-            placeholder={"Número do cartão"}
-            iconName={"HelpCircle"}
-            maskType={"credit-card"}
+            placeholder="Número do cartão"
+            iconName="HelpCircle"
+            maskType="credit-card"
             onChangeText={() => { }}
             onPressIcon={() => { }}
           />
 
           <InputOption
-            placeholder={"Nome do titular"}
-            iconName={"HelpCircle"}
+            placeholder="Nome do titular"
+            iconName="HelpCircle"
             onPressIcon={() => { }}
           />
 
-          <Box flexDirection={"row"}>
-            <Box width={"55%"}>
+          <Box flexDirection="row">
+            <Box width="55%">
               <InputOption
-                placeholder={"Vencimento"}
-                iconName={"HelpCircle"}
-                maskType={"datetime"}
+                placeholder="Vencimento"
+                iconName="HelpCircle"
+                maskType="datetime"
                 maskOptions={{
-                  format: "MM/YYYY",
+                  format: 'MM/YYYY',
                 }}
                 onChangeText={() => { }}
                 onPressIcon={() => { }}
@@ -55,15 +56,13 @@ export const VirtualDebitCardCaixaScreen = ({ route }: Props) => {
             </Box>
             <Box width="5%" />
             <Box width="40%">
-              <InputOption placeholder={"CVV"} iconName={"CreditCard"} />
+              <InputOption placeholder="CVV" iconName="CreditCard" />
             </Box>
           </Box>
         </Box>
       </ScrollView>
       <Button
-        onPress={() =>
-          navigation.navigate("SummaryScreen", { paymentType: "Debit", cashback: cashback })
-        }
+        onPress={() => navigation.navigate('SummaryScreen', { paymentType: 'Debit', cashback })}
         title="ADICIONAR CARTÃO"
         variant="primarioEstreito"
         inline
@@ -89,36 +88,34 @@ const InputOption = ({
   maskOptions,
   onChangeText,
   onPressIcon,
-}: IInputOption) => {
-  return (
-    <>
-      <Box marginBottom={"xxs"}>
-        <TextField
+}: IInputOption) => (
+  <>
+    <Box marginBottom="xxs">
+      <TextField
           // label={"Nome do titular"}
-          maskType={maskType}
-          maskOptions={maskOptions}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          iconRight={
+        maskType={maskType}
+        maskOptions={maskOptions}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        iconRight={
             onPressIcon ? (
               <Button
-                variant={"icone"}
+                variant="icone"
                 onPress={onPressIcon}
-                icon={
+                icon={(
                   <Icon
                     name={iconName}
                     marginX="xxxs"
-                    color={"preto"}
+                    color="preto"
                     size={16}
                   />
-                }
+                )}
               />
             ) : (
-              <Icon name={iconName} marginX="xxxs" color={"preto"} size={16} />
+              <Icon name={iconName} marginX="xxxs" color="preto" size={16} />
             )
           }
-        />
-      </Box>
-    </>
-  );
-};
+      />
+    </Box>
+  </>
+);

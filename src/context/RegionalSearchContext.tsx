@@ -21,7 +21,6 @@ interface RegionalSearchContextProps {
   fetchRegionId: (segmentId: string) => void;
 }
 
-
 const getRegionId = () => {
   let regionId: string | null = null;
   AsyncStorage.getItem('@RNRegionalSearch:regionId').then((x) => (regionId = x));
@@ -40,7 +39,6 @@ const getSegmentToken = () => {
   return segmentToken;
 };
 
-
 export const RegionalSearchContext = createContext<RegionalSearchContextProps>({
   regionId: getRegionId(),
   setRegionId: async () => (await AsyncStorage.getItem('@RNAuth:regionId')) || '',
@@ -48,7 +46,7 @@ export const RegionalSearchContext = createContext<RegionalSearchContextProps>({
   setSegmentToken: async () => (await AsyncStorage.getItem('@RNAuth:segmentToken')) || '',
   cep: getCep(),
   setCep: async () => (await AsyncStorage.getItem('@RNAuth:cep')) || '',
-  fetchRegionId: (segmentId: string) => { }
+  fetchRegionId: (segmentId: string) => { },
 });
 
 interface RegionalSearchProviderProps {
@@ -61,11 +59,11 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
   const [segmentToken, setSegmentToken] = useState('');
 
   const fetchRegionId = async (segmentId: string) => {
-    if(segmentId){
+    if (segmentId) {
       const { data } = await instance.get(`/segments/${segmentId}`);
-      return data
+      return data;
     }
-  }
+  };
 
   useEffect(() => {
     if (regionId) {
@@ -75,19 +73,18 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
 
   useEffect(() => {
     if (cep) {
-      AsyncStorage.setItem('@RNRegionalSearch:cep', cep)
+      AsyncStorage.setItem('@RNRegionalSearch:cep', cep);
     }
   }, [cep]);
 
   useLayoutEffect(() => {
-    fetchRegionId(segmentToken)
+    fetchRegionId(segmentToken);
     if (segmentToken) {
       AsyncStorage.setItem('@RNRegionalSearch:segmentToken', segmentToken);
     }
   }, [segmentToken]);
 
   useEffect(() => {
-
     AsyncStorage.getItem('@RNRegionalSearch:regionId').then((value) => {
       setRegionId(value);
     });
@@ -110,7 +107,7 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
         setSegmentToken,
         cep,
         setCep,
-        fetchRegionId
+        fetchRegionId,
       }}
     >
       {children}
@@ -132,7 +129,7 @@ export const useRegionalSearch = () => {
     setSegmentToken,
     cep,
     setCep,
-    fetchRegionId
+    fetchRegionId,
   } = regionalSearchContext;
   return {
     regionId,
@@ -141,6 +138,6 @@ export const useRegionalSearch = () => {
     setSegmentToken,
     cep,
     setCep,
-    fetchRegionId
+    fetchRegionId,
   };
 };

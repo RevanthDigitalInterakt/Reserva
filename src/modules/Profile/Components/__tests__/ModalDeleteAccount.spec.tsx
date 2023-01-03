@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
-import ModalDeleteAccount from '../ModalDeleteAccount';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '@usereservaapp/reserva-ui';
+import ModalDeleteAccount from '../ModalDeleteAccount';
 // test e it são a mesma coisa
 
 const mockHandleDeleteAccount = jest.fn();
@@ -12,15 +12,15 @@ describe('ModalDeleteAccount', () => {
     const { debug, getByText } = render(
       <ThemeProvider theme={theme}>
         <ModalDeleteAccount
-          isVisible={true}
+          isVisible
           handleDeleteAccount={mockHandleDeleteAccount}
           setIsVisible={mockSetIsVisible}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const titleModal = getByText('Tem certeza?');
     const subtitle = getByText(
-      'Essa ação não pode ser desfeita. Confirme o código recebido para deletar sua conta permanentemente.'
+      'Essa ação não pode ser desfeita. Confirme o código recebido para deletar sua conta permanentemente.',
     );
     expect(titleModal).toBeTruthy();
     expect(subtitle).toBeTruthy();
@@ -31,11 +31,11 @@ describe('ModalDeleteAccount', () => {
     const { getByText } = render(
       <ThemeProvider theme={theme}>
         <ModalDeleteAccount
-          isVisible={true}
+          isVisible
           handleDeleteAccount={mockHandleDeleteAccount}
           setIsVisible={mockSetIsVisible}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const deleteButton = getByText('DELETAR PERMANENTEMENTE');
     fireEvent.press(deleteButton);
@@ -46,11 +46,11 @@ describe('ModalDeleteAccount', () => {
     const { getByText } = render(
       <ThemeProvider theme={theme}>
         <ModalDeleteAccount
-          isVisible={true}
+          isVisible
           handleDeleteAccount={mockHandleDeleteAccount}
           setIsVisible={mockSetIsVisible}
         />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     const backButton = getByText('VOLTAR');
     fireEvent.press(backButton);

@@ -6,11 +6,11 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
 import { Platform } from 'react-native';
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
 import * as Sentry from '@sentry/react-native';
-import {Colors} from "../../Base/Colors";
+import { Colors } from '../../Base/Colors';
 
 const formInitialState = { email: '', name: '', phone: '' };
 
@@ -37,7 +37,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
         email,
         name,
         phone: phone.replace(/[^0-9]/g, ''),
-      }
+      },
     );
 
     setIsSuccess(response.status === 201);
@@ -70,7 +70,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
           Sentry.withScope((scope) => {
             scope.setExtra('values', values);
             Sentry.captureException(err);
-          })
+          });
         });
     },
   });
@@ -86,7 +86,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
     >
       <Box marginBottom={isSuccess ? 30 : 42} marginTop={20} marginX={27}>
-        <Box alignItems={"center"} flexDirection={"row"} justifyContent={"space-between"}>
+        <Box alignItems="center" flexDirection="row" justifyContent="space-between">
           <Box flex={1}>
             <Typography
               fontSize={26}
@@ -94,7 +94,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
               lineHeight={29}
               testID="primenewslettermodal_title"
             >
-              {title ? title : 'Fique por dentro dos nossos lançamentos'}
+              {title || 'Fique por dentro dos nossos lançamentos'}
             </Typography>
           </Box>
 
@@ -173,7 +173,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             marginTop={16}
             marginBottom={26}
             variant="primarioEstreito"
-            title={buttonTitle ? buttonTitle : 'ASSINAR NEWSLETTER'}
+            title={buttonTitle || 'ASSINAR NEWSLETTER'}
             onPress={() => formik.submitForm()}
             testID="primenewslettermodal_button_submit"
           />
@@ -197,6 +197,6 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       </Box>
     </Box>
   );
-}
+};
 
 export default PrimeNewsLetterCard;

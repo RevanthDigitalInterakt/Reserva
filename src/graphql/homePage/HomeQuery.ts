@@ -73,7 +73,6 @@ export interface ICountDownClock {
   formattedValue?: string | undefined;
 }
 
-
 export const homeQuery = gql`
   query homePageCollection {
     homePageCollection(limit: 12) {

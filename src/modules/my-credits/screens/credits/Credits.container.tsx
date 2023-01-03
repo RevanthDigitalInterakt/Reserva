@@ -1,14 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { LoadingScreen } from '../../../../common/components/LoadingScreen';
 import { ProfileVars } from '../../../../graphql/profile/profileQuery';
-import { TopBarBackButton } from '../../../../modules/Menu/components/TopBarBackButton';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import {
-  CashbackHttpUrl, GetCustomerResponse, MyCreditsAPI
-} from '../../../../modules/my-credits/api/MyCreditsAPI';
+  CashbackHttpUrl, GetCustomerResponse, MyCreditsAPI,
+} from '../../api/MyCreditsAPI';
 import { RemoteConfigService } from '../../../../shared/services/RemoteConfigService';
 import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
 import { CreditsView } from './Credits.view';
-
 
 interface CreditsContainerProps {
   navigateBack: () => void;
@@ -21,7 +20,7 @@ export const CreditsContainer = (
     navigateBack,
     navigateToError,
     navigateToCashbackInStore,
-  }: CreditsContainerProps
+  }: CreditsContainerProps,
 ) => {
   const [creditsBalance, setCreditsBalance] = useState<number>(0);
   const [isLoyal, setIsLoyal] = useState<boolean>(false);
@@ -29,31 +28,29 @@ export const CreditsContainer = (
   const [profile, setProfile] = useState<ProfileVars>();
   const [
     screenCashbackInStoreActive,
-    setScreenCashbackInStoreActive
+    setScreenCashbackInStoreActive,
   ] = useState<boolean>(false);
 
   // covert cents to real
-  const convertCentsToReal = (cents: number) => {
-    return cents / 100;
-  };
+  const convertCentsToReal = (cents: number) => cents / 100;
 
   const getIsScreenCashbackInStoreActive = async () => {
     const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_CASHBACK_IN_STORE');
     setScreenCashbackInStoreActive(cashback_in_store);
-  }
+  };
 
-  const getCreditBalance = async ( cpf: string) => {
+  const getCreditBalance = async (cpf: string) => {
     const customer = await MyCreditsAPI.get<GetCustomerResponse>(
       CashbackHttpUrl.GetCustomer,
-      { cpf }
+      { cpf },
     );
 
-    if(customer.data.SaldoMonetario) {
+    if (customer.data.SaldoMonetario) {
       setCreditsBalance(
-        convertCentsToReal(Number(customer.data.SaldoMonetario))
+        convertCentsToReal(Number(customer.data.SaldoMonetario)),
       );
     }
-    if(customer.data.Fidelizado) {
+    if (customer.data.Fidelizado) {
       setIsLoyal(true);
     }
   };
@@ -69,13 +66,13 @@ export const CreditsContainer = (
   }, []);
 
   const handleNavigateToCashbackInStore = () => {
-    if(profile) {
+    if (profile) {
       navigateToCashbackInStore(isLoyal, profile.document);
     }
   };
 
   useEffect(() => {
-    if(profile && profile.document) {
+    if (profile && profile.document) {
       setLoading(true);
       getCreditBalance(profile.document);
       setLoading(false);
@@ -83,7 +80,7 @@ export const CreditsContainer = (
   }, [profile]);
 
   return (
-    <Fragment>
+    <>
       <TopBarBackButton
         loading={false}
         showShadow
@@ -98,6 +95,6 @@ export const CreditsContainer = (
       ) : (
         <LoadingScreen />
       )}
-    </Fragment>
+    </>
   );
 };

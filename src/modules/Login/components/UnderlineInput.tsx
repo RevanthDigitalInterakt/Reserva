@@ -1,6 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
-import { Dimensions, KeyboardTypeOptions, NativeSyntheticEvent, Platform, TextInputFocusEventData } from 'react-native';
+import React, { useState } from 'react';
+
+import {
+  Dimensions, KeyboardTypeOptions, NativeSyntheticEvent, Platform, TextInputFocusEventData,
+} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import {
   Box,
@@ -71,7 +73,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
               margin: 0,
               maxWidth: isSecureText ? width - (iconSize + 4) : width,
             }}
-            autoCorrect={isSecureText ? false : true}
+            autoCorrect={!isSecureText}
             accessibilityLabel={accessibilityLabel}
           />
         </Box>

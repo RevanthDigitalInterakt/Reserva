@@ -5,8 +5,9 @@ import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
 import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import { linkingConfig } from './config/linking';
 import { requestTrackingPermission } from 'react-native-tracking-transparency';
+import AsyncStorage from '@react-native-community/async-storage';
+import { linkingConfig } from './config/linking';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
@@ -25,7 +26,6 @@ import {
   apolloClientProduction,
   apolloClientTesting,
 } from './services/apolloClient';
-import AsyncStorage from '@react-native-community/async-storage';
 import StatusBarContextProvider from './context/StatusBarContext';
 import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
@@ -38,18 +38,16 @@ const DefaultTheme = {
   },
 };
 
-
 const requestUserPermission = async () => {
   const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED
+    || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 };
 
 const maintenanceHandler = async () => {
   const result = await RemoteConfigService.fetchValues();
   const maintenance = result.find(
-    (x) => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE
+    (x) => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE,
   );
 
   return maintenance.value;
@@ -87,7 +85,7 @@ const App = () => {
 
   const getMaintenanceValue = async () => {
     const screenMaintenance = await RemoteConfigService.getValue<boolean>(
-      'SCREEN_MAINTENANCE'
+      'SCREEN_MAINTENANCE',
     );
     setIsOnMaintenance(screenMaintenance);
   };

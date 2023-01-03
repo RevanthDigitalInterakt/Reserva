@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions, FlatList, Animated, View, StyleSheet } from 'react-native';
+import {
+  Dimensions, Animated, StyleSheet,
+} from 'react-native';
 import { Box, Button, Image } from '@usereservaapp/reserva-ui';
 import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 
@@ -25,13 +27,13 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
         <Animated.FlatList
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true }
+            { useNativeDriver: true },
           )}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
           snapToOffsets={[...Array(myCards.length)].map(
-            (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48
+            (x, i) => i * (DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48,
           )}
           snapToAlignment="start"
           scrollEventThrottle={16}
@@ -71,7 +73,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
                   {
                     translateX: Animated.divide(
                       scrollX,
-                      DEVICE_WIDTH * 0.88 - 48
+                      DEVICE_WIDTH * 0.88 - 48,
                     ).interpolate({
                       inputRange: [0, 1],
                       outputRange: [6, 25.8],
@@ -81,24 +83,22 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
               },
             ]}
           />
-          {myCards.map((_item, index) => {
-            return (
+          {myCards.map((_item, index) => (
+            <Box
+              key={index}
+              justifyContent="center"
+              alignItems="center"
+              width={19}
+            >
               <Box
-                key={index}
-                justifyContent="center"
-                alignItems="center"
-                width={19}
-              >
-                <Box
-                  borderWidth={1}
-                  width={7}
-                  height={7}
-                  borderRadius={7}
-                  borderColor="#6F6F6F"
-                />
-              </Box>
-            );
-          })}
+                borderWidth={1}
+                width={7}
+                height={7}
+                borderRadius={7}
+                borderColor="#6F6F6F"
+              />
+            </Box>
+          ))}
         </Box>
       </Box>
     </Box>
@@ -116,7 +116,7 @@ const Card: React.FC<CardProps> = ({
   description,
   name,
   reservaMini,
-  orderBy
+  orderBy,
 }) => {
   const navigation = useNavigation();
 
@@ -145,8 +145,8 @@ const Card: React.FC<CardProps> = ({
       }
       navigation.navigate('ProductCatalog', {
         referenceId: reference,
-        reservaMini: reservaMini,
-        orderBy: orderBy,
+        reservaMini,
+        orderBy,
       });
     }
   };

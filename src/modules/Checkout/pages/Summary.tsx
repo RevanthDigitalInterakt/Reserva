@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect, useRef, useState } from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
@@ -7,34 +7,31 @@ import {
   Divider,
   Button,
   Icon,
-  Toggle,
-  TextField,
-  ProductVerticalListCard,
-} from "@usereservaapp/reserva-ui";
-import { animations } from "../../../assets";
+} from '@usereservaapp/reserva-ui';
+import { StackScreenProps } from '@react-navigation/stack';
+import LottieView from 'lottie-react-native';
+import AnimatedLottieView from 'lottie-react-native';
+import ReactNativeModal from 'react-native-modal';
+import { animations } from '../../../assets';
 
-import { PriceCustom } from "../components/PriceCustom";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-import LottieView from "lottie-react-native";
-import AnimatedLottieView from "lottie-react-native";
-import ReactNativeModal from "react-native-modal";
+import { PriceCustom } from '../components/PriceCustom';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { RootStackParamList } from '../../../routes/StackNavigator';
 
-type Props = StackScreenProps<RootStackParamList, "SummaryScreen">;
+type Props = StackScreenProps<RootStackParamList, 'SummaryScreen'>;
 
 export const SummaryScreen = ({ navigation, route }: Props) => {
   const { paymentType, cashback } = route?.params;
   const [quantity, setQuantity] = useState(1);
   const lottieRef = useRef<AnimatedLottieView | null>(null);
   const [showLottie, setShowLottie] = React.useState(false);
-  const [totalBag, setTotalBag] = useState(0)
-  const [totalPrice, setTotalPrice] = useState(0)
-  const [totalDiscountPrice, setTotalDiscountPrice] = useState(0)
+  const [totalBag, setTotalBag] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
 
-  const [coupons, setCoupons] = React.useState<any>([])
-  const [coupon, setCoupon] = React.useState<any>()
-  const [products, setProducts] = React.useState<any>()
+  const [coupons, setCoupons] = React.useState<any>([]);
+  const [coupon, setCoupon] = React.useState<any>();
+  const [products, setProducts] = React.useState<any>();
 
   useEffect(() => {
     // setCoupons(orders.coupons)
@@ -65,7 +62,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
     //     )
     //   }, 0)
     // )
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (showLottie) {
@@ -76,15 +73,15 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
   return (
     <SafeAreaView
       style={{
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
         flex: 1,
-        backgroundColor: "#FFF",
+        backgroundColor: '#FFF',
       }}
     >
       <TopBarBackButton showShadow />
       <ScrollView>
-        <Box paddingX={"xxxs"} paddingY={"xxs"}>
-          <Box bg={"white"} marginTop={"xxs"}>
+        <Box paddingX="xxxs" paddingY="xxs">
+          <Box bg="white" marginTop="xxs">
             <Typography variant="tituloSessoes">Resumo</Typography>
             <Box flexDirection="row" justifyContent="space-between" mt="xs">
               <Typography fontFamily="reservaSerifRegular" fontSize={16}>
@@ -93,9 +90,9 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             </Box>
           </Box>
           {products?.map((item, index) => (
-            <Box key={index} bg={'white'} marginTop={'xxxs'}>
+            <Box key={index} bg="white" marginTop="xxxs">
               <ProductHorizontalListCard
-                currency={'R$'}
+                currency="R$"
                 discountTag={
                   item.discountTag > 0 ? item.discountTag : undefined
                 }
@@ -122,7 +119,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
               />
             </Box>
           ))}
-          <Divider marginTop={"xxxs"} variant={"fullWidth"} />
+          <Divider marginTop="xxxs" variant="fullWidth" />
           <Box>
             <Box
               flexDirection="row"
@@ -137,15 +134,17 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
                 onPress={() => {
                   navigation.navigate('AddressList');
                 }}
-                pb={"quarck"}>
-                <Typography style={{ textDecorationLine: "underline" }}>
+                pb="quarck"
+              >
+                <Typography style={{ textDecorationLine: 'underline' }}>
                   editar
                 </Typography>
               </Button>
             </Box>
             <Box>
               <Typography fontFamily="nunitoRegular" fontSize={15}>
-                R. Tomás Antônio Gonzaga -{" "}
+                R. Tomás Antônio Gonzaga -
+                {' '}
               </Typography>
               <Typography fontFamily="nunitoRegular" fontSize={15}>
                 Cristóvão Colombo, Vila Velha - ES
@@ -153,7 +152,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             </Box>
           </Box>
 
-          <Divider marginTop={"xxxs"} variant={"fullWidth"} />
+          <Divider marginTop="xxxs" variant="fullWidth" />
           <Box>
             <Box
               flexDirection="row"
@@ -168,8 +167,9 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
                 onPress={() => {
                   navigation.navigate('PaymentMethodScreen');
                 }}
-                pb={"quarck"}>
-                <Typography style={{ textDecorationLine: "underline" }}>
+                pb="quarck"
+              >
+                <Typography style={{ textDecorationLine: 'underline' }}>
                   editar
                 </Typography>
               </Button>
@@ -180,32 +180,34 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             />
           </Box>
 
-          <Divider variant={"fullWidth"} marginY={'xxs'} />
+          <Divider variant="fullWidth" marginY="xxs" />
           {totalPrice - totalDiscountPrice > 0 && (
             <>
               <Box
-                marginBottom={'micro'}
-                flexDirection={'row'}
-                justifyContent={'space-between'}
-                alignItems={'center'}>
-                <Typography variant={'precoAntigo3'}>Subtotal</Typography>
+                marginBottom="micro"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography variant="precoAntigo3">Subtotal</Typography>
                 <PriceCustom
-                  fontFamily={'nunitoSemiBold'}
+                  fontFamily="nunitoSemiBold"
                   sizeInterger={15}
                   sizeDecimal={11}
                   num={totalPrice}
                 />
               </Box>
               <Box
-                marginBottom={'micro'}
-                flexDirection={'row'}
-                justifyContent={'space-between'}
-                alignItems={'center'}>
-                <Typography variant={'precoAntigo3'}>Descontos</Typography>
+                marginBottom="micro"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography variant="precoAntigo3">Descontos</Typography>
 
                 <PriceCustom
-                  fontFamily={'nunitoSemiBold'}
-                  negative={true}
+                  fontFamily="nunitoSemiBold"
+                  negative
                   sizeInterger={15}
                   sizeDecimal={11}
                   num={totalPrice - totalDiscountPrice}
@@ -214,13 +216,14 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
             </>
           )}
           <Box
-            marginBottom={'micro'}
-            flexDirection={'row'}
-            justifyContent={'space-between'}
-            alignItems={'center'}>
-            <Typography variant={'precoAntigo3'}>Total</Typography>
+            marginBottom="micro"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="precoAntigo3">Total</Typography>
             <PriceCustom
-              fontFamily={'nunitoBold'}
+              fontFamily="nunitoBold"
               sizeInterger={20}
               sizeDecimal={11}
               num={totalDiscountPrice}
@@ -244,7 +247,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
       <ReactNativeModal
         isVisible={showLottie}
         backdropOpacity={0.7}
-        backdropColor={"black"}
+        backdropColor="black"
         animationInTiming={300}
         animationIn="fadeIn"
         animationOut="fadeIn"
@@ -253,7 +256,7 @@ export const SummaryScreen = ({ navigation, route }: Props) => {
           style={{ flex: 1 }}
           onAnimationFinish={() => {
             setShowLottie(false);
-            navigation.navigate("PurchaseConfirmationScreen", {
+            navigation.navigate('PurchaseConfirmationScreen', {
               paymentType: route.params.paymentType,
             });
           }}
@@ -270,44 +273,45 @@ interface IFormOfPayment {
   cashback?: boolean;
   paymentType?: string;
 }
-const FormOfPayment = ({ cashback, paymentType, }: IFormOfPayment) => {
-  const [iconName, setIconName] = useState('')
-  const [description, setdDescription] = useState('')
+const FormOfPayment = ({ cashback, paymentType }: IFormOfPayment) => {
+  const [iconName, setIconName] = useState('');
+  const [description, setdDescription] = useState('');
   const icon = () => {
     switch (paymentType) {
-      case "PIX":
+      case 'PIX':
         return (
-          setIconName("Pix"),
-          setdDescription("PIX")
+          setIconName('Pix'),
+          setdDescription('PIX')
         );
-      case "Credit":
+      case 'Credit':
         return (
-          setIconName("Card"),
-          setdDescription("Cartão de crédito   **** 6582")
+          setIconName('Card'),
+          setdDescription('Cartão de crédito   **** 6582')
         );
-      case "Debit":
+      case 'Debit':
         return (
-          setIconName("Caixa"),
-          setdDescription("Cartão de Débito Virtual Caixa  **** 6582")
+          setIconName('Caixa'),
+          setdDescription('Cartão de Débito Virtual Caixa  **** 6582')
         );
-      case "Boleto":
+      case 'Boleto':
         return (
-          setIconName("Barcode"),
-          setdDescription("Boleto")
+          setIconName('Barcode'),
+          setdDescription('Boleto')
         );
-      case "GiftCard":
+      case 'GiftCard':
         return (
-          setIconName("Presente"),
-          setdDescription("Cartão Presente")
+          setIconName('Presente'),
+          setdDescription('Cartão Presente')
         );
     }
-  }
+  };
   useEffect(() => {
-    icon()
-  }, [])
+    icon();
+  }, []);
   return (
     <>
-      {cashback &&
+      {cashback
+        && (
         <Box flexDirection="row" alignItems="center" mb="xxxs">
           <Box mr="nano">
             <Icon name="Cashback" size={18} />
@@ -316,7 +320,7 @@ const FormOfPayment = ({ cashback, paymentType, }: IFormOfPayment) => {
             Crédito/cashback
           </Typography>
         </Box>
-      }
+        )}
       <Box flexDirection="row" alignItems="center">
         <Box mr="nano">
           <Icon name={iconName} size={18} />
@@ -327,4 +331,4 @@ const FormOfPayment = ({ cashback, paymentType, }: IFormOfPayment) => {
       </Box>
     </>
   );
-}
+};

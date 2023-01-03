@@ -1,7 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Box, Button, TextField, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, TextField, Typography,
+} from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
@@ -12,18 +14,16 @@ export const EnterYourEmail = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [validateFieldEmail, setValidateFieldEmail] = useState(true);
   const [isCheckEmail, setIsCheckEmail] = useState(false);
-  const hasEmail = useCallback((): boolean => {
-    return email.length > 0;
-  }, [email]);
+  const hasEmail = useCallback((): boolean => email.length > 0, [email]);
 
   const onCheckCustomerMail = async () => {
     setLoading(true);
     validateEmail(email);
     if (isCheckEmail) {
       if (
-        email === orderForm?.clientProfileData?.email &&
-        orderForm?.clientProfileData?.firstName &&
-        orderForm?.clientProfileData?.lastName
+        email === orderForm?.clientProfileData?.email
+        && orderForm?.clientProfileData?.firstName
+        && orderForm?.clientProfileData?.lastName
       ) {
         await identifyCustomer(email);
         navigation.navigate('DeliveryScreen');
@@ -49,8 +49,7 @@ export const EnterYourEmail = () => {
   }, [email]);
 
   const validateEmail = (email: string) => {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!hasEmail || !re.test(email)) {
       setValidateFieldEmail(false);
@@ -62,16 +61,16 @@ export const EnterYourEmail = () => {
   };
 
   return (
-    <SafeAreaView flex={1} backgroundColor={'white'}>
+    <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton
         showShadow
         loading={loading}
         backButtonPress={() => navigation.goBack()}
       />
       <ScrollView>
-        <Box paddingX={'xxxs'} paddingY={'sm'}>
+        <Box paddingX="xxxs" paddingY="sm">
           <Box>
-            <Typography variant={'subtituloSessoes'}>
+            <Typography variant="subtituloSessoes">
               Informe seu e-mail para continuar:
             </Typography>
           </Box>
@@ -85,7 +84,7 @@ export const EnterYourEmail = () => {
               onChangeText={(text) => {
                 setEmail(text.trim()), validateEmail(email.trim());
               }}
-              placeholder={'Digite seu e-mail'}
+              placeholder="Digite seu e-mail"
               touched={!validateFieldEmail}
               error="Verifique o e-mail digitado."
             />

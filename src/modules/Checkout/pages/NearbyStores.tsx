@@ -1,20 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
 import {
-  Linking,
   Platform,
   SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
 } from 'react-native';
-import { Typography, Box, Image, Button, Picker } from '@usereservaapp/reserva-ui';
+import {
+  Typography, Box, Image, Button,
+} from '@usereservaapp/reserva-ui';
+import { StackScreenProps } from '@react-navigation/stack';
 import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { FlatList } from 'react-native-gesture-handler';
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../routes/StackNavigator";
-type Props = StackScreenProps<RootStackParamList, "NearbyStores">;
+import { RootStackParamList } from '../../../routes/StackNavigator';
+
+type Props = StackScreenProps<RootStackParamList, 'NearbyStores'>;
 
 export const NearbyStores = ({ route }: Props) => {
   const { UF } = route?.params;
@@ -27,8 +24,8 @@ export const NearbyStores = ({ route }: Props) => {
     >
       <TopBarBackButton />
 
-      <Box flex={1} pt={'sm'}>
-        <Box paddingX={'xxxs'} mb={'xxs'} alignSelf={'flex-start'}>
+      <Box flex={1} pt="sm">
+        <Box paddingX="xxxs" mb="xxs" alignSelf="flex-start">
           <Typography variant="tituloSessoes">
             Lojas próximas da sua região
           </Typography>
@@ -77,53 +74,50 @@ const ItemStoresAddress = ({
   address1,
   address2,
   storeName,
-  onPress
-}: IItemStoresAddress) => {
-  return (
+  onPress,
+}: IItemStoresAddress) => (
+  <Box
+    boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+    width="100%"
+    height={171}
+    backgroundColor="white"
+    style={{ elevation: 5 }}
+    mt="xxs"
+  >
     <Box
-      boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
-      width={'100%'}
-      height={171}
-      backgroundColor={'white'}
-      style={{ elevation: 5 }}
-      mt={'xxs'}
+      height={160}
+      borderColor="backgroundMenuOpened"
+      paddingY="xxxs"
     >
-      <Box
-        height={160}
-        borderColor={'backgroundMenuOpened'}
-        paddingY={'xxxs'}
-      // paddingX={'xxxs'}
-      >
-        <Box mb={'nano'} flexDirection="row">
-          <Box>
-            <Image
-              height={40}
-              source={images.localReserva}
-              resizeMode={'contain'}
-            />
-          </Box>
-          <Box>
-            <Box mb={'quarck'}>
-              <Typography fontFamily="reservaSerifRegular" fontSize={16}>
-                {storeName}
-              </Typography>
-            </Box>
-            <Typography fontFamily="nunitoRegular" fontSize={14}>
-              {address1}
-            </Typography>
-            <Typography fontFamily="nunitoRegular" fontSize={14}>
-              {address2}
-            </Typography>
-          </Box>
+      <Box mb="nano" flexDirection="row">
+        <Box>
+          <Image
+            height={40}
+            source={images.localReserva}
+            resizeMode="contain"
+          />
         </Box>
-
-        <Button
-          title={'IR ATÉ A LOJA'}
-          onPress={onPress}
-          variant={'primarioEstreito'}
-          width={'90%'}
-        />
+        <Box>
+          <Box mb="quarck">
+            <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+              {storeName}
+            </Typography>
+          </Box>
+          <Typography fontFamily="nunitoRegular" fontSize={14}>
+            {address1}
+          </Typography>
+          <Typography fontFamily="nunitoRegular" fontSize={14}>
+            {address2}
+          </Typography>
+        </Box>
       </Box>
+
+      <Button
+        title="IR ATÉ A LOJA"
+        onPress={onPress}
+        variant="primarioEstreito"
+        width="90%"
+      />
     </Box>
-  );
-};
+  </Box>
+);

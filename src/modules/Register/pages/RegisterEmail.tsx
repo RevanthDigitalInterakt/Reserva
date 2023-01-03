@@ -20,14 +20,13 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
   const { cookie, setCookie } = useAuth();
 
   const [email, setEmail] = useState<string>('');
-  const [showRecoveryPassword, setShowRecoveryPassword] =
-    useState<boolean>(false);
+  const [showRecoveryPassword, setShowRecoveryPassword] = useState<boolean>(false);
   const [emailEmpty, setEmailEmpty] = useState<boolean>(true);
 
   const { verifyEmail } = useCart();
 
   const [sendEmailVerification, { data, loading }] = useMutation(
-    sendEmailVerificationMutation
+    sendEmailVerificationMutation,
   );
 
   const handleEmailAccess = async () => {
@@ -117,7 +116,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
           onPress={
             showRecoveryPassword ? handleEmailRecovery : handleEmailAccess
           }
-          testID={"register_button_recover"}
+          testID="register_button_recover"
           disabled={emailEmpty}
           inline
         />

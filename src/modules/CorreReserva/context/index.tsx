@@ -1,10 +1,12 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, {
+  createContext, ReactNode, useContext, useState,
+} from 'react';
 
 interface CorreContextProps {
   ValidCodes: KitType[];
   selectedModality?: Modalities;
   setSelectedModality: React.Dispatch<
-    React.SetStateAction<Modalities | undefined>
+  React.SetStateAction<Modalities | undefined>
   >;
   selectedKit?: KitType;
   setSelectedKit: React.Dispatch<React.SetStateAction<KitType | undefined>>;

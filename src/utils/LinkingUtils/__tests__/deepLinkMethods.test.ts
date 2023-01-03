@@ -37,7 +37,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
         const expectedResult = `${productUrl}${expectedQueryParams}`;
 
         const result = deepLinkHelper(
-          `https://www.usereserva.com/mochila-bold-331-0056263/p?${expectedQueryParams}`
+          `https://www.usereserva.com/mochila-bold-331-0056263/p?${expectedQueryParams}`,
         );
 
         expect(result).toEqual(expectedResult);
@@ -48,7 +48,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
         const expectedResult = `${productUrl}${expectedQueryParams}`;
 
         const result = deepLinkHelper(
-          `https://www.usereserva.com/mochila-bold-331-0056263/p?skuid=3232`
+          'https://www.usereserva.com/mochila-bold-331-0056263/p?skuid=3232',
         );
 
         expect(result).toEqual(`${productUrl}skuid=3232`);
@@ -59,7 +59,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
         const expectedResult = `${productUrl}${expectedQueryParams}`;
 
         const result = deepLinkHelper(
-          `https://www.usereserva.com/mochila-bold-331-0056263/p?${expectedQueryParams}`
+          `https://www.usereserva.com/mochila-bold-331-0056263/p?${expectedQueryParams}`,
         );
 
         expect(result).toEqual(expectedResult);
@@ -72,7 +72,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
           const expectedResult = `${productUrl}slug=${productSlug}`;
 
           const result = deepLinkHelper(
-            `https://www.usereserva.com/${productSlug}/p`
+            `https://www.usereserva.com/${productSlug}/p`,
           );
 
           expect(result).toEqual(expectedResult);
@@ -83,17 +83,17 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
 
   test('should return default url when call colectionUseCase', () => {
     const endsWithColection = deepLinkHelper(
-      `https://www.usereserva.com/colecao-reserva/ofertas`
+      'https://www.usereserva.com/colecao-reserva/ofertas',
     );
     const notEndWithColection = deepLinkHelper(
-      `https://www.usereserva.com/colecao-reserva/ofertas/novo-path`
+      'https://www.usereserva.com/colecao-reserva/ofertas/novo-path',
     );
     expect(endsWithColection).toEqual(`${baseTabUrl}/ofertas`);
     expect(notEndWithColection).toEqual(DONTMATCHURL);
   });
 
   describe('test account use cases', () => {
-    const baseUrlAccount = `https://www.usereserva.com/account#`;
+    const baseUrlAccount = 'https://www.usereserva.com/account#';
 
     test('should return wishlist use case', () => {
       const urlWishList = `${baseUrlAccount}/wishlist`;
@@ -110,9 +110,9 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     test('should return cart use case', () => {
       const orderFormId = 'dasdasd-321-312312';
       const successCartUrl = deepLinkHelper(
-        `https://www.usereserva.com/#/cart?orderFormId=${orderFormId}`
+        `https://www.usereserva.com/#/cart?orderFormId=${orderFormId}`,
       );
-      const badCardUrl = deepLinkHelper(`https://www.usereserva.com/#/cart?`);
+      const badCardUrl = deepLinkHelper('https://www.usereserva.com/#/cart?');
 
       expect(successCartUrl).toEqual(`usereserva://bag/${orderFormId}`);
       expect(badCardUrl).toEqual(undefined);

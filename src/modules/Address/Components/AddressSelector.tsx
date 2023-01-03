@@ -1,8 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
-import { theme, TopBar } from '@usereservaapp/reserva-ui';
-import { Typography, Box, Button, Icon } from '@usereservaapp/reserva-ui';
+import { TouchableOpacity } from 'react-native';
+import {
+  theme, Typography, Box, Button, Icon,
+} from '@usereservaapp/reserva-ui';
 
 export interface Address {
   id?: string;
@@ -29,7 +29,9 @@ const AddressSelector = ({
   editAndDelete,
   addressData,
 }: IAddressesSelector) => {
-  const { address, title, zipcode, id } = addressData;
+  const {
+    address, title, zipcode, id,
+  } = addressData;
   return (
     <>
       <TouchableOpacity disabled={disabled} onPress={select}>
@@ -38,7 +40,7 @@ const AddressSelector = ({
           borderWidth="hairline"
           borderColor="preto"
           width="100%"
-          height={'auto'}
+          height="auto"
           flexDirection="row"
           p="nano"
           mt="xxxs"
@@ -50,7 +52,7 @@ const AddressSelector = ({
             alignItems="center"
             justifyContent="center"
           >
-            <Box m={'nano'} alignItems="center">
+            <Box m="nano" alignItems="center">
               <Box width="10%">
                 <Box
                   height={15}
@@ -91,7 +93,7 @@ const AddressSelector = ({
               </Typography>
             </Box>
 
-            <Box flexDirection="row" width={'100%'}>
+            <Box flexDirection="row" width="100%">
               <Box width={1 / 2}>
                 <Typography
                   fontFamily="nunitoRegular"
@@ -117,8 +119,10 @@ const AddressSelector = ({
                     <Box flexDirection="row">
                       <Button
                         onPress={edit}
-                        pb={'quarck'}
-                        hitSlop={{ top: 10, left: 10, bottom: 30, right: 10 }}
+                        pb="quarck"
+                        hitSlop={{
+                          top: 10, left: 10, bottom: 30, right: 10,
+                        }}
                       >
                         <Typography
                           fontFamily="nunitoRegular"
@@ -139,7 +143,7 @@ const AddressSelector = ({
                         }}
                         onPress={deleteAddress}
                       >
-                        <Icon ml={'xxs'} name="Trash" color="preto" size={15} />
+                        <Icon ml="xxs" name="Trash" color="preto" size={15} />
                       </Button>
                     </Box>
                   </>

@@ -1,49 +1,49 @@
-import React, { useEffect } from "react";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
+import React from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
-import { BaseScreen } from "../../../../common/components/BaseScreen";
-import { MyCreditsParamList, MyCreditsScreensRoutes } from "../../navigation/MyCreditsNavigator";
+import { BaseScreen } from '../../../../common/components/BaseScreen';
+import { MyCreditsParamList, MyCreditsScreensRoutes } from '../../navigation/MyCreditsNavigator';
 
-import { RegisterPhoneNumberContainer } from "./RegisterPhoneNumber.container";
+import { RegisterPhoneNumberContainer } from './RegisterPhoneNumber.container';
 
 type RegisterPhoneNumberScreenProps = StackScreenProps<
-    MyCreditsParamList,
-    MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER
+MyCreditsParamList,
+MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER
 >;
 
 export const RegisterPhoneNumberScreen = (
-    {
-        route,
-        navigation: navigate
-    }: RegisterPhoneNumberScreenProps
+  {
+    route,
+    navigation: navigate,
+  }: RegisterPhoneNumberScreenProps,
 ) => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    const navigateBack = () => {
-        navigation.goBack();
-    }
+  const navigateBack = () => {
+    navigation.goBack();
+  };
 
-    const navigateToError = () => {
-        navigation.navigate(MyCreditsScreensRoutes.ERROR);
-    }
+  const navigateToError = () => {
+    navigation.navigate(MyCreditsScreensRoutes.ERROR);
+  };
 
-    const navigateToNumberRegisteredSuccessfully = () => {
-        navigation.navigate('numberRegisteredSuccessfully', {
-            costumerDocument: route?.params.profile.document
-        });
-    };
+  const navigateToNumberRegisteredSuccessfully = () => {
+    navigation.navigate('numberRegisteredSuccessfully', {
+      costumerDocument: route?.params.profile.document,
+    });
+  };
 
-    return (
-        <BaseScreen testID=''>
-            <RegisterPhoneNumberContainer
-                profile={route?.params.profile}
-                isChangeNumber={route?.params.isChangeNumber}
-                confirmPhone={route?.params.confirmPhone}
-                navigateBack={navigateBack}
-                navigateToError={navigateToError}
-                navigateToNumberRegisteredSuccessfully={navigateToNumberRegisteredSuccessfully}
-            />
-        </BaseScreen>
-    )
-}
+  return (
+    <BaseScreen testID="">
+      <RegisterPhoneNumberContainer
+        profile={route?.params.profile}
+        isChangeNumber={route?.params.isChangeNumber}
+        confirmPhone={route?.params.confirmPhone}
+        navigateBack={navigateBack}
+        navigateToError={navigateToError}
+        navigateToNumberRegisteredSuccessfully={navigateToNumberRegisteredSuccessfully}
+      />
+    </BaseScreen>
+  );
+};

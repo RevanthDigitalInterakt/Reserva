@@ -17,8 +17,8 @@ const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 export interface ModalitySelectorProps { }
 
 type ModalitySelectorNavigator = StackNavigationProp<
-  CorreReservaStackParamList,
-  'ModalitySelector'
+CorreReservaStackParamList,
+'ModalitySelector'
 >;
 
 export const ModalitySelector: React.FC<ModalitySelectorNavigator> = ({ }) => {

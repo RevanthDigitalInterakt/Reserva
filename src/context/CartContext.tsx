@@ -36,7 +36,7 @@ import {
   UpdateItemToCart,
 } from '../services/vtexService';
 import { CategoriesParserString } from '../utils/categoriesParserString';
-import {checkoutService} from "../services/checkoutService";
+import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
 
 interface ClientPreferencesData {
@@ -489,10 +489,10 @@ interface CartContextProps {
     seller: string,
     qty: number
   ) => Promise<
-    | {
-        ok: boolean;
-      }
-    | undefined
+  | {
+    ok: boolean;
+  }
+  | undefined
   >;
   resetUserCheckout: () => Promise<boolean | undefined>;
   addCoupon: (coupon: string) => Promise<boolean | undefined>;
@@ -550,8 +550,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [sellerCode, setSellerCode] = useState<string>('');
   const [sellerName, setSellerName] = useState<string>('');
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
-  const [hasErrorApplyCoupon, setHasErrorApplyCoupon] =
-    useState<boolean>(false);
+  const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
 
   const _requestOrderForm = async () => {
     const { data } = await CreateCart();
@@ -598,7 +597,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     orderFormId: string,
     selectableGiftsId: string,
     id: string,
-    seller: string
+    seller: string,
   ) => {
     setTopBarLoading(true);
     try {
@@ -606,7 +605,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         orderFormId,
         selectableGiftsId,
         id,
-        seller
+        seller,
       );
       if (data) {
         await _requestOrderForm();
@@ -629,7 +628,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   };
 
   const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> => {
-    const { quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false } = dto;
+    const {
+      quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
+    } = dto;
 
     try {
       const isUpdateItem = hasBundleItems && isUpdate && index >= 0;
@@ -656,7 +657,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         const productRemoved = await removeUnavailableProduct(
           product.id,
           idx,
-          seller
+          seller,
         );
 
         if (productRemoved) return { message: 'O produto não está disponível' };
@@ -687,25 +688,25 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     itemId: string,
     index: number,
     seller: string,
-    qty: number
+    qty: number,
   ) => {
     try {
       const productRemoved = orderForm?.items.find(
-        (item: any) => item.id === itemId
+        (item: any) => item.id === itemId,
       );
       const { data } = await RemoveItemFromCart(
         orderForm?.orderFormId,
         itemId,
         index,
         seller,
-        qty
+        qty,
       );
       setOrderForm(data);
 
       EventProvider.logEvent('remove_from_cart', {
         item_id: itemId,
         item_categories: CategoriesParserString(
-          productRemoved?.productCategories
+          productRemoved?.productCategories,
         ),
       });
 
@@ -718,7 +719,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const removeUnavailableProduct = async (
     itemId: string,
     index: number,
-    seller: string
+    seller: string,
   ) => {
     try {
       const { data } = await RemoveItemFromCart(
@@ -726,7 +727,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         itemId,
         index,
         seller,
-        0
+        0,
       );
 
       return !!data;
@@ -808,7 +809,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const addShippingOrPickupInfo = async (
     logisticsInfo: any[],
-    selectedAddresses: any[]
+    selectedAddresses: any[],
   ) => {
     try {
       const data = await AddAddressToCart(orderForm?.orderFormId, {
@@ -932,7 +933,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const searchNewOrders = async (
     page: string,
     email: string,
-    cookie: string
+    cookie: string,
   ) => {
     try {
       const { data } = await SearchNewOrders(page, email, cookie);
@@ -945,7 +946,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const searchNewOrderDetail = async (
     page: string,
     email: string,
-    cookie: string
+    cookie: string,
   ) => {
     try {
       const { data } = await SearchNewOrderDetail(page, email, cookie);
@@ -985,7 +986,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       const sellerName = data[0].vendedor_apelido.split(' ')[0];
 
-      //TODO if no found sellerName, should be do default name;
+      // TODO if no found sellerName, should be do default name;
       if (!sellerName) {
         setHasErrorApplyCoupon(true);
         return;
@@ -1006,11 +1007,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const restoreCart = async (orderFormId: string) => {
     setLoading(true);
     try {
-      //TODO create interface
+      // TODO create interface
       const data = await _requestRestoreCart(orderFormId);
 
       const sellerCodeData = data?.marketingData?.marketingTags?.filter(
-        (item) => item.startsWith('code_CodigoVendedor=')
+        (item) => item.startsWith('code_CodigoVendedor='),
       )[0];
 
       if (sellerCodeData) {
@@ -1039,7 +1040,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       };
       const response = await fetch(
         `https://app-vtex.usereserva.com/api/checkout/pub/orderform/${orderForm?.orderFormId}?sc=4`,
-        fetchOptions
+        fetchOptions,
       );
       const newOrderForm = await response.json();
       setOrderForm(newOrderForm);
@@ -1052,7 +1053,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setTopBarLoading(true);
 
       if (flag) {
-        const offeringId = item.offerings.filter(offering => offering?.type === 'Embalagem pra Presente')[0].id
+        const offeringId = item.offerings.filter((offering) => offering?.type === 'Embalagem pra Presente')[0].id;
 
         if (!offeringId) return;
 

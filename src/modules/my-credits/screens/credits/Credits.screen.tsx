@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { BaseScreen } from '../../../../common/components/BaseScreen';
-import { MyCreditsScreensRoutes } from '../../../../modules/my-credits/navigation/MyCreditsNavigator';
+import { MyCreditsScreensRoutes } from '../../navigation/MyCreditsNavigator';
 import { CreditsContainer } from './Credits.container';
 
 export const CreditsScreen = () => {
@@ -15,7 +15,7 @@ export const CreditsScreen = () => {
   const navigateToCashbackInStore = (isLoyal: boolean, costumerDocument: string) => {
     navigation.navigate(MyCreditsScreensRoutes.CASHBACK_IN_STORE, {
       isLoyal,
-      costumerDocument
+      costumerDocument,
     });
   };
 
@@ -24,12 +24,12 @@ export const CreditsScreen = () => {
   };
 
   return (
-    <BaseScreen testID='CreditsScreen'>
+    <BaseScreen testID="CreditsScreen">
       <CreditsContainer
         navigateBack={navigateBack}
         navigateToError={navigateToError}
         navigateToCashbackInStore={navigateToCashbackInStore}
       />
     </BaseScreen>
-  )
-}
+  );
+};

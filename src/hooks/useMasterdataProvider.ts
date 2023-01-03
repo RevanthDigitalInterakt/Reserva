@@ -1,9 +1,9 @@
-import { useCallback } from "react";
-import Config from "react-native-config";
-import { useRestAPI } from "./useRestAPI";
-import { IResponseSendData } from "../types/interfaces/IResponseSendData";
-import { IResponseCouponShowModal } from "../types/interfaces/IResponseCouponShowModal";
-import { MasterDataSendDataDto } from "../types/dtos/masterdata-send-data.dto";
+import { useCallback } from 'react';
+import Config from 'react-native-config';
+import { useRestAPI } from './useRestAPI';
+import { IResponseSendData } from '../types/interfaces/IResponseSendData';
+import { IResponseCouponShowModal } from '../types/interfaces/IResponseCouponShowModal';
+import { MasterDataSendDataDto } from '../types/dtos/masterdata-send-data.dto';
 
 export interface IResponseSubmit {
   success: boolean;
@@ -21,7 +21,9 @@ export default function useMasterdataProvider() {
 
       return data;
     } catch (err) {
-      return { showModal: false, title: '', titleButton: '', subtitle: [], fineline: '', };
+      return {
+        showModal: false, title: '', titleButton: '', subtitle: [], fineline: '',
+      };
     }
   }, [client]);
 
@@ -33,17 +35,17 @@ export default function useMasterdataProvider() {
         success: true,
         title: 'Cupom criado com sucesso',
         message: data.message,
-      }
+      };
     } catch (err) {
       return {
         success: false,
         title: err?.response?.data?.message || 'Ocorreu um erro!',
-      }
+      };
     }
   }, [client]);
 
   return {
     onCheckChristmasModalVisibility,
     onSendData,
-  }
+  };
 }

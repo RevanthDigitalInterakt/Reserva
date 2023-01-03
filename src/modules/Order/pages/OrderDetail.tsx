@@ -5,18 +5,19 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Linking, Platform, SafeAreaView, ScrollView } from 'react-native';
+import {
+  Linking, Platform, SafeAreaView, ScrollView,
+} from 'react-native';
 import {
   Box,
   Button, Icon,
-  Stepper, Typography
+  Stepper, Typography,
 } from '@usereservaapp/reserva-ui';
 import { useAuth } from '../../../context/AuthContext';
 import { IOrderId, useCart } from '../../../context/CartContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
-
 
 type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 
@@ -36,7 +37,7 @@ const OrderList: React.FC<any> = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       fetchOrderDetail();
-    }, [])
+    }, []),
   );
 
   const fetchOrderDetail = async () => {
@@ -63,7 +64,7 @@ const OrderList: React.FC<any> = ({ route }) => {
         const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
         const estimatedDeliveryDay = new Date();
         estimatedDeliveryDay.setDate(
-          estimatedDeliveryDay.getDate() + +businessDaysAmount
+          estimatedDeliveryDay.getDate() + +businessDaysAmount,
         );
 
         if (estimatedDeliveryDay.getDay() === 0) {
@@ -73,15 +74,13 @@ const OrderList: React.FC<any> = ({ route }) => {
         if (estimatedDeliveryDay.getDay() === 7) {
           estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
         }
-        const day =
-          estimatedDeliveryDay.getDate() < 10
-            ? `0${estimatedDeliveryDay.getDate()}`
-            : estimatedDeliveryDay.getDate();
+        const day = estimatedDeliveryDay.getDate() < 10
+          ? `0${estimatedDeliveryDay.getDate()}`
+          : estimatedDeliveryDay.getDate();
 
-        const month =
-          estimatedDeliveryDay.getMonth() + 1 < 10
-            ? `0${estimatedDeliveryDay.getMonth() + 1}`
-            : estimatedDeliveryDay.getMonth() + 1;
+        const month = estimatedDeliveryDay.getMonth() + 1 < 10
+          ? `0${estimatedDeliveryDay.getMonth() + 1}`
+          : estimatedDeliveryDay.getMonth() + 1;
 
         return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
       }
@@ -91,7 +90,7 @@ const OrderList: React.FC<any> = ({ route }) => {
     setClickedIcon(true);
     if (orderDetails) {
       setCopiedText(
-        orderDetails?.packageAttachment?.packages[0].trackingNumber
+        orderDetails?.packageAttachment?.packages[0].trackingNumber,
       );
     }
     setTimeout(() => setClickedIcon(false), 1000);
@@ -107,22 +106,22 @@ const OrderList: React.FC<any> = ({ route }) => {
         >
           {orderDetails?.status !== 'canceled' && (
             <>
-              {orderDetails &&
-                orderDetails?.packageAttachment.packages.length > 0 && (
+              {orderDetails
+                && orderDetails?.packageAttachment.packages.length > 0 && (
                   <>
                     <Box
                       mb="xxxs"
                       justifyContent="flex-start"
-                      paddingTop={'md'}
+                      paddingTop="md"
                     >
                       <Typography variant="tituloSessoes">
                         Rastreamento de entrega
                       </Typography>
                     </Box>
-                    {orderDetails &&
-                      orderDetails?.packageAttachment?.packages[0]
-                        .courierStatus != null &&
-                      orderDetails?.packageAttachment?.packages[0].courierStatus
+                    {orderDetails
+                      && orderDetails?.packageAttachment?.packages[0]
+                        .courierStatus != null
+                      && orderDetails?.packageAttachment?.packages[0].courierStatus
                         .data.length > 0 && (
                         <Box paddingX="xxs" paddingY="xs">
                           <Stepper
@@ -135,28 +134,30 @@ const OrderList: React.FC<any> = ({ route }) => {
                             actualStepIndex={2}
                           />
                         </Box>
-                      )}
+                    )}
                   </>
-                )}
+              )}
               {orderDetails && (
                 <Box
                   marginY="micro"
                   borderBottomWidth="hairline"
                   borderBottomColor="divider"
                 >
-                  {order?.paymentApprovedDate &&
+                  {order?.paymentApprovedDate
+                    && (
                     <Typography fontSize={14} fontFamily="nunitoBold">
-                      Previsão:{' '}
+                      Previsão:
+                      {' '}
                       {format(
                         new Date(
-                          orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate
+                          orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate,
                         ),
                         'dd/MM/yy',
-                        { locale: ptBR }
+                        { locale: ptBR },
                       )}
                       {/* {getDeliveryPreview()} */}
                     </Typography>
-                  }
+                    )}
                   <Box mt="nano">
                     <Typography
                       style={{ marginBottom: 5 }}
@@ -165,22 +166,22 @@ const OrderList: React.FC<any> = ({ route }) => {
                     >
                       {orderDetails.shippingData.logisticsInfo[0]
                         .deliveryChannel === 'pickup-in-point'
-                        ? `Endereço de retirada`
-                        : `Endereço de entrega`}
+                        ? 'Endereço de retirada'
+                        : 'Endereço de entrega'}
                       :
                       {` ${orderDetails.shippingData.address.street}, ${orderDetails.shippingData.address.number}, ${orderDetails.shippingData.address.neighborhood} - ${orderDetails.shippingData.address.city} - ${orderDetails.shippingData.address.state} - ${orderDetails.shippingData.address.postalCode}
                   `}
                     </Typography>
                   </Box>
 
-                  {orderDetails &&
-                    orderDetails?.packageAttachment?.packages.length > 0 && (
+                  {orderDetails
+                    && orderDetails?.packageAttachment?.packages.length > 0 && (
                       <>
                         <Box mb="micro" flexDirection="row">
                           {clickedIcon && (
                             <Box
                               position="absolute"
-                              right={'30%'}
+                              right="30%"
                               bottom={30}
                               bg="white"
                               boxShadow={
@@ -222,25 +223,25 @@ const OrderList: React.FC<any> = ({ route }) => {
                         </Box>
                         {
                           orderDetails?.packageAttachment?.packages[0]
-                            ?.trackingUrl &&
+                            ?.trackingUrl
+                          && (
                           <Box mb="xxs">
                             <Typography
                               fontFamily="nunitoRegular"
                               fontSize={13}
                               style={{ textDecorationLine: 'underline' }}
-                              onPress={() =>
-                                Linking.openURL(
-                                  orderDetails?.packageAttachment?.packages[0]
-                                    ?.trackingUrl
-                                )
-                              }
+                              onPress={() => Linking.openURL(
+                                orderDetails?.packageAttachment?.packages[0]
+                                  ?.trackingUrl,
+                              )}
                             >
                               Ver rastreio no site da transportadora
                             </Typography>
                           </Box>
+                          )
                         }
                       </>
-                    )}
+                  )}
                 </Box>
               )}
             </>
@@ -265,7 +266,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                 {orderDetails.paymentData.transactions[0].payments[0]
                   .paymentSystem === 'Cartão de crédito' && (
                     <Icon name="Card" size={20} mr="nano" />
-                  )}
+                )}
 
                 <Typography fontSize={12} fontFamily="nunitoRegular">
                   {
@@ -281,11 +282,9 @@ const OrderList: React.FC<any> = ({ route }) => {
                       fontSize={12}
                       fontFamily="nunitoRegular"
                     >
-                      orderDetails.paymentData.transactions[0].payments[0]
-                      .firstDigits
-                    }
+                      {orderDetails.paymentData.transactions[0].payments[0].firstDigits}
                     </Typography>
-                  )}
+                )}
               </Box>
               <Box flexDirection="row" alignItems="center">
                 <Typography fontSize={14} fontFamily="nunitoSemiBold">
@@ -293,12 +292,14 @@ const OrderList: React.FC<any> = ({ route }) => {
                     orderDetails.paymentData.transactions[0].payments[0]
                       .installments
                   }
-                  x{' '}
+                  x
+                  {' '}
                 </Typography>
                 <Typography fontSize={14} fontFamily="nunitoSemiBold">
-                  R${' '}
-                  {orderDetails.paymentData.transactions[0].payments[0].value /
-                    100}
+                  R$
+                  {' '}
+                  {orderDetails.paymentData.transactions[0].payments[0].value
+                    / 100}
                 </Typography>
               </Box>
             </Box>

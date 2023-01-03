@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
-import { Box, Button, Image, ProgressBar, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Image, ProgressBar, Typography,
+} from '@usereservaapp/reserva-ui';
 
 import { images } from '../../../assets';
 

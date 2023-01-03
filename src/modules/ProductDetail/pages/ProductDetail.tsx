@@ -4,15 +4,15 @@ import {
 } from '@apollo/client';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
-import { addDays, format, lightFormat } from 'date-fns';
-import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
+import { addDays, format } from 'date-fns';
+import React, {
+  useEffect, useMemo, useRef, useState,
+} from 'react';
 import {
   Alert,
-  BackHandler,
   Dimensions,
-  KeyboardAvoidingView, Linking,
+  KeyboardAvoidingView,
   Platform,
-  Text,
   TouchableOpacity,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -31,9 +31,10 @@ import {
   Typography,
 } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
+import Config from 'react-native-config';
+import OneSignal from 'react-native-onesignal';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import { useCacheImages } from '../../../context/CacheImagesContext';
 import { useCart } from '../../../context/CartContext';
 import {
   GET_PRODUCTS,
@@ -54,11 +55,8 @@ import { ModalZoomImage } from '../components/ModalZoomImage';
 import { Recommendation } from '../components/Recommendation';
 import { SizeGuide, SizeGuideImages } from '../components/SizeGuide';
 import { Tooltip } from '../components/Tooltip';
-import Config from 'react-native-config';
-import OneSignal from 'react-native-onesignal';
 import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSlug';
-import * as Sentry from '@sentry/react-native';
-import {slugify} from "../../../utils/slugify";
+import { slugify } from '../../../utils/slugify';
 import EventProvider from '../../../utils/EventProvider';
 
 const screenWidth = Dimensions.get('window').width;
@@ -68,7 +66,7 @@ interface ProductDetailProps {
 }
 
 type Props = StackScreenProps<RootStackParamList, 'ProductDetail'> &
-  ProductDetailProps;
+ProductDetailProps;
 
 type Price = {
   highPrice: number;
@@ -253,8 +251,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [removeWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
   const isAssinaturaSimples = useMemo(() => {
-    const description =
-      'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)';
+    const description = 'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)';
 
     return product?.description.includes(description);
   }, [product]);
@@ -275,21 +272,20 @@ export const ProductDetail: React.FC<Props> = ({
 
   const getAllUnavailableColors = ({ items }: Product) => {
     const colorsUnavailable = items.map((item) => {
-      if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
+      if (item.sellers[0].commertialOffer.AvailableQuantity <= 0) {
         return item.variations?.find(
-          (variant) => variant.name === 'ID_COR_ORIGINAL'
+          (variant) => variant.name === 'ID_COR_ORIGINAL',
         );
+      }
     });
 
     return colorsUnavailable;
   };
 
-  const getUrlFromIdColor = (idColor: string) => {
-    return {
-      url: `${Config.URL_VTEX_ASSETS}/color-thumb-${idColor}.jpg`,
-      id: idColor,
-    };
-  };
+  const getUrlFromIdColor = (idColor: string) => ({
+    url: `${Config.URL_VTEX_ASSETS}/color-thumb-${idColor}.jpg`,
+    id: idColor,
+  });
 
   const getAllColors = ({ skuSpecifications }: Product) => {
     const colors = skuSpecifications
@@ -326,7 +322,7 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const handleOnFavorite = async (favorite: boolean) => {
-    if (!!email) {
+    if (email) {
       if (product && product.productId) {
         setLoadingFavorite(true);
 
@@ -355,15 +351,12 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const getInstallments = () => {
-    const chosenInstallment =
-      selectedVariant?.sellers[0].commertialOffer.Installments.filter(
-        ({ PaymentSystemGroupName }) =>
-          PaymentSystemGroupName === 'creditCardPaymentGroup'
-      ).reduce(
-        (prev, next) =>
-          prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next,
-        { NumberOfInstallments: 0, Value: 0 }
-      );
+    const chosenInstallment = selectedVariant?.sellers[0].commertialOffer.Installments.filter(
+      ({ PaymentSystemGroupName }) => PaymentSystemGroupName === 'creditCardPaymentGroup',
+    ).reduce(
+      (prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+      { NumberOfInstallments: 0, Value: 0 },
+    );
     return chosenInstallment;
   };
 
@@ -382,9 +375,9 @@ export const ProductDetail: React.FC<Props> = ({
 
   const addTagsUponCartUpdate = (
     productName: string,
-    productImageURL: string
+    productImageURL: string,
   ) => {
-    let timestamp = Math.floor(Date.now() / 1000);
+    const timestamp = Math.floor(Date.now() / 1000);
     OneSignal.sendTags({
       cart_update: timestamp.toString(),
       product_name: productName,
@@ -398,10 +391,9 @@ export const ProductDetail: React.FC<Props> = ({
       return;
     }
     if (selectedVariant) {
-      const quantities =
-        orderForm?.items
-          .filter((items) => items.id === selectedVariant?.itemId)
-          .map((x) => x.quantity)[0] || 0;
+      const quantities = orderForm?.items
+        .filter((items) => items.id === selectedVariant?.itemId)
+        .map((x) => x.quantity)[0] || 0;
       if (isAssinaturaSimples) {
         if (acceptConditions) {
           const addItemResponse = await addItem({
@@ -419,7 +411,7 @@ export const ProductDetail: React.FC<Props> = ({
             if (quantities === 0 && orderForm?.items.length == 0) {
               addTagsUponCartUpdate(
                 product?.productName,
-                selectedVariant.images[0].imageUrl
+                selectedVariant.images[0].imageUrl,
               );
             }
           }
@@ -428,7 +420,7 @@ export const ProductDetail: React.FC<Props> = ({
         const addItemResponse = await addItem({
           quantity: quantities + 1,
           itemId: selectedVariant?.itemId,
-          seller: selectedSellerId
+          seller: selectedSellerId,
         });
 
         if (!addItemResponse?.ok) {
@@ -439,7 +431,7 @@ export const ProductDetail: React.FC<Props> = ({
           if (quantities === 0 && orderForm?.items.length == 0) {
             addTagsUponCartUpdate(
               product?.productName!,
-              selectedVariant.images[0].imageUrl
+              selectedVariant.images[0].imageUrl,
             );
           }
         }
@@ -447,64 +439,57 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
-  const getUnavailableColors = ({ items }: Product) => {
-    return items.map((item) => {
-      if (item.sellers[0].commertialOffer.AvailableQuantity <= 0)
-        return item.variations?.find(
-          (variant) => variant.name === 'ID_COR_ORIGINAL'
-        );
-    });
-  };
+  const getUnavailableColors = ({ items }: Product) => items.map((item) => {
+    if (item.sellers[0].commertialOffer.AvailableQuantity <= 0) {
+      return item.variations?.find(
+        (variant) => variant.name === 'ID_COR_ORIGINAL',
+      );
+    }
+  });
 
-  const getColorsList = ({ skuSpecifications }: Product) =>
-    skuSpecifications
-      .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
-      ?.values.map(({ name }) => name);
+  const getColorsList = ({ skuSpecifications }: Product) => skuSpecifications
+    .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
+    ?.values.map(({ name }) => name);
 
-  const getSizeList = ({ skuSpecifications }: Product) =>
-    skuSpecifications
-      .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho')
-      ?.values.map(({ name }) => name);
+  const getSizeList = ({ skuSpecifications }: Product) => skuSpecifications
+    .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho')
+    ?.values.map(({ name }) => name);
 
-  const getImagesPerColor = ({ items }: Product, color: string) => {
-    return items.flatMap((item) => {
-      const images = item.variations
-        ?.map((v) => {
-          if (['ID_COR_ORIGINAL'].includes(v.name)) {
-            if (v.values[0] === color) {
-              return item.images;
-            }
+  const getImagesPerColor = ({ items }: Product, color: string) => items.flatMap((item) => {
+    const images = item.variations
+      ?.map((v) => {
+        if (['ID_COR_ORIGINAL'].includes(v.name)) {
+          if (v.values[0] === color) {
+            return item.images;
           }
-        })
-        .filter((a) => a !== undefined);
+        }
+      })
+      .filter((a) => a !== undefined);
 
-      return images;
-    });
-  };
+    return images;
+  });
 
-  const getSizePerColor = ({ items }: Product, color: string) => {
-    return items.flatMap((item) => {
-      const variants = item.variations
-        ?.map((v) => {
-          if (['ID_COR_ORIGINAL'].includes(v.name)) {
-            if (v.values[0] === color) {
-              return {
-                item,
-                size:
+  const getSizePerColor = ({ items }: Product, color: string) => items.flatMap((item) => {
+    const variants = item.variations
+      ?.map((v) => {
+        if (['ID_COR_ORIGINAL'].includes(v.name)) {
+          if (v.values[0] === color) {
+            return {
+              item,
+              size:
                   item?.variations?.filter(
-                    (i) => i.name === 'TAMANHO' || i.name === 'Tamanho'
+                    (i) => i.name === 'TAMANHO' || i.name === 'Tamanho',
                   )[0]?.values[0] || '',
-                available:
+              available:
                   item.sellers[0].commertialOffer.AvailableQuantity > 0,
-              };
-            }
+            };
           }
-        })
-        .filter((a) => a !== undefined);
+        }
+      })
+      .filter((a) => a !== undefined);
 
-      return variants;
-    });
-  };
+    return variants;
+  });
 
   const consultZipCode = async (cep: string) => {
     const { data } = await getShippingData({
@@ -544,7 +529,7 @@ export const ProductDetail: React.FC<Props> = ({
     }
   };
 
-  //TODO tentar adicionar tipagem para o salOff
+  // TODO tentar adicionar tipagem para o salOff
   const getSaleOff = (salOff: any) => {
     const idImage = salOff.clusterHighlights?.find((x: any) => x.id === '371');
     if (!saleOffTag) return null;
@@ -552,8 +537,7 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const getLastUnits = () => {
-    const lastUnits =
-      data?.product.items[0].sellers[0].commertialOffer.AvailableQuantity;
+    const lastUnits = data?.product.items[0].sellers[0].commertialOffer.AvailableQuantity;
     if (lastUnits <= 5) {
       setIsLastUnits(true);
     } else {
@@ -590,7 +574,7 @@ export const ProductDetail: React.FC<Props> = ({
 
       // set default first selected variant
       let variant = product.items.find(
-        (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0
+        (x: any) => x.sellers[0].commertialOffer.AvailableQuantity > 0,
       );
 
       setAvaibleUnits(variant?.sellers[0].commertialOffer.AvailableQuantity);
@@ -625,20 +609,16 @@ export const ProductDetail: React.FC<Props> = ({
           setSelectedColor(colorItemId[0]);
           setSelectedNewColor(colorItemId[0]);
           variant = product.items.find(
-            (x: any) =>
-              x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
-                ?.values[0] == colorItemId[0]
+            (x: any) => x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+              ?.values[0] == colorItemId[0],
           );
-        } else {
-          if (colorList) {
-            setSelectedColor(colorList[0]);
-            setSelectedNewColor(colorList[0]);
-            variant = product.items.find(
-              (x: any) =>
-                x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
-                  ?.values[0] == colorList[0]
-            );
-          }
+        } else if (colorList) {
+          setSelectedColor(colorList[0]);
+          setSelectedNewColor(colorList[0]);
+          variant = product.items.find(
+            (x: any) => x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+              ?.values[0] == colorList[0],
+          );
         }
       } else {
         const skuId = (() => {
@@ -651,32 +631,29 @@ export const ProductDetail: React.FC<Props> = ({
 
           setSelectedColor(
             variant?.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
-              ?.values[0]
+              ?.values[0],
           );
           setSelectedNewColor(
             variant?.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
-              ?.values[0]
+              ?.values[0],
           );
         } else {
           setSelectedColor(colorList ? route.params.colorSelected : '');
           setSelectedNewColor(colorList ? route.params.colorSelected : '');
           variant = product.items.find(
-            (x: any) =>
-              x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
-                ?.values[0] == route.params.colorSelected
+            (x: any) => x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+              ?.values[0] == route.params.colorSelected,
           );
         }
       }
 
       setSelectedVariant(variant);
 
-      let itemList = colorList?.map((color) => {
-        return {
-          color,
-          images: getImagesPerColor(product, color),
-          sizeList: getSizePerColor(product, color),
-        };
-      });
+      const itemList = colorList?.map((color) => ({
+        color,
+        images: getImagesPerColor(product, color),
+        sizeList: getSizePerColor(product, color),
+      }));
 
       setItemsSKU(itemList);
 
@@ -691,7 +668,7 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const initialComponentWithProductSlug = async (
-    slug: string
+    slug: string,
   ): Promise<void> => {
     const { data, error } = await getProductWithSlug({
       variables: { slug },
@@ -705,7 +682,7 @@ export const ProductDetail: React.FC<Props> = ({
     initializePdp(data);
   };
 
-  /***
+  /** *
    * Effects
    */
   useEffect(() => {
@@ -717,10 +694,8 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     if (route.params?.skuId) {
       setIdSku(route.params.skuId);
-    } else {
-      if (route.params?.idsku) {
-        setIdSku(route.params.idsku);
-      }
+    } else if (route.params?.idsku) {
+      setIdSku(route.params.idsku);
     }
   }, [route.params?.skuId, route.params?.idsku]);
 
@@ -758,26 +733,24 @@ export const ProductDetail: React.FC<Props> = ({
       setImageSelected(
         itemsSKU
           .map((p: any) => p.color === selectedColor && p.images)
-          .filter((a: any) => a !== false)
+          .filter((a: any) => a !== false),
       );
 
       const sizeFilters = new ProductUtils().orderSizes(
         itemsSKU
           .map(
-            (p: any) =>
-              p.color === selectedColor &&
-              p.sizeList.map((sizes: any) => sizes.size)
+            (p: any) => p.color === selectedColor
+              && p.sizeList.map((sizes: any) => sizes.size),
           )
           ?.filter((a: any) => a !== false)[0]
-          ?.filter((x: any) => x !== '')
+          ?.filter((x: any) => x !== ''),
       );
       setSizeFilters(sizeFilters);
 
       const unavailableSizes = itemsSKU
         .map(
-          (p: any) =>
-            p.color === selectedColor &&
-            p.sizeList.map((sizes: any) => !sizes.available && sizes.size)
+          (p: any) => p.color === selectedColor
+            && p.sizeList.map((sizes: any) => !sizes.available && sizes.size),
         )
         ?.filter((a: any) => a !== false)[0];
 
@@ -828,9 +801,8 @@ export const ProductDetail: React.FC<Props> = ({
             values: [selectedColor],
           },
         ];
-        const getVariant = (variants: any, getVariantId: string) =>
-          variants.filter((v: any) => v.name === getVariantId)[0]?.values[0] ||
-          '';
+        const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0]?.values[0]
+          || '';
 
         const isSkuEqual = (sku1: any, sku2: any) => {
           if (sku1 && sku2) {
@@ -848,8 +820,8 @@ export const ProductDetail: React.FC<Props> = ({
               ({ name, originalName, values }: any) => ({
                 name,
                 originalName,
-                values: values,
-              })
+                values,
+              }),
             );
             return isSkuEqual(a, selectedSkuVariations);
           }
@@ -927,9 +899,9 @@ export const ProductDetail: React.FC<Props> = ({
                   title={product.productName}
                   // selectedVariant?.itemId
                   isFavorited={
-                    wishInfo.inList &&
-                    product.items.some(
-                      (x) => x.itemId === selectedVariant?.itemId
+                    wishInfo.inList
+                    && product.items.some(
+                      (x) => x.itemId === selectedVariant?.itemId,
                     )
                   }
                   onClickFavorite={handleOnFavorite}
@@ -945,22 +917,20 @@ export const ProductDetail: React.FC<Props> = ({
                     getInstallments()?.NumberOfInstallments || 1
                   }
                   installmentsPrice={
-                    getInstallments()?.Value ||
-                    sellerProduct.commertialOffer.Price ||
-                    0
+                    getInstallments()?.Value
+                    || sellerProduct.commertialOffer.Price
+                    || 0
                   }
                   onClickShare={() => onShare(product.link)}
                   discountTag={
                     getPercent(
                       sellerProduct.commertialOffer.Price,
-                      sellerProduct.commertialOffer.ListPrice
+                      sellerProduct.commertialOffer.ListPrice,
                     ) || 0
                   }
                   saleOff={getSaleOff(product)}
                   setModalZoom={() => setIsVisibleZoomImage(true)}
-                  imageIndexActual={(imageIndex) =>
-                    setImageIndexActual(imageIndex)
-                  }
+                  imageIndexActual={(imageIndex) => setImageIndexActual(imageIndex)}
                   avaibleUnits={!outOfStock && avaibleUnits}
                 />
                 {/* COLORS SECTION */}
@@ -993,19 +963,17 @@ export const ProductDetail: React.FC<Props> = ({
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Typography variant={'subtituloSessoes'}>
+                      <Typography variant="subtituloSessoes">
                         Tamanhos:
                       </Typography>
-                      {!!product.categoryTree.find((x) =>
-                        Object.keys(SizeGuideImages).includes(x.name)
-                      ) && <SizeGuide categoryTree={product.categoryTree} />}
+                      {!!product.categoryTree.find((x) => Object.keys(SizeGuideImages).includes(x.name)) && <SizeGuide categoryTree={product.categoryTree} />}
                     </Box>
                     <Box alignItems="flex-start" mt="xxxs">
                       <RadioButtons
                         size={38}
                         fontSize={12}
                         disbledOptions={
-                          unavailableSizes ? unavailableSizes : []
+                          unavailableSizes || []
                         }
                         onSelectedChange={(item) => {
                           setSelectedSize(item);
@@ -1056,7 +1024,7 @@ export const ProductDetail: React.FC<Props> = ({
                     inline
                     testID="productdetail_button_add_cart"
                   />
-                  <Box mt="nano" flexDirection="row"></Box>
+                  <Box mt="nano" flexDirection="row" />
                   <Divider variant="fullWidth" my="xs" />
 
                   {/* CHECKLIST ASSINATURA SIMPLES INFO */}
@@ -1085,14 +1053,16 @@ export const ProductDetail: React.FC<Props> = ({
                         <Box>
                           <Box flexDirection="row">
                             <Typography variant="tituloSessao">
-                              Receba{' '}
+                              Receba
+                              {' '}
                             </Typography>
 
                             <Typography
                               variant="tituloSessao"
                               fontWeight="bold"
                             >
-                              3 camisetas{' '}
+                              3 camisetas
+                              {' '}
                             </Typography>
 
                             <Typography variant="tituloSessao">
@@ -1127,13 +1097,15 @@ export const ProductDetail: React.FC<Props> = ({
 
                         <Box flexDirection="row" alignItems="center">
                           <Typography variant="tituloSessao" fontWeight="bold">
-                            Ganhe 100%{' '}
+                            Ganhe 100%
+                            {' '}
                           </Typography>
 
                           <Typography variant="tituloSessao">de </Typography>
 
                           <Typography variant="tituloSessao" fontStyle="italic">
-                            cashback{' '}
+                            cashback
+                            {' '}
                           </Typography>
 
                           <Box
@@ -1174,7 +1146,8 @@ export const ProductDetail: React.FC<Props> = ({
                               variant="tituloSessao"
                               fontWeight="bold"
                             >
-                              Receba 20% OFF{' '}
+                              Receba 20% OFF
+                              {' '}
                             </Typography>
 
                             <Typography variant="tituloSessao">
@@ -1222,11 +1195,13 @@ export const ProductDetail: React.FC<Props> = ({
                               variant="tituloSessao"
                               fontWeight="bold"
                             >
-                              Ganhe R$ 75{' '}
+                              Ganhe R$ 75
+                              {' '}
                             </Typography>
 
                             <Typography variant="tituloSessao">
-                              em créditos ao fim da anuidade,{' '}
+                              em créditos ao fim da anuidade,
+                              {' '}
                             </Typography>
                           </Box>
 
@@ -1270,7 +1245,8 @@ export const ProductDetail: React.FC<Props> = ({
 
                         <Box>
                           <Typography variant="tituloSessao">
-                            Ciclo sustentável: as peças devolvidas serão{' '}
+                            Ciclo sustentável: as peças devolvidas serão
+                            {' '}
                           </Typography>
 
                           <Typography variant="tituloSessao">
@@ -1377,13 +1353,12 @@ export const ProductDetail: React.FC<Props> = ({
                         <Box>
                           <Box flexDirection="row" alignItems="center">
                             <Typography variant="precoAntigo3" color="preto">
-                              Ao adquirir a assinatura você aceita os{' '}
+                              Ao adquirir a assinatura você aceita os
+                              {' '}
                             </Typography>
 
                             <TouchableOpacity
-                              onPress={() =>
-                                setModalTermsAndConditionsisVisible(true)
-                              }
+                              onPress={() => setModalTermsAndConditionsisVisible(true)}
                             >
                               <Typography
                                 variant="precoAntigo3"
@@ -1397,9 +1372,7 @@ export const ProductDetail: React.FC<Props> = ({
                           </Box>
 
                           <TouchableOpacity
-                            onPress={() =>
-                              setModalTermsAndConditionsisVisible(true)
-                            }
+                            onPress={() => setModalTermsAndConditionsisVisible(true)}
                           >
                             <Typography
                               variant="precoAntigo3"
@@ -1452,8 +1425,8 @@ export const ProductDetail: React.FC<Props> = ({
                       Não sei meu CEP
                     </Typography>
                   </Button>
-                  {shippingCost?.length > 0 &&
-                    shippingCost[0]?.slas.map((item, key) => (
+                  {shippingCost?.length > 0
+                    && shippingCost[0]?.slas.map((item, key) => (
                       <Box
                         key={key}
                         flexDirection="row"
@@ -1479,9 +1452,9 @@ export const ProductDetail: React.FC<Props> = ({
                             {format(
                               addDays(
                                 Date.now(),
-                                parseInt(item.shippingEstimate.split('bd')[0])
+                                parseInt(item.shippingEstimate.split('bd')[0]),
                               ),
-                              'dd/MM'
+                              'dd/MM',
                             )}
                           </Typography>
                         </Box>
@@ -1498,7 +1471,7 @@ export const ProductDetail: React.FC<Props> = ({
                           >
                             {item.price > 0
                               ? `R$ ${item.price / 100}`
-                              : `GRÁTIS`}
+                              : 'GRÁTIS'}
                           </Typography>
                         </Box>
                       </Box>
@@ -1510,7 +1483,7 @@ export const ProductDetail: React.FC<Props> = ({
                     composition={product?.properties[0]?.values[0]}
                     codeProduct={
                       product?.items.find(
-                        (x) => x.itemId === selectedVariant?.itemId
+                        (x) => x.itemId === selectedVariant?.itemId,
                       )?.ean || ''
                     }
                   />
@@ -1521,9 +1494,7 @@ export const ProductDetail: React.FC<Props> = ({
                     <Tooltip
                       tooltipText="Email Cadastrado!"
                       isVisible={toolTipIsVisible}
-                      setIsVisible={(isVisible) =>
-                        setToolTipIsVisible(isVisible)
-                      }
+                      setIsVisible={(isVisible) => setToolTipIsVisible(isVisible)}
                     />
                     <Typography fontFamily="reservaSerifRegular" fontSize={16}>
                       Receba novidades e promoções
@@ -1536,7 +1507,7 @@ export const ProductDetail: React.FC<Props> = ({
                     onChangeText={(email) => {
                       setEmailPromotions(email);
                       setEmailIsValid(
-                        Yup.string().required().email().isValidSync(email)
+                        Yup.string().required().email().isValidSync(email),
                       );
                     }}
                     accessibilityLabel="productdetail_input_email"

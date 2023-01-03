@@ -5,15 +5,12 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
-  Button,
-  TextField,
-  Icon,
   SearchBar,
 } from '@usereservaapp/reserva-ui';
 
+import { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ItemListHelp from '../Components/ItemListHelp';
-import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 
 type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;

@@ -15,26 +15,23 @@ export type GetCostumerResponse = {
 export const cashbackService = {
   getToken: async (
     cpf: string,
-    installationToken: string
+    installationToken: string,
   ): Promise<
-    AxiosResponse<{ token: string; result: boolean; cashback: number }>
-  > =>
-    cashbackInstance.post('/loyalty/modify-token', {
-      cpf,
-      installationToken,
-    }),
+  AxiosResponse<{ token: string; result: boolean; cashback: number }>
+  > => cashbackInstance.post('/loyalty/modify-token', {
+    cpf,
+    installationToken,
+  }),
   acceptLoyalty: async (
-    cpf: string
-  ): Promise<AxiosResponse<{ result: boolean }>> =>
-    cashbackInstance.post('/loyalty/accept-loyalty', {
-      cpf,
-    }),
+    cpf: string,
+  ): Promise<AxiosResponse<{ result: boolean }>> => cashbackInstance.post('/loyalty/accept-loyalty', {
+    cpf,
+  }),
   getCustomer: async (
-    cpf: string
-  ): Promise<AxiosResponse<GetCostumerResponse>> =>
-    cashbackInstance.get('/loyalty/customer', {
-      params: {
-        cpf,
-      },
-    }),
+    cpf: string,
+  ): Promise<AxiosResponse<GetCostumerResponse>> => cashbackInstance.get('/loyalty/customer', {
+    params: {
+      cpf,
+    },
+  }),
 };

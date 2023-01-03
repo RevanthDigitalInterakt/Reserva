@@ -1,7 +1,9 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
-import { Box, Button, Icon, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 
 interface IModal {
   isVisible: boolean;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { Alert, BackHandler, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { TopBar } from '@usereservaapp/reserva-ui';
 
 import { useCart } from '../../../context/CartContext';
@@ -11,14 +11,16 @@ export const TopBarDefaultBackButton: React.FC<{
   showShadow?: Boolean;
   navigateGoBack?: Boolean;
   backButtonPress?: () => void;
-}> = ({ showShadow = true, loading = false, navigateGoBack = false, backButtonPress }) => {
+}> = ({
+  showShadow = true, loading = false, navigateGoBack = false, backButtonPress,
+}) => {
   const navigation = useNavigation();
   const { orderForm } = useCart();
   const [bagQuantity, setBagQuantity] = useState(0);
   useEffect(() => {
     if (orderForm?.items) {
-      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)
-      setBagQuantity(quantity)
+      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0);
+      setBagQuantity(quantity);
     }
   }, [orderForm]);
 

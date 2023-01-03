@@ -1,26 +1,17 @@
 import {
   Box,
-  Button,
-  ProductHorizontalListCard,
-  ProductHorizontalListCardProps,
   theme,
-  Typography,
-} from "@usereservaapp/reserva-ui";
-import Modal from "react-native-modal";
-import React, { useState } from "react";
-import { ScrollView } from "react-native-gesture-handler";
+} from '@usereservaapp/reserva-ui';
+import Modal from 'react-native-modal';
+import React, { useState, useEffect } from 'react';
 
-import LottieView from "lottie-react-native";
-import AnimatedLottieView from "lottie-react-native";
-import { animations } from "../../../assets";
-import { ThemeConsumer } from "styled-components/native";
-import { useEffect } from "react";
-import { Dimensions, Platform, SafeAreaView, StatusBar } from "react-native";
-import { position } from "styled-system";
-import DeviceInfo, { hasNotch } from "react-native-device-info";
+import LottieView from 'lottie-react-native';
+import AnimatedLottieView from 'lottie-react-native';
 
-import * as Animatable from "react-native-animatable";
-import { useNavigation } from "@react-navigation/native";
+import DeviceInfo from 'react-native-device-info';
+
+import { useNavigation } from '@react-navigation/native';
+import { animations } from '../../../assets';
 
 const haveNotch = DeviceInfo.hasNotch();
 
@@ -51,7 +42,7 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
           onBackdropPress();
         }}
         backdropColor={
-          !animationFinished && isVisible ? theme.colors.preto : "transparent"
+          !animationFinished && isVisible ? theme.colors.preto : 'transparent'
         }
         animationInTiming={300}
         animationIn="fadeIn"
