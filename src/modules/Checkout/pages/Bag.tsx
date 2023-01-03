@@ -38,7 +38,7 @@ import { Attachment } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import EventProvider from '../../../utils/EventProvider';
-import { slugify } from '../../../utils/slugify';
+import { slugify } from "../../../utils/slugify";
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
