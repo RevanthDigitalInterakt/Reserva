@@ -11,7 +11,7 @@ import {
   ProductHorizontalListCard,
   RadioButtons,
   TextField,
-  Typography,
+  Typography
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
@@ -23,7 +23,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView,
+  ScrollView
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
