@@ -11,7 +11,7 @@ import {
   ProductHorizontalListCard,
   RadioButtons,
   TextField,
-  Typography
+  Typography,
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
@@ -23,22 +23,24 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import OneSignal from 'react-native-onesignal';
+import { instance2 } from '../../../config/vtexConfig';
+import ToastProvider, { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
 import { useAuth } from '../../../context/AuthContext';
 import { Item, OrderForm, useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-import { Attachment } from '../../../services/vtexService';
+import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import EventProvider from '../../../utils/EventProvider';
-import { slugify } from "../../../utils/slugify";
+import { slugify } from '../../../utils/slugify';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
@@ -161,7 +163,57 @@ export const BagScreen = ({ route }: Props) => {
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
+  const createSkuIds = () => orderForm?.items.map(({ id }) => `fq=skuId:${id}`).join('&');
+
+  const removeUnavailableItems = React.useCallback(async (): Promise<boolean> => {
+    let hasError = false;
+
+    try {
+      const skuIds = createSkuIds();
+      const path = `catalog_system/pub/products/search?${skuIds}`;
+      const { data: productsData } = await instance2.get(path);
+
+      orderForm?.items.map(async ({
+        id, seller: sellerId, productId, quantity,
+      }, index) => {
+        const product = productsData.filter((
+          productData: any,
+        ) => productData?.productId === productId)[0];
+
+        const skuItem = product?.items?.filter((item: any) => item?.itemId === id)[0];
+
+        const sellerItem = skuItem?.sellers?.filter(
+          (seller: any) => seller?.sellerId === sellerId,
+        )[0];
+
+        const availableQuantity = sellerItem?.commertialOffer?.AvailableQuantity;
+
+        const emptyQuantity = availableQuantity === 0 && !sellerItem?.IsAvailable;
+
+        const hasAvailableQuantityFromStock = availableQuantity >= quantity;
+
+        const updateQuantity = hasAvailableQuantityFromStock ? quantity : availableQuantity;
+
+        if (emptyQuantity || !hasAvailableQuantityFromStock) {
+          await RemoveItemFromCart(orderForm?.orderFormId, id, index, sellerId, updateQuantity);
+          hasError = true;
+          showToast({type: 'error', text1:'Alguns produtos da sua sacola estão indisponiveis'});
+        }
+      });
+
+      return hasError;
+    } catch (e) {
+      hasError = true;
+      return hasError;
+    }
+  }, []);
+
   useEffect(() => {
+    removeUnavailableItems();
+  }, [removeUnavailableItems]);
+
+  useEffect(() => {
+
     getProfile().then((response) => {
       setProfileData({
         data: response.data,
@@ -366,6 +418,12 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const onGoToDelivery = async () => {
+    const hasError = await removeUnavailableItems();
+
+    if (hasError) {
+      return;
+    }
+
     setLoadingGoDelivery(true);
     if (orderForm) {
       const af_content_id = orderForm.items.map((i) => i.productId);
@@ -497,7 +555,6 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   return (
-
     <SafeAreaView
       style={{
         justifyContent: 'space-between',
@@ -1387,6 +1444,5 @@ export const BagScreen = ({ route }: Props) => {
         </WithAvoidingView>
       )}
     </SafeAreaView>
-
   );
 };

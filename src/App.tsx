@@ -31,6 +31,7 @@ import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
 import { IS_DEV } from './utils/enviromentUtils';
 import EventProvider from './utils/EventProvider';
+import ToastProvider from './utils/Toast';
 
 const DefaultTheme = {
   colors: {
@@ -144,6 +145,7 @@ const App = () => {
           </NavigationContainer>
         </StatusBarContextProvider>
       </ConfigContextProvider>
+      <ToastProvider  />
     </ThemeProvider>
   );
 };
