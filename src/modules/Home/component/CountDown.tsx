@@ -15,6 +15,7 @@ import Modal from 'react-native-modal';
 import FlipNumber from './flipcountdoun/FlipNumber';
 import { useCountDown } from '../../../context/ChronometerContext';
 import { ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
+import { platformType } from '../../../utils/platformType';
 
 export interface CountDownProps {
   countDown?: ICountDownClock;
@@ -116,7 +117,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
 
   function normalize(size) {
     const newSize = size * scale;
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3;
     }
     return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4;

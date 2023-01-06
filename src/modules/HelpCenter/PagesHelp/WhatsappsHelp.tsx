@@ -12,6 +12,7 @@ import {
 import { images } from '../../../assets';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { platformType } from '../../../utils/platformType';
 
 type ItemWhatsappProps = {
   local: string;
@@ -24,7 +25,7 @@ export const WhatsappsHelp: React.FC<{}> = () => {
 
   const ItemWhatsapp = ({ local, address, whatsapp }: ItemWhatsappProps) => (
     <Box
-      boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+      boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
       width="100%"
       height={171}
       backgroundColor="white"

@@ -17,6 +17,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import CodeInput from '../../Login/components/CodeInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import UnderlineInput from '../../Login/components/UnderlineInput';
+import { platformType } from '../../../utils/platformType';
 
 const { width, height } = Dimensions.get('window');
 
@@ -134,7 +135,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
         <>
           <KeyboardAwareScrollView
             enableOnAndroid
-            enableAutomaticScroll={(Platform.OS === 'ios')}
+            enableAutomaticScroll={Platform.OS === platformType.IOS}
             // ref={scrollRef}
             extraScrollHeight={155}
           >

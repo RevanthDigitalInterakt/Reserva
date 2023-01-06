@@ -30,7 +30,7 @@ import { createAnimatableComponent } from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import OneSignal from 'react-native-onesignal';
 import { instance2 } from '../../../config/vtexConfig';
-import ToastProvider, { showToast } from '../../../utils/Toast';
+import { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
 import { useAuth } from '../../../context/AuthContext';
 import { Item, OrderForm, useCart } from '../../../context/CartContext';
@@ -49,6 +49,7 @@ import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import { platformType } from '../../../utils/platformType';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -57,7 +58,7 @@ const BoxAnimation = createAnimatableComponent(Box);
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
-  if (Platform.OS === 'ios') {
+  if (Platform.OS === platformType.IOS) {
     return (
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
         {children}
@@ -94,7 +95,7 @@ export const BagScreen = ({ route }: Props) => {
 
   const { isProfileComplete } = route?.params;
   const orderFormIdByDeepLink = route?.params?.orderFormId;
-  const fontTitle = Platform.OS === 'android' ? screenWidth * 0.0352 : screenWidth * 0.036;
+  const fontTitle = Platform.OS === platformType.ANDROID ? screenWidth * 0.0352 : screenWidth * 0.036;
   const subtitle = screenWidth * 0.032;
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -197,7 +198,7 @@ export const BagScreen = ({ route }: Props) => {
         if (emptyQuantity || !hasAvailableQuantityFromStock) {
           await RemoveItemFromCart(orderForm?.orderFormId, id, index, sellerId, updateQuantity);
           hasError = true;
-          showToast({type: 'error', text1:'Alguns produtos da sua sacola estão indisponiveis'});
+          showToast({ type: 'error', text1: 'Alguns produtos da sua sacola estão indisponiveis' });
         }
       });
 
@@ -213,7 +214,6 @@ export const BagScreen = ({ route }: Props) => {
   }, [removeUnavailableItems]);
 
   useEffect(() => {
-
     getProfile().then((response) => {
       setProfileData({
         data: response.data,
@@ -722,7 +722,7 @@ export const BagScreen = ({ route }: Props) => {
                     flexDirection="row"
                     alignItems="center"
                     paddingRight="xxxs"
-                    boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+                    boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
                     style={{ elevation: 10 }}
                   >
                     <Box flex={1}>
@@ -1371,9 +1371,9 @@ export const BagScreen = ({ route }: Props) => {
                   bg="white"
                   height={145}
                   px="xxs"
-                  style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
+                  style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
                   boxShadow={
-                    Platform.OS == 'android' ? null : 'bottomBarShadow'
+                    Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'
                   }
                 >
                   <Box

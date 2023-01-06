@@ -6,6 +6,7 @@ import {
   Platform,
 } from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
+import { platformType } from '../../../../utils/platformType';
 
 interface ICard {
   type: 'upper' | 'lower';
@@ -21,7 +22,7 @@ function Card({
       <Text style={[style.number, {
         transform: [type === 'upper' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
         fontSize: size / 1.8,
-        lineHeight: Platform.OS === 'android' ? size / 1.85 : size / 1.65,
+        lineHeight: Platform.OS === platformType.ANDROID ? size / 1.85 : size / 1.65,
         fontFamily: theme.fonts.reservaSansBold,
       }]}
       >

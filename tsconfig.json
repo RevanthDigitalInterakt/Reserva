@@ -17,6 +17,7 @@
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
+    "useUnknownInCatchVariables": false,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -25,7 +26,9 @@
     "strict": true,
     "target": "esnext",
     "types": [
-      "react-native"
+      "react-native",
+      "jest",
+      "@types/styled-components-react-native"
     ],
   },
   "exclude": [

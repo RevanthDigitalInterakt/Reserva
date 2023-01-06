@@ -58,6 +58,7 @@ import { Tooltip } from '../components/Tooltip';
 import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSlug';
 import { slugify } from '../../../utils/slugify';
 import EventProvider from '../../../utils/EventProvider';
+import { platformType } from '../../../utils/platformType';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -870,7 +871,7 @@ export const ProductDetail: React.FC<Props> = ({
         <TopBarDefaultBackButton loading={loading} navigateGoBack />
         <KeyboardAvoidingView
           enabled
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === platformType.IOS ? 'padding' : undefined}
           style={{ marginBottom: 100 }}
         >
           <ScrollView

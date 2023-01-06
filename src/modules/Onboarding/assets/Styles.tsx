@@ -2,10 +2,11 @@ import {
   Dimensions, Platform, StyleSheet, PixelRatio,
 } from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
+import { platformType } from '../../../utils/platformType';
 
 const { width, height } = Dimensions.get('window');
 
-let fontTitle = Platform.OS === 'android' ? width * 0.10 : width * 0.11;
+let fontTitle = Platform.OS === platformType.ANDROID ? width * 0.10 : width * 0.11;
 const Subtitle = width * 0.038;
 const description = width * 0.035;
 if (PixelRatio.get() <= 2) {

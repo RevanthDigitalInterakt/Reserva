@@ -23,15 +23,15 @@ async function getItem<K extends TStorageKey>(key: K): Promise<IAsyncStorageKeys
   }
 }
 
-async function setItem<K extends TStorageKey>(key: K, value: IAsyncStorageKeys[K]): Promise<boolean> {
+async function setItem<K extends TStorageKey>(key: K, val: IAsyncStorageKeys[K]): Promise<boolean> {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(value));
+    await AsyncStorage.setItem(key, JSON.stringify(val));
 
     return true;
   } catch (err) {
     Sentry.withScope((scope) => {
       scope.setExtra('key', key);
-      scope.setExtra('value', value);
+      scope.setExtra('value', val);
       EventProvider.captureException(err);
     });
 

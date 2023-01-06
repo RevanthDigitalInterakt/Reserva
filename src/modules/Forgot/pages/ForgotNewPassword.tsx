@@ -13,6 +13,7 @@ import { recoveryPasswordMutation } from '../../../graphql/login/loginMutations'
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
+import { platformType } from '../../../utils/platformType';
 
 export interface ForgotPasswordProps extends StackScreenProps<RootStackParamList, 'ForgotNewPassword'> { }
 
@@ -66,7 +67,7 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
       <ScrollView ref={scrollViewRef}>
         <KeyboardAwareScrollView
           enableOnAndroid
-          enableAutomaticScroll={(Platform.OS === 'ios')}
+          enableAutomaticScroll={(Platform.OS === platformType.IOS)}
           extraScrollHeight={155}
         >
 

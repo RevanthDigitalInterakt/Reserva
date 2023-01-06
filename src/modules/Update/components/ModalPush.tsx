@@ -4,6 +4,7 @@ import {
   Box, Typography, Button, Icon,
 } from '@usereservaapp/reserva-ui';
 import { Platform } from 'react-native';
+import { platformType } from '../../../utils/platformType';
 
 interface ModalPush {
   closeModal: () => void;
@@ -38,7 +39,7 @@ export const ModalPush = ({ closeModal, handleNavigation, data }: ModalPush) => 
                     flexDirection="row"
                     alignItems="center"
                     paddingRight="xxxs"
-                    boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+                    boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
                     style={{ elevation: 10 }}
                   >
                     <Box flex={1}>

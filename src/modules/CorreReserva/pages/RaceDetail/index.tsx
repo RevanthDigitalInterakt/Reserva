@@ -29,6 +29,7 @@ import { useChronometer } from '../../hooks/useChronometer';
 import {
   KM_15, KM_10, KM_5, KM_2,
 } from './polyline';
+import { platformType } from '../../../../utils/platformType';
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
@@ -358,7 +359,7 @@ export const RaceDetail: React.FC = () => {
             marginBottom={39}
             width={mapWidth}
             height={mapHeight}
-            boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+            boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
             style={{ elevation: 10, overflow: 'hidden' }}
             bg="white"
           >

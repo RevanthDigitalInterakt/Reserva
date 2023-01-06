@@ -16,6 +16,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Sentry from '../../../config/sentryConfig';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
+import { platformType } from '../../../utils/platformType';
 
 export interface ChangeRegionalizationProps {
 
@@ -149,7 +150,7 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
       >
         <KeyboardAwareScrollView
           enableOnAndroid
-          enableAutomaticScroll={(Platform.OS === 'ios')}
+          enableAutomaticScroll={(Platform.OS === platformType.IOS)}
         >
           <Box flex={1}>
             <Formik
@@ -346,7 +347,7 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
                 Digite o nome da rua
               </Typography>
               <TextField
-                onFocus={(event) => (Platform.OS === 'android' ? scrollViewRef.current?.scrollToEnd() : null)}
+                onFocus={(event) => (Platform.OS === platformType.ANDROID ? scrollViewRef.current?.scrollToEnd() : null)}
                 value={address?.street}
                 onChangeText={(text) => setAddress({ ...address, street: text })}
                 placeholder="Rua da Luz"

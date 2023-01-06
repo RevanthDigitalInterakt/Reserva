@@ -6,8 +6,8 @@ interface ICustomMethodReturnParams {
 }
 
 export const REGEX_PRODUCT_URL = {
-  _IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
-  _REMOVE_INVALID_WORDS: /\b\/p\b/gi,
+  IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
+  REMOVE_INVALID_WORDS: /\b\/p\b/gi,
 } as const;
 
 export const baseTabUrl = 'usereserva://home-tabs';
@@ -36,7 +36,7 @@ const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
 };
 
 const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
-  const regex = new RegExp(REGEX_PRODUCT_URL._IS_PRODUCT_URL);
+  const regex = new RegExp(REGEX_PRODUCT_URL.IS_PRODUCT_URL);
 
   if (regex.test(initialUrl.toLowerCase())) {
     const url = new URL(initialUrl);
@@ -45,7 +45,7 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
       url.searchParams.append(
         'slug',
         url.pathname
-          .replace(REGEX_PRODUCT_URL._REMOVE_INVALID_WORDS, '')
+          .replace(REGEX_PRODUCT_URL.REMOVE_INVALID_WORDS, '')
           .replace('/', ''),
       );
     }

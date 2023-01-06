@@ -4,6 +4,7 @@ import {
   Box, Button, Typography, Image,
 } from '@usereservaapp/reserva-ui';
 import { ConfigCollection } from 'graphql/homePage/HomeQuery';
+import { platformType } from '../../../utils/platformType';
 
 interface INews {
   data: ConfigCollection[];
@@ -35,8 +36,8 @@ export const News = ({ data, onPress }: INews) => (
             width={286}
             height={154}
             borderRadius="nano"
-            style={{ elevation: Platform.OS == 'android' ? 4 : 0 }}
-            boxShadow={Platform.OS == 'android' ? null : 'topBarShadow'}
+            style={{ elevation: Platform.OS === platformType.ANDROID ? 4 : 0 }}
+            boxShadow={Platform.OS === platformType.ANDROID ? null : 'topBarShadow'}
           >
             <Image
               borderRadius={8}

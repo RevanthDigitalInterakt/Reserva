@@ -26,6 +26,7 @@ import { useAuth } from '../../../../context/AuthContext';
 import { useCorre } from '../../context';
 import { images as imagesLogo } from '../../images';
 import EventProvider from '../../../../utils/EventProvider';
+import { platformType } from '../../../../utils/platformType';
 
 const { height: DEVICE_HEIGHT } = Dimensions.get('window');
 
@@ -64,7 +65,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
       finishDateTime: new Date(),
     });
 
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       Linking.canOpenURL('instagram://')
         .then((val) => setShowInstagramStory(val))
         .catch(EventProvider.captureException);
@@ -74,7 +75,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
         .catch(EventProvider.captureException);
     }
 
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       Linking.canOpenURL('whatsapp://')
         .then((val) => setHasWhatsApp(val))
         .catch(EventProvider.captureException);
@@ -84,7 +85,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
         .catch(EventProvider.captureException);
     }
 
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       Linking.canOpenURL('facebook://')
         .then((val) => setHasFacebook(val))
         .catch(EventProvider.captureException);
@@ -94,7 +95,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
         .catch(EventProvider.captureException);
     }
 
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       Linking.canOpenURL('twitter://')
         .then((val) => setHasTwitter(val))
         .catch(EventProvider.captureException);

@@ -990,7 +990,7 @@ PODS:
     - React-Core
   - RNPermissions (3.6.1):
     - React-Core
-  - RNReanimated (2.2.0):
+  - RNReanimated (2.7.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -998,7 +998,6 @@ PODS:
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
-    - React
     - React-callinvoker
     - React-Core
     - React-Core/DevSupport
@@ -1016,7 +1015,6 @@ PODS:
     - React-RCTNetwork
     - React-RCTSettings
     - React-RCTText
-    - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
   - RNScreens (3.10.2):
@@ -1339,7 +1337,7 @@ SPEC CHECKSUMS:
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: fa8275d5086566e22a26ddc385ab5772e7f9b1bd
-  FBReactNativeSpec: b687f8af0dd94d8acda03e812dc52bd1dc22d4bc
+  FBReactNativeSpec: f022ccbf67f06ef8e25ac4689ab28e9e17226430
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1436,7 +1434,7 @@ SPEC CHECKSUMS:
   RNFBStorage: bffb285f037e0cb3937bdc2c72992dd7a6a83982
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
-  RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
+  RNReanimated: 93fe36bf01e6bd4346e0ffc9e469ce37a6b2bea9
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSentry: 4c09f4dd9740cb9b33e94303de5b6d0dbeb0737d
   RNSha256: a6bc3640a34eb41907e363828b9ec742c274298d

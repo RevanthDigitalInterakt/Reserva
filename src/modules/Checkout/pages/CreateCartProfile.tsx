@@ -18,6 +18,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { CepVerifyPostalCode } from '../../../services/vtexService';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
+import { platformType } from '../../../utils/platformType';
 
 interface CreateCartProfileProfile
   extends StackScreenProps<RootStackParamList, 'CreateCartProfile'> {}
@@ -254,7 +255,7 @@ export const CreateCartProfile: React.FC<CreateCartProfileProfile> = ({
     <SafeAreaView style={{ backgroundColor: '#ffffff' }} flex={1}>
       <TopBarDefaultBackButton loading={loading} />
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : ''}
+        behavior={Platform.OS === platformType.IOS ? 'padding' : ''}
         style={{ flex: 1 }}
       >
         <ScrollView>

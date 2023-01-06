@@ -11,13 +11,14 @@ import {
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
 import EventProvider from '../../../utils/EventProvider';
+import { platformType } from '../../../utils/platformType';
 
 export const ShareableImage = () => {
   const viewRef = useRef();
   const [showInstagramStory, setShowInstagramStory] = useState(false);
 
   useEffect(() => {
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       Linking.canOpenURL('instagram://')
         .then((val) => setShowInstagramStory(val))
         .catch(EventProvider.captureException);

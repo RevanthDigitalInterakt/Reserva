@@ -23,6 +23,7 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
+import { platformType } from '../../../utils/platformType';
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
@@ -150,7 +151,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         <>
           <KeyboardAwareScrollView
             enableOnAndroid
-            enableAutomaticScroll={(Platform.OS === 'ios')}
+            enableAutomaticScroll={Platform.OS === platformType.IOS}
             extraScrollHeight={155}
           >
 

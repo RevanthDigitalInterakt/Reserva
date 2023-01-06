@@ -1,4 +1,3 @@
-import { useLinkTo } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Linking, Platform } from 'react-native';
 import {
@@ -9,15 +8,14 @@ import DeviceInfo from 'react-native-device-info';
 // import { getAppstoreAppMetadata } from 'react-native-appstore-version-checker'
 import AsyncStorage from '@react-native-community/async-storage';
 import { images } from '../../../assets';
+import { platformType } from '../../../utils/platformType';
 
 const { getAppstoreAppMetadata } = require('react-native-appstore-version-checker');
 
 interface StoreUpdateProps {
 }
 
-export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
-  const linkTo = useLinkTo();
-
+export const StoreUpdate: React.FC<StoreUpdateProps> = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const [ignore, setIgnore] = useState(false);
@@ -29,7 +27,7 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
 
   const hasNewVersion = async () => {
     if (!ignore) {
-      const id = Platform.OS == 'ios' ? '1566861458' : 'com.usereserva';
+      const id = Platform.OS === platformType.IOS ? '1566861458' : 'com.usereserva';
 
       const { version: storeVersion } = await getAppstoreAppMetadata(id);
 
@@ -76,7 +74,7 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = ({ }) => {
 
   const update = () => {
     Linking.openURL(
-      Platform.OS === 'ios'
+      Platform.OS === platformType.IOS
         ? 'itms-apps://itunes.apple.com/app/apple-store/id1566861458'
         : 'market://details?id=com.usereserva',
     );

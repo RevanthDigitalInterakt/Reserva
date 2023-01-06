@@ -49,6 +49,7 @@ import {
   ProfileHttpUrl,
 } from './api/MyProfileAPI';
 import EventProvider from '../../../utils/EventProvider';
+import { platformType } from '../../../utils/platformType';
 
 type Props = StackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -413,7 +414,7 @@ export const EditProfile = ({ route }: Props) => {
   };
 
   const requestCameraPermission = async () => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === platformType.ANDROID) {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -431,7 +432,7 @@ export const EditProfile = ({ route }: Props) => {
   };
 
   const requestExternalWritePermission = async () => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === platformType.ANDROID) {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -679,7 +680,7 @@ export const EditProfile = ({ route }: Props) => {
       <KeyboardAvoidingView
         enabled
         keyboardVerticalOffset={80}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === platformType.IOS ? 'padding' : 'height'}
       >
         <TopBarBackButton
           loading={
@@ -940,7 +941,7 @@ export const EditProfile = ({ route }: Props) => {
               <Box
                 mb="xxs"
                 position="relative"
-                style={Platform.OS === 'ios' ? { zIndex: 1 } : {}}
+                style={Platform.OS === platformType.IOS ? { zIndex: 1 } : {}}
               >
                 <TouchableOpacity
                   onPress={() => {
@@ -1310,8 +1311,8 @@ export const EditProfile = ({ route }: Props) => {
           alignItems="center"
           flexDirection="row"
           height={84}
-          style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
-          boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+          style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
+          boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
           position="absolute"
           backgroundColor="white"
           bottom={0}

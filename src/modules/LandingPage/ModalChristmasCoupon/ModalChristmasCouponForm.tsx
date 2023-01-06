@@ -15,6 +15,7 @@ import useMasterdataProvider, { IResponseSubmit } from '../../../hooks/useMaster
 import { MasterDataSendDataDto } from '../../../types/dtos/masterdata-send-data.dto';
 import { Colors } from '../../../Base/Colors';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { platformType } from '../../../utils/platformType';
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -110,8 +111,8 @@ function ModalChristmasCouponForm({
       minHeight={325}
       borderRadius={16}
       marginX="micro"
-      style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
-      boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+      style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
+      boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
     >
       <Box marginBottom={feedback?.success ? 30 : 42} marginTop={20} marginX={27}>
         <Box alignItems="center" flexDirection="row" justifyContent="space-between" marginBottom={5}>

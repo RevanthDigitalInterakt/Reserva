@@ -7,8 +7,7 @@ import { env } from './env';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
 import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
-
-const _PLATAFORMIOSNAME = 'ios' as const;
+import { platformType } from '../utils/platformType';
 
 const routesConfig = {
   screens: {
@@ -62,7 +61,7 @@ export const linkingConfig: LinkingOptions = {
       const currentDeepLink = deepLinkHelper(url);
       if (currentDeepLink) return currentDeepLink;
 
-      if (Platform.OS === _PLATAFORMIOSNAME) {
+      if (Platform.OS === platformType.IOS) {
         Linking.openURL(url);
       }
 
@@ -108,8 +107,8 @@ export const linkingConfig: LinkingOptions = {
         onDeepLinkListener: true,
         timeToWaitForATTUserAuthorization: 10,
       },
-      (result) => {},
-      (error) => {},
+      (_) => {},
+      (_) => {},
     );
 
     // Listen to incoming links from deep linking

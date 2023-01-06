@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { TopBar } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
+import { platformType } from '../../../utils/platformType';
 
 export const TopBarDefault: React.FC<{
   showShadow?: Boolean;
@@ -29,7 +30,7 @@ export const TopBarDefault: React.FC<{
       paddingX="quarck"
       bg="white"
       style={{ elevation: 10 }}
-      boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
+      boxShadow={showShadow && Platform.OS === platformType.IOS ? 'topBarShadow' : null}
       leftButton={{
         name: 'SideMenu',
         testID: 'header_button_menu',

@@ -10,7 +10,7 @@ export const oneSignalConfig = async () => {
 
   OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
 
-  OneSignal.promptForPushNotificationsWithUserResponse((response) => {});
+  OneSignal.promptForPushNotificationsWithUserResponse((_) => {});
 
   OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
     const notification = notificationReceivedEvent.getNotification();
@@ -24,6 +24,7 @@ export const oneSignalConfig = async () => {
       },
       style: 'cancel',
     };
+
     const button2 = {
       text: 'Complete',
       onPress: () => {
@@ -37,5 +38,4 @@ export const oneSignalConfig = async () => {
       StoreUpdatePush();
     }
   });
-  const deviceState = await OneSignal.getDeviceState();
 };

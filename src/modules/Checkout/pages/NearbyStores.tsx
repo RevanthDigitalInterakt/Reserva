@@ -10,6 +10,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { platformType } from '../../../utils/platformType';
 
 type Props = StackScreenProps<RootStackParamList, 'NearbyStores'>;
 
@@ -77,7 +78,7 @@ const ItemStoresAddress = ({
   onPress,
 }: IItemStoresAddress) => (
   <Box
-    boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+    boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
     width="100%"
     height={171}
     backgroundColor="white"

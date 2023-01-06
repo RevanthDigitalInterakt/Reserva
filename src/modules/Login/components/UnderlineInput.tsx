@@ -10,6 +10,7 @@ import {
   Icon,
   Typography,
 } from '@usereservaapp/reserva-ui';
+import { platformType } from '../../../utils/platformType';
 
 interface UnderlineInputProps {
   placeholder?: string;
@@ -61,7 +62,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
             onChangeText={(value) => onChangeText(value.trim())}
             // onEndEditing={() => onChangeText('' + InputValue)}
             keyboardType={
-              isSecureText && !hidePassword && Platform.OS === 'android'
+              isSecureText && !hidePassword && Platform.OS === platformType.ANDROID
                 ? 'visible-password'
                 : keyboardType
             }
