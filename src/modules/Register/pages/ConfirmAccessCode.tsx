@@ -11,7 +11,6 @@ import {
   Platform, SafeAreaView, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import OneSignal from 'react-native-onesignal';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -97,7 +96,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
         navigation.navigate('Home');
-        OneSignal.setExternalUserId(email);
+        EventProvider.setPushExternalUserId(email);
       }
     } catch (error) {
       if (error.message === 'Request failed with status code 400') {

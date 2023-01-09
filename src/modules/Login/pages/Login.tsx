@@ -7,7 +7,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import OneSignal from 'react-native-onesignal';
 import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
@@ -93,7 +92,7 @@ export const LoginScreen: React.FC<Props> = ({
           password: loginCredentials.password,
         });
 
-        OneSignal.setExternalUserId(email);
+        EventProvider.setPushExternalUserId(email);
 
         EventProvider.appsFlyer.logEvent(
           'af_login',

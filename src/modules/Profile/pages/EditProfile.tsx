@@ -17,7 +17,6 @@ import {
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Modal from 'react-native-modal';
 import remoteConfig from '@react-native-firebase/remote-config';
-import OneSignal from 'react-native-onesignal';
 import {
   Avatar,
   Box,
@@ -103,7 +102,7 @@ export const EditProfile = ({ route }: Props) => {
   const firebaseRef = new FirebaseService();
   const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
   useEffect(() => {
-    OneSignal.getDeviceState().then((deviceState: any) => {
+    EventProvider.getPushDeviceState().then((deviceState: any) => {
       setTokenOneSignal(deviceState.userId);
     });
   }, []);
@@ -243,9 +242,9 @@ export const EditProfile = ({ route }: Props) => {
 
   useEffect(() => {
     async function getToken() {
-      await AsyncStorage.getItem('@RNAuth:cookie').then((value) => {});
-      await AsyncStorage.getItem('@RNAuth:typeLogin').then((value) => {});
-      await AsyncStorage.getItem('@RNAuth:lastLogin').then((value) => {});
+      await AsyncStorage.getItem('@RNAuth:cookie').then((value) => { });
+      await AsyncStorage.getItem('@RNAuth:typeLogin').then((value) => { });
+      await AsyncStorage.getItem('@RNAuth:lastLogin').then((value) => { });
     }
     getToken();
     async function userAcceptData() {

@@ -164,7 +164,7 @@
       "@testing-library/jest-native/extend-expect"
     ],
     "setupFiles": [
-      "./setupJest.js"
+      "./__mocks__/extend.ts"
     ],
     "transformIgnorePatterns": [
       "node_modules/?!(@usereservaapp/reserva-ui)"

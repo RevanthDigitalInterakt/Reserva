@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -i LIMIT_ERROR=1135
+declare -i LIMIT_ERROR=1127
 declare -i TOTAL_ERROR=$(yarn run --silent lint | grep 'problems' | grep -o '[0-9]\+' | head -1)
 
 if (( LIMIT_ERROR >= TOTAL_ERROR )); then

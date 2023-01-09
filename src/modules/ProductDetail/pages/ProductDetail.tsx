@@ -32,7 +32,6 @@ import {
 } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 import Config from 'react-native-config';
-import OneSignal from 'react-native-onesignal';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
@@ -379,7 +378,7 @@ export const ProductDetail: React.FC<Props> = ({
     productImageURL: string,
   ) => {
     const timestamp = Math.floor(Date.now() / 1000);
-    OneSignal.sendTags({
+    EventProvider.sendPushTags('sendAbandonedCartTags', {
       cart_update: timestamp.toString(),
       product_name: productName,
       product_image: productImageURL,
@@ -409,7 +408,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(true);
             await addAttachmentsInProducts();
 
-            if (quantities === 0 && orderForm?.items.length == 0) {
+            if (quantities === 0 && orderForm?.items.length === 0) {
               addTagsUponCartUpdate(
                 product?.productName,
                 selectedVariant.images[0].imageUrl,
@@ -429,7 +428,7 @@ export const ProductDetail: React.FC<Props> = ({
         } else {
           setIsVisible(true);
 
-          if (quantities === 0 && orderForm?.items.length == 0) {
+          if (quantities === 0 && orderForm?.items.length === 0) {
             addTagsUponCartUpdate(
               product?.productName!,
               selectedVariant.images[0].imageUrl,

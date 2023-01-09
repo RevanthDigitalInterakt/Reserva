@@ -28,7 +28,6 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import Modal from 'react-native-modal';
-import OneSignal from 'react-native-onesignal';
 import { instance2 } from '../../../config/vtexConfig';
 import { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
@@ -309,7 +308,7 @@ export const BagScreen = ({ route }: Props) => {
     setErrorsMessages(errorMessages);
 
     const installment = orderForm?.paymentData?.installmentOptions
-      ?.find((x) => x.paymentSystem == 4)
+      ?.find((x) => x.paymentSystem === 4)
       ?.installments?.reverse()[0] || null;
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
@@ -378,7 +377,7 @@ export const BagScreen = ({ route }: Props) => {
     if (orderForm && orderForm.items.length > 0) {
       if (isRemoveCartTags) {
         const timestamp = Math.floor(Date.now() / 1000);
-        OneSignal.sendTags({
+        EventProvider.sendPushTags('sendAbandonedCartTags', {
           cart_update: timestamp.toString(),
           product_name: orderForm?.items[0]?.name,
           product_image: orderForm?.items[0]?.imageUrl
@@ -528,7 +527,7 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const removeAbandonedCartTags = () => {
-    OneSignal.sendTags({
+    EventProvider.sendPushTags('sendAbandonedCartTags', {
       cart_update: '',
       product_name: '',
       product_image: '',
@@ -1075,7 +1074,7 @@ export const BagScreen = ({ route }: Props) => {
                             )}
                             onClickAddCount={async (countUpdated) => {
                               const itemIndex = array.findIndex(
-                                (x) => x.refId == item.refId,
+                                (x) => x.refId === item.refId,
                               );
 
                               const isAssinaturaSimples = item?.attachmentOfferings?.find(
@@ -1268,7 +1267,7 @@ export const BagScreen = ({ route }: Props) => {
 
                   <Divider variant="fullWidth" marginY="xs" />
                   <>
-                    {totalDiscountPrice != 0 || totalDelivery ? (
+                    {totalDiscountPrice !== 0 || totalDelivery ? (
                       <Box
                         marginBottom="micro"
                         flexDirection="row"
@@ -1284,7 +1283,7 @@ export const BagScreen = ({ route }: Props) => {
                         />
                       </Box>
                     ) : null}
-                    {totalDiscountPrice != 0 && (
+                    {totalDiscountPrice !== 0 && (
                       <Box
                         marginBottom="micro"
                         flexDirection="row"
@@ -1443,6 +1442,7 @@ export const BagScreen = ({ route }: Props) => {
           </Box>
         </WithAvoidingView>
       )}
+      <ToastProvider />
     </SafeAreaView>
   );
 };

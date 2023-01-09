@@ -6,7 +6,6 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { Dimensions, View } from 'react-native';
-import OneSignal from 'react-native-onesignal';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
 import Config from 'react-native-config';
@@ -26,8 +25,17 @@ const Checkout: React.FC<{}> = () => {
   const [url, setUrl] = useState('');
   const [attemps, setAttemps] = useState(0);
   const [orderId, setOrderId] = useState('');
+  const [totalOrdersValue, setTotalOrdersValue] = useState<number>(0);
 
   const [showPromotionModal, setShowPromotionModal] = useState(false);
+
+  useEffect(() => {
+    EventProvider.getPushTags((receivedTags) => {
+      if (receivedTags) {
+        setTotalOrdersValue(parseFloat(receivedTags?.total_orders_value));
+      }
+    });
+  }, []);
 
   const isOrderPlaced = useMemo(() => (
     navState.includes('/checkout/orderPlaced')
@@ -38,7 +46,7 @@ const Checkout: React.FC<{}> = () => {
   ), [isOrderPlaced]);
 
   const removeAbandonedCartTags = useCallback(() => {
-    OneSignal.sendTags({
+    EventProvider.sendPushTags('sendAbandonedCartTags', {
       cart_update: '',
       product_name: '',
       product_image: '',
@@ -74,21 +82,26 @@ const Checkout: React.FC<{}> = () => {
 
   useEffect(() => {
     if (isOrderPlaced) {
-      const timestamp = Math.floor(Date.now() / 1000);
-      OneSignal.sendTag('last_purchase_date', timestamp.toString());
       if (orderForm) {
         const orderValue = orderForm.value / 100;
 
-        const revenue_total = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
+        const timestamp = Math.floor(Date.now() / 1000);
+        const newTotalOrdersValue = orderValue + totalOrdersValue;
+        EventProvider.sendPushTags('sendLastOrderData', {
+          last_order_value: orderValue.toString(),
+          total_orders_value: newTotalOrdersValue.toString(),
+          last_purchase_date: timestamp.toString(),
+        });
+
+        const revenueTotal = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
         let af_revenue = '0';
 
-        if (revenue_total) {
-          af_revenue = (revenue_total / 100).toFixed(2);
+        if (revenueTotal) {
+          af_revenue = (revenueTotal / 100).toFixed(2);
         }
 
         onHandlePromotionModal(orderValue);
-        OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
-
+        EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
         EventProvider.appsFlyer.logEvent('af_purchase', {
           af_revenue: `${af_revenue}`,
           af_price: `${orderValue.toFixed(2)}`,
