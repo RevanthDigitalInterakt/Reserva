@@ -6,7 +6,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { useAuth } from '../../../context/AuthContext';
-import AddressSelector from '../../Address/Components/AddressSelector';
+import AddressSelector from '../../Address/components/AddressSelector';
 import DeliverySelector from './DeliverySelector';
 import { useCart } from '../../../context/CartContext';
 import { deleteAddress } from '../../../graphql/address/addressMutations';
