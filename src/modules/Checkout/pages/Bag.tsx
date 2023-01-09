@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import {
   Alert,
   Box,
@@ -29,12 +29,12 @@ import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import { instance2 } from '../../../config/vtexConfig';
-import { showToast } from '../../../utils/Toast';
+import ToastProvider, { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
 import { useAuth } from '../../../context/AuthContext';
 import { Item, OrderForm, useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
@@ -94,7 +94,10 @@ export const BagScreen = ({ route }: Props) => {
 
   const { isProfileComplete } = route?.params;
   const orderFormIdByDeepLink = route?.params?.orderFormId;
-  const fontTitle = Platform.OS === platformType.ANDROID ? screenWidth * 0.0352 : screenWidth * 0.036;
+  const fontTitle = Platform.OS === platformType.ANDROID
+    ? screenWidth * 0.0352
+    : screenWidth * 0.036;
+
   const subtitle = screenWidth * 0.032;
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
