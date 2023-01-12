@@ -94,9 +94,7 @@ export const BagScreen = ({ route }: Props) => {
 
   const { isProfileComplete } = route?.params;
   const orderFormIdByDeepLink = route?.params?.orderFormId;
-  const fontTitle = Platform.OS === platformType.ANDROID
-    ? screenWidth * 0.0352
-    : screenWidth * 0.036;
+  const fontTitle = screenWidth * (Platform.OS === platformType.ANDROID ? 0.0352 : 0.036);
 
   const subtitle = screenWidth * 0.032;
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
@@ -139,11 +137,19 @@ export const BagScreen = ({ route }: Props) => {
     totalPrice: 0,
   });
 
+  const [restoreCartLoading, setRestoreCartLoading] = useState(false);
+
   const showMoreGiftSize = giftSizeList && giftSizeList.length > 5;
 
   useEffect(() => {
     Sentry.configureScope((scope) => scope.setTransactionName('BagScreen'));
   }, []);
+
+  const doRestoreCartRequest = useCallback(async () => {
+    if (orderFormIdByDeepLink) {
+      await restoreCart(orderFormIdByDeepLink);
+    }
+  }, [orderFormIdByDeepLink]);
 
   const hasSellerCoupon = useCallback(
     (): boolean => sellerCoupon.length > 0,
@@ -374,6 +380,10 @@ export const BagScreen = ({ route }: Props) => {
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
+
+    if (orderForm?.items.length === 0) {
+      setRestoreCartLoading(false);
+    }
   }, [orderForm]);
 
   useEffect(() => {
@@ -428,16 +438,16 @@ export const BagScreen = ({ route }: Props) => {
 
     setLoadingGoDelivery(true);
     if (orderForm) {
-      const af_content_id = orderForm.items.map((i) => i.productId);
-      const af_content_type = orderForm.items.map((i) => CategoriesParserString(i.productCategories));
-      const af_quantity = orderForm.items.map((i) => i.quantity);
+      const afContentId = orderForm.items.map((i) => i.productId);
+      const afContentType = orderForm.items.map((i) => CategoriesParserString(i.productCategories));
+      const afQuantity = orderForm.items.map((i) => i.quantity);
 
       EventProvider.logEvent('checkout_initiated', {
         price: totalBag + totalDiscountPrice + totalDelivery,
-        content_type: af_content_type,
-        content_ids: af_content_id,
+        content_type: afContentType,
+        content_ids: afContentId,
         currency: 'BRL',
-        quantity: af_quantity,
+        quantity: afQuantity,
       });
 
       if (!email) {
@@ -469,14 +479,10 @@ export const BagScreen = ({ route }: Props) => {
   }, [optimistQuantities]);
 
   const addAttachmentsInProducts = async () => {
-    try {
-      const orderFormId = orderForm?.orderFormId;
-      const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
-      const attachmentName = 'Li e Aceito os Termos';
-      Attachment(orderFormId, productOrderFormIndex, attachmentName);
-    } catch (error) {
-      throw error;
-    }
+    const orderFormId = orderForm?.orderFormId;
+    const productOrderFormIndex = orderForm?.items.length;
+    const attachmentName = 'Li e Aceito os Termos';
+    Attachment(orderFormId, productOrderFormIndex, attachmentName);
   };
 
   const handleSelectedGiftColor = async (color: string) => {
@@ -570,7 +576,7 @@ export const BagScreen = ({ route }: Props) => {
         loading={loadingGoDelivery || loadingGift || topBarLoading}
       />
 
-      {!orderForm?.items.length && !loading ? (
+      {(!orderForm?.items.length && !loading && !restoreCartLoading) ? (
         <Box flex={1}>
           <EmptyBag onPress={() => navigation.navigate('Offers')} />
         </Box>
@@ -880,7 +886,7 @@ export const BagScreen = ({ route }: Props) => {
                                   key={`${index}_btn`}
                                   onPress={() => {
                                     selectedGiftColor !== item
-                                      && handleSelectedGiftColor(item);
+                                    && handleSelectedGiftColor(item);
                                   }}
                                 >
                                   <Box
@@ -977,7 +983,7 @@ export const BagScreen = ({ route }: Props) => {
                                 disbledOptions={[]}
                                 onSelectedChange={(item) => {
                                   selectedSizeGift?.trim() !== item
-                                    && handleSelectGiftSize(item);
+                                  && handleSelectGiftSize(item);
                                 }}
                                 optionsList={
                                   showMoreSizes
@@ -1002,34 +1008,34 @@ export const BagScreen = ({ route }: Props) => {
                             (x) => x.identifier
                               === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                          <Box paddingBottom="nano">
-                            <Typography
-                              fontFamily="nunitoRegular"
-                              fontSize={11}
-                              color="verdeSucesso"
-                            >
-                              Desconto de 1° compra aplicado neste produto!
-                            </Typography>
-                          </Box>
+                            <Box paddingBottom="nano">
+                              <Typography
+                                fontFamily="nunitoRegular"
+                                fontSize={11}
+                                color="verdeSucesso"
+                              >
+                                Desconto de 1° compra aplicado neste produto!
+                              </Typography>
+                            </Box>
                           )}
                           {item.priceTags.find(
                             (x) => x.identifier
                               === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                          <Box
-                            position="absolute"
-                            zIndex={5}
-                            top={84}
-                            right={21}
-                          >
-                            <Typography
-                              color="verdeSucesso"
-                              fontFamily="nunitoRegular"
-                              fontSize={11}
+                            <Box
+                              position="absolute"
+                              zIndex={5}
+                              top={84}
+                              right={21}
                             >
-                              -R$ 50
-                            </Typography>
-                          </Box>
+                              <Typography
+                                color="verdeSucesso"
+                                fontFamily="nunitoRegular"
+                                fontSize={11}
+                              >
+                                -R$ 50
+                              </Typography>
+                            </Box>
                           )}
                           <ProductHorizontalListCard
                             isBag

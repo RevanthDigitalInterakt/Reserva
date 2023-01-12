@@ -109,6 +109,8 @@ const RestoreCart = async (orderFormId: string | undefined) => {
     return response;
   } catch (error) {
     EventProvider.captureException(error);
+
+    return null;
   }
 };
 

@@ -18,6 +18,9 @@ const routesConfig = {
         BagScreen: {
           path: 'bag/:orderFormId?',
         },
+        RonRedirectToBag: {
+          path: 'ron/:ronCode',
+        },
         HomeTabs: {
           path: 'home-tabs',
           screens: {
@@ -42,14 +45,10 @@ const routesConfig = {
 };
 
 export const linkingConfig: LinkingOptions = {
-  prefixes: ['usereserva://', 'https://www.usereserva.com/'],
+  prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/'],
   config: routesConfig,
   getPathFromState(state) {
-    const path = getPathFromState(state);
-    if (path) {
-      return path;
-    }
-    return '';
+    return getPathFromState(state) || '';
   },
 
   // Push notification firebase
@@ -59,6 +58,7 @@ export const linkingConfig: LinkingOptions = {
 
     if (url != null) {
       const currentDeepLink = deepLinkHelper(url);
+
       if (currentDeepLink) return currentDeepLink;
 
       if (Platform.OS === platformType.IOS) {

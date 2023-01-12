@@ -35,6 +35,7 @@ type EventValues = {
   tax: number;
   shipping: number;
   transaction_id: '';
+  order_form_id: string;
   items: Items[];
 };
 
@@ -50,6 +51,10 @@ export namespace EventsOptions {
   export type CompleteRegistration = Pick<
   EventValues,
   'registration_method' | 'custumer_email'
+  >;
+  export type OpenRonUrl = Pick<
+  EventValues,
+  'order_form_id'
   >;
   export type ProductView = Pick<
   EventValues,
@@ -114,4 +119,8 @@ export type EventOptionsFn =
   | {
     type: 'complete_registration';
     payload: EventsOptions.CompleteRegistration;
+  }
+  | {
+    type: 'open_ron_url';
+    payload: EventsOptions.OpenRonUrl;
   };

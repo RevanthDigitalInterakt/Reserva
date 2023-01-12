@@ -14,6 +14,7 @@ import {
 
 const deepLinkHelper = (initialUrl: string): string | undefined => {
   const url = removeLastCharacterSlash(initialUrl);
+
   for (const executeDeepLinkcase of registerMethods) {
     const route = executeDeepLinkcase(url);
     if (route.match) {

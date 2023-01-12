@@ -12,7 +12,7 @@ import { deleteAddress } from '../../../graphql/address/addressMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import AddressSelector from '../components/AddressSelector';
+import AddressSelector from '../Components/AddressSelector';
 
 type Props = StackScreenProps<RootStackParamList, 'AddressList'>;
 

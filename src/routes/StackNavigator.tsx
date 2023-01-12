@@ -59,6 +59,7 @@ import { HomeTabs } from './HomeTabs';
 import { Flow } from './types/flow.type';
 
 import { LandingPage } from '../modules/LandingPage/LandingPage';
+import RonRedirectToBag from '../pages/RonRedirectToBag';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -205,6 +206,9 @@ export type RootStackParamList = {
     isProfileComplete: boolean;
     orderFormId: string | undefined;
   };
+  RonRedirectToBag: {
+    ronCode: string;
+  };
 };
 
 const flows: Flow[] = [
@@ -255,11 +259,14 @@ export const MainStackScreen = () => (
       component={ShowListByCategory}
     />
 
+    <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
+
     <MainStack.Screen
       name="BagScreen"
       component={BagScreen}
       initialParams={{ isProfileComplete: false }}
     />
+
     <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
     <MainStack.Screen name="Update" component={Update} />
     <MainStack.Screen

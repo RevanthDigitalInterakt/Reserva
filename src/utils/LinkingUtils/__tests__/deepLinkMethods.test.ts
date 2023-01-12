@@ -30,6 +30,25 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     expect(expected4).toEqual(defaultInitialUrl);
   });
 
+  describe('test urlRonCase ', () => {
+    const code = 'code';
+
+    test('with correct params', () => {
+      const result = deepLinkHelper(`https://usereserva.io/${code}`);
+      expect(result).toEqual(`usereserva://ron/${code}`);
+    });
+
+    test('without any params on url', () => {
+      const result = deepLinkHelper('https://usereserva.io');
+      expect(result).toEqual(defaultInitialUrl);
+    });
+
+    test('without any params on url and slash at end', () => {
+      const result = deepLinkHelper('https://usereserva.io/');
+      expect(result).toEqual(defaultInitialUrl);
+    });
+  });
+
   describe('test urlProductCase ', () => {
     describe('when Query Params', () => {
       test('should return productUrl, query params skuId', () => {
@@ -44,9 +63,6 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
       });
 
       test('should return productUrl, query params skuid lowercase ', () => {
-        const expectedQueryParams = 'skuid=340005';
-        const expectedResult = `${productUrl}${expectedQueryParams}`;
-
         const result = deepLinkHelper(
           'https://www.usereserva.com/mochila-bold-331-0056263/p?skuid=3232',
         );
