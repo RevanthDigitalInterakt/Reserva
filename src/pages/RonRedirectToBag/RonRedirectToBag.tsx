@@ -4,6 +4,7 @@ import { URL } from 'react-native-url-polyfill';
 import { SafeAreaView } from 'react-native';
 import axios from 'axios';
 import * as Sentry from '@sentry/react-native';
+import Config from 'react-native-config';
 import { useCart } from '../../context/CartContext';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
@@ -30,6 +31,9 @@ async function getOrderFormIdByRon(ronCode: string): Promise<string> {
     const url = new URL(data.destinyLink);
 
     const orderFormId = url.searchParams.get('orderFormId')!;
+
+    // Force update salesChannel from orderFormId
+    await axios.get(`${Config.URL_BASE3}checkout/pub/orderForm/${orderFormId}?sc=4`);
 
     EventProvider.logEvent('open_ron_url', { order_form_id: orderFormId });
 
