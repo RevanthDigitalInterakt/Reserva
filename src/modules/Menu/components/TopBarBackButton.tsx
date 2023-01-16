@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { TopBar } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../utils/platformType';
@@ -10,6 +10,16 @@ export const TopBarBackButton: React.FC<{
   backButtonPress?: () => void;
 }> = ({ showShadow = true, backButtonPress, loading = false }) => {
   const navigation = useNavigation();
+
+  const handleGoBack = useCallback(() => {
+    if (backButtonPress) {
+      backButtonPress();
+      return;
+    }
+
+    navigation.goBack();
+  }, [backButtonPress]);
+
   return (
     <TopBar
       loading={loading}
@@ -21,14 +31,8 @@ export const TopBarBackButton: React.FC<{
       leftButton={{
         name: 'ArrowBack',
         size: 24,
-        onPress: () => {
-          if (backButtonPress) {
-            backButtonPress();
-            return;
-          }
-
-          navigation.goBack();
-        },
+        testID: 'top_bar_button_go_back',
+        onPress: handleGoBack,
       }}
       height={50}
     />

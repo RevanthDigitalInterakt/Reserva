@@ -10,7 +10,7 @@ import DeliverySelector from './DeliverySelector';
 import { useCart } from '../../../context/CartContext';
 import { deleteAddress } from '../../../graphql/address/addressMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
-import AddressSelector from '../../Address/Components/AddressSelector';
+import AddressSelector from '../../Address/components/AddressSelector';
 
 interface IReceiveHome {
   typeOfDelivery: any[];

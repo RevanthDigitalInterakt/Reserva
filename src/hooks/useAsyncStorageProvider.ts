@@ -4,6 +4,8 @@ import EventProvider from '../utils/EventProvider';
 
 export interface IAsyncStorageKeys {
   '@RNOrder:ChristmasCouponModalOrderId': string;
+  isTesting: boolean,
+  isAppFirstLaunched: boolean
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;
