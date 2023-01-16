@@ -15,6 +15,7 @@ import {
   ProductQL,
 } from '../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../shared/utils/productUtils';
+import { getPercent } from '../../../utils/getPercent';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -26,16 +27,6 @@ interface ListProductsProps {
 }
 
 const { width } = Dimensions.get('window');
-
-export const getPercent = (
-  sellingPrice: number,
-  listPrice: number,
-): number | undefined => {
-  if (sellingPrice === listPrice) {
-    return undefined;
-  }
-  return Math.round(((listPrice - sellingPrice) * 100) / listPrice);
-};
 
 export const ListHorizontalProducts = ({
   products,

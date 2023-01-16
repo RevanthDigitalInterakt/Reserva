@@ -40,13 +40,12 @@ import {
   GET_SHIPPING,
   SUBSCRIBE_NEWSLETTER,
 } from '../../../graphql/product/productQuery';
-import { Seller } from '../../../graphql/products/productSearch';
+import { Seller, SKU } from '../../../graphql/products/productSearch';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { ExpandProductDescription } from '../components/ExpandProductDescription';
 import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
@@ -58,6 +57,8 @@ import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSl
 import { slugify } from '../../../utils/slugify';
 import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
+import { getItemPrice, ItemPrice } from '../../../utils/getItemPrice';
+import { getPercent } from '../../../utils/getPercent';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -97,7 +98,7 @@ type Facets = {
   values: string[];
 };
 
-type Variant = {
+export type Variant = {
   ean: string;
   itemId: string;
   images: {
@@ -105,11 +106,6 @@ type Variant = {
   }[];
   sellers: Seller[];
   variations: Facets[] | undefined;
-};
-
-type Seller = {
-  sellerId: string;
-  commertialOffer: CommercialOffer;
 };
 
 type Field = {
@@ -137,7 +133,7 @@ type Product = {
     listPrice: Price;
   };
   properties: Properties[];
-  items: Variant[];
+  items: SKU[];
   description: string;
 };
 
@@ -172,7 +168,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [idSku, setIdSku] = useState<string>('');
   const [imageSelected, setImageSelected] = useState<any>([]);
   const [itemsSKU, setItemsSKU] = useState<any>([]);
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<SKU | null>(null);
   const [outOfStock, setoutOfStock] = useState(false);
   const [toolTipIsVisible, setToolTipIsVisible] = useState(false);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
@@ -295,7 +291,7 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const getSeller = (sellers: Seller[]) => {
-    sellers.map((seller) => {
+    sellers.forEach((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
       }
@@ -727,6 +723,13 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     initializePdp(data);
   }, [data]);
+
+  const [itemPrice, setItemPrice] = useState<ItemPrice>();
+
+  useEffect(() => {
+    const itemPriceInfo = getItemPrice(selectedVariant);
+    setItemPrice(itemPriceInfo);
+  }, [sellerProduct]);
 
   useEffect(() => {
     if (itemsSKU !== undefined && itemsSKU.length > 0 && selectedColor !== '') {

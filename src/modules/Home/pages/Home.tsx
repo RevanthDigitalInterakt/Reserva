@@ -34,7 +34,6 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import Banner from '../component/Banner';
 import { CardsCarrousel } from '../component/CardsCarroussel';
-import { DefaultCarrousel } from '../component/Carrousel';
 import { CountDownBanner } from '../component/CountDown';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
@@ -46,6 +45,7 @@ import {
 import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import DefaultCarrousel from '../component/Carrousel';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

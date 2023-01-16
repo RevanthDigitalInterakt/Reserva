@@ -41,7 +41,6 @@ import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import EventProvider from '../../../utils/EventProvider';
 import { slugify } from '../../../utils/slugify';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
 import { EmptyBag } from '../components/EmptyBag';
 import { PriceCustom } from '../components/PriceCustom';
@@ -49,6 +48,7 @@ import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 import { platformType } from '../../../utils/platformType';
+import { getPercent } from '../../../utils/getPercent';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -317,7 +317,7 @@ export const BagScreen = ({ route }: Props) => {
     setErrorsMessages(errorMessages);
 
     const installment = orderForm?.paymentData?.installmentOptions
-      ?.find((x) => x.paymentSystem === 4)
+      ?.find((x) => x.paymentSystem === '4')
       ?.installments?.reverse()[0] || null;
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
