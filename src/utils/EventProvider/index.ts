@@ -43,8 +43,24 @@ class EventProvider {
     });
   }
 
+  private static async putCustomData() {
+    const deviceState = await this.OneSignal.getDeviceState();
+
+    if (deviceState && deviceState.userId) {
+      this.appsFlyer.setAdditionalData(
+        {
+          onesignalCustomerId: deviceState?.userId,
+        },
+        (res) => { },
+      );
+    }
+  }
+
   public static initializeModules() {
     this.initializePushNotification();
+
+    this.putCustomData();
+
     this.appsFlyer.initSdk(
       {
         devKey: env.APPSFLYER.DEV_KEY,
