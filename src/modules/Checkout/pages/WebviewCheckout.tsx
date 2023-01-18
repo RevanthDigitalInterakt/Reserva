@@ -31,7 +31,7 @@ const Checkout: React.FC<{}> = () => {
 
   useEffect(() => {
     EventProvider.getPushTags((receivedTags) => {
-      if (receivedTags) {
+      if (receivedTags && receivedTags?.total_orders_value) {
         setTotalOrdersValue(parseFloat(receivedTags?.total_orders_value));
       }
     });
