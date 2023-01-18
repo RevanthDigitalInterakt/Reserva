@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   ScrollView,
+  Pressable,
 } from 'react-native';
 
 import { useAuth } from '../../../../context/AuthContext';
@@ -64,6 +65,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [isValidStreet, setIsValidStreet] = useState(true);
   const [isValidState, setIsValidState] = useState(true);
   const [isValidCity, setIsValidCity] = useState(true);
+
+  const [disableButton, setDisableButton] = useState(true);
 
   const [states, setStates] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
@@ -148,12 +151,28 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   };
 
-  const isDisableButton = !(isValidState
-    && isValidCity
-    && isValidNumber
-    && isValidStreet
-    && isValidNeighborhood
-    && isValidReceiverName);
+  useEffect(() => {
+    if (!initialValues?.receiverName
+       || !initialValues.postalCode
+       || !initialValues.street
+       || !initialValues.neighborhood
+       || !initialValues.state
+       || !initialValues.city
+       || !initialValues.number
+    ) {
+      return setDisableButton(true);
+    }
+
+    return setDisableButton(false);
+  }, [
+    initialValues?.receiverName,
+    initialValues.postalCode,
+    initialValues.street,
+    initialValues.neighborhood,
+    initialValues.state,
+    initialValues.city,
+    initialValues.number,
+  ]);
 
   useEffect(() => {
     fetch('https://brasilapi.com.br/api/ibge/uf/v1')
@@ -171,7 +190,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       return;
     }
     setLoadingCity(true);
-    fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${initialValues.state}`)
+    fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${initialValues.state.toLowerCase()}`)
       .then(async (response) => {
         const parsedCities: any[] = await response.json();
 
@@ -231,9 +250,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     >
       <TopBarBackButton loading={loadingStatusBar} showShadow />
       <ScrollView
+        contentContainerStyle={{ paddingBottom: 40, marginTop: 20 }}
         showsVerticalScrollIndicator={false}
       >
-        <KeyboardAvoidingView>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
           <Box paddingX="xxxs" justifyContent="flex-start">
             <Box alignSelf="flex-start" mb="nano">
               <Typography
@@ -341,7 +361,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 />
               </Box>
             </Box>
-            <Box flex={1}>
+            <Pressable style={{ flex: 1 }} onPress={() => setIsVisibleStatePicker(true)}>
               <InputOption
                 onTouchStart={() => setIsVisibleStatePicker(true)}
                 editable={false}
@@ -366,8 +386,8 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 title="Selecione o estado"
                 items={states}
               />
-            </Box>
-            <Box flex={1}>
+            </Pressable>
+            <Pressable style={{ flex: 1 }} onPress={() => setIsVisibleCityPicker(true)}>
               <InputOption
                 isLoading={loadingCity}
                 onTouchStart={
@@ -393,7 +413,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                 title="Selecione a cidade"
                 items={cities}
               />
-            </Box>
+            </Pressable>
 
             {toggleActivated && (
               <Box mb="sm">
@@ -411,7 +431,22 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             )}
             <Button
               mt="xxs"
-              onPress={!executeCallback ? handleSaveAddress : async () => {
+              onPress={() => {
+                /* if (isValidFields) {
+                  isValidField.city('');
+                  isValidField.neighborhood('');
+                  isValidField.number('');
+                  isValidField.receiverName('');
+                  isValidField.state('');
+                  isValidField.street('');
+
+                  return Alert.alert('Erro', 'Alguns Campos não foram preenchidos');
+                } */
+
+                if (!executeCallback) {
+                  return handleSaveAddress();
+                }
+
                 setLoadingStatusBar(true);
                 executeCallback(initialValues)
                   .then(() => {
@@ -423,7 +458,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
               title="INCLUIR ENDEREÇO"
               variant="primarioEstreito"
               inline
-              disabled={loadingStatusBar || isDisableButton}
+              disabled={loadingStatusBar || disableButton}
             />
           </Box>
         </KeyboardAvoidingView>
