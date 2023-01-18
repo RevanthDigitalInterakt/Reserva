@@ -20,6 +20,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { ModalBag } from '../../ProductDetail/components/ModalBag';
 import { EmptyWishList } from '../components/EmptyWishList';
 import { slugify } from '../../../utils/slugify';
+import EventProvider from '../../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
@@ -421,6 +422,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                               'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)',
                             )
                           ) {
+                            EventProvider.logEvent('select_item', {
+                              item_list_id: item.productId ?? '',
+                              item_list_name: item.productSku?.name.split('-')[0] ?? '',
+                            });
+
                             navigation.navigate('ProductDetail', {
                               productId: item.product?.productId,
                               colorSelected:
@@ -441,6 +447,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           // .join("")
                         }
                       handleNavigateToProductDetail={() => {
+                        EventProvider.logEvent('select_item', {
+                          item_list_id: item.productId ?? '',
+                          item_list_name: item.productSku?.name.split('-')[0] ?? '',
+                        });
+
                         navigation.navigate('ProductDetail', {
                           productId: item.product?.productId,
                           itemId: item.productSku?.itemId,

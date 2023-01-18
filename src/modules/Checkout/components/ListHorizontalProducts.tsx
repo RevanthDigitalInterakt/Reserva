@@ -15,6 +15,7 @@ import {
   ProductQL,
 } from '../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../shared/utils/productUtils';
+import EventProvider from '../../../utils/EventProvider';
 import { getItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
 
@@ -242,6 +243,11 @@ export const ListHorizontalProducts = ({
                 price={listPrice || 0}
                 productTitle={item.productName}
                 onClickImage={() => {
+                  EventProvider.logEvent('select_item', {
+                    item_list_id: item.productId,
+                    item_list_name: item.productName,
+                  });
+
                   navigation.navigate('ProductDetail', {
                     productId: item.productId,
                     colorSelected: getVariant(

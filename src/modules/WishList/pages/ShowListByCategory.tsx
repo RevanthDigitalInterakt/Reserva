@@ -8,6 +8,7 @@ import {
 import { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import EventProvider from '../../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'ShowListByCategory'>;
 
@@ -49,6 +50,11 @@ export const ShowListByCategory: React.FC<Props> = ({ navigation, route }) => {
 
                       // }}
                     onClickBagButton={() => {
+                      EventProvider.logEvent('select_item', {
+                        item_list_id: prod.id ?? '',
+                        item_list_name: prod.title ?? '',
+                      });
+
                       navigation.navigate('ProductDetail', {
                         productId: prod.id ? prod.id : '',
                       });

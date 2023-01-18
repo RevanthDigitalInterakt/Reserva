@@ -528,6 +528,15 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         ];
       }
 
+      EventProvider.logEvent('view_item_list', {
+        items: newDataProductSearch.productSearch.map((item) => ({
+          price: item.priceRange.sellingPrice.lowPrice,
+          item_id: item.productId,
+          item_name: item.productName,
+          item_category: Object.values(item.categoryTree.map((i) => (i.href))).join('|'),
+        })),
+      });
+
       setProductSearch({
         data: newDataProductSearch,
         loading,

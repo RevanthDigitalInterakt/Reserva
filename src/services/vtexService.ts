@@ -18,6 +18,7 @@ const vtexConfig3 = instance3;
 const vtexConfig4 = instance4;
 const vtexConfig5 = instance5;
 const vtexConfig6 = instance6;
+const vtexConfig7 = instance7;
 
 const VerifyEmail = async (email: string) => {
   const response = await vtexConfig2.get(
@@ -250,9 +251,9 @@ const DeliveryType = async (orderFormId: any) => {
   return response;
 };
 
-const GetPurchaseData = async (orderGroup: any) => {
-  const response = await vtexConfig.get(
-    `/checkout/pub/orders/order-group/${orderGroup}?sc=4`,
+const GetPurchaseData = async (orderGroup: any, cookie: string) => {
+  const response = await vtexConfig7.get(
+    `/checkout/pub/orders/order-group/${orderGroup}`,
   );
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)

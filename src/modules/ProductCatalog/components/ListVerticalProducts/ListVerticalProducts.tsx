@@ -20,6 +20,7 @@ import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 import { slugify } from '../../../../utils/slugify';
+import EventProvider from '../../../../utils/EventProvider';
 import { getItemPrice } from '../../../../utils/getItemPrice';
 import { getPercent } from '../../../../utils/getPercent';
 
@@ -338,6 +339,11 @@ export const ListVerticalProducts = ({
                   productTitle={item.productName}
                   testID={`productcard_vertical_${slugify(item.productId)}`}
                   onClickImage={() => {
+                    EventProvider.logEvent('select_item', {
+                      item_list_id: item.productId,
+                      item_list_name: item.productName,
+                    });
+
                     navigation.navigate('ProductDetail', {
                       skuId: item?.items[0]?.itemId,
                     });

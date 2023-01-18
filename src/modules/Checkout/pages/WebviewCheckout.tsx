@@ -10,11 +10,13 @@ import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
 import Config from 'react-native-config';
 import { URL } from 'react-native-url-polyfill';
-import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import EventProvider from '../../../utils/EventProvider';
+import { useAuth } from '../../../context/AuthContext';
+import { useCart } from '../../../context/CartContext';
+import { GetPurchaseData } from '../../../services/vtexService';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -28,6 +30,7 @@ const Checkout: React.FC<{}> = () => {
   const [totalOrdersValue, setTotalOrdersValue] = useState<number>(0);
 
   const [showPromotionModal, setShowPromotionModal] = useState(false);
+  const { cookie, email } = useAuth();
 
   useEffect(() => {
     EventProvider.getPushTags((receivedTags) => {
@@ -54,11 +57,43 @@ const Checkout: React.FC<{}> = () => {
   }, []);
 
   const getOrderId = useCallback(() => {
-    const url = new URL(navState);
-    const orderId = url.searchParams.get('og');
+    const newUrl = new URL(navState);
+    const newOrderId = newUrl.searchParams.get('og');
 
-    return `${orderId}-01`;
+    return `${newOrderId}-01`;
   }, [navState]);
+
+  useEffect(() => {
+    async function execute() {
+      if (email && cookie && orderForm) {
+        try {
+          const orderGroup = getOrderId()?.split('-')?.[0];
+          const { data } = await GetPurchaseData(orderGroup, cookie);
+          if (data) {
+            EventProvider.logEvent('add_payment_info', {
+              coupon: '',
+              currency: 'BRL',
+              value: orderForm.value / 100,
+              payment_type: data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName,
+              items: orderForm.items.map((item) => ({
+                price: item.price / 100,
+                item_id: item.productId,
+                quantity: item.quantity,
+                item_name: item.name,
+                item_variant: item.skuName,
+                item_category: Object.values(item.productCategories).join('|'),
+              })),
+            });
+          }
+        } catch (e) {
+          EventProvider.captureException(e);
+        }
+      }
+    }
+    if (isOrderPlaced) {
+      execute();
+    }
+  }, [isOrderPlaced]);
 
   const onHandlePromotionModal = useCallback((orderPrice: number) => {
     if (orderPrice < 250 || showPromotionModal) return;

@@ -4,9 +4,12 @@ import * as Sentry from '@sentry/react-native';
 import OneSignal from 'react-native-onesignal';
 import { env } from '../../config/env';
 import {
-  eventsName, eventsValue, EventValueOptions,
+  eventsName,
+  eventsValue,
+  EventValueOptions,
+  onlyGaEvents,
 } from './misc';
-import { EventOptionsFn, EventsOptions } from './Event';
+import type { EventOptionsFn, EventsOptions } from './Event';
 import type { EventOptionsOneSignalFn } from './EventOnesignal';
 import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush';
 
@@ -51,7 +54,7 @@ class EventProvider {
         onDeepLinkListener: true,
         timeToWaitForATTUserAuthorization: 10,
       },
-      (result) => { },
+      (_) => {},
       (error) => {
         this.captureException(error);
       },
@@ -77,14 +80,18 @@ class EventProvider {
       : [Type]
   ) {
     const eventName = args[0];
-    const afEventName = eventsName[args[0]];
     const eventValues = args[1] as EventValueOptions;
+
+    this.analytics.logEvent(eventName, eventValues);
+
+    if (onlyGaEvents.includes(eventName)) return;
+
+    const afEventName = eventsName[args[0]];
     const afEventsValues = this.parseValues(eventValues);
 
     this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
       this.captureException(error);
     });
-    this.analytics.logEvent(eventName, eventValues);
   }
 
   public static logPurchase(args: EventsOptions.Purchase) {

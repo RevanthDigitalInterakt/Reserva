@@ -450,6 +450,20 @@ export const BagScreen = ({ route }: Props) => {
         quantity: afQuantity,
       });
 
+      EventProvider.logEvent('begin_checkout', {
+        coupon: '',
+        currency: 'BRL',
+        items: orderForm.items.map((item) => ({
+          price: item.price / 100,
+          item_id: item.productId,
+          quantity: item.quantity,
+          item_name: item.name,
+          item_variant: item.skuName,
+          item_category: Object.values(item.productCategories).join('|'),
+        })),
+        value: totalBag + totalDiscountPrice + totalDelivery,
+      });
+
       if (!email) {
         setLoadingGoDelivery(false);
 
@@ -1159,6 +1173,11 @@ export const BagScreen = ({ route }: Props) => {
                               .split('-55-55')
                               .join('')}
                             handleNavigateToProductDetail={() => {
+                              EventProvider.logEvent('select_item', {
+                                item_list_id: item.productId,
+                                item_list_name: item.productName,
+                              });
+
                               navigation.navigate('ProductDetail', {
                                 productId: item.productId,
                                 itemId: item.id,

@@ -701,6 +701,25 @@ export const ProductDetail: React.FC<Props> = ({
   }
 
   useEffect(() => {
+    if (!product?.productId || !product.productName) return;
+
+    EventProvider.logEvent('view_item', {
+      currency: 'BRL',
+      items: [
+        {
+          item_id: product.productId,
+          price: product.priceRange.sellingPrice.lowPrice,
+          quantity: 1,
+          item_variant: '',
+          item_name: product.productName,
+          item_category: Object.values(product?.categoryTree.map((i) => (i.href))).join('|'),
+        }
+      ],
+      value: product.priceRange.sellingPrice.lowPrice,
+    });
+  }, [EventProvider, product]);
+
+  useEffect(() => {
     refetch();
   }, [route.params?.productId]);
 

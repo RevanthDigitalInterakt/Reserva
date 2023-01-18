@@ -37,11 +37,16 @@ type EventValues = {
   transaction_id: '';
   order_form_id: string;
   items: Items[];
+  search_term: string;
+  item_list_id: string;
+  item_list_name: string;
+  payment_type: string;
 };
 
 export namespace EventsOptions {
   export type Login = Pick<EventValues, 'custumer_email'>;
   export type Search = Pick<EventValues, 'search_ids' | 'search_string'>;
+  export type ViewSearchResults = Pick<EventValues, 'search_term'>;
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories'>;
   export type ProductListView = Pick<EventValues, 'content_type'>;
   export type CheckoutInitiated = Pick<
@@ -85,6 +90,12 @@ export namespace EventsOptions {
   | 'transaction_id'
   | 'value'
   > & {};
+  export type ViewItem = Pick<EventValues, 'currency' | 'items' | 'value'>;
+  export type BeginCheckout = Pick<EventValues, 'items' | 'value' | 'coupon' | 'currency'>;
+  export type AddShippingInfo = Pick<EventValues, 'currency' | 'items' | 'coupon'>;
+  export type SelectItem = Pick<EventValues, 'item_list_id' | 'item_list_name'>;
+  export type ViewItemList = Pick<EventValues, 'items'>;
+  export type AddPaymentInfo = Pick<EventValues, 'coupon' | 'currency' | 'items' | 'payment_type' | 'value'>;
 }
 
 export type EventOptionsFn =
@@ -121,6 +132,33 @@ export type EventOptionsFn =
     payload: EventsOptions.CompleteRegistration;
   }
   | {
-    type: 'open_ron_url';
+    type: 'view_search_results';
+    payload: EventsOptions.ViewSearchResults;
+  }
+  | {
+    type: 'view_item';
+    payload: EventsOptions.ViewItem;
+  }
+  | {
+    type: 'begin_checkout';
+    payload: EventsOptions.BeginCheckout;
+  }
+  | {
+    type: 'add_shipping_info';
+    payload: EventsOptions.AddShippingInfo;
+  }
+  | {
+    type: 'select_item';
+    payload: EventsOptions.SelectItem;
+  }
+  | {
+    type: 'view_item_list';
+    payload: EventsOptions.ViewItemList;
+  }
+  | {
+    type: 'add_payment_info';
+    payload: EventsOptions.AddPaymentInfo;
+  }
+  | { type: 'open_ron_url';
     payload: EventsOptions.OpenRonUrl;
   };

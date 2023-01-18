@@ -8,7 +8,14 @@ export type EventName =
   | 'checkout_initiated'
   | 'product_list_view'
   | 'product_view'
-  | 'complete_registration';
+  | 'complete_registration'
+  | 'view_search_results'
+  | 'view_item'
+  | 'begin_checkout'
+  | 'add_shipping_info'
+  | 'select_item'
+  | 'view_item_list'
+  | 'add_payment_info';
 
 export type EventNameOptions = Record<EventName, string>;
 
@@ -34,7 +41,11 @@ export type EventValuesName =
   | 'price'
   | 'quantity'
   | 'product_currency'
-  | 'registration_method';
+  | 'registration_method'
+  | 'search_term'
+  | 'item_list_id'
+  | 'item_list_name'
+  | 'payment_type';
 
 export type EventValueOptions = Record<EventValuesName, string>;
 
@@ -48,6 +59,13 @@ export const eventsName: EventNameOptions = {
   product_list_view: 'af_list_view',
   product_view: 'af_content_view',
   search: 'af_search',
+  view_search_results: 'view_search_results',
+  view_item: 'view_item',
+  begin_checkout: 'begin_checkout',
+  add_shipping_info: 'add_shipping_info',
+  select_item: 'select_item',
+  view_item_list: 'view_item_list',
+  add_payment_info: 'add_payment_info',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -72,4 +90,18 @@ export const eventsValue: EventValueOptions = {
   product_currency: 'af_currency',
   search_ids: 'af_search_string',
   search_string: 'af_content_list',
+  search_term: 'search_term',
+  item_list_id: 'item_list_id',
+  item_list_name: 'item_list_name',
+  payment_type: 'payment_type',
 };
+
+export const onlyGaEvents = [
+  'view_item_list',
+  'view_item',
+  'select_item',
+  'begin_checkout',
+  'add_payment_info',
+  'add_shipping_info',
+  'view_search_results',
+];

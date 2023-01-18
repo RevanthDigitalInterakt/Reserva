@@ -510,6 +510,16 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     refetch();
   }, [selectedOrder]);
 
+  useEffect(() => {
+    if (!EventProvider) return;
+    if (!searchTerm) return;
+    if (!products || products?.length <= 0) return;
+
+    EventProvider.logEvent('view_search_results', {
+      search_term: searchTerm,
+    });
+  }, [EventProvider, products, searchTerm]);
+
   return (
     <Box backgroundColor="white" flex={1}>
       <TopBarDefaultBackButton

@@ -16,6 +16,7 @@ import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 import Sentry from '../../../config/sentryConfig';
 import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
+import EventProvider from '../../../utils/EventProvider';
 import { saveAddressMutation } from '../../../graphql/address/addressMutations';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
@@ -202,6 +203,19 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           setLoading(false);
           // case when update orderform has succeeded, must open payment webview
           if (data) {
+            EventProvider.logEvent('add_shipping_info', {
+              coupon: '',
+              currency: 'BRL',
+              items: orderForm.items.map((item) => ({
+                price: item.price / 100,
+                item_id: item.productId,
+                quantity: item.quantity,
+                item_name: item.name,
+                item_variant: item.skuName,
+                item_category: Object.values(item.productCategories).join('|'),
+              })),
+            });
+
             navigation.navigate('Checkout');
           } else {
             Alert.alert(
@@ -229,6 +243,19 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         setLoading(false);
 
         if (data) {
+          EventProvider.logEvent('add_shipping_info', {
+            coupon: '',
+            currency: 'BRL',
+            items: orderForm.items.map((item) => ({
+              price: item.price / 100,
+              item_id: item.productId,
+              quantity: item.quantity,
+              item_name: item.name,
+              item_variant: item.skuName,
+              item_category: Object.values(item.productCategories).join('|'),
+            })),
+          });
+
           navigation.navigate('Checkout');
         } else {
           Alert.alert('Ocorreu um problema', 'Problema ao atualizar o pedido');

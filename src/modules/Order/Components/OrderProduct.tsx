@@ -5,6 +5,7 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
+import EventProvider from '../../../utils/EventProvider';
 
 type IOrderItemData = {
   name: string;
@@ -33,6 +34,11 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
             && (
             <Button
               onPress={() => {
+                EventProvider.logEvent('select_item', {
+                  item_list_id: orderItem.id.trim(),
+                  item_list_name: orderItem.name,
+                });
+
                 navigate('ProductDetail', {
                   productId: orderItem.productId.trim(),
                   itemId: orderItem.id.trim(),
