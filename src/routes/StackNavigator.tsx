@@ -125,12 +125,10 @@ export type RootStackParamList = {
     landingPageId: string;
   };
   NewAddress: {
+    executeCallback: (payload: any) => Promise<void>;
     id?: number;
-    isCheckout: boolean;
     edit?: boolean;
-    receiveHome?: boolean;
     hasCep?: string;
-    onAddAddressCallBack?: () => void;
     editAddress?: {
       id: string;
       postalCode: string;
@@ -155,7 +153,7 @@ export type RootStackParamList = {
   CancelOrder: {};
   Cashback: { isAcceptedConditions: boolean };
   Credits: {};
-  AddressList: { isCheckout: boolean; comeFrom: string };
+  AddressList: {};
   ListCards: {
     isCheckout: boolean;
     cashback: boolean;

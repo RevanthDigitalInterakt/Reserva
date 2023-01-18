@@ -1,13 +1,13 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { useFocusEffect } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert, Dimensions, SafeAreaView, ScrollView,
 } from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
-import { RootStackParamList } from 'routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
@@ -16,17 +16,20 @@ import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 import Sentry from '../../../config/sentryConfig';
 import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
+import { saveAddressMutation } from '../../../graphql/address/addressMutations';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const { comeFrom } = route.params;
 
-  const { orderForm, addShippingOrPickupInfo, orderform } = useCart();
-  const { cookie, setCookie, email } = useAuth();
+  const {
+    orderForm, addShippingOrPickupInfo, orderform, addShippingData,
+  } = useCart();
+
+  const { cookie, setCookie } = useAuth();
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
   const [shippingValue, setShippingValue] = useState(0);
@@ -38,11 +41,12 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [pickupPoint, setPickupPoint] = useState<any>();
   const [businessHours, setBusinessHours] = useState<any>([]);
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false);
-  const [addressId, setAddressId] = React.useState('');
   const [loading, setLoading] = useState(false);
 
+  const [saveAddress] = useMutation(saveAddressMutation);
+
   const [{ data, loadingProfile, refetch }, setProfileData] = useState({
-    refetch: () => {},
+    refetch: () => { },
     data: {} as any,
     loadingProfile: true,
   });
@@ -98,7 +102,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       ) {
         setPermission(true);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   // permissão para acessar o mapa
@@ -116,7 +120,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       ) {
         setMapPermission(true);
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   useEffect(() => {
@@ -354,6 +358,62 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     navigation.goBack();
   };
 
+  const feedbackErrorAlert = () => Alert.alert('Erro', 'Não foi possível incluir endereço\n Tente Novamente');
+
+  const createPayload = async (payload: any) => {
+    setLoading(true);
+
+    try {
+      const receiverName = payload?.receiverName
+        ? payload.receiverName
+        : `${profile?.firstName} ${profile?.lastName}`;
+
+      const {
+        postalCode,
+        state,
+        number,
+        neighborhood,
+        complement,
+        city,
+        street,
+      } = payload;
+
+      // salvar endereço do usuário no orderform
+      const isAddressSaved = await addShippingData({
+        receiverName,
+        postalCode,
+        state,
+        number,
+        neighborhood,
+        complement,
+        city,
+        street,
+        addressType: 'residential',
+        country: 'BRA',
+      });
+
+      await saveAddress({
+        variables: {
+          fields: {
+            ...payload,
+            receiverName,
+          },
+        },
+      });
+
+      if (!isAddressSaved) {
+        feedbackErrorAlert();
+      } else {
+        orderform();
+      }
+    } catch (e) {
+      feedbackErrorAlert();
+    } finally {
+      navigation.goBack();
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton
@@ -489,10 +549,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           <Box justifyContent="flex-end" alignItems="center" mt="xxxs">
             <Button
               onPress={() => navigation.navigate('NewAddress', {
-                isCheckout: true,
-                receiveHome: true,
-                id: undefined,
-                onAddAddressCallBack: async () => orderform(),
+                executeCallback: createPayload,
               })}
               height={50}
               width={DEVICE_WIDTH * 0.8}
@@ -507,33 +564,12 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
             />
           </Box>
         )}
-        {/* {selectMethodDelivery && (
-          <Box flex={1} paddingX="xxxs" pt="micro" pb="xxxs">
-            <Button
-              onPress={() =>
-                mapPermission
-                  ? navigation.navigate('MapScreen', {
-                      geolocation: '',
-                      locationPermission: mapPermission,
-                    })
-                  : navigation.navigate('WithdrawInStore', { isCheckout: true })
-              }
-              inline
-              title="VER MAIS LOJAS PRÓXIMAS"
-              variant="primarioEstreitoOutline"
-              fontFamily="nunitoRegular"
-              fontSize={13}
-              height={50}
-            />
-          </Box>
-        )} */}
-
         <Box
           flex={1}
           justifyContent="flex-start"
           mb="xs"
           mt="xl"
-          // bg="verdeSucesso"
+        // bg="verdeSucesso"
         >
           <Button
             disabled={

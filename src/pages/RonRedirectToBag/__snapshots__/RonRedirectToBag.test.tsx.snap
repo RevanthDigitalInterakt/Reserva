@@ -109,6 +109,7 @@ exports[`RonRedirectToBag default component should match snapshot 1`] = `
                 "opacity": 1,
               }
             }
+            testID="top_bar_button_go_back"
           >
             <View
               alignItems="center"
@@ -158,6 +159,7 @@ exports[`RonRedirectToBag default component should match snapshot 1`] = `
                     },
                   ]
                 }
+                testID="top_bar_button_go_back"
               >
                 <RNSVGGroup>
                   <RNSVGSvgView

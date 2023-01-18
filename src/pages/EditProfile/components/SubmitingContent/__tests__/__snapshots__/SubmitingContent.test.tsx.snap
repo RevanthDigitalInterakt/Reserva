@@ -4,7 +4,6 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
 <View
   alignItems="center"
   backgroundColor="white"
-  boxShadow="bottomBarShadow"
   flex={1}
   flexDirection="row"
   height={85}
@@ -23,18 +22,11 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
         "justifyContent": "space-between",
         "paddingLeft": 16,
         "paddingRight": 16,
-        "shadowColor": "rgba(0,0,0,0.1)",
-        "shadowOffset": Object {
-          "height": -3,
-          "width": 0,
-        },
-        "shadowOpacity": 1,
-        "shadowRadius": 2,
         "width": 750,
       },
       Object {
         "bottom": 42.5,
-        "elevation": 0,
+        "elevation": 10,
         "left": 0,
         "position": "absolute",
         "zIndex": 999,

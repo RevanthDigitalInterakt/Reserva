@@ -207,7 +207,8 @@ const AddAddressToCart = async (orderFormId: any, address: any) => {
 };
 
 const DeliveryType = async (orderFormId: any) => {
-  // deve enviar o endereço junto do array de tipo de entrega de CADA produto. ai o vtex irá calcular as entregas possiveis.
+  // deve enviar o endereço junto do array de tipo de entrega de CADA
+  // produto. ai o vtex irá calcular as entregas possiveis.
   const response = await vtexConfig.post(
     `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData?sc=4
         `,
@@ -228,7 +229,8 @@ const DeliveryType = async (orderFormId: any) => {
           reference: null,
           geoCoordinates: [-46.694234, -23.609928],
         },
-        // no caso da falta de todos os dados pode ser enviado apenas alguns igual no adc endereço acima.
+        // no caso da falta de todos os dados pode ser
+        // enviado apenas alguns igual no adc endereço acima.
       ],
       // logisticInfo é o tipo de entrega de CADA PRODUTO.
       logisticsInfo: [
@@ -254,7 +256,8 @@ const GetPurchaseData = async (orderGroup: any) => {
   );
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
-  // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
+  // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo
+  // place order para varias compras.
 };
 
 const ValidateProfile = async (email: string) => {

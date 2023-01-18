@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import {
   theme, Typography, Box, Button, Icon,
@@ -29,9 +29,19 @@ const AddressSelector = ({
   editAndDelete,
   addressData,
 }: IAddressesSelector) => {
-  const {
-    address, title, zipcode, id,
-  } = addressData;
+  const { address, title, zipcode } = addressData;
+
+  const CEP = useMemo(() => {
+    if (zipcode) {
+      return `${zipcode
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1-$2')
+        .replace(/(-\d{3})\d+?$/, '$1')}`;
+    }
+    return '';
+  }, [zipcode]);
+
   return (
     <>
       <TouchableOpacity disabled={disabled} onPress={select}>
@@ -101,11 +111,7 @@ const AddressSelector = ({
                   lineHeight={16}
                 >
                   CEP:
-                  {` ${zipcode
-                    .replace(/\D/g, '')
-                    .replace(/(\d{2})(\d)/, '$1.$2')
-                    .replace(/(\d{3})(\d)/, '$1-$2')
-                    .replace(/(-\d{3})\d+?$/, '$1')}`}
+                  {CEP}
                 </Typography>
               </Box>
 

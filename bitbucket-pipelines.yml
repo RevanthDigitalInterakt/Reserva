@@ -1,0 +1,17 @@
+image: node:16.15.0
+
+pipelines:
+  default:
+    - step:
+        name: Install dependencies
+        caches:
+          - node
+        script:
+          - yarn install
+    - step:
+        name: Analyze
+        caches:
+          - node
+        script:
+          - bash scripts/lint.sh
+          - yarn test

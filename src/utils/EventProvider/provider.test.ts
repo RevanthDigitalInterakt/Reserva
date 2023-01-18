@@ -1,6 +1,6 @@
 import OneSignal from 'react-native-onesignal';
 import EventProvider from '.';
-import { EventValueOptions } from './misc';
+import type { EventValueOptions } from './misc';
 
 describe('Event Provider', () => {
   it('Should be able to transform analytics object into AppsFlyer object', () => {
@@ -19,7 +19,7 @@ describe('Event Provider', () => {
   });
 
   it('Should be able to call logEvent method', () => {
-    const logEventSpy = spyOn(EventProvider, 'logEvent');
+    const logEventSpy = jest.spyOn(EventProvider, 'logEvent');
 
     EventProvider.logEvent('complete_registration', {
       registration_method: 'email',
@@ -29,7 +29,7 @@ describe('Event Provider', () => {
   });
 
   it('Should be able to call captureException method', () => {
-    const captureExceptionSpy = spyOn(EventProvider, 'captureException');
+    const captureExceptionSpy = jest.spyOn(EventProvider, 'captureException');
 
     EventProvider.captureException(new Error('Somenthing exception'));
 

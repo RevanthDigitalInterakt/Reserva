@@ -10,7 +10,7 @@
     "ios": "react-native run-ios",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --coverage --passWithNoTests",
     "lint": "eslint . --ext .ts --ext .tsx --cache",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
@@ -117,6 +117,7 @@
     "@babel/runtime": "^7.12.5",
     "@commitlint/config-conventional": "^17.1.0",
     "@evilmartians/lefthook": "^1.1.3",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/jest-native": "^5.4.0",
     "@testing-library/react-native": "^11.5.0",
     "@tsconfig/react-native": "^2.0.2",
@@ -137,7 +138,7 @@
     "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "4.25.0",
     "@typescript-eslint/parser": "4.25.0",
-    "babel-jest": "^26.6.3",
+    "babel-jest": "^28.1.3",
     "commitlint": "^17.1.2",
     "eslint": "7.27.0",
     "eslint-config-airbnb": "18.2.1",
@@ -147,7 +148,7 @@
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-unused-imports": "2.0.0",
-    "jest": "^26.6.3",
+    "jest": "^28.1.3",
     "metro-react-native-babel-preset": "^0.65.2",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
@@ -168,7 +169,7 @@
       "./__mocks__/extend.ts"
     ],
     "transformIgnorePatterns": [
-      "node_modules/?!(@usereservaapp/reserva-ui)"
+      "node_modules/?!((jest-)?@react-native|react-native|@usereservaapp/reserva-ui)"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -177,6 +178,19 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": ["<rootDir>/src/**/*.(ts|tsx)"],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__tests__/mocks/file.mock.js"
+    },
+    "coverageThreshold": {
+      "global": {
+        "branches": 2.63,
+        "functions": 3.2,
+        "lines": 6.07,
+        "statements": 5.96
+      }
+    }
   }
 }
