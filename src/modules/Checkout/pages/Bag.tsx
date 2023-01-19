@@ -174,7 +174,7 @@ export const BagScreen = ({ route }: Props) => {
 
   const createSkuIds = () => orderForm?.items.map(({ id }) => `fq=skuId:${id}`).join('&');
 
-  const removeUnavailableItems = React.useCallback(async (): Promise<boolean> => {
+  const removeUnavailableItems = useCallback(async (): Promise<boolean> => {
     let hasError = false;
 
     try {
@@ -280,12 +280,15 @@ export const BagScreen = ({ route }: Props) => {
     }
   }, [data]);
 
-  const initialCartExecute = React.useCallback(async () => {
+  const initialCartExecute = useCallback(async () => {
     await orderform();
 
     if (orderFormIdByDeepLink) {
-      await restoreCart(orderFormIdByDeepLink);
-    } else if (orderForm) {
+      await restoreCart(orderFormIdByDeepLink).then(() => orderform());
+      return;
+    }
+
+    if (orderForm) {
       await restoreCart(orderForm?.orderFormId);
     }
   }, [orderFormIdByDeepLink]);
