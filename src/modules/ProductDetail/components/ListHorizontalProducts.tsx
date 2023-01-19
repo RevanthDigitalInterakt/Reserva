@@ -15,6 +15,8 @@ import {
   ProductQL,
 } from '../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../shared/utils/productUtils';
+import EventProvider from '../../../utils/EventProvider';
+import { getPercent } from '../../../utils/getPercent';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -26,16 +28,6 @@ interface ListProductsProps {
 }
 
 const { width } = Dimensions.get('window');
-
-export const getPercent = (
-  sellingPrice: number,
-  listPrice: number,
-): number | undefined => {
-  if (sellingPrice === listPrice) {
-    return undefined;
-  }
-  return Math.round(((listPrice - sellingPrice) * 100) / listPrice);
-};
 
 export const ListHorizontalProducts = ({
   products,
@@ -269,6 +261,11 @@ export const ListHorizontalProducts = ({
                 price={listPrice || 0}
                 productTitle={item.productName}
                 onClickImage={() => {
+                  EventProvider.logEvent('select_item', {
+                    item_list_id: item.productId,
+                    item_list_name: item.productName,
+                  });
+
                   navigation.navigate('ProductDetail', {
                     productId: item.productId,
                     colorSelected: getVariant(

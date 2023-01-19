@@ -11,7 +11,6 @@ import {
 } from '@usereservaapp/reserva-ui';
 import firestore from '@react-native-firebase/firestore';
 import { differenceInMonths } from 'date-fns';
-import OneSignal from 'react-native-onesignal';
 import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -28,6 +27,7 @@ import {
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
+import EventProvider from '../../../utils/EventProvider';
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
@@ -72,7 +72,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
     AsyncStorage.removeItem('@RNAuth:email');
     AsyncStorage.removeItem('@RNAuth:typeLogin');
     AsyncStorage.removeItem('@RNAuth:lastLogin');
-    OneSignal.removeExternalUserId();
+    EventProvider.removePushExternalUserId();
     setCookie(null);
     setEmail(null);
   };
@@ -364,9 +364,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
                 descr="Consulte e adicione seus endereços"
                 icon="Pin"
                 onPress={() => {
-                  navigation.navigate('AddressList', {
-                    comeFrom: 'Home',
-                  });
+                  navigation.navigate('AddressList');
                 }}
               />
             </Box>

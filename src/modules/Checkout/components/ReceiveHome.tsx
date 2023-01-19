@@ -6,11 +6,12 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { useAuth } from '../../../context/AuthContext';
-import AddressSelector from '../../Address/Components/AddressSelector';
 import DeliverySelector from './DeliverySelector';
 import { useCart } from '../../../context/CartContext';
 import { deleteAddress } from '../../../graphql/address/addressMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
+import formatString from '../../../utils/formatString';
+import AddressSelector from '../../Address/Components/AddressSelector';
 
 interface IReceiveHome {
   typeOfDelivery: any[];
@@ -169,20 +170,20 @@ const ReceiveHome = ({
                 addressId,
                 receiverName,
               } = item;
-              // if (cookie != null) {
-              //   if (selectedAddress) {
-              //     selected = addressId === selectedAddress.addressId;
-              //   }
-              // } else {
-              //   if (selectedAddress) {
-              //     selected = addressId === selectedAddress.addressId && item;
-              //   }
-              // }bcdop5f8nu
+
+              const formatedAddress = formatString.address({
+                street,
+                number,
+                complement,
+                neighborhood,
+                city,
+                state,
+              });
+
               return (
                 <AddressSelector
                   addressData={{
-                    address: `${street}, ${number}, ${complement},
-${neighborhood}, ${city} - ${state}`,
+                    address: formatedAddress,
                     title: receiverName,
                     zipcode: postalCode,
                   }}
@@ -197,7 +198,6 @@ ${neighborhood}, ${city} - ${state}`,
                   edit={() => {
                     navigation.navigate('NewAddress', {
                       edit: true,
-                      receiveHome: true,
                       editAddress: {
                         id: addressId,
                         postalCode,

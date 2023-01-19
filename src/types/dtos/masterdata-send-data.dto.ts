@@ -1,4 +1,4 @@
-import { IDto } from '../interfaces/IDto';
+import type { IDto } from '../interfaces/IDto';
 
 export class MasterDataSendDataDto implements IDto {
   email: string;
@@ -16,9 +16,7 @@ export class MasterDataSendDataDto implements IDto {
     this.orderId = orderId;
   }
 
-  formatPhone(phone: string) {
-    return `+55${phone.replace(/[^0-9]/gi, '')}`;
-  }
+  formatPhone = (phone: string) => `+55${phone.replace(/[^0-9]/gi, '')}`;
 
   toJson() {
     return {

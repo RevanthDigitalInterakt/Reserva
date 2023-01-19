@@ -3,6 +3,7 @@ import {
   Animated, View, Text, StyleSheet, Platform,
 } from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
+import { platformType } from '../../../../utils/platformType';
 
 interface IFlipCard {
   setRef: any;
@@ -49,7 +50,7 @@ function FlipCard({
         <Text style={[style.number, {
           transform: [type === 'front' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
           fontSize: size / 1.8,
-          lineHeight: Platform.OS === 'android' ? size / 1.85 : size / 1.65,
+          lineHeight: Platform.OS === platformType.ANDROID ? size / 1.85 : size / 1.65,
           fontFamily: theme.fonts.reservaSansBold,
         }]}
         >

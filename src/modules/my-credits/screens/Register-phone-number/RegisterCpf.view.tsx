@@ -13,6 +13,7 @@ import {
   theme,
 } from '@usereservaapp/reserva-ui';
 import { ProfileVars } from '../../../../graphql/profile/profileQuery';
+import { platformType } from '../../../../utils/platformType';
 
 export interface RegisterCpfViewProps {
   profile: ProfileVars;
@@ -36,7 +37,7 @@ export const RegisterCpfView = ({
       <KeyboardAvoidingView
         enabled
         keyboardVerticalOffset={15}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === platformType.IOS ? 'padding' : undefined}
       >
         <Box mx="xxs" mt="xxs">
           <Box>

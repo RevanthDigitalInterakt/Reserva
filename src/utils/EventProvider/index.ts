@@ -3,11 +3,15 @@ import analytics from '@react-native-firebase/analytics';
 import * as Sentry from '@sentry/react-native';
 import OneSignal from 'react-native-onesignal';
 import { env } from '../../config/env';
-import { oneSignalConfig } from '../../config/pushNotification';
 import {
-  eventsName, eventsValue, EventValueOptions,
+  eventsName,
+  eventsValue,
+  EventValueOptions,
+  onlyGaEvents,
 } from './misc';
-import { EventOptionsFn, EventsOptions } from './Event';
+import type { EventOptionsFn, EventsOptions } from './Event';
+import type { EventOptionsOneSignalFn } from './EventOnesignal';
+import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush';
 
 class EventProvider {
   public static appsFlyer: typeof appsFlyer = appsFlyer;
@@ -18,8 +22,45 @@ class EventProvider {
 
   public static sentry: typeof Sentry = Sentry;
 
+  private static initializePushNotification() {
+    /* O N E S I G N A L   S E T U P */
+    if (__DEV__) {
+      OneSignal.setLogLevel(6, 0);
+    }
+
+    OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
+
+    OneSignal.promptForPushNotificationsWithUserResponse((_) => { });
+
+    OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
+      notificationReceivedEvent.getNotification();
+    });
+
+    OneSignal.setNotificationOpenedHandler((notification) => {
+      if (notification.notification.launchURL === 'usereserva://storeUpdate') {
+        StoreUpdatePush();
+      }
+    });
+  }
+
+  private static async putCustomData() {
+    const deviceState = await this.OneSignal.getDeviceState();
+
+    if (deviceState && deviceState.userId) {
+      this.appsFlyer.setAdditionalData(
+        {
+          onesignalCustomerId: deviceState?.userId,
+        },
+        (res) => { },
+      );
+    }
+  }
+
   public static initializeModules() {
-    oneSignalConfig();
+    this.initializePushNotification();
+
+    this.putCustomData();
+
     this.appsFlyer.initSdk(
       {
         devKey: env.APPSFLYER.DEV_KEY,
@@ -29,7 +70,7 @@ class EventProvider {
         onDeepLinkListener: true,
         timeToWaitForATTUserAuthorization: 10,
       },
-      (result) => {},
+      (_) => {},
       (error) => {
         this.captureException(error);
       },
@@ -43,7 +84,7 @@ class EventProvider {
     return Object.keys(values).reduce((acc, curr) => ({
       ...acc,
       [eventsValue[curr as keyof EventValueOptions]]:
-          values[curr as keyof EventValueOptions],
+        values[curr as keyof EventValueOptions],
     }), {} as EventValueOptions);
   }
 
@@ -55,14 +96,18 @@ class EventProvider {
       : [Type]
   ) {
     const eventName = args[0];
-    const afEventName = eventsName[args[0]];
     const eventValues = args[1] as EventValueOptions;
+
+    this.analytics.logEvent(eventName, eventValues);
+
+    if (onlyGaEvents.includes(eventName)) return;
+
+    const afEventName = eventsName[args[0]];
     const afEventsValues = this.parseValues(eventValues);
 
-    this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => {}, (error) => {
+    this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
       this.captureException(error);
     });
-    this.analytics.logEvent(eventName, eventValues);
   }
 
   public static logPurchase(args: EventsOptions.Purchase) {
@@ -74,6 +119,34 @@ class EventProvider {
   public static captureException(error: any) {
     this.sentry.captureException(error);
   }
-}
 
+  public static sendPushTags<Type extends EventOptionsOneSignalFn['type']>(
+    ...args: Extract<EventOptionsOneSignalFn, { type: Type }> extends {
+      payload: infer TPayload;
+    }
+      ? [Type, TPayload]
+      : [Type]
+  ) {
+    const eventValues = args[1] as Record<string, string>;
+    this.OneSignal.sendTags(eventValues);
+  }
+
+  public static setPushExternalUserId(externalId: string) {
+    this.OneSignal.setExternalUserId(externalId);
+  }
+
+  public static getPushTags(callback: (handle: {
+    [key: string]: string;
+  } | null) => void) {
+    this.OneSignal.getTags(callback);
+  }
+
+  public static getPushDeviceState() {
+    return OneSignal.getDeviceState();
+  }
+
+  public static removePushExternalUserId() {
+    this.OneSignal.removeExternalUserId();
+  }
+}
 export default EventProvider;

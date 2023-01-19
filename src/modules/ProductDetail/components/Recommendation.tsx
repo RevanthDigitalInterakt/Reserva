@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { ListHorizontalProducts } from './ListHorizontalProducts';
+import EventProvider from '../../../utils/EventProvider';
 
 interface RecommendationProps {
   handleScrollToTheTop?: () => void;
@@ -56,6 +57,20 @@ export const Recommendation = ({
 
     handleSearch();
   }, []);
+
+  useEffect(() => {
+    if (!products || !products?.length) return;
+    if (!EventProvider) return;
+
+    EventProvider.logEvent('view_item_list', {
+      items: products.map((item) => ({
+        price: item.priceRange.sellingPrice.lowPrice,
+        item_id: item.productId,
+        item_name: item.productName,
+        item_category: Object.values(item.categoryTree.map((i) => (i.href))).join('|'),
+      })),
+    });
+  }, [products, EventProvider]);
 
   return (
     <>

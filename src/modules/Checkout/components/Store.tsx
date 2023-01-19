@@ -11,6 +11,7 @@ import Modal from 'react-native-modal';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { images } from '../../../assets';
+import { platformType } from '../../../utils/platformType';
 
 interface IStore {
   storeDetail: any[];
@@ -71,13 +72,13 @@ const Store = ({ storeDetail, data, mapPermission }: IStore) => {
             flex={1}
             backgroundColor="white"
             my="micro"
-            boxShadow={Platform.OS == 'ios' ? 'bottomBarShadow' : null}
+            boxShadow={Platform.OS === platformType.IOS ? 'bottomBarShadow' : null}
             pt="micro"
             pb="xxxs"
             px="nano"
             mt="xxxs"
             style={{
-              elevation: Platform.OS == 'android' ? 10 : 0,
+              elevation: Platform.OS === platformType.ANDROID ? 10 : 0,
             }}
           >
             {pickupPoints ? (

@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import {
   Alert,
   Box,
@@ -11,7 +11,7 @@ import {
   ProductHorizontalListCard,
   RadioButtons,
   TextField,
-  Typography
+  Typography,
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
@@ -23,30 +23,32 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import Modal from 'react-native-modal';
-import OneSignal from 'react-native-onesignal';
+import { instance2 } from '../../../config/vtexConfig';
+import ToastProvider, { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
 import { useAuth } from '../../../context/AuthContext';
 import { Item, OrderForm, useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { Attachment } from '../../../services/vtexService';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import EventProvider from '../../../utils/EventProvider';
-import { slugify } from "../../../utils/slugify";
+import { slugify } from '../../../utils/slugify';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { CouponBadge } from '../components/CouponBadge';
 import { EmptyBag } from '../components/EmptyBag';
 import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
+import { platformType } from '../../../utils/platformType';
+import { getPercent } from '../../../utils/getPercent';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -55,7 +57,7 @@ const BoxAnimation = createAnimatableComponent(Box);
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
-  if (Platform.OS === 'ios') {
+  if (Platform.OS === platformType.IOS) {
     return (
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
         {children}
@@ -92,7 +94,8 @@ export const BagScreen = ({ route }: Props) => {
 
   const { isProfileComplete } = route?.params;
   const orderFormIdByDeepLink = route?.params?.orderFormId;
-  const fontTitle = Platform.OS === 'android' ? screenWidth * 0.0352 : screenWidth * 0.036;
+  const fontTitle = screenWidth * (Platform.OS === platformType.ANDROID ? 0.0352 : 0.036);
+
   const subtitle = screenWidth * 0.032;
   const [loadingGoDelivery, setLoadingGoDelivery] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -134,11 +137,19 @@ export const BagScreen = ({ route }: Props) => {
     totalPrice: 0,
   });
 
+  const [restoreCartLoading, setRestoreCartLoading] = useState(false);
+
   const showMoreGiftSize = giftSizeList && giftSizeList.length > 5;
 
   useEffect(() => {
     Sentry.configureScope((scope) => scope.setTransactionName('BagScreen'));
   }, []);
+
+  const doRestoreCartRequest = useCallback(async () => {
+    if (orderFormIdByDeepLink) {
+      await restoreCart(orderFormIdByDeepLink);
+    }
+  }, [orderFormIdByDeepLink]);
 
   const hasSellerCoupon = useCallback(
     (): boolean => sellerCoupon.length > 0,
@@ -160,6 +171,55 @@ export const BagScreen = ({ route }: Props) => {
   });
 
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
+
+  const createSkuIds = () => orderForm?.items.map(({ id }) => `fq=skuId:${id}`).join('&');
+
+  const removeUnavailableItems = useCallback(async (): Promise<boolean> => {
+    let hasError = false;
+
+    try {
+      const skuIds = createSkuIds();
+      const path = `catalog_system/pub/products/search?${skuIds}`;
+      const { data: productsData } = await instance2.get(path);
+
+      orderForm?.items.map(async ({
+        id, seller: sellerId, productId, quantity,
+      }, index) => {
+        const product = productsData.filter((
+          productData: any,
+        ) => productData?.productId === productId)[0];
+
+        const skuItem = product?.items?.filter((item: any) => item?.itemId === id)[0];
+
+        const sellerItem = skuItem?.sellers?.filter(
+          (seller: any) => seller?.sellerId === sellerId,
+        )[0];
+
+        const availableQuantity = sellerItem?.commertialOffer?.AvailableQuantity;
+
+        const emptyQuantity = availableQuantity === 0 && !sellerItem?.IsAvailable;
+
+        const hasAvailableQuantityFromStock = availableQuantity >= quantity;
+
+        const updateQuantity = hasAvailableQuantityFromStock ? quantity : availableQuantity;
+
+        if (emptyQuantity || !hasAvailableQuantityFromStock) {
+          await RemoveItemFromCart(orderForm?.orderFormId, id, index, sellerId, updateQuantity);
+          hasError = true;
+          showToast({ type: 'error', text1: 'Alguns produtos da sua sacola estão indisponiveis' });
+        }
+      });
+
+      return hasError;
+    } catch (e) {
+      hasError = true;
+      return hasError;
+    }
+  }, []);
+
+  useEffect(() => {
+    removeUnavailableItems();
+  }, [removeUnavailableItems]);
 
   useEffect(() => {
     getProfile().then((response) => {
@@ -220,12 +280,15 @@ export const BagScreen = ({ route }: Props) => {
     }
   }, [data]);
 
-  const initialCartExecute = React.useCallback(async () => {
+  const initialCartExecute = useCallback(async () => {
     await orderform();
 
     if (orderFormIdByDeepLink) {
-      await restoreCart(orderFormIdByDeepLink);
-    } else if (orderForm) {
+      await restoreCart(orderFormIdByDeepLink).then(() => orderform());
+      return;
+    }
+
+    if (orderForm) {
       await restoreCart(orderForm?.orderFormId);
     }
   }, [orderFormIdByDeepLink]);
@@ -257,7 +320,7 @@ export const BagScreen = ({ route }: Props) => {
     setErrorsMessages(errorMessages);
 
     const installment = orderForm?.paymentData?.installmentOptions
-      ?.find((x) => x.paymentSystem == 4)
+      ?.find((x) => x.paymentSystem === '4')
       ?.installments?.reverse()[0] || null;
 
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
@@ -320,13 +383,17 @@ export const BagScreen = ({ route }: Props) => {
     setTotalBag(totalItensPrice);
     setTotalDiscountPrice(totalDiscountPrice);
     setTotalDelivery(totalDelivery);
+
+    if (orderForm?.items.length === 0) {
+      setRestoreCartLoading(false);
+    }
   }, [orderForm]);
 
   useEffect(() => {
     if (orderForm && orderForm.items.length > 0) {
       if (isRemoveCartTags) {
         const timestamp = Math.floor(Date.now() / 1000);
-        OneSignal.sendTags({
+        EventProvider.sendPushTags('sendAbandonedCartTags', {
           cart_update: timestamp.toString(),
           product_name: orderForm?.items[0]?.name,
           product_image: orderForm?.items[0]?.imageUrl
@@ -366,18 +433,38 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const onGoToDelivery = async () => {
+    const hasError = await removeUnavailableItems();
+
+    if (hasError) {
+      return;
+    }
+
     setLoadingGoDelivery(true);
     if (orderForm) {
-      const af_content_id = orderForm.items.map((i) => i.productId);
-      const af_content_type = orderForm.items.map((i) => CategoriesParserString(i.productCategories));
-      const af_quantity = orderForm.items.map((i) => i.quantity);
+      const afContentId = orderForm.items.map((i) => i.productId);
+      const afContentType = orderForm.items.map((i) => CategoriesParserString(i.productCategories));
+      const afQuantity = orderForm.items.map((i) => i.quantity);
 
       EventProvider.logEvent('checkout_initiated', {
         price: totalBag + totalDiscountPrice + totalDelivery,
-        content_type: af_content_type,
-        content_ids: af_content_id,
+        content_type: afContentType,
+        content_ids: afContentId,
         currency: 'BRL',
-        quantity: af_quantity,
+        quantity: afQuantity,
+      });
+
+      EventProvider.logEvent('begin_checkout', {
+        coupon: '',
+        currency: 'BRL',
+        items: orderForm.items.map((item) => ({
+          price: item.price / 100,
+          item_id: item.productId,
+          quantity: item.quantity,
+          item_name: item.name,
+          item_variant: item.skuName,
+          item_category: Object.values(item.productCategories).join('|'),
+        })),
+        value: totalBag + totalDiscountPrice + totalDelivery,
       });
 
       if (!email) {
@@ -409,14 +496,10 @@ export const BagScreen = ({ route }: Props) => {
   }, [optimistQuantities]);
 
   const addAttachmentsInProducts = async () => {
-    try {
-      const orderFormId = orderForm?.orderFormId;
-      const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
-      const attachmentName = 'Li e Aceito os Termos';
-      Attachment(orderFormId, productOrderFormIndex, attachmentName);
-    } catch (error) {
-      throw error;
-    }
+    const orderFormId = orderForm?.orderFormId;
+    const productOrderFormIndex = orderForm?.items.length;
+    const attachmentName = 'Li e Aceito os Termos';
+    Attachment(orderFormId, productOrderFormIndex, attachmentName);
   };
 
   const handleSelectedGiftColor = async (color: string) => {
@@ -470,7 +553,7 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const removeAbandonedCartTags = () => {
-    OneSignal.sendTags({
+    EventProvider.sendPushTags('sendAbandonedCartTags', {
       cart_update: '',
       product_name: '',
       product_image: '',
@@ -497,7 +580,6 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   return (
-
     <SafeAreaView
       style={{
         justifyContent: 'space-between',
@@ -511,7 +593,7 @@ export const BagScreen = ({ route }: Props) => {
         loading={loadingGoDelivery || loadingGift || topBarLoading}
       />
 
-      {!orderForm?.items.length && !loading ? (
+      {(!orderForm?.items.length && !loading && !restoreCartLoading) ? (
         <Box flex={1}>
           <EmptyBag onPress={() => navigation.navigate('Offers')} />
         </Box>
@@ -665,7 +747,7 @@ export const BagScreen = ({ route }: Props) => {
                     flexDirection="row"
                     alignItems="center"
                     paddingRight="xxxs"
-                    boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+                    boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
                     style={{ elevation: 10 }}
                   >
                     <Box flex={1}>
@@ -821,7 +903,7 @@ export const BagScreen = ({ route }: Props) => {
                                   key={`${index}_btn`}
                                   onPress={() => {
                                     selectedGiftColor !== item
-                                      && handleSelectedGiftColor(item);
+                                    && handleSelectedGiftColor(item);
                                   }}
                                 >
                                   <Box
@@ -918,7 +1000,7 @@ export const BagScreen = ({ route }: Props) => {
                                 disbledOptions={[]}
                                 onSelectedChange={(item) => {
                                   selectedSizeGift?.trim() !== item
-                                    && handleSelectGiftSize(item);
+                                  && handleSelectGiftSize(item);
                                 }}
                                 optionsList={
                                   showMoreSizes
@@ -943,34 +1025,34 @@ export const BagScreen = ({ route }: Props) => {
                             (x) => x.identifier
                               === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                          <Box paddingBottom="nano">
-                            <Typography
-                              fontFamily="nunitoRegular"
-                              fontSize={11}
-                              color="verdeSucesso"
-                            >
-                              Desconto de 1° compra aplicado neste produto!
-                            </Typography>
-                          </Box>
+                            <Box paddingBottom="nano">
+                              <Typography
+                                fontFamily="nunitoRegular"
+                                fontSize={11}
+                                color="verdeSucesso"
+                              >
+                                Desconto de 1° compra aplicado neste produto!
+                              </Typography>
+                            </Box>
                           )}
                           {item.priceTags.find(
                             (x) => x.identifier
                               === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                          <Box
-                            position="absolute"
-                            zIndex={5}
-                            top={84}
-                            right={21}
-                          >
-                            <Typography
-                              color="verdeSucesso"
-                              fontFamily="nunitoRegular"
-                              fontSize={11}
+                            <Box
+                              position="absolute"
+                              zIndex={5}
+                              top={84}
+                              right={21}
                             >
-                              -R$ 50
-                            </Typography>
-                          </Box>
+                              <Typography
+                                color="verdeSucesso"
+                                fontFamily="nunitoRegular"
+                                fontSize={11}
+                              >
+                                -R$ 50
+                              </Typography>
+                            </Box>
                           )}
                           <ProductHorizontalListCard
                             isBag
@@ -1018,7 +1100,7 @@ export const BagScreen = ({ route }: Props) => {
                             )}
                             onClickAddCount={async (countUpdated) => {
                               const itemIndex = array.findIndex(
-                                (x) => x.refId == item.refId,
+                                (x) => x.refId === item.refId,
                               );
 
                               const isAssinaturaSimples = item?.attachmentOfferings?.find(
@@ -1094,6 +1176,11 @@ export const BagScreen = ({ route }: Props) => {
                               .split('-55-55')
                               .join('')}
                             handleNavigateToProductDetail={() => {
+                              EventProvider.logEvent('select_item', {
+                                item_list_id: item.productId,
+                                item_list_name: item.productName,
+                              });
+
                               navigation.navigate('ProductDetail', {
                                 productId: item.productId,
                                 itemId: item.id,
@@ -1211,7 +1298,7 @@ export const BagScreen = ({ route }: Props) => {
 
                   <Divider variant="fullWidth" marginY="xs" />
                   <>
-                    {totalDiscountPrice != 0 || totalDelivery ? (
+                    {totalDiscountPrice !== 0 || totalDelivery ? (
                       <Box
                         marginBottom="micro"
                         flexDirection="row"
@@ -1227,7 +1314,7 @@ export const BagScreen = ({ route }: Props) => {
                         />
                       </Box>
                     ) : null}
-                    {totalDiscountPrice != 0 && (
+                    {totalDiscountPrice !== 0 && (
                       <Box
                         marginBottom="micro"
                         flexDirection="row"
@@ -1314,9 +1401,9 @@ export const BagScreen = ({ route }: Props) => {
                   bg="white"
                   height={145}
                   px="xxs"
-                  style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
+                  style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
                   boxShadow={
-                    Platform.OS == 'android' ? null : 'bottomBarShadow'
+                    Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'
                   }
                 >
                   <Box
@@ -1386,7 +1473,7 @@ export const BagScreen = ({ route }: Props) => {
           </Box>
         </WithAvoidingView>
       )}
+      <ToastProvider />
     </SafeAreaView>
-
   );
 };

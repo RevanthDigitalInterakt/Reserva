@@ -7,6 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import { Box, Image, Typography } from '@usereservaapp/reserva-ui';
+import { platformType } from '../../utils/platformType';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -135,8 +136,8 @@ const Card = ({
   >
     <Box
       bg="white"
-      style={{ elevation: Platform.OS == 'android' ? 8 : 0 }}
-      boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+      style={{ elevation: Platform.OS === platformType.ANDROID ? 8 : 0 }}
+      boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
       height={220}
       width={DEVICE_WIDTH * 0.85 - 28}
       borderRadius={16}

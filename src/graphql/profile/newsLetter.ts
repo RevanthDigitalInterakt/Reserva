@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const subscribeNewsLetter = gql`
+const subscribeNewsLetter = gql`
   mutation SubscribeNewsletter(
     $email: String!, 
     $isNewsletterOptIn: Boolean!, 
@@ -13,3 +13,5 @@ export const subscribeNewsLetter = gql`
       )
   }
 `;
+
+export default subscribeNewsLetter;

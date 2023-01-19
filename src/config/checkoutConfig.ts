@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-const x_vtex_api_appKey = 'vtexappkey-lojausereserva-RDYVNZ';
-const x_vtex_api_appToken = 'ZSKHFVQZPZDLDGWDNFVSZKBPPMZCEHOGGIJRYBQMXNLVEQCOMJRGHDUOQUSSVNUHLXEVWEFLOJUMZGKYKKQVQHYDNUADIYQJSDJHLHSHEGSXIHPKKUIKXYREYBHBDBCQ';
+const vtexApiAppKey = 'vtexappkey-lojausereserva-RDYVNZ';
+const vtexApiAppToken = 'ZSKHFVQZPZDLDGWDNFVSZKBPPMZCEHOGGIJRYBQMXNLVEQCOMJRGHDUOQUSSVNUHLXEVWEFLOJUMZGKYKKQVQHYDNUADIYQJSDJHLHSHEGSXIHPKKUIKXYREYBHBDBCQ';
 
 const checkoutUrl = 'https://www.usereserva.com/api/checkout';
 
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  'x-vtex-api-appKey': x_vtex_api_appKey,
-  'x-vtex-api-appToken': x_vtex_api_appToken,
+  'x-vtex-api-appKey': vtexApiAppKey,
+  'x-vtex-api-appToken': vtexApiAppToken,
 };
 
 const checkoutInstance = axios.create({

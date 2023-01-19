@@ -2,10 +2,12 @@ module.exports = {
   env: {
     es2020: true,
     node: true,
+    jest: true,
   },
 
   globals: {
     __DEV__: true,
+    fetch: true,
     FormData: true,
   },
 
@@ -40,6 +42,7 @@ module.exports = {
     'react/no-unused-prop-types': 0,
     '@typescript-eslint/no-unused-vars': 0,
     'unused-imports/no-unused-imports': 'error',
+    'react/require-default-props': 'off'
   },
 };
 

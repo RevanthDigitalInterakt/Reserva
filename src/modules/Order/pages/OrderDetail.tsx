@@ -18,6 +18,7 @@ import { IOrderId, useCart } from '../../../context/CartContext';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
+import { platformType } from '../../../utils/platformType';
 
 type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
 
@@ -185,7 +186,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                               bottom={30}
                               bg="white"
                               boxShadow={
-                                Platform.OS === 'ios' ? 'topBarShadow' : null
+                                Platform.OS === platformType.IOS ? 'topBarShadow' : null
                               }
                               style={{ elevation: 5 }}
                               width={107}

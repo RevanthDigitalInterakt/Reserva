@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 export const images = {
   foraDoAr: require('./img/fora-do-ar.png'),
   topBannerMock1: require('./img/topBannerMock1.png'),

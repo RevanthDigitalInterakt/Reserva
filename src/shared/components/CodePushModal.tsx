@@ -6,6 +6,7 @@ import RNExitApp from 'react-native-exit-app';
 import codePush, { DownloadProgress } from 'react-native-code-push';
 import ReactNativeModal from 'react-native-modal';
 import { animations } from '../../assets';
+import { platformType } from '../../utils/platformType';
 
 interface CodePushContext {
   status: null | codePush.SyncStatus;
@@ -103,7 +104,7 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
                   fontFamily="reservaSerifBold"
                   marginRight={20}
                 />
-                <Button onPress={() => { Platform.OS === 'android' ? BackHandler.exitApp() : RNExitApp.exitApp(); }} title="SAIR" fontFamily="reservaSerifBold" />
+                <Button onPress={() => { Platform.OS === platformType.ANDROID ? BackHandler.exitApp() : RNExitApp.exitApp(); }} title="SAIR" fontFamily="reservaSerifBold" />
               </Box>
             </Box>
           </ReactNativeModal>

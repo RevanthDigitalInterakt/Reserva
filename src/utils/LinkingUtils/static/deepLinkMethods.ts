@@ -6,8 +6,8 @@ interface ICustomMethodReturnParams {
 }
 
 export const REGEX_PRODUCT_URL = {
-  _IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
-  _REMOVE_INVALID_WORDS: /\b\/p\b/gi,
+  IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
+  REMOVE_INVALID_WORDS: /\b\/p\b/gi,
 } as const;
 
 export const baseTabUrl = 'usereserva://home-tabs';
@@ -21,22 +21,39 @@ const defaultCustomMethodReturn: ICustomMethodReturnParams = {
   strUrl: defaultInitialUrl,
 };
 
+const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
+  const isRonDomain = initialUrl.startsWith('https://usereserva.io/');
+
+  if (isRonDomain) {
+    return {
+      match: true,
+      strUrl: `usereserva://ron/${initialUrl.split('.io/')[1]!}`,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
   const isUrlSiteCase = initialUrl === 'https://www.usereserva.com'
     || initialUrl === 'http://www.usereserva.com'
     || initialUrl === 'www.usereserva.com'
-    || initialUrl === 'http://usereserva.com';
+    || initialUrl === 'http://usereserva.com'
+    || initialUrl === 'https://usereserva.io'
+    || initialUrl === 'http://usereserva.io';
+
   if (isUrlSiteCase) {
     return {
       match: true,
       strUrl: defaultInitialUrl,
     };
   }
+
   return defaultCustomMethodReturn;
 };
 
 const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
-  const regex = new RegExp(REGEX_PRODUCT_URL._IS_PRODUCT_URL);
+  const regex = new RegExp(REGEX_PRODUCT_URL.IS_PRODUCT_URL);
 
   if (regex.test(initialUrl.toLowerCase())) {
     const url = new URL(initialUrl);
@@ -45,7 +62,7 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
       url.searchParams.append(
         'slug',
         url.pathname
-          .replace(REGEX_PRODUCT_URL._REMOVE_INVALID_WORDS, '')
+          .replace(REGEX_PRODUCT_URL.REMOVE_INVALID_WORDS, '')
           .replace('/', ''),
       );
     }
@@ -133,6 +150,7 @@ const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 
 const registerMethods = [
   urlSiteCase,
+  urlRon,
   urlProductCase,
   colectionUseCase,
   accountWishListUseCase,

@@ -1,6 +1,6 @@
-import AddressList from '../../modules/Address/pages/AddressList';
-import NewAddress from '../../modules/Address/pages/NewAddress';
-import { Flow } from '../types/flow.type';
+import AddressList from '../../modules/Address/AddressList/view';
+import NewAddress from '../../modules/Address/NewAddress/view/NewAddress';
+import type { Flow } from '../types/flow.type';
 
 export const AddressFlow: Flow[] = [
   {

@@ -16,6 +16,7 @@ import Modal from 'react-native-modal';
 import { ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import FlipNumber from '../flipcountdoun/FlipNumber';
 import { useChronometerLocal } from './useChronometerLocal';
+import { platformType } from '../../../../utils/platformType';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -128,7 +129,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
 
   function normalize(size) {
     const newSize = size * scale;
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 3;
     }
     return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4;

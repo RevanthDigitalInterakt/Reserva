@@ -11,7 +11,7 @@ import Order from '../Components/Order';
 import { useAuth } from '../../../context/AuthContext';
 
 const OrderList = () => {
-  const { orders, searchNewOrders } = useCart();
+  const { searchNewOrders } = useCart();
   const [ordersList, setOrdersList] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalOrders, setTotalOrders] = useState(0);

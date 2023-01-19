@@ -2,6 +2,7 @@ import React, {
   useState, createContext, ReactNode, useContext,
 } from 'react';
 import { Platform } from 'react-native';
+import { platformType } from '../utils/platformType';
 
 export enum StatusBarStyle {
   DARK_CONTENT = 'dark-content',
@@ -18,7 +19,7 @@ interface StatusBarContextProps {
 export const StatusBarContext = createContext<StatusBarContextProps>({
   backgroundColor: '#61dafb',
   barStyle:
-    Platform.OS === 'ios'
+    Platform.OS === platformType.IOS
       ? StatusBarStyle.DARK_CONTENT
       : StatusBarStyle.LIGHT_CONTENT,
   changeBackgroundColor: (color: string) => {},
@@ -34,7 +35,7 @@ const StatusBarContextProvider = ({
 }: StatusBarContextProviderProps) => {
   const [backgroundColor, setBackgroundColor] = useState('#61dafb');
   const [barStyle, setBarStyle] = useState(
-    Platform.OS === 'ios'
+    Platform.OS === platformType.IOS
       ? StatusBarStyle.DARK_CONTENT
       : StatusBarStyle.LIGHT_CONTENT,
   );

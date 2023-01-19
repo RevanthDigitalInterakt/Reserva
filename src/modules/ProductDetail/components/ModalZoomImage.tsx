@@ -84,7 +84,7 @@ const ImageSelection = ({
         key={`image-${index}`}
         width={8}
         height={8}
-        backgroundColor={index == currentImage ? 'fullBlack' : 'divider'}
+        backgroundColor={index === currentImage ? 'fullBlack' : 'divider'}
         borderRadius="xs"
       />
     ))}

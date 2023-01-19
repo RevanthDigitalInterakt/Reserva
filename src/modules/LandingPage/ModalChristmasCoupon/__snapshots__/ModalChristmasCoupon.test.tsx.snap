@@ -45,7 +45,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
         "bottom": 0,
         "height": 1334,
         "left": 0,
-        "opacity": 0,
+        "opacity": 0.7,
         "position": "absolute",
         "right": 0,
         "top": 0,
@@ -104,7 +104,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
           "margin": 37.5,
           "transform": Array [
             Object {
-              "translateY": 1334,
+              "translateY": 0,
             },
           ],
         }
@@ -468,7 +468,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                           "textAlign": "left",
                         },
                         Object {
-                          "backgroundColor": "#fff",
+                          "backgroundColor": "#ffffff",
                           "borderColor": "#BCBCBC",
                           "borderWidth": 1,
                           "color": "#3A3A3A",
@@ -581,7 +581,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                           "textAlign": "left",
                         },
                         Object {
-                          "backgroundColor": "#fff",
+                          "backgroundColor": "#ffffff",
                           "borderColor": "#BCBCBC",
                           "borderWidth": 1,
                           "color": "#3A3A3A",
@@ -695,7 +695,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                           "textAlign": "left",
                         },
                         Object {
-                          "backgroundColor": "#fff",
+                          "backgroundColor": "#ffffff",
                           "borderColor": "#BCBCBC",
                           "borderWidth": 1,
                           "color": "#3A3A3A",

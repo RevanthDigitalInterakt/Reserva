@@ -8,6 +8,7 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../routes/StackNavigator';
+import { platformType } from '../../../utils/platformType';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -57,8 +58,8 @@ const CategoryCard = ({ urlsImages, title, onClick }: CategoryCardProd) => (
   <Button
     onPress={onClick}
     mt="micro"
-    boxShadow={Platform.OS == 'android' ? null : 'topBarShadow'}
-    style={{ elevation: Platform.OS == 'android' ? 5 : null }}
+    boxShadow={Platform.OS === platformType.ANDROID ? null : 'topBarShadow'}
+    style={{ elevation: Platform.OS === platformType.ANDROID ? 5 : null }}
     paddingX="xxxs"
     paddingY="xxxs"
     bg="white"

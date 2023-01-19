@@ -109,7 +109,8 @@ export class StorageService {
    * @async
    * @example
    * ```
-   * const profile = await StorageService.getItem<Profile>({ key: StorageServiceKeys.PROFILE, isJSON: true });
+   * const profile = await StorageService
+   * .getItem<Profile>({ key: StorageServiceKeys.PROFILE, isJSON: true });
    * ```
    *
    */
@@ -134,7 +135,8 @@ export class StorageService {
    *
    * Caso o item já exista, ele será sobrescrito
    *
-   * Caso `isJSON` seja `true`, o `value` deve ser um objeto e será convertido para `string` antes de ser salvo
+   * Caso `isJSON` seja `true`, o `value` deve ser um objeto e
+   * será convertido para `string` antes de ser salvo
    *
    * @method setItem
    * @memberof StorageService
@@ -145,7 +147,8 @@ export class StorageService {
    * @async
    * @example
    * ```
-   * const isSaved = await StorageService.setItem({ key: StorageServiceKeys.PROFILE, value: profile, isJSON: true });
+   * const isSaved = await StorageService
+   * .setItem({ key: StorageServiceKeys.PROFILE, value: profile, isJSON: true });
    * ```
    *
    */

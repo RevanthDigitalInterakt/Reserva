@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewsLetter Component renders without error and match snapshot 1`] = `
+<View
+  flexDirection="row"
+  mb="xs"
+  style={
+    Array [
+      Object {
+        "flexDirection": "row",
+        "marginBottom": 32,
+        "zIndex": 2,
+      },
+    ]
+  }
+  zIndex={2}
+>
+  <View
+    alignItems="center"
+    flexDirection="row"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "width": "100%",
+        },
+      ]
+    }
+    width="100%"
+  >
+    <View
+      alignItems="center"
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        hitSlop={
+          Object {
+            "bottom": 10,
+            "left": 10,
+            "right": 10,
+            "top": 10,
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+            "opacity": 1,
+          }
+        }
+        testID="newsletter_button"
+      >
+        <RNSVGSvgView
+          bbHeight={15}
+          bbWidth={15}
+          color="dropDownBorderColor"
+          focusable={false}
+          size={15}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              Array [
+                Object {
+                  "color": "#DDDDDD",
+                  "height": 15,
+                  "width": 15,
+                },
+              ],
+              Object {
+                "flex": 0,
+                "height": 15,
+                "width": 15,
+              },
+            ]
+          }
+        >
+          <RNSVGGroup>
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="100%"
+              bbWidth="100%"
+              focusable={false}
+              height="100%"
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "height": "100%",
+                      "width": "100%",
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": "100%",
+                    "width": "100%",
+                  },
+                ]
+              }
+              vbHeight={15}
+              vbWidth={15}
+              width="100%"
+            >
+              <RNSVGGroup>
+                <RNSVGGroup
+                  fill={4294967295}
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={4292730333}
+                >
+                  <RNSVGRect
+                    height={15}
+                    propList={
+                      Array [
+                        "stroke",
+                      ]
+                    }
+                    rx={2}
+                    stroke={null}
+                    width={15}
+                    x={0}
+                    y={0}
+                  />
+                  <RNSVGRect
+                    fill={null}
+                    height={14}
+                    propList={
+                      Array [
+                        "fill",
+                      ]
+                    }
+                    rx={1.5}
+                    width={14}
+                    x={0.5}
+                    y={0.5}
+                  />
+                </RNSVGGroup>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
+    </View>
+    <View
+      ml="nano"
+      style={
+        Array [
+          Object {
+            "marginLeft": 8,
+          },
+        ]
+      }
+    >
+      <Text
+        fontFamily="nunitoRegular"
+        fontSize={12}
+        style={
+          Array [
+            Object {
+              "fontFamily": "Nunito-Regular",
+              "fontSize": 12,
+            },
+          ]
+        }
+        variant="botaoFiltrarEOrdenarProdutos"
+      >
+        Desejo receber e-mails com promoções das marcas Reserva.
+      </Text>
+    </View>
+  </View>
+</View>
+`;

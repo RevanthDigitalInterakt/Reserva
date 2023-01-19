@@ -32,7 +32,6 @@ import {
 } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 import Config from 'react-native-config';
-import OneSignal from 'react-native-onesignal';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
@@ -41,13 +40,12 @@ import {
   GET_SHIPPING,
   SUBSCRIBE_NEWSLETTER,
 } from '../../../graphql/product/productQuery';
-import { Seller } from '../../../graphql/products/productSearch';
+import { Seller, SKU } from '../../../graphql/products/productSearch';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { getPercent } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { ExpandProductDescription } from '../components/ExpandProductDescription';
 import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
@@ -58,6 +56,9 @@ import { Tooltip } from '../components/Tooltip';
 import { GET_PRODUCT_WITH_SLUG } from '../../../graphql/product/getProductWithSlug';
 import { slugify } from '../../../utils/slugify';
 import EventProvider from '../../../utils/EventProvider';
+import { platformType } from '../../../utils/platformType';
+import { getItemPrice, ItemPrice } from '../../../utils/getItemPrice';
+import { getPercent } from '../../../utils/getPercent';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -97,7 +98,7 @@ type Facets = {
   values: string[];
 };
 
-type Variant = {
+export type Variant = {
   ean: string;
   itemId: string;
   images: {
@@ -105,11 +106,6 @@ type Variant = {
   }[];
   sellers: Seller[];
   variations: Facets[] | undefined;
-};
-
-type Seller = {
-  sellerId: string;
-  commertialOffer: CommercialOffer;
 };
 
 type Field = {
@@ -137,7 +133,7 @@ type Product = {
     listPrice: Price;
   };
   properties: Properties[];
-  items: Variant[];
+  items: SKU[];
   description: string;
 };
 
@@ -172,7 +168,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [idSku, setIdSku] = useState<string>('');
   const [imageSelected, setImageSelected] = useState<any>([]);
   const [itemsSKU, setItemsSKU] = useState<any>([]);
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<SKU | null>(null);
   const [outOfStock, setoutOfStock] = useState(false);
   const [toolTipIsVisible, setToolTipIsVisible] = useState(false);
   const [colorFilters, setColorFilters] = useState<string[] | undefined>([]);
@@ -295,7 +291,7 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const getSeller = (sellers: Seller[]) => {
-    sellers.map((seller) => {
+    sellers.forEach((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
       }
@@ -378,7 +374,7 @@ export const ProductDetail: React.FC<Props> = ({
     productImageURL: string,
   ) => {
     const timestamp = Math.floor(Date.now() / 1000);
-    OneSignal.sendTags({
+    EventProvider.sendPushTags('sendAbandonedCartTags', {
       cart_update: timestamp.toString(),
       product_name: productName,
       product_image: productImageURL,
@@ -408,7 +404,7 @@ export const ProductDetail: React.FC<Props> = ({
             setIsVisible(true);
             await addAttachmentsInProducts();
 
-            if (quantities === 0 && orderForm?.items.length == 0) {
+            if (quantities === 0 && orderForm?.items.length === 0) {
               addTagsUponCartUpdate(
                 product?.productName,
                 selectedVariant.images[0].imageUrl,
@@ -428,7 +424,7 @@ export const ProductDetail: React.FC<Props> = ({
         } else {
           setIsVisible(true);
 
-          if (quantities === 0 && orderForm?.items.length == 0) {
+          if (quantities === 0 && orderForm?.items.length === 0) {
             addTagsUponCartUpdate(
               product?.productName!,
               selectedVariant.images[0].imageUrl,
@@ -705,6 +701,25 @@ export const ProductDetail: React.FC<Props> = ({
   }
 
   useEffect(() => {
+    if (!product?.productId || !product.productName) return;
+
+    EventProvider.logEvent('view_item', {
+      currency: 'BRL',
+      items: [
+        {
+          item_id: product.productId,
+          price: product.priceRange.sellingPrice.lowPrice,
+          quantity: 1,
+          item_variant: '',
+          item_name: product.productName,
+          item_category: Object.values(product?.categoryTree.map((i) => (i.href))).join('|'),
+        }
+      ],
+      value: product.priceRange.sellingPrice.lowPrice,
+    });
+  }, [EventProvider, product]);
+
+  useEffect(() => {
     refetch();
   }, [route.params?.productId]);
 
@@ -727,6 +742,13 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     initializePdp(data);
   }, [data]);
+
+  const [itemPrice, setItemPrice] = useState<ItemPrice>();
+
+  useEffect(() => {
+    const itemPriceInfo = getItemPrice(selectedVariant);
+    setItemPrice(itemPriceInfo);
+  }, [sellerProduct]);
 
   useEffect(() => {
     if (itemsSKU !== undefined && itemsSKU.length > 0 && selectedColor !== '') {
@@ -870,7 +892,7 @@ export const ProductDetail: React.FC<Props> = ({
         <TopBarDefaultBackButton loading={loading} navigateGoBack />
         <KeyboardAvoidingView
           enabled
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === platformType.IOS ? 'padding' : undefined}
           style={{ marginBottom: 100 }}
         >
           <ScrollView

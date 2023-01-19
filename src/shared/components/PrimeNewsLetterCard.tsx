@@ -11,6 +11,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import * as Sentry from '@sentry/react-native';
 import { Colors } from '../../Base/Colors';
+import { platformType } from '../../utils/platformType';
 
 const formInitialState = { email: '', name: '', phone: '' };
 
@@ -82,8 +83,8 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
       minHeight={325}
       borderRadius={16}
       marginX="micro"
-      style={{ elevation: Platform.OS == 'android' ? 10 : 0 }}
-      boxShadow={Platform.OS == 'android' ? null : 'bottomBarShadow'}
+      style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
+      boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
     >
       <Box marginBottom={isSuccess ? 30 : 42} marginTop={20} marginX={27}>
         <Box alignItems="center" flexDirection="row" justifyContent="space-between">

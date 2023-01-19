@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 import { TopBar } from '@usereservaapp/reserva-ui';
 
 import { useCart } from '../../../context/CartContext';
+import { platformType } from '../../../utils/platformType';
 
 export const TopBarDefaultBackButton: React.FC<{
   loading: Boolean;
@@ -30,7 +31,7 @@ export const TopBarDefaultBackButton: React.FC<{
       paddingX="quarck"
       bg="white"
       style={{ elevation: showShadow ? 10 : 0 }}
-      boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
+      boxShadow={showShadow && Platform.OS === platformType.IOS ? 'topBarShadow' : null}
       leftButton={{
         name: 'ArrowBack',
         size: 24,

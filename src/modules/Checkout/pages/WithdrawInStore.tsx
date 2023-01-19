@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography,
   Box,
@@ -12,13 +12,9 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 export const WithdrawInStore = () => {
   const navigation = useNavigation();
-  const [openState, setOpenState] = useState(false);
-  const [opencity, setOpenCity] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('java');
   const [state, setState] = useState('UF');
   const [cep, setCep] = useState('');
   const [city, setCity] = useState('Cidade');
-  const hairline = Platform.OS == 'android' ? 'hairline' : null;
 
   // limpar o state e city quando focar na tela
   useFocusEffect(

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { stringToReal } from '../../../utils/stringToReal';
+import { platformType } from '../../../utils/platformType';
 
 type IOrderData = {
   orderId: string;
@@ -73,7 +74,7 @@ const Order = ({ data }: IOrder) => {
     >
       <Box
         style={{ elevation: 6 }}
-        boxShadow={Platform.OS === 'ios' ? 'topBarShadow' : null}
+        boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
         mb="xxxs"
         width="100%"
         minHeight={132}

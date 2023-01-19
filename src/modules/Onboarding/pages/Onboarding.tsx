@@ -28,6 +28,7 @@ import {
 } from '../components/Permissions';
 import { staticsDataAndroid, staticsDataIos } from '../components/StaticsData';
 import EventProvider from '../../../utils/EventProvider';
+import { platformType } from '../../../utils/platformType';
 
 const { width, height } = Dimensions.get('window');
 
@@ -42,10 +43,10 @@ const Slide = ({
   const navigation = useNavigation();
 
   const verifyPlatform = async () => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === platformType.ANDROID) {
       return navigation.dispatch(StackActions.replace('Main'));
     }
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       return requestATT().then((value) => {
         if (value === true) {
           goNextSlide();
@@ -227,10 +228,10 @@ export const Onboarding: React.FC<{}> = ({}) => {
   });
 
   useEffect(() => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === platformType.ANDROID) {
       setStaticsData(staticsDataAndroid);
     }
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === platformType.IOS) {
       setStaticsData(staticsDataIos);
     }
   }, []);
@@ -253,7 +254,7 @@ export const Onboarding: React.FC<{}> = ({}) => {
   useEffect(() => {
     setLoading(true);
     onboardingData().then((res) => {
-      const items = Platform.OS === 'android'
+      const items = Platform.OS === platformType.ANDROID
         ? res.data?.onboardingCollection?.items[0]?.itemsOnboardingCollection?.items.filter(
           (item: any) => item.visibleAndroid !== false,
         )
@@ -267,12 +268,6 @@ export const Onboarding: React.FC<{}> = ({}) => {
 
   return (
     <>
-      {/* <StatusBar
-        animated
-        barStyle="light-content"
-        backgroundColor={Platform.OS === 'ios' ? undefined : 'rgba(0,0,0,1)'}
-        translucent={true}
-      /> */}
       {!loading ? (
         <FlatList
           ref={ref}

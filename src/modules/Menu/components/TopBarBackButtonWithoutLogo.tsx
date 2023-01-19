@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { TopBar } from '@usereservaapp/reserva-ui';
+import { platformType } from '../../../utils/platformType';
 
 export const TopBarBackButtonWithoutLogo: React.FC<{
   showShadow?: Boolean;
@@ -13,7 +14,7 @@ export const TopBarBackButtonWithoutLogo: React.FC<{
     bg="white"
     showLogo={false}
     style={{ elevation: showShadow ? 10 : 0 }}
-    boxShadow={showShadow && Platform.OS === 'ios' ? 'topBarShadow' : null}
+    boxShadow={showShadow && Platform.OS === platformType.IOS ? 'topBarShadow' : null}
     leftButton={{
       name: 'ArrowBack',
       size: 24,

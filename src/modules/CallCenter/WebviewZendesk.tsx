@@ -7,7 +7,7 @@ import { TopBarBackButton } from '../Menu/components/TopBarBackButton';
 
 export const WebviewZendesk: React.FC<{}> = () => {
   const [loading, setLoading] = useState(true);
-  const [navState, setNavState] = useState('');
+  const [, setNavState] = useState('');
   const webref = useRef(false);
 
   const scripts = `

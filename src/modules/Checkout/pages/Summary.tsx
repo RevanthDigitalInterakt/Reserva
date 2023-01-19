@@ -8,61 +8,26 @@ import {
   Button,
   Icon,
 } from '@usereservaapp/reserva-ui';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
-import AnimatedLottieView from 'lottie-react-native';
+import type AnimatedLottieView from 'lottie-react-native';
 import ReactNativeModal from 'react-native-modal';
 import { animations } from '../../../assets';
 
 import { PriceCustom } from '../components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 type Props = StackScreenProps<RootStackParamList, 'SummaryScreen'>;
 
 export const SummaryScreen = ({ navigation, route }: Props) => {
   const { paymentType, cashback } = route?.params;
-  const [quantity, setQuantity] = useState(1);
   const lottieRef = useRef<AnimatedLottieView | null>(null);
   const [showLottie, setShowLottie] = React.useState(false);
-  const [totalBag, setTotalBag] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
 
-  const [coupons, setCoupons] = React.useState<any>([]);
-  const [coupon, setCoupon] = React.useState<any>();
   const [products, setProducts] = React.useState<any>();
-
-  useEffect(() => {
-    // setCoupons(orders.coupons)
-    // setProducts(orders.orders)
-    // setTotalBag(
-    //   orders.orders.reduce((acc, currentValue) => {
-    //     return acc + (currentValue.quantity ? currentValue.quantity : 0)
-    //   }, 0)
-    // )
-
-    // setTotalPrice(
-    //   orders.orders.reduce((acc, currentValue) => {
-    //     return (
-    //       acc +
-    //       (currentValue.fullPrice
-    //         ? currentValue.fullPrice * (currentValue.quantity || 1)
-    //         : 0)
-    //     )
-    //   }, 0)
-    // )
-    //   setTotalDiscountPrice(
-    //   orders.orders.reduce((acc, currentValue) => {
-    //     return (
-    //       acc +
-    //       (currentValue.discountPrice
-    //         ? currentValue.discountPrice * (currentValue.quantity || 1)
-    //         : 0)
-    //     )
-    //   }, 0)
-    // )
-  }, []);
 
   useEffect(() => {
     if (showLottie) {

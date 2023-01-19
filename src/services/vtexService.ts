@@ -18,6 +18,7 @@ const vtexConfig3 = instance3;
 const vtexConfig4 = instance4;
 const vtexConfig5 = instance5;
 const vtexConfig6 = instance6;
+const vtexConfig7 = instance7;
 
 const VerifyEmail = async (email: string) => {
   const response = await vtexConfig2.get(
@@ -109,6 +110,8 @@ const RestoreCart = async (orderFormId: string | undefined) => {
     return response;
   } catch (error) {
     EventProvider.captureException(error);
+
+    return null;
   }
 };
 
@@ -205,7 +208,8 @@ const AddAddressToCart = async (orderFormId: any, address: any) => {
 };
 
 const DeliveryType = async (orderFormId: any) => {
-  // deve enviar o endereço junto do array de tipo de entrega de CADA produto. ai o vtex irá calcular as entregas possiveis.
+  // deve enviar o endereço junto do array de tipo de entrega de CADA
+  // produto. ai o vtex irá calcular as entregas possiveis.
   const response = await vtexConfig.post(
     `/checkout/pub/orderFom/${orderFormId}/attachments/shippingData?sc=4
         `,
@@ -226,7 +230,8 @@ const DeliveryType = async (orderFormId: any) => {
           reference: null,
           geoCoordinates: [-46.694234, -23.609928],
         },
-        // no caso da falta de todos os dados pode ser enviado apenas alguns igual no adc endereço acima.
+        // no caso da falta de todos os dados pode ser
+        // enviado apenas alguns igual no adc endereço acima.
       ],
       // logisticInfo é o tipo de entrega de CADA PRODUTO.
       logisticsInfo: [
@@ -246,13 +251,14 @@ const DeliveryType = async (orderFormId: any) => {
   return response;
 };
 
-const GetPurchaseData = async (orderGroup: any) => {
-  const response = await vtexConfig.get(
-    `/checkout/pub/orders/order-group/${orderGroup}?sc=4`,
+const GetPurchaseData = async (orderGroup: any, cookie: string) => {
+  const response = await vtexConfig7.get(
+    `/checkout/pub/orders/order-group/${orderGroup}`,
   );
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
-  // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo place order para varias compras.
+  // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo
+  // place order para varias compras.
 };
 
 const ValidateProfile = async (email: string) => {

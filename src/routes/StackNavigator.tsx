@@ -35,7 +35,6 @@ import {
   SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
 import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
-import { EditProfile } from '../modules/Profile/pages/EditProfile';
 import { ListCards } from '../modules/Profile/pages/ListCards';
 import { NewCard } from '../modules/Profile/pages/NewCard';
 import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
@@ -56,9 +55,11 @@ import {
   TimeRaceFlow,
 } from './flows';
 import { HomeTabs } from './HomeTabs';
-import { Flow } from './types/flow.type';
+import type { Flow } from './types/flow.type';
 
 import { LandingPage } from '../modules/LandingPage/LandingPage';
+import RonRedirectToBag from '../pages/RonRedirectToBag';
+import EditProfile from '../pages/EditProfile/EditProfile';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -124,12 +125,10 @@ export type RootStackParamList = {
     landingPageId: string;
   };
   NewAddress: {
+    executeCallback: (payload: any) => Promise<void>;
     id?: number;
-    isCheckout: boolean;
     edit?: boolean;
-    receiveHome?: boolean;
     hasCep?: string;
-    onAddAddressCallBack?: () => void;
     editAddress?: {
       id: string;
       postalCode: string;
@@ -154,7 +153,7 @@ export type RootStackParamList = {
   CancelOrder: {};
   Cashback: { isAcceptedConditions: boolean };
   Credits: {};
-  AddressList: { isCheckout: boolean; comeFrom: string };
+  AddressList: {};
   ListCards: {
     isCheckout: boolean;
     cashback: boolean;
@@ -204,6 +203,9 @@ export type RootStackParamList = {
   BagScreen: {
     isProfileComplete: boolean;
     orderFormId: string | undefined;
+  };
+  RonRedirectToBag: {
+    ronCode: string;
   };
 };
 
@@ -255,11 +257,14 @@ export const MainStackScreen = () => (
       component={ShowListByCategory}
     />
 
+    <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
+
     <MainStack.Screen
       name="BagScreen"
       component={BagScreen}
       initialParams={{ isProfileComplete: false }}
     />
+
     <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
     <MainStack.Screen name="Update" component={Update} />
     <MainStack.Screen

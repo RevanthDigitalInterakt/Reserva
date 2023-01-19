@@ -219,24 +219,3 @@ export const configCollection = gql`
     }
   }
 `;
-// query {
-//   # add your query
-//   configCollection(where:{name: "MainConfig"}) {
-//     items {
-//       name
-//       online
-//       searchCollection
-//       searchMedia {
-//         title
-//        	secionMediaCollection(limit: 10) {
-//         	items {
-//             reference
-//             image {
-//               url
-//             }
-//           }
-//       	}
-//       }
-//     }
-//   }
-// }

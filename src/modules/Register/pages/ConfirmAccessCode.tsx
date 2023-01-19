@@ -23,6 +23,7 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
+import { platformType } from '../../../utils/platformType';
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
@@ -96,7 +97,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
         navigation.navigate('Home');
-        OneSignal.setExternalUserId(email);
+        EventProvider.setPushExternalUserId(email);
       }
     } catch (error) {
       if (error.message === 'Request failed with status code 400') {
@@ -150,7 +151,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         <>
           <KeyboardAwareScrollView
             enableOnAndroid
-            enableAutomaticScroll={(Platform.OS === 'ios')}
+            enableAutomaticScroll={Platform.OS === platformType.IOS}
             extraScrollHeight={155}
           >
 

@@ -18,6 +18,7 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { CardCheckout } from '../Components/CardCheckout';
+import { platformType } from '../../../utils/platformType';
 
 interface Card {
   holder: string;
@@ -121,7 +122,7 @@ export const NewCard = ({ navigation, route }: Props) => {
         flex={1}
         enabled
         keyboardVerticalOffset={15}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === platformType.IOS ? 'padding' : 'height'}
       >
         <Box flex={1}>
           <TopBarBackButton showShadow />

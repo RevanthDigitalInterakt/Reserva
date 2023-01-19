@@ -1015,8 +1015,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       )[0];
 
       if (sellerCodeData) {
-        const sellerCode = sellerCodeData.split('=')[1];
-        await _selectedCouponSeller(sellerCode);
+        const sellerId = sellerCodeData.split('=')[1];
+        await _selectedCouponSeller(sellerId);
       }
       setOrderForm(data);
     } catch (error) {

@@ -7,8 +7,7 @@ import { env } from './env';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
 import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
-
-const _PLATAFORMIOSNAME = 'ios' as const;
+import { platformType } from '../utils/platformType';
 
 const routesConfig = {
   screens: {
@@ -18,6 +17,9 @@ const routesConfig = {
         WishList: 'wishlist',
         BagScreen: {
           path: 'bag/:orderFormId?',
+        },
+        RonRedirectToBag: {
+          path: 'ron/:ronCode',
         },
         HomeTabs: {
           path: 'home-tabs',
@@ -43,14 +45,10 @@ const routesConfig = {
 };
 
 export const linkingConfig: LinkingOptions = {
-  prefixes: ['usereserva://', 'https://www.usereserva.com/'],
+  prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/'],
   config: routesConfig,
   getPathFromState(state) {
-    const path = getPathFromState(state);
-    if (path) {
-      return path;
-    }
-    return '';
+    return getPathFromState(state) || '';
   },
 
   // Push notification firebase
@@ -60,9 +58,10 @@ export const linkingConfig: LinkingOptions = {
 
     if (url != null) {
       const currentDeepLink = deepLinkHelper(url);
+
       if (currentDeepLink) return currentDeepLink;
 
-      if (Platform.OS === _PLATAFORMIOSNAME) {
+      if (Platform.OS === platformType.IOS) {
         Linking.openURL(url);
       }
 
@@ -108,8 +107,8 @@ export const linkingConfig: LinkingOptions = {
         onDeepLinkListener: true,
         timeToWaitForATTUserAuthorization: 10,
       },
-      (result) => {},
-      (error) => {},
+      (_) => {},
+      (_) => {},
     );
 
     // Listen to incoming links from deep linking

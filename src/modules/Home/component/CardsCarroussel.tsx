@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Box, Button, Image } from '@usereservaapp/reserva-ui';
 import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import EventProvider from '../../../utils/EventProvider';
 
 const cardWidth = Dimensions.get('window').width * 0.85;
 const cardPadding = Dimensions.get('window').width * 0.15 * 0.5;
@@ -124,6 +125,11 @@ const Card: React.FC<CardProps> = ({
     const facetInput = [];
     const [categoryType, categoryData] = reference.split(':');
     if (categoryType === 'product') {
+      EventProvider.logEvent('select_item', {
+        item_list_id: categoryData ?? '',
+        item_list_name: '',
+      });
+
       navigation.navigate('ProductDetail', {
         productId: categoryData,
         itemId: categoryData,

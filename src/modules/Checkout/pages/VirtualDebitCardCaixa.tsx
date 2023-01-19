@@ -4,13 +4,13 @@ import {
   Typography, Box, Button, Icon, TextField,
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
-import {
+import type {
   TextInputMaskTypeProp,
   TextInputMaskOptionProp,
 } from 'react-native-masked-text';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 type Props = StackScreenProps<RootStackParamList, 'VirtualDebitCardCaixaScreen'>;
 export const VirtualDebitCardCaixaScreen = ({ route }: Props) => {

@@ -11,3 +11,7 @@ commit-msg:
     commitlint:
       run: npx commitlint --edit
       skip: merge
+pre-push:
+  commands:
+    test:
+      run: yarn test

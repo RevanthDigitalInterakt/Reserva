@@ -60,3 +60,5 @@ buck-out/
 *.jsbundle
 package-lock.json
 .eslintcache
+
+.vscode

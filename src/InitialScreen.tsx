@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
@@ -26,6 +26,7 @@ import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
 import CodePushModal from './shared/components/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import EventProvider from './utils/EventProvider';
+import { platformType } from './utils/platformType';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -51,14 +52,14 @@ async function requestUserPermission() {
   const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED
     || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-  if (Platform.OS === 'ios' && enabled) {
+  if (Platform.OS === platformType.IOS && enabled) {
     deviceInfoModule.getDeviceToken().then((deviceToken) => {
       appsFlyer.updateServerUninstallToken(deviceToken, (_success) => {});
     });
   }
 }
 
-const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
+function InitialScreen({ children } : { children: JSX.Element }) {
   const { barStyle } = useStatusBar();
   const [pushNotification, setPushNotification] = useState<any>();
   const [showNotification, setShowNotification] = useState(false);
@@ -231,6 +232,6 @@ const InitialScreen: React.FC<{ children: FC }> = ({ children }) => {
       </SafeAreaView>
     </>
   );
-};
+}
 
 export default InitialScreen;

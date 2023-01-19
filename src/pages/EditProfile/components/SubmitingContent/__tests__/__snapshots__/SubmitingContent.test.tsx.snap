@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Submiting Content renders without error and match snapshot 1`] = `
+<View
+  alignItems="center"
+  backgroundColor="white"
+  flex={1}
+  flexDirection="row"
+  height={85}
+  justifyContent="space-between"
+  paddingX="xxxs"
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#FFF",
+        "flexBasis": 0,
+        "flexDirection": "row",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "height": 85,
+        "justifyContent": "space-between",
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "width": 750,
+      },
+      Object {
+        "bottom": 42.5,
+        "elevation": 10,
+        "left": 0,
+        "position": "absolute",
+        "zIndex": 999,
+      },
+    ]
+  }
+  width={750}
+>
+  <View
+    paddingRight="nano"
+    style={
+      Array [
+        Object {
+          "paddingRight": 8,
+          "width": "45.45454545454545%",
+        },
+      ]
+    }
+    width={0.45454545454545453}
+  >
+    <View
+      alignItems="stretch"
+      style={
+        Array [
+          Object {
+            "alignItems": "stretch",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "borderColor": "#333333",
+            "borderWidth": 1,
+            "color": "#333333",
+            "fontFamily": "Nunito-Bold",
+            "fontSize": 13,
+            "justifyContent": "center",
+            "minWidth": 130,
+            "opacity": 1,
+            "paddingBottom": 16,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 16,
+          }
+        }
+        testID="submitingcontent_button_go_back_no_register"
+      >
+        <View
+          alignItems="center"
+          flexDirection="row"
+          justifyContent="center"
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+            ]
+          }
+        >
+          <View
+            justifyContent="center"
+            style={
+              Array [
+                Object {
+                  "justifyContent": "center",
+                },
+              ]
+            }
+          >
+            <Text
+              color="preto"
+              fontFamily="nunitoBold"
+              fontSize={13}
+              letterSpacing={1.6}
+              style={
+                Array [
+                  Object {
+                    "color": "#333333",
+                    "fontFamily": "Nunito-Bold",
+                    "fontSize": 13,
+                    "letterSpacing": 1.6,
+                  },
+                ]
+              }
+            >
+              CANCELAR
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    paddingLeft="nano"
+    style={
+      Array [
+        Object {
+          "paddingLeft": 8,
+          "width": "45.45454545454545%",
+        },
+      ]
+    }
+    width={0.45454545454545453}
+  >
+    <View
+      alignItems="stretch"
+      style={
+        Array [
+          Object {
+            "alignItems": "stretch",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#333333",
+            "color": "#FFF",
+            "fontFamily": "Nunito-Bold",
+            "fontSize": 13,
+            "justifyContent": "center",
+            "minWidth": 130,
+            "opacity": 1,
+            "paddingBottom": 16,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 16,
+          }
+        }
+        testID="submitingcontent_button_submit_no_register"
+      >
+        <View
+          alignItems="center"
+          flexDirection="row"
+          justifyContent="center"
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+            ]
+          }
+        >
+          <View
+            justifyContent="center"
+            style={
+              Array [
+                Object {
+                  "justifyContent": "center",
+                },
+              ]
+            }
+          >
+            <Text
+              color="white"
+              fontFamily="nunitoBold"
+              fontSize={13}
+              letterSpacing={1.6}
+              style={
+                Array [
+                  Object {
+                    "color": "#FFF",
+                    "fontFamily": "Nunito-Bold",
+                    "fontSize": 13,
+                    "letterSpacing": 1.6,
+                  },
+                ]
+              }
+            >
+              SALVAR
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

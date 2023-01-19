@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions, TouchableHighlight } from 'react-native';
 import { Box, Image } from '@usereservaapp/reserva-ui';
+import EventProvider from '../../../utils/EventProvider';
 
 export interface BannerProps {
   route?: string;
@@ -36,6 +37,11 @@ const Banner: React.FC<BannerProps> = ({
               const facetInput = [];
               const [categoryType, categoryData] = reference.split(':');
               if (categoryType === 'product') {
+                EventProvider.logEvent('select_item', {
+                  item_list_id: categoryData ?? '',
+                  item_list_name: '',
+                });
+
                 navigation.navigate('ProductDetail', {
                   productId: categoryData,
                   itemId: categoryData,

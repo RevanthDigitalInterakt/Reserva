@@ -1,5 +1,4 @@
 import { ApolloProvider } from '@apollo/client';
-import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
@@ -12,10 +11,7 @@ import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import ChronometerContextProvider from './context/ChronometerContext';
 import CartContextProvider from './context/CartContext';
-import {
-  FirebaseContextProvider,
-  RemoteConfigKeys,
-} from './context/FirebaseContext';
+import { FirebaseContextProvider } from './context/FirebaseContext';
 import InitialScreen from './InitialScreen';
 import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
@@ -31,6 +27,7 @@ import ConfigContextProvider from './context/ConfigContext';
 import SentryConfig from './config/sentryConfig';
 import { IS_DEV } from './utils/enviromentUtils';
 import EventProvider from './utils/EventProvider';
+import ToastProvider from './utils/Toast';
 
 const DefaultTheme = {
   colors: {
@@ -38,25 +35,12 @@ const DefaultTheme = {
   },
 };
 
-const requestUserPermission = async () => {
-  const authStatus = await messaging().requestPermission();
-  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED
-    || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-};
-
-const maintenanceHandler = async () => {
-  const result = await RemoteConfigService.fetchValues();
-  const maintenance = result.find(
-    (x) => x.key === RemoteConfigKeys.SCREEN_MAINTENANCE,
-  );
-
-  return maintenance.value;
-};
+const requestUserPermission = async () => {};
 
 const App = () => {
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
-  const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean>(null);
+  const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean | null>(null);
   const firstLaunchedData = async () => {
     const appData = await AsyncStorage.getItem('isAppFirstLaunched');
     if (appData === null) {
@@ -128,9 +112,7 @@ const App = () => {
                               }
                             >
                               <InitialScreen>
-                                <AppRouting
-                                  isFirstLaunched={isAppFirstLaunched}
-                                />
+                                <AppRouting isFirstLaunched={!!isAppFirstLaunched} />
                               </InitialScreen>
                             </ApolloProvider>
                           </ChronometerContextProvider>
@@ -144,6 +126,7 @@ const App = () => {
           </NavigationContainer>
         </StatusBarContextProvider>
       </ConfigContextProvider>
+      <ToastProvider />
     </ThemeProvider>
   );
 };

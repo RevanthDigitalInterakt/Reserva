@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import Config from 'react-native-config';
 import { useRestAPI } from './useRestAPI';
-import { IResponseSendData } from '../types/interfaces/IResponseSendData';
-import { IResponseCouponShowModal } from '../types/interfaces/IResponseCouponShowModal';
-import { MasterDataSendDataDto } from '../types/dtos/masterdata-send-data.dto';
+import type { IResponseSendData } from '../types/interfaces/IResponseSendData';
+import type { IResponseCouponShowModal } from '../types/interfaces/IResponseCouponShowModal';
+import type { MasterDataSendDataDto } from '../types/dtos/masterdata-send-data.dto';
 
 export interface IResponseSubmit {
   success: boolean;
@@ -15,7 +15,8 @@ export default function useMasterdataProvider() {
   // TODO: Replace with useQuery
   const client = useRestAPI(Config.API_MASTERDATA_PROVIDER_URL!);
 
-  const onCheckChristmasModalVisibility = useCallback(async (): Promise<IResponseCouponShowModal> => {
+  const onCheckChristmasModalVisibility = useCallback(async (
+  ): Promise<IResponseCouponShowModal> => {
     try {
       const { data } = await client.get<IResponseCouponShowModal>(`coupon/show-modal?version=${Date.now()}`);
 

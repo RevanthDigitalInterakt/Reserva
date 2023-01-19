@@ -15,6 +15,9 @@ import {
   ProductQL,
 } from '../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../shared/utils/productUtils';
+import EventProvider from '../../../utils/EventProvider';
+import { getItemPrice } from '../../../utils/getItemPrice';
+import { getPercent } from '../../../utils/getPercent';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -26,16 +29,6 @@ interface ListProductsProps {
 }
 
 const { width } = Dimensions.get('window');
-
-export const getPercent = (
-  sellingPrice: number,
-  listPrice: number,
-): number | undefined => {
-  if (sellingPrice === listPrice) {
-    return undefined;
-  }
-  return Math.round(((listPrice - sellingPrice) * 100) / listPrice);
-};
 
 export const ListHorizontalProducts = ({
   products,
@@ -208,35 +201,15 @@ export const ListHorizontalProducts = ({
           )}
           ListHeaderComponent={listHeader}
           renderItem={({ item, index }) => {
-            let installments;
-
-            let countPosition = 0;
-            while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
-              countPosition++;
-            }
-
-            const listPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.ListPrice || 0;
-            const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price || 0;
-
-            installments = item.items[0].sellers[countPosition].commertialOffer.Installments;
-
-            const installmentsNumber = installments.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
-              { NumberOfInstallments: 0, Value: 0 });
-
-            let discountTag;
-            if (listPrice && sellingPrice) {
-              discountTag = getPercent(
-                sellingPrice,
-                listPrice,
-              );
-            }
-
-            const cashPaymentPrice = !!discountTag && discountTag > 0
-              ? sellingPrice
-              : listPrice || 0;
-
-            const installmentPrice = installments.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
-              { NumberOfInstallments: 0, Value: 0 });
+            const {
+              listPrice,
+              sellingPrice,
+              installments,
+              installmentsNumber,
+              discountTag,
+              cashPaymentPrice,
+              installmentPrice,
+            } = getItemPrice(item.items[0]);
 
             // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
@@ -270,6 +243,11 @@ export const ListHorizontalProducts = ({
                 price={listPrice || 0}
                 productTitle={item.productName}
                 onClickImage={() => {
+                  EventProvider.logEvent('select_item', {
+                    item_list_id: item.productId,
+                    item_list_name: item.productName,
+                  });
+
                   navigation.navigate('ProductDetail', {
                     productId: item.productId,
                     colorSelected: getVariant(
