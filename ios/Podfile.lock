@@ -492,65 +492,64 @@ PODS:
   - FirebaseStorage (8.10.0):
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
-  - Flipper (0.119.0):
+  - Flipper (0.92.0):
     - Flipper-Folly (~> 2.6)
     - Flipper-RSocket (~> 1.4)
   - Flipper-Boost-iOSX (1.76.0.1.11)
   - Flipper-DoubleConversion (1.1.7)
   - Flipper-Fmt (7.1.7)
-  - Flipper-Folly (2.6.9):
+  - Flipper-Folly (2.6.7):
     - Flipper-Boost-iOSX
     - Flipper-DoubleConversion
     - Flipper-Fmt (= 7.1.7)
     - Flipper-Glog
     - libevent (~> 2.1.12)
-    - OpenSSL-Universal (= 1.1.1100)
+    - OpenSSL-Universal (= 1.1.180)
   - Flipper-Glog (0.3.6)
   - Flipper-PeerTalk (0.0.4)
   - Flipper-RSocket (1.4.3):
     - Flipper-Folly (~> 2.6)
-  - FlipperKit (0.119.0):
-    - FlipperKit/Core (= 0.119.0)
-  - FlipperKit/Core (0.119.0):
-    - Flipper (~> 0.119.0)
+  - FlipperKit (0.92.0):
+    - FlipperKit/Core (= 0.92.0)
+  - FlipperKit/Core (0.92.0):
+    - Flipper (~> 0.92.0)
     - FlipperKit/CppBridge
     - FlipperKit/FBCxxFollyDynamicConvert
     - FlipperKit/FBDefines
     - FlipperKit/FKPortForwarding
-    - SocketRocket (~> 0.6.0)
-  - FlipperKit/CppBridge (0.119.0):
-    - Flipper (~> 0.119.0)
-  - FlipperKit/FBCxxFollyDynamicConvert (0.119.0):
+  - FlipperKit/CppBridge (0.92.0):
+    - Flipper (~> 0.92.0)
+  - FlipperKit/FBCxxFollyDynamicConvert (0.92.0):
     - Flipper-Folly (~> 2.6)
-  - FlipperKit/FBDefines (0.119.0)
-  - FlipperKit/FKPortForwarding (0.119.0):
+  - FlipperKit/FBDefines (0.92.0)
+  - FlipperKit/FKPortForwarding (0.92.0):
     - CocoaAsyncSocket (~> 7.6)
     - Flipper-PeerTalk (~> 0.0.4)
-  - FlipperKit/FlipperKitHighlightOverlay (0.119.0)
-  - FlipperKit/FlipperKitLayoutHelpers (0.119.0):
+  - FlipperKit/FlipperKitHighlightOverlay (0.92.0)
+  - FlipperKit/FlipperKitLayoutHelpers (0.92.0):
     - FlipperKit/Core
     - FlipperKit/FlipperKitHighlightOverlay
     - FlipperKit/FlipperKitLayoutTextSearchable
-  - FlipperKit/FlipperKitLayoutIOSDescriptors (0.119.0):
+  - FlipperKit/FlipperKitLayoutIOSDescriptors (0.92.0):
     - FlipperKit/Core
     - FlipperKit/FlipperKitHighlightOverlay
     - FlipperKit/FlipperKitLayoutHelpers
     - YogaKit (~> 1.18)
-  - FlipperKit/FlipperKitLayoutPlugin (0.119.0):
+  - FlipperKit/FlipperKitLayoutPlugin (0.92.0):
     - FlipperKit/Core
     - FlipperKit/FlipperKitHighlightOverlay
     - FlipperKit/FlipperKitLayoutHelpers
     - FlipperKit/FlipperKitLayoutIOSDescriptors
     - FlipperKit/FlipperKitLayoutTextSearchable
     - YogaKit (~> 1.18)
-  - FlipperKit/FlipperKitLayoutTextSearchable (0.119.0)
-  - FlipperKit/FlipperKitNetworkPlugin (0.119.0):
+  - FlipperKit/FlipperKitLayoutTextSearchable (0.92.0)
+  - FlipperKit/FlipperKitNetworkPlugin (0.92.0):
     - FlipperKit/Core
-  - FlipperKit/FlipperKitReactPlugin (0.119.0):
+  - FlipperKit/FlipperKitReactPlugin (0.92.0):
     - FlipperKit/Core
-  - FlipperKit/FlipperKitUserDefaultsPlugin (0.119.0):
+  - FlipperKit/FlipperKitUserDefaultsPlugin (0.92.0):
     - FlipperKit/Core
-  - FlipperKit/SKIOSNetworkPlugin (0.119.0):
+  - FlipperKit/SKIOSNetworkPlugin (0.92.0):
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - glog (0.3.5)
@@ -677,7 +676,7 @@ PODS:
     - OneSignalXCFramework/OneSignalOutcomes
   - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
     - OneSignalXCFramework/OneSignalCore
-  - OpenSSL-Universal (1.1.1100)
+  - OpenSSL-Universal (1.1.180)
   - Permission-AppTrackingTransparency (3.6.1):
     - RNPermissions
   - Permission-Camera (3.6.1):
@@ -1096,7 +1095,6 @@ PODS:
   - RNSVG (12.5.0):
     - React-Core
   - Sentry/HybridSDK (7.31.3)
-  - SocketRocket (0.6.0)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -1110,25 +1108,25 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - Firebase/Core (~> 8.10.0)
-  - Flipper (= 0.119.0)
+  - Flipper (= 0.92.0)
   - Flipper-DoubleConversion (= 1.1.7)
-  - Flipper-Folly (= 2.6.9)
+  - Flipper-Folly (= 2.6.7)
   - Flipper-Glog (= 0.3.6)
   - Flipper-PeerTalk (~> 0.0.4)
   - Flipper-RSocket (~> 1.3)
-  - FlipperKit (= 0.119.0)
-  - FlipperKit/Core (= 0.119.0)
-  - FlipperKit/CppBridge (= 0.119.0)
-  - FlipperKit/FBCxxFollyDynamicConvert (= 0.119.0)
-  - FlipperKit/FBDefines (= 0.119.0)
-  - FlipperKit/FKPortForwarding (= 0.119.0)
-  - FlipperKit/FlipperKitHighlightOverlay (= 0.119.0)
-  - FlipperKit/FlipperKitLayoutPlugin (= 0.119.0)
-  - FlipperKit/FlipperKitLayoutTextSearchable (= 0.119.0)
-  - FlipperKit/FlipperKitNetworkPlugin (= 0.119.0)
-  - FlipperKit/FlipperKitReactPlugin (= 0.119.0)
-  - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.119.0)
-  - FlipperKit/SKIOSNetworkPlugin (= 0.119.0)
+  - FlipperKit (= 0.92.0)
+  - FlipperKit/Core (= 0.92.0)
+  - FlipperKit/CppBridge (= 0.92.0)
+  - FlipperKit/FBCxxFollyDynamicConvert (= 0.92.0)
+  - FlipperKit/FBDefines (= 0.92.0)
+  - FlipperKit/FKPortForwarding (= 0.92.0)
+  - FlipperKit/FlipperKitHighlightOverlay (= 0.92.0)
+  - FlipperKit/FlipperKitLayoutPlugin (= 0.92.0)
+  - FlipperKit/FlipperKitLayoutTextSearchable (= 0.92.0)
+  - FlipperKit/FlipperKitNetworkPlugin (= 0.92.0)
+  - FlipperKit/FlipperKitReactPlugin (= 0.92.0)
+  - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.92.0)
+  - FlipperKit/SKIOSNetworkPlugin (= 0.92.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
@@ -1258,7 +1256,6 @@ SPEC REPOS:
     - OpenSSL-Universal
     - PromisesObjC
     - Sentry
-    - SocketRocket
     - SSZipArchive
     - YogaKit
 
@@ -1453,15 +1450,15 @@ SPEC CHECKSUMS:
   FirebasePerformance: 4f6d878a30f70f5ea4327c36868cd3624e762a07
   FirebaseRemoteConfig: 84d3397887d95587f0ee7a0a3989b2756dc2bbf9
   FirebaseStorage: 815410224b548172c578f02554a86bbc8f817f50
-  Flipper: d01a34b05cc8a6bf0e3764d78fa68f8c9bbf68bb
+  Flipper: bc940dd278ca91f9b2d36b6fac5c098a8906ffa2
   Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Fmt: 60cbdd92fc254826e61d669a5d87ef7015396a9b
-  Flipper-Folly: 4c7cf530a9038ae25b0fa37e00b00491c467aaea
+  Flipper-Folly: 83af37379faa69497529e414bd43fbfc7cae259a
   Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
   Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
-  FlipperKit: 51152063c7e3c07b803d3deacd2c2196cc17a919
+  FlipperKit: b2c08dc00bd104315cf3d0fe2f4939b0b20b407a
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleAppMeasurement: a3311dbcf3ea651e5a070fe8559b57c174ada081
@@ -1479,7 +1476,7 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OneSignal: cdff84e3d088caf7952e30140838b2ab296c8cbc
   OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
-  OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+  OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   Permission-AppTrackingTransparency: 9eedbc3b5a2907b8cb2c971461754616eac1661d
   Permission-Camera: bf6791b17c7f614b6826019fcfdcc286d3a107f6
   Permission-LocationAlways: 8d99b025c9f73c696e0cdb367e42525f2e9a26f2
@@ -1554,11 +1551,10 @@ SPEC CHECKSUMS:
   RNStoreReview: e05edbbf426563070524cec384ac0b8df69be801
   RNSVG: 6adc5c52d2488a476248413064b7f2832e639057
   Sentry: 08884c523575ec0f6690d94ed3ccb0246a1600bf
-  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: d1fc3575b8b68891ff5ef3c276daa855e841eb32
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: a3869ad96397eb17a55b635fa510d8086fa0dd1e
+PODFILE CHECKSUM: 697b16604e72d5f7770d5c3d29e891e20044baff
 
 COCOAPODS: 1.11.3
