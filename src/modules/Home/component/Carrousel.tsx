@@ -69,6 +69,7 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
           ref={(carousel) => {
             if (carousel) $carousel.current = carousel;
           }}
+          panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
           data={carrouselCards}
           style={{ backgroundColor: 'rgba(0, 0, 255, 0)', position: 'relative' }}
           onSnapToItem={setCurrIndex}
