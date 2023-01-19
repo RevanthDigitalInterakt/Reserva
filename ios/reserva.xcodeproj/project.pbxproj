@@ -18,10 +18,10 @@
 		1FC317736DC5429C87E08D68 /* ReservaSerif-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = ADA1D6FC0E9941A186DF9C6D /* ReservaSerif-LightItalic.otf */; };
 		23C4D0F8A6994DD59DC32BBE /* ReservaSerif-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A4503C6B7CC54DF88ECB7E90 /* ReservaSerif-Bold.otf */; };
 		2DE40EEFE0B94E0D8D408FF4 /* ReservaSerif-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */; };
-		3206EEB0F43A019CF7DB6224 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		3206EEB0F43A019CF7DB6224 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		32CE94F85EEC4CA8AFEE5B05 /* ReservaSerif-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */; };
 		3474CE20D02A498C8C5F2D4A /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */; };
-		4DAC524E2B5B30212196A89A /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		4DAC524E2B5B30212196A89A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		4F22604933F54DB880365BB4 /* ReservaSerif-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */; };
 		50396DA55C7B4ACB8412483F /* ReservaSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40955CD8E41946A69A85976B /* ReservaSans-Thin.ttf */; };
 		566ACDC8859A4A58B615C21C /* ReservaSerif-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5F532457949E4248830466C4 /* ReservaSerif-Light.otf */; };
@@ -49,7 +49,7 @@
 		9111C34D4528484ABDB84EAF /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */; };
 		A2717E40DC8A4D7996CECF94 /* ReservaSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F2BB4A802EC4270991D6A74 /* ReservaSans-LightItalic.ttf */; };
 		A5F3AAB191844FEAA3501BEB /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB84B74FCBB84C119C2C6DF0 /* Nunito-Italic.ttf */; };
-		AD2796DD846321811B369F90 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		AD2796DD846321811B369F90 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		AD4D07B738B240E7868DC046 /* ReservaSerif-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3503ED5CBCD8472FB58615A0 /* ReservaSerif-BoldItalic.otf */; };
 		B88A872A062C4CA98F02E135 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB590B2777EE4E49BD3CE209 /* Nunito-ExtraLight.ttf */; };
 		B98A71DA04624DA08E76C146 /* ReservaSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBA94F4E575F4E0A9BC57DD2 /* ReservaSans-Light.ttf */; };
@@ -191,7 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DAC524E2B5B30212196A89A /* BuildFile in Frameworks */,
+				4DAC524E2B5B30212196A89A /* (null) in Frameworks */,
 				5D6F892B1EDDE2DF1F32575E /* libPods-reserva-reservaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,7 +202,7 @@
 			files = (
 				676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */,
 				67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */,
-				3206EEB0F43A019CF7DB6224 /* BuildFile in Frameworks */,
+				3206EEB0F43A019CF7DB6224 /* (null) in Frameworks */,
 				D491E80F3D6A16CCACBA91F6 /* libPods-reserva.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,7 +211,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD2796DD846321811B369F90 /* BuildFile in Frameworks */,
+				AD2796DD846321811B369F90 /* (null) in Frameworks */,
 				6334DC17B1502E44970E2BA4 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -888,7 +888,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022131806;
+				CURRENT_PROJECT_VERSION = 2023000001;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -948,7 +948,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.18.6;
+				MARKETING_VERSION = 1.18.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -976,7 +976,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022131806;
+				CURRENT_PROJECT_VERSION = 2023000001;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1035,7 +1035,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.18.6;
+				MARKETING_VERSION = 1.18.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1063,7 +1063,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022131806;
+				CURRENT_PROJECT_VERSION = 2023000001;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1078,7 +1078,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.18.6;
+				MARKETING_VERSION = 1.18.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
@@ -1102,7 +1102,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2022131806;
+				CURRENT_PROJECT_VERSION = 2023000001;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1117,7 +1117,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.18.6;
+				MARKETING_VERSION = 1.18.7;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
