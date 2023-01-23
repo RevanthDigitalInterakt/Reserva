@@ -11,7 +11,6 @@ import {
   Platform, SafeAreaView, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import OneSignal from 'react-native-onesignal';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import {

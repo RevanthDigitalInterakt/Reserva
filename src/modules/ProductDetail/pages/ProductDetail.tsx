@@ -713,7 +713,7 @@ export const ProductDetail: React.FC<Props> = ({
           item_variant: '',
           item_name: product.productName,
           item_category: Object.values(product?.categoryTree.map((i) => (i.href))).join('|'),
-        }
+        },
       ],
       value: product.priceRange.sellingPrice.lowPrice,
     });
