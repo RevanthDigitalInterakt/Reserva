@@ -203,18 +203,27 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           setLoading(false);
           // case when update orderform has succeeded, must open payment webview
           if (data) {
-            EventProvider.logEvent('add_shipping_info', {
-              coupon: '',
-              currency: 'BRL',
-              items: orderForm.items.map((item) => ({
-                price: item.price / 100,
-                item_id: item.productId,
-                quantity: item.quantity,
-                item_name: item.name,
-                item_variant: item.skuName,
-                item_category: Object.values(item.productCategories).join('|'),
-              })),
-            });
+            const { items } = orderForm;
+            if (items.length) {
+              try {
+                const newItems = items.map((item) => ({
+                  price: item?.price / 100 ?? 0,
+                  item_id: item?.productId,
+                  quantity: item?.quantity,
+                  item_name: item?.name,
+                  item_variant: item?.skuName,
+                  item_category: Object.values(item?.productCategories).join('|') ?? '',
+                }));
+
+                EventProvider.logEvent('add_shipping_info', {
+                  coupon: '',
+                  currency: 'BRL',
+                  items: newItems,
+                });
+              } catch (e) {
+                EventProvider.captureException(e);
+              }
+            }
 
             navigation.navigate('Checkout');
           } else {
@@ -243,18 +252,27 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         setLoading(false);
 
         if (data) {
-          EventProvider.logEvent('add_shipping_info', {
-            coupon: '',
-            currency: 'BRL',
-            items: orderForm.items.map((item) => ({
-              price: item.price / 100,
-              item_id: item.productId,
-              quantity: item.quantity,
-              item_name: item.name,
-              item_variant: item.skuName,
-              item_category: Object.values(item.productCategories).join('|'),
-            })),
-          });
+          const { items } = orderForm;
+          if (items.length) {
+            try {
+              const newItems = items.map((item) => ({
+                price: item?.price / 100 ?? 0,
+                item_id: item?.productId,
+                quantity: item?.quantity,
+                item_name: item?.name,
+                item_variant: item?.skuName,
+                item_category: Object.values(item?.productCategories).join('|') ?? '',
+              }));
+
+              EventProvider.logEvent('add_shipping_info', {
+                coupon: '',
+                currency: 'BRL',
+                items: newItems,
+              });
+            } catch (e) {
+              EventProvider.captureException(e);
+            }
+          }
 
           navigation.navigate('Checkout');
         } else {

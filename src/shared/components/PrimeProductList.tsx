@@ -1,6 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
 import { Box } from '@usereservaapp/reserva-ui';
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   productSearch,
@@ -17,7 +16,6 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
 }) => {
   const pageSize = 12;
 
-  const navigation = useNavigation();
   const [loadingFetchMore, setLoadingFetchMore] = useState(false);
   const [loadingHandlerState, setLoadingHandlerState] = useState(false);
 
@@ -26,14 +24,16 @@ export const PrimeProductList: React.FC<PrimeProductListProps> = ({
     const [subType, subcategories] = reference.split(':');
 
     if (subType === 'category') {
-      subcategories.split('|').forEach((sub) => {
-        if (sub !== '') {
-          facetInput.push({
-            key: 'c',
-            value: sub,
-          });
-        }
-      });
+      if (subcategories) {
+        subcategories.split('|').forEach((sub) => {
+          if (sub !== '') {
+            facetInput.push({
+              key: 'c',
+              value: sub,
+            });
+          }
+        });
+      }
     } else {
       facetInput.push({
         key: 'productClusterIds',

@@ -46,7 +46,7 @@ export const useChronometerLocal = ({ initial = '00:00:00' }) => {
 };
 
 const convertHoursToSeconds = (time = '00:00:00') => {
-  let [horas, minutos, segundos] = time.split(':');
+  let [horas, minutos, segundos] = time?.split(':') || [undefined, undefined, undefined];
   horas = Number(horas);
   minutos = Number(minutos);
   segundos = Number(segundos);

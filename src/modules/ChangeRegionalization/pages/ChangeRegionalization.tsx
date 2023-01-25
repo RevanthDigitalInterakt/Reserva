@@ -9,8 +9,8 @@ import {
   Box, Button, Icon, Picker, TextField, Typography,
 } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
-import { RootStackParamList } from 'routes/StackNavigator';
-import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
+import type { RootStackParamList } from 'routes/StackNavigator';
+import type { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Sentry from '../../../config/sentryConfig';
@@ -95,15 +95,6 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
       formRef.current.resetForm();
     }, [formRef]),
   );
-
-  const parseInput2Url = async (input: string) => {
-    let url: string[] = input.split(/(,\s*)|(-\s*)|(\\\s*)/g);
-    url = url.filter((item) => item != undefined && !item.match(/^((,\s*)|(-\s*)|(\\\s*))/g));
-
-    url = url.map((param) => param.replace(/\s/g, '%20'));
-    const params = url.join('/');
-    return params;
-  };
 
   const fetchCepInfo = async (cep: string) => {
     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
@@ -347,7 +338,9 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
                 Digite o nome da rua
               </Typography>
               <TextField
-                onFocus={(event) => (Platform.OS === platformType.ANDROID ? scrollViewRef.current?.scrollToEnd() : null)}
+                onFocus={(event) => (Platform.OS === platformType.ANDROID
+                  ? scrollViewRef.current?.scrollToEnd()
+                  : null)}
                 value={address?.street}
                 onChangeText={(text) => setAddress({ ...address, street: text })}
                 placeholder="Rua da Luz"

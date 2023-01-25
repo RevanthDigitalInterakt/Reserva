@@ -35,7 +35,7 @@ const Banner: React.FC<BannerProps> = ({
               navigation.navigate(route, { landingPageId });
             } else {
               const facetInput = [];
-              const [categoryType, categoryData] = reference.split(':');
+              const [categoryType, categoryData] = reference?.split(':') || [undefined, undefined];
               if (categoryType === 'product') {
                 EventProvider.logEvent('select_item', {
                   item_list_id: categoryData ?? '',
@@ -49,7 +49,7 @@ const Banner: React.FC<BannerProps> = ({
                 });
               } else {
                 if (categoryType === 'category') {
-                  categoryData.split('|').forEach((cat: string) => {
+                  categoryData?.split('|').forEach((cat: string) => {
                     facetInput.push({
                       key: 'c',
                       value: cat,

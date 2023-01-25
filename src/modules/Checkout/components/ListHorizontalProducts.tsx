@@ -244,8 +244,8 @@ export const ListHorizontalProducts = ({
                 productTitle={item.productName}
                 onClickImage={() => {
                   EventProvider.logEvent('select_item', {
-                    item_list_id: item.productId,
-                    item_list_name: item.productName,
+                    item_list_id: item?.productId,
+                    item_list_name: item?.productName,
                   });
 
                   navigation.navigate('ProductDetail', {

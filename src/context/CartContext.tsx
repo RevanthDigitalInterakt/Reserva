@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle */
 import React, {
   useState,
   createContext,
@@ -6,7 +8,7 @@ import React, {
   useEffect,
 } from 'react';
 
-import { CepResponse } from '../config/brasilApi';
+import type { CepResponse } from '../config/brasilApi';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -533,7 +535,8 @@ interface CartContextProps {
     id: string,
     seller: string
   ) => void;
-  toggleGiftWrapping: (flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => (
+  toggleGiftWrapping: (
+    flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => (
     Promise<void>
   );
 }
@@ -571,7 +574,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       if (data.length > 0 && data[0].ativo) {
         setSellerCode(sellerCouponCode);
-        setSellerName(data[0].vendedor_apelido.split(' ')[0]);
+        setSellerName(data[0]?.vendedor_apelido?.split(' ')[0]);
         return !!data;
       }
       return false;
@@ -670,8 +673,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       EventProvider.logEvent('add_to_cart', {
         item_id: itemId,
-        item_name: product.name,
-        item_price: product.price,
+        item_name: product?.name,
+        item_price: product?.price,
         item_quantity: quantity,
         item_category: categories,
         currency: 'BRL',
@@ -766,7 +769,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       EventProvider.logEvent('complete_registration', {
         registration_method: 'email',
-        custumer_email: String(orderForm?.clientProfileData.email),
+        custumer_email: String(orderForm?.clientProfileData?.email),
       });
 
       setOrderForm(data);
@@ -984,7 +987,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         ],
       });
 
-      const sellerName = data[0].vendedor_apelido.split(' ')[0];
+      const sellerName = data[0]?.vendedor_apelido?.split(' ')[0];
 
       // TODO if no found sellerName, should be do default name;
       if (!sellerName) {
@@ -993,7 +996,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       }
 
       setSellerCode(sellerCouponCode);
-      setSellerName(data[0].vendedor_apelido.split(' ')[0]);
+      setSellerName(data[0]?.vendedor_apelido?.split(' ')[0]);
 
       await _requestOrderForm();
     } catch (error) {
@@ -1014,9 +1017,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       )[0];
 
       if (sellerCodeData) {
-        const sellerId = sellerCodeData.split('=')[1];
-
-        if (sellerId) await _selectedCouponSeller(sellerId);
+        const sellerId = sellerCodeData?.split('=')[1] as unknown as string | undefined;
+        if (sellerId) {
+          await _selectedCouponSeller(sellerId);
+        }
       }
 
       setOrderForm(data);

@@ -94,7 +94,7 @@ const Order = ({ data }: IOrder) => {
             </Typography>
 
             <Typography fontSize={20} fontFamily="nunitoBold" color="preto">
-              {stringToReal(String(order.totalValue))}
+              {stringToReal(String(order?.totalValue))}
             </Typography>
           </Box>
           <Typography

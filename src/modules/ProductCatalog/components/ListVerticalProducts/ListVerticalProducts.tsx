@@ -15,9 +15,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
-import { ProductQL } from '../../../../graphql/products/productSearch';
+import type { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
-import { ProductUtils } from '../../../../shared/utils/productUtils';
 import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
 import { slugify } from '../../../../utils/slugify';
 import EventProvider from '../../../../utils/EventProvider';
@@ -43,14 +42,12 @@ export const ListVerticalProducts = ({
   listHeader,
   isLoading,
   loadMoreProducts,
-  loadingHandler,
   totalProducts,
   handleScrollToTheTop,
 }: ListProductsProps) => {
   const navigation = useNavigation();
   const [favoritedProduct, setFavoritedProduct] = useState<any>();
   const [isVisible, setIsVisible] = useState(false);
-  const [productList, setProductList] = useState<ProductQL[]>([]);
   const [skip, setSkip] = useState(false);
   const [saleOffTag, setSaleOffTag] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -63,10 +60,7 @@ export const ListVerticalProducts = ({
     setLoading(loading);
   }, [loading]);
 
-  const [
-    addWishList,
-    { data: addWishListData, error: addWishListError, loading: addWishLoading },
-  ] = useMutation(wishListQueries.ADD_WISH_LIST);
+  const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
 
   const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, {
     variables: {
@@ -76,36 +70,17 @@ export const ListVerticalProducts = ({
     nextFetchPolicy: 'no-cache',
   });
 
-  const [
-    removeWishList,
-    {
-      data: removeWishListData,
-      error: removeWishListError,
-      loading: removeWishLoading,
-    },
-  ] = useMutation(wishListQueries.REMOVE_WISH_LIST);
-
-  const resizeImage = (imageUrl: string) => {
-    const urlArray = imageUrl.split('/');
-    urlArray[urlArray.length - 2] = `${urlArray[urlArray.length - 2]}-500-750`;
-    return urlArray.join('/');
-  };
+  const [removeWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
   const populateListWithFavorite = async () => {
     setLoading(true);
-    /*  if (email) {
-      if (products && products.length <= 0) {
-        await populateWishlist();
-      }
-    } */
-    // Promise.all(products).then((res) => setProductList(res));
     setLoading(false);
   };
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
-    const { productId, listId } = item;
+    const { productId } = item;
     if (email) {
       if (favorite) {
         const { data } = await addWishList({
@@ -140,8 +115,6 @@ export const ListVerticalProducts = ({
     }
     setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
   };
-
-  const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
   const populateWishlist = async () => {
     setSkip(true);
@@ -193,7 +166,6 @@ export const ListVerticalProducts = ({
         isVisible={isVisible}
         favoritedProduct={favoritedProduct}
       />
-      {/* {(productList.length > 0 || loading) && !error ? ( */}
 
       {products && products.length <= 0 && (
         <Box
@@ -298,15 +270,11 @@ export const ListVerticalProducts = ({
               const {
                 listPrice,
                 sellingPrice,
-                installments,
                 installmentsNumber,
-                discountTag,
                 cashPaymentPrice,
                 installmentPrice,
               } = getItemPrice(item.items[0]);
 
-              // item.priceRange?.listPrice?.lowPrice;
-              const colors = new ProductUtils().getColorsArray(item);
               return (
                 <ProductItem
                   item={item}
@@ -317,20 +285,17 @@ export const ListVerticalProducts = ({
                   }
                   isFavorited={
                     !!favorites.find((x) => x.sku == item?.items[0]?.itemId)
-                  } // item.isFavorite}
+                  }
                   onClickFavorite={(isFavorite) => {
-                    // setLoafingFavorite([...loadingFavorite, item.productId])
                     handleOnFavorite(isFavorite, item);
-                    // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
                   }}
-                  // colors={null}
                   imageSource={item?.items[0]?.images[0]?.imageUrl}
                   installmentsNumber={
                     installmentsNumber?.NumberOfInstallments || 1
-                  } // numero de parcelas
+                  }
                   installmentsPrice={
                     installmentPrice?.Value || cashPaymentPrice || 0
-                  } // valor das parcelas
+                  }
                   currency="R$"
                   discountTag={getPercent(sellingPrice, listPrice)}
                   saleOff={getSaleOff(item)}
@@ -340,8 +305,8 @@ export const ListVerticalProducts = ({
                   testID={`productcard_vertical_${slugify(item.productId)}`}
                   onClickImage={() => {
                     EventProvider.logEvent('select_item', {
-                      item_list_id: item.productId,
-                      item_list_name: item.productName,
+                      item_list_id: item?.productId,
+                      item_list_name: item?.productName,
                     });
 
                     navigation.navigate('ProductDetail', {

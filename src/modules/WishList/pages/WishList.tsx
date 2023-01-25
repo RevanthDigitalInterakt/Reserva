@@ -156,7 +156,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     if (wishIds) {
-      const idArray = wishIds.map((x) => x.productId.split('-')[0]) || [];
+      const idArray = wishIds.map((x) => x?.productId?.split('-')[0]) || [];
       refetchProducts({ idArray });
     }
   }, [wishIds]);
@@ -168,7 +168,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
       wishIds.forEach((item) => {
         const product = products.productsByIdentifier.find(
-          (prod) => prod.productId == item.productId.split('-')[0],
+          (prod) => prod?.productId == item?.productId?.split('-')[0],
         );
         if (product) {
           const productSku = product?.items.find(
@@ -403,8 +403,8 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       testID={`producthorizontal_card_${slugify(item.productSku?.name)}`}
                       onClickAddCount={() => { }}
                       isFavorited
-                      itemColor={item.productSku?.name.split('-')[0] || ''}
-                      ItemSize={item.productSku?.name.split('-')[1] || ''}
+                      itemColor={item?.productSku?.name?.split('-')[0] || ''}
+                      ItemSize={item?.productSku?.name?.split('-')[1] || ''}
                       productTitle={`${item.product?.productName.slice(0, 30)}${item.product?.productName.length > 30 ? '...' : ''
                       }`}
                       installmentsNumber={item.installmentsNumber}
@@ -422,16 +422,18 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                               'A Camiseta Simples® é 100% algodão e tem certificação BCI (Better Cotton Iniciative)',
                             )
                           ) {
-                            EventProvider.logEvent('select_item', {
-                              item_list_id: item.productId ?? '',
-                              item_list_name: item.productSku?.name.split('-')[0] ?? '',
-                            });
-
+                            const { productId, productSku } = item;
+                            if (productSku?.name) {
+                              EventProvider.logEvent('select_item', {
+                                item_list_id: productId ?? '',
+                                item_list_name: productSku?.name?.split('-')[0] ?? '',
+                              });
+                            }
+                            // TODO - ver tipagem desta rota.
                             navigation.navigate('ProductDetail', {
-                              productId: item.product?.productId,
-                              colorSelected:
-                                  item.productSku?.variations[2].values[0],
-                              sizeSelected: item.productSku?.name.split('-')[1],
+                              productId: item?.product?.productId,
+                              colorSelected: item?.productSku?.variations[2]?.values[0],
+                              sizeSelected: item?.productSku?.name?.split('-')[1],
                             });
                           } else {
                             onProductAdd(item.productSku?.itemId, sellers);
@@ -441,21 +443,21 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                         }
                       }}
                       imageSource={
-                          item.productSku?.images[0].imageUrl
-                          // .replace("http", "https")
-                          // .split("-55-55")
-                          // .join("")
-                        }
+                        item.productSku?.images[0]?.imageUrl
+                      }
                       handleNavigateToProductDetail={() => {
-                        EventProvider.logEvent('select_item', {
-                          item_list_id: item.productId ?? '',
-                          item_list_name: item.productSku?.name.split('-')[0] ?? '',
-                        });
-
+                        const { productId, productSku } = item;
+                        if (productSku?.name) {
+                          EventProvider.logEvent('select_item', {
+                            item_list_id: productId ?? '',
+                            item_list_name: productSku?.name?.split('-')[0] ?? '',
+                          });
+                        }
+                        // TODO - ver tipagem desta rota.
                         navigation.navigate('ProductDetail', {
-                          productId: item.product?.productId,
-                          itemId: item.productSku?.itemId,
-                          sizeSelected: item.productSku?.name.split('-')[1],
+                          productId: item?.product?.productId,
+                          itemId: item?.productSku?.itemId,
+                          sizeSelected: item?.productSku?.name?.split('-')[1],
                         });
                       }}
                     />

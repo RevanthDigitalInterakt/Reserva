@@ -210,7 +210,7 @@ export const RaceDetail: React.FC = () => {
   const deg2rad = (deg) => deg * (Math.PI / 180);
 
   const calculatePace = (dist: any, timer: any) => {
-    let [hrs, mins, secs]: any = timer.split(':');
+    let [hrs, mins, secs]: any = timer?.split(':') || [undefined, undefined, undefined];
     dist = parseFloat(dist);
     hrs = parseFloat(hrs);
     mins = parseFloat(mins);

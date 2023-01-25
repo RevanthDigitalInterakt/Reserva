@@ -29,7 +29,7 @@ import {
   ProductSearchData,
 } from '../../../graphql/products/productSearch';
 import { CountDownLocal } from '../../Home/component/countDownLocal/CountDownLocal';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { CountDownBanner } from '../../Home/component/CountDown';
@@ -142,14 +142,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     const [subType, subcategories] = reference.split(':');
 
     if (subType === 'category') {
-      subcategories.split('|').forEach((sub) => {
-        if (sub !== '') {
-          facetInput.push({
-            key: 'c',
-            value: sub,
-          });
-        }
-      });
+      if (subcategories) {
+        subcategories.split('|').forEach((sub) => {
+          if (sub !== '') {
+            facetInput.push({
+              key: 'c',
+              value: sub,
+            });
+          }
+        });
+      }
     } else {
       facetInput.push({
         key: 'productClusterIds',
@@ -276,9 +278,13 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [countDownClock]);
 
   useEffect(() => {
-    EventProvider.logEvent('product_list_view', {
-      content_type: referenceString,
-    });
+    try {
+      EventProvider.logEvent('product_list_view', {
+        content_type: referenceString,
+      });
+    } catch (err) {
+      EventProvider.captureException(err);
+    }
   }, []);
 
   const [{ facetsData, lodingFacets }, setFacets] = useState<{
@@ -511,6 +517,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         productOriginVtex: false,
       },
     });
+
     if (data) {
       const newDataProductSearch = {
         productSearch: {
@@ -530,11 +537,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
       try {
         EventProvider.logEvent('view_item_list', {
-          items: newDataProductSearch.productSearch.map((item) => ({
-            price: item.priceRange.sellingPrice.lowPrice,
-            item_id: item.productId,
-            item_name: item.productName,
-            item_category: Object.values(item.categoryTree.map((i) => (i.href))).join('|'),
+          items: newDataProductSearch?.productSearch.map((item) => ({
+            price: item?.priceRange?.sellingPrice?.lowPrice,
+            item_id: item?.productId,
+            item_name: item?.productName,
+            item_category: Object.values(item?.categoryTree.map((i) => (i.href))).join('|'),
           })),
         });
       } catch (err) {

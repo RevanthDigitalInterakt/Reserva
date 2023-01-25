@@ -5,11 +5,9 @@ import {
   Dimensions, Animated, StyleSheet,
 } from 'react-native';
 import { Box, Button, Image } from '@usereservaapp/reserva-ui';
-import { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import type { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 
-const cardWidth = Dimensions.get('window').width * 0.85;
-const cardPadding = Dimensions.get('window').width * 0.15 * 0.5;
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 interface CardsCarrouselProps {
@@ -43,22 +41,18 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
             paddingLeft: 4,
             paddingRight: 4,
           }}
-          // snapToInterval={cardWidth}
-          // snapToAlignment="center"
-          // pagingEnabled
-          // decelerationRate={0}
           bounces={false}
           renderItem={({ item, index }) => (
             <Box>
               <Card
-                image={item.image}
-                name={item.name}
-                description={item.description}
-                reference={item.reference}
-                referenceLabel={item.referenceLabel}
+                image={item?.image}
+                name={item?.name}
+                description={item?.description}
+                reference={item?.reference}
+                referenceLabel={item?.referenceLabel}
                 key={index}
-                reservaMini={item.reservaMini}
-                orderBy={item.orderBy}
+                reservaMini={item?.reservaMini}
+                orderBy={item?.orderBy}
               />
             </Box>
           )}
@@ -112,10 +106,7 @@ interface CardProps extends CarrouselCard {
 
 const Card: React.FC<CardProps> = ({
   image,
-  referenceLabel,
   reference,
-  description,
-  name,
   reservaMini,
   orderBy,
 }) => {
@@ -137,7 +128,7 @@ const Card: React.FC<CardProps> = ({
       });
     } else {
       if (categoryType === 'category') {
-        categoryData.split('|').forEach((cat: string) => {
+        categoryData?.split('|').forEach((cat: string) => {
           facetInput.push({
             key: 'c',
             value: cat,
@@ -163,7 +154,7 @@ const Card: React.FC<CardProps> = ({
         <Image
           autoHeight
           width={DEVICE_WIDTH * 0.85 - 16}
-          source={{ uri: image.url }}
+          source={{ uri: image?.url }}
         />
       </Button>
     </Box>

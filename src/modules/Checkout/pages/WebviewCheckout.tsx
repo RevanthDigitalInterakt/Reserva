@@ -40,7 +40,8 @@ const Checkout: React.FC<{}> = () => {
   useEffect(() => {
     EventProvider.getPushTags((receivedTags) => {
       if (receivedTags && receivedTags?.total_orders_value) {
-        setTotalOrdersValue(parseFloat(receivedTags?.total_orders_value));
+        const result = parseFloat(receivedTags?.total_orders_value);
+        if (result) setTotalOrdersValue(result);
       }
     });
   }, []);
@@ -54,11 +55,15 @@ const Checkout: React.FC<{}> = () => {
   ), [isOrderPlaced]);
 
   const removeAbandonedCartTags = useCallback(() => {
-    EventProvider.sendPushTags('sendAbandonedCartTags', {
-      cart_update: '',
-      product_name: '',
-      product_image: '',
-    });
+    try {
+      EventProvider.sendPushTags('sendAbandonedCartTags', {
+        cart_update: '',
+        product_name: '',
+        product_image: '',
+      });
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
   }, []);
 
   const getOrderId = useCallback(() => {
@@ -74,20 +79,22 @@ const Checkout: React.FC<{}> = () => {
         try {
           const orderGroup = getOrderId()?.split('-')?.[0];
           const { data } = await GetPurchaseData(orderGroup, cookie);
-          if (data) {
+          const { items } = orderForm;
+          if (data && items?.length) {
+            const newItems = items.map((item) => ({
+              price: item?.price / 100 ?? 0,
+              item_id: item?.productId,
+              quantity: item?.quantity,
+              item_name: item?.name,
+              item_variant: item?.skuName,
+              item_category: Object.values(item?.productCategories).join('|') ?? '',
+            }));
             EventProvider.logEvent('add_payment_info', {
               coupon: '',
               currency: 'BRL',
-              value: orderForm.value / 100,
+              value: orderForm?.value / 100,
               payment_type: data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName,
-              items: orderForm.items.map((item) => ({
-                price: item.price / 100,
-                item_id: item.productId,
-                quantity: item.quantity,
-                item_name: item.name,
-                item_variant: item.skuName,
-                item_category: Object.values(item.productCategories).join('|'),
-              })),
+              items: newItems,
             });
           }
         } catch (e) {
@@ -160,54 +167,59 @@ const Checkout: React.FC<{}> = () => {
 
         const timestamp = Math.floor(Date.now() / 1000);
         const newTotalOrdersValue = orderValue + totalOrdersValue;
-        EventProvider.sendPushTags('sendLastOrderData', {
-          last_order_value: orderValue.toString(),
-          total_orders_value: newTotalOrdersValue.toString(),
-          last_purchase_date: timestamp.toString(),
-        });
 
-        const revenueTotal = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
-        let af_revenue = '0';
+        try {
+          EventProvider.sendPushTags('sendLastOrderData', {
+            last_order_value: orderValue.toString(),
+            total_orders_value: newTotalOrdersValue.toString(),
+            last_purchase_date: timestamp.toString(),
+          });
 
-        if (revenueTotal) {
-          af_revenue = (revenueTotal / 100).toFixed(2);
-        }
+          const revenueTotal = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
+          let af_revenue = '0';
 
-        onHandlePromotionModal(orderValue);
-        EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
-        EventProvider.appsFlyer.logEvent('af_purchase', {
-          af_revenue: `${af_revenue}`,
-          af_price: `${orderValue.toFixed(2)}`,
-          af_content_id: orderForm.items.map((item) => item.id),
-          af_content_type: orderForm.items.map(
-            (item) => item.productCategoryIds,
-          ),
-          af_currency: 'BRL',
-          af_quantity: orderForm.items.map((item) => item.quantity),
-          af_order_id: orderForm.orderFormId,
-        });
+          if (revenueTotal) {
+            af_revenue = (revenueTotal / 100).toFixed(2);
+          }
 
-        sendRonTracking(orderValue);
+          onHandlePromotionModal(orderValue);
+          EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
+          EventProvider.appsFlyer.logEvent('af_purchase', {
+            af_revenue: `${af_revenue}`,
+            af_price: `${orderValue.toFixed(2)}`,
+            af_content_id: orderForm?.items.map((item) => item.id),
+            af_content_type: orderForm?.items.map(
+              (item) => item.productCategoryIds,
+            ),
+            af_currency: 'BRL',
+            af_quantity: orderForm?.items.map((item) => item.quantity),
+            af_order_id: orderForm?.orderFormId,
+          });
 
-        EventProvider.logPurchase({
-          affiliation: 'APP',
-          coupon: 'coupon',
-          currency: 'BRL',
-          items: adaptOrderFormItemsTrack(orderForm?.items),
-          shipping:
+          sendRonTracking(orderValue);
+
+          EventProvider.logPurchase({
+            affiliation: 'APP',
+            coupon: 'coupon',
+            currency: 'BRL',
+            items: adaptOrderFormItemsTrack(orderForm?.items),
+            shipping:
             (orderForm.totalizers.find((x) => x.name === 'Shipping')?.value
               || 0) / 100,
-          tax:
+            tax:
             (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
               ?.interestRate || 0) / 100,
-          transaction_id: '',
-          value: orderValue,
-        });
-      }
+            transaction_id: '',
+            value: orderValue,
+          });
+        } catch (error) {
+          EventProvider.captureException(error);
+        }
 
-      orderform();
-      removeAbandonedCartTags();
-      setCheckoutCompleted(true);
+        orderform();
+        removeAbandonedCartTags();
+        setCheckoutCompleted(true);
+      }
     }
   }, [isOrderPlaced]);
 

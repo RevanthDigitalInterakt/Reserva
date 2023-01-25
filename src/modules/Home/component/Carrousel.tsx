@@ -41,7 +41,7 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
 
   const onPressImage = useCallback((item: CarrouselCard) => {
     const facetInput = [];
-    const [categoryType, categoryData] = item.reference.split(':');
+    const [categoryType, categoryData] = item?.reference?.split(':') || [undefined, undefined];
 
     if (categoryType === 'category') {
       categoryData?.split('|').forEach((cat: string) => {
@@ -53,9 +53,9 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
 
     navigation.navigate('ProductCatalog', {
       facetInput,
-      referenceId: item.reference,
-      reservaMini: item.reservaMini,
-      orderBy: item.orderBy,
+      referenceId: item?.reference,
+      reservaMini: item?.reservaMini,
+      orderBy: item?.orderBy,
     });
   }, []);
 
@@ -86,7 +86,7 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
                     height={item.image.height}
                     autoHeight
                     width={DEVICE_WIDTH}
-                    source={{ uri: item.image.url }}
+                    source={{ uri: item?.image?.url }}
                     isSkeletonLoading
                   />
                 </TouchableHighlight>

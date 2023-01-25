@@ -8,6 +8,7 @@ import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import EventProvider from '../../../utils/EventProvider';
 
 type IOrderItemData = {
+  listPrice?: number;
   name: string;
   price: number;
   sellingPrice: number;
@@ -32,51 +33,37 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
         <Box>
           {orderItem
             && (
-            <Button
-              onPress={() => {
-                EventProvider.logEvent('select_item', {
-                  item_list_id: orderItem.id.trim(),
-                  item_list_name: orderItem.name,
-                });
+              <Button
+                onPress={() => {
+                  EventProvider.logEvent('select_item', {
+                    item_list_id: orderItem?.id,
+                    item_list_name: orderItem?.name,
+                  });
 
-                navigate('ProductDetail', {
-                  productId: orderItem.productId.trim(),
-                  itemId: orderItem.id.trim(),
-                  sizeSelected: orderItem.name.split('-')[1].trim() || '',
-                });
-              }}
-            >
-              <Image
-                imageDefault={images.imageNotFound}
-                variant="sm"
-                source={{
-                  uri: orderItem.imageUrl
-                    .split('-55-55')
-                    .join(''),
+                  navigate('ProductDetail', {
+                    productId: orderItem?.productId?.trim(),
+                    itemId: orderItem?.id?.trim(),
+                    sizeSelected: orderItem?.name?.split('-')[1]?.trim() || '',
+                  });
                 }}
-              />
-            </Button>
+              >
+                <Image
+                  imageDefault={images?.imageNotFound}
+                  variant="sm"
+                  source={{
+                    uri: orderItem?.imageUrl?.split('-55-55')?.join(''),
+                  }}
+                />
+              </Button>
             )}
         </Box>
 
         <Box ml="micro" flex={1}>
           <Box mb="nano">
             <Typography fontSize={13} fontFamily="nunitoBold">
-              {orderItem.name.split(' - ')[0]}
+              {orderItem?.name?.split(' - ')[0]}
             </Typography>
           </Box>
-          {/* <Box flexDirection="row" mb="micro">
-            <Box mr="xxs">
-              <Typography fontSize={11} fontFamily="nunitoRegular">
-                Tam: 41
-              </Typography>
-            </Box>
-            <Box>
-              <Typography fontSize={11} fontFamily="nunitoRegular">
-                Cor: Branca
-              </Typography>
-            </Box>
-          </Box> */}
 
           <Box flexDirection="row">
             <Typography
@@ -91,29 +78,8 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               fontFamily="nunitoSemiBold"
               sizeInterger={15}
               sizeDecimal={11}
-              num={orderItem.listPrice / 100}
+              num={orderItem?.listPrice ? orderItem?.listPrice / 100 : 0}
             />
-            {/* <Typography
-              style={{
-                textDecorationLine: 'line-through',
-                marginLeft: 5,
-              }}
-              color="neutroFrio2"
-              fontSize={11}
-              fontFamily="nunitoRegular"
-            >
-              {orderItem.price / 100}
-            </Typography> */}
-            {/* <Typography
-              style={{
-                marginLeft: 5,
-              }}
-              color="neutroFrio2"
-              fontSize={11}
-              fontFamily="nunitoRegular"
-            >
-              por
-            </Typography> */}
           </Box>
           <PriceCustom
             fontFamily="nunitoSemiBold"

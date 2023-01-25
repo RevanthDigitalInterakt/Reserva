@@ -124,14 +124,14 @@ const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams
 const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.includes('#/cart')) {
     if (initialUrl.includes('?orderFormId')) {
-      const splitOrderFormId = initialUrl
-        .split('?orderFormId=')[1]
-        .split('#/cart')[0];
+      const splitOrderFormId = initialUrl?.split('?orderFormId=')[1]?.split('#/cart')[0];
 
-      return {
-        match: true,
-        strUrl: `usereserva://bag/${splitOrderFormId}`,
-      };
+      if (splitOrderFormId) {
+        return {
+          match: true,
+          strUrl: `usereserva://bag/${splitOrderFormId}`,
+        };
+      }
     }
   }
 

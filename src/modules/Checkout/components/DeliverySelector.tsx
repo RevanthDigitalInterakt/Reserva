@@ -82,18 +82,21 @@ const DeliverySelector = ({
             >
               {name}
             </Typography>
-            <Typography
-              style={{ flexWrap: 'wrap' }}
-              fontFamily="nunitoRegular"
-              fontSize={13}
-              lineHeight={16}
-            >
-              Em até
-              {' '}
-              {shippingEstimate?.split('bd')[0]}
-              {' '}
-              dias úteis
-            </Typography>
+
+            {shippingEstimate?.split('bd')[0] ? (
+              <Typography
+                style={{ flexWrap: 'wrap' }}
+                fontFamily="nunitoRegular"
+                fontSize={13}
+                lineHeight={16}
+              >
+                Em até
+                {' '}
+                {shippingEstimate?.split('bd')[0] || ''}
+                {' '}
+                dias úteis
+              </Typography>
+            ) : null }
           </Box>
           <Box width="25%" alignItems="center">
             {price && price > 0 ? (

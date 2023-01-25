@@ -40,9 +40,9 @@ import {
   GET_SHIPPING,
   SUBSCRIBE_NEWSLETTER,
 } from '../../../graphql/product/productQuery';
-import { Seller, SKU } from '../../../graphql/products/productSearch';
+import type { Seller, SKU } from '../../../graphql/products/productSearch';
 import wishListQueries from '../../../graphql/wishlist/wishList';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
@@ -307,7 +307,7 @@ export const ProductDetail: React.FC<Props> = ({
       } = await checkListRefetch({
         variables: {
           shopperId: email || '',
-          productId: product?.productId.split('-')[0],
+          productId: product?.productId?.split('-')[0],
         },
       });
 
@@ -326,7 +326,7 @@ export const ProductDetail: React.FC<Props> = ({
           const { data } = await addWishList({
             variables: {
               shopperId: email || '',
-              productId: product.productId.split('-')[0],
+              productId: product?.productId?.split('-')[0],
               sku: selectedVariant?.itemId,
             },
           });
@@ -370,8 +370,8 @@ export const ProductDetail: React.FC<Props> = ({
   };
 
   const addTagsUponCartUpdate = (
-    productName: string,
-    productImageURL: string,
+    productName?: string,
+    productImageURL?: string,
   ) => {
     const timestamp = Math.floor(Date.now() / 1000);
     EventProvider.sendPushTags('sendAbandonedCartTags', {
@@ -407,7 +407,7 @@ export const ProductDetail: React.FC<Props> = ({
             if (quantities === 0 && orderForm?.items.length === 0) {
               addTagsUponCartUpdate(
                 product?.productName,
-                selectedVariant.images[0].imageUrl,
+                selectedVariant?.images[0]?.imageUrl,
               );
             }
           }
@@ -426,8 +426,8 @@ export const ProductDetail: React.FC<Props> = ({
 
           if (quantities === 0 && orderForm?.items.length === 0) {
             addTagsUponCartUpdate(
-              product?.productName!,
-              selectedVariant.images[0].imageUrl,
+              product?.productName,
+              selectedVariant?.images[0]?.imageUrl,
             );
           }
         }
@@ -473,11 +473,11 @@ export const ProductDetail: React.FC<Props> = ({
             return {
               item,
               size:
-                  item?.variations?.filter(
-                    (i) => i.name === 'TAMANHO' || i.name === 'Tamanho',
-                  )[0]?.values[0] || '',
+                item?.variations?.filter(
+                  (i) => i.name === 'TAMANHO' || i.name === 'Tamanho',
+                )[0]?.values[0] || '',
               available:
-                  item.sellers[0].commertialOffer.AvailableQuantity > 0,
+                item.sellers[0].commertialOffer.AvailableQuantity > 0,
             };
           }
         }
@@ -544,7 +544,7 @@ export const ProductDetail: React.FC<Props> = ({
   const addAttachmentsInProducts = async () => {
     try {
       const orderFormId = orderForm?.orderFormId;
-      const productOrderFormIndex = orderForm?.items.length; // because it will be the new last element
+      const productOrderFormIndex = orderForm?.items?.length;
       const attachmentName = 'Li e Aceito os Termos';
 
       Attachment(orderFormId, productOrderFormIndex, attachmentName);
@@ -653,13 +653,17 @@ export const ProductDetail: React.FC<Props> = ({
 
       setItemsSKU(itemList);
 
-      EventProvider.logEvent('product_view', {
-        product_id: product.productId,
-        product_name: product.productName,
-        product_category: product.categoryTree.map((x: any) => x.name).join(),
-        product_price: product.priceRange.listPrice.lowPrice,
-        product_currency: 'BRL',
-      });
+      try {
+        EventProvider.logEvent('product_view', {
+          product_id: product?.productId,
+          product_name: product?.productName,
+          product_category: product?.categoryTree.map((x: any) => x.name).join(),
+          product_price: product?.priceRange?.listPrice?.lowPrice,
+          product_currency: 'BRL',
+        });
+      } catch (error) {
+        EventProvider.captureException(error);
+      }
     }
   };
 
@@ -701,21 +705,21 @@ export const ProductDetail: React.FC<Props> = ({
   }
 
   useEffect(() => {
-    if (!product?.productId || !product.productName) return;
+    if (!product?.productId || !product.productName || !product?.categoryTree?.length) return;
 
     EventProvider.logEvent('view_item', {
       currency: 'BRL',
       items: [
         {
-          item_id: product.productId,
-          price: product.priceRange.sellingPrice.lowPrice,
+          item_id: product?.productId,
+          price: product?.priceRange?.sellingPrice?.lowPrice,
           quantity: 1,
           item_variant: '',
-          item_name: product.productName,
-          item_category: Object.values(product?.categoryTree.map((i) => (i.href))).join('|'),
+          item_name: product?.productName,
+          item_category: Object.values(product?.categoryTree?.map((i) => (i?.name)) || {}).join('|'),
         },
       ],
-      value: product.priceRange.sellingPrice.lowPrice,
+      value: product?.priceRange?.sellingPrice?.lowPrice,
     });
   }, [EventProvider, product]);
 
@@ -1474,7 +1478,7 @@ export const ProductDetail: React.FC<Props> = ({
                             {format(
                               addDays(
                                 Date.now(),
-                                parseInt(item.shippingEstimate.split('bd')[0]),
+                                parseInt(item?.shippingEstimate?.split('bd')[0]),
                               ),
                               'dd/MM',
                             )}

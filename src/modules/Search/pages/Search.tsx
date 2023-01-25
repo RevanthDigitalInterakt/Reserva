@@ -35,7 +35,7 @@ import {
   searchSuggestionsAndProductSearch,
 } from '../../../graphql/products/searchSuggestions';
 
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
@@ -282,11 +282,14 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         const searchIds = data?.productSearch?.products.map(
           (x: any) => x?.productId,
         );
-
-        EventProvider.logEvent('search', {
-          search_string: text,
-          search_ids: searchIds,
-        });
+        try {
+          EventProvider.logEvent('search', {
+            search_string: text,
+            search_ids: searchIds,
+          });
+        } catch (error) {
+          EventProvider.captureException(error);
+        }
       });
     } else {
       getProducts({
@@ -309,11 +312,14 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         const searchIds = data?.productSearch?.products.map(
           (x: any) => x?.productId,
         );
-
-        EventProvider.logEvent('search', {
-          search_string: text,
-          search_ids: searchIds,
-        });
+        try {
+          EventProvider.logEvent('search', {
+            search_string: text,
+            search_ids: searchIds,
+          });
+        } catch (error) {
+          EventProvider.captureException(error);
+        }
       });
     }
   };
@@ -380,14 +386,16 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     const [subType, subcategories] = reference.split(':');
 
     if (subType === 'category') {
-      subcategories.split('|').forEach((sub) => {
-        if (sub !== '') {
-          facetInput.push({
-            key: 'c',
-            value: sub,
-          });
-        }
-      });
+      if (subcategories) {
+        subcategories?.split('|').forEach((sub) => {
+          if (sub !== '') {
+            facetInput.push({
+              key: 'c',
+              value: sub,
+            });
+          }
+        });
+      }
     } else {
       facetInput.push({
         key: 'productClusterIds',
@@ -701,7 +709,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   fontSize="14px"
                 >
                   {productsQuery?.products?.length == 0
-                  && filterRequestList.length > 0
+                    && filterRequestList.length > 0
                     ? 'Limpar Filtros'
                     : 'Filtrar'}
                 </Typography>
