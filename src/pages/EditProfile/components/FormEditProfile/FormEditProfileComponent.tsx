@@ -36,6 +36,7 @@ import {
 import { useCart } from '../../../../context/CartContext';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import type { IFormEditProfileSchema } from './interfaces/formEditProfile';
+import EventProvider from '../../../../utils/EventProvider';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;
@@ -216,8 +217,8 @@ function FormEditProfileComponent({
 
         handleToogleLoading(false);
       }
-    } catch (error: unknown) {
-      console.log('error', error);
+    } catch (error) {
+      EventProvider.captureException(error);
     }
   }, []);
 

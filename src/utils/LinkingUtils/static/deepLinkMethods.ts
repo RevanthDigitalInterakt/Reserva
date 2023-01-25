@@ -21,7 +21,7 @@ const defaultCustomMethodReturn: ICustomMethodReturnParams = {
   strUrl: defaultInitialUrl,
 };
 
-const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
+export const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
   const isRonDomain = initialUrl.startsWith('https://usereserva.io/');
 
   if (isRonDomain) {

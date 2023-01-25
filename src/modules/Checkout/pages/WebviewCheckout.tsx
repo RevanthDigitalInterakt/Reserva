@@ -5,7 +5,7 @@ import LottieView from 'lottie-react-native';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Linking, View } from 'react-native';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
 import Config from 'react-native-config';
@@ -14,9 +14,12 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import EventProvider from '../../../utils/EventProvider';
+import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { GetPurchaseData } from '../../../services/vtexService';
+import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -28,6 +31,8 @@ const Checkout: React.FC<{}> = () => {
   const [attemps, setAttemps] = useState(0);
   const [orderId, setOrderId] = useState('');
   const [totalOrdersValue, setTotalOrdersValue] = useState<number>(0);
+
+  const { getItem } = useAsyncStorageProvider();
 
   const [showPromotionModal, setShowPromotionModal] = useState(false);
   const { cookie, email } = useAuth();
@@ -115,6 +120,39 @@ const Checkout: React.FC<{}> = () => {
     }
   };
 
+  const sendRonTracking = useCallback(async (orderValue: number) => {
+    try {
+      const [initialURL, isRon, ronItems] = await Promise.all([
+        Linking.getInitialURL(),
+        getItem('@RNSession:Ron'),
+        getItem('@RNOrder:RonItems'),
+      ]);
+
+      if (!ronItems || !ronItems.length) return;
+
+      const isRonSession = !!(urlRon(initialURL || '').match || isRon);
+      if (!isRonSession) return;
+
+      const productIds = (orderForm?.items || []).map((item) => item.productId);
+      const hasAnyRonItem = ronItems.some((id) => productIds.includes(id));
+
+      if (hasAnyRonItem) {
+        EventProvider.logEvent(
+          'ron_purchase',
+          {
+            coupon: 'coupon',
+            currency: 'BRL',
+            items: adaptOrderFormItemsTrack(orderForm?.items),
+            transaction_id: '',
+            value: orderValue,
+          },
+        );
+      }
+    } catch (err) {
+      EventProvider.captureException(err);
+    }
+  }, [orderForm]);
+
   useEffect(() => {
     if (isOrderPlaced) {
       if (orderForm) {
@@ -149,18 +187,13 @@ const Checkout: React.FC<{}> = () => {
           af_order_id: orderForm.orderFormId,
         });
 
+        sendRonTracking(orderValue);
+
         EventProvider.logPurchase({
           affiliation: 'APP',
           coupon: 'coupon',
           currency: 'BRL',
-          items: orderForm.items.map((item) => ({
-            price: item.price / 100,
-            item_id: item.productId,
-            quantity: item.quantity,
-            item_name: item.name,
-            item_variant: item.skuName,
-            item_category: Object.values(item.productCategories).join('|'),
-          })),
+          items: adaptOrderFormItemsTrack(orderForm?.items),
           shipping:
             (orderForm.totalizers.find((x) => x.name === 'Shipping')?.value
               || 0) / 100,

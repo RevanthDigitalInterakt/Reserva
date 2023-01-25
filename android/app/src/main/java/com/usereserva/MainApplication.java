@@ -5,10 +5,7 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.github.wumke.RNExitApp.RNExitAppPackage;
-import com.github.wumke.RNExitApp.RNExitAppPackage;
 import io.sentry.react.RNSentryPackage;
-import io.sentry.react.RNSentryPackage;
-import com.imagepicker.ImagePickerPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -21,7 +18,6 @@ import java.util.List;
 import com.getbouncer.RNCardscanModule;
 import com.microsoft.codepush.react.CodePush;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-//Reanimated  dependencies
 import com.facebook.react.bridge.JSIModulePackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 

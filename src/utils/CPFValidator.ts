@@ -1,26 +1,47 @@
-const isValidCPF = (currentCPF: string): boolean => {
-  const strippedCPF = currentCPF.replace(/\D/g, '');
+const isValidCPF = (val: string): boolean => {
+  if (!val) return false;
 
-  if (!/^\d{11}$/.test(strippedCPF)) return false;
+  const cpf = val.replace(/[^\d]+/g, '');
 
-  const checkDigits = strippedCPF.substring(9);
-  let checkSum = 0;
+  if (!cpf) return false;
+
+  if (
+    !cpf
+    || cpf === '00000000000'
+    || cpf === '11111111111'
+    || cpf === '22222222222'
+    || cpf === '33333333333'
+    || cpf === '44444444444'
+    || cpf === '55555555555'
+    || cpf === '66666666666'
+    || cpf === '77777777777'
+    || cpf === '88888888888'
+    || cpf === '99999999999'
+  ) {
+    return false;
+  }
+
+  let add = 0;
+
   for (let i = 0; i < 9; i += 1) {
-    checkSum += parseInt(strippedCPF.charAt(i), 10) * (10 - i);
+    add += parseInt(cpf.charAt(i), 10) * (10 - i);
   }
 
-  let checkFirstDigit = checkSum % 11;
-  checkFirstDigit = checkFirstDigit < 2 ? 0 : 11 - checkFirstDigit;
-  if (checkFirstDigit !== parseInt(checkDigits.charAt(0), 10)) return false;
+  let rev = 11 - (add % 11);
 
-  checkSum = 0;
+  if (rev === 10 || rev === 11) rev = 0;
+  if (rev !== parseInt(cpf.charAt(9), 10)) return false;
+
+  add = 0;
+
   for (let i = 0; i < 10; i += 1) {
-    checkSum += parseInt(strippedCPF.charAt(i), 10) * (11 - i);
+    add += parseInt(cpf.charAt(i), 10) * (11 - i);
   }
 
-  let checkSecoundDigit = checkSum % 11;
-  checkSecoundDigit = checkSecoundDigit < 2 ? 0 : 11 - checkSecoundDigit;
-  if (checkSecoundDigit !== parseInt(checkDigits.charAt(1), 10)) return false;
+  rev = 11 - (add % 11);
+
+  if (rev === 10 || rev === 11) rev = 0;
+  if (rev !== parseInt(cpf.charAt(10), 10)) return false;
 
   return true;
 };

@@ -481,7 +481,7 @@ interface CartContextProps {
   addShippingOrPickupInfo: (
     logisticInfo: any[],
     selectedAddresses: any[]
-  ) => Promise<boolean | undefined>; // todo - type later,
+  ) => Promise<boolean | undefined>;
   orderform: () => void;
   removeItem: (
     itemId: string,
@@ -557,7 +557,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     setOrderForm(data);
   };
 
-  const _requestRestoreCart = async (orderFormId: string) => {
+  const _requestRestoreCart = async (orderFormId: string): Promise<OrderForm> => {
     const { data } = await RestoreCart(orderFormId);
     setOrderForm(data);
 
@@ -1007,7 +1007,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const restoreCart = async (orderFormId: string) => {
     setLoading(true);
     try {
-      // TODO create interface
       const data = await _requestRestoreCart(orderFormId);
 
       const sellerCodeData = data?.marketingData?.marketingTags?.filter(
@@ -1016,8 +1015,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       if (sellerCodeData) {
         const sellerId = sellerCodeData.split('=')[1];
-        await _selectedCouponSeller(sellerId);
+
+        if (sellerId) await _selectedCouponSeller(sellerId);
       }
+
       setOrderForm(data);
     } catch (error) {
       EventProvider.captureException(error);

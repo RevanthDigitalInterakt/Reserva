@@ -28,6 +28,7 @@ import SentryConfig from './config/sentryConfig';
 import { IS_DEV } from './utils/enviromentUtils';
 import EventProvider from './utils/EventProvider';
 import ToastProvider from './utils/Toast';
+import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
 
 const DefaultTheme = {
   colors: {
@@ -38,18 +39,17 @@ const DefaultTheme = {
 const requestUserPermission = async () => {};
 
 const App = () => {
+  const { setItem } = useAsyncStorageProvider();
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
-  const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<boolean | null>(null);
+
   const firstLaunchedData = async () => {
+    await setItem('@RNSession:Ron', false);
+
     const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+
     if (appData === null) {
-      setIsAppFirstLaunched(true);
       AsyncStorage.setItem('isAppFirstLaunched', 'false');
-    } else if (appData === 'true') {
-      setIsAppFirstLaunched(true);
-    } else {
-      setIsAppFirstLaunched(false);
     }
   };
 
@@ -82,8 +82,11 @@ const App = () => {
     (async () => {
       await requestTrackingPermission();
     })();
+
     requestUserPermission();
+
     EventProvider.initializeModules();
+
     setTimeout(() => {
       getMaintenanceValue();
     }, 1000);
@@ -112,7 +115,7 @@ const App = () => {
                               }
                             >
                               <InitialScreen>
-                                <AppRouting isFirstLaunched={!!isAppFirstLaunched} />
+                                <AppRouting />
                               </InitialScreen>
                             </ApolloProvider>
                           </ChronometerContextProvider>

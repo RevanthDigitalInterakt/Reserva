@@ -15,7 +15,9 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
+import {
+  Dimensions, SafeAreaView, ScrollView,
+} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
