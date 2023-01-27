@@ -1,4 +1,6 @@
 import { URL } from 'react-native-url-polyfill';
+import { Platform } from 'react-native';
+import { platformType } from '../../platformType';
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -9,6 +11,8 @@ export const REGEX_PRODUCT_URL = {
   IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
   REMOVE_INVALID_WORDS: /\b\/p\b/gi,
 } as const;
+
+export const REGEX_VALID_URL = /[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)/gi;
 
 export const baseTabUrl = 'usereserva://home-tabs';
 
@@ -124,12 +128,12 @@ const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams
 const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.includes('#/cart')) {
     if (initialUrl.includes('?orderFormId')) {
-      const splitOrderFormId = initialUrl?.split('?orderFormId=')[1]?.split('#/cart')[0];
-
+      const splitOrderFormId = initialUrl.split('?orderFormId=')[1];
       if (splitOrderFormId) {
+        const splitCart = splitOrderFormId.split('#/cart')[0];
         return {
           match: true,
-          strUrl: `usereserva://bag/${splitOrderFormId}`,
+          strUrl: `usereserva://bag/${splitCart}`,
         };
       }
     }
@@ -148,6 +152,26 @@ const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (Platform.OS === platformType.ANDROID) {
+    const regexValidURL = new RegExp(REGEX_VALID_URL);
+    let currentURl = initialUrl;
+    if (regexValidURL.test(currentURl)) {
+      // To remove the protocol like http:// , https:// , ftp:// , //  from an URL string with
+      if (currentURl.startsWith('https://') || currentURl.startsWith('http://')) {
+        currentURl = currentURl.replace(/(^\w+:|^)\/\//, '');
+      }
+
+      return {
+        match: true,
+        strUrl: `usereserva://webview/d?uri=${currentURl}`,
+      };
+    }
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const registerMethods = [
   urlSiteCase,
   urlRon,
@@ -158,6 +182,7 @@ const registerMethods = [
   cartUseCase,
   catalogCollectionUseCase,
   abandonedBagUseCase,
+  webviewDeepLinkUseCase,
 ];
 
 export { registerMethods };

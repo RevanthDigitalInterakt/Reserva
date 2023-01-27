@@ -1,8 +1,9 @@
-import { ClientProfileData } from 'context/CartContext';
+import type { ClientProfileData } from '../context/CartContext';
 
 /**
  * @name isValidMinimalProfileData
- * @description Valida se o oderForm.clienteProfileData contem todos os campos minimos nescessarios para prosseguir
+ * @description Valida se o oderForm.clienteProfileData
+ * contem todos os campos minimos nescessarios para prosseguir
  * para o payment, assim evitando possiveis bugs futuros e telas sem renderizacao.
  * @param param ClientProfileData
  * @returns boolean

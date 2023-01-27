@@ -39,6 +39,9 @@ const routesConfig = {
         MY_CASHBACK_MY_WALLET: {
           path: 'wallet-cashback',
         },
+        WebViewDeepLink: {
+          path: 'webview/:uri?',
+        },
       },
     },
   },
@@ -50,7 +53,6 @@ export const linkingConfig: LinkingOptions = {
   getPathFromState(state) {
     return getPathFromState(state) || '';
   },
-
   // Push notification firebase
   async getInitialURL() {
     // Check if app was opened from a deep link
@@ -83,7 +85,15 @@ export const linkingConfig: LinkingOptions = {
   },
   subscribe(listener) {
     const onReceiveURL = ({ url }: { url: string }) => {
-      listener(deepLinkHelper(url) || defaultInitialUrl);
+      const currentDeepLink = deepLinkHelper(url);
+
+      if (!currentDeepLink) {
+        if (Platform.OS === platformType.IOS) {
+          Linking.openURL(url);
+        }
+      }
+
+      listener(currentDeepLink || defaultInitialUrl);
     };
 
     const onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {

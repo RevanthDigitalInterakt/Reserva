@@ -60,6 +60,7 @@ import type { Flow } from './types/flow.type';
 import { LandingPage } from '../modules/LandingPage/LandingPage';
 import RonRedirectToBag from '../pages/RonRedirectToBag';
 import EditProfile from '../pages/EditProfile/EditProfile';
+import WebViewDeepLink from '../pages/WebViewDeepLink';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -207,6 +208,9 @@ export type RootStackParamList = {
   RonRedirectToBag: {
     ronCode: string;
   };
+  WebViewDeepLink: {
+    uri: string
+  }
 };
 
 const flows: Flow[] = [
@@ -258,6 +262,7 @@ export const MainStackScreen = () => (
     />
 
     <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
+    <MainStack.Screen name="WebViewDeepLink" component={WebViewDeepLink} />
 
     <MainStack.Screen
       name="BagScreen"

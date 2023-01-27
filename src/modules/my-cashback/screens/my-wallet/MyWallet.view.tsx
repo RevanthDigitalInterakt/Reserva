@@ -1,5 +1,5 @@
-import { GetExpireBalanceResponse, GetUserOperationsResponse } from 'modules/my-cashback/api/MyCashbackAPI';
-import React, { Fragment } from 'react';
+import type { GetExpireBalanceResponse, GetUserOperationsResponse } from 'modules/my-cashback/api/MyCashbackAPI';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -29,7 +29,6 @@ export const MyWalletView = (
   {
     balanceVisible,
     balance,
-    userOperations,
     formatDate,
     operationFilter,
     convertCentsToReal,

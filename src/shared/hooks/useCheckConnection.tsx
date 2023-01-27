@@ -13,10 +13,6 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
   const [showScreen, setShowScreen] = React.useState<boolean>(false);
   const netInfo = useNetInfo();
 
-  useEffect(() => {
-    checkConnectivity();
-  }, [netInfo]);
-
   const checkConnectivity = () => {
     if (!netInfo.isConnected && netInfo.isConnected != null) {
       setShowScreen(true);
@@ -36,6 +32,11 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
       }
     });
   };
+
+  useEffect(() => {
+    checkConnectivity();
+  }, [netInfo]);
+
   const WithoutInternet = () => {
     if (!showScreen) {
       return (
