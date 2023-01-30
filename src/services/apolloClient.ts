@@ -10,10 +10,6 @@ import { RetryLink } from '@apollo/client/link/retry';
 import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
 
-const httpLink = new HttpLink({
-  uri: Config.URL_VTEX_GRAPHQL,
-});
-
 const directionalLinkProduction = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
   new HttpLink({
@@ -66,7 +62,6 @@ const authLinkHeader = setContext(async (_, { headers }) => {
   };
 });
 
-// const link = from([authLinkHeader, authAfterware, httpLink]);
 const linkTesting = from([
   authLinkHeader,
   authAfterware,
@@ -77,7 +72,6 @@ export const apolloClientTesting = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// const link = from([authLinkHeader, authAfterware, httpLink]);
 const linkProduction = from([
   authLinkHeader,
   authAfterware,

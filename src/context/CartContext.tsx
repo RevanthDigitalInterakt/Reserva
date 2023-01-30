@@ -14,6 +14,7 @@ import {
   AddCustomerToOrder,
   AddItemToCart,
   CreateCart,
+  RestoreData,
   IdentifyCustomer,
   RemoveItemFromCart,
   addToCoupon,
@@ -1033,23 +1034,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const updateOrderForm = async () => {
     if (orderForm) {
-      const fetchOptions: any = {
-        headers: {
-          accept: 'application/json, text/javascript, */*; q=0.01',
-          'content-type': 'application/json; charset=UTF-8',
-          'sec-fetch-mode': 'cors',
-        },
-        method: 'GET',
-        mode: 'cors',
-        credentials: 'include',
-      };
-      const response = await fetch(
-        `https://app-vtex.usereserva.com/api/checkout/pub/orderform/${orderForm?.orderFormId}?sc=4`,
-        fetchOptions,
-      );
-      const newOrderForm = await response.json();
-      setOrderForm(newOrderForm);
-      return newOrderForm;
+      const { data } = await RestoreData(orderForm?.orderFormId);
+      setOrderForm(data);
+      return data;
     }
   };
 

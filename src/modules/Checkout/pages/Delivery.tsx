@@ -30,7 +30,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     orderForm, addShippingOrPickupInfo, orderform, addShippingData,
   } = useCart();
 
-  const { cookie, setCookie } = useAuth();
+  const { cookie } = useAuth();
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
   const [shippingValue, setShippingValue] = useState(0);
@@ -301,7 +301,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         if (x.deliveryChannel === 'delivery') return true;
         return false;
       })
-      : orderForm?.shippingData?.logisticsInfo[0].slas?.filter((x) => {
+      : orderForm?.shippingData?.logisticsInfo[0]?.slas?.filter((x) => {
         if (x.deliveryChannel === 'delivery') return true;
         return false;
       });
@@ -322,7 +322,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
     setShippingValue(shippingPrice);
 
-    const pickupPoint = orderForm?.shippingData?.logisticsInfo[0].slas.filter(
+    const pickupPoint = orderForm?.shippingData?.logisticsInfo[0]?.slas.filter(
       (x) => {
         if (x.deliveryChannel === 'pickup-in-point') return true;
         return false;
