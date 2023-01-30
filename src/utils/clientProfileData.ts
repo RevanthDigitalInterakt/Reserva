@@ -1,4 +1,4 @@
-import type { ClientProfileData } from '../context/CartContext';
+import { ClientProfileData } from 'context/CartContext';
 
 /**
  * @name isValidMinimalProfileData

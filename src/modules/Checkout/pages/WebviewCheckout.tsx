@@ -21,13 +21,16 @@ import { useCart } from '../../../context/CartContext';
 import { GetPurchaseData } from '../../../services/vtexService';
 import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
 
+const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
+const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;
+
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
   const { orderForm, orderform } = useCart();
   const [navState, setNavState] = useState('');
   const [checkoutCompleted, setCheckoutCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState('https://lojausereservaqa.myvtex.com/_v/segment/admin-login/v1/login?returnUrl=%2F%3F');
   const [attemps, setAttemps] = useState(0);
   const [orderId, setOrderId] = useState('');
   const [totalOrdersValue, setTotalOrdersValue] = useState<number>(0);
@@ -223,7 +226,7 @@ const Checkout: React.FC<{}> = () => {
     }
   }, [isOrderPlaced]);
 
-  useEffect(() => {
+  const handleNavState = useCallback(() => {
     if (navState.includes('checkout/orderPlaced')) {
       setUrl(navState);
       return;
@@ -232,6 +235,21 @@ const Checkout: React.FC<{}> = () => {
     setUrl(
       `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`,
     );
+  }, [navState]);
+
+  const handleUpdateNavState = useCallback(async () => {
+    const isTesting = await getItem('isTesting');
+    if (isTesting) {
+      if (navState === FINAL_URL_TO_REDIRECT_CHECKOUT) {
+        setUrl(`${URL_CHECKOUT_QA}/?orderFormId=${orderForm?.orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`);
+      }
+    } else {
+      handleNavState();
+    }
+  }, [navState]);
+
+  useEffect(() => {
+    handleUpdateNavState();
   }, [navState]);
 
   useEffect(() => {
