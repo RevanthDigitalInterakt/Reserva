@@ -6,7 +6,7 @@ import { theme } from '@usereservaapp/reserva-ui';
 
 import CallCenter from '../modules/CallCenter';
 import { HomeScreen } from '../modules/Home/pages/Home';
-import { ProductCatalog } from '../modules/ProductCatalog/pages/ProductCatalog';
+import { ProductCatalog } from '../modules/ProductCatalog/pages/productCatalog/ProductCatalog';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 

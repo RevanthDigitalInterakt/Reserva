@@ -18,22 +18,27 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { createAnimatableComponent } from 'react-native-animatable';
 import {
   HexToColorsEnum,
-} from '../../../graphql/product/colorsToHexEnum';
+} from '../../../../graphql/product/colorsToHexEnum';
+import type { IFacet } from '../../../../utils/generateFacets';
+import { getMaxPrice } from './helpers/getMaxPrice';
+import { getMinPrice } from './helpers/getMinPrice';
+import { getInitialFilterPriceValues } from './helpers/getInitialFilterPriceValues';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
 const BoxAnimation = createAnimatableComponent(Box);
 
-export interface FilterModalProps {
-  setFilterRequestList;
+export type TFilterType = string|null|number|IFacet;
+export interface IFilterModalProps {
+  setFilterRequestList: (val: TFilterType[]) => void;
   isVisible: boolean;
   onConfirm: () => void;
   onCancel: () => void;
   onClose: () => void;
   onAndroidBackButtonPress?: () => void;
-  setFilterList: Function;
-  filterList: string[];
+  setFilterList: (val: TFilterType[]) => void;
+  filterList: TFilterType[];
   colors: string[];
   sizes: string[];
   priceRange: any[];
@@ -102,7 +107,7 @@ export const FilterModal = ({
   categories,
   priceRange,
   ...props
-}: odalProps) => {
+}: IFilterModalProps) => {
   const [selectedColors, setSelectedColors] = useState<any[]>([]);
   const [showCategories, setShowCategories] = React.useState(false);
   const [showColors, setShowColors] = React.useState(false);
@@ -164,25 +169,6 @@ export const FilterModal = ({
 
     if (!onAndroidBackButtonPress && !onClose && onCancel) {
       onCancel();
-    }
-  };
-
-  const getMaxPrice = () => {
-    if (priceRange.length > 0) {
-      const biggestPrice = priceRange
-        .map(({ range }) => range.to)
-        .sort((p, n) => n - p)[0]; // desc
-      return biggestPrice;
-    }
-  };
-
-  const getMinPrice = () => {
-    if (priceRange.length > 0) {
-      const smallestPrice = priceRange
-        .map(({ range }) => range.to)
-        .sort((p, n) => p - n)[0];
-
-      return smallestPrice;
     }
   };
 
@@ -331,9 +317,9 @@ export const FilterModal = ({
                     alignSelf="center"
                   >
                     <Range
-                      max={getMaxPrice()}
+                      max={getMaxPrice(priceRange)}
                       mdxType="Range"
-                      min={getMinPrice()}
+                      min={getMinPrice(priceRange)}
                       onValuesChange={(prices: number[]) => {
                         const minPrice = prices[0];
                         const maxPrice = prices[1];
@@ -347,7 +333,7 @@ export const FilterModal = ({
                       }}
                       originalType={() => { }}
                       prefix="R$ "
-                      value={[getMinPrice(), getMaxPrice()]}
+                      value={getInitialFilterPriceValues(priceRange, filterList)}
                       width={deviceWidth - 100}
                     />
                   </BoxAnimation>

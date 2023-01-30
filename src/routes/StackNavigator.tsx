@@ -60,6 +60,7 @@ import type { Flow } from './types/flow.type';
 import { LandingPage } from '../modules/LandingPage/LandingPage';
 import RonRedirectToBag from '../pages/RonRedirectToBag';
 import EditProfile from '../pages/EditProfile/EditProfile';
+import type { IFilters } from '../utils/generateFacets';
 import WebViewDeepLink from '../pages/WebViewDeepLink';
 
 export type RootStackParamList = {
@@ -86,6 +87,7 @@ export type RootStackParamList = {
     safeArea: boolean;
     search: boolean;
     referenceId: string;
+    filters?: IFilters;
     facetInput: [
       {
         key: string;

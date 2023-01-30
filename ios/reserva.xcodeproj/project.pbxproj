@@ -15,7 +15,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		17BB31890FBD442C984025A5 /* ReservaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8B58317EE1B4D038DFAB4B3 /* ReservaSans-Regular.ttf */; };
-		19EAC5BACA8F411810ABED26 /* libPods-reserva.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A06804D583D8C2FC04111BD9 /* libPods-reserva.a */; };
+		189FDC7A6F47B12325E0775C /* libPods-reserva-reservaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93AB43CD664F94DC221B6178 /* libPods-reserva-reservaTests.a */; };
 		1FC317736DC5429C87E08D68 /* ReservaSerif-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = ADA1D6FC0E9941A186DF9C6D /* ReservaSerif-LightItalic.otf */; };
 		23C4D0F8A6994DD59DC32BBE /* ReservaSerif-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A4503C6B7CC54DF88ECB7E90 /* ReservaSerif-Bold.otf */; };
 		2DE40EEFE0B94E0D8D408FF4 /* ReservaSerif-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */; };
@@ -29,7 +29,6 @@
 		676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675379EA273B048E00FB2439 /* AdSupport.framework */; };
 		67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C2577B276280BC00793131 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67D475692735B77D00D1346C /* GoogleService-Info.plist */; };
-		71C6D95E3BB8E5A40DFF2936 /* libPods-reserva-reservaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C23880AE16903F62D2875328 /* libPods-reserva-reservaTests.a */; };
 		729B4915FCFA4AECBCEF48CE /* ReservaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE4F8D24C39437BB5F4E7CD /* ReservaSans-Medium.ttf */; };
 		7301E4D7CA284B718DF410FB /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */; };
 		765E408E445141CA97366000 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */; };
@@ -41,6 +40,7 @@
 		80F6B009278F18DC00778D4E /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		856BB43823F047A6AF66F70B /* ReservaSerif-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = EAE3E4FCAB504B7E9B7B4F4C /* ReservaSerif-Medium.otf */; };
+		861E25CBC1465A9DD0510395 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FA504C6E82CEA1926106C0 /* libPods-OneSignalNotificationServiceExtension.a */; };
 		88C8053163184C32933A407B /* ReservaSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C390F491525B47B09E0FD516 /* ReservaSans-BoldItalic.ttf */; };
 		8C88F1CD55A0432789865558 /* ReservaSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 773141457032403EBC84976D /* ReservaSans-MediumItalic.ttf */; };
 		90BF5183ECB44CAAA66BA3F5 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89205536C4E4486F8E82D9BE /* Nunito-SemiBold.ttf */; };
@@ -52,13 +52,13 @@
 		B98A71DA04624DA08E76C146 /* ReservaSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBA94F4E575F4E0A9BC57DD2 /* ReservaSans-Light.ttf */; };
 		C1F5238E0DCE41168D09886D /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C1430FA33B44B329FDF040D /* Nunito-LightItalic.ttf */; };
 		D02274BCD6244F20B5A44775 /* ReservaSerif-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */; };
+		D18B83266419BD4B86005184 /* libPods-reserva.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E9EB54F0F7A51F8F9229632 /* libPods-reserva.a */; };
 		D3DF78B7D9834E8087CBCD0E /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */; };
 		D5B902B6CEDB49F5B5C8BDA7 /* ReservaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */; };
 		D755E1976E754020B4824BCE /* ReservaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */; };
 		EDBAB143AD3744EA99A21116 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */; };
 		EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */; };
 		EFA671C528625A4800E50DA7 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA671C428625A4800E50DA7 /* Dynamic.swift */; };
-		F8B647BA62CFDADDCEDE9D86 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B63E16E9006C3DC1BBC2DA98 /* libPods-OneSignalNotificationServiceExtension.a */; };
 		FBD65EAEFF024DD5965323A9 /* ReservaSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2044CB00A59C49739156F2C3 /* ReservaSans-Black.ttf */; };
 		FC9203ADD6C142CB8CE3F139 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */; };
 /* End PBXBuildFile section */
@@ -109,6 +109,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* reservaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = reservaTests.m; sourceTree = "<group>"; };
 		03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Black.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-Black.otf"; sourceTree = "<group>"; };
+		0B5F3F4406C8550B669D8967 /* Pods-reserva-reservaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.release.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.release.xcconfig"; sourceTree = "<group>"; };
 		0FE4F8D24C39437BB5F4E7CD /* ReservaSans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Medium.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-Medium.ttf"; sourceTree = "<group>"; };
 		13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* reserva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reserva.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,12 +118,14 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = reserva/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = reserva/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = reserva/main.m; sourceTree = "<group>"; };
+		179A08971BCC97AF6F6A1037 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; };
+		1E9EB54F0F7A51F8F9229632 /* libPods-reserva.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2044CB00A59C49739156F2C3 /* ReservaSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Black.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-Black.ttf"; sourceTree = "<group>"; };
+		266523C974C6A85ECED3C8EE /* Pods-reserva.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.debug.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.debug.xcconfig"; sourceTree = "<group>"; };
 		291EAA4AEC5D48D792C9DF75 /* ReservaSerif-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Regular.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-Regular.otf"; sourceTree = "<group>"; };
 		2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaDisplay-Regular.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaDisplay-Regular.otf"; sourceTree = "<group>"; };
 		2EC110C1771148FEAA8D80FC /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		30E94E1B6B0D026AE2D24953 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3503ED5CBCD8472FB58615A0 /* ReservaSerif-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-BoldItalic.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-BoldItalic.otf"; sourceTree = "<group>"; };
 		392B3FF42639DFB700C4871A /* reserva-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "reserva-Bridging-Header.h"; sourceTree = "<group>"; };
 		3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -133,13 +136,14 @@
 		40955CD8E41946A69A85976B /* ReservaSans-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Thin.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-Thin.ttf"; sourceTree = "<group>"; };
 		55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-ThinItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		5B11B4CD75A81B3BF8073B9D /* Pods-reserva-reservaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.release.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.release.xcconfig"; sourceTree = "<group>"; };
 		5F532457949E4248830466C4 /* ReservaSerif-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Light.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-Light.otf"; sourceTree = "<group>"; };
+		65C58D7BE58B7832F10DE7CE /* Pods-reserva-reservaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.debug.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		675379EA273B048E00FB2439 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		67C2577B276280BC00793131 /* LinkPresentation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LinkPresentation.framework; path = System/Library/Frameworks/LinkPresentation.framework; sourceTree = SDKROOT; };
 		67D475692735B77D00D1346C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6CA8ADFF59784C2080A6D8C9 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		6D0F7F19BEB74C31A20C6E65 /* ReservaSerif-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-MediumItalic.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-MediumItalic.otf"; sourceTree = "<group>"; };
+		6D5BB63BF2E1D46E9D745F1B /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		7555585B9B8C49AD9409D2BA /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		773141457032403EBC84976D /* ReservaSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-MediumItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-MediumItalic.ttf"; sourceTree = "<group>"; };
 		7E698EAA480545E68EF7A38E /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
@@ -153,23 +157,18 @@
 		80F6B007278F18DC00778D4E /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		80F6B008278F18DC00778D4E /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		80F6B00A278F18DC00778D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		83FF105B68F16F4CAB0C3C44 /* Pods-reserva.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.debug.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.debug.xcconfig"; sourceTree = "<group>"; };
 		875E545CFA984FDEA0A1ED33 /* ReservaSans-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-BlackItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-BlackItalic.ttf"; sourceTree = "<group>"; };
 		88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-BlackItalic.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-BlackItalic.otf"; sourceTree = "<group>"; };
-		890ABE3EA160D502727E3DFC /* Pods-reserva.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.release.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.release.xcconfig"; sourceTree = "<group>"; };
 		89205536C4E4486F8E82D9BE /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		8B243AAA5F4E4FC1B9E526DA /* ReservaSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Bold.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-Bold.ttf"; sourceTree = "<group>"; };
-		8B30D2EA4983F86F2FFBFB3D /* Pods-reserva-reservaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.debug.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8C1430FA33B44B329FDF040D /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
+		93AB43CD664F94DC221B6178 /* libPods-reserva-reservaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva-reservaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
-		A06804D583D8C2FC04111BD9 /* libPods-reserva.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C65A70348330FD5D5FB6887 /* Pods-reserva.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.release.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.release.xcconfig"; sourceTree = "<group>"; };
 		A4503C6B7CC54DF88ECB7E90 /* ReservaSerif-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Bold.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-Bold.otf"; sourceTree = "<group>"; };
 		A8B58317EE1B4D038DFAB4B3 /* ReservaSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Regular.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-Regular.ttf"; sourceTree = "<group>"; };
 		ADA1D6FC0E9941A186DF9C6D /* ReservaSerif-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-LightItalic.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-LightItalic.otf"; sourceTree = "<group>"; };
-		B63E16E9006C3DC1BBC2DA98 /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B817699D9ED743B9948C403B /* ReservaSerif-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-ThinItalic.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-ThinItalic.otf"; sourceTree = "<group>"; };
-		BA9070BC1F41741FDC46DC43 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
-		C23880AE16903F62D2875328 /* libPods-reserva-reservaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reserva-reservaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C390F491525B47B09E0FD516 /* ReservaSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-BoldItalic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		CB590B2777EE4E49BD3CE209 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
 		CB84B74FCBB84C119C2C6DF0 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; };
@@ -181,6 +180,7 @@
 		EFA671C428625A4800E50DA7 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		F314070406CC4B9EA8D8CB7A /* ReservaSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Italic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-Italic.ttf"; sourceTree = "<group>"; };
 		F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Italic.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-Italic.otf"; sourceTree = "<group>"; };
+		F8FA504C6E82CEA1926106C0 /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,7 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71C6D95E3BB8E5A40DFF2936 /* libPods-reserva-reservaTests.a in Frameworks */,
+				189FDC7A6F47B12325E0775C /* libPods-reserva-reservaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,7 +198,7 @@
 			files = (
 				676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */,
 				67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */,
-				19EAC5BACA8F411810ABED26 /* libPods-reserva.a in Frameworks */,
+				D18B83266419BD4B86005184 /* libPods-reserva.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8B647BA62CFDADDCEDE9D86 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */,
+				861E25CBC1465A9DD0510395 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,9 +252,9 @@
 				67C2577B276280BC00793131 /* LinkPresentation.framework */,
 				675379EA273B048E00FB2439 /* AdSupport.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				B63E16E9006C3DC1BBC2DA98 /* libPods-OneSignalNotificationServiceExtension.a */,
-				A06804D583D8C2FC04111BD9 /* libPods-reserva.a */,
-				C23880AE16903F62D2875328 /* libPods-reserva-reservaTests.a */,
+				F8FA504C6E82CEA1926106C0 /* libPods-OneSignalNotificationServiceExtension.a */,
+				1E9EB54F0F7A51F8F9229632 /* libPods-reserva.a */,
+				93AB43CD664F94DC221B6178 /* libPods-reserva-reservaTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -272,12 +272,12 @@
 		70A1DDA707B9D4A2A392C23C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				30E94E1B6B0D026AE2D24953 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
-				BA9070BC1F41741FDC46DC43 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
-				83FF105B68F16F4CAB0C3C44 /* Pods-reserva.debug.xcconfig */,
-				890ABE3EA160D502727E3DFC /* Pods-reserva.release.xcconfig */,
-				8B30D2EA4983F86F2FFBFB3D /* Pods-reserva-reservaTests.debug.xcconfig */,
-				5B11B4CD75A81B3BF8073B9D /* Pods-reserva-reservaTests.release.xcconfig */,
+				6D5BB63BF2E1D46E9D745F1B /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
+				179A08971BCC97AF6F6A1037 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
+				266523C974C6A85ECED3C8EE /* Pods-reserva.debug.xcconfig */,
+				9C65A70348330FD5D5FB6887 /* Pods-reserva.release.xcconfig */,
+				65C58D7BE58B7832F10DE7CE /* Pods-reserva-reservaTests.debug.xcconfig */,
+				0B5F3F4406C8550B669D8967 /* Pods-reserva-reservaTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -393,12 +393,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "reservaTests" */;
 			buildPhases = (
-				91FF44139A5A845971F58967 /* [CP] Check Pods Manifest.lock */,
+				40DF6265855086574A4B6EB2 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				4F091E285E503BCEF584FB78 /* [CP] Embed Pods Frameworks */,
-				F4B4EC492CF9A79F539BCA13 /* [CP] Copy Pods Resources */,
+				0351F91BEF0F5949E2E55D46 /* [CP] Embed Pods Frameworks */,
+				423C00A2D13DBC174F117120 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -414,7 +414,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "reserva" */;
 			buildPhases = (
-				6EBE1CC18D2428DC3E3103C6 /* [CP] Check Pods Manifest.lock */,
+				892B8E9592A8EB36ECAC88CE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -423,10 +423,10 @@
 				39A33485265165DD00206E04 /* Embed App Extensions */,
 				80AA37EC28A5460F00A1094F /* Embed Frameworks */,
 				F74552FFFD3F4009964264D4 /* Upload Debug Symbols to Sentry */,
-				6FB201249CBC376D4B0808DB /* [CP] Embed Pods Frameworks */,
-				3738D9B85D0C06CD3212E7EF /* [CP] Copy Pods Resources */,
-				6D445C1421DDAC88CF28B26F /* [CP-User] [RNFB] Core Configuration */,
-				01A427A9AFF30511BED2CE2A /* [CP-User] [RNFB] Crashlytics Configuration */,
+				A28E9F481E1AC2983A8C9321 /* [CP] Embed Pods Frameworks */,
+				D861FA7AD9BF1A7A8956FDB1 /* [CP] Copy Pods Resources */,
+				F6D28E469C659E371483853C /* [CP-User] [RNFB] Core Configuration */,
+				BC89FB153C17FBCE1D0D12D1 /* [CP-User] [RNFB] Crashlytics Configuration */,
 			);
 			buildRules = (
 			);
@@ -442,7 +442,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80F6B00E278F18DC00778D4E /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
 			buildPhases = (
-				AE49C992E1DDE9EAACFA84D0 /* [CP] Check Pods Manifest.lock */,
+				7E1C06645A215212625670CD /* [CP] Check Pods Manifest.lock */,
 				80F6B001278F18DC00778D4E /* Sources */,
 				80F6B002278F18DC00778D4E /* Frameworks */,
 				80F6B003278F18DC00778D4E /* Resources */,
@@ -578,38 +578,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nset -e\n\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		01A427A9AFF30511BED2CE2A /* [CP-User] [RNFB] Crashlytics Configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "[CP-User] [RNFB] Crashlytics Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
-		};
-		3738D9B85D0C06CD3212E7EF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4F091E285E503BCEF584FB78 /* [CP] Embed Pods Frameworks */ = {
+		0351F91BEF0F5949E2E55D46 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -626,59 +595,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6D445C1421DDAC88CF28B26F /* [CP-User] [RNFB] Core Configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "[CP-User] [RNFB] Core Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
-		};
-		6EBE1CC18D2428DC3E3103C6 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-reserva-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6FB201249CBC376D4B0808DB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		91FF44139A5A845971F58967 /* [CP] Check Pods Manifest.lock */ = {
+		40DF6265855086574A4B6EB2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -700,7 +617,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AE49C992E1DDE9EAACFA84D0 /* [CP] Check Pods Manifest.lock */ = {
+		423C00A2D13DBC174F117120 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E1C06645A215212625670CD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -722,22 +656,88 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F4B4EC492CF9A79F539BCA13 /* [CP] Copy Pods Resources */ = {
+		892B8E9592A8EB36ECAC88CE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-reserva-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		A28E9F481E1AC2983A8C9321 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC89FB153C17FBCE1D0D12D1 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[CP-User] [RNFB] Crashlytics Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
+		};
+		D861FA7AD9BF1A7A8956FDB1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reserva/Pods-reserva-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F6D28E469C659E371483853C /* [CP-User] [RNFB] Core Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[CP-User] [RNFB] Core Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
 		};
 		F74552FFFD3F4009964264D4 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -820,7 +820,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B30D2EA4983F86F2FFBFB3D /* Pods-reserva-reservaTests.debug.xcconfig */;
+			baseConfigurationReference = 65C58D7BE58B7832F10DE7CE /* Pods-reserva-reservaTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -848,7 +848,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B11B4CD75A81B3BF8073B9D /* Pods-reserva-reservaTests.release.xcconfig */;
+			baseConfigurationReference = 0B5F3F4406C8550B669D8967 /* Pods-reserva-reservaTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -873,7 +873,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 83FF105B68F16F4CAB0C3C44 /* Pods-reserva.debug.xcconfig */;
+			baseConfigurationReference = 266523C974C6A85ECED3C8EE /* Pods-reserva.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWhite;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -961,7 +961,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 890ABE3EA160D502727E3DFC /* Pods-reserva.release.xcconfig */;
+			baseConfigurationReference = 9C65A70348330FD5D5FB6887 /* Pods-reserva.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWhite;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -1047,7 +1047,7 @@
 		};
 		80F6B00F278F18DC00778D4E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 30E94E1B6B0D026AE2D24953 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
+			baseConfigurationReference = 6D5BB63BF2E1D46E9D745F1B /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1085,7 +1085,7 @@
 		};
 		80F6B010278F18DC00778D4E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA9070BC1F41741FDC46DC43 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
+			baseConfigurationReference = 179A08971BCC97AF6F6A1037 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;

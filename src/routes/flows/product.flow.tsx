@@ -1,4 +1,4 @@
-import { ProductCatalog } from '../../modules/ProductCatalog/pages/ProductCatalog';
+import { ProductCatalog } from '../../modules/ProductCatalog/pages/productCatalog/ProductCatalog';
 import { ProductDetail } from '../../modules/ProductDetail/pages/ProductDetail';
 import { Flow } from '../types/flow.type';
 

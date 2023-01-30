@@ -10,7 +10,7 @@
     "ios": "react-native run-ios",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
-    "test": "jest --coverage --passWithNoTests",
+    "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts --ext .tsx --cache",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
@@ -179,7 +179,7 @@
       "json",
       "node"
     ],
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.(ts|tsx)"
     ],

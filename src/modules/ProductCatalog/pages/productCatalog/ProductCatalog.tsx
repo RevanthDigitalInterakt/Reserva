@@ -15,31 +15,32 @@ import { intervalToDuration } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useConfigContext } from '../../../context/ConfigContext';
-import { facetsQuery } from '../../../graphql/facets/facetsQuery';
+import { useConfigContext } from '../../../../context/ConfigContext';
+import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
 import {
   bannerDefaultQuery,
   bannerQuery,
   configCollection,
-} from '../../../graphql/homePage/HomeQuery';
-import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
+} from '../../../../graphql/homePage/HomeQuery';
+import { ColorsToHexEnum } from '../../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
   productSearch,
   ProductSearchData,
-} from '../../../graphql/products/productSearch';
-import { CountDownLocal } from '../../Home/component/countDownLocal/CountDownLocal';
-import type { RootStackParamList } from '../../../routes/StackNavigator';
-import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
-import { Skeleton } from '../../Checkout/components/Skeleton';
-import { CountDownBanner } from '../../Home/component/CountDown';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
-import { EmptyProductCatalog } from '../components/EmptyProductCatalog/EmptyProductCatalog';
-import { ListVerticalProducts } from '../components/ListVerticalProducts/ListVerticalProducts';
-import { FilterModal } from '../modals/FilterModal';
-import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
-import EventProvider from '../../../utils/EventProvider';
+} from '../../../../graphql/products/productSearch';
+import { CountDownLocal } from '../../../Home/component/countDownLocal/CountDownLocal';
+import type { RootStackParamList } from '../../../../routes/StackNavigator';
+import { useCheckConnection } from '../../../../shared/hooks/useCheckConnection';
+import { Skeleton } from '../../../Checkout/components/Skeleton';
+import { CountDownBanner } from '../../../Home/component/CountDown';
+import { TopBarDefault } from '../../../Menu/components/TopBarDefault';
+import { TopBarDefaultBackButton } from '../../../Menu/components/TopBarDefaultBackButton';
+import { EmptyProductCatalog } from '../../components/EmptyProductCatalog/EmptyProductCatalog';
+import { ListVerticalProducts } from '../../components/ListVerticalProducts/ListVerticalProducts';
+import { FilterModal, TFilterType } from '../../modals/FilterModal/FilterModal';
+import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
+import EventProvider from '../../../../utils/EventProvider';
+import { generateFacets } from '../../../../utils/generateFacets';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -71,6 +72,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const pageSize = 12;
   const {
     safeArea, search, referenceId, title, reservaMini, orderBy,
+    filters,
+    facetInput,
   } = route.params;
 
   useEffect(() => {
@@ -112,7 +115,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [priceRangefilters, setPriceRangeFilters] = useState<any[]>([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [sorterVisible, setSorterVisible] = useState(false);
-  const [filterList, setFilterList] = useState<string[]>([]);
+  const [filterList, setFilterList] = useState<TFilterType[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<string>();
   const [loadingFetchMore, setLoadingFetchMore] = useState(false);
   const [loadingHandlerState, setLoadingHandlerState] = useState(false);
@@ -136,30 +139,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       setSelectedOrder(orderProducts[orderBy]);
     }
   }, [orderBy]);
-
-  const generateFacets = (reference: string) => {
-    const facetInput: any[] = [];
-    const [subType, subcategories] = reference.split(':');
-
-    if (subType === 'category') {
-      if (subcategories) {
-        subcategories.split('|').forEach((sub) => {
-          if (sub !== '') {
-            facetInput.push({
-              key: 'c',
-              value: sub,
-            });
-          }
-        });
-      }
-    } else {
-      facetInput.push({
-        key: 'productClusterIds',
-        value: subcategories,
-      });
-    }
-    return facetInput;
-  };
 
   const [
     {
@@ -212,10 +191,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     variables: {
       skusFilter: 'ALL_AVAILABLE',
       hideUnavailableItems: true,
-      selectedFacets: [].concat(
-        generateFacets(referenceString),
-        filterRequestList,
-      ),
+      selectedFacets:
+      generateFacets({ ...filters, reference: referenceString })
+        .concat(filterRequestList),
       salesChannel: '4',
       orderBy: selectedOrder,
       to: pageSize - 1,
@@ -228,8 +206,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
 
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
-      const clockOffers = countDownClock?.find((x) => x?.selectClockScreen == 'OFFERS' || x?.selectClockScreen == 'CATEGORY');
-      const clockALL = countDownClock?.find((x) => x?.selectClockScreen == 'ALL');
+      const clockOffers = countDownClock?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'OFFERS' || countDown?.selectClockScreen === 'CATEGORY');
+      const clockAll = countDownClock?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'ALL');
 
       if (clockOffers) {
         if (new Date(clockOffers?.countdown).getTime() > Date.now()
@@ -257,18 +235,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         }
       }
 
-      if (clockALL && !showClockOffers && clockALL.reference != referenceId) {
+      if (clockAll && !showClockOffers && clockAll.reference !== referenceId) {
         let limitDate;
-        if (clockALL?.countdown) {
+        if (clockAll?.countdown) {
           limitDate = intervalToDuration({
             start: Date.now(),
-            end: new Date(clockALL?.countdown),
+            end: new Date(clockAll?.countdown),
           });
         }
         if (limitDate) {
           setCountDownClockGlobal({
-            ...clockALL,
-            countdownStart: clockALL?.countdownStart,
+            ...clockAll,
+            countdownStart: clockAll?.countdownStart,
             formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
             }:${limitDate.seconds}`,
           });
@@ -298,10 +276,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [getFacets] = useLazyQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets: [].concat(
-        generateFacets(referenceString),
-        filterRequestList,
-      ),
+      selectedFacets:
+       generateFacets({ ...filters, reference: referenceString })
+         .concat(filterRequestList),
     },
     fetchPolicy: 'no-cache',
   });
@@ -386,6 +363,18 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       // fetchMore: response.fetchMore,
       // refetch
     }));
+
+    setFilterList(generateFacets({ ...filters, reference: referenceString }));
+    const priceRange = filters?.priceFilter;
+    if (priceRange) {
+      setPriceRangeFilters([{
+        key: 'priceRange',
+        range: {
+          from: priceRange.from,
+          to: priceRange.to,
+        },
+      }]);
+    }
   }, []);
 
   const setBannerDefaultImage = async () => {
@@ -509,10 +498,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         orderBy: selectedOrder,
         from: offSetRequest.from,
         to: offSetRequest.to,
-        selectedFacets: [].concat(
-          generateFacets(referenceString),
-          filterRequestList,
-        ),
+        selectedFacets:
+        generateFacets({ ...filters, reference: referenceString })
+          .concat(filterRequestList),
         simulationBehavior: 'default',
         productOriginVtex: false,
       },
@@ -582,10 +570,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       const { data, loading } = await refetch({
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        selectedFacets: [].concat(
-          generateFacets(referenceString),
-          filterRequestList,
-        ),
+        selectedFacets:
+        generateFacets({ ...filters, reference: referenceString })
+          .concat(filterRequestList),
         orderBy: selectedOrder,
         to: pageSize - 1,
         simulationBehavior: 'default',
@@ -961,7 +948,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                       fontFamily="nunitoSemiBold"
                       fontSize="14px"
                     >
-                      {productsQuery.products?.length == 0
+                      {productsQuery.products?.length === 0
                         && filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
