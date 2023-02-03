@@ -6,7 +6,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { addDays, format } from 'date-fns';
 import React, {
-  useEffect, useMemo, useRef, useState,
+  useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import {
   Alert,
@@ -185,6 +185,7 @@ export const ProductDetail: React.FC<Props> = ({
   const [skip, setSkip] = useState(false);
   const [avaibleUnits, setAvaibleUnits] = useState(undefined);
   const [saleOffTag, setSaleOffTag] = useState(false);
+  const [addBagButtonColor, setAddBagButtonColor] = useState('');
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [loadingNewsLetter, setLoadingNewsLetter] = useState(false);
   const [acceptConditions, setAcceptConditions] = useState(true);
@@ -682,6 +683,20 @@ export const ProductDetail: React.FC<Props> = ({
     initializePdp(data);
   };
 
+  const onStartRemoteConfig = useCallback(async () => {
+    try {
+      await remoteConfig().fetchAndActivate();
+
+      const saleOff = remoteConfig().getValue('sale_off_tag');
+      setSaleOffTag(saleOff.asBoolean());
+
+      const addBagButtonColorAB = remoteConfig().getString('pdp_button_add_bag');
+      setAddBagButtonColor(addBagButtonColorAB);
+    } catch (err) {
+      EventProvider.captureException(err);
+    }
+  }, []);
+
   /** *
    * Effects
    */
@@ -728,12 +743,10 @@ export const ProductDetail: React.FC<Props> = ({
   }, [route.params?.productId]);
 
   useEffect(() => {
-    remoteConfig().fetchAndActivate();
-    const value = remoteConfig().getValue('sale_off_tag');
-    setSaleOffTag(value.asBoolean());
+    onStartRemoteConfig();
 
     refetch();
-  }, []);
+  }, [onStartRemoteConfig]);
 
   useEffect(() => {
     refetchChecklist();
@@ -878,6 +891,10 @@ export const ProductDetail: React.FC<Props> = ({
     }
   }, [route.params?.hasCep]);
 
+  const productIsDisabled = useMemo(() => (
+    outOfStock || (isAssinaturaSimples && !acceptConditions)
+  ), [outOfStock, isAssinaturaSimples, acceptConditions]);
+
   return (
     <SafeAreaView>
       <Box bg="white">
@@ -916,7 +933,7 @@ export const ProductDetail: React.FC<Props> = ({
                   setIsVisibleZoom={setIsVisibleZoomImage}
                   setIndexOpenImage={imageIndexActual}
                 />
-                {/* PRODUCT CARD SECTION */}
+
                 <ProductDetailCard
                   {...product}
                   testID={`productdetail_card_${slugify(product.productId)}`}
@@ -959,7 +976,7 @@ export const ProductDetail: React.FC<Props> = ({
                   imageIndexActual={(imageIndex) => setImageIndexActual(imageIndex)}
                   avaibleUnits={!outOfStock && avaibleUnits}
                 />
-                {/* COLORS SECTION */}
+
                 <Box mt="xs">
                   <Box px="xxxs" mb="xxxs">
                     <Typography variant="subtituloSessoes">Cores:</Typography>
@@ -1038,18 +1055,18 @@ export const ProductDetail: React.FC<Props> = ({
                       </Typography>
                     </Box>
                   )}
-                  {/* ADD TO CART BUTTON */}
+
                   <Button
                     mt="xxs"
                     title="ADICIONAR À SACOLA"
                     variant="primarioEstreito"
-                    disabled={
-                      outOfStock || (isAssinaturaSimples && !acceptConditions)
-                    }
+                    buttonBackgroundColor={addBagButtonColor}
+                    disabled={productIsDisabled}
                     onPress={onProductAdd}
                     inline
                     testID="productdetail_button_add_cart"
                   />
+
                   <Box mt="nano" flexDirection="row" />
                   <Divider variant="fullWidth" my="xs" />
 
