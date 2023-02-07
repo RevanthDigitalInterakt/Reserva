@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Brands tests Testing brands renders without error and match snapshot 1`] = `null`;

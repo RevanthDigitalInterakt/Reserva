@@ -8,25 +8,14 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
 import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
+  FC, useCallback, useEffect, useLayoutEffect, useMemo, useState,
 } from 'react';
-import {
-  Dimensions, SafeAreaView, ScrollView,
-} from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
 import {
-  Carrousel,
-  CarrouselTypes,
-  configCollection,
-  homeQuery,
-  HomeQuery,
+  Carousel, CarrouselTypes, configCollection, homeQuery, HomeQuery,
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
@@ -35,22 +24,28 @@ import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import Banner from '../component/Banner';
-import { CardsCarrousel } from '../component/CardsCarroussel';
+import { CardsCarrousel } from '../component/CardsCarousel';
 import { CountDownBanner } from '../component/CountDown';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
 import { useConfigContext } from '../../../context/ConfigContext';
-import {
-  countdownClockQuery,
-  ICountDownClock,
-} from '../../../graphql/countDownClock/countdownClockQuery';
+import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
 import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
-import DefaultCarrousel from '../component/Carrousel';
+import DefaultCarrousel from '../component/Carousel';
+import Brands from '../component/Brands';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+const brandsComponentObject: Carousel = {
+  type: CarrouselTypes.brands,
+  title: 'Brands',
+  itemsCollection: {
+    items: [],
+  },
+} as const;
 
 export const HomeScreen: FC<{
   title: string;
@@ -64,7 +59,7 @@ export const HomeScreen: FC<{
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const [images, setImages] = useState<HomeQuery[]>([]);
-  const [carrousels, setCarrousels] = useState<Carrousel[]>([]);
+  const [carrousels, setCarrousels] = useState<Carousel[]>([]);
   const [modalDiscount, setModalDiscount] = useState<any>();
   const [countDownClock, setCountDownClock] = useState<
   ICountDownClock[] | undefined
@@ -206,8 +201,16 @@ export const HomeScreen: FC<{
   }, [currentValue]);
 
   useEffect(() => {
-    const carrouselsItems: Carrousel[] = data?.homePageCollection.items[0].carrouselHomeCollection.items || [];
-    setCarrousels(carrouselsItems);
+    const carrouselsItems: Carousel[] = data?.homePageCollection.items[0]
+      .carrouselHomeCollection.items || [];
+
+    const newCarrouselItems: Carousel[] = [
+      ...carrouselsItems.slice(0, 1),
+      brandsComponentObject,
+      ...carrouselsItems.slice(1, carrouselsItems.length),
+    ];
+
+    setCarrousels(newCarrouselItems);
 
     const arrayImages = data?.homePageCollection.items[0].mediasCollection.items.map(
       (imageDescription: any) => ({
@@ -370,6 +373,12 @@ export const HomeScreen: FC<{
         );
       }
 
+      case CarrouselTypes.brands: {
+        return (
+          <Brands />
+        );
+      }
+
       default: {
         return <></>;
       }
@@ -449,7 +458,6 @@ export const HomeScreen: FC<{
 
               {renderCarouselBanners}
             </Box>
-
             {renderBannersFlatList}
           </ScrollView>
         </SafeAreaView>

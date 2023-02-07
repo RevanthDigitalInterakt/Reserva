@@ -6,11 +6,11 @@ import { Box, Image } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
 import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
-import type { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import type { Carousel as CarouselType, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import CarrouselScrollIndicator from './CarouselScrollIndicator';
 
 interface DefaultCarrouselProps {
-  carrousel: Carrousel;
+  carrousel: CarouselType;
 }
 
 export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {

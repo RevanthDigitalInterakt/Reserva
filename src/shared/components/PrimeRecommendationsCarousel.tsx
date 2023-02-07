@@ -17,69 +17,6 @@ interface IPrimeRecommendationsCarousel {
   onPress: () => void;
 }
 
-export const PrimeRecommendationsCarousel = ({
-  prime,
-  onPress,
-}: IPrimeRecommendationsCarousel) => {
-  const primeMokado = [
-    {
-      image: {
-        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
-      },
-    },
-    {
-      image: {
-        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
-      },
-    },
-    {
-      image: {
-        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
-      },
-    },
-    {
-      image: {
-        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
-      },
-    },
-    {
-      image: {
-        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
-      },
-    },
-  ];
-  const myCards = primeMokado;
-  const scrollX = useRef(new Animated.Value(0)).current;
-
-  return (
-    <Box>
-      <Box>
-        <Animated.FlatList
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true },
-          )}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={myCards}
-          snapToOffsets={[...Array(myCards.length)].map(
-            (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
-          )}
-          snapToAlignment="start"
-          scrollEventThrottle={16}
-          decelerationRate="fast"
-          bounces={false}
-          renderItem={({ item, index }) => (
-            <Box>
-              <Card onPress={onPress} image={item.image} key={index} />
-            </Box>
-          )}
-        />
-      </Box>
-    </Box>
-  );
-};
-
 interface ICard {
   image: string;
   onPress: () => void;
@@ -105,7 +42,7 @@ const Card = ({ image, onPress }: ICard) => {
               size={18}
               color="preto"
             />
-          )}
+              )}
         />
       </Box>
       <TouchableHighlight
@@ -183,6 +120,68 @@ const Card = ({ image, onPress }: ICard) => {
             />
           </Box>
         </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export const PrimeRecommendationsCarousel = ({
+  onPress,
+}: IPrimeRecommendationsCarousel) => {
+  const primeMokado = [
+    {
+      image: {
+        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
+      },
+    },
+    {
+      image: {
+        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
+      },
+    },
+    {
+      image: {
+        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
+      },
+    },
+    {
+      image: {
+        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
+      },
+    },
+    {
+      image: {
+        url: 'https://images.ctfassets.net/6jsfqc13oxv4/3G7YY0I6NzvQ3GHqbiEzLL/e8fba8065073930686ce5f11651298ac/banner-home-app-namorados.jpg',
+      },
+    },
+  ];
+  const myCards = primeMokado;
+  const scrollX = useRef(new Animated.Value(0)).current;
+
+  return (
+    <Box>
+      <Box>
+        <Animated.FlatList
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: true },
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={myCards}
+          snapToOffsets={[...Array(myCards.length)].map(
+            (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
+          )}
+          snapToAlignment="start"
+          scrollEventThrottle={16}
+          decelerationRate="fast"
+          bounces={false}
+          renderItem={({ item, index }) => (
+            <Box>
+              <Card onPress={onPress} image={item.image} key={index} />
+            </Box>
+          )}
+        />
       </Box>
     </Box>
   );

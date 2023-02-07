@@ -5,13 +5,13 @@ import {
   Dimensions, Animated, StyleSheet,
 } from 'react-native';
 import { Box, Button, Image } from '@usereservaapp/reserva-ui';
-import type { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import type { Carousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 interface CardsCarrouselProps {
-  carrousel: Carrousel;
+  carrousel: Carousel;
 }
 
 export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({

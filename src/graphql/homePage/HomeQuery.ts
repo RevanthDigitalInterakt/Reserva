@@ -23,6 +23,7 @@ export enum CarrouselTypes {
   mainCarrousel = 'principal',
   cardsCarrousel = 'cards',
   banner = 'banner',
+  brands = 'brands',
 }
 
 export interface TextProps {
@@ -33,7 +34,7 @@ export interface TextProps {
   color: string;
 }
 
-export interface Carrousel {
+export interface Carousel {
   type: CarrouselTypes;
   title: string;
   showtime?: number;
