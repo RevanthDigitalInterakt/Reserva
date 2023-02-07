@@ -18,6 +18,26 @@ const IS_CATEGORY_SUBTYPE = 'category' as const;
 
 const handleReference = (reference: string):IFacet[] => {
   const selectedFacets: IFacet[] = [];
+
+  if (reference.includes('queryField' && 'mapField')) {
+    const [queryField, mapField] = reference?.split('&');
+    const arrayQueryField = queryField?.split('=')[1]?.split(',');
+    const arrayMapField = mapField?.split('=')[1]?.split(',');
+
+    if (arrayMapField && arrayQueryField) {
+      arrayMapField.forEach((key, indexValue) => {
+        const value = arrayQueryField[indexValue];
+        if (!!key && !!value) {
+          selectedFacets.push({
+            key,
+            value,
+          });
+        }
+      });
+      return selectedFacets;
+    }
+  }
+
   const [subType, subcategories] = reference.split(':');
 
   if (!subType || !subcategories) return [];

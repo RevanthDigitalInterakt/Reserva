@@ -5,6 +5,21 @@ describe('generateFacets', () => {
     const result = generateFacets({});
     expect(result).toEqual([]);
   });
+
+  it('should return correct value when deeplink reference is passed', () => {
+    const result = generateFacets({ reference: 'queryField=431,1484,1450,1438,1606,1692,1807,polos&mapField=productClusterIds,productClusterIds,productClusterIds,productClusterIds,productClusterIds,productClusterIds,productClusterIds,category-3' });
+    expect(result).toEqual([
+      { key: 'productClusterIds', value: '431' },
+      { key: 'productClusterIds', value: '1484' },
+      { key: 'productClusterIds', value: '1450' },
+      { key: 'productClusterIds', value: '1438' },
+      { key: 'productClusterIds', value: '1606' },
+      { key: 'productClusterIds', value: '1692' },
+      { key: 'productClusterIds', value: '1807' },
+      { key: 'category-3', value: 'polos' },
+    ]);
+  });
+
   it('should return correct value when reference is passed', () => {
     const result = generateFacets({ reference: 'category:1|2|3' });
     expect(result).toEqual([

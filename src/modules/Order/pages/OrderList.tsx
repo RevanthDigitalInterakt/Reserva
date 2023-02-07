@@ -19,10 +19,6 @@ const OrderList = () => {
   const navigation = useNavigation();
   const { cookie, email } = useAuth();
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
   const fetchOrders = async () => {
     setLoading(true);
     const data = await searchNewOrders(page.toString(), email, cookie);
@@ -33,6 +29,11 @@ const OrderList = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
   useEffect(() => {
   }, [totalOrders]);
 

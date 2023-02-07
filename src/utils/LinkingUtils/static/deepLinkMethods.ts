@@ -18,6 +18,8 @@ export const baseTabUrl = 'usereserva://home-tabs';
 
 export const defaultInitialUrl = 'usereserva://home-tabs';
 
+export const webCatalogUrl = 'https://www.usereserva.com/catalog/';
+
 export const productUrl = 'usereserva://product?';
 
 const defaultCustomMethodReturn: ICustomMethodReturnParams = {
@@ -152,6 +154,32 @@ const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const webCatalogCollectionUseCase = async (initialUrl: string) => {
+  if (!initialUrl) {
+    return defaultCustomMethodReturn;
+  }
+  const searchRegExp = /\//g;
+  const replacePathName = '|';
+
+  const { pathname } = new URL(initialUrl);
+
+  const noHasPathName = pathname === '/';
+
+  if (noHasPathName) {
+    return defaultCustomMethodReturn;
+  }
+
+  const newPathName = pathname?.replace(searchRegExp, replacePathName);
+
+  if (newPathName !== '|') {
+    return {
+      match: true,
+      strUrl: `usereserva://webCatalog/${newPathName}`,
+    };
+  }
+  return defaultCustomMethodReturn;
+};
+
 const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (Platform.OS === platformType.ANDROID) {
     const regexValidURL = new RegExp(REGEX_VALID_URL);
@@ -182,6 +210,7 @@ const registerMethods = [
   cartUseCase,
   catalogCollectionUseCase,
   abandonedBagUseCase,
+  webCatalogCollectionUseCase,
   webviewDeepLinkUseCase,
 ];
 

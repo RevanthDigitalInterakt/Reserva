@@ -21,6 +21,9 @@ const routesConfig = {
         RonRedirectToBag: {
           path: 'ron/:ronCode',
         },
+        WebRedirectToCatalog: {
+          path: 'webCatalog/:pathName',
+        },
         HomeTabs: {
           path: 'home-tabs',
           screens: {
@@ -59,7 +62,7 @@ export const linkingConfig: LinkingOptions = {
     const url = await Linking.getInitialURL();
 
     if (url != null) {
-      const currentDeepLink = deepLinkHelper(url);
+      const currentDeepLink = await deepLinkHelper(url);
 
       if (currentDeepLink) return currentDeepLink;
 
@@ -84,8 +87,8 @@ export const linkingConfig: LinkingOptions = {
     return message?.data?.link;
   },
   subscribe(listener) {
-    const onReceiveURL = ({ url }: { url: string }) => {
-      const currentDeepLink = deepLinkHelper(url);
+    const onReceiveURL = async ({ url }: { url: string }) => {
+      const currentDeepLink = await deepLinkHelper(url);
 
       if (!currentDeepLink) {
         if (Platform.OS === platformType.IOS) {
@@ -96,11 +99,11 @@ export const linkingConfig: LinkingOptions = {
       listener(currentDeepLink || defaultInitialUrl);
     };
 
-    const onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {
+    const onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
       if (res?.deepLinkStatus !== 'NOT_FOUND') {
         const url = res.data?.deep_link_value;
         if (url) {
-          const newUrl = deepLinkHelper(url);
+          const newUrl = await deepLinkHelper(url);
           if (newUrl) {
             listener(newUrl);
           }

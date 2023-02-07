@@ -50,7 +50,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData,
   );
-
   const navigateGoBack = () => {
     navigation.goBack();
     route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu', {
@@ -900,9 +899,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               {countDownClockLocal && showClockOffers
                 ? <CountDownLocal countDownLocal={countDownClockLocal} />
                 : <CountDownBanner countDown={countDownClockGlobal} />}
+              {bannerImage && (
               <Box>
                 <Image height={200} source={bannerImage} width={1 / 1} />
               </Box>
+              )}
 
               <Box bg="dropDownBorderColor">
                 <Button p="nano" onPress={onClickWhatsappButton}>
