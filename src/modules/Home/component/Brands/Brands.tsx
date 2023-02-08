@@ -26,10 +26,8 @@ const BrandsComponent = (): JSX.Element => {
         navigation.navigate('ProductCatalog');
       }
 
-      const [, referenceId] = reference.split(':');
-
       navigation.navigate('ProductCatalog', {
-        referenceId,
+        referenceId: reference,
       });
     } catch (error) {
       EventProvider.captureException(error);
