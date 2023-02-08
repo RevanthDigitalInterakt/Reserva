@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Image } from '@usereservaapp/reserva-ui';
+import { Image } from '@usereservaapp/reserva-ui';
 import { FlatList, useWindowDimensions } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
@@ -9,7 +9,7 @@ import { BrandContainer, brandShadowContainer, styles } from './styles/styles';
 import EventProvider from '../../../../utils/EventProvider';
 
 const BrandsComponent = (): JSX.Element => {
-  const [brands, setBrands] = useState<Array<IBrandCarouselItem>>([]);
+  const [brands, setBrands] = useState<IBrandCarouselItem[]>([]);
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
 
@@ -38,8 +38,11 @@ const BrandsComponent = (): JSX.Element => {
     (async () => {
       try {
         const { data } = await getBrands();
-        if (data) {
-          setBrands(data.brandsCarousel.brandsCollection.items);
+
+        const items = data?.brandsCarousel?.brandsCollection?.items;
+
+        if (items?.length) {
+          setBrands(items);
         }
       } catch (error) {
         EventProvider.captureException(error);
@@ -48,44 +51,39 @@ const BrandsComponent = (): JSX.Element => {
   }, []);
 
   return (
-    <>
-      {brands.length ? (
-        <Box>
-          <FlatList
-            testID="brands_flatList"
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={brands}
-            scrollEnabled={brands.length > 4}
-            snapToAlignment="start"
-            style={styles.carousel}
-            keyExtractor={(item) => `idx-brands-${item.brandLogo.url}`}
-            contentContainerStyle={styles.contentContainerCarousel}
-            scrollEventThrottle={16}
-            decelerationRate="fast"
-            renderItem={({ item: { brandLogo: { url }, reference }, index }): JSX.Element => (
-              <BrandContainer
-                testID="brands_brand_container"
-                deviceWidth={width}
-                index={index}
-                onPress={() => handleNavigateToBrand(reference)}
-                lastIndex={brands.length}
-                style={brandShadowContainer}
-              >
-                {url ? (
-                  <Image
-                    source={{ uri: url }}
-                    autoHeight
-                    resizeMode="contain"
-                    style={styles.brandImageCarousel}
-                  />
-                ) : null}
-              </BrandContainer>
-            )}
-          />
-        </Box>
-      ) : null}
-    </>
+    <FlatList
+      testID="brands_flatList"
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      data={brands}
+      scrollEnabled={brands.length > 4}
+      snapToAlignment="start"
+      style={styles.carousel}
+      keyExtractor={(item) => `idx-brands-${item.brandLogo.url}`}
+      contentContainerStyle={styles.contentContainerCarousel}
+      scrollEventThrottle={16}
+      decelerationRate="fast"
+      renderItem={({ item: { brandLogo: { url }, reference }, index }): JSX.Element => (
+        <BrandContainer
+          testID="brands_brand_container"
+          deviceWidth={width}
+          index={index}
+          onPress={() => handleNavigateToBrand(reference)}
+          lastIndex={brands.length}
+          style={brandShadowContainer}
+        >
+          {url ? (
+            <Image
+              source={{ uri: url }}
+              autoHeight
+              resizeMode="contain"
+              style={styles.brandImageCarousel}
+            />
+          ) : null}
+        </BrandContainer>
+      )}
+    />
+
   );
 };
 
