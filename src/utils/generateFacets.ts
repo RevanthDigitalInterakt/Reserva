@@ -17,6 +17,7 @@ export interface IFilters extends IGenerateFacetsParams {}
 const IS_CATEGORY_SUBTYPE = 'category' as const;
 
 const handleReference = (reference: string):IFacet[] => {
+  if (!reference) return [];
   const selectedFacets: IFacet[] = [];
 
   if (reference.includes('queryField' && 'mapField')) {
@@ -73,12 +74,12 @@ const handleCategories = (categories: string[]):IFacet[] => {
 
 const handlePriceFilter = (priceFilter: { from:number, to:number }):IFacet => ({ key: 'priceRange', value: `${priceFilter.from} TO ${priceFilter.to}` });
 
-export const generateFacets = ({
-  reference,
-  categories,
-  priceFilter,
-}:IGenerateFacetsParams): IFacet[] => {
+export const generateFacets = (filters?:IGenerateFacetsParams): IFacet[] => {
   const facets:IFacet[] = [];
+
+  if (!filters) return facets;
+
+  const { reference, categories, priceFilter } = filters;
 
   if (reference) facets.push(...handleReference(reference));
   if (categories) facets.push(...handleCategories(categories));

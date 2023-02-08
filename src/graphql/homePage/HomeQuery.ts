@@ -41,6 +41,19 @@ export interface Carousel {
   itemsCollection: {
     items: CarrouselCard[];
   };
+  filters: IQueryFilters
+}
+
+export interface IQueryFilters {
+  priceFilter?: {
+    from: number;
+    to: number;
+  };
+  categoriesFilterCollection?: {
+    items: {
+      category: string;
+    }[];
+  }
 }
 
 export interface CarrouselCard {
@@ -59,6 +72,7 @@ export interface CarrouselCard {
   orderBy: string;
   referenceLabel?: string;
   mkt: boolean;
+  filters?: IQueryFilters
 }
 
 export interface ICountDownClock {
@@ -94,6 +108,17 @@ export const homeQuery = gql`
                   width
                   height
                 }
+                filters{
+                  priceFilter{
+                    from,
+                    to
+                  }
+                  categoriesFilterCollection(limit:4){
+                    items{
+                      category
+                    }
+                  }
+                }
                 reservaMini
                 name
                 description
@@ -118,6 +143,17 @@ export const homeQuery = gql`
               height
               size
               url
+            }
+            filters{
+              priceFilter{
+                from,
+                to
+              }
+              categoriesFilterCollection(limit:4){
+                items{
+                  category
+                }
+              }
             }
           }
         }

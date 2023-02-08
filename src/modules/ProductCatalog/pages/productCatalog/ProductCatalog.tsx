@@ -345,23 +345,21 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     getBanner().then((response) => setBannerData({
       bannerData: response.data,
       loadingBanner: false,
-      // refetchBanner
     }));
     getDefaultBanner().then((response) => setDefaultBanner({
       defaultBanner: response.data,
-      // refetchDefaultBanner: defaultBanner.refetch,
       loadingDefaultBanner: false,
     }));
     getCollection().then((response) => setConfigCollection({
       collectionData: response.data,
     }));
-    getProductSearch().then((response) => setProductSearch({
-      data: response.data,
-      loading: false,
-      error: response.error,
-      // fetchMore: response.fetchMore,
-      // refetch
-    }));
+    getProductSearch().then((response) => {
+      setProductSearch({
+        data: response.data,
+        loading: false,
+        error: response.error,
+      });
+    });
 
     setFilterList(generateFacets({ ...filters, reference: referenceString }));
     const priceRange = filters?.priceFilter;

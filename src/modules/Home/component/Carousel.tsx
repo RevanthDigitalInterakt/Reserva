@@ -56,6 +56,11 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
       referenceId: item?.reference,
       reservaMini: item?.reservaMini,
       orderBy: item?.orderBy,
+      filters: {
+        categories: item?.filters?.categoriesFilterCollection
+          ?.items.map(({ category }) => category),
+        priceFilter: item?.filters?.priceFilter,
+      },
     });
   }, []);
 

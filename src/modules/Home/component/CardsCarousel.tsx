@@ -53,6 +53,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
                 key={index}
                 reservaMini={item?.reservaMini}
                 orderBy={item?.orderBy}
+                filters={item?.filters}
               />
             </Box>
           )}
@@ -109,11 +110,11 @@ const Card: React.FC<CardProps> = ({
   reference,
   reservaMini,
   orderBy,
+  filters,
 }) => {
   const navigation = useNavigation();
 
   const handleNavigation = () => {
-    const facetInput = [];
     const [categoryType, categoryData] = reference.split(':');
     if (categoryType === 'product') {
       EventProvider.logEvent('select_item', {
@@ -127,23 +128,15 @@ const Card: React.FC<CardProps> = ({
         colorSelected: '#FFFFFF',
       });
     } else {
-      if (categoryType === 'category') {
-        categoryData?.split('|').forEach((cat: string) => {
-          facetInput.push({
-            key: 'c',
-            value: cat,
-          });
-        });
-      } else {
-        facetInput.push({
-          key: 'productClusterIds',
-          value: categoryData,
-        });
-      }
       navigation.navigate('ProductCatalog', {
         referenceId: reference,
         reservaMini,
         orderBy,
+        filters: {
+          categories: filters?.categoriesFilterCollection
+            ?.items.map(({ category }) => category),
+          priceFilter: filters?.priceFilter,
+        },
       });
     }
   };

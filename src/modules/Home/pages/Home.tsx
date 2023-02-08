@@ -226,6 +226,7 @@ export const HomeScreen: FC<{
         landingPageId: imageDescription.landingPageId,
         reservaMini: imageDescription.reservaMini,
         orderBy: imageDescription.orderBy,
+        filters: imageDescription.filters,
       }),
     );
 
@@ -329,9 +330,10 @@ export const HomeScreen: FC<{
                 key={`carousel-${carrousel.title}-${carrousel.type}-${index}`}
                 orderBy={carrousel.itemsCollection.items[0].orderBy}
                 height={carrousel.itemsCollection.items[0].image.height}
-                reference={carrousel.itemsCollection.items[0].reference}
+                reference={carrousel.itemsCollection.items[0]?.reference || ''}
                 url={carrousel.itemsCollection.items[0].image.url}
                 reservaMini={carrousel.itemsCollection.items[0].reservaMini}
+                filters={carrousel.itemsCollection.items[0]?.filters}
               />
             )
         );
@@ -352,6 +354,7 @@ export const HomeScreen: FC<{
             reference={items[0].reference}
             url={items[0].image.url}
             reservaMini={items[0].reservaMini}
+            filters={items[0]?.filters}
           />
         );
       }
@@ -359,6 +362,7 @@ export const HomeScreen: FC<{
       case CarrouselTypes.banner: {
         const {
           image, reference, reservaMini, orderBy,
+          filters,
         } = carrousel.itemsCollection.items[0];
 
         return (
@@ -369,6 +373,7 @@ export const HomeScreen: FC<{
             reference={reference}
             url={image.url}
             reservaMini={reservaMini}
+            filters={filters}
           />
         );
       }
@@ -397,6 +402,7 @@ export const HomeScreen: FC<{
           route={item.isLandingPage ? 'LandingPage' : item.route}
           landingPageId={item.landingPageId}
           reservaMini={item.reservaMini}
+          filters={item?.filters}
         />
       )}
       keyExtractor={(item) => item.id}

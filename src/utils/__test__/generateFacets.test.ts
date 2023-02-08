@@ -1,8 +1,23 @@
 import { generateFacets } from '../generateFacets';
 
 describe('generateFacets', () => {
+  it('should return empty array when null or undefined are passed', () => {
+    const result = generateFacets();
+    expect(result).toEqual([]);
+  });
+
   it('should return empty array when no params are passed', () => {
     const result = generateFacets({});
+    expect(result).toEqual([]);
+  });
+
+  it('should return empty array when empty reference is passed', () => {
+    const result = generateFacets({ reference: '' });
+    expect(result).toEqual([]);
+  });
+
+  it('should return empty array when empty categories is passed', () => {
+    const result = generateFacets({ categories: ['', ''] });
     expect(result).toEqual([]);
   });
 
@@ -28,6 +43,7 @@ describe('generateFacets', () => {
       { key: 'c', value: '3' },
     ]);
   });
+
   it('should return correct value when categories is passed', () => {
     const result = generateFacets({ categories: ['category:1|2|3', 'productClusterIds:4|5|6'] });
     expect(result).toEqual([
@@ -37,6 +53,7 @@ describe('generateFacets', () => {
       { key: 'productClusterIds', value: '4|5|6' },
     ]);
   });
+
   it('should return correct value when priceFilter is passed', () => {
     const result = generateFacets({ priceFilter: { from: 10, to: 20 } });
     expect(result).toEqual([{ key: 'priceRange', value: '10 TO 20' }]);
@@ -56,6 +73,7 @@ describe('generateFacets', () => {
       { key: 'priceRange', value: '10 TO 20' },
     ]);
   });
+
   it('should return correct value when empty categories are passed', () => {
     const result = generateFacets({
       reference: 'category:1|2|3',
