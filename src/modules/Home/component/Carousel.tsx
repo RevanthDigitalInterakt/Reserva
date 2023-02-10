@@ -6,11 +6,11 @@ import { Box, Image } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
 import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
-import type { Carrousel, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import type { Carousel as CarouselType, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import CarrouselScrollIndicator from './CarouselScrollIndicator';
 
 interface DefaultCarrouselProps {
-  carrousel: Carrousel;
+  carrousel: CarouselType;
 }
 
 export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
@@ -41,7 +41,7 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
 
   const onPressImage = useCallback((item: CarrouselCard) => {
     const facetInput = [];
-    const [categoryType, categoryData] = item.reference.split(':');
+    const [categoryType, categoryData] = item?.reference?.split(':') || [undefined, undefined];
 
     if (categoryType === 'category') {
       categoryData?.split('|').forEach((cat: string) => {
@@ -53,9 +53,14 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
 
     navigation.navigate('ProductCatalog', {
       facetInput,
-      referenceId: item.reference,
-      reservaMini: item.reservaMini,
-      orderBy: item.orderBy,
+      referenceId: item?.reference,
+      reservaMini: item?.reservaMini,
+      orderBy: item?.orderBy,
+      filters: {
+        categories: item?.filters?.categoriesFilterCollection
+          ?.items.map(({ category }) => category),
+        priceFilter: item?.filters?.priceFilter,
+      },
     });
   }, []);
 
@@ -86,7 +91,7 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
                     height={item.image.height}
                     autoHeight
                     width={DEVICE_WIDTH}
-                    source={{ uri: item.image.url }}
+                    source={{ uri: item?.image?.url }}
                     isSkeletonLoading
                   />
                 </TouchableHighlight>

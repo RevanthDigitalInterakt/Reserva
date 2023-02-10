@@ -21,6 +21,9 @@ const routesConfig = {
         RonRedirectToBag: {
           path: 'ron/:ronCode',
         },
+        WebRedirectToCatalog: {
+          path: 'webCatalog/:pathName',
+        },
         HomeTabs: {
           path: 'home-tabs',
           screens: {
@@ -39,6 +42,9 @@ const routesConfig = {
         MY_CASHBACK_MY_WALLET: {
           path: 'wallet-cashback',
         },
+        WebViewDeepLink: {
+          path: 'webview/:uri?',
+        },
       },
     },
   },
@@ -50,14 +56,13 @@ export const linkingConfig: LinkingOptions = {
   getPathFromState(state) {
     return getPathFromState(state) || '';
   },
-
   // Push notification firebase
   async getInitialURL() {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();
 
     if (url != null) {
-      const currentDeepLink = deepLinkHelper(url);
+      const currentDeepLink = await deepLinkHelper(url);
 
       if (currentDeepLink) return currentDeepLink;
 
@@ -82,15 +87,23 @@ export const linkingConfig: LinkingOptions = {
     return message?.data?.link;
   },
   subscribe(listener) {
-    const onReceiveURL = ({ url }: { url: string }) => {
-      listener(deepLinkHelper(url) || defaultInitialUrl);
+    const onReceiveURL = async ({ url }: { url: string }) => {
+      const currentDeepLink = await deepLinkHelper(url);
+
+      if (!currentDeepLink) {
+        if (Platform.OS === platformType.IOS) {
+          Linking.openURL(url);
+        }
+      }
+
+      listener(currentDeepLink || defaultInitialUrl);
     };
 
-    const onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {
+    const onDeepLinkCanceller = appsFlyer.onDeepLink(async (res) => {
       if (res?.deepLinkStatus !== 'NOT_FOUND') {
         const url = res.data?.deep_link_value;
         if (url) {
-          const newUrl = deepLinkHelper(url);
+          const newUrl = await deepLinkHelper(url);
           if (newUrl) {
             listener(newUrl);
           }

@@ -17,7 +17,7 @@ import {
   accessKeySignInMutation,
   recoveryPasswordMutation,
 } from '../../../graphql/login/loginMutations';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';

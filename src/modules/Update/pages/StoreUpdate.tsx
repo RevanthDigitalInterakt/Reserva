@@ -5,7 +5,6 @@ import {
 } from '@usereservaapp/reserva-ui';
 import Modal from 'react-native-modal';
 import DeviceInfo from 'react-native-device-info';
-// import { getAppstoreAppMetadata } from 'react-native-appstore-version-checker'
 import AsyncStorage from '@react-native-community/async-storage';
 import { images } from '../../../assets';
 import { platformType } from '../../../utils/platformType';
@@ -53,21 +52,25 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = () => {
   };
 
   const needUpdate = (appVersion: string, storeVersion: string) => {
-    const appVersionParsed = appVersion.split('-')[0].split('.');
-    const storeVersionParsed = storeVersion.split('-')[0].split('.');
+    const appVersionParsed = appVersion?.split('-')[0]?.split('.');
+    const storeVersionParsed = storeVersion?.split('-')[0]?.split('.');
 
-    const isAppVersionLower = appVersionParsed.find((value, index) => {
+    if (appVersionParsed) {
+      const isAppVersionLower = appVersionParsed.find((value, index) => {
       // if find app version is lower then store version (in any dot)
 
-      const intValue = parseInt(value);
-      const intStoreValue = parseInt(storeVersionParsed[index]);
+        const intValue = parseInt(value);
+        const intStoreValue = parseInt(storeVersionParsed[index]);
 
-      const previousCheck = index > 0 ? parseInt(appVersionParsed[index - 1]) == parseInt(storeVersionParsed[index - 1]) : true;
+        const previousCheck = index > 0
+          ? parseInt(appVersionParsed[index - 1]) == parseInt(storeVersionParsed[index - 1])
+          : true;
 
-      return intValue < intStoreValue && previousCheck;
-    });
+        return intValue < intStoreValue && previousCheck;
+      });
 
-    if (isAppVersionLower) return true;
+      if (isAppVersionLower) return true;
+    }
 
     return false;
   };
@@ -78,7 +81,6 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = () => {
         ? 'itms-apps://itunes.apple.com/app/apple-store/id1566861458'
         : 'market://details?id=com.usereserva',
     );
-    // Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1566861458')
   };
 
   useEffect(() => {

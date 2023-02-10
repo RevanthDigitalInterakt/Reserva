@@ -12,10 +12,10 @@ import {
  * @returns string | undefined
  */
 
-const deepLinkHelper = (initialUrl: string): string | undefined => {
+const deepLinkHelper = async (initialUrl: string): Promise<string | undefined> => {
   const url = removeLastCharacterSlash(initialUrl);
   for (const executeDeepLinkcase of registerMethods) {
-    const route = executeDeepLinkcase(url);
+    const route = await executeDeepLinkcase(url);
     if (route.match) {
       return route.strUrl;
     }

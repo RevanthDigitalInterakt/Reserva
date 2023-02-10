@@ -18,7 +18,7 @@ import {
   Image,
   Picker,
 } from '@usereservaapp/reserva-ui';
-import { FilterModal } from '../../ProductCatalog/modals/FilterModal';
+import { FilterModal } from '../../ProductCatalog/modals/FilterModal/FilterModal';
 
 import { images } from '../../../assets';
 import {
@@ -35,7 +35,7 @@ import {
   searchSuggestionsAndProductSearch,
 } from '../../../graphql/products/searchSuggestions';
 
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import useDebounce from '../../../shared/hooks/useDebounce';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
@@ -45,6 +45,7 @@ import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBack
 import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import EventProvider from '../../../utils/EventProvider';
+import { generateFacets } from '../../../utils/generateFacets';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -282,11 +283,14 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         const searchIds = data?.productSearch?.products.map(
           (x: any) => x?.productId,
         );
-
-        EventProvider.logEvent('search', {
-          search_string: text,
-          search_ids: searchIds,
-        });
+        try {
+          EventProvider.logEvent('search', {
+            search_string: text,
+            search_ids: searchIds,
+          });
+        } catch (error) {
+          EventProvider.captureException(error);
+        }
       });
     } else {
       getProducts({
@@ -309,11 +313,14 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         const searchIds = data?.productSearch?.products.map(
           (x: any) => x?.productId,
         );
-
-        EventProvider.logEvent('search', {
-          search_string: text,
-          search_ids: searchIds,
-        });
+        try {
+          EventProvider.logEvent('search', {
+            search_string: text,
+            search_ids: searchIds,
+          });
+        } catch (error) {
+          EventProvider.captureException(error);
+        }
       });
     }
   };
@@ -339,10 +346,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       variables: {
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
-        selectedFacets: [].concat(
-          generateFacets(referenceString),
-          filterRequestList,
-        ),
+        selectedFacets:
+        generateFacets({ reference: referenceString })
+          .concat(
+            filterRequestList,
+          ),
       },
     });
 
@@ -375,28 +383,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     lodingFacets: true,
   });
 
-  const generateFacets = (reference: string) => {
-    const facetInput: any[] = [];
-    const [subType, subcategories] = reference.split(':');
-
-    if (subType === 'category') {
-      subcategories.split('|').forEach((sub) => {
-        if (sub !== '') {
-          facetInput.push({
-            key: 'c',
-            value: sub,
-          });
-        }
-      });
-    } else {
-      facetInput.push({
-        key: 'productClusterIds',
-        value: subcategories,
-      });
-    }
-    return facetInput;
-  };
-
   // const { referenceId } = route.params;
 
   useEffect(() => {
@@ -410,10 +396,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [getFacets] = useLazyQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets: [].concat(
-        generateFacets(referenceString),
-        filterRequestList,
-      ),
+      selectedFacets:
+      generateFacets({ reference: referenceString })
+        .concat(
+          filterRequestList,
+        ),
     },
     fetchPolicy: 'no-cache',
   });
@@ -701,7 +688,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   fontSize="14px"
                 >
                   {productsQuery?.products?.length == 0
-                  && filterRequestList.length > 0
+                    && filterRequestList.length > 0
                     ? 'Limpar Filtros'
                     : 'Filtrar'}
                 </Typography>

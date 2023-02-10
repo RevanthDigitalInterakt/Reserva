@@ -1,4 +1,6 @@
 import { URL } from 'react-native-url-polyfill';
+import { Platform } from 'react-native';
+import { platformType } from '../../platformType';
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -10,9 +12,13 @@ export const REGEX_PRODUCT_URL = {
   REMOVE_INVALID_WORDS: /\b\/p\b/gi,
 } as const;
 
+export const REGEX_VALID_URL = /[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)/gi;
+
 export const baseTabUrl = 'usereserva://home-tabs';
 
 export const defaultInitialUrl = 'usereserva://home-tabs';
+
+export const webCatalogUrl = 'https://www.usereserva.com/catalog/';
 
 export const productUrl = 'usereserva://product?';
 
@@ -21,7 +27,7 @@ const defaultCustomMethodReturn: ICustomMethodReturnParams = {
   strUrl: defaultInitialUrl,
 };
 
-const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
+export const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
   const isRonDomain = initialUrl.startsWith('https://usereserva.io/');
 
   if (isRonDomain) {
@@ -124,14 +130,14 @@ const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams
 const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.includes('#/cart')) {
     if (initialUrl.includes('?orderFormId')) {
-      const splitOrderFormId = initialUrl
-        .split('?orderFormId=')[1]
-        .split('#/cart')[0];
-
-      return {
-        match: true,
-        strUrl: `usereserva://bag/${splitOrderFormId}`,
-      };
+      const splitOrderFormId = initialUrl.split('?orderFormId=')[1];
+      if (splitOrderFormId) {
+        const splitCart = splitOrderFormId.split('#/cart')[0];
+        return {
+          match: true,
+          strUrl: `usereserva://bag/${splitCart}`,
+        };
+      }
     }
   }
 
@@ -148,6 +154,52 @@ const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const webCatalogCollectionUseCase = async (initialUrl: string) => {
+  if (!initialUrl) {
+    return defaultCustomMethodReturn;
+  }
+  const searchRegExp = /\//g;
+  const replacePathName = '|';
+
+  const { pathname } = new URL(initialUrl);
+
+  const noHasPathName = pathname === '/';
+
+  if (noHasPathName) {
+    return defaultCustomMethodReturn;
+  }
+
+  const newPathName = pathname?.replace(searchRegExp, replacePathName);
+
+  if (newPathName !== '|') {
+    return {
+      match: true,
+      strUrl: `usereserva://webCatalog/${newPathName}`,
+    };
+  }
+  return defaultCustomMethodReturn;
+};
+
+const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (Platform.OS === platformType.ANDROID) {
+    const regexValidURL = new RegExp(REGEX_VALID_URL);
+    let currentURl = initialUrl;
+    if (regexValidURL.test(currentURl)) {
+      // To remove the protocol like http:// , https:// , ftp:// , //  from an URL string with
+      if (currentURl.startsWith('https://') || currentURl.startsWith('http://')) {
+        currentURl = currentURl.replace(/(^\w+:|^)\/\//, '');
+      }
+
+      return {
+        match: true,
+        strUrl: `usereserva://webview/d?uri=${currentURl}`,
+      };
+    }
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const registerMethods = [
   urlSiteCase,
   urlRon,
@@ -158,6 +210,8 @@ const registerMethods = [
   cartUseCase,
   catalogCollectionUseCase,
   abandonedBagUseCase,
+  webCatalogCollectionUseCase,
+  webviewDeepLinkUseCase,
 ];
 
 export { registerMethods };

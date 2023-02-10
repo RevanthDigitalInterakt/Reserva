@@ -82,7 +82,7 @@ export const MapScreen = ({ route }: Props) => {
   const onSelectPickupPoint = async (item: any) => {
     setLoading(true);
     if (orderForm) {
-      const slas = orderForm.shippingData.logisticsInfo[0].slas.find(
+      const slas = orderForm.shippingData.logisticsInfo[0]?.slas.find(
         ({ pickupPointId }) => pickupPointId === item.id,
       );
 

@@ -1,6 +1,9 @@
-import { Box, Toggle, Typography } from '@usereservaapp/reserva-ui';
+import {
+  Box, Toggle, Typography,
+} from '@usereservaapp/reserva-ui';
 import { TouchableOpacity } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import handleCopyTextToClipboard from '../../../../utils/CopyToClipboard';
 import { useCart } from '../../../../context/CartContext';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
@@ -16,9 +19,7 @@ function TesterAreaViewComponent({
   const [oneSignalToken, setOneSignalToken] = useState<string>('');
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [onboardingView, setOnboardingView] = useState<boolean>(false);
-
   const { getItem, setItem } = useAsyncStorageProvider();
-
   const { orderForm } = useCart();
 
   const handleChangeTesting = useCallback(async (currentValue: boolean) => {
@@ -45,12 +46,14 @@ function TesterAreaViewComponent({
     setOnboardingView(onboarding);
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      await getTokenOneSignal();
-      await handleInitStateToggles();
-    })();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        await getTokenOneSignal();
+        await handleInitStateToggles();
+      })();
+    }, []),
+  );
 
   return (
     <Box mb="sm" mt="sm">

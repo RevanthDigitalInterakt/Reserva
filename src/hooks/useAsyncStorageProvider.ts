@@ -1,11 +1,16 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Sentry from '@sentry/react-native';
 import EventProvider from '../utils/EventProvider';
+import type { Cookies } from '../pages/WebViewQA/helpers/GetCookies';
 
 export interface IAsyncStorageKeys {
   '@RNOrder:ChristmasCouponModalOrderId': string;
+  '@RNOrder:RonItems': string[];
+  '@RNSession:Ron': boolean;
   isTesting: boolean,
-  isAppFirstLaunched: boolean
+  isAppFirstLaunched: boolean,
+
+  '@RNWebView:WebViewQACookiesList': Cookies
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;
@@ -41,6 +46,21 @@ async function setItem<K extends TStorageKey>(key: K, val: IAsyncStorageKeys[K])
   }
 }
 
+async function removeItem<K extends TStorageKey>(key: K): Promise<boolean> {
+  try {
+    await AsyncStorage.removeItem(key);
+
+    return true;
+  } catch (err) {
+    Sentry.withScope((scope) => {
+      scope.setExtra('key', key);
+      EventProvider.captureException(err);
+    });
+
+    return false;
+  }
+}
+
 export default function useAsyncStorageProvider() {
-  return { getItem, setItem };
+  return { getItem, setItem, removeItem };
 }

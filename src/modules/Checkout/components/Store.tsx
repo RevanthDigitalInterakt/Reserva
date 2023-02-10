@@ -119,15 +119,6 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
                       </Typography>
                     </Box>
                     <Box flexDirection="row" mr="xxs">
-                      {/* <Box mr="xxs">
-                        <Typography
-                          fontFamily="reservaSansMedium"
-                          fontSize={12}
-                          color="verdeSucesso"
-                        >
-                          Grátis
-                        </Typography>
-                      </Box> */}
                       <Typography
                         fontFamily="reservaSansMedium"
                         fontSize={12}
@@ -203,13 +194,11 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
                   const [
                     hoursOpeningTime,
                     minuteOpeningTime,
-                    secondsOpeningTime,
-                  ] = item.OpeningTime.split(':');
+                  ] = item?.OpeningTime?.split(':') || [undefined, undefined];
                   const [
                     hoursClosingTime,
                     minuteClosingTime,
-                    secondsClosingTime,
-                  ] = item.ClosingTime.split(':');
+                  ] = item?.ClosingTime?.split(':') || [undefined, undefined];
 
                   return (
                     <>

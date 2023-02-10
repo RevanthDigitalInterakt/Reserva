@@ -51,7 +51,7 @@
   "react-native-code-push": "7.0.4",
   "code-push": "4.0.5",
   "react-native-modal": "11.10.0",
-  "@usereservaapp/reserva-ui": "0.44.0",
+  "@usereservaapp/reserva-ui": "0.45.0",
   "styled-components": "5.3.6",
   "css-to-react-native": "3.0.0",
   "postcss-value-parser": "4.2.0",

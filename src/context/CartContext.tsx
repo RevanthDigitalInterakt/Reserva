@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle */
 import React, {
   useState,
   createContext,
@@ -6,12 +8,13 @@ import React, {
   useEffect,
 } from 'react';
 
-import { CepResponse } from '../config/brasilApi';
+import type { CepResponse } from '../config/brasilApi';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
   AddItemToCart,
   CreateCart,
+  RestoreData,
   IdentifyCustomer,
   RemoveItemFromCart,
   addToCoupon,
@@ -481,7 +484,7 @@ interface CartContextProps {
   addShippingOrPickupInfo: (
     logisticInfo: any[],
     selectedAddresses: any[]
-  ) => Promise<boolean | undefined>; // todo - type later,
+  ) => Promise<boolean | undefined>;
   orderform: () => void;
   removeItem: (
     itemId: string,
@@ -533,7 +536,8 @@ interface CartContextProps {
     id: string,
     seller: string
   ) => void;
-  toggleGiftWrapping: (flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => (
+  toggleGiftWrapping: (
+    flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => (
     Promise<void>
   );
 }
@@ -557,7 +561,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     setOrderForm(data);
   };
 
-  const _requestRestoreCart = async (orderFormId: string) => {
+  const _requestRestoreCart = async (orderFormId: string): Promise<OrderForm> => {
     const { data } = await RestoreCart(orderFormId);
     setOrderForm(data);
 
@@ -571,7 +575,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       if (data.length > 0 && data[0].ativo) {
         setSellerCode(sellerCouponCode);
-        setSellerName(data[0].vendedor_apelido.split(' ')[0]);
+        setSellerName(data[0]?.vendedor_apelido?.split(' ')[0]);
         return !!data;
       }
       return false;
@@ -670,8 +674,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       EventProvider.logEvent('add_to_cart', {
         item_id: itemId,
-        item_name: product.name,
-        item_price: product.price,
+        item_name: product?.name,
+        item_price: product?.price,
         item_quantity: quantity,
         item_category: categories,
         currency: 'BRL',
@@ -766,7 +770,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       EventProvider.logEvent('complete_registration', {
         registration_method: 'email',
-        custumer_email: String(orderForm?.clientProfileData.email),
+        custumer_email: String(orderForm?.clientProfileData?.email),
       });
 
       setOrderForm(data);
@@ -984,7 +988,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         ],
       });
 
-      const sellerName = data[0].vendedor_apelido.split(' ')[0];
+      const sellerName = data[0]?.vendedor_apelido?.split(' ')[0];
 
       // TODO if no found sellerName, should be do default name;
       if (!sellerName) {
@@ -993,7 +997,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       }
 
       setSellerCode(sellerCouponCode);
-      setSellerName(data[0].vendedor_apelido.split(' ')[0]);
+      setSellerName(data[0]?.vendedor_apelido?.split(' ')[0]);
 
       await _requestOrderForm();
     } catch (error) {
@@ -1007,7 +1011,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const restoreCart = async (orderFormId: string) => {
     setLoading(true);
     try {
-      // TODO create interface
       const data = await _requestRestoreCart(orderFormId);
 
       const sellerCodeData = data?.marketingData?.marketingTags?.filter(
@@ -1015,9 +1018,12 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       )[0];
 
       if (sellerCodeData) {
-        const sellerId = sellerCodeData.split('=')[1];
-        await _selectedCouponSeller(sellerId);
+        const sellerId = sellerCodeData?.split('=')[1] as unknown as string | undefined;
+        if (sellerId) {
+          await _selectedCouponSeller(sellerId);
+        }
       }
+
       setOrderForm(data);
     } catch (error) {
       EventProvider.captureException(error);
@@ -1028,23 +1034,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const updateOrderForm = async () => {
     if (orderForm) {
-      const fetchOptions: any = {
-        headers: {
-          accept: 'application/json, text/javascript, */*; q=0.01',
-          'content-type': 'application/json; charset=UTF-8',
-          'sec-fetch-mode': 'cors',
-        },
-        method: 'GET',
-        mode: 'cors',
-        credentials: 'include',
-      };
-      const response = await fetch(
-        `https://app-vtex.usereserva.com/api/checkout/pub/orderform/${orderForm?.orderFormId}?sc=4`,
-        fetchOptions,
-      );
-      const newOrderForm = await response.json();
-      setOrderForm(newOrderForm);
-      return newOrderForm;
+      const { data } = await RestoreData(orderForm?.orderFormId);
+      setOrderForm(data);
+      return data;
     }
   };
 

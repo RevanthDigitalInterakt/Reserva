@@ -172,17 +172,19 @@ const MenuItem: React.FC<IMenuItem> = ({
                 testID={`submenu_button_${slugify(item.name)}`}
                 onPress={() => {
                   const facetInput: any[] = [];
-                  const [subType, subcategories] = item.referenceId.split(':');
+                  const [subType, subcategories] = item?.referenceId?.split(':') || [undefined, undefined];
 
-                  if (subType == 'category') {
-                    subcategories.split('|').forEach((sub) => {
-                      if (sub !== '') {
-                        facetInput.push({
-                          key: 'c',
-                          value: sub,
-                        });
-                      }
-                    });
+                  if (subType === 'category') {
+                    if (subcategories) {
+                      subcategories.split('|').forEach((sub) => {
+                        if (sub !== '') {
+                          facetInput.push({
+                            key: 'c',
+                            value: sub,
+                          });
+                        }
+                      });
+                    }
                   } else {
                     facetInput.push({
                       key: 'productClusterIds',

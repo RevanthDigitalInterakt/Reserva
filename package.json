@@ -10,7 +10,7 @@
     "ios": "react-native run-ios",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
-    "test": "jest --coverage --passWithNoTests",
+    "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts --ext .tsx --cache",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
@@ -45,7 +45,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "@sentry/react-native": "4.12.0",
-    "@usereservaapp/reserva-ui": "0.44.0",
+    "@usereservaapp/reserva-ui": "0.45.0",
     "axios": "^0.21.1",
     "date-fns": "^2.21.3",
     "dayjs": "^1.10.4",
@@ -117,8 +117,8 @@
     "@babel/runtime": "^7.12.5",
     "@commitlint/config-conventional": "^17.1.0",
     "@evilmartians/lefthook": "^1.1.3",
-    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/jest-native": "^5.4.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^11.5.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/gl-react": "^3.15.4",
@@ -179,8 +179,10 @@
       "json",
       "node"
     ],
-    "collectCoverage": true,
-    "collectCoverageFrom": ["<rootDir>/src/**/*.(ts|tsx)"],
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.(ts|tsx)"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__tests__/mocks/file.mock.js"
     },

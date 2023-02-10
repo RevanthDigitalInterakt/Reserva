@@ -41,6 +41,7 @@ type EventValues = {
   item_list_id: string;
   item_list_name: string;
   payment_type: string;
+  open: string;
 };
 
 export namespace EventsOptions {
@@ -96,6 +97,19 @@ export namespace EventsOptions {
   export type SelectItem = Pick<EventValues, 'item_list_id' | 'item_list_name'>;
   export type ViewItemList = Pick<EventValues, 'items'>;
   export type AddPaymentInfo = Pick<EventValues, 'coupon' | 'currency' | 'items' | 'payment_type' | 'value'>;
+  export type RonOpen = Pick<
+  EventValues,
+  'items'
+  | 'open'
+  >;
+  export type RonPurchase = Pick<
+  EventValues,
+  | 'coupon'
+  | 'currency'
+  | 'items'
+  | 'transaction_id'
+  | 'value'
+  >;
 }
 
 export type EventOptionsFn =
@@ -159,6 +173,11 @@ export type EventOptionsFn =
     type: 'add_payment_info';
     payload: EventsOptions.AddPaymentInfo;
   }
-  | { type: 'open_ron_url';
-    payload: EventsOptions.OpenRonUrl;
+  | {
+    type: 'ron_open';
+    payload: EventsOptions.RonOpen;
+  }
+  | {
+    type: 'ron_purchase';
+    payload: EventsOptions.RonPurchase;
   };

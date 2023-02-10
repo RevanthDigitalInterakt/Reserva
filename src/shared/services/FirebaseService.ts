@@ -9,7 +9,7 @@ export class FirebaseService {
    * @returns {any}
    */
   public async createFS(file: any): Promise<string> {
-    const fileExtension = file.uri.split('.').pop();
+    const fileExtension = file?.uri?.split('.').pop();
 
     const fileName = `${uuid.v4()}.${fileExtension}`;
 

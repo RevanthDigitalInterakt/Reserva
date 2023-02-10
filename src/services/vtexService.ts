@@ -35,6 +35,11 @@ const CreateCart = async () => {
   return response;
 };
 
+const RestoreData = async (id: string) => {
+  const response = await vtexConfig.get(`checkout/pub/orderform/${id}?sc=4`);
+  return response;
+};
+
 const CreateSession = async (country: any, postalCode: any) => {
   // cria a sessao e retorna o token pra ser salvo e usado em outro canto.
   const response = await vtexConfig.post('/sessions', {
@@ -518,6 +523,7 @@ const DeleteCustomerProfile = async (id: string) => {
 
 export {
   CreateCart,
+  RestoreData,
   CreateSession,
   GetSession,
   CepVerify,

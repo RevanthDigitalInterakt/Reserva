@@ -9,11 +9,7 @@ import { MainStackScreen } from './StackNavigator';
 
 const RootStack = createStackNavigator();
 
-interface AppRoutingProps {
-  isFirstLaunched: boolean;
-}
-
-export const AppRouting = ({ isFirstLaunched }: AppRoutingProps) => (
+export const AppRouting = () => (
   <RootStack.Navigator
     initialRouteName="Main"
     mode="modal"

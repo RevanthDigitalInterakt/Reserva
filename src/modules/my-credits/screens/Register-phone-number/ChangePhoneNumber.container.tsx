@@ -79,7 +79,7 @@ export const ChangePhoneNumberContainer = ({
           {
             type: 'sms',
             expire_date: expiredDate,
-            phone: profile.homePhone.split('+')[1],
+            phone: profile?.homePhone?.split('+')[1],
           },
         );
         if (data) {

@@ -62,14 +62,19 @@ export const Recommendation = ({
     if (!products || !products?.length) return;
     if (!EventProvider) return;
 
-    EventProvider.logEvent('view_item_list', {
-      items: products.map((item) => ({
-        price: item.priceRange.sellingPrice.lowPrice,
-        item_id: item.productId,
-        item_name: item.productName,
-        item_category: Object.values(item.categoryTree.map((i) => (i.href))).join('|'),
-      })),
-    });
+    try {
+      const newItems = products.map((item) => ({
+        price: item?.priceRange?.sellingPrice?.lowPrice,
+        item_id: item?.productId,
+        item_name: item?.productName,
+        item_category: Object.values(item?.categoryTree.map((i) => (i.href))).join('|'),
+      }));
+      EventProvider.logEvent('view_item_list', {
+        items: newItems,
+      });
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
   }, [products, EventProvider]);
 
   return (

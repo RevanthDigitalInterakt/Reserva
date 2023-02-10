@@ -5,7 +5,7 @@ import LottieView from 'lottie-react-native';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Linking, View } from 'react-native';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
 import Config from 'react-native-config';
@@ -14,9 +14,15 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
 import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import EventProvider from '../../../utils/EventProvider';
+import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { GetPurchaseData } from '../../../services/vtexService';
+import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
+
+const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
+const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;
 
 const Checkout: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -24,10 +30,12 @@ const Checkout: React.FC<{}> = () => {
   const [navState, setNavState] = useState('');
   const [checkoutCompleted, setCheckoutCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState('https://lojausereservaqa.myvtex.com/_v/segment/admin-login/v1/login?returnUrl=%2F%3F');
   const [attemps, setAttemps] = useState(0);
   const [orderId, setOrderId] = useState('');
   const [totalOrdersValue, setTotalOrdersValue] = useState<number>(0);
+
+  const { getItem } = useAsyncStorageProvider();
 
   const [showPromotionModal, setShowPromotionModal] = useState(false);
   const { cookie, email } = useAuth();
@@ -35,7 +43,8 @@ const Checkout: React.FC<{}> = () => {
   useEffect(() => {
     EventProvider.getPushTags((receivedTags) => {
       if (receivedTags && receivedTags?.total_orders_value) {
-        setTotalOrdersValue(parseFloat(receivedTags?.total_orders_value));
+        const result = parseFloat(receivedTags?.total_orders_value);
+        if (result) setTotalOrdersValue(result);
       }
     });
   }, []);
@@ -49,11 +58,15 @@ const Checkout: React.FC<{}> = () => {
   ), [isOrderPlaced]);
 
   const removeAbandonedCartTags = useCallback(() => {
-    EventProvider.sendPushTags('sendAbandonedCartTags', {
-      cart_update: '',
-      product_name: '',
-      product_image: '',
-    });
+    try {
+      EventProvider.sendPushTags('sendAbandonedCartTags', {
+        cart_update: '',
+        product_name: '',
+        product_image: '',
+      });
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
   }, []);
 
   const getOrderId = useCallback(() => {
@@ -69,20 +82,22 @@ const Checkout: React.FC<{}> = () => {
         try {
           const orderGroup = getOrderId()?.split('-')?.[0];
           const { data } = await GetPurchaseData(orderGroup, cookie);
-          if (data) {
+          const { items } = orderForm;
+          if (data && items?.length) {
+            const newItems = items.map((item) => ({
+              price: item?.price / 100 ?? 0,
+              item_id: item?.productId,
+              quantity: item?.quantity,
+              item_name: item?.name,
+              item_variant: item?.skuName,
+              item_category: Object.values(item?.productCategories).join('|') ?? '',
+            }));
             EventProvider.logEvent('add_payment_info', {
               coupon: '',
               currency: 'BRL',
-              value: orderForm.value / 100,
+              value: orderForm?.value / 100,
               payment_type: data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName,
-              items: orderForm.items.map((item) => ({
-                price: item.price / 100,
-                item_id: item.productId,
-                quantity: item.quantity,
-                item_name: item.name,
-                item_variant: item.skuName,
-                item_category: Object.values(item.productCategories).join('|'),
-              })),
+              items: newItems,
             });
           }
         } catch (e) {
@@ -115,6 +130,39 @@ const Checkout: React.FC<{}> = () => {
     }
   };
 
+  const sendRonTracking = useCallback(async (orderValue: number) => {
+    try {
+      const [initialURL, isRon, ronItems] = await Promise.all([
+        Linking.getInitialURL(),
+        getItem('@RNSession:Ron'),
+        getItem('@RNOrder:RonItems'),
+      ]);
+
+      if (!ronItems || !ronItems.length) return;
+
+      const isRonSession = !!(urlRon(initialURL || '').match || isRon);
+      if (!isRonSession) return;
+
+      const productIds = (orderForm?.items || []).map((item) => item.productId);
+      const hasAnyRonItem = ronItems.some((id) => productIds.includes(id));
+
+      if (hasAnyRonItem) {
+        EventProvider.logEvent(
+          'ron_purchase',
+          {
+            coupon: 'coupon',
+            currency: 'BRL',
+            items: adaptOrderFormItemsTrack(orderForm?.items),
+            transaction_id: '',
+            value: orderValue,
+          },
+        );
+      }
+    } catch (err) {
+      EventProvider.captureException(err);
+    }
+  }, [orderForm]);
+
   useEffect(() => {
     if (isOrderPlaced) {
       if (orderForm) {
@@ -122,63 +170,63 @@ const Checkout: React.FC<{}> = () => {
 
         const timestamp = Math.floor(Date.now() / 1000);
         const newTotalOrdersValue = orderValue + totalOrdersValue;
-        EventProvider.sendPushTags('sendLastOrderData', {
-          last_order_value: orderValue.toString(),
-          total_orders_value: newTotalOrdersValue.toString(),
-          last_purchase_date: timestamp.toString(),
-        });
 
-        const revenueTotal = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
-        let af_revenue = '0';
+        try {
+          EventProvider.sendPushTags('sendLastOrderData', {
+            last_order_value: orderValue.toString(),
+            total_orders_value: newTotalOrdersValue.toString(),
+            last_purchase_date: timestamp.toString(),
+          });
 
-        if (revenueTotal) {
-          af_revenue = (revenueTotal / 100).toFixed(2);
-        }
+          const revenueTotal = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
+          let af_revenue = '0';
 
-        onHandlePromotionModal(orderValue);
-        EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
-        EventProvider.appsFlyer.logEvent('af_purchase', {
-          af_revenue: `${af_revenue}`,
-          af_price: `${orderValue.toFixed(2)}`,
-          af_content_id: orderForm.items.map((item) => item.id),
-          af_content_type: orderForm.items.map(
-            (item) => item.productCategoryIds,
-          ),
-          af_currency: 'BRL',
-          af_quantity: orderForm.items.map((item) => item.quantity),
-          af_order_id: orderForm.orderFormId,
-        });
+          if (revenueTotal) {
+            af_revenue = (revenueTotal / 100).toFixed(2);
+          }
 
-        EventProvider.logPurchase({
-          affiliation: 'APP',
-          coupon: 'coupon',
-          currency: 'BRL',
-          items: orderForm.items.map((item) => ({
-            price: item.price / 100,
-            item_id: item.productId,
-            quantity: item.quantity,
-            item_name: item.name,
-            item_variant: item.skuName,
-            item_category: Object.values(item.productCategories).join('|'),
-          })),
-          shipping:
+          onHandlePromotionModal(orderValue);
+          EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
+          EventProvider.appsFlyer.logEvent('af_purchase', {
+            af_revenue: `${af_revenue}`,
+            af_price: `${orderValue.toFixed(2)}`,
+            af_content_id: orderForm?.items.map((item) => item.id),
+            af_content_type: orderForm?.items.map(
+              (item) => item.productCategoryIds,
+            ),
+            af_currency: 'BRL',
+            af_quantity: orderForm?.items.map((item) => item.quantity),
+            af_order_id: orderForm?.orderFormId,
+          });
+
+          sendRonTracking(orderValue);
+
+          EventProvider.logPurchase({
+            affiliation: 'APP',
+            coupon: 'coupon',
+            currency: 'BRL',
+            items: adaptOrderFormItemsTrack(orderForm?.items),
+            shipping:
             (orderForm.totalizers.find((x) => x.name === 'Shipping')?.value
               || 0) / 100,
-          tax:
+            tax:
             (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
               ?.interestRate || 0) / 100,
-          transaction_id: '',
-          value: orderValue,
-        });
-      }
+            transaction_id: '',
+            value: orderValue,
+          });
+        } catch (error) {
+          EventProvider.captureException(error);
+        }
 
-      orderform();
-      removeAbandonedCartTags();
-      setCheckoutCompleted(true);
+        orderform();
+        removeAbandonedCartTags();
+        setCheckoutCompleted(true);
+      }
     }
   }, [isOrderPlaced]);
 
-  useEffect(() => {
+  const handleNavState = useCallback(() => {
     if (navState.includes('checkout/orderPlaced')) {
       setUrl(navState);
       return;
@@ -187,6 +235,21 @@ const Checkout: React.FC<{}> = () => {
     setUrl(
       `${Config.URL_VTEX_CHECKOUT}/?orderFormId=${orderForm?.orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`,
     );
+  }, [navState]);
+
+  const handleUpdateNavState = useCallback(async () => {
+    const isTesting = await getItem('isTesting');
+    if (isTesting) {
+      if (navState === FINAL_URL_TO_REDIRECT_CHECKOUT) {
+        setUrl(`${URL_CHECKOUT_QA}/?orderFormId=${orderForm?.orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/payment`);
+      }
+    } else {
+      handleNavState();
+    }
+  }, [navState]);
+
+  useEffect(() => {
+    handleUpdateNavState();
   }, [navState]);
 
   useEffect(() => {

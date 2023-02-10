@@ -1,4 +1,4 @@
-import { IFormEditProfileSchema } from '../pages/EditProfile/components/FormEditProfile/interfaces/formEditProfile';
+import type { IFormEditProfileSchema } from '../pages/EditProfile/components/FormEditProfile/interfaces/formEditProfile';
 import { genderPtToEng } from '../pages/EditProfile/components/FormEditProfile/static/GenderTranslate';
 
 export interface IUserDataUpload {
@@ -18,12 +18,12 @@ const generatePayloadToUploadUserData = (
   const [firstName, ...rest] = userData.name.trim().split(' ');
 
   return {
-    firstName,
+    firstName: firstName!,
     lastName: rest.join(' '),
     email: userData.email,
     document: userData.document.replace(/[^\d]+/g, ''),
     birthDate: splittedBirthDate?.reverse().join('-'),
-    homePhone: userData.cellPhone.replace(/[^\d\+]+/g, ''),
+    homePhone: userData.cellPhone.replace(/[^\d+]+/g, ''),
     gender: genderPtToEng[userData.gender!],
   };
 };

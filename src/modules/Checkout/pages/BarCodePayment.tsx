@@ -4,11 +4,34 @@ import {
   Typography, Box, Button, Icon, Divider,
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 type Props = StackScreenProps<RootStackParamList, 'BarCodePayment'>;
+
+const Information = ({
+  description,
+  showDivider,
+  iconName,
+}: {
+  description: string;
+  showDivider?: boolean;
+  iconName: string;
+}) => (
+  <Box>
+    <Box paddingBottom="xxs" flexDirection="row" py="xxs">
+      <Box mr="micro" justifyContent="center">
+        <Icon name={iconName} size={20} />
+      </Box>
+      <Typography fontFamily="nunitoRegular" fontSize={15}>
+        {description}
+      </Typography>
+    </Box>
+    {showDivider && <Divider variant="fullWidth" />}
+  </Box>
+);
+
 export const BarCodePayment = ({ route }: Props) => {
   const { cashback } = route?.params;
   const navigation = useNavigation();
@@ -46,25 +69,3 @@ export const BarCodePayment = ({ route }: Props) => {
     </SafeAreaView>
   );
 };
-
-const Information = ({
-  description,
-  showDivider,
-  iconName,
-}: {
-  description: string;
-  showDivider?: boolean;
-  iconName: string;
-}) => (
-  <Box>
-    <Box paddingBottom="xxs" flexDirection="row" py="xxs">
-      <Box mr="micro" justifyContent="center">
-        <Icon name={iconName} size={20} />
-      </Box>
-      <Typography fontFamily="nunitoRegular" fontSize={15}>
-        {description}
-      </Typography>
-    </Box>
-    {showDivider && <Divider variant="fullWidth" />}
-  </Box>
-);

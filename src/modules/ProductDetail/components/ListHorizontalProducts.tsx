@@ -85,7 +85,9 @@ export const ListHorizontalProducts = ({
     setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
   };
 
-  const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+  const getVariant = (
+    variants: any, getVariantId: string,
+  ) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
   const populateWishlist = async () => {
     setSkip(true);
@@ -262,14 +264,14 @@ export const ListHorizontalProducts = ({
                 productTitle={item.productName}
                 onClickImage={() => {
                   EventProvider.logEvent('select_item', {
-                    item_list_id: item.productId,
-                    item_list_name: item.productName,
+                    item_list_id: item?.productId,
+                    item_list_name: item?.productName,
                   });
 
                   navigation.navigate('ProductDetail', {
                     productId: item.productId,
                     colorSelected: getVariant(
-                      item.items[0].variations,
+                      item?.items[0]?.variations,
                       'ID_COR_ORIGINAL',
                     ),
                   });

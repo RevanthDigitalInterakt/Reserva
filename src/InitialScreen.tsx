@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
@@ -163,15 +163,24 @@ function InitialScreen({ children } : { children: JSX.Element }) {
     }
   };
 
+  const loadRemoteConfig = useCallback(async () => {
+    try {
+      await remoteConfig().setConfigSettings({ fetchTimeMillis: 2000 });
+
+      await remoteConfig().setDefaults({
+        appName: 'My App',
+        appVersion: '1.0.0',
+        pdp_button_add_bag: '#333333',
+      });
+
+      await remoteConfig().fetchAndActivate();
+    } catch (err) {
+      EventProvider.captureException(err);
+    }
+  }, []);
+
   useEffect(() => {
-    requestUserPermission();
-    remoteConfig().setDefaults({
-      appName: 'My App',
-      appVersion: '1.0.0',
-    });
-    remoteConfig()
-      .fetchAndActivate()
-      .then(() => {});
+    loadRemoteConfig();
     setFetchInterval();
     StorageService.setInstallationToken();
 
@@ -183,7 +192,7 @@ function InitialScreen({ children } : { children: JSX.Element }) {
     });
 
     return unsubscribe;
-  }, []);
+  }, [loadRemoteConfig]);
 
   useEffect(() => {
     setTimeout(() => {

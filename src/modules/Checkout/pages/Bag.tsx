@@ -107,7 +107,7 @@ export const BagScreen = ({ route }: Props) => {
   const [isRemoveCartTags, setIsRemoveCartTags] = useState(false);
   const [loadingGift, setLoadingGift] = useState(false);
   const [removeProduct, setRemoveProduct] = useState<
-  { id: string; index: number; seller: string; quantity: number } | undefined
+  { id: string; index: number; seller: string; quantity?: number } | undefined
   >();
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [loadingShippingBar, setLoadingShippingBar] = useState(false);
@@ -144,12 +144,6 @@ export const BagScreen = ({ route }: Props) => {
   useEffect(() => {
     Sentry.configureScope((scope) => scope.setTransactionName('BagScreen'));
   }, []);
-
-  const doRestoreCartRequest = useCallback(async () => {
-    if (orderFormIdByDeepLink) {
-      await restoreCart(orderFormIdByDeepLink);
-    }
-  }, [orderFormIdByDeepLink]);
 
   const hasSellerCoupon = useCallback(
     (): boolean => sellerCoupon.length > 0,
@@ -332,20 +326,20 @@ export const BagScreen = ({ route }: Props) => {
     );
 
     const giftColors = orderForm?.selectableGifts[0]?.availableGifts.map(
-      (x) => x.skuName.split('-')[0],
+      (x) => x?.skuName?.split('-')[0],
     );
     const uniqueGiftColors = [...new Set(giftColors)];
     setGiftColors(uniqueGiftColors);
     if (alreadySelectedGift) {
       const result = orderForm?.selectableGifts[0]?.availableGifts.filter(
-        (x) => x.skuName.split('-')[0] === alreadySelectedGift?.skuName.split('-')[0],
+        (x) => x?.skuName?.split('-')[0] === alreadySelectedGift?.skuName?.split('-')[0],
       );
       if (result?.length) {
         giftSizeList = result;
       }
     } else {
       const result = orderForm?.selectableGifts[0]?.availableGifts.filter(
-        (x) => x.skuName.split('-')[0] === uniqueGiftColors[0],
+        (x) => x?.skuName?.split('-')[0] === uniqueGiftColors[0],
       );
       if (result?.length) {
         giftSizeList = result;
@@ -355,13 +349,13 @@ export const BagScreen = ({ route }: Props) => {
     if (giftSizeList.length) {
       setSelectableGifts(giftSizeList);
       sizeFilters = new ProductUtils().orderSizes(
-        giftSizeList.map((x) => x.skuName.split('-')[1].trim()),
+        giftSizeList.map((x) => x?.skuName?.split('-')[1]?.trim()),
       );
       setGiftSizeList(sizeFilters);
     }
     if (alreadySelectedGift) {
-      setSelectedGiftColor(alreadySelectedGift?.skuName.split('-')[0]);
-      setSelectedSizeGift(alreadySelectedGift?.skuName.split('-')[1]);
+      setSelectedGiftColor(alreadySelectedGift?.skuName?.split('-')[0]);
+      setSelectedSizeGift(alreadySelectedGift?.skuName?.split('-')[1]);
     } else if (sizeFilters?.length) {
       handleSelectGiftSize(sizeFilters[0]);
       setSelectedGiftColor(sizeFilters[0]);
@@ -396,10 +390,7 @@ export const BagScreen = ({ route }: Props) => {
         EventProvider.sendPushTags('sendAbandonedCartTags', {
           cart_update: timestamp.toString(),
           product_name: orderForm?.items[0]?.name,
-          product_image: orderForm?.items[0]?.imageUrl
-            .replace('http', 'https')
-            .split('-55-55')
-            .join(''),
+          product_image: orderForm?.items[0]?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join(''),
         });
       }
     }
@@ -440,32 +431,40 @@ export const BagScreen = ({ route }: Props) => {
     }
 
     setLoadingGoDelivery(true);
-    if (orderForm) {
+    if (orderForm && orderForm?.items) {
       const afContentId = orderForm.items.map((i) => i.productId);
       const afContentType = orderForm.items.map((i) => CategoriesParserString(i.productCategories));
       const afQuantity = orderForm.items.map((i) => i.quantity);
+      try {
+        const { items } = orderForm;
+        if (items.length) {
+          const newItems = items.map((item) => ({
+            price: item?.price / 100 ?? 0,
+            item_id: item?.productId,
+            quantity: item?.quantity,
+            item_name: item?.name,
+            item_variant: item?.skuName,
+            item_category: Object.values(item?.productCategories).join('|') ?? '',
+          }));
 
-      EventProvider.logEvent('checkout_initiated', {
-        price: totalBag + totalDiscountPrice + totalDelivery,
-        content_type: afContentType,
-        content_ids: afContentId,
-        currency: 'BRL',
-        quantity: afQuantity,
-      });
+          EventProvider.logEvent('begin_checkout', {
+            coupon: '',
+            currency: 'BRL',
+            items: newItems,
+            value: totalBag + totalDiscountPrice + totalDelivery,
+          });
+        }
 
-      EventProvider.logEvent('begin_checkout', {
-        coupon: '',
-        currency: 'BRL',
-        items: orderForm.items.map((item) => ({
-          price: item.price / 100,
-          item_id: item.productId,
-          quantity: item.quantity,
-          item_name: item.name,
-          item_variant: item.skuName,
-          item_category: Object.values(item.productCategories).join('|'),
-        })),
-        value: totalBag + totalDiscountPrice + totalDelivery,
-      });
+        EventProvider.logEvent('checkout_initiated', {
+          price: totalBag + totalDiscountPrice + totalDelivery,
+          content_type: afContentType,
+          content_ids: afContentId,
+          currency: 'BRL',
+          quantity: afQuantity,
+        });
+      } catch (error) {
+        EventProvider.captureException(error);
+      }
 
       if (!email) {
         setLoadingGoDelivery(false);
@@ -502,47 +501,6 @@ export const BagScreen = ({ route }: Props) => {
     Attachment(orderFormId, productOrderFormIndex, attachmentName);
   };
 
-  const handleSelectedGiftColor = async (color: string) => {
-    const giftSizeList = orderForm?.selectableGifts[0]?.availableGifts.filter(
-      (x) => x.skuName.split('-')[0] === color,
-    );
-    let sizeFilters: string[] = [];
-    if (giftSizeList?.length) {
-      setSelectableGifts(giftSizeList);
-      setSelectedGiftColor(giftSizeList[0].skuName.split('-')[0]);
-      sizeFilters = new ProductUtils().orderSizes(
-        giftSizeList.map((x) => x.skuName.split('-')[1].trim()),
-      );
-      if (sizeFilters.length > 0) {
-        let hasSize: Item[] = [];
-        hasSize = giftSizeList.filter(
-          (item) => item?.skuName.split('-')[1].trim() === selectedSizeGift?.trim(),
-        );
-        const firstSize = giftSizeList?.find(
-          (item) => item?.skuName.split('-')[1].trim() === sizeFilters[0],
-        );
-        setGiftSizeList(sizeFilters);
-        if (hasSize.length > 0) {
-          await fetchSelectGiftSize(hasSize[0]);
-          setSelectedSizeGift(hasSize[0].skuName.split('-')[1].trim());
-        } else if (firstSize) {
-          await fetchSelectGiftSize(firstSize);
-          setSelectedSizeGift(firstSize?.skuName?.split('-')[1].trim());
-        }
-      }
-    }
-  };
-
-  const handleSelectGiftSize = async (size: string) => {
-    const availableGifts = selectableGifts.find(
-      (x) => x.skuName.split('-')[1].trim() === size.trim(),
-    );
-    if (availableGifts) {
-      await fetchSelectGiftSize(availableGifts);
-    }
-    setSelectedSizeGift(size);
-  };
-
   const fetchSelectGiftSize = async (gift: Item) => {
     await setGiftSizeRequest(
       orderForm?.orderFormId,
@@ -550,6 +508,47 @@ export const BagScreen = ({ route }: Props) => {
       gift.id,
       gift.seller,
     );
+  };
+
+  const handleSelectedGiftColor = async (color: string) => {
+    const giftSizeList = orderForm?.selectableGifts[0]?.availableGifts.filter(
+      (x) => x.skuName?.split('-')[0] === color,
+    );
+    let sizeFilters: string[] = [];
+    if (giftSizeList?.length) {
+      setSelectableGifts(giftSizeList);
+      setSelectedGiftColor(giftSizeList[0]?.skuName?.split('-')[0]);
+      sizeFilters = new ProductUtils().orderSizes(
+        giftSizeList.map((x) => x?.skuName?.split('-')[1]?.trim()),
+      );
+      if (sizeFilters.length > 0) {
+        let hasSize: Item[] = [];
+        hasSize = giftSizeList.filter(
+          (item) => item?.skuName?.split('-')[1]?.trim() === selectedSizeGift?.trim(),
+        );
+        const firstSize = giftSizeList?.find(
+          (item) => item?.skuName?.split('-')[1]?.trim() === sizeFilters[0],
+        );
+        setGiftSizeList(sizeFilters);
+        if (hasSize.length > 0) {
+          await fetchSelectGiftSize(hasSize[0]);
+          setSelectedSizeGift(hasSize[0]?.skuName?.split('-')[1]?.trim());
+        } else if (firstSize) {
+          await fetchSelectGiftSize(firstSize);
+          setSelectedSizeGift(firstSize?.skuName?.split('-')[1]?.trim());
+        }
+      }
+    }
+  };
+
+  const handleSelectGiftSize = async (size: string) => {
+    const availableGifts = selectableGifts.find(
+      (x) => x?.skuName?.split('-')[1]?.trim() === size?.trim(),
+    );
+    if (availableGifts) {
+      await fetchSelectGiftSize(availableGifts);
+    }
+    setSelectedSizeGift(size);
   };
 
   const removeAbandonedCartTags = () => {
@@ -850,10 +849,7 @@ export const BagScreen = ({ route }: Props) => {
                   {orderForm && orderForm.selectableGifts.length > 0 && (
                     <Box flexDirection="row" minHeight={152} mt={20}>
                       <Image
-                        source={selectableGifts[0]?.imageUrl
-                          .replace('http', 'https')
-                          .split('-55-55')
-                          .join('')}
+                        source={selectableGifts[0]?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join('')}
                         width={screenWidth * 0.25}
                         height={152}
                       />
@@ -888,7 +884,7 @@ export const BagScreen = ({ route }: Props) => {
                                 {' '}
                                 1
                                 {' '}
-                                {selectableGifts[0]?.name.split('-')[0].trim()}
+                                {selectableGifts[0]?.name?.split('-')[0]?.trim()}
                               </Typography>
                             </Typography>
                           </Box>
@@ -903,7 +899,7 @@ export const BagScreen = ({ route }: Props) => {
                                   key={`${index}_btn`}
                                   onPress={() => {
                                     selectedGiftColor !== item
-                                    && handleSelectedGiftColor(item);
+                                      && handleSelectedGiftColor(item);
                                   }}
                                 >
                                   <Box
@@ -1000,7 +996,7 @@ export const BagScreen = ({ route }: Props) => {
                                 disbledOptions={[]}
                                 onSelectedChange={(item) => {
                                   selectedSizeGift?.trim() !== item
-                                  && handleSelectGiftSize(item);
+                                    && handleSelectGiftSize(item);
                                 }}
                                 optionsList={
                                   showMoreSizes
@@ -1025,34 +1021,34 @@ export const BagScreen = ({ route }: Props) => {
                             (x) => x.identifier
                               === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                            <Box paddingBottom="nano">
-                              <Typography
-                                fontFamily="nunitoRegular"
-                                fontSize={11}
-                                color="verdeSucesso"
-                              >
-                                Desconto de 1° compra aplicado neste produto!
-                              </Typography>
-                            </Box>
+                          <Box paddingBottom="nano">
+                            <Typography
+                              fontFamily="nunitoRegular"
+                              fontSize={11}
+                              color="verdeSucesso"
+                            >
+                              Desconto de 1° compra aplicado neste produto!
+                            </Typography>
+                          </Box>
                           )}
                           {item.priceTags.find(
                             (x) => x.identifier
                               === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                           ) && (
-                            <Box
-                              position="absolute"
-                              zIndex={5}
-                              top={84}
-                              right={21}
+                          <Box
+                            position="absolute"
+                            zIndex={5}
+                            top={84}
+                            right={21}
+                          >
+                            <Typography
+                              color="verdeSucesso"
+                              fontFamily="nunitoRegular"
+                              fontSize={11}
                             >
-                              <Typography
-                                color="verdeSucesso"
-                                fontFamily="nunitoRegular"
-                                fontSize={11}
-                              >
-                                -R$ 50
-                              </Typography>
-                            </Box>
+                              -R$ 50
+                            </Typography>
+                          </Box>
                           )}
                           <ProductHorizontalListCard
                             isBag
@@ -1077,9 +1073,9 @@ export const BagScreen = ({ route }: Props) => {
                               item.sellingPrice,
                               item.listPrice,
                             )}
-                            itemColor={item.skuName.split('-')[0] || ''}
-                            ItemSize={item.skuName.split('-')[1] || ''}
-                            productTitle={item.name.split(' - ')[0]}
+                            itemColor={item?.skuName?.split('-')[0] || ''}
+                            ItemSize={item?.skuName?.split('-')[1] || ''}
+                            productTitle={item?.name?.split(' - ')[0] || ''}
                             price={item.listPrice / 100}
                             priceWithDiscount={
                               item.sellingPrice !== 0
@@ -1166,25 +1162,21 @@ export const BagScreen = ({ route }: Props) => {
                             onClickClose={() => {
                               setShowModal(true);
                               setRemoveProduct({
-                                id: item.id,
+                                id: item?.id,
                                 index,
-                                seller: item.seller,
+                                seller: item?.seller,
                               });
                             }}
-                            imageSource={item.imageUrl
-                              .replace('http', 'https')
-                              .split('-55-55')
-                              .join('')}
+                            imageSource={item?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join('')}
                             handleNavigateToProductDetail={() => {
                               EventProvider.logEvent('select_item', {
-                                item_list_id: item.productId,
-                                item_list_name: item.productName,
+                                item_list_id: item?.productId,
+                                item_list_name: item?.name,
                               });
-
                               navigation.navigate('ProductDetail', {
-                                productId: item.productId,
-                                itemId: item.id,
-                                sizeSelected: item.skuName.split('-')[1] || '',
+                                productId: item?.productId,
+                                itemId: item?.id,
+                                sizeSelected: item?.skuName?.split('-')[1] || '',
                               });
                             }}
                           />

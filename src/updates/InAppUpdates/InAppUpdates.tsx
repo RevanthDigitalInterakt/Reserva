@@ -24,5 +24,6 @@ export const haveVersionUpdates = async () => {
     return response.shouldUpdate;
   } catch (error) {
     EventProvider.captureException(error);
+    return undefined;
   }
 };

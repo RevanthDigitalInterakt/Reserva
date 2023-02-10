@@ -109,7 +109,7 @@ export const RegisterPhoneNumberContainer = ({
       const expiredDate = toIsoString(new Date());
 
       const newPhone = confirmPhone
-        ? profile?.homePhone.split('+')[1]
+        ? profile?.homePhone?.split('+')[1]
         : `55${phone.replace(/[^\d\+]+/g, '')}`;
 
       if (dataProfile?.profile?.document) {

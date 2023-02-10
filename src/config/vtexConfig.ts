@@ -2,6 +2,8 @@ import Config from 'react-native-config';
 
 import axios from 'axios';
 
+import applyCookieHeader from './applyCookieHeader';
+
 const urlBase = Config.URL_BASE;
 
 const urlBase2 = Config.URL_BASE2;
@@ -78,6 +80,14 @@ const instance7 = axios.create({
   timeout: 30000,
   headers,
 });
+
+instance.interceptors.request.use((config) => applyCookieHeader(config));
+instance2.interceptors.request.use((config) => applyCookieHeader(config));
+instance3.interceptors.request.use((config) => applyCookieHeader(config));
+instance4.interceptors.request.use((config) => applyCookieHeader(config));
+instance5.interceptors.request.use((config) => applyCookieHeader(config));
+instance6.interceptors.request.use((config) => applyCookieHeader(config));
+instance7.interceptors.request.use((config) => applyCookieHeader(config));
 
 export {
   instance,

@@ -59,7 +59,10 @@ import type { Flow } from './types/flow.type';
 
 import { LandingPage } from '../modules/LandingPage/LandingPage';
 import RonRedirectToBag from '../pages/RonRedirectToBag';
+import WebRedirectToCatalog from '../pages/WebRedirectToCatalog';
 import EditProfile from '../pages/EditProfile/EditProfile';
+import type { IFilters } from '../utils/generateFacets';
+import WebViewDeepLink from '../pages/WebViewDeepLink';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -85,6 +88,7 @@ export type RootStackParamList = {
     safeArea: boolean;
     search: boolean;
     referenceId: string;
+    filters?: IFilters;
     facetInput: [
       {
         key: string;
@@ -207,6 +211,12 @@ export type RootStackParamList = {
   RonRedirectToBag: {
     ronCode: string;
   };
+  WebRedirectToCatalog: {
+    pathName: string;
+  }
+  WebViewDeepLink: {
+    uri: string
+  }
 };
 
 const flows: Flow[] = [
@@ -258,6 +268,8 @@ export const MainStackScreen = () => (
     />
 
     <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
+    <MainStack.Screen name="WebRedirectToCatalog" component={WebRedirectToCatalog} />
+    <MainStack.Screen name="WebViewDeepLink" component={WebViewDeepLink} />
 
     <MainStack.Screen
       name="BagScreen"

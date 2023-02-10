@@ -3,6 +3,7 @@ import React from 'react';
 import { Dimensions, TouchableHighlight } from 'react-native';
 import { Box, Image } from '@usereservaapp/reserva-ui';
 import EventProvider from '../../../utils/EventProvider';
+import type { IQueryFilters } from '../../../graphql/homePage/HomeQuery';
 
 export interface BannerProps {
   route?: string;
@@ -12,6 +13,7 @@ export interface BannerProps {
   url: string;
   reservaMini?: boolean;
   orderBy: string;
+  filters?: IQueryFilters
 }
 
 const deviceWidth = Dimensions.get('window').width;
@@ -24,6 +26,7 @@ const Banner: React.FC<BannerProps> = ({
   url,
   reservaMini,
   orderBy,
+  filters,
 }) => {
   const navigation = useNavigation();
   return (
@@ -34,8 +37,7 @@ const Banner: React.FC<BannerProps> = ({
             if (route) {
               navigation.navigate(route, { landingPageId });
             } else {
-              const facetInput = [];
-              const [categoryType, categoryData] = reference.split(':');
+              const [categoryType, categoryData] = reference?.split(':') || [undefined, undefined];
               if (categoryType === 'product') {
                 EventProvider.logEvent('select_item', {
                   item_list_id: categoryData ?? '',
@@ -48,24 +50,15 @@ const Banner: React.FC<BannerProps> = ({
                   colorSelected: '#FFFFFF',
                 });
               } else {
-                if (categoryType === 'category') {
-                  categoryData.split('|').forEach((cat: string) => {
-                    facetInput.push({
-                      key: 'c',
-                      value: cat,
-                    });
-                  });
-                } else {
-                  facetInput.push({
-                    key: 'productClusterIds',
-                    value: categoryData,
-                  });
-                }
                 navigation.navigate('ProductCatalog', {
-                  facetInput,
                   referenceId: reference,
                   reservaMini,
                   orderBy,
+                  filters: {
+                    categories: filters?.categoriesFilterCollection
+                      ?.items.map(({ category }) => category),
+                    priceFilter: filters?.priceFilter,
+                  },
                 });
               }
             }

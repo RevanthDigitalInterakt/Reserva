@@ -124,7 +124,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       return;
     }
 
-    const [, ...rest] = text.trim().split(' ');
+    const [, ...rest] = text?.trim()?.split(' ');
     const lastName = rest.join(' ');
     if (
       text.match(

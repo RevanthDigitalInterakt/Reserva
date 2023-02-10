@@ -13,7 +13,7 @@ import {
   Platform, TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import { ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
+import type { ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import FlipNumber from '../flipcountdoun/FlipNumber';
 import { useChronometerLocal } from './useChronometerLocal';
 import { platformType } from '../../../../utils/platformType';
@@ -87,7 +87,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
 
   useEffect(() => {
     if (countDownLocal) {
-      setWatchType(countDownLocal?.watchType.split('-')[0]);
+      setWatchType(countDownLocal?.watchType?.split('-')[0]);
       if (shouldShowClock()) {
         setShowClock(true);
       } else {
@@ -107,12 +107,14 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
       });
     } else {
       if (categoryType === 'category') {
-        categoryData.split('|').forEach((cat: string) => {
-          facetInput.push({
-            key: 'c',
-            value: cat,
+        if (categoryData) {
+          categoryData.split('|').forEach((cat: string) => {
+            facetInput.push({
+              key: 'c',
+              value: cat,
+            });
           });
-        });
+        }
       } else {
         facetInput.push({
           key: 'productClusterIds',

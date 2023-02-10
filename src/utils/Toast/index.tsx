@@ -24,12 +24,6 @@ export const showToast:(params:ShowToastParams) => void = ({
   });
 };
 
-const ToastProvider: React.FC = () => (
-  <Toast config={toastConfig} />
-);
-
-export default ToastProvider;
-
 const toastConfig = {
   success: (props:BaseToastProps) => (
     <BaseToast
@@ -54,3 +48,9 @@ const toastConfig = {
     />
   ),
 };
+
+const ToastProvider: React.FC = () => (
+  <Toast config={toastConfig} />
+);
+
+export default ToastProvider;
