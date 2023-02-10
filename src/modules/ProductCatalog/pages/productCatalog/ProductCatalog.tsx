@@ -50,6 +50,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData,
   );
+  const navigation = useNavigation();
+
   const navigateGoBack = () => {
     navigation.goBack();
     route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu', {
@@ -100,7 +102,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [referenceId]);
 
   const categoryId = 'camisetas';
-  const navigation = useNavigation();
 
   const [bannerImage, setBannerImage] = useState();
   // const [bannerDefault, setBannerDefault] = useState();

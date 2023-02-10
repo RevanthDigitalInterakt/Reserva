@@ -169,7 +169,6 @@ export const ListVerticalProducts = ({
 
       {products && products.length <= 0 && (
         <Box
-          position="absolute"
           flex={1}
           height="100%"
           width="100%"
