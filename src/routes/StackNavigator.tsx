@@ -63,6 +63,7 @@ import WebRedirectToCatalog from '../pages/WebRedirectToCatalog';
 import EditProfile from '../pages/EditProfile/EditProfile';
 import type { IFilters } from '../utils/generateFacets';
 import WebViewDeepLink from '../pages/WebViewDeepLink';
+import { MktFlow } from './flows/mtk.flow';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -231,6 +232,7 @@ const flows: Flow[] = [
   ...RegisterFlow,
   ...MyCashbackRoutes,
   ...OnboardingFlow,
+  ...MktFlow,
 ];
 
 export const MainStack = createStackNavigator();

@@ -1,4 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
+import type { StackScreenProps } from '@react-navigation/stack';
 import {
   Box,
   Button,
@@ -9,18 +10,17 @@ import {
   theme,
   Typography,
 } from '@usereservaapp/reserva-ui';
-import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
 import { intervalToDuration } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Linking } from 'react-native';
+import { Animated, Linking, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useConfigContext } from '../../../../context/ConfigContext';
+import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
 import {
   bannerDefaultQuery,
   bannerQuery,
-  configCollection,
+  HomeQuery,
 } from '../../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../../graphql/product/colorsToHexEnum';
 import {
@@ -28,38 +28,33 @@ import {
   productSearch,
   ProductSearchData,
 } from '../../../../graphql/products/productSearch';
-import { CountDownLocal } from '../../../Home/component/countDownLocal/CountDownLocal';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../../shared/hooks/useCheckConnection';
+import EventProvider from '../../../../utils/EventProvider';
+import { generateFacets } from '../../../../utils/generateFacets';
 import { Skeleton } from '../../../Checkout/components/Skeleton';
 import { CountDownBanner } from '../../../Home/component/CountDown';
+import { CountDownLocal } from '../../../Home/component/countDownLocal/CountDownLocal';
 import { TopBarDefault } from '../../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../../Menu/components/TopBarDefaultBackButton';
 import { EmptyProductCatalog } from '../../components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal, TFilterType } from '../../modals/FilterModal/FilterModal';
-import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
-import EventProvider from '../../../../utils/EventProvider';
-import { generateFacets } from '../../../../utils/generateFacets';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
-export const ProductCatalog: React.FC<Props> = ({ route }) => {
+type TOrderProducts = { [key: string]: string };
+
+const DEFAULT_PAGE_SIZE = 12;
+
+export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { offersPage } = useConfigContext();
   const [referenceString, setReferenceString] = useState('');
   const [productsQuery, setProducts] = useState<ProductSearchData>(
     {} as ProductSearchData,
   );
-  const navigation = useNavigation();
 
-  const navigateGoBack = () => {
-    navigation.goBack();
-    route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu', {
-      indexMenuOpened: route?.params?.indexMenuOpened,
-    });
-  };
-
-  const orderProducts: any = {
+  const orderProducts: TOrderProducts = {
     RELEVANCIA: OrderByEnum.OrderByReviewRateDESC,
     MAIS_VENDIDOS: OrderByEnum.OrderByTopSaleDESC,
     MAIS_RECENTES: OrderByEnum.OrderByReleaseDateDESC,
@@ -70,12 +65,60 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     DE_Z_A: OrderByEnum.OrderByNameDESC,
   };
 
-  const pageSize = 12;
   const {
-    safeArea, search, referenceId, title, reservaMini, orderBy,
-    filters,
-    facetInput,
+    safeArea, search, referenceId, orderBy, filters,
   } = route.params;
+
+  const [bannerImage, setBannerImage] = useState();
+  const [skeletonLoading, setSkeletonLoading] = useState(true);
+  const [colorsfilters, setColorsFilters] = useState([]);
+  const [sizefilters, setSizeFilters] = useState([]);
+  const [categoryfilters, setCategoryFilters] = useState([]);
+  const [priceRangefilters, setPriceRangeFilters] = useState<any[]>([]);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [sorterVisible, setSorterVisible] = useState(false);
+  const [filterList, setFilterList] = useState<TFilterType[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<string>();
+  const [loadingFetchMore, setLoadingFetchMore] = useState(false);
+  const [loadingHandlerState, setLoadingHandlerState] = useState(false);
+  const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
+  const [countDownClock, setCountDownClock] = React.useState<ICountDownClock | ICountDownClock[]>();
+  const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
+  const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
+  const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
+
+  const [mktTextModal, setMktTextModal] = useState<HomeQuery[]>([]);
+  const [showMkt, setShowMkt] = useState(false);
+  const [mktHeightImg, setMktHeightImg] = useState();
+
+  const [getcountdownClock] = useLazyQuery(countdownClockQuery, { context: { clientName: 'contentful' } });
+
+  const [getFacets] = useLazyQuery(facetsQuery, {
+    variables: {
+      hideUnavailableItems: true,
+      selectedFacets:
+        generateFacets({ ...filters, reference: referenceString })
+          .concat(filterRequestList),
+    },
+    fetchPolicy: 'no-cache',
+  });
+
+  const [getBanner] = useLazyQuery(bannerQuery, {
+    context: { clientName: 'contentful' },
+    variables: {
+      category: referenceString,
+    },
+  });
+
+  const navigateGoBack = () => {
+    navigation.goBack();
+
+    if (route?.params?.comeFrom === 'Menu') {
+      navigation.navigate('Menu', {
+        indexMenuOpened: route?.params?.indexMenuOpened,
+      });
+    }
+  };
 
   useEffect(() => {
     if (referenceId === 'offers-page') {
@@ -101,38 +144,26 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
   }, [referenceId]);
 
-  const categoryId = 'camisetas';
-
-  const [bannerImage, setBannerImage] = useState();
-  // const [bannerDefault, setBannerDefault] = useState();
-  const [skeletonLoading, setSkeletonLoading] = useState(true);
-  const [watchLoading, setWatchLoading] = useState(false);
-  const [showWatch, setShowWatch] = useState(false);
-  const [showWatchLocal, setShowWatchLocal] = useState(false);
-  const [colorsfilters, setColorsFilters] = useState([]);
-  const [sizefilters, setSizeFilters] = useState([]);
-  const [categoryfilters, setCategoryFilters] = useState([]);
-  const [priceRangefilters, setPriceRangeFilters] = useState<any[]>([]);
-  const [filterVisible, setFilterVisible] = useState(false);
-  const [sorterVisible, setSorterVisible] = useState(false);
-  const [filterList, setFilterList] = useState<TFilterType[]>([]);
-  const [selectedOrder, setSelectedOrder] = useState<string>();
-  const [loadingFetchMore, setLoadingFetchMore] = useState(false);
-  const [loadingHandlerState, setLoadingHandlerState] = useState(false);
-  const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
-  const [skip, setSkip] = useState(false);
-  const [countDownClock, setCountDownClock] = React.useState<ICountDownClock>();
-  const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
-  const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
-  const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
-  const [{ collectionData }, setConfigCollection] = useState<{
-    collectionData: any;
-  }>({ collectionData: null });
-  const [getCollection] = useLazyQuery(configCollection, {
-    context: { clientName: 'contentful' },
+  const [getProductSearch] = useLazyQuery(productSearch, {
+    variables: {
+      skusFilter: 'ALL_AVAILABLE',
+      hideUnavailableItems: true,
+      selectedFacets:
+        generateFacets({ ...filters, reference: referenceString })
+          .concat(filterRequestList),
+      salesChannel: '4',
+      orderBy: selectedOrder,
+      to: DEFAULT_PAGE_SIZE - 1,
+      simulationBehavior: 'default',
+      productOriginVtex: false,
+    },
+    fetchPolicy: 'no-cache',
+    nextFetchPolicy: 'no-cache',
   });
 
-  const [getcountdownClock] = useLazyQuery(countdownClockQuery, { context: { clientName: 'contentful' } });
+  const [getDefaultBanner] = useLazyQuery(bannerDefaultQuery, {
+    context: { clientName: 'contentful' },
+  });
 
   useEffect(() => {
     if (orderBy) {
@@ -145,22 +176,16 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       data,
       loading,
       error,
-      // fetchMore,
-      // refetch,
     },
     setProductSearch,
   ] = useState<{
     data: any | null;
     loading: boolean;
     error: any;
-    // fetchMore: (...props: any) => any,
-    // refetch: (...props: any | undefined) => any,
   }>({
     data: null,
     loading: false,
     error: null,
-    // fetchMore: () => { },
-    // refetch: () => { }
   });
 
   const refetch = async () => {
@@ -170,8 +195,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
       data: response.data,
       loading: false,
       error: response.error,
-      // fetchMore: fetchMore,
-      // refetch: refetch
     });
     return response;
   };
@@ -185,24 +208,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     });
     return response;
   };
-
-  const [getProductSearch] = useLazyQuery(productSearch, {
-    // skip,
-    variables: {
-      skusFilter: 'ALL_AVAILABLE',
-      hideUnavailableItems: true,
-      selectedFacets:
-      generateFacets({ ...filters, reference: referenceString })
-        .concat(filterRequestList),
-      salesChannel: '4',
-      orderBy: selectedOrder,
-      to: pageSize - 1,
-      simulationBehavior: 'default',
-      productOriginVtex: false,
-    },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
-  });
 
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
@@ -273,21 +278,9 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     lodingFacets: true,
   });
 
-  const [getFacets] = useLazyQuery(facetsQuery, {
-    variables: {
-      hideUnavailableItems: true,
-      selectedFacets:
-       generateFacets({ ...filters, reference: referenceString })
-         .concat(filterRequestList),
-    },
-    fetchPolicy: 'no-cache',
-  });
-
   const [
     {
       bannerData,
-      loadingBanner,
-      // refetchBanner
     },
     setBannerData,
   ] = useState<{
@@ -307,62 +300,24 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     return response;
   };
 
-  const [getBanner] = useLazyQuery(bannerQuery, {
-    context: { clientName: 'contentful' },
-    variables: {
-      category: referenceString,
-    },
-  });
-
-  const [{ defaultBanner, loadingDefaultBanner }, setDefaultBanner] = useState<{
-    defaultBanner: any;
-    loadingDefaultBanner: boolean;
-  }>({
-    defaultBanner: null,
-    loadingDefaultBanner: false,
-    // refetchDefaultBanner: () => { return {}},
-  });
-
-  const refetchDefaultBanner = async () => {
-    const response = await getDefaultBanner();
-    setDefaultBanner({
-      defaultBanner: response.data,
-      // refetchDefaultBanner,
-      loadingDefaultBanner: false,
-    });
-    return response;
-  };
-
-  const [getDefaultBanner] = useLazyQuery(bannerDefaultQuery, {
-    context: { clientName: 'contentful' },
-  });
-
   useEffect(() => {
     getFacets().then((response) => setFacets({
       facetsData: response.data,
       lodingFacets: false,
-      // refetchFacets: facetsData.refetch
     }));
     getBanner().then((response) => setBannerData({
       bannerData: response.data,
       loadingBanner: false,
     }));
-    getDefaultBanner().then((response) => setDefaultBanner({
-      defaultBanner: response.data,
-      loadingDefaultBanner: false,
+
+    getProductSearch().then((response) => setProductSearch({
+      data: response.data,
+      loading: false,
+      error: response.error,
     }));
-    getCollection().then((response) => setConfigCollection({
-      collectionData: response.data,
-    }));
-    getProductSearch().then((response) => {
-      setProductSearch({
-        data: response.data,
-        loading: false,
-        error: response.error,
-      });
-    });
 
     setFilterList(generateFacets({ ...filters, reference: referenceString }));
+
     const priceRange = filters?.priceFilter;
     if (priceRange) {
       setPriceRangeFilters([{
@@ -376,23 +331,44 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, []);
 
   const setBannerDefaultImage = async () => {
-    const { data } = await refetchDefaultBanner();
+    const { data } = await getDefaultBanner();
     if (data) {
       const url = data.bannerCategoryCollection?.items[0]?.item?.image?.url;
       setBannerImage(url);
     }
   };
+
   const { WithoutInternet } = useCheckConnection({});
 
   const firstLoad = async () => {
     setSkeletonLoading(true);
-    setSkip(true);
     const { data, loading } = await refetch();
     setProductSearch({
       data, loading, fetchMore, refetch, error,
     });
     setSkeletonLoading(false);
     await refetchBanner({ category: referenceString });
+  };
+
+  const animationSkeletonLoading = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(skeletonOpacity, {
+          useNativeDriver: true,
+          toValue: 1,
+          duration: 1200,
+          delay: 300,
+        }),
+        Animated.timing(skeletonOpacity, {
+          useNativeDriver: true,
+          toValue: 0.3,
+          duration: 600,
+        }),
+      ]),
+      {
+        iterations: -1,
+      },
+    ).start();
   };
 
   useEffect(() => {
@@ -409,6 +385,12 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         setBannerDefaultImage();
       }
     }
+
+    const showMktData = bannerData?.bannerCategoryCollection?.items[0]?.item?.mkt;
+    setShowMkt(showMktData);
+
+    const mktHeightImgData = bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.height;
+    setMktHeightImg(mktHeightImgData);
   }, [bannerData]);
 
   useEffect(() => {
@@ -479,8 +461,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
     }
 
     return {
-      from: offSet < pageSize ? pageSize : offSet,
-      to: offSet < pageSize ? pageSize * 2 - 1 : offSet + (pageSize - 1),
+      from: offSet < DEFAULT_PAGE_SIZE ? DEFAULT_PAGE_SIZE : offSet,
+      to: offSet < DEFAULT_PAGE_SIZE ? DEFAULT_PAGE_SIZE * 2 - 1 : offSet + (DEFAULT_PAGE_SIZE - 1),
     };
   };
 
@@ -497,8 +479,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         from: offSetRequest.from,
         to: offSetRequest.to,
         selectedFacets:
-        generateFacets({ ...filters, reference: referenceString })
-          .concat(filterRequestList),
+          generateFacets({ ...filters, reference: referenceString })
+            .concat(filterRequestList),
         simulationBehavior: 'default',
         productOriginVtex: false,
       },
@@ -569,10 +551,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
         selectedFacets:
-        generateFacets({ ...filters, reference: referenceString })
-          .concat(filterRequestList),
+          generateFacets({ ...filters, reference: referenceString })
+            .concat(filterRequestList),
         orderBy: selectedOrder,
-        to: pageSize - 1,
+        to: DEFAULT_PAGE_SIZE - 1,
         simulationBehavior: 'default',
         productOriginVtex: false,
       });
@@ -591,39 +573,31 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
   }, [selectedOrder]);
 
   const skeletonOpacity = useRef(new Animated.Value(0)).current;
-  const animationSkeletonLoading = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(skeletonOpacity, {
-          useNativeDriver: true,
-          toValue: 1,
-          duration: 1200,
-          delay: 300,
-        }),
-        Animated.timing(skeletonOpacity, {
-          useNativeDriver: true,
-          toValue: 0.3,
-          duration: 600,
-        }),
-      ]),
-      {
-        iterations: -1,
-      },
-    ).start();
-  };
 
   const onClickWhatsappButton = () => {
     Linking.openURL('https://whts.co/reserva');
   };
 
+  const mktText = React.useMemo(() => {
+    const mktBoldText = bannerData?.bannerCategoryCollection?.items?.[0]?.item?.texto?.split('__');
+
+    return mktBoldText?.map((i: any) => {
+      if (mktBoldText.indexOf(i) > 0 && mktBoldText.indexOf(i) % 2 !== 0) {
+        return (<Text style={{ fontFamily: 'reservaSansBold', fontWeight: 'bold' }}>{i}</Text>);
+      } return (i);
+    });
+  }, []);
+
   const DynamicComponent = safeArea ? SafeAreaView : Box;
+
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
         <TopBarDefaultBackButton
           loading={
-            loading || loadingFetchMore || loadingHandlerState || watchLoading
+            loading || loadingFetchMore || loadingHandlerState
           }
+          navigateGoBack={showMkt}
           backButtonPress={() => navigateGoBack()}
         />
       ) : (
@@ -637,51 +611,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Box>
       )}
 
-      {/* {productsQuery.products.length <= 0 && (
-        <Box
-          position="absolute"
-          flex={1}
-          height="100%"
-          width="100%"
-          zIndex={5}
-          justifyContent="center"
-          bg="white"
-          alignContent="center"
-          pt={163}
-        >
-          <Typography
-            textAlign="center"
-            fontFamily="reservaSerifMedium"
-            fontSize={20}
-          >
-            Ops...desculpe
-          </Typography>
-          <Box mx={39} mt="nano">
-            <Typography
-              textAlign="center"
-              fontFamily="nunitoSemiBold"
-              fontSize={13}
-            >
-              A página que você procura está temporariamente indisponível ou foi
-              removida
-            </Typography>
-          </Box>
-          <Button
-            title="VOLTAR"
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-            variant="primarioEstreitoOutline"
-            mx={22}
-            mt={49}
-            inline
-          />
-        </Box>
-      )} */}
-
       <FilterModal
         setFilterRequestList={setFilterRequestList}
-        categoryId={categoryId}
         filterList={filterList}
         setFilterList={setFilterList}
         isVisible={filterVisible}
@@ -692,8 +623,6 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onCancel={() => setFilterVisible(false)}
         onClose={() => setFilterVisible(false)}
         title=""
-        // confirmText={"Ok"}
-        subtitle=""
       />
       <Picker
         onSelect={(item) => {
@@ -734,22 +663,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
             text: 'De Z a A',
             value: OrderByEnum.OrderByNameDESC,
           },
-          // {
-          //   text: 'Menor Preço',
-          //   value: OrderByEnum.OrderByPriceASC,
-          // },
-          // {
-          //   text: 'Maior Preço',
-          //   value: OrderByEnum.OrderByPriceDESC,
-          // },
-          // {
-          //   text: 'Mais Recentes',
-          //   value: OrderByEnum.OrderByReleaseDateDESC,
-          // },
-          // {
-          //   text: 'Relevante',
-          //   value: OrderByEnum.OrderByReviewRateDESC,
-          // },
+
         ]}
         onConfirm={() => {
           setSorterVisible(false);
@@ -760,7 +674,7 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         onBackDropPress={() => setSorterVisible(false)}
         title="Ordenar Por"
       />
-      {skeletonLoading || loadingHandlerState || watchLoading ? (
+      {skeletonLoading || loadingHandlerState ? (
         <Skeleton>
           <Box bg="neutroFrio1" width="100%" height={200} />
 
@@ -864,31 +778,10 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
         </Skeleton>
       ) : null}
 
-      {/* <Modal isVisible={loadingModal}>
-        <Box
-          zIndex={5}
-          height="100%"
-          width="100%"
-          opacity={0.65}
-          position="absolute"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <LottieView
-            source={loadingSpinner}
-            style={{
-              width: 60,
-            }}
-            autoPlay
-            loop
-          />
-          <Text>Carregando...</Text>
-        </Box>
-      </Modal> */}
       {productsQuery.products ? (
         <ListVerticalProducts
           loadMoreProducts={loadMoreProducts}
-          products={productsQuery.products} // productsQuery.products}
+          products={productsQuery.products}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}
@@ -898,10 +791,11 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               {countDownClockLocal && showClockOffers
                 ? <CountDownLocal countDownLocal={countDownClockLocal} />
                 : <CountDownBanner countDown={countDownClockGlobal} />}
+
               {bannerImage && (
-              <Box>
-                <Image height={200} source={bannerImage} width={1 / 1} />
-              </Box>
+                <Box>
+                  <Image height={showMkt ? mktHeightImg : 200} source={bannerImage} width={1 / 1} />
+                </Box>
               )}
 
               <Box bg="dropDownBorderColor">
@@ -924,6 +818,19 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
                   </Box>
                 </Button>
               </Box>
+              {showMkt && (
+                <Box paddingX="xl" paddingY="xxs">
+                  <Typography
+                    color="preto"
+                    textAlign="center"
+                    fontFamily="reservaSansRegular"
+                    fontSize={14}
+                    lineHeight={18}
+                  >
+                    {mktText}
+                  </Typography>
+                </Box>
+              )}
               <Box paddingY="micro" flexDirection="row" justifyContent="center">
                 <Box width={1 / 2}>
                   <Button
@@ -982,7 +889,8 @@ export const ProductCatalog: React.FC<Props> = ({ route }) => {
               </Box>
               <Box
                 paddingX="micro"
-                paddingY="quarck"
+                paddingTop="quarck"
+                paddingBottom="xxxs"
                 flexDirection="row"
                 justifyContent="space-between"
               >

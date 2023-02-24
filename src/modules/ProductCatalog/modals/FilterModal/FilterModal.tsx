@@ -33,7 +33,6 @@ export type TFilterType = string|null|number|IFacet;
 export interface IFilterModalProps {
   setFilterRequestList: (val: TFilterType[]) => void;
   isVisible: boolean;
-  onConfirm: () => void;
   onCancel: () => void;
   onClose: () => void;
   onAndroidBackButtonPress?: () => void;
@@ -43,7 +42,6 @@ export interface IFilterModalProps {
   sizes: string[];
   priceRange: any[];
   categories: string[];
-  categoryId?: string;
   title: string;
 }
 
@@ -95,18 +93,15 @@ export const TitleFilter: React.FC<{
 export const FilterModal = ({
   setFilterRequestList,
   isVisible,
-  onConfirm,
   onCancel,
   onClose,
   onAndroidBackButtonPress,
   setFilterList,
   filterList,
-  categoryId,
   colors,
   sizes,
   categories,
   priceRange,
-  ...props
 }: IFilterModalProps) => {
   const [selectedColors, setSelectedColors] = useState<any[]>([]);
   const [showCategories, setShowCategories] = React.useState(false);
@@ -132,7 +127,6 @@ export const FilterModal = ({
     const sizes = selectedSize && [].concat(selectedSize);
 
     const filterRequestList = [
-      // selectedSize && [selectedSize].flat(),
       sizes.map((item: any) => {
         if (item) {
           return {
@@ -149,7 +143,6 @@ export const FilterModal = ({
       })),
     ];
 
-    // setFilterRequestList(filterRequestList.flat());
     setFilterRequestList([].concat(...filterRequestList));
 
     onClose();
@@ -197,7 +190,6 @@ export const FilterModal = ({
       >
         <Box
           height={deviceHeight}
-          // marginRight={-20}
           marginLeft="xl"
           marginY="micro"
           bg="white"

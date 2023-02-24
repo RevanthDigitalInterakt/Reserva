@@ -49,6 +49,7 @@ import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 import { platformType } from '../../../utils/platformType';
 import { getPercent } from '../../../utils/getPercent';
+import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -1052,6 +1053,9 @@ export const BagScreen = ({ route }: Props) => {
                           )}
                           <ProductHorizontalListCard
                             isBag
+                            mktplaceNameComponent={
+                              <MktplaceName sellerId={item.seller} showIconModalInfo />
+                            }
                             discountApi={
                               item.priceTags.find(
                                 (x) => x.identifier
@@ -1180,6 +1184,7 @@ export const BagScreen = ({ route }: Props) => {
                               });
                             }}
                           />
+
                         </Box>
                     ),
                   )}

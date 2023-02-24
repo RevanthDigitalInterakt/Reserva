@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Alert, Dimensions, SafeAreaView, ScrollView,
+  Alert, SafeAreaView, ScrollView,
 } from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
@@ -18,10 +18,9 @@ import Sentry from '../../../config/sentryConfig';
 import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
 import EventProvider from '../../../utils/EventProvider';
 import { saveAddressMutation } from '../../../graphql/address/addressMutations';
+import configDeviceSizes from '../../../utils/configDeviceSizes';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
-
-const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const { comeFrom } = route.params;
@@ -597,7 +596,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 executeCallback: createPayload,
               })}
               height={50}
-              width={DEVICE_WIDTH * 0.8}
+              width={configDeviceSizes.DEVICE_WIDTH * 0.8}
               inline
               fontFamily="nunitoRegular"
               fontSize={13}

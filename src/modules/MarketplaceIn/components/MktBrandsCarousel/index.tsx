@@ -1,32 +1,35 @@
-import React, { useRef } from 'react';
 import { Box } from '@usereservaapp/reserva-ui';
-import {
-  Animated, StyleSheet,
-} from 'react-native';
-import type { Carousel } from '../../../graphql/homePage/HomeQuery';
-import configDeviceSizes from '../../../utils/configDeviceSizes';
-import Card from './Card';
+import React, { useEffect, useRef } from 'react';
+import { Animated } from 'react-native';
+import type { Carousel } from '../../../../graphql/homePage/HomeQuery';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import Card from '../Card';
+import styles from './styles';
 
-interface CardsCarrouselProps {
-  carrousel: Carousel;
+interface MktBrandsCarouselProps {
+  carousel: Carousel | undefined;
 }
-
-const styles = StyleSheet.create({
-  slidingIndicatorStyle: {
-    backgroundColor: '#6F6F6F',
-    width: 7,
-    height: 7,
-    alignSelf: 'center',
-    zIndex: 2,
-    borderRadius: 7,
-  },
-});
-
-export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
-  carrousel,
+const MktBrandsCarousel: React.FC<MktBrandsCarouselProps> = ({
+  carousel,
 }) => {
-  const myCards = carrousel.itemsCollection.items;
+  const myCards = carousel?.itemsCollection?.items ? carousel?.itemsCollection.items : [];
   const scrollX = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    const roundDotPosition = ({ value }: { value: number }) => {
+      clearTimeout(timer);
+      const step = 280;
+      const newPosition = Math.round(value / step) * step;
+      if (value === newPosition) {
+        return;
+      }
+      timer = setTimeout(() => {
+        scrollX.setValue(newPosition);
+      }, 150);
+    };
+    scrollX.addListener(roundDotPosition);
+  }, []);
 
   return (
     <Box>
@@ -39,7 +42,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           data={myCards}
-          snapToOffsets={[...Array(myCards.length)].map(
+          snapToOffsets={[...Array((Math.round(myCards.length / 4)))].map(
             (_x, i) => i * (configDeviceSizes.DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48,
           )}
           snapToAlignment="start"
@@ -48,26 +51,22 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           contentContainerStyle={{
             paddingLeft: 4,
             paddingRight: 4,
+            marginTop: 14,
+            marginBottom: 8,
           }}
           bounces={false}
           renderItem={({ item, index }) => (
             <Box>
               <Card
-                image={item?.image}
-                name={item?.name}
-                description={item?.description}
-                reference={item?.reference}
-                key={index}
-                reservaMini={item?.reservaMini}
-                orderBy={item?.orderBy}
-                linkMktIn={item?.linkMktIn}
-                filters={item?.filters}
+                index={index}
+                image={item.image}
+                reference={item.reference}
+                width={configDeviceSizes.DEVICE_WIDTH * 0.161}
               />
             </Box>
           )}
         />
-
-        <Box height={24} flexDirection="row" alignSelf="center">
+        <Box height={24} flexDirection="row" alignSelf="center" style={{ marginBottom: 18 }}>
           <Animated.View
             style={[
               styles.slidingIndicatorStyle,
@@ -87,7 +86,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
               },
             ]}
           />
-          {myCards.map((_item, index) => (
+          {[...Array((Math.round(myCards.length / 4)))].map((_item, index) => (
             <Box
               key={index}
               justifyContent="center"
@@ -108,3 +107,5 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
     </Box>
   );
 };
+
+export default MktBrandsCarousel;

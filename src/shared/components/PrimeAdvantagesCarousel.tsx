@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import {
-  Dimensions,
   TouchableHighlight,
   Animated,
   StyleSheet,
@@ -8,16 +7,13 @@ import {
 } from 'react-native';
 import { Box, Image, Typography } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../utils/platformType';
-
-const DEVICE_WIDTH = Dimensions.get('window').width;
+import configDeviceSizes from '../../utils/configDeviceSizes';
 
 interface IPrimeAdvantagesCarousel {
-  prime: any;
   onPress: () => void;
 }
 
 export const PrimeAdvantagesCarousel = ({
-  prime,
   onPress,
 }: IPrimeAdvantagesCarousel) => {
   const primeMokado = [
@@ -58,7 +54,7 @@ export const PrimeAdvantagesCarousel = ({
           showsHorizontalScrollIndicator={false}
           data={myCards}
           snapToOffsets={[...Array(myCards.length)].map(
-            (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
+            (x, i) => i * (configDeviceSizes.DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
           )}
           snapToAlignment="start"
           scrollEventThrottle={16}
@@ -85,7 +81,7 @@ export const PrimeAdvantagesCarousel = ({
                   {
                     translateX: Animated.divide(
                       scrollX,
-                      DEVICE_WIDTH * 0.85 - 28,
+                      configDeviceSizes.DEVICE_WIDTH * 0.85 - 28,
                     ).interpolate({
                       inputRange: [0, 1],
                       outputRange: [6, 25.8],
@@ -139,7 +135,7 @@ const Card = ({
       style={{ elevation: Platform.OS === platformType.ANDROID ? 8 : 0 }}
       boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
       height={220}
-      width={DEVICE_WIDTH * 0.85 - 28}
+      width={configDeviceSizes.DEVICE_WIDTH * 0.85 - 28}
       borderRadius={16}
       alignItems="center"
       paddingY={20}

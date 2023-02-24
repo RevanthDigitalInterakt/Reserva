@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
@@ -13,12 +13,11 @@ import Animated, {
   interpolateColor,
   runOnJS,
 } from 'react-native-reanimated';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 import IconSwipe from '../../Icons/Svg/IconSwipe';
 
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
-
-const BUTTON_WIDTH = DEVICE_WIDTH - 48 * 2;
+const BUTTON_WIDTH = configDeviceSizes.gDEVICE_WIDTH - 48 * 2;
 const BUTTON_HEIGHT = 40;
 const BUTTON_PADDING = 0;
 const SWIPEABLE_DIMENSIONS = BUTTON_HEIGHT * 1.45; // - 2 * BUTTON_PADDING;

@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Dimensions, StyleSheet, Modal, Image, TouchableOpacity,
-} from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   Box, Button, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
-
+import React, { useEffect, useState } from 'react';
+import {
+  Image, Modal, StyleSheet, TouchableOpacity,
+} from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
-
-import AsyncStorage from '@react-native-community/async-storage';
-
 import { images } from '../../../assets/index';
-
-const screen = Dimensions.get('window');
-
-const DEVICE_WIDTH = screen.width;
-const DEVICE_HEIGHT = screen.height;
+import configDeviceSizes from '../../../utils/configDeviceSizes';
 
 export interface ModalBagProps {
   isVisible: boolean;
@@ -39,8 +31,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: DEVICE_WIDTH,
-    height: DEVICE_HEIGHT,
+    width: configDeviceSizes.DEVICE_WIDTH,
+    height: configDeviceSizes.DEVICE_HEIGHT,
   },
   container: {
     flex: 1,
@@ -50,8 +42,8 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: DEVICE_WIDTH,
-    height: DEVICE_HEIGHT,
+    width: configDeviceSizes.DEVICE_WIDTH,
+    height: configDeviceSizes.DEVICE_HEIGHT,
   },
   focalPoint: {
     ...StyleSheet.absoluteFillObject,
@@ -100,8 +92,8 @@ const ModalTutorial = ({
       position: 'absolute',
       bottom: 0,
       left: 0,
-      width: DEVICE_WIDTH,
-      height: DEVICE_HEIGHT,
+      width: configDeviceSizes.DEVICE_WIDTH,
+      height: configDeviceSizes.DEVICE_HEIGHT,
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
     }}
   >
@@ -250,8 +242,6 @@ export const ModalZoomImage = ({
 
               return null;
             }}
-            // renderArrowLeft={() => null}
-            // renderArrowRight={() => null}
             renderImage={(props) => (
               <Image
                 {...props}

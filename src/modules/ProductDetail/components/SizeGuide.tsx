@@ -1,13 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Dimensions, Modal, FlatList,
+  Modal, FlatList,
 } from 'react-native';
 import {
   Box, Button, Icon, Image, Typography,
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets/index';
-
-const screen = Dimensions.get('window');
+import configDeviceSizes from '../../../utils/configDeviceSizes';
 
 export const SizeGuideImages = Object.freeze({
   camisas: [images.GuideMangaCurta, images.GuideMangaLonga],
@@ -20,23 +19,19 @@ export const SizeGuideImages = Object.freeze({
   sungas: [images.GuideSungaCueca],
 });
 
-const DEVICE_WIDTH = screen.width;
-const DEVICE_HEIGHT = screen.height;
-
 interface SizeGuideProps {
-  categoryTree: any[]// keyof typeof SizeGuideImages
+  categoryTree: any[]
 }
 
 export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
-  const {
-    GuideCamiseta,
-  } = images;
-
   const [isVisible, setIsVisible] = useState(false);
 
   const handleCategoryImage = () => {
     const categoryNames = categoryTree.map((category) => category.name);
-    const categoryName = categoryNames.find((category) => category in SizeGuideImages) as keyof typeof SizeGuideImages;
+
+    const categoryName = categoryNames.find(
+      (category) => category in SizeGuideImages,
+    ) as keyof typeof SizeGuideImages;
 
     return SizeGuideImages[categoryName];
   };
@@ -67,8 +62,8 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
       >
         <Box
           style={{
-            width: DEVICE_WIDTH,
-            height: DEVICE_HEIGHT,
+            width: configDeviceSizes.DEVICE_WIDTH,
+            height: configDeviceSizes.DEVICE_HEIGHT,
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             justifyContent: 'center',
             alignItems: 'center',
@@ -86,11 +81,16 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
   );
 };
 
-const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = ({ images, onClose }) => {
+interface ISizesGuidesCarrousel {
+  images: any[],
+  onClose: () => void
+}
+
+const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose }) => {
   const IMAGES_PROPORTION = 1.7;
-  const CARD_WIDTH = DEVICE_WIDTH * 0.92;
+  const CARD_WIDTH = configDeviceSizes.DEVICE_WIDTH * 0.92;
   const CARD_HEIGHT = CARD_WIDTH * IMAGES_PROPORTION;
-  const CARD_PADDING = (DEVICE_WIDTH - CARD_WIDTH) * 0.5;
+  const CARD_PADDING = (configDeviceSizes.DEVICE_WIDTH - CARD_WIDTH) * 0.5;
 
   const [actualPosition, setActualPosition] = useState(0);
 
@@ -113,7 +113,7 @@ const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = (
           padding: 0,
           alignItems: 'center',
         }}
-        snapToInterval={DEVICE_WIDTH}
+        snapToInterval={configDeviceSizes.DEVICE_WIDTH}
         snapToAlignment="center"
         pagingEnabled
         bounces={false}
@@ -124,8 +124,8 @@ const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = (
             style={{
               paddingRight: CARD_PADDING,
               paddingLeft: CARD_PADDING,
-              width: DEVICE_WIDTH,
-              height: DEVICE_HEIGHT,
+              width: configDeviceSizes.DEVICE_WIDTH,
+              height: configDeviceSizes.DEVICE_HEIGHT,
               justifyContent: 'center',
             }}
           >
@@ -163,15 +163,15 @@ const SizesGuidesCarrousel: React.FC<{ images: any[], onClose: () => void }> = (
       <Box
         flexDirection="row"
         position="absolute"
-        bottom={((DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
+        bottom={((configDeviceSizes.DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
       >
         {
-          images.map((image, index) => (
+          images.map((_image, index) => (
             <Box style={{
               width: 6,
               height: 6,
               marginRight: 8,
-              backgroundColor: actualPosition == index ? '#fff' : 'transparent',
+              backgroundColor: actualPosition === index ? '#fff' : 'transparent',
               borderColor: '#fff',
               borderRadius: 3,
               borderWidth: 1,

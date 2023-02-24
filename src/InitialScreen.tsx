@@ -27,6 +27,7 @@ import CodePushModal from './shared/components/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import EventProvider from './utils/EventProvider';
 import { platformType } from './utils/platformType';
+import useInitialMarketPlaceIn from './hooks/useInitialMarketPlaceIn';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -68,6 +69,8 @@ function InitialScreen({ children } : { children: JSX.Element }) {
   const [getUpdateInApp] = useLazyQuery<UpdateInAppType>(UPDATE_IN_APP_QUERY, {
     context: { clientName: 'contentful' },
   });
+
+  useInitialMarketPlaceIn();
 
   const setFetchInterval = async () => {
     await remoteConfig().setConfigSettings({

@@ -8,19 +8,18 @@ import {
   SearchBar,
 } from '@usereservaapp/reserva-ui';
 
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ItemListHelp from '../Components/ItemListHelp';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
 
 export const HelpCenter = ({ route }: Props) => {
   const navigation = useNavigation();
 
-  const [search, setSearch] = useState('');
+  const [, setSearch] = useState('');
   const data = [
-    // { title: "Guia de Tamanhos", navigate: "SizeGuide" },
     { title: 'Cuidados com a roupa', navigate: 'ClothingCare' },
     { title: 'Trocas e devoluções', navigate: 'Exchanges' },
     { title: 'Pedidos e entregas', navigate: 'OrdersAndDeliveries' },
@@ -30,8 +29,7 @@ export const HelpCenter = ({ route }: Props) => {
       title: 'Política de privacidade e Termos de Uso',
       navigate: 'PrivacyPolicy',
     },
-    // { title: 'Termos de Uso', navigate: 'TermsOfUse' },
-    // { title: "Meu Cartão Presente", navigate: "" },
+
     { title: 'Fale Conosco', navigate: 'ContactUs' },
   ];
 

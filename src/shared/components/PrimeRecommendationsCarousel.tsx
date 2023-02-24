@@ -1,16 +1,12 @@
+import {
+  Box, Button, Icon, Image, Typography,
+} from '@usereservaapp/reserva-ui';
 import React, { useRef, useState } from 'react';
 import {
-  Dimensions,
-  TouchableHighlight,
-  Animated,
+  Animated, TouchableHighlight,
 } from 'react-native';
-import {
-  Box, Image, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
-
 import { PriceCustom } from '../../modules/Checkout/components/PriceCustom';
-
-const DEVICE_WIDTH = Dimensions.get('window').width;
+import configDeviceSizes from '../../utils/configDeviceSizes';
 
 interface IPrimeRecommendationsCarousel {
   prime?: any;
@@ -54,7 +50,7 @@ const Card = ({ image, onPress }: ICard) => {
       >
         <Image
           autoHeight
-          width={DEVICE_WIDTH * 0.85 - 28}
+          width={configDeviceSizes.DEVICE_WIDTH * 0.85 - 28}
           source={{ uri: image.url }}
         />
       </TouchableHighlight>
@@ -170,7 +166,7 @@ export const PrimeRecommendationsCarousel = ({
           showsHorizontalScrollIndicator={false}
           data={myCards}
           snapToOffsets={[...Array(myCards.length)].map(
-            (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
+            (x, i) => i * (configDeviceSizes.DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
           )}
           snapToAlignment="start"
           scrollEventThrottle={16}

@@ -8,8 +8,7 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { useNavigation } from '@react-navigation/core';
-import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
@@ -17,11 +16,11 @@ import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
 import type { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
-import { CreateCategoryModal } from '../CategoryModals/CategoryModals';
-import { slugify } from '../../../../utils/slugify';
-import EventProvider from '../../../../utils/EventProvider';
 import { getItemPrice } from '../../../../utils/getItemPrice';
 import { getPercent } from '../../../../utils/getPercent';
+import useMarketPlaceInStore from '../../../../zustand/useMarketPlaceInStore';
+import EventProvider from '../../../../utils/EventProvider';
+import { slugify } from '../../../../utils/slugify';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -36,6 +35,19 @@ interface ListProductsProps {
   handleScrollToTheTop?: () => void;
 }
 
+export function getDefaultSeller(sellers?: any[]) {
+  if (!sellers?.length) {
+    return undefined;
+  }
+
+  const defaultSeller = sellers.find((seller) => seller.sellerDefault === true);
+  if (defaultSeller?.sellerId) {
+    return defaultSeller.sellerId;
+  }
+
+  return sellers[0].sellerId;
+}
+
 export const ListVerticalProducts = ({
   products,
   horizontal,
@@ -46,19 +58,12 @@ export const ListVerticalProducts = ({
   handleScrollToTheTop,
 }: ListProductsProps) => {
   const navigation = useNavigation();
-  const [favoritedProduct, setFavoritedProduct] = useState<any>();
-  const [isVisible, setIsVisible] = useState(false);
-  const [skip, setSkip] = useState(false);
   const [saleOffTag, setSaleOffTag] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const { email } = useAuth();
-
-  useEffect(() => {
-    setLoading(loading);
-  }, [loading]);
+  const { mktinActive, sellersMktIn } = useMarketPlaceInStore((state) => state);
 
   const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
 
@@ -71,11 +76,6 @@ export const ListVerticalProducts = ({
   });
 
   const [removeWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
-
-  const populateListWithFavorite = async () => {
-    setLoading(true);
-    setLoading(false);
-  };
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
@@ -108,8 +108,6 @@ export const ListVerticalProducts = ({
           setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
         }
       }
-      setLoading(false);
-      await populateListWithFavorite();
     } else {
       navigation.navigate('Login', { comeFrom: 'Menu' });
     }
@@ -117,8 +115,6 @@ export const ListVerticalProducts = ({
   };
 
   const populateWishlist = async () => {
-    setSkip(true);
-
     const {
       data: {
         viewList: { data: wishlist },
@@ -137,13 +133,11 @@ export const ListVerticalProducts = ({
   };
 
   useEffect(() => {
-    populateListWithFavorite();
     populateWishlist();
   }, [products]);
 
   useFocusEffect(
     useCallback(() => {
-      populateListWithFavorite();
       populateWishlist();
     }, []),
   );
@@ -162,11 +156,6 @@ export const ListVerticalProducts = ({
 
   return (
     <>
-      <CreateCategoryModal
-        isVisible={isVisible}
-        favoritedProduct={favoritedProduct}
-      />
-
       {products && products.length <= 0 && (
         <Box
           flex={1}
@@ -278,13 +267,19 @@ export const ListVerticalProducts = ({
                 <ProductItem
                   item={item}
                   index={index}
+                  sellerId={
+              mktinActive
+                ? getDefaultSeller(item.items[0].sellers)
+                : null
+            }
+                  sellersMktIn={sellersMktIn}
                   horizontal={horizontal}
                   loadingFavorite={
-                    !!loadingFavorite.find((x) => x == item?.items[0]?.itemId)
-                  }
+                    !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
+            }
                   isFavorited={
-                    !!favorites.find((x) => x.sku == item?.items[0]?.itemId)
-                  }
+                    !!favorites.find((x) => x.sku === item.items[0]?.itemId)
+            }
                   onClickFavorite={(isFavorite) => {
                     handleOnFavorite(isFavorite, item);
                   }}
@@ -331,6 +326,8 @@ interface ProductItemInterface extends ProductVerticalListCardProps {
   index: number;
   horizontal?: boolean;
   testID: string;
+  sellerId?: string;
+  sellersMktIn: Array<string>;
 }
 
 const ProductItem: React.FC<ProductItemInterface> = ({

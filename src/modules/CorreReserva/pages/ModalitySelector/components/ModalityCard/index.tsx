@@ -1,13 +1,12 @@
 import React from 'react';
-
+import { Box, Typography } from '@usereservaapp/reserva-ui';
 import {
-  Dimensions,
   ImageBackground,
   ImageSourcePropType,
   TouchableHighlight,
   View,
 } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
+import configDeviceSizes from '../../../../../../utils/configDeviceSizes';
 
 export interface ModalityCardProps {
   imageSource: ImageSourcePropType;
@@ -16,8 +15,6 @@ export interface ModalityCardProps {
   onPress?: () => void;
 }
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
-
 export const ModalityCard: React.FC<ModalityCardProps> = ({
   imageSource,
   description,
@@ -25,10 +22,8 @@ export const ModalityCard: React.FC<ModalityCardProps> = ({
   onPress,
 }) => {
   const MARGIN = 20;
-  const cardWidth = DEVICE_WIDTH - 2 * MARGIN;
+  const cardWidth = configDeviceSizes.DEVICE_WIDTH - 2 * MARGIN;
   const cardHeight = (cardWidth * 182) / 320;
-  // image height = 182
-  // image width = 320
 
   return (
     <View

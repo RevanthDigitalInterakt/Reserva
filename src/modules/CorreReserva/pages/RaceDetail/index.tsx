@@ -2,36 +2,30 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Geolocation from '@react-native-community/geolocation';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import { Box, Image, Typography } from '@usereservaapp/reserva-ui';
 import {
-  Dimensions,
   Modal,
-  Platform,
-  Vibration,
-  ScrollView,
+  Platform, ScrollView, Vibration,
 } from 'react-native';
 import MapView, {
-  PROVIDER_GOOGLE,
-  Marker,
-  Polyline,
-  LatLng,
+  LatLng, Marker,
+  Polyline, PROVIDER_GOOGLE,
 } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Typography, Image } from '@usereservaapp/reserva-ui';
 
-import { CorreReservaStackParamList } from '../..';
+import type { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
 import { Counter } from '../../components/Counter';
 import SwipeButton from '../../components/SwipeButton';
 import { useCorre } from '../../context';
 import { useChronometer } from '../../hooks/useChronometer';
 
-import {
-  KM_15, KM_10, KM_5, KM_2,
-} from './polyline';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { platformType } from '../../../../utils/platformType';
-
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
+import {
+  KM_10, KM_15, KM_2, KM_5,
+} from './polyline';
 
 export interface RaceDetailProps { }
 
@@ -41,7 +35,7 @@ CorreReservaStackParamList,
 >;
 
 export const RaceDetail: React.FC = () => {
-  const mapWidth = DEVICE_WIDTH - 48 * 2;
+  const mapWidth = configDeviceSizes.DEVICE_WIDTH - 48 * 2;
   const mapHeight = (302 / 263) * mapWidth;
 
   const {
@@ -52,16 +46,20 @@ export const RaceDetail: React.FC = () => {
     setHasStarted,
     setIsLastPage,
   } = useCorre();
+
   const navigation = useNavigation<RaceDetailNavigator>();
+
   const [position, setPosition] = useState<{
     latitude: number;
     longitude: number;
     latitudeDelta: number;
     longitudeDelta: number;
   }>();
+
   const [travelledDistance, setTravelledDistance] = useState<
   { latitude: number; longitude: number }[]
   >([]);
+
   const [totalDistance, setTotalDistance] = useState(0);
   const { currentValue, start, stop } = useChronometer({ initial: '00:00:00' });
   const [count, setCount] = useState<number>(3);
@@ -76,7 +74,7 @@ export const RaceDetail: React.FC = () => {
     let km = 0;
     if (Math.floor(totalDistance) !== 0) {
       km = Math.floor(totalDistance);
-      if (km != totalVibration) {
+      if (km !== totalVibration) {
         setTotalVibration(Math.floor(totalDistance));
       }
     }
@@ -145,7 +143,7 @@ export const RaceDetail: React.FC = () => {
           },
         ]);
       },
-      (suss) => {
+      (_suss) => {
       },
       {
         enableHighAccuracy: true,
@@ -335,17 +333,16 @@ export const RaceDetail: React.FC = () => {
       }}
     >
       <RegressiveCount isVisible={visibility} count={count} />
-      {/* <HeaderCorreReserva /> */}
       <Box
         backgroundColor="#0F1113"
         zIndex={0}
         position="absolute"
         width="100%"
-        height={DEVICE_HEIGHT / 2}
+        height={configDeviceSizes.DEVICE_HEIGHT / 2}
         mx="micro"
       />
       <ScrollView>
-        <Box width={DEVICE_WIDTH} height={DEVICE_HEIGHT} alignItems="center">
+        <Box width={configDeviceSizes.DEVICE_WIDTH} height={configDeviceSizes.DEVICE_HEIGHT} alignItems="center">
           <Counter
             timer={currentValue}
             isPlate
@@ -376,7 +373,7 @@ export const RaceDetail: React.FC = () => {
                       coordinates={generateCoordinates(
                         selectedKit && selectedKit.km ? selectedKit.km : 15,
                       )}
-                      strokeColor="#EF1E1E" // fallback for when `strokeColors` is not supported by the map-provider
+                      strokeColor="#EF1E1E"
                       strokeWidth={6}
                     />
                     {selectedKit
@@ -421,27 +418,6 @@ export const RaceDetail: React.FC = () => {
             swipeText={`DESLIZE PARA ${!hasStarted ? 'INICIAR' : 'FINALIZAR'}`}
           />
 
-          {/* <TouchableOpacity onPress={handleOnPress}>
-          <Box
-            mt="xs"
-            height={40}
-            width="100%"
-            paddingLeft={40}
-            paddingRight={40}
-            bg={hasStarted ? '#F4F4F4' : '#29C94E'}
-            borderRadius="infinity"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Typography
-              color={hasStarted ? 'preto' : 'white'}
-              letterSpacing={1.6}
-              fontFamily="nunitoBold"
-            >
-              CLIQUE PRA {hasStarted ? 'FINALIZAR' : 'INICIAR'}
-            </Typography>
-          </Box>
-        </TouchableOpacity> */}
         </Box>
       </ScrollView>
     </SafeAreaView>

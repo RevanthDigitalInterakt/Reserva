@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Dimensions,
   Modal,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -9,6 +8,7 @@ import {
 import {
   Box, Button, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 export interface ModalGetOutCorreProps {
   isVisible: boolean;
@@ -17,8 +17,6 @@ export interface ModalGetOutCorreProps {
   onCancelButtonPress: () => void;
   onCloseButtonPress: () => void;
 }
-
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 export const ModalGetOutCorre: React.FC<ModalGetOutCorreProps> = ({
   isVisible,
@@ -38,7 +36,7 @@ export const ModalGetOutCorre: React.FC<ModalGetOutCorreProps> = ({
       >
         <Box
           backgroundColor="white"
-          width={DEVICE_WIDTH * 0.72}
+          width={configDeviceSizes.DEVICE_WIDTH * 0.72}
           padding={17}
           justifyContent="center"
           alignItems="center"

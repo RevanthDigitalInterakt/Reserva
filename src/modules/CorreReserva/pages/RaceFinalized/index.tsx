@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  ImageSourcePropType,
-  ImageBackground,
-  ScrollView,
-  Platform,
-  Linking,
-  Dimensions,
   BackHandler,
+  Dimensions,
   Image,
+  ImageBackground,
+  Linking,
+  Platform,
+  ScrollView,
+  ImageSourcePropType,
 } from 'react-native';
 import { View } from 'react-native-animatable';
 import ConfettiCannon from 'react-native-confetti-cannon';
@@ -18,17 +19,36 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
-import { Box, Typography, Icon } from '@usereservaapp/reserva-ui';
-
-import { CorreReservaStackParamList } from '../..';
+import type { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
-import { useCorre } from '../../context';
-import { images as imagesLogo } from '../../images';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import EventProvider from '../../../../utils/EventProvider';
 import { platformType } from '../../../../utils/platformType';
+import { useCorre } from '../../context';
+import { images as imagesLogo } from '../../images';
 
-const { height: DEVICE_HEIGHT } = Dimensions.get('window');
+interface ISocialButton {
+  image: ImageSourcePropType;
+  onPress: () => void;
+}
+const SocialButton = ({ image, onPress }: ISocialButton) => (
+  <Box
+    style={{
+      marginHorizontal: 7.5,
+    }}
+  >
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        borderRadius: 31,
+        overflow: 'hidden',
+      }}
+    >
+      <Image source={image} resizeMode="cover" size={32} />
+    </TouchableOpacity>
+  </Box>
+);
 
 export interface RaceFinalizedProps { }
 
@@ -42,7 +62,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
   const { email } = useAuth();
   const viewRef = useRef();
   const viewRefImage = useRef();
-  const [showBackgroundShare, setShowBackgroundShare] = useState(false);
+  const [, setShowBackgroundShare] = useState(false);
   const [showInstagramStory, setShowInstagramStory] = useState(false);
   const [hasWhatsApp, setHasWhatsApp] = useState(false);
   const [hasFacebook, setHasFacebook] = useState(false);
@@ -111,9 +131,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
       case 'instagram':
         try {
           setShowBackgroundShare(true);
-          const uri = await viewRef.current.capture();
+          const uri = await viewRef.current?.capture();
           setShowBackgroundShare(false);
-          const uriBackgroundImage = await viewRefImage.current.capture();
+          const uriBackgroundImage = await viewRefImage.current?.capture();
           if (showInstagramStory) {
             await Share.shareSingle({
               title: '',
@@ -124,7 +144,10 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
               backgroundTopColor: '#000',
             });
           } else {
-            await Share.open({ url: uri });
+            await Share.open({
+              url: uri,
+              title: '',
+            });
           }
         } catch (err) {
           EventProvider.captureException(err);
@@ -133,9 +156,9 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
       case 'whatsApp':
         try {
           setShowBackgroundShare(true);
-          const uri = await viewRef.current.capture();
+          const uri = await viewRef.current?.capture();
           setShowBackgroundShare(false);
-          const uriBackgroundImage = await viewRefImage.current.capture();
+          const uriBackgroundImage = await viewRefImage.current?.capture();
           if (hasWhatsApp) {
             await Share.shareSingle({
               url: uri,
@@ -145,7 +168,10 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
               social: Share.Social.WHATSAPP,
             });
           } else {
-            await Share.open({ url: uri });
+            await Share.open({
+              url: uri,
+              title: '',
+            });
           }
         } catch (err) {
           EventProvider.captureException(err);
@@ -154,9 +180,8 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
       case 'facebook':
         try {
           setShowBackgroundShare(true);
-          const uri = await viewRef.current.capture();
+          const uri = await viewRef.current?.capture();
           setShowBackgroundShare(false);
-          const uriBackgroundImage = await viewRefImage.current.capture();
           if (hasFacebook) {
             await Share.shareSingle({
               title: '',
@@ -164,7 +189,10 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
               social: Share.Social.FACEBOOK,
             });
           } else {
-            await Share.open({ url: uri });
+            await Share.open({
+              url: uri,
+              title: '',
+            });
           }
         } catch (err) {
           EventProvider.captureException(err);
@@ -173,7 +201,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
       case 'twitter':
         try {
           setShowBackgroundShare(true);
-          const uri = await viewRef.current.capture();
+          const uri = await viewRef.current?.capture();
           setShowBackgroundShare(false);
           if (hasTwitter) {
             await Share.shareSingle({
@@ -182,7 +210,10 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
               social: Share.Social.TWITTER,
             });
           } else {
-            await Share.open({ url: uri });
+            await Share.open({
+              url: uri,
+              title: '',
+            });
           }
         } catch (err) {
           EventProvider.captureException(err);
@@ -195,7 +226,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
-      <ScrollView style={{ height: DEVICE_HEIGHT }}>
+      <ScrollView style={{ height: configDeviceSizes.DEVICE_HEIGHT }}>
         <ViewShot ref={viewRef} options={{ format: 'jpg', quality: 0.9 }}>
           <ImageBackground
             source={images.raceImageBackground}
@@ -396,13 +427,6 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
               </Typography>
             </Box>
           </Box>
-          {/* <Counter
-              timer={raceResume?.duration}
-              distance={raceResume?.distance}
-              rhythm={raceResume?.pace}
-              plates={raceResume?.foodPlate}
-            /> */}
-          {/* <ShareBle /> */}
         </ViewShot>
         <ConfettiCannon
           autoStart
@@ -468,8 +492,6 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
         <ViewShot ref={viewRefImage} options={{ format: 'jpg', quality: 0.9 }}>
           <Image
             style={{ width: '100%', height: '100%' }}
-            // height="100%"
-            // width="100%"
             source={images.raceImageBackground}
             resizeMode="contain"
           />
@@ -478,25 +500,3 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
     </SafeAreaView>
   );
 };
-
-interface ISocialButton {
-  image: ImageSourcePropType;
-  onPress: () => void;
-}
-const SocialButton = ({ image, onPress }: ISocialButton) => (
-  <Box
-    style={{
-      marginHorizontal: 7.5,
-    }}
-  >
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        borderRadius: 31,
-        overflow: 'hidden',
-      }}
-    >
-      <Image source={image} resizeMode="cover" size={32} />
-    </TouchableOpacity>
-  </Box>
-);

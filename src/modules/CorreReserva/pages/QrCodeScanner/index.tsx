@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
-import { Dimensions } from 'react-native';
-import { BarCodeReadEvent } from 'react-native-camera';
+import type { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import type { BarCodeReadEvent } from 'react-native-camera';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, theme, Typography } from '@usereservaapp/reserva-ui';
 
-import { CorreReservaStackParamList } from '../..';
+import type { CorreReservaStackParamList } from '../..';
 import { useCorre } from '../../context';
-
-const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 export interface QrCodeScannerProps {
   isFinalizingRace?: boolean;
@@ -43,12 +40,7 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
 
   const isFinalizingRace = params?.isFinalizingRace;
 
-  const qrSize = DEVICE_WIDTH - 2 * 70;
-
-  const innerQrDetailSize = qrSize - 28 * 2;
-
-  const edgesSize = innerQrDetailSize / 4.8;
-  const edgesSpacing = edgesSize * (innerQrDetailSize / edgesSize - 2);
+  const qrSize = configDeviceSizes.DEVICE_WIDTH - 2 * 70;
 
   const HandleOnPressBottom = () => {
     if (isFinalizingRace && selectedModality === 'presential') {
@@ -92,7 +84,7 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
         cameraType="back"
         cameraStyle={{
           height: '100%',
-          width: DEVICE_WIDTH,
+          width: configDeviceSizes.DEVICE_WIDTH,
         }}
       />
 
@@ -107,7 +99,6 @@ export const QrCodeScanner: React.FC<QrCodeScannerNav> = ({
           {isFinalizingRace ? (
             <Box
               style={{
-                // marginHorizontal: 28,
                 height: 50,
                 width: '100%',
                 backgroundColor: '#555555',
@@ -157,18 +148,17 @@ const QrCodeMarker: React.FC<QrCodeMarkerProps> = ({ qrSize }) => {
   const edgesSize = innerQrDetailSize / 4.8;
   const edgesSpacing = edgesSize * (innerQrDetailSize / edgesSize - 2);
 
-  const sidingHeight = (DEVICE_HEIGHT - qrSize) / 2;
-  const sidingWidth = (DEVICE_WIDTH - qrSize) / 2;
+  const sidingHeight = (configDeviceSizes.DEVICE_HEIGHT - qrSize) / 2;
+  const sidingWidth = (configDeviceSizes.DEVICE_WIDTH - qrSize) / 2;
 
   return (
     <Box
-      // backgroundColor='#000'
-      width={DEVICE_WIDTH}
+      width={configDeviceSizes.DEVICE_WIDTH}
       justifyContent="center"
       alignItems="center"
       flex={1}
     >
-      <Box backgroundColor="#000" height={sidingHeight} width={DEVICE_WIDTH} />
+      <Box backgroundColor="#000" height={sidingHeight} width={configDeviceSizes.DEVICE_WIDTH} />
       <Box flexDirection="row">
         <Box width={sidingWidth} height={qrSize} backgroundColor="#000" />
         <Box
@@ -236,7 +226,7 @@ const QrCodeMarker: React.FC<QrCodeMarkerProps> = ({ qrSize }) => {
         </Box>
         <Box width={sidingWidth} height={qrSize} backgroundColor="#000" />
       </Box>
-      <Box backgroundColor="#000" height={sidingHeight} width={DEVICE_WIDTH} />
+      <Box backgroundColor="#000" height={sidingHeight} width={configDeviceSizes.DEVICE_WIDTH} />
     </Box>
   );
 };

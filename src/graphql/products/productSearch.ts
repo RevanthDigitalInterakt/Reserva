@@ -63,6 +63,7 @@ export const productSearch = gql`
           }
           sellers {
             sellerId
+            sellerDefault
             commertialOffer {
               Tax
               taxPercentage

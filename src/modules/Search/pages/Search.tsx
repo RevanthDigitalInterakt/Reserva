@@ -6,7 +6,7 @@ import {
   StackActions,
   useNavigation,
 } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { ScrollView, Dimensions, BackHandler } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {
@@ -77,7 +77,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [categoryfilters, setCategoryFilters] = useState([]);
   const [priceRangefilters, setPriceRangeFilters] = useState<any[]>([]);
   const [filterList, setFilterList] = useState<string[]>([]);
-  const categoryId = 'camisetas';
   const [colorsfilters, setColorsFilters] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [sorterVisible, setSorterVisible] = useState(false);
@@ -720,7 +719,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           </Box>
           <FilterModal
             setFilterRequestList={setFilterRequestList}
-            categoryId={categoryId}
             filterList={filterList}
             setFilterList={setFilterList}
             isVisible={filterVisible}
@@ -731,7 +729,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
             onCancel={() => setFilterVisible(false)}
             onClose={() => setFilterVisible(false)}
             title=""
-            // confirmText={"Ok"}
             subtitle=""
           />
           <Picker

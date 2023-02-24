@@ -295,8 +295,8 @@ export const ProductDetail: React.FC<Props> = ({
     sellers.forEach((seller) => {
       if (seller.commertialOffer.AvailableQuantity > 0) {
         setSelectedSellerId(seller.sellerId);
+        setSellerProduct(seller);
       }
-      setSellerProduct(seller);
     });
   };
 

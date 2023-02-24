@@ -1,22 +1,18 @@
 import React, { useRef } from 'react';
 import {
-  Dimensions,
   TouchableHighlight,
   Animated,
   StyleSheet,
   ImageBackground,
 } from 'react-native';
 import { Box, Image, Typography } from '@usereservaapp/reserva-ui';
-
-const DEVICE_WIDTH = Dimensions.get('window').width;
+import configDeviceSizes from '../../utils/configDeviceSizes';
 
 interface IPrimePartnersCarousel {
-  prime: any;
   onPress: () => void;
 }
 
 export const PrimePartnersCarousel = ({
-  prime,
   onPress,
 }: IPrimePartnersCarousel) => {
   const primeMokado = [
@@ -64,7 +60,7 @@ export const PrimePartnersCarousel = ({
           showsHorizontalScrollIndicator={false}
           data={myCards}
           snapToOffsets={[...Array(myCards.length)].map(
-            (x, i) => i * (DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
+            (x, i) => i * (configDeviceSizes.DEVICE_WIDTH * 0.85 - 28) + (i - 1) * 28,
           )}
           snapToAlignment="start"
           scrollEventThrottle={16}
@@ -91,7 +87,7 @@ export const PrimePartnersCarousel = ({
                   {
                     translateX: Animated.divide(
                       scrollX,
-                      DEVICE_WIDTH * 0.85 - 28,
+                      configDeviceSizes.DEVICE_WIDTH * 0.85 - 28,
                     ).interpolate({
                       inputRange: [0, 1],
                       outputRange: [6, 25.8],
@@ -144,7 +140,7 @@ const Card = ({
       }}
     >
       <ImageBackground
-        style={{ width: DEVICE_WIDTH * 0.85 - 28, minHeight: 412 }}
+        style={{ width: configDeviceSizes.DEVICE_WIDTH * 0.85 - 28, minHeight: 412 }}
         source={{ uri: data.image.url }}
       >
         <Box

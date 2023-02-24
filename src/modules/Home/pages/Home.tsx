@@ -1,7 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Box } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { Box } from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -14,27 +14,27 @@ import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
+import { useConfigContext } from '../../../context/ConfigContext';
+import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
 import {
   Carousel, CarrouselTypes, configCollection, homeQuery, HomeQuery,
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
+import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import Banner from '../component/Banner';
+import Brands from '../component/Brands';
 import { CardsCarrousel } from '../component/CardsCarousel';
+import DefaultCarrousel from '../component/Carousel';
 import { CountDownBanner } from '../component/CountDown';
+import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
-import { useConfigContext } from '../../../context/ConfigContext';
-import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
-import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
-import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
-import DefaultCarrousel from '../component/Carousel';
-import Brands from '../component/Brands';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -97,9 +97,7 @@ export const HomeScreen: FC<{
     },
   });
 
-  const {
-    currentValue, start, stop, reset,
-  } = useChronometer({
+  const { currentValue, start } = useChronometer({
     countDown: true,
     initial: countDownClockGlobal?.formattedValue,
   });
@@ -225,6 +223,7 @@ export const HomeScreen: FC<{
         isLandingPage: imageDescription.isLandingPage,
         landingPageId: imageDescription.landingPageId,
         reservaMini: imageDescription.reservaMini,
+        linkMktIn: imageDescription.linkMktIn,
         orderBy: imageDescription.orderBy,
         filters: imageDescription.filters,
       }),
@@ -265,7 +264,7 @@ export const HomeScreen: FC<{
     if (typeLogin === 'classic') {
       if (nowDate >= Number(lastLogin) + hourToNextLogin * 60 * 60 * 1000) {
         const { email, password } = await getCredentials();
-        const { data: loginData, errors } = await login({
+        const { data: loginData } = await login({
           variables: {
             email,
             password,
@@ -305,12 +304,7 @@ export const HomeScreen: FC<{
   }, [profileData]);
 
   useEffect(() => {
-    // setCookie('asdasdasdasd')
     loginWithSavedCredentials();
-    async function getStorage() {
-      const wishListData = await AsyncStorage.getItem('@WishList');
-    }
-    getStorage();
   }, []);
 
   useFocusEffect(
@@ -333,6 +327,7 @@ export const HomeScreen: FC<{
                 reference={carrousel.itemsCollection.items[0]?.reference || ''}
                 url={carrousel.itemsCollection.items[0].image.url}
                 reservaMini={carrousel.itemsCollection.items[0].reservaMini}
+                linkMktIn={carrousel.itemsCollection.items[0].linkMktIn}
                 filters={carrousel.itemsCollection.items[0]?.filters}
               />
             )
@@ -354,6 +349,7 @@ export const HomeScreen: FC<{
             reference={items[0].reference}
             url={items[0].image.url}
             reservaMini={items[0].reservaMini}
+            linkMktIn={item[0].linkMktIn}
             filters={items[0]?.filters}
           />
         );
@@ -402,6 +398,7 @@ export const HomeScreen: FC<{
           route={item.isLandingPage ? 'LandingPage' : item.route}
           landingPageId={item.landingPageId}
           reservaMini={item.reservaMini}
+          linkMktIn={item.linkMktIn}
           filters={item?.filters}
         />
       )}
@@ -451,7 +448,6 @@ export const HomeScreen: FC<{
             }}
           >
             <Box
-              // paddingTop={50}
               style={{
                 overflow: 'hidden',
               }}

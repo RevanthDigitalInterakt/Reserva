@@ -70,7 +70,7 @@ export interface CarrouselCard {
   description: string;
   reference: string;
   orderBy: string;
-  referenceLabel?: string;
+  linkMktIn?: string;
   mkt: boolean;
   filters?: IQueryFilters
 }
@@ -86,6 +86,7 @@ export interface ICountDownClock {
   descriptionModal: string;
   reference: string;
   formattedValue?: string | undefined;
+  linkMktIn: string;
 }
 
 export const homeQuery = gql`
@@ -100,6 +101,7 @@ export const homeQuery = gql`
             itemsCollection(limit: 3) {
               items {
                 mkt
+                linkMktIn
                 image {
                   fileName
                   size
@@ -136,6 +138,7 @@ export const homeQuery = gql`
             reservaMini
             isLandingPage
             landingPageId
+            linkMktIn
             image {
               fileName
               title
@@ -169,8 +172,11 @@ export const bannerQuery = gql`
         name
         item {
           mkt
+          texto
+          linkMktIn
           image {
             url
+            height
           }
         }
       }
@@ -184,6 +190,7 @@ export const bannerDefaultQuery = gql`
         name
         item {
           mkt
+          linkMktIn
           image {
             url
           }

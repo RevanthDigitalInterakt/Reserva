@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
-
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { BackHandler, Dimensions, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import type { StackNavigationProp } from '@react-navigation/stack';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
-
-import { CorreReservaStackParamList } from '../..';
+import React, { useEffect } from 'react';
+import { BackHandler, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import type { CorreReservaStackParamList } from '../..';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { useCorre } from '../../context';
 import { images } from '../../images';
-
 import { ModalityCard } from './components/ModalityCard';
-
-const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 export interface ModalitySelectorProps { }
 
@@ -37,18 +33,16 @@ export const ModalitySelector: React.FC<ModalitySelectorNavigator> = ({ }) => {
   return (
     <SafeAreaView
       style={{
-        // justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 111,
       }}
     >
-      {/* <HeaderCorreReserva /> */}
       <Box
         backgroundColor="#0F1113"
         zIndex={0}
         position="absolute"
         width="100%"
-        height={DEVICE_HEIGHT / 2}
+        height={configDeviceSizes.DEVICE_HEIGHT / 2}
       />
       <ScrollView>
         <Box marginTop={34}>

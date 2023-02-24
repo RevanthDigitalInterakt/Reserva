@@ -1,11 +1,9 @@
 import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
-import { Dimensions } from 'react-native';
 import Toast, { BaseToast, BaseToastProps, ToastShowParams } from 'react-native-toast-message';
+import configDeviceSizes from '../configDeviceSizes';
 
-const { width: DEVICE_WIDTH } = Dimensions.get('window');
-
-const TOAST_WIDTH = DEVICE_WIDTH * 0.85;
+const TOAST_WIDTH = configDeviceSizes.DEVICE_WIDTH * 0.85;
 
 export interface ShowToastParams extends ToastShowParams {
   type: keyof typeof toastConfig;

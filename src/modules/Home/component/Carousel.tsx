@@ -1,23 +1,23 @@
 import React, {
   useCallback, useMemo, useRef, useState,
 } from 'react';
-import { TouchableHighlight, useWindowDimensions, View } from 'react-native';
+import { TouchableHighlight, View } from 'react-native';
 import { Box, Image } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
 import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
 import type { Carousel as CarouselType, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import CarrouselScrollIndicator from './CarouselScrollIndicator';
+import configDeviceSizes from '../../../utils/configDeviceSizes';
 
 interface DefaultCarrouselProps {
   carrousel: CarouselType;
 }
 
-export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
+const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
   const $carousel = useRef<ICarouselInstance>();
   const [currIndex, setCurrIndex] = useState(0);
 
-  const { width: DEVICE_WIDTH } = useWindowDimensions();
   const navigation = useNavigation();
 
   const slideDelay = useMemo(() => (carrousel?.showtime || 10) * 1000, [carrousel]);
@@ -36,12 +36,20 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
   const carouselHeight = useMemo(() => {
     const [item] = carrouselCards;
 
-    return item ? ((item.image.height * DEVICE_WIDTH) / item.image.width) : 500;
+    return item ? ((item.image.height * configDeviceSizes.DEVICE_WIDTH) / item.image.width) : 500;
   }, [carrouselCards]);
 
   const onPressImage = useCallback((item: CarrouselCard) => {
+    const {
+      linkMktIn, reference, reservaMini, orderBy, filters,
+    } = item;
+
+    if (linkMktIn) {
+      return navigation.navigate(linkMktIn);
+    }
+
     const facetInput = [];
-    const [categoryType, categoryData] = item?.reference?.split(':') || [undefined, undefined];
+    const [categoryType, categoryData] = reference?.split(':') || [undefined, undefined];
 
     if (categoryType === 'category') {
       categoryData?.split('|').forEach((cat: string) => {
@@ -51,15 +59,15 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
       facetInput.push({ key: 'productClusterIds', value: categoryData });
     }
 
-    navigation.navigate('ProductCatalog', {
+    return navigation.navigate('ProductCatalog', {
       facetInput,
-      referenceId: item?.reference,
-      reservaMini: item?.reservaMini,
-      orderBy: item?.orderBy,
+      referenceId: reference,
+      reservaMini,
+      orderBy,
       filters: {
-        categories: item?.filters?.categoriesFilterCollection
+        categories: filters?.categoriesFilterCollection
           ?.items.map(({ category }) => category),
-        priceFilter: item?.filters?.priceFilter,
+        priceFilter: filters?.priceFilter,
       },
     });
   }, []);
@@ -69,7 +77,7 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
       <View style={{ flex: 1 }}>
         <Carousel
           loop
-          width={DEVICE_WIDTH}
+          width={configDeviceSizes.DEVICE_WIDTH}
           height={carouselHeight}
           ref={(carousel) => {
             if (carousel) $carousel.current = carousel;
@@ -90,7 +98,7 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
                     resizeMode="cover"
                     height={item.image.height}
                     autoHeight
-                    width={DEVICE_WIDTH}
+                    width={configDeviceSizes.DEVICE_WIDTH}
                     source={{ uri: item?.image?.url }}
                     isSkeletonLoading
                   />
@@ -111,6 +119,6 @@ export function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
   }
 
   return null;
-}
+};
 
 export default DefaultCarrousel;
