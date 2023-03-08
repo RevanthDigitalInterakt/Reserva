@@ -59,6 +59,7 @@ import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
 import { getItemPrice, ItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
+import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -975,6 +976,11 @@ export const ProductDetail: React.FC<Props> = ({
                   setModalZoom={() => setIsVisibleZoomImage(true)}
                   imageIndexActual={(imageIndex) => setImageIndexActual(imageIndex)}
                   avaibleUnits={!outOfStock && avaibleUnits}
+                  mktplaceNameComponent={
+                    sellerProduct?.sellerId
+                      ? <MktplaceName sellerId={sellerProduct?.sellerId} showIconModalInfo />
+                      : null
+                  }
                 />
 
                 <Box mt="xs">
