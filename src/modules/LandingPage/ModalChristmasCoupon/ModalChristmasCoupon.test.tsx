@@ -40,7 +40,7 @@ describe.skip('ModalChristmasCouponTest', () => {
       await act(async () => {});
 
       const $modal = instance.findByType(ModalChristmasCouponForm);
-      const $title = instance.findByProps({ testID: 'christmascouponform_title' });
+      const $title = instance.findByProps({ testID: 'com.usereserva:id/christmascouponform_title' });
 
       expect($title.props.children).toBe('Titulo do modal');
       expect($modal).toBeTruthy();
@@ -60,10 +60,10 @@ describe.skip('ModalChristmasCouponTest', () => {
       act(() => { jest.runAllTimers(); });
       await act(async () => {});
 
-      const modal = instance.findByProps({ testID: 'modalchristmas_container' });
+      const modal = instance.findByProps({ testID: 'com.usereserva:id/modalchristmas_container' });
       expect(modal.props.isVisible).toBeTruthy();
 
-      const buttonClose = instance.findByProps({ testID: 'christmascouponform_button_close' });
+      const buttonClose = instance.findByProps({ testID: 'com.usereserva:id/christmascouponform_button_close' });
       buttonClose.props.onPress();
 
       expect(onClose).toHaveBeenCalled();

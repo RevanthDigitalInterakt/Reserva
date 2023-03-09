@@ -201,7 +201,7 @@ export const LoginScreen: React.FC<Props> = ({
         }}
         loading={isLoadingEmail}
       />
-      <ScrollView testID="login_scrollview">
+      <ScrollView testID="com.usereserva:id/login_scrollview">
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily="reservaSerifRegular" fontSize={22}>
             Boas-vindas!
@@ -287,7 +287,7 @@ export const LoginScreen: React.FC<Props> = ({
           </Box>
           <Box mt="md" />
           <Button
-            testID="login_button_entrar"
+            testID="com.usereserva:id/login_button_entrar"
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant="primarioEstreitoOutline"
@@ -344,7 +344,7 @@ export const LoginScreen: React.FC<Props> = ({
           </Box>
 
           <Button
-            testID="login_button_cadastrese"
+            testID="com.usereserva:id/login_button_cadastrese"
             title="CADASTRE-SE"
             inline
             variant="primarioEstreito"

@@ -58,13 +58,13 @@ function TesterAreaViewComponent({
   return (
     <Box mb="sm" mt="sm">
       <Box mb="nano" mt="nano">
-        <TouchableOpacity testID="testerAreaView_button_copy_onesignal_token" onPress={() => handleCopyTextToClipboard(oneSignalToken)}>
-          <Typography testID="testerAreaView_onesignal_token">{oneSignalToken}</Typography>
+        <TouchableOpacity testID="com.usereserva:id/testerAreaView_button_copy_onesignal_token" onPress={() => handleCopyTextToClipboard(oneSignalToken)}>
+          <Typography testID="com.usereserva:id/testerAreaView_onesignal_token">{oneSignalToken}</Typography>
         </TouchableOpacity>
       </Box>
       <Box mb="nano" mt="nano">
-        <TouchableOpacity testID="testerAreaView_button_copy_orderform_id" onPress={() => handleCopyTextToClipboard(orderForm?.orderFormId || '')}>
-          <Typography testID="testerAreaView_orderform_id">{orderForm?.orderFormId || ''}</Typography>
+        <TouchableOpacity testID="com.usereserva:id/testerAreaView_button_copy_orderform_id" onPress={() => handleCopyTextToClipboard(orderForm?.orderFormId || '')}>
+          <Typography testID="com.usereserva:id/testerAreaView_orderform_id">{orderForm?.orderFormId || ''}</Typography>
         </TouchableOpacity>
       </Box>
       <Box flexDirection="row" marginY="micro" alignItems="center">
@@ -75,7 +75,7 @@ function TesterAreaViewComponent({
         </Box>
         <Box marginLeft="micro">
           <Toggle
-            testID="testerAreaView_button_toogle_tester_user"
+            testID="com.usereserva:id/testerAreaView_button_toogle_tester_user"
             onValueChange={handleChangeTesting}
             thumbColor="vermelhoAlerta"
             color="preto"
@@ -91,7 +91,7 @@ function TesterAreaViewComponent({
         </Box>
         <Box marginLeft="xxxs">
           <Toggle
-            testID="testerAreaView_button_toogle_onboarding_view"
+            testID="com.usereserva:id/testerAreaView_button_toogle_onboarding_view"
             onValueChange={handleViewOnboarding}
             thumbColor="vermelhoAlerta"
             color="preto"

@@ -36,7 +36,7 @@ exports[`Brands tests Testing brands renders without error and match snapshot 1`
       "marginVertical": 13,
     }
   }
-  testID="brands_flatList"
+  testID="com.usereserva:id/brands_flatList"
   updateCellsBatchingPeriod={50}
   viewabilityConfigCallbackPairs={Array []}
   windowSize={21}

@@ -1070,7 +1070,7 @@ export const ProductDetail: React.FC<Props> = ({
                     disabled={productIsDisabled}
                     onPress={onProductAdd}
                     inline
-                    testID="productdetail_button_add_cart"
+                    testID="com.usereserva:id/productdetail_button_add_cart"
                   />
 
                   <Box mt="nano" flexDirection="row" />
@@ -1463,7 +1463,7 @@ export const ProductDetail: React.FC<Props> = ({
                     marginBottom="nano"
                     alignSelf="flex-start"
                     marginTop="quarck"
-                    testID="productdetail_button_cep"
+                    testID="com.usereserva:id/productdetail_button_cep"
                     onPress={() => {
                       navigation.navigate('ChangeRegionalization', {
                         isCepProductDetail: true,

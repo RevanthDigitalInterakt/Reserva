@@ -313,7 +313,7 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
             "opacity": 1,
           }
         }
-        testID="userprofilepicture_button_edit_password"
+        testID="com.usereserva:id/userprofilepicture_button_edit_password"
       >
         <Text
           fontFamily="nunitoRegular"

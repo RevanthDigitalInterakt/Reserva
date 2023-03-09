@@ -49,7 +49,7 @@ function ModalChristmasCoupon({ isVisible, orderId, onClose }: IModalChristmasCo
       avoidKeyboard
       onBackdropPress={onCloseModal}
       isVisible={modalIsVisible}
-      testID="modalchristmas_container"
+      testID="com.usereserva:id/modalchristmas_container"
     >
       {!!modalInfo?.showModal && (
         <ModalChristmasCouponForm

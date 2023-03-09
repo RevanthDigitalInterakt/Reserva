@@ -64,7 +64,7 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
             "opacity": 1,
           }
         }
-        testID="newsletter_button"
+        testID="com.usereserva:id/newsletter_button"
       >
         <RNSVGSvgView
           bbHeight={15}

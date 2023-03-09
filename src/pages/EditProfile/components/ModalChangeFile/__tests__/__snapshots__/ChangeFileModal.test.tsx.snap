@@ -24,7 +24,7 @@ exports[`ChangeFileModal renders without error and match snapshot 1`] = `
     ]
   }
   swipeThreshold={100}
-  testID="changefilemodal_container"
+  testID="com.usereserva:id/changefilemodal_container"
   transparent={true}
   visible={true}
 >
@@ -341,7 +341,7 @@ exports[`ChangeFileModal renders without error and match snapshot 1`] = `
               "opacity": 1,
             }
           }
-          testID="changefilemodal_button_camera"
+          testID="com.usereserva:id/changefilemodal_button_camera"
         >
           <View
             style={
@@ -489,7 +489,7 @@ exports[`ChangeFileModal renders without error and match snapshot 1`] = `
               "opacity": 1,
             }
           }
-          testID="changefilemodal_button_gallery"
+          testID="com.usereserva:id/changefilemodal_button_gallery"
         >
           <View
             style={
@@ -647,7 +647,7 @@ exports[`ChangeFileModal renders without error and match snapshot 1`] = `
               "opacity": 1,
             }
           }
-          testID="changefilemodal_button_clear"
+          testID="com.usereserva:id/changefilemodal_button_clear"
         >
           <View
             style={

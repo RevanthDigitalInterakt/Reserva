@@ -24,7 +24,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
     ]
   }
   swipeThreshold={100}
-  testID="modalchristmas_container"
+  testID="com.usereserva:id/modalchristmas_container"
   transparent={true}
   visible={true}
 >
@@ -203,7 +203,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                     },
                   ]
                 }
-                testID="christmascouponform_title"
+                testID="com.usereserva:id/christmascouponform_title"
               >
                 Titulo do modal
               </Text>
@@ -235,7 +235,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                     "opacity": 1,
                   }
                 }
-                testID="christmascouponform_button_close"
+                testID="com.usereserva:id/christmascouponform_button_close"
               >
                 <View
                   flexGrow={0}
@@ -370,7 +370,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                   },
                 ]
               }
-              testID="christmascouponform_subtitle"
+              testID="com.usereserva:id/christmascouponform_subtitle"
             />
           </View>
           <Text
@@ -386,7 +386,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                 },
               ]
             }
-            testID="christmascouponform_fineline"
+            testID="com.usereserva:id/christmascouponform_fineline"
           >
             *Confira as regras
           </Text>
@@ -777,7 +777,7 @@ exports[`ModalChristmasCouponTest renders without error and match snapshot 1`] =
                     "paddingTop": 16,
                   }
                 }
-                testID="christmascouponform_button_submit"
+                testID="com.usereserva:id/christmascouponform_button_submit"
               >
                 <View
                   alignItems="center"

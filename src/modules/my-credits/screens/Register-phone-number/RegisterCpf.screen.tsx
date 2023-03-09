@@ -42,7 +42,7 @@ export const RegisterCpfScreen = ({
   };
 
   return (
-    <BaseScreen testID="VerifyCpfScreen">
+    <BaseScreen testID="com.usereserva:id/VerifyCpfScreen">
       <RegisterCpfContainer
         profile={route?.params.profile}
         navigateBack={navigateBack}

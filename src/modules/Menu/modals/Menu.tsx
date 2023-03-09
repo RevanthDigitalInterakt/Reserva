@@ -169,7 +169,7 @@ const MenuItem: React.FC<IMenuItem> = ({
                 key={index}
                 highlight={item.highlight}
                 title={item.name}
-                testID={`submenu_button_${slugify(item.name)}`}
+                testID={`com.usereserva:id/submenu_button_${slugify(item.name)}`}
                 onPress={() => {
                   const facetInput: any[] = [];
                   const [subType, subcategories] = item?.referenceId?.split(':') || [undefined, undefined];
@@ -416,7 +416,7 @@ export const Menu = ({ route }: Props) => {
               {screenRegionalizationActive && (
                 <FixedMenuItem
                   iconName="Pin"
-                  testID="menu_button_cep"
+                  testID="com.usereserva:id/menu_button_cep"
                   title={(
                     <Typography
                       alignSelf="flex-end"
@@ -435,7 +435,7 @@ export const Menu = ({ route }: Props) => {
               <FixedMenuItem
                 iconName="Profile"
                 disabled={!!cookie}
-                testID="menu_button_account"
+                testID="com.usereserva:id/menu_button_account"
                 title={(
                   <Typography
                     alignSelf="flex-end"
@@ -467,7 +467,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="Heart"
-                testID="menu_button_favorites"
+                testID="com.usereserva:id/menu_button_favorites"
                 title={(
                   <Typography
                     alignSelf="flex-end"
@@ -484,7 +484,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="Message"
-                testID="menu_button_callcenter"
+                testID="com.usereserva:id/menu_button_callcenter"
                 title={(
                   <Typography
                     alignSelf="flex-end"
@@ -501,7 +501,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="Pin"
-                testID="menu_button_stores"
+                testID="com.usereserva:id/menu_button_stores"
                 title={(
                   <Typography
                     alignSelf="flex-end"
@@ -518,7 +518,7 @@ export const Menu = ({ route }: Props) => {
               />
               <FixedMenuItem
                 iconName="PrivacyPolicy"
-                testID="menu_button_privacy"
+                testID="com.usereserva:id/menu_button_privacy"
                 title={(
                   <Typography
                     alignSelf="flex-end"

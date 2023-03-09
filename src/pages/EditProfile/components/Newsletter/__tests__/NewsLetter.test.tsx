@@ -42,14 +42,14 @@ const TestingComponent = (
 describe('NewsLetter Component', () => {
   it('renders without error and match snapshot', () => {
     render(TestingComponent);
-    expect(screen.getByTestId('newsletter_button')).toBeVisible();
+    expect(screen.getByTestId('com.usereserva:id/newsletter_button')).toBeVisible();
     expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('Checks if the button is being clicked', async () => {
     render(TestingComponent);
     await act(async () => {
-      await fireEvent.press(screen.getByTestId('newsletter_button'));
+      await fireEvent.press(screen.getByTestId('com.usereserva:id/newsletter_button'));
     });
 
     await act(async () => {

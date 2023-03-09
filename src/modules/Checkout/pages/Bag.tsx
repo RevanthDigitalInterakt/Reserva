@@ -1462,7 +1462,7 @@ export const BagScreen = ({ route }: Props) => {
                     title="IR PARA ENTREGA"
                     variant="primarioEstreito"
                     inline
-                    testID="bag_button_go_to_delivery"
+                    testID="com.usereserva:id/bag_button_go_to_delivery"
                   />
                 </Box>
               )

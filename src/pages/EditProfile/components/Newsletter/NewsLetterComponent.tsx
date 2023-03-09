@@ -32,7 +32,7 @@ function NewsLetterComponent({
   return (
     <Box mb="xs" flexDirection="row" zIndex={2}>
       <Checkbox
-        testID="newsletter_button"
+        testID="com.usereserva:id/newsletter_button"
         fontFamily="nunitoRegular"
         fontSize={12}
         color="dropDownBorderColor"

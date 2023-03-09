@@ -318,7 +318,7 @@ const Checkout: React.FC<{}> = () => {
           title="VOLTAR PARA HOME"
           variant="primarioEstreito"
           inline
-          testID="checkout_button_back_to_home"
+          testID="com.usereserva:id/checkout_button_back_to_home"
         />
       )}
 

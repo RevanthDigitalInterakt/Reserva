@@ -93,7 +93,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
               fontSize={26}
               fontFamily="reservaSerifBlack"
               lineHeight={29}
-              testID="primenewslettermodal_title"
+              testID="com.usereserva:id/primenewslettermodal_title"
             >
               {title || 'Fique por dentro dos nossos lançamentos'}
             </Typography>
@@ -104,7 +104,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
               onPress={onClose}
               variant="icone"
               icon={<Icon size={12} name="Close" />}
-              testID="primenewslettermodal_button_close"
+              testID="com.usereserva:id/primenewslettermodal_button_close"
             />
           )}
         </Box>
@@ -176,7 +176,7 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
             variant="primarioEstreito"
             title={buttonTitle || 'ASSINAR NEWSLETTER'}
             onPress={() => formik.submitForm()}
-            testID="primenewslettermodal_button_submit"
+            testID="com.usereserva:id/primenewslettermodal_button_submit"
           />
         </Box>
 

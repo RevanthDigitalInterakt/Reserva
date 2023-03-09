@@ -31,7 +31,7 @@ describe('Submiting Content', () => {
   });
 
   it('check button password is visible', () => {
-    expect(screen.getByTestId('userprofilepicture_button_edit_password')).toBeVisible();
+    expect(screen.getByTestId('com.usereserva:id/userprofilepicture_button_edit_password')).toBeVisible();
   });
 
   // @TODO adicianar teste para verificar se o avatar esta visivel ou nao

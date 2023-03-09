@@ -74,7 +74,7 @@ function UserProfilePictureComponent({
           inline
           onPress={handleNavigationEditPassword}
           title="Alterar senha"
-          testID="userprofilepicture_button_edit_password"
+          testID="com.usereserva:id/userprofilepicture_button_edit_password"
         >
           <Typography
             style={{ textDecorationLine: 'underline' }}

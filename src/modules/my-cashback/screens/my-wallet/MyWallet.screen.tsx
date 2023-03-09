@@ -33,7 +33,7 @@ export const MyWalletScreen = (
   };
 
   return (
-    <BaseScreen testID="MyWalletScreen">
+    <BaseScreen testID="com.usereserva:id/MyWalletScreen">
       <MyWalletContainer
         navigateBack={navigateBack}
         navigateToError={navigateToError}

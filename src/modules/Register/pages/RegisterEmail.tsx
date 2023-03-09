@@ -116,7 +116,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
           onPress={
             showRecoveryPassword ? handleEmailRecovery : handleEmailAccess
           }
-          testID="register_button_recover"
+          testID="com.usereserva:id/register_button_recover"
           disabled={emailEmpty}
           inline
         />

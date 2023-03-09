@@ -29,7 +29,7 @@ describe('Testing isRegister=true', () => {
         <SubmitingContentComponent isRegister {...SubmitingContentProps} />
       </ThemeProvider>
     ));
-    expect(screen.getByTestId('submitingcontent_button_submit_register')).toBeVisible();
+    expect(screen.getByTestId('com.usereserva:id/submitingcontent_button_submit_register')).toBeVisible();
   });
 
   it('check pressable submit form', async () => {
@@ -40,7 +40,7 @@ describe('Testing isRegister=true', () => {
     ));
 
     await act(async () => {
-      await fireEvent.press(screen.getByTestId('submitingcontent_button_submit_register'));
+      await fireEvent.press(screen.getByTestId('com.usereserva:id/submitingcontent_button_submit_register'));
     });
 
     expect(SubmitingContentProps.handleSubmitForm).toHaveBeenCalledTimes(1);
@@ -54,7 +54,7 @@ describe('Testing isRegister=false', () => {
         <SubmitingContentComponent isRegister={false} {...SubmitingContentProps} />
       </ThemeProvider>
     ));
-    expect(screen.getByTestId('submitingcontent_button_go_back_no_register')).toBeVisible();
+    expect(screen.getByTestId('com.usereserva:id/submitingcontent_button_go_back_no_register')).toBeVisible();
   });
 
   it('check visible save button', () => {
@@ -63,7 +63,7 @@ describe('Testing isRegister=false', () => {
         <SubmitingContentComponent isRegister={false} {...SubmitingContentProps} />
       </ThemeProvider>
     ));
-    expect(screen.getByTestId('submitingcontent_button_submit_no_register')).toBeVisible();
+    expect(screen.getByTestId('com.usereserva:id/submitingcontent_button_submit_no_register')).toBeVisible();
   });
 });
 
@@ -80,7 +80,7 @@ describe('SubmitingContentTest', () => {
     ));
 
     await act(async () => {
-      await fireEvent.press(screen.getByTestId('submitingcontent_button_submit_no_register'));
+      await fireEvent.press(screen.getByTestId('com.usereserva:id/submitingcontent_button_submit_no_register'));
     });
 
     expect(SubmitingContentProps.handleSubmitForm).toHaveBeenCalledTimes(1);

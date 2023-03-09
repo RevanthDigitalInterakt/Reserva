@@ -28,8 +28,8 @@ describe.skip('DeleteAccountComponent', () => {
 
       const instance = renderer.root;
 
-      const $modal = instance.findByProps({ testID: 'modaldeleteaccount_container' });
-      const $buttonShowModal = instance.findByProps({ testID: 'deleteaccount_button_remove' });
+      const $modal = instance.findByProps({ testID: 'com.usereserva:id/modaldeleteaccount_container' });
+      const $buttonShowModal = instance.findByProps({ testID: 'com.usereserva:id/deleteaccount_button_remove' });
 
       expect($modal.props.isVisible).toBeFalsy();
 

@@ -84,7 +84,7 @@ describe('Brands tests', () => {
       act(() => { jest.runAllTimers(); });
       await act(async () => {});
 
-      expect(screen.queryByTestId('brands_flatList')).toBeVisible();
+      expect(screen.queryByTestId('com.usereserva:id/brands_flatList')).toBeVisible();
     });
 
     it('check brand click', async () => {
@@ -97,7 +97,7 @@ describe('Brands tests', () => {
       await act(async () => {});
 
       await act(async () => {
-        await fireEvent.press(screen.getByTestId('brands_brand_container'));
+        await fireEvent.press(screen.getByTestId('com.usereserva:id/brands_brand_container'));
       });
 
       expect(mockedFn).toHaveBeenCalledTimes(1);

@@ -47,7 +47,7 @@ Array [
             "opacity": 1,
           }
         }
-        testID="deleteaccount_button_remove"
+        testID="com.usereserva:id/deleteaccount_button_remove"
       >
         <RNSVGSvgView
           bbHeight={24}
@@ -274,7 +274,7 @@ Array [
       ]
     }
     swipeThreshold={100}
-    testID="modaldeleteaccount_container"
+    testID="com.usereserva:id/modaldeleteaccount_container"
     transparent={true}
     visible={false}
   >

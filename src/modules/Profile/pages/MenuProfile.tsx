@@ -395,7 +395,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
                 disabled={loading}
                 onPress={() => logout()}
                 title="LOGOUT"
-                testID="profile_button_logout"
+                testID="com.usereserva:id/profile_button_logout"
                 variant="primarioEstreitoOutline"
               />
             </Box>

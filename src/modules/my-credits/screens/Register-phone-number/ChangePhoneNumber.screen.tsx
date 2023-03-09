@@ -43,7 +43,7 @@ export const ChangePhoneNumberScreen = (
   };
 
   return (
-    <BaseScreen testID="ChangePhoneNumberScreen">
+    <BaseScreen testID="com.usereserva:id/ChangePhoneNumberScreen">
       <ChangePhoneNumberContainer
         profile={route?.params.profile}
         navigateBack={navigateBack}

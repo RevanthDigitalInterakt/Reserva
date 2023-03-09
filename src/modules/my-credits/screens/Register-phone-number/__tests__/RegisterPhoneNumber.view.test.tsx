@@ -81,7 +81,7 @@ describe('RegisterPhoneNumberView', () => {
     const subtitleConfirmPhon = getByText(
       'Digite abaixo o código que acabamos de enviar para seu telefone:',
     );
-    const phoneNumber = getByTestId('phoneNumber');
+    const phoneNumber = getByTestId('com.usereserva:id/phoneNumber');
     const confirmButton = getByText('CONFIRMAR');
     const resendCode = getByText('REENVIAR CÓDIGO EM ');
     expect(titleConfirmPhone).toBeTruthy();

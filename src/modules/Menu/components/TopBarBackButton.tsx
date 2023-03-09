@@ -31,7 +31,7 @@ export const TopBarBackButton: React.FC<{
       leftButton={{
         name: 'ArrowBack',
         size: 24,
-        testID: 'top_bar_button_go_back',
+        testID: 'com.usereserva:id/top_bar_button_go_back',
         onPress: handleGoBack,
       }}
       height={50}

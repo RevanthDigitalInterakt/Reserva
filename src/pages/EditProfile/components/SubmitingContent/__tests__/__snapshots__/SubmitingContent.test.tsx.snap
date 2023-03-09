@@ -84,7 +84,7 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
             "paddingTop": 16,
           }
         }
-        testID="submitingcontent_button_go_back_no_register"
+        testID="com.usereserva:id/submitingcontent_button_go_back_no_register"
       >
         <View
           alignItems="center"
@@ -181,7 +181,7 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
             "paddingTop": 16,
           }
         }
-        testID="submitingcontent_button_submit_no_register"
+        testID="com.usereserva:id/submitingcontent_button_submit_no_register"
       >
         <View
           alignItems="center"

@@ -52,7 +52,7 @@ const BrandsComponent = (): JSX.Element => {
 
   return (
     <FlatList
-      testID="brands_flatList"
+      testID="com.usereserva:id/brands_flatList"
       horizontal
       showsHorizontalScrollIndicator={false}
       data={brands}
@@ -65,7 +65,7 @@ const BrandsComponent = (): JSX.Element => {
       decelerationRate="fast"
       renderItem={({ item: { brandLogo: { url }, reference }, index }): JSX.Element => (
         <BrandContainer
-          testID="brands_brand_container"
+          testID="com.usereserva:id/brands_brand_container"
           deviceWidth={width}
           index={index}
           onPress={() => handleNavigateToBrand(reference)}

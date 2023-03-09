@@ -119,7 +119,7 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
               animationInTiming={300}
               animationIn="fadeIn"
               animationOut="fadeIn"
-              testID="LottieLoader"
+              testID="com.usereserva:id/LottieLoader"
             >
               <Box
                 style={{ flex: 1, marginHorizontal: 107 }}

@@ -104,7 +104,7 @@ const ChangeFileModal = ({
     <Modal
       onBackdropPress={toggleModal}
       isVisible={show}
-      testID="changefilemodal_container"
+      testID="com.usereserva:id/changefilemodal_container"
       style={Styles.modalProfile}
     >
       <Box bg="white" p="xxxs">
@@ -135,7 +135,7 @@ const ChangeFileModal = ({
         </Box>
 
         <Box mt="xxs" mb="micro">
-          <TouchableOpacity onPress={handleChooseCamera} testID="changefilemodal_button_camera">
+          <TouchableOpacity onPress={handleChooseCamera} testID="com.usereserva:id/changefilemodal_button_camera">
             <Box style={Styles.boxTouchable}>
               <Icon name="Cam" size={20} mr="micro" />
               <Typography fontFamily="reservaSansMedium" fontSize={14}>
@@ -148,7 +148,7 @@ const ChangeFileModal = ({
         <Divider variant="fullWidth" />
 
         <Box mt="micro" mb="micro">
-          <TouchableOpacity onPress={handleChooseGallery} testID="changefilemodal_button_gallery">
+          <TouchableOpacity onPress={handleChooseGallery} testID="com.usereserva:id/changefilemodal_button_gallery">
             <Box style={Styles.boxTouchable}>
               <Icon name="Image" size={20} mr="micro" />
               <Typography fontFamily="reservaSansMedium" fontSize={14}>
@@ -163,7 +163,7 @@ const ChangeFileModal = ({
         <Box mt="micro" mb="micro">
           <TouchableOpacity
             onPress={handleDeleteProfileImage}
-            testID="changefilemodal_button_clear"
+            testID="com.usereserva:id/changefilemodal_button_clear"
           >
             <Box style={Styles.boxTouchable}>
               <Icon name="Trash" size={20} mr="micro" />

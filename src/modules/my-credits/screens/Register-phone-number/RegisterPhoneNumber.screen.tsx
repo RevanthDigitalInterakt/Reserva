@@ -35,7 +35,7 @@ export const RegisterPhoneNumberScreen = (
   };
 
   return (
-    <BaseScreen testID="">
+    <BaseScreen testID="com.usereserva:id/">
       <RegisterPhoneNumberContainer
         profile={route?.params.profile}
         isChangeNumber={route?.params.isChangeNumber}

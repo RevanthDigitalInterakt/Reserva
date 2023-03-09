@@ -16,7 +16,7 @@ const ModalDeleteAccount = ({
     avoidKeyboard
     onBackdropPress={() => setIsVisible(false)}
     isVisible={isVisible}
-    testID="modaldeleteaccount_container"
+    testID="com.usereserva:id/modaldeleteaccount_container"
   >
     <Box bg="white" borderRadius={8} minHeight={184} px={24} mx="3%">
       <Box mt="xxxs" mb="quarck">

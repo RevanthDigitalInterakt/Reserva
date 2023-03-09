@@ -32,7 +32,7 @@ function DeleteAccountComponent({ userId }: IDeleteAccountProps): JSX.Element {
         <Button
           flexDirection="row"
           onPress={() => setShowModalDeleteAccount(true)}
-          testID="deleteaccount_button_remove"
+          testID="com.usereserva:id/deleteaccount_button_remove"
         >
           <>
             <Icon

@@ -29,7 +29,7 @@ function GenderInput({ currentGender, handleSelectGender }: IGenderInputProps) {
       style={Platform.OS === 'ios' ? { zIndex: 1 } : {}}
     >
       <TouchableOpacity
-        testID="genderinput_button_open_gender_picker"
+        testID="com.usereserva:id/genderinput_button_open_gender_picker"
         onPress={handleVisibilityGenderPicker}
       >
         <Box
@@ -100,7 +100,7 @@ function GenderInput({ currentGender, handleSelectGender }: IGenderInputProps) {
         {genderTypes.map((gender: TGender) => (
           <TouchableOpacity
             key={`${gender}`}
-            testID="genderinput_button_select_gender"
+            testID="com.usereserva:id/genderinput_button_select_gender"
             onPress={() => handleSelectGenderOnSelect(gender)}
           >
             <Box

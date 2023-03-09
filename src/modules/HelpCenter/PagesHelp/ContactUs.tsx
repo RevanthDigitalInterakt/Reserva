@@ -31,7 +31,7 @@ export const ContactUs: React.FC<{}> = () => {
           <Box width="100%">
             <Button
               onPress={() => Linking.openURL(`whatsapp://send?phone=${552121084990}`)}
-              testID="callcenter_button_whatsapp"
+              testID="com.usereserva:id/callcenter_button_whatsapp"
               title="WHATSAPP RESERVA"
               variant="primarioEstreito"
               inline
@@ -47,7 +47,7 @@ export const ContactUs: React.FC<{}> = () => {
           <Box width="100%" mt="xxs">
             <Button
               onPress={() => navigation.navigate('WebviewZendesk')}
-              testID="callcenter_button_send_message"
+              testID="com.usereserva:id/callcenter_button_send_message"
               title="ENVIE UMA MENSAGEM"
               variant="primarioEstreitoOutline"
               inline

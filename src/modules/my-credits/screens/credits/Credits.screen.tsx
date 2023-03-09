@@ -24,7 +24,7 @@ export const CreditsScreen = () => {
   };
 
   return (
-    <BaseScreen testID="CreditsScreen">
+    <BaseScreen testID="com.usereserva:id/CreditsScreen">
       <CreditsContainer
         navigateBack={navigateBack}
         navigateToError={navigateToError}

@@ -47,7 +47,7 @@ export const CashbackInStoreScreen = ({
   }, []);
 
   return (
-    <BaseScreen testID="CashbackInStoreScreen">
+    <BaseScreen testID="com.usereserva:id/CashbackInStoreScreen">
       <CashbackInStoreContainer
         costumerDocument={route.params.costumerDocument}
         navigateBack={navigateBack}

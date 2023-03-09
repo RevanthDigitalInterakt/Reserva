@@ -60,14 +60,14 @@ describe('ChangeFileModal', () => {
   });
 
   it('renders without error and match snapshot', () => {
-    expect(screen.getByTestId('changefilemodal_container')).toBeVisible();
+    expect(screen.getByTestId('com.usereserva:id/changefilemodal_container')).toBeVisible();
     expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('should try to pick image from gallery and camera', async () => {
     await act(async () => {
-      await fireEvent.press(screen.getByTestId('changefilemodal_button_gallery'));
-      await fireEvent.press(screen.getByTestId('changefilemodal_button_camera'));
+      await fireEvent.press(screen.getByTestId('com.usereserva:id/changefilemodal_button_gallery'));
+      await fireEvent.press(screen.getByTestId('com.usereserva:id/changefilemodal_button_camera'));
     });
 
     expect(onHandleChangeFile).toHaveBeenCalledWith({

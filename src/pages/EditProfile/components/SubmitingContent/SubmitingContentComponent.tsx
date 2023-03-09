@@ -28,7 +28,7 @@ function SubmitingContentComponent({
         >
           <Box paddingLeft="nano" mt="sm" width="100%">
             <Button
-              testID="submitingcontent_button_submit_register"
+              testID="com.usereserva:id/submitingcontent_button_submit_register"
               title="SALVAR"
               variant="primarioEstreito"
               inline
@@ -56,7 +56,7 @@ function SubmitingContentComponent({
           <Box width={1 / 2.2} paddingRight="nano">
             <Button
               title="CANCELAR"
-              testID="submitingcontent_button_go_back_no_register"
+              testID="com.usereserva:id/submitingcontent_button_go_back_no_register"
               variant="primarioEstreitoOutline"
               inline
               onPress={() => navigation.goBack()}
@@ -67,7 +67,7 @@ function SubmitingContentComponent({
             <Button
               title="SALVAR"
               variant="primarioEstreito"
-              testID="submitingcontent_button_submit_no_register"
+              testID="com.usereserva:id/submitingcontent_button_submit_no_register"
               inline
               onPress={handleSubmitForm}
               disabled={formEditIsValid}

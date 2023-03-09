@@ -248,7 +248,7 @@ export const RegisterPhoneNumberView = ({
             <Box justifyContent="center" mb="xxs">
               <Box alignItems="center">
                 <Typography
-                  testID="phoneNumber"
+                  testID="com.usereserva:id/phoneNumber"
                   fontFamily="reservaSerifBold"
                   fontSize={22}
                   color="preto"

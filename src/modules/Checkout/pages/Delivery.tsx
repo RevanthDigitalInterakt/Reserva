@@ -513,7 +513,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 borderWidth="hairline"
                 inline
                 height={50}
-                testID="delivery_button_receive_home"
+                testID="com.usereserva:id/delivery_button_receive_home"
                 bg={!selectMethodDelivery ? 'preto' : 'white'}
               >
                 <Typography
@@ -539,7 +539,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 onPress={() => {
                   setSelectMethodDelivery(true);
                 }}
-                testID="delivery_button_pick_up_in_store"
+                testID="com.usereserva:id/delivery_button_pick_up_in_store"
                 bg={selectMethodDelivery ? 'preto' : 'white'}
               >
                 <Box>
@@ -603,7 +603,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
               lineHeight={24}
               letterSpacing={1.6}
               title="ADICIONAR ENDEREÇO"
-              testID="delivery_button_add_address"
+              testID="com.usereserva:id/delivery_button_add_address"
               variant="primarioEstreitoOutline"
             />
           </Box>
@@ -624,7 +624,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
             onPress={onGoToPayment}
             title="FORMA DE PAGAMENTO"
             variant="primarioEstreito"
-            testID="delivery_button_method_payment"
+            testID="com.usereserva:id/delivery_button_method_payment"
             inline
           />
         </Box>

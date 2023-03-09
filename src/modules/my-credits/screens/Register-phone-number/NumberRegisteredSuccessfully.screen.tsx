@@ -35,7 +35,7 @@ export const NumberRegisteredSuccessfullyScreen = (
     });
   };
   return (
-    <BaseScreen testID="NumberRegisteredSuccessfullyScreen">
+    <BaseScreen testID="com.usereserva:id/NumberRegisteredSuccessfullyScreen">
       <NumberRegisteredSuccessfullyContainer
         navigateBack={navigateBack}
         navigateToError={navigateToError}

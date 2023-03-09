@@ -121,7 +121,7 @@ function ModalChristmasCouponForm({
               fontSize={24}
               fontFamily="reservaSerifBlack"
               lineHeight={29}
-              testID="christmascouponform_title"
+              testID="com.usereserva:id/christmascouponform_title"
             >
               {title}
             </Typography>
@@ -131,7 +131,7 @@ function ModalChristmasCouponForm({
             onPress={onClose}
             variant="icone"
             icon={<Icon size={12} name="Close" />}
-            testID="christmascouponform_button_close"
+            testID="com.usereserva:id/christmascouponform_button_close"
           />
         </Box>
 
@@ -140,7 +140,7 @@ function ModalChristmasCouponForm({
             fontSize={14}
             fontFamily="nunitoRegular"
             lineHeight={22}
-            testID="christmascouponform_subtitle"
+            testID="com.usereserva:id/christmascouponform_subtitle"
           >
             {subtitle.map((item) => (
               <React.Fragment key={`text-${item.content}`}>
@@ -156,7 +156,7 @@ function ModalChristmasCouponForm({
           fontSize={12}
           fontFamily="nunitoBold"
           lineHeight={22}
-          testID="christmascouponform_fineline"
+          testID="com.usereserva:id/christmascouponform_fineline"
         >
           {fineline}
         </Typography>
@@ -212,7 +212,7 @@ function ModalChristmasCouponForm({
             loading={loading}
             title={buttonTitle || 'ASSINAR NEWSLETTER'}
             onPress={() => formik.submitForm()}
-            testID="christmascouponform_button_submit"
+            testID="com.usereserva:id/christmascouponform_button_submit"
           />
         </Box>
 
