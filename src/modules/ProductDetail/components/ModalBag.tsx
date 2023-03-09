@@ -6,14 +6,7 @@ import Modal from 'react-native-modal';
 import React, { useState, useEffect } from 'react';
 
 import LottieView from 'lottie-react-native';
-import AnimatedLottieView from 'lottie-react-native';
-
-import DeviceInfo from 'react-native-device-info';
-
-import { useNavigation } from '@react-navigation/native';
 import { animations } from '../../../assets';
-
-const haveNotch = DeviceInfo.hasNotch();
 
 export interface ModalBagProps {
   isVisible: boolean;
@@ -22,10 +15,7 @@ export interface ModalBagProps {
 
 export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
   const [animationFinished, setAnimationFinished] = useState(false);
-  const [animation, setAnimation] = useState<AnimatedLottieView | null>(null);
-  const [products, setProducts] = React.useState<any>([]);
-  const [count, setCount] = useState(1);
-  const navigation = useNavigation();
+  const [animation, setAnimation] = useState(null);
 
   useEffect(() => {
     if (animation && isVisible) {
