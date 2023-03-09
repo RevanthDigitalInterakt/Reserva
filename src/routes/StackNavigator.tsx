@@ -6,7 +6,6 @@ import { WebviewZendesk } from '../modules/CallCenter/WebviewZendesk';
 import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
 import { Cashback } from '../modules/Cashback/pages/Cashback';
 import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
-import { BagScreen } from '../modules/Checkout/pages/Bag';
 import { BarCodePayment } from '../modules/Checkout/pages/BarCodePayment';
 import { CreateCartProfile } from '../modules/Checkout/pages/CreateCartProfile';
 import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
@@ -64,6 +63,7 @@ import EditProfile from '../pages/EditProfile/EditProfile';
 import type { IFilters } from '../utils/generateFacets';
 import WebViewDeepLink from '../pages/WebViewDeepLink';
 import { MktFlow } from './flows/mtk.flow';
+import { BagABTest } from '../modules/Checkout/pages/BagABTest';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -275,7 +275,7 @@ export const MainStackScreen = () => (
 
     <MainStack.Screen
       name="BagScreen"
-      component={BagScreen}
+      component={BagABTest}
       initialParams={{ isProfileComplete: false }}
     />
 

@@ -69,7 +69,7 @@ const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-export const BagScreen = ({ route }: Props) => {
+export const BagOldScreen: React.FC<Props> = ({ route }) => {
   const { email, cookie } = useAuth();
   const navigation = useNavigation();
   const {
@@ -1215,7 +1215,7 @@ export const BagScreen = ({ route }: Props) => {
                   <Box>
                     <Typography variant="tituloSessao">
                       Insira aqui o código do vendedor(a) e/ou cupom de
-                      desconto
+                      desconto.
                     </Typography>
                   </Box>
                   <Box flexDirection="row">
@@ -1462,7 +1462,7 @@ export const BagScreen = ({ route }: Props) => {
                     title="IR PARA ENTREGA"
                     variant="primarioEstreito"
                     inline
-                    testID="com.usereserva:id/bag_button_go_to_delivery"
+                    testID="bag_button_go_to_delivery"
                   />
                 </Box>
               )
