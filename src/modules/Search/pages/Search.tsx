@@ -51,14 +51,12 @@ const deviceHeight = Dimensions.get('window').height;
 
 type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 
-export const SearchScreen: React.FC<Props> = ({ route }) => {
+export const SearchScreen: React.FC<Props> = () => {
   const navigation = useNavigation();
   const { regionId } = useRegionalSearch();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [showResults, setShowResults] = React.useState(true);
   const [showAllProducts, setShowAllProducts] = React.useState(false);
-
-  const [waiting, setWaiting] = React.useState(false);
 
   const [loadingRefetch, setLoadingRefetch] = useState(false);
   const [products, setProducts] = useState<any[]>();
@@ -81,15 +79,18 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sorterVisible, setSorterVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<string>();
-  const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
+  const [filterRequestList, setFilterRequestList] = useState<[] | undefined | null>([]);
+
   const [{ collectionData, loadingCollection }, setCollectionData] = useState({
     collectionData: null,
     loadingCollection: false,
   });
+
   const [{ featuredData, loadingFeatured }, setFeaturedData] = useState({
     featuredData: null,
     loadingFeatured: false,
   });
+
   const [{ data, loading }, setProductData] = useState({
     data: null,
     loading: false,
@@ -112,7 +113,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       selectedFacets: [
         {
           key: 'productClusterIds',
-          value: collectionData?.configCollection?.items[0].searchCollection,
+          value: collectionData?.configCollection?.items[0]?.searchCollection,
         },
       ],
       to: 7,
@@ -158,7 +159,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
 
   const gambiarraRedirect = async (searchTerm: string) => {
     if (Object.keys(redirectWightList).includes(searchTerm.toLowerCase())) {
-      const { data, variables } = await getProducts({
+      const { data } = await getProducts({
         variables: {
           salesChannel: '4',
           to: pageSize - 1,
@@ -166,8 +167,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
           map: '',
           // @ts-ignore
           selectedFacets: [].concat(
-            redirectWightList[searchTerm.toLowerCase()],
-            filterRequestList,
+            redirectWightList[searchTerm?.toLowerCase()],
+            filterRequestList || [],
           ),
         },
       });
@@ -226,11 +227,11 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     if (collectionData) {
       setProductNews(
-        collectionData?.configCollection?.items[0].searchMedia
+        collectionData?.configCollection?.items[0]?.searchMedia
           .secionMediaCollection.items,
       );
       setSearchSuggestions(
-        collectionData?.configCollection?.items[0].searchSuggestionsCollection
+        collectionData?.configCollection?.items[0]?.searchSuggestionsCollection
           .items,
       );
       setReturnSearch(false);
@@ -254,8 +255,6 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
   useEffect(() => {
     if (returnSearch) {
       BackHandler.addEventListener('hardwareBackPress', () => {
-        // navigation.dispatch(StackActions.replace('SearchMenu'));
-
         navigation.dispatch(StackActions.popToTop());
 
         navigation.navigate('SearchMenu');
@@ -348,13 +347,12 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
         selectedFacets:
         generateFacets({ reference: referenceString })
           .concat(
-            filterRequestList,
+            filterRequestList || [],
           ),
       },
     });
 
     if (!loading) {
-      // setProducts([...products, newProducts]);
       if (Array.isArray(newProducts) && newProducts.length) {
         setProducts(newProducts);
       } else {
@@ -382,14 +380,8 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     lodingFacets: true,
   });
 
-  // const { referenceId } = route.params;
-
   useEffect(() => {
-    // if (referenceId === 'offers-page') {
-    //   setReferenceString('collection:1438');
-    // } else {
     setReferenceString('collection:1438');
-    // }
   }, []);
 
   const [getFacets] = useLazyQuery(facetsQuery, {
@@ -398,7 +390,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
       selectedFacets:
       generateFacets({ reference: referenceString })
         .concat(
-          filterRequestList,
+          filterRequestList || [],
         ),
     },
     fetchPolicy: 'no-cache',
@@ -408,13 +400,16 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
     getFacets().then((response) => setFacets({
       facetsData: response.data,
       lodingFacets: false,
-      // refetchFacets: facetsData.refetch
     }));
   }, []);
 
   useEffect(() => {
     if (!lodingFacets) {
-      const { facets } = facetsData.facets;
+      const facets = facetsData?.facets?.facets;
+
+      if (!facets?.length) {
+        return;
+      }
 
       // COLOR
       const colorFacets = facets.filter(
@@ -687,7 +682,7 @@ export const SearchScreen: React.FC<Props> = ({ route }) => {
                   fontSize="14px"
                 >
                   {productsQuery?.products?.length == 0
-                    && filterRequestList.length > 0
+                    && filterRequestList?.length > 0
                     ? 'Limpar Filtros'
                     : 'Filtrar'}
                 </Typography>

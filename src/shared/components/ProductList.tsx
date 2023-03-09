@@ -18,7 +18,6 @@ import { ColorsToHexEnum } from '../../graphql/product/colorsToHexEnum';
 import { facetsQuery } from '../../graphql/facets/facetsQuery';
 import { EmptyProductCatalog } from '../../modules/ProductCatalog/components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../../modules/ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
-import { useCheckConnection } from '../hooks/useCheckConnection';
 import { bannerDefaultQuery, bannerQuery, configCollection } from '../../graphql/homePage/HomeQuery';
 import { FilterModal, TFilterType } from '../../modules/ProductCatalog/modals/FilterModal/FilterModal';
 
@@ -32,13 +31,10 @@ export const ProductList: React.FC<ProductListProps> = ({
     {} as ProductSearchData,
   );
   const pageSize = 12;
-  const categoryId = 'camisetas';
   const navigation = useNavigation();
   const [bannerImage, setBannerImage] = useState();
-  // const [bannerDefault, setBannerDefault] = useState();
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [watchLoading, setWatchLoading] = useState(false);
-  const [showWatch, setShowWatch] = useState(false);
   const [colorsfilters, setColorsFilters] = useState([]);
   const [sizefilters, setSizeFilters] = useState([]);
   const [categoryfilters, setCategoryFilters] = useState([]);
@@ -49,7 +45,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   const [selectedOrder, setSelectedOrder] = useState<string>();
   const [loadingFetchMore, setLoadingFetchMore] = useState(false);
   const [loadingHandlerState, setLoadingHandlerState] = useState(false);
-  const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
+  const [filterRequestList, setFilterRequestList] = useState<[] | undefined | null>([]);
   const [skip, setSkip] = useState(false);
   const [{ collectionData }, setConfigCollection] = useState<{ collectionData: any }>({ collectionData: null });
   const [getCollection] = useLazyQuery(configCollection, {
@@ -59,7 +55,7 @@ export const ProductList: React.FC<ProductListProps> = ({
     const facetInput: any[] = [];
     const [subType, subcategories] = reference.split(':');
     if (subType === 'category') {
-      subcategories.split('|').forEach((sub) => {
+      subcategories?.split('|').forEach((sub) => {
         if (sub !== '') {
           facetInput.push({
             key: 'c',
@@ -117,7 +113,7 @@ export const ProductList: React.FC<ProductListProps> = ({
         hideUnavailableItems: true,
         selectedFacets: [].concat(
           generateFacets(referenceId),
-          filterRequestList,
+          filterRequestList || [],
         ),
         orderBy: selectedOrder,
         to: pageSize - 1,
@@ -149,14 +145,12 @@ export const ProductList: React.FC<ProductListProps> = ({
   const [getFacets] = useLazyQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets: [].concat(generateFacets(referenceId), filterRequestList),
+      selectedFacets: [].concat(generateFacets(referenceId), filterRequestList || []),
     },
     fetchPolicy: 'no-cache',
   });
   const [{
     bannerData,
-    loadingBanner,
-    // refetchBanner
   }, setBannerData] = useState<{
     bannerData: any | null,
     loadingBanner: boolean,
@@ -222,8 +216,6 @@ export const ProductList: React.FC<ProductListProps> = ({
       data: response.data,
       loading: false,
       error: response.error,
-      // fetchMore: response.fetchMore,
-      // refetch
     }));
   }, []);
   const setBannerDefaultImage = async () => {
@@ -233,7 +225,7 @@ export const ProductList: React.FC<ProductListProps> = ({
       setBannerImage(url);
     }
   };
-  const { WithoutInternet } = useCheckConnection({});
+
   const firstLoad = async () => {
     setSkeletonLoading(true);
     setSkip(true);
@@ -260,7 +252,12 @@ export const ProductList: React.FC<ProductListProps> = ({
   }, [bannerData]);
   useEffect(() => {
     if (!lodingFacets) {
-      const { facets } = facetsData.facets;
+      const facets = facetsData?.facets?.facets;
+
+      if (!facets?.length) {
+        return;
+      }
+      
       // COLOR
       const colorFacets = facets.filter(
         ({ name }: any) => name.toUpperCase() === 'COR'
@@ -320,14 +317,13 @@ export const ProductList: React.FC<ProductListProps> = ({
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
         selectedFacets: [].concat(
           generateFacets(referenceId),
-          filterRequestList,
+          filterRequestList || [],
         ),
       },
     });
     setProductSearch({
       data, loading, fetchMore, refetch, error,
     });
-    // setLoadingFetchMore(false);
     setLoadingFetchMore(loading);
     setProducts(data.productSearch);
   };
@@ -346,7 +342,7 @@ export const ProductList: React.FC<ProductListProps> = ({
         hideUnavailableItems: true,
         selectedFacets: [].concat(
           generateFacets(referenceId),
-          filterRequestList,
+          filterRequestList || [],
         ),
         orderBy: selectedOrder,
         to: pageSize - 1,
@@ -569,8 +565,8 @@ export const ProductList: React.FC<ProductListProps> = ({
                         fontFamily="nunitoSemiBold"
                         fontSize="14px"
                       >
-                        {productsQuery.products?.length == 0
-                        && filterRequestList.length > 0
+                        {!productsQuery.products?.length
+                        && !!filterRequestList?.length
                           ? 'Limpar Filtros'
                           : 'Filtrar'}
                       </Typography>
@@ -612,7 +608,7 @@ export const ProductList: React.FC<ProductListProps> = ({
                     {' '}
                     produtos encontrados
                   </Typography>
-                  {!!filterRequestList && filterRequestList.length > 0 && (
+                  {!!filterRequestList?.length && (
                   <Button onPress={() => setFilterRequestList([])}>
                     <Typography
                       color="progressTextColor"

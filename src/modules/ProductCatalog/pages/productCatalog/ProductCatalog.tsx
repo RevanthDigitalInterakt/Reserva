@@ -20,7 +20,6 @@ import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
 import {
   bannerDefaultQuery,
   bannerQuery,
-  HomeQuery,
 } from '../../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../../graphql/product/colorsToHexEnum';
 import {
@@ -81,13 +80,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [selectedOrder, setSelectedOrder] = useState<string>();
   const [loadingFetchMore, setLoadingFetchMore] = useState(false);
   const [loadingHandlerState, setLoadingHandlerState] = useState(false);
-  const [filterRequestList, setFilterRequestList] = useState<any[]>([]);
+  const [filterRequestList, setFilterRequestList] = useState<[] | undefined | null>([]);
   const [countDownClock, setCountDownClock] = React.useState<ICountDownClock | ICountDownClock[]>();
   const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
   const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
   const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
 
-  const [mktTextModal, setMktTextModal] = useState<HomeQuery[]>([]);
   const [showMkt, setShowMkt] = useState(false);
   const [mktHeightImg, setMktHeightImg] = useState();
 
@@ -98,7 +96,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       hideUnavailableItems: true,
       selectedFacets:
         generateFacets({ ...filters, reference: referenceString })
-          .concat(filterRequestList),
+          .concat(filterRequestList || []),
     },
     fetchPolicy: 'no-cache',
   });
@@ -271,7 +269,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   }, []);
 
   const [{ facetsData, lodingFacets }, setFacets] = useState<{
-    facetsData: any;
+    facetsData?: { facets: object | undefined } | null;
     lodingFacets: boolean;
   }>({
     facetsData: null,
@@ -395,7 +393,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     if (!lodingFacets) {
-      const { facets } = facetsData.facets;
+      const facets = facetsData?.facets?.facets;
+
+      if (!facets?.length) {
+        return;
+      }
 
       // COLOR
       const colorFacets = facets.filter(
