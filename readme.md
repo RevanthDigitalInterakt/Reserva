@@ -29,6 +29,15 @@ cd ..
 yarn ios
 ```
 
+### Codegen
+All queries must be inside the ```./src/base/graphql/queries|mutations``` folder
+Whenever you add a querie or mutation, you must run the codegen command to update the generated.
+
+#### How to update generated
+```yarn
+yarn codegen
+```
+
 ### Screenshots
 
 ![Screenshot](https://play-lh.googleusercontent.com/Ma1OmGcoMBAjTuV6FHcM5TZ4tK3bfdvjD_ICJs5zM5YDwu8ROiKd--FhXvTljbi6HQ=w1280-h976-rw)

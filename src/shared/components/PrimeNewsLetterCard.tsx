@@ -10,7 +10,7 @@ import React, { useCallback } from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
 import * as Sentry from '@sentry/react-native';
-import { Colors } from '../../Base/Colors';
+import { Colors } from '../../Colors/Colors';
 import { platformType } from '../../utils/platformType';
 
 const formInitialState = { email: '', name: '', phone: '' };

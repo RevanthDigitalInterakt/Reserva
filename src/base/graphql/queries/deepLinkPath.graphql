@@ -1,0 +1,6 @@
+query deeplinkPath($path: String!) {
+  deeplinkPath(input: { path: $path }) {
+    path
+    referenceId
+  }
+}

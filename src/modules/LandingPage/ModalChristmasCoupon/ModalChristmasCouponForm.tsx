@@ -13,7 +13,7 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 import { theme } from '@usereservaapp/reserva-ui/src/themes';
 import useMasterdataProvider, { IResponseSubmit } from '../../../hooks/useMasterdataProvider';
 import { MasterDataSendDataDto } from '../../../types/dtos/masterdata-send-data.dto';
-import { Colors } from '../../../Base/Colors';
+import { Colors } from '../../../Colors/Colors';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { platformType } from '../../../utils/platformType';
 
