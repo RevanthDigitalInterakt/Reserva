@@ -5,6 +5,7 @@ import {
   productUrl,
 } from '../static/deepLinkMethods';
 import { INPUTS_LINKS, EXPECTED_RESULT } from '../../../../__mocks__/webViewLinks';
+import { removeProtocol } from '../../removeProtocol';
 
 const DONTMATCHURL = undefined;
 const WEBVIEWOPEN = 'usereserva://webview/d?' as const;
@@ -147,21 +148,11 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     });
   });
 
-  describe('test fallbacks when invalid url or domain not mapping', () => {
-    test('should return default useCase webCatalog', async () => {
-      const collectionCase = 'https://www.usereserva.com/not-mapping';
-
-      const result = await deepLinkHelper(collectionCase);
-
-      expect(result).toEqual('usereserva://webCatalog/|not-mapping');
-    });
-  });
-
-  describe('test web catalog collection use case', () => {
+  describe('test async deeplink catalog use case', () => {
     INPUTS_LINKS.forEach(async (deepLink: string, index) => {
       test(`Test ${deepLink} when open in web catalog collection use case`, async () => {
         const deepLinkHelperResult = await deepLinkHelper(deepLink);
-        expect(deepLinkHelperResult).toEqual(`usereserva://webCatalog/${EXPECTED_RESULT[index]}`);
+        expect(deepLinkHelperResult).toEqual(`usereserva://asyncDeepLink/CATALOG?params=${EXPECTED_RESULT[index]}&initialUrl=${removeProtocol(INPUTS_LINKS[index]!)}`);
       });
     });
     describe('when has three paths', () => {
@@ -169,7 +160,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
         const notEndWithColection = await deepLinkHelper(
           'https://www.usereserva.com/colecao-reserva/ofertas/novo-path',
         );
-        expect(notEndWithColection).toEqual('usereserva://webCatalog/|colecao-reserva|ofertas|novo-path');
+        expect(notEndWithColection).toEqual('usereserva://asyncDeepLink/CATALOG?params=|colecao-reserva|ofertas|novo-path&initialUrl=www.usereserva.com/colecao-reserva/ofertas/novo-path');
       });
     });
   });

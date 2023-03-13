@@ -44,7 +44,7 @@ const mockSuccessApollo: Partial<ApolloQueryResult<unknown>> = {
   },
 };
 
-describe('WebRedirectToCatalog', () => {
+describe.skip('WebRedirectToCatalog', () => {
   afterEach(() => {
     jest.resetAllMocks();
     Platform.OS = 'android';

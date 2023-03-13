@@ -1,6 +1,7 @@
 import { URL } from 'react-native-url-polyfill';
 import { Platform } from 'react-native';
 import { platformType } from '../../platformType';
+import { removeProtocol } from '../../removeProtocol';
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -174,7 +175,7 @@ const webCatalogCollectionUseCase = async (initialUrl: string) => {
   if (newPathName !== '|') {
     return {
       match: true,
-      strUrl: `usereserva://webCatalog/${newPathName}`,
+      strUrl: `usereserva://asyncDeepLink/CATALOG?params=${newPathName}&initialUrl=${removeProtocol(initialUrl)}`,
     };
   }
   return defaultCustomMethodReturn;
@@ -185,10 +186,7 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
     const regexValidURL = new RegExp(REGEX_VALID_URL);
     let currentURl = initialUrl;
     if (regexValidURL.test(currentURl)) {
-      // To remove the protocol like http:// , https:// , ftp:// , //  from an URL string with
-      if (currentURl.startsWith('https://') || currentURl.startsWith('http://')) {
-        currentURl = currentURl.replace(/(^\w+:|^)\/\//, '');
-      }
+      currentURl = removeProtocol(currentURl);
 
       return {
         match: true,

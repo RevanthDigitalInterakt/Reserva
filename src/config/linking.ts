@@ -21,8 +21,8 @@ const routesConfig = {
         RonRedirectToBag: {
           path: 'ron/:ronCode',
         },
-        WebRedirectToCatalog: {
-          path: 'webCatalog/:pathName',
+        AsyncDeepLink: {
+          path: 'asyncDeepLink/:reducerKey',
         },
         HomeTabs: {
           path: 'home-tabs',
