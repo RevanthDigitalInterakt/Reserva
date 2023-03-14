@@ -100,7 +100,7 @@ export const catalogService = async (
     return {
       routeName: 'ProductCatalog',
       params: {
-        referenceId: `collection:${contentFullUrl.referenceId}`,
+        referenceId: contentFullUrl.referenceId.startsWith('collection:') ? contentFullUrl.referenceId : `collection:${contentFullUrl.referenceId}`,
         safeArea: true,
         search: false,
         orderBy: '',
