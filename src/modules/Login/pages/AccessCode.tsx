@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,15 +14,17 @@ import {
   accessKeySignInMutation,
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../components/CodeInput';
+import useDitoStore from '../../../zustand/useDitoStore';
 
 export interface AccessCodeProps
   extends StackScreenProps<RootStackParamList, 'AccessCode'> { }
 
 const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
   const { cookie, setCookie } = useAuth();
+  const setIsLogged = useDitoStore((state) => state.setIsLogged);
   const { email } = route.params;
   const [accessCode, setAccessCode] = useState('');
   const [showError, setShowError] = useState(false);
@@ -62,6 +64,7 @@ const AccessCode: React.FC<AccessCodeProps> = ({ navigation, route }) => {
       AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
       AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
         setShowError(false);
+        setIsLogged(true);
         navigation.navigate('Home');
       });
     }

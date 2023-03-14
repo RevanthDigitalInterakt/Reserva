@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -16,10 +16,11 @@ import {
   classicSignInMutation,
   sendEmailVerificationMutation,
 } from '../../../graphql/login/loginMutations';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
+import useDitoStore from '../../../zustand/useDitoStore';
 
 enum CryptType {
   SHA256 = 3,
@@ -34,6 +35,8 @@ export const LoginScreen: React.FC<Props> = ({
 }) => {
   const { comeFrom } = route.params;
   const { setCookie, setEmail, saveCredentials } = useAuth();
+
+  const setIsLogged = useDitoStore((state) => state.setIsLogged);
 
   const [loginCredentials, setLoginCredentials] = useState({
     username: '',
@@ -85,6 +88,7 @@ export const LoginScreen: React.FC<Props> = ({
       });
 
       if (data.classicSignIn === 'Success') {
+        setIsLogged(true);
         const emailHash = await sha256(email);
 
         saveCredentials({

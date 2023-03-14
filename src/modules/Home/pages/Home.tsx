@@ -10,7 +10,9 @@ import moment from 'moment';
 import React, {
   FC, useCallback, useEffect, useLayoutEffect, useMemo, useState,
 } from 'react';
-import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
+import {
+  Dimensions, Platform, SafeAreaView, ScrollView,
+} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
@@ -21,20 +23,21 @@ import {
 } from '../../../graphql/homePage/HomeQuery';
 import { classicSignInMutation } from '../../../graphql/login/loginMutations';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
-import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { StoreUpdate } from '../../Update/pages/StoreUpdate';
 import Banner from '../component/Banner';
-import Brands from '../component/Brands';
 import { CardsCarrousel } from '../component/CardsCarousel';
-import DefaultCarrousel from '../component/Carousel';
 import { CountDownBanner } from '../component/CountDown';
-import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 import DiscoutCodeModal from '../component/DiscoutCodeModal';
 import { Skeleton } from '../component/Skeleton';
+import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
+import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import DefaultCarrousel from '../component/Carousel';
+import Brands from '../component/Brands';
+import EventProvider from '../../../utils/EventProvider';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -132,10 +135,10 @@ export const HomeScreen: FC<{
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
       const clockHome = countDownClock?.find(
-        (x) => x?.selectClockScreen == 'HOME',
+        (x) => x?.selectClockScreen === 'HOME',
       );
       const clockALL = countDownClock?.find(
-        (x) => x?.selectClockScreen == 'ALL',
+        (x) => x?.selectClockScreen === 'ALL',
       );
 
       if (clockHome) {

@@ -36,7 +36,7 @@ const DefaultTheme = {
   },
 };
 
-const requestUserPermission = async () => {};
+const requestUserPermission = async () => { };
 
 const App = () => {
   const { setItem } = useAsyncStorageProvider();

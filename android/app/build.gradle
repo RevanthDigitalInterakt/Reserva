@@ -7,8 +7,6 @@ buildscript {
     }
 }
 
-apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
-
 apply plugin: "com.android.application"
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
@@ -162,8 +160,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2023000012
-        versionName "1.18.16"
+        versionCode 2023000020
+        versionName "1.18.20"
         missingDimensionStrategy 'react-native-camera', 'general'
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
     }
@@ -264,6 +262,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-dynamic-links'
     implementation 'com.google.firebase:firebase-analytics'
 
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.guava:guava:29.0-android'
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
@@ -308,4 +309,5 @@ gradle.projectsEvaluated {
     tasksToSkip.all { enabled = false }
 }
 
+apply plugin: 'com.google.gms.google-services'
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

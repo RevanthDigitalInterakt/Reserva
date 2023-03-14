@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState,
+} from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
@@ -15,7 +17,6 @@ import SpInAppUpdates, {
 } from 'sp-react-native-in-app-updates';
 
 import { useLazyQuery } from '@apollo/client';
-import appsFlyer from 'react-native-appsflyer';
 import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
 import semver from 'semver';
@@ -26,8 +27,9 @@ import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
 import CodePushModal from './shared/components/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import EventProvider from './utils/EventProvider';
-import { platformType } from './utils/platformType';
 import useInitialMarketPlaceIn from './hooks/useInitialMarketPlaceIn';
+import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
+import useInitialDito from './hooks/useInitialDito';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -43,34 +45,17 @@ type UpdateInAppType = {
 const IOS_STORE_URL = 'https://apps.apple.com/br/app/reserva/id1566861458';
 const ANDROID_STORE_URL = 'https://play.google.com/store/apps/details?id=com.usereserva';
 
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  await messaging()
-    .getToken()
-    .then((token) => {
-      appsFlyer.updateServerUninstallToken(token, (_success) => {});
-    });
-  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED
-    || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (Platform.OS === platformType.IOS && enabled) {
-    deviceInfoModule.getDeviceToken().then((deviceToken) => {
-      appsFlyer.updateServerUninstallToken(deviceToken, (_success) => {});
-    });
-  }
-}
-
 function InitialScreen({ children } : { children: JSX.Element }) {
   const { barStyle } = useStatusBar();
   const [pushNotification, setPushNotification] = useState<any>();
   const [showNotification, setShowNotification] = useState(false);
   const [onboardingView, setOnboardingView] = useState(false);
-
   const [getUpdateInApp] = useLazyQuery<UpdateInAppType>(UPDATE_IN_APP_QUERY, {
     context: { clientName: 'contentful' },
   });
 
   useInitialMarketPlaceIn();
+  useInitialDito();
 
   const setFetchInterval = async () => {
     await remoteConfig().setConfigSettings({
@@ -197,6 +182,13 @@ function InitialScreen({ children } : { children: JSX.Element }) {
     return unsubscribe;
   }, [loadRemoteConfig]);
 
+  // TODO refactor OnForegroundEventPush to useSubscriberForeground()
+  useEffect(() => {
+    // TODO check func OnForegroundEventPush for add subscriber
+    // useSubscriberForeground()
+    OnForegroundEventPush();
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hide();
@@ -227,7 +219,9 @@ function InitialScreen({ children } : { children: JSX.Element }) {
         }}
       >
         <StatusBar animated barStyle={barStyle} />
+
         <CodePushModal />
+
         {showNotification && (
           <ModalPush
             closeModal={() => setShowNotification(false)}
@@ -238,6 +232,7 @@ function InitialScreen({ children } : { children: JSX.Element }) {
             }}
           />
         )}
+
         <Animatable.View animation="fadeIn" style={{ height: '100%' }}>
           {children}
         </Animatable.View>

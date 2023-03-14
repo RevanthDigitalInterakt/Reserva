@@ -56,7 +56,6 @@ export const linkingConfig: LinkingOptions = {
   getPathFromState(state) {
     return getPathFromState(state) || '';
   },
-  // Push notification firebase
   async getInitialURL() {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();

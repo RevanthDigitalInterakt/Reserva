@@ -607,14 +607,14 @@ export const ProductDetail: React.FC<Props> = ({
           setSelectedColor(colorItemId[0]);
           setSelectedNewColor(colorItemId[0]);
           variant = product.items.find(
-            (x: any) => x.variations?.find((v) => v.name == 'ID_COR_ORIGINAL')
+            (x: any) => x.variations?.find((v) => v.name === 'ID_COR_ORIGINAL')
               ?.values[0] == colorItemId[0],
           );
         } else if (colorList) {
           setSelectedColor(colorList[0]);
           setSelectedNewColor(colorList[0]);
           variant = product.items.find(
-            (x: any) => x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+            (x: any) => x.variations?.find((v: any) => v.name === 'ID_COR_ORIGINAL')
               ?.values[0] == colorList[0],
           );
         }
@@ -625,22 +625,22 @@ export const ProductDetail: React.FC<Props> = ({
         })();
 
         if (skuId) {
-          variant = product.items.find((x: any) => x.itemId == skuId);
+          variant = product.items.find((x: any) => x.itemId === skuId);
 
           setSelectedColor(
-            variant?.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+            variant?.variations?.find((v: any) => v.name === 'ID_COR_ORIGINAL')
               ?.values[0],
           );
           setSelectedNewColor(
-            variant?.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
+            variant?.variations?.find((v: any) => v.name === 'ID_COR_ORIGINAL')
               ?.values[0],
           );
         } else {
           setSelectedColor(colorList ? route.params.colorSelected : '');
           setSelectedNewColor(colorList ? route.params.colorSelected : '');
           variant = product.items.find(
-            (x: any) => x.variations?.find((v: any) => v.name == 'ID_COR_ORIGINAL')
-              ?.values[0] == route.params.colorSelected,
+            (x: any) => x.variations?.find((v: any) => v.name === 'ID_COR_ORIGINAL')
+              ?.values[0] === route.params.colorSelected,
           );
         }
       }

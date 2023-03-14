@@ -12,6 +12,8 @@ import {
 import type { EventOptionsFn, EventsOptions } from './Event';
 import type { EventOptionsOneSignalFn } from './EventOnesignal';
 import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush';
+import type { EventsDitoValues, EventOptionsDitoFn } from './EventDito';
+import sendDitoTrackEvent from '../Dito/src/utils/sendDitoTrackEvent';
 
 class EventProvider {
   public static appsFlyer: typeof appsFlyer = appsFlyer;
@@ -129,6 +131,17 @@ class EventProvider {
   ) {
     const eventValues = args[1] as Record<string, string>;
     this.OneSignal.sendTags(eventValues);
+  }
+
+  public static sendTrackEvent<Type extends EventOptionsDitoFn['type']>(
+    ...args: Extract<EventOptionsDitoFn, { type: Type }> extends {
+      payload: infer TPayload;
+    }
+      ? [Type, TPayload]
+      : [Type]
+  ) {
+    const { action, id, data } = args[1] as EventsDitoValues;
+    sendDitoTrackEvent(id, { action, data });
   }
 
   public static setPushExternalUserId(externalId: string) {

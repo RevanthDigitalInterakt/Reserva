@@ -28,6 +28,7 @@ import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 import EventProvider from '../../../utils/EventProvider';
+import useDitoStore from '../../../zustand/useDitoStore';
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
@@ -67,11 +68,14 @@ const MenuScreen: React.FC<{}> = ({}) => {
     });
   };
 
-  const logout = () => {
-    AsyncStorage.removeItem('@RNAuth:cookie');
-    AsyncStorage.removeItem('@RNAuth:email');
-    AsyncStorage.removeItem('@RNAuth:typeLogin');
-    AsyncStorage.removeItem('@RNAuth:lastLogin');
+  const logout = async () => {
+    // TODO refactor Auth to use zustand
+    await AsyncStorage.removeItem('@RNAuth:cookie');
+    await AsyncStorage.removeItem('@RNAuth:email');
+    await AsyncStorage.removeItem('@RNAuth:typeLogin');
+    await AsyncStorage.removeItem('@RNAuth:lastLogin');
+    await AsyncStorage.removeItem('@Dito:anonymousID');
+    useDitoStore.persist.clearStorage();
     EventProvider.removePushExternalUserId();
     setCookie(null);
     setEmail(null);
@@ -136,7 +140,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
         });
         setProfile(profile);
         const profileImagePath = data?.profile?.customFields.find(
-          (x: any) => x.key == 'profileImagePath',
+          (x: any) => x.key === 'profileImagePath',
         ).value || null;
         setProfileImagePath(profileImagePath);
       }
@@ -149,7 +153,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
       const { profile } = data;
       setProfile(profile);
       const profileImagePath = data?.profile?.customFields.find(
-        (x: any) => x.key == 'profileImagePath',
+        (x: any) => x.key === 'profileImagePath',
       ).value || null;
       setProfileImagePath(profileImagePath);
     }
