@@ -1,11 +1,9 @@
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import AnimatedLottieView from 'lottie-react-native';
 import React from 'react';
-import { BackHandler, Platform } from 'react-native';
+import { ActivityIndicator, BackHandler, Platform } from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import codePush, { DownloadProgress } from 'react-native-code-push';
 import ReactNativeModal from 'react-native-modal';
-import { animations } from '../../assets';
 import { platformType } from '../../utils/platformType';
 
 interface CodePushContext {
@@ -124,12 +122,7 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
               <Box
                 style={{ flex: 1, marginHorizontal: 107 }}
               >
-                <AnimatedLottieView
-                  onAnimationFinish={() => { }}
-                  autoPlay={this.state.progress > 0 && this.state.progress < 100}
-                  loop
-                  source={animations.loader}
-                />
+                <ActivityIndicator/>
               </Box>
             </ReactNativeModal>
           )

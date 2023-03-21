@@ -71,7 +71,7 @@
     "react-native-cardscan": "^1.1.30",
     "react-native-code-push": "7.0.4",
     "react-native-confetti-cannon": "^1.5.2",
-    "react-native-config": "^1.4.11",
+    "react-native-config": "^1.5.0",
     "react-native-credit-card-display": "https://github.com/ebellumat/react-native-credit-card-display",
     "react-native-device-info": "^8.3.1",
     "react-native-exit-app": "^1.1.0",

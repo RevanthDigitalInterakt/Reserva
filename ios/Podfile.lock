@@ -897,9 +897,9 @@ PODS:
   - react-native-cardscan (1.1.30):
     - CardScan (~> 2.0.9)
     - React
-  - react-native-config (1.4.11):
-    - react-native-config/App (= 1.4.11)
-  - react-native-config/App (1.4.11):
+  - react-native-config (1.5.0):
+    - react-native-config/App (= 1.5.0)
+  - react-native-config/App (1.5.0):
     - React-Core
   - react-native-geolocation (2.1.0):
     - React-Core
@@ -1511,7 +1511,7 @@ SPEC CHECKSUMS:
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-cardscan: 8592ae8d474e4b1254ea7a4968caa00e559c8677
-  react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
+  react-native-config: 5330c8258265c1e5fdb8c009d2cabd6badd96727
   react-native-geolocation: 69f4fd37650b8e7fee91816d395e62dd16f5ab8d
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-google-maps: 915cea64470a6e7581b782d8659bf8a7e2dee302
