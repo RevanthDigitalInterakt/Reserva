@@ -7,7 +7,6 @@ import messaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { Platform, StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import SplashScreen from 'react-native-lottie-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SpInAppUpdates, {
   AndroidStatusEventListener,
@@ -45,7 +44,7 @@ type UpdateInAppType = {
 const IOS_STORE_URL = 'https://apps.apple.com/br/app/reserva/id1566861458';
 const ANDROID_STORE_URL = 'https://play.google.com/store/apps/details?id=com.usereserva';
 
-function InitialScreen({ children } : { children: JSX.Element }) {
+function InitialScreen({ children }: { children: JSX.Element }) {
   const { barStyle } = useStatusBar();
   const [pushNotification, setPushNotification] = useState<any>();
   const [showNotification, setShowNotification] = useState(false);
@@ -66,7 +65,7 @@ function InitialScreen({ children } : { children: JSX.Element }) {
 
   const onStatusUpdate: AndroidStatusEventListener = (
     status: StatusUpdateEvent,
-  ) => {};
+  ) => { };
 
   const startUpdateInApp = async ({
     updateTitle,
@@ -127,9 +126,9 @@ function InitialScreen({ children } : { children: JSX.Element }) {
           },
           android: {
             updateType:
-                updateInAppType === 'FLEXIBLE'
-                  ? IAUUpdateKind.FLEXIBLE
-                  : IAUUpdateKind.IMMEDIATE,
+              updateInAppType === 'FLEXIBLE'
+                ? IAUUpdateKind.FLEXIBLE
+                : IAUUpdateKind.IMMEDIATE,
           },
         }) as StartUpdateOptions;
         if (onlyPlatform === platform || onlyPlatform === 'all') {
@@ -142,14 +141,14 @@ function InitialScreen({ children } : { children: JSX.Element }) {
     }
   };
 
-  const getOnboardingData = async () => {
+  const getOnboardingData = useCallback(async () => {
     const appData = await AsyncStorage.getItem('isAppFirstLaunched');
     if (appData === 'true') {
       setOnboardingView(true);
     } else {
       setOnboardingView(false);
     }
-  };
+  }, []);
 
   const loadRemoteConfig = useCallback(async () => {
     try {
@@ -190,12 +189,8 @@ function InitialScreen({ children } : { children: JSX.Element }) {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 3000);
-
     getOnboardingData();
-  }, []);
+  }, [getOnboardingData]);
 
   useEffect(() => {
     getUpdateInApp().then(({ data: { updateInApp } }) => {

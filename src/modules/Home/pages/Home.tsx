@@ -11,7 +11,7 @@ import React, {
   FC, useCallback, useEffect, useLayoutEffect, useMemo, useState,
 } from 'react';
 import {
-  Dimensions, Platform, SafeAreaView, ScrollView,
+  Dimensions, SafeAreaView, ScrollView,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from '../../../context/AuthContext';
@@ -37,7 +37,6 @@ import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import DefaultCarrousel from '../component/Carousel';
 import Brands from '../component/Brands';
-import EventProvider from '../../../utils/EventProvider';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

@@ -1,34 +1,35 @@
 import { ApolloProvider } from '@apollo/client';
-import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import 'react-native-gesture-handler';
-import { theme } from '@usereservaapp/reserva-ui';
-import { ThemeProvider } from 'styled-components/native';
-import { requestTrackingPermission } from 'react-native-tracking-transparency';
 import AsyncStorage from '@react-native-community/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { theme } from '@usereservaapp/reserva-ui';
+import React, { useEffect, useState } from 'react';
+import RNBootSplash from 'react-native-bootsplash';
+import 'react-native-gesture-handler';
+import { requestTrackingPermission } from 'react-native-tracking-transparency';
+import { ThemeProvider } from 'styled-components/native';
 import { linkingConfig } from './config/linking';
+import SentryConfig from './config/sentryConfig';
 import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
-import ChronometerContextProvider from './context/ChronometerContext';
 import CartContextProvider from './context/CartContext';
+import ChronometerContextProvider from './context/ChronometerContext';
+import ConfigContextProvider from './context/ConfigContext';
+import ContentfullContextProvider from './context/ContentfullContext';
 import { FirebaseContextProvider } from './context/FirebaseContext';
+import RegionalSearchContextProvider from './context/RegionalSearchContext';
+import StatusBarContextProvider from './context/StatusBarContext';
+import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
 import InitialScreen from './InitialScreen';
 import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
-import { RemoteConfigService } from './shared/services/RemoteConfigService';
-import RegionalSearchContextProvider from './context/RegionalSearchContext';
-import ContentfullContextProvider from './context/ContentfullContext';
 import {
   apolloClientProduction,
   apolloClientTesting,
 } from './services/apolloClient';
-import StatusBarContextProvider from './context/StatusBarContext';
-import ConfigContextProvider from './context/ConfigContext';
-import SentryConfig from './config/sentryConfig';
+import { RemoteConfigService } from './shared/services/RemoteConfigService';
 import { IS_DEV } from './utils/enviromentUtils';
 import EventProvider from './utils/EventProvider';
 import ToastProvider from './utils/Toast';
-import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
 
 const DefaultTheme = {
   colors: {
@@ -96,7 +97,11 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <ConfigContextProvider>
         <StatusBarContextProvider>
-          <NavigationContainer linking={linkingConfig} theme={DefaultTheme}>
+          <NavigationContainer
+            linking={linkingConfig}
+            theme={DefaultTheme}
+            onReady={() => RNBootSplash.hide()}
+          >
             {isOnMaintenance ? (
               <Maintenance isVisible />
             ) : (

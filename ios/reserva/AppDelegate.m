@@ -6,7 +6,7 @@
 #import <React/RCTRootView.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <CodePush/CodePush.h>
-#import "RNSplashScreen.h"
+#import "RNBootSplash.h"
 #import "reserva-Swift.h"
 #import <React/RCTLinkingManager.h>
 
@@ -52,13 +52,10 @@ static void InitializeFlipper(UIApplication *application) {
     [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
     }];
     [[UIApplication sharedApplication] registerForRemoteNotifications];
-// AppsFlyer configuration
 
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc]  initWithBridge:bridge moduleName:@"reserva" initialProperties:nil];
-
-//  rootView.layoutMargins = UIEdgeInsetsMake(0, 64, 64, 0);
 
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
@@ -71,24 +68,15 @@ static void InitializeFlipper(UIApplication *application) {
   UIViewController *rootViewController = [UIViewController new];
 
   rootViewController.view = rootView;
-//  rootView.frame = [CGRect];
+
   self.window.rootViewController = rootViewController;
+
   [self.window makeKeyAndVisible];
+
   [ScanViewController configureWithApiKey:@"l86jNJBFrP9A-_pTvvho-g54rybCp2d1"];
 
-  Dynamic *t = [Dynamic new];
-  UIView *animationView = [t createAnimationViewWithRootView:rootView lottieName:@"loading"];
-//  rootView.backgroundColor = [UIColor blackColor];
-  [RNSplashScreen showLottieSplash:animationView inRootView:rootView];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 
-    // play
-  [t playWithAnimationView:animationView];
-
-  // If you want the animation layout to be forced to remove when hide is called, use this code
-  [RNSplashScreen setAnimationFinished:true];
-
-
-  [RNSplashScreen show];
   return YES;
 }
 

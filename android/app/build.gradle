@@ -234,6 +234,8 @@ dependencies {
     implementation "com.getbouncer:scan-payment-ocr:2.0.0084"
     implementation "com.getbouncer:tensorflow-lite:2.0.0084"
 
+    //bootlsash
+    implementation "androidx.core:core-splashscreen:1.0.0"
 
     // Responsys dependencies
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
@@ -292,7 +294,6 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-    implementation project(':react-native-lottie-splash-screen')
 }
 
 // Run this once to be able to run the application with BUCK

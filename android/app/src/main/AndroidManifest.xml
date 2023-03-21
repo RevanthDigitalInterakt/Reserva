@@ -1,11 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.usereserva">
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
   <uses-permission android:name="com.usereserva.permission.RSYS_SHOW_IAM" />
   <permission android:name="com.usereserva.permission.RSYS_SHOW_IAM" android:protectionLevel="signature" />
-
   <uses-permission android:name="android.permission.VIBRATE"/>
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,7 +13,6 @@
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-
   <queries>
     <intent>
       <action android:name="android.intent.action.VIEW" />
@@ -26,25 +23,35 @@
       <data android:scheme="https" />
     </intent>
   </queries>
+  <application 
+    android:name=".MainApplication"
+    android:label="@string/app_name" 
+    android:icon="@mipmap/ic_launcher_white" 
+    android:roundIcon="@mipmap/ic_launcher_white" 
+    android:allowBackup="false" 
+    android:theme="@style/BootTheme">
 
-  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher_white" android:roundIcon="@mipmap/ic_launcher_white" android:allowBackup="false" android:theme="@style/AppTheme">
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChqf-fnefrYwK_TE0g5tQMB6yXKQAdPNk"/>
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
-    <activity android:name=".SplashActivity" android:theme="@style/SplashTheme" android:label="@string/app_name" android:exported="true">
+    <activity 
+      android:name=".MainActivity" 
+      android:label="@string/app_name" 
+      android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+      android:launchMode="singleTask" 
+      android:windowSoftInputMode="adjustResize" 
+      android:screenOrientation="portrait" 
+      android:exported="true"
+     >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
         <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
       </intent-filter>
-    </activity>
-    <activity android:name=".MainActivity" android:label="@string/app_name" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" android:exported="true">
-
       <intent-filter>
         <action android:name="com.usereserva.NOTIFICATIONPRESSED" />
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
-
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
@@ -54,7 +61,6 @@
         <data android:host="www.usereserva.com"/>
         <data android:host="usereserva.io"/>
       </intent-filter>
-
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
@@ -67,21 +73,18 @@
         <data android:path="/" />
         <data android:path="/colecao-reserva/ofertas" />
       </intent-filter>
-
       <intent-filter>
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="usereserva"/>
       </intent-filter>
-
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="https" android:host="@string/one_link_url_host" android:pathPrefix="/qMMv" />
       </intent-filter>
-
       <intent-filter>
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
       </intent-filter>
