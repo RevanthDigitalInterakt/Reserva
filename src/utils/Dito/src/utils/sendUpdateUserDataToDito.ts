@@ -1,7 +1,5 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import EventProvider from '../../../EventProvider';
-import { getDitoUser, updateDitoUser } from '../routes/user';
-import convertSha1 from '../sha1';
+import { updateDitoUser } from '../routes/user';
 
 type UserData = {
   name?: string;

@@ -1,6 +1,6 @@
 import { generateFacets } from '../generateFacets';
 
-describe('generateFacets', () => {
+describe('generateFacets test', () => {
   it('should return empty array when null or undefined are passed', () => {
     const result = generateFacets();
     expect(result).toEqual([]);

@@ -1,6 +1,6 @@
 import { getPercent } from '../getPercent';
 
-describe('getPercent', () => {
+describe('getPercent test', () => {
   it('should return undefined when sellingPrice is greater than listPrice', () => {
     const result = getPercent(100, 50);
     expect(result).toBeUndefined();

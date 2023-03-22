@@ -1,6 +1,6 @@
 import { stringToReal } from '../stringToReal';
 
-describe('stringToReal', () => {
+describe('stringToReal test', () => {
   it('should return formatted number', () => {
     const result = stringToReal('123');
     expect(result).toEqual('R$ 1,23');

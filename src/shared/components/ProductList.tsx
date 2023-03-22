@@ -20,6 +20,7 @@ import { EmptyProductCatalog } from '../../modules/ProductCatalog/components/Emp
 import { ListVerticalProducts } from '../../modules/ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { bannerDefaultQuery, bannerQuery, configCollection } from '../../graphql/homePage/HomeQuery';
 import { FilterModal, TFilterType } from '../../modules/ProductCatalog/modals/FilterModal/FilterModal';
+import { referenceIdResolver } from '../utils/referenceIdResolver';
 
 interface ProductListProps {
   referenceId: string;
@@ -169,7 +170,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   const [getBanner] = useLazyQuery(bannerQuery, {
     context: { clientName: 'contentful' },
     variables: {
-      category: referenceId,
+      category: referenceIdResolver(referenceId),
     },
   });
   const [{

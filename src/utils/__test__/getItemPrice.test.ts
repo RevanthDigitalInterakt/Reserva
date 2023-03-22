@@ -95,7 +95,7 @@ const SOLD_OUT_ITEM:SKU = {
   }],
 };
 
-describe('getItemPrice', () => {
+describe('getItemPrice test', () => {
   it('should return correct values', () => {
     const result = getItemPrice();
     expect(result).toEqual({

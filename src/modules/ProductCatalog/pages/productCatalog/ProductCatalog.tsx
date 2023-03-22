@@ -29,6 +29,7 @@ import {
 } from '../../../../graphql/products/productSearch';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../../shared/hooks/useCheckConnection';
+import { referenceIdResolver } from '../../../../shared/utils/referenceIdResolver';
 import EventProvider from '../../../../utils/EventProvider';
 import { generateFacets } from '../../../../utils/generateFacets';
 import { Skeleton } from '../../../Checkout/components/Skeleton';
@@ -104,7 +105,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [getBanner] = useLazyQuery(bannerQuery, {
     context: { clientName: 'contentful' },
     variables: {
-      category: referenceString,
+      category: referenceIdResolver(referenceString),
     },
   });
 
@@ -140,7 +141,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         setCountDownClock(response.data.countdownClockCollection.items);
       });
     }
-  }, [referenceId]);
+  }, [referenceId, getcountdownClock, offersPage]);
 
   const [getProductSearch] = useLazyQuery(productSearch, {
     variables: {
@@ -167,7 +168,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     if (orderBy) {
       setSelectedOrder(orderProducts[orderBy]);
     }
-  }, [orderBy]);
+  }, [orderBy, orderProducts]);
 
   const [
     {
@@ -340,9 +341,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   const firstLoad = async () => {
     setSkeletonLoading(true);
-    const { data, loading } = await refetch();
+    const { data: productData, loading: productLoading } = await refetch();
     setProductSearch({
-      data, loading, fetchMore, refetch, error,
+      data: productData, loading: productLoading, fetchMore, refetch, error,
     });
     setSkeletonLoading(false);
     await refetchBanner({ category: referenceString });
