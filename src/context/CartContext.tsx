@@ -631,6 +631,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
+  const convertPrice = (value: number) => value / 100;
+
   const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> => {
     const {
       quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
@@ -675,7 +677,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       EventProvider.logEvent('add_to_cart', {
         item_id: itemId,
         item_name: product?.name,
-        item_price: product?.price,
+        item_price: convertPrice(product?.price || 0),
         item_quantity: quantity,
         item_category: categories,
         currency: 'BRL',
