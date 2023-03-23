@@ -8,7 +8,7 @@ Sentry.init({
   enableNative: !isDev,
   environment: 'production',
   dsn: Config.SENTRY_DSN,
-  tracesSampleRate: 0.1,
+  tracesSampleRate: 0.05,
   integrations: [
     new Sentry.ReactNativeTracing({
       tracingOrigins: [
