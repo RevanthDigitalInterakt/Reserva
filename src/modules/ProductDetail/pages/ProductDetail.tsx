@@ -576,7 +576,6 @@ export const ProductDetail: React.FC<Props> = ({
       );
 
       setAvaibleUnits(variant?.sellers[0].commertialOffer.AvailableQuantity);
-      setSelectedVariant(variant);
 
       const disabledColors = getUnavailableColors(product);
       getAllUnavailableColors(product);
@@ -704,8 +703,10 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     if (route.params?.slug) {
       initialComponentWithProductSlug(route.params.slug);
+    } else {
+      initializePdp(data);
     }
-  }, []);
+  }, [data, route.params.slug]);
 
   useEffect(() => {
     if (route.params?.skuId) {
@@ -720,14 +721,19 @@ export const ProductDetail: React.FC<Props> = ({
     delete route.params.skuId;
   }
 
-  useEffect(() => {
-    if (!product?.productId || !product.productName || !product?.categoryTree?.length) return;
+  const handleSendItemView = useCallback((variant: SKU) => {
+    if (
+      !product?.productId
+      || !product.productName
+      || !product?.categoryTree?.length
+      || !variant.itemId
+    ) return;
 
     EventProvider.logEvent('view_item', {
       currency: 'BRL',
       items: [
         {
-          item_id: product?.productId,
+          item_id: variant?.itemId,
           price: product?.priceRange?.sellingPrice?.lowPrice,
           quantity: 1,
           item_variant: '',
@@ -737,7 +743,7 @@ export const ProductDetail: React.FC<Props> = ({
       ],
       value: product?.priceRange?.sellingPrice?.lowPrice,
     });
-  }, [EventProvider, product]);
+  }, [selectedVariant]);
 
   useEffect(() => {
     refetch();
@@ -756,10 +762,6 @@ export const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     refetchChecklist();
   }, [selectedVariant]);
-
-  useEffect(() => {
-    initializePdp(data);
-  }, [data]);
 
   const [itemPrice, setItemPrice] = useState<ItemPrice>();
 
@@ -867,6 +869,7 @@ export const ProductDetail: React.FC<Props> = ({
           }
         });
         setSelectedVariant(variantToSelect);
+        handleSendItemView(variantToSelect);
       }
     }
   }, [selectedColor, selectedSize]);
