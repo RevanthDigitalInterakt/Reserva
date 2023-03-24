@@ -278,13 +278,9 @@ export const SearchScreen: React.FC<Props> = () => {
         // resetProductsArray()
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
-        const searchIds = data?.productSearch?.products.map(
-          (x: any) => x?.productId,
-        );
         try {
           EventProvider.logEvent('search', {
             search_string: text,
-            search_ids: searchIds,
           });
         } catch (error) {
           EventProvider.captureException(error);
@@ -307,14 +303,9 @@ export const SearchScreen: React.FC<Props> = () => {
         // resetProductsArray();
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
-
-        const searchIds = data?.productSearch?.products.map(
-          (x: any) => x?.productId,
-        );
         try {
           EventProvider.logEvent('search', {
             search_string: text,
-            search_ids: searchIds,
           });
         } catch (error) {
           EventProvider.captureException(error);
