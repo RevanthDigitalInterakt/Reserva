@@ -280,7 +280,7 @@ export const SearchScreen: React.FC<Props> = () => {
         setProductData({ data, loading: false });
         try {
           EventProvider.logEvent('search', {
-            search_string: text,
+            search_term: text,
           });
         } catch (error) {
           EventProvider.captureException(error);
@@ -305,7 +305,7 @@ export const SearchScreen: React.FC<Props> = () => {
         setProductData({ data, loading: false });
         try {
           EventProvider.logEvent('search', {
-            search_string: text,
+            search_term: text,
           });
         } catch (error) {
           EventProvider.captureException(error);

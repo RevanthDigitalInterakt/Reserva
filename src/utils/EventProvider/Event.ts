@@ -46,7 +46,7 @@ type EventValues = {
 
 export namespace EventsOptions {
   export type Login = Pick<EventValues, 'custumer_email'>;
-  export type Search = Pick<EventValues, 'search_string'>;
+  export type Search = Pick<EventValues, 'search_term'>;
   export type ViewSearchResults = Pick<EventValues, 'search_term'>;
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories'>;
   export type ProductListView = Pick<EventValues, 'content_type'>;
