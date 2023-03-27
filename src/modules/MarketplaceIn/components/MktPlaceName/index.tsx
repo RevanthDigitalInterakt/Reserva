@@ -6,7 +6,8 @@ import { Box } from '@usereservaapp/reserva-ui';
 import useMarketPlaceInd from '../../../../zustand/useMarketPlaceInStore';
 import BannerMktplace from '../BannerMtkPlace';
 import { Styles } from './styles/styles';
-import { getSellerInfos } from '../../../../services/vtexMarketPlaceInService';
+import { SellerInfoOutput, useSellerInfoLazyQuery } from '../../../../base/graphql/generated';
+import EventProvider from '../../../../utils/EventProvider';
 
 interface IMktplaceName {
   sellerId: string,
@@ -23,9 +24,12 @@ export interface IMktplacein {
 }
 
 export const MktplaceName = ({ sellerId, showIconModalInfo }: IMktplaceName) => {
-  const [marketPlaceData, setMarketPlaceData] = useState<IMktplacein | undefined>(undefined);
+  const [marketPlaceData, setMarketPlaceData] = useState<SellerInfoOutput | undefined>(undefined);
   const [modalBanner, setModalBanner] = useState<boolean>(false);
   const { sellersMktIn } = useMarketPlaceInd();
+  const [sellersInfo] = useSellerInfoLazyQuery({
+    context: { clientName: 'gateway' },
+  });
 
   const handleToogleModalBanner = useCallback((): void => {
     setModalBanner((oldValue: boolean): boolean => !oldValue);
@@ -36,8 +40,18 @@ export const MktplaceName = ({ sellerId, showIconModalInfo }: IMktplaceName) => 
   );
 
   const initializeMarketPlaceData = useCallback(async () => {
-    const sellerInfos = await getSellerInfos(sellerId);
-    setMarketPlaceData(sellerInfos);
+    try {
+      const { data } = await sellersInfo({
+        variables: {
+          sellerId,
+        },
+      });
+      if (data?.sellerInfo) {
+        setMarketPlaceData(data.sellerInfo);
+      }
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
   }, [sellerId]);
 
   useEffect(() => {
@@ -77,10 +91,10 @@ export const MktplaceName = ({ sellerId, showIconModalInfo }: IMktplaceName) => 
             <BannerMktplace
               open={modalBanner}
               setOpenModal={setModalBanner}
-              texto={marketPlaceData.texto}
-              logo={marketPlaceData.logo}
-              bannerMobile={marketPlaceData.bannerMobile}
-              linkApp={marketPlaceData.linkApp}
+              texto={marketPlaceData.texto || ''}
+              logo={marketPlaceData.logo || ''}
+              bannerMobile={marketPlaceData.bannerMobile || ''}
+              linkApp={marketPlaceData.linkApp || ''}
             />
           ) : null}
         </Box>

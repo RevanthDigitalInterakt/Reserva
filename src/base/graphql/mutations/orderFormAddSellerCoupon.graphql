@@ -1,0 +1,13 @@
+mutation orderFormAddSellerCoupon($orderFormId: String!, $coupon: String!) {
+    orderFormAddSellerCoupon(
+        input: {
+            orderFormId: $orderFormId
+            coupon: $coupon
+        }
+    ) {
+        orderFormId
+        marketingData {
+            marketingTags
+        }
+    }
+}

@@ -1,0 +1,8 @@
+mutation sendLeads($idCampanha: String!,$email: String!,$name: String!,$phone: String!) {
+    sendLead(input:{
+        idCampanha: $idCampanha,
+        email:$email,
+        name:$name,
+        phone:$phone
+    })
+}

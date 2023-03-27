@@ -1,55 +1,54 @@
-import { useEffect } from 'react';
-import Config from 'react-native-config';
+import { useCallback, useEffect } from 'react';
 import useMarketPlaceInStore from '../zustand/useMarketPlaceInStore';
+import { useMktinStatusLazyQuery, useSellersMktinLazyQuery } from '../base/graphql/generated';
+import EventProvider from '../utils/EventProvider';
 
 const useInitialMarketPlaceIn = () => {
   const setMktinActive = useMarketPlaceInStore((state) => state.setMktinActive);
   const setSellersMktIn = useMarketPlaceInStore((state) => state.setSellersMktIn);
+  const [sellersMktIn] = useSellersMktinLazyQuery({
+    context: { clientName: 'gateway' },
+  });
 
-  useEffect(() => {
-    async function checkMktinActive() {
-      try {
-        const cache = new Date().getTime();
-        const response = await fetch(
-          `${Config.URL_BASE_MARKETPLACE_IN}dataentities/FF/search?_where=(name=mktin)&_fields=name,isAppActive&${cache}=cache`,
-        );
-        const featureFlagMktin = (await response.json())?.[0]?.isAppActive;
-        if (featureFlagMktin) {
-          setMktinActive(true);
-        } else {
-          setMktinActive(false);
-        }
-      } catch {
-        setMktinActive(false);
-      }
-    }
-    checkMktinActive();
-  }, []);
+  const [mktInStatus] = useMktinStatusLazyQuery({
+    context: { clientName: 'gateway' },
+  });
 
-  useEffect(() => {
-    async function getSellersMktIn() {
-      try {
-        let sellers = [];
-        new Array(3).fill(0).forEach(async () => {
-          if (sellers.length === 0) {
-            const response = await fetch(
-              `${Config.URL_BASE_MARKETPLACE_IN}dataentities/MS/search?_fields=sellerId`,
-            );
-            const data: Array<{ sellerId: string }> = await response.json();
-            if (data.length > 0) {
-              setSellersMktIn(data.map((s) => s.sellerId));
-              sellers = data;
-            } else {
-              setSellersMktIn([]);
-            }
-          }
-        });
-      } catch {
+  const getSellersMktIn = useCallback(async () => {
+    try {
+      const { data } = await sellersMktIn();
+      if (!data?.sellersMktin) {
         setSellersMktIn([]);
+        return;
       }
+
+      if (data.sellersMktin.length) {
+        setSellersMktIn(data.sellersMktin);
+      }
+    } catch (error) {
+      EventProvider.captureException(error);
     }
-    getSellersMktIn();
   }, []);
+
+  const checkMKTInActive = useCallback(async () => {
+    try {
+      const { data } = await mktInStatus();
+
+      if (data?.mktinStatus) {
+        setMktinActive(data.mktinStatus);
+      }
+    } catch {
+      setMktinActive(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkMKTInActive();
+  }, [checkMKTInActive]);
+
+  useEffect(() => {
+    getSellersMktIn();
+  }, [getSellersMktIn]);
 };
 
 export default useInitialMarketPlaceIn;

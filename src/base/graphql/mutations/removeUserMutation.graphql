@@ -1,0 +1,3 @@
+mutation removeUserMutation($customerId: String!) {
+    removeCustomer(customerId: $customerId)
+}

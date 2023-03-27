@@ -18,14 +18,9 @@ const sendEmail = Config.URL_SEND_EMAIL;
 
 const url = urlBase;
 
-const AppKey = Config.APP_KEY;
-const AppToken = Config.APP_TOKEN;
-
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  'X-VTEX-API-APPKEY': AppKey,
-  'X-VTEX-API-APPTOKEN': AppToken,
 };
 
 const instance = axios.create({
@@ -69,10 +64,6 @@ const instance5 = axios.create({
 const instance6 = axios.create({
   baseURL: urlDeleteUser,
   timeout: 30000,
-  headers: {
-    'X-VTEX-API-APPKEY': AppKey,
-    'X-VTEX-API-APPTOKEN': AppToken,
-  },
 });
 
 const instance7 = axios.create({

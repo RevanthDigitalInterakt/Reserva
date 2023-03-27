@@ -20,14 +20,6 @@ const vtexConfig5 = instance5;
 const vtexConfig6 = instance6;
 const vtexConfig7 = instance7;
 
-const VerifyEmail = async (email: string) => {
-  const response = await vtexConfig2.get(
-    `/dataentities/CL/search?email=${email}`,
-  );
-
-  return response;
-};
-
 const CreateCart = async () => {
   // cria o carrinho
   // retorna um payload gigante pra ser preenchido de acordo.
@@ -351,13 +343,6 @@ const removeCouponToOder = async (
   return response;
 };
 
-const validateSellerCoupon = async (coupon: string) => {
-  const response = await vtexConfig2.get(
-    `/dataentities/VE/search?_fields=id,coupon,ativo,vendedor_apelido&_where=((coupon=${coupon}) AND (ativo=true))`,
-  );
-  return response;
-};
-
 const addToSellerCoupon = async (
   orderFormId: string | undefined,
   marketingData: any,
@@ -513,14 +498,6 @@ const SetGiftSize = async (
   return response;
 };
 
-const DeleteCustomerProfile = async (id: string) => {
-  const response = await vtexConfig6.delete(
-    `/dataentities/CL/documents/CL-${id}`,
-  );
-
-  return response;
-};
-
 export {
   CreateCart,
   RestoreData,
@@ -541,7 +518,6 @@ export {
   RemoveItemFromCart,
   addToCoupon,
   removeCouponToOder,
-  validateSellerCoupon,
   addToSellerCoupon,
   removeSellerCouponToOder,
   ResetUserCheckout,
@@ -554,8 +530,6 @@ export {
   SearchNewOrderDetail,
   OrderDetail,
   Attachment,
-  VerifyEmail,
-  DeleteCustomerProfile,
   SetGiftSize,
   RestoreCart,
 };

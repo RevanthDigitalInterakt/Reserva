@@ -1,0 +1,10 @@
+query sellerInfo($sellerId: String!) {
+  sellerInfo(input: { sellerId: $sellerId}) {
+    sellerId
+    texto
+    logo
+    bannerMobile
+    sellerName
+    linkApp
+  }
+}

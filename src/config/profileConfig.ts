@@ -1,5 +1,3 @@
-import Config from 'react-native-config';
-
 import axios from 'axios';
 import applyCookieHeader from './applyCookieHeader';
 
@@ -11,8 +9,6 @@ const url = process.env.NODE_ENV === 'production' ? urlProd : urlDev;
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  'X-VTEX-API-APPKEY': Config.APP_KEY,
-  'X-VTEX-API-APPTOKEN': Config.APP_TOKEN,
 };
 
 const profileInstance = axios.create({

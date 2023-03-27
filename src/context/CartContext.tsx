@@ -19,8 +19,6 @@ import {
   RemoveItemFromCart,
   addToCoupon,
   removeCouponToOder,
-  validateSellerCoupon,
-  addToSellerCoupon,
   removeSellerCouponToOder,
   ResetUserCheckout,
   SendUserEmail,
@@ -31,8 +29,6 @@ import {
   SearchNewOrders,
   SearchNewOrderDetail,
   OrderDetail,
-  VerifyEmail,
-  DeleteCustomerProfile,
   CepVerifyPostalCode,
   RestoreCart,
   SetGiftSize,
@@ -41,6 +37,8 @@ import {
 import { CategoriesParserString } from '../utils/categoriesParserString';
 import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
+import { useCheckIfUserExistsLazyQuery, useOrderFormAddSellerCouponMutation } from '../base/graphql/generated';
+import { splitSellerName } from '../utils/splitSellerName';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -556,6 +554,14 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
 
+  const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
+    context: { clientName: 'gateway' },
+  });
+
+  const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
+    context: { clientName: 'gateway' },
+  });
+
   const _requestOrderForm = async () => {
     const { data } = await CreateCart();
     setOrderForm(data);
@@ -571,19 +577,30 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const _selectedCouponSeller = async (sellerCouponCode: string) => {
     setLoading(true);
     try {
-      const { data } = await validateSellerCoupon(sellerCouponCode);
+      if (!orderForm?.orderFormId) return false;
 
-      if (data.length > 0 && data[0].ativo) {
+      const { data } = await orderFormAddSellerCoupon({
+        variables: {
+          coupon: sellerCouponCode,
+          orderFormId: orderForm.orderFormId,
+        },
+      });
+
+      if (data?.orderFormAddSellerCoupon) {
         setSellerCode(sellerCouponCode);
-        setSellerName(data[0]?.vendedor_apelido?.split(' ')[0]);
-        return !!data;
+        if (data.orderFormAddSellerCoupon.marketingData) {
+          setSellerName(splitSellerName(data.orderFormAddSellerCoupon.marketingData.marketingTags[2] || ''));
+        }
+        return true;
       }
+
       return false;
     } catch (error) {
       EventProvider.captureException(error);
     } finally {
       setLoading(false);
     }
+    return false;
   };
 
   const orderform = async () => {
@@ -623,11 +640,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const verifyEmail = async (email: string) => {
     try {
-      const { data } = await VerifyEmail(email);
+      const { data } = await checkIfUserExist({
+        variables: {
+          email,
+        },
+      });
 
-      return data.length > 0;
+      return data?.checkIfUserExists || false;
     } catch (error) {
       EventProvider.captureException(error);
+      return false;
     }
   };
 
@@ -962,46 +984,42 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const deleteCustomerProfile = async (id: string) => {
-    try {
-      const { data } = await DeleteCustomerProfile(id);
-      return data || [];
-    } catch (error) {
-      EventProvider.captureException(error);
+  const updateOrderForm = async (): Promise<OrderForm | void> => {
+    if (orderForm) {
+      const { data } = await RestoreData(orderForm?.orderFormId);
+      setOrderForm(data);
+      return data;
     }
   };
 
-  const applyCouponOnPressed = async (sellerCouponCode?: string) => {
+  const applyCouponOnPressed = async (sellerCouponCode?: string): Promise<void> => {
     if (!sellerCouponCode) {
-      return setHasErrorApplyCoupon(true);
+      setHasErrorApplyCoupon(true);
+      return;
+    }
+
+    if (!orderForm?.orderFormId) {
+      setTopBarLoading(false);
+      return;
     }
 
     setTopBarLoading(true);
     try {
-      const { data } = await validateSellerCoupon(sellerCouponCode);
-
-      await addToSellerCoupon(orderForm?.orderFormId, {
-        ...orderForm?.marketingData,
-        marketingTags: [
-          `code_CodigoVendedor=${sellerCouponCode}`,
-          'CodigoVendedor',
-          `vendedor_apelido=${data[0].vendedor_apelido}`,
-          'ron=false',
-        ],
+      const { data } = await orderFormAddSellerCoupon({
+        variables: {
+          coupon: sellerCouponCode,
+          orderFormId: orderForm.orderFormId,
+        },
       });
 
-      const sellerName = data[0]?.vendedor_apelido?.split(' ')[0];
-
-      // TODO if no found sellerName, should be do default name;
-      if (!sellerName) {
+      if (!data?.orderFormAddSellerCoupon) {
         setHasErrorApplyCoupon(true);
         return;
       }
-
       setSellerCode(sellerCouponCode);
-      setSellerName(data[0]?.vendedor_apelido?.split(' ')[0]);
-
-      await _requestOrderForm();
+      if (data.orderFormAddSellerCoupon.marketingData) {
+        setSellerName(splitSellerName(data.orderFormAddSellerCoupon.marketingData.marketingTags[2] || ''));
+      }
     } catch (error) {
       EventProvider.captureException(error);
       setHasErrorApplyCoupon(true);
@@ -1031,14 +1049,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       EventProvider.captureException(error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const updateOrderForm = async () => {
-    if (orderForm) {
-      const { data } = await RestoreData(orderForm?.orderFormId);
-      setOrderForm(data);
-      return data;
     }
   };
 
@@ -1111,7 +1121,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         orderDetail,
         searchNewOrderDetail,
         verifyEmail,
-        deleteCustomerProfile,
         restoreCart,
         sellerCode,
         sellerName,

@@ -8,10 +8,11 @@ import { useFormik } from 'formik';
 import { Platform } from 'react-native';
 import React, { useCallback } from 'react';
 import * as yup from 'yup';
-import axios from 'axios';
 import * as Sentry from '@sentry/react-native';
 import { Colors } from '../../Colors/Colors';
 import { platformType } from '../../utils/platformType';
+import { useSendLeadsMutation } from '../../base/graphql/generated';
+import EventProvider from '../../utils/EventProvider';
 
 const formInitialState = { email: '', name: '', phone: '' };
 
@@ -30,20 +31,31 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
 }) => {
   const [isSuccess, setIsSuccess] = React.useState(false);
 
+  const [sendLeadsMutation] = useSendLeadsMutation({
+    context: { clientName: 'gateway' },
+  });
+
   const sendLeads = useCallback(async (email: string, name: string, phone: string) => {
-    const response = await axios.post(
-      'https://www.usereserva.com/api/dataentities/LF/documents',
-      {
-        action,
-        email,
-        name,
-        phone: phone.replace(/[^0-9]/g, ''),
-      },
-    );
+    try {
+      const { data } = await sendLeadsMutation({
+        variables: {
+          email,
+          name,
+          phone: phone.replace(/[^0-9]/g, ''),
+          idCampanha: action,
+        },
+      });
 
-    setIsSuccess(response.status === 201);
+      if (data?.sendLead) {
+        setIsSuccess(data.sendLead);
+        return data.sendLead;
+      }
 
-    return response;
+      return false;
+    } catch (error) {
+      EventProvider.captureException(error);
+      return false;
+    }
   }, []);
 
   const validationSchema = yup.object().shape({
@@ -62,8 +74,8 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
     validationSchema,
     onSubmit: (values) => {
       sendLeads(values.email, values.name, values.phone)
-        .then((r) => {
-          if (r.status === 201) {
+        .then((isSuccessSendLeads) => {
+          if (isSuccessSendLeads) {
             formik.resetForm({ values: formInitialState });
           }
         })

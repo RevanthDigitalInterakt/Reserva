@@ -5,8 +5,6 @@ import applyCookieHeader from '../applyCookieHeader';
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  'X-VTEX-API-APPKEY': Config.APP_KEY,
-  'X-VTEX-API-APPTOKEN': Config.APP_TOKEN,
 };
 
 const ServiceMakertPlaceIn = axios.create({

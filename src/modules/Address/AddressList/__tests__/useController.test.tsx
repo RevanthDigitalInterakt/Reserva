@@ -89,13 +89,13 @@ describe('AddressList - controller', () => {
     ];
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <CartContextProvider>
-        <AuthContextProvider>
-          <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={mocks}>
+        <CartContextProvider>
+          <AuthContextProvider>
             {children}
-          </MockedProvider>
-        </AuthContextProvider>
-      </CartContextProvider>
+          </AuthContextProvider>
+        </CartContextProvider>
+      </MockedProvider>
     );
 
     const { result } = renderHook(() => useController(), { wrapper });

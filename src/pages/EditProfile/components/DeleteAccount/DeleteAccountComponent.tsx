@@ -4,7 +4,8 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import ModalDeleteAccount from '../../../../modules/Profile/Components/ModalDeleteAccount';
-import { MyProfileAPI, ProfileHttpUrl } from '../../../../modules/Profile/pages/api/MyProfileAPI';
+import { useRemoveUserMutationMutation } from '../../../../base/graphql/generated';
+import EventProvider from '../../../../utils/EventProvider';
 
 interface IDeleteAccountProps {
   userId: string
@@ -13,16 +14,24 @@ function DeleteAccountComponent({ userId }: IDeleteAccountProps): JSX.Element {
   const [showModalDeleteAccount, setShowModalDeleteAccount] = useState<boolean>(false);
   const navigation = useNavigation();
 
-  const handleDeleteAccount = useCallback(async () => {
-    if (userId) {
-      const { status } = await MyProfileAPI.delete(
-        `${ProfileHttpUrl.DELETE_CUSTOMER}CL-${userId}`,
-      );
+  const [removeUserMutation] = useRemoveUserMutationMutation({
+    context: { clientName: 'gateway' },
+  });
 
-      if (status === 204) {
+  const handleDeleteAccount = useCallback(async () => {
+    try {
+      const { data } = await removeUserMutation({
+        variables: {
+          customerId: userId,
+        },
+      });
+
+      if (data?.removeCustomer) {
         setShowModalDeleteAccount(false);
         navigation.navigate('AccountDeletedSuccessfully');
       }
+    } catch (error) {
+      EventProvider.captureException(error);
     }
   }, [userId]);
 

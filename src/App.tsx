@@ -105,31 +105,31 @@ const App = () => {
             {isOnMaintenance ? (
               <Maintenance isVisible />
             ) : (
-              <CartContextProvider>
-                <AuthContextProvider>
-                  <ContentfullContextProvider>
-                    <RegionalSearchContextProvider>
-                      <CacheImagesProvider>
-                        <FirebaseContextProvider>
-                          <ChronometerContextProvider>
-                            <ApolloProvider
-                              client={
-                                isTesting || IS_DEV
-                                  ? apolloClientTesting
-                                  : apolloClientProduction
-                              }
-                            >
+              <ApolloProvider
+                client={
+                  isTesting || IS_DEV
+                    ? apolloClientTesting
+                    : apolloClientProduction
+                }
+              >
+                <CartContextProvider>
+                  <AuthContextProvider>
+                    <ContentfullContextProvider>
+                      <RegionalSearchContextProvider>
+                        <CacheImagesProvider>
+                          <FirebaseContextProvider>
+                            <ChronometerContextProvider>
                               <InitialScreen>
                                 <AppRouting />
                               </InitialScreen>
-                            </ApolloProvider>
-                          </ChronometerContextProvider>
-                        </FirebaseContextProvider>
-                      </CacheImagesProvider>
-                    </RegionalSearchContextProvider>
-                  </ContentfullContextProvider>
-                </AuthContextProvider>
-              </CartContextProvider>
+                            </ChronometerContextProvider>
+                          </FirebaseContextProvider>
+                        </CacheImagesProvider>
+                      </RegionalSearchContextProvider>
+                    </ContentfullContextProvider>
+                  </AuthContextProvider>
+                </CartContextProvider>
+              </ApolloProvider>
             )}
           </NavigationContainer>
         </StatusBarContextProvider>

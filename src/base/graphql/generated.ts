@@ -160,6 +160,133 @@ export type MutationSignUpVerificationCodeArgs = {
   input: RequestVerificationCodeInput;
 };
 
+export type OrderDetailIdInput = {
+  orderId: Scalars['String'];
+};
+
+export type OrderDetailItemOfferingOutput = {
+  __typename?: 'OrderDetailItemOfferingOutput';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  price: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type OrderDetailItemOutput = {
+  __typename?: 'OrderDetailItemOutput';
+  commission: Scalars['Int'];
+  detailUrl: Scalars['String'];
+  ean: Scalars['String'];
+  freightCommission: Scalars['Int'];
+  id: Scalars['String'];
+  imageUrl: Scalars['String'];
+  isGift: Scalars['Boolean'];
+  listPrice: Scalars['Int'];
+  measurementUnit: Scalars['String'];
+  name: Scalars['String'];
+  offerings: Array<OrderDetailItemOfferingOutput>;
+  price: Scalars['Int'];
+  productId: Scalars['String'];
+  quantity: Scalars['Int'];
+  refId: Scalars['String'];
+  rewardValue: Scalars['Int'];
+  seller: Scalars['String'];
+  sellerSku: Scalars['String'];
+  sellingPrice: Scalars['Int'];
+  tax: Scalars['Int'];
+  uniqueId: Scalars['String'];
+  unitMultiplier: Scalars['Float'];
+};
+
+export type OrderDetailOutput = {
+  __typename?: 'OrderDetailOutput';
+  affiliateId: Scalars['String'];
+  clientProfileData: OrderDetailProfileDataOutput;
+  creationDate: Scalars['String'];
+  items: Array<OrderDetailItemOutput>;
+  lastChange: Scalars['String'];
+  marketplaceOrderId: Scalars['String'];
+  orderGroup: Scalars['String'];
+  orderId: Scalars['String'];
+  origin: Scalars['String'];
+  salesChannel: Scalars['String'];
+  sellerOrderId: Scalars['String'];
+  sequence: Scalars['String'];
+  shippingData: OrderDetailShippingData;
+  status: Scalars['String'];
+  statusDescription: Scalars['String'];
+  totals: Array<OrderDetailTotalOutput>;
+  value: Scalars['Int'];
+};
+
+export type OrderDetailProfileDataOutput = {
+  __typename?: 'OrderDetailProfileDataOutput';
+  document: Scalars['String'];
+  documentType: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['String'];
+  lastName?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  userProfileId: Scalars['String'];
+};
+
+export type OrderDetailShippingData = {
+  __typename?: 'OrderDetailShippingData';
+  address: OrderDetailShippingDataAddress;
+};
+
+export type OrderDetailShippingDataAddress = {
+  __typename?: 'OrderDetailShippingDataAddress';
+  addressId?: Maybe<Scalars['String']>;
+  addressType?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  complement?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  geoCoordinates: Array<Scalars['Float']>;
+  neighborhood?: Maybe<Scalars['String']>;
+  number?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  receiverName?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+};
+
+export type OrderDetailTotalOutput = {
+  __typename?: 'OrderDetailTotalOutput';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  value: Scalars['Int'];
+};
+
+export type OrderOutput = {
+  __typename?: 'OrderOutput';
+  ShippingEstimatedDateMax: Scalars['String'];
+  affiliateId: Scalars['String'];
+  clientName: Scalars['String'];
+  creationDate: Scalars['String'];
+  currencyCode: Scalars['String'];
+  lastMessageUnread: Scalars['String'];
+  orderFormId: Scalars['String'];
+  orderId: Scalars['String'];
+  origin: Scalars['String'];
+  paymentNames: Scalars['String'];
+  salesChannel: Scalars['String'];
+  sequence: Scalars['String'];
+  status: Scalars['String'];
+  statusDescription: Scalars['String'];
+  totalItems: Scalars['Int'];
+  totalValue: Scalars['Int'];
+  workflowInErrorState: Scalars['Boolean'];
+  workflowInRetry: Scalars['Boolean'];
+};
+
+export type OrderPaginationOutput = {
+  __typename?: 'OrderPaginationOutput';
+  list: Array<OrderOutput>;
+  paging: PaginationDetailOutput;
+};
+
 export type OrderformAddCouponInput = {
   coupon: Scalars['String'];
   orderFormId: Scalars['String'];
@@ -291,6 +418,18 @@ export type OrderformUpdateItemInput = {
   seller: Scalars['String'];
 };
 
+export type PaginationDetailOutput = {
+  __typename?: 'PaginationDetailOutput';
+  currentPage: Scalars['Int'];
+  pages: Scalars['Int'];
+  perPage: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type PaginationInput = {
+  page: Scalars['Int'];
+};
+
 export type ProfileAddressOutput = {
   __typename?: 'ProfileAddressOutput';
   addressId?: Maybe<Scalars['ID']>;
@@ -308,6 +447,7 @@ export type ProfileAddressOutput = {
 
 export type ProfileOutput = {
   __typename?: 'ProfileOutput';
+  authCookie?: Maybe<Scalars['String']>;
   availableAddresses: Array<ProfileAddressOutput>;
   document?: Maybe<Scalars['String']>;
   documentType?: Maybe<Scalars['String']>;
@@ -328,9 +468,11 @@ export type Query = {
   contentfulProducts: Array<ContentfulProductItemOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
   mktinStatus: Scalars['Boolean'];
+  order: OrderDetailOutput;
   orderForm: OrderformOutput;
+  orders: OrderPaginationOutput;
   profile: ProfileOutput;
-  sellerInfo: SellerInfoOutput;
+  sellerInfo?: Maybe<SellerInfoOutput>;
   sellersMktin: Array<Scalars['String']>;
 };
 
@@ -365,8 +507,18 @@ export type QueryDeeplinkPathArgs = {
 };
 
 
+export type QueryOrderArgs = {
+  input: OrderDetailIdInput;
+};
+
+
 export type QueryOrderFormArgs = {
   input?: InputMaybe<OrderformInput>;
+};
+
+
+export type QueryOrdersArgs = {
+  input: PaginationInput;
 };
 
 
@@ -417,6 +569,38 @@ export type VtexUserInput = {
   password: Scalars['String'];
 };
 
+export type RemoveUserMutationMutationVariables = Exact<{
+  customerId: Scalars['String'];
+}>;
+
+
+export type RemoveUserMutationMutation = { __typename?: 'Mutation', removeCustomer: boolean };
+
+export type OrderFormAddSellerCouponMutationVariables = Exact<{
+  orderFormId: Scalars['String'];
+  coupon: Scalars['String'];
+}>;
+
+
+export type OrderFormAddSellerCouponMutation = { __typename?: 'Mutation', orderFormAddSellerCoupon: { __typename?: 'OrderformOutput', orderFormId: string, marketingData?: { __typename?: 'OrderformMarketingDataOutput', marketingTags: Array<string> } | null } };
+
+export type SendLeadsMutationVariables = Exact<{
+  idCampanha: Scalars['String'];
+  email: Scalars['String'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+}>;
+
+
+export type SendLeadsMutation = { __typename?: 'Mutation', sendLead: boolean };
+
+export type CheckIfUserExistsQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type CheckIfUserExistsQuery = { __typename?: 'Query', checkIfUserExists: boolean };
+
 export type DeeplinkPathQueryVariables = Exact<{
   path: Scalars['String'];
 }>;
@@ -424,7 +608,164 @@ export type DeeplinkPathQueryVariables = Exact<{
 
 export type DeeplinkPathQuery = { __typename?: 'Query', deeplinkPath?: { __typename?: 'DeeplinkOutput', path: string, referenceId?: string | null, active: boolean } | null };
 
+export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
+
+export type MktinStatusQuery = { __typename?: 'Query', mktinStatus: boolean };
+
+export type SellerInfoQueryVariables = Exact<{
+  sellerId: Scalars['String'];
+}>;
+
+
+export type SellerInfoQuery = { __typename?: 'Query', sellerInfo?: { __typename?: 'SellerInfoOutput', sellerId: string, texto?: string | null, logo?: string | null, bannerMobile?: string | null, sellerName?: string | null, linkApp?: string | null } | null };
+
+export type SellersMktinQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SellersMktinQuery = { __typename?: 'Query', sellersMktin: Array<string> };
+
+
+export const RemoveUserMutationDocument = gql`
+    mutation removeUserMutation($customerId: String!) {
+  removeCustomer(customerId: $customerId)
+}
+    `;
+export type RemoveUserMutationMutationFn = Apollo.MutationFunction<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>;
+
+/**
+ * __useRemoveUserMutationMutation__
+ *
+ * To run a mutation, you first call `useRemoveUserMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveUserMutationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeUserMutationMutation, { data, loading, error }] = useRemoveUserMutationMutation({
+ *   variables: {
+ *      customerId: // value for 'customerId'
+ *   },
+ * });
+ */
+export function useRemoveUserMutationMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>(RemoveUserMutationDocument, options);
+      }
+export type RemoveUserMutationMutationHookResult = ReturnType<typeof useRemoveUserMutationMutation>;
+export type RemoveUserMutationMutationResult = Apollo.MutationResult<RemoveUserMutationMutation>;
+export type RemoveUserMutationMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>;
+export const OrderFormAddSellerCouponDocument = gql`
+    mutation orderFormAddSellerCoupon($orderFormId: String!, $coupon: String!) {
+  orderFormAddSellerCoupon(input: {orderFormId: $orderFormId, coupon: $coupon}) {
+    orderFormId
+    marketingData {
+      marketingTags
+    }
+  }
+}
+    `;
+export type OrderFormAddSellerCouponMutationFn = Apollo.MutationFunction<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>;
+
+/**
+ * __useOrderFormAddSellerCouponMutation__
+ *
+ * To run a mutation, you first call `useOrderFormAddSellerCouponMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderFormAddSellerCouponMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [orderFormAddSellerCouponMutation, { data, loading, error }] = useOrderFormAddSellerCouponMutation({
+ *   variables: {
+ *      orderFormId: // value for 'orderFormId'
+ *      coupon: // value for 'coupon'
+ *   },
+ * });
+ */
+export function useOrderFormAddSellerCouponMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>(OrderFormAddSellerCouponDocument, options);
+      }
+export type OrderFormAddSellerCouponMutationHookResult = ReturnType<typeof useOrderFormAddSellerCouponMutation>;
+export type OrderFormAddSellerCouponMutationResult = Apollo.MutationResult<OrderFormAddSellerCouponMutation>;
+export type OrderFormAddSellerCouponMutationOptions = Apollo.BaseMutationOptions<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>;
+export const SendLeadsDocument = gql`
+    mutation sendLeads($idCampanha: String!, $email: String!, $name: String!, $phone: String!) {
+  sendLead(
+    input: {idCampanha: $idCampanha, email: $email, name: $name, phone: $phone}
+  )
+}
+    `;
+export type SendLeadsMutationFn = Apollo.MutationFunction<SendLeadsMutation, SendLeadsMutationVariables>;
+
+/**
+ * __useSendLeadsMutation__
+ *
+ * To run a mutation, you first call `useSendLeadsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendLeadsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendLeadsMutation, { data, loading, error }] = useSendLeadsMutation({
+ *   variables: {
+ *      idCampanha: // value for 'idCampanha'
+ *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      phone: // value for 'phone'
+ *   },
+ * });
+ */
+export function useSendLeadsMutation(baseOptions?: Apollo.MutationHookOptions<SendLeadsMutation, SendLeadsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendLeadsMutation, SendLeadsMutationVariables>(SendLeadsDocument, options);
+      }
+export type SendLeadsMutationHookResult = ReturnType<typeof useSendLeadsMutation>;
+export type SendLeadsMutationResult = Apollo.MutationResult<SendLeadsMutation>;
+export type SendLeadsMutationOptions = Apollo.BaseMutationOptions<SendLeadsMutation, SendLeadsMutationVariables>;
+export const CheckIfUserExistsDocument = gql`
+    query checkIfUserExists($email: String!) {
+  checkIfUserExists(input: {email: $email})
+}
+    `;
+
+/**
+ * __useCheckIfUserExistsQuery__
+ *
+ * To run a query within a React component, call `useCheckIfUserExistsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckIfUserExistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckIfUserExistsQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useCheckIfUserExistsQuery(baseOptions: Apollo.QueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
+      }
+export function useCheckIfUserExistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
+        }
+export type CheckIfUserExistsQueryHookResult = ReturnType<typeof useCheckIfUserExistsQuery>;
+export type CheckIfUserExistsLazyQueryHookResult = ReturnType<typeof useCheckIfUserExistsLazyQuery>;
+export type CheckIfUserExistsQueryResult = Apollo.QueryResult<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>;
+export function refetchCheckIfUserExistsQuery(variables: CheckIfUserExistsQueryVariables) {
+      return { query: CheckIfUserExistsDocument, variables: variables }
+    }
 export const DeeplinkPathDocument = gql`
     query deeplinkPath($path: String!) {
   deeplinkPath(input: {path: $path}) {
@@ -464,4 +805,117 @@ export type DeeplinkPathLazyQueryHookResult = ReturnType<typeof useDeeplinkPathL
 export type DeeplinkPathQueryResult = Apollo.QueryResult<DeeplinkPathQuery, DeeplinkPathQueryVariables>;
 export function refetchDeeplinkPathQuery(variables: DeeplinkPathQueryVariables) {
       return { query: DeeplinkPathDocument, variables: variables }
+    }
+export const MktinStatusDocument = gql`
+    query mktinStatus {
+  mktinStatus
+}
+    `;
+
+/**
+ * __useMktinStatusQuery__
+ *
+ * To run a query within a React component, call `useMktinStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMktinStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMktinStatusQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMktinStatusQuery(baseOptions?: Apollo.QueryHookOptions<MktinStatusQuery, MktinStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MktinStatusQuery, MktinStatusQueryVariables>(MktinStatusDocument, options);
+      }
+export function useMktinStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MktinStatusQuery, MktinStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MktinStatusQuery, MktinStatusQueryVariables>(MktinStatusDocument, options);
+        }
+export type MktinStatusQueryHookResult = ReturnType<typeof useMktinStatusQuery>;
+export type MktinStatusLazyQueryHookResult = ReturnType<typeof useMktinStatusLazyQuery>;
+export type MktinStatusQueryResult = Apollo.QueryResult<MktinStatusQuery, MktinStatusQueryVariables>;
+export function refetchMktinStatusQuery(variables?: MktinStatusQueryVariables) {
+      return { query: MktinStatusDocument, variables: variables }
+    }
+export const SellerInfoDocument = gql`
+    query sellerInfo($sellerId: String!) {
+  sellerInfo(input: {sellerId: $sellerId}) {
+    sellerId
+    texto
+    logo
+    bannerMobile
+    sellerName
+    linkApp
+  }
+}
+    `;
+
+/**
+ * __useSellerInfoQuery__
+ *
+ * To run a query within a React component, call `useSellerInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSellerInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSellerInfoQuery({
+ *   variables: {
+ *      sellerId: // value for 'sellerId'
+ *   },
+ * });
+ */
+export function useSellerInfoQuery(baseOptions: Apollo.QueryHookOptions<SellerInfoQuery, SellerInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SellerInfoQuery, SellerInfoQueryVariables>(SellerInfoDocument, options);
+      }
+export function useSellerInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellerInfoQuery, SellerInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SellerInfoQuery, SellerInfoQueryVariables>(SellerInfoDocument, options);
+        }
+export type SellerInfoQueryHookResult = ReturnType<typeof useSellerInfoQuery>;
+export type SellerInfoLazyQueryHookResult = ReturnType<typeof useSellerInfoLazyQuery>;
+export type SellerInfoQueryResult = Apollo.QueryResult<SellerInfoQuery, SellerInfoQueryVariables>;
+export function refetchSellerInfoQuery(variables: SellerInfoQueryVariables) {
+      return { query: SellerInfoDocument, variables: variables }
+    }
+export const SellersMktinDocument = gql`
+    query sellersMktin {
+  sellersMktin
+}
+    `;
+
+/**
+ * __useSellersMktinQuery__
+ *
+ * To run a query within a React component, call `useSellersMktinQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSellersMktinQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSellersMktinQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSellersMktinQuery(baseOptions?: Apollo.QueryHookOptions<SellersMktinQuery, SellersMktinQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SellersMktinQuery, SellersMktinQueryVariables>(SellersMktinDocument, options);
+      }
+export function useSellersMktinLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellersMktinQuery, SellersMktinQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SellersMktinQuery, SellersMktinQueryVariables>(SellersMktinDocument, options);
+        }
+export type SellersMktinQueryHookResult = ReturnType<typeof useSellersMktinQuery>;
+export type SellersMktinLazyQueryHookResult = ReturnType<typeof useSellersMktinLazyQuery>;
+export type SellersMktinQueryResult = Apollo.QueryResult<SellersMktinQuery, SellersMktinQueryVariables>;
+export function refetchSellersMktinQuery(variables?: SellersMktinQueryVariables) {
+      return { query: SellersMktinDocument, variables: variables }
     }
