@@ -1,5 +1,5 @@
 import type { IFallBackRoute, TActionType } from '../../types/asyncDeepLinkStore';
-import { catalogService } from './services/Catalog/CatalogService';
+import { catalogService } from './services/catalog/CatalogService';
 
 const reducerMethods: Record<TActionType, (...args: any[]) => Promise<IFallBackRoute>> = {
   CATALOG: async (args) => {

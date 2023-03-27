@@ -1,21 +1,8 @@
-import { gql } from '@apollo/client';
-
 export interface IDeepLinkRoute {
   path: string;
   referenceId: string
+  active: boolean
 }
 export interface IDeepLinkQuery {
-  deepLinkRoutesCollection: {
-    items: Array<IDeepLinkRoute>
-  }
+  deeplinkPath: IDeepLinkRoute
 }
-export const deepLinkQuery = gql`
-    query DeepLinkRoutes($pathRoute: String!) {
-        deepLinkRoutesCollection(where: { path: $pathRoute, active: true }) {
-            items {
-              path
-              referenceId
-            }
-        }
-    }
-`;

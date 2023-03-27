@@ -7,6 +7,7 @@ const transactionIdLink = setContext((_, { headers }) => ({
   headers: {
     ...headers,
     'x-transaction-id': v4(),
+    'x-api-key': Config.API_KEY_GATEWAY,
   },
 }));
 const gatewayLink = transactionIdLink.concat(

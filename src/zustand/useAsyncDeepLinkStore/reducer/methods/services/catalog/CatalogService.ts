@@ -6,7 +6,8 @@ import type { IListContentQuery, ListContent } from '../../../../../../graphql/f
 import { listContentQuery } from '../../../../../../graphql/facets/facetsQuery';
 import EventProvider from '../../../../../../utils/EventProvider';
 import type { IFallBackRoute } from '../../../../types/asyncDeepLinkStore';
-import { deepLinkQuery, IDeepLinkQuery, IDeepLinkRoute } from '../../../../../../graphql/DeepLink/DeepLinkQuery';
+import { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../../graphql/DeepLink/DeepLinkQuery';
+import { DeeplinkPathDocument } from '../../../../../../base/graphql/generated';
 
 interface IExtensionsInArray {
   after: string[];
@@ -70,18 +71,18 @@ const getContentFullUrl = async (
   deepLinkRoute: string,
 ): Promise<IDeepLinkRoute | undefined> => {
   try {
-    const { data: { deepLinkRoutesCollection: { items } } } = await apolloClientProduction
+    const { data: { deeplinkPath } } = await apolloClientProduction
       .query<IDeepLinkQuery>({
-      query: deepLinkQuery,
+      query: DeeplinkPathDocument,
       variables: {
-        pathRoute: deepLinkRoute,
+        path: encodeURI(deepLinkRoute),
       },
-      context: { clientName: 'contentful' },
+      context: { clientName: 'gateway' },
     });
 
-    if (!items.length) return undefined;
+    if (!deeplinkPath) return undefined;
 
-    return items[0];
+    return deeplinkPath;
   } catch (error) {
     EventProvider.captureException(error);
   }
@@ -97,6 +98,7 @@ export const catalogService = async (
   const contentFullUrl = await getContentFullUrl(fullUrl);
 
   if (contentFullUrl) {
+    if (!contentFullUrl.active) return createRouteFallbackPlatform(newPathName);
     return {
       routeName: 'ProductCatalog',
       params: {

@@ -9,7 +9,15 @@ function getPrependAction(filepath: string) {
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: process.env.URL_GATEWAY_CLIENT,
+  schema: [
+    {
+      [`${process.env.URL_GATEWAY_CLIENT}`]: {
+        headers: {
+          'x-api-key': process.env.API_KEY_GATEWAY!,
+        },
+      },
+    },
+  ],
   documents: './src/base/graphql/**/*.graphql',
   hooks: {
     beforeDone: [
