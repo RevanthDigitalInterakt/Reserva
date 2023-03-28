@@ -726,7 +726,7 @@ export const ProductDetail: React.FC<Props> = ({
       !product?.productId
       || !product.productName
       || !product?.categoryTree?.length
-      || !variant.itemId
+      || !variant?.itemId
     ) return;
 
     EventProvider.logEvent('view_item', {
