@@ -569,13 +569,6 @@ export type VtexUserInput = {
   password: Scalars['String'];
 };
 
-export type RemoveUserMutationMutationVariables = Exact<{
-  customerId: Scalars['String'];
-}>;
-
-
-export type RemoveUserMutationMutation = { __typename?: 'Mutation', removeCustomer: boolean };
-
 export type OrderFormAddSellerCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
   coupon: Scalars['String'];
@@ -583,6 +576,13 @@ export type OrderFormAddSellerCouponMutationVariables = Exact<{
 
 
 export type OrderFormAddSellerCouponMutation = { __typename?: 'Mutation', orderFormAddSellerCoupon: { __typename?: 'OrderformOutput', orderFormId: string, marketingData?: { __typename?: 'OrderformMarketingDataOutput', marketingTags: Array<string> } | null } };
+
+export type RemoveUserMutationMutationVariables = Exact<{
+  customerId: Scalars['String'];
+}>;
+
+
+export type RemoveUserMutationMutation = { __typename?: 'Mutation', removeCustomer: boolean };
 
 export type SendLeadsMutationVariables = Exact<{
   idCampanha: Scalars['String'];
@@ -626,37 +626,6 @@ export type SellersMktinQueryVariables = Exact<{ [key: string]: never; }>;
 export type SellersMktinQuery = { __typename?: 'Query', sellersMktin: Array<string> };
 
 
-export const RemoveUserMutationDocument = gql`
-    mutation removeUserMutation($customerId: String!) {
-  removeCustomer(customerId: $customerId)
-}
-    `;
-export type RemoveUserMutationMutationFn = Apollo.MutationFunction<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>;
-
-/**
- * __useRemoveUserMutationMutation__
- *
- * To run a mutation, you first call `useRemoveUserMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemoveUserMutationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removeUserMutationMutation, { data, loading, error }] = useRemoveUserMutationMutation({
- *   variables: {
- *      customerId: // value for 'customerId'
- *   },
- * });
- */
-export function useRemoveUserMutationMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>(RemoveUserMutationDocument, options);
-      }
-export type RemoveUserMutationMutationHookResult = ReturnType<typeof useRemoveUserMutationMutation>;
-export type RemoveUserMutationMutationResult = Apollo.MutationResult<RemoveUserMutationMutation>;
-export type RemoveUserMutationMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>;
 export const OrderFormAddSellerCouponDocument = gql`
     mutation orderFormAddSellerCoupon($orderFormId: String!, $coupon: String!) {
   orderFormAddSellerCoupon(input: {orderFormId: $orderFormId, coupon: $coupon}) {
@@ -694,6 +663,37 @@ export function useOrderFormAddSellerCouponMutation(baseOptions?: Apollo.Mutatio
 export type OrderFormAddSellerCouponMutationHookResult = ReturnType<typeof useOrderFormAddSellerCouponMutation>;
 export type OrderFormAddSellerCouponMutationResult = Apollo.MutationResult<OrderFormAddSellerCouponMutation>;
 export type OrderFormAddSellerCouponMutationOptions = Apollo.BaseMutationOptions<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>;
+export const RemoveUserMutationDocument = gql`
+    mutation removeUserMutation($customerId: String!) {
+  removeCustomer(customerId: $customerId)
+}
+    `;
+export type RemoveUserMutationMutationFn = Apollo.MutationFunction<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>;
+
+/**
+ * __useRemoveUserMutationMutation__
+ *
+ * To run a mutation, you first call `useRemoveUserMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveUserMutationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeUserMutationMutation, { data, loading, error }] = useRemoveUserMutationMutation({
+ *   variables: {
+ *      customerId: // value for 'customerId'
+ *   },
+ * });
+ */
+export function useRemoveUserMutationMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>(RemoveUserMutationDocument, options);
+      }
+export type RemoveUserMutationMutationHookResult = ReturnType<typeof useRemoveUserMutationMutation>;
+export type RemoveUserMutationMutationResult = Apollo.MutationResult<RemoveUserMutationMutation>;
+export type RemoveUserMutationMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>;
 export const SendLeadsDocument = gql`
     mutation sendLeads($idCampanha: String!, $email: String!, $name: String!, $phone: String!) {
   sendLead(
