@@ -1,22 +1,22 @@
 import reducer from '../asyncDeepLinkReducer';
-import * as CaatalogService from '../methods/services/catalog/CatalogService';
+import * as CatalogService from '../methods/services/Catalog/CatalogService';
+
+const spy = jest.spyOn(CatalogService, 'catalogService');
 
 const defaultReducerMock = {
   deepLinkLoading: false, fallBackRoute: null, dispatch: jest.fn(),
 };
 
-let spy: any;
-
 describe('Reducer methods test', () => {
   afterEach(() => {
     if (spy) {
       jest.resetAllMocks();
-      jest.restoreAllMocks();
     }
   });
 
   test('check default fallback route to reducer return', async () => {
-    spy = jest.spyOn(CaatalogService, 'catalogService').mockResolvedValueOnce({
+    spy.mockClear();
+    spy.mockResolvedValue({
       routeName: 'HomeTabs',
     });
 
@@ -29,10 +29,11 @@ describe('Reducer methods test', () => {
 
   test('Invalid payload, default return HomeTabs', async () => {
     spy.mockClear();
-    spy = jest.spyOn(CaatalogService, 'catalogService').mockResolvedValueOnce({
+    spy.mockResolvedValue({
       routeName: 'HomeTabs',
       params: {},
     });
+
     const defaultReturnHomeTabs = { routeName: 'HomeTabs', params: {} };
 
     const reducerReturn = await reducer(defaultReducerMock, {
@@ -47,7 +48,8 @@ describe('Reducer methods test', () => {
   });
 
   test('Payload contentful url', async () => {
-    spy = jest.spyOn(CaatalogService, 'catalogService').mockResolvedValueOnce({
+    spy.mockClear();
+    spy.mockResolvedValue({
       routeName: 'ProductCatalog',
       params: {
         referenceId: 'colection:0',
@@ -81,7 +83,8 @@ describe('Reducer methods test', () => {
   });
 
   test('Payload category url', async () => {
-    jest.spyOn(CaatalogService, 'catalogService').mockResolvedValueOnce({
+    spy.mockClear();
+    spy.mockResolvedValue({
       routeName: 'ProductCatalog',
       params: {
         referenceId: 'category:reserva',
@@ -91,6 +94,7 @@ describe('Reducer methods test', () => {
         facetInput: [{ key: '', value: '' }],
       },
     });
+
     const payloadCategoryUrl = {
       routeName: 'ProductCatalog',
       params: {
