@@ -6,16 +6,12 @@ const isDev = __DEV__;
 Sentry.init({
   enabled: !isDev,
   enableNative: !isDev,
-  environment: 'production',
+  environment: Config.ENVIRONMENT,
   dsn: Config.SENTRY_DSN,
-  tracesSampleRate: 0.05,
+  tracesSampleRate: 0.01,
+  sampleRate: 0.01,
   integrations: [
-    new Sentry.ReactNativeTracing({
-      tracingOrigins: [
-        'localhost',
-        'https://applojausereserva.vtexcommercestable.com.br',
-      ],
-    }),
+    new Sentry.ReactNativeTracing({}),
   ],
 });
 

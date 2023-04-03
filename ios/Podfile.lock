@@ -1090,9 +1090,9 @@ PODS:
   - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
-  - RNSentry (4.12.0):
+  - RNSentry (5.3.0):
     - React-Core
-    - Sentry/HybridSDK (= 7.31.3)
+    - Sentry/HybridSDK (= 8.3.3)
   - RNSha256 (1.4.9):
     - React-Core
   - RNShare (6.5.0):
@@ -1101,7 +1101,9 @@ PODS:
     - React-Core
   - RNSVG (12.5.0):
     - React-Core
-  - Sentry/HybridSDK (7.31.3)
+  - Sentry/HybridSDK (8.3.3):
+    - SentryPrivate (= 8.3.3)
+  - SentryPrivate (8.3.3)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -1265,6 +1267,7 @@ SPEC REPOS:
     - OpenSSL-Universal
     - PromisesObjC
     - Sentry
+    - SentryPrivate
     - SSZipArchive
     - YogaKit
 
@@ -1560,12 +1563,13 @@ SPEC CHECKSUMS:
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 93fe36bf01e6bd4346e0ffc9e469ce37a6b2bea9
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
-  RNSentry: 4c09f4dd9740cb9b33e94303de5b6d0dbeb0737d
+  RNSentry: 8363f1eff1c685a502e15080b5e2f447969897c5
   RNSha256: a6bc3640a34eb41907e363828b9ec742c274298d
   RNShare: 047d42214f875d731bde73a2b67418638af85ad9
   RNStoreReview: e05edbbf426563070524cec384ac0b8df69be801
   RNSVG: 6adc5c52d2488a476248413064b7f2832e639057
-  Sentry: 08884c523575ec0f6690d94ed3ccb0246a1600bf
+  Sentry: 8ffc397d98fe58d693e73959b26ed0eaee55646a
+  SentryPrivate: bf776a47a131648f5023097215987b40fbd47025
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: d1fc3575b8b68891ff5ef3c276daa855e841eb32
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
