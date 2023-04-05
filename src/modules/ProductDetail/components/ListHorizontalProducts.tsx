@@ -161,6 +161,7 @@ export const ListHorizontalProducts = ({
             </Typography>
           </Box>
           <Button
+            testID="com.usereserva:id/back_button_home_list_products"
             title="VOLTAR"
             onPress={() => {
               navigation.navigate('Home');
@@ -186,6 +187,7 @@ export const ListHorizontalProducts = ({
           decelerationRate="fast"
           scrollEventThrottle={16}
           horizontal={horizontal}
+          testID="com.usereserva:id/list_horizontal_products"
           data={products}
           keyExtractor={(item, index) => `${item.productId}-${index}`}
           numColumns={horizontal ? 1 : 2}

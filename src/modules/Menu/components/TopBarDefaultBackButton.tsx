@@ -33,6 +33,7 @@ export const TopBarDefaultBackButton: React.FC<{
       style={{ elevation: showShadow ? 10 : 0 }}
       boxShadow={showShadow && Platform.OS === platformType.IOS ? 'topBarShadow' : null}
       leftButton={{
+        testID: 'com.usereserva:id/top_bar_default_button_home',
         name: 'ArrowBack',
         size: 24,
         onPress: () => {
@@ -48,6 +49,7 @@ export const TopBarDefaultBackButton: React.FC<{
         },
       }}
       rightButton1={{
+        testID: 'com.usereserva:id/top_bar_button_searchmenu',
         name: 'Search',
         size: 24,
         onPress: () => {
@@ -55,6 +57,7 @@ export const TopBarDefaultBackButton: React.FC<{
         },
       }}
       rightButton2={{
+        testID: 'com.usereserva:id/top_bar_button_handbag',
         name: 'Handbag',
         size: 24,
         onPress: () => {

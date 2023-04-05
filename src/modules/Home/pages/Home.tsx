@@ -37,6 +37,7 @@ import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import DefaultCarrousel from '../component/Carousel';
 import Brands from '../component/Brands';
+import testProps from '../../../utils/testProps';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -320,7 +321,7 @@ export const HomeScreen: FC<{
       case CarrouselTypes.mainCarrousel: {
         return (
           carrousel.itemsCollection.items.length > 1
-            ? <DefaultCarrousel carrousel={carrousel} key={`carousel-${carrousel.title}-${carrousel.type}-${index}`} />
+            ? <DefaultCarrousel carrousel={carrousel} key={`com.usereserva:id/carousel-${carrousel.title}-${carrousel.type}-${index}`} />
             : (
               <Banner
                 key={`carousel-${carrousel.title}-${carrousel.type}-${index}`}
@@ -391,6 +392,7 @@ export const HomeScreen: FC<{
   const renderBannersFlatList = useMemo(() => (
     <FlatList
       data={images}
+      {...testProps('com.usereserva:id/home_banner_flat_list')}
       renderItem={({ item }) => (
         <Banner
           orderBy={item.orderBy}
@@ -413,7 +415,7 @@ export const HomeScreen: FC<{
   }, []);
 
   return (
-    <Box flex={1} bg="white">
+    <Box flex={1} bg="white" testID="com.usereserva:id/home_container">
       <TopBarDefault loading={loading} />
 
       <StoreUpdate />
@@ -440,6 +442,7 @@ export const HomeScreen: FC<{
         <Skeleton />
       ) : (
         <SafeAreaView
+          {...testProps('com.usereserva:id/home_count_down_container')}
           style={{
             marginBottom: modalDiscount && modalCodeIsVisible ? 87 : 50,
           }}

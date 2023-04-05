@@ -9,6 +9,7 @@ import {
 } from '@usereservaapp/reserva-ui';
 
 import { images } from '../../../assets';
+import testProps from '../../../utils/testProps';
 
 interface IData {
   coupon: string;
@@ -79,10 +80,12 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
           width="100%"
           height={37}
           flexDirection="row"
+          testID="com.usereserva:id/discout_code_modal_container"
         >
           <Box flex={1} justifyContent="center" alignItems="center">
             <Button onPress={() => setIsVisibleModal(true)}>
               <Typography
+                testID="com.usereserva:id/discout_code_modal_title"
                 color="white"
                 fontFamily="reservaSansRegular"
                 fontSize={13}
@@ -93,6 +96,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
           </Box>
           <Box width={28} justifyContent="center" alignItems="center">
             <Button
+              testID="com.usereserva:id/discout_code_modal_button"
               onPress={onClose}
               variant="icone"
               icon={<Icon name="Close" size={8} color="white" />}
@@ -108,6 +112,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
           isVisible={isVisibleModal}
           onBackdropPress={closeModal}
           avoidKeyboard
+          testID="com.usereserva:id/discount_code_modal_second_container"
         >
           <ImageBackground
             source={images.cupomModalBackground}
@@ -120,6 +125,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
           >
             <Box position="absolute" top={13} right={13}>
               <Button
+                testID="com.usereserva:id/discout_code_modal_button_close_modal"
                 onPress={closeModal}
                 hitSlop={{
                   top: 30,
@@ -134,6 +140,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
             <Box mt={25}>
               <Box mx={15}>
                 <Typography
+                  testID="com.usereserva:id/discout_code_modal_title_modal"
                   fontFamily="reservaSerifRegular"
                   fontSize={18}
                   textAlign="center"
@@ -156,6 +163,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
                   fontSize={13}
                   textAlign="center"
                   lineHeight={18}
+                  testID="com.usereserva:id/discout_code_modal_description_modal"
                 >
                   {data.descriptionModal}
                 </Typography>
@@ -164,6 +172,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
             {!!data.coupon && (
               <>
                 <Animated.View
+                  {...testProps('com.usereserva:id/discout_code_modal_animated_view')}
                   style={{
                     opacity: toastOpacity,
                   }}
@@ -199,7 +208,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
                   width={modalWidth - 15 * 2}
                   justifyContent="center"
                 >
-                  <Button onPress={onClickCopy} inline>
+                  <Button onPress={onClickCopy} inline testID="com.usereserva:id/discout_code_modal_button_copy">
                     <Box
                       backgroundColor="backgroundMenuOpened"
                       width="100%"
@@ -220,7 +229,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
                     </Box>
                   </Button>
 
-                  <Button onPress={onClickShare} mt={10.3} inline>
+                  <Button onPress={onClickShare} mt={10.3} inline testID="com.usereserva:id/discout_code_modal_button_share">
                     <Box
                       backgroundColor={data.colorButton}
                       width="100%"

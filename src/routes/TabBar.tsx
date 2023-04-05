@@ -31,7 +31,7 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps<{}>) => {
 
           return (
             <BottomBarButton
-              testID={`bottom_tab_${slugify(params?.label)}-${index}`}
+              testID={`com.usereserva:id/bottom-tab-${slugify(params?.label)}`}
               key={route.key}
               isSlected={isFocused}
               onPress={() => onPress(route, isFocused)}

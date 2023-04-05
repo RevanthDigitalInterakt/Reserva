@@ -16,6 +16,7 @@ export const TopBarBackButtonWithoutLogo: React.FC<{
     style={{ elevation: showShadow ? 10 : 0 }}
     boxShadow={showShadow && Platform.OS === platformType.IOS ? 'topBarShadow' : null}
     leftButton={{
+      testID: 'com.usereserva:id/top_bar_button_logo',
       name: 'ArrowBack',
       size: 24,
       onPress: () => {

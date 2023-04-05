@@ -55,16 +55,23 @@ export const TitleFilter: React.FC<{
     paddingY="micro"
     justifyContent="space-between"
     flexDirection="row"
+    testID="com.usereserva:id/title_filter_modal_container"
   >
-    <Typography fontFamily="reservaSerifRegular" fontSize="16px">
+    <Typography
+      testID="com.usereserva:id/filter_modal_title"
+      fontFamily="reservaSerifRegular"
+      fontSize="16px"
+    >
       {title}
     </Typography>
 
     <Button
+      testID="com.usereserva:id/title_filter_modal_button_ceeMore"
       onPress={() => setShowMore(!showMore)}
       hitSlop={{ left: 50, top: 15, bottom: 15 }}
     >
       <BoxAnimation
+        testID="com.usereserva:id/title_animation_filter_modal"
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
@@ -175,6 +182,7 @@ export const FilterModal = ({
   return (
     <Box>
       <Modal
+        testID="com.usereserva:id/filter_modal_content"
         style={{ margin: 0 }}
         animationIn="slideInRight"
         animationOut="slideOutRight"
@@ -202,6 +210,8 @@ export const FilterModal = ({
                 paddingBottom="nano"
                 flexDirection="row"
                 justifyContent="space-between"
+                testID="com.usereserva:id/filter_modal_content_filter_by"
+
               >
                 <Typography fontFamily="reservaSerifRegular" fontSize="24px">
                   Filtrar Por:
@@ -340,6 +350,7 @@ export const FilterModal = ({
               >
                 <Box width={1 / 2}>
                   <Button
+                    testID="com.usereserva:id/button_back_filter_modal"
                     onPress={() => onClose()}
                     marginLeft="micro"
                     marginRight="nano"
@@ -351,6 +362,7 @@ export const FilterModal = ({
 
                 <Box width={1 / 2}>
                   <Button
+                    testID="com.usereserva:id/button_aply_filter_modal"
                     onPress={() => loadMoreProducts()}
                     marginRight="micro"
                     marginLeft="nano"
@@ -360,7 +372,10 @@ export const FilterModal = ({
                   />
                 </Box>
               </Box>
-              <Button onPress={cleanFilters}>
+              <Button
+                testID="com.usereserva:id/button_cleanFilters_filter_modal"
+                onPress={cleanFilters}
+              >
                 <Typography
                   color="progressTextColor"
                   variant="precoAntigo3"

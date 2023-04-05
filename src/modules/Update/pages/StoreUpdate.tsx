@@ -91,11 +91,13 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = () => {
     <Modal
       isVisible={isVisible}
       style={{ margin: 0 }}
+      testID="com.usereserva:id/store_update_modal"
     >
       <Box
         bg="white"
         height="100%"
         alignItems="center"
+        testID="com.usereserva:id/store_update_container_modal"
       >
         <Box
           mt="40%"
@@ -133,6 +135,7 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = () => {
               inline
               title="ATUALIZAR"
               variant="primarioEstreito"
+              testID="com.usereserva:id/store_update_button_update"
             />
           </Box>
 
@@ -156,6 +159,7 @@ export const StoreUpdate: React.FC<StoreUpdateProps> = () => {
               inline
               title="CONTINUAR"
               variant="primarioEstreitoOutline"
+              testID="com.usereserva:id/store_update_container_next"
             />
           </Box>
         </Box>

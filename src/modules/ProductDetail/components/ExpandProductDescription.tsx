@@ -18,6 +18,7 @@ export const ExpandProductDescription = ({ description, composition, codeProduct
     <Box>
 
       <Button
+        testID="com.usereserva:id/about_this_product_button"
         variant="semBorda"
         marginTop="xxxs"
         onPress={() => setShowDescription(!showDescription)}
@@ -47,16 +48,20 @@ export const ExpandProductDescription = ({ description, composition, codeProduct
           <ProductDescription
             title="Detalhes do Produto"
             description={description}
+            testID="com.usereserva:id/details_product"
           />
           {composition && (
           <ProductDescription
             title="Composição"
             description={composition}
+            testID="com.usereserva:id/composition"
+
           />
           )}
           <ProductDescription
             title="Código do Produto"
             description={`Ref: ${codeProduct}`}
+            testID="com.usereserva:id/code"
           />
         </>
       )}
@@ -66,10 +71,11 @@ export const ExpandProductDescription = ({ description, composition, codeProduct
 interface IProductDescription {
   title: string;
   description: string;
+  testID: string;
 }
 
-const ProductDescription: React.FC<IProductDescription> = ({ title, description }) => (
-  <Box>
+const ProductDescription: React.FC<IProductDescription> = ({ title, description, testID }) => (
+  <Box testID={testID}>
     <Box mt="xxs">
       <Typography
         fontFamily="nunitoBold"

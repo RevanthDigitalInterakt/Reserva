@@ -113,6 +113,7 @@ function ModalChristmasCouponForm({
       marginX="micro"
       style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
       boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
+      testID="modalchristmas_coupon_form_container"
     >
       <Box marginBottom={feedback?.success ? 30 : 42} marginTop={20} marginX={27}>
         <Box alignItems="center" flexDirection="row" justifyContent="space-between" marginBottom={5}>
@@ -121,7 +122,7 @@ function ModalChristmasCouponForm({
               fontSize={24}
               fontFamily="reservaSerifBlack"
               lineHeight={29}
-              testID="com.usereserva:id/christmascouponform_title"
+              testID="com.usereserva:id/christmas_coupon_form_title"
             >
               {title}
             </Typography>
@@ -131,7 +132,7 @@ function ModalChristmasCouponForm({
             onPress={onClose}
             variant="icone"
             icon={<Icon size={12} name="Close" />}
-            testID="com.usereserva:id/christmascouponform_button_close"
+            testID="com.usereserva:id/christmas_coupon_form_button_close"
           />
         </Box>
 
@@ -140,7 +141,7 @@ function ModalChristmasCouponForm({
             fontSize={14}
             fontFamily="nunitoRegular"
             lineHeight={22}
-            testID="com.usereserva:id/christmascouponform_subtitle"
+            testID="com.usereserva:id/christmas_coupon_form_subtitle"
           >
             {subtitle.map((item) => (
               <React.Fragment key={`text-${item.content}`}>
@@ -156,7 +157,7 @@ function ModalChristmasCouponForm({
           fontSize={12}
           fontFamily="nunitoBold"
           lineHeight={22}
-          testID="com.usereserva:id/christmascouponform_fineline"
+          testID="com.usereserva:id/christmas_coupon_form_fineline"
         >
           {fineline}
         </Typography>
@@ -164,13 +165,14 @@ function ModalChristmasCouponForm({
         <Box marginTop={10}>
           <TextField
             style={inputStyle}
+            testID="com.usereserva:id/christmas_coupon_form_input_name"
             value={formik.values.name}
             placeholder="NOME"
             height={40}
             onChangeText={(value) => formik.setFieldValue('name', value)}
             touched={formik.touched.name}
             error={formik.errors.name}
-            accessibilityLabel="christmascouponform_input_name"
+            accessibilityLabel="com.usereserva:id/christmas_coupon_form_input_name"
           />
         </Box>
 
@@ -178,6 +180,7 @@ function ModalChristmasCouponForm({
           <TextField
             style={inputStyle}
             value={formik.values.phone}
+            testID="com.usereserva:id/christmas_coupon_form_input_phone"
             maskType="cel-phone"
             placeholder="WHATSAPP"
             height={40}
@@ -195,6 +198,7 @@ function ModalChristmasCouponForm({
             touched={formik.touched.email}
             placeholder="E-MAIL"
             keyboardType="email-address"
+            testID="com.usereserva:id/christmas_coupon_form_input_email"
             height={40}
             onChangeText={(value) => formik.setFieldValue('email', value)}
             error={formik.errors.email}
@@ -212,7 +216,7 @@ function ModalChristmasCouponForm({
             loading={loading}
             title={buttonTitle || 'ASSINAR NEWSLETTER'}
             onPress={() => formik.submitForm()}
-            testID="com.usereserva:id/christmascouponform_button_submit"
+            testID="com.usereserva:id/christmas_coupon_form_button_submit"
           />
         </Box>
 
@@ -235,6 +239,7 @@ function ModalChristmasCouponForm({
 
       {!!feedback?.success && (
         <ConfettiCannon
+          testID="com.usereserva:id/message_succes"
           autoStart
           fadeOut
           count={150}

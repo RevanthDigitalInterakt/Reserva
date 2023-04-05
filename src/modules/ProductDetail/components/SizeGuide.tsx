@@ -39,6 +39,7 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
   return (
     <Box>
       <Button
+        testID="com.usereserva:id/size_guides_button_product_details"
         onPress={() => setIsVisible(true)}
       >
         <Box flexDirection="row" alignItems="center">
@@ -118,6 +119,7 @@ const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose
         pagingEnabled
         bounces={false}
         disableIntervalMomentum
+        testID="com.usereserva:id/size_guide_list"
         onScrollEndDrag={() => { }}
         renderItem={({ item, index }) => (
           <Box
@@ -139,6 +141,7 @@ const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose
                 zIndex={16}
               >
                 <Button
+                  testID="com.usereserva:id/size_guides_button_product_details"
                   style={{
                     width: 40,
                     height: 40,

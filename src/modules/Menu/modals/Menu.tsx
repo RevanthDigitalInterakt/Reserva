@@ -29,6 +29,7 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
 import { slugify } from '../../../utils/slugify';
+import testProps from '../../../utils/testProps';
 
 interface IBreadCrumbs {
   title: string;
@@ -53,8 +54,13 @@ interface IMenuItem {
 const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
   const navigation = useNavigation();
   return (
-    <Button onPress={() => navigation.navigate('Home')} alignSelf="flex-start">
+    <Button
+      onPress={() => navigation.navigate('Home')}
+      alignSelf="flex-start"
+      testID="com.usereserva:id/button_menu_initial"
+    >
       <Box
+        testID="com.usereserva:id/menu_initial_container"
         alignSelf="flex-start"
         paddingX="micro"
         paddingTop="nano"
@@ -101,7 +107,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({
 
         setClickMenu(true);
       }}
-      testID={testID}
+      {...testProps(testID)}
     >
       <Box
         bg="backgroundMenuOpened"
@@ -135,7 +141,7 @@ const MenuItem: React.FC<IMenuItem> = ({
     <Box>
       <TouchableOpacity
         onPress={() => onPress(indexProp)}
-        testID={`menu_button_${slugify(title)}`}
+        {...testProps(`com.usereserva:id/menu_button_${slugify(title)}`)}
       >
         <Box
           justifyContent="space-between"
@@ -163,13 +169,17 @@ const MenuItem: React.FC<IMenuItem> = ({
       {opened && (
         <>
           <Divider variant="fullWidth" marginTop="micro" />
-          <Animatable.View animation="fadeIn">
+          <Animatable.View
+            {...testProps('com.usereserva:id/animation_container')}
+            animation="fadeIn"
+          >
             {subItemList.items.map((item, index) => (
               <MenuSubItem
+                {...testProps(`com.usereserva:id/menu_sub_item_${index}`)}
                 key={index}
                 highlight={item.highlight}
                 title={item.name}
-                testID={`com.usereserva:id/submenu_button_${slugify(item.name)}`}
+                testID={`submenu_button_${slugify(item.name)}`}
                 onPress={() => {
                   const facetInput: any[] = [];
                   const [subType, subcategories] = item?.referenceId?.split(':') || [undefined, undefined];
@@ -218,7 +228,7 @@ export const FixedMenuItem: React.FC<{
 }> = ({
   iconName, title, onPress, disabled, underline, testID,
 }) => (
-  <TouchableOpacity onPress={onPress} disabled={disabled} testID={testID}>
+  <TouchableOpacity onPress={onPress} disabled={disabled} {...testProps(testID)}>
     <Box
       justifyContent="flex-start"
       alignItems="center"
@@ -388,7 +398,7 @@ export const Menu = ({ route }: Props) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }} {...testProps('com.usereserva:id/menu_container')}>
       <Box flex={1} backgroundColor="backgroundApp">
         <TopBarMenu loading={loading} />
         <ScrollView>

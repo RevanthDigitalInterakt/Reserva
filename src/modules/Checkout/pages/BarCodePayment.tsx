@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import testProps from '../../../utils/testProps';
 
 type Props = StackScreenProps<RootStackParamList, 'BarCodePayment'>;
 
@@ -39,7 +40,7 @@ export const BarCodePayment = ({ route }: Props) => {
   return (
     <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton showShadow />
-      <ScrollView>
+      <ScrollView {...testProps('com.usereserva:id/tickets_section')}>
         <Box paddingX="xxxs" paddingY="sm">
           <Box>
             <Typography variant="tituloSessoes">Boleto</Typography>
@@ -61,6 +62,7 @@ export const BarCodePayment = ({ route }: Props) => {
         </Box>
       </ScrollView>
       <Button
+        testID="com.usereserva:id/sumary_screen_button"
         onPress={() => navigation.navigate('SummaryScreen', { paymentType: 'Boleto', cashback })}
         title="RESUMO"
         variant="primarioEstreito"

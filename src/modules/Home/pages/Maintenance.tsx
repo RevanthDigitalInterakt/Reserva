@@ -4,6 +4,7 @@ import {
   Box, Button, Image, Typography,
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets/index';
+import testProps from '../../../utils/testProps';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -13,6 +14,7 @@ interface MaintenanceProps {
 
 export const Maintenance: React.FC<MaintenanceProps> = ({ isVisible }) => (isVisible ? (
   <Modal
+    {...testProps('com.usereserva:id/maintenance_modal')}
     style={{
       flex: 1,
       justifyContent: 'center',
@@ -21,6 +23,7 @@ export const Maintenance: React.FC<MaintenanceProps> = ({ isVisible }) => (isVis
     transparent
   >
     <Box
+      testID="com.usereserva:id/maintenance_container"
       position="absolute"
       zIndex={10}
       flex={1}
@@ -51,6 +54,7 @@ export const Maintenance: React.FC<MaintenanceProps> = ({ isVisible }) => (isVis
           Estamos preparando algo especial para você
         </Typography>
         <Typography
+          testID="com.usereserva:id/maintenance_description"
           style={{
             marginTop: 37,
             paddingHorizontal: 40,
@@ -67,6 +71,7 @@ export const Maintenance: React.FC<MaintenanceProps> = ({ isVisible }) => (isVis
 
       <Box width="100%" px={22}>
         <Button
+          testID="com.usereserva:id/maintenance_button"
           title="FALE CONOSCO"
           width="100%"
           onPress={() => {

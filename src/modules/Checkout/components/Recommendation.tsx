@@ -77,7 +77,7 @@ export const Recommendation = () => {
         <Divider marginTop="xs" variant="fullWidth" />
       </Box>
 
-      <Box paddingLeft="micro">
+      <Box testID="com.usereserva:id/products_recomendation_list" paddingLeft="micro">
         <Button
           onPress={() => setShowMore(!showMore)}
           hitSlop={{ left: 50, top: 15, bottom: 15 }}

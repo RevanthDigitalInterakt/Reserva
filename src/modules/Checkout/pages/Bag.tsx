@@ -50,6 +50,7 @@ import { Skeleton } from '../components/Skeleton';
 import { platformType } from '../../../utils/platformType';
 import { getPercent } from '../../../utils/getPercent';
 import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
+import testProps from '../../../utils/testProps';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -581,6 +582,7 @@ export const BagScreen = ({ route }: Props) => {
 
   return (
     <SafeAreaView
+      {...testProps('com.usereserva:id/page_bag')}
       style={{
         justifyContent: 'space-between',
         flex: 1,
@@ -759,7 +761,7 @@ export const BagScreen = ({ route }: Props) => {
                         {noProduct}
                       </Typography>
                     </Box>
-                    <Button flex={1} onPress={() => setNoProduct('')}>
+                    <Button testID="com.usereserva:id/close_bag_button" flex={1} onPress={() => setNoProduct('')}>
                       <Icon name="Close" size={15} color="preto" ml="xxxs" />
                     </Button>
                   </Box>
@@ -767,7 +769,7 @@ export const BagScreen = ({ route }: Props) => {
               )}
 
               <ScrollView>
-                <Modal isVisible={loadingModal}>
+                <Modal testID="com.usereserva:id/modal_delet_product_bag" isVisible={loadingModal}>
                   <Box
                     zIndex={5}
                     height="100%"
@@ -832,7 +834,7 @@ export const BagScreen = ({ route }: Props) => {
                 />
                 <Box paddingX="xxxs" paddingY="xxs">
                   <Box bg="white" marginTop="xxs">
-                    <Typography variant="tituloSessoes">
+                    <Typography testID="com.usereserva:id/title_bag" variant="tituloSessoes">
                       Sacola (
                       {optimistQuantities.reduce(
                         (accumulator, currentValue) => accumulator + currentValue,
@@ -889,7 +891,7 @@ export const BagScreen = ({ route }: Props) => {
                               </Typography>
                             </Typography>
                           </Box>
-                          <ScrollView horizontal>
+                          <ScrollView {...testProps('com.usereserva:id/bag_selected_color_bag')} horizontal>
                             <Box
                               alignItems="flex-start"
                               flexWrap="wrap"
@@ -897,6 +899,7 @@ export const BagScreen = ({ route }: Props) => {
                             >
                               {giftColors.map((item, index) => (
                                 <Button
+                                  testID="com.usereserva:id/selected_color_product_bag"
                                   key={`${index}_btn`}
                                   onPress={() => {
                                     selectedGiftColor !== item
@@ -938,7 +941,7 @@ export const BagScreen = ({ route }: Props) => {
                           </ScrollView>
                         </Box>
 
-                        <Box minHeight={59}>
+                        <Box testID="com.usereserva:id/selected_size_bag" minHeight={59}>
                           <Box
                             mb={10}
                             flexDirection="row"
@@ -953,6 +956,7 @@ export const BagScreen = ({ route }: Props) => {
 
                             {showMoreGiftSize && (
                               <Button
+                                testID="com.usereserva:id/show_more_size_button"
                                 onPress={() => setShowMoreSizes(!showMoreSizes)}
                                 hitSlop={{ left: 50, top: 15, bottom: 15 }}
                               >
@@ -992,6 +996,7 @@ export const BagScreen = ({ route }: Props) => {
                           <Box flex={1} justifyContent="flex-end">
                             <Box>
                               <RadioButtons
+                                testID="com.usereserva:id/selected_size_gift"
                                 size={screenWidth * 0.08}
                                 fontSize={11.5}
                                 disbledOptions={[]}
@@ -1087,7 +1092,7 @@ export const BagScreen = ({ route }: Props) => {
                                 : 0
                             }
                             count={optimistQuantities[index]}
-                            testID={`product_card_bag_${slugify(item.productId + item.skuName)}`}
+                            testID={`com.usereserva:id/product_card_bag_${slugify(item.productId + item.skuName)}`}
                             isGift={item.bundleItems.length > 0}
                             isGiftable={item.offerings.some(
                               (offering) => offering?.type === 'Embalagem pra Presente',
@@ -1222,6 +1227,7 @@ export const BagScreen = ({ route }: Props) => {
                     {/* cupom vendedor */}
                     {!!sellerCode && (
                       <CouponBadge
+                        {...testProps('com.usereserva:id/remove_seller_coupon_badge_button')}
                         value={`${sellerName} | ${sellerCode.toUpperCase()}`}
                         onPress={async () => {
                           await removeSellerCoupon('');
@@ -1231,6 +1237,7 @@ export const BagScreen = ({ route }: Props) => {
                     {/* cupom desconto */}
                     {orderForm?.marketingData?.coupon && (
                       <CouponBadge
+                        {...testProps('com.usereserva:id/remove_coupon_badge_button')}
                         value={orderForm?.marketingData?.coupon}
                         onPress={async () => {
                           await removeCoupon('');
@@ -1250,6 +1257,7 @@ export const BagScreen = ({ route }: Props) => {
                     </Box>
                     <Box>
                       <Button
+                        testID="com.usereserva:id/aply_coupon_seller_bag_button"
                         width="100%"
                         title="APLICAR"
                         onPress={handleAddSellerCoupons}
@@ -1276,6 +1284,7 @@ export const BagScreen = ({ route }: Props) => {
                     </Box>
                     <Box>
                       <Button
+                        testID="com.usereserva:id/aply_coupon_discount_bag_button"
                         width="100%"
                         title="APLICAR"
                         onPress={handleAddCoupons}
@@ -1459,10 +1468,10 @@ export const BagScreen = ({ route }: Props) => {
                       || topBarLoading
                     }
                     onPress={onGoToDelivery}
+                    testID="com.usereserva:id/going_shooping_button"
                     title="IR PARA ENTREGA"
                     variant="primarioEstreito"
                     inline
-                    testID="com.usereserva:id/bag_button_go_to_delivery"
                   />
                 </Box>
               )

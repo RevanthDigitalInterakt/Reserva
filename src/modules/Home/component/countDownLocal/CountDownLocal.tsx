@@ -17,6 +17,7 @@ import type { ICountDownClock } from '../../../../graphql/countDownClock/countdo
 import FlipNumber from '../flipcountdoun/FlipNumber';
 import { useChronometerLocal } from './useChronometerLocal';
 import { platformType } from '../../../../utils/platformType';
+import testProps from '../../../../utils/testProps';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -145,6 +146,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
       alignItems="center"
       alignSelf="center"
       backgroundColor={clockColor[watchType - 1]?.colorBanner}
+      testID="com.usereserva:id/count_down_local_container"
     >
       <Box width={deviceWidth} paddingX={22}>
         <Box alignItems="center" mb={8} mt={12}>
@@ -153,6 +155,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
             color={textColor}
             fontFamily="reservaSerifMedium"
             fontSize={normalize(26)}
+            testID="com.usereserva:id/count_down_local_title"
           >
             {countDownLocal?.title}
             {' '}
@@ -162,6 +165,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
                 color={textColor}
                 fontFamily="reservaSerifLight"
                 fontSize={normalize(26)}
+                testID="com.usereserva:id/count_down_local_subtitle"
               >
                 {countDownLocal?.subtitle}
               </Typography>
@@ -186,6 +190,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
             </Box>
             <Box flexDirection="row" alignItems="center" mt={5}>
               <FlipNumber
+                testID="com.usereserva:id/flip_number_hours"
                 clockBackgroundColor={
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
@@ -200,6 +205,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
               </Box>
 
               <FlipNumber
+                testID="com.usereserva:id/flip_number_minutes"
                 clockBackgroundColor={
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
@@ -213,6 +219,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
               </Box>
 
               <FlipNumber
+                testID="com.usereserva:id/flip_number_seconds"
                 clockBackgroundColor={
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
@@ -222,7 +229,7 @@ export const CountDownLocal: React.FC<CountDownProps> = ({
             </Box>
           </Box>
           <Box alignItems="center" flex={1}>
-            <TouchableOpacity style={{ width: '100%' }} onPress={goToPromotion}>
+            <TouchableOpacity style={{ width: '100%' }} onPress={goToPromotion} {...testProps('com.usereserva:id/count_down_local_button')}>
               <Box
                 bg={clockColor[watchType - 1]?.colorButton}
                 paddingY={12}
@@ -283,9 +290,11 @@ const CheckTheRules = ({
       justifyContent="center"
       px={34}
       py={45}
+      testID="com.usereserva:id/check_The_rules_container"
     >
       <Box position="absolute" top={16} right={20} zIndex={4}>
         <Button
+          testID="com.usereserva:id/count_down_local_button_close"
           onPress={() => setIsVisible(false)}
           variant="icone"
           icon={<Icon size={17} name="Close" />}
@@ -296,6 +305,7 @@ const CheckTheRules = ({
           textAlign="center"
           fontFamily="reservaSerifBold"
           fontSize={34}
+          testID="com.usereserva:id/check_The_rules_titleModal"
         >
           {rulesData?.titleModal}
         </Typography>
@@ -316,6 +326,7 @@ const CheckTheRules = ({
           width="100%"
           height={50}
           onPress={goToPromotion}
+          testID="com.usereserva:id/check_the_rules_button"
         >
           <Typography
             color="white"

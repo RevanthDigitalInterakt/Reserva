@@ -802,7 +802,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               )}
 
               <Box bg="dropDownBorderColor">
-                <Button p="nano" onPress={onClickWhatsappButton}>
+                <Button
+                  p="nano"
+                  testID="com.usereserva:id/whatssapp_button_product_catalog"
+                  onPress={onClickWhatsappButton}
+                >
                   <Box flexDirection="row">
                     <Icon name="Whatsapp" size={16} color="preto" />
                     <Box marginX="nano">
@@ -837,6 +841,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               <Box paddingY="micro" flexDirection="row" justifyContent="center">
                 <Box width={1 / 2}>
                   <Button
+                    testID="com.usereserva:id/clear_filter_button_product_catalog"
                     onPress={() => {
                       if (productsQuery.products.length > 0) {
                         setFilterVisible(true);
@@ -868,6 +873,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
                 <Box width={1 / 2}>
                   <Button
+                    testID="com.usereserva:id/button_order_product_catalog"
                     marginRight="micro"
                     marginLeft="nano"
                     borderRadius="nano"
@@ -903,7 +909,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   produtos encontrados
                 </Typography>
                 {!!filterRequestList && filterRequestList.length > 0 && (
-                  <Button onPress={() => setFilterRequestList([])}>
+                  <Button
+                    testID="com.usereserva:id/button_clear_product_catalog"
+                    onPress={() => setFilterRequestList([])}
+                  >
                     <Typography
                       color="progressTextColor"
                       variant="precoAntigo3"
@@ -919,7 +928,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         />
       ) : (
         !loading && (
-          <EmptyProductCatalog onPress={() => navigation.navigate('Home')} />
+          <EmptyProductCatalog
+            onPress={() => navigation.navigate('Home')}
+          />
         )
       )}
     </DynamicComponent>

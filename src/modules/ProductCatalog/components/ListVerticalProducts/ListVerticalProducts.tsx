@@ -166,6 +166,7 @@ export const ListVerticalProducts = ({
           bg="white"
           alignContent="center"
           pt={163}
+          testID="com.usereserva:id/list_vertical_container_products"
         >
           <Typography
             textAlign="center"
@@ -185,6 +186,7 @@ export const ListVerticalProducts = ({
             </Typography>
           </Box>
           <Button
+            testID="com.usereserva:id/list_vertical_products_back_to_home_button"
             title="VOLTAR"
             onPress={() => {
               navigation.navigate('Home');
@@ -203,6 +205,7 @@ export const ListVerticalProducts = ({
             horizontal={horizontal}
             data={products}
             bounces={false}
+            testID="com.usereserva:id/list_vertical_flat_list"
             keyExtractor={(item, index) => `${item.productId} ${index}`}
             numColumns={horizontal ? 1 : 2}
             ListEmptyComponent={() => (
@@ -296,7 +299,7 @@ export const ListVerticalProducts = ({
                   priceWithDiscount={sellingPrice}
                   price={listPrice || 0}
                   productTitle={item.productName}
-                  testID={`productcard_vertical_${slugify(item.productId)}`}
+                  testID={`com.usereserva:id/productcard_vertical_${slugify(item.productId)}`}
                   onClickImage={() => {
                     EventProvider.logEvent('select_item', {
                       item_list_id: item?.productId,

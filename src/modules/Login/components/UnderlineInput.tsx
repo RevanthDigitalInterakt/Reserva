@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../utils/platformType';
+import testProps from '../../../utils/testProps';
 
 interface UnderlineInputProps {
   placeholder?: string;
@@ -23,7 +24,7 @@ interface UnderlineInputProps {
   onChangeText: (value: string) => void;
   onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   keyboardType?: KeyboardTypeOptions | undefined;
-  accessibilityLabel?: string;
+  testID: string;
 }
 
 const screenWidth = Dimensions.get('window').width;
@@ -39,7 +40,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
   width,
   iconSize,
   keyboardType,
-  accessibilityLabel,
+  testID,
 }) => {
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
@@ -56,6 +57,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
       >
         <Box flexGrow={4}>
           <TextInput
+            {...testProps(testID)}
             onFocus={(e) => onFocus && onFocus(e)}
             secureTextEntry={isSecureText && hidePassword}
             placeholder={placeholder}
@@ -75,12 +77,12 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
               maxWidth: isSecureText ? width - (iconSize + 4) : width,
             }}
             autoCorrect={!isSecureText}
-            accessibilityLabel={accessibilityLabel}
           />
         </Box>
         {isSecureText && (
           <Box justifyContent="center" mr="xxxs">
             <Button
+              testID={`${testID}_button_hide_password`}
               onPress={() => {
                 setHidePassword(!hidePassword);
               }}
@@ -95,6 +97,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
       </Box>
       {showError && (
         <Typography
+          testID="com.usereserva:id/underline_input_msg_show_error"
           color="vermelhoAlerta"
           fontFamily="nunitoRegular"
           fontSize={13}

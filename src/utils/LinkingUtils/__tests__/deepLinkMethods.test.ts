@@ -4,7 +4,7 @@ import {
   defaultInitialUrl,
   productUrl,
 } from '../static/deepLinkMethods';
-import { INPUTS_LINKS, EXPECTED_RESULT } from '../../../../__mocks__/webViewLinks';
+import { EXPECTED_RESULT, INPUTS_LINKS } from '../../../../__mocks__/webViewLinks';
 import { removeProtocol } from '../../removeProtocol';
 
 const DONTMATCHURL = undefined;

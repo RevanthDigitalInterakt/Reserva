@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
+import testProps from '../../../utils/testProps';
 
 interface TooltipProps {
   tooltipText: string,
@@ -35,13 +36,15 @@ export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsV
   }, [isVisible]);
 
   return (
-    <Animated.View style={{
-      opacity: toastOpacity,
-      position: 'absolute',
-      alignSelf: 'center',
-      elevation: 10,
-      zIndex: 10,
-    }}
+    <Animated.View
+      {...testProps('com.usereserva:id/tooltip_product_details')}
+      style={{
+        opacity: toastOpacity,
+        position: 'absolute',
+        alignSelf: 'center',
+        elevation: 10,
+        zIndex: 10,
+      }}
     >
       <Box
         style={

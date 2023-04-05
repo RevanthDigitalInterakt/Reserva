@@ -6,6 +6,7 @@ import { Box, Button, Image } from '@usereservaapp/reserva-ui';
 import type { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import testProps from '../../../utils/testProps';
 
 const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
   image,
@@ -59,8 +60,8 @@ const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
   };
 
   return (
-    <Box>
-      <Button onPress={handleNavigation}>
+    <Box testID="com.usereserva:id/card_container">
+      <Button onPress={handleNavigation} testID="com.usereserva:id/card_button">
         <Image
           autoHeight
           width={configDeviceSizes.DEVICE_WIDTH * 0.85 - 16}

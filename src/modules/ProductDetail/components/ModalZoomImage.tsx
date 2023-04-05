@@ -9,6 +9,7 @@ import {
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { images } from '../../../assets/index';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import testProps from '../../../utils/testProps';
 
 export interface ModalBagProps {
   isVisible: boolean;
@@ -87,6 +88,7 @@ const ModalTutorial = ({
   setOpenTutorial,
 }: ModalTutorialProps) => (
   <TouchableOpacity
+    {...testProps('com.usereserva:id/modal_zoom_button_open')}
     onPress={() => setOpenTutorial(false)}
     style={{
       position: 'absolute',
@@ -265,6 +267,7 @@ export const ModalZoomImage = ({
                 width={20}
               >
                 <Button
+                  testID="com.usereserva:id/modal_zoom_image-button"
                   width={20}
                   height={20}
                   onPress={() => {

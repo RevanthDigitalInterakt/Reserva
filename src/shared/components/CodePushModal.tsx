@@ -122,7 +122,7 @@ class CodePushComponent extends React.Component<{}, CodePushContext> {
               <Box
                 style={{ flex: 1, marginHorizontal: 107 }}
               >
-                <ActivityIndicator/>
+                <ActivityIndicator />
               </Box>
             </ReactNativeModal>
           )

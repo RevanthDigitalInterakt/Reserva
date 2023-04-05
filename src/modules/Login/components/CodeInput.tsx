@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Pressable, TextInput } from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
+import testProps from '../../../utils/testProps';
 
 export interface CodeInputProps {
   // codeMaxSize?: number,
@@ -22,8 +23,8 @@ const CodeInput: React.FC<CodeInputProps> = ({
     refTextInput?.current?.focus();
   };
   return (
-    <Box>
-      <Pressable onPress={handleOnPress}>
+    <Box testID="com.usereserva:id/code_input_container">
+      <Pressable onPress={handleOnPress} {...testProps('com.usereserva:id/code_input_passable')}>
         <Box flexDirection="row" justifyContent="space-between">
           {codeDigitsArray.map((val, idx) => (
             <Box
@@ -48,10 +49,11 @@ const CodeInput: React.FC<CodeInputProps> = ({
       {showError
                 && (
                 <Box mt="quarck">
-                  <Typography fontFamily="nunitoRegular" fontSize={13} color="vermelhoAlerta">{errorMessage}</Typography>
+                  <Typography testID="com.usereserva:id/code_input_message_error" fontFamily="nunitoRegular" fontSize={13} color="vermelhoAlerta">{errorMessage}</Typography>
                 </Box>
                 )}
       <TextInput
+        {...testProps('com.usereserva:id/code_input')}
         ref={refTextInput}
         value={code}
         onChangeText={(code) => onChageCode(code)}

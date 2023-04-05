@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import TransformUtil from '../../../../utils/transformUtil';
 import FlipCard from './FlipCard';
 import Card from './Card';
+import testProps from '../../../../utils/testProps';
 
 const { width } = Dimensions.get('window');
 
@@ -82,24 +83,29 @@ class NumberCard extends React.Component {
       number, previousNumber, size, clockBackgroundColor, colorDivider,
     } = this.props;
     return (
-      <View style={[style.numberWrapper,
-        {
-          backgroundColor: clockBackgroundColor, minWidth: size, height: size / 1.1, borderRadius: size / 10, margin: 0, padding: 0,
-        }]}
+      <View
+        style={[style.numberWrapper,
+          {
+            backgroundColor: clockBackgroundColor, minWidth: size, height: size / 1.1, borderRadius: size / 10, margin: 0, padding: 0,
+          }]}
+        {...testProps('com.usereserva:id/number_card_container')}
       >
         <Card
+          testID="com.usereserva:id/number_card_type_upper_card"
           type="upper"
           size={size}
           number={previousNumber}
           colorDivider={colorDivider}
         />
         <Card
+          testID="com.usereserva:id/number_card_type_lower_card"
           type="lower"
           size={size}
           number={number}
           colorDivider={colorDivider}
         />
         <FlipCard
+          testID="com.usereserva:id/number_card_type_front_flip_card"
           clockBackgroundColor={clockBackgroundColor}
           setRef={this.setFrontRef}
           type="front"
@@ -108,6 +114,7 @@ class NumberCard extends React.Component {
           colorDivider={colorDivider}
         />
         <FlipCard
+          testID="com.usereserva:id/number_card__type_back_flip_card"
           clockBackgroundColor={clockBackgroundColor}
           setRef={this.setBackRef}
           type="back"

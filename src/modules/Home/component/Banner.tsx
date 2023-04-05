@@ -4,6 +4,7 @@ import { Dimensions, TouchableHighlight } from 'react-native';
 import { Box, Image } from '@usereservaapp/reserva-ui';
 import EventProvider from '../../../utils/EventProvider';
 import type { IQueryFilters } from '../../../graphql/homePage/HomeQuery';
+import testProps from '../../../utils/testProps';
 
 export interface BannerProps {
   route?: string;
@@ -83,10 +84,11 @@ const Banner: React.FC<BannerProps> = ({
   }, [navigation, route, landingPageId, reference, reservaMini, linkMktIn, orderBy]);
 
   return (
-    <Box alignItems="flex-start">
+    <Box testID="com.usereserva:id/banner_container" alignItems="flex-start">
       <Box mb="quarck" width={1 / 1}>
         <TouchableHighlight
           onPress={handleOnPressed}
+          {...testProps('com.usereserva:id/banner_button')}
         >
           <Image
             height={height}

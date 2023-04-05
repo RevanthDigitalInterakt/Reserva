@@ -4,6 +4,7 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { ScrollView } from 'react-native';
 import { images } from '../../../../assets';
+import testProps from '../../../../utils/testProps';
 
 interface IEmptyBag {
   onPress?: () => void;
@@ -12,6 +13,7 @@ interface IEmptyBag {
 export const EmptyProductCatalog = ({ onPress }: IEmptyBag) => (
   <ScrollView
     contentContainerStyle={{ flexGrow: 1 }}
+    {...testProps('com.usereserva:id/empty_catalog_container')}
   >
     <Box flex={1} alignItems="center" paddingTop={140} paddingX={25}>
       <Image source={images.emptyProductCatalog} />
@@ -41,6 +43,7 @@ export const EmptyProductCatalog = ({ onPress }: IEmptyBag) => (
       justifyContent="flex-end"
     >
       <Button
+        testID="com.usereserva:id/button_back_to_home_empty_product_catalog"
         onPress={onPress}
         inline
         title="VOLTAR PARA HOME"

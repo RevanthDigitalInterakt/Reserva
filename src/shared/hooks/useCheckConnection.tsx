@@ -49,6 +49,7 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
         height="100%"
         alignItems="center"
         justifyContent="center"
+        testID="com.usereserva:id/without_internet_container"
       >
         <Box marginRight="micro">
           <Image

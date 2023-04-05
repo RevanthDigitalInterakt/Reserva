@@ -9,6 +9,7 @@ import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typ
 import type { Carousel as CarouselType, CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import CarrouselScrollIndicator from './CarouselScrollIndicator';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import testProps from '../../../utils/testProps';
 
 interface DefaultCarrouselProps {
   carrousel: CarouselType;
@@ -74,8 +75,9 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
 
   if (carrouselCards.length > 0) {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} {...testProps('com.usereserva:id/default_carrousel_container')}>
         <Carousel
+          testID="com.usereserva:id/default_carrousel_content"
           loop
           width={configDeviceSizes.DEVICE_WIDTH}
           height={carouselHeight}
@@ -90,6 +92,7 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
             <Box alignItems="flex-start">
               <Box mb="quarck" width={1 / 1}>
                 <TouchableHighlight
+                  {...testProps('com.usereserva:id/carrousel_button')}
                   onPress={() => onPressImage(item)}
                   delayLongPress={100}
                   delayPressOut={100}

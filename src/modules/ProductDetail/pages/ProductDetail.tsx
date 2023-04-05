@@ -60,6 +60,7 @@ import { platformType } from '../../../utils/platformType';
 import { getItemPrice, ItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
 import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
+import testProps from '../../../utils/testProps';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -940,7 +941,7 @@ export const ProductDetail: React.FC<Props> = ({
 
                 <ProductDetailCard
                   {...product}
-                  testID={`productdetail_card_${slugify(product.productId)}`}
+                  testID={`com.usereserva:id/productdetail_card_${slugify(product.productId)}`}
                   imagesHeight={3 * (screenWidth / 2)}
                   loadingFavorite={loadingFavorite}
                   title={product.productName}
@@ -1375,6 +1376,7 @@ export const ProductDetail: React.FC<Props> = ({
 
                       <Box flexDirection="row" alignItems="center" mt="xxxs">
                         <TouchableOpacity
+                          {...testProps('com.usereserva:id/modal_accept_conditions_product_details')}
                           onPress={() => setAcceptConditions(!acceptConditions)}
                         >
                           <Box
@@ -1410,6 +1412,7 @@ export const ProductDetail: React.FC<Props> = ({
                             </Typography>
 
                             <TouchableOpacity
+                              {...testProps('com.usereserva:id/modal_terms_conditions_product_details')}
                               onPress={() => setModalTermsAndConditionsisVisible(true)}
                             >
                               <Typography
@@ -1424,6 +1427,7 @@ export const ProductDetail: React.FC<Props> = ({
                           </Box>
 
                           <TouchableOpacity
+                            {...testProps('com.usereserva:id/modal_terms_conditions_product_details')}
                             onPress={() => setModalTermsAndConditionsisVisible(true)}
                           >
                             <Typography
@@ -1449,6 +1453,7 @@ export const ProductDetail: React.FC<Props> = ({
 
                   <Box flexDirection="row" mt="xxxs">
                     <OutlineInput
+                      testID="com.usereserva:id/productdetail_input_cep"
                       onChangeText={(text) => {
                         setCep(text);
                       }}
@@ -1553,6 +1558,7 @@ export const ProductDetail: React.FC<Props> = ({
                     </Typography>
                   </Box>
                   <OutlineInput
+                    testID="com.usereserva:id/productdetail_input_email_promotion"
                     placeholder="Digite seu e-mail"
                     value={emailPromotions}
                     loading={loadingNewsLetter}

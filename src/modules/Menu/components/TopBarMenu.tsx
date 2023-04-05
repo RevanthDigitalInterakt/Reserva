@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { TopBar } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
+import testProps from '../../../utils/testProps';
 
 export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
   loading = false,
@@ -23,6 +24,7 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
       paddingX="quarck"
       bg="white"
       leftButton={{
+        testID: 'com.usereserva:id/top_bar_button',
         marginTop: 'nano',
         color: 'preto',
         name: 'Close',
@@ -32,6 +34,7 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
         },
       }}
       rightButton1={{
+        testID: 'com.usereserva:id/top_bar_search_menu_button',
         name: 'Search',
         size: 24,
         onPress: () => {
@@ -39,6 +42,7 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
         },
       }}
       rightButton2={{
+        testID: 'com.usereserva:id/top_bar_button_handbag',
         name: 'Handbag',
         size: 24,
         onPress: () => {

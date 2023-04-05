@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Box } from '@usereservaapp/reserva-ui';
+import testProps from '../../../utils/testProps';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
@@ -36,7 +37,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ height, width }) => {
   });
 
   return (
-    <Box alignItems="flex-start">
+    <Box alignItems="flex-start" testID="com.usereserva:id/skeleton_container">
       <View
         style={{
           width: width || widthScreen,
@@ -46,6 +47,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ height, width }) => {
         }}
       >
         <AnimatedLinearGradient
+          {...testProps('com.usereserva:id/skeleton_animated_linear_gradient')}
           colors={['#a0a0a0', '#b0b0b0', '#b0b0b0', '#a0a0a0']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}

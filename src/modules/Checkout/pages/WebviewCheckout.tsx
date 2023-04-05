@@ -290,6 +290,7 @@ const Checkout: React.FC<{}> = () => {
             }}
           >
             <WebView
+              testID="com.usereserva:id/web_view_checkout"
               onLoadStart={() => {
                 setLoading(true);
               }}

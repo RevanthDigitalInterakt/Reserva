@@ -12,6 +12,7 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ItemListHelp from '../Components/ItemListHelp';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import testProps from '../../../utils/testProps';
 
 type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
 
@@ -47,6 +48,7 @@ export const HelpCenter = ({ route }: Props) => {
       flex={1}
       style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
+      {...testProps('com.usereserva:id/help_center_container')}
     >
       <TopBarBackButton backButtonPress={() => navigateGoBack()} />
 
@@ -57,6 +59,7 @@ export const HelpCenter = ({ route }: Props) => {
 
         <Box mb="micro" mt="xxxs">
           <SearchBar
+            testID="com.usereserva:id/help_center_input"
             height={36}
             placeholder="Buscar"
             onValueChange={(text) => {

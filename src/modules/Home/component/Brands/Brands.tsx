@@ -4,9 +4,14 @@ import { FlatList, useWindowDimensions } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import Config from 'react-native-config';
-import { brandsCarouselQuery, IBrandCarouselItem, IBrandsCarouselQuery } from '../../../../graphql/brands/brandsCarouselQuery';
+import {
+  brandsCarouselQuery,
+  IBrandCarouselItem,
+  IBrandsCarouselQuery,
+} from '../../../../graphql/brands/brandsCarouselQuery';
 import { BrandContainer, brandShadowContainer, styles } from './styles/styles';
 import EventProvider from '../../../../utils/EventProvider';
+import testProps from '../../../../utils/testProps';
 
 const BrandsComponent = (): JSX.Element => {
   const [brands, setBrands] = useState<IBrandCarouselItem[]>([]);
@@ -52,7 +57,7 @@ const BrandsComponent = (): JSX.Element => {
 
   return (
     <FlatList
-      testID="com.usereserva:id/brands_flatList"
+      {...testProps('com.usereserva:id/brands_flatList')}
       horizontal
       showsHorizontalScrollIndicator={false}
       data={brands}
@@ -63,9 +68,15 @@ const BrandsComponent = (): JSX.Element => {
       contentContainerStyle={styles.contentContainerCarousel}
       scrollEventThrottle={16}
       decelerationRate="fast"
-      renderItem={({ item: { brandLogo: { url }, reference }, index }): JSX.Element => (
+      renderItem={({
+        item: {
+          brandLogo: { url },
+          reference,
+        },
+        index,
+      }): JSX.Element => (
         <BrandContainer
-          testID="com.usereserva:id/brands_brand_container"
+          {...testProps('com.usereserva:id/brands_brand_container')}
           deviceWidth={width}
           index={index}
           onPress={() => handleNavigateToBrand(reference)}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import testProps from '../../../../utils/testProps';
 
 import NumberCard from './NumberCard';
 
@@ -9,6 +10,7 @@ interface IFlipNumber {
   size: number;
   perspective: number;
   clockBackgroundColor: string;
+  testID: string;
   colorDivider: string;
 }
 function FlipNumber({
@@ -18,6 +20,7 @@ function FlipNumber({
   perspective,
   clockBackgroundColor = '#1A1A1A',
   colorDivider = '#1f1f1f',
+  testID,
 }: IFlipNumber) {
   number = parseInt(number) + 1;
   let previousNumber;
@@ -33,7 +36,7 @@ function FlipNumber({
   const numberSplit = number.toString();
   const previousNumberSplit = previousNumber.toString();
   return (
-    <View style={style.wrapper}>
+    <View style={style.wrapper} {...testProps(`com.usereserva:id/${testID}`)}>
       <NumberCard
         number={numberSplit}
         previousNumber={previousNumberSplit}

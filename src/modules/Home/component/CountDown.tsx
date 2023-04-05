@@ -17,6 +17,7 @@ import { useCountDown } from '../../../context/ChronometerContext';
 import type { ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
 import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
+import testProps from '../../../utils/testProps';
 
 export interface CountDownProps {
   countDown?: ICountDownClock;
@@ -131,6 +132,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
 
   return showClock && time !== '00:00:00' ? (
     <Box
+      testID="com.usereserva:id/count_down_banner_container"
       mb={5}
       minHeight={90}
       paddingX={22}
@@ -141,6 +143,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
       <Box width={deviceWidth} paddingX={22}>
         <Box alignItems="center" mb={8} mt={12}>
           <Typography
+            testID="com.usereserva:id/count_down_banner_title"
             lineHeight={normalize(28)}
             color={textColor}
             fontFamily="reservaSerifMedium"
@@ -150,6 +153,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
             {' '}
             {countDown?.subtitle && (
               <Typography
+                testID="com.usereserva:id/count_down_banner_subtitle"
                 lineHeight={normalize(28)}
                 color={textColor}
                 fontFamily="reservaSerifLight"
@@ -178,6 +182,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
             </Box>
             <Box flexDirection="row" alignItems="center" mt={5}>
               <FlipNumber
+                testID="com.usereserva:id/flip_number_hours"
                 clockBackgroundColor={
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
@@ -192,6 +197,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
               </Box>
 
               <FlipNumber
+                testID="com.usereserva:id/flip_number_minutes"
                 clockBackgroundColor={
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
@@ -205,6 +211,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
               </Box>
 
               <FlipNumber
+                testID="com.usereserva:id/flip_number_seconds"
                 clockBackgroundColor={
                   clockColor[watchType - 1]?.clockBackgroundColor
                 }
@@ -214,7 +221,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
             </Box>
           </Box>
           <Box alignItems="center" flex={1}>
-            <TouchableOpacity style={{ width: '100%' }} onPress={goToPromotion}>
+            <TouchableOpacity style={{ width: '100%' }} onPress={goToPromotion} {...testProps('com.usereserva:id/count_down_banner_button_promotion')}>
               <Box
                 bg={clockColor[watchType - 1]?.colorButton}
                 paddingY={12}
@@ -225,7 +232,7 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
                 </Typography>
               </Box>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setShowModal(true)}>
+            <TouchableOpacity onPress={() => setShowModal(true)} {...testProps('com.usereserva:id/count_down_show_modal')}>
               <Typography
                 color={textColor}
                 fontFamily="reservaSansRegular"
@@ -270,6 +277,7 @@ const CheckTheRules = ({
   >
     {/* <ScrollView bounces={false}> */}
     <Box
+      testID="com.usereserva:id/check_the_rules_container"
       bg="white"
       minHeight={184}
       alignItems="center"
@@ -279,6 +287,7 @@ const CheckTheRules = ({
     >
       <Box position="absolute" top={16} right={20} zIndex={4}>
         <Button
+          testID="com.usereserva:id/countDownLocal_checkTheRules_button_close"
           onPress={() => setIsVisible(false)}
           variant="icone"
           icon={<Icon size={17} name="Close" />}
@@ -286,6 +295,7 @@ const CheckTheRules = ({
       </Box>
       <Box>
         <Typography
+          testID="com.usereserva:id/check_the_rules_title_modal"
           textAlign="center"
           fontFamily="reservaSerifBold"
           fontSize={34}
@@ -305,6 +315,7 @@ const CheckTheRules = ({
       </Box>
       <Box width="100%" mt={38} mb={5}>
         <Button
+          testID="com.usereserva:id/check_the_rules_button_promotion"
           variant="primarioEstreito"
           width="100%"
           height={50}

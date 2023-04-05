@@ -7,24 +7,31 @@ import {
 } from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../../utils/platformType';
+import testProps from '../../../../utils/testProps';
 
 interface ICard {
   type: 'upper' | 'lower';
   size: number;
   number: any;
   colorDivider: string;
+  testID: string;
 }
 function Card({
-  type, size, number, colorDivider,
+  type, size, number, colorDivider, testID,
 }: ICard) {
   return (
-    <View style={[style.card, { borderColor: colorDivider, borderBottomColor: colorDivider }, type === 'upper' ? { borderBottomWidth: 0.5 } : { borderTopWidth: 0.5 }]}>
-      <Text style={[style.number, {
-        transform: [type === 'upper' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
-        fontSize: size / 1.8,
-        lineHeight: Platform.OS === platformType.ANDROID ? size / 1.85 : size / 1.65,
-        fontFamily: theme.fonts.reservaSansBold,
-      }]}
+    <View
+      style={[style.card, { borderColor: colorDivider, borderBottomColor: colorDivider }, type === 'upper' ? { borderBottomWidth: 0.5 } : { borderTopWidth: 0.5 }]}
+      {...testProps(testID)}
+    >
+      <Text
+        style={[style.number, {
+          transform: [type === 'upper' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
+          fontSize: size / 1.8,
+          lineHeight: Platform.OS === platformType.ANDROID ? size / 1.85 : size / 1.65,
+          fontFamily: theme.fonts.reservaSansBold,
+        }]}
+        {...testProps('com.usereserva:id/card_number')}
       >
         {number}
       </Text>

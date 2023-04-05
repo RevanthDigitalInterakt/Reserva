@@ -3,6 +3,7 @@ import React from 'react';
 import { Linking, SafeAreaView, ScrollView } from 'react-native';
 import { Typography, Box, Button } from '@usereservaapp/reserva-ui';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import testProps from '../../../utils/testProps';
 
 export const ContactUs: React.FC<{}> = () => {
   const navigation = useNavigation();
@@ -15,7 +16,7 @@ export const ContactUs: React.FC<{}> = () => {
     >
       <TopBarDefault />
 
-      <ScrollView>
+      <ScrollView {...testProps('com.usereserva:id/contact_reserva')}>
         <Box variant="container" flex={1} pt="xs" paddingX="xxxs">
           <Box mb="xxxs" alignSelf="flex-start">
             <Typography variant="tituloSessoes">Fale conosco</Typography>
@@ -31,7 +32,7 @@ export const ContactUs: React.FC<{}> = () => {
           <Box width="100%">
             <Button
               onPress={() => Linking.openURL(`whatsapp://send?phone=${552121084990}`)}
-              testID="com.usereserva:id/callcenter_button_whatsapp"
+              testID="com.usereserva:id/call_center_button_whatsapp"
               title="WHATSAPP RESERVA"
               variant="primarioEstreito"
               inline
@@ -47,7 +48,7 @@ export const ContactUs: React.FC<{}> = () => {
           <Box width="100%" mt="xxs">
             <Button
               onPress={() => navigation.navigate('WebviewZendesk')}
-              testID="com.usereserva:id/callcenter_button_send_message"
+              testID="com.usereserva:id/call_center_button_send_message"
               title="ENVIE UMA MENSAGEM"
               variant="primarioEstreitoOutline"
               inline

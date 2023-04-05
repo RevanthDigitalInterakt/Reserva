@@ -469,7 +469,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
       >
         <Box paddingX="xxxs" pt="xxxs" pb="xxs">
-          <Box>
+          <Box testID="com.usereserva:id/delivery_title">
             <Typography
               color="preto"
               fontFamily="reservaSerifRegular"
@@ -505,6 +505,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           <Box flexDirection="row" justifyContent="space-between">
             <Box flex={1}>
               <Button
+                testID="com.usereserva:id/delivery_button_receive_home"
                 onPress={() => {
                   setSelectMethodDelivery(false);
                 }}
@@ -513,7 +514,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 borderWidth="hairline"
                 inline
                 height={50}
-                testID="com.usereserva:id/delivery_button_receive_home"
                 bg={!selectMethodDelivery ? 'preto' : 'white'}
               >
                 <Typography
@@ -530,6 +530,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
             <Box flex={1}>
               <Button
+                testID="com.usereserva:id/delivery_button_pick_up_in_store"
                 marginLeft="nano"
                 borderColor="preto"
                 borderWidth="hairline"
@@ -539,10 +540,9 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 onPress={() => {
                   setSelectMethodDelivery(true);
                 }}
-                testID="com.usereserva:id/delivery_button_pick_up_in_store"
                 bg={selectMethodDelivery ? 'preto' : 'white'}
               >
-                <Box>
+                <Box testID="com.usereserva:id/select_method_delivery">
                   <Typography
                     color={selectMethodDelivery ? 'white' : 'preto'}
                     fontFamily="nunitoRegular"
@@ -590,11 +590,17 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
           )}
         </Box>
         {cookie != null && !selectMethodDelivery && (
-          <Box justifyContent="flex-end" alignItems="center" mt="xxxs">
+          <Box
+            testID="com.usereserva:id/delivery_add_adress"
+            justifyContent="flex-end"
+            alignItems="center"
+            mt="xxxs"
+          >
             <Button
               onPress={() => navigation.navigate('NewAddress', {
                 executeCallback: createPayload,
               })}
+              testID="com.usereserva:id/delivery_button_add_address"
               height={50}
               width={configDeviceSizes.DEVICE_WIDTH * 0.8}
               inline
@@ -603,7 +609,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
               lineHeight={24}
               letterSpacing={1.6}
               title="ADICIONAR ENDEREÇO"
-              testID="com.usereserva:id/delivery_button_add_address"
               variant="primarioEstreitoOutline"
             />
           </Box>

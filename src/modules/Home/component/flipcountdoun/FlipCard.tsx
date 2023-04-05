@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../../utils/platformType';
+import testProps from '../../../../utils/testProps';
 
 interface IFlipCard {
   setRef: any;
@@ -12,6 +13,7 @@ interface IFlipCard {
   number: any;
   clockBackgroundColor: string;
   colorDivider: string;
+  testID: string;
 }
 
 function FlipCard({
@@ -21,9 +23,11 @@ function FlipCard({
   number,
   clockBackgroundColor,
   colorDivider,
+  testID,
 }: IFlipCard) {
   return (
     <Animated.View
+      {...testProps(testID)}
       ref={setRef}
       style={[style.flipCard,
         {
@@ -47,12 +51,14 @@ function FlipCard({
       ]}
     >
       <View style={[style.overflowContainer, { width: size, alignItems: 'center', justifyContent: 'center' }]}>
-        <Text style={[style.number, {
-          transform: [type === 'front' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
-          fontSize: size / 1.8,
-          lineHeight: Platform.OS === platformType.ANDROID ? size / 1.85 : size / 1.65,
-          fontFamily: theme.fonts.reservaSansBold,
-        }]}
+        <Text
+          {...testProps('com.usereserva:id/flip_card_number')}
+          style={[style.number, {
+            transform: [type === 'front' ? { translateY: size * 0.23 } : { translateY: -size * 0.23 }],
+            fontSize: size / 1.8,
+            lineHeight: Platform.OS === platformType.ANDROID ? size / 1.85 : size / 1.65,
+            fontFamily: theme.fonts.reservaSansBold,
+          }]}
         >
           {number}
         </Text>

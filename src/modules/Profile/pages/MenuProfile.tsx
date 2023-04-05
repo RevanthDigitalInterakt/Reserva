@@ -29,6 +29,7 @@ import ItemList from '../Components/ItemList';
 import { withAuthentication } from '../HOC/withAuthentication';
 import EventProvider from '../../../utils/EventProvider';
 import useDitoStore from '../../../zustand/useDitoStore';
+import testProps from '../../../utils/testProps';
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
@@ -248,7 +249,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box alignContent="flex-start" pt="xs">
           <Box flexDirection="row" alignItems="center" paddingX="xxxs">
-            <Box>
+            <Box testID="com.usereserva:id/menu_profile_avatar">
               {imageProfile === null ? (
                 <Avatar
                   sizeImage={60}
@@ -330,7 +331,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
               />
             </Box>
             {cashbackDropOpen && (
-              <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs">
+              <Box bg="#F6F6F6" paddingX="xxs" paddingY="xxxs" testID="com.usereserva:id/menu_profile_cash_back">
                 <Box paddingX="xxs" pb="xxs">
                   <TouchableOpacity onPress={handleCashback}>
                     <Typography fontFamily="nunitoRegular" fontSize={14}>
@@ -340,6 +341,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
                 </Box>
                 <Box paddingX="xxs">
                   <TouchableOpacity
+                    {...testProps('com.usereserva:id/my_cashback_button')}
                     onPress={() => navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)}
                   >
                     <Typography fontFamily="nunitoRegular" fontSize={14}>
@@ -350,7 +352,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
               </Box>
             )}
             {balanceCashbackInApp && (
-              <Box paddingX="xxxs">
+              <Box paddingX="xxxs" testID="com.usereserva:id/menu_profile_balance">
                 <ItemList
                   title="Meus créditos"
                   descr="Visualize seus créditos"
@@ -395,11 +397,11 @@ const MenuScreen: React.FC<{}> = ({}) => {
 
             <Box marginY="xs" justifyContent="flex-end">
               <Button
+                testID="com.usereserva:id/profile_button_logout"
                 width={150}
                 disabled={loading}
                 onPress={() => logout()}
                 title="LOGOUT"
-                testID="com.usereserva:id/profile_button_logout"
                 variant="primarioEstreitoOutline"
               />
             </Box>

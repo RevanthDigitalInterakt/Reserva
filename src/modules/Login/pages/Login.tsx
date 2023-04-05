@@ -21,6 +21,7 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
 import useDitoStore from '../../../zustand/useDitoStore';
+import testProps from '../../../utils/testProps';
 
 enum CryptType {
   SHA256 = 3,
@@ -123,7 +124,7 @@ export const LoginScreen: React.FC<Props> = ({
         AsyncStorage.setItem(
           '@RNAuth:email',
           loginCredentials.username.trim().toLowerCase(),
-        ).then(() => {});
+        ).then(() => { });
         await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
         await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
       } else {
@@ -205,7 +206,10 @@ export const LoginScreen: React.FC<Props> = ({
         }}
         loading={isLoadingEmail}
       />
-      <ScrollView testID="com.usereserva:id/login_scrollview">
+      <ScrollView
+        {...testProps('com.usereserva:id/login_scrollview')}
+        keyboardShouldPersistTaps="always"
+      >
         <Box px="xxs" pt="xxs" paddingBottom="xxl">
           <Typography fontFamily="reservaSerifRegular" fontSize={22}>
             Boas-vindas!
@@ -219,7 +223,7 @@ export const LoginScreen: React.FC<Props> = ({
             </Box>
 
             <UnderlineInput
-              accessibilityLabel="login_input_email"
+              testID="com.usereserva:id/login_input_email"
               placeholder="Digite seu e-mail"
               keyboardType="email-address"
               isSecureText={false}
@@ -245,7 +249,7 @@ export const LoginScreen: React.FC<Props> = ({
             {!loginWithCode && (
               <Box mt="md" width="100%">
                 <UnderlineInput
-                  accessibilityLabel="login_input_password"
+                  testID="com.usereserva:id/login_input_password"
                   isSecureText
                   placeholder="Digite sua senha"
                   value={loginCredentials.password}
@@ -290,8 +294,10 @@ export const LoginScreen: React.FC<Props> = ({
             )}
           </Box>
           <Box mt="md" />
+          {/* TODO  add {...testProps(testID)} reserva-ui */}
           <Button
-            testID="com.usereserva:id/login_button_entrar"
+            accessible={false}
+            testID="com.usereserva:id/login_button_sign_in"
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant="primarioEstreitoOutline"
@@ -348,7 +354,7 @@ export const LoginScreen: React.FC<Props> = ({
           </Box>
 
           <Button
-            testID="com.usereserva:id/login_button_cadastrese"
+            testID="com.usereserva:id/login_button_sign_up"
             title="CADASTRE-SE"
             inline
             variant="primarioEstreito"

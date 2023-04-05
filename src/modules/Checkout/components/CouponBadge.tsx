@@ -23,6 +23,7 @@ export const CouponBadge: React.FC<ICouponBadge> = ({ value, onPress }) => (
     borderRadius="pico"
     marginTop="nano"
     mr="nano"
+    testID="com.usereserva:id/coupon-badge-container"
   >
     <Typography fontFamily="nunitoRegular" fontSize={13}>
       {value}
@@ -32,6 +33,7 @@ export const CouponBadge: React.FC<ICouponBadge> = ({ value, onPress }) => (
       marginLeft="micro"
       variant="icone"
       icon={<Icon name="Close" size={10} />}
+      testID="com.usereserva:id/coupon-badge-close"
     />
   </Box>
 );

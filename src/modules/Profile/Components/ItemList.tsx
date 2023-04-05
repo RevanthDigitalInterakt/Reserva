@@ -5,6 +5,7 @@ import {
   Box, Divider, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
 import { slugify } from '../../../utils/slugify';
+import testProps from '../../../utils/testProps';
 
 interface ItemListProps {
   title: string;
@@ -22,7 +23,10 @@ const ItemList = ({
 
   return (
     <>
-      <TouchableOpacity onPress={onPress} testID={`generic_button_${slugify(title)}`}>
+      <TouchableOpacity
+        onPress={onPress}
+        {...testProps(`com.usereserva:id/generic_button_${slugify(title)}`)}
+      >
         <Box mb="micro" mt="micro" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Box flexDirection="row" alignItems="center">
             <Box pr="micro" justifyContent="flex-start">

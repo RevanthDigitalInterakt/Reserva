@@ -602,7 +602,10 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
           {loading ? (
             <Box>
               <Skeleton>
-                <Box marginRight={15} marginLeft={21}>
+                <Box
+                  marginRight={15}
+                  marginLeft={21}
+                >
                   <Box
                     bg="neutroFrio1"
                     height={35}
@@ -767,7 +770,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
               )}
 
               <ScrollView>
-                <Modal isVisible={loadingModal}>
+                <Modal testID="com.usereserva:id/bag_old_modal" isVisible={loadingModal}>
                   <Box
                     zIndex={5}
                     height="100%"
@@ -789,6 +792,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                 </Modal>
 
                 <Alert
+                  testID="com.usereserva:id/bag_old_delete_product_modal"
                   onModalHide={() => {
                     modalRef.current && setSuccessModal(true);
                   }}
@@ -897,6 +901,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                             >
                               {giftColors.map((item, index) => (
                                 <Button
+                                  testID="com.usereserva:id/bag_select_color_button"
                                   key={`${index}_btn`}
                                   onPress={() => {
                                     selectedGiftColor !== item
@@ -953,6 +958,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
 
                             {showMoreGiftSize && (
                               <Button
+                                testID="com.usereserva:id/bag_old_see_more_button"
                                 onPress={() => setShowMoreSizes(!showMoreSizes)}
                                 hitSlop={{ left: 50, top: 15, bottom: 15 }}
                               >
@@ -992,6 +998,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                           <Box flex={1} justifyContent="flex-end">
                             <Box>
                               <RadioButtons
+                                testID="com.usereserva:id/bag_old_select_gift_size_button"
                                 size={screenWidth * 0.08}
                                 fontSize={11.5}
                                 disbledOptions={[]}
@@ -1024,6 +1031,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                           ) && (
                           <Box paddingBottom="nano">
                             <Typography
+                              testID="com.usereserva:id/bag_old_discount_first_buy"
                               fontFamily="nunitoRegular"
                               fontSize={11}
                               color="verdeSucesso"
@@ -1087,7 +1095,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                                 : 0
                             }
                             count={optimistQuantities[index]}
-                            testID={`product_card_bag_${slugify(item.productId + item.skuName)}`}
+                            testID={`com.usereserva:id/product_card_bag_${slugify(item.productId + item.skuName)}`}
                             isGift={item.bundleItems.length > 0}
                             isGiftable={item.offerings.some(
                               (offering) => offering?.type === 'Embalagem pra Presente',
@@ -1242,6 +1250,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                   <Box marginTop="nano" flexDirection="row">
                     <Box flex={1} marginRight="micro">
                       <TextField
+                        testID="com.usereserva:id/seller_coupon_input"
                         height={50}
                         value={sellerCoupon}
                         onChangeText={(text) => setSellerCoupon(text)}
@@ -1250,6 +1259,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                     </Box>
                     <Box>
                       <Button
+                        testID="com.usereserva:id/add_seller_coupon_button"
                         width="100%"
                         title="APLICAR"
                         onPress={handleAddSellerCoupons}
@@ -1268,6 +1278,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                   <Box marginTop="xxxs" flexDirection="row">
                     <Box flex={1} marginRight="micro">
                       <TextField
+                        testID="com.usereserva:id/discount_coupon_input"
                         height={50}
                         value={discountCoupon}
                         onChangeText={(text) => setDiscountCoupon(text)}
@@ -1276,6 +1287,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                     </Box>
                     <Box>
                       <Button
+                        testID="com.usereserva:id/discount_coupon_button"
                         width="100%"
                         title="APLICAR"
                         onPress={handleAddCoupons}
@@ -1452,6 +1464,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                   </Box>
 
                   <Button
+                    testID="com.usereserva:id/bag_button_go_to_delivery"
                     disabled={
                       !!(orderForm && orderForm?.items?.length === 0)
                       || loadingProfile
@@ -1462,7 +1475,6 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                     title="IR PARA ENTREGA"
                     variant="primarioEstreito"
                     inline
-                    testID="bag_button_go_to_delivery"
                   />
                 </Box>
               )

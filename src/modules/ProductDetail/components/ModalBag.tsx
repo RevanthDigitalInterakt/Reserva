@@ -27,6 +27,7 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
     <Box>
       <Modal
         isVisible={isVisible}
+        testID="com.usereserva:id/modal_bag"
         onBackdropPress={() => {
           setAnimationFinished(false);
           onBackdropPress();

@@ -85,6 +85,7 @@ export const Recommendation = ({
 
       <Box paddingLeft="quarck" marginTop="xxxs" marginBottom="xxxs">
         <Button
+          testID="com.usereserva:id/show_more_button"
           onPress={() => setShowMore(!showMore)}
           hitSlop={{ left: 50, top: 15, bottom: 15 }}
           flexDirection="row"

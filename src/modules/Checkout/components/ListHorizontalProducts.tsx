@@ -132,6 +132,7 @@ export const ListHorizontalProducts = ({
     <>
       {products && products.length === 0 && (
         <Box
+          testID="com.usereserva:id/list_products_horizontal"
           position="absolute"
           flex={1}
           height="100%"

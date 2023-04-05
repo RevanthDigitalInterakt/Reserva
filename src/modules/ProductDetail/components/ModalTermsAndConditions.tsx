@@ -28,6 +28,7 @@ export const ModalTermsAndConditions: React.FC<Props> = ({
     isVisible={isVisible}
     animationIn="fadeIn"
     animationInTiming={300}
+    testID="com.usereserva:id/terms_and_conditions"
     style={{
       alignItems: 'center',
       justifyContent: 'center',
@@ -196,6 +197,7 @@ export const ModalTermsAndConditions: React.FC<Props> = ({
       </ScrollView>
 
       <Button
+        testID="button_understood_modal_terms_and_conditions"
         mt="xxs"
         title="ENTENDI"
         variant="primarioEstreito"

@@ -6,6 +6,7 @@ import {
 import type { Carousel } from '../../../graphql/homePage/HomeQuery';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import Card from './Card';
+import testProps from '../../../utils/testProps';
 
 interface CardsCarrouselProps {
   carrousel: Carousel;
@@ -29,9 +30,10 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   const scrollX = useRef(new Animated.Value(0)).current;
 
   return (
-    <Box>
+    <Box testID="com.usereserva:id/cards_carrousel_container">
       <Box>
         <Animated.FlatList
+          {...testProps('com.usereserva:id/cards_carrousel_animated_flat_list')}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
             { useNativeDriver: true },
@@ -69,6 +71,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
 
         <Box height={24} flexDirection="row" alignSelf="center">
           <Animated.View
+            {...testProps('com.usereserva:id/cards_carrousel_animated_view')}
             style={[
               styles.slidingIndicatorStyle,
               {
@@ -89,6 +92,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           />
           {myCards.map((_item, index) => (
             <Box
+              testID="com.usereserva:id/cards_carrousel_my_cards"
               key={index}
               justifyContent="center"
               alignItems="center"
