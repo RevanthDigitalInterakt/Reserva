@@ -420,8 +420,8 @@ const OrderDetail = async (orderId: string) => {
 };
 
 const SearchNewOrders = async (page: string, email: string, cookie: string) => {
-  const response = await instance7.get(
-    `oms/user/orders/?clientEmail=${email}&page=${page}&per_page=20&includeProfileLastPurchases=true`,
+  const response = await instance.get(
+    `oms/user/orders/?page=${page}&per_page=20&includeProfileLastPurchases=true`,
     {
       headers: {
         cookie,
