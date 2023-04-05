@@ -37,7 +37,6 @@ import { profileQuery } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
-import { CategoriesParserString } from '../../../utils/categoriesParserString';
 import EventProvider from '../../../utils/EventProvider';
 import { slugify } from '../../../utils/slugify';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -50,6 +49,9 @@ import { Skeleton } from '../components/Skeleton';
 import { platformType } from '../../../utils/platformType';
 import { getPercent } from '../../../utils/getPercent';
 import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
+import {
+  getAFContentId, getAFContentType, getAFQuantity, getQuantity,
+} from '../../../utils/checkoutInitiatedEvents';
 import testProps from '../../../utils/testProps';
 
 const screenWidth = Dimensions.get('window').width;
@@ -434,9 +436,8 @@ export const BagScreen = ({ route }: Props) => {
 
     setLoadingGoDelivery(true);
     if (orderForm && orderForm?.items) {
-      const afContentId = orderForm.items.map((i) => i.productId);
-      const afContentType = orderForm.items.map((i) => CategoriesParserString(i.productCategories));
-      const afQuantity = orderForm.items.map((i) => i.quantity);
+      const arr = getQuantity(orderForm.items);
+
       try {
         const { items } = orderForm;
         if (items.length) {
@@ -459,10 +460,10 @@ export const BagScreen = ({ route }: Props) => {
 
         EventProvider.logEvent('checkout_initiated', {
           price: totalBag + totalDiscountPrice + totalDelivery,
-          content_type: afContentType,
-          content_ids: afContentId,
+          content_type: getAFContentType(orderForm.items),
+          content_ids: getAFContentId(orderForm.items),
           currency: 'BRL',
-          quantity: afQuantity,
+          quantity: getAFQuantity(arr),
         });
       } catch (error) {
         EventProvider.captureException(error);
