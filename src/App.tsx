@@ -58,15 +58,14 @@ const App = () => {
     firstLaunchedData();
   }, []);
 
-  const getTestEnvironment = async () => {
+  const getTestEnvironment = React.useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
-
     if (res === 'true') {
       setIsTesting(true);
     } else {
       setIsTesting(false);
     }
-  };
+  }, []);
 
   const getMaintenanceValue = async () => {
     const screenMaintenance = await RemoteConfigService.getValue<boolean>(
@@ -77,7 +76,7 @@ const App = () => {
 
   useEffect(() => {
     getTestEnvironment();
-  }, []);
+  }, [getTestEnvironment]);
 
   useEffect(() => {
     (async () => {
