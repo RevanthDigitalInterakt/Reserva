@@ -5,6 +5,8 @@ import android.content.Intent;
 // splash screen
 import android.os.Bundle;
 import com.zoontek.rnbootsplash.RNBootSplash;
+import com.usereserva.DeepLinkPath;
+
 
 public class MainActivity extends ReactActivity {
 
@@ -21,11 +23,15 @@ public class MainActivity extends ReactActivity {
   protected void onCreate(Bundle savedInstanceState) {
       RNBootSplash.init(this);
       super.onCreate(null);
+      DeepLinkPath deepLinkPath = new DeepLinkPath(this);
+      deepLinkPath.init(getIntent());
   }
 
   @Override
   public void onNewIntent(Intent intent) {
-    super.onNewIntent(intent);
-    setIntent(intent);
+      super.onNewIntent(intent);
+      setIntent(intent);
+      DeepLinkPath deepLinkPath = new DeepLinkPath(this);
+      deepLinkPath.init(intent);
   }
 }

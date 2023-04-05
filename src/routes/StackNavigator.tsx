@@ -60,7 +60,6 @@ import { LandingPage } from '../modules/LandingPage/LandingPage';
 import RonRedirectToBag from '../pages/RonRedirectToBag';
 import EditProfile from '../pages/EditProfile/EditProfile';
 import type { IFilters } from '../utils/generateFacets';
-import WebViewDeepLink from '../pages/WebViewDeepLink';
 import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
 import { MktFlow } from './flows/mtk.flow';
 import { BagABTest } from '../modules/Checkout/pages/BagABTest';
@@ -272,7 +271,6 @@ export const MainStackScreen = () => (
 
     <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
     <MainStack.Screen name="AsyncDeepLink" component={AsyncDeepLinkScreenLoading} />
-    <MainStack.Screen name="WebViewDeepLink" component={WebViewDeepLink} />
 
     <MainStack.Screen
       name="BagScreen"

@@ -9,6 +9,11 @@ buildscript {
 
 apply plugin: "com.android.application"
 
+project.ext.envConfigFiles = [
+        dev: ".env.qa",
+        prod: ".env"
+]
+
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 // Firebase dependencies
@@ -164,6 +169,8 @@ android {
         versionName "1.18.27"
         missingDimensionStrategy 'react-native-camera', 'general'
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
+        resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")
+        resValue "string", "API_KEY_GATEWAY", project.env.get("API_KEY_GATEWAY")
     }
     splits {
         abi {

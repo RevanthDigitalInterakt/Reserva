@@ -60,10 +60,8 @@ const createRouteFallbackPlatform = async (newPathName: string): Promise<IFallBa
   }
 
   return {
-    routeName: 'WebViewDeepLink',
-    params: {
-      uri: `www.usereserva.com${newPathName}`,
-    },
+    routeName: 'HomeTabs',
+    params: {},
   };
 };
 

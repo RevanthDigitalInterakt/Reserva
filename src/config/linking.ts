@@ -42,9 +42,6 @@ const routesConfig = {
         MY_CASHBACK_MY_WALLET: {
           path: 'wallet-cashback',
         },
-        WebViewDeepLink: {
-          path: 'webview/:uri?',
-        },
       },
     },
   },
