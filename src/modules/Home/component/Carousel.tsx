@@ -97,14 +97,19 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
                   delayLongPress={100}
                   delayPressOut={100}
                 >
-                  <Image
-                    resizeMode="cover"
-                    height={item.image.height}
-                    autoHeight
-                    width={configDeviceSizes.DEVICE_WIDTH}
-                    source={{ uri: item?.image?.url }}
-                    isSkeletonLoading
-                  />
+                  {item?.image?.url
+                    ? (
+                      <Image
+                        resizeMode="cover"
+                        height={item?.image?.height}
+                        autoHeight
+                        width={configDeviceSizes.DEVICE_WIDTH}
+                        source={{ uri: item?.image?.url }}
+                        isSkeletonLoading
+                      />
+                    )
+                    : <View />}
+
                 </TouchableHighlight>
               </Box>
             </Box>

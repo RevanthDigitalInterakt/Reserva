@@ -6,7 +6,7 @@ import ProgressBar from 'react-native-progress/Bar';
 
 const HeaderBanner: React.FC<{
   onClickGoBack?: () => void,
-  imageHeader: any,
+  imageHeader: string,
   loading?: boolean
 }> = ({
   onClickGoBack,

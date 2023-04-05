@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Image } from '@usereservaapp/reserva-ui';
-import { FlatList, useWindowDimensions } from 'react-native';
+import { FlatList, useWindowDimensions, View } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import Config from 'react-native-config';
@@ -90,7 +90,7 @@ const BrandsComponent = (): JSX.Element => {
               resizeMode="contain"
               style={styles.brandImageCarousel}
             />
-          ) : null}
+          ) : <View />}
         </BrandContainer>
       )}
     />

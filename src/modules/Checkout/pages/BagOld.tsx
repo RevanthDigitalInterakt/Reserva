@@ -579,6 +579,8 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
     );
   };
 
+  const giftImage = React.useMemo(() => selectableGifts[0]?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join(''), [selectableGifts]);
+
   return (
     <SafeAreaView
       style={{
@@ -851,10 +853,12 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                     sumPriceShipping={totalBag + totalDiscountPrice}
                     totalDelivery={totalDelivery != 0 ? totalDelivery : 0}
                   />
-                  {orderForm && orderForm.selectableGifts.length > 0 && (
+                  {orderForm
+                  && orderForm.selectableGifts.length > 0
+                  && giftImage && (
                     <Box flexDirection="row" minHeight={152} mt={20}>
                       <Image
-                        source={selectableGifts[0]?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join('')}
+                        source={giftImage}
                         width={screenWidth * 0.25}
                         height={152}
                       />

@@ -41,19 +41,22 @@ const Card = ({ image, onPress }: ICard) => {
               )}
         />
       </Box>
-      <TouchableHighlight
-        onPress={onPress}
-        style={{
-          marginLeft: 14,
-          marginRight: 14,
-        }}
-      >
-        <Image
-          autoHeight
-          width={configDeviceSizes.DEVICE_WIDTH * 0.85 - 28}
-          source={{ uri: image.url }}
-        />
-      </TouchableHighlight>
+      {image?.url
+        ? (
+          <TouchableHighlight
+            onPress={onPress}
+            style={{
+              marginLeft: 14,
+              marginRight: 14,
+            }}
+          >
+            <Image
+              autoHeight
+              width={configDeviceSizes.DEVICE_WIDTH * 0.85 - 28}
+              source={{ uri: image.url }}
+            />
+          </TouchableHighlight>
+        ) : null }
       <Box mt="nano" marginX={14}>
         <Box>
           <Typography fontFamily="nunitoSemiBold">NOME DO PRODUTO</Typography>

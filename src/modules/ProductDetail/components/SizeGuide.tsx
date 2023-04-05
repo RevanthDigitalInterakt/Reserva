@@ -150,14 +150,14 @@ const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose
                   onPress={onClose}
                 />
               </Box>
-              <Image
-                source={
-                    item
-                  }
+              {item ? (
+                <Image
+                  source={item}
+                  width={CARD_WIDTH}
+                  height={CARD_HEIGHT}
+                />
+              ) : null}
 
-                width={CARD_WIDTH}
-                height={CARD_HEIGHT}
-              />
             </Box>
           </Box>
         )}

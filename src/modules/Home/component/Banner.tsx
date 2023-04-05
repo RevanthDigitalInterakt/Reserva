@@ -83,6 +83,10 @@ const Banner: React.FC<BannerProps> = ({
     }
   }, [navigation, route, landingPageId, reference, reservaMini, linkMktIn, orderBy]);
 
+  if (!url) {
+    return null;
+  }
+
   return (
     <Box testID="com.usereserva:id/banner_container" alignItems="flex-start">
       <Box mb="quarck" width={1 / 1}>

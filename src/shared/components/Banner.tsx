@@ -4,8 +4,8 @@ import { Box, Image } from '@usereservaapp/reserva-ui';
 interface IBanner {
   bannerImage: string;
 }
-export const Banner = ({ bannerImage }: IBanner) => (
+export const Banner = ({ bannerImage }: IBanner) => (bannerImage ? (
   <Box>
     <Image height={200} source={bannerImage} width={1 / 1} />
   </Box>
-);
+) : null);

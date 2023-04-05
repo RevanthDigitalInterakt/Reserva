@@ -28,7 +28,7 @@ export const News = ({ data, onPress }: INews) => (
         horizontal
         data={data}
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({ item }) => (item?.image?.url ? (
           <Button
             onPress={() => onPress(item)}
             ml="nano"
@@ -47,7 +47,7 @@ export const News = ({ data, onPress }: INews) => (
               source={{ uri: item.image.url }}
             />
           </Button>
-        )}
+        ) : null)}
         keyExtractor={(item) => item.id}
       />
     </Box>

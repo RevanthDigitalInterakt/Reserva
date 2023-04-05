@@ -52,6 +52,10 @@ const Card: React.FC<ICardProps> = ({
     }
   };
 
+  if (image?.url) {
+    return null;
+  }
+
   return (
     <Box
       style={{
@@ -70,7 +74,7 @@ const Card: React.FC<ICardProps> = ({
         <Image
           autoHeight
           width={width}
-          source={{ uri: image.url }}
+          source={{ uri: image?.url }}
         />
       </Button>
     </Box>

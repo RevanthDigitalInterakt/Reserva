@@ -36,9 +36,6 @@ export const Maintenance: React.FC<MaintenanceProps> = ({ isVisible }) => (isVis
       <Box width="100%" justifyContent="center" alignItems="center">
         <Image
           source={images.foraDoAr}
-            // width={250}
-            // height={160}
-            // resizeMode="contain"
           autoHeight
         />
         <Typography

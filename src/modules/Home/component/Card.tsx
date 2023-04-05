@@ -59,13 +59,17 @@ const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
     });
   };
 
+  if (!image?.url) {
+    return null;
+  }
+
   return (
     <Box testID="com.usereserva:id/card_container">
       <Button onPress={handleNavigation} testID="com.usereserva:id/card_button">
         <Image
           autoHeight
           width={configDeviceSizes.DEVICE_WIDTH * 0.85 - 16}
-          source={{ uri: image?.url }}
+          source={{ uri: image.url }}
         />
       </Button>
     </Box>

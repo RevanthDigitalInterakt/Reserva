@@ -5,6 +5,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import {
   Image, Modal, StyleSheet, TouchableOpacity,
+  View,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { images } from '../../../assets/index';
@@ -244,12 +245,17 @@ export const ModalZoomImage = ({
 
               return null;
             }}
-            renderImage={(props) => (
-              <Image
-                {...props}
-                style={styles.image}
-              />
-            )}
+            renderImage={(props) => {
+              if (props?.source?.uri) {
+                return <View />;
+              }
+              return (
+                <Image
+                  {...props}
+                  style={styles.image}
+                />
+              );
+            }}
             style={styles.modal}
             imageUrls={newArrayImages}
             onCancel={() => setIsVisibleZoom(false)}
