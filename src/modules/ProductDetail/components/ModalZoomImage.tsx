@@ -14,7 +14,7 @@ import testProps from '../../../utils/testProps';
 
 export interface ModalBagProps {
   isVisible: boolean;
-  image: any;
+  image: string[];
   setIsVisibleZoom(isVisible: boolean): void;
   setIndexOpenImage: number;
 }
@@ -246,9 +246,10 @@ export const ModalZoomImage = ({
               return null;
             }}
             renderImage={(props) => {
-              if (props?.source?.uri) {
+              if (!props?.source?.uri) {
                 return <View />;
               }
+
               return (
                 <Image
                   {...props}
