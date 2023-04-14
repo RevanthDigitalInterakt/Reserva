@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useLazyQuery } from '@apollo/client';
 import {
@@ -7,7 +7,9 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { ScrollView, Dimensions, BackHandler } from 'react-native';
+import {
+  ScrollView, Dimensions, BackHandler,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {
   Box,
@@ -46,6 +48,8 @@ import { ColorsToHexEnum } from '../../../graphql/product/colorsToHexEnum';
 import { facetsQuery } from '../../../graphql/facets/facetsQuery';
 import EventProvider from '../../../utils/EventProvider';
 import { generateFacets } from '../../../utils/generateFacets';
+import { useCheckSearchRedirectLazyQuery } from '../../../base/graphql/generated';
+import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -97,6 +101,11 @@ export const SearchScreen: React.FC<Props> = () => {
   });
 
   const [referenceString, setReferenceString] = useState('');
+
+  const [getCheckSearchRedirect] = useCheckSearchRedirectLazyQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'cache-and-network',
+  });
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
@@ -269,8 +278,39 @@ export const SearchScreen: React.FC<Props> = () => {
     }
   }, [returnSearch]);
 
-  const handleSearch = (text: string) => {
+  /**
+   * @name handleCheckSearchTerm
+   * @description Search for specific terms in the backend,
+   * and checks whether it should be opened in the app or browser.
+   * If it is to be opened in the browser and it is on android, it
+   * will use the DeepLinkPathModule module to open a new instance
+   * of the browser and close the current app. On IOS it will only
+   * open the link in the browser.
+   * */
+  const handleCheckSearchTerm = useCallback(async () => {
+    const { data: dataSearch } = await getCheckSearchRedirect({
+      variables: {
+        q: debouncedSearchTerm,
+      },
+    });
+
+    if (dataSearch?.checkSearchRedirect) {
+      await DeepLinkPathModule.openUrlInBrowser({
+        closeCurrentAppInstance: true,
+        url: dataSearch.checkSearchRedirect,
+      });
+    }
+  }, [getCheckSearchRedirect, debouncedSearchTerm]);
+
+  const handleSearch = async (text: string) => {
     setProductData({ data: null, loading: true });
+
+    /**
+     * Searches for specific terms in the backend,
+     * and checks whether it should be opened in the app or browser
+     * */
+    await handleCheckSearchTerm();
+
     if (Object.keys(redirectWightList).includes(text.toLowerCase())) {
       gambiarraRedirect(text).then(({ data }: any) => {
         setShowResults(true);
@@ -314,8 +354,10 @@ export const SearchScreen: React.FC<Props> = () => {
     }
   };
 
-  const handleDebouncedSearchTerm = async () => {
-    const { data } = await getSuggestions({
+  const handleDebouncedSearchTerm = useCallback(async () => {
+    await handleCheckSearchTerm();
+
+    await getSuggestions({
       variables: {
         fullText: debouncedSearchTerm,
       },
@@ -323,7 +365,7 @@ export const SearchScreen: React.FC<Props> = () => {
 
     // setShowResults(false);
     setShowAllProducts(false);
-  };
+  }, [getSuggestions, setShowAllProducts, debouncedSearchTerm, handleCheckSearchTerm]);
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
     setLoadingRefetch(true);

@@ -1,0 +1,3 @@
+query checkSearchRedirect($q: String!) {
+    checkSearchRedirect(q: $q)
+}

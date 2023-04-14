@@ -119,7 +119,7 @@ public class DeepLinkPath {
      * Fecha todas as instancias do app da reserva.
      * Deixando somente o na navegador usuario aberto.
      */
-    private void closeCurrentInstanceApp() {
+    public void closeCurrentInstanceApp() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             this.reactActivity.finishAndRemoveTask();
         } else {
@@ -133,7 +133,7 @@ public class DeepLinkPath {
     * Com isso conseguimos fazer o launcher de uma nova Intent com o navegador do usuario
     * para abrir determinada url, em seguida é reativado o deepLink do pacote reserva.
     * */
-    private void openInBrowser(String url) {
+    public void openInBrowser(String url) {
         setDeepLinkingState(PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

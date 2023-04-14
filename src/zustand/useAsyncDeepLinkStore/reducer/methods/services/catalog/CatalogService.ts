@@ -8,6 +8,7 @@ import EventProvider from '../../../../../../utils/EventProvider';
 import type { IFallBackRoute } from '../../../../types/asyncDeepLinkStore';
 import type { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../../graphql/DeepLink/DeepLinkQuery';
 import { DeeplinkPathDocument } from '../../../../../../base/graphql/generated';
+import DeepLinkPathModule from '../../../../../../NativeModules/DeepLinkPathModule';
 
 interface IExtensionsInArray {
   after: string[];
@@ -58,6 +59,11 @@ const createRouteFallbackPlatform = async (newPathName: string): Promise<IFallBa
       params: {},
     };
   }
+
+  await DeepLinkPathModule.openUrlInBrowser({
+    url: `https://www.usereserva.com${newPathName}`,
+    closeCurrentAppInstance: true,
+  });
 
   return {
     routeName: 'HomeTabs',

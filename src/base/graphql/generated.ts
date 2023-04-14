@@ -17,8 +17,94 @@ export type Scalars = {
   Float: number;
 };
 
+export type CepInput = {
+  cep: Scalars['String'];
+};
+
+export type CepOutput = {
+  __typename?: 'CepOutput';
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  geoCoordinates?: Maybe<Scalars['Int']>;
+  neighborhood?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+};
+
 export type CheckEmailInput = {
   email: Scalars['String'];
+};
+
+export type ConfigCountdownClockOutput = {
+  __typename?: 'ConfigCountdownClockOutput';
+  countdown?: Maybe<Scalars['String']>;
+  countdownStart?: Maybe<Scalars['String']>;
+  descriptionModal?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']>;
+  subtitle?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  titleButton?: Maybe<Scalars['String']>;
+  titleModal?: Maybe<Scalars['String']>;
+  watchType?: Maybe<Scalars['String']>;
+};
+
+export type ConfigCountdownClockReservaOutput = {
+  __typename?: 'ConfigCountdownClockReservaOutput';
+  countdown?: Maybe<Scalars['String']>;
+  descriptionModal?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']>;
+  subtitle?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  titleButton?: Maybe<Scalars['String']>;
+  titleModal?: Maybe<Scalars['String']>;
+  watchType?: Maybe<Scalars['String']>;
+};
+
+export type ConfigDiscountBarOutput = {
+  __typename?: 'ConfigDiscountBarOutput';
+  colorBar?: Maybe<Scalars['String']>;
+  colorButton?: Maybe<Scalars['String']>;
+  coupon?: Maybe<Scalars['String']>;
+  descriptionModal?: Maybe<Scalars['String']>;
+  shareMessage?: Maybe<Scalars['String']>;
+  titleBar?: Maybe<Scalars['String']>;
+  titleButton?: Maybe<Scalars['String']>;
+  titleModal?: Maybe<Scalars['String']>;
+};
+
+export type ConfigOutput = {
+  __typename?: 'ConfigOutput';
+  countDownClock?: Maybe<ConfigCountdownClockOutput>;
+  countDownClockReservaMini?: Maybe<ConfigCountdownClockReservaOutput>;
+  discountCodeBar?: Maybe<ConfigDiscountBarOutput>;
+  name: Scalars['String'];
+  offersPage?: Maybe<Scalars['String']>;
+  online: Scalars['Boolean'];
+  searchCollection: Scalars['String'];
+  searchMedia?: Maybe<ConfigSearchMediaOutput>;
+  searchSuggestionsCollection: Array<Scalars['String']>;
+  shippingBar?: Maybe<ConfigShippingBarOutput>;
+};
+
+export type ConfigSearchMediaItemOutput = {
+  __typename?: 'ConfigSearchMediaItemOutput';
+  image?: Maybe<Scalars['String']>;
+  orderBy?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']>;
+};
+
+export type ConfigSearchMediaOutput = {
+  __typename?: 'ConfigSearchMediaOutput';
+  items: Array<ConfigSearchMediaItemOutput>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type ConfigShippingBarOutput = {
+  __typename?: 'ConfigShippingBarOutput';
+  freeShippingValue?: Maybe<Scalars['Float']>;
+  isFreeShipping?: Maybe<Scalars['Boolean']>;
 };
 
 export type ContentfulCategoryDetailOutput = {
@@ -60,6 +146,12 @@ export type DeeplinkPathInput = {
   path: Scalars['String'];
 };
 
+export type GenericOutput = {
+  __typename?: 'GenericOutput';
+  error: Scalars['Boolean'];
+  message?: Maybe<Scalars['String']>;
+};
+
 export type LoggedInOutput = {
   __typename?: 'LoggedInOutput';
   token: Scalars['String'];
@@ -71,16 +163,23 @@ export type Mutation = {
   orderFormAddGift: OrderformOutput;
   orderFormAddItem: OrderformOutput;
   orderFormAddSellerCoupon: OrderformOutput;
+  orderFormAttachAddress: OrderformOutput;
+  orderFormAttachClient: OrderformOutput;
+  orderFormAttachClientByEmail: OrderformOutput;
   orderFormRemoveDiscountCoupon: OrderformOutput;
   orderFormRemoveGift: OrderformOutput;
   orderFormRemoveSellerCoupon: OrderformOutput;
+  orderFormRemoveUnavailableItems: GenericOutput;
   orderFormUpdateItem: OrderformOutput;
+  profileAddress: ProfileAddressOutput;
+  profileAddressRemove: Scalars['Boolean'];
   recoverPasswordReset: LoggedInOutput;
   recoverPasswordVerificationCode: RequestCodeOutput;
   refreshTokenUrl: Scalars['String'];
   removeCustomer: Scalars['Boolean'];
   sendLead: Scalars['Boolean'];
   signIn: LoggedInOutput;
+  signOut: Scalars['Boolean'];
   signUp: LoggedInOutput;
   signUpVerificationCode: RequestCodeOutput;
 };
@@ -106,6 +205,21 @@ export type MutationOrderFormAddSellerCouponArgs = {
 };
 
 
+export type MutationOrderFormAttachAddressArgs = {
+  input: OrderformSelectAddressInput;
+};
+
+
+export type MutationOrderFormAttachClientArgs = {
+  input: OrderformAttachClientInput;
+};
+
+
+export type MutationOrderFormAttachClientByEmailArgs = {
+  input: OrderformAttachClientByEmailInput;
+};
+
+
 export type MutationOrderFormRemoveDiscountCouponArgs = {
   input: OrderformRemoveCouponInput;
 };
@@ -121,8 +235,23 @@ export type MutationOrderFormRemoveSellerCouponArgs = {
 };
 
 
+export type MutationOrderFormRemoveUnavailableItemsArgs = {
+  input: OrderformRemoveUnavailableItemsInput;
+};
+
+
 export type MutationOrderFormUpdateItemArgs = {
   input: OrderformUpdateItemInput;
+};
+
+
+export type MutationProfileAddressArgs = {
+  input: UpsertProfileAddressInput;
+};
+
+
+export type MutationProfileAddressRemoveArgs = {
+  input: RemoveProfileAddressInput;
 };
 
 
@@ -299,6 +428,41 @@ export type OrderformAddItemInput = {
   seller: Scalars['String'];
 };
 
+export type OrderformAddressOutput = {
+  __typename?: 'OrderformAddressOutput';
+  addressId?: Maybe<Scalars['String']>;
+  addressType?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  complement?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  geoCoordinates?: Maybe<Array<Scalars['Float']>>;
+  isDisposable: Scalars['Boolean'];
+  neighborhood?: Maybe<Scalars['String']>;
+  number?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  receiverName?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+};
+
+export type OrderformAppTotalizersOutput = {
+  __typename?: 'OrderformAppTotalizersOutput';
+  delivery: Scalars['Float'];
+  discount: Scalars['Float'];
+  items: Scalars['Float'];
+  total: Scalars['Float'];
+};
+
+export type OrderformAttachClientByEmailInput = {
+  email: Scalars['String'];
+  orderFormId: Scalars['String'];
+};
+
+export type OrderformAttachClientInput = {
+  orderFormId: Scalars['String'];
+};
+
 export type OrderformClientProfileDataOutput = {
   __typename?: 'OrderformClientProfileDataOutput';
   corporateDocument?: Maybe<Scalars['String']>;
@@ -325,6 +489,13 @@ export type OrderformGiftInput = {
 
 export type OrderformInput = {
   orderFormId?: InputMaybe<Scalars['String']>;
+};
+
+export type OrderformInstallmentInfoOutput = {
+  __typename?: 'OrderformInstallmentInfoOutput';
+  installmentPrice: Scalars['Float'];
+  installmentsNumber: Scalars['Float'];
+  totalPrice: Scalars['Float'];
 };
 
 export type OrderformItemBundleItemOutput = {
@@ -354,22 +525,38 @@ export type OrderformItemOutput = {
   availability: Scalars['String'];
   bundleItems: Array<OrderformItemBundleItemOutput>;
   detailUrl?: Maybe<Scalars['String']>;
+  disableCounter: Scalars['Boolean'];
+  discountApi?: Maybe<Scalars['Float']>;
+  discountPercent: Scalars['Float'];
   ean: Scalars['String'];
+  giftOfferingId?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  imageSource: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
+  isAddedAsGift: Scalars['Boolean'];
+  isAssinaturaSimples: Scalars['Boolean'];
   isGift: Scalars['Boolean'];
+  isGiftable: Scalars['Boolean'];
+  itemColor: Scalars['String'];
+  itemSize: Scalars['String'];
+  key: Scalars['String'];
   listPrice: Scalars['Int'];
   measurementUnit: Scalars['String'];
   name: Scalars['String'];
   offerings: Array<OrderformItemOfferingOutput>;
   price: Scalars['Int'];
   priceValidUntil: Scalars['String'];
+  priceWithDiscount: Scalars['Float'];
   productId: Scalars['String'];
   productRefId: Scalars['String'];
+  productTitle: Scalars['String'];
   quantity: Scalars['Int'];
   refId: Scalars['String'];
   rewardValue: Scalars['Int'];
+  seller: Scalars['String'];
   sellingPrice: Scalars['Int'];
+  showFirstPurchaseDiscountMessage?: Maybe<Scalars['String']>;
+  showTotalDiscountFirstPurchaseValue?: Maybe<Scalars['Float']>;
   skuName: Scalars['String'];
   tax: Scalars['Int'];
   uniqueId: Scalars['String'];
@@ -380,6 +567,8 @@ export type OrderformMarketingDataOutput = {
   __typename?: 'OrderformMarketingDataOutput';
   coupon?: Maybe<Scalars['String']>;
   marketingTags: Array<Scalars['String']>;
+  sellerCoupon?: Maybe<Scalars['String']>;
+  sellerCouponName?: Maybe<Scalars['String']>;
   utmCampaign?: Maybe<Scalars['String']>;
   utmMedium?: Maybe<Scalars['String']>;
   utmSource?: Maybe<Scalars['String']>;
@@ -397,16 +586,68 @@ export type OrderformMessageOutput = {
 
 export type OrderformOutput = {
   __typename?: 'OrderformOutput';
+  allItemsQuantity: Scalars['Int'];
+  appTotalizers: OrderformAppTotalizersOutput;
   clientProfileData?: Maybe<OrderformClientProfileDataOutput>;
+  installmentInfo: OrderformInstallmentInfoOutput;
   items: Array<OrderformItemOutput>;
   marketingData?: Maybe<OrderformMarketingDataOutput>;
-  messages: Array<OrderformMessageOutput>;
+  messages: Array<Scalars['String']>;
+  messagesDetailed: Array<OrderformMessageOutput>;
   orderFormId: Scalars['ID'];
   salesChannel: Scalars['String'];
+  selectableGift?: Maybe<OrderformSelectableGiftOutput>;
+  selectableGifts: Array<OrderformSelectableGiftOutput>;
+  shippingData?: Maybe<OrderformShippingDataOutput>;
 };
 
 export type OrderformRemoveCouponInput = {
   orderFormId: Scalars['String'];
+};
+
+export type OrderformRemoveUnavailableItemsInput = {
+  orderFormId: Scalars['String'];
+};
+
+export type OrderformSelectAddressInput = {
+  addressId: Scalars['String'];
+  orderFormId: Scalars['String'];
+};
+
+export type OrderformSelectableGiftAvailableGiftOutput = {
+  __typename?: 'OrderformSelectableGiftAvailableGiftOutput';
+  availability: Scalars['String'];
+  detailUrl: Scalars['String'];
+  ean: Scalars['String'];
+  id: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  isGift?: Maybe<Scalars['Boolean']>;
+  isSelected: Scalars['Boolean'];
+  measurementUnit: Scalars['String'];
+  name: Scalars['String'];
+  productId: Scalars['String'];
+  productRefId: Scalars['String'];
+  refId: Scalars['String'];
+  rewardValue?: Maybe<Scalars['Float']>;
+  skuName: Scalars['String'];
+  tax?: Maybe<Scalars['Float']>;
+  uniqueId: Scalars['String'];
+  unitMultiplier: Scalars['Float'];
+};
+
+export type OrderformSelectableGiftOutput = {
+  __typename?: 'OrderformSelectableGiftOutput';
+  availableGifts: Array<OrderformSelectableGiftAvailableGiftOutput>;
+  availableQuantity?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
+};
+
+export type OrderformShippingDataOutput = {
+  __typename?: 'OrderformShippingDataOutput';
+  address?: Maybe<OrderformAddressOutput>;
+  availableAddresses: Array<OrderformAddressOutput>;
+  /** @deprecated Use field `address` instead of `selectedAddresses` */
+  selectedAddresses: Array<OrderformAddressOutput>;
 };
 
 export type OrderformUpdateItemInput = {
@@ -430,38 +671,121 @@ export type PaginationInput = {
   page: Scalars['Int'];
 };
 
+export type ProductItemOutput = {
+  __typename?: 'ProductItemOutput';
+  images: Array<Scalars['String']>;
+  itemId?: Maybe<Scalars['String']>;
+  sellers: Array<ProductItemSellerOutput>;
+  variations: Array<ProductItemVariationOutput>;
+};
+
+export type ProductItemSellerCommertialOfferInstallmentOutput = {
+  __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput';
+  numberOfInstallments: Scalars['Float'];
+  totalValuePlusInterestRate: Scalars['Float'];
+  value: Scalars['Float'];
+};
+
+export type ProductItemSellerCommertialOfferOutput = {
+  __typename?: 'ProductItemSellerCommertialOfferOutput';
+  availableQuantity: Scalars['Float'];
+  installments: Array<ProductItemSellerCommertialOfferInstallmentOutput>;
+  listPrice: Scalars['Float'];
+  price: Scalars['Float'];
+  priceWithoutDiscount: Scalars['Float'];
+  spotPrice: Scalars['Float'];
+  tax: Scalars['Float'];
+  taxPercentage: Scalars['Float'];
+};
+
+export type ProductItemSellerOutput = {
+  __typename?: 'ProductItemSellerOutput';
+  commertialOffer?: Maybe<ProductItemSellerCommertialOfferOutput>;
+  sellerDefault?: Maybe<Scalars['Boolean']>;
+  sellerId?: Maybe<Scalars['String']>;
+};
+
+export type ProductItemVariationOutput = {
+  __typename?: 'ProductItemVariationOutput';
+  name?: Maybe<Scalars['String']>;
+  originalName?: Maybe<Scalars['String']>;
+  values?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ProductOutput = {
+  __typename?: 'ProductOutput';
+  categoryTree?: Maybe<Array<Scalars['String']>>;
+  items: Array<ProductItemOutput>;
+  priceRange: ProductPriceRangeOutput;
+  productId: Scalars['String'];
+  productName: Scalars['String'];
+};
+
+export type ProductPriceLevelOutput = {
+  __typename?: 'ProductPriceLevelOutput';
+  highPrice: Scalars['Float'];
+  lowPrice: Scalars['Float'];
+};
+
+export type ProductPriceRangeOutput = {
+  __typename?: 'ProductPriceRangeOutput';
+  listPrice: ProductPriceLevelOutput;
+  sellingPrice: ProductPriceLevelOutput;
+};
+
 export type ProfileAddressOutput = {
   __typename?: 'ProfileAddressOutput';
-  addressId?: Maybe<Scalars['ID']>;
+  addressName?: Maybe<Scalars['String']>;
   addressType?: Maybe<Scalars['String']>;
   city?: Maybe<Scalars['String']>;
   complement?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   neighborhood?: Maybe<Scalars['String']>;
   number?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
   receiverName?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
   street?: Maybe<Scalars['String']>;
 };
 
+export type ProfileCustomFieldOutput = {
+  __typename?: 'ProfileCustomFieldOutput';
+  cacheId?: Maybe<Scalars['String']>;
+  key?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
 export type ProfileOutput = {
   __typename?: 'ProfileOutput';
+  addresses: Array<ProfileAddressOutput>;
   authCookie?: Maybe<Scalars['String']>;
-  availableAddresses: Array<ProfileAddressOutput>;
+  birthDate?: Maybe<Scalars['String']>;
+  customFields: Array<ProfileCustomFieldOutput>;
   document?: Maybe<Scalars['String']>;
-  documentType?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
+  gender?: Maybe<Scalars['String']>;
+  homePhone?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isComplete: Scalars['Boolean'];
   lastName?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
+  payments: Array<ProfilePaymentOutput>;
+};
+
+export type ProfilePaymentOutput = {
+  __typename?: 'ProfilePaymentOutput';
+  cardNumber?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  cep?: Maybe<CepOutput>;
   checkIfUserExists: Scalars['Boolean'];
+  checkSearchRedirect?: Maybe<Scalars['String']>;
+  config?: Maybe<ConfigOutput>;
   contentfulCategories: Array<ContentfulCategoryOutput>;
   contentfulCategory: ContentfulCategoryDetailOutput;
   contentfulCollections: Array<ContentfulCollectionOutput>;
@@ -471,14 +795,25 @@ export type Query = {
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
+  productRecommendations: Array<ProductOutput>;
   profile: ProfileOutput;
   sellerInfo?: Maybe<SellerInfoOutput>;
   sellersMktin: Array<Scalars['String']>;
 };
 
 
+export type QueryCepArgs = {
+  input: CepInput;
+};
+
+
 export type QueryCheckIfUserExistsArgs = {
   input: CheckEmailInput;
+};
+
+
+export type QueryCheckSearchRedirectArgs = {
+  q: Scalars['String'];
 };
 
 
@@ -526,6 +861,10 @@ export type QuerySellerInfoArgs = {
   input: SellerInfoInput;
 };
 
+export type RemoveProfileAddressInput = {
+  addressId: Scalars['String'];
+};
+
 export type RequestCodeOutput = {
   __typename?: 'RequestCodeOutput';
   cookies: Array<Scalars['String']>;
@@ -560,6 +899,19 @@ export type SendLeadInput = {
 export type SignInInput = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type UpsertProfileAddressInput = {
+  addressId?: InputMaybe<Scalars['ID']>;
+  city: Scalars['String'];
+  complement?: InputMaybe<Scalars['String']>;
+  country: Scalars['String'];
+  neighborhood: Scalars['String'];
+  number: Scalars['String'];
+  postalCode: Scalars['String'];
+  receiverName: Scalars['String'];
+  state: Scalars['String'];
+  street: Scalars['String'];
 };
 
 export type VtexUserInput = {
@@ -600,6 +952,13 @@ export type CheckIfUserExistsQueryVariables = Exact<{
 
 
 export type CheckIfUserExistsQuery = { __typename?: 'Query', checkIfUserExists: boolean };
+
+export type CheckSearchRedirectQueryVariables = Exact<{
+  q: Scalars['String'];
+}>;
+
+
+export type CheckSearchRedirectQuery = { __typename?: 'Query', checkSearchRedirect?: string | null };
 
 export type DeeplinkPathQueryVariables = Exact<{
   path: Scalars['String'];
@@ -765,6 +1124,42 @@ export type CheckIfUserExistsLazyQueryHookResult = ReturnType<typeof useCheckIfU
 export type CheckIfUserExistsQueryResult = Apollo.QueryResult<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>;
 export function refetchCheckIfUserExistsQuery(variables: CheckIfUserExistsQueryVariables) {
       return { query: CheckIfUserExistsDocument, variables: variables }
+    }
+export const CheckSearchRedirectDocument = gql`
+    query checkSearchRedirect($q: String!) {
+  checkSearchRedirect(q: $q)
+}
+    `;
+
+/**
+ * __useCheckSearchRedirectQuery__
+ *
+ * To run a query within a React component, call `useCheckSearchRedirectQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckSearchRedirectQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckSearchRedirectQuery({
+ *   variables: {
+ *      q: // value for 'q'
+ *   },
+ * });
+ */
+export function useCheckSearchRedirectQuery(baseOptions: Apollo.QueryHookOptions<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>(CheckSearchRedirectDocument, options);
+      }
+export function useCheckSearchRedirectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>(CheckSearchRedirectDocument, options);
+        }
+export type CheckSearchRedirectQueryHookResult = ReturnType<typeof useCheckSearchRedirectQuery>;
+export type CheckSearchRedirectLazyQueryHookResult = ReturnType<typeof useCheckSearchRedirectLazyQuery>;
+export type CheckSearchRedirectQueryResult = Apollo.QueryResult<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>;
+export function refetchCheckSearchRedirectQuery(variables: CheckSearchRedirectQueryVariables) {
+      return { query: CheckSearchRedirectDocument, variables: variables }
     }
 export const DeeplinkPathDocument = gql`
     query deeplinkPath($path: String!) {
