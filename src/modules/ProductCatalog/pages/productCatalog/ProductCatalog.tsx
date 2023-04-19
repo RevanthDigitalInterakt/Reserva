@@ -262,7 +262,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   useEffect(() => {
     try {
       EventProvider.logEvent('product_list_view', {
-        content_type: referenceString,
+        content_type: 'product_group',
       });
     } catch (err) {
       EventProvider.captureException(err);
@@ -512,7 +512,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             price: item?.priceRange?.sellingPrice?.lowPrice,
             item_id: item?.productId,
             item_name: item?.productName,
-            item_category: Object.values(item?.categoryTree.map((i) => (i.href))).join('|'),
+            item_category: 'product_group',
           })),
         });
       } catch (err) {

@@ -20,6 +20,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { GetPurchaseData } from '../../../services/vtexService';
 import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
+import { getAFContent, sumQuantity } from '../../../utils/checkoutInitiatedEvents';
 
 const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
 const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;
@@ -90,7 +91,7 @@ const Checkout: React.FC<{}> = () => {
               quantity: item?.quantity,
               item_name: item?.name,
               item_variant: item?.skuName,
-              item_category: Object.values(item?.productCategories).join('|') ?? '',
+              item_category: 'product',
             }));
             EventProvider.logEvent('add_payment_info', {
               coupon: '',
@@ -187,16 +188,17 @@ const Checkout: React.FC<{}> = () => {
 
           onHandlePromotionModal(orderValue);
           EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
+
           EventProvider.appsFlyer.logEvent('af_purchase', {
             af_revenue: `${af_revenue}`,
             af_price: `${orderValue.toFixed(2)}`,
             af_content_id: orderForm?.items.map((item) => item.id),
-            af_content_type: orderForm?.items.map(
-              (item) => item.productCategoryIds,
-            ),
+            af_content_type: 'product',
             af_currency: 'BRL',
-            af_quantity: orderForm?.items.map((item) => item.quantity),
+            af_quantity: sumQuantity(orderForm.items),
             af_order_id: orderForm?.orderFormId,
+            af_content: getAFContent(orderForm.items),
+            af_receipt_id: orderForm?.orderFormId,
           });
 
           sendRonTracking(orderValue);

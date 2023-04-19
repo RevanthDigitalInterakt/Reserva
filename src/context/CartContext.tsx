@@ -34,7 +34,6 @@ import {
   SetGiftSize,
   UpdateItemToCart,
 } from '../services/vtexService';
-import { CategoriesParserString } from '../utils/categoriesParserString';
 import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
 import { useCheckIfUserExistsLazyQuery, useOrderFormAddSellerCouponMutation } from '../base/graphql/generated';
@@ -691,8 +690,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         if (productRemoved) return { message: 'O produto não está disponível' };
       }
 
-      const categories = CategoriesParserString(product.productCategories);
-
       // set new order form
       setOrderForm(data);
 
@@ -701,7 +698,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         item_name: product?.name,
         item_price: convertPrice(product?.price || 0),
         item_quantity: quantity,
-        item_category: categories,
+        item_category: 'product',
         currency: 'BRL',
         seller,
       });
@@ -733,9 +730,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       EventProvider.logEvent('remove_from_cart', {
         item_id: itemId,
-        item_categories: CategoriesParserString(
-          productRemoved?.productCategories,
-        ),
+        item_categories: 'product',
       });
 
       return { ok: true };

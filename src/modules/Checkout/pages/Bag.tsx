@@ -28,6 +28,8 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import Modal from 'react-native-modal';
+import appsFlyer from 'react-native-appsflyer';
+import analytics from '@react-native-firebase/analytics';
 import { instance2 } from '../../../config/vtexConfig';
 import ToastProvider, { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
@@ -50,7 +52,8 @@ import { platformType } from '../../../utils/platformType';
 import { getPercent } from '../../../utils/getPercent';
 import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
 import {
-  getAFContentId, getAFContentType, getAFQuantity, getQuantity,
+  getAFContent,
+  getAFContentId, getAFContentType, getQuantity, sumQuantity,
 } from '../../../utils/checkoutInitiatedEvents';
 import testProps from '../../../utils/testProps';
 
@@ -447,7 +450,7 @@ export const BagScreen = ({ route }: Props) => {
             quantity: item?.quantity,
             item_name: item?.name,
             item_variant: item?.skuName,
-            item_category: Object.values(item?.productCategories).join('|') ?? '',
+            item_category: 'product',
           }));
 
           EventProvider.logEvent('begin_checkout', {
@@ -458,12 +461,24 @@ export const BagScreen = ({ route }: Props) => {
           });
         }
 
-        EventProvider.logEvent('checkout_initiated', {
+        appsFlyer.logEvent('af_initiated_checkout', {
+          af_content_type: 'product',
+          af_price: totalBag + totalDiscountPrice + totalDelivery,
+          af_currency: 'BRL',
+          af_content_id: getAFContentId(orderForm.items),
+          af_quantity: sumQuantity(orderForm.items),
+          af_content: getAFContent(orderForm.items),
+        });
+
+        const contentTypeItems = getAFContentType(orderForm.items);
+        const contentIdsItems = getAFContentId(orderForm.items);
+
+        await analytics().logEvent('checkout_initiated', {
           price: totalBag + totalDiscountPrice + totalDelivery,
-          content_type: getAFContentType(orderForm.items),
-          content_ids: getAFContentId(orderForm.items),
+          content_type: JSON.stringify(contentTypeItems),
+          content_ids: JSON.stringify(contentIdsItems),
           currency: 'BRL',
-          quantity: getAFQuantity(arr),
+          quantity: getAFContent(arr),
         });
       } catch (error) {
         EventProvider.captureException(error);

@@ -659,7 +659,7 @@ export const ProductDetail: React.FC<Props> = ({
         EventProvider.logEvent('product_view', {
           product_id: product?.productId,
           product_name: product?.productName,
-          product_category: product?.categoryTree.map((x: any) => x.name).join(),
+          product_category: 'product_group',
           product_price: product?.priceRange?.listPrice?.lowPrice,
           product_currency: 'BRL',
         });
@@ -739,7 +739,7 @@ export const ProductDetail: React.FC<Props> = ({
           quantity: 1,
           item_variant: '',
           item_name: product?.productName,
-          item_category: Object.values(product?.categoryTree?.map((i) => (i?.name)) || {}).join('|'),
+          item_category: 'product_group',
         },
       ],
       value: product?.priceRange?.sellingPrice?.lowPrice,

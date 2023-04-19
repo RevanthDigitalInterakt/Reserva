@@ -1,16 +1,18 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable max-len */
 import { CategoriesParserString } from './categoriesParserString';
 
 type Items = {
   productId: string;
   quantity: number;
-  productCategories: any;
+  productCategories?: any;
+  price: number;
 };
 
-export const getAFContentId = (items: Items[]) => JSON.stringify(items.map((i: Items) => i.productId));
-export const getAFContentType = (items: Items[]) => JSON.stringify(items.map((i: Items) => CategoriesParserString(i.productCategories)));
+export const getAFContentId = (items: Items[]) => items.map((i: Items) => i.productId);
+export const getAFContentType = (items: Items[]) => items.map((i: Items) => CategoriesParserString(i.productCategories));
 export const getQuantity = (items: Items[]) => {
-  const arr = items.reduce((acc, cur) => {
+  const arr = items.reduce((acc: Items[], cur: Items) => {
     const { productId: curId, quantity: curQuantity } = cur;
 
     const indexOfExistingItem = acc.findIndex((item: Items) => item.productId === curId);
@@ -27,7 +29,16 @@ export const getQuantity = (items: Items[]) => {
 
   return arr;
 };
+
+export const getAFContent = (items: Items[]) => items.map((i: Items) => ({
+  id: i.productId,
+  price: i.price / 100 || 0,
+  quantity: i.quantity,
+}));
+
 export const getAFQuantity = (items: Items[]) => JSON.stringify(items.map((i: Items) => ({
   id: i.productId,
   quantity: i.quantity,
 })));
+
+export const sumQuantity = (items: Items[]) => items.reduce((acc, value) => acc + value.quantity, 0);

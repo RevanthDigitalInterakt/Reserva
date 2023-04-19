@@ -127,7 +127,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   );
   useEffect(() => {
     appsFlyer.logEvent('af_list_view', {
-      af_content_type: referenceId,
+      af_content_type: 'product_group',
     });
     analytics().logEvent('product_list_view', {
       content_type: referenceId,

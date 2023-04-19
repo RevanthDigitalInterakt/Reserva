@@ -33,7 +33,7 @@ const productMock = [
     },
     preSaleDate: 'preSaleDate',
     productCategoryIds: 'productCategoryIds',
-    productCategories: { key: 'value', key2: 'value2' },
+    productCategories: 'product',
     quantity: 1,
     seller: 'seller',
     sellerChain: [],
@@ -67,7 +67,7 @@ describe('adaptOrderFormItemsTrack test', () => {
       quantity: 1,
       item_name: 'name',
       item_variant: 'skuName',
-      item_category: 'value|value2',
+      item_category: 'product',
     }]);
   });
 
@@ -85,7 +85,7 @@ describe('adaptOrderFormItemsTrack test', () => {
       quantity: 1,
       item_name: 'name',
       item_variant: 'skuName',
-      item_category: '',
+      item_category: 'product',
     }]);
   });
 });

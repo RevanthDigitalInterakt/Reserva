@@ -60,7 +60,7 @@ export const Recommendation = () => {
         price: item?.priceRange?.sellingPrice?.lowPrice,
         item_id: item?.productId,
         item_name: item?.productName,
-        item_category: Object.values(item.categoryTree.map((i) => (i.href))).join('|'),
+        item_category: 'product_group',
       }));
 
       EventProvider.logEvent('view_item_list', {

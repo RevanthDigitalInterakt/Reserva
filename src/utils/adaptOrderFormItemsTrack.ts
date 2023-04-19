@@ -7,6 +7,6 @@ export function adaptOrderFormItemsTrack(items?: Item[]) {
     quantity: item.quantity,
     item_name: item.name,
     item_variant: item.skuName,
-    item_category: Object.values(item.productCategories || {}).join('|'),
+    item_category: 'product',
   }));
 }

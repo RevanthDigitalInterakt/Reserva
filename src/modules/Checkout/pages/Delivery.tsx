@@ -211,7 +211,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                   quantity: item?.quantity,
                   item_name: item?.name,
                   item_variant: item?.skuName,
-                  item_category: Object.values(item?.productCategories).join('|') ?? '',
+                  item_category: 'product',
                 }));
 
                 EventProvider.logEvent('add_shipping_info', {
@@ -260,7 +260,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 quantity: item?.quantity,
                 item_name: item?.name,
                 item_variant: item?.skuName,
-                item_category: Object.values(item?.productCategories).join('|') ?? '',
+                item_category: 'product',
               }));
 
               EventProvider.logEvent('add_shipping_info', {
