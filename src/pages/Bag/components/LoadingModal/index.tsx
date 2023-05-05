@@ -9,7 +9,7 @@ export default function LoadingModal() {
   const { showLoadingModal } = useBagStore();
 
   return (
-    <Modal isVisible={showLoadingModal}>
+    <Modal isVisible={showLoadingModal} testID="com.usereserva:id/loading-modal">
       <Box
         zIndex={5}
         height="100%"
@@ -20,6 +20,7 @@ export default function LoadingModal() {
         alignItems="center"
       >
         <LottieView
+          testID="com.usereserva:id/lottie-view"
           source={loadingSpinner}
           style={{
             width: 60,

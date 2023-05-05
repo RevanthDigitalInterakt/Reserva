@@ -1248,7 +1248,7 @@ export const BagScreen = ({ route }: Props) => {
                     {/* cupom vendedor */}
                     {!!sellerCode && (
                       <CouponBadge
-                        {...testProps('com.usereserva:id/remove_seller_coupon_badge_button')}
+                        testID="com.usereserva:id/remove_seller_coupon_badge_button"
                         value={`${sellerName} | ${sellerCode.toUpperCase()}`}
                         onPress={async () => {
                           await removeSellerCoupon('');
@@ -1258,7 +1258,7 @@ export const BagScreen = ({ route }: Props) => {
                     {/* cupom desconto */}
                     {orderForm?.marketingData?.coupon && (
                       <CouponBadge
-                        {...testProps('com.usereserva:id/remove_coupon_badge_button')}
+                        testID="com.usereserva:id/remove_coupon_badge_button"
                         value={orderForm?.marketingData?.coupon}
                         onPress={async () => {
                           await removeCoupon('');

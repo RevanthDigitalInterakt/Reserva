@@ -129,6 +129,7 @@ export default function CouponComponent() {
         {/* cupom vendedor */}
         {!!seller.sellerCode && (
           <CouponBadge
+            testID="com.usereserva:id/CouponBadge_sellerCode"
             value={`${seller.sellerName} | ${seller.sellerCode.toUpperCase()}`}
             onPress={handleRemoveSellerCoupom}
           />
@@ -137,6 +138,7 @@ export default function CouponComponent() {
         {/* cupom desconto */}
         {!!discount.discountCode && (
           <CouponBadge
+            testID="com.usereserva:id/CouponBadge_discountCode"
             value={discount.discountCode}
             onPress={handleRemoveDiscountCoupon}
           />
@@ -154,6 +156,7 @@ export default function CouponComponent() {
         </Box>
         <Box>
           <Button
+            testID="com.usereserva:id/button_add_seller_Coupom"
             width="100%"
             title="APLICAR"
             onPress={handleAddSellerCoupom}
@@ -180,6 +183,7 @@ export default function CouponComponent() {
         </Box>
         <Box>
           <Button
+            testID="com.usereserva:id/button_add_discount_Coupom"
             width="100%"
             title="APLICAR"
             onPress={handleAddDiscountCoupon}

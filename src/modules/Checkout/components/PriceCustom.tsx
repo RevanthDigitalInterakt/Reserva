@@ -17,7 +17,7 @@ export const PriceCustom: React.FC<IpriceCustom> = ({
   num, fontFamily, sizeInterger, sizeDecimal, negative, color = 'preto',
 }) => {
   const integerPart = (numInteger: number) => Math.floor(numInteger);
-  const decimalPart = (numDecimal: number) => (`${numDecimal.toFixed(2)}`)?.split('.')[1];
+  const decimalPart = (numDecimal: number) => (`${numDecimal?.toFixed(2)}`)?.split('.')[1];
   return (
     <Box flexDirection="row">
       <Box>

@@ -66,7 +66,7 @@ export default function NotFoundProduct() {
             {`${productNotFound}`}
           </Typography>
         </Box>
-        <Button flex={1} onPress={handleSetNotFoundProduct}>
+        <Button testID="com.usereserva:id/NotFoundProduct_setProduct" flex={1} onPress={handleSetNotFoundProduct}>
           <Icon name="Close" size={15} color="preto" ml="xxxs" />
         </Button>
       </Box>

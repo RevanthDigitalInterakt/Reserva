@@ -9,8 +9,9 @@ import {
 export interface ICouponBadge {
   value: string;
   onPress: () => void;
+  testID?: string;
 }
-export const CouponBadge: React.FC<ICouponBadge> = ({ value, onPress }) => (
+export const CouponBadge: React.FC<ICouponBadge> = ({ value, onPress, testID }) => (
   <Box
     borderColor="divider"
     borderWidth="hairline"
@@ -33,7 +34,8 @@ export const CouponBadge: React.FC<ICouponBadge> = ({ value, onPress }) => (
       marginLeft="micro"
       variant="icone"
       icon={<Icon name="Close" size={10} />}
-      testID="com.usereserva:id/coupon-badge-close"
+      testID={testID}
+
     />
   </Box>
 );
