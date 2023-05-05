@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
-import remoteConfig from '@react-native-firebase/remote-config';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { BagScreen } from './Bag';
-import NewBag from '../../../pages/Bag';
+import { BagOldScreen } from './BagOld';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 export const BagABTest: React.FC<Props> = (props) => {
-  const showNewBag = remoteConfig().getBoolean('show_new_bag');
+  const { getBoolean } = useRemoteConfig();
+
+  const showNewBag = useMemo(() => getBoolean('show_new_bag'), [getBoolean]);
+
   return (
-    showNewBag ? <NewBag {...props} /> : <BagScreen {...props} />
+    showNewBag ? <BagScreen {...props} /> : <BagOldScreen {...props} />
   );
 };

@@ -7,10 +7,11 @@ import {
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { FlatList } from 'react-native';
 import { images } from '../../../../assets';
 import { useAuth } from '../../../../context/AuthContext';
@@ -21,6 +22,7 @@ import { getPercent } from '../../../../utils/getPercent';
 import useMarketPlaceInStore from '../../../../zustand/useMarketPlaceInStore';
 import EventProvider from '../../../../utils/EventProvider';
 import { slugify } from '../../../../utils/slugify';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -57,8 +59,8 @@ export const ListVerticalProducts = ({
   totalProducts,
   handleScrollToTheTop,
 }: ListProductsProps) => {
+  const { getBoolean } = useRemoteConfig();
   const navigation = useNavigation();
-  const [saleOffTag, setSaleOffTag] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
@@ -132,6 +134,10 @@ export const ListVerticalProducts = ({
     }
   };
 
+  const showThumbColors = useMemo(() => getBoolean('show_pdc_thumb_color'), [getBoolean]);
+
+  const saleOffTag = useMemo(() => getBoolean('sale_off_tag'), [getBoolean]);
+
   useEffect(() => {
     populateWishlist();
   }, [products]);
@@ -142,14 +148,8 @@ export const ListVerticalProducts = ({
     }, []),
   );
 
-  useEffect(() => {
-    remoteConfig().fetchAndActivate();
-    const value = remoteConfig().getValue('sale_off_tag');
-    setSaleOffTag(value.asBoolean());
-  }, []);
-
   const getSaleOff = (salOff) => {
-    const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');
+    const idImage = salOff?.clusterHighlights?.find((x) => x.id === '371');
     if (!saleOffTag) return null;
     if (idImage) return images.saleOff;
   };
@@ -266,33 +266,32 @@ export const ListVerticalProducts = ({
                 installmentPrice,
               } = getItemPrice(item.items[0]);
 
+              const product = item.items[0];
+              const colors = showThumbColors
+                ? (product?.variations || [])
+                  .filter(({ name, values }) => !!(name === 'VALOR_HEX_ORIGINAL' && values?.length))
+                  .map(({ values }) => values![0]!)
+                : [];
+
               return (
                 <ProductItem
                   item={item}
                   index={index}
-                  sellerId={
-              mktinActive
-                ? getDefaultSeller(item.items[0].sellers)
-                : null
-            }
+                  sellerId={mktinActive ? getDefaultSeller(item.items[0].sellers) : null}
                   sellersMktIn={sellersMktIn}
                   horizontal={horizontal}
                   loadingFavorite={
                     !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
-            }
-                  isFavorited={
-                    !!favorites.find((x) => x.sku === item.items[0]?.itemId)
-            }
+                  }
+                  showThumbColors={showThumbColors}
+                  colors={colors || []}
+                  isFavorited={!!favorites.find((x) => x.sku === item.items[0]?.itemId)}
                   onClickFavorite={(isFavorite) => {
                     handleOnFavorite(isFavorite, item);
                   }}
                   imageSource={item?.items[0]?.images[0]?.imageUrl}
-                  installmentsNumber={
-                    installmentsNumber?.NumberOfInstallments || 1
-                  }
-                  installmentsPrice={
-                    installmentPrice?.Value || cashPaymentPrice || 0
-                  }
+                  installmentsNumber={installmentsNumber?.NumberOfInstallments || 1}
+                  installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0}
                   currency="R$"
                   discountTag={getPercent(sellingPrice, listPrice)}
                   saleOff={getSaleOff(item)}
@@ -331,6 +330,8 @@ interface ProductItemInterface extends ProductVerticalListCardProps {
   testID: string;
   sellerId?: string;
   sellersMktIn: Array<string>;
+  showThumbColors: boolean;
+  colors: string[];
 }
 
 const ProductItem: React.FC<ProductItemInterface> = ({
@@ -338,18 +339,20 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   index,
   horizontal,
   testID,
+  showThumbColors,
   ...props
 }) => (
   <Box
     flex={1}
     alignItems="center"
     justifyContent="center"
-    height={353}
+    height={showThumbColors ? 375 : 353}
     mr={horizontal && 'xxxs'}
   >
     {!!item?.items[0]?.images[0]?.imageUrl && (
       <ProductVerticalListCard
         {...props}
+        showThumbColors={showThumbColors}
         testID={testID}
         imageSource={item?.items[0]?.images[0]?.imageUrl}
       />

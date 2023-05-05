@@ -4,7 +4,6 @@ import React, {
 
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
-import remoteConfig from '@react-native-firebase/remote-config';
 import { Platform, StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -55,13 +54,6 @@ function InitialScreen({ children }: { children: JSX.Element }) {
 
   useInitialMarketPlaceIn();
   useInitialDito();
-
-  const setFetchInterval = async () => {
-    await remoteConfig().setConfigSettings({
-      minimumFetchIntervalMillis: 30000,
-      fetchTimeMillis: 30000,
-    });
-  };
 
   const onStatusUpdate: AndroidStatusEventListener = (
     status: StatusUpdateEvent,
@@ -150,25 +142,7 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     }
   }, []);
 
-  const loadRemoteConfig = useCallback(async () => {
-    try {
-      await remoteConfig().setConfigSettings({ fetchTimeMillis: 2000 });
-
-      await remoteConfig().setDefaults({
-        appName: 'My App',
-        appVersion: '1.0.0',
-        pdp_button_add_bag: '#333333',
-      });
-
-      await remoteConfig().fetchAndActivate();
-    } catch (err) {
-      EventProvider.captureException(err);
-    }
-  }, []);
-
   useEffect(() => {
-    loadRemoteConfig();
-    setFetchInterval();
     StorageService.setInstallationToken();
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
@@ -179,7 +153,7 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     });
 
     return unsubscribe;
-  }, [loadRemoteConfig]);
+  }, []);
 
   // TODO refactor OnForegroundEventPush to useSubscriberForeground()
   useEffect(() => {

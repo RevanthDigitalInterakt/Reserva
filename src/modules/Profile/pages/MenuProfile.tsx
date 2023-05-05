@@ -30,6 +30,7 @@ import { withAuthentication } from '../HOC/withAuthentication';
 import EventProvider from '../../../utils/EventProvider';
 import useDitoStore from '../../../zustand/useDitoStore';
 import testProps from '../../../utils/testProps';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
@@ -45,6 +46,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
   const [hasThreeMonths, setHasThreeMonths] = useState<boolean>(false);
   const [, setScreenCashbackInStoreActive] = useState<boolean>(false);
 
+  const { getBoolean } = useRemoteConfig();
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
   const [{ loading, data, error }, setProfileQuery] = useState({
@@ -118,10 +120,10 @@ const MenuScreen: React.FC<{}> = ({}) => {
           error: response.error,
         });
       });
-      remoteConfig().fetchAndActivate();
-      const response = remoteConfig().getValue('balance_cashback_in_app');
 
-      setBalanceCashbackInApp(response.asBoolean());
+      const response = getBoolean('balance_cashback_in_app');
+
+      setBalanceCashbackInApp(response);
       getIsScreenCashbackInStoreActive();
       if (data) {
         refetch();

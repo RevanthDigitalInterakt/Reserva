@@ -7,6 +7,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import 'react-native-gesture-handler';
 import { requestTrackingPermission } from 'react-native-tracking-transparency';
 import { ThemeProvider } from 'styled-components/native';
+import remoteConfig from '@react-native-firebase/remote-config';
 import { linkingConfig } from './config/linking';
 import SentryConfig from './config/sentryConfig';
 import AuthContextProvider from './context/AuthContext';
@@ -30,6 +31,7 @@ import { RemoteConfigService } from './shared/services/RemoteConfigService';
 import { IS_DEV } from './utils/enviromentUtils';
 import EventProvider from './utils/EventProvider';
 import ToastProvider from './utils/Toast';
+import { useRemoteConfig } from './hooks/useRemoteConfig';
 
 const DefaultTheme = {
   colors: {
@@ -40,6 +42,7 @@ const DefaultTheme = {
 const requestUserPermission = async () => { };
 
 const App = () => {
+  const remoteConfigStore = useRemoteConfig();
   const { setItem } = useAsyncStorageProvider();
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
@@ -56,6 +59,8 @@ const App = () => {
 
   useEffect(() => {
     firstLaunchedData();
+
+    remoteConfigStore.fetchInitialData(remoteConfig());
   }, []);
 
   const getTestEnvironment = React.useCallback(async () => {

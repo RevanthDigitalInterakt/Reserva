@@ -1,0 +1,79 @@
+import { create } from 'zustand';
+import * as Sentry from '@sentry/react-native';
+import type { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config';
+
+interface IUseRemoteConfigStore {
+  initialized: boolean;
+  fetchInitialData: (instance: FirebaseRemoteConfigTypes.Module) => void;
+  instance?: FirebaseRemoteConfigTypes.Module;
+  getBoolean: (k: TRemoteConfigBooleanKeys) => boolean;
+  getString: (k: TRemoteConfigStringKeys) => string;
+}
+
+export interface IRemoteConfigKeys {
+  show_new_bag: boolean;
+  show_pdc_thumb_color: boolean;
+  pdp_button_add_bag: string;
+  appName: string;
+  appVersion: string;
+  sale_off_tag: boolean;
+  cashback_in_store: boolean;
+  balance_cashback_in_app: boolean;
+}
+
+type KeysMatching<T extends object, V> = {
+  [K in keyof T]-?: T[K] extends V ? K : never
+}[keyof T];
+
+type TRemoteConfigBooleanKeys = KeysMatching<IRemoteConfigKeys, boolean>;
+type TRemoteConfigStringKeys = KeysMatching<IRemoteConfigKeys, string>;
+
+export const defaults: IRemoteConfigKeys = {
+  pdp_button_add_bag: '#11AB6B',
+  show_new_bag: false,
+  sale_off_tag: false,
+  show_pdc_thumb_color: false,
+  cashback_in_store: false,
+  balance_cashback_in_app: false,
+  appName: 'My App',
+  appVersion: '1.0.0',
+};
+
+const THREE_MINUTES_IN_MS = 180000;
+const FIVE_SECONDS_IN_MS = 5000;
+
+export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => ({
+  initialized: false,
+  instance: undefined,
+  fetchInitialData: async (remoteConfig: FirebaseRemoteConfigTypes.Module) => {
+    try {
+      const state = getState();
+
+      if (state.initialized) return set(state);
+
+      await remoteConfig.setDefaults(defaults as unknown as Record<string, any>);
+
+      await remoteConfig.setConfigSettings({
+        minimumFetchIntervalMillis: THREE_MINUTES_IN_MS,
+        fetchTimeMillis: FIVE_SECONDS_IN_MS,
+      });
+
+      await remoteConfig.fetchAndActivate();
+
+      return set({ initialized: true, instance: remoteConfig });
+    } catch (err) {
+      Sentry.withScope((scope) => {
+        scope.addBreadcrumb({ message: 'Error useRemoteConfig()' });
+        Sentry.captureException(err);
+      });
+
+      return set({ initialized: true, instance: remoteConfig });
+    }
+  },
+  getBoolean: <K extends TRemoteConfigBooleanKeys>(key: K) => (
+    getState().instance?.getBoolean(key) || defaults[key]
+  ),
+  getString: <K extends TRemoteConfigStringKeys>(key: K) => (
+    getState().instance?.getString(key) || defaults[key]
+  ),
+}));

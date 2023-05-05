@@ -2,7 +2,6 @@ import {
   Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography,
 } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import remoteConfig from '@react-native-firebase/remote-config';
 import { useNavigation } from '@react-navigation/core';
 import { useFocusEffect } from '@react-navigation/native';
 import React, {
@@ -11,13 +10,12 @@ import React, {
 import { Animated, Dimensions } from 'react-native';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import {
-  ProductQL,
-} from '../../../graphql/products/productSearch';
+import type { ProductQL } from '../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import EventProvider from '../../../utils/EventProvider';
 import { getItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -36,6 +34,7 @@ export const ListHorizontalProducts = ({
   listHeader,
   handleScrollToTheTop,
 }: ListProductsProps) => {
+  const { getBoolean } = useRemoteConfig();
   const navigation = useNavigation();
   const [skip, setSkip] = useState(false);
   const [saleOffTag, setSaleOffTag] = useState(false);
@@ -122,10 +121,8 @@ export const ListHorizontalProducts = ({
   );
 
   useEffect(() => {
-    remoteConfig().fetchAndActivate();
-    const value = remoteConfig().getValue('sale_off_tag');
-    setSaleOffTag(value.asBoolean());
-  }, []);
+    setSaleOffTag(getBoolean('sale_off_tag'));
+  }, [getBoolean]);
 
   const getSaleOff = (salOff) => {
     const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');

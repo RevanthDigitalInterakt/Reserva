@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
 import useAsyncStorageProvider from '../useAsyncStorageProvider';
 
-describe('useAsyncStoraProvider test', () => {
+describe('useAsyncStorageProvider test', () => {
   it('should successfully setItem', async () => {
     const { result } = renderHook(() => useAsyncStorageProvider());
     const arr = ['1', '2', '3'];

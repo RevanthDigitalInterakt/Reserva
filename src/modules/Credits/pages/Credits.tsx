@@ -2,27 +2,22 @@ import { useLazyQuery } from '@apollo/client';
 import {
   Box, Button, Divider, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
-import remoteConfig from '@react-native-firebase/remote-config';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { BackHandler } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  profileQuery,
-  ProfileVars,
-} from '../../../graphql/profile/profileQuery';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import { profileQuery, ProfileVars } from '../../../graphql/profile/profileQuery';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
-import {
-  StorageService,
-  StorageServiceKeys,
-} from '../../../shared/services/StorageService';
+import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 type Props = StackScreenProps<RootStackParamList, 'Credits'>;
 
-export const Credits: React.FC<Props> = ({ navigation, route }) => {
+export const Credits: React.FC<Props> = ({ navigation }) => {
+  const { getBoolean } = useRemoteConfig();
   const [loadingCredit, setLoadingCredit] = useState(false);
   const [isAcceptedConditions, setIsAcceptConditions] = useState(false);
   const [cashbackInStore, setCashbackInStore] = useState(false);
@@ -53,10 +48,7 @@ export const Credits: React.FC<Props> = ({ navigation, route }) => {
   }, [data]);
 
   useEffect(() => {
-    remoteConfig().fetchAndActivate();
-    const response = remoteConfig().getValue('cashback_in_store');
-
-    setCashbackInStore(response.asBoolean());
+    setCashbackInStore(getBoolean('cashback_in_store'));
   }, []);
 
   const getCustomer = async () => {

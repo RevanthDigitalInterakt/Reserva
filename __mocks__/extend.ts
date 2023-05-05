@@ -12,6 +12,19 @@ jest.mock('@react-native-community/async-storage', () => (
   jest.requireActual('@react-native-community/async-storage/jest/async-storage-mock')
 ));
 
+jest.mock('@react-native-firebase/remote-config', () => jest.fn(() => ({
+  setDefaults: jest.fn(),
+  setConfigSettings: jest.fn(),
+  fetchAndActivate: jest.fn(),
+  fetch: jest.fn(),
+  getValue: jest.fn(),
+  getBoolean: jest.fn(),
+  getString: jest.fn(),
+  getNumber: jest.fn(),
+  getAll: jest.fn(),
+  activate: jest.fn(),
+})));
+
 jest.mock('react-native-onesignal', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),

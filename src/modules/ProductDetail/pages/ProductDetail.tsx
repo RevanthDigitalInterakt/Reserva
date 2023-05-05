@@ -2,8 +2,7 @@ import {
   useLazyQuery,
   useMutation,
 } from '@apollo/client';
-import remoteConfig from '@react-native-firebase/remote-config';
-import { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
+import type { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { addDays, format } from 'date-fns';
 import React, {
   useCallback, useEffect, useMemo, useRef, useState,
@@ -61,6 +60,7 @@ import { getItemPrice, ItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
 import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
 import testProps from '../../../utils/testProps';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -74,24 +74,6 @@ ProductDetailProps;
 type Price = {
   highPrice: number;
   lowPrice: number;
-};
-
-type CommercialOffer = {
-  Tax: number;
-  taxPercentage: number;
-  AvailableQuantity: number;
-  Price: number;
-  ListPrice: number;
-  spotPrice: number;
-  PriceWithoutDiscont: number;
-  discountHighlights: any[];
-  Installments: {
-    Value: number;
-    TotalValuePlusInterestRate: number;
-    NumberOfInstallments: number;
-    PaymentSystemGroupName: string;
-    PaymentSystemName: string;
-  }[];
 };
 
 type Facets = {
@@ -144,11 +126,6 @@ export interface ClusterHighlight {
   name?: string;
 }
 
-type ItemsSKU = {
-  color: string;
-  images: string[];
-  sizeList: [id: string, size: string, available: boolean];
-};
 type ShippingCost = {
   selectedSla?: string;
   slas: {
@@ -162,7 +139,6 @@ type ShippingCost = {
 export const ProductDetail: React.FC<Props> = ({
   route,
   navigation,
-  recomendedProducts,
 }) => {
   /**
    * States
@@ -217,6 +193,8 @@ export const ProductDetail: React.FC<Props> = ({
   /** Contexts */
   const { addItem, orderForm } = useCart();
   const { email } = useAuth();
+
+  const { getBoolean, getString } = useRemoteConfig();
 
   /**
    * Queries
@@ -683,19 +661,13 @@ export const ProductDetail: React.FC<Props> = ({
     initializePdp(data);
   };
 
-  const onStartRemoteConfig = useCallback(async () => {
-    try {
-      await remoteConfig().fetchAndActivate();
+  const onStartRemoteConfig = useCallback(() => {
+    const saleOff = getBoolean('sale_off_tag');
+    setSaleOffTag(saleOff);
 
-      const saleOff = remoteConfig().getValue('sale_off_tag');
-      setSaleOffTag(saleOff.asBoolean());
-
-      const addBagButtonColorAB = remoteConfig().getString('pdp_button_add_bag');
-      setAddBagButtonColor(addBagButtonColorAB);
-    } catch (err) {
-      EventProvider.captureException(err);
-    }
-  }, []);
+    const addBagButtonColorAB = getString('pdp_button_add_bag');
+    setAddBagButtonColor(addBagButtonColorAB);
+  }, [getBoolean, getString]);
 
   /** *
    * Effects
