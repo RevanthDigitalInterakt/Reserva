@@ -695,7 +695,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       EventProvider.logEvent('add_to_cart', {
         item_id: itemId,
-        item_name: product?.name,
         item_price: convertPrice(product?.price || 0),
         item_quantity: quantity,
         item_category: 'product',

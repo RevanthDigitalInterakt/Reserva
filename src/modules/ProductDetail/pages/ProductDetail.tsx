@@ -658,7 +658,6 @@ export const ProductDetail: React.FC<Props> = ({
       try {
         EventProvider.logEvent('product_view', {
           product_id: product?.productId,
-          product_name: product?.productName,
           product_category: 'product_group',
           product_price: product?.priceRange?.listPrice?.lowPrice,
           product_currency: 'BRL',

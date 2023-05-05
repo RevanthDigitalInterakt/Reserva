@@ -65,7 +65,6 @@ export namespace EventsOptions {
   export type ProductView = Pick<
   EventValues,
   | 'product_id'
-  | 'product_name'
   | 'product_category'
   | 'product_price'
   | 'product_currency'
@@ -73,7 +72,6 @@ export namespace EventsOptions {
   export type AddToCart = Pick<
   EventValues,
   | 'item_id'
-  | 'item_name'
   | 'item_price'
   | 'item_quantity'
   | 'item_category'
