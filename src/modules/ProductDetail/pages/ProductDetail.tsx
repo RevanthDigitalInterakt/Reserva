@@ -204,7 +204,7 @@ export const ProductDetail: React.FC<Props> = ({
       field: route?.params?.productId ? 'id' : 'sku',
       value: route?.params?.productId
         ? route?.params?.productId?.split('-')[0]
-        : idSku,
+        : (route.params?.skuId || route.params.idsku),
       salesChannel: 4,
     },
   });
