@@ -34,6 +34,7 @@
 		765E408E445141CA97366000 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9857736F9E434B67AED51F1E /* Nunito-BlackItalic.ttf */; };
 		77438DA846CC4BCE839443FD /* ReservaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B243AAA5F4E4FC1B9E526DA /* ReservaSans-Bold.ttf */; };
 		7AC724F4FBEB4131B11C11EE /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 88BBE01F358047B8A575F36D /* ReservaSerif-BlackItalic.otf */; };
+		7D47655F29E852B10062E04C /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		7F89DA7DE1904133832A1841 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3978A8C8887E4C53BCD79C38 /* Nunito-ExtraBold.ttf */; };
 		80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E22B81276A5A0900E246B9 /* BridgingFile.swift */; };
 		80F6B009278F18DC00778D4E /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
@@ -784,6 +785,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D47655F29E852B10062E04C /* NotificationService.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */,
