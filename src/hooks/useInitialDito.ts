@@ -17,31 +17,25 @@ interface IHandleRegisterUser {
   userProfileData: ProfileVars;
   deviceToken: string;
 }
-
 interface IHandleRegisterToken {
   id: string;
   deviceToken: string;
 }
-
 export default function useInitialDito() {
   const { isLogged, hasHydrated } = useDitoStore((state) => state);
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache', nextFetchPolicy: 'no-cache' });
-
   const requestProfile = useCallback(async () => {
     try {
       const { data } = await getProfile() as unknown as {
         data: { profile: ProfileVars }
       };
-
       const { profile } = data;
-
       return profile;
     } catch (e) {
       EventProvider.captureException(e);
       throw new Error(e);
     }
   }, [getProfile]);
-
   const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
     EventProvider.sendTrackEvent(
       'acessou-home', {
@@ -54,7 +48,6 @@ export default function useInitialDito() {
       },
     );
   };
-
   const handleRegisterTokenDito = useCallback(async ({ id, deviceToken }: IHandleRegisterToken) => {
     await createMobileToken({
       id,
@@ -62,56 +55,50 @@ export default function useInitialDito() {
       platform: 'Android',
     });
   }, []);
-
   const handleRegisterUser = useCallback(
     async ({ userProfileData, deviceToken }: IHandleRegisterUser) => {
       const syncAnonymousToUser = await AsyncStorage.getItem('@Dito:anonymousID');
-
+      const {
+        document, firstName, email, gender, birthDate,
+      } = userProfileData;
       if (syncAnonymousToUser) {
         await sendUpdateUserDataToDito({
           id: syncAnonymousToUser,
           user: {
             email: userProfileData.email,
+            gender,
+            birthday: birthDate,
+            cpf: document,
             data: {
               dispositivo: Platform.OS,
             },
           },
         });
-
         await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
       }
-      const {
-        document, firstName, email, gender, birthDate,
-      } = userProfileData;
-
-      const idToSha1 = convertSha1(document);
       await sendUserDataToDito({
-        id: idToSha1,
+        id: document,
         user: {
           name: firstName,
           email,
           gender,
           birthday: birthDate,
+          cpf: document,
           data: {
             dispositivo: Platform.OS,
           },
         },
       });
-
-      await handleRegisterTokenDito({ id: idToSha1, deviceToken });
-
-      await trackEventHomeDito({ id: idToSha1 });
+      await handleRegisterTokenDito({ id: document, deviceToken });
+      await trackEventHomeDito({ id: document });
     }, [handleRegisterTokenDito],
   );
-
   const handleRegisterAnonymous = useCallback(async ({ deviceToken }: Pick<IHandleRegisterToken, 'deviceToken'>) => {
     let id = await AsyncStorage.getItem('@Dito:anonymousID');
-
     if (!id) {
       const uniqueIdDito = uuid.v4();
       const uniqueIdDitoFormatted = `${uniqueIdDito}@usereserva.com`;
       id = convertSha1(uniqueIdDitoFormatted);
-
       await sendUserDataToDito({
         id,
         user: {
@@ -121,13 +108,10 @@ export default function useInitialDito() {
           },
         },
       });
-
       await handleRegisterTokenDito({ id, deviceToken });
     }
-
     await trackEventHomeDito({ id });
   }, [handleRegisterTokenDito]);
-
   const handleRegister = useCallback(async () => {
     try {
       if (Platform.OS === 'ios') {
@@ -135,14 +119,10 @@ export default function useInitialDito() {
           await messaging().registerDeviceForRemoteMessages();
         }
       }
-
       const deviceToken = await messaging().getToken();
-
       const authEmail = await AsyncStorage.getItem('@RNAuth:email');
-
       if (authEmail && deviceToken && isLogged) {
         const userProfileData = await requestProfile();
-
         await handleRegisterUser({
           userProfileData,
           deviceToken,
@@ -155,7 +135,6 @@ export default function useInitialDito() {
       EventProvider.captureException(e);
     }
   }, [handleRegisterAnonymous, handleRegisterUser, requestProfile, isLogged]);
-
   useEffect(() => {
     if (hasHydrated) {
       handleRegister();

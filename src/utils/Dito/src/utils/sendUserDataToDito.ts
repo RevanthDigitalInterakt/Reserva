@@ -10,21 +10,19 @@ type UserData = {
   location?: string;
   birthday?: string | null;
   created_at?: string;
+  cpf?: string;
   data: string | object
 };
-
 type SendUserDataToDito = {
   id: string;
   user: UserData;
 };
-
 async function sendUserDataToDito({
   id,
   user,
 }: SendUserDataToDito) {
   try {
     const ditoUser = await getDitoUser({ id });
-
     if (ditoUser?.data) {
       await sendUpdateUserDataToDito({ id, user });
     } else {
@@ -35,5 +33,4 @@ async function sendUserDataToDito({
     EventProvider.sentry.captureException(e);
   }
 }
-
 export default sendUserDataToDito;

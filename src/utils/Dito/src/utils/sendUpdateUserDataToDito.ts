@@ -9,13 +9,12 @@ type UserData = {
   birthday?: string | null;
   created_at?: string;
   data: string | object
+  cpf?: string;
 };
-
 type SendUpdateUserDito = {
   id: string;
   user: UserData
 };
-
 async function sendUpdateUserDataToDito({
   id,
   user,
@@ -26,5 +25,4 @@ async function sendUpdateUserDataToDito({
     EventProvider.sentry.captureException(e);
   }
 }
-
 export default sendUpdateUserDataToDito;
