@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { BagScreen } from './Bag';
-import { BagOldScreen } from './BagOld';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import NewBag from '../../../pages/Bag';
 
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 export const BagABTest: React.FC<Props> = (props) => {
@@ -12,6 +12,6 @@ export const BagABTest: React.FC<Props> = (props) => {
   const showNewBag = useMemo(() => getBoolean('show_new_bag'), [getBoolean]);
 
   return (
-    showNewBag ? <BagScreen {...props} /> : <BagOldScreen {...props} />
+    showNewBag ? <NewBag {...props} /> : <BagScreen {...props} />
   );
 };

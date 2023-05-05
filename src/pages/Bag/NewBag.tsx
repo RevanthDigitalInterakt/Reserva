@@ -100,9 +100,7 @@ export default function NewBag({ route }: BagProps): JSX.Element {
               <Box paddingX="xxxs" paddingY="xxs">
                 <Box bg="white" marginTop="xxs">
                   <Typography variant="tituloSessoes">
-                    Sacola (
-                    {bagInfos.totalBagItems}
-                    )
+                    {`Sacola  (${bagInfos.totalBagItems})`}
                   </Typography>
                 </Box>
 
