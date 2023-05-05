@@ -1,0 +1,5 @@
+mutation orderFormRefreshData ($orderFormId: String!) {
+    orderFormRefreshData(input: {  orderFormId: $orderFormId}) {
+        ...InitialOrderFormFragment
+    }
+}

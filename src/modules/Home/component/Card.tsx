@@ -6,7 +6,6 @@ import { Box, Button, Image } from '@usereservaapp/reserva-ui';
 import type { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
-import testProps from '../../../utils/testProps';
 
 const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
   image,

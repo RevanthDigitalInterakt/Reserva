@@ -1,82 +1,58 @@
-import { useLazyQuery } from '@apollo/client';
 import {
   Box, Button, Divider, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { productSearch } from '../../../graphql/products/productSearch';
 import { ListHorizontalProducts } from './ListHorizontalProducts';
 import EventProvider from '../../../utils/EventProvider';
+import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
+import { useProductRecommendationsLazyQuery } from '../../../base/graphql/generated';
 
-export const Recommendation = () => {
-  const [skip, setSkip] = useState(false);
-  const pageSize = 36;
-  const [showMore, setShowMore] = useState(true);
-  const [products, setProducts] = useState<any>([]);
+export function Recommendation() {
+  const {
+    products, showMore, setProducts, setShowMore,
+  } = useRecommendation();
 
   const BoxAnimated = createAnimatableComponent(Box);
 
-  const [getProductData] = useLazyQuery(productSearch, {
-    // skip,
-    variables: {
-      skusFilter: 'ALL_AVAILABLE',
-      hideUnavailableItems: true,
-      orderBy: 'OrderByTopSaleDESC',
-      to: pageSize - 1,
-      simulationBehavior: 'default',
-      productOriginVtex: false,
+  const [getProductRecommendation] = useProductRecommendationsLazyQuery({
+    context: {
+      clientName: 'gateway',
     },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
   });
 
-  const saveItems = async (items: any) => {
-    const arrayProductsId = items.map((elem) => elem.productId);
-
-    const arrayWithoutDuplicates = items.filter((element, index) => index === arrayProductsId.indexOf(element.productId));
-
-    setProducts(arrayWithoutDuplicates.slice(0, 6));
-  };
-
   useEffect(() => {
-    const handleSearch = async () => {
-      const { data, loading } = await getProductData();
-
-      if (!loading) {
-        await saveItems(data.productSearch.products);
+    getProductRecommendation().then(({ data }) => {
+      if (data) {
+        setProducts(data?.productRecommendations);
       }
-    };
-
-    handleSearch();
-  }, []);
+    });
+  }, [getProductRecommendation, setProducts]);
 
   useEffect(() => {
     if (!products || !products?.length) return;
     if (!EventProvider) return;
-
     try {
       const newItems = products.map((item) => ({
         price: item?.priceRange?.sellingPrice?.lowPrice,
         item_id: item?.productId,
         item_name: item?.productName,
-        item_category: 'product_group',
+        item_category: Object.values(item?.categoryTree?.map((i) => (i.href))).join('|'),
       }));
-
       EventProvider.logEvent('view_item_list', {
         items: newItems,
       });
     } catch (error) {
       EventProvider.captureException(error);
     }
-  }, [products, EventProvider]);
+  }, [products]);
 
   return (
     <>
       <Box paddingX="xxxs">
         <Divider marginTop="xs" variant="fullWidth" />
       </Box>
-
       <Box testID="com.usereserva:id/products_recomendation_list" paddingLeft="micro">
         <Button
           onPress={() => setShowMore(!showMore)}
@@ -92,7 +68,6 @@ export const Recommendation = () => {
             <Box marginRight="micro">
               <Icon name="Handbag" size={20} />
             </Box>
-
             <Box flex={1}>
               <Typography variant="subtituloSessoes">
                 Outros produtos que você pode gostar
@@ -123,10 +98,7 @@ export const Recommendation = () => {
               <Animatable.View animation="fadeIn" style={{ marginBottom: 20 }}>
                 <ListHorizontalProducts
                   horizontal
-                  products={products || []}
-                  loadMoreProducts={(offset) => {
-                    loadMoreProducts(offset, '');
-                  }}
+                  products={products}
                 />
               </Animatable.View>
             )}
@@ -135,4 +107,4 @@ export const Recommendation = () => {
       )}
     </>
   );
-};
+}

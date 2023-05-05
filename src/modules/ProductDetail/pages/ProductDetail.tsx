@@ -287,7 +287,7 @@ export const ProductDetail: React.FC<Props> = ({
   });
 
   const getAllColors = ({ skuSpecifications }: Product) => {
-    const colors = skuSpecifications
+    const colors = (skuSpecifications || [])
       .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
       ?.values.map(({ name }) => name);
     return colors;
@@ -446,11 +446,11 @@ export const ProductDetail: React.FC<Props> = ({
     }
   });
 
-  const getColorsList = ({ skuSpecifications }: Product) => skuSpecifications
+  const getColorsList = ({ skuSpecifications }: Product) => (skuSpecifications || [])
     .find(({ field }) => field.name === 'ID_COR_ORIGINAL')
     ?.values.map(({ name }) => name);
 
-  const getSizeList = ({ skuSpecifications }: Product) => skuSpecifications
+  const getSizeList = ({ skuSpecifications }: Product) => (skuSpecifications || [])
     .find(({ field }) => field.name === 'TAMANHO' || field.name === 'Tamanho')
     ?.values.map(({ name }) => name);
 
@@ -997,7 +997,7 @@ export const ProductDetail: React.FC<Props> = ({
                         size={30}
                         disabledColors={[]}
                         listColors={
-                          itemsSKU.map((p) => getUrlFromIdColor(p.color)) || []
+                          (itemsSKU || []).map((p) => getUrlFromIdColor(p.color)) || []
                         }
                         selectedColors={
                           selectedColor || (colorFilters && colorFilters[0])

@@ -82,7 +82,7 @@ export const ListHorizontalProducts = ({
     } else {
       navigation.navigate('Login', { comeFrom: 'Menu' });
     }
-    setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
+    setLoadingFavorite([...loadingFavorite.filter((x) => x !== skuId)]);
   };
 
   const getVariant = (
@@ -176,7 +176,6 @@ export const ListHorizontalProducts = ({
 
       <>
         <Animated.FlatList
-          // viewabilityConfigCallbackPairs={[{ viewabilityConfig: { viewAreaCoveragePercentThreshold: 40 }, onViewableItemsChanged: onViewRef }]}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
             { useNativeDriver: true },
@@ -216,8 +215,10 @@ export const ListHorizontalProducts = ({
 
             installments = item.items[0].sellers[countPosition].commertialOffer.Installments;
 
-            const installmentsNumber = installments.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
-              { NumberOfInstallments: 0, Value: 0 });
+            const installmentsNumber = installments.reduce(
+              (prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+              { NumberOfInstallments: 0, Value: 0 },
+            );
 
             let discountTag;
             if (listPrice && sellingPrice) {
@@ -231,8 +232,10 @@ export const ListHorizontalProducts = ({
               ? sellingPrice
               : listPrice || 0;
 
-            const installmentPrice = installments.reduce((prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
-              { NumberOfInstallments: 0, Value: 0 });
+            const installmentPrice = installments.reduce(
+              (prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+              { NumberOfInstallments: 0, Value: 0 },
+            );
             // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
@@ -241,10 +244,10 @@ export const ListHorizontalProducts = ({
                 index={index}
                 horizontal={horizontal}
                 loadingFavorite={
-                  !!loadingFavorite.find((x) => x == item.items[0].itemId)
+                  !!loadingFavorite.find((x) => x === item.items[0].itemId)
                 }
                 isFavorited={
-                  !!favorites.find((x) => x.sku == item.items[0].itemId)
+                  !!favorites.find((x) => x.sku === item.items[0].itemId)
                 } // item.isFavorite}
                 onClickFavorite={(isFavorite) => {
                   // setLoafingFavorite([...loadingFavorite, item.productId])
@@ -253,8 +256,8 @@ export const ListHorizontalProducts = ({
                 }}
                 // colors={null}
                 imageSource={item.items[0].images[0].imageUrl}
-                installmentsNumber={installmentsNumber?.NumberOfInstallments || 1} // numero de parcelas
-                installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0} // valor das parcelas
+                installmentsNumber={installmentsNumber?.NumberOfInstallments || 1}
+                installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0}
                 currency="R$"
                 discountTag={getPercent(
                   sellingPrice,
@@ -295,7 +298,7 @@ export const ListHorizontalProducts = ({
         alignSelf="center"
       >
         {Array(3).fill(0).map((_, index) => (
-          index != 0
+          index !== 0
             ? (
               <Box
                 key={index}

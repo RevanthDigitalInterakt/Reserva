@@ -1,0 +1,13 @@
+mutation orderFormAttachClientByEmail($orderFormId: String!, $email: String!) {
+    orderFormAttachClientByEmail(input:{
+        orderFormId:$orderFormId
+        email:$email
+    }) {
+        orderFormId
+    }
+}
+
+
+
+
+

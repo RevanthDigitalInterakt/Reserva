@@ -23,12 +23,12 @@ import { useStatusBar } from './context/StatusBarContext';
 import { UPDATE_IN_APP_QUERY } from './graphql/updates/updateInApp.query';
 import { ModalPush } from './modules/Update/components/ModalPush';
 import { StoreUpdatePush } from './modules/Update/pages/StoreUpdatePush';
-import CodePushModal from './shared/components/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import EventProvider from './utils/EventProvider';
 import useInitialMarketPlaceIn from './hooks/useInitialMarketPlaceIn';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import useInitialDito from './hooks/useInitialDito';
+import CodePushModal from './shared/components/CodePushModal';
 
 type UpdateInAppType = {
   updateInApp: {

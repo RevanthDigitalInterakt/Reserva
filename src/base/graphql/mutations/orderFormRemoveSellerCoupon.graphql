@@ -1,0 +1,11 @@
+mutation orderFormRemoveSellerCoupon ($orderFormId: String!) {
+    orderFormRemoveSellerCoupon(input: { orderFormId: $orderFormId }) {
+        orderFormId
+        appTotalizers {
+            items
+            discount
+            delivery
+            total
+        }
+    }
+}

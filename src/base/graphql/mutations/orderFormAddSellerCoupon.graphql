@@ -9,5 +9,11 @@ mutation orderFormAddSellerCoupon($orderFormId: String!, $coupon: String!) {
         marketingData {
             marketingTags
         }
+        appTotalizers {
+            items
+            discount
+            delivery
+            total
+        }
     }
 }

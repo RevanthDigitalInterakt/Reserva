@@ -1,0 +1,27 @@
+fragment InitialOrderFormFragment on OrderformOutput {
+    orderFormId
+    appTotalizers {
+        items
+        discount
+        delivery
+        total
+    }
+    items {
+        ...OrderformItemFragment
+    }
+    selectableGift {
+        ...OrderformSelectableGiftFragment
+    }
+    allItemsQuantity
+    installmentInfo {
+        installmentsNumber
+        installmentPrice
+        totalPrice
+    }
+    messages
+    marketingData {
+        coupon
+        sellerCoupon
+        sellerCouponName
+    }
+}

@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { sha256 } from 'react-native-sha256';
@@ -34,7 +34,7 @@ export const LoginScreen: React.FC<Props> = ({
   route,
   navigation,
 }) => {
-  const { comeFrom } = route.params;
+  const { comeFrom, previousPage } = route.params;
   const { setCookie, setEmail, saveCredentials } = useAuth();
 
   const setIsLogged = useDitoStore((state) => state.setIsLogged);
@@ -189,6 +189,15 @@ export const LoginScreen: React.FC<Props> = ({
     }
   };
 
+  const handleNavigatePreviusPage = useCallback(() => {
+    if (previousPage) {
+      navigation.navigate(previousPage);
+      return;
+    }
+
+    navigation.navigate('Home');
+  }, [previousPage, navigation]);
+
   useEffect(() => {
     ClientDelivery();
   }, [data]);
@@ -201,9 +210,7 @@ export const LoginScreen: React.FC<Props> = ({
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderBanner
         imageHeader={images.headerLogin}
-        onClickGoBack={() => {
-          navigation.navigate('Home');
-        }}
+        onClickGoBack={handleNavigatePreviusPage}
         loading={isLoadingEmail}
       />
       <ScrollView

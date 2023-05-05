@@ -336,6 +336,7 @@ export const BagScreen = ({ route }: Props) => {
       (x) => x?.skuName?.split('-')[0],
     );
     const uniqueGiftColors = [...new Set(giftColors)];
+
     setGiftColors(uniqueGiftColors);
     if (alreadySelectedGift) {
       const result = orderForm?.selectableGifts[0]?.availableGifts.filter(

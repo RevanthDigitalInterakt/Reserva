@@ -1,0 +1,28 @@
+fragment OrderformItemFragment on OrderformItemOutput {
+    productTitle
+    itemColor
+    itemSize
+    isGift
+    isGiftable
+    imageSource
+    key
+    isAssinaturaSimples
+    priceWithDiscount
+    discountPercent
+    discountApi
+    showFirstPurchaseDiscountMessage
+    showTotalDiscountFirstPurchaseValue
+    price
+    productId
+    id
+    listPrice
+    giftOfferingId
+    seller
+    skuName
+    uniqueId
+    isAddedAsGift
+    name
+    quantity
+    disableCounter
+    sellingPrice
+}

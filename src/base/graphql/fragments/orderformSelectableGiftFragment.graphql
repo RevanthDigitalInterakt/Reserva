@@ -1,0 +1,15 @@
+fragment OrderformSelectableGiftFragment on OrderformSelectableGiftOutput {
+    id
+    availableQuantity
+    currentSelectableGift {
+        ...AvailableGiftsFragment
+    }
+    giftOptions {
+        id
+        color
+        size
+    }
+    availableGifts {
+      ...AvailableGiftsFragment
+    }
+}

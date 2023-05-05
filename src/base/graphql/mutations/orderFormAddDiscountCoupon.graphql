@@ -1,0 +1,14 @@
+mutation orderFormAddDiscountCoupon($orderFormId: String!, $coupon: String!){
+    orderFormAddDiscountCoupon(input:{orderFormId:$orderFormId, coupon:$coupon}) {
+        orderFormId
+        marketingData {
+            coupon
+        }
+        appTotalizers {
+            items
+            discount
+            delivery
+            total
+        }
+    }
+}

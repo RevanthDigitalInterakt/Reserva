@@ -86,7 +86,12 @@ export const ListHorizontalProducts = ({
     setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
   };
 
-  const getVariant = (variants: any, getVariantId: string) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
+  const getVariant = (
+    variants: any,
+    getVariantId: string,
+  ) => variants.filter(
+    (v: any) => v.name === getVariantId,
+  )[0].values[0];
 
   const populateWishlist = async () => {
     setSkip(true);
@@ -212,7 +217,6 @@ export const ListHorizontalProducts = ({
               installmentPrice,
             } = getItemPrice(item.items[0]);
 
-            // item.priceRange?.listPrice?.lowPrice;
             const colors = new ProductUtils().getColorsArray(item);
             return (
               <ProductItem
@@ -232,8 +236,12 @@ export const ListHorizontalProducts = ({
                 }}
                 // colors={null}
                 imageSource={item.items[0].images[0].imageUrl}
-                installmentsNumber={installmentsNumber?.NumberOfInstallments || 1}// numero de parcelas
-                installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0} // valor das parcelas
+                installmentsNumber={
+                  installmentsNumber?.NumberOfInstallments || 1
+                }
+                installmentsPrice={
+                  installmentPrice?.Value || cashPaymentPrice || 0
+                }
                 currency="R$"
                 discountTag={getPercent(
                   sellingPrice,
@@ -248,7 +256,6 @@ export const ListHorizontalProducts = ({
                     item_list_id: item?.productId,
                     item_list_name: item?.productName,
                   });
-
                   navigation.navigate('ProductDetail', {
                     productId: item.productId,
                     colorSelected: getVariant(
@@ -324,25 +331,15 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   index,
   horizontal,
   ...props
-}) => {
-  // const [imageUri, setImageUri] = useState<string>()
-  // const { fetchImage } = useCacheImages()
-
-  useEffect(() => {
-    // fetchImage(item.items[0].images[0].imageUrl).then((uri: string) => {
-    //   setImageUri(uri)
-    // })
-  }, []);
-
-  return (
-    <Box
-      flex={1}
-      alignItems="center"
-      justifyContent="center"
-      height={353}
-      mr={horizontal && 'xxxs'}
-    >
-      {
+}) => (
+  <Box
+    flex={1}
+    alignItems="center"
+    justifyContent="center"
+    height={353}
+    mr={horizontal && 'xxxs'}
+  >
+    {
         item.items[0].images[0].imageUrl && (
           <ProductVerticalListCard
             {...props}
@@ -350,6 +347,5 @@ const ProductItem: React.FC<ProductItemInterface> = ({
           />
         )
       }
-    </Box>
-  );
-};
+  </Box>
+);

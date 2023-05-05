@@ -4,6 +4,8 @@ import fetch from 'jest-fetch-mock';
 
 global.fetch = fetch;
 
+jest.mock('zustand');
+
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
 jest.mock('@react-native-community/async-storage', () => (
