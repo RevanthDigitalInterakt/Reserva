@@ -8,7 +8,7 @@ import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPl
 import { slugify } from '../../../../utils/slugify';
 
 const ShowFirstPurchaseDiscount = ({ discountText }: { discountText: string }) => (
-  <Box paddingBottom="nano">
+  <Box paddingBottom="nano" testID="com.usereserva:id/ShowFirstPurchaseDiscount">
     <Typography
       fontFamily="nunitoRegular"
       fontSize={11}
@@ -25,6 +25,7 @@ const ShowTotalDiscountFirstPurchase = ({ priceDiscount }: { priceDiscount: stri
     zIndex={5}
     top={84}
     right={21}
+    testID="com.usereserva:id/ShowTotalDiscountFirstPurchase"
   >
     <Typography
       color="verdeSucesso"
@@ -164,7 +165,7 @@ export default function BagProductList() {
       {currentBagItems.map((item, index: number) => {
         if (item.sellingPrice !== 0 && item.isGift === false) {
           return (
-            <Box key={item.key} bg="white" marginTop="xxxs">
+            <Box key={item.key} bg="white" marginTop="xxxs" testID="com.usereserva:id/BagProductList">
               {!!item.showFirstPurchaseDiscountMessage && (
                 <ShowFirstPurchaseDiscount discountText={item.showFirstPurchaseDiscountMessage} />
               )}

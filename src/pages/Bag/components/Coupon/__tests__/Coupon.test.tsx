@@ -41,13 +41,16 @@ const renderCouponComponent = () => render(
 );
 
 describe('Coupon Component', () => {
-  it('should render the component with the initial state', () => {
+  it('should render the component with the initial state', async () => {
     const { getByPlaceholderText, getByDisplayValue } = renderCouponComponent();
 
     const sellerCouponInput = getByPlaceholderText('Código do vendedor');
     expect(sellerCouponInput).toBeTruthy();
-    fireEvent.changeText(sellerCouponInput, 'test coupon code');
-    fireEvent(sellerCouponInput, 'blur');
+
+    await act(async () => {
+      await fireEvent.changeText(sellerCouponInput, 'test coupon code');
+      await fireEvent(sellerCouponInput, 'blur');
+    });
 
     expect(getByDisplayValue('test coupon code')).toBeTruthy();
 

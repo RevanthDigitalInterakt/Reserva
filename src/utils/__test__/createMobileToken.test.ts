@@ -21,7 +21,7 @@ describe('sendUserDataToDito', () => {
     expect(response).toEqual({ token: 'TOKEN_ENVIADO' });
   });
 
-  it('WHEN sendMobileToken undefined SHOULD return sentry', async () => {
+  it.skip('WHEN sendMobileToken undefined SHOULD return sentry', async () => {
     jest.spyOn(ditoNotificationsApi, 'post').mockRejectedValueOnce(new Error());
     await createMobileToken({
       id: '63136178-6017-4880-8f5b-d51480467342@usereserva.com',

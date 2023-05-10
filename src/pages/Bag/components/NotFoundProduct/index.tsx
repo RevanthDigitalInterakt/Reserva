@@ -36,6 +36,7 @@ export default function NotFoundProduct() {
   return (
     <View
       ref={refs.animatedViewRef}
+      testID="com.usereserva:id/NotFoundProduct_container"
       animation="slideInDown"
       useNativeDriver
       style={{

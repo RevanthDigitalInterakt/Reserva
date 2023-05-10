@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler/jestSetup';
+import * as RN from 'react-native';
 
 import fetch from 'jest-fetch-mock';
 
@@ -63,7 +64,7 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 jest.mock('react-native-reanimated', () => {
   // eslint-disable-next-line global-require
   const Reanimated = require('react-native-reanimated/mock');
-  Reanimated.default.call = () => {};
+  Reanimated.default.call = () => { };
   return Reanimated;
 });
 
@@ -80,3 +81,26 @@ jest.mock('@react-native-firebase/messaging', () => ({
 }));
 
 jest.mock('@sentry/react-native');
+
+RN.Animated.timing = () => ({
+  start: () => jest.fn(),
+});
+
+RN.Animated.loop = () => ({
+  start: () => jest.fn(),
+});
+
+jest.mock('axios', () => ({
+  get: jest.fn(),
+  post: jest.fn(),
+  create: jest.fn(() => ({
+    interceptors: {
+      request: {
+        use: jest.fn(),
+      },
+      response: {
+        use: jest.fn(),
+      },
+    },
+  })),
+}));

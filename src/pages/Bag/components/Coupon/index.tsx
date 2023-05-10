@@ -10,8 +10,11 @@ import {
 import { CouponBadge } from '../../../../modules/Checkout/components/CouponBadge';
 import useBagStore from '../../../../zustand/useBagStore/useBagStore';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
+import { useCart } from '../../../../context/CartContext';
 
 export default function CouponComponent() {
+  const { orderForm } = useCart();
+
   const {
     couponInfo: { seller, discount },
     bagInfos,
@@ -45,6 +48,17 @@ export default function CouponComponent() {
     });
   }, [dispatch]);
 
+  const handleRefreshBag = useCallback(async () => {
+    await dispatch({
+      actionType: 'INITIAL_SET_ORDER_FORM',
+      payload: {
+        value: {
+          orderForm,
+        },
+      },
+    });
+  }, [dispatch, orderForm]);
+
   const handleAddSellerCoupom = useCallback(async () => {
     await handleActiveTopBarLoading();
 
@@ -56,12 +70,14 @@ export default function CouponComponent() {
     });
 
     handleSetCouponValue('seller', '');
+
+    await handleRefreshBag();
   }, [
     handleActiveTopBarLoading,
     dispatch,
     couponsValue.seller,
     handleSetCouponValue,
-  ]);
+    handleRefreshBag]);
 
   const handleRemoveSellerCoupom = useCallback(async () => {
     await handleActiveTopBarLoading();
@@ -70,7 +86,9 @@ export default function CouponComponent() {
       actionType: 'HANDLE_REMOVE_SELLER_COUPON',
       payload: { value: {} },
     });
-  }, [dispatch, handleActiveTopBarLoading]);
+
+    await handleRefreshBag();
+  }, [dispatch, handleActiveTopBarLoading, handleRefreshBag]);
 
   const handleAddDiscountCoupon = useCallback(async () => {
     await handleActiveTopBarLoading();

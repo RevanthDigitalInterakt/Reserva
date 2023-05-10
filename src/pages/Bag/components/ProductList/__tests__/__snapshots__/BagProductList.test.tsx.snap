@@ -1,0 +1,1181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BagProductList should match with snapshot 1`] = `
+<View
+  bg="white"
+  marginTop="xxxs"
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFF",
+        "marginTop": 16,
+      },
+    ]
+  }
+  testID="com.usereserva:id/BagProductList"
+>
+  <View
+    paddingBottom="nano"
+    style={
+      Array [
+        Object {
+          "paddingBottom": 8,
+        },
+      ]
+    }
+    testID="com.usereserva:id/ShowFirstPurchaseDiscount"
+  >
+    <Text
+      color="verdeSucesso"
+      fontFamily="nunitoRegular"
+      fontSize={11}
+      style={
+        Array [
+          Object {
+            "color": "#38A238",
+            "fontFamily": "Nunito-Regular",
+            "fontSize": 11,
+          },
+        ]
+      }
+    >
+      Promoção de São João
+    </Text>
+  </View>
+  <View
+    position="absolute"
+    right={21}
+    style={
+      Array [
+        Object {
+          "position": "absolute",
+          "right": 21,
+          "top": 84,
+          "zIndex": 5,
+        },
+      ]
+    }
+    testID="com.usereserva:id/ShowTotalDiscountFirstPurchase"
+    top={84}
+    zIndex={5}
+  >
+    <Text
+      color="verdeSucesso"
+      fontFamily="nunitoRegular"
+      fontSize={11}
+      style={
+        Array [
+          Object {
+            "color": "#38A238",
+            "fontFamily": "Nunito-Regular",
+            "fontSize": 11,
+          },
+        ]
+      }
+    >
+      -R$
+       
+      Promoção de São João
+    </Text>
+  </View>
+  <View
+    flexDirection="row"
+    flexGrow={1}
+    height={152}
+    justifyContent="space-between"
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "height": 152,
+          "justifyContent": "space-between",
+        },
+      ]
+    }
+  >
+    <View
+      flexDirection="row"
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+          },
+        ]
+      }
+    >
+      <View
+        marginRight="micro"
+        style={
+          Array [
+            Object {
+              "marginRight": 12,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID="product_card_bag_3239branco-p_image"
+        >
+          <View
+            alignItems="center"
+            bg="neutroFrio1"
+            height="100%"
+            justifyContent="center"
+            position="absolute"
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#D8D9DA",
+                  "height": "100%",
+                  "justifyContent": "center",
+                  "position": "absolute",
+                  "width": 187.5,
+                  "zIndex": 3,
+                },
+              ]
+            }
+            width={187.5}
+            zIndex={3}
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "aspectRatio": 1,
+                  },
+                  undefined,
+                  Object {
+                    "height": 30,
+                    "width": 30,
+                  },
+                ]
+              }
+            >
+              <View
+                autoPlay={true}
+                cacheComposition={true}
+                enableMergePathsAndroidForKitKatAndAbove={false}
+                forwardedRef={[Function]}
+                loop={true}
+                onAnimationFinish={[Function]}
+                onLayout={[Function]}
+                progress={0}
+                resizeMode="contain"
+                sourceJson="{\\"v\\":\\"5.5.7\\",\\"meta\\":{\\"g\\":\\"LottieFiles AE 0.1.21\\",\\"a\\":\\"Abigail Ambrogi\\",\\"k\\":\\"Loading, circle, waiting\\",\\"d\\":\\"Simple soft loading animation\\",\\"tc\\":\\"none\\"},\\"fr\\":29.9700012207031,\\"ip\\":0,\\"op\\":50.0000020365418,\\"w\\":800,\\"h\\":800,\\"nm\\":\\"Rounded Loading Animation\\",\\"ddd\\":0,\\"assets\\":[],\\"layers\\":[{\\"ddd\\":0,\\"ind\\":1,\\"ty\\":4,\\"nm\\":\\"Spinning Circle\\",\\"sr\\":1,\\"ks\\":{\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":11},\\"r\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.667],\\"y\\":[1]},\\"o\\":{\\"x\\":[0.333],\\"y\\":[0]},\\"t\\":0,\\"s\\":[0]},{\\"t\\":50.0000020365418,\\"s\\":[360]}],\\"ix\\":10},\\"p\\":{\\"a\\":0,\\"k\\":[400,400,0],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[-32.74,-34.232,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[100.424,100.424,100],\\"ix\\":6}},\\"ao\\":0,\\"shapes\\":[{\\"ty\\":\\"gr\\",\\"it\\":[{\\"d\\":1,\\"ty\\":\\"el\\",\\"s\\":{\\"a\\":0,\\"k\\":[704.67,704.67],\\"ix\\":2},\\"p\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":3},\\"nm\\":\\"Ellipse Path 1\\",\\"mn\\":\\"ADBE Vector Shape - Ellipse\\",\\"hd\\":false},{\\"ty\\":\\"tm\\",\\"s\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.667],\\"y\\":[1]},\\"o\\":{\\"x\\":[0.333],\\"y\\":[0]},\\"t\\":10,\\"s\\":[0]},{\\"t\\":50.0000020365418,\\"s\\":[100]}],\\"ix\\":1},\\"e\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.667],\\"y\\":[1]},\\"o\\":{\\"x\\":[0.333],\\"y\\":[0]},\\"t\\":0,\\"s\\":[0.2]},{\\"t\\":30.0000012219251,\\"s\\":[100]}],\\"ix\\":2},\\"o\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":3},\\"m\\":1,\\"ix\\":2,\\"nm\\":\\"Trim Paths 1\\",\\"mn\\":\\"ADBE Vector Filter - Trim\\",\\"hd\\":false},{\\"ty\\":\\"st\\",\\"c\\":{\\"a\\":0,\\"k\\":[0.6078431372549019,0.6078431372549019,0.6078431372549019,1],\\"ix\\":3},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":4},\\"w\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":5},\\"lc\\":2,\\"lj\\":1,\\"ml\\":4,\\"bm\\":0,\\"nm\\":\\"Stroke 1\\",\\"mn\\":\\"ADBE Vector Graphic - Stroke\\",\\"hd\\":false},{\\"ty\\":\\"tr\\",\\"p\\":{\\"a\\":0,\\"k\\":[-32.74,-34.232],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[97.674,97.674],\\"ix\\":3},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":6},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":7},\\"sk\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":4},\\"sa\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":5},\\"nm\\":\\"Transform\\"}],\\"nm\\":\\"Ellipse 1\\",\\"np\\":4,\\"cix\\":2,\\"bm\\":0,\\"ix\\":1,\\"mn\\":\\"ADBE Vector Group\\",\\"hd\\":false}],\\"ip\\":0,\\"op\\":50.0000020365418,\\"st\\":0,\\"bm\\":0},{\\"ddd\\":0,\\"ind\\":2,\\"ty\\":4,\\"nm\\":\\"Background Circle\\",\\"sr\\":1,\\"ks\\":{\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":11},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":10},\\"p\\":{\\"a\\":0,\\"k\\":[400,400,0],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[-32.74,-34.232,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[100.424,100.424,100],\\"ix\\":6}},\\"ao\\":0,\\"shapes\\":[{\\"ty\\":\\"gr\\",\\"it\\":[{\\"d\\":1,\\"ty\\":\\"el\\",\\"s\\":{\\"a\\":0,\\"k\\":[704.67,704.67],\\"ix\\":2},\\"p\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":3},\\"nm\\":\\"Ellipse Path 1\\",\\"mn\\":\\"ADBE Vector Shape - Ellipse\\",\\"hd\\":false},{\\"ty\\":\\"st\\",\\"c\\":{\\"a\\":0,\\"k\\":[0.6078431372549019,0.6078431372549019,0.6078431372549019,1],\\"ix\\":3},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":4},\\"w\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":5},\\"lc\\":2,\\"lj\\":1,\\"ml\\":4,\\"bm\\":0,\\"nm\\":\\"Stroke 1\\",\\"mn\\":\\"ADBE Vector Graphic - Stroke\\",\\"hd\\":false},{\\"ty\\":\\"tr\\",\\"p\\":{\\"a\\":0,\\"k\\":[-32.74,-34.232],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[97.674,97.674],\\"ix\\":3},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":6},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":7},\\"sk\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":4},\\"sa\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":5},\\"nm\\":\\"Transform\\"}],\\"nm\\":\\"Ellipse 1\\",\\"np\\":3,\\"cix\\":2,\\"bm\\":0,\\"ix\\":1,\\"mn\\":\\"ADBE Vector Group\\",\\"hd\\":false}],\\"ip\\":50.0000020365418,\\"op\\":50.0000020365418,\\"st\\":0,\\"bm\\":0,\\"hidden\\":0}],\\"markers\\":[]}"
+                speed={1}
+                style={
+                  Object {
+                    "aspectRatio": 1,
+                    "height": 30,
+                    "width": 30,
+                  }
+                }
+              />
+            </View>
+          </View>
+          <Image
+            height="100%"
+            onError={[Function]}
+            onLoadEnd={[Function]}
+            onLoadStart={[Function]}
+            resizeMode="contain"
+            source={
+              Object {
+                "uri": "https://lojausereserva.vteximg.com.br/arquivos/ids/6413946/0054128014_01.jpg?v=637692018478770000",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "height": "100%",
+                  "resizeMode": "contain",
+                  "width": 187.5,
+                },
+              ]
+            }
+            width={187.5}
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <View
+          flexDirection="row"
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "width": 397.5,
+              },
+            ]
+          }
+          width={397.5}
+        >
+          <Text
+            ellipsizeMode="tail"
+            fontFamily="nunitoBold"
+            fontSize="13px"
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "fontFamily": "Nunito-Bold",
+                  "fontSize": 13,
+                  "textAlign": "center",
+                },
+              ]
+            }
+            textAlign="center"
+          >
+            CAMISA ML SAMOA BRANCO
+          </Text>
+        </View>
+        <View
+          flexGrow={1}
+          justifyContent="space-between"
+          style={
+            Array [
+              Object {
+                "flexGrow": 1,
+                "justifyContent": "space-between",
+                "width": 230,
+              },
+            ]
+          }
+          width={230}
+        >
+          <View
+            flexDirection="row"
+            marginTop="quarck"
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": 4,
+                },
+              ]
+            }
+          >
+            <View
+              alignItems="center"
+              borderColor="dropDownBorderColor"
+              borderRadius="nano"
+              borderWidth="hairline"
+              flexDirection="row"
+              height={25}
+              marginRight="micro"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "#DDDDDD",
+                    "borderRadius": 5,
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "height": 25,
+                    "marginRight": 12,
+                  },
+                ]
+              }
+            >
+              <View
+                flexDirection="row"
+                justifyContent="space-between"
+                paddingX="nano"
+                style={
+                  Array [
+                    Object {
+                      "flexDirection": "row",
+                      "justifyContent": "space-between",
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  color="preto"
+                  fontFamily="nunitoRegular"
+                  fontSize="11px"
+                  style={
+                    Array [
+                      Object {
+                        "color": "#333333",
+                        "fontFamily": "Nunito-Regular",
+                        "fontSize": 11,
+                      },
+                    ]
+                  }
+                >
+                  Tam: P
+                </Text>
+              </View>
+            </View>
+            <View
+              alignItems="center"
+              borderColor="dropDownBorderColor"
+              borderRadius="nano"
+              borderWidth="hairline"
+              flexDirection="row"
+              height={25}
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "#DDDDDD",
+                    "borderRadius": 5,
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "height": 25,
+                  },
+                ]
+              }
+            >
+              <View
+                flexDirection="row"
+                justifyContent="space-between"
+                paddingX="nano"
+                style={
+                  Array [
+                    Object {
+                      "flexDirection": "row",
+                      "justifyContent": "space-between",
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  color="preto"
+                  fontFamily="nunitoRegular"
+                  fontSize="11px"
+                  style={
+                    Array [
+                      Object {
+                        "color": "#333333",
+                        "fontFamily": "Nunito-Regular",
+                        "fontSize": 11,
+                      },
+                    ]
+                  }
+                >
+                  Cor: BRANCO
+                </Text>
+                <View
+                  style={
+                    Array [
+                      Object {},
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            alignItems="center"
+            flexDirection="row"
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+            >
+              <View
+                alignItems="flex-end"
+                flexDirection="row"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "flex-end",
+                      "flexDirection": "row",
+                    },
+                  ]
+                }
+              >
+                <Text
+                  color="neutroFrio2"
+                  fontFamily="nunitoBold"
+                  fontSize="15px"
+                  style={
+                    Array [
+                      Object {
+                        "color": "#8A8C8E",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 15,
+                      },
+                    ]
+                  }
+                >
+                  De R$ 
+                </Text>
+                <Text
+                  color="neutroFrio2"
+                  fontFamily="nunitoBold"
+                  fontSize="15px"
+                  style={
+                    Array [
+                      Object {
+                        "color": "#8A8C8E",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 15,
+                      },
+                      Object {
+                        "textDecorationLine": "line-through",
+                      },
+                    ]
+                  }
+                >
+                  399,
+                </Text>
+                <View
+                  mb={8}
+                  style={
+                    Array [
+                      Object {
+                        "marginBottom": 8,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    color="neutroFrio2"
+                    fontFamily="nunitoBold"
+                    fontSize="8px"
+                    style={
+                      Array [
+                        Object {
+                          "color": "#8A8C8E",
+                          "fontFamily": "Nunito-Bold",
+                          "fontSize": 8,
+                        },
+                        Object {
+                          "textDecorationLine": "line-through",
+                        },
+                      ]
+                    }
+                  >
+                    00
+                  </Text>
+                </View>
+              </View>
+              <View
+                flexDirection="row"
+                style={
+                  Array [
+                    Object {
+                      "flexDirection": "row",
+                    },
+                  ]
+                }
+              >
+                <Text
+                  color="vermelhoRSV"
+                  fontFamily="nunitoBold"
+                  fontSize="14px"
+                  style={
+                    Array [
+                      Object {
+                        "color": "#A00000",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 14,
+                      },
+                      Object {},
+                    ]
+                  }
+                >
+                  R$ 199,
+                </Text>
+                <Text
+                  color="vermelhoRSV"
+                  fontFamily="nunitoBold"
+                  fontSize="8px"
+                  style={
+                    Array [
+                      Object {
+                        "color": "#A00000",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 8,
+                      },
+                      Object {},
+                    ]
+                  }
+                >
+                  29
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="space-between"
+            position="relative"
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "position": "relative",
+                  "width": "100%",
+                },
+              ]
+            }
+            width="100%"
+          >
+            <View
+              marginTop="micro"
+              style={
+                Array [
+                  Object {
+                    "marginTop": 12,
+                    "width": 90,
+                  },
+                ]
+              }
+              width={90}
+            >
+              <View
+                style={
+                  Array [
+                    Object {},
+                  ]
+                }
+              >
+                <View
+                  alignItems="center"
+                  backgroundColor="backgoundDivider"
+                  borderRadius="nano"
+                  flexDirection="row"
+                  height={30}
+                  justifyContent="space-between"
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#F5F5F5",
+                        "borderRadius": 5,
+                        "flexDirection": "row",
+                        "height": 30,
+                        "justifyContent": "space-between",
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    flexGrow={1}
+                    style={
+                      Array [
+                        Object {
+                          "flexGrow": 1,
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      alignItems="stretch"
+                      height="100%"
+                      style={
+                        Array [
+                          Object {
+                            "alignItems": "stretch",
+                            "height": "100%",
+                          },
+                        ]
+                      }
+                    >
+                      <View
+                        accessible={true}
+                        focusable={true}
+                        hitSlop={
+                          Object {
+                            "bottom": 30,
+                            "left": 30,
+                            "right": 10,
+                            "top": 30,
+                          }
+                        }
+                        onClick={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        style={
+                          Object {
+                            "alignItems": "center",
+                            "height": "100%",
+                            "justifyContent": "center",
+                            "opacity": 1,
+                          }
+                        }
+                        testID="product_card_bag_3239branco-p_count_sub"
+                      >
+                        <View
+                          alignItems="center"
+                          justifyContent="center"
+                          style={
+                            Array [
+                              Object {
+                                "alignItems": "center",
+                                "justifyContent": "center",
+                                "width": "100%",
+                              },
+                            ]
+                          }
+                          width="100%"
+                        >
+                          <Text
+                            color="preto"
+                            fontFamily="nunitoRegular"
+                            fontSize={18}
+                            style={
+                              Array [
+                                Object {
+                                  "color": "#333333",
+                                  "fontFamily": "Nunito-Regular",
+                                  "fontSize": 18,
+                                  "textAlign": "center",
+                                },
+                              ]
+                            }
+                            textAlign="center"
+                          >
+                            -
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  <View
+                    backgroundColor="dividerCounter"
+                    height={18}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#EAEAEA",
+                          "height": 18,
+                          "width": 1,
+                        },
+                      ]
+                    }
+                    width="1px"
+                  />
+                  <View
+                    alignItems="center"
+                    flexGrow={1}
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flexGrow": 1,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      color="neutroFrio2"
+                      fontFamily="nunitoRegular"
+                      fontSize={14}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#8A8C8E",
+                            "fontFamily": "Nunito-Regular",
+                            "fontSize": 14,
+                          },
+                        ]
+                      }
+                    >
+                      1
+                    </Text>
+                  </View>
+                  <View
+                    backgroundColor="dividerCounter"
+                    height={18}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#EAEAEA",
+                          "height": 18,
+                          "width": 1,
+                        },
+                      ]
+                    }
+                    width="1px"
+                  />
+                  <View
+                    flexGrow={1}
+                    style={
+                      Array [
+                        Object {
+                          "flexGrow": 1,
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      alignItems="stretch"
+                      height="100%"
+                      style={
+                        Array [
+                          Object {
+                            "alignItems": "stretch",
+                            "height": "100%",
+                          },
+                        ]
+                      }
+                    >
+                      <View
+                        accessible={true}
+                        focusable={true}
+                        hitSlop={
+                          Object {
+                            "bottom": 30,
+                            "left": 10,
+                            "right": 30,
+                            "top": 30,
+                          }
+                        }
+                        onClick={[Function]}
+                        onResponderGrant={[Function]}
+                        onResponderMove={[Function]}
+                        onResponderRelease={[Function]}
+                        onResponderTerminate={[Function]}
+                        onResponderTerminationRequest={[Function]}
+                        onStartShouldSetResponder={[Function]}
+                        style={
+                          Object {
+                            "alignItems": "center",
+                            "height": "100%",
+                            "justifyContent": "center",
+                            "opacity": 1,
+                          }
+                        }
+                        testID="product_card_bag_3239branco-p_count_add"
+                      >
+                        <View
+                          alignItems="center"
+                          justifyContent="center"
+                          style={
+                            Array [
+                              Object {
+                                "alignItems": "center",
+                                "justifyContent": "center",
+                                "width": "100%",
+                              },
+                            ]
+                          }
+                          width="100%"
+                        >
+                          <Text
+                            color="preto"
+                            fontFamily="nunitoRegular"
+                            fontSize={14}
+                            style={
+                              Array [
+                                Object {
+                                  "color": "#333333",
+                                  "fontFamily": "Nunito-Regular",
+                                  "fontSize": 14,
+                                  "textAlign": "center",
+                                },
+                              ]
+                            }
+                            textAlign="center"
+                          >
+                            +
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              alignItems="center"
+              flexDirection="row"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "width": 80,
+                  },
+                ]
+              }
+              width="80px"
+            >
+              <View
+                alignItems="center"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                    },
+                  ]
+                }
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  hitSlop={
+                    Object {
+                      "bottom": 10,
+                      "left": 10,
+                      "right": 10,
+                      "top": 10,
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "opacity": 1,
+                    }
+                  }
+                  testID="product_card_bag_3239branco-p_isGift"
+                >
+                  <RNSVGSvgView
+                    bbHeight={15}
+                    bbWidth={15}
+                    color="preto"
+                    focusable={false}
+                    size={15}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Array [
+                          Object {
+                            "color": "#333333",
+                            "height": 15,
+                            "width": 15,
+                          },
+                        ],
+                        Object {
+                          "flex": 0,
+                          "height": 15,
+                          "width": 15,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGGroup>
+                      <RNSVGSvgView
+                        align="xMidYMid"
+                        bbHeight="100%"
+                        bbWidth="100%"
+                        focusable={false}
+                        height="100%"
+                        meetOrSlice={0}
+                        minX={0}
+                        minY={0}
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            Array [
+                              Object {
+                                "height": "100%",
+                                "width": "100%",
+                              },
+                            ],
+                            Object {
+                              "flex": 0,
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                          ]
+                        }
+                        vbHeight={15}
+                        vbWidth={15}
+                        width="100%"
+                      >
+                        <RNSVGGroup>
+                          <RNSVGGroup
+                            fill={4294967295}
+                            propList={
+                              Array [
+                                "fill",
+                                "stroke",
+                              ]
+                            }
+                            stroke={4281545523}
+                          >
+                            <RNSVGRect
+                              height={15}
+                              propList={
+                                Array [
+                                  "stroke",
+                                ]
+                              }
+                              rx={2}
+                              stroke={null}
+                              width={15}
+                              x={0}
+                              y={0}
+                            />
+                            <RNSVGRect
+                              fill={null}
+                              height={14}
+                              propList={
+                                Array [
+                                  "fill",
+                                ]
+                              }
+                              rx={1.5}
+                              width={14}
+                              x={0.5}
+                              y={0.5}
+                            />
+                          </RNSVGGroup>
+                        </RNSVGGroup>
+                      </RNSVGSvgView>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </View>
+              <View
+                ml="nano"
+                style={
+                  Array [
+                    Object {
+                      "marginLeft": 8,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  fontFamily="reservaSansRegular"
+                  fontSize="10px"
+                  style={
+                    Array [
+                      Object {
+                        "fontFamily": "Nunito-Regular",
+                        "fontSize": 10,
+                      },
+                    ]
+                  }
+                  variant="botaoFiltrarEOrdenarProdutos"
+                >
+                  É presente?
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      paddingLeft="xxs"
+      paddingTop="nano"
+      position="absolute"
+      right={0}
+      style={
+        Array [
+          Object {
+            "paddingLeft": 24,
+            "paddingTop": 8,
+            "position": "absolute",
+            "right": 0,
+            "top": -5,
+          },
+        ]
+      }
+      top={-5}
+    >
+      <View
+        alignItems="center"
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          hitSlop={
+            Object {
+              "bottom": 35,
+              "left": 35,
+              "right": 35,
+              "top": 35,
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            flexGrow={0}
+            justifyContent="flex-end"
+            style={
+              Array [
+                Object {
+                  "flexGrow": 0,
+                  "justifyContent": "flex-end",
+                },
+              ]
+            }
+          >
+            <View
+              flexGrow={0}
+              justifyContent="center"
+              position="absolute"
+              right={-5}
+              style={
+                Array [
+                  Object {
+                    "flexGrow": 0,
+                    "justifyContent": "center",
+                    "position": "absolute",
+                    "right": -5,
+                    "top": -5,
+                    "zIndex": 1,
+                  },
+                ]
+              }
+              top={-5}
+              zIndex={1}
+            />
+            <RNSVGSvgView
+              bbHeight={11}
+              bbWidth={11}
+              color="preto"
+              focusable={false}
+              size={11}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "color": "#333333",
+                      "height": 11,
+                      "width": 11,
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": 11,
+                    "width": 11,
+                  },
+                ]
+              }
+            >
+              <RNSVGGroup>
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  height="100%"
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Array [
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        },
+                      ],
+                      Object {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={8.24}
+                  vbWidth={8.242}
+                  width="100%"
+                >
+                  <RNSVGGroup>
+                    <RNSVGPath
+                      d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
+                      fill={4281545523}
+                      propList={
+                        Array [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

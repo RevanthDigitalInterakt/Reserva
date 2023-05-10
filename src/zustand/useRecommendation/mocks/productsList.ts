@@ -77,112 +77,96 @@ export const gatewayProductsListMock: ProductOutput[] = [{
         installments: [{
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 74.5,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 2,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 74.5,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 2,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 74.5,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 2,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 74.5,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 2,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 74.5,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 2,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 74.5,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 2,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         },
         {
 
           value: 149,
-
           totalValuePlusInterestRate: 149,
           numberOfInstallments: 1,
         }],
@@ -266,70 +250,60 @@ export const gatewayProductsListMock: ProductOutput[] = [{
         installments: [{
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         }],
@@ -351,70 +325,60 @@ export const gatewayProductsListMock: ProductOutput[] = [{
         installments: [{
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         }],
@@ -498,70 +462,60 @@ export const gatewayProductsListMock: ProductOutput[] = [{
         installments: [{
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         }],
@@ -644,70 +598,60 @@ export const gatewayProductsListMock: ProductOutput[] = [{
         installments: [{
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         }],
@@ -729,35 +673,30 @@ export const gatewayProductsListMock: ProductOutput[] = [{
         installments: [{
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },
         {
 
           value: 89,
-
           totalValuePlusInterestRate: 89,
           numberOfInstallments: 1,
         },

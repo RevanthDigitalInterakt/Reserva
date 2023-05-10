@@ -4,7 +4,7 @@ import { Skeleton } from '../../../../modules/Checkout/components/Skeleton';
 
 export default function BagSkeleton() {
   return (
-    <Skeleton>
+    <Skeleton testID="com.usereserva:id/BagSkeleton">
       <Box marginRight="xs" marginLeft="xxs">
         <Box
           bg="neutroFrio1"

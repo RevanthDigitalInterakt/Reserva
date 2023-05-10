@@ -10,7 +10,7 @@
     "ios": "react-native run-ios",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --detectOpenHandles --forceExit",
     "lint": "eslint . --ext .ts --ext .tsx --cache",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
@@ -161,6 +161,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "2.0.0",
     "jest": "^28.1.3",
+    "jest-mock-axios": "^4.7.2",
     "metro-react-native-babel-preset": "^0.65.2",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
@@ -179,11 +180,13 @@
       "@testing-library/jest-native/extend-expect"
     ],
     "setupFiles": [
-      "./__mocks__/extend.ts"
+      "./__mocks__/extend.ts",
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/?!((jest-)?@react-native|react-native|@usereservaapp/reserva-ui)"
+      "node_modules/?!((jest-)?@react-native|react-native|@usereservaapp/reserva-ui|react-native-modal|react-native-progress|react-native-animatable)"
     ],
+    "automock": false,
     "moduleFileExtensions": [
       "ts",
       "tsx",

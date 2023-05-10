@@ -24,7 +24,7 @@ import NotFoundProduct from './components/NotFoundProduct';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import SelectableGifts from './components/SelectableGifts';
 
-type BagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
+export type BagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 export default function NewBag({ route }: BagProps): JSX.Element {
   const navigation = useNavigation();
   const { restoreCart } = useCart();
@@ -71,14 +71,15 @@ export default function NewBag({ route }: BagProps): JSX.Element {
 
   if (!currentBagItems.length && !bagInitialLoad) {
     return (
-      <Box flex={1}>
+      <Box flex={1} testID="com.usereserva:id/EmptyBag">
         <EmptyBag onPress={handleNavigateToOffers} />
       </Box>
     );
   }
 
   return (
-    <SafeAreaView style={bagStyles.safeArea}>
+    <SafeAreaView style={bagStyles.safeArea} testID="com.usereserva:id/NewBag">
+      <ToastProvider />
 
       <TopBarBackButton
         showShadow
@@ -93,7 +94,7 @@ export default function NewBag({ route }: BagProps): JSX.Element {
           <>
             {!!productNotFound.length && <NotFoundProduct />}
 
-            <ScrollView>
+            <ScrollView testID="com.usereserva:id/BagItensDetails">
               <LoadingModal />
               <DeleteProductModal />
 
@@ -110,7 +111,7 @@ export default function NewBag({ route }: BagProps): JSX.Element {
                   totalDelivery={shippingBar.totalDelivery}
                 />
 
-                {selectableGiftInfo.selectableGift?.availableGifts.length && (
+                {selectableGiftInfo?.selectableGift?.availableGifts?.length && (
                   <SelectableGifts />
                 )}
 

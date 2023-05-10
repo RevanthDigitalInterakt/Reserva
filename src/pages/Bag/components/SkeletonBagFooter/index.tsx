@@ -3,8 +3,7 @@ import React from 'react';
 
 export default function SkeletonBagFooter() {
   return (
-
-    <Box px="xxs">
+    <Box px="xxs" testID="com.usereserva:id/skeletonBagFooter_bag">
       <Box>
         <Box
           flexDirection="row"

@@ -1,15 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { BoxProps } from '@usereservaapp/reserva-ui';
+import type { BoxProps } from '@usereservaapp/reserva-ui';
 
 interface SkeletonProps extends BoxProps {
+  testID?: string;
 }
 
 export const Skeleton: React.FC<SkeletonProps> = ({ children, ...props }) => {
-  useEffect(() => {
-    animationSkeletonLoading();
-  }, []);
-
   const skeletonOpacity = useRef(new Animated.Value(1)).current;
 
   const animationSkeletonLoading = () => {
@@ -33,8 +30,12 @@ export const Skeleton: React.FC<SkeletonProps> = ({ children, ...props }) => {
     ).start();
   };
 
+  useEffect(() => {
+    animationSkeletonLoading();
+  }, []);
+
   return (
-    <Animated.View style={{ opacity: skeletonOpacity }}>
+    <Animated.View style={{ opacity: skeletonOpacity }} testID={props.testID}>
       {children}
     </Animated.View>
   );

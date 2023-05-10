@@ -18,6 +18,6 @@ export const create = (createState: any) => {
 // Reset all stores after each test run
 beforeEach(async () => {
   await act(async () => storeResetFns.forEach(async (resetFn: any) => {
-    await resetFn();
+    resetFn();
   }));
 });

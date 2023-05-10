@@ -21,7 +21,10 @@ describe('NotFoundProduct component', () => {
       </ThemeProvider>,
     );
     const closeButton = getByTestId('com.usereserva:id/NotFoundProduct_setProduct');
-    fireEvent.press(closeButton);
+
+    await act(async () => {
+      await fireEvent.press(closeButton);
+    });
 
     expect(mockDispatch).toHaveBeenCalledWith({
       payload: { value: { productNotFound: '' } },
