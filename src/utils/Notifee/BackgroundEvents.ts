@@ -1,24 +1,36 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import messaging from '@react-native-firebase/messaging';
 import notifee, { AndroidStyle, EventType } from '@notifee/react-native';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import EventProvider from '../EventProvider';
+import { pushClicked } from '../../services/ditoService';
+import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 
-const onBackgroundEventPush = () => {
-  async function onMessageReceived(message: any) {
-    if (message.data) {
-      const { details } = JSON.parse(message?.data?.data);
+const onBackgroundEventPush = async () => {
+  const { setItem, getItem } = useAsyncStorageProvider();
 
-      const { link } = details;
-      const title = details?.message.split('\n')[0];
-      const body = details?.message.split('\n')[1];
+  if (Platform.OS === 'ios') {
+    await messaging().requestPermission();
+  }
+
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    if (remoteMessage.data) {
+      const { details, reference, notification } = JSON.parse(remoteMessage?.data?.data || '{}');
+
+      await setItem('@DitoNotification:Id', notification);
+      await setItem('@DitoNotification:Ref', reference);
+
+      const link = details?.link || '';
+      const title = details?.message.split('\n')[0] || '';
+      const body = details?.message.split('\n')[1] || '';
       const bigText = body || ' ';
       const hasLink = link || 'usereserva://home-tabs';
       try {
-        const channelId = await notifee.createChannel({
-          id: 'default',
-          name: 'Default Channel',
-        });
-
         notifee.displayNotification({
           title,
           body,
@@ -28,30 +40,34 @@ const onBackgroundEventPush = () => {
             smallIcon: 'ic_stat_onesignal_default',
             color: '#c41010',
             pressAction: {
-              id: 'onOpenApp',
+              id: 'default',
             },
             style: { type: AndroidStyle.BIGTEXT, text: bigText },
+          },
+          ios: {
+
           },
         });
       } catch (error) {
         EventProvider.sentry.captureException(error);
       }
-      // TODO Add subscriber
-      notifee.onBackgroundEvent(async ({ type, detail }) => {
-        const { notification } = detail;
-
-        if (notification) {
-          if (type === EventType.PRESS && detail.notification?.data?.hasLink) {
-            const dataLink = detail.notification?.data?.hasLink as string;
-            // TODO Add await
-            Linking.openURL(dataLink);
-          }
-        }
-      });
     }
-  }
+  });
 
-  messaging().setBackgroundMessageHandler(onMessageReceived);
+  notifee.onBackgroundEvent(async ({ type, detail }) => {
+    if (type === EventType.PRESS && detail.notification?.data?.hasLink) {
+      const dataLink = detail.notification?.data?.hasLink;
+
+      Linking.openURL(dataLink);
+
+      const notificationId = await getItem('@DitoNotification:Id');
+      const reference = await getItem('@DitoNotification:Ref');
+
+      if (notificationId && reference) {
+        await pushClicked(notificationId, reference);
+      }
+    }
+  });
 };
 
 export default onBackgroundEventPush;

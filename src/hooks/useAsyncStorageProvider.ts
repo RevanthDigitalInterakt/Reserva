@@ -7,8 +7,11 @@ export interface IAsyncStorageKeys {
   '@RNOrder:ChristmasCouponModalOrderId': string;
   '@RNOrder:RonItems': string[];
   '@RNSession:Ron': boolean;
+  '@DitoNotification:Ref': string;
+  '@DitoNotification:Id': number;
   isTesting: boolean,
   isAppFirstLaunched: boolean,
+  '@Dito:userRef': string,
 
   '@RNWebView:WebViewQACookiesList': Cookies
 }

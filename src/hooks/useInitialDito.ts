@@ -12,6 +12,7 @@ import sendUserDataToDito from '../utils/Dito/src/utils/sendUserDataToDito';
 import sendUpdateUserDataToDito from '../utils/Dito/src/utils/sendUpdateUserDataToDito';
 import convertSha1 from '../utils/Dito/src/sha1';
 import useDitoStore from '../zustand/useDitoStore';
+import useAsyncStorageProvider from './useAsyncStorageProvider';
 
 interface IHandleRegisterUser {
   userProfileData: ProfileVars;
@@ -22,6 +23,8 @@ interface IHandleRegisterToken {
   deviceToken: string;
 }
 export default function useInitialDito() {
+  const { setItem } = useAsyncStorageProvider();
+
   const { isLogged, hasHydrated } = useDitoStore((state) => state);
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache', nextFetchPolicy: 'no-cache' });
   const requestProfile = useCallback(async () => {
@@ -76,6 +79,8 @@ export default function useInitialDito() {
         });
         await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
       }
+
+      await setItem('@Dito:userRef', document);
       await sendUserDataToDito({
         id: document,
         user: {

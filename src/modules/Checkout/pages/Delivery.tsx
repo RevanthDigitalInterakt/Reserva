@@ -15,10 +15,10 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 import Sentry from '../../../config/sentryConfig';
-import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
 import EventProvider from '../../../utils/EventProvider';
 import { saveAddressMutation } from '../../../graphql/address/addressMutations';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 

@@ -141,6 +141,7 @@ class EventProvider {
       : [Type]
   ) {
     const { action, id, data } = args[1] as EventsDitoValues;
+
     sendDitoTrackEvent(id, { action, data });
   }
 

@@ -10,5 +10,6 @@ export async function trackEvent({
     ...configs,
     event: eventStringfy,
   });
+
   return response.data;
 }

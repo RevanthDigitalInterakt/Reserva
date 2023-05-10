@@ -5,7 +5,9 @@ import LottieView from 'lottie-react-native';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { Dimensions, Linking, View } from 'react-native';
+import {
+  Dimensions, Linking, Platform, View,
+} from 'react-native';
 import * as StoreReview from 'react-native-store-review';
 import { WebView } from 'react-native-webview';
 import Config from 'react-native-config';
@@ -17,7 +19,7 @@ import EventProvider from '../../../utils/EventProvider';
 import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuth } from '../../../context/AuthContext';
-import { useCart } from '../../../context/CartContext';
+import { OrderForm, useCart } from '../../../context/CartContext';
 import { GetPurchaseData } from '../../../services/vtexService';
 import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAFContent, sumQuantity } from '../../../utils/checkoutInitiatedEvents';
@@ -83,6 +85,7 @@ const Checkout: React.FC<{}> = () => {
         try {
           const orderGroup = getOrderId()?.split('-')?.[0];
           const { data } = await GetPurchaseData(orderGroup, cookie);
+
           const { items } = orderForm;
           if (data && items?.length) {
             const newItems = items.map((item) => ({
@@ -164,6 +167,40 @@ const Checkout: React.FC<{}> = () => {
     }
   }, [orderForm]);
 
+  const trackEventOrderedDito = useCallback(async (orderData: OrderForm) => {
+    try {
+      const orderGroup = getOrderId()?.split('-')?.[0];
+      const { data } = await GetPurchaseData(orderGroup, cookie);
+
+      const payload = await getItem('@Dito:userRef');
+
+      const itemQuantity = sumQuantity(orderData?.items);
+      const itemSubtotal = (orderData.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
+      const itemShippingTotal = (orderData.totalizers.find((x) => x.name === 'Shipping')?.value || 0) / 100;
+      const itemTotal = Number(itemSubtotal) + Number(itemShippingTotal);
+
+      EventProvider.sendTrackEvent(
+        'fez-pedido', {
+          id: payload,
+          action: 'fez-pedido',
+          data: {
+            quantidade_produtos: Number(itemQuantity),
+            id_transacao: data[0]?.orderId || '',
+            metodo_pagamento: data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName || '',
+            subtotal: Number(itemSubtotal),
+            total: itemTotal,
+            total_frete: itemShippingTotal,
+            origem: 'app',
+            dispositivo: Platform.OS,
+            id: payload || '',
+          },
+        },
+      );
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
+  }, [getItem, getOrderId, cookie]);
+
   useEffect(() => {
     if (isOrderPlaced) {
       if (orderForm) {
@@ -202,6 +239,7 @@ const Checkout: React.FC<{}> = () => {
           });
 
           sendRonTracking(orderValue);
+          trackEventOrderedDito(orderForm);
 
           EventProvider.logPurchase({
             affiliation: 'APP',

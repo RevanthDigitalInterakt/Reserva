@@ -67,7 +67,7 @@ const instance6 = axios.create({
 });
 
 const instance7 = axios.create({
-  baseURL: urlBase3,
+  baseURL: urlBase,
   timeout: 30000,
   headers,
 });

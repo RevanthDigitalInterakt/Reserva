@@ -248,9 +248,10 @@ const DeliveryType = async (orderFormId: any) => {
   return response;
 };
 
-const GetPurchaseData = async (orderGroup: any, cookie: string) => {
+const GetPurchaseData = async (orderGroup: any, cookie: string | null) => {
   const response = await vtexConfig7.get(
     `/checkout/pub/orders/order-group/${orderGroup}`,
+
   );
   return response;
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
