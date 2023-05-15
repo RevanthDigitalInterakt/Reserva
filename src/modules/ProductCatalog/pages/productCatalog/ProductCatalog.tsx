@@ -347,6 +347,15 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     });
     setSkeletonLoading(false);
     await refetchBanner({ category: referenceString });
+
+    if (referenceId !== 'offers-page') {
+      setSkeletonLoading(true);
+      const { data: productData1, loading: productLoading1 } = await refetch();
+      setProductSearch({
+        data: productData1, loading: productLoading1, fetchMore, refetch, error,
+      });
+      setSkeletonLoading(false);
+    }
   };
 
   const animationSkeletonLoading = () => {

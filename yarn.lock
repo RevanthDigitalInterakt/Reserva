@@ -3487,10 +3487,10 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@usereservaapp/reserva-ui@0.51.0":
-  version "0.51.0"
-  resolved "https://registry.yarnpkg.com/@usereservaapp/reserva-ui/-/reserva-ui-0.51.0.tgz#8ff2340acbdd7fa02b41fea240069259c1acbd0a"
-  integrity sha512-iYqmTlX0/DWIj+8d9iKBxdnG4HIwLfUa3+rTZ0ZTwLaxy+REkMkVaLbpWdhvolSK0PHHTLz2d6SKKpZroE5nBg==
+"@usereservaapp/reserva-ui@0.57.0":
+  version "0.57.0"
+  resolved "https://registry.yarnpkg.com/@usereservaapp/reserva-ui/-/reserva-ui-0.57.0.tgz#a1fbb55cee0f536a41df8ac412e78732d0d661a0"
+  integrity sha512-vHSsb9doXuqK1XMS7UC22qNqs0/2D55UGbEwfd3y4AYFLt1XoL5UqF7tGEOxlx4eP+7oPGZwO7kZDqp4vrFeGQ==
   dependencies:
     lottie-react-native "^4.0.3"
     react-native-linear-gradient "^2.5.6"
