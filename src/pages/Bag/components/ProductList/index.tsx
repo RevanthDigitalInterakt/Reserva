@@ -132,14 +132,15 @@ export default function BagProductList() {
         return;
       }
 
+      EventProvider.logEvent('remove_from_cart', {
+        item_id: item.id,
+        item_categories: 'product',
+      });
+
       await dispatch({
         actionType: 'HANDLE_UPDATE_PRODUCT_COUNT',
         payload: {
-          value: {
-            index,
-            item,
-            countUpdated,
-          },
+          value: { index, item, countUpdated },
         },
       });
     }, [dispatch, handleDeleteProductModal],

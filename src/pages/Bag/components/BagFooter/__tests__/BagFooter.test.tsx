@@ -4,6 +4,7 @@ import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render } from '@testing-library/react-native';
 import { act } from '@testing-library/react-hooks';
+import appsFlyer from 'react-native-appsflyer';
 import BagFooter from '..';
 import EventProvider from '../../../../../utils/EventProvider';
 import { AuthContext } from '../../../../../context/AuthContext';
@@ -63,16 +64,24 @@ describe('BagFooter Component', () => {
         coupon: '',
         currency: 'BRL',
         items: [{
-          item_category: '[object Object]', item_id: 4, item_name: 'Produto A', item_variant: 'test', price: 0.5, quantity: 2,
+          item_category: 'product', item_id: 4, item_name: 'Produto A', item_variant: 'test', price: 0.5, quantity: 2,
         }, {
-          item_category: '[object Object]', item_id: 4, item_name: 'Produto B', item_variant: 'test', price: 0.2, quantity: 1,
+          item_category: 'product', item_id: 4, item_name: 'Produto B', item_variant: 'test', price: 0.2, quantity: 1,
         }],
         value: 200,
       });
 
-    expect(EventProvider.logEvent).toHaveBeenNthCalledWith(2, 'checkout_initiated', {
-      content_ids: [4, 4], content_type: ['[object Object]', '[object Object]'], currency: 'BRL', price: 200, quantity: '[{"id":4,"quantity":3}]',
-    });
+    expect(appsFlyer.logEvent).toHaveBeenCalledWith(
+      'af_initiated_checkout',
+      {
+        af_content_type: 'product',
+        af_price: 200,
+        af_currency: 'BRL',
+        af_content_id: [4, 4],
+        af_quantity: 3,
+        af_content: [{ id: 4, price: 0.5, quantity: 2 }, { id: 4, price: 0.2, quantity: 1 }],
+      },
+    );
   });
 
   it('should capture exception on EventProvider', async () => {
@@ -127,6 +136,7 @@ describe('BagFooter Component', () => {
     const dispatch = jest
       .fn()
       .mockReturnValue({ unavailableItems: { error: true } });
+
     await act(async () => {
       useBagStore.setState({
         currentOrderForm,

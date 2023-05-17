@@ -552,12 +552,10 @@ TActionBagType,
         index,
         item,
         countUpdated,
-        isDeleted,
       }: {
         index: number;
         item: IItemsBag;
         countUpdated: number;
-        isDeleted?: boolean;
       } = payload.value;
       let errorsMessages = '';
 
@@ -574,21 +572,6 @@ TActionBagType,
           quantity: item.isAssinaturaSimples ? 1 : countUpdated,
         },
         context: { clientName: 'gateway' },
-        optimisticResponse: {
-          orderFormUpdateItem: {
-            selectableGift: null,
-            appTotalizers: {
-              items: oldState.bagInfos.totalBagItems,
-              total: oldState.bagInfos.totalBagItemsPrice,
-              delivery: oldState.bagInfos.totalBagDeliveryPrice,
-              discount: oldState.bagInfos.totalBagDiscountPrice,
-            },
-            items: oldState.currentBagItems.splice(index, !isDeleted ? 0 : 1),
-            allItemsQuantity: oldState.bagInfos.totalBagItems,
-            messages: [],
-            installmentInfo: oldState.installmentInfo,
-          },
-        },
       });
 
       let currentSelectableGiftInfo = oldState.selectableGiftInfo;
@@ -601,7 +584,9 @@ TActionBagType,
         });
       }
 
-      if (!data?.orderFormUpdateItem) { return { ...oldState, topBarLoading: false }; }
+      if (!data?.orderFormUpdateItem) {
+        return { ...oldState, topBarLoading: false };
+      }
 
       if (data.orderFormUpdateItem.selectableGift === null) {
         currentSelectableGiftInfo = {

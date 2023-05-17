@@ -1,6 +1,6 @@
-import type { Item } from '../context/CartContext';
+import type { IOrderFormItem } from '../context/CartContext';
 
-export function adaptOrderFormItemsTrack(items?: Item[]) {
+export function adaptOrderFormItemsTrack(items?: IOrderFormItem[]) {
   return (items || []).map((item) => ({
     price: item.price / 100,
     item_id: item.productId,

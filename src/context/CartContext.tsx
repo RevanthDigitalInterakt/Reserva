@@ -83,7 +83,7 @@ interface Seller {
   logo: string;
 }
 interface SelectableGifts {
-  availableGifts: Item[];
+  availableGifts: IOrderFormItem[];
   availableQuantity: number;
   id: string;
 }
@@ -214,7 +214,7 @@ export interface OrderForm {
   clientPreferencesData: ClientPreferencesData;
   clientProfileData: ClientProfileData;
   giftRegistryData: any;
-  items: Item[];
+  items: IOrderFormItem[];
   loggedIn: boolean;
   marketingData: MarketingData;
   messages: Message[];
@@ -230,7 +230,7 @@ export interface OrderForm {
   userType: any;
   value: number;
 }
-export interface Item {
+export interface IOrderFormItem {
   unique: string;
   id: string;
   productId: string;
@@ -391,7 +391,7 @@ export interface IOrderId {
     name: string;
     value: number;
   }[];
-  items: Item[];
+  items: IOrderFormItem[];
   marketplaceItems: any[];
   clientProfileData: ClientProfileData;
   giftRegistryData: null;
@@ -534,7 +534,7 @@ interface CartContextProps {
     seller: string
   ) => void;
   toggleGiftWrapping: (
-    flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => (
+    flag: boolean, orderFormId: string, item: IOrderFormItem, index: number, cookie?: string) => (
     Promise<void>
   );
 }
@@ -1046,7 +1046,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const toggleGiftWrapping = async (flag: boolean, orderFormId: string, item: Item, index: number, cookie?: string) => {
+  const toggleGiftWrapping = async (flag: boolean, orderFormId: string, item: IOrderFormItem, index: number, cookie?: string) => {
     try {
       setTopBarLoading(true);
 

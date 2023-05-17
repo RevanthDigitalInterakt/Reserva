@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
@@ -23,6 +23,7 @@ import BagProductList from './components/ProductList';
 import NotFoundProduct from './components/NotFoundProduct';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import SelectableGifts from './components/SelectableGifts';
+import EventProvider from '../../utils/EventProvider';
 
 export type BagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 export default function NewBag({ route }: BagProps): JSX.Element {
@@ -62,12 +63,42 @@ export default function NewBag({ route }: BagProps): JSX.Element {
     [navigation, dispatch, currentOrderForm, restoreCart],
   );
 
+  const handleAbandonedCartTags = useCallback(() => {
+    if (!currentOrderForm) return;
+
+    // Caso o cliente ainda tenha produtos no carrinho, envia os dados para o OneSignal
+    if (currentBagItems.length) {
+      const [item] = currentBagItems;
+
+      if (!item) return;
+
+      EventProvider.sendPushTags('sendAbandonedCartTags', {
+        cart_update: `${Math.floor(Date.now() / 1000)}`,
+        product_name: item.name,
+        product_image: item.imageSource,
+      });
+
+      return;
+    }
+
+    // Caso o cliente tenha removido todos os produtos, remove os dados do OneSignal
+    EventProvider.sendPushTags('sendAbandonedCartTags', {
+      cart_update: '',
+      product_name: '',
+      product_image: '',
+    });
+  }, [currentBagItems]);
+
   const handleBackTopBarButtonPress = useCallback(async () => {
     navigation.goBack();
     if (currentOrderForm) {
       await restoreCart(currentOrderForm.orderFormId);
     }
   }, [currentOrderForm, restoreCart, navigation]);
+
+  useEffect(() => {
+    handleAbandonedCartTags();
+  }, [currentBagItems.length, handleAbandonedCartTags]);
 
   if (!currentBagItems.length && !bagInitialLoad) {
     return (
@@ -96,6 +127,7 @@ export default function NewBag({ route }: BagProps): JSX.Element {
 
             <ScrollView testID="com.usereserva:id/BagItensDetails">
               <LoadingModal />
+
               <DeleteProductModal />
 
               <Box paddingX="xxxs" paddingY="xxs">

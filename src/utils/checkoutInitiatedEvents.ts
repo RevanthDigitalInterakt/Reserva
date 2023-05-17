@@ -1,16 +1,14 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable max-len */
 import { CategoriesParserString } from './categoriesParserString';
+import type { IOrderFormItem } from '../context/CartContext';
 
-type Items = {
-  productId: string;
-  quantity: number;
-  productCategories?: any;
-  price: number;
-};
+interface Items extends IOrderFormItem {}
 
 export const getAFContentId = (items: Items[]) => items.map((i: Items) => i.productId);
+
 export const getAFContentType = (items: Items[]) => items.map((i: Items) => CategoriesParserString(i.productCategories));
+
 export const getQuantity = (items: Items[]) => {
   const arr = items.reduce((acc: Items[], cur: Items) => {
     const { productId: curId, quantity: curQuantity } = cur;

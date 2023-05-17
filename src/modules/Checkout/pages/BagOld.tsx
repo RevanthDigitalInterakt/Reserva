@@ -34,7 +34,7 @@ import { instance2 } from '../../../config/vtexConfig';
 import ToastProvider, { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
 import { useAuth } from '../../../context/AuthContext';
-import { Item, OrderForm, useCart } from '../../../context/CartContext';
+import { IOrderFormItem, OrderForm, useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
@@ -127,7 +127,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
   );
   const [giftColors, setGiftColors] = useState<string[]>([]);
   const [giftSizeList, setGiftSizeList] = useState<string[]>([]);
-  const [selectableGifts, setSelectableGifts] = useState<Item[]>([]);
+  const [selectableGifts, setSelectableGifts] = useState<IOrderFormItem[]>([]);
   const [selectedGiftColor, setSelectedGiftColor] = useState<string>('');
   const [couponIsInvalid, setCouponIsInvalid] = useState<boolean | undefined>(
     false,
@@ -326,7 +326,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
     const quantities = orderForm?.items.map((x) => x.quantity) || [];
 
     let sizeFilters: string[] = [];
-    let giftSizeList: Item[] = [];
+    let giftSizeList: IOrderFormItem[] = [];
     const alreadySelectedGift = orderForm?.items.find(
       (x) => x.isGift == true && x.sellingPrice == 0,
     );
@@ -518,7 +518,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
     Attachment(orderFormId, productOrderFormIndex, attachmentName);
   };
 
-  const fetchSelectGiftSize = async (gift: Item) => {
+  const fetchSelectGiftSize = async (gift: IOrderFormItem) => {
     await setGiftSizeRequest(
       orderForm?.orderFormId,
       orderForm?.selectableGifts[0]?.id.trim(),
@@ -539,7 +539,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
         giftSizeList.map((x) => x?.skuName?.split('-')[1]?.trim()),
       );
       if (sizeFilters.length > 0) {
-        let hasSize: Item[] = [];
+        let hasSize: IOrderFormItem[] = [];
         hasSize = giftSizeList.filter(
           (item) => item?.skuName?.split('-')[1]?.trim() === selectedSizeGift?.trim(),
         );
@@ -579,7 +579,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
   const handleToggleGiftCheckbox = async (
     value: boolean,
     index: number,
-    item: Item,
+    item: IOrderFormItem,
     orderForm: OrderForm,
   ) => {
     const { orderFormId } = orderForm;
