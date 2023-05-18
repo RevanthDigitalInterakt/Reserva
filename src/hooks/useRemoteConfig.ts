@@ -8,17 +8,20 @@ interface IUseRemoteConfigStore {
   instance?: FirebaseRemoteConfigTypes.Module;
   getBoolean: (k: TRemoteConfigBooleanKeys) => boolean;
   getString: (k: TRemoteConfigStringKeys) => string;
+  getObject: (k: TRemoteConfigStringArrayKeys) => string[];
 }
 
 export interface IRemoteConfigKeys {
   show_new_bag: boolean;
+  show_new_bag_tester: boolean;
   show_pdc_thumb_color: boolean;
   pdp_button_add_bag: string;
-  appName: string;
-  appVersion: string;
   sale_off_tag: boolean;
   cashback_in_store: boolean;
   balance_cashback_in_app: boolean;
+  EMAIL_TESTERS: string[];
+  appName: string;
+  appVersion: string;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -27,14 +30,17 @@ type KeysMatching<T extends object, V> = {
 
 type TRemoteConfigBooleanKeys = KeysMatching<IRemoteConfigKeys, boolean>;
 type TRemoteConfigStringKeys = KeysMatching<IRemoteConfigKeys, string>;
+type TRemoteConfigStringArrayKeys = KeysMatching<IRemoteConfigKeys, string[]>;
 
 export const defaults: IRemoteConfigKeys = {
-  pdp_button_add_bag: '#11AB6B',
   show_new_bag: false,
+  show_new_bag_tester: true,
+  pdp_button_add_bag: '#11AB6B',
   sale_off_tag: false,
   show_pdc_thumb_color: false,
   cashback_in_store: false,
   balance_cashback_in_app: false,
+  EMAIL_TESTERS: [],
   appName: 'My App',
   appVersion: '1.0.0',
 };
@@ -76,4 +82,13 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
   getString: <K extends TRemoteConfigStringKeys>(key: K) => (
     getState().instance?.getString(key) || defaults[key]
   ),
+  getObject: <K extends TRemoteConfigStringArrayKeys>(key: K) => {
+    try {
+      const value = getState().instance?.getString(key) || defaults[key];
+
+      return typeof value === 'string' ? JSON.parse(value) : value;
+    } catch (err) {
+      return defaults[key];
+    }
+  },
 }));

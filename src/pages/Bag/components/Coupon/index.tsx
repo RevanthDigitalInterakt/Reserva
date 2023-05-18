@@ -140,7 +140,7 @@ export default function CouponComponent() {
       </Box>
       <Box>
         <Typography variant="tituloSessao">
-          Insira aqui o código do vendedor(a) e/ou cupom de desconto
+          Informe aqui o código do vendedor(a) e/ou cupom de desconto
         </Typography>
       </Box>
       <Box flexDirection="row">

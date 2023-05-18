@@ -6,14 +6,13 @@ import React, {
   SetStateAction,
   Dispatch,
   useEffect,
+  useMemo,
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { RSA } from 'react-native-rsa-native';
-import { ProfileVars } from 'graphql/profile/profileQuery';
-import {
-  StorageService,
-  StorageServiceKeys,
-} from '../shared/services/StorageService';
+import type { ProfileVars } from '../graphql/profile/profileQuery';
+import { StorageService, StorageServiceKeys } from '../shared/services/StorageService';
+import { useRemoteConfig } from '../hooks/useRemoteConfig';
 
 interface AuthContextProps {
   cookie: string | null;
@@ -145,9 +144,18 @@ export default AuthContextProvider;
 
 export const useAuth = () => {
   const authContext = useContext(AuthContext);
+  const { getObject } = useRemoteConfig();
+
   if (!authContext) {
     throw new Error('use Auth must be used within a AuthContextProvider');
   }
+
+  const emailTesters = useMemo(() => getObject('EMAIL_TESTERS'), [getObject]);
+
+  const isTester = useMemo(() => (
+    emailTesters.includes(authContext?.email || '')
+  ), [authContext?.email, emailTesters]);
+
   const {
     cookie,
     setCookie,
@@ -160,6 +168,7 @@ export const useAuth = () => {
     getProfile,
     profile,
   } = authContext;
+
   return {
     email,
     setEmail,
@@ -171,5 +180,6 @@ export const useAuth = () => {
     getCredentials,
     getProfile,
     profile,
+    isTester,
   };
 };
