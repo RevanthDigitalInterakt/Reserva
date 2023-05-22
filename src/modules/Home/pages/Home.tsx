@@ -38,6 +38,10 @@ import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import DefaultCarrousel from '../component/Carousel';
 import Brands from '../component/Brands';
 import testProps from '../../../utils/testProps';
+import HeaderAccessibility from '../component/HeaderAccessibility';
+import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
+import EventProvider from '../../../utils/EventProvider';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -99,6 +103,8 @@ export const HomeScreen: FC<{
       selectClockScreenAll: 'ALL',
     },
   });
+
+  const { getBoolean, initialized } = useRemoteConfig();
 
   const { currentValue, start } = useChronometer({
     countDown: true,
@@ -220,7 +226,7 @@ export const HomeScreen: FC<{
         width: imageDescription.image.width,
         height: imageDescription.image.height,
         size: imageDescription.image.size,
-        url: imageDescription.image.url,
+        url: imageDescription?.image?.url,
         reference: imageDescription.reference,
         route: imageDescription.route,
         isLandingPage: imageDescription.isLandingPage,
@@ -313,7 +319,7 @@ export const HomeScreen: FC<{
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, []),
+    }, [refetch]),
   );
 
   const renderCarouselBanners = useMemo(() => carrousels.map((carrousel, index) => {
@@ -370,7 +376,7 @@ export const HomeScreen: FC<{
             orderBy={orderBy}
             height={image.height}
             reference={reference}
-            url={image.url}
+            url={image?.url}
             reservaMini={reservaMini}
             filters={filters}
           />
@@ -414,8 +420,30 @@ export const HomeScreen: FC<{
     setModalCodeIsVisible(false);
   }, []);
 
+  const showCampaignBoyfriend = useMemo(() => getBoolean('show_campaign_boyfriend'), [getBoolean, initialized]);
+
+  const goToBrowser = useCallback(async () => {
+    const email = await AsyncStorage.getItem('@RNAuth:email') || '';
+    EventProvider.logEvent('click_accessibility_app', { email, appState: 'out' });
+
+    await DeepLinkPathModule.openUrlInBrowser({
+      url: 'https://www.usereserva.com',
+      closeCurrentAppInstance: true,
+    });
+  }, []);
+
   return (
     <Box flex={1} bg="white" testID="com.usereserva:id/home_container">
+
+      {showCampaignBoyfriend
+         && (
+         <HeaderAccessibility
+           title={'Para uma melhor experiência em acessibilidade,\nacesse nosso site, '}
+           onPressTitle="tocando aqui"
+           onPress={goToBrowser}
+         />
+         )}
+
       <TopBarDefault loading={loading} />
 
       <StoreUpdate />

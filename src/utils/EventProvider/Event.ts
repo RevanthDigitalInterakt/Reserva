@@ -42,6 +42,8 @@ type EventValues = {
   item_list_name: string;
   payment_type: string;
   open: string;
+  email: string;
+  appState: 'in' | 'out'
 };
 
 export namespace EventsOptions {
@@ -107,6 +109,15 @@ export namespace EventsOptions {
   | 'items'
   | 'transaction_id'
   | 'value'
+  >;
+  export type ClickAccessibilityApp = Pick<
+  EventValues,
+  | 'email'
+  | 'appState'
+  >;
+  export type AppState = Pick<
+  EventValues,
+  | 'appState'
   >;
 }
 
@@ -178,4 +189,12 @@ export type EventOptionsFn =
   | {
     type: 'ron_purchase';
     payload: EventsOptions.RonPurchase;
+  }
+  | {
+    type: 'click_accessibility_app';
+    payload: EventsOptions.ClickAccessibilityApp;
+  }
+  | {
+    type: 'app_state';
+    payload: EventsOptions.AppState;
   };

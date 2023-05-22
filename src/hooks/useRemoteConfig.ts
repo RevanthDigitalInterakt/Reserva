@@ -14,6 +14,7 @@ interface IUseRemoteConfigStore {
 export interface IRemoteConfigKeys {
   show_new_bag: boolean;
   show_new_bag_tester: boolean;
+  show_campaign_boyfriend: boolean;
   show_pdc_thumb_color: boolean;
   pdp_button_add_bag: string;
   sale_off_tag: boolean;
@@ -35,6 +36,7 @@ type TRemoteConfigStringArrayKeys = KeysMatching<IRemoteConfigKeys, string[]>;
 export const defaults: IRemoteConfigKeys = {
   show_new_bag: false,
   show_new_bag_tester: true,
+  show_campaign_boyfriend: false,
   pdp_button_add_bag: '#11AB6B',
   sale_off_tag: false,
   show_pdc_thumb_color: false,
