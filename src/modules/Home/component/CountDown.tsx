@@ -18,6 +18,7 @@ import type { ICountDownClock } from '../../../graphql/countDownClock/countdownC
 import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
 import testProps from '../../../utils/testProps';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 export interface CountDownProps {
   countDown?: ICountDownClock;
@@ -90,9 +91,13 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
     const facetInput = [];
     const [categoryType, categoryData] = countDown?.reference?.split(':');
     if (categoryType === 'product') {
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
       EventProvider.logEvent('select_item', {
-        item_list_id: categoryData ?? '',
+        item_list_id: categoryData || '',
         item_list_name: '',
+        wbrand: defaultBrand.reserva,
       });
 
       navigation.navigate('ProductDetail', {

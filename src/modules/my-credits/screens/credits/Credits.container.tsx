@@ -8,6 +8,8 @@ import {
 import { RemoteConfigService } from '../../../../shared/services/RemoteConfigService';
 import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
 import { CreditsView } from './Credits.view';
+import EventProvider from '../../../../utils/EventProvider';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
 
 interface CreditsContainerProps {
   navigateBack: () => void;
@@ -56,6 +58,9 @@ export const CreditsContainer = (
   };
 
   useEffect(() => {
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
     StorageService.getItem<ProfileVars>({
       key: StorageServiceKeys.PROFILE,
       isJSON: true,

@@ -18,7 +18,9 @@ import Sentry from '../../../config/sentryConfig';
 import EventProvider from '../../../utils/EventProvider';
 import { saveAddressMutation } from '../../../graphql/address/addressMutations';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import { getBrands } from '../../../utils/getBrands';
 import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -214,10 +216,15 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                   item_category: 'product',
                 }));
 
+                EventProvider.logEvent('page_view', {
+                  wbrand: defaultBrand.picapau,
+                });
+
                 EventProvider.logEvent('add_shipping_info', {
                   coupon: '',
                   currency: 'BRL',
                   items: newItems,
+                  wbrand: getBrands(items),
                 });
               } catch (e) {
                 EventProvider.captureException(e);
@@ -267,6 +274,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 coupon: '',
                 currency: 'BRL',
                 items: newItems,
+                wbrand: getBrands(items),
               });
             } catch (e) {
               EventProvider.captureException(e);

@@ -55,6 +55,8 @@ import {
   getAFContent,
   getAFContentId, getAFContentType, getQuantity, sumQuantity,
 } from '../../../utils/checkoutInitiatedEvents';
+import { getBrands } from '../../../utils/getBrands';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -452,11 +454,16 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
             item_category: 'product',
           }));
 
+          EventProvider.logEvent('page_view', {
+            wbrand: defaultBrand.picapau,
+          });
+
           EventProvider.logEvent('begin_checkout', {
             coupon: '',
             currency: 'BRL',
             items: newItems,
             value: totalBag + totalDiscountPrice + totalDelivery,
+            wbrand: getBrands(items),
           });
         }
 
@@ -1204,6 +1211,7 @@ export const BagOldScreen: React.FC<Props> = ({ route }) => {
                               EventProvider.logEvent('select_item', {
                                 item_list_id: item?.productId,
                                 item_list_name: item?.name,
+                                wbrand: item?.additionalInfo?.brandName,
                               });
                               navigation.navigate('ProductDetail', {
                                 productId: item?.productId,

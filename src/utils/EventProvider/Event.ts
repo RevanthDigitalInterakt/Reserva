@@ -42,16 +42,18 @@ type EventValues = {
   item_list_name: string;
   payment_type: string;
   open: string;
+  wbrand: string;
   email: string;
   appState: 'in' | 'out'
 };
 
 export namespace EventsOptions {
+  export type PageView = Pick<EventValues, 'wbrand'>;
   export type Login = Pick<EventValues, 'custumer_email'>;
   export type Search = Pick<EventValues, 'search_term'>;
   export type ViewSearchResults = Pick<EventValues, 'search_term'>;
-  export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories'>;
-  export type ProductListView = Pick<EventValues, 'content_type'>;
+  export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories' | 'wbrand'>;
+  export type ProductListView = Pick<EventValues, 'content_type' | 'wbrand'>;
   export type CheckoutInitiated = Pick<
   EventValues,
   'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
@@ -79,6 +81,7 @@ export namespace EventsOptions {
   | 'item_category'
   | 'currency'
   | 'seller'
+  | 'wbrand'
   >;
   export type Purchase = Pick<
   EventValues,
@@ -90,17 +93,19 @@ export namespace EventsOptions {
   | 'tax'
   | 'transaction_id'
   | 'value'
+  | 'wbrand'
   > & {};
-  export type ViewItem = Pick<EventValues, 'currency' | 'items' | 'value'>;
-  export type BeginCheckout = Pick<EventValues, 'items' | 'value' | 'coupon' | 'currency'>;
-  export type AddShippingInfo = Pick<EventValues, 'currency' | 'items' | 'coupon'>;
-  export type SelectItem = Pick<EventValues, 'item_list_id' | 'item_list_name'>;
-  export type ViewItemList = Pick<EventValues, 'items'>;
-  export type AddPaymentInfo = Pick<EventValues, 'coupon' | 'currency' | 'items' | 'payment_type' | 'value'>;
+  export type ViewItem = Pick<EventValues, 'currency' | 'items' | 'value' | 'wbrand'>;
+  export type BeginCheckout = Pick<EventValues, 'items' | 'value' | 'coupon' | 'currency' | 'wbrand'>;
+  export type AddShippingInfo = Pick<EventValues, 'currency' | 'items' | 'coupon' | 'wbrand'>;
+  export type SelectItem = Pick<EventValues, 'item_list_id' | 'item_list_name' | 'wbrand'>;
+  export type ViewItemList = Pick<EventValues, 'items' | 'wbrand'>;
+  export type AddPaymentInfo = Pick<EventValues, 'coupon' | 'currency' | 'items' | 'payment_type' | 'value' | 'wbrand'>;
   export type RonOpen = Pick<
   EventValues,
   'items'
   | 'open'
+  | 'wbrand'
   >;
   export type RonPurchase = Pick<
   EventValues,
@@ -109,6 +114,7 @@ export namespace EventsOptions {
   | 'items'
   | 'transaction_id'
   | 'value'
+  | 'wbrand'
   >;
   export type ClickAccessibilityApp = Pick<
   EventValues,
@@ -197,4 +203,8 @@ export type EventOptionsFn =
   | {
     type: 'app_state';
     payload: EventsOptions.AppState;
+  }
+  | {
+    type: 'page_view';
+    payload: EventsOptions.PageView;
   };

@@ -38,9 +38,10 @@ import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import DefaultCarrousel from '../component/Carousel';
 import Brands from '../component/Brands';
 import testProps from '../../../utils/testProps';
+import EventProvider from '../../../utils/EventProvider';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 import HeaderAccessibility from '../component/HeaderAccessibility';
 import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
-import EventProvider from '../../../utils/EventProvider';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 dayjs.extend(utc);
@@ -314,6 +315,9 @@ export const HomeScreen: FC<{
 
   useEffect(() => {
     loginWithSavedCredentials();
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
   }, []);
 
   useFocusEffect(

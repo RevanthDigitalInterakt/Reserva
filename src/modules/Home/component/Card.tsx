@@ -6,6 +6,7 @@ import { Box, Button, Image } from '@usereservaapp/reserva-ui';
 import type { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
   image,
@@ -25,9 +26,13 @@ const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
     }
 
     if (categoryType === 'product') {
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
       EventProvider.logEvent('select_item', {
-        item_list_id: categoryData ?? '',
+        item_list_id: categoryData || '',
         item_list_name: '',
+        wbrand: defaultBrand.reserva,
       });
 
       return navigation.navigate('ProductDetail', {

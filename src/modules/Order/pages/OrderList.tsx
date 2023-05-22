@@ -9,6 +9,8 @@ import { IOrder, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
 import { useAuth } from '../../../context/AuthContext';
+import EventProvider from '../../../utils/EventProvider';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 const OrderList = () => {
   const { searchNewOrders } = useCart();
@@ -31,6 +33,9 @@ const OrderList = () => {
   };
 
   useEffect(() => {
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
     fetchOrders();
   }, []);
 

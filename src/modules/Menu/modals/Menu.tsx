@@ -30,6 +30,8 @@ import { RemoteConfigService } from '../../../shared/services/RemoteConfigServic
 import { TopBarMenu } from '../components/TopBarMenu';
 import { slugify } from '../../../utils/slugify';
 import testProps from '../../../utils/testProps';
+import EventProvider from '../../../utils/EventProvider';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 interface IBreadCrumbs {
   title: string;
@@ -98,6 +100,9 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({
 
   useEffect(() => {
     setClickMenu(false);
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
   }, []);
 
   return (

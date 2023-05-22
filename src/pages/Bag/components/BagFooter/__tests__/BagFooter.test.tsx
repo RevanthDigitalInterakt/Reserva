@@ -69,6 +69,7 @@ describe('BagFooter Component', () => {
           item_category: 'product', item_id: 4, item_name: 'Produto B', item_variant: 'test', price: 0.2, quantity: 1,
         }],
         value: 200,
+        wbrand: 'RESERVA,RESERVA',
       });
 
     expect(appsFlyer.logEvent).toHaveBeenCalledWith(

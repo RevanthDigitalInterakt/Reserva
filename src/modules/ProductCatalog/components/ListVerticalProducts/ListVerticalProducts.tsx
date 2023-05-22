@@ -22,7 +22,9 @@ import { getPercent } from '../../../../utils/getPercent';
 import useMarketPlaceInStore from '../../../../zustand/useMarketPlaceInStore';
 import EventProvider from '../../../../utils/EventProvider';
 import { slugify } from '../../../../utils/slugify';
+import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -300,9 +302,13 @@ export const ListVerticalProducts = ({
                   productTitle={item.productName}
                   testID={`com.usereserva:id/productcard_vertical_${slugify(item.productId)}`}
                   onClickImage={() => {
+                    EventProvider.logEvent('page_view', {
+                      wbrand: defaultBrand.picapau,
+                    });
                     EventProvider.logEvent('select_item', {
                       item_list_id: item?.productId,
                       item_list_name: item?.productName,
+                      wbrand: getBrandByUrl(products),
                     });
 
                     navigation.navigate('ProductDetail', {

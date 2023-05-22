@@ -6,6 +6,7 @@ import type { IItemsBag } from '../../../../zustand/useBagStore/types/bagStore';
 import EventProvider from '../../../../utils/EventProvider';
 import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPlaceName';
 import { slugify } from '../../../../utils/slugify';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
 
 const ShowFirstPurchaseDiscount = ({ discountText }: { discountText: string }) => (
   <Box paddingBottom="nano" testID="com.usereserva:id/ShowFirstPurchaseDiscount">
@@ -149,9 +150,13 @@ export default function BagProductList() {
   const handleNavigationToDatail = useCallback(({
     productId, name, skuName, id,
   }: IItemsBag) => {
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
     EventProvider.logEvent('select_item', {
       item_list_id: productId,
       item_list_name: name,
+      wbrand: defaultBrand.reserva,
     });
 
     navigation.navigate('ProductDetail', {

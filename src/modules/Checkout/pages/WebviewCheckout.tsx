@@ -23,6 +23,8 @@ import { OrderForm, useCart } from '../../../context/CartContext';
 import { GetPurchaseData } from '../../../services/vtexService';
 import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAFContent, sumQuantity } from '../../../utils/checkoutInitiatedEvents';
+import { getBrands } from '../../../utils/getBrands';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
 const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;
@@ -102,6 +104,7 @@ const Checkout: React.FC<{}> = () => {
               value: orderForm?.value / 100,
               payment_type: data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName,
               items: newItems,
+              wbrand: getBrands(items),
             });
           }
         } catch (e) {
@@ -159,6 +162,7 @@ const Checkout: React.FC<{}> = () => {
             items: adaptOrderFormItemsTrack(orderForm?.items),
             transaction_id: '',
             value: orderValue,
+            wbrand: getBrands(orderForm?.items || []),
           },
         );
       }
@@ -241,6 +245,10 @@ const Checkout: React.FC<{}> = () => {
           sendRonTracking(orderValue);
           trackEventOrderedDito(orderForm);
 
+          EventProvider.logEvent('page_view', {
+            wbrand: defaultBrand.picapau,
+          });
+
           EventProvider.logPurchase({
             affiliation: 'APP',
             coupon: 'coupon',
@@ -254,6 +262,7 @@ const Checkout: React.FC<{}> = () => {
               ?.interestRate || 0) / 100,
             transaction_id: '',
             value: orderValue,
+            wbrand: getBrands(orderForm?.items),
           });
         } catch (error) {
           EventProvider.captureException(error);

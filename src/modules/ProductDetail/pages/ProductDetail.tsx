@@ -61,6 +61,7 @@ import { getPercent } from '../../../utils/getPercent';
 import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
 import testProps from '../../../utils/testProps';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -701,6 +702,10 @@ export const ProductDetail: React.FC<Props> = ({
       || !variant?.itemId
     ) return;
 
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
+
     EventProvider.logEvent('view_item', {
       currency: 'BRL',
       items: [
@@ -714,6 +719,7 @@ export const ProductDetail: React.FC<Props> = ({
         },
       ],
       value: product?.priceRange?.sellingPrice?.lowPrice,
+      wbrand: `${product?.categoryTree[0]?.name.toUpperCase()},`,
     });
   }, [selectedVariant]);
 

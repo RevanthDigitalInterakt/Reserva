@@ -6,6 +6,8 @@ import {
   CashbackHttpUrl, GetDigitalWalletResponse, GetExpireBalanceResponse, GetUserOperationsResponse, MyCashbackAPI, UserOperations,
 } from '../../api/MyCashbackAPI';
 import { MyWalletView } from './MyWallet.view';
+import EventProvider from '../../../../utils/EventProvider';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
 
 interface MyWalletContainerProps {
   navigateBack: () => void;
@@ -45,6 +47,10 @@ export const MyWalletContainer = (
   };
 
   useEffect(() => {
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
+
     StorageService.getItem<ProfileVars>({
       key: StorageServiceKeys.PROFILE,
       isJSON: true,

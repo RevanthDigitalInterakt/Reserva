@@ -38,6 +38,8 @@ import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
 import { useCheckIfUserExistsLazyQuery, useOrderFormAddSellerCouponMutation } from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
+import { getBrands } from '../utils/getBrands';
+import { defaultBrand } from '../utils/defaultWBrand';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -693,6 +695,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       // set new order form
       setOrderForm(data);
 
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
+
       EventProvider.logEvent('add_to_cart', {
         item_id: itemId,
         item_price: convertPrice(product?.price || 0),
@@ -700,6 +706,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         item_category: 'product',
         currency: 'BRL',
         seller,
+        wbrand: getBrands(data?.items || []),
       });
 
       return { ok: !(product.quantity < quantity) };
@@ -730,6 +737,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       EventProvider.logEvent('remove_from_cart', {
         item_id: itemId,
         item_categories: 'product',
+        wbrand: getBrands(data?.items),
       });
 
       return { ok: true };

@@ -31,6 +31,7 @@ import EventProvider from '../../../utils/EventProvider';
 import useDitoStore from '../../../zustand/useDitoStore';
 import testProps from '../../../utils/testProps';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
@@ -163,6 +164,10 @@ const MenuScreen: React.FC<{}> = ({}) => {
   }, [profile]);
 
   useEffect(() => {
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
+
     BackHandler.addEventListener('hardwareBackPress', () => {
       navigation.goBack();
       return true;

@@ -15,6 +15,7 @@ import { ProductUtils } from '../../../shared/utils/productUtils';
 import EventProvider from '../../../utils/EventProvider';
 import { getItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 interface ListProductsProps {
@@ -252,6 +253,7 @@ export const ListHorizontalProducts = ({
                   EventProvider.logEvent('select_item', {
                     item_list_id: item?.productId,
                     item_list_name: item?.productName,
+                    wbrand: getBrandByUrl(products),
                   });
                   navigation.navigate('ProductDetail', {
                     productId: item.productId,

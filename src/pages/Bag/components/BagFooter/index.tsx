@@ -20,6 +20,7 @@ import {
   useOrderFormAttachClientByEmailMutation,
 } from '../../../../base/graphql/generated';
 import { useCart } from '../../../../context/CartContext';
+import { getBrands } from '../../../../utils/getBrands';
 
 interface BagFooterParams {
   isProfileComplete: boolean
@@ -102,6 +103,7 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
             currency: 'BRL',
             items: newItems,
             value: totalBagItemsPrice + totalBagDiscountPrice + totalBagDeliveryPrice,
+            wbrand: getBrands(currentOrderForm.items),
           });
         }
 

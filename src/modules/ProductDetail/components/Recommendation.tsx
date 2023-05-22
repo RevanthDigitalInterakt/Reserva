@@ -8,6 +8,8 @@ import { createAnimatableComponent } from 'react-native-animatable';
 import { productSearch } from '../../../graphql/products/productSearch';
 import { ListHorizontalProducts } from './ListHorizontalProducts';
 import EventProvider from '../../../utils/EventProvider';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 interface RecommendationProps {
   handleScrollToTheTop?: () => void;
@@ -69,8 +71,12 @@ export const Recommendation = ({
         item_name: item?.productName,
         item_category: 'product_group',
       }));
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
       EventProvider.logEvent('view_item_list', {
         items: newItems,
+        wbrand: getBrandByUrl(products),
       });
     } catch (error) {
       EventProvider.captureException(error);

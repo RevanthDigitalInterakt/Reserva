@@ -18,6 +18,9 @@ export const currentOrderForm: any = {
       productCategories: [
         {},
       ],
+      additionalInfo: {
+        brandName: 'RESERVA',
+      },
     },
     {
       name: 'Produto B',
@@ -28,7 +31,9 @@ export const currentOrderForm: any = {
       productCategories: [
         {},
       ],
-
+      additionalInfo: {
+        brandName: 'RESERVA',
+      },
     },
   ],
   orderFormId: '1',

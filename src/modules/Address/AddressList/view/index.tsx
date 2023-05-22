@@ -1,8 +1,10 @@
 import {
   Alert, Box, Button, Typography,
 } from '@usereservaapp/reserva-ui';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ActivityIndicator, FlatList, SafeAreaView } from 'react-native';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
+import EventProvider from '../../../../utils/EventProvider';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import AddressSelector from '../../Components/AddressSelector';
 import type { IEditAddress } from '../../interface';
@@ -59,6 +61,12 @@ const AddressList = () => {
     controller.isVisibleDeleteModal,
     controller.isVisibleSuccessModal,
   ]);
+
+  useEffect(() => {
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
+  }, []);
 
   return (
 

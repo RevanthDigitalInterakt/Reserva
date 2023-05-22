@@ -5,6 +5,7 @@ import { Box, Image } from '@usereservaapp/reserva-ui';
 import EventProvider from '../../../utils/EventProvider';
 import type { IQueryFilters } from '../../../graphql/homePage/HomeQuery';
 import testProps from '../../../utils/testProps';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 export interface BannerProps {
   route?: string;
@@ -50,9 +51,13 @@ const Banner: React.FC<BannerProps> = ({
     const [categoryType, categoryData] = reference?.split(':') || [undefined, undefined];
 
     if (categoryType === 'product') {
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
       EventProvider.logEvent('select_item', {
-        item_list_id: categoryData ?? '',
+        item_list_id: categoryData || '',
         item_list_name: '',
+        wbrand: defaultBrand.reserva,
       });
 
       navigation.navigate('ProductDetail', {

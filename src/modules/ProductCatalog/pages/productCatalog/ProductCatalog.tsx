@@ -30,8 +30,10 @@ import {
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../../shared/hooks/useCheckConnection';
 import { referenceIdResolver } from '../../../../shared/utils/referenceIdResolver';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
 import EventProvider from '../../../../utils/EventProvider';
 import { generateFacets } from '../../../../utils/generateFacets';
+import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { Skeleton } from '../../../Checkout/components/Skeleton';
 import { CountDownBanner } from '../../../Home/component/CountDown';
 import { CountDownLocal } from '../../../Home/component/countDownLocal/CountDownLocal';
@@ -259,15 +261,16 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     }
   }, [countDownClock]);
 
-  useEffect(() => {
-    try {
-      EventProvider.logEvent('product_list_view', {
-        content_type: 'product_group',
-      });
-    } catch (err) {
-      EventProvider.captureException(err);
-    }
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     EventProvider.logEvent('product_list_view', {
+  //       content_type: 'product_group',
+  //       wbrand: '',
+  //     });
+  //   } catch (err) {
+  //     EventProvider.captureException(err);
+  //   }
+  // }, []);
 
   const [{ facetsData, lodingFacets }, setFacets] = useState<{
     facetsData?: { facets: object | undefined } | null;
@@ -460,6 +463,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     if (!loading && !!data) {
+      EventProvider.logEvent('product_list_view', {
+        content_type: 'product_group',
+        wbrand: getBrandByUrl(data.productSearch.products[0]),
+      });
       setProducts(data.productSearch);
     }
   }, [data]);
@@ -516,6 +523,9 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       }
 
       try {
+        EventProvider.logEvent('page_view', {
+          wbrand: defaultBrand.picapau,
+        });
         EventProvider.logEvent('view_item_list', {
           items: newDataProductSearch?.productSearch.map((item) => ({
             price: item?.priceRange?.sellingPrice?.lowPrice,
@@ -523,6 +533,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             item_name: item?.productName,
             item_category: 'product_group',
           })),
+          wbrand: getBrandByUrl(newDataProductSearch?.productSearch),
         });
       } catch (err) {
         EventProvider.captureException(err);

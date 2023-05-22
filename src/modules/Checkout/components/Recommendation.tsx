@@ -6,8 +6,10 @@ import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import { ListHorizontalProducts } from './ListHorizontalProducts';
 import EventProvider from '../../../utils/EventProvider';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
 import { useProductRecommendationsLazyQuery } from '../../../base/graphql/generated';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 export function Recommendation() {
   const {
@@ -40,8 +42,12 @@ export function Recommendation() {
         item_name: item?.productName,
         item_category: Object.values(item?.categoryTree?.map((i) => (i.href))).join('|'),
       }));
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
       EventProvider.logEvent('view_item_list', {
         items: newItems,
+        wbrand: getBrandByUrl(products),
       });
     } catch (error) {
       EventProvider.captureException(error);

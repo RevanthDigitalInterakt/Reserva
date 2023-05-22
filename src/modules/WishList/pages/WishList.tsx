@@ -21,6 +21,8 @@ import { ModalBag } from '../../ProductDetail/components/ModalBag';
 import { EmptyWishList } from '../components/EmptyWishList';
 import { slugify } from '../../../utils/slugify';
 import EventProvider from '../../../utils/EventProvider';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
@@ -299,9 +301,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                           ) {
                             const { productId, productSku } = item;
                             if (productSku?.name) {
+                              EventProvider.logEvent('page_view', {
+                                wbrand: 'PicaPau',
+                              });
                               EventProvider.logEvent('select_item', {
-                                item_list_id: productId ?? '',
+                                item_list_id: productId || '',
                                 item_list_name: productSku?.name?.split('-')[0] ?? '',
+                                wbrand: getBrandByUrl(wishProducts),
                               });
                             }
                             // TODO - ver tipagem desta rota.
@@ -323,9 +329,13 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       handleNavigateToProductDetail={() => {
                         const { productId, productSku } = item;
                         if (productSku?.name) {
+                          EventProvider.logEvent('page_view', {
+                            wbrand: defaultBrand.picapau,
+                          });
                           EventProvider.logEvent('select_item', {
-                            item_list_id: productId ?? '',
-                            item_list_name: productSku?.name?.split('-')[0] ?? '',
+                            item_list_id: productId || '',
+                            item_list_name: productSku?.name?.split('-')[0] || '',
+                            wbrand: getBrandByUrl(wishProducts),
                           });
                         }
                         // TODO - ver tipagem desta rota.

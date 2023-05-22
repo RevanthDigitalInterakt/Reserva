@@ -6,6 +6,7 @@ import {
 import { images } from '../../../assets';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import EventProvider from '../../../utils/EventProvider';
+import { defaultBrand } from '../../../utils/defaultWBrand';
 
 type IOrderItemData = {
   listPrice?: number;
@@ -35,9 +36,13 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
             && (
               <Button
                 onPress={() => {
+                  EventProvider.logEvent('page_view', {
+                    wbrand: defaultBrand.picapau,
+                  });
                   EventProvider.logEvent('select_item', {
                     item_list_id: orderItem?.id,
                     item_list_name: orderItem?.name,
+                    wbrand: defaultBrand.reserva,
                   });
 
                   navigate('ProductDetail', {
