@@ -8,6 +8,10 @@ const reducer = async (state: IAsyncDeepLinkStore,
       const navigateToRoute = await reducerMethods.CATALOG({ ...payload });
       return { ...state, fallBackRoute: navigateToRoute };
     }
+    case 'PRODUCT': {
+      const navigateToRoute = await reducerMethods.PRODUCT({ ...payload });
+      return { ...state, fallBackRoute: navigateToRoute };
+    }
     default:
       return { ...state, fallBackRoute: { routeName: 'HomeTabs' }, deepLinkLoading: true };
   }

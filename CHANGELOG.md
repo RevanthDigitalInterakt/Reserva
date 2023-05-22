@@ -1,5 +1,7 @@
 ## CHANGELOG
 
+### 1.18.40
+- [APP2022-991 - Direcionar link de agenda NOW no app](https://reserva.atlassian.net/browse/APP2022-991)
 ### 1.18.39
 
 - [APP2022-1061 - Inserir eventos de tracking na nova bag](https://reserva.atlassian.net/browse/APP2022-1061)

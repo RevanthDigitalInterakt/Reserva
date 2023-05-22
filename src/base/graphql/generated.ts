@@ -1157,6 +1157,13 @@ export type ProductRecommendationsQueryVariables = Exact<{ [key: string]: never;
 
 export type ProductRecommendationsQuery = { __typename?: 'Query', productRecommendations: Array<{ __typename?: 'ProductOutput', productId: string, productName: string, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, items: Array<{ __typename?: 'ProductItemOutput', images: Array<string>, itemId?: string | null, variations: Array<{ __typename?: 'ProductItemVariationOutput', originalName?: string | null, name?: string | null, values?: Array<string> | null }>, sellers: Array<{ __typename?: 'ProductItemSellerOutput', sellerId?: string | null, sellerDefault?: boolean | null, commertialOffer?: { __typename?: 'ProductItemSellerCommertialOfferOutput', tax: number, taxPercentage: number, availableQuantity: number, price: number, listPrice: number, spotPrice: number, priceWithoutDiscount: number, installments: Array<{ __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput', value: number, totalValuePlusInterestRate: number, numberOfInstallments: number }> } | null }> }> }> };
 
+export type RonRedirectQueryVariables = Exact<{
+  code: Scalars['String'];
+}>;
+
+
+export type RonRedirectQuery = { __typename?: 'Query', ronRedirect?: { __typename?: 'RonRedirectOutput', type: RonRedirectTypeEnum, url?: string | null, orderFormId?: string | null } | null };
+
 export type SellerInfoQueryVariables = Exact<{
   sellerId: Scalars['String'];
 }>;
@@ -2071,6 +2078,46 @@ export type ProductRecommendationsLazyQueryHookResult = ReturnType<typeof usePro
 export type ProductRecommendationsQueryResult = Apollo.QueryResult<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>;
 export function refetchProductRecommendationsQuery(variables?: ProductRecommendationsQueryVariables) {
       return { query: ProductRecommendationsDocument, variables: variables }
+    }
+export const RonRedirectDocument = gql`
+    query ronRedirect($code: String!) {
+  ronRedirect(input: {code: $code}) {
+    type
+    url
+    orderFormId
+  }
+}
+    `;
+
+/**
+ * __useRonRedirectQuery__
+ *
+ * To run a query within a React component, call `useRonRedirectQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRonRedirectQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRonRedirectQuery({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useRonRedirectQuery(baseOptions: Apollo.QueryHookOptions<RonRedirectQuery, RonRedirectQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RonRedirectQuery, RonRedirectQueryVariables>(RonRedirectDocument, options);
+      }
+export function useRonRedirectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RonRedirectQuery, RonRedirectQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RonRedirectQuery, RonRedirectQueryVariables>(RonRedirectDocument, options);
+        }
+export type RonRedirectQueryHookResult = ReturnType<typeof useRonRedirectQuery>;
+export type RonRedirectLazyQueryHookResult = ReturnType<typeof useRonRedirectLazyQuery>;
+export type RonRedirectQueryResult = Apollo.QueryResult<RonRedirectQuery, RonRedirectQueryVariables>;
+export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
+      return { query: RonRedirectDocument, variables: variables }
     }
 export const SellerInfoDocument = gql`
     query sellerInfo($sellerId: String!) {

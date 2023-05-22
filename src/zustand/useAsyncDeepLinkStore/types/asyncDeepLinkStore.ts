@@ -4,7 +4,7 @@ export type TExcludedValues = 'dispatch';
 
 export type TOmitAsyncDeepLinkStore = Omit<IAsyncDeepLinkStore, TExcludedValues>;
 
-export type TActionType = 'CATALOG';
+export type TActionType = 'CATALOG' | 'PRODUCT';
 export interface IPayloadDispatch {
   actionType: TActionType,
   payload: Object

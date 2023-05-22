@@ -47,6 +47,18 @@ const routesConfig = {
   },
 };
 
+export const urlHandler = async (url: string) => {
+  const currentDeepLink = await deepLinkHelper(url);
+
+  if (currentDeepLink) return currentDeepLink;
+
+  if (Platform.OS === platformType.IOS) {
+    Linking.openURL(url);
+  }
+
+  return defaultInitialUrl;
+};
+
 export const linkingConfig: LinkingOptions = {
   prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/'],
   config: routesConfig,
@@ -57,17 +69,7 @@ export const linkingConfig: LinkingOptions = {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();
 
-    if (url != null) {
-      const currentDeepLink = await deepLinkHelper(url);
-
-      if (currentDeepLink) return currentDeepLink;
-
-      if (Platform.OS === platformType.IOS) {
-        Linking.openURL(url);
-      }
-
-      return defaultInitialUrl;
-    }
+    if (url != null) return urlHandler(url);
 
     // Check if there is an initial firebase notification
     // When the application is opened from a quit state.

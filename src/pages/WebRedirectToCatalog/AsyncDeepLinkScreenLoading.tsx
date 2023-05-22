@@ -13,7 +13,6 @@ function AsyncDeepLinkScreenLoading({ route, navigation }: TWebRedirectToCatalog
   const { reducerKey, ...restParams } = route.params;
   const { topBarLoading } = useCart();
   const { deepLinkLoading, fallBackRoute, dispatch } = useAsyncDeepLinkStore();
-
   useEffect(() => {
     if (fallBackRoute) {
       navigation.replace(fallBackRoute.routeName, { ...fallBackRoute.params });
