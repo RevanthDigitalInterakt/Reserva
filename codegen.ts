@@ -1,7 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: process.env.ENVFILE || '.env' });
 
 function getPrependAction(filepath: string) {
   return `printf '%s\n%s\n' "// @ts-nocheck\n/* eslint-disable */" "$(cat ${filepath})" > ${filepath}`;

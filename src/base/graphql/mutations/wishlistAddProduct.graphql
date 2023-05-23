@@ -1,0 +1,3 @@
+mutation wishlistAddProduct($input: WishlistAddProductInput!) {
+    wishlistAddProduct(input: $input)
+}

@@ -166,7 +166,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2023000041
-        versionName "1.18.40"
+        versionName "1.18.41"
         missingDimensionStrategy 'react-native-camera', 'general'
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")
@@ -240,6 +240,8 @@ dependencies {
     implementation "com.getbouncer:scan-payment-card-detect:2.0.0084"
     implementation "com.getbouncer:scan-payment-ocr:2.0.0084"
     implementation "com.getbouncer:tensorflow-lite:2.0.0084"
+
+    implementation 'androidx.work:work-runtime:2.7.1'
 
     //bootlsash
     implementation "androidx.core:core-splashscreen:1.0.0"

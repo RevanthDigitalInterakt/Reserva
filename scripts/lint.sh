@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -i LIMIT_ERROR=895
+declare -i LIMIT_ERROR=870
 declare -i TOTAL_ERROR=$(yarn run --silent lint | grep 'problems' | grep -o '[0-9]\+' | head -1)
 
 if (( LIMIT_ERROR >= TOTAL_ERROR )); then
@@ -8,6 +8,6 @@ if (( LIMIT_ERROR >= TOTAL_ERROR )); then
 else
   yarn lint . --ext .ts --ext .tsx --cache
 
-  echo ERROR: Seu código tem mais erros de lint que o permitido.
+  echo ERROR: Seu código contém $TOTAL_ERROR erros. O limite é de $LIMIT_ERROR.
   exit 1
 fi

@@ -74,7 +74,11 @@ interface IProductDescription {
   testID: string;
 }
 
-const ProductDescription: React.FC<IProductDescription> = ({ title, description, testID }) => (
+export const ProductDescription: React.FC<IProductDescription> = ({
+  title,
+  description,
+  testID,
+}) => (
   <Box testID={testID}>
     <Box mt="xxs">
       <Typography

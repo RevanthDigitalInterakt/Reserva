@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 1.18.41
+- [APP2022-1063 - Integrar PDP com o API Gateway + Refactor](https://reserva.atlassian.net/browse/APP2022-1063)
+
+---
+
 ### 1.18.40
 
 - [SRN-231 - Marcas GA4 - Eventos de transações e sessões](https://reserva.atlassian.net/browse/SRN-231)

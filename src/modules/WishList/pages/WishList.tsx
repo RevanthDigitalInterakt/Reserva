@@ -23,6 +23,7 @@ import { slugify } from '../../../utils/slugify';
 import EventProvider from '../../../utils/EventProvider';
 import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
@@ -310,12 +311,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                                 wbrand: getBrandByUrl(wishProducts),
                               });
                             }
-                            // TODO - ver tipagem desta rota.
-                            navigation.navigate('ProductDetail', {
+
+                            navigation.navigate('ProductDetail', createNavigateToProductParams({
                               productId: item?.product?.productId,
                               colorSelected: item?.productSku?.variations[2]?.values[0],
-                              sizeSelected: item?.productSku?.name?.split('-')[1],
-                            });
+                            }));
                           } else {
                             await onProductAdd(item.productSku?.itemId, sellers);
                           }
@@ -338,12 +338,11 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                             wbrand: getBrandByUrl(wishProducts),
                           });
                         }
-                        // TODO - ver tipagem desta rota.
-                        navigation.navigate('ProductDetail', {
+
+                        navigation.navigate('ProductDetail', createNavigateToProductParams({
                           productId: item?.product?.productId,
-                          itemId: item?.productSku?.itemId,
-                          sizeSelected: item?.productSku?.name?.split('-')[1],
-                        });
+                          skuId: item?.productSku?.itemId,
+                        }));
                       }}
                     />
                   </Box>

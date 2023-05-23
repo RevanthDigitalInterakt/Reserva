@@ -1,7 +1,7 @@
 import {
   Box, Button, Divider, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import { ListHorizontalProducts } from './ListHorizontalProducts';
@@ -13,16 +13,18 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 
 export function Recommendation() {
   const {
-    products, showMore, setProducts, setShowMore,
+    products, showSection, setProducts, setShowSection,
   } = useRecommendation();
 
   const BoxAnimated = createAnimatableComponent(Box);
 
   const [getProductRecommendation] = useProductRecommendationsLazyQuery({
-    context: {
-      clientName: 'gateway',
-    },
+    context: { clientName: 'gateway' },
   });
+
+  const onToggleSection = useCallback(() => (
+    setShowSection(!showSection)
+  ), [setShowSection, showSection]);
 
   useEffect(() => {
     getProductRecommendation().then(({ data }) => {
@@ -61,7 +63,7 @@ export function Recommendation() {
       </Box>
       <Box testID="com.usereserva:id/products_recomendation_list" paddingLeft="micro">
         <Button
-          onPress={() => setShowMore(!showMore)}
+          onPress={onToggleSection}
           hitSlop={{ left: 50, top: 15, bottom: 15 }}
           flexDirection="row"
         >
@@ -74,6 +76,7 @@ export function Recommendation() {
             <Box marginRight="micro">
               <Icon name="Handbag" size={20} />
             </Box>
+
             <Box flex={1}>
               <Typography variant="subtituloSessoes">
                 Outros produtos que você pode gostar
@@ -81,20 +84,20 @@ export function Recommendation() {
             </Box>
             <Box marginRight="md">
               <Icon
-                name={showMore ? 'ArrowDown' : 'ArrowDown'}
+                name="ArrowDown"
+                color="preto"
+                size="20"
                 style={
-                  showMore
+                  showSection
                     ? { transform: [{ rotate: '-180deg' }, { translateY: 4 }] }
                     : { transform: [{ translateY: 8 }] }
                 }
-                color="preto"
-                size={showMore ? '20' : '20'}
               />
             </Box>
           </BoxAnimated>
         </Button>
       </Box>
-      {!!showMore && (
+      {!!showSection && (
         <>
           <Box paddingX="xxxs">
             <Divider marginBottom="xs" variant="fullWidth" />

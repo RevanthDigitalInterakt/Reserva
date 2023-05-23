@@ -1,0 +1,16 @@
+fragment productSizeFragment on ProductSizeOutput {
+    itemId
+    size
+    ean
+    seller
+    listPrice
+    currentPrice
+    discountPercent
+    hasDiscount
+    availableQuantity
+    installment {
+        value
+        number
+    }
+    disabled
+}

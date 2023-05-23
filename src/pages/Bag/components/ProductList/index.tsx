@@ -7,6 +7,7 @@ import EventProvider from '../../../../utils/EventProvider';
 import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPlaceName';
 import { slugify } from '../../../../utils/slugify';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
 
 const ShowFirstPurchaseDiscount = ({ discountText }: { discountText: string }) => (
   <Box paddingBottom="nano" testID="com.usereserva:id/ShowFirstPurchaseDiscount">
@@ -147,24 +148,19 @@ export default function BagProductList() {
     }, [dispatch, handleDeleteProductModal],
   );
 
-  const handleNavigationToDatail = useCallback(({
-    productId, name, skuName, id,
-  }: IItemsBag) => {
+  const handleNavigationToDetail = useCallback(({ productId, name, id }: IItemsBag) => {
     EventProvider.logEvent('page_view', {
       wbrand: defaultBrand.picapau,
     });
+
     EventProvider.logEvent('select_item', {
       item_list_id: productId,
       item_list_name: name,
       wbrand: defaultBrand.reserva,
     });
 
-    navigation.navigate('ProductDetail', {
-      productId,
-      itemId: id,
-      sizeSelected: skuName?.split('-')[1] || '',
-    });
-  }, [EventProvider, navigation]);
+    navigation.navigate('ProductDetail', createNavigateToProductParams({ productId, skuId: id }));
+  }, [navigation]);
 
   return (
     <>
@@ -209,7 +205,7 @@ export default function BagProductList() {
                 onClickSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
                 onClickClose={() => handleDeleteProductModal(item, index)}
                 imageSource={item.imageSource}
-                handleNavigateToProductDetail={() => handleNavigationToDatail(item)}
+                handleNavigateToProductDetail={() => handleNavigationToDetail(item)}
               />
             </Box>
           );

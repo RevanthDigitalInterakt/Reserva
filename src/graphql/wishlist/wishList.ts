@@ -33,7 +33,7 @@ const REMOVE_WISH_LIST = gql`
 
 const CHECK_LIST = gql`
   query CheckList($shopperId: String!, $productId: String!, $sku: String) {
-    checkList(shopperId: $shopperId, productId: $productId, sku: $sku) {
+    checkList(shopperId: $shopperId, productId: $productId, sku: $sku) @context(provider: "vtex.wish-list") {
       inList
       listNames
       listIds

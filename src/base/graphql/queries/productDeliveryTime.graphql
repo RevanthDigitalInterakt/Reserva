@@ -1,0 +1,7 @@
+query productDeliveryTime($input: CheckDeliveryTimeByProductInput!) {
+  productDeliveryTime(input: $input) {
+    name
+    price
+    estimatedDay
+  }
+}

@@ -1,0 +1,113 @@
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
+import { ProductDetailCard } from '@usereservaapp/reserva-ui';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import { onShare } from '../../../../utils/onShare';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPlaceName';
+import { slugify } from '../../../../utils/slugify';
+import { ModalZoomImage } from '../../../../modules/ProductDetail/components/ModalZoomImage';
+import { useWishlistProductActions } from '../../../../hooks/useWishlistProductActions';
+import { images } from '../../../../assets';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import EventProvider from '../../../../utils/EventProvider';
+
+function ProductSummary() {
+  const { getBoolean } = useRemoteConfig();
+  const { productDetail, selectedColor, selectedSize } = useProductDetailStore([
+    'productDetail',
+    'selectedSize',
+    'selectedColor',
+  ]);
+
+  const { onToggleFavorite, loading: loadingWishlist, isFavorited } = useWishlistProductActions({
+    productId: productDetail?.productId || '',
+    skuId: selectedSize?.itemId || '',
+  });
+
+  const [imageIndex, setImageIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
+  const mktplaceNameComponent = useMemo(() => (
+    selectedSize?.seller
+      ? <MktplaceName sellerId={selectedSize.seller} showIconModalInfo />
+      : null
+  ), [selectedSize]);
+
+  const saleOff = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.saleOff && getBoolean('sale_off_tag')) {
+      return images.saleOff;
+    }
+
+    return null;
+  }, [getBoolean, productDetail]);
+
+  const onClickShare = useCallback(() => {
+    if (!productDetail) return;
+
+    const { share } = productDetail;
+
+    onShare(share.title, share.message, share.url);
+    EventProvider.logEvent('product_share', { product_id: productDetail.productId });
+  }, [productDetail]);
+
+  useEffect(() => {
+    EventProvider.logEvent('product_slide_images', {
+      index: imageIndex,
+      product_id: productDetail?.productId || '',
+    });
+  }, [imageIndex, productDetail]);
+
+  if (!productDetail || !selectedColor) return null;
+
+  return (
+    <>
+      <ModalZoomImage
+        isVisible={showModal}
+        image={selectedColor.images || []}
+        setIsVisibleZoom={setShowModal}
+        setIndexOpenImage={imageIndex}
+      />
+
+      <ProductDetailCard
+        testID={`com.usereserva:id/productdetail_card_${slugify(productDetail.productId)}`}
+        loadingFavorite={loadingWishlist}
+        isFavorited={isFavorited}
+        onClickFavorite={onToggleFavorite}
+        imagesHeight={3 * (configDeviceSizes.DEVICE_WIDTH / 2)}
+        title={productDetail.productName}
+        price={selectedSize?.listPrice || 0}
+        priceWithDiscount={selectedSize?.currentPrice || 0}
+        installmentsNumber={selectedSize?.installment?.number || 1}
+        installmentsPrice={selectedSize?.installment?.value || 0}
+        onClickShare={onClickShare}
+        discountTag={selectedSize?.discountPercent || 0}
+        saleOff={saleOff}
+        avaibleUnits={selectedSize?.availableQuantity || undefined}
+        setModalZoom={() => {
+          EventProvider.logEvent('product_zoom', {
+            product_id: productDetail.productId,
+            index: imageIndex,
+          });
+
+          setShowModal(true);
+        }}
+        imagesWidth={configDeviceSizes.DEVICE_WIDTH}
+        images={selectedColor.images || []}
+        imageIndexActual={(newIndex) => {
+          // To prevent some re-renders
+          if (newIndex === imageIndex) return imageIndex;
+
+          setImageIndex(newIndex);
+          return newIndex;
+        }}
+        mktplaceNameComponent={mktplaceNameComponent}
+      />
+    </>
+  );
+}
+
+export default ProductSummary;

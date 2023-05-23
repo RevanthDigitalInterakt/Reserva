@@ -17,6 +17,7 @@ import { getPercent } from '../../../utils/getPercent';
 import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -277,13 +278,10 @@ export const ListHorizontalProducts = ({
                     wbrand: getBrandByUrl(products),
                   });
 
-                  navigation.navigate('ProductDetail', {
+                  navigation.navigate('ProductDetail', createNavigateToProductParams({
                     productId: item.productId,
-                    colorSelected: getVariant(
-                      item?.items[0]?.variations,
-                      'ID_COR_ORIGINAL',
-                    ),
-                  });
+                    colorSelected: getVariant(item?.items[0]?.variations, 'ID_COR_ORIGINAL'),
+                  }));
 
                   if (handleScrollToTheTop) {
                     handleScrollToTheTop();

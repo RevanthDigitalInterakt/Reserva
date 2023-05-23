@@ -7,7 +7,7 @@ describe('useRecommendation', () => {
     const { result } = renderHook(() => useRecommendation());
 
     expect(result.current.products).toEqual([]);
-    expect(result.current.showMore).toBe(true);
+    expect(result.current.showSection).toBe(true);
   });
 
   it('should update products when setProducts is called', () => {
@@ -23,9 +23,9 @@ describe('useRecommendation', () => {
     const { result } = renderHook(() => useRecommendation());
 
     act(() => {
-      result.current.setShowMore(true);
+      result.current.setShowSection(true);
     });
 
-    expect(result.current.showMore).toBeTruthy();
+    expect(result.current.showSection).toBeTruthy();
   });
 });

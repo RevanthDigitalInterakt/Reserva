@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import type { ProductOutput } from '../../base/graphql/generated';
+import type { ProductRecommendationOutput } from '../../base/graphql/generated';
 import type { ProductQL } from '../../graphql/products/productSearch';
 import type { IRecommendationState } from './types/recommendation';
 
-const parseProductsGatewayToVtex = (products: ProductOutput[]) => {
+const parseProductsGatewayToVtex = (products: ProductRecommendationOutput[]) => {
   const vtexProducts: ProductQL[] = products.map((product) => ({
     ...product,
     skuSpecifications: [],
@@ -40,11 +40,12 @@ const parseProductsGatewayToVtex = (products: ProductOutput[]) => {
 };
 
 const useRecommendation = create<IRecommendationState>((set) => ({
-  showMore: true,
+  showSection: true,
   products: [],
-  setShowMore: (value: boolean) => set(() => ({ showMore: value })),
-  setProducts: (value: Array<ProductOutput>) => set(
+  setShowSection: (value: boolean) => set(() => ({ showSection: value })),
+  setProducts: (value: ProductRecommendationOutput[]) => set(
     () => ({ products: parseProductsGatewayToVtex(value) }),
   ),
 }));
+
 export default useRecommendation;

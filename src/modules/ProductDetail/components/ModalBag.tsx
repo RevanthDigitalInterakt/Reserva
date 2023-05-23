@@ -43,7 +43,8 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
           <LottieView
             style={{ flex: 1 }}
             onAnimationFinish={() => {
-              setAnimationFinished(true);
+              setAnimationFinished(false);
+              onBackdropPress();
             }}
             ref={(animation) => {
               setAnimation(animation);

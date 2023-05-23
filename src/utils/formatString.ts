@@ -6,6 +6,7 @@ interface IAddress {
   city: string;
   state: string;
 }
+
 const address = ({
   street,
   number,
@@ -20,6 +21,4 @@ const address = ({
   return `${street}, ${number}, ${complement}, ${neighborhood}, ${city} - ${state}`;
 };
 
-export default {
-  address,
-};
+export default { address };

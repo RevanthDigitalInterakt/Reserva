@@ -72,7 +72,6 @@ export type RootStackParamList = {
     sizeSelected: string;
     hasCep?: string;
     idsku?: string;
-    comeFrom: 'DeepLink' | 'catalog' | 'Search';
     skuId?: string;
     itemId?: string;
     selectedSize?: string;

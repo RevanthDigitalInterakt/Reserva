@@ -33,6 +33,12 @@ export type CepOutput = {
   street?: Maybe<Scalars['String']>;
 };
 
+export type CheckDeliveryTimeByProductInput = {
+  id: Scalars['String'];
+  postalCode: Scalars['String'];
+  seller: Scalars['String'];
+};
+
 export type CheckEmailInput = {
   email: Scalars['String'];
 };
@@ -152,8 +158,15 @@ export type GenericOutput = {
   message?: Maybe<Scalars['String']>;
 };
 
+export enum GetProductTypeEnum {
+  ProductId = 'PRODUCT_ID',
+  SkuId = 'SKU_ID',
+  Slug = 'SLUG'
+}
+
 export type LoggedInOutput = {
   __typename?: 'LoggedInOutput';
+  authCookie?: Maybe<Scalars['String']>;
   token: Scalars['String'];
 };
 
@@ -164,7 +177,7 @@ export type Mutation = {
   orderFormAddItem: OrderformOutput;
   orderFormAddSellerCoupon: OrderformOutput;
   orderFormAttachAddress: OrderformOutput;
-  orderFormAttachClient: OrderformOutput;
+  orderFormAttachClientByCookie: OrderformOutput;
   orderFormAttachClientByEmail: OrderformOutput;
   orderFormRefreshData: OrderformOutput;
   orderFormRemoveDiscountCoupon: OrderformOutput;
@@ -178,13 +191,17 @@ export type Mutation = {
   profileAddressRemove: Scalars['Boolean'];
   recoverPasswordReset: LoggedInOutput;
   recoverPasswordVerificationCode: RequestCodeOutput;
-  refreshTokenUrl: Scalars['String'];
+  redefinePassword: LoggedInOutput;
+  refreshToken: LoggedInOutput;
   removeCustomer: Scalars['Boolean'];
   sendLead: Scalars['Boolean'];
   signIn: LoggedInOutput;
   signOut: Scalars['Boolean'];
   signUp: LoggedInOutput;
   signUpVerificationCode: RequestCodeOutput;
+  subscribeNewsletter: Scalars['Boolean'];
+  wishlistAddProduct: Scalars['ID'];
+  wishlistRemoveProduct: Scalars['Boolean'];
 };
 
 
@@ -213,8 +230,8 @@ export type MutationOrderFormAttachAddressArgs = {
 };
 
 
-export type MutationOrderFormAttachClientArgs = {
-  input: OrderformAttachClientInput;
+export type MutationOrderFormAttachClientByCookieArgs = {
+  input: OrderformAttachClientByCookieInput;
 };
 
 
@@ -274,12 +291,17 @@ export type MutationProfileAddressRemoveArgs = {
 
 
 export type MutationRecoverPasswordResetArgs = {
-  input: VtexUserInput;
+  input: ResetVtexPasswordInput;
 };
 
 
 export type MutationRecoverPasswordVerificationCodeArgs = {
   input: RequestVerificationCodeInput;
+};
+
+
+export type MutationRedefinePasswordArgs = {
+  input: RedefineVtexPasswordInput;
 };
 
 
@@ -299,12 +321,27 @@ export type MutationSignInArgs = {
 
 
 export type MutationSignUpArgs = {
-  input: VtexUserInput;
+  input: SignUpUserInput;
 };
 
 
 export type MutationSignUpVerificationCodeArgs = {
   input: RequestVerificationCodeInput;
+};
+
+
+export type MutationSubscribeNewsletterArgs = {
+  input: SubscribeNewsletterInput;
+};
+
+
+export type MutationWishlistAddProductArgs = {
+  input: WishlistAddProductInput;
+};
+
+
+export type MutationWishlistRemoveProductArgs = {
+  input: WishlistRemoveProductInput;
 };
 
 export type OrderDetailIdInput = {
@@ -472,12 +509,12 @@ export type OrderformAppTotalizersOutput = {
   total: Scalars['Float'];
 };
 
-export type OrderformAttachClientByEmailInput = {
-  email: Scalars['String'];
+export type OrderformAttachClientByCookieInput = {
   orderFormId: Scalars['String'];
 };
 
-export type OrderformAttachClientInput = {
+export type OrderformAttachClientByEmailInput = {
+  email: Scalars['String'];
   orderFormId: Scalars['String'];
 };
 
@@ -709,6 +746,37 @@ export type PaginationInput = {
   page: Scalars['Int'];
 };
 
+export type ProductColorOutput = {
+  __typename?: 'ProductColorOutput';
+  colorId: Scalars['String'];
+  colorUrl: Scalars['String'];
+  disabled: Scalars['Boolean'];
+  images: Array<Scalars['String']>;
+  sizes: Array<ProductSizeOutput>;
+};
+
+export type ProductColorUrlOutput = {
+  __typename?: 'ProductColorUrlOutput';
+  id: Scalars['ID'];
+  url: Scalars['String'];
+};
+
+export type ProductDeliveryTimeOutput = {
+  __typename?: 'ProductDeliveryTimeOutput';
+  estimatedDay?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  price: Scalars['Float'];
+};
+
+export type ProductInput = {
+  /** Initial selected color */
+  colorId?: InputMaybe<Scalars['String']>;
+  /** Initial selected variant ID */
+  itemId?: InputMaybe<Scalars['String']>;
+  type: GetProductTypeEnum;
+  value: Scalars['String'];
+};
+
 export type ProductItemOutput = {
   __typename?: 'ProductItemOutput';
   images: Array<Scalars['String']>;
@@ -752,11 +820,20 @@ export type ProductItemVariationOutput = {
 
 export type ProductOutput = {
   __typename?: 'ProductOutput';
-  categoryTree?: Maybe<Array<Scalars['String']>>;
-  items: Array<ProductItemOutput>;
+  categoryTree: Array<Scalars['String']>;
+  colorUrls: Array<ProductColorUrlOutput>;
+  colors: Array<ProductColorOutput>;
+  disabledColors: Array<Scalars['String']>;
+  initialColor?: Maybe<ProductColorOutput>;
+  initialColorId: Scalars['String'];
+  initialSize?: Maybe<ProductSizeOutput>;
+  initialSizeId: Scalars['String'];
   priceRange: ProductPriceRangeOutput;
-  productId: Scalars['String'];
+  productId: Scalars['ID'];
   productName: Scalars['String'];
+  properties: ProductPropertiesOutput;
+  saleOff: Scalars['Boolean'];
+  share: ProductShareOutput;
 };
 
 export type ProductPriceLevelOutput = {
@@ -769,6 +846,52 @@ export type ProductPriceRangeOutput = {
   __typename?: 'ProductPriceRangeOutput';
   listPrice: ProductPriceLevelOutput;
   sellingPrice: ProductPriceLevelOutput;
+};
+
+export type ProductPropertiesOutput = {
+  __typename?: 'ProductPropertiesOutput';
+  composition?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  isAssinaturaSimples?: Maybe<Scalars['Boolean']>;
+};
+
+export type ProductRecommendationOutput = {
+  __typename?: 'ProductRecommendationOutput';
+  categoryTree?: Maybe<Array<Scalars['String']>>;
+  items: Array<ProductItemOutput>;
+  priceRange: ProductPriceRangeOutput;
+  productId: Scalars['String'];
+  productName: Scalars['String'];
+};
+
+export type ProductShareOutput = {
+  __typename?: 'ProductShareOutput';
+  message: Scalars['String'];
+  title: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type ProductSizeInstallmentOutput = {
+  __typename?: 'ProductSizeInstallmentOutput';
+  number: Scalars['Int'];
+  value: Scalars['Float'];
+};
+
+export type ProductSizeOutput = {
+  __typename?: 'ProductSizeOutput';
+  availableQuantity: Scalars['Int'];
+  /** Final price (if discount exists, it's already applied) */
+  currentPrice: Scalars['Float'];
+  disabled: Scalars['Boolean'];
+  discountPercent: Scalars['Float'];
+  ean: Scalars['String'];
+  hasDiscount: Scalars['Boolean'];
+  installment: ProductSizeInstallmentOutput;
+  itemId: Scalars['ID'];
+  /** Price without discount (original price) - may be null if the original price is equal to current price */
+  listPrice: Scalars['Float'];
+  seller: Scalars['String'];
+  size: Scalars['String'];
 };
 
 export type ProfileAddressOutput = {
@@ -848,11 +971,14 @@ export type Query = {
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
-  productRecommendations: Array<ProductOutput>;
+  product: ProductOutput;
+  productDeliveryTime: Array<ProductDeliveryTimeOutput>;
+  productRecommendations: Array<ProductRecommendationOutput>;
   profile: ProfileOutput;
   ronRedirect?: Maybe<RonRedirectOutput>;
   sellerInfo?: Maybe<SellerInfoOutput>;
   sellersMktin: Array<Scalars['String']>;
+  wishlistCheckProduct: WishlistCheckOutput;
 };
 
 
@@ -911,6 +1037,16 @@ export type QueryOrdersArgs = {
 };
 
 
+export type QueryProductArgs = {
+  input: ProductInput;
+};
+
+
+export type QueryProductDeliveryTimeArgs = {
+  input: CheckDeliveryTimeByProductInput;
+};
+
+
 export type QueryRonRedirectArgs = {
   input: RonRedirectInput;
 };
@@ -918,6 +1054,16 @@ export type QueryRonRedirectArgs = {
 
 export type QuerySellerInfoArgs = {
   input: SellerInfoInput;
+};
+
+
+export type QueryWishlistCheckProductArgs = {
+  input: WishlistCheckProductInput;
+};
+
+export type RedefineVtexPasswordInput = {
+  currentPassword: Scalars['String'];
+  newPassword: Scalars['String'];
 };
 
 export type RemoveProfileAddressInput = {
@@ -932,6 +1078,13 @@ export type RequestCodeOutput = {
 
 export type RequestVerificationCodeInput = {
   email: Scalars['String'];
+};
+
+export type ResetVtexPasswordInput = {
+  code: Scalars['String'];
+  cookies: Array<Scalars['String']>;
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type RonRedirectInput = {
@@ -978,6 +1131,24 @@ export type SignInInput = {
   password: Scalars['String'];
 };
 
+export enum SignUpDocumentTypeEnum {
+  Cnpj = 'CNPJ',
+  Cpf = 'CPF'
+}
+
+export type SignUpUserInput = {
+  code: Scalars['String'];
+  cookies: Array<Scalars['String']>;
+  document?: InputMaybe<Scalars['String']>;
+  documentType?: InputMaybe<SignUpDocumentTypeEnum>;
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type SubscribeNewsletterInput = {
+  email: Scalars['String'];
+};
+
 export type UpsertProfileAddressInput = {
   addressId?: InputMaybe<Scalars['ID']>;
   city: Scalars['String'];
@@ -991,11 +1162,26 @@ export type UpsertProfileAddressInput = {
   street: Scalars['String'];
 };
 
-export type VtexUserInput = {
-  code: Scalars['String'];
-  cookies: Array<Scalars['String']>;
-  email: Scalars['String'];
-  password: Scalars['String'];
+export type WishlistAddProductInput = {
+  productId: Scalars['String'];
+  skuId: Scalars['String'];
+};
+
+export type WishlistCheckOutput = {
+  __typename?: 'WishlistCheckOutput';
+  inList: Scalars['Boolean'];
+  listIds: Array<Scalars['String']>;
+};
+
+export type WishlistCheckProductInput = {
+  productId: Scalars['String'];
+  skuId: Scalars['String'];
+};
+
+export type WishlistRemoveProductInput = {
+  productId?: InputMaybe<Scalars['String']>;
+  skuId?: InputMaybe<Scalars['String']>;
+  wishlistItemId?: InputMaybe<Scalars['String']>;
 };
 
 export type AvailableGiftsFragmentFragment = { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string };
@@ -1005,6 +1191,10 @@ export type InitialOrderFormFragmentFragment = { __typename?: 'OrderformOutput',
 export type OrderformItemFragmentFragment = { __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number };
 
 export type OrderformSelectableGiftFragmentFragment = { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> };
+
+export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } }> };
+
+export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } };
 
 export type OrderFormAddDiscountCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
@@ -1114,6 +1304,27 @@ export type SendLeadsMutationVariables = Exact<{
 
 export type SendLeadsMutation = { __typename?: 'Mutation', sendLead: boolean };
 
+export type SubscribeNewsletterMutationVariables = Exact<{
+  input: SubscribeNewsletterInput;
+}>;
+
+
+export type SubscribeNewsletterMutation = { __typename?: 'Mutation', subscribeNewsletter: boolean };
+
+export type WishlistAddProductMutationVariables = Exact<{
+  input: WishlistAddProductInput;
+}>;
+
+
+export type WishlistAddProductMutation = { __typename?: 'Mutation', wishlistAddProduct: string };
+
+export type WishlistRemoveProductMutationVariables = Exact<{
+  input: WishlistRemoveProductInput;
+}>;
+
+
+export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistRemoveProduct: boolean };
+
 export type CheckIfUserExistsQueryVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -1152,10 +1363,24 @@ export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MktinStatusQuery = { __typename?: 'Query', mktinStatus: boolean };
 
+export type ProductQueryVariables = Exact<{
+  input: ProductInput;
+}>;
+
+
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } } | null } };
+
+export type ProductDeliveryTimeQueryVariables = Exact<{
+  input: CheckDeliveryTimeByProductInput;
+}>;
+
+
+export type ProductDeliveryTimeQuery = { __typename?: 'Query', productDeliveryTime: Array<{ __typename?: 'ProductDeliveryTimeOutput', name: string, price: number, estimatedDay?: string | null }> };
+
 export type ProductRecommendationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductRecommendationsQuery = { __typename?: 'Query', productRecommendations: Array<{ __typename?: 'ProductOutput', productId: string, productName: string, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, items: Array<{ __typename?: 'ProductItemOutput', images: Array<string>, itemId?: string | null, variations: Array<{ __typename?: 'ProductItemVariationOutput', originalName?: string | null, name?: string | null, values?: Array<string> | null }>, sellers: Array<{ __typename?: 'ProductItemSellerOutput', sellerId?: string | null, sellerDefault?: boolean | null, commertialOffer?: { __typename?: 'ProductItemSellerCommertialOfferOutput', tax: number, taxPercentage: number, availableQuantity: number, price: number, listPrice: number, spotPrice: number, priceWithoutDiscount: number, installments: Array<{ __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput', value: number, totalValuePlusInterestRate: number, numberOfInstallments: number }> } | null }> }> }> };
+export type ProductRecommendationsQuery = { __typename?: 'Query', productRecommendations: Array<{ __typename?: 'ProductRecommendationOutput', productId: string, productName: string, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, items: Array<{ __typename?: 'ProductItemOutput', images: Array<string>, itemId?: string | null, variations: Array<{ __typename?: 'ProductItemVariationOutput', originalName?: string | null, name?: string | null, values?: Array<string> | null }>, sellers: Array<{ __typename?: 'ProductItemSellerOutput', sellerId?: string | null, sellerDefault?: boolean | null, commertialOffer?: { __typename?: 'ProductItemSellerCommertialOfferOutput', tax: number, taxPercentage: number, availableQuantity: number, price: number, listPrice: number, spotPrice: number, priceWithoutDiscount: number, installments: Array<{ __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput', value: number, totalValuePlusInterestRate: number, numberOfInstallments: number }> } | null }> }> }> };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String'];
@@ -1175,6 +1400,13 @@ export type SellersMktinQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SellersMktinQuery = { __typename?: 'Query', sellersMktin: Array<string> };
+
+export type WishlistCheckProductQueryVariables = Exact<{
+  input: WishlistCheckProductInput;
+}>;
+
+
+export type WishlistCheckProductQuery = { __typename?: 'Query', wishlistCheckProduct: { __typename?: 'WishlistCheckOutput', inList: boolean, listIds: Array<string> } };
 
 export const OrderformItemFragmentFragmentDoc = gql`
     fragment OrderformItemFragment on OrderformItemOutput {
@@ -1275,6 +1507,35 @@ export const InitialOrderFormFragmentFragmentDoc = gql`
 }
     ${OrderformItemFragmentFragmentDoc}
 ${OrderformSelectableGiftFragmentFragmentDoc}`;
+export const ProductSizeFragmentFragmentDoc = gql`
+    fragment productSizeFragment on ProductSizeOutput {
+  itemId
+  size
+  ean
+  seller
+  listPrice
+  currentPrice
+  discountPercent
+  hasDiscount
+  availableQuantity
+  installment {
+    value
+    number
+  }
+  disabled
+}
+    `;
+export const ProductColorFragmentFragmentDoc = gql`
+    fragment productColorFragment on ProductColorOutput {
+  images
+  colorId
+  colorUrl
+  disabled
+  sizes {
+    ...productSizeFragment
+  }
+}
+    ${ProductSizeFragmentFragmentDoc}`;
 export const OrderFormAddDiscountCouponDocument = gql`
     mutation orderFormAddDiscountCoupon($orderFormId: String!, $coupon: String!) {
   orderFormAddDiscountCoupon(input: {orderFormId: $orderFormId, coupon: $coupon}) {
@@ -1779,6 +2040,99 @@ export function useSendLeadsMutation(baseOptions?: Apollo.MutationHookOptions<Se
 export type SendLeadsMutationHookResult = ReturnType<typeof useSendLeadsMutation>;
 export type SendLeadsMutationResult = Apollo.MutationResult<SendLeadsMutation>;
 export type SendLeadsMutationOptions = Apollo.BaseMutationOptions<SendLeadsMutation, SendLeadsMutationVariables>;
+export const SubscribeNewsletterDocument = gql`
+    mutation subscribeNewsletter($input: SubscribeNewsletterInput!) {
+  subscribeNewsletter(input: $input)
+}
+    `;
+export type SubscribeNewsletterMutationFn = Apollo.MutationFunction<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>;
+
+/**
+ * __useSubscribeNewsletterMutation__
+ *
+ * To run a mutation, you first call `useSubscribeNewsletterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeNewsletterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [subscribeNewsletterMutation, { data, loading, error }] = useSubscribeNewsletterMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSubscribeNewsletterMutation(baseOptions?: Apollo.MutationHookOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>(SubscribeNewsletterDocument, options);
+      }
+export type SubscribeNewsletterMutationHookResult = ReturnType<typeof useSubscribeNewsletterMutation>;
+export type SubscribeNewsletterMutationResult = Apollo.MutationResult<SubscribeNewsletterMutation>;
+export type SubscribeNewsletterMutationOptions = Apollo.BaseMutationOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>;
+export const WishlistAddProductDocument = gql`
+    mutation wishlistAddProduct($input: WishlistAddProductInput!) {
+  wishlistAddProduct(input: $input)
+}
+    `;
+export type WishlistAddProductMutationFn = Apollo.MutationFunction<WishlistAddProductMutation, WishlistAddProductMutationVariables>;
+
+/**
+ * __useWishlistAddProductMutation__
+ *
+ * To run a mutation, you first call `useWishlistAddProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useWishlistAddProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [wishlistAddProductMutation, { data, loading, error }] = useWishlistAddProductMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useWishlistAddProductMutation(baseOptions?: Apollo.MutationHookOptions<WishlistAddProductMutation, WishlistAddProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<WishlistAddProductMutation, WishlistAddProductMutationVariables>(WishlistAddProductDocument, options);
+      }
+export type WishlistAddProductMutationHookResult = ReturnType<typeof useWishlistAddProductMutation>;
+export type WishlistAddProductMutationResult = Apollo.MutationResult<WishlistAddProductMutation>;
+export type WishlistAddProductMutationOptions = Apollo.BaseMutationOptions<WishlistAddProductMutation, WishlistAddProductMutationVariables>;
+export const WishlistRemoveProductDocument = gql`
+    mutation wishlistRemoveProduct($input: WishlistRemoveProductInput!) {
+  wishlistRemoveProduct(input: $input)
+}
+    `;
+export type WishlistRemoveProductMutationFn = Apollo.MutationFunction<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>;
+
+/**
+ * __useWishlistRemoveProductMutation__
+ *
+ * To run a mutation, you first call `useWishlistRemoveProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useWishlistRemoveProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [wishlistRemoveProductMutation, { data, loading, error }] = useWishlistRemoveProductMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useWishlistRemoveProductMutation(baseOptions?: Apollo.MutationHookOptions<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>(WishlistRemoveProductDocument, options);
+      }
+export type WishlistRemoveProductMutationHookResult = ReturnType<typeof useWishlistRemoveProductMutation>;
+export type WishlistRemoveProductMutationResult = Apollo.MutationResult<WishlistRemoveProductMutation>;
+export type WishlistRemoveProductMutationOptions = Apollo.BaseMutationOptions<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>;
 export const CheckIfUserExistsDocument = gql`
     query checkIfUserExists($email: String!) {
   checkIfUserExists(input: {email: $email})
@@ -2004,6 +2358,122 @@ export type MktinStatusQueryResult = Apollo.QueryResult<MktinStatusQuery, MktinS
 export function refetchMktinStatusQuery(variables?: MktinStatusQueryVariables) {
       return { query: MktinStatusDocument, variables: variables }
     }
+export const ProductDocument = gql`
+    query product($input: ProductInput!) {
+  product(input: $input) {
+    productId
+    productName
+    categoryTree
+    disabledColors
+    saleOff
+    priceRange {
+      sellingPrice {
+        highPrice
+        lowPrice
+      }
+      listPrice {
+        highPrice
+        lowPrice
+      }
+    }
+    share {
+      title
+      message
+      url
+    }
+    properties {
+      description
+      isAssinaturaSimples
+      composition
+    }
+    colorUrls {
+      id
+      url
+    }
+    colors {
+      ...productColorFragment
+    }
+    initialColor {
+      ...productColorFragment
+    }
+    initialSize {
+      ...productSizeFragment
+    }
+  }
+}
+    ${ProductColorFragmentFragmentDoc}
+${ProductSizeFragmentFragmentDoc}`;
+
+/**
+ * __useProductQuery__
+ *
+ * To run a query within a React component, call `useProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+      }
+export function useProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+        }
+export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
+export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
+export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
+export function refetchProductQuery(variables: ProductQueryVariables) {
+      return { query: ProductDocument, variables: variables }
+    }
+export const ProductDeliveryTimeDocument = gql`
+    query productDeliveryTime($input: CheckDeliveryTimeByProductInput!) {
+  productDeliveryTime(input: $input) {
+    name
+    price
+    estimatedDay
+  }
+}
+    `;
+
+/**
+ * __useProductDeliveryTimeQuery__
+ *
+ * To run a query within a React component, call `useProductDeliveryTimeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductDeliveryTimeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductDeliveryTimeQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useProductDeliveryTimeQuery(baseOptions: Apollo.QueryHookOptions<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>(ProductDeliveryTimeDocument, options);
+      }
+export function useProductDeliveryTimeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>(ProductDeliveryTimeDocument, options);
+        }
+export type ProductDeliveryTimeQueryHookResult = ReturnType<typeof useProductDeliveryTimeQuery>;
+export type ProductDeliveryTimeLazyQueryHookResult = ReturnType<typeof useProductDeliveryTimeLazyQuery>;
+export type ProductDeliveryTimeQueryResult = Apollo.QueryResult<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>;
+export function refetchProductDeliveryTimeQuery(variables: ProductDeliveryTimeQueryVariables) {
+      return { query: ProductDeliveryTimeDocument, variables: variables }
+    }
 export const ProductRecommendationsDocument = gql`
     query productRecommendations {
   productRecommendations {
@@ -2196,4 +2666,43 @@ export type SellersMktinLazyQueryHookResult = ReturnType<typeof useSellersMktinL
 export type SellersMktinQueryResult = Apollo.QueryResult<SellersMktinQuery, SellersMktinQueryVariables>;
 export function refetchSellersMktinQuery(variables?: SellersMktinQueryVariables) {
       return { query: SellersMktinDocument, variables: variables }
+    }
+export const WishlistCheckProductDocument = gql`
+    query wishlistCheckProduct($input: WishlistCheckProductInput!) {
+  wishlistCheckProduct(input: $input) {
+    inList
+    listIds
+  }
+}
+    `;
+
+/**
+ * __useWishlistCheckProductQuery__
+ *
+ * To run a query within a React component, call `useWishlistCheckProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWishlistCheckProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWishlistCheckProductQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useWishlistCheckProductQuery(baseOptions: Apollo.QueryHookOptions<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>(WishlistCheckProductDocument, options);
+      }
+export function useWishlistCheckProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>(WishlistCheckProductDocument, options);
+        }
+export type WishlistCheckProductQueryHookResult = ReturnType<typeof useWishlistCheckProductQuery>;
+export type WishlistCheckProductLazyQueryHookResult = ReturnType<typeof useWishlistCheckProductLazyQuery>;
+export type WishlistCheckProductQueryResult = Apollo.QueryResult<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>;
+export function refetchWishlistCheckProductQuery(variables: WishlistCheckProductQueryVariables) {
+      return { query: WishlistCheckProductDocument, variables: variables }
     }

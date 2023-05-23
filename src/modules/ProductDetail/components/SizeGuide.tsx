@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Modal, FlatList,
 } from 'react-native';
@@ -6,7 +6,8 @@ import {
   Box, Button, Icon, Image, Typography,
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets/index';
-import configDeviceSizes from '../../../utils/configDeviceSizes';
+import configDeviceSizes, { DEVICE_HEIGHT } from '../../../utils/configDeviceSizes';
+import EventProvider from '../../../utils/EventProvider';
 
 export const SizeGuideImages = Object.freeze({
   camisas: [images.GuideMangaCurta, images.GuideMangaLonga],
@@ -20,10 +21,11 @@ export const SizeGuideImages = Object.freeze({
 });
 
 interface SizeGuideProps {
-  categoryTree: any[]
+  categoryTree: { name: string }[]
+  productId?: string;
 }
 
-export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
+export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleCategoryImage = () => {
@@ -36,11 +38,22 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree }) => {
     return SizeGuideImages[categoryName];
   };
 
+  const onShow = useCallback(() => {
+    setIsVisible(true);
+
+    if (productId) {
+      EventProvider.logEvent('product_view_size_guide', {
+        show: 1,
+        product_id: productId,
+      });
+    }
+  }, []);
+
   return (
     <Box>
       <Button
         testID="com.usereserva:id/size_guides_button_product_details"
-        onPress={() => setIsVisible(true)}
+        onPress={onShow}
       >
         <Box flexDirection="row" alignItems="center">
           <Icon name="Ruler" size={35} />
@@ -166,7 +179,7 @@ const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose
       <Box
         flexDirection="row"
         position="absolute"
-        bottom={((configDeviceSizes.DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
+        bottom={((DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
       >
         {
           images.map((_image, index) => (

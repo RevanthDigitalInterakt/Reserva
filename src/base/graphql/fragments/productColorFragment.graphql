@@ -1,0 +1,9 @@
+fragment productColorFragment on ProductColorOutput {
+    images
+    colorId
+    colorUrl
+    disabled
+    sizes {
+        ...productSizeFragment
+    }
+}

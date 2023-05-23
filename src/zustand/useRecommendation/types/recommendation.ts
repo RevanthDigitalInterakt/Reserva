@@ -1,11 +1,11 @@
-import type { ProductOutput } from '../../../base/graphql/generated';
+import type { ProductRecommendationOutput } from '../../../base/graphql/generated';
 import type { ProductQL } from '../../../graphql/products/productSearch';
 
 interface IRecommendationState {
-  showMore: boolean
+  showSection: boolean
   products: Array<ProductQL>
-  setShowMore: (value: boolean) => void
-  setProducts: (value: Array<ProductOutput>) => void
+  setShowSection: (value: boolean) => void
+  setProducts: (value: ProductRecommendationOutput[]) => void
 }
 export type {
   IRecommendationState,

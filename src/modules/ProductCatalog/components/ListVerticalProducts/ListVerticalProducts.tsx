@@ -25,6 +25,7 @@ import { slugify } from '../../../../utils/slugify';
 import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -311,9 +312,10 @@ export const ListVerticalProducts = ({
                       wbrand: getBrandByUrl(products),
                     });
 
-                    navigation.navigate('ProductDetail', {
-                      skuId: item?.items[0]?.itemId,
-                    });
+                    navigation.navigate(
+                      'ProductDetail',
+                      createNavigateToProductParams({ skuId: item?.items[0]?.itemId }),
+                    );
 
                     if (handleScrollToTheTop) {
                       handleScrollToTheTop();

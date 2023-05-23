@@ -41,10 +41,14 @@ type EventValues = {
   item_list_id: string;
   item_list_name: string;
   payment_type: string;
-  open: string;
   wbrand: string;
   email: string;
-  appState: 'in' | 'out'
+  appState: 'in' | 'out';
+  index: number;
+  open: number;
+  show: number;
+  success: number;
+  favorite: number;
 };
 
 export namespace EventsOptions {
@@ -125,6 +129,16 @@ export namespace EventsOptions {
   EventValues,
   | 'appState'
   >;
+  export type ProductSlideImages = Pick<EventValues, | 'product_id' | 'index'>;
+  export type ProductViewSizeGuide = Pick<EventValues, | 'product_id' | 'show'>;
+  export type ProductZoom = Pick<EventValues, | 'product_id' | 'index'>;
+  export type ProductWishlist = Pick<EventValues, | 'product_id' | 'favorite'>;
+  export type ProductShare = Pick<EventValues, | 'product_id'>;
+  export type ProductViewRecommended = Pick<EventValues, | 'show'>;
+  export type ProductFindMyZipcode = Pick<EventValues, | 'product_id'>;
+  export type ProductCheckDeliveryTime = Pick<EventValues, | 'product_id'| 'success'>;
+  export type ProductSubscribeNewsletter = Pick<EventValues, | 'product_id' | 'success'>;
+  export type ProductViewAbout = Pick<EventValues, | 'product_id' | 'show'>;
 }
 
 export type EventOptionsFn =
@@ -207,4 +221,43 @@ export type EventOptionsFn =
   | {
     type: 'page_view';
     payload: EventsOptions.PageView;
+  }
+  | {
+    type: 'view_product_size_guide';
+    payload: EventsOptions.ProductViewSizeGuide;
+  } | {
+    type: 'product_slide_images';
+    payload: EventsOptions.ProductSlideImages;
+  }
+  | {
+    type: 'product_zoom';
+    payload: EventsOptions.ProductZoom;
+  }
+  | {
+    type: 'product_wishlist';
+    payload: EventsOptions.ProductWishlist;
+  }
+  | {
+    type: 'product_share';
+    payload: EventsOptions.ProductShare;
+  }
+  | {
+    type: 'product_view_recommended';
+    payload: EventsOptions.ProductViewRecommended;
+  }
+  | {
+    type: 'product_find_zipcode';
+    payload: EventsOptions.ProductFindMyZipcode;
+  }
+  | {
+    type: 'product_check_delivery_time';
+    payload: EventsOptions.ProductCheckDeliveryTime;
+  }
+  | {
+    type: 'product_subscribe_newsletter';
+    payload: EventsOptions.ProductSubscribeNewsletter;
+  }
+  | {
+    type: 'product_view_about',
+    payload: EventsOptions.ProductViewAbout;
   };

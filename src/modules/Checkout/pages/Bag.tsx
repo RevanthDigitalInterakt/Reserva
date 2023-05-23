@@ -58,6 +58,7 @@ import {
 import testProps from '../../../utils/testProps';
 import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -1206,15 +1207,20 @@ export const BagScreen = ({ route }: Props) => {
                             }}
                             imageSource={item?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join('')}
                             handleNavigateToProductDetail={() => {
+                              if (!item) return;
+
                               EventProvider.logEvent('select_item', {
-                                item_list_id: item?.productId,
-                                item_list_name: item?.name,
+                                item_list_id: item.productId,
+                                item_list_name: item.name,
                               });
-                              navigation.navigate('ProductDetail', {
-                                productId: item?.productId,
-                                itemId: item?.id,
-                                sizeSelected: item?.skuName?.split('-')[1] || '',
-                              });
+
+                              navigation.navigate(
+                                'ProductDetail',
+                                createNavigateToProductParams({
+                                  productId: item.productId,
+                                  skuId: item.id,
+                                }),
+                              );
                             }}
                           />
 

@@ -1,7 +1,7 @@
-import type { ProductOutput } from '../../../base/graphql/generated';
+import type { ProductRecommendationOutput } from '../../../base/graphql/generated';
 import type { ProductQL } from '../../../graphql/products/productSearch';
 
-export const gatewayProductsListMock: ProductOutput[] = [{
+export const gatewayProductsListMock: ProductRecommendationOutput[] = [{
 
   productId: '8988',
   productName: 'CAMISETA BÁSICA BRASA PICA-PAU BORDADO',

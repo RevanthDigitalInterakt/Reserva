@@ -1,0 +1,42 @@
+query product($input: ProductInput!) {
+  product(input: $input) {
+    productId
+    productName
+    categoryTree
+    disabledColors
+    saleOff
+    priceRange {
+      sellingPrice {
+        highPrice
+        lowPrice
+      }
+      listPrice {
+        highPrice
+        lowPrice
+      }
+    }
+    share {
+      title
+      message
+      url
+    }
+    properties {
+      description
+      isAssinaturaSimples
+      composition
+    }
+    colorUrls {
+      id
+      url
+    }
+    colors {
+      ...productColorFragment
+    }
+    initialColor {
+      ...productColorFragment
+    }
+    initialSize {
+      ...productSizeFragment
+    }
+  }
+}

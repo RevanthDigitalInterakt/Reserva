@@ -16,6 +16,8 @@ export interface IRemoteConfigKeys {
   show_new_bag_tester: boolean;
   show_campaign_boyfriend: boolean;
   show_pdc_thumb_color: boolean;
+  show_new_pdp: boolean;
+  show_new_pdp_tester: boolean;
   pdp_button_add_bag: string;
   sale_off_tag: boolean;
   cashback_in_store: boolean;
@@ -38,6 +40,8 @@ export const defaults: IRemoteConfigKeys = {
   show_new_bag_tester: true,
   show_campaign_boyfriend: false,
   pdp_button_add_bag: '#11AB6B',
+  show_new_pdp: false,
+  show_new_pdp_tester: false,
   sale_off_tag: false,
   show_pdc_thumb_color: false,
   cashback_in_store: false,
