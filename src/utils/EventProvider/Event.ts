@@ -223,9 +223,10 @@ export type EventOptionsFn =
     payload: EventsOptions.PageView;
   }
   | {
-    type: 'view_product_size_guide';
+    type: 'product_view_size_guide';
     payload: EventsOptions.ProductViewSizeGuide;
-  } | {
+  }
+  | {
     type: 'product_slide_images';
     payload: EventsOptions.ProductSlideImages;
   }

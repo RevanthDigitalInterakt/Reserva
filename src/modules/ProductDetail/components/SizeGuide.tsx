@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Modal, FlatList,
-} from 'react-native';
+import { Modal, FlatList } from 'react-native';
 import {
   Box, Button, Icon, Image, Typography,
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets/index';
-import configDeviceSizes, { DEVICE_HEIGHT } from '../../../utils/configDeviceSizes';
+import configDeviceSizes from '../../../utils/configDeviceSizes';
 import EventProvider from '../../../utils/EventProvider';
 
 export const SizeGuideImages = Object.freeze({
@@ -47,7 +45,7 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId })
         product_id: productId,
       });
     }
-  }, []);
+  }, [productId]);
 
   return (
     <Box>
@@ -179,7 +177,7 @@ const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose
       <Box
         flexDirection="row"
         position="absolute"
-        bottom={((DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
+        bottom={((configDeviceSizes.DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
       >
         {
           images.map((_image, index) => (
