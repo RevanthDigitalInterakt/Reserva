@@ -105,7 +105,7 @@ const CallCenter = ({
           <Box width="100%">
             <Button
               onPress={() => {
-                Linking.openURL(`whatsapp://send?phone=${552136092555}`);
+                Linking.openURL(`whatsapp://send?phone=${552121084990}`);
               }}
               title="WHATSAPP RESERVA"
               variant="primarioEstreito"
@@ -157,7 +157,7 @@ const CallCenter = ({
             icon={'Whatsapp'}
             label={'Whatsapp Reserva'}
             onPress={() => {
-              Linking.openURL(`whatsapp://send?phone=${552136092555}`);
+              Linking.openURL(`whatsapp://send?phone=${552121084990}`);
             }}
           /> */}
         </Box>

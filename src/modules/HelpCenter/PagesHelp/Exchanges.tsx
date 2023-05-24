@@ -31,7 +31,7 @@ export const Exchanges = () => {
     },
     {
       title: 'Como cancelar o pedido?',
-      content: `De acordo com o CDC (Código de Defesa do Consumidor), a solicitação de cancelamento de compras virtuais deve ser feita em até 7 dias úteis/corridos após a data de recebimento.\nEntre em contato conosco pelo telefone: (21) 3609-2555, que nós providenciaremos a devolução.  Você precisará informar o seu CPF, o número do pedido e o produto a ser devolvido.
+      content: `De acordo com o CDC (Código de Defesa do Consumidor), a solicitação de cancelamento de compras virtuais deve ser feita em até 7 dias úteis/corridos após a data de recebimento.\nEntre em contato conosco pelo telefone: (21) 2108-4990, que nós providenciaremos a devolução.  Você precisará informar o seu CPF, o número do pedido e o produto a ser devolvido.
       \nSe você ainda estiver com dúvidas, ou precisa falar com o nosso time de encantadores, basta clicar em Central de ajuda e ir na opção "Fale Conosco".`,
     },
     {
@@ -41,7 +41,7 @@ export const Exchanges = () => {
     },
     {
       title: 'Recebi um produto diferente do que eu comprei. Como proceder?',
-      content: `Entre em contato com a nossa Central de Atendimento através do nosso WhatsApp: (21) 3609-2555, nos enviando o número do pedido, a descrição do produto que comprou e não foi enviado e algumas fotos do produto enviado para que possamos identificar o problema e iniciarmos o processo de troca da peça ou devolução do valor pago.
+      content: `Entre em contato com a nossa Central de Atendimento através do nosso WhatsApp: (21) 2108-4990, nos enviando o número do pedido, a descrição do produto que comprou e não foi enviado e algumas fotos do produto enviado para que possamos identificar o problema e iniciarmos o processo de troca da peça ou devolução do valor pago.
       \nSe você ainda estiver com dúvidas, ou precisa falar com o nosso time de encantadores, basta clicar em Central de ajuda e ir na opção "Fale Conosco".`,
     },
   ];

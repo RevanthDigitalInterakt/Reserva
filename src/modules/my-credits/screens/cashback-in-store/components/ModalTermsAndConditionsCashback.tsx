@@ -211,7 +211,7 @@ export const ModalTermsAndConditionsCashback = ({
           <Typography fontFamily="nunitoRegular" fontSize={15}>
             a. Na hora de fazer o pagamento, você poderá utilizar o valor
             disponível de forma rápida e fácil. Os créditos em Cashback poderão
-            ser de até 95% (noventa e cinco por cento) do valor total do pedido,
+            ser de até 33% (trinta e três por cento) do valor total do pedido,
             e com um resgate que engloba somente as marcas AR&CO (Reserva,
             Reserva Mini, Reserva Go e Reversa).
           </Typography>

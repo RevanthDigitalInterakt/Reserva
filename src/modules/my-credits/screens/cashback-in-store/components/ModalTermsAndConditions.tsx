@@ -134,7 +134,7 @@ export const ModalTermsAndConditions = ({
           <Typography fontFamily="nunitoRegular" fontSize={15}>
             14) Em caso de dúvidas ou consulta sobre prazo de validade do
             Cartão-Presente, entre em contato conosco através do telefone (21)
-            3609-2555 (RJ).
+            2108-4990 (RJ).
           </Typography>
         </Box>
       </ScrollView>

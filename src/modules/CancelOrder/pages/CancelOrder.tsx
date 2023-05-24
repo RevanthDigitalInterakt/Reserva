@@ -54,7 +54,7 @@ export const CancelOrder: React.FC<Props> = ({ navigation, route }) => {
         <Typography variant="tituloSessao">Whatsapp:</Typography>
         <Button
           onPress={() => {
-            Linking.openURL('whatsapp://send?phone=552136092555');
+            Linking.openURL('whatsapp://send?phone=552121084990');
           }}
         >
           <Box
@@ -66,7 +66,7 @@ export const CancelOrder: React.FC<Props> = ({ navigation, route }) => {
             flexDirection="row"
           >
             <Icon name="WhatsappBg" color="verdeSucesso" size={20} mr="nano" />
-            <Typography>(21) 3609-2555</Typography>
+            <Typography>(21) 2108-4990</Typography>
           </Box>
         </Button>
       </Box>
@@ -86,7 +86,7 @@ export const CancelOrder: React.FC<Props> = ({ navigation, route }) => {
         </Box>
         <Button
           onPress={() => {
-            Linking.openURL('tel:552136092555');
+            Linking.openURL('tel:552121084990');
           }}
         >
           <Box
@@ -98,7 +98,7 @@ export const CancelOrder: React.FC<Props> = ({ navigation, route }) => {
             flexDirection="row"
           >
             <Icon name="PhoneBg" color="neutroFrio2" size={20} mr="nano" />
-            <Typography>(21) 3609-2555</Typography>
+            <Typography>(21) 2108-4990</Typography>
           </Box>
         </Button>
       </Box>

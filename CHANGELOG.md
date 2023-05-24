@@ -2,6 +2,7 @@
 
 ### 1.18.41
 - [APP2022-1063 - Integrar PDP com o API Gateway + Refactor](https://reserva.atlassian.net/browse/APP2022-1063)
+- [APP2022-1175 - Alteração contato WhatsApp Encantamento](https://reserva.atlassian.net/browse/APP2022-1175)
 
 ---
 
