@@ -719,7 +719,7 @@ export const ProductDetailOld: React.FC<Props> = ({
         },
       ],
       value: product?.priceRange?.sellingPrice?.lowPrice,
-      wbrand: `${product?.categoryTree[0]?.toUpperCase()},`,
+      wbrand: `${product?.categoryTree[0]?.name?.toUpperCase()},`,
     });
   }, [selectedVariant]);
 
