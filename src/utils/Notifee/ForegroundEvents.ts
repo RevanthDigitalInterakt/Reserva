@@ -18,6 +18,9 @@ const OnForegroundEventPush = async () => {
       id: 'default',
       name: 'Default Channel',
     });
+
+    if (!remoteMessage.data?.data) return;
+
     if (remoteMessage.data) {
       const { details, reference, notification } = JSON.parse(remoteMessage?.data?.data || '{}');
 
@@ -58,7 +61,7 @@ const OnForegroundEventPush = async () => {
     if (type === EventType.PRESS && detail.notification?.data?.hasLink) {
       const dataLink = detail.notification?.data?.hasLink;
 
-      Linking.openURL(dataLink);
+      await Linking.openURL(dataLink);
 
       const notificationId = await getItem('@DitoNotification:Id');
       const reference = await getItem('@DitoNotification:Ref');
