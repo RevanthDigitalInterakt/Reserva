@@ -1,11 +1,18 @@
 ## CHANGELOG
 
-### 1.18.41
+### 1.18.41 (Push Update)
+
+- [SRN-71 - Expiração Login App](https://reserva.atlassian.net/browse/SRN-71)
+
+---
+
+### 1.18.40 (Push Update)
 
 - [SRN-278 - BUG - PUSH One signal com erro](https://reserva.atlassian.net/browse/SRN-278)
-- [SRN-71 - Expiração Login App](https://reserva.atlassian.net/browse/SRN-71)
 - [APP2022-1063 - Integrar PDP com o API Gateway + Refactor](https://reserva.atlassian.net/browse/APP2022-1063)
 - [APP2022-1175 - Alteração contato WhatsApp Encantamento](https://reserva.atlassian.net/browse/APP2022-1175)
+- [APP2022-1156 - Correção filtro PDC](https://reserva.atlassian.net/browse/APP2022-1156)
+- [APP2022-1156 - Não é possível alterar coleção na aba de promoção na home](https://reserva.atlassian.net/browse/APP2022-1157)
 
 ---
 

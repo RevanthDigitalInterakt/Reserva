@@ -244,12 +244,12 @@ export const HomeScreen: FC<{
 
   useEffect(() => {
     if (collectionData) {
-      setOffersPage(collectionData?.configCollection.items[0].offersPage);
+      setOffersPage(collectionData?.configCollection?.items[0]?.offersPage || null);
       setModalDiscount(
-        collectionData?.configCollection?.items[0].discountCodeBar,
+        collectionData?.configCollection?.items[0]?.discountCodeBar,
       );
     }
-  }, [collectionData]);
+  }, [collectionData, setOffersPage]);
 
   useLayoutEffect(() => {
     if (!isCookieEmpty()) {

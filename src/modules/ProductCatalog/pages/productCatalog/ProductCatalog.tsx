@@ -11,29 +11,26 @@ import {
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Linking, Text } from 'react-native';
+import React, {
+  useCallback, useEffect, useState,
+} from 'react';
+import { Linking, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useConfigContext } from '../../../../context/ConfigContext';
 import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
 import {
-  bannerDefaultQuery,
   bannerQuery,
 } from '../../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../../graphql/product/colorsToHexEnum';
 import {
   OrderByEnum,
   productSearch,
-  ProductSearchData,
 } from '../../../../graphql/products/productSearch';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../../shared/hooks/useCheckConnection';
 import { referenceIdResolver } from '../../../../shared/utils/referenceIdResolver';
-import { defaultBrand } from '../../../../utils/defaultWBrand';
-import EventProvider from '../../../../utils/EventProvider';
-import { generateFacets } from '../../../../utils/generateFacets';
-import { getBrandByUrl } from '../../../../utils/getBrandByURL';
+import { generateFacets, IFacet } from '../../../../utils/generateFacets';
 import { Skeleton } from '../../../Checkout/components/Skeleton';
 import { CountDownBanner } from '../../../Home/component/CountDown';
 import { CountDownLocal } from '../../../Home/component/countDownLocal/CountDownLocal';
@@ -42,34 +39,70 @@ import { TopBarDefaultBackButton } from '../../../Menu/components/TopBarDefaultB
 import { EmptyProductCatalog } from '../../components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal, TFilterType } from '../../modals/FilterModal/FilterModal';
+import type { IFacetInput } from '../../../../zustand/useAsyncDeepLinkStore/types/asyncDeepLinkStore';
+import allSettled from '../../../../utils/allSettled';
+import EventProvider from '../../../../utils/EventProvider';
+import { getBrandByUrl } from '../../../../utils/getBrandByURL';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
-type TOrderProducts = { [key: string]: string };
+const pickerItem = [
+  {
+    text: 'Relevância',
+    value: OrderByEnum.OrderByScoreDESC,
+  },
+  {
+    text: 'Mais Vendidos',
+    value: OrderByEnum.OrderByTopSaleDESC,
+  },
+  {
+    text: 'Mais Recentes',
+    value: OrderByEnum.OrderByReleaseDateDESC,
+  },
+  {
+    text: 'Descontos',
+    value: OrderByEnum.OrderByBestDiscountDESC,
+  },
+  {
+    text: 'Maior Preço',
+    value: OrderByEnum.OrderByPriceDESC,
+  },
+  {
+    text: 'Menor Preço',
+    value: OrderByEnum.OrderByPriceASC,
+  },
+  {
+    text: 'De A a Z',
+    value: OrderByEnum.OrderByNameASC,
+  },
+  {
+    text: 'De Z a A',
+    value: OrderByEnum.OrderByNameDESC,
+  },
+];
 
-const DEFAULT_PAGE_SIZE = 12;
+const DEFAULT_PAGE_SIZE = 11;
+const DEFAULT_NEXT_PAGINATION = {
+  from: 12,
+  to: 23,
+};
+
+// TODO refactor create default collection on bff
+const defaultCategory = 'collection:2407';
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { offersPage } = useConfigContext();
-  const [referenceString, setReferenceString] = useState('');
-  const [productsQuery, setProducts] = useState<ProductSearchData>(
-    {} as ProductSearchData,
-  );
+  const { offersPage: collectionIdByContentful } = useConfigContext();
 
-  const orderProducts: TOrderProducts = {
-    RELEVANCIA: OrderByEnum.OrderByReviewRateDESC,
-    MAIS_VENDIDOS: OrderByEnum.OrderByTopSaleDESC,
-    MAIS_RECENTES: OrderByEnum.OrderByReleaseDateDESC,
-    DESCONTOS: OrderByEnum.OrderByBestDiscountDESC,
-    MAIOR_PRECO: OrderByEnum.OrderByPriceDESC,
-    MENOR_PRECO: OrderByEnum.OrderByPriceASC,
-    DE_A_Z: OrderByEnum.OrderByNameASC,
-    DE_Z_A: OrderByEnum.OrderByNameDESC,
-  };
+  const [mktBoldText, setMktBoldText] = useState([]);
 
   const {
-    safeArea, search, referenceId, orderBy, filters,
+    safeArea, search, referenceId, filters, comeFrom, indexMenuOpened,
   } = route.params;
+
+  const collectionIdByCategories = referenceId;
+
+  const [loading, setLoading] = useState(false);
 
   const [bannerImage, setBannerImage] = useState();
   const [skeletonLoading, setSkeletonLoading] = useState(true);
@@ -80,321 +113,156 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sorterVisible, setSorterVisible] = useState(false);
   const [filterList, setFilterList] = useState<TFilterType[]>([]);
-  const [selectedOrder, setSelectedOrder] = useState<string>();
-  const [loadingFetchMore, setLoadingFetchMore] = useState(false);
   const [loadingHandlerState, setLoadingHandlerState] = useState(false);
-  const [filterRequestList, setFilterRequestList] = useState<[] | undefined | null>([]);
-  const [countDownClock, setCountDownClock] = React.useState<ICountDownClock | ICountDownClock[]>();
+  const [filterRequestList, setFilterRequestList] = useState([]);
   const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
   const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
   const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
-
   const [showMkt, setShowMkt] = useState(false);
   const [mktHeightImg, setMktHeightImg] = useState();
+  const [productData, setProductData] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_NEXT_PAGINATION);
+  const [orderByParamsForPaginationPersist, setOrderByParamsForPaginationPersist] = useState('');
 
-  const [getcountdownClock] = useLazyQuery(countdownClockQuery, { context: { clientName: 'contentful' } });
+  const { WithoutInternet } = useCheckConnection({});
+
+  const [getcountdownClock] = useLazyQuery(countdownClockQuery, {
+    context: { clientName: 'contentful' },
+    fetchPolicy: 'cache-and-network',
+  });
 
   const [getFacets] = useLazyQuery(facetsQuery, {
     variables: {
       hideUnavailableItems: true,
-      selectedFacets:
-        generateFacets({ ...filters, reference: referenceString })
-          .concat(filterRequestList || []),
+      selectedFacets: [],
     },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
   });
 
   const [getBanner] = useLazyQuery(bannerQuery, {
     context: { clientName: 'contentful' },
     variables: {
-      category: referenceIdResolver(referenceString),
+      category: '',
     },
   });
-
-  const navigateGoBack = () => {
-    navigation.goBack();
-
-    if (route?.params?.comeFrom === 'Menu') {
-      navigation.navigate('Menu', {
-        indexMenuOpened: route?.params?.indexMenuOpened,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (referenceId === 'offers-page') {
-      setReferenceString(offersPage);
-      getcountdownClock({
-        variables: {
-          selectClockScreenHome: 'OFFERS',
-          selectClockScreenAll: 'ALL',
-        },
-      }).then((response) => {
-        setCountDownClock(response.data.countdownClockCollection.items);
-      });
-    } else {
-      setReferenceString(referenceId);
-      getcountdownClock({
-        variables: {
-          categoryReference: referenceId,
-          selectClockScreenAll: 'ALL',
-        },
-      }).then((response) => {
-        setCountDownClock(response.data.countdownClockCollection.items);
-      });
-    }
-  }, [referenceId, getcountdownClock, offersPage]);
 
   const [getProductSearch] = useLazyQuery(productSearch, {
     variables: {
       skusFilter: 'ALL_AVAILABLE',
       hideUnavailableItems: true,
-      selectedFacets:
-        generateFacets({ ...filters, reference: referenceString })
-          .concat(filterRequestList),
+      selectedFacets: [{ key: '', value: '' }],
       salesChannel: '4',
-      orderBy: selectedOrder,
-      to: DEFAULT_PAGE_SIZE - 1,
+      orderBy: '',
+      to: DEFAULT_PAGE_SIZE,
       simulationBehavior: 'default',
       productOriginVtex: false,
     },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'cache-and-network',
   });
 
-  const [getDefaultBanner] = useLazyQuery(bannerDefaultQuery, {
-    context: { clientName: 'contentful' },
-  });
-
-  useEffect(() => {
-    if (orderBy) {
-      setSelectedOrder(orderProducts[orderBy]);
-    }
-  }, [orderBy, orderProducts]);
-
-  const [
-    {
-      data,
-      loading,
-      error,
-    },
-    setProductSearch,
-  ] = useState<{
-    data: any | null;
-    loading: boolean;
-    error: any;
-  }>({
-    data: null,
-    loading: false,
-    error: null,
-  });
-
-  const refetch = async () => {
-    const response = await getProductSearch();
-
-    setProductSearch({
-      data: response.data,
-      loading: false,
-      error: response.error,
-    });
-    return response;
-  };
-
-  const fetchMore = async (props: any) => {
-    const response = await getProductSearch(props);
-    setProductSearch({
-      data: response.data,
-      loading: false,
-      error: response.error,
-    });
-    return response;
-  };
-
-  useEffect(() => {
-    if (countDownClock && countDownClock?.length > 0) {
-      const clockOffers = countDownClock?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'OFFERS' || countDown?.selectClockScreen === 'CATEGORY');
-      const clockAll = countDownClock?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'ALL');
-
-      if (clockOffers) {
-        if (new Date(clockOffers?.countdown).getTime() > Date.now()
-          && Date.now() > new Date(clockOffers?.countdownStart).getTime()) {
-          setShowClockOffers(true);
-        } else {
-          setShowClockOffers(false);
-        }
-
-        let limitDate;
-
-        if (clockOffers?.countdown) {
-          limitDate = intervalToDuration({
-            start: Date.now(),
-            end: new Date(clockOffers?.countdown),
-          });
-        }
-        if (limitDate) {
-          setCountDownClockLocal({
-            ...clockOffers,
-            countdownStart: clockOffers?.countdownStart,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-            }:${limitDate.seconds}`,
-          });
-        }
-      }
-
-      if (clockAll && !showClockOffers && clockAll.reference !== referenceId) {
-        let limitDate;
-        if (clockAll?.countdown) {
-          limitDate = intervalToDuration({
-            start: Date.now(),
-            end: new Date(clockAll?.countdown),
-          });
-        }
-        if (limitDate) {
-          setCountDownClockGlobal({
-            ...clockAll,
-            countdownStart: clockAll?.countdownStart,
-            formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-            }:${limitDate.seconds}`,
-          });
-        }
-      }
-    }
-  }, [countDownClock]);
-
-  // useEffect(() => {
-  //   try {
-  //     EventProvider.logEvent('product_list_view', {
-  //       content_type: 'product_group',
-  //       wbrand: '',
-  //     });
-  //   } catch (err) {
-  //     EventProvider.captureException(err);
-  //   }
-  // }, []);
-
-  const [{ facetsData, lodingFacets }, setFacets] = useState<{
-    facetsData?: { facets: object | undefined } | null;
-    lodingFacets: boolean;
-  }>({
-    facetsData: null,
-    lodingFacets: true,
-  });
-
-  const [
-    {
-      bannerData,
-    },
-    setBannerData,
-  ] = useState<{
-    bannerData: any | null;
-    loadingBanner: boolean;
-  }>({
-    bannerData: null,
-    loadingBanner: false,
-  });
-
-  const refetchBanner = async () => {
-    const response = await getBanner();
-    setBannerData({
-      bannerData: response.data,
-      loadingBanner: false,
-    });
-    return response;
-  };
-
-  useEffect(() => {
-    getFacets().then((response) => setFacets({
-      facetsData: response.data,
-      lodingFacets: false,
-    }));
-    getBanner().then((response) => setBannerData({
-      bannerData: response.data,
-      loadingBanner: false,
-    }));
-
-    getProductSearch().then((response) => setProductSearch({
-      data: response.data,
-      loading: false,
-      error: response.error,
-    }));
-
-    setFilterList(generateFacets({ ...filters, reference: referenceString }));
-
-    const priceRange = filters?.priceFilter;
-    if (priceRange) {
-      setPriceRangeFilters([{
-        key: 'priceRange',
-        range: {
-          from: priceRange.from,
-          to: priceRange.to,
-        },
-      }]);
-    }
-  }, []);
-
-  const setBannerDefaultImage = async () => {
-    const { data } = await getDefaultBanner();
-    if (data) {
-      const url = data.bannerCategoryCollection?.items[0]?.item?.image?.url;
-      setBannerImage(url);
-    }
-  };
-
-  const { WithoutInternet } = useCheckConnection({});
-
-  const firstLoad = async () => {
-    setSkeletonLoading(true);
-    const { data: productData, loading: productLoading } = await refetch();
-    setProductSearch({
-      data: productData, loading: productLoading, fetchMore, refetch, error,
-    });
-    setSkeletonLoading(false);
-    await refetchBanner({ category: referenceString });
-
-    if (referenceId !== 'offers-page') {
-      setSkeletonLoading(true);
-      const { data: productData1, loading: productLoading1 } = await refetch();
-      setProductSearch({
-        data: productData1, loading: productLoading1, fetchMore, refetch, error,
-      });
-      setSkeletonLoading(false);
-    }
-  };
-
-  const animationSkeletonLoading = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(skeletonOpacity, {
-          useNativeDriver: true,
-          toValue: 1,
-          duration: 1200,
-          delay: 300,
-        }),
-        Animated.timing(skeletonOpacity, {
-          useNativeDriver: true,
-          toValue: 0.3,
-          duration: 600,
-        }),
-      ]),
-      {
-        iterations: -1,
+  const wrapperGetCountdownClock = useCallback(async (value: string) => {
+    const { data: countdownClockData } = await getcountdownClock({
+      variables: {
+        categoryReference: value,
+        selectClockScreenAll: 'ALL',
       },
-    ).start();
-  };
+    });
 
-  useEffect(() => {
-    firstLoad();
-    animationSkeletonLoading();
-  }, []);
+    const { items } = countdownClockData.countdownClockCollection;
 
-  useEffect(() => {
-    if (bannerData) {
+    if (items.length) {
+      if (items && items?.length > 0) {
+        const clockOffers = items?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'OFFERS' || countDown?.selectClockScreen === 'CATEGORY');
+        const clockAll = items?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'ALL');
+
+        if (clockOffers) {
+          if (new Date(clockOffers?.countdown).getTime() > Date.now()
+            && Date.now() > new Date(clockOffers?.countdownStart).getTime()) {
+            setShowClockOffers(true);
+          } else {
+            setShowClockOffers(false);
+          }
+
+          let limitDate;
+
+          if (clockOffers?.countdown) {
+            limitDate = intervalToDuration({
+              start: Date.now(),
+              end: new Date(clockOffers?.countdown),
+            });
+          }
+          if (limitDate) {
+            setCountDownClockLocal({
+              ...clockOffers,
+              countdownStart: clockOffers?.countdownStart,
+              formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
+            });
+          }
+        }
+
+        if (clockAll && !showClockOffers && clockAll.reference !== collectionIdByCategories) {
+          let limitDate;
+          if (clockAll?.countdown) {
+            limitDate = intervalToDuration({
+              start: Date.now(),
+              end: new Date(clockAll?.countdown),
+            });
+          }
+          if (limitDate) {
+            setCountDownClockGlobal({
+              ...clockAll,
+              countdownStart: clockAll?.countdownStart,
+              formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
+              }:${limitDate.seconds}`,
+            });
+          }
+        }
+      }
+    }
+  }, [getcountdownClock, collectionIdByCategories, showClockOffers]);
+
+  const wrapperGetProductSearch = useCallback(
+    async (facetParams: IFacet[], orderByParams: string = '') => {
+      const response = await getProductSearch({
+        variables: {
+          skusFilter: 'ALL_AVAILABLE',
+          hideUnavailableItems: true,
+          selectedFacets: facetParams,
+          salesChannel: '4',
+          orderBy: orderByParams,
+          to: DEFAULT_PAGE_SIZE,
+          simulationBehavior: 'default',
+          productOriginVtex: false,
+        },
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-and-network',
+      });
+
+      setProductData(response.data.productSearch.products);
+      setTotalProducts(response.data.productSearch.recordsFiltered);
+      setSkeletonLoading(false);
+    }, [getProductSearch],
+  );
+
+  const wrapperGetBanner = useCallback(async (value: string) => {
+    const { data: bannerData } = await getBanner({
+      context: { clientName: 'contentful' },
+      variables: {
+        category: referenceIdResolver(value),
+      },
+    });
+
+    const hasBanner = !!bannerData?.bannerCategoryCollection?.items?.length;
+
+    if (hasBanner) {
       const bannerUrl = bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.url;
       if (bannerUrl) {
         setBannerImage(bannerUrl);
-      } else {
-        setBannerDefaultImage();
       }
+      setMktBoldText(bannerData?.bannerCategoryCollection?.items?.[0]?.item?.texto?.split('__'));
     }
 
     const showMktData = bannerData?.bannerCategoryCollection?.items[0]?.item?.mkt;
@@ -402,214 +270,239 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
     const mktHeightImgData = bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.height;
     setMktHeightImg(mktHeightImgData);
-  }, [bannerData]);
+  }, [getBanner]);
 
-  useEffect(() => {
-    if (!lodingFacets) {
-      const facets = facetsData?.facets?.facets;
+  const navigateGoBack = useCallback(() => {
+    navigation.goBack();
 
-      if (!facets?.length) {
-        return;
-      }
-
-      // COLOR
-      const colorFacets = facets.filter(
-        ({ name }: any) => name.toUpperCase() === 'COR'
-          || name.toUpperCase() === 'DESC_COR_CONSOLIDADA',
-      );
-      const colorFacetValues = !!colorFacets && colorFacets.length > 0
-        ? colorFacets[0].values.map(({ key, value }: any) => ({
-          key,
-          value: ColorsToHexEnum[value],
-        }))
-        : [];
-      // SIZE
-      const sizeFacets = facets.filter(
-        ({ name }: any) => name.toUpperCase() === 'TAMANHO' || name === 'Tamanho',
-      );
-      const sizeFacetValues = !!sizeFacets && sizeFacets.length > 0
-        ? sizeFacets[0].values.map(({ key, value }: any) => ({
-          key,
-          value,
-        }))
-        : [];
-
-      // CATEGORY
-      const categoryFacets = facets.filter(
-        ({ name }: any) => name === 'Categoria',
-      );
-      const categoryFacetValues = !!categoryFacets && categoryFacets.length > 0
-        ? categoryFacets[0].values.map(({ key, value }: any) => ({
-          key,
-          value,
-        }))
-        : [];
-
-      // PRICE
-      const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
-      const priceFacetValues = !!priceFacets && priceFacets.length > 0
-        ? priceFacets[0].values.map(({ key, range }: any) => ({
-          key,
-          range,
-        }))
-        : [];
-
-      setPriceRangeFilters(priceFacetValues);
-      setCategoryFilters(categoryFacetValues);
-      setSizeFilters(sizeFacetValues);
-      setColorsFilters(colorFacetValues);
+    if (comeFrom === 'Menu') {
+      navigation.navigate('Menu', {
+        indexMenuOpened,
+      });
     }
-  }, [facetsData]);
+  }, [navigation, comeFrom, indexMenuOpened]);
+
+  const wrapperGetFacets = useCallback(async (facetParams: IFacetInput[]) => {
+    const { data: facetsData } = await getFacets({
+      variables: {
+        hideUnavailableItems: true,
+        selectedFacets: facetParams,
+      },
+      fetchPolicy: 'cache-and-network',
+    });
+
+    const facets = facetsData?.facets?.facets;
+
+    if (!facets?.length) {
+      return;
+    }
+
+    // COLOR
+    const colorFacets = facets.filter(
+      ({ name }: any) => name.toUpperCase() === 'COR'
+        || name.toUpperCase() === 'DESC_COR_CONSOLIDADA',
+    );
+    const colorFacetValues = !!colorFacets && colorFacets.length > 0
+      ? colorFacets[0].values.map(({ key, value }: any) => ({
+        key,
+        value: ColorsToHexEnum[value],
+      }))
+      : [];
+
+    // SIZE
+    const sizeFacets = facets.filter(
+      ({ name }: any) => name.toUpperCase() === 'TAMANHO' || name === 'Tamanho',
+    );
+
+    const sizeFacetValues = !!sizeFacets && sizeFacets.length > 0
+      ? sizeFacets[0].values.map(({ key, value }: any) => ({
+        key,
+        value,
+      }))
+      : [];
+
+    // CATEGORY
+    const categoryFacets = facets.filter(
+      ({ name }: any) => name === 'Categoria',
+    );
+
+    const categoryFacetValues = !!categoryFacets && categoryFacets.length > 0
+      ? categoryFacets[0].values.map(({ key, value }: any) => ({
+        key,
+        value,
+      }))
+      : [];
+
+    // PRICE
+    const priceFacets = facets.filter(({ name }: any) => name === 'Preço');
+    const priceFacetValues = !!priceFacets && priceFacets.length > 0
+      ? priceFacets[0].values.map(({ key, range }: any) => ({
+        key,
+        range,
+      }))
+      : [];
+
+    setPriceRangeFilters(priceFacetValues);
+    setCategoryFilters(categoryFacetValues);
+    setSizeFilters(sizeFacetValues);
+    setColorsFilters(colorFacetValues);
+  }, [getFacets]);
+
+  const loadApplyFilter = useCallback(async (item: any) => {
+    const reference = collectionIdByCategories || collectionIdByContentful || '';
+
+    const createdFacets = generateFacets({ ...filters, reference })
+      .concat(filterRequestList);
+
+    setSorterVisible(false);
+
+    wrapperGetProductSearch(createdFacets, item.value);
+  }, [collectionIdByCategories,
+    collectionIdByContentful,
+    filterRequestList,
+    filters,
+    wrapperGetProductSearch]);
+
+  const loadCollectionDefault = useCallback(async () => {
+    const createdFacets = generateFacets({ ...filters, reference: defaultCategory })
+      .concat(filterRequestList);
+
+    await allSettled([
+      wrapperGetCountdownClock(defaultCategory),
+      wrapperGetProductSearch(createdFacets),
+      wrapperGetFacets(createdFacets),
+      wrapperGetBanner(defaultCategory),
+    ]);
+  }, [filterRequestList,
+    filters,
+    wrapperGetCountdownClock,
+    wrapperGetBanner,
+    wrapperGetFacets,
+    wrapperGetProductSearch]);
+
+  const loadCollection = useCallback(async (reference: string) => {
+    const createdFacets = generateFacets({ ...filters, reference })
+      .concat(filterRequestList);
+
+    await allSettled([
+      wrapperGetCountdownClock(reference),
+      wrapperGetProductSearch(createdFacets),
+      wrapperGetFacets(createdFacets),
+      wrapperGetBanner(reference),
+    ]);
+  }, [filterRequestList,
+    filters,
+    wrapperGetCountdownClock,
+    wrapperGetBanner,
+    wrapperGetFacets,
+    wrapperGetProductSearch]);
 
   useEffect(() => {
-    if (!loading && !!data) {
+    setLoading(true);
+
+    // flow load collection by categories
+    if (collectionIdByCategories) {
+      loadCollection(collectionIdByCategories);
+      setLoading(false);
+      return;
+    }
+
+    // flow load collection by contentful
+    if (collectionIdByContentful) {
+      loadCollection(collectionIdByContentful);
+      setLoading(false);
+      return;
+    }
+
+    // flow fallback default collection
+    loadCollectionDefault();
+    setLoading(false);
+  }, [collectionIdByCategories,
+    collectionIdByContentful,
+    loadCollection,
+    loadCollectionDefault]);
+
+  useEffect(() => {
+    if (!loading && !!productData[0]) {
       EventProvider.logEvent('product_list_view', {
         content_type: 'product_group',
-        wbrand: getBrandByUrl(data.productSearch.products[0]),
+        wbrand: getBrandByUrl(productData[0]),
       });
-      setProducts(data.productSearch);
     }
-  }, [data]);
+  }, [productData, loading]);
 
-  const getOffsetRequest = (isFilteredRequest: boolean, offSet: number) => {
-    if (isFilteredRequest) {
-      return {
-        from: 0,
-        to: 11,
-      };
-    }
+  const wrapperPagination = useCallback(async () => {
+    const reference = collectionIdByCategories || collectionIdByContentful || '';
 
-    return {
-      from: offSet < DEFAULT_PAGE_SIZE ? DEFAULT_PAGE_SIZE : offSet,
-      to: offSet < DEFAULT_PAGE_SIZE ? DEFAULT_PAGE_SIZE * 2 - 1 : offSet + (DEFAULT_PAGE_SIZE - 1),
-    };
-  };
+    const createdFacets = generateFacets({ ...filters, reference })
+      .concat(filterRequestList);
 
-  const loadMoreProducts = async (offset: number, isFilteredRequest: boolean = false) => {
-    setLoadingFetchMore(true);
-
-    const offSetRequest = getOffsetRequest(isFilteredRequest, offset);
-
-    const { data: dataFetchMore, loading } = await fetchMore({
+    const response = await getProductSearch({
       variables: {
         skusFilter: 'ALL_AVAILABLE',
         hideUnavailableItems: true,
-        orderBy: selectedOrder,
-        from: offSetRequest.from,
-        to: offSetRequest.to,
-        selectedFacets:
-          generateFacets({ ...filters, reference: referenceString })
-            .concat(filterRequestList),
+        selectedFacets: createdFacets,
+        salesChannel: '4',
+        orderBy: orderByParamsForPaginationPersist,
+        from: currentPage.from,
+        to: currentPage.to,
         simulationBehavior: 'default',
         productOriginVtex: false,
       },
+      fetchPolicy: 'cache-and-network',
+      nextFetchPolicy: 'cache-and-network',
     });
 
-    if (data) {
-      const newDataProductSearch = {
-        productSearch: {
-          ...dataFetchMore.productSearch,
-          products: [
-            ...data.productSearch.products,
-            ...dataFetchMore.productSearch.products,
-          ],
-        },
-      };
+    setTotalProducts(response.data.productSearch.recordsFiltered);
 
-      if (isFilteredRequest) {
-        newDataProductSearch.productSearch.products = [
-          ...dataFetchMore.productSearch.products,
-        ];
-      }
+    // TODO mapping type
+    // @ts-ignore
+    setProductData([...productData, ...response.data.productSearch.products]);
 
-      try {
-        EventProvider.logEvent('page_view', {
-          wbrand: defaultBrand.picapau,
-        });
-        EventProvider.logEvent('view_item_list', {
-          items: newDataProductSearch?.productSearch.map((item) => ({
-            price: item?.priceRange?.sellingPrice?.lowPrice,
-            item_id: item?.productId,
-            item_name: item?.productName,
-            item_category: 'product_group',
-          })),
-          wbrand: getBrandByUrl(newDataProductSearch?.productSearch),
-        });
-      } catch (err) {
-        EventProvider.captureException(err);
-      }
+    setSkeletonLoading(false);
+    setLoading(false);
+    setLoadingHandlerState(false);
 
-      setProductSearch({
-        data: newDataProductSearch,
-        loading,
-        fetchMore,
-        refetch,
-        error,
-      });
-      setProducts(newDataProductSearch.productSearch);
-      setLoadingFetchMore(loading);
-    } else {
-      setProductSearch({
-        data: dataFetchMore,
-        loading,
-        fetchMore,
-        refetch,
-        error,
-      });
-      setProducts(dataFetchMore.productSearch);
-      setLoadingFetchMore(loading);
-    }
-  };
-
-  useEffect(() => {
-    if (filterRequestList) {
-      loadMoreProducts(0, true);
-    }
-  }, [filterRequestList]);
-
-  useEffect(() => {
-    const fetch = async () => {
-      setLoadingFetchMore(true);
-      const { data, loading } = await refetch({
-        skusFilter: 'ALL_AVAILABLE',
-        hideUnavailableItems: true,
-        selectedFacets:
-          generateFacets({ ...filters, reference: referenceString })
-            .concat(filterRequestList),
-        orderBy: selectedOrder,
-        to: DEFAULT_PAGE_SIZE - 1,
-        simulationBehavior: 'default',
-        productOriginVtex: false,
-      });
-
-      if (!loading && !!data) {
-        setProductSearch({
-          data, loading, fetchMore, refetch, error,
-        });
-        setProducts(data.productSearch);
-      }
-      if (!loading) {
-        setLoadingFetchMore(loading);
-      }
-    };
-    fetch();
-  }, [selectedOrder]);
-
-  const skeletonOpacity = useRef(new Animated.Value(0)).current;
-
-  const onClickWhatsappButton = () => {
-    Linking.openURL('https://whts.co/reserva');
-  };
-
-  const mktText = React.useMemo(() => {
-    const mktBoldText = bannerData?.bannerCategoryCollection?.items?.[0]?.item?.texto?.split('__');
-
-    return mktBoldText?.map((i: any) => {
-      if (mktBoldText.indexOf(i) > 0 && mktBoldText.indexOf(i) % 2 !== 0) {
-        return (<Text style={{ fontFamily: 'reservaSansBold', fontWeight: 'bold' }}>{i}</Text>);
-      } return (i);
+    setCurrentPage({
+      from: currentPage.from + 12,
+      to: currentPage.to + 12,
     });
+
+    try {
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
+      EventProvider.logEvent('view_item_list', {
+        items: response.data.productSearch.map((item) => ({
+          price: item?.priceRange?.sellingPrice?.lowPrice,
+          item_id: item?.productId,
+          item_name: item?.productName,
+          item_category: 'product_group',
+        })),
+        wbrand: getBrandByUrl(response.data.productSearch),
+      });
+    } catch (err) {
+      EventProvider.captureException(err);
+    }
+  }, [collectionIdByCategories,
+    collectionIdByContentful,
+    currentPage.from,
+    currentPage.to,
+    filterRequestList,
+    filters,
+    getProductSearch,
+    orderByParamsForPaginationPersist,
+    productData]);
+
+  const onClickWhatsappButton = useCallback(async () => {
+    await Linking.openURL('https://whts.co/reserva');
   }, []);
+
+  const mktText = React.useMemo(() => mktBoldText?.map((i: any) => {
+    if (mktBoldText?.indexOf(i) > 0 && mktBoldText.indexOf(i) % 2 !== 0) {
+      return (<Text style={{ fontFamily: 'reservaSansBold', fontWeight: 'bold' }}>{i}</Text>);
+    } return (i);
+  }), [mktBoldText]);
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
 
@@ -618,14 +511,14 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       {safeArea ? (
         <TopBarDefaultBackButton
           loading={
-            loading || loadingFetchMore || loadingHandlerState
+            loading || loadingHandlerState
           }
           navigateGoBack={showMkt}
           backButtonPress={() => navigateGoBack()}
         />
       ) : (
         <TopBarDefault
-          loading={loading || loadingFetchMore || loadingHandlerState}
+          loading={loading || loadingHandlerState}
         />
       )}
       {search && (
@@ -634,6 +527,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         </Box>
       )}
 
+      <WithoutInternet />
       <FilterModal
         setFilterRequestList={setFilterRequestList}
         filterList={filterList}
@@ -649,45 +543,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       />
       <Picker
         onSelect={(item) => {
-          setSorterVisible(false);
-          setSelectedOrder(item?.value);
+          loadApplyFilter(item);
+          setOrderByParamsForPaginationPersist(item.value);
         }}
         isVisible={sorterVisible}
-        items={[
-          {
-            text: 'Relevância',
-            value: OrderByEnum.OrderByScoreDESC,
-          },
-          {
-            text: 'Mais Vendidos',
-            value: OrderByEnum.OrderByTopSaleDESC,
-          },
-          {
-            text: 'Mais Recentes',
-            value: OrderByEnum.OrderByReleaseDateDESC,
-          },
-          {
-            text: 'Descontos',
-            value: OrderByEnum.OrderByBestDiscountDESC,
-          },
-          {
-            text: 'Maior Preço',
-            value: OrderByEnum.OrderByPriceDESC,
-          },
-          {
-            text: 'Menor Preço',
-            value: OrderByEnum.OrderByPriceASC,
-          },
-          {
-            text: 'De A a Z',
-            value: OrderByEnum.OrderByNameASC,
-          },
-          {
-            text: 'De Z a A',
-            value: OrderByEnum.OrderByNameDESC,
-          },
-
-        ]}
+        items={pickerItem}
         onConfirm={() => {
           setSorterVisible(false);
         }}
@@ -801,14 +661,15 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         </Skeleton>
       ) : null}
 
-      {productsQuery.products ? (
+      {productData?.length ? (
         <ListVerticalProducts
-          loadMoreProducts={loadMoreProducts}
-          products={productsQuery.products}
+          cleanFilter={() => setFilterRequestList([])}
+          loadMoreProducts={wrapperPagination}
+          products={productData}
           loadingHandler={(loadingState) => {
             setLoadingHandlerState(loadingState);
           }}
-          totalProducts={productsQuery.recordsFiltered}
+          totalProducts={totalProducts}
           listHeader={(
             <>
               {countDownClockLocal && showClockOffers
@@ -863,7 +724,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   <Button
                     testID="com.usereserva:id/clear_filter_button_product_catalog"
                     onPress={() => {
-                      if (productsQuery.products.length > 0) {
+                      if (productData?.length > 0) {
                         setFilterVisible(true);
                       } else {
                         setFilterRequestList([]);
@@ -883,7 +744,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                       fontFamily="nunitoSemiBold"
                       fontSize="14px"
                     >
-                      {productsQuery.products?.length === 0
+                      {productData?.length === 0
                         && filterRequestList.length > 0
                         ? 'Limpar Filtros'
                         : 'Filtrar'}
@@ -924,7 +785,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 justifyContent="space-between"
               >
                 <Typography fontFamily="nunitoRegular" fontSize="13px">
-                  {productsQuery.recordsFiltered}
+                  {totalProducts}
                   {' '}
                   produtos encontrados
                 </Typography>
@@ -949,7 +810,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       ) : (
         !loading && (
           <EmptyProductCatalog
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => {
+              setFilterRequestList([]);
+              navigation.navigate('Home');
+            }}
           />
         )
       )}

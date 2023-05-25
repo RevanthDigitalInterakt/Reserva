@@ -28,6 +28,7 @@ import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
 
 interface ListProductsProps {
+  cleanFilter: () => void;
   products: ProductQL[];
   horizontal?: boolean;
   isLoading?: boolean;
@@ -54,6 +55,7 @@ export function getDefaultSeller(sellers?: any[]) {
 }
 
 export const ListVerticalProducts = ({
+  cleanFilter,
   products,
   horizontal,
   listHeader,
@@ -193,6 +195,7 @@ export const ListVerticalProducts = ({
             title="VOLTAR"
             onPress={() => {
               navigation.navigate('Home');
+              cleanFilter();
             }}
             variant="primarioEstreitoOutline"
             mx={22}

@@ -326,6 +326,15 @@ export const FilterModal = ({
                         const minPrice = prices[0];
                         const maxPrice = prices[1];
 
+                        if (minPrice === maxPrice) {
+                          return setSelectedPriceRange([
+                            {
+                              key: 'priceRange',
+                              range: { from: minPrice, to: maxPrice + 1 },
+                            },
+                          ]);
+                        }
+
                         setSelectedPriceRange([
                           {
                             key: 'priceRange',

@@ -37,13 +37,7 @@ export const HomeTabs = () => (
         component={ProductCatalog}
         initialParams={{
           safeArea: false,
-          categoryId: 'offers-page',
           label: 'Promoções',
-          referenceId: 'offers-page',
-          facetInput: [
-            { key: 'category-2', value: 'bazar' },
-            { key: 'category-3', value: 'masculino' },
-          ],
         }}
       />
       <Tab.Screen

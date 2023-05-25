@@ -88,17 +88,8 @@ export type RootStackParamList = {
     search: boolean;
     referenceId: string;
     filters?: IFilters;
-    facetInput: [
-      {
-        key: string;
-        value: string;
-      },
-    ];
-    title?: string;
-    reservaMini?: boolean;
-    orderBy: string;
-    comeFrom?: 'Menu' | 'Other';
     indexMenuOpened?: number;
+    comeFrom?: 'Menu' | 'Other';
   };
   Menu: {
     indexMenuOpened?: number;
