@@ -10698,10 +10698,10 @@ react-native-sha256@^1.4.7:
   resolved "https://registry.yarnpkg.com/react-native-sha256/-/react-native-sha256-1.4.9.tgz#39760f50513deb5cdd9fd872cf632f9889e68c92"
   integrity sha512-J5NPOAQmqlmBAtEkN3FBrmCwdTGw+5t+Q82YQlujbhx17qMe/7EL47c8boHNE6K+BIsd48NOhbP0quGUiJvOLQ==
 
-react-native-share@^6.0.1:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-6.5.0.tgz#6e2ce73d03168fcade7b89cc1f9c4318089c2325"
-  integrity sha512-T46Mn+ALx2Fg+2/ksWFtzxSYNl34Xe/PH8eabx6DsLuCTDxatyaUblmpzDBjTO4rIMuVuTGMtR4mzwKKZcB5ZA==
+react-native-share@8.2.2:
+  version "8.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-8.2.2.tgz#987d6f164afe57b089950dca42e0555f19045d27"
+  integrity sha512-kVCI/cT0GnuYUTXe6mAimrjrnt4VWoRfrWqJZjFeoYFqAyOEfos84RC4eZlZnOT5eVtmTXRIkor5vgSkKOlZhw==
 
 react-native-siren@0.0.5:
   version "0.0.5"
