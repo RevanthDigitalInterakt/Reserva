@@ -74,6 +74,8 @@ function ProductAddToCart() {
   const buttonAddCartActive = useMemo(() => {
     if (!selectedSize || !productDetail) return false;
 
+    if (selectedSize.disabled) return false;
+
     if (productDetail?.properties.isAssinaturaSimples && !assinaturaSimples?.accepted) {
       return false;
     }
