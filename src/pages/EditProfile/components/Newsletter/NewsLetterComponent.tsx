@@ -6,7 +6,6 @@ import subscribeNewsLetter from '../../../../graphql/profile/newsLetter';
 interface INewsLetterProps {
   userEmail: string;
   value: boolean;
-
   handleToogleNewsLetterState: (value: boolean) => void
 }
 function NewsLetterComponent({

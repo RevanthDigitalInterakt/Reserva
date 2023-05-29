@@ -9,6 +9,7 @@ import { setContext } from '@apollo/client/link/context';
 import { RetryLink } from '@apollo/client/link/retry';
 import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
+import CookieManager from '@react-native-cookies/cookies';
 import { gatewayLink } from '../clients/gateway/gatewayLink';
 
 const directionalLinkProduction = new RetryLink().split(
@@ -32,14 +33,39 @@ const directionalLinkTesting = new RetryLink().split(
 const authAfterware = new ApolloLink((operation, forward) => forward(operation).map((response) => {
   const { data } = response;
 
-  if (
-    data?.classicSignIn === 'Success'
-      || data?.accessKeySignIn === 'Success'
-      || data?.sendEmailVerification === true
+  if (data?.signIn?.authCookie
+    || data?.signUp?.authCookie
+    || data?.redefinePassword?.authCookie
+    || data?.refreshToken?.authCookie
   ) {
-    const { response: res } = operation.getContext();
+    let cookie;
+    if (data?.signIn?.authCookie) cookie = data?.signIn?.authCookie?.replace('VtexIdclientAutCookie_lojausereserva=', '');
+    if (data?.signUp?.authCookie) cookie = data?.signUp?.authCookie?.replace('VtexIdclientAutCookie_lojausereserva=', '');
+    if (data?.redefinePassword?.authCookie) cookie = data?.redefinePassword?.authCookie.replace('VtexIdclientAutCookie_lojausereserva=', '');
+    if (data?.refreshToken?.authCookie) cookie = data?.refreshToken?.authCookie.replace('VtexIdclientAutCookie_lojausereserva=', '');
 
-    response.data.cookie = res.headers.map['set-cookie'];
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+
+    const expires = date.toISOString();
+
+    CookieManager.set(`${Config.URL_BASE_COOKIE}`, {
+      name: 'VtexIdclientAutCookie_lojausereserva',
+      value: cookie,
+      domain: 'lojausereserva.myvtex.com',
+      path: '/',
+      version: '1',
+      expires,
+    });
+
+    CookieManager.set(`${Config.URL_USER}`, {
+      name: 'VtexIdclientAutCookie_lojausereserva',
+      value: cookie,
+      domain: 'www.usereserva.com',
+      path: '/',
+      version: '1',
+      expires,
+    });
   }
   return response;
 }));

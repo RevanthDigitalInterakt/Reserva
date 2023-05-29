@@ -17,7 +17,7 @@ import { useAuth } from '../../../../context/AuthContext';
 import { profileQuery } from '../../../../graphql/profile/profileQuery';
 import SentryConfig from '../../../../config/sentryConfig';
 import {
-  useOrderFormAttachClientByEmailMutation,
+  useOrderFormAttachClientByCookieMutation,
 } from '../../../../base/graphql/generated';
 import { useCart } from '../../../../context/CartContext';
 import { getBrands } from '../../../../utils/getBrands';
@@ -45,7 +45,7 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
 
   // @TODO The getProfile query will be removed when siren is finished implementing login
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
-  const [attachClientByEmail] = useOrderFormAttachClientByEmailMutation();
+  const [attachClientByCookie] = useOrderFormAttachClientByCookieMutation();
 
   // @TODO Refactor to check if the profile is empty when siren has finished implementing login
   const validateFieldsProfile = (profile: any) => {
@@ -153,16 +153,17 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
         try {
-          const { data: attachResponse } = await attachClientByEmail({
+          const { data: attachResponse } = await attachClientByCookie({
             context: { clientName: 'gateway' },
             fetchPolicy: 'no-cache',
             variables: {
-              email,
-              orderFormId: currentOrderForm.orderFormId,
+              input: {
+                orderFormId: currentOrderForm.orderFormId,
+              },
             },
           });
 
-          if (attachResponse?.orderFormAttachClientByEmail.orderFormId) {
+          if (attachResponse?.orderFormAttachClientByCookie.orderFormId) {
             await restoreCart(currentOrderForm.orderFormId);
             setNavigateToDeliveryDisable(false);
             navigation.navigate('DeliveryScreen', {});
@@ -184,7 +185,7 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
     isProfileComplete,
     currentOrderForm,
     bagInfos,
-    attachClientByEmail,
+    attachClientByCookie,
     dispatch,
     getProfile,
     restoreCart,

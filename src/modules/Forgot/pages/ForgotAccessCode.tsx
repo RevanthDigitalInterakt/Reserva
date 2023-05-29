@@ -1,25 +1,21 @@
-import { useMutation } from '@apollo/client';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import {
-  Dimensions, Platform, SafeAreaView, ScrollView,
-} from 'react-native';
+import { Platform, SafeAreaView, ScrollView } from 'react-native';
 import {
   Box, Button, Typography, Icon,
 } from '@usereservaapp/reserva-ui';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import { accessKeySignInMutation, recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
 
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import CodeInput from '../../Login/components/CodeInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
-
-const { width, height } = Dimensions.get('window');
+import { useRecoverPasswordResetMutation } from '../../../base/graphql/generated';
+import EventProvider from '../../../utils/EventProvider';
 
 export interface ForgotAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> { }
@@ -28,14 +24,18 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   navigation,
   route,
 }) => {
-  const { cookie, setCookie } = useAuth();
+  const { cookie } = useAuth();
   const { email } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState('');
+  const [passwords, setPasswords] = useState({
+    first: '',
+    confirm: '',
+  });
 
-  const [loginWithCode, { data, loading }] = useMutation(
-    accessKeySignInMutation,
-  );
+  const [recoveryPasswordReset, { data, loading, error }] = useRecoverPasswordResetMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
   const passwordCheckHandler = () => ({
     equal: passwords.first === passwords.confirm,
@@ -45,74 +45,49 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     number: passwords.first.match(/[0-9]/g) != null,
   });
 
+  const [passwordsChecker, setPasswordChecker] = useState(
+    passwordCheckHandler(),
+  );
   const enabledButton = () => passwordsChecker.equal
     && passwordsChecker.digitsCount
     && passwordsChecker.uppercase
     && passwordsChecker.lowercase
     && passwordsChecker.number;
 
-  const [
-    recoveryPassword,
-    { data: dataRecoveryPassword, loading: loadingRecoveryPassword, error },
-  ] = useMutation(recoveryPasswordMutation);
+  const handleUpdatePassword = useCallback(async () => {
+    try {
+      const variables = {
+        input: {
+          email,
+          code,
+          password: passwords.confirm,
+          cookies: JSON.parse(cookie),
 
-  const handleUpdatePassword = () => {
-    const variables = {
-      email,
-      code,
-      newPassword: passwords.confirm,
-    };
+        },
+      };
 
-    if (code.length < 6) {
-      setShowError(true);
-    } else {
-      setShowError(false);
+      if (code.length < 6) {
+        setShowError(true);
+      } else {
+        setShowError(false);
 
-      recoveryPassword({
-        variables,
-      })
-        .then((x) => {
-          x.data.recoveryPassword != null
-            ? navigation.navigate('ForgotEmailSuccess')
-            : navigation.navigate('ForgotEmail', {});
-        })
-        .catch(() => {
-          setShowError(true);
+        const { data: recoveryPasswordData } = await recoveryPasswordReset({
+          variables,
         });
-    }
-  };
 
-  // const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
-
-  const [passwords, setPasswords] = useState({
-    first: '',
-    confirm: '',
-  });
-
-  const [passwordsChecker, setPasswordChecker] = useState(
-    passwordCheckHandler(),
-  );
-
-  const handleReset = () => {
-    if (code.length < 6) {
+        if (!recoveryPasswordData) navigation.navigate('ForgotEmail', {});
+        if (recoveryPasswordData?.recoverPasswordReset?.token) {
+          navigation.navigate('ForgotEmailSuccess');
+        }
+      }
+    } catch (err) {
       setShowError(true);
-    } else {
-      setShowError(false);
+      EventProvider.captureException(err);
     }
-    loginWithCode({
-      variables: {
-        email,
-        code: `${code}`,
-      },
-    });
-  };
+  }, [code, cookie, email, navigation, passwords.confirm, recoveryPasswordReset]);
 
   useEffect(() => {
-    if (!loading && data?.cookie) {
-      setShowError(false);
-      navigation.navigate('ForgotNewPassword', { email, code });
-    }
-    if (data?.accessKeySignIn === 'WrongCredentials') {
+    if (!loading && error) {
       setShowError(true);
     }
   }, [data]);
@@ -121,7 +96,6 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
     setPasswordChecker(passwordCheckHandler());
   }, [passwords]);
 
-  const awareScrollRef = React.useRef<KeyboardAwareScrollView>(null);
   const scrollViewRef = React.useRef<ScrollView>(null);
 
   return (

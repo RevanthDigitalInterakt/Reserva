@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import {
@@ -14,36 +13,34 @@ import {
 
 import { useAuth } from '../../../../context/AuthContext';
 import { useCart } from '../../../../context/CartContext';
-import {
-  saveAddressMutation,
-  updateAddress,
-} from '../../../../graphql/address/addressMutations';
 
 import Sentry from '../../../../config/sentryConfig';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import InputOption from '../../Components/InputOption';
-import type { IAddress } from '../../interface';
 import { CepVerifyPostalCode } from '../../../../services/vtexService';
 import EventProvider from '../../../../utils/EventProvider';
+import { useProfileAddressMutation } from '../../../../base/graphql/generated';
+import type { IAddress } from '../../interface';
 
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
+type TAddressProps = Omit<IAddress, 'addressType'>;
 
 export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
-
   const edit = route?.params?.edit;
   const editAddress = route?.params?.editAddress;
   const executeCallback = route.params?.executeCallback;
   const hasCep = route?.params?.hasCep;
-
   const [toggleActivated] = useState(false);
-  const [saveAddress] = useMutation(saveAddressMutation);
-  const [addressUpdate] = useMutation(updateAddress);
+
+  const [profileAddress] = useProfileAddressMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
   const { orderform, identifyCustomer } = useCart();
 
-  const [initialValues, setInitialValues] = useState<IAddress>({
+  const [initialValues, setInitialValues] = useState<TAddressProps>({
     postalCode: editAddress?.postalCode || '',
     state: editAddress?.state || '',
     city: editAddress?.city || '',
@@ -52,7 +49,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
     street: editAddress?.street || '',
     neighborhood: editAddress?.neighborhood || '',
     receiverName: editAddress?.receiverName || '',
-    addressType: 'residential',
     country: 'BRA',
   });
 
@@ -84,18 +80,18 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
     try {
       if (edit) {
-        await addressUpdate({
+        await profileAddress({
           variables: {
-            id: editAddress?.id,
-            fields: {
+            input: {
+              addressId: editAddress?.id,
               ...initialValues,
             },
           },
         });
       } else {
-        await saveAddress({
+        await profileAddress({
           variables: {
-            fields: {
+            input: {
               ...initialValues,
             },
           },

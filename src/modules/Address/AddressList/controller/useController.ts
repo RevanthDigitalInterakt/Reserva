@@ -1,4 +1,3 @@
-import { useMutation, useLazyQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import {
   useState, useEffect, useCallback,
@@ -6,13 +5,12 @@ import {
 import { BackHandler } from 'react-native';
 import { useAuth } from '../../../../context/AuthContext';
 import { useCart } from '../../../../context/CartContext';
-import { deleteAddress } from '../../../../graphql/address/addressMutations';
-import { profileQuery } from '../../../../graphql/profile/profileQuery';
 import EventProvider from '../../../../utils/EventProvider';
 import formatString from '../../../../utils/formatString';
 import type { IAddress, IEditAddress, IProfileData } from '../../interface';
+import { useProfileAddressRemoveMutation, useProfileLazyQuery } from '../../../../base/graphql/generated';
 
-interface IUseControler {
+interface IUseController {
   goBack: () => void;
   navigateToNewAddress: () => void;
   navigateToEditAddress: (data: IEditAddress) => void;
@@ -29,31 +27,27 @@ interface IUseControler {
   closeDeleteModal: () => void;
   openErrorModal: () => void;
   closeErrorModal: () => void;
-
   hasDeleteAddressError: boolean;
   loadingStatusBar: boolean;
 }
 
-const useController = (): IUseControler => {
+const useController = (): IUseController => {
   const navigation = useNavigation();
   const { identifyCustomer } = useCart();
   const { cookie, email } = useAuth();
-
   const [loadingStatusBar, setLoadingStatusBar] = useState(false);
-
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
   const [isVisibleSuccessModal, setIsVisibleSuccessModal] = useState(false);
-
   const [addressId, setAddressId] = useState('');
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
-
-  const [addressDelete] = useMutation(deleteAddress);
   const [hasDeleteAddressError, setHasDeleteAddressError] = useState(false);
-
   const [profileData, setProfileData] = useState<IProfileData | null>(null);
-
-  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
-
+  const [getProfile] = useProfileLazyQuery({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+  const [profileAddressRemove] = useProfileAddressRemoveMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
   const goBack = () => navigation.goBack();
 
   const requestAddressList = useCallback(async () => {
@@ -103,9 +97,11 @@ const useController = (): IUseControler => {
   const doDeleteAddress = useCallback(async () => {
     setLoadingStatusBar(true);
     try {
-      const data = await addressDelete({
+      const { data } = await profileAddressRemove({
         variables: {
-          id: addressId,
+          input: {
+            addressId,
+          },
         },
       });
       closeDeleteModal();

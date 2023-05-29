@@ -104,3 +104,12 @@ jest.mock('axios', () => ({
     },
   })),
 }));
+
+jest.mock('@react-native-cookies/cookies', () => ({
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  openURL: jest.fn(),
+  canOpenURL: jest.fn(),
+  getInitialURL: jest.fn(),
+  get: jest.fn(() => Promise.resolve(null)),
+}));

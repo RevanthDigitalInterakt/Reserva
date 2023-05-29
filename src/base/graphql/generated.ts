@@ -1196,6 +1196,8 @@ export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', 
 
 export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } };
 
+export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> };
+
 export type OrderFormAddDiscountCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
   coupon: Scalars['String'];
@@ -1221,20 +1223,19 @@ export type OrderFormAddSellerCouponMutationVariables = Exact<{
 
 export type OrderFormAddSellerCouponMutation = { __typename?: 'Mutation', orderFormAddSellerCoupon: { __typename?: 'OrderformOutput', orderFormId: string, marketingData?: { __typename?: 'OrderformMarketingDataOutput', marketingTags: Array<string> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number } } };
 
-export type OrderFormAttachClientByEmailMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  email: Scalars['String'];
+export type OrderFormAttachClientByCookieMutationVariables = Exact<{
+  input: OrderformAttachClientByCookieInput;
 }>;
 
 
-export type OrderFormAttachClientByEmailMutation = { __typename?: 'Mutation', orderFormAttachClientByEmail: { __typename?: 'OrderformOutput', orderFormId: string } };
+export type OrderFormAttachClientByCookieMutation = { __typename?: 'Mutation', orderFormAttachClientByCookie: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, messagesDetailed: Array<{ __typename?: 'OrderformMessageOutput', code?: string | null, text?: string | null, status?: string | null }>, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', uniqueId: string, id: string, key: string, productId: string, productTitle: string, productRefId: string, refId: string, ean: string, name: string, skuName: string, seller: string, itemColor: string, itemSize: string, priceValidUntil: string, tax: number, price: number, listPrice: number, sellingPrice: number, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, rewardValue: number, isGift: boolean, isAddedAsGift: boolean, giftOfferingId?: string | null, isGiftable: boolean, disableCounter: boolean, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, quantity: number, isAssinaturaSimples: boolean, imageUrl?: string | null, detailUrl?: string | null, availability: string, measurementUnit: string, unitMultiplier: number, imageSource: string, bundleItems: Array<{ __typename?: 'OrderformItemBundleItemOutput', uniqueId: string, id: string, name: string }>, offerings: Array<{ __typename?: 'OrderformItemOfferingOutput', type: string, id: string, name: string, allowGiftMessage: boolean, attachmentOfferings: Array<{ __typename?: 'OrderformItemOfferingAttachmentOutput', name: string, required: boolean }> }> }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', utmSource?: string | null, utmMedium?: string | null, utmCampaign?: string | null, utmipage?: string | null, utmiPart?: string | null, utmiCampaign?: string | null, coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, marketingTags: Array<string> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }>, selectedAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRefreshDataMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  input: OrderformRefreshDataInput;
 }>;
 
 
-export type OrderFormRefreshDataMutation = { __typename?: 'Mutation', orderFormRefreshData: { __typename?: 'OrderformOutput', orderFormId: string, allItemsQuantity: number, messages: Array<string>, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number }, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null } | null } };
+export type OrderFormRefreshDataMutation = { __typename?: 'Mutation', orderFormRefreshData: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, messagesDetailed: Array<{ __typename?: 'OrderformMessageOutput', code?: string | null, text?: string | null, status?: string | null }>, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', uniqueId: string, id: string, key: string, productId: string, productTitle: string, productRefId: string, refId: string, ean: string, name: string, skuName: string, seller: string, itemColor: string, itemSize: string, priceValidUntil: string, tax: number, price: number, listPrice: number, sellingPrice: number, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, rewardValue: number, isGift: boolean, isAddedAsGift: boolean, giftOfferingId?: string | null, isGiftable: boolean, disableCounter: boolean, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, quantity: number, isAssinaturaSimples: boolean, imageUrl?: string | null, detailUrl?: string | null, availability: string, measurementUnit: string, unitMultiplier: number, imageSource: string, bundleItems: Array<{ __typename?: 'OrderformItemBundleItemOutput', uniqueId: string, id: string, name: string }>, offerings: Array<{ __typename?: 'OrderformItemOfferingOutput', type: string, id: string, name: string, allowGiftMessage: boolean, attachmentOfferings: Array<{ __typename?: 'OrderformItemOfferingAttachmentOutput', name: string, required: boolean }> }> }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', utmSource?: string | null, utmMedium?: string | null, utmCampaign?: string | null, utmipage?: string | null, utmiPart?: string | null, utmiCampaign?: string | null, coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, marketingTags: Array<string> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }>, selectedAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveDiscountCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
@@ -1287,6 +1288,53 @@ export type OrderFormUpdateItemMutationVariables = Exact<{
 
 export type OrderFormUpdateItemMutation = { __typename?: 'Mutation', orderFormUpdateItem: { __typename?: 'OrderformOutput', allItemsQuantity: number, messages: Array<string>, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number }>, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
+export type ProfileUpdateMutationVariables = Exact<{
+  input: ProfileUpdateInput;
+}>;
+
+
+export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
+
+export type ProfileAddressMutationVariables = Exact<{
+  input: UpsertProfileAddressInput;
+}>;
+
+
+export type ProfileAddressMutation = { __typename?: 'Mutation', profileAddress: { __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, number?: string | null, city?: string | null, complement?: string | null, postalCode?: string | null, state?: string | null, street?: string | null, neighborhood?: string | null, country?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } };
+
+export type ProfileAddressRemoveMutationVariables = Exact<{
+  input: RemoveProfileAddressInput;
+}>;
+
+
+export type ProfileAddressRemoveMutation = { __typename?: 'Mutation', profileAddressRemove: boolean };
+
+export type RecoverPasswordResetMutationVariables = Exact<{
+  input: ResetVtexPasswordInput;
+}>;
+
+
+export type RecoverPasswordResetMutation = { __typename?: 'Mutation', recoverPasswordReset: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
+
+export type RecoverPasswordVerificationCodeMutationVariables = Exact<{
+  input: RequestVerificationCodeInput;
+}>;
+
+
+export type RecoverPasswordVerificationCodeMutation = { __typename?: 'Mutation', recoverPasswordVerificationCode: { __typename?: 'RequestCodeOutput', ok: boolean, cookies: Array<string> } };
+
+export type RedefinePasswordMutationVariables = Exact<{
+  input: RedefineVtexPasswordInput;
+}>;
+
+
+export type RedefinePasswordMutation = { __typename?: 'Mutation', redefinePassword: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
+
+export type RefreshTokenMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshTokenMutation = { __typename?: 'Mutation', refreshToken: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
+
 export type RemoveUserMutationMutationVariables = Exact<{
   customerId: Scalars['String'];
 }>;
@@ -1303,6 +1351,27 @@ export type SendLeadsMutationVariables = Exact<{
 
 
 export type SendLeadsMutation = { __typename?: 'Mutation', sendLead: boolean };
+
+export type SignInMutationVariables = Exact<{
+  input: SignInInput;
+}>;
+
+
+export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
+
+export type SignUpMutationVariables = Exact<{
+  input: SignUpUserInput;
+}>;
+
+
+export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
+
+export type SignUpVerificationCodeMutationVariables = Exact<{
+  input: RequestVerificationCodeInput;
+}>;
+
+
+export type SignUpVerificationCodeMutation = { __typename?: 'Mutation', signUpVerificationCode: { __typename?: 'RequestCodeOutput', ok: boolean, cookies: Array<string> } };
 
 export type SubscribeNewsletterMutationVariables = Exact<{
   input: SubscribeNewsletterInput;
@@ -1381,6 +1450,11 @@ export type ProductRecommendationsQueryVariables = Exact<{ [key: string]: never;
 
 
 export type ProductRecommendationsQuery = { __typename?: 'Query', productRecommendations: Array<{ __typename?: 'ProductRecommendationOutput', productId: string, productName: string, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, items: Array<{ __typename?: 'ProductItemOutput', images: Array<string>, itemId?: string | null, variations: Array<{ __typename?: 'ProductItemVariationOutput', originalName?: string | null, name?: string | null, values?: Array<string> | null }>, sellers: Array<{ __typename?: 'ProductItemSellerOutput', sellerId?: string | null, sellerDefault?: boolean | null, commertialOffer?: { __typename?: 'ProductItemSellerCommertialOfferOutput', tax: number, taxPercentage: number, availableQuantity: number, price: number, listPrice: number, spotPrice: number, priceWithoutDiscount: number, installments: Array<{ __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput', value: number, totalValuePlusInterestRate: number, numberOfInstallments: number }> } | null }> }> }> };
+
+export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String'];
@@ -1536,6 +1610,44 @@ export const ProductColorFragmentFragmentDoc = gql`
   }
 }
     ${ProductSizeFragmentFragmentDoc}`;
+export const ProfileFragmentFragmentDoc = gql`
+    fragment ProfileFragment on ProfileOutput {
+  id
+  authCookie
+  email
+  firstName
+  lastName
+  document
+  birthDate
+  homePhone
+  gender
+  isComplete
+  addresses {
+    id
+    receiverName
+    complement
+    neighborhood
+    country
+    state
+    number
+    street
+    postalCode
+    city
+    reference
+    addressName
+    addressType
+  }
+  customFields {
+    cacheId
+    key
+    value
+  }
+  payments {
+    id
+    cardNumber
+  }
+}
+    `;
 export const OrderFormAddDiscountCouponDocument = gql`
     mutation orderFormAddDiscountCoupon($orderFormId: String!, $coupon: String!) {
   orderFormAddDiscountCoupon(input: {orderFormId: $orderFormId, coupon: $coupon}) {
@@ -1660,47 +1772,440 @@ export function useOrderFormAddSellerCouponMutation(baseOptions?: Apollo.Mutatio
 export type OrderFormAddSellerCouponMutationHookResult = ReturnType<typeof useOrderFormAddSellerCouponMutation>;
 export type OrderFormAddSellerCouponMutationResult = Apollo.MutationResult<OrderFormAddSellerCouponMutation>;
 export type OrderFormAddSellerCouponMutationOptions = Apollo.BaseMutationOptions<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>;
-export const OrderFormAttachClientByEmailDocument = gql`
-    mutation orderFormAttachClientByEmail($orderFormId: String!, $email: String!) {
-  orderFormAttachClientByEmail(input: {orderFormId: $orderFormId, email: $email}) {
+export const OrderFormAttachClientByCookieDocument = gql`
+    mutation orderFormAttachClientByCookie($input: OrderformAttachClientByCookieInput!) {
+  orderFormAttachClientByCookie(input: $input) {
     orderFormId
+    salesChannel
+    messagesDetailed {
+      code
+      text
+      status
+    }
+    messages
+    clientProfileData {
+      email
+      firstName
+      lastName
+      document
+      phone
+      corporateName
+      tradeName
+      corporateDocument
+      stateInscription
+      corporatePhone
+      profileCompleteOnLoading
+    }
+    items {
+      uniqueId
+      id
+      key
+      productId
+      productTitle
+      productRefId
+      refId
+      ean
+      name
+      skuName
+      seller
+      itemColor
+      itemSize
+      priceValidUntil
+      tax
+      price
+      listPrice
+      sellingPrice
+      priceWithDiscount
+      discountPercent
+      discountApi
+      rewardValue
+      isGift
+      isAddedAsGift
+      giftOfferingId
+      isGiftable
+      disableCounter
+      showFirstPurchaseDiscountMessage
+      showTotalDiscountFirstPurchaseValue
+      quantity
+      isAssinaturaSimples
+      imageUrl
+      detailUrl
+      bundleItems {
+        uniqueId
+        id
+        name
+      }
+      offerings {
+        type
+        id
+        name
+        allowGiftMessage
+        attachmentOfferings {
+          name
+          required
+        }
+      }
+      availability
+      measurementUnit
+      unitMultiplier
+      imageSource
+    }
+    selectableGift {
+      id
+      availableQuantity
+      giftOptions {
+        id
+        color
+        size
+      }
+      currentSelectableGift {
+        isSelected
+        uniqueId
+        id
+        productId
+        productRefId
+        imageUrl
+        detailUrl
+        availability
+        measurementUnit
+        unitMultiplier
+        refId
+        ean
+        name
+        skuName
+        seller
+        tax
+        rewardValue
+        isGift
+      }
+      availableGifts {
+        isSelected
+        uniqueId
+        id
+        productId
+        productRefId
+        imageUrl
+        detailUrl
+        availability
+        measurementUnit
+        unitMultiplier
+        refId
+        ean
+        name
+        skuName
+        seller
+        tax
+        rewardValue
+        isGift
+      }
+    }
+    marketingData {
+      utmSource
+      utmMedium
+      utmCampaign
+      utmipage
+      utmiPart
+      utmiCampaign
+      coupon
+      sellerCoupon
+      sellerCouponName
+      marketingTags
+    }
+    shippingData {
+      address {
+        addressType
+        receiverName
+        addressId
+        isDisposable
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        reference
+        geoCoordinates
+      }
+      availableAddresses {
+        addressType
+        receiverName
+        addressId
+        isDisposable
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        reference
+        geoCoordinates
+      }
+      selectedAddresses {
+        addressType
+        receiverName
+        addressId
+        isDisposable
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        reference
+        geoCoordinates
+      }
+    }
+    appTotalizers {
+      items
+      discount
+      delivery
+      total
+    }
+    installmentInfo {
+      installmentsNumber
+      installmentPrice
+      totalPrice
+    }
+    allItemsQuantity
   }
 }
     `;
-export type OrderFormAttachClientByEmailMutationFn = Apollo.MutationFunction<OrderFormAttachClientByEmailMutation, OrderFormAttachClientByEmailMutationVariables>;
+export type OrderFormAttachClientByCookieMutationFn = Apollo.MutationFunction<OrderFormAttachClientByCookieMutation, OrderFormAttachClientByCookieMutationVariables>;
 
 /**
- * __useOrderFormAttachClientByEmailMutation__
+ * __useOrderFormAttachClientByCookieMutation__
  *
- * To run a mutation, you first call `useOrderFormAttachClientByEmailMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useOrderFormAttachClientByEmailMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useOrderFormAttachClientByCookieMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderFormAttachClientByCookieMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [orderFormAttachClientByEmailMutation, { data, loading, error }] = useOrderFormAttachClientByEmailMutation({
+ * const [orderFormAttachClientByCookieMutation, { data, loading, error }] = useOrderFormAttachClientByCookieMutation({
  *   variables: {
- *      orderFormId: // value for 'orderFormId'
- *      email: // value for 'email'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useOrderFormAttachClientByEmailMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAttachClientByEmailMutation, OrderFormAttachClientByEmailMutationVariables>) {
+export function useOrderFormAttachClientByCookieMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAttachClientByCookieMutation, OrderFormAttachClientByCookieMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<OrderFormAttachClientByEmailMutation, OrderFormAttachClientByEmailMutationVariables>(OrderFormAttachClientByEmailDocument, options);
+        return Apollo.useMutation<OrderFormAttachClientByCookieMutation, OrderFormAttachClientByCookieMutationVariables>(OrderFormAttachClientByCookieDocument, options);
       }
-export type OrderFormAttachClientByEmailMutationHookResult = ReturnType<typeof useOrderFormAttachClientByEmailMutation>;
-export type OrderFormAttachClientByEmailMutationResult = Apollo.MutationResult<OrderFormAttachClientByEmailMutation>;
-export type OrderFormAttachClientByEmailMutationOptions = Apollo.BaseMutationOptions<OrderFormAttachClientByEmailMutation, OrderFormAttachClientByEmailMutationVariables>;
+export type OrderFormAttachClientByCookieMutationHookResult = ReturnType<typeof useOrderFormAttachClientByCookieMutation>;
+export type OrderFormAttachClientByCookieMutationResult = Apollo.MutationResult<OrderFormAttachClientByCookieMutation>;
+export type OrderFormAttachClientByCookieMutationOptions = Apollo.BaseMutationOptions<OrderFormAttachClientByCookieMutation, OrderFormAttachClientByCookieMutationVariables>;
 export const OrderFormRefreshDataDocument = gql`
-    mutation orderFormRefreshData($orderFormId: String!) {
-  orderFormRefreshData(input: {orderFormId: $orderFormId}) {
-    ...InitialOrderFormFragment
+    mutation orderFormRefreshData($input: OrderformRefreshDataInput!) {
+  orderFormRefreshData(input: $input) {
+    orderFormId
+    salesChannel
+    messagesDetailed {
+      code
+      text
+      status
+    }
+    messages
+    clientProfileData {
+      email
+      firstName
+      lastName
+      document
+      phone
+      corporateName
+      tradeName
+      corporateDocument
+      stateInscription
+      corporatePhone
+      profileCompleteOnLoading
+    }
+    items {
+      uniqueId
+      id
+      key
+      productId
+      productTitle
+      productRefId
+      refId
+      ean
+      name
+      skuName
+      seller
+      itemColor
+      itemSize
+      priceValidUntil
+      tax
+      price
+      listPrice
+      sellingPrice
+      priceWithDiscount
+      discountPercent
+      discountApi
+      rewardValue
+      isGift
+      isAddedAsGift
+      giftOfferingId
+      isGiftable
+      disableCounter
+      showFirstPurchaseDiscountMessage
+      showTotalDiscountFirstPurchaseValue
+      quantity
+      isAssinaturaSimples
+      imageUrl
+      detailUrl
+      bundleItems {
+        uniqueId
+        id
+        name
+      }
+      offerings {
+        type
+        id
+        name
+        allowGiftMessage
+        attachmentOfferings {
+          name
+          required
+        }
+      }
+      availability
+      measurementUnit
+      unitMultiplier
+      imageSource
+    }
+    selectableGift {
+      id
+      availableQuantity
+      giftOptions {
+        id
+        color
+        size
+      }
+      currentSelectableGift {
+        isSelected
+        uniqueId
+        id
+        productId
+        productRefId
+        imageUrl
+        detailUrl
+        availability
+        measurementUnit
+        unitMultiplier
+        refId
+        ean
+        name
+        skuName
+        seller
+        tax
+        rewardValue
+        isGift
+      }
+      availableGifts {
+        isSelected
+        uniqueId
+        id
+        productId
+        productRefId
+        imageUrl
+        detailUrl
+        availability
+        measurementUnit
+        unitMultiplier
+        refId
+        ean
+        name
+        skuName
+        seller
+        tax
+        rewardValue
+        isGift
+      }
+    }
+    marketingData {
+      utmSource
+      utmMedium
+      utmCampaign
+      utmipage
+      utmiPart
+      utmiCampaign
+      coupon
+      sellerCoupon
+      sellerCouponName
+      marketingTags
+    }
+    shippingData {
+      address {
+        addressType
+        receiverName
+        addressId
+        isDisposable
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        reference
+        geoCoordinates
+      }
+      availableAddresses {
+        addressType
+        receiverName
+        addressId
+        isDisposable
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        reference
+        geoCoordinates
+      }
+      selectedAddresses {
+        addressType
+        receiverName
+        addressId
+        isDisposable
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        reference
+        geoCoordinates
+      }
+    }
+    appTotalizers {
+      items
+      discount
+      delivery
+      total
+    }
+    installmentInfo {
+      installmentsNumber
+      installmentPrice
+      totalPrice
+    }
+    allItemsQuantity
   }
 }
-    ${InitialOrderFormFragmentFragmentDoc}`;
+    `;
 export type OrderFormRefreshDataMutationFn = Apollo.MutationFunction<OrderFormRefreshDataMutation, OrderFormRefreshDataMutationVariables>;
 
 /**
@@ -1716,7 +2221,7 @@ export type OrderFormRefreshDataMutationFn = Apollo.MutationFunction<OrderFormRe
  * @example
  * const [orderFormRefreshDataMutation, { data, loading, error }] = useOrderFormRefreshDataMutation({
  *   variables: {
- *      orderFormId: // value for 'orderFormId'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -1973,6 +2478,250 @@ export function useOrderFormUpdateItemMutation(baseOptions?: Apollo.MutationHook
 export type OrderFormUpdateItemMutationHookResult = ReturnType<typeof useOrderFormUpdateItemMutation>;
 export type OrderFormUpdateItemMutationResult = Apollo.MutationResult<OrderFormUpdateItemMutation>;
 export type OrderFormUpdateItemMutationOptions = Apollo.BaseMutationOptions<OrderFormUpdateItemMutation, OrderFormUpdateItemMutationVariables>;
+export const ProfileUpdateDocument = gql`
+    mutation profileUpdate($input: ProfileUpdateInput!) {
+  profile(input: $input) {
+    ...ProfileFragment
+  }
+}
+    ${ProfileFragmentFragmentDoc}`;
+export type ProfileUpdateMutationFn = Apollo.MutationFunction<ProfileUpdateMutation, ProfileUpdateMutationVariables>;
+
+/**
+ * __useProfileUpdateMutation__
+ *
+ * To run a mutation, you first call `useProfileUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProfileUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [profileUpdateMutation, { data, loading, error }] = useProfileUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useProfileUpdateMutation(baseOptions?: Apollo.MutationHookOptions<ProfileUpdateMutation, ProfileUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProfileUpdateMutation, ProfileUpdateMutationVariables>(ProfileUpdateDocument, options);
+      }
+export type ProfileUpdateMutationHookResult = ReturnType<typeof useProfileUpdateMutation>;
+export type ProfileUpdateMutationResult = Apollo.MutationResult<ProfileUpdateMutation>;
+export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<ProfileUpdateMutation, ProfileUpdateMutationVariables>;
+export const ProfileAddressDocument = gql`
+    mutation profileAddress($input: UpsertProfileAddressInput!) {
+  profileAddress(input: $input) {
+    id
+    receiverName
+    number
+    city
+    complement
+    postalCode
+    state
+    street
+    neighborhood
+    country
+    reference
+    addressName
+    addressType
+  }
+}
+    `;
+export type ProfileAddressMutationFn = Apollo.MutationFunction<ProfileAddressMutation, ProfileAddressMutationVariables>;
+
+/**
+ * __useProfileAddressMutation__
+ *
+ * To run a mutation, you first call `useProfileAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProfileAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [profileAddressMutation, { data, loading, error }] = useProfileAddressMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useProfileAddressMutation(baseOptions?: Apollo.MutationHookOptions<ProfileAddressMutation, ProfileAddressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProfileAddressMutation, ProfileAddressMutationVariables>(ProfileAddressDocument, options);
+      }
+export type ProfileAddressMutationHookResult = ReturnType<typeof useProfileAddressMutation>;
+export type ProfileAddressMutationResult = Apollo.MutationResult<ProfileAddressMutation>;
+export type ProfileAddressMutationOptions = Apollo.BaseMutationOptions<ProfileAddressMutation, ProfileAddressMutationVariables>;
+export const ProfileAddressRemoveDocument = gql`
+    mutation profileAddressRemove($input: RemoveProfileAddressInput!) {
+  profileAddressRemove(input: $input)
+}
+    `;
+export type ProfileAddressRemoveMutationFn = Apollo.MutationFunction<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>;
+
+/**
+ * __useProfileAddressRemoveMutation__
+ *
+ * To run a mutation, you first call `useProfileAddressRemoveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProfileAddressRemoveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [profileAddressRemoveMutation, { data, loading, error }] = useProfileAddressRemoveMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useProfileAddressRemoveMutation(baseOptions?: Apollo.MutationHookOptions<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>(ProfileAddressRemoveDocument, options);
+      }
+export type ProfileAddressRemoveMutationHookResult = ReturnType<typeof useProfileAddressRemoveMutation>;
+export type ProfileAddressRemoveMutationResult = Apollo.MutationResult<ProfileAddressRemoveMutation>;
+export type ProfileAddressRemoveMutationOptions = Apollo.BaseMutationOptions<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>;
+export const RecoverPasswordResetDocument = gql`
+    mutation recoverPasswordReset($input: ResetVtexPasswordInput!) {
+  recoverPasswordReset(input: $input) {
+    token
+    authCookie
+  }
+}
+    `;
+export type RecoverPasswordResetMutationFn = Apollo.MutationFunction<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>;
+
+/**
+ * __useRecoverPasswordResetMutation__
+ *
+ * To run a mutation, you first call `useRecoverPasswordResetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRecoverPasswordResetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [recoverPasswordResetMutation, { data, loading, error }] = useRecoverPasswordResetMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRecoverPasswordResetMutation(baseOptions?: Apollo.MutationHookOptions<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>(RecoverPasswordResetDocument, options);
+      }
+export type RecoverPasswordResetMutationHookResult = ReturnType<typeof useRecoverPasswordResetMutation>;
+export type RecoverPasswordResetMutationResult = Apollo.MutationResult<RecoverPasswordResetMutation>;
+export type RecoverPasswordResetMutationOptions = Apollo.BaseMutationOptions<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>;
+export const RecoverPasswordVerificationCodeDocument = gql`
+    mutation recoverPasswordVerificationCode($input: RequestVerificationCodeInput!) {
+  recoverPasswordVerificationCode(input: $input) {
+    ok
+    cookies
+  }
+}
+    `;
+export type RecoverPasswordVerificationCodeMutationFn = Apollo.MutationFunction<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>;
+
+/**
+ * __useRecoverPasswordVerificationCodeMutation__
+ *
+ * To run a mutation, you first call `useRecoverPasswordVerificationCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRecoverPasswordVerificationCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [recoverPasswordVerificationCodeMutation, { data, loading, error }] = useRecoverPasswordVerificationCodeMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRecoverPasswordVerificationCodeMutation(baseOptions?: Apollo.MutationHookOptions<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>(RecoverPasswordVerificationCodeDocument, options);
+      }
+export type RecoverPasswordVerificationCodeMutationHookResult = ReturnType<typeof useRecoverPasswordVerificationCodeMutation>;
+export type RecoverPasswordVerificationCodeMutationResult = Apollo.MutationResult<RecoverPasswordVerificationCodeMutation>;
+export type RecoverPasswordVerificationCodeMutationOptions = Apollo.BaseMutationOptions<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>;
+export const RedefinePasswordDocument = gql`
+    mutation redefinePassword($input: RedefineVtexPasswordInput!) {
+  redefinePassword(input: $input) {
+    token
+    authCookie
+  }
+}
+    `;
+export type RedefinePasswordMutationFn = Apollo.MutationFunction<RedefinePasswordMutation, RedefinePasswordMutationVariables>;
+
+/**
+ * __useRedefinePasswordMutation__
+ *
+ * To run a mutation, you first call `useRedefinePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRedefinePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [redefinePasswordMutation, { data, loading, error }] = useRedefinePasswordMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRedefinePasswordMutation(baseOptions?: Apollo.MutationHookOptions<RedefinePasswordMutation, RedefinePasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RedefinePasswordMutation, RedefinePasswordMutationVariables>(RedefinePasswordDocument, options);
+      }
+export type RedefinePasswordMutationHookResult = ReturnType<typeof useRedefinePasswordMutation>;
+export type RedefinePasswordMutationResult = Apollo.MutationResult<RedefinePasswordMutation>;
+export type RedefinePasswordMutationOptions = Apollo.BaseMutationOptions<RedefinePasswordMutation, RedefinePasswordMutationVariables>;
+export const RefreshTokenDocument = gql`
+    mutation refreshToken {
+  refreshToken {
+    token
+    authCookie
+  }
+}
+    `;
+export type RefreshTokenMutationFn = Apollo.MutationFunction<RefreshTokenMutation, RefreshTokenMutationVariables>;
+
+/**
+ * __useRefreshTokenMutation__
+ *
+ * To run a mutation, you first call `useRefreshTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefreshTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refreshTokenMutation, { data, loading, error }] = useRefreshTokenMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRefreshTokenMutation(baseOptions?: Apollo.MutationHookOptions<RefreshTokenMutation, RefreshTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RefreshTokenMutation, RefreshTokenMutationVariables>(RefreshTokenDocument, options);
+      }
+export type RefreshTokenMutationHookResult = ReturnType<typeof useRefreshTokenMutation>;
+export type RefreshTokenMutationResult = Apollo.MutationResult<RefreshTokenMutation>;
+export type RefreshTokenMutationOptions = Apollo.BaseMutationOptions<RefreshTokenMutation, RefreshTokenMutationVariables>;
 export const RemoveUserMutationDocument = gql`
     mutation removeUserMutation($customerId: String!) {
   removeCustomer(customerId: $customerId)
@@ -2040,6 +2789,108 @@ export function useSendLeadsMutation(baseOptions?: Apollo.MutationHookOptions<Se
 export type SendLeadsMutationHookResult = ReturnType<typeof useSendLeadsMutation>;
 export type SendLeadsMutationResult = Apollo.MutationResult<SendLeadsMutation>;
 export type SendLeadsMutationOptions = Apollo.BaseMutationOptions<SendLeadsMutation, SendLeadsMutationVariables>;
+export const SignInDocument = gql`
+    mutation signIn($input: SignInInput!) {
+  signIn(input: $input) {
+    token
+    authCookie
+  }
+}
+    `;
+export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMutationVariables>;
+
+/**
+ * __useSignInMutation__
+ *
+ * To run a mutation, you first call `useSignInMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignInMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signInMutation, { data, loading, error }] = useSignInMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
+      }
+export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
+export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
+export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
+export const SignUpDocument = gql`
+    mutation signUp($input: SignUpUserInput!) {
+  signUp(input: $input) {
+    token
+    authCookie
+  }
+}
+    `;
+export type SignUpMutationFn = Apollo.MutationFunction<SignUpMutation, SignUpMutationVariables>;
+
+/**
+ * __useSignUpMutation__
+ *
+ * To run a mutation, you first call `useSignUpMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignUpMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signUpMutation, { data, loading, error }] = useSignUpMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<SignUpMutation, SignUpMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument, options);
+      }
+export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
+export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
+export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
+export const SignUpVerificationCodeDocument = gql`
+    mutation signUpVerificationCode($input: RequestVerificationCodeInput!) {
+  signUpVerificationCode(input: $input) {
+    ok
+    cookies
+  }
+}
+    `;
+export type SignUpVerificationCodeMutationFn = Apollo.MutationFunction<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>;
+
+/**
+ * __useSignUpVerificationCodeMutation__
+ *
+ * To run a mutation, you first call `useSignUpVerificationCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignUpVerificationCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signUpVerificationCodeMutation, { data, loading, error }] = useSignUpVerificationCodeMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSignUpVerificationCodeMutation(baseOptions?: Apollo.MutationHookOptions<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>(SignUpVerificationCodeDocument, options);
+      }
+export type SignUpVerificationCodeMutationHookResult = ReturnType<typeof useSignUpVerificationCodeMutation>;
+export type SignUpVerificationCodeMutationResult = Apollo.MutationResult<SignUpVerificationCodeMutation>;
+export type SignUpVerificationCodeMutationOptions = Apollo.BaseMutationOptions<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>;
 export const SubscribeNewsletterDocument = gql`
     mutation subscribeNewsletter($input: SubscribeNewsletterInput!) {
   subscribeNewsletter(input: $input)
@@ -2548,6 +3399,43 @@ export type ProductRecommendationsLazyQueryHookResult = ReturnType<typeof usePro
 export type ProductRecommendationsQueryResult = Apollo.QueryResult<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>;
 export function refetchProductRecommendationsQuery(variables?: ProductRecommendationsQueryVariables) {
       return { query: ProductRecommendationsDocument, variables: variables }
+    }
+export const ProfileDocument = gql`
+    query profile {
+  profile {
+    ...ProfileFragment
+  }
+}
+    ${ProfileFragmentFragmentDoc}`;
+
+/**
+ * __useProfileQuery__
+ *
+ * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProfileQuery(baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+      }
+export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+        }
+export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
+export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
+export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export function refetchProfileQuery(variables?: ProfileQueryVariables) {
+      return { query: ProfileDocument, variables: variables }
     }
 export const RonRedirectDocument = gql`
     query ronRedirect($code: String!) {

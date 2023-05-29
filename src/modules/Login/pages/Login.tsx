@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -12,16 +11,18 @@ import * as Yup from 'yup';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
-import {
-  classicSignInMutation,
-  sendEmailVerificationMutation,
-} from '../../../graphql/login/loginMutations';
+
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
 import useDitoStore from '../../../zustand/useDitoStore';
 import testProps from '../../../utils/testProps';
+import {
+  useRecoverPasswordVerificationCodeMutation,
+  useSignInMutation,
+} from '../../../base/graphql/generated';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
 enum CryptType {
   SHA256 = 3,
@@ -30,7 +31,6 @@ enum CryptType {
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export const LoginScreen: React.FC<Props> = ({
-  children,
   route,
   navigation,
 }) => {
@@ -54,10 +54,16 @@ export const LoginScreen: React.FC<Props> = ({
   const [loginWithCode] = useState(false);
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
 
-  const [login, { data, loading }] = useMutation(classicSignInMutation);
-  const [sendEmail, { loading: loadingSendMail }] = useMutation(sendEmailVerificationMutation);
+  const [sendEmail, { loading: loadingSendMail }] = useRecoverPasswordVerificationCodeMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
-  const { identifyCustomer } = useCart();
+  const [doSignIn, {
+    data: dataSignIn, loading: loadingSignIn, error: errorSignIn,
+  }] = useSignInMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+  const { setItem } = useAsyncStorageProvider();
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -70,6 +76,35 @@ export const LoginScreen: React.FC<Props> = ({
     });
   };
 
+  const onSignIn = useCallback(async (email: string, password: string) => {
+    try {
+      const { data } = await doSignIn({
+        variables: {
+          input: {
+            email,
+            password,
+          },
+        },
+      });
+      if (data?.signIn?.token && data?.signIn?.authCookie) {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        const expires = date.getTime();
+
+        await setItem('@RNAuth:NextRefreshTime', expires);
+        await AsyncStorage.setItem('@RNAuth:Token', data?.signIn?.token);
+        await AsyncStorage.setItem('@RNAuth:cookie', data?.signIn?.authCookie);
+        setCookie(data?.signIn?.authCookie);
+        navigation.navigate('Home');
+      }
+    } catch (err) {
+      EventProvider.captureException(err);
+      validateCredentials();
+    }
+  }, []);
+
+  const { identifyCustomer } = useCart();
+
   const removeMessageErrorEmail = () => {
     setLoginCredentials({
       ...loginCredentials,
@@ -79,20 +114,16 @@ export const LoginScreen: React.FC<Props> = ({
   };
   const handleLogin = async () => {
     if (emailIsValid && passwordIsValid) {
+      setIsLoadingEmail(true);
       const email = loginCredentials.username.trim().toLowerCase();
+      const { password } = loginCredentials;
+      await onSignIn(email, password).finally(() => { setIsLoadingEmail(false); });
 
-      const { data, errors } = await login({
-        variables: {
-          email,
-          password: loginCredentials.password,
-        },
-      });
-
-      if (data.classicSignIn === 'Success') {
+      if (!errorSignIn) {
         setIsLogged(true);
         const emailHash = await sha256(email);
 
-        saveCredentials({
+        await saveCredentials({
           email,
           password: loginCredentials.password,
         });
@@ -102,7 +133,7 @@ export const LoginScreen: React.FC<Props> = ({
         EventProvider.appsFlyer.logEvent(
           'af_login',
           {},
-          (res) => { },
+          () => { },
           (error) => {
             EventProvider.captureException(error);
           },
@@ -113,7 +144,7 @@ export const LoginScreen: React.FC<Props> = ({
             emails: [emailHash],
             emailsCryptType: CryptType.SHA256,
           },
-          (success) => { },
+          () => { },
           (error) => {
             EventProvider.captureException(error);
           },
@@ -140,10 +171,12 @@ export const LoginScreen: React.FC<Props> = ({
       removeMessageErrorEmail();
       sendEmail({
         variables: {
-          email: loginCredentials.username,
+          input: {
+            email: loginCredentials.username,
+          },
         },
-      }).then((data) => {
-        saveCredentials(null);
+      }).then(async () => {
+        await saveCredentials(null);
         navigation.navigate('AccessCode', {
           email: loginCredentials.username,
         });
@@ -175,19 +208,19 @@ export const LoginScreen: React.FC<Props> = ({
     }
   }
 
-  const ClientDelivery = async () => {
-    if (!loading && data?.cookie) {
-      setCookie(data?.cookie);
-      AsyncStorage.setItem('@RNAuth:cookie', data?.cookie).then(() => {
-        if (comeFrom === 'Checkout') {
-          verifyUserEmail();
-          return;
-        }
-
-        navigation.navigate('Home');
-      });
+  const ClientDelivery = useCallback(async () => {
+    if (loadingSignIn) {
+      return;
     }
-  };
+    try {
+      if (comeFrom === 'Checkout') {
+        verifyUserEmail();
+        return;
+      }
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
+  }, [dataSignIn]);
 
   const handleNavigatePreviusPage = useCallback(() => {
     if (previousPage) {
@@ -200,7 +233,7 @@ export const LoginScreen: React.FC<Props> = ({
 
   useEffect(() => {
     ClientDelivery();
-  }, [data]);
+  }, [dataSignIn]);
 
   useEffect(() => {
     EventProvider.sentry.configureScope((scope) => scope.setTransactionName('LoginScreen'));
@@ -308,31 +341,9 @@ export const LoginScreen: React.FC<Props> = ({
             title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
             inline
             variant="primarioEstreitoOutline"
-            disabled={loadingSendMail || loading || isLoadingEmail}
+            disabled={loadingSendMail || loadingSignIn || isLoadingEmail}
             onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
           />
-          {/* }
-          <Box my={50}>
-            <Typography variant="tituloSessao" textAlign="center">
-              OU
-            </Typography>
-          </Box>
-          <Button
-            title={
-              loginWithCode
-                ? 'ENTRAR COM LOGIN E SENHA'
-                : 'RECEBER CÓDIGO DE ACESSO'
-            }
-            inline
-            variant="primarioEstreitoOutline"
-            onPress={() => {
-              setLoginWithCode(!loginWithCode);
-
-              // remove a mensagem de erro do campo email
-              removeMessageErrorEmail();
-            }}
-          />
-          */}
 
           <Box
             flexDirection="row"
@@ -365,7 +376,7 @@ export const LoginScreen: React.FC<Props> = ({
             title="CADASTRE-SE"
             inline
             variant="primarioEstreito"
-            disabled={loadingSendMail || loading || isLoadingEmail}
+            disabled={loadingSendMail || loadingSignIn || isLoadingEmail}
             onPress={() => {
               navigation.navigate('RegisterEmail', {});
             }}

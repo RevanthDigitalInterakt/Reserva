@@ -4,29 +4,9 @@ import { MockedProvider } from '@apollo/client/testing';
 import AsyncStorage from '@react-native-community/async-storage';
 import AsyncStorageMock from '@react-native-community/async-storage/jest/async-storage-mock';
 import useController from '../controller/useController';
-import CartContextProvider from '../../../../context/CartContext';
-import { deleteAddress as DELETE_ADDRESS_QUERY } from '../../../../graphql/address/addressMutations';
 import AuthContextProvider from '../../../../context/AuthContext';
-import { IdentifyCustomer } from '../../../../services/vtexService';
-import { profileQuery as PROFILE_QUERY } from '../../../../graphql/profile/profileQuery';
-
-jest.mock('../../../../services/vtexService', () => ({
-  ...jest.requireActual('../../../../services/vtexService'),
-  IdentifyCustomer: jest.fn().mockResolvedValue({
-    data: {
-      orderFormId: '128adb08596442708ee89e2a0f561321',
-      clientProfileData: {
-        firstName: 'Tester',
-      },
-    },
-  }),
-  ResetUserCheckout: jest.fn().mockResolvedValue(true),
-  CreateCart: jest.fn().mockResolvedValue({
-    data: {
-      orderFormId: '128adb08596442708ee89e2a0f561321',
-    },
-  }),
-}));
+import { ProfileDocument as PROFILE_QUERY, ProfileAddressRemoveDocument as DELETE_ADDRESS_QUERY } from '../../../../base/graphql/generated';
+import CartContextProvider, { CartContext } from '../../../../context/CartContext';
 
 AsyncStorageMock.getItem = jest.fn((key) => {
   if (key === '@RNAuth:RSAKey') {
@@ -39,21 +19,35 @@ AsyncStorageMock.getItem = jest.fn((key) => {
 });
 
 describe('AddressList - controller', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
   it('should successfully call doDeleteAddress', async () => {
     const mockProfile = {
-      __typename:
-        'vtex_storegraphql_2_160_0_Profile',
-      addresses: [[{}]],
-      birthDate: '1980-01-01T00:00:00.000Z',
-      customFields: [[{}], [{}], [{}]],
-      document: '11111111111',
-      email: 'nogueirahy@gmail.com',
-      firstName: 'Tester',
-      gender: 'male',
-      homePhone: '+5511991111111',
-      lastName: 'Silva',
-      payments: null,
-      userId: '4d35c3cf-d4a1-4c52-a421-66d8f97f1b10',
+      __typename: 'ProfileOutput',
+      addresses: [
+        {
+          __typename: 'ProfileAddressOutput',
+          addressName: 'nuuzjm6dd2k',
+          addressType: 'residential',
+          city: 'Pindamonhangaba',
+          complement: 'casa',
+          country: 'BRA',
+          id: 'nuuzjm6dd2k',
+          neighborhood: 'Residencial Mantiqueira',
+          number: '500',
+          postalCode: '12446300',
+          receiverName: 'Teste Receber',
+          reference: '',
+          state: 'SP',
+          street: 'Rua Reinaldo de Oliveira Santos',
+        },
+      ],
+      id: '316438e9-d825-44d2-8f0a-94ceea768ea3',
     };
 
     const mocks = [
@@ -61,16 +55,14 @@ describe('AddressList - controller', () => {
         request: {
           query: DELETE_ADDRESS_QUERY,
           variables: {
-            id: '12345',
+            input: {
+              addressId: 'nuuzjm6dd2k',
+            },
           },
         },
         result: {
           data: {
-            deleteAddress:
-            {
-              __typename: 'vtex_storegraphql_2_160_0_Profile',
-              userId: '4d35c3cf-d4a1-4c52-a421-66d8f97f1b10',
-            },
+            profileAddressRemove: true,
           },
         },
       },
@@ -88,6 +80,60 @@ describe('AddressList - controller', () => {
       },
     ];
 
+    const MockedCartContext = ({ children }: { children: React.ReactNode }) => (
+      <CartContext.Provider value={{
+        refreshOrderFormData: jest.fn().mockResolvedValue({ orderFormId: '50e2a3c1631046feabb90e13f55e66cb' }),
+        identifyCustomer: jest.fn().mockResolvedValue(true),
+      }}
+      >
+        {children}
+      </CartContext.Provider>
+    );
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <MockedProvider mocks={mocks}>
+        <MockedCartContext>
+          <AuthContextProvider>
+            {children}
+          </AuthContextProvider>
+        </MockedCartContext>
+      </MockedProvider>
+    );
+
+    const { result } = renderHook(() => useController(), { wrapper });
+
+    await act(async () => {
+      await result.current.openModalDeleteAddress('nuuzjm6dd2k');
+      await result.current.doDeleteAddress();
+    });
+    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(1, '@RNAuth:RSAKey');
+    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(2, '@RNAuth:cookie');
+    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(3, '@RNAuth:cookie');
+    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(4, '@RNAuth:email');
+
+    expect(result.current.profileData).toEqual(mockProfile);
+  });
+  it('should error call doDeleteAddress', async () => {
+    const mocks = [
+      {
+        request: {
+          query: DELETE_ADDRESS_QUERY,
+          variables: {
+            input: {
+              addressId: '',
+            },
+          },
+        },
+        result: {
+          errors: [
+            {
+              message: 'Variable "$input" of required type "RemoveProfileAddressInput!" was not provided.',
+            },
+          ],
+        },
+      },
+    ];
+
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MockedProvider mocks={mocks}>
         <CartContextProvider>
@@ -101,18 +147,11 @@ describe('AddressList - controller', () => {
     const { result } = renderHook(() => useController(), { wrapper });
 
     await act(async () => {
-      await result.current.openModalDeleteAddress('12345');
+      await result.current.openModalDeleteAddress('');
       await result.current.doDeleteAddress();
     });
 
-    const expectedOrderFormId = undefined;
-
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(1, '@RNAuth:RSAKey');
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(2, '@RNAuth:cookie');
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(3, '@RNAuth:cookie');
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(4, '@RNAuth:email');
-
-    expect(IdentifyCustomer).toHaveBeenCalledWith(expectedOrderFormId, 'test123@gmail.com');
-    expect(result.current.profileData).toEqual(mockProfile);
+    const hasError = result.current.hasDeleteAddressError;
+    expect(hasError).toEqual(true);
   });
 });

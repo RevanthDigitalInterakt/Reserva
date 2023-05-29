@@ -4,7 +4,6 @@ import { genderPtToEng } from '../pages/EditProfile/components/FormEditProfile/s
 export interface IUserDataUpload {
   firstName: string;
   lastName: string;
-  email: string;
   document: string;
   birthDate: string;
   homePhone: string;
@@ -20,7 +19,6 @@ const generatePayloadToUploadUserData = (
   return {
     firstName: firstName!,
     lastName: rest.join(' '),
-    email: userData.email,
     document: userData.document.replace(/[^\d]+/g, ''),
     birthDate: splittedBirthDate?.reverse().join('-'),
     homePhone: userData.cellPhone.replace(/[^\d+]+/g, ''),

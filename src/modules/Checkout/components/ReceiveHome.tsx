@@ -4,14 +4,14 @@ import React, {
 import { Typography, Box, Alert } from '@usereservaapp/reserva-ui';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { useLazyQuery, useMutation } from '@apollo/client';
 import { useAuth } from '../../../context/AuthContext';
 import DeliverySelector from './DeliverySelector';
 import { useCart } from '../../../context/CartContext';
-import { deleteAddress } from '../../../graphql/address/addressMutations';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
 import formatString from '../../../utils/formatString';
 import AddressSelector from '../../Address/Components/AddressSelector';
+import {
+  useProfileAddressRemoveMutation,
+} from '../../../base/graphql/generated';
 
 interface IReceiveHome {
   typeOfDelivery: any[];
@@ -34,45 +34,24 @@ const ReceiveHome = ({
   shippingValue,
   loading,
 }: IReceiveHome) => {
-  const { cookie, setCookie, email } = useAuth();
+  const { cookie, email } = useAuth();
   const [selectedId, setSelectedId] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
   const [addressId, setAddressId] = useState('');
   const navigation = useNavigation();
-  const [editAndDelete, setEditAndDelete] = useState<boolean>(false);
   const { identifyCustomer, orderForm } = useCart();
   const modalRef = useRef(false);
   const [successModal, setSuccessModal] = useState(false);
-  const [
-    addressDelete,
-    { error: deleteAddressError, loading: loadingAddressDelete },
-  ] = useMutation(deleteAddress);
 
-  const [{ data, loadingProfile }, setDataProfile] = useState({
-    data: null,
-    loadingProfile: true,
+  const [profileAddressRemove, { error: deleteAddressError }] = useProfileAddressRemoveMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
-  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
     if (selectedAddress) {
       setSelectedId(selectedAddress.addressId);
     }
   }, [selectedAddress]);
-
-  const refetch = async () => {
-    setDataProfile({
-      loadingProfile: true,
-      data: null,
-    });
-
-    await getProfile().then((res) => {
-      setDataProfile({
-        loadingProfile: false,
-        data: res.data,
-      });
-    });
-  };
 
   return (
     <>
@@ -84,23 +63,24 @@ const ReceiveHome = ({
         title="Excluir endereço"
         subtitle="Tem certeza que deseja excluir este endereço da sua conta?"
         confirmText="SIM"
-        cancelText="NÃO"
         onConfirm={async () => {
           modalRef.current = true;
-          const data = await addressDelete({
+          const { data } = await profileAddressRemove({
             variables: {
-              id: addressId,
+              input: {
+                addressId,
+              },
             },
           });
           setDeleteModal(false);
 
-          // reset shippingData of orderform
-          if (data) {
-            if (email) {
+          if (data?.profileAddressRemove) {
+            if (email && orderForm?.orderFormId) {
               await identifyCustomer(email);
             }
           }
         }}
+        cancelText="NÃO"
         onCancel={() => {
           setDeleteModal(false);
         }}
@@ -128,13 +108,11 @@ const ReceiveHome = ({
           onConfirm={() => {
             modalRef.current = false;
             setSuccessModal(false);
-            refetch();
           }}
           onClose={() => {
             modalRef.current = false;
             setSuccessModal(false);
             setDeleteModal(false);
-            refetch();
           }}
         />
       )}

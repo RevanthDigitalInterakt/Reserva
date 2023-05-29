@@ -1,0 +1,6 @@
+mutation signUpVerificationCode($input: RequestVerificationCodeInput!) {
+  signUpVerificationCode(input: $input) {
+    ok
+    cookies
+  }
+}

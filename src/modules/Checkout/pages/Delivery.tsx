@@ -1,4 +1,3 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { useFocusEffect } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -10,25 +9,35 @@ import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
 import Sentry from '../../../config/sentryConfig';
 import EventProvider from '../../../utils/EventProvider';
-import { saveAddressMutation } from '../../../graphql/address/addressMutations';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { getBrands } from '../../../utils/getBrands';
 import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import {
+  ProfileOutput,
+  useOrderFormRefreshDataMutation,
+  useProfileAddressMutation,
+  useProfileLazyQuery,
+} from '../../../base/graphql/generated';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
+
+type TProfileData = {
+  refetch: () => void;
+  data: ProfileOutput | null
+  loadingProfile: boolean
+};
 
 const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const { comeFrom } = route.params;
 
   const {
-    orderForm, addShippingOrPickupInfo, orderform, addShippingData,
+    orderForm, addShippingOrPickupInfo, orderform,
   } = useCart();
 
   const { cookie } = useAuth();
@@ -38,29 +47,41 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [selectedDelivery, setSelectedDelivery] = useState<any>(null);
-  const [profile, setProfile] = useState<any>({});
   const [typeOfDelivery, setTypeOfDelivery] = useState<any>([]);
   const [pickupPoint, setPickupPoint] = useState<any>();
   const [businessHours, setBusinessHours] = useState<any>([]);
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [saveAddress] = useMutation(saveAddressMutation);
+  const [profileAddress] = useProfileAddressMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
-  const [{ data, loadingProfile, refetch }, setProfileData] = useState({
+  const [{ data, loadingProfile, refetch }, setProfileData] = useState<TProfileData>({
     refetch: () => { },
-    data: {} as any,
+    data: null,
     loadingProfile: true,
   });
 
-  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
+  const [getProfile] = useProfileLazyQuery({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+
+  const [orderFormRefreshData] = useOrderFormRefreshDataMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
   useEffect(() => {
-    getProfile().then((response) => setProfileData({
-      refetch: response.refetch,
-      data: response.data,
-      loadingProfile: false,
-    }));
+    getProfile().then((response) => {
+      if (response?.data) {
+        const { profile: responseProfile } = response?.data;
+        setProfileData({
+          refetch: response.refetch,
+          data: responseProfile,
+          loadingProfile: false,
+        });
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -69,14 +90,9 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     if (data) {
-      const { profile } = data;
-      if (profile) {
-        setProfile(profile);
-
-        Sentry.setUser({
-          address: profile?.addresses,
-        });
-      }
+      Sentry.setUser({
+        address: data?.addresses,
+      });
       orderform();
     }
   }, [data]);
@@ -89,7 +105,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     }, [data]),
   );
 
-  // permissão para acessar o mapa
   const requestMap = async () => {
     try {
       const lacationAlways = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
@@ -107,7 +122,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     } catch (error) { }
   };
 
-  // permissão para acessar o mapa
   const CkeckmapPermission = async () => {
     try {
       const check = await checkMultiple([
@@ -308,19 +322,19 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         if (x.deliveryChannel === 'delivery') return true;
         return false;
       })
-      : orderForm?.shippingData?.logisticsInfo[0]?.slas?.filter((x) => {
+      : orderForm?.shippingData?.logisticsInfo?.[0]?.slas?.filter((x) => {
         if (x.deliveryChannel === 'delivery') return true;
         return false;
       });
 
-    const valueShipping = orderForm?.shippingData?.logisticsInfo.map(
+    const valueShipping = orderForm?.shippingData?.logisticsInfo?.map(
       (item: any) => {
-        const valuePrice = item.slas?.find((sla: any) => {
+        const valuePrice = item?.slas?.find((sla: any) => {
           if (sla.id === 'Padrão') {
             return sla;
           }
         });
-        const value = valuePrice || item.slas[0];
+        const value = valuePrice || item?.slas[0];
         return value?.price;
       },
     );
@@ -329,7 +343,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
     setShippingValue(shippingPrice);
 
-    const pickupPoint = orderForm?.shippingData?.logisticsInfo[0]?.slas.filter(
+    const pickupPoint = orderForm?.shippingData?.logisticsInfo?.[0]?.slas.filter(
       (x) => {
         if (x.deliveryChannel === 'pickup-in-point') return true;
         return false;
@@ -342,8 +356,8 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         (prev: any, curr: any) => (prev.pickupDistance <= curr.pickupDistance ? prev : curr),
         0,
       );
-      const businessHours = orderForm?.shippingData?.pickupPoints.find(
-        (x) => x.id === closer.pickupPointId,
+      const businessHours = orderForm?.shippingData?.pickupPoints?.find(
+        (x) => x.id === closer?.pickupPointId,
       );
       setPickupPoint(closer);
       setBusinessHours(businessHours?.businessHours);
@@ -359,14 +373,14 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     if (!selectMethodDelivery) {
       const availableAddressesOrderForm = orderForm
         && orderForm?.shippingData
-        && orderForm?.shippingData.availableAddresses.map((a) => ({
+        && orderForm?.shippingData?.availableAddresses?.map((a) => ({
           ...a,
           country: 'BRA',
         }));
 
       const selectedAddressOrderFom = orderForm
         && orderForm?.shippingData
-        && orderForm?.shippingData.selectedAddresses[0];
+        && orderForm?.shippingData?.selectedAddresses?.[0];
 
       if (
         availableAddressesOrderForm
@@ -392,13 +406,16 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
         setAddresses(sortAddresses);
         setSelectedAddress(selectedAddressOrderFom);
+      } else {
+        setAddresses([]);
+        setSelectedAddress(null);
       }
     }
   };
 
   useEffect(() => {
     updateAddresses();
-  }, [profile, orderForm]);
+  }, [data, orderForm]);
 
   const handlePressBackButton = () => {
     if (comeFrom === 'Login') {
@@ -417,45 +434,31 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
     try {
       const receiverName = payload?.receiverName
-        ? payload.receiverName
-        : `${profile?.firstName} ${profile?.lastName}`;
-
-      const {
-        postalCode,
-        state,
-        number,
-        neighborhood,
-        complement,
-        city,
-        street,
-      } = payload;
+        ? payload?.receiverName
+        : `${data?.firstName} ${data?.lastName}`;
 
       // salvar endereço do usuário no orderform
-      const isAddressSaved = await addShippingData({
-        receiverName,
-        postalCode,
-        state,
-        number,
-        neighborhood,
-        complement,
-        city,
-        street,
-        addressType: 'residential',
-        country: 'BRA',
-      });
-
-      await saveAddress({
-        variables: {
-          fields: {
-            ...payload,
-            receiverName,
+      if (cookie) {
+        const { data: dataProfileAddress } = await profileAddress({
+          variables: {
+            input: {
+              ...payload,
+              receiverName,
+            },
           },
-        },
-      });
+        });
 
-      if (!isAddressSaved) {
-        feedbackErrorAlert();
-      } else {
+        if (!dataProfileAddress) {
+          feedbackErrorAlert();
+        } else if (orderForm?.orderFormId) {
+          await orderFormRefreshData({
+            variables: {
+              input: {
+                orderFormId: orderForm?.orderFormId,
+              },
+            },
+          });
+        }
         orderform();
       }
     } catch (e) {
@@ -582,8 +585,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
               mapPermission={mapPermission}
             />
           ) : (
-            !selectMethodDelivery
-            && profile && (
+            !selectMethodDelivery && (
               <ReceiveHome
                 loading={loading}
                 typeOfDelivery={typeOfDelivery}

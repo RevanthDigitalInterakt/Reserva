@@ -1,45 +1,57 @@
-import { useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import {
   Typography, Box, Button,
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import {
-  sendEmailVerificationMutation,
-} from '../../../graphql/login/loginMutations';
+
 import { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
+import { useRecoverPasswordVerificationCodeMutation } from '../../../base/graphql/generated';
+import EventProvider from '../../../utils/EventProvider';
 
 export interface ForgotEmailProps
   extends StackScreenProps<RootStackParamList, 'ForgotEmail'> {}
 
 export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
-  const { cookie, setCookie } = useAuth();
-  // const navigation = useNavigation();
-
+  const { setCookie } = useAuth();
   const [email, setEmail] = useState('');
+  const [hasError, setHasError] = useState(false);
 
-  const [sendEmailVerification, { data, loading }] = useMutation(
-    sendEmailVerificationMutation,
-  );
+  const [sendEmailVerification, { error }] = useRecoverPasswordVerificationCodeMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
-  const handleEmailAccess = () => {
-    sendEmailVerification({
-      variables: {
-        email,
-      },
-    }).then((x) => {
-      setCookie(x?.data?.cookie);
-      AsyncStorage.setItem('@RNAuth:cookie', x?.data?.cookie);
-      navigation.navigate('ForgotAccessCode', { email });
-    });
-  };
+  const handleEmailAccess = useCallback(async () => {
+    try {
+      const { data } = await sendEmailVerification({
+        variables: {
+          input: {
+            email,
+          },
+        },
+      });
+
+      if (data?.recoverPasswordVerificationCode?.cookies) {
+        setCookie(JSON.stringify(data?.recoverPasswordVerificationCode?.cookies));
+        await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(data?.recoverPasswordVerificationCode?.cookies));
+        navigation.navigate('ForgotAccessCode', { email });
+      }
+    } catch (e) {
+      EventProvider.captureException(e);
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (error) {
+      setHasError(true);
+    }
+  }, [error]);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
@@ -64,11 +76,20 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
             autoComplete="email"
             onChangeText={(text) => {
               setEmail(text);
+              if (!text.length) setHasError(false);
             }}
             accessibilityLabel="forgot_input_email"
             placeholder="Digite seu e-mail"
           />
         </Box>
+        { hasError
+          && (
+            <Box mt="quarck">
+              <Typography style={{ color: 'red' }} fontFamily="nunitoRegular" fontSize={13}>
+                Não há nenhum usuário cadastrado com o e-mail fornecido
+              </Typography>
+            </Box>
+          )}
         <Button
           mt={55}
           variant="primarioEstreito"

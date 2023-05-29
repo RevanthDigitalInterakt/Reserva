@@ -8,7 +8,7 @@ export interface IAddress {
   state: string;
   street: string;
   addressType?: string;
-  country?: string;
+  country: string;
 }
 
 export interface IEditAddress extends IAddress{

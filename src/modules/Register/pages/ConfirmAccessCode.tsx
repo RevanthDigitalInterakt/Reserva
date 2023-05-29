@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client';
 import {
   Box, Button, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
@@ -6,23 +5,21 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Platform, SafeAreaView, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
 import { useAuth } from '../../../context/AuthContext';
-import {
-  accessKeySignInMutation,
-  recoveryPasswordMutation,
-} from '../../../graphql/login/loginMutations';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
+import { useSignUpMutation } from '../../../base/graphql/generated';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
@@ -37,14 +34,12 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const {
     cookie, setCookie, setEmail, saveCredentials,
   } = useAuth();
-  const [loginWithCode, { data, loading }] = useMutation(
-    accessKeySignInMutation,
-  );
+  const [passwords, setPasswords] = useState({
+    first: '',
+    confirm: '',
+  });
+  const { setItem } = useAsyncStorageProvider();
 
-  const pasteCode = async () => {
-    const content = await Clipboard.getString();
-    setCode(content);
-  };
   const passwordCheckHandler = () => ({
     equal: passwords.first === passwords.confirm,
     digitsCount: passwords.first.length >= 8,
@@ -53,34 +48,56 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     number: passwords.first.match(/[0-9]/g) != null,
   });
 
+  const [passwordsChecker, setPasswordChecker] = useState(
+    passwordCheckHandler(),
+  );
+
+  const pasteCode = useCallback(async () => {
+    const content = await Clipboard.getString();
+    setCode(content);
+  }, []);
+
   const enabledButton = () => passwordsChecker.equal
     && passwordsChecker.digitsCount
     && passwordsChecker.uppercase
     && passwordsChecker.lowercase
     && passwordsChecker.number;
 
-  const [
-    createPassword,
-    { data: dataRecoveryPassword, loading: loadingRecoveryPassword, error },
-  ] = useMutation(recoveryPasswordMutation);
+  const [signUp, { data, loading, error }] = useSignUpMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
-  const handleCreatePassword = async () => {
+  const handleCreatePassword = useCallback(async () => {
     const variables = {
-      email,
-      code,
-      newPassword: passwords.confirm,
+      input: {
+        email,
+        code,
+        password: passwords.confirm,
+        cookies: [`${cookie}`],
+      },
     };
+
     if (error != null || code.length < 6) {
       setShowError(true);
     } else {
       setShowError(false);
     }
     try {
-      const { data } = await createPassword({ variables });
-      if (data.recoveryPassword === 'Success') {
-        saveCredentials({
+      const { data: dataSignUp } = await signUp({ variables });
+
+      if (dataSignUp?.signUp?.token && dataSignUp?.signUp?.authCookie) {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        const expires = date.getTime();
+
+        await setItem('@RNAuth:NextRefreshTime', expires);
+        await AsyncStorage.setItem('@RNAuth:Token', dataSignUp?.signUp?.token);
+        await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(dataSignUp?.signUp?.authCookie));
+
+        setCookie(dataSignUp?.signUp?.authCookie);
+        await saveCredentials({
           email,
-          password: passwords.confirm,
+          password: passwords?.confirm,
         });
 
         EventProvider.appsFlyer.logEvent(
@@ -103,37 +120,14 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         setShowError(true);
       }
     }
-  };
-
-  const [passwords, setPasswords] = useState({
-    first: '',
-    confirm: '',
-  });
-
-  const [passwordsChecker, setPasswordChecker] = useState(
-    passwordCheckHandler(),
-  );
-
-  const handleReset = () => {
-    if (code.length < 6) {
-      setShowError(true);
-    } else {
-      setShowError(false);
-    }
-    loginWithCode({
-      variables: {
-        email,
-        code: `${code}`,
-      },
-    });
-  };
+  }, [code, cookie, email, passwords.confirm]);
 
   useEffect(() => {
-    if (!loading && data?.cookie) {
+    if (!loading && data?.signUp?.token && cookie) {
       setShowError(false);
       navigation.navigate('ForgotNewPassword', { email, code });
     }
-    if (data?.accessKeySignIn === 'WrongCredentials') {
+    if (error) {
       setShowError(true);
     }
   }, [data]);

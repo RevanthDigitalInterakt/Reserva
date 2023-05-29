@@ -12,8 +12,8 @@ export interface IAsyncStorageKeys {
   isTesting: boolean,
   isAppFirstLaunched: boolean,
   '@Dito:userRef': string,
-
-  '@RNWebView:WebViewQACookiesList': Cookies
+  '@RNWebView:WebViewQACookiesList': Cookies,
+  '@RNAuth:NextRefreshTime': number
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;

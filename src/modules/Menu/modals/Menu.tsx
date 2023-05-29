@@ -25,13 +25,13 @@ import { RootStackParamList } from '../../../routes/StackNavigator';
 
 import { useAuth } from '../../../context/AuthContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
 import { slugify } from '../../../utils/slugify';
 import testProps from '../../../utils/testProps';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { useProfileQuery } from '../../../base/graphql/generated';
 
 interface IBreadCrumbs {
   title: string;
@@ -254,6 +254,7 @@ export interface Subcategory {
     highlight: boolean;
   }[];
 }
+
 export interface Category {
   name: string;
   children: Subcategory[];
@@ -262,15 +263,6 @@ export interface Category {
   referenceId: string;
   mkt?: boolean;
 }
-type Profile = {
-  birthDate: string | null;
-  document: string;
-  email: string;
-  firstName: string;
-  homePhone: string;
-  lastName: string;
-  userId: string;
-};
 
 type Props = StackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -279,19 +271,15 @@ export const Menu = ({ route }: Props) => {
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const { cookie } = useAuth();
-  // const { cep } = useRegionalSearch()
   const [cep, setCep] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [profile, setProfile] = useState<Profile>();
   const [screenRegionalizationActive, setScreenRegionalizationActive] = useState(false);
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
-  const [{ dataProfile, refetch }, setProfileData] = useState({
-    dataProfile: null,
-    refetch: () => {},
+  const { data: dataProfile } = useProfileQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'cache-and-network',
   });
-
-  const [getProfile] = useLazyQuery(profileQuery);
 
   const [{ loading, data }, setCategoriesData] = useState({
     loading: true,
@@ -309,10 +297,6 @@ export const Menu = ({ route }: Props) => {
         data: response.data,
       });
     });
-    getProfile().then((response) => setProfileData({
-      dataProfile: response.data,
-      refetch: response.refetch,
-    }));
   }, []);
 
   const getIsScreenRegionalizationActive = async () => {
@@ -361,17 +345,6 @@ export const Menu = ({ route }: Props) => {
       });
     }
   }, [resetGoBackButton]);
-
-  useEffect(() => {
-    if (dataProfile) {
-      refetch();
-      const { profile } = dataProfile;
-      if (profile) {
-        const { profile } = dataProfile;
-        setProfile(profile);
-      }
-    }
-  }, [dataProfile]);
 
   const openMenuItem = (index: number) => {
     setCategories(
@@ -458,7 +431,7 @@ export const Menu = ({ route }: Props) => {
                     fontSize={15}
                     fontFamily="nunitoBold"
                   >
-                    {cookie ? (
+                    {(cookie && dataProfile) ? (
                       <Typography
                         onPress={() => {
                           navigation.navigate('Profile');
@@ -466,7 +439,7 @@ export const Menu = ({ route }: Props) => {
                       >
                         Olá,
                         {' '}
-                        {profile?.firstName || profile?.email}
+                        {dataProfile.profile.firstName || dataProfile.profile.email}
                       </Typography>
                     ) : (
                       <Typography

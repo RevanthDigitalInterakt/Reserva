@@ -251,6 +251,7 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const validateFieldsProfile = async (profile: any) => {
+    if (profile === null) setIsEmptyProfile(true);
     if (profile) {
       if (
         profile?.firstName?.length === 0

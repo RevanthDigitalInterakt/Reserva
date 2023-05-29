@@ -1,0 +1,6 @@
+mutation signUp($input: SignUpUserInput!) {
+  signUp(input: $input) {
+    token
+    authCookie
+  }
+}

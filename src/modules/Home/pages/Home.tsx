@@ -43,6 +43,7 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 import HeaderAccessibility from '../component/HeaderAccessibility';
 import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import useRefreshToken from '../../../hooks/useRefreshToken';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -325,6 +326,8 @@ export const HomeScreen: FC<{
       refetch();
     }, [refetch]),
   );
+
+  useRefreshToken();
 
   const renderCarouselBanners = useMemo(() => carrousels.map((carrousel, index) => {
     switch (carrousel?.type) {

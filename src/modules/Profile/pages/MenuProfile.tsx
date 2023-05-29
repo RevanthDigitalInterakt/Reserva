@@ -1,4 +1,3 @@
-import { useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -13,10 +12,6 @@ import firestore from '@react-native-firebase/firestore';
 import { differenceInMonths } from 'date-fns';
 import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import { useAuth } from '../../../context/AuthContext';
-import {
-  profileQuery,
-  ProfileVars,
-} from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
@@ -32,13 +27,24 @@ import useDitoStore from '../../../zustand/useDitoStore';
 import testProps from '../../../utils/testProps';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { ProfileQuery, useProfileLazyQuery } from '../../../base/graphql/generated';
+import { useCart } from '../../../context/CartContext';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+
+type TProfileData = {
+  data: ProfileQuery | null
+  loading: boolean
+};
 
 const MenuScreen: React.FC<{}> = ({}) => {
   const navigation = useNavigation();
+  const { orderform } = useCart();
   const [cashbackDropOpen, setCashbackDropOpen] = useState(false);
-  const { setCookie, setEmail, isCookieEmpty } = useAuth();
+  const {
+    setCookie, setEmail, isCookieEmpty, cleanEmailAndCookie,
+  } = useAuth();
   const [balanceCashbackInApp, setBalanceCashbackInApp] = useState(false);
-  const [profile, setProfile] = useState<ProfileVars>();
+  const [profileData, setProfileData] = useState<ProfileQuery>();
   const [imageProfile, setImageProfile] = useState<any>();
   const firebaseRef = new FirebaseService();
   const { WithoutInternet, showScreen: hasConnection } = useCheckConnection({});
@@ -46,31 +52,18 @@ const MenuScreen: React.FC<{}> = ({}) => {
   const [, setIsTester] = useState<boolean>(false);
   const [hasThreeMonths, setHasThreeMonths] = useState<boolean>(false);
   const [, setScreenCashbackInStoreActive] = useState<boolean>(false);
+  const { setItem } = useAsyncStorageProvider();
 
   const { getBoolean } = useRemoteConfig();
-  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
-
-  const [{ loading, data, error }, setProfileQuery] = useState({
-    loading: true,
-    error: {} as any,
-    data: null,
+  const [getProfile] = useProfileLazyQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'cache-and-network',
   });
 
-  const refetch = async () => {
-    setProfileQuery({
-      loading: true,
-      error: {} as any,
-      data: null,
-    });
-
-    await getProfile().then((res) => {
-      setProfileQuery({
-        loading: false,
-        error: res.error,
-        data: res.data,
-      });
-    });
-  };
+  const [{ loading, data }, setProfileQuery] = useState<TProfileData>({
+    loading: true,
+    data: null,
+  });
 
   const logout = async () => {
     // TODO refactor Auth to use zustand
@@ -79,10 +72,14 @@ const MenuScreen: React.FC<{}> = ({}) => {
     await AsyncStorage.removeItem('@RNAuth:typeLogin');
     await AsyncStorage.removeItem('@RNAuth:lastLogin');
     await AsyncStorage.removeItem('@Dito:anonymousID');
+    await AsyncStorage.setItem('@RNAuth:Token', '');
+    await setItem('@RNAuth:NextRefreshTime', 0);
     useDitoStore.persist.clearStorage();
     EventProvider.removePushExternalUserId();
     setCookie(null);
     setEmail(null);
+    cleanEmailAndCookie();
+    orderform();
   };
 
   const getTesters = async () => {
@@ -100,16 +97,12 @@ const MenuScreen: React.FC<{}> = ({}) => {
     setScreenCashbackInStoreActive(cashback_in_store);
   };
 
-  const userIsLogged = () => {
+  useFocusEffect(() => {
     if (isCookieEmpty()) {
       if (!hasConnection) {
         navigation.navigate('Login', { comeFrom: 'Profile' });
       }
     }
-  };
-
-  useFocusEffect(() => {
-    userIsLogged();
   });
 
   useFocusEffect(
@@ -118,17 +111,12 @@ const MenuScreen: React.FC<{}> = ({}) => {
         setProfileQuery({
           data: response.data,
           loading: false,
-          error: response.error,
         });
       });
-
       const response = getBoolean('balance_cashback_in_app');
 
       setBalanceCashbackInApp(response);
       getIsScreenCashbackInStoreActive();
-      if (data) {
-        refetch();
-      }
     }, []),
   );
 
@@ -136,13 +124,12 @@ const MenuScreen: React.FC<{}> = ({}) => {
     if (data) {
       const { profile } = data;
       if (profile) {
-        const { profile } = data;
         StorageService.setItem({
           key: StorageServiceKeys.PROFILE,
           value: profile,
           isJSON: true,
         });
-        setProfile(profile);
+        setProfileData(profile);
         const profileImagePath = data?.profile?.customFields.find(
           (x: any) => x.key === 'profileImagePath',
         ).value || null;
@@ -150,18 +137,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
       }
       getTesters();
     }
-  }, [data]);
-
-  useEffect(() => {
-    if (profile) {
-      const { profile } = data;
-      setProfile(profile);
-      const profileImagePath = data?.profile?.customFields.find(
-        (x: any) => x.key === 'profileImagePath',
-      ).value || null;
-      setProfileImagePath(profileImagePath);
-    }
-  }, [profile]);
+  }, [data, getTesters, profileData]);
 
   useEffect(() => {
     EventProvider.logEvent('page_view', {
@@ -214,36 +190,36 @@ const MenuScreen: React.FC<{}> = ({}) => {
   };
 
   useEffect(() => {
-    if (profile) {
-      checkPhoneTime(profile.userId);
+    if (profileData) {
+      checkPhoneTime(profileData?.id);
     }
-  }, [profile]);
+  }, [profileData]);
 
   const handleCashback = () => {
     if (hasThreeMonths) {
-      if (profile?.homePhone) {
-        if (profile?.document) {
+      if (profileData?.homePhone) {
+        if (profileData?.document) {
           navigation.navigate('changePhoneNumber', {
-            profile,
+            profileData,
           });
         } else {
           navigation.navigate('registerCPF', {
-            profile,
+            profileData,
           });
         }
-      } else if (profile?.document) {
+      } else if (profileData?.document) {
         navigation.navigate('registerPhoneNumber', {
-          profile,
+          profileData,
         });
       } else {
         navigation.navigate('registerCPF', {
-          profile,
+          profileData,
         });
       }
     } else {
       navigation.navigate('cashbackInStore', {
         isLoyal: true,
-        costumerDocument: profile?.document,
+        costumerDocument: profileData?.document,
       });
     }
   };
@@ -281,7 +257,7 @@ const MenuScreen: React.FC<{}> = ({}) => {
               </Box>
               <Typography variant="subtituloSessoes" fontSize={16}>
                 Boas-vindas
-                {profile && `, ${profile?.firstName || profile?.email}.`}
+                {profileData && `, ${profileData?.firstName || profileData?.email}.`}
               </Typography>
             </Box>
           </Box>

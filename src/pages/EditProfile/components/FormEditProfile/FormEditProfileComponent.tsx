@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { Box, TextField } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
-import { useLazyQuery, useMutation } from '@apollo/client';
 import remoteConfig from '@react-native-firebase/remote-config';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -22,7 +21,6 @@ import NewsLetterComponent from '../Newsletter/NewsLetterComponent';
 import DeleteAccountComponent from '../DeleteAccount/DeleteAccountComponent';
 import SubmitingContentComponent from '../SubmitingContent/SubmitingContentComponent';
 import EditProfileSchema from './yup/schema/editProfile.schema';
-import { profileMutation, profileQuery } from '../../../../graphql/profile/profileQuery';
 import {
   formatAndSearcFieldValue,
   formatDate,
@@ -37,13 +35,13 @@ import { useCart } from '../../../../context/CartContext';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import type { IFormEditProfileSchema } from './interfaces/formEditProfile';
 import EventProvider from '../../../../utils/EventProvider';
+import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/graphql/generated';
+import { useAuth } from '../../../../context/AuthContext';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;
   handleModal: (key: TModalStateKeys) => void;
-
   showChangeFileModal: boolean;
-
   handleToogleLoading: (newLoadingValue?: boolean) => void;
 }
 
@@ -59,12 +57,17 @@ function FormEditProfileComponent({
   } = useCart();
   const { deleteFS, createFS } = new FirebaseService();
   const navigation = useNavigation();
+  const { email } = useAuth();
 
-  const [getProfileUserData] = useLazyQuery(profileQuery, {
-    fetchPolicy: 'no-cache',
+  const [getProfileUserData] = useProfileLazyQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'cache-and-network',
   });
 
-  const [updateUserdata] = useMutation(profileMutation);
+  const [updateUserdata] = useProfileUpdateMutation({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
+  });
 
   const handleSubmitForm = useCallback(
     async (formValues: IFormEditProfileSchema): Promise<void> => {
@@ -95,8 +98,10 @@ function FormEditProfileComponent({
 
       await updateUserdata({
         variables: {
-          fields: userDateUpload,
-          customFields,
+          input: {
+            ...userDateUpload,
+            customFields,
+          },
         },
       });
 
@@ -111,7 +116,7 @@ function FormEditProfileComponent({
           });
 
           if (response) {
-            await identifyCustomer(userDateUpload.email);
+            if (email) await identifyCustomer(email);
             await updateOrderForm();
             navigation.navigate('BagScreen', { isProfileComplete: true });
 
@@ -170,10 +175,9 @@ function FormEditProfileComponent({
 
       const {
         profile: {
-          userId,
+          id,
           firstName,
           lastName,
-          email,
           document,
           birthDate,
           gender,
@@ -183,7 +187,7 @@ function FormEditProfileComponent({
       } = data;
 
       if (!loading) {
-        await getIsTesterUser(email);
+        await getIsTesterUser(email || '');
 
         // Pega o path da imagem no firebase - user/profile/joao.jpg | undefined
         const profileUserField = formatAndSearcFieldValue<undefined>(
@@ -199,9 +203,8 @@ function FormEditProfileComponent({
         );
 
         await editProfileForm.setValues({
-          userId,
+          id,
           name: firstName ? `${firstName} ${lastName || ''}` : '',
-          email: email || '',
           document: document || '',
           birthDate: birthDate ? formatDate(birthDate) : '',
           gender: gender ? genderEngToPt[gender as TGenderEngKeys] : null,
@@ -256,7 +259,7 @@ function FormEditProfileComponent({
       {!isRegister && (
         <UserProfilePictureComponent
           toogleModalChangeFile={() => handleModal('changeFileModal')}
-          userEmail={editProfileForm.values.email}
+          userEmail={email || ''}
           file={editProfileForm.values.profileImage}
         />
       )}
@@ -282,11 +285,10 @@ function FormEditProfileComponent({
             style={{ color: '#8A8C8E' }}
             editable={false}
             accessibilityLabel="formeditprofile_input_email"
-            label={editProfileForm.values.email.length ? 'E-mail' : null}
-            value={editProfileForm.values.email}
-            onChangeText={(currentTextValue: string) => handleChangeFormValue<string>('email', currentTextValue)}
+            label={email?.length ? 'E-mail' : null}
+            value={email || ''}
             iconRight={
-              <EmailIcon isEmpty={!editProfileForm.values.email.length} />
+              <EmailIcon isEmpty={!email?.length} />
             }
           />
         </Box>
@@ -373,11 +375,11 @@ function FormEditProfileComponent({
         <NewsLetterComponent
           value={editProfileForm.values.newsLetter}
           handleToogleNewsLetterState={(currentTextValue: boolean) => handleChangeFormValue<boolean>('newsLetter', currentTextValue)}
-          userEmail={editProfileForm.values.email}
+          userEmail={email || ''}
         />
       )}
       {!isRegister && (
-        <DeleteAccountComponent userId={editProfileForm.values.userId} />
+        <DeleteAccountComponent userId={editProfileForm.values.id} />
       )}
 
       <SubmitingContentComponent

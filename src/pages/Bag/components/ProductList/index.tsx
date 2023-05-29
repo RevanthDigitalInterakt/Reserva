@@ -8,6 +8,8 @@ import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPl
 import { slugify } from '../../../../utils/slugify';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
+import { getBrands } from '../../../../utils/getBrands';
+import { useCart } from '../../../../context/CartContext';
 
 const ShowFirstPurchaseDiscount = ({ discountText }: { discountText: string }) => (
   <Box paddingBottom="nano" testID="com.usereserva:id/ShowFirstPurchaseDiscount">
@@ -42,6 +44,7 @@ const ShowTotalDiscountFirstPurchase = ({ priceDiscount }: { priceDiscount: stri
 );
 
 export default function BagProductList() {
+  const { orderForm } = useCart();
   const { currentBagItems, dispatch } = useBagStore();
   const navigation = useNavigation();
 
@@ -124,7 +127,17 @@ export default function BagProductList() {
           },
         },
       });
-    }, [dispatch, handleActiveTopBarLoading],
+
+      EventProvider.logEvent('add_to_cart', {
+        item_id: item.id,
+        item_price: (item.price || 0) / 100,
+        item_quantity: countUpdated,
+        item_category: 'product',
+        currency: 'BRL',
+        seller: item.seller,
+        wbrand: getBrands(orderForm?.items || []),
+      });
+    }, [dispatch, handleActiveTopBarLoading, orderForm],
   );
 
   const handleSubCount = useCallback(

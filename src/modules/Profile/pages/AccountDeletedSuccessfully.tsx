@@ -1,31 +1,41 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
-
-import { Box, Typography, Button } from '@usereservaapp/reserva-ui';
-
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
+import React, { useCallback, useEffect } from 'react';
+import { SafeAreaView } from 'react-native';
 import { useAuth } from '../../../context/AuthContext';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useCart } from '../../../context/CartContext';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import EventProvider from '../../../utils/EventProvider';
+import useDitoStore from '../../../zustand/useDitoStore';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 export const AccountDeletedSuccessfully = () => {
   const navigation = useNavigation();
-  const { setCookie, setEmail } = useAuth();
+  const { setCookie, setEmail, cleanEmailAndCookie } = useAuth();
+  const { setItem } = useAsyncStorageProvider();
+  const { orderform } = useCart();
 
-  const logout = () => {
-    AsyncStorage.removeItem('@RNAuth:cookie');
-    AsyncStorage.removeItem('@RNAuth:email');
-    AsyncStorage.removeItem('@RNAuth:typeLogin');
-    AsyncStorage.removeItem('@RNAuth:lastLogin');
+  const logout = useCallback(async () => {
+    // TODO refactor Auth to use zustand
+    await AsyncStorage.removeItem('@RNAuth:cookie');
+    await AsyncStorage.removeItem('@RNAuth:email');
+    await AsyncStorage.removeItem('@RNAuth:typeLogin');
+    await AsyncStorage.removeItem('@RNAuth:lastLogin');
+    await AsyncStorage.removeItem('@Dito:anonymousID');
+    await AsyncStorage.setItem('@RNAuth:Token', '');
+    await setItem('@RNAuth:NextRefreshTime', 0);
+    useDitoStore.persist.clearStorage();
     EventProvider.removePushExternalUserId();
     setCookie(null);
     setEmail(null);
-  };
+    cleanEmailAndCookie();
+    orderform();
+  }, [cleanEmailAndCookie, orderform, setCookie, setEmail, setItem]);
 
   useEffect(() => {
     logout();
-  }, []);
+  }, [logout]);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>

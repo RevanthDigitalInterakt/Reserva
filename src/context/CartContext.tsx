@@ -15,7 +15,6 @@ import {
   AddItemToCart,
   CreateCart,
   RestoreData,
-  IdentifyCustomer,
   RemoveItemFromCart,
   addToCoupon,
   removeCouponToOder,
@@ -36,7 +35,10 @@ import {
 } from '../services/vtexService';
 import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
-import { useCheckIfUserExistsLazyQuery, useOrderFormAddSellerCouponMutation } from '../base/graphql/generated';
+import {
+  useCheckIfUserExistsLazyQuery,
+  useOrderFormAddSellerCouponMutation, useOrderFormAttachClientByCookieMutation, useOrderFormRefreshDataMutation,
+} from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
 import { defaultBrand } from '../utils/defaultWBrand';
@@ -539,6 +541,7 @@ interface CartContextProps {
     flag: boolean, orderFormId: string, item: IOrderFormItem, index: number, cookie?: string) => (
     Promise<void>
   );
+  refreshOrderFormData: (orderFormId: string) => void;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -561,6 +564,14 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
     context: { clientName: 'gateway' },
+  });
+
+  const [OrderFormAttachClientByCookie] = useOrderFormAttachClientByCookieMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+
+  const [orderFormRefreshData] = useOrderFormRefreshDataMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
   const _requestOrderForm = async () => {
@@ -775,13 +786,34 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
+  const refreshOrderFormData = async (orderFormId: string) => {
+    await orderFormRefreshData({
+      variables: {
+        input: {
+          orderFormId,
+        },
+      },
+    });
+  };
   const identifyCustomer = async (email: string) => {
     try {
-      await ResetUserCheckout(orderForm?.orderFormId);
-      const data = await IdentifyCustomer(orderForm?.orderFormId, email);
-      setOrderForm(data);
-      // TODO - change this later, find a better way to check if theres's no user
-      return !!data.clientProfileData.firstName;
+      if (orderForm?.orderFormId) {
+        await refreshOrderFormData(orderForm?.orderFormId);
+
+        await OrderFormAttachClientByCookie({
+          variables: {
+            input: {
+              orderFormId: orderForm?.orderFormId,
+            },
+          },
+        });
+
+        const { data } = await RestoreData(orderForm?.orderFormId);
+        setOrderForm(data);
+
+        // TODO - change this later, find a better way to check if theres's no user
+        return !!data?.OrderFormAttachClientByCookie?.clientProfileData?.firstName;
+      }
     } catch (error) {
       EventProvider.captureException(error);
     }
@@ -1114,6 +1146,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         removeCoupon,
         removeSellerCoupon,
         resetUserCheckout,
+        refreshOrderFormData,
         sendUserEmail,
         convertZipCode,
         tracking,
@@ -1162,6 +1195,7 @@ export const useCart = () => {
     addCoupon,
     removeCoupon,
     removeSellerCoupon,
+    refreshOrderFormData,
     resetUserCheckout,
     sendUserEmail,
     convertZipCode,
@@ -1198,6 +1232,7 @@ export const useCart = () => {
     removeCoupon,
     removeSellerCoupon,
     resetUserCheckout,
+    refreshOrderFormData,
     sendUserEmail,
     convertZipCode,
     tracking,

@@ -1,5 +1,5 @@
-mutation orderFormRefreshData ($input: OrderformRefreshDataInput!) {
-  orderFormRefreshData(input: $input) {
+mutation orderFormAttachClientByCookie($input: OrderformAttachClientByCookieInput!) {
+  orderFormAttachClientByCookie(input: $input) {
     orderFormId
     salesChannel
     messagesDetailed {
@@ -168,6 +168,7 @@ mutation orderFormRefreshData ($input: OrderformRefreshDataInput!) {
         complement
         reference
         geoCoordinates
+
       }
       selectedAddresses {
         addressType

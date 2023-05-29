@@ -1,55 +1,66 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   Box, Button, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
 import * as Yup from 'yup';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
-import { redefinePasswordMutation } from '../../../graphql/profile/redefinePassword';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import AsyncStorage from '@react-native-community/async-storage';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useRedefinePasswordMutation } from '../../../base/graphql/generated';
+import { useAuth } from '../../../context/AuthContext';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
-type Props = StackScreenProps<RootStackParamList, 'EditPassword'>;
-export const EditPassword = ({ route }: Props) => {
+const EditPasswordSuccessful = () => {
+  const navigation = useNavigation();
+
+  return (
+    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+      <ScrollView>
+        <Box mx={20} mt="60%" p={20}>
+          <Typography
+            fontFamily="reservaSerifRegular"
+            fontSize={35}
+            textAlign="center"
+          >
+            Senha alterada com sucesso!
+          </Typography>
+          <Button
+            mt="100%"
+            variant="primarioEstreito"
+            title="VOLTAR PARA HOME"
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            inline
+          />
+        </Box>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+export const EditPassword = () => {
   const formRef = useRef<any>(null);
-  const [email, setEmail] = useState();
+  const { email } = useAuth();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
   const [showRepeatPassword, setShowRepeatPassword] = useState(true);
-  const [
-    newPassword,
-    { data: dataMutation, loading: loadingMutation, error: newPasswordError },
-  ] = useMutation(redefinePasswordMutation);
-  const [{
-    data,
-    loading,
-  }, setProfileData] = useState({
-    loading: true,
-    data: {} as any,
-  });
-  const [getProfileData] = useLazyQuery(profileQuery);
+  const [newPassword,
+    {
+      data: dataMutation,
+      loading: loadingMutation,
+    }] = useRedefinePasswordMutation(({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  }));
+
   const [changeSuccess, setChangeSuccess] = useState(false);
-  const [resultChangePassword, setResultChangePassword] = useState<any>([]);
   const navigation = useNavigation();
+  const { setItem } = useAsyncStorageProvider();
 
-  useEffect(() => {
-    getProfileData().then((response) => setProfileData({
-      loading: false,
-      data: response.data,
-    }));
-  }, []);
-  useEffect(() => {
-    if (!loading) {
-      setEmail(data?.profile?.email);
-    }
-  }, [data]);
-
-  // acessa a função handleSubmit do formik
   const handleSubmit = async () => {
     if (formRef.current) {
       await formRef.current.handleSubmit();
@@ -58,34 +69,43 @@ export const EditPassword = ({ route }: Props) => {
 
   const [initialValues, setInitialValues] = useState({
     password: '',
-    password_confirm: '',
-    current_password: '',
+    passwordConfirm: '',
+    currentPassword: '',
   });
 
   const validation = Yup.object().shape({
     password: Yup.string().required(
       'Introduza uma senha segura, com no mínimo com 8 caracteres, contendo letras maiúsculas, minúsculas e números.',
     ),
-    password_confirm: Yup.string()
+    passwordConfirm: Yup.string()
       .required('Informe a senha novamente')
       .oneOf([Yup.ref('password'), null], 'As senhas devem corresponder'),
-    current_password: Yup.string().required('Informe sua senha atual'),
+    currentPassword: Yup.string().required('Informe sua senha atual'),
   });
 
-  // VTEX API fields currentPassword and newPassword invert values in the form
-  const changePassword = (password: string, current_password: string) => {
-    newPassword({
-      variables: {
-        email,
-        currentPassword: password, // here
-        newPassword: current_password, // here
-      },
-    });
-    // navigation.goBack();
-  };
+  const changePassword = useCallback(async (password: string, currentPassword: string) => {
+    if (email) {
+      const { data: dataNewPassword } = await newPassword({
+        variables: {
+          input: {
+            currentPassword,
+            newPassword: password,
+          },
+        },
+      });
+      if (dataNewPassword) {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        const expires = date.getTime();
+        await setItem('@RNAuth:NextRefreshTime', expires);
+        await AsyncStorage.setItem('@RNAuth:Token', dataNewPassword?.redefinePassword?.token);
+        await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(dataNewPassword?.redefinePassword?.authCookie));
+      }
+    }
+  }, [email, newPassword, setItem]);
 
   useEffect(() => {
-    if (dataMutation?.redefinePassword === 'Success') {
+    if (dataMutation?.redefinePassword?.token) {
       setChangeSuccess(true);
     }
   }, [dataMutation]);
@@ -114,8 +134,8 @@ export const EditPassword = ({ route }: Props) => {
                   validationSchema={validation}
                   innerRef={formRef}
                   onSubmit={(values: any) => {
-                    const { password, current_password } = values;
-                    changePassword(password, current_password);
+                    const { password, currentPassword } = values;
+                    changePassword(password, currentPassword);
                   }}
                 >
                   {() => (
@@ -125,7 +145,7 @@ export const EditPassword = ({ route }: Props) => {
                           label="Digite sua senha atual"
                           placeholder="Digite sua senha atual"
                           secureTextEntry={showCurrentPassword}
-                          field="current_password"
+                          field="currentPassword"
                           iconRight={(
                             <Button
                               mr="xxxs"
@@ -180,7 +200,7 @@ export const EditPassword = ({ route }: Props) => {
                         <FormikTextInput
                           label="Repita a senha"
                           placeholder="Repita a senha"
-                          field="password_confirm"
+                          field="passwordConfirm"
                           secureTextEntry={showRepeatPassword}
                           iconRight={(
                             <Button
@@ -208,10 +228,6 @@ export const EditPassword = ({ route }: Props) => {
                   )}
                 </Formik>
               </Box>
-              {/* {newPasswordError &&
-                <Box>
-                  <Typography>{newPasswordError.message.toString()}</Typography>
-                </Box>} */}
             </Box>
           </ScrollView>
           <Button
@@ -224,37 +240,6 @@ export const EditPassword = ({ route }: Props) => {
       ) : (
         <EditPasswordSuccessful />
       )}
-    </SafeAreaView>
-  );
-};
-
-const EditPasswordSuccessful = () => {
-  const navigation = useNavigation();
-
-  return (
-    <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
-      <ScrollView>
-        <>
-          <Box mx={20} mt="60%" p={20}>
-            <Typography
-              fontFamily="reservaSerifRegular"
-              fontSize={35}
-              textAlign="center"
-            >
-              Senha alterada com sucesso!
-            </Typography>
-            <Button
-              mt="100%"
-              variant="primarioEstreito"
-              title="VOLTAR PARA HOME"
-              onPress={() => {
-                navigation.navigate('Home');
-              }}
-              inline
-            />
-          </Box>
-        </>
-      </ScrollView>
     </SafeAreaView>
   );
 };
