@@ -1,6 +1,12 @@
 ## CHANGELOG
 
-### 1.18.41 (Push Update)
+### 1.18.42
+
+- [SRN-291 - BUG - Evento Purchase com receita errada firebase](https://reserva.atlassian.net/browse/SRN-291)
+
+---
+
+### 1.18.41
 
 - [SRN-71 - Expiração Login App](https://reserva.atlassian.net/browse/SRN-71)
 

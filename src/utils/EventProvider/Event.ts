@@ -97,7 +97,6 @@ export namespace EventsOptions {
   | 'tax'
   | 'transaction_id'
   | 'value'
-  | 'wbrand'
   > & {};
   export type ViewItem = Pick<EventValues, 'currency' | 'items' | 'value' | 'wbrand'>;
   export type BeginCheckout = Pick<EventValues, 'items' | 'value' | 'coupon' | 'currency' | 'wbrand'>;

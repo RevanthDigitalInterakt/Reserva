@@ -248,22 +248,6 @@ const Checkout: React.FC<{}> = () => {
           EventProvider.logEvent('page_view', {
             wbrand: defaultBrand.picapau,
           });
-
-          EventProvider.logPurchase({
-            affiliation: 'APP',
-            coupon: 'coupon',
-            currency: 'BRL',
-            items: adaptOrderFormItemsTrack(orderForm?.items),
-            shipping:
-            (orderForm.totalizers.find((x) => x.name === 'Shipping')?.value
-              || 0) / 100,
-            tax:
-            (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
-              ?.interestRate || 0) / 100,
-            transaction_id: '',
-            value: orderValue,
-            wbrand: getBrands(orderForm?.items),
-          });
         } catch (error) {
           EventProvider.captureException(error);
         }
@@ -274,6 +258,36 @@ const Checkout: React.FC<{}> = () => {
       }
     }
   }, [isOrderPlaced]);
+
+  const logPurchase = useCallback(async () => {
+    if (orderForm) {
+      try {
+        const orderValue = orderForm.value / 100;
+        EventProvider.logPurchase({
+          affiliation: 'APP',
+          coupon: 'coupon',
+          currency: 'BRL',
+          items: adaptOrderFormItemsTrack(orderForm?.items) || [],
+          shipping:
+            (orderForm.totalizers.find((x) => x.id === 'Shipping')?.value
+              || 0) / 100,
+          tax:
+            (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
+              ?.interestRate || 0) / 100,
+          transaction_id: '',
+          value: orderValue,
+        });
+      } catch (error) {
+        EventProvider.captureException(error);
+      }
+    }
+  }, [orderForm]);
+
+  useEffect(() => {
+    if (isOrderPlaced) {
+      logPurchase();
+    }
+  }, [logPurchase, isOrderPlaced]);
 
   const handleNavState = useCallback(() => {
     if (navState.includes('checkout/orderPlaced')) {
