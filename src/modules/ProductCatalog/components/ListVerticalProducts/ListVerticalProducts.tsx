@@ -14,7 +14,6 @@ import React, {
 } from 'react';
 import { FlatList } from 'react-native';
 import { images } from '../../../../assets';
-import { useAuth } from '../../../../context/AuthContext';
 import type { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { getItemPrice } from '../../../../utils/getItemPrice';
@@ -26,6 +25,8 @@ import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -69,17 +70,16 @@ export const ListVerticalProducts = ({
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
-  const { email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { mktinActive, sellersMktIn } = useMarketPlaceInStore((state) => state);
 
   const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
 
   const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, {
     variables: {
-      shopperId: email,
+      shopperId: profile?.email,
     },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
   });
 
   const [removeWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
@@ -88,11 +88,11 @@ export const ListVerticalProducts = ({
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId } = item;
-    if (email) {
+    if (profile?.email) {
       if (favorite) {
         const { data } = await addWishList({
           variables: {
-            shopperId: email,
+            shopperId: profile?.email,
             productId,
             sku: skuId,
           },
@@ -106,7 +106,7 @@ export const ListVerticalProducts = ({
       } else {
         const { data } = await removeWishList({
           variables: {
-            shopperId: email,
+            shopperId: profile?.email,
             id: favorites.find((x) => x.productId == productId).listId,
           },
         });
@@ -126,7 +126,11 @@ export const ListVerticalProducts = ({
       data: {
         viewList: { data: wishlist },
       },
-    } = await getWishList({ variables: { shopperId: email } });
+    } = await getWishList({
+      variables: { shopperId: profile?.email },
+      fetchPolicy: getFetchPolicyPerKey('getWishlist'),
+      nextFetchPolicy: 'no-cache',
+    });
 
     if (wishlist) {
       setFavorites([

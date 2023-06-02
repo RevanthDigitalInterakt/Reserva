@@ -21,10 +21,10 @@ import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
 import type { CorreReservaStackParamList } from '../..';
 import { images } from '../../../../assets';
-import { useAuth } from '../../../../context/AuthContext';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import EventProvider from '../../../../utils/EventProvider';
 import { platformType } from '../../../../utils/platformType';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { useCorre } from '../../context';
 import { images as imagesLogo } from '../../images';
 
@@ -59,7 +59,7 @@ CorreReservaStackParamList,
 
 export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
   const navigation = useNavigation<RaceFinalizedNavigator>();
-  const { email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
   const viewRef = useRef();
   const viewRefImage = useRef();
   const [, setShowBackgroundShare] = useState(false);
@@ -81,7 +81,7 @@ export const RaceFinalized: React.FC<RaceFinalizedProps> = () => {
     const correCollection = firestore().collection('corre');
     correCollection.add({
       ...raceResume,
-      email,
+      email: profile?.email,
       finishDateTime: new Date(),
     });
 

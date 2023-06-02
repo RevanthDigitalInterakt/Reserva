@@ -10,6 +10,7 @@ import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
 import { useProductRecommendationsLazyQuery } from '../../../base/graphql/generated';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 
 export function Recommendation() {
   const {
@@ -17,9 +18,11 @@ export function Recommendation() {
   } = useRecommendation();
 
   const BoxAnimated = createAnimatableComponent(Box);
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
   const [getProductRecommendation] = useProductRecommendationsLazyQuery({
     context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('productRecommendations'),
   });
 
   const onToggleSection = useCallback(() => (

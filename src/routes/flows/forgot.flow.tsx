@@ -3,7 +3,7 @@ import { ForgotEmail } from '../../modules/Forgot/pages/ForgotEmail';
 import { ForgotEmailSuccess } from '../../modules/Forgot/pages/ForgotEmailSuccess';
 import { ForgotNewPassword } from '../../modules/Forgot/pages/ForgotNewPassword';
 import { ForgotPassword } from '../../modules/Forgot/pages/ForgotPassword';
-import { Flow } from '../types/flow.type';
+import type { Flow } from '../types/flow.type';
 
 export const ForgotFlow: Flow[] = [
   {

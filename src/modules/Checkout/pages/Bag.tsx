@@ -33,7 +33,6 @@ import analytics from '@react-native-firebase/analytics';
 import { instance2 } from '../../../config/vtexConfig';
 import ToastProvider, { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
-import { useAuth } from '../../../context/AuthContext';
 import { IOrderFormItem, OrderForm, useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
@@ -59,6 +58,7 @@ import testProps from '../../../utils/testProps';
 import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -79,7 +79,8 @@ const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const BagScreen = ({ route }: Props) => {
-  const { email, cookie } = useAuth();
+  const authStore = useAuthStore(['profile']);
+
   const navigation = useNavigation();
   const {
     loading,
@@ -301,8 +302,8 @@ export const BagScreen = ({ route }: Props) => {
   useEffect(() => {
     initialCartExecute();
 
-    if (email) {
-      setCustomer(email);
+    if (authStore?.profile?.email) {
+      setCustomer(authStore?.profile?.email);
     }
   }, [initialCartExecute, orderFormIdByDeepLink]);
 
@@ -494,7 +495,7 @@ export const BagScreen = ({ route }: Props) => {
         EventProvider.captureException(error);
       }
 
-      if (!email) {
+      if (!authStore?.profile?.email) {
         setLoadingGoDelivery(false);
 
         navigation.navigate('Login', { comeFrom: 'Checkout' });
@@ -503,7 +504,7 @@ export const BagScreen = ({ route }: Props) => {
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
         try {
-          await identifyCustomer(email)
+          await identifyCustomer(authStore?.profile?.email)
             .then(() => setLoadingGoDelivery(false))
             .then(() => navigation.navigate('DeliveryScreen', {}));
         } catch (error) {
@@ -602,7 +603,7 @@ export const BagScreen = ({ route }: Props) => {
       orderFormId,
       item,
       index,
-      cookie ?? undefined,
+      authStore?.profile?.authCookie || undefined,
     );
   };
 

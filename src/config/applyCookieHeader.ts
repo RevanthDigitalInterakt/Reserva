@@ -1,8 +1,8 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import type { AxiosRequestConfig } from 'axios';
+import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 
 const applyCookieHeader = async (config: AxiosRequestConfig) => {
-  const cookie = await AsyncStorage.getItem('@RNAuth:cookie');
+  const cookie = await getAsyncStorageItem('Auth:Cookie');
 
   return {
     ...config,

@@ -7,16 +7,16 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { RetryLink } from '@apollo/client/link/retry';
-import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
 import CookieManager from '@react-native-cookies/cookies';
 import { gatewayLink } from '../clients/gateway/gatewayLink';
+import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 
 const directionalLinkProduction = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
   new HttpLink({
     uri: Config.URL_CONTENTFUL_PROD,
-    headers: { Authorization: Config.CONTENTFUL_AUTH },
+    headers: { Authorization: Config.CONTENTFUL_AUTH! },
   }),
   new HttpLink({ uri: Config.URL_VTEX_GRAPHQL }),
 );
@@ -25,7 +25,7 @@ const directionalLinkTesting = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
   new HttpLink({
     uri: Config.URL_CONTENTFUL_TEST,
-    headers: { Authorization: Config.CONTENTFUL_AUTH },
+    headers: { Authorization: Config.CONTENTFUL_AUTH! },
   }),
   new HttpLink({ uri: Config.URL_VTEX_GRAPHQL }),
 );
@@ -71,7 +71,7 @@ const authAfterware = new ApolloLink((operation, forward) => forward(operation).
 }));
 
 const authLinkHeader = setContext(async (_, { headers }) => {
-  const cookie = await AsyncStorage.getItem('@RNAuth:cookie');
+  const cookie = await getAsyncStorageItem('Auth:Cookie');
 
   return {
     headers: { ...headers, cookie },
@@ -87,10 +87,6 @@ const linkTesting = from([
     directionalLinkTesting,
   ),
 ]);
-export const apolloClientTesting = new ApolloClient({
-  link: linkTesting,
-  cache: new InMemoryCache(),
-});
 
 const linkProduction = from([
   authLinkHeader,
@@ -101,6 +97,12 @@ const linkProduction = from([
     directionalLinkProduction,
   ),
 ]);
+
+export const apolloClientTesting = new ApolloClient({
+  link: linkTesting,
+  cache: new InMemoryCache(),
+});
+
 export const apolloClientProduction = new ApolloClient({
   link: linkProduction,
   cache: new InMemoryCache(),

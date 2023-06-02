@@ -44,6 +44,7 @@ import allSettled from '../../../../utils/allSettled';
 import EventProvider from '../../../../utils/EventProvider';
 import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -124,12 +125,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [currentPage, setCurrentPage] = useState(DEFAULT_NEXT_PAGINATION);
   const [orderByParamsForPaginationPersist, setOrderByParamsForPaginationPersist] = useState('');
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
   const { WithoutInternet } = useCheckConnection({});
 
   const [getcountdownClock] = useLazyQuery(countdownClockQuery, {
     context: { clientName: 'contentful' },
-    fetchPolicy: 'cache-and-network',
   });
 
   const [getFacets] = useLazyQuery(facetsQuery, {
@@ -137,14 +138,11 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       hideUnavailableItems: true,
       selectedFacets: [],
     },
-    fetchPolicy: 'cache-and-network',
   });
 
   const [getBanner] = useLazyQuery(bannerQuery, {
     context: { clientName: 'contentful' },
-    variables: {
-      category: '',
-    },
+    variables: { category: '' },
   });
 
   const [getProductSearch] = useLazyQuery(productSearch, {
@@ -158,8 +156,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       simulationBehavior: 'default',
       productOriginVtex: false,
     },
-    fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-and-network',
   });
 
   const wrapperGetCountdownClock = useCallback(async (value: string) => {
@@ -168,6 +164,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         categoryReference: value,
         selectClockScreenAll: 'ALL',
       },
+      fetchPolicy: getFetchPolicyPerKey('countdownClock'),
     });
 
     const { items } = countdownClockData.countdownClockCollection;
@@ -237,14 +234,14 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           simulationBehavior: 'default',
           productOriginVtex: false,
         },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-and-network',
+        fetchPolicy: getFetchPolicyPerKey('productSearch'),
+        nextFetchPolicy: 'network-only',
       });
 
       setProductData(response.data.productSearch.products);
       setTotalProducts(response.data.productSearch.recordsFiltered);
       setSkeletonLoading(false);
-    }, [getProductSearch],
+    }, [getProductSearch, getFetchPolicyPerKey],
   );
 
   const wrapperGetBanner = useCallback(async (value: string) => {
@@ -253,6 +250,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       variables: {
         category: referenceIdResolver(value),
       },
+      fetchPolicy: getFetchPolicyPerKey('banner'),
     });
 
     const hasBanner = !!bannerData?.bannerCategoryCollection?.items?.length;
@@ -288,7 +286,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         hideUnavailableItems: true,
         selectedFacets: facetParams,
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: getFetchPolicyPerKey('facets'),
     });
 
     const facets = facetsData?.facets?.facets;
@@ -346,7 +344,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     setCategoryFilters(categoryFacetValues);
     setSizeFilters(sizeFacetValues);
     setColorsFilters(colorFacetValues);
-  }, [getFacets]);
+  }, [getFacets, getFetchPolicyPerKey]);
 
   const loadApplyFilter = useCallback(async (item: any) => {
     const reference = collectionIdByCategories || collectionIdByContentful || '';

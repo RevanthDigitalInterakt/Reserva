@@ -18,13 +18,13 @@ import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import EventProvider from '../../../utils/EventProvider';
 import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
-import { useAuth } from '../../../context/AuthContext';
 import { OrderForm, useCart } from '../../../context/CartContext';
 import { GetPurchaseData } from '../../../services/vtexService';
 import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAFContent, sumQuantity } from '../../../utils/checkoutInitiatedEvents';
 import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
 const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;
@@ -43,7 +43,7 @@ const Checkout: React.FC<{}> = () => {
   const { getItem } = useAsyncStorageProvider();
 
   const [showPromotionModal, setShowPromotionModal] = useState(false);
-  const { cookie, email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
 
   useEffect(() => {
     EventProvider.getPushTags((receivedTags) => {
@@ -83,10 +83,10 @@ const Checkout: React.FC<{}> = () => {
 
   useEffect(() => {
     async function execute() {
-      if (email && cookie && orderForm) {
+      if (profile?.authCookie && orderForm) {
         try {
           const orderGroup = getOrderId()?.split('-')?.[0];
-          const { data } = await GetPurchaseData(orderGroup, cookie);
+          const { data } = await GetPurchaseData(orderGroup, profile?.authCookie);
 
           const { items } = orderForm;
           if (data && items?.length) {
@@ -174,7 +174,7 @@ const Checkout: React.FC<{}> = () => {
   const trackEventOrderedDito = useCallback(async (orderData: OrderForm) => {
     try {
       const orderGroup = getOrderId()?.split('-')?.[0];
-      const { data } = await GetPurchaseData(orderGroup, cookie);
+      const { data } = await GetPurchaseData(orderGroup, profile?.authCookie);
 
       const payload = await getItem('@Dito:userRef');
 
@@ -203,7 +203,7 @@ const Checkout: React.FC<{}> = () => {
     } catch (error) {
       EventProvider.captureException(error);
     }
-  }, [getItem, getOrderId, cookie]);
+  }, [getItem, getOrderId, profile?.authCookie]);
 
   useEffect(() => {
     if (isOrderPlaced) {

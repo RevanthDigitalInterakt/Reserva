@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
@@ -7,9 +7,7 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
-
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import CodeInput from '../../Login/components/CodeInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import UnderlineInput from '../../Login/components/UnderlineInput';
@@ -24,8 +22,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   navigation,
   route,
 }) => {
-  const { cookie } = useAuth();
-  const { email } = route.params;
+  const { email, cookies } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState('');
   const [passwords, setPasswords] = useState({
@@ -61,13 +58,12 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
           email,
           code,
           password: passwords.confirm,
-          cookies: JSON.parse(cookie),
-
+          cookies,
         },
       };
 
       if (code.length < 6) {
-        setShowError(true);
+        setShowError(code.length < 6);
       } else {
         setShowError(false);
 
@@ -84,7 +80,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       setShowError(true);
       EventProvider.captureException(err);
     }
-  }, [code, cookie, email, navigation, passwords.confirm, recoveryPasswordReset]);
+  }, [code, cookies, email, navigation, passwords.confirm, recoveryPasswordReset]);
 
   useEffect(() => {
     if (!loading && error) {
@@ -150,13 +146,13 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
               <UnderlineInput
                 onChangeText={(text) => setPasswords({ ...passwords, first: text })}
                 accessibilityLabel="forgot_input_password"
-                onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
+                onFocus={() => scrollViewRef.current?.scrollToEnd()}
                 placeholder="Digite sua nova senha"
                 isSecureText
               />
               <Box mt="sm">
                 <UnderlineInput
-                  onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
+                  onFocus={() => scrollViewRef.current?.scrollToEnd()}
                   onChangeText={(text) => setPasswords({ ...passwords, confirm: text })}
                   accessibilityLabel="forgot_input_confirm_password"
                   placeholder="Confirme sua nova senha"

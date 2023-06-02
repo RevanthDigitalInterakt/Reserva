@@ -10,7 +10,7 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
 import { recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import { platformType } from '../../../utils/platformType';

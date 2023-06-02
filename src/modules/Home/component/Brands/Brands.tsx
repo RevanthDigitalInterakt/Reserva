@@ -12,17 +12,18 @@ import {
 import { BrandContainer, brandShadowContainer, styles } from './styles/styles';
 import EventProvider from '../../../../utils/EventProvider';
 import testProps from '../../../../utils/testProps';
+import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 
 const BrandsComponent = (): JSX.Element => {
   const [brands, setBrands] = useState<IBrandCarouselItem[]>([]);
   const { width } = useWindowDimensions();
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const navigation = useNavigation();
 
   const [getBrands] = useLazyQuery<IBrandsCarouselQuery>(brandsCarouselQuery, {
     context: { clientName: 'contentful' },
-    variables: {
-      id: Config.ID_BRANDS_COLLECTION_CONTENTFUL,
-    },
+    variables: { id: Config.ID_BRANDS_COLLECTION_CONTENTFUL },
+    fetchPolicy: getFetchPolicyPerKey('brandsCarousel'),
   });
 
   const handleNavigateToBrand = useCallback((reference: string): void => {

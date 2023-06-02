@@ -1,32 +1,22 @@
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import AsyncStorage from '@react-native-community/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
-import moment from 'moment';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
+import {
+  BackHandler, Keyboard, SafeAreaView, ScrollView,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { sha256 } from 'react-native-sha256';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
-import useDitoStore from '../../../zustand/useDitoStore';
 import testProps from '../../../utils/testProps';
-import {
-  useRecoverPasswordVerificationCodeMutation,
-  useSignInMutation,
-} from '../../../base/graphql/generated';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
-
-enum CryptType {
-  SHA256 = 3,
-}
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import useInitialDito from '../../../hooks/useInitialDito';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -35,9 +25,8 @@ export const LoginScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { comeFrom, previousPage } = route.params;
-  const { setCookie, setEmail, saveCredentials } = useAuth();
-
-  const setIsLogged = useDitoStore((state) => state.setIsLogged);
+  const [loadingSignIn, setLoadingSignIn] = useState<boolean>(false);
+  const { onSignIn } = useAuthStore(['onSignIn']);
 
   const [loginCredentials, setLoginCredentials] = useState({
     username: '',
@@ -51,19 +40,9 @@ export const LoginScreen: React.FC<Props> = ({
   });
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
-  const [loginWithCode] = useState(false);
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
 
-  const [sendEmail, { loading: loadingSendMail }] = useRecoverPasswordVerificationCodeMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
-  });
-
-  const [doSignIn, {
-    data: dataSignIn, loading: loadingSignIn, error: errorSignIn,
-  }] = useSignInMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
-  });
-  const { setItem } = useAsyncStorageProvider();
+  const { handleDitoRegister } = useInitialDito();
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -76,117 +55,37 @@ export const LoginScreen: React.FC<Props> = ({
     });
   };
 
-  const onSignIn = useCallback(async (email: string, password: string) => {
+  const doSignIn = useCallback(async (email: string, password: string) => {
     try {
-      const { data } = await doSignIn({
-        variables: {
-          input: {
-            email,
-            password,
-          },
-        },
-      });
-      if (data?.signIn?.token && data?.signIn?.authCookie) {
-        const date = new Date();
-        date.setDate(date.getDate() + 1);
-        const expires = date.getTime();
+      setLoadingSignIn(true);
 
-        await setItem('@RNAuth:NextRefreshTime', expires);
-        await AsyncStorage.setItem('@RNAuth:Token', data?.signIn?.token);
-        await AsyncStorage.setItem('@RNAuth:cookie', data?.signIn?.authCookie);
-        setCookie(data?.signIn?.authCookie);
-        navigation.navigate('Home');
-      }
+      Keyboard.dismiss();
+
+      await onSignIn(email, password);
+      handleDitoRegister();
+
+      navigation.navigate('Home');
     } catch (err) {
       EventProvider.captureException(err);
       validateCredentials();
+    } finally {
+      setLoadingSignIn(false);
     }
-  }, []);
+  }, [handleDitoRegister, navigation, onSignIn, validateCredentials]);
 
   const { identifyCustomer } = useCart();
 
-  const removeMessageErrorEmail = () => {
-    setLoginCredentials({
-      ...loginCredentials,
-      showUsernameError: false,
-      usernameError: '',
-    });
-  };
   const handleLogin = async () => {
     if (emailIsValid && passwordIsValid) {
       setIsLoadingEmail(true);
       const email = loginCredentials.username.trim().toLowerCase();
       const { password } = loginCredentials;
-      await onSignIn(email, password).finally(() => { setIsLoadingEmail(false); });
 
-      if (!errorSignIn) {
-        setIsLogged(true);
-        const emailHash = await sha256(email);
+      await doSignIn(email, password);
 
-        await saveCredentials({
-          email,
-          password: loginCredentials.password,
-        });
-
-        EventProvider.setPushExternalUserId(email);
-
-        EventProvider.appsFlyer.logEvent(
-          'af_login',
-          {},
-          () => { },
-          (error) => {
-            EventProvider.captureException(error);
-          },
-        );
-
-        EventProvider.appsFlyer.setUserEmails(
-          {
-            emails: [emailHash],
-            emailsCryptType: CryptType.SHA256,
-          },
-          () => { },
-          (error) => {
-            EventProvider.captureException(error);
-          },
-        );
-
-        if (setEmail) setEmail(email);
-
-        AsyncStorage.setItem(
-          '@RNAuth:email',
-          loginCredentials.username.trim().toLowerCase(),
-        ).then(() => { });
-        await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
-        await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
-      } else {
-        validateCredentials();
-      }
+      setIsLoadingEmail(false);
     } else {
       validateCredentials();
-    }
-  };
-
-  const handleLoginCode = () => {
-    if (emailIsValid) {
-      removeMessageErrorEmail();
-      sendEmail({
-        variables: {
-          input: {
-            email: loginCredentials.username,
-          },
-        },
-      }).then(async () => {
-        await saveCredentials(null);
-        navigation.navigate('AccessCode', {
-          email: loginCredentials.username,
-        });
-      });
-    } else {
-      setLoginCredentials({
-        ...loginCredentials,
-        showUsernameError: true,
-        usernameError: 'Digite um e-mail válido',
-      });
     }
   };
 
@@ -212,6 +111,7 @@ export const LoginScreen: React.FC<Props> = ({
     if (loadingSignIn) {
       return;
     }
+
     try {
       if (comeFrom === 'Checkout') {
         verifyUserEmail();
@@ -220,7 +120,7 @@ export const LoginScreen: React.FC<Props> = ({
     } catch (error) {
       EventProvider.captureException(error);
     }
-  }, [dataSignIn]);
+  }, [comeFrom, loadingSignIn, verifyUserEmail]);
 
   const handleNavigatePreviusPage = useCallback(() => {
     if (previousPage) {
@@ -233,7 +133,7 @@ export const LoginScreen: React.FC<Props> = ({
 
   useEffect(() => {
     ClientDelivery();
-  }, [dataSignIn]);
+  }, []);
 
   useEffect(() => {
     EventProvider.sentry.configureScope((scope) => scope.setTransactionName('LoginScreen'));
@@ -286,63 +186,62 @@ export const LoginScreen: React.FC<Props> = ({
               }}
             />
 
-            {!loginWithCode && (
-              <Box mt="md" width="100%">
-                <UnderlineInput
-                  testID="com.usereserva:id/login_input_password"
-                  isSecureText
-                  placeholder="Digite sua senha"
-                  value={loginCredentials.password}
-                  showError={loginCredentials.showPasswordError}
-                  onChangeText={(text) => {
-                    setLoginCredentials({
-                      ...loginCredentials,
-                      password: text,
-                    });
-                    setPasswordIsValid(
-                      Yup.string()
-                        .required()
-                        .matches(/^(?=.{8,})/) // 8 caracteres
-                        .matches(/^(?=.*[A-Z])/) // pelo menos uma maiuscula
-                        .matches(/^(?=.*[a-z])/) // pelo menos uma minuscula
-                        .matches(/^(?=.*[0-9])/) // pelo menos um nuemro
-                        .isValidSync(text),
-                    );
+            <Box mt="md" width="100%">
+              <UnderlineInput
+                testID="com.usereserva:id/login_input_password"
+                isSecureText
+                placeholder="Digite sua senha"
+                value={loginCredentials.password}
+                showError={loginCredentials.showPasswordError}
+                onChangeText={(text) => {
+                  setLoginCredentials({
+                    ...loginCredentials,
+                    password: text,
+                  });
+                  setPasswordIsValid(
+                    Yup.string()
+                      .required()
+                      .matches(/^(?=.{8,})/) // 8 caracteres
+                      .matches(/^(?=.*[A-Z])/) // pelo menos uma maiuscula
+                      .matches(/^(?=.*[a-z])/) // pelo menos uma minuscula
+                      .matches(/^(?=.*[0-9])/) // pelo menos um nuemro
+                      .isValidSync(text),
+                  );
+                }}
+              />
+              <Box mt="micro" mb="quarck">
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('ForgotEmail', {});
                   }}
-                />
-                <Box mt="micro" mb="quarck">
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate('ForgotEmail', {});
-                    }}
-                  >
-                    <Typography style={{ textDecorationLine: 'underline' }}>
-                      Esqueci minha senha
-                    </Typography>
-                  </TouchableOpacity>
-                </Box>
-                {loginCredentials.hasError && (
-                  <Typography
-                    color="vermelhoAlerta"
-                    fontFamily="nunitoRegular"
-                    fontSize={13}
-                  >
-                    {loginCredentials.showMessageError}
+                >
+                  <Typography style={{ textDecorationLine: 'underline' }}>
+                    Esqueci minha senha
                   </Typography>
-                )}
+                </TouchableOpacity>
               </Box>
-            )}
+              {loginCredentials.hasError && (
+              <Typography
+                color="vermelhoAlerta"
+                fontFamily="nunitoRegular"
+                fontSize={13}
+              >
+                {loginCredentials.showMessageError}
+              </Typography>
+              )}
+            </Box>
           </Box>
+
           <Box mt="md" />
           {/* TODO  add {...testProps(testID)} reserva-ui */}
           <Button
             accessible={false}
             testID="com.usereserva:id/login_button_sign_in"
-            title={!loginWithCode ? 'ENTRAR' : 'RECEBER CÓDIGO'}
+            title="ENTRAR"
             inline
             variant="primarioEstreitoOutline"
-            disabled={loadingSendMail || loadingSignIn || isLoadingEmail}
-            onPress={() => (loginWithCode ? handleLoginCode() : handleLogin())}
+            disabled={loadingSignIn || isLoadingEmail}
+            onPress={handleLogin}
           />
 
           <Box
@@ -376,7 +275,7 @@ export const LoginScreen: React.FC<Props> = ({
             title="CADASTRE-SE"
             inline
             variant="primarioEstreito"
-            disabled={loadingSendMail || loadingSignIn || isLoadingEmail}
+            disabled={loadingSignIn || isLoadingEmail}
             onPress={() => {
               navigation.navigate('RegisterEmail', {});
             }}

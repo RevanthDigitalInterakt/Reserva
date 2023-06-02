@@ -644,6 +644,7 @@ export type OrderformOutput = {
   allItemsQuantity: Scalars['Int'];
   appTotalizers: OrderformAppTotalizersOutput;
   clientProfileData?: Maybe<OrderformClientProfileDataOutput>;
+  hasPrimeSubscriptionInCart: Scalars['Boolean'];
   installmentInfo: OrderformInstallmentInfoOutput;
   items: Array<OrderformItemOutput>;
   marketingData?: Maybe<OrderformMarketingDataOutput>;
@@ -746,6 +747,29 @@ export type PaginationInput = {
   page: Scalars['Int'];
 };
 
+export type PricePrimeInstallmentOutput = {
+  __typename?: 'PricePrimeInstallmentOutput';
+  number: Scalars['Float'];
+  value: Scalars['Float'];
+};
+
+export type PrimeDetailOutput = {
+  __typename?: 'PrimeDetailOutput';
+  discountFrom: Scalars['Float'];
+  discountPercentage: Scalars['Int'];
+  installmentPrice: Scalars['Float'];
+  installmentQty: Scalars['Int'];
+  monthlyCashback: Scalars['Float'];
+  productId: Scalars['Int'];
+  productSeller: Scalars['String'];
+};
+
+export type PrimeInfoOutput = {
+  __typename?: 'PrimeInfoOutput';
+  installment: PricePrimeInstallmentOutput;
+  price: Scalars['Float'];
+};
+
 export type ProductColorOutput = {
   __typename?: 'ProductColorOutput';
   colorId: Scalars['String'];
@@ -825,9 +849,9 @@ export type ProductOutput = {
   colors: Array<ProductColorOutput>;
   disabledColors: Array<Scalars['String']>;
   initialColor?: Maybe<ProductColorOutput>;
-  initialColorId: Scalars['String'];
+  initialColorId?: Maybe<Scalars['String']>;
   initialSize?: Maybe<ProductSizeOutput>;
-  initialSizeId: Scalars['String'];
+  initialSizeId?: Maybe<Scalars['String']>;
   priceRange: ProductPriceRangeOutput;
   productId: Scalars['ID'];
   productName: Scalars['String'];
@@ -890,6 +914,7 @@ export type ProductSizeOutput = {
   itemId: Scalars['ID'];
   /** Price without discount (original price) - may be null if the original price is equal to current price */
   listPrice: Scalars['Float'];
+  prime: PrimeInfoOutput;
   seller: Scalars['String'];
   size: Scalars['String'];
 };
@@ -925,12 +950,13 @@ export type ProfileOutput = {
   birthDate?: Maybe<Scalars['String']>;
   customFields: Array<Maybe<ProfileCustomFieldOutput>>;
   document?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
   gender?: Maybe<Scalars['String']>;
   homePhone?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isComplete: Scalars['Boolean'];
+  isPrime: Scalars['Boolean'];
   lastName?: Maybe<Scalars['String']>;
   payments: Array<Maybe<ProfilePaymentOutput>>;
 };
@@ -967,6 +993,7 @@ export type Query = {
   contentfulCollections: Array<ContentfulCollectionOutput>;
   contentfulProducts: Array<ContentfulProductItemOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
+  landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean'];
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
@@ -1128,6 +1155,7 @@ export type SendLeadInput = {
 
 export type SignInInput = {
   email: Scalars['String'];
+  isNewUser?: InputMaybe<Scalars['Boolean']>;
   password: Scalars['String'];
 };
 
@@ -1196,7 +1224,7 @@ export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', 
 
 export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } };
 
-export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> };
+export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> };
 
 export type OrderFormAddDiscountCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
@@ -1293,7 +1321,7 @@ export type ProfileUpdateMutationVariables = Exact<{
 }>;
 
 
-export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
+export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
 
 export type ProfileAddressMutationVariables = Exact<{
   input: UpsertProfileAddressInput;
@@ -1454,7 +1482,7 @@ export type ProductRecommendationsQuery = { __typename?: 'Query', productRecomme
 export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
+export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String'];

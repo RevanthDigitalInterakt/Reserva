@@ -1,5 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
@@ -7,9 +6,8 @@ import {
   Typography, Box, Button,
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
 
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import { useRecoverPasswordVerificationCodeMutation } from '../../../base/graphql/generated';
@@ -19,7 +17,6 @@ export interface ForgotEmailProps
   extends StackScreenProps<RootStackParamList, 'ForgotEmail'> {}
 
 export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
-  const { setCookie } = useAuth();
   const [email, setEmail] = useState('');
   const [hasError, setHasError] = useState(false);
 
@@ -31,16 +28,18 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
     try {
       const { data } = await sendEmailVerification({
         variables: {
-          input: {
-            email,
-          },
+          input: { email },
         },
       });
 
       if (data?.recoverPasswordVerificationCode?.cookies) {
-        setCookie(JSON.stringify(data?.recoverPasswordVerificationCode?.cookies));
-        await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(data?.recoverPasswordVerificationCode?.cookies));
-        navigation.navigate('ForgotAccessCode', { email });
+        navigation.navigate(
+          'ForgotAccessCode',
+          {
+            email,
+            cookies: data?.recoverPasswordVerificationCode?.cookies,
+          },
+        );
       }
     } catch (e) {
       EventProvider.captureException(e);

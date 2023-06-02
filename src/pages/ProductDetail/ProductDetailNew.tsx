@@ -16,11 +16,13 @@ import { useProductLazyQuery } from '../../base/graphql/generated';
 import { getProductLoadType } from './utils/getProductLoadType';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../utils/EventProvider';
-import { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
+import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
+import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 function ProductDetailNew({ route, navigation }: IProductDetailNew) {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { setProduct, resetProduct, productDetail } = useProductDetailStore([
     'setProduct',
     'resetProduct',
@@ -28,7 +30,7 @@ function ProductDetailNew({ route, navigation }: IProductDetailNew) {
   ]);
 
   const [getProduct, { loading }] = useProductLazyQuery({
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: getFetchPolicyPerKey('productDetail'),
     notifyOnNetworkStatusChange: true,
     context: { clientName: 'gateway' },
   });

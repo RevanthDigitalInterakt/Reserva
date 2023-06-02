@@ -8,7 +8,6 @@ import Clipboard from '@react-native-community/clipboard';
 import AsyncStorage from '@react-native-community/async-storage';
 import TesterAreaViewComponent from '../TesterAreaViewComponent';
 import CartContextProvider from '../../../../../context/CartContext';
-import AuthContextProvider from '../../../../../context/AuthContext';
 
 const TestsIds = {
   buttons: {
@@ -39,9 +38,7 @@ const handleToggleModalTesting = jest.fn();
 const TestingComponent = (
   <ThemeProvider theme={theme}>
     <CartContextProvider>
-      <AuthContextProvider>
-        <TesterAreaViewComponent handleToggleModalTesting={handleToggleModalTesting} />
-      </AuthContextProvider>
+      <TesterAreaViewComponent handleToggleModalTesting={handleToggleModalTesting} />
     </CartContextProvider>
   </ThemeProvider>
 );

@@ -31,7 +31,6 @@ import {
 import * as Yup from 'yup';
 import Config from 'react-native-config';
 import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import {
   GET_PRODUCTS,
@@ -62,6 +61,7 @@ import testProps from '../../../utils/testProps';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { onShare } from '../../../utils/onShare';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -193,7 +193,7 @@ export const ProductDetailOld: React.FC<Props> = ({
 
   /** Contexts */
   const { addItem, orderForm } = useCart();
-  const { email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
 
   const { getBoolean, getString } = useRemoteConfig();
 
@@ -288,7 +288,7 @@ export const ProductDetailOld: React.FC<Props> = ({
         data: { checkList },
       } = await checkListRefetch({
         variables: {
-          shopperId: email || '',
+          shopperId: profile?.email || '',
           productId: product?.productId?.split('-')[0],
         },
       });
@@ -300,14 +300,14 @@ export const ProductDetailOld: React.FC<Props> = ({
   };
 
   const handleOnFavorite = async (favorite: boolean) => {
-    if (email) {
+    if (profile?.email) {
       if (product && product.productId) {
         setLoadingFavorite(true);
 
         if (favorite) {
           const { data } = await addWishList({
             variables: {
-              shopperId: email || '',
+              shopperId: profile?.email || '',
               productId: product?.productId?.split('-')[0],
               sku: selectedVariant?.itemId,
             },
@@ -315,7 +315,7 @@ export const ProductDetailOld: React.FC<Props> = ({
         } else {
           await removeWishList({
             variables: {
-              shopperId: email || '',
+              shopperId: profile?.email || '',
               id: wishInfo.listIds[0],
             },
           });

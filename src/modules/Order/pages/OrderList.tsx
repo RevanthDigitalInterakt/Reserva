@@ -8,9 +8,9 @@ import { BackHandler, FlatList, SafeAreaView } from 'react-native';
 import { IOrder, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
-import { useAuth } from '../../../context/AuthContext';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 const OrderList = () => {
   const { searchNewOrders } = useCart();
@@ -19,11 +19,15 @@ const OrderList = () => {
   const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
   const navigation = useNavigation();
-  const { cookie, email } = useAuth();
+
+  const { profile } = useAuthStore(['profile']);
 
   const fetchOrders = async () => {
+    if (!profile?.email || !profile?.authCookie) return;
+
     setLoading(true);
-    const data = await searchNewOrders(page.toString(), email, cookie);
+
+    const data = await searchNewOrders(page.toString(), profile.email, profile.authCookie);
     if (data) {
       setOrdersList([...ordersList, ...data.list]);
       setTotalOrders(data.paging.total);
@@ -90,9 +94,7 @@ const OrderList = () => {
                 >
                   <LottieView
                     source={loadingSpinner}
-                    style={{
-                      width: 40,
-                    }}
+                    style={{ width: 40 }}
                     autoPlay
                     loop
                   />
@@ -108,6 +110,7 @@ const OrderList = () => {
             keyExtractor={(item) => item.orderId.toString()}
           />
         )}
+
         {!loading && ordersList.length === 0 && (
           <Box flex={1} alignItems="center" paddingTop="60%">
             <Box mx={37}>

@@ -1,92 +1,47 @@
 import { useClipboard } from '@react-native-community/clipboard';
-import { useNavigation } from '@react-navigation/core';
-import { useFocusEffect } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Linking, Platform, SafeAreaView, ScrollView,
 } from 'react-native';
 import {
   Box,
-  Button, Icon,
-  Stepper, Typography,
+  Button,
+  Icon,
+  Stepper,
+  Typography,
 } from '@usereservaapp/reserva-ui';
-import { useAuth } from '../../../context/AuthContext';
 import { IOrderId, useCart } from '../../../context/CartContext';
-import { RootStackParamList } from '../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
 import { platformType } from '../../../utils/platformType';
-
-type Props = StackScreenProps<RootStackParamList, 'OrderDetail'>;
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation();
-  const { email, cookie } = useAuth();
-  const { orderDetail, searchNewOrderDetail } = useCart();
+  const { orderDetail } = useCart();
   const [orderDetails, setOrderDetails] = useState<IOrderId>();
   const [copiedText, setCopiedText] = useClipboard();
+  const [loading, setLoading] = useState(true);
   const [clickedIcon, setClickedIcon] = useState(false);
+  const { profile } = useAuthStore(['profile']);
+
+  const fetchOrderDetail = async () => {
+    if (profile?.authCookie != null) {
+      setLoading(true);
+      const data = await orderDetail(order.orderId);
+      setOrderDetails(data);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchOrderDetail();
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      fetchOrderDetail();
-    }, []),
-  );
-
-  const fetchOrderDetail = async () => {
-    if (cookie != null) {
-      const data = await orderDetail(order.orderId);
-      setOrderDetails(data);
-    }
-  };
-
-  // const fetchOrderDetail = async () => {
-  //   if (cookie != null) {
-  //     const data = await searchNewOrderDetail(order.orderId, email, cookie);
-  //     setOrderDetails(data);
-  //   }
-  // };
-
-  const getDeliveryPreview = () => {
-    if (orderDetails) {
-      const { shippingData } = orderDetails;
-      const { selectedSla, slas } = shippingData.logisticsInfo[0];
-      const sla = slas.find(({ name }: any) => name === selectedSla);
-      if (sla) {
-        const { shippingEstimate } = sla;
-        const businessDaysAmount = shippingEstimate.match(/\d+/g)[0];
-        const estimatedDeliveryDay = new Date();
-        estimatedDeliveryDay.setDate(
-          estimatedDeliveryDay.getDate() + +businessDaysAmount,
-        );
-
-        if (estimatedDeliveryDay.getDay() === 0) {
-          estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 3);
-        }
-
-        if (estimatedDeliveryDay.getDay() === 7) {
-          estimatedDeliveryDay.setDate(estimatedDeliveryDay.getDate() + 5);
-        }
-        const day = estimatedDeliveryDay.getDate() < 10
-          ? `0${estimatedDeliveryDay.getDate()}`
-          : estimatedDeliveryDay.getDate();
-
-        const month = estimatedDeliveryDay.getMonth() + 1 < 10
-          ? `0${estimatedDeliveryDay.getMonth() + 1}`
-          : estimatedDeliveryDay.getMonth() + 1;
-
-        return `${day}/${month}/${estimatedDeliveryDay.getFullYear()}`;
-      }
-    }
-  };
   const handleCopiedText = () => {
     setClickedIcon(true);
     if (orderDetails) {
@@ -100,7 +55,7 @@ const OrderList: React.FC<any> = ({ route }) => {
   return (
     <>
       <SafeAreaView flex={1} backgroundColor="white">
-        <TopBarBackButton showShadow />
+        <TopBarBackButton showShadow loading={loading} />
         <ScrollView
           contentContainerStyle={{ paddingHorizontal: 20 }}
           showsVerticalScrollIndicator={false}
@@ -156,7 +111,6 @@ const OrderList: React.FC<any> = ({ route }) => {
                         'dd/MM/yy',
                         { locale: ptBR },
                       )}
-                      {/* {getDeliveryPreview()} */}
                     </Typography>
                     )}
                   <Box mt="nano">

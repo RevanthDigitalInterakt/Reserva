@@ -9,7 +9,6 @@ import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import CartContextProvider from '../../../../context/CartContext';
 import Checkout from '../WebviewCheckout';
-import AuthContextProvider from '../../../../context/AuthContext';
 import EventProvider from '../../../../utils/EventProvider';
 
 jest.spyOn(Date, 'now').mockImplementation(() => 1621556195000);
@@ -42,13 +41,9 @@ AsyncStorageMock.getItem = jest.fn((key) => {
     return Promise.resolve('65e82407d5d594262e1d2686e1e2db37b948f768');
   }
 
-  if (key === '@RNAuth:email') return Promise.resolve('test123@gmail.com');
-
   if (key === '@RNSession:Ron') return Promise.resolve('false');
 
   if (key === 'isTesting') return Promise.resolve('false');
-
-  if (key === '@RNAuth:cookie') return Promise.resolve('123abc');
 
   return Promise.resolve('');
 });
@@ -59,9 +54,7 @@ describe('userOrdered', () => {
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={[]}>
           <CartContextProvider>
-            <AuthContextProvider>
-              <Checkout />
-            </AuthContextProvider>
+            <Checkout />
           </CartContextProvider>
         </MockedProvider>
       </ThemeProvider>
@@ -76,10 +69,6 @@ describe('userOrdered', () => {
     expect(screen.toJSON()).toMatchSnapshot();
 
     expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(1, 'isTesting');
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(2, '@RNAuth:RSAKey');
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(3, '@RNAuth:cookie');
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(4, '@RNAuth:cookie');
-    expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(5, '@RNAuth:email');
   });
 
   it('WHEN trackEventOrderedDito success should return ordered event payload', async () => {
@@ -89,9 +78,7 @@ describe('userOrdered', () => {
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={[]}>
           <CartContextProvider>
-            <AuthContextProvider>
-              <Checkout />
-            </AuthContextProvider>
+            <Checkout />
           </CartContextProvider>
         </MockedProvider>
       </ThemeProvider>

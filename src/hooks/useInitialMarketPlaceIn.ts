@@ -2,16 +2,21 @@ import { useCallback, useEffect } from 'react';
 import useMarketPlaceInStore from '../zustand/useMarketPlaceInStore';
 import { useMktinStatusLazyQuery, useSellersMktinLazyQuery } from '../base/graphql/generated';
 import EventProvider from '../utils/EventProvider';
+import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
 
 const useInitialMarketPlaceIn = () => {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const setMktinActive = useMarketPlaceInStore((state) => state.setMktinActive);
   const setSellersMktIn = useMarketPlaceInStore((state) => state.setSellersMktIn);
+
   const [sellersMktIn] = useSellersMktinLazyQuery({
     context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('sellersMktin'),
   });
 
   const [mktInStatus] = useMktinStatusLazyQuery({
     context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('mktinStatus'),
   });
 
   const getSellersMktIn = useCallback(async () => {

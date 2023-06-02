@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { Box, TextField } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
-import remoteConfig from '@react-native-firebase/remote-config';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import FullNameIcon from './Icons/FullNameIcon';
@@ -31,12 +30,12 @@ import {
   generatePayloadToUploadUserData,
   IUserDataUpload,
 } from '../../../../utils/updateUserData';
-import { useCart } from '../../../../context/CartContext';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import type { IFormEditProfileSchema } from './interfaces/formEditProfile';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/graphql/generated';
-import { useAuth } from '../../../../context/AuthContext';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;
@@ -52,12 +51,10 @@ function FormEditProfileComponent({
   handleToogleLoading,
 }: IFormEditProfileComponentProps): JSX.Element {
   const [isUserTest, setIsUserTest] = useState<boolean>(false);
-  const {
-    orderForm, addCustomer, identifyCustomer, updateOrderForm,
-  } = useCart();
   const { deleteFS, createFS } = new FirebaseService();
   const navigation = useNavigation();
-  const { email } = useAuth();
+  const { getObject } = useRemoteConfig();
+  const { profile, onGetProfile } = useAuthStore(['profile', 'onGetProfile']);
 
   const [getProfileUserData] = useProfileLazyQuery({
     context: { clientName: 'gateway' },
@@ -105,31 +102,18 @@ function FormEditProfileComponent({
         },
       });
 
+      await onGetProfile();
+
       if (isRegister) {
-        if (orderForm) {
-          const response = await addCustomer({
-            firstName: userDateUpload.firstName,
-            lastName: userDateUpload.lastName,
-            document: userDateUpload.document,
-            documentType: 'cpf',
-            phone: userDateUpload.homePhone,
-          });
+        navigation.navigate('BagScreen', { isProfileComplete: true });
 
-          if (response) {
-            if (email) await identifyCustomer(email);
-            await updateOrderForm();
-            navigation.navigate('BagScreen', { isProfileComplete: true });
-
-            return;
-          }
-        }
+        return;
       }
 
       handleToogleLoading(false);
 
       navigation.goBack();
-    },
-    [],
+    }, [],
   );
 
   const editProfileForm = useFormik<IFormEditProfileSchema>({
@@ -162,11 +146,10 @@ function FormEditProfileComponent({
   );
 
   const getIsTesterUser = useCallback(async (userEmail: string) => {
-    const testers = await remoteConfig().getValue('EMAIL_TESTERS');
-    if (JSON.parse(testers.asString()).includes(userEmail)) {
-      setIsUserTest(true);
-    }
-  }, []);
+    const emails = getObject('EMAIL_TESTERS');
+
+    setIsUserTest(emails.includes(userEmail));
+  }, [getObject]);
 
   const handleUserDataInitializer = useCallback(async () => {
     try {
@@ -183,6 +166,7 @@ function FormEditProfileComponent({
           gender,
           homePhone,
           customFields,
+          email,
         },
       } = data;
 
@@ -259,7 +243,7 @@ function FormEditProfileComponent({
       {!isRegister && (
         <UserProfilePictureComponent
           toogleModalChangeFile={() => handleModal('changeFileModal')}
-          userEmail={email || ''}
+          userEmail={profile?.email || ''}
           file={editProfileForm.values.profileImage}
         />
       )}
@@ -285,10 +269,10 @@ function FormEditProfileComponent({
             style={{ color: '#8A8C8E' }}
             editable={false}
             accessibilityLabel="formeditprofile_input_email"
-            label={email?.length ? 'E-mail' : null}
-            value={email || ''}
+            label={profile?.email?.length ? 'E-mail' : null}
+            value={profile?.email || ''}
             iconRight={
-              <EmailIcon isEmpty={!email?.length} />
+              <EmailIcon isEmpty={!profile?.email?.length} />
             }
           />
         </Box>
@@ -375,9 +359,10 @@ function FormEditProfileComponent({
         <NewsLetterComponent
           value={editProfileForm.values.newsLetter}
           handleToogleNewsLetterState={(currentTextValue: boolean) => handleChangeFormValue<boolean>('newsLetter', currentTextValue)}
-          userEmail={email || ''}
+          userEmail={profile?.email || ''}
         />
       )}
+
       {!isRegister && (
         <DeleteAccountComponent userId={editProfileForm.values.id} />
       )}

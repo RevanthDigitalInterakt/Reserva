@@ -37,7 +37,8 @@ import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
 import {
   useCheckIfUserExistsLazyQuery,
-  useOrderFormAddSellerCouponMutation, useOrderFormAttachClientByCookieMutation, useOrderFormRefreshDataMutation,
+  useOrderFormAddSellerCouponMutation,
+  useOrderFormRefreshDataMutation,
 } from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
@@ -478,7 +479,7 @@ interface CartContextProps {
   orderForm: OrderForm | undefined;
   updateOrderForm: () => Promise<OrderForm | void>;
   addItem: (dto: IAddItemDTO) => Promise<TAddItemResponse>;
-  identifyCustomer: (email: string) => Promise<boolean | undefined>;
+  identifyCustomer: () => Promise<void>;
   addCustomer: (customer: any) => Promise<boolean | undefined>;
   addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
   getCepData: (postalCode: string) => Promise<CepResponse | undefined>;
@@ -564,10 +565,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
     context: { clientName: 'gateway' },
-  });
-
-  const [OrderFormAttachClientByCookie] = useOrderFormAttachClientByCookieMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
   const [orderFormRefreshData] = useOrderFormRefreshDataMutation({
@@ -789,30 +786,18 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const refreshOrderFormData = async (orderFormId: string) => {
     await orderFormRefreshData({
       variables: {
-        input: {
-          orderFormId,
-        },
+        input: { orderFormId },
       },
     });
   };
-  const identifyCustomer = async (email: string) => {
+  const identifyCustomer = async () => {
     try {
       if (orderForm?.orderFormId) {
         await refreshOrderFormData(orderForm?.orderFormId);
 
-        await OrderFormAttachClientByCookie({
-          variables: {
-            input: {
-              orderFormId: orderForm?.orderFormId,
-            },
-          },
-        });
-
         const { data } = await RestoreData(orderForm?.orderFormId);
-        setOrderForm(data);
 
-        // TODO - change this later, find a better way to check if theres's no user
-        return !!data?.OrderFormAttachClientByCookie?.clientProfileData?.firstName;
+        setOrderForm(data);
       }
     } catch (error) {
       EventProvider.captureException(error);

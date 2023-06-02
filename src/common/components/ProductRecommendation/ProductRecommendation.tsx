@@ -8,12 +8,14 @@ import { useProductRecommendationsQuery } from '../../../base/graphql/generated'
 import { ListHorizontalProducts } from '../../../modules/ProductDetail/components/ListHorizontalProducts';
 import EventProvider from '../../../utils/EventProvider';
 import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
+import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 
 interface IProductRecommendation {
   handleScrollToTheTop?: () => void;
 }
 
 export const ProductRecommendation = ({ handleScrollToTheTop }: IProductRecommendation) => {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const BoxAnimated = createAnimatableComponent(Box);
 
   const {
@@ -24,9 +26,8 @@ export const ProductRecommendation = ({ handleScrollToTheTop }: IProductRecommen
   } = useRecommendation();
 
   const { data } = useProductRecommendationsQuery({
-    context: {
-      clientName: 'gateway',
-    },
+    context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('productRecommendations'),
   });
 
   const doTrack = useCallback(() => {

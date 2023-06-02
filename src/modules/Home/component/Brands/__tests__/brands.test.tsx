@@ -19,6 +19,13 @@ interface IApolloMock<T> {
   }
 }
 
+jest.mock('../../../../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    initialized: true,
+    getFetchPolicyPerKey: () => 0,
+  }),
+}));
+
 const apolloMocks: Array<IApolloMock<IBrandsCarouselQuery>> = [
   {
     request: {

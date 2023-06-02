@@ -4,7 +4,6 @@ import React, {
 import { Typography, Box, Alert } from '@usereservaapp/reserva-ui';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../../context/AuthContext';
 import DeliverySelector from './DeliverySelector';
 import { useCart } from '../../../context/CartContext';
 import formatString from '../../../utils/formatString';
@@ -12,6 +11,7 @@ import AddressSelector from '../../Address/Components/AddressSelector';
 import {
   useProfileAddressRemoveMutation,
 } from '../../../base/graphql/generated';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 interface IReceiveHome {
   typeOfDelivery: any[];
@@ -32,14 +32,13 @@ const ReceiveHome = ({
   onDeliveryChosen,
   onAddressChosen,
   shippingValue,
-  loading,
 }: IReceiveHome) => {
-  const { cookie, email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
   const [selectedId, setSelectedId] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
   const [addressId, setAddressId] = useState('');
   const navigation = useNavigation();
-  const { identifyCustomer, orderForm } = useCart();
+  const { identifyCustomer } = useCart();
   const modalRef = useRef(false);
   const [successModal, setSuccessModal] = useState(false);
 
@@ -65,20 +64,15 @@ const ReceiveHome = ({
         confirmText="SIM"
         onConfirm={async () => {
           modalRef.current = true;
-          const { data } = await profileAddressRemove({
+          await profileAddressRemove({
             variables: {
-              input: {
-                addressId,
-              },
+              input: { addressId },
             },
           });
+
           setDeleteModal(false);
 
-          if (data?.profileAddressRemove) {
-            if (email && orderForm?.orderFormId) {
-              await identifyCustomer(email);
-            }
-          }
+          await identifyCustomer();
         }}
         cancelText="NÃO"
         onCancel={() => {
@@ -223,7 +217,7 @@ const ReceiveHome = ({
             id, name, shippingEstimate, price,
           } = item;
 
-          if (cookie != null) {
+          if (profile?.authCookie != null) {
             if (selectedDelivery) {
               selected = id === selectedDelivery.id && item;
             }

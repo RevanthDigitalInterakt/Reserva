@@ -3,19 +3,21 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
+import * as Sentry from '@sentry/react-native';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
-import { BackHandler, SafeAreaView, ScrollView } from 'react-native';
+import {
+  Alert, BackHandler, Keyboard, SafeAreaView, ScrollView,
+} from 'react-native';
 import * as Yup from 'yup';
-import AsyncStorage from '@react-native-community/async-storage';
 import { FormikTextInput } from '../../../shared/components/FormikTextInput';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useRedefinePasswordMutation } from '../../../base/graphql/generated';
-import { useAuth } from '../../../context/AuthContext';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
-const EditPasswordSuccessful = () => {
+function EditPasswordSuccessful() {
   const navigation = useNavigation();
 
   return (
@@ -42,10 +44,10 @@ const EditPasswordSuccessful = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
+
 export const EditPassword = () => {
   const formRef = useRef<any>(null);
-  const { email } = useAuth();
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
   const [showRepeatPassword, setShowRepeatPassword] = useState(true);
@@ -61,13 +63,15 @@ export const EditPassword = () => {
   const navigation = useNavigation();
   const { setItem } = useAsyncStorageProvider();
 
+  const { profile, onUpdateAuthData } = useAuthStore(['profile', 'onUpdateAuthData']);
+
   const handleSubmit = async () => {
     if (formRef.current) {
       await formRef.current.handleSubmit();
     }
   };
 
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues] = useState({
     password: '',
     passwordConfirm: '',
     currentPassword: '',
@@ -84,25 +88,35 @@ export const EditPassword = () => {
   });
 
   const changePassword = useCallback(async (password: string, currentPassword: string) => {
-    if (email) {
-      const { data: dataNewPassword } = await newPassword({
-        variables: {
-          input: {
-            currentPassword,
-            newPassword: password,
+    try {
+      if (profile?.email) {
+        Keyboard.dismiss();
+
+        const { data } = await newPassword({
+          variables: {
+            input: {
+              currentPassword,
+              newPassword: password,
+            },
           },
-        },
-      });
-      if (dataNewPassword) {
-        const date = new Date();
-        date.setDate(date.getDate() + 1);
-        const expires = date.getTime();
-        await setItem('@RNAuth:NextRefreshTime', expires);
-        await AsyncStorage.setItem('@RNAuth:Token', dataNewPassword?.redefinePassword?.token);
-        await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(dataNewPassword?.redefinePassword?.authCookie));
+        });
+
+        if (!data?.redefinePassword?.token || !data?.redefinePassword.authCookie) {
+          throw new Error('Error on Change Password [changePassword]');
+        }
+
+        onUpdateAuthData(data.redefinePassword.token, data.redefinePassword.authCookie);
       }
+    } catch (err) {
+      Sentry.withScope((scope) => {
+        scope.setExtra('password', password);
+        scope.setExtra('currentPassword', currentPassword);
+        Sentry.captureException(err);
+      });
+
+      Alert.alert('', 'Aconteceu um erro na alteração de senha.');
     }
-  }, [email, newPassword, setItem]);
+  }, [profile?.email, newPassword, onUpdateAuthData]);
 
   useEffect(() => {
     if (dataMutation?.redefinePassword?.token) {

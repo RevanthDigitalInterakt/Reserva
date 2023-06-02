@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
@@ -19,28 +18,21 @@ import { getBrands } from '../../../utils/getBrands';
 import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import {
-  ProfileOutput,
-  useOrderFormRefreshDataMutation,
   useProfileAddressMutation,
-  useProfileLazyQuery,
 } from '../../../base/graphql/generated';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
-type TProfileData = {
-  refetch: () => void;
-  data: ProfileOutput | null
-  loadingProfile: boolean
-};
-
 const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const { comeFrom } = route.params;
-
   const {
-    orderForm, addShippingOrPickupInfo, orderform,
+    orderForm,
+    addShippingOrPickupInfo,
+    orderform,
+    identifyCustomer,
   } = useCart();
-
-  const { cookie } = useAuth();
+  const { profile } = useAuthStore(['profile']);
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
   const [shippingValue, setShippingValue] = useState(0);
@@ -57,52 +49,14 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
-  const [{ data, loadingProfile, refetch }, setProfileData] = useState<TProfileData>({
-    refetch: () => { },
-    data: null,
-    loadingProfile: true,
-  });
-
-  const [getProfile] = useProfileLazyQuery({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
-  });
-
-  const [orderFormRefreshData] = useOrderFormRefreshDataMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
-  });
-
-  useEffect(() => {
-    getProfile().then((response) => {
-      if (response?.data) {
-        const { profile: responseProfile } = response?.data;
-        setProfileData({
-          refetch: response.refetch,
-          data: responseProfile,
-          loadingProfile: false,
-        });
-      }
-    });
-  }, []);
-
   useEffect(() => {
     Sentry.configureScope((scope) => scope.setTransactionName('DeliveryScreen'));
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      Sentry.setUser({
-        address: data?.addresses,
-      });
-      orderform();
-    }
-  }, [data]);
-
   useFocusEffect(
     useCallback(() => {
-      if (data) {
-        refetch();
-      }
-    }, [data]),
+      identifyCustomer();
+    }, []),
   );
 
   const requestMap = async () => {
@@ -162,7 +116,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         }),
       );
 
-      const data = await addShippingOrPickupInfo(logisticInfo, [
+      await addShippingOrPickupInfo(logisticInfo, [
         { ...item, addressType: 'residential' },
       ]);
       setLoading(false);
@@ -415,7 +369,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     updateAddresses();
-  }, [data, orderForm]);
+  }, [orderForm]);
 
   const handlePressBackButton = () => {
     if (comeFrom === 'Login') {
@@ -435,10 +389,10 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     try {
       const receiverName = payload?.receiverName
         ? payload?.receiverName
-        : `${data?.firstName} ${data?.lastName}`;
+        : `${profile?.firstName} ${profile?.lastName}`;
 
       // salvar endereço do usuário no orderform
-      if (cookie) {
+      if (profile?.authCookie) {
         const { data: dataProfileAddress } = await profileAddress({
           variables: {
             input: {
@@ -450,15 +404,10 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
         if (!dataProfileAddress) {
           feedbackErrorAlert();
-        } else if (orderForm?.orderFormId) {
-          await orderFormRefreshData({
-            variables: {
-              input: {
-                orderFormId: orderForm?.orderFormId,
-              },
-            },
-          });
         }
+
+        await identifyCustomer();
+
         orderform();
       }
     } catch (e) {
@@ -474,7 +423,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       <TopBarBackButton
         backButtonPress={handlePressBackButton}
         showShadow
-        loading={loadingProfile || loading}
+        loading={loading}
       />
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
@@ -599,7 +548,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
             )
           )}
         </Box>
-        {cookie != null && !selectMethodDelivery && (
+        {profile?.authCookie != null && !selectMethodDelivery && (
           <Box
             testID="com.usereserva:id/delivery_add_adress"
             justifyContent="flex-end"

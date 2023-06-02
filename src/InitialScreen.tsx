@@ -28,6 +28,8 @@ import useInitialMarketPlaceIn from './hooks/useInitialMarketPlaceIn';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import useInitialDito from './hooks/useInitialDito';
 import CodePushModal from './shared/components/CodePushModal';
+import { useAuthStore } from './zustand/useAuth/useAuthStore';
+import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 
 type UpdateInAppType = {
   updateInApp: {
@@ -44,16 +46,29 @@ const IOS_STORE_URL = 'https://apps.apple.com/br/app/reserva/id1566861458';
 const ANDROID_STORE_URL = 'https://play.google.com/store/apps/details?id=com.usereserva';
 
 function InitialScreen({ children }: { children: JSX.Element }) {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+  const { onInit, initialized } = useAuthStore(['onInit', 'initialized']);
   const { barStyle } = useStatusBar();
   const [pushNotification, setPushNotification] = useState<any>();
   const [showNotification, setShowNotification] = useState(false);
   const [onboardingView, setOnboardingView] = useState(false);
   const [getUpdateInApp] = useLazyQuery<UpdateInAppType>(UPDATE_IN_APP_QUERY, {
     context: { clientName: 'contentful' },
+    fetchPolicy: getFetchPolicyPerKey('updateInApp'),
   });
 
   useInitialMarketPlaceIn();
-  useInitialDito();
+  const { handleDitoRegister } = useInitialDito();
+
+  useEffect(() => {
+    onInit();
+  }, [onInit]);
+
+  useEffect(() => {
+    if (initialized) {
+      handleDitoRegister();
+    }
+  }, [initialized]);
 
   const onStatusUpdate: AndroidStatusEventListener = (
     status: StatusUpdateEvent,
@@ -135,11 +150,8 @@ function InitialScreen({ children }: { children: JSX.Element }) {
 
   const getOnboardingData = useCallback(async () => {
     const appData = await AsyncStorage.getItem('isAppFirstLaunched');
-    if (appData === 'true') {
-      setOnboardingView(true);
-    } else {
-      setOnboardingView(false);
-    }
+
+    setOnboardingView(appData === 'true');
   }, []);
 
   useEffect(() => {

@@ -50,6 +50,7 @@ import EventProvider from '../../../utils/EventProvider';
 import { generateFacets } from '../../../utils/generateFacets';
 import { useCheckSearchRedirectLazyQuery } from '../../../base/graphql/generated';
 import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
+import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -85,6 +86,8 @@ export const SearchScreen: React.FC<Props> = () => {
   const [selectedOrder, setSelectedOrder] = useState<string>();
   const [filterRequestList, setFilterRequestList] = useState<[] | undefined | null>([]);
 
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+
   const [{ collectionData, loadingCollection }, setCollectionData] = useState({
     collectionData: null,
     loadingCollection: false,
@@ -104,15 +107,12 @@ export const SearchScreen: React.FC<Props> = () => {
 
   const [getCheckSearchRedirect] = useCheckSearchRedirectLazyQuery({
     context: { clientName: 'gateway' },
-    fetchPolicy: 'cache-and-network',
   });
 
   const debouncedSearchTerm = useDebounce({ value: searchTerm, delay: 400 });
 
   const [getCollection] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
   });
 
   const [getFeaturedData] = useLazyQuery(productSearch, {
@@ -130,8 +130,6 @@ export const SearchScreen: React.FC<Props> = () => {
       simulationBehavior: 'default',
       productOriginVtex: false,
     },
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
   });
 
   const pageSize = 12;
@@ -190,10 +188,14 @@ export const SearchScreen: React.FC<Props> = () => {
   useEffect(() => {
     setCollectionData({ collectionData: null, loadingCollection: true });
     setFeaturedData({ featuredData: null, loadingFeatured: true });
-    getCollection().then(({ data }) => {
+    getCollection({
+      fetchPolicy: getFetchPolicyPerKey('config'),
+    }).then(({ data }) => {
       setCollectionData({ collectionData: data, loadingCollection: false });
     });
-    getFeaturedData().then(({ data }) => {
+    getFeaturedData({
+      fetchPolicy: getFetchPolicyPerKey('productFeaturedData'),
+    }).then(({ data }) => {
       setFeaturedData({ featuredData: data, loadingFeatured: false });
     });
   }, []);
@@ -204,7 +206,6 @@ export const SearchScreen: React.FC<Props> = () => {
     getSuggestions,
     { data: suggestionsData, loading: suggestionsLoading },
   ] = useLazyQuery(searchSuggestionsAndProductSearch, {
-    fetchPolicy: 'no-cache',
     variables: {
       salesChannel: '4',
     },
@@ -289,9 +290,8 @@ export const SearchScreen: React.FC<Props> = () => {
    * */
   const handleCheckSearchTerm = useCallback(async () => {
     const { data: dataSearch } = await getCheckSearchRedirect({
-      variables: {
-        q: debouncedSearchTerm,
-      },
+      variables: { q: debouncedSearchTerm },
+      fetchPolicy: getFetchPolicyPerKey('checkSearchRedirect'),
     });
 
     if (dataSearch?.checkSearchRedirect) {
@@ -300,7 +300,7 @@ export const SearchScreen: React.FC<Props> = () => {
         url: dataSearch.checkSearchRedirect,
       });
     }
-  }, [getCheckSearchRedirect, debouncedSearchTerm]);
+  }, [getCheckSearchRedirect, getFetchPolicyPerKey, debouncedSearchTerm]);
 
   const handleSearch = async (text: string) => {
     setProductData({ data: null, loading: true });
@@ -361,11 +361,12 @@ export const SearchScreen: React.FC<Props> = () => {
       variables: {
         fullText: debouncedSearchTerm,
       },
+      fetchPolicy: getFetchPolicyPerKey('searchSuggestionsAndProductSearch'),
     });
 
     // setShowResults(false);
     setShowAllProducts(false);
-  }, [getSuggestions, setShowAllProducts, debouncedSearchTerm, handleCheckSearchTerm]);
+  }, [getSuggestions, setShowAllProducts, getFetchPolicyPerKey, debouncedSearchTerm, handleCheckSearchTerm]);
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
     setLoadingRefetch(true);
@@ -426,11 +427,12 @@ export const SearchScreen: React.FC<Props> = () => {
           filterRequestList || [],
         ),
     },
-    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
-    getFacets().then((response) => setFacets({
+    getFacets({
+      fetchPolicy: getFetchPolicyPerKey('facets'),
+    }).then((response) => setFacets({
       facetsData: response.data,
       lodingFacets: false,
     }));

@@ -3,13 +3,15 @@ import * as Sentry from '@sentry/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery, useMutation } from '@apollo/client';
 
-import { useAuth } from '../context/AuthContext';
 import EventProvider from '../utils/EventProvider';
 import wishListQueries from '../graphql/wishlist/wishList';
+import { useAuthStore } from '../zustand/useAuth/useAuthStore';
+import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
 
 export function useWishlistLegacy() {
   const navigation = useNavigation();
-  const { email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
   const [onAddWishlist, { loading: loadingAdd }] = useMutation(
     wishListQueries.ADD_WISH_LIST,
@@ -30,19 +32,18 @@ export function useWishlistLegacy() {
   const [onCheckProductWishlist] = useLazyQuery(
     wishListQueries.CHECK_LIST,
     {
-      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
     },
   );
 
   const verifyAuthentication = useCallback(() => {
-    if (!email) {
+    if (!profile?.email) {
       navigation.navigate('Login', { comeFrom: 'Favorite' });
       return false;
     }
 
     return true;
-  }, [email, navigation]);
+  }, [profile?.email, navigation]);
 
   const addToWishlist = useCallback(async (productId: string, skuId: string) => {
     try {
@@ -50,7 +51,7 @@ export function useWishlistLegacy() {
 
       const { data } = await onAddWishlist({
         variables: {
-          shopperId: email,
+          shopperId: profile?.email,
           productId: productId.split('-')[0],
           sku: skuId,
         },
@@ -68,17 +69,18 @@ export function useWishlistLegacy() {
 
       return false;
     }
-  }, [verifyAuthentication, onAddWishlist, email]);
+  }, [verifyAuthentication, onAddWishlist, profile?.email]);
 
   const checkIfProductIsInWishlist = useCallback(async (productId: string, skuId: string) => {
     try {
-      if (!email || !productId || !skuId) return false;
+      if (!profile?.email || !productId || !skuId) return false;
 
       const { data } = await onCheckProductWishlist({
         variables: {
-          shopperId: email,
+          shopperId: profile?.email,
           productId: productId.split('-')[0],
         },
+        fetchPolicy: getFetchPolicyPerKey('getWishlist'),
       });
 
       return data.checkList?.listIds[0] || null;
@@ -91,7 +93,7 @@ export function useWishlistLegacy() {
 
       return null;
     }
-  }, [email, onCheckProductWishlist]);
+  }, [profile?.email, getFetchPolicyPerKey, onCheckProductWishlist]);
 
   const removeFromWishlist = useCallback(async (productId: string, skuId: string) => {
     try {
@@ -103,7 +105,7 @@ export function useWishlistLegacy() {
 
       const { data } = await onRemoveWishlist({
         variables: {
-          shopperId: email,
+          shopperId: profile?.email,
           id: wishlistItemId,
         },
       });
@@ -120,7 +122,7 @@ export function useWishlistLegacy() {
 
       return false;
     }
-  }, [verifyAuthentication, checkIfProductIsInWishlist, onRemoveWishlist, email]);
+  }, [verifyAuthentication, checkIfProductIsInWishlist, onRemoveWishlist, profile?.email]);
 
   return {
     loading: loadingAdd || loadingRemove,

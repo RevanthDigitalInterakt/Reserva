@@ -2,7 +2,6 @@ import { Platform } from 'react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useLazyQuery } from '@apollo/client';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import { platformType } from '../../../../utils/platformType';
@@ -13,14 +12,13 @@ import {
   getAFContentId, getAFContentType, sumQuantity,
 } from '../../../../utils/checkoutInitiatedEvents';
 import EventProvider from '../../../../utils/EventProvider';
-import { useAuth } from '../../../../context/AuthContext';
-import { profileQuery } from '../../../../graphql/profile/profileQuery';
 import SentryConfig from '../../../../config/sentryConfig';
 import {
-  useOrderFormAttachClientByCookieMutation,
+  useOrderFormAttachClientByCookieMutation, useOrderFormRefreshDataMutation,
 } from '../../../../base/graphql/generated';
 import { useCart } from '../../../../context/CartContext';
 import { getBrands } from '../../../../utils/getBrands';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 
 interface BagFooterParams {
   isProfileComplete: boolean
@@ -40,15 +38,18 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
   const navigation = useNavigation();
 
   const [navigateToDeliveryDisable, setNavigateToDeliveryDisable] = useState<boolean>(false);
+  const { profile } = useAuthStore(['profile']);
 
-  const { email } = useAuth();
+  const [attachClient, { loading: loadingAttach }] = useOrderFormAttachClientByCookieMutation({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
+  });
+  const [refreshOrderForm, { loading: loadingRefresh }] = useOrderFormRefreshDataMutation({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
+  });
 
-  // @TODO The getProfile query will be removed when siren is finished implementing login
-  const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
-  const [attachClientByCookie] = useOrderFormAttachClientByCookieMutation();
-
-  // @TODO Refactor to check if the profile is empty when siren has finished implementing login
-  const validateFieldsProfile = (profile: any) => {
+  const validateFieldsProfile = useCallback(() => {
     if (!profile) return false;
 
     if (
@@ -68,7 +69,7 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
       return true;
     }
     return false;
-  };
+  }, [profile]);
 
   const handleNavigateToDelivery = useCallback(async () => {
     setNavigateToDeliveryDisable(true);
@@ -130,16 +131,14 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
         EventProvider.captureException(error);
       }
 
-      if (!email) {
+      if (!profile?.email) {
         await restoreCart(currentOrderForm.orderFormId);
         setNavigateToDeliveryDisable(false);
         navigation.navigate('Login', { comeFrom: 'Checkout', previousPage: 'BagScreen' });
         return;
       }
 
-      const { data } = await getProfile();
-
-      const isEmptyProfile = validateFieldsProfile(data.profile);
+      const isEmptyProfile = validateFieldsProfile();
 
       if (isEmptyProfile && !isProfileComplete) {
         await restoreCart(currentOrderForm.orderFormId);
@@ -147,23 +146,19 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
 
         EventProvider.logEvent('complete_registration', {
           registration_method: 'email',
-          custumer_email: email,
+          custumer_email: profile?.email,
         });
 
         navigation.navigate('EditProfile', { isRegister: true });
       } else {
         try {
-          const { data: attachResponse } = await attachClientByCookie({
-            context: { clientName: 'gateway' },
-            fetchPolicy: 'no-cache',
+          const { data: refreshResponse } = await refreshOrderForm({
             variables: {
-              input: {
-                orderFormId: currentOrderForm.orderFormId,
-              },
+              input: { orderFormId: currentOrderForm.orderFormId },
             },
           });
 
-          if (attachResponse?.orderFormAttachClientByCookie.orderFormId) {
+          if (refreshResponse?.orderFormRefreshData.orderFormId) {
             await restoreCart(currentOrderForm.orderFormId);
             setNavigateToDeliveryDisable(false);
             navigation.navigate('DeliveryScreen', {});
@@ -181,13 +176,12 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
     }
   }, [
     navigation,
-    email,
+    profile?.email,
     isProfileComplete,
     currentOrderForm,
     bagInfos,
-    attachClientByCookie,
+    attachClient,
     dispatch,
-    getProfile,
     restoreCart,
   ]);
 
@@ -251,6 +245,8 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
             !!(currentOrderForm && currentOrderForm?.items?.length === 0)
             || topBarLoading
             || navigateToDeliveryDisable
+            || loadingAttach
+            || loadingRefresh
         }
         onPress={handleNavigateToDelivery}
         title="IR PARA ENTREGA"

@@ -13,12 +13,17 @@ export interface IAsyncStorageKeys {
   isAppFirstLaunched: boolean,
   '@Dito:userRef': string,
   '@RNWebView:WebViewQACookiesList': Cookies,
-  '@RNAuth:NextRefreshTime': number
+  // Auth keys
+  'Auth:Token': string;
+  'Auth:Cookie': string;
+  'Auth:TokenRefreshTime': number;
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;
 
-async function getItem<K extends TStorageKey>(key: K): Promise<IAsyncStorageKeys[K] | null> {
+export async function getAsyncStorageItem<K extends TStorageKey>(
+  key: K,
+): Promise<IAsyncStorageKeys[K] | null> {
   try {
     const res = await AsyncStorage.getItem(key);
 
@@ -33,7 +38,10 @@ async function getItem<K extends TStorageKey>(key: K): Promise<IAsyncStorageKeys
   }
 }
 
-async function setItem<K extends TStorageKey>(key: K, val: IAsyncStorageKeys[K]): Promise<boolean> {
+export async function setAsyncStorageItem<K extends TStorageKey>(
+  key: K,
+  val: IAsyncStorageKeys[K],
+): Promise<boolean> {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(val));
 
@@ -49,7 +57,9 @@ async function setItem<K extends TStorageKey>(key: K, val: IAsyncStorageKeys[K])
   }
 }
 
-async function removeItem<K extends TStorageKey>(key: K): Promise<boolean> {
+export async function removeAsyncStorageItem<K extends TStorageKey>(
+  key: K,
+): Promise<boolean> {
   try {
     await AsyncStorage.removeItem(key);
 
@@ -65,5 +75,9 @@ async function removeItem<K extends TStorageKey>(key: K): Promise<boolean> {
 }
 
 export default function useAsyncStorageProvider() {
-  return { getItem, setItem, removeItem };
+  return {
+    getItem: getAsyncStorageItem,
+    setItem: setAsyncStorageItem,
+    removeItem: removeAsyncStorageItem,
+  };
 }

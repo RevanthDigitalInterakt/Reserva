@@ -3,12 +3,11 @@ import {
   useState, useEffect, useCallback,
 } from 'react';
 import { BackHandler } from 'react-native';
-import { useAuth } from '../../../../context/AuthContext';
-import { useCart } from '../../../../context/CartContext';
 import EventProvider from '../../../../utils/EventProvider';
 import formatString from '../../../../utils/formatString';
 import type { IAddress, IEditAddress, IProfileData } from '../../interface';
-import { useProfileAddressRemoveMutation, useProfileLazyQuery } from '../../../../base/graphql/generated';
+import { useProfileAddressRemoveMutation } from '../../../../base/graphql/generated';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 
 interface IUseController {
   goBack: () => void;
@@ -33,35 +32,23 @@ interface IUseController {
 
 const useController = (): IUseController => {
   const navigation = useNavigation();
-  const { identifyCustomer } = useCart();
-  const { cookie, email } = useAuth();
   const [loadingStatusBar, setLoadingStatusBar] = useState(false);
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
   const [isVisibleSuccessModal, setIsVisibleSuccessModal] = useState(false);
   const [addressId, setAddressId] = useState('');
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [hasDeleteAddressError, setHasDeleteAddressError] = useState(false);
-  const [profileData, setProfileData] = useState<IProfileData | null>(null);
-  const [getProfile] = useProfileLazyQuery({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
-  });
+  const { profile, onGetProfile } = useAuthStore(['profile', 'onGetProfile']);
   const [profileAddressRemove] = useProfileAddressRemoveMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
   const goBack = () => navigation.goBack();
 
   const requestAddressList = useCallback(async () => {
-    setLoadingStatusBar(true);
     try {
-      const { data } = await getProfile() as unknown as {
-        data: { profile: IProfileData }
-      };
+      setLoadingStatusBar(true);
 
-      const { profile } = data;
-
-      if (profile) {
-        setProfileData(profile);
-      }
+      await onGetProfile();
     } catch (e) {
       EventProvider.captureException(e);
     } finally {
@@ -97,20 +84,13 @@ const useController = (): IUseController => {
   const doDeleteAddress = useCallback(async () => {
     setLoadingStatusBar(true);
     try {
-      const { data } = await profileAddressRemove({
+      await profileAddressRemove({
         variables: {
-          input: {
-            addressId,
-          },
+          input: { addressId },
         },
       });
       closeDeleteModal();
 
-      if (data) {
-        if (email) {
-          await identifyCustomer(email);
-        }
-      }
       await requestAddressList();
     } catch (e) {
       setHasDeleteAddressError(true);
@@ -118,7 +98,7 @@ const useController = (): IUseController => {
       setLoadingStatusBar(false);
       openSuccessModal();
     }
-  }, [addressId, email]);
+  }, [addressId, profile?.email]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -143,7 +123,7 @@ const useController = (): IUseController => {
 
     const { id } = item;
 
-    if (cookie) {
+    if (profile?.authCookie) {
       if (selectedAddress) {
         selected = id === selectedAddress.id && !!item;
       }
@@ -155,7 +135,7 @@ const useController = (): IUseController => {
 
   const navigateToNewAddress = useCallback(
     () => navigation.navigate('NewAddress'),
-    [navigation.navigate],
+    [navigation],
   );
 
   const navigateToEditAddress = useCallback((data: IEditAddress) => {
@@ -183,7 +163,7 @@ const useController = (): IUseController => {
 
   return {
     loadingStatusBar,
-    profileData,
+    profileData: profile as unknown as IProfileData,
     goBack,
     navigateToNewAddress,
     navigateToEditAddress,

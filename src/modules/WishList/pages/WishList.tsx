@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { ApolloError, useLazyQuery, useMutation } from '@apollo/client';
 import { useFocusEffect } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { FlatList, Alert } from 'react-native';
@@ -10,8 +9,6 @@ import {
   ProductHorizontalListCard,
   Typography,
 } from '@usereservaapp/reserva-ui';
-
-import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
@@ -24,6 +21,13 @@ import EventProvider from '../../../utils/EventProvider';
 import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+
+interface IData {
+  loading: boolean;
+  error: ApolloError | null;
+  productIds: string[] | null
+}
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
@@ -33,33 +37,30 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [wishIds, setWishIds] = useState<any[]>([]);
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const [loadingWishProducts, setLoadingWishProducts] = useState(false);
-  const {
-    addItem,
-  } = useCart();
+  const { addItem } = useCart();
   const [isVisible, setIsVisible] = useState(false);
 
-  const { email, cookie } = useAuth();
+  const { profile } = useAuthStore(['profile']);
 
-  const [removeFromWishList] = useMutation(
-    wishListQueries.REMOVE_WISH_LIST,
-  );
+  const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
   const [getWishList] = useLazyQuery(wishListQueries.GET_WISH_LIST, {
-    variables: {
-      shopperId: email,
-    },
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   });
 
-  const [{ loading, productIds }, setWishList] = useState({
+  const [{ loading, productIds }, setWishList] = useState<IData>({
     loading: true,
     error: null,
     productIds: null,
   });
 
   const refetch = async () => {
-    await getWishList().then((response) => {
+    setWishList({ productIds: null, loading: true, error: null });
+
+    await getWishList({
+      variables: { shopperId: profile?.email || '' },
+    }).then((response) => {
       setWishList({
         productIds: response.data,
         loading: false,
@@ -96,12 +97,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   };
 
   const handleFavorite = async (wishId: any) => {
-    if (email) {
+    if (profile?.email) {
       setLoadingWishProducts(true);
       if (wishId) {
         const { data } = await removeFromWishList({
           variables: {
-            shopperId: email,
+            shopperId: profile.email,
             id: wishId,
           },
         });
@@ -195,10 +196,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      if (cookie === null) {
+      if (profile?.authCookie === null) {
         navigation.navigate('Login', { comeFrom: 'Profile' });
       }
-    }, [cookie]),
+    }, [profile?.authCookie]),
   );
 
   return (

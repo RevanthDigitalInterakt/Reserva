@@ -1,12 +1,10 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import { useLazyQuery } from '@apollo/client';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Box } from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import moment from 'moment';
 import React, {
   FC, useCallback, useEffect, useLayoutEffect, useMemo, useState,
 } from 'react';
@@ -14,15 +12,12 @@ import {
   Dimensions, SafeAreaView, ScrollView,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useAuth } from '../../../context/AuthContext';
 import { useCountDown } from '../../../context/ChronometerContext';
 import { useConfigContext } from '../../../context/ConfigContext';
 import { countdownClockQuery, ICountDownClock } from '../../../graphql/countDownClock/countdownClockQuery';
 import {
   Carousel, CarrouselTypes, configCollection, homeQuery, HomeQuery,
 } from '../../../graphql/homePage/HomeQuery';
-import { classicSignInMutation } from '../../../graphql/login/loginMutations';
-import { profileQuery } from '../../../graphql/profile/profileQuery';
 import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 import { useChronometer } from '../../CorreReserva/hooks/useChronometer';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
@@ -43,7 +38,9 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 import HeaderAccessibility from '../component/HeaderAccessibility';
 import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
-import useRefreshToken from '../../../hooks/useRefreshToken';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { RefreshTokenError } from '../../../zustand/useAuth/types/refreshTokenError';
+import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -59,17 +56,16 @@ const brandsComponentObject: Carousel = {
 export const HomeScreen: FC<{
   title: string;
 }> = () => {
+  const navigation = useNavigation();
   const { getItem } = useAsyncStorageProvider();
   const { setOffersPage } = useConfigContext();
-  const {
-    setEmail, isCookieEmpty, getCredentials, setCookie,
-  } = useAuth();
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { setTime } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
-  const [getProfile, { data: profileData, loading: profileLoading }] = useLazyQuery(profileQuery);
   const [images, setImages] = useState<HomeQuery[]>([]);
   const [carrousels, setCarrousels] = useState<Carousel[]>([]);
   const [modalDiscount, setModalDiscount] = useState<any>();
+  const { profile, onRefreshToken } = useAuthStore(['profile', 'onRefreshToken']);
   const [countDownClock, setCountDownClock] = useState<
   ICountDownClock[] | undefined
   >();
@@ -113,32 +109,44 @@ export const HomeScreen: FC<{
     initial: countDownClockGlobal?.formattedValue,
   });
 
+  useEffect(() => {
+    onRefreshToken()
+      .catch((err) => {
+        if (err instanceof RefreshTokenError) {
+          navigation.navigate('Login', { comeFrom: 'Profile' });
+        }
+      });
+  }, [onRefreshToken, navigation]);
+
   const { WithoutInternet } = useCheckConnection({ refetch });
-  const [login, { data: loginData, loading: loginLoading }] = useMutation(
-    classicSignInMutation,
-  );
 
   const [getConfig] = useLazyQuery(configCollection, {
     context: { clientName: 'contentful' },
   });
 
   useEffect(() => {
-    getHome().then((response) => {
+    getHome({
+      fetchPolicy: getFetchPolicyPerKey('home'),
+    }).then((response) => {
       setDataHome({
         data: response.data,
         loading: false,
       });
     });
-    getConfig().then((response) => {
+    getConfig({
+      fetchPolicy: getFetchPolicyPerKey('config'),
+    }).then((response) => {
       setDataConfig({
         collectionData: response.data,
       });
     });
 
-    getcountdownClock().then((response) => {
+    getcountdownClock({
+      fetchPolicy: getFetchPolicyPerKey('countdownClock'),
+    }).then((response) => {
       setCountDownClock(response.data.countdownClockCollection.items);
     });
-  }, []);
+  }, [getConfig, getFetchPolicyPerKey, getHome, getcountdownClock]);
 
   useEffect(() => {
     if (countDownClock && countDownClock?.length > 0) {
@@ -253,10 +261,6 @@ export const HomeScreen: FC<{
   }, [collectionData, setOffersPage]);
 
   useLayoutEffect(() => {
-    if (!isCookieEmpty()) {
-      getProfile();
-    }
-
     getItem('@RNOrder:ChristmasCouponModalOrderId').then((res) => {
       if (res) {
         setChristmasModal({ showModal: true, orderId: res });
@@ -264,58 +268,7 @@ export const HomeScreen: FC<{
     });
   }, []);
 
-  const loginWithSavedCredentials = async () => {
-    const LastLoginAsyncStorageKey = '@RNAuth:lastLogin';
-
-    const lastLogin = await AsyncStorage.getItem(LastLoginAsyncStorageKey);
-    const typeLogin = await AsyncStorage.getItem('@RNAuth:typeLogin');
-    const nowDate = Date.now();
-    const hourToNextLogin = 10;
-
-    if (typeLogin === 'classic') {
-      if (nowDate >= Number(lastLogin) + hourToNextLogin * 60 * 60 * 1000) {
-        const { email, password } = await getCredentials();
-        const { data: loginData } = await login({
-          variables: {
-            email,
-            password,
-          },
-        });
-        if (!loginLoading && loginData?.cookie) {
-          await AsyncStorage.setItem('@RNAuth:email', email);
-          await AsyncStorage.setItem(
-            LastLoginAsyncStorageKey,
-            `${moment.now()}`,
-          );
-          await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
-          await AsyncStorage.setItem('@RNAuth:cookie', loginData.cookie);
-
-          setCookie(loginData.cookie);
-          setEmail(email);
-        }
-      }
-    } else if (typeLogin === 'code') {
-      if (nowDate >= Number(lastLogin) + 20 * 60 * 60 * 1000) {
-        AsyncStorage.removeItem('@RNAuth:cookie');
-        AsyncStorage.removeItem('@RNAuth:email');
-        AsyncStorage.removeItem('@RNAuth:typeLogin');
-        AsyncStorage.removeItem(LastLoginAsyncStorageKey);
-        setCookie(null);
-        setEmail(null);
-      }
-    }
-  };
-
   useEffect(() => {
-    if (profileData) {
-      AsyncStorage.setItem('@RNAuth:email', profileData?.profile?.email);
-    } else if (!profileLoading) {
-      loginWithSavedCredentials();
-    }
-  }, [profileData]);
-
-  useEffect(() => {
-    loginWithSavedCredentials();
     EventProvider.logEvent('page_view', {
       wbrand: defaultBrand.picapau,
     });
@@ -323,11 +276,13 @@ export const HomeScreen: FC<{
 
   useFocusEffect(
     useCallback(() => {
-      refetch();
-    }, [refetch]),
-  );
+      const fetchPolocy = getFetchPolicyPerKey('home');
 
-  useRefreshToken();
+      if (fetchPolocy !== 'cache-first') {
+        refetch();
+      }
+    }, [getFetchPolicyPerKey, refetch]),
+  );
 
   const renderCarouselBanners = useMemo(() => carrousels.map((carrousel, index) => {
     switch (carrousel?.type) {
@@ -430,8 +385,10 @@ export const HomeScreen: FC<{
   const showCampaignBoyfriend = useMemo(() => getBoolean('show_campaign_boyfriend'), [getBoolean, initialized]);
 
   const goToBrowser = useCallback(async () => {
-    const email = await AsyncStorage.getItem('@RNAuth:email') || '';
-    EventProvider.logEvent('click_accessibility_app', { email, appState: 'out' });
+    EventProvider.logEvent('click_accessibility_app', {
+      email: profile?.email || '',
+      appState: 'out',
+    });
 
     await DeepLinkPathModule.openUrlInBrowser({
       url: 'https://www.usereserva.com',

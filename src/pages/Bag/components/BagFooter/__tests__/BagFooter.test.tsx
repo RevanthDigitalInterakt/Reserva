@@ -7,7 +7,6 @@ import { act } from '@testing-library/react-hooks';
 import appsFlyer from 'react-native-appsflyer';
 import BagFooter from '..';
 import EventProvider from '../../../../../utils/EventProvider';
-import { AuthContext } from '../../../../../context/AuthContext';
 import CartContextProvider from '../../../../../context/CartContext';
 import useBagStore from '../../../../../zustand/useBagStore/useBagStore';
 import {
@@ -23,9 +22,6 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 describe('BagFooter Component', () => {
-  const email = 'test@example.com';
-  const mockAuthContextValue: any = { email };
-
   it('should be renders correctly with EventProvider', async () => {
     await act(async () => {
       useBagStore.setState({
@@ -44,9 +40,7 @@ describe('BagFooter Component', () => {
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocksWithoutDataUser}>
           <CartContextProvider>
-            <AuthContext.Provider value={mockAuthContextValue}>
-              <BagFooter isProfileComplete={false} />
-            </AuthContext.Provider>
+            <BagFooter isProfileComplete={false} />
           </CartContextProvider>
         </MockedProvider>
       </ThemeProvider>,
@@ -117,9 +111,7 @@ describe('BagFooter Component', () => {
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocks}>
           <CartContextProvider>
-            <AuthContext.Provider value={mockAuthContextValue}>
-              <BagFooter isProfileComplete={false} />
-            </AuthContext.Provider>
+            <BagFooter isProfileComplete={false} />
           </CartContextProvider>
         </MockedProvider>
       </ThemeProvider>,

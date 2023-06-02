@@ -5,7 +5,6 @@ import type {
   TActionBagType,
 } from '../../types/bagStore';
 import EventProvider from '../../../../utils/EventProvider';
-import { apolloClientProduction } from '../../../../services/apolloClient';
 import {
   InitialBagStoreQuery,
   InitialBagStoreQueryVariables,
@@ -46,6 +45,7 @@ import {
 
 import { splitSellerName } from '../../../../utils/splitSellerName';
 import type { OrderForm } from '../../../../context/CartContext';
+import { getApolloClient } from '../../../../utils/getApolloClient';
 
 const bagStoreMethods: Record<
 TActionBagType,
@@ -54,7 +54,7 @@ TActionBagType,
   INITIAL_SET_ORDER_FORM: async (oldState, payload) => {
     const { orderForm }: { orderForm: OrderForm } = payload.value;
     try {
-      const { data } = await apolloClientProduction.query<
+      const { data } = await getApolloClient().query<
       InitialBagStoreQuery,
       InitialBagStoreQueryVariables
       >({
@@ -79,14 +79,16 @@ TActionBagType,
   INITIAL_REFRESH_ORDER_FORM: async (oldState, payload) => {
     const { orderForm }: { orderForm: OrderForm } = payload.value;
     try {
-      const { data } = await apolloClientProduction.query<
+      const { data } = await getApolloClient().query<
       OrderFormRefreshDataMutation,
       OrderFormRefreshDataMutationVariables
       >({
         query: OrderFormRefreshDataDocument,
         fetchPolicy: 'no-cache',
         variables: {
-          orderFormId: orderForm.orderFormId,
+          input: {
+            orderFormId: orderForm.orderFormId,
+          },
         },
         context: { clientName: 'gateway' },
       });
@@ -113,7 +115,7 @@ TActionBagType,
 
     if (!currentOrderForm) return { ...oldState, topBarLoading: false };
     try {
-      const { data } = await apolloClientProduction.query<
+      const { data } = await getApolloClient().query<
       OrderFormSetGiftSizeMutation,
       OrderFormSetGiftSizeMutationVariables
       >({
@@ -182,7 +184,7 @@ TActionBagType,
     if (!currentOrderForm) return { ...oldState, topBarLoading: false };
 
     try {
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormRemoveUnavailableItemsMutation,
       OrderFormRemoveUnavailableItemsMutationVariables
       >({
@@ -232,7 +234,7 @@ TActionBagType,
     }
 
     try {
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormAddSellerCouponMutation,
       OrderFormAddSellerCouponMutationVariables
       >({
@@ -260,12 +262,9 @@ TActionBagType,
         },
         bagInfos: {
           ...oldState.bagInfos,
-          totalBagItemsPrice:
-          data?.orderFormAddSellerCoupon.appTotalizers.items,
-          totalBagDiscountPrice:
-          data?.orderFormAddSellerCoupon.appTotalizers.discount,
-          totalBagDeliveryPrice:
-          data?.orderFormAddSellerCoupon.appTotalizers.delivery,
+          totalBagItemsPrice: data?.orderFormAddSellerCoupon.appTotalizers.items || 0,
+          totalBagDiscountPrice: data?.orderFormAddSellerCoupon.appTotalizers.discount || 0,
+          totalBagDeliveryPrice: data?.orderFormAddSellerCoupon.appTotalizers.delivery || 0,
         },
       };
     } catch (error) {
@@ -290,7 +289,7 @@ TActionBagType,
     if (!currentOrderForm) return { ...oldState, topBarLoading: false };
 
     try {
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormRemoveSellerCouponMutation,
       OrderFormRemoveSellerCouponMutationVariables
       >({
@@ -314,12 +313,9 @@ TActionBagType,
         },
         bagInfos: {
           ...oldState.bagInfos,
-          totalBagItemsPrice:
-          data?.orderFormRemoveSellerCoupon.appTotalizers.items,
-          totalBagDiscountPrice:
-          data?.orderFormRemoveSellerCoupon.appTotalizers.discount,
-          totalBagDeliveryPrice:
-          data?.orderFormRemoveSellerCoupon.appTotalizers.delivery,
+          totalBagItemsPrice: data?.orderFormRemoveSellerCoupon.appTotalizers.items || 0,
+          totalBagDiscountPrice: data?.orderFormRemoveSellerCoupon.appTotalizers.discount || 0,
+          totalBagDeliveryPrice: data?.orderFormRemoveSellerCoupon.appTotalizers.delivery || 0,
         },
       };
     } catch (error) {
@@ -334,7 +330,7 @@ TActionBagType,
     try {
       const { coupon } = payload.value;
 
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormAddDiscountCouponMutation,
       OrderFormAddDiscountCouponMutationVariables
       >({
@@ -415,7 +411,7 @@ TActionBagType,
     if (!currentOrderForm) return { ...oldState, topBarLoading: false };
 
     try {
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormRemoveDiscountCouponMutation,
       OrderFormRemoveDiscountCouponMutationVariables
       >({
@@ -472,7 +468,7 @@ TActionBagType,
     try {
       const { index, id } = payload.value;
 
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormAddGiftMutation,
       OrderFormAddGiftMutationVariables
       >({
@@ -511,7 +507,7 @@ TActionBagType,
     try {
       const { index, id } = payload.value;
 
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormRemoveGiftMutation,
       OrderFormRemoveGiftMutationVariables
       >({
@@ -559,7 +555,7 @@ TActionBagType,
       } = payload.value;
       let errorsMessages = '';
 
-      const { data } = await apolloClientProduction.mutate<
+      const { data } = await getApolloClient().mutate<
       OrderFormUpdateItemMutation,
       OrderFormUpdateItemMutationVariables
       >({

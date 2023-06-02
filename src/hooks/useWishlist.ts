@@ -6,12 +6,12 @@ import {
   useWishlistCheckProductLazyQuery,
   useWishlistRemoveProductMutation,
 } from '../base/graphql/generated';
-import { useAuth } from '../context/AuthContext';
 import EventProvider from '../utils/EventProvider';
+import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 
 export function useWishlist() {
   const navigation = useNavigation();
-  const { email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
 
   const [onAddWishlist, { loading: loadingAdd }] = useWishlistAddProductMutation({
     fetchPolicy: 'no-cache',
@@ -32,13 +32,13 @@ export function useWishlist() {
   });
 
   const verifyAuthentication = useCallback(() => {
-    if (!email) {
+    if (!profile?.email) {
       navigation.navigate('Login', { comeFrom: 'Favorite' });
       return false;
     }
 
     return true;
-  }, [email, navigation]);
+  }, [profile?.email, navigation]);
 
   const addToWishlist = useCallback(async (productId: string, skuId: string) => {
     try {
@@ -64,7 +64,7 @@ export function useWishlist() {
 
   const checkIfProductIsInWishlist = useCallback(async (productId: string, skuId: string) => {
     try {
-      if (!email || !productId || !skuId) return false;
+      if (!profile?.email || !productId || !skuId) return false;
 
       const { data } = await onCheckProductWishlist({
         variables: { input: { productId, skuId } },
@@ -80,7 +80,7 @@ export function useWishlist() {
 
       return false;
     }
-  }, [email, onCheckProductWishlist]);
+  }, [profile?.email, onCheckProductWishlist]);
 
   const removeFromWishlist = useCallback(async (productId: string, skuId: string) => {
     try {

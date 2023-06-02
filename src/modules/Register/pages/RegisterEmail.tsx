@@ -1,12 +1,10 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { Typography, Box, Button } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { useCart } from '../../../context/CartContext';
@@ -18,15 +16,14 @@ export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
-  const { setCookie } = useAuth();
   const { verifyEmail } = useCart();
-
   const [email, setEmail] = useState('');
   const [showRecoveryPassword, setShowRecoveryPassword] = useState(false);
   const [inputError, setInputError] = useState('');
 
   const [signUpVerificationCode, { error, loading }] = useSignUpVerificationCodeMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
   });
 
   const handleEmailAccess = useCallback(async () => {
@@ -46,39 +43,37 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
     }
 
     try {
-      signUpVerificationCode({
+      const { data } = await signUpVerificationCode({
         variables: {
-          input: {
-            email,
-          },
+          input: { email },
         },
-      }).then(async ({ data }) => {
-        if (data?.signUpVerificationCode?.cookies) {
-          setCookie(data?.signUpVerificationCode?.cookies);
-          await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(data?.signUpVerificationCode?.cookies));
-          navigation.navigate('ConfirmAccessCode', { email });
-        }
       });
+
+      if (data?.signUpVerificationCode?.cookies) {
+        navigation.navigate(
+          'ConfirmAccessCode',
+          { email, cookies: data?.signUpVerificationCode?.cookies },
+        );
+      }
     } catch (err) {
       EventProvider.captureException(err);
     }
   }, [email]);
 
-  const handleEmailRecovery = useCallback(() => {
+  const handleEmailRecovery = useCallback(async () => {
     try {
-      signUpVerificationCode({
+      const { data } = await signUpVerificationCode({
         variables: {
-          input: {
-            email,
-          },
+          input: { email },
         },
-      }).then(async ({ data }) => {
-        if (data?.signUpVerificationCode?.cookies) {
-          setCookie(data?.signUpVerificationCode?.cookies);
-          await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(data?.signUpVerificationCode?.cookies));
-          navigation.navigate('ForgotAccessCode', { email });
-        }
       });
+
+      if (data?.signUpVerificationCode?.cookies) {
+        navigation.navigate(
+          'ConfirmAccessCode',
+          { email, cookies: data?.signUpVerificationCode?.cookies },
+        );
+      }
     } catch (err) {
       EventProvider.captureException(err);
     }

@@ -4,14 +4,13 @@ import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import ProductDetailNew from '../../../pages/ProductDetail';
 import { ProductDetailOld } from './ProductDetailOld';
-import { useAuth } from '../../../context/AuthContext';
+import { useIsTester } from '../../../hooks/useIsTester';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 export const ProductDetail: React.FC<Props> = (props) => {
   const { getBoolean } = useRemoteConfig();
-
-  const { isTester } = useAuth();
+  const isTester = useIsTester();
 
   const showNewPdp = useMemo(() => (
     getBoolean(isTester ? 'show_new_pdp_tester' : 'show_new_pdp')

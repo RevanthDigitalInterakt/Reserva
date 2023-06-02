@@ -1,7 +1,6 @@
 import { Linking, Platform } from 'react-native';
 import { deeplinkService } from '../../../../../../services/deeplinkService';
 import { platformType } from '../../../../../../utils/platformType';
-import { apolloClientProduction } from '../../../../../../services/apolloClient';
 import type { IListContentQuery, ListContent } from '../../../../../../graphql/facets/facetsQuery';
 import { listContentQuery } from '../../../../../../graphql/facets/facetsQuery';
 import EventProvider from '../../../../../../utils/EventProvider';
@@ -9,6 +8,7 @@ import type { IFallBackRoute } from '../../../../types/asyncDeepLinkStore';
 import type { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../../graphql/DeepLink/DeepLinkQuery';
 import { DeeplinkPathDocument } from '../../../../../../base/graphql/generated';
 import DeepLinkPathModule from '../../../../../../NativeModules/DeepLinkPathModule';
+import { getApolloClient } from '../../../../../../utils/getApolloClient';
 
 interface IExtensionsInArray {
   after: string[];
@@ -75,8 +75,7 @@ const getContentFullUrl = async (
   deepLinkRoute: string,
 ): Promise<IDeepLinkRoute | undefined> => {
   try {
-    const { data: { deeplinkPath } } = await apolloClientProduction
-      .query<IDeepLinkQuery>({
+    const { data: { deeplinkPath } } = await getApolloClient().query<IDeepLinkQuery>({
       query: DeeplinkPathDocument,
       variables: {
         path: encodeURI(deepLinkRoute),
@@ -157,7 +156,7 @@ export const catalogService = async (
       treePath = `${category.route.pageContext.id}/${customQueryBlock.extensionPointId}`;
     }
 
-    const { data: dataListContent } = await apolloClientProduction.query<IListContentQuery>({
+    const { data: dataListContent } = await getApolloClient().query<IListContentQuery>({
       query: listContentQuery,
       variables: {
         blockId: customQueryBlock.blockId,

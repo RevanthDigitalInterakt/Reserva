@@ -1,6 +1,12 @@
 ## CHANGELOG
 
-### 1.18.42
+### 2.0.1
+
+- [APP2022-1190 - Refatoração Auth Context](https://reserva.atlassian.net/browse/APP2022-1190)
+
+---
+
+### 1.18.43
 
 - [SRN-291 - BUG - Evento Purchase com receita errada firebase](https://reserva.atlassian.net/browse/SRN-291)
 

@@ -18,8 +18,6 @@ export const BRANDS = {
 };
 
 export const getBrandByUrl = (items: Item): string => {
-  // console.log('items', items);
-
   const getCategoryUrl = (item: Item): string | undefined => item?.categoryTree?.[0]?.href;
 
   const isReserva = (url: string | undefined): boolean => !!url && url.includes('/reserva');

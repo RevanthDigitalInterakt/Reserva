@@ -8,6 +8,7 @@ import BannerMktplace from '../BannerMtkPlace';
 import { Styles } from './styles/styles';
 import { SellerInfoOutput, useSellerInfoLazyQuery } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
+import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 
 interface IMktplaceName {
   sellerId: string,
@@ -24,6 +25,7 @@ export interface IMktplacein {
 }
 
 export const MktplaceName = ({ sellerId, showIconModalInfo }: IMktplaceName) => {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const [marketPlaceData, setMarketPlaceData] = useState<SellerInfoOutput | undefined>(undefined);
   const [modalBanner, setModalBanner] = useState<boolean>(false);
   const { sellersMktIn } = useMarketPlaceInd();
@@ -42,10 +44,10 @@ export const MktplaceName = ({ sellerId, showIconModalInfo }: IMktplaceName) => 
   const initializeMarketPlaceData = useCallback(async () => {
     try {
       const { data } = await sellersInfo({
-        variables: {
-          sellerId,
-        },
+        variables: { sellerId },
+        fetchPolicy: getFetchPolicyPerKey('sellerInfo'),
       });
+
       if (data?.sellerInfo) {
         setMarketPlaceData(data.sellerInfo);
       }

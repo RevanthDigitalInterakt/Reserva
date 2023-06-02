@@ -20,6 +20,14 @@ const mockGoBackFn = jest.fn();
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedNavigate, goBack: mockGoBackFn }),
 }));
+
+jest.mock('../../../../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    initialized: true,
+    getFetchPolicyPerKey: () => 0,
+  }),
+}));
+
 interface IApolloMock<T> {
   request: {
     query: DocumentNode,

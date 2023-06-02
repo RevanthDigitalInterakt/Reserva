@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import { Animated, Dimensions } from 'react-native';
 import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
 import type { ProductQL } from '../../../graphql/products/productSearch';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import EventProvider from '../../../utils/EventProvider';
@@ -18,6 +17,7 @@ import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -43,7 +43,7 @@ export const ListHorizontalProducts = ({
   const [loading, setLoading] = useState(true);
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
-  const { email } = useAuth();
+  const { profile } = useAuthStore(['profile']);
   const scrollX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -52,12 +52,6 @@ export const ListHorizontalProducts = ({
 
   const populateListWithFavorite = async () => {
     setLoading(true);
-    /*  if (email) {
-      if (products && products.length <= 0) {
-        await populateWishlist();
-      }
-    } */
-    // Promise.all(products).then((res) => setProductList(res));
     setLoading(false);
   };
 
@@ -66,7 +60,7 @@ export const ListHorizontalProducts = ({
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId, listId } = item;
 
-    if (email) {
+    if (profile?.email) {
       if (favorite) {
         const handleFavorites = [...favorites, { productId, sku: skuId }];
         await AsyncStorage.setItem(

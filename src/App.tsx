@@ -10,7 +10,6 @@ import { ThemeProvider } from 'styled-components/native';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { linkingConfig } from './config/linking';
 import SentryConfig from './config/sentryConfig';
-import AuthContextProvider from './context/AuthContext';
 import { CacheImagesProvider } from './context/CacheImagesContext';
 import CartContextProvider from './context/CartContext';
 import ChronometerContextProvider from './context/ChronometerContext';
@@ -23,15 +22,12 @@ import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
 import InitialScreen from './InitialScreen';
 import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
-import {
-  apolloClientProduction,
-  apolloClientTesting,
-} from './services/apolloClient';
 import { RemoteConfigService } from './shared/services/RemoteConfigService';
-import { IS_DEV } from './utils/enviromentUtils';
 import EventProvider from './utils/EventProvider';
 import ToastProvider from './utils/Toast';
 import { useRemoteConfig } from './hooks/useRemoteConfig';
+import useApolloClientHook from './hooks/useApolloClientHook';
+import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 
 const DefaultTheme = {
   colors: {
@@ -42,10 +38,14 @@ const DefaultTheme = {
 const requestUserPermission = async () => { };
 
 const App = () => {
-  const remoteConfigStore = useRemoteConfig();
-  const { setItem } = useAsyncStorageProvider();
+  useApolloFetchPolicyStore(['initialized']);
+
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
+  const client = useApolloClientHook(isTesting);
+
+  const remoteConfigStore = useRemoteConfig();
+  const { setItem } = useAsyncStorageProvider();
 
   const firstLaunchedData = async () => {
     await setItem('@RNSession:Ron', false);
@@ -65,11 +65,8 @@ const App = () => {
 
   const getTestEnvironment = React.useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
-    if (res === 'true') {
-      setIsTesting(true);
-    } else {
-      setIsTesting(false);
-    }
+
+    setIsTesting(res === 'true');
   }, []);
 
   const getMaintenanceValue = async () => {
@@ -99,46 +96,38 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <ConfigContextProvider>
-        <StatusBarContextProvider>
-          <NavigationContainer
-            linking={linkingConfig}
-            theme={DefaultTheme}
-            onReady={() => RNBootSplash.hide()}
-          >
-            {isOnMaintenance ? (
-              <Maintenance isVisible />
-            ) : (
-              <ApolloProvider
-                client={
-                  isTesting || IS_DEV
-                    ? apolloClientTesting
-                    : apolloClientProduction
-                }
-              >
+      <ApolloProvider client={client}>
+        <ConfigContextProvider>
+          <StatusBarContextProvider>
+            <NavigationContainer
+              linking={linkingConfig}
+              theme={DefaultTheme}
+              onReady={RNBootSplash.hide}
+            >
+              {isOnMaintenance ? (
+                <Maintenance isVisible />
+              ) : (
                 <CartContextProvider>
-                  <AuthContextProvider>
-                    <ContentfullContextProvider>
-                      <RegionalSearchContextProvider>
-                        <CacheImagesProvider>
-                          <FirebaseContextProvider>
-                            <ChronometerContextProvider>
-                              <InitialScreen>
-                                <AppRouting />
-                              </InitialScreen>
-                            </ChronometerContextProvider>
-                          </FirebaseContextProvider>
-                        </CacheImagesProvider>
-                      </RegionalSearchContextProvider>
-                    </ContentfullContextProvider>
-                  </AuthContextProvider>
+                  <ContentfullContextProvider>
+                    <RegionalSearchContextProvider>
+                      <CacheImagesProvider>
+                        <FirebaseContextProvider>
+                          <ChronometerContextProvider>
+                            <InitialScreen>
+                              <AppRouting />
+                            </InitialScreen>
+                          </ChronometerContextProvider>
+                        </FirebaseContextProvider>
+                      </CacheImagesProvider>
+                    </RegionalSearchContextProvider>
+                  </ContentfullContextProvider>
                 </CartContextProvider>
-              </ApolloProvider>
-            )}
-          </NavigationContainer>
-        </StatusBarContextProvider>
-      </ConfigContextProvider>
-      <ToastProvider />
+              )}
+            </NavigationContainer>
+          </StatusBarContextProvider>
+        </ConfigContextProvider>
+        <ToastProvider />
+      </ApolloProvider>
     </ThemeProvider>
   );
 };

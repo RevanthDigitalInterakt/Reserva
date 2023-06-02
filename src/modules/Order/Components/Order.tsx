@@ -4,7 +4,7 @@ import { Platform, TouchableOpacity } from 'react-native';
 import {
   Typography, Box, Icon, Divider,
 } from '@usereservaapp/reserva-ui';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { stringToReal } from '../../../utils/stringToReal';
@@ -59,19 +59,14 @@ interface IOrder {
 
 const Order = ({ data }: IOrder) => {
   const navigation = useNavigation();
-  const [order, setOrder] = useState({
+
+  const order = useMemo(() => ({
     ...data,
     status: data.status,
-  });
+  }), [data]);
 
   return (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('OrderDetail', {
-          order,
-        });
-      }}
-    >
+    <TouchableOpacity onPress={() => navigation.navigate('OrderDetail', { order })}>
       <Box
         style={{ elevation: 6 }}
         boxShadow={Platform.OS === platformType.IOS ? 'topBarShadow' : null}
@@ -97,6 +92,7 @@ const Order = ({ data }: IOrder) => {
               {stringToReal(String(order?.totalValue))}
             </Typography>
           </Box>
+
           <Typography
             fontSize={20}
             fontFamily="reservaSerifBold"
@@ -104,6 +100,7 @@ const Order = ({ data }: IOrder) => {
           >
             {data.orderId}
           </Typography>
+
           <Box mt="nano">
             <Typography fontSize={14} fontFamily="nunitoRegular" color="preto">
               Data do Pedido:
@@ -111,70 +108,7 @@ const Order = ({ data }: IOrder) => {
               {format(new Date(order.creationDate), 'dd/MM/yy', { locale: ptBR })}
             </Typography>
           </Box>
-          {/* {order.status === 'canceled' && (
-            <Box
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography
-                style={{ marginTop: 5, marginBottom: 5 }}
-                mt={'micro'}
-                fontSize={14}
-                fontFamily="nunitoBold"
-                color={
-                  ['payment-pending', 'canceled'].includes(order.status)
-                    ? 'vermelhoAlerta'
-                    : 'verdeSucesso'
-                }
-              >
-                Cancelado
-              </Typography>
-            </Box>
-          )} */}
-          {/* {order.status === 'payment-pending' && (
-            <Box
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography
-                style={{ marginTop: 5, marginBottom: 5 }}
-                mt={'micro'}
-                fontSize={14}
-                fontFamily="nunitoBold"
-                color={
-                  ['payment-pending', 'canceled'].includes(order.status)
-                    ? 'vermelhoAlerta'
-                    : 'verdeSucesso'
-                }
-              >
-                Pagamento pendente
-              </Typography>
-            </Box>
-          )} */}
-          {/* {order.status === 'payment-approved' && (
-            <Typography
-              style={{ marginTop: 5, marginBottom: 5 }}
-              mt={'micro'}
-              fontSize={14}
-              fontFamily="nunitoBold"
-              color="verdeSucesso"
-            >
-              Pagamento aprovado!
-            </Typography>
-          )} */}
-          {/* {order.status === 'invoiced' && (
-            <Typography
-              style={{ marginTop: 5, marginBottom: 5 }}
-              mt={'micro'}
-              fontSize={14}
-              fontFamily="nunitoBold"
-              color="verdeSucesso"
-            >
-              Faturado!
-            </Typography>
-          )} */}
+
           <Box
             flexDirection="row"
             alignItems="center"
@@ -195,11 +129,10 @@ const Order = ({ data }: IOrder) => {
             </Typography>
           </Box>
         </Box>
+
         <Divider variant="fullWidth" mt="micro" />
-        <Box
-          alignItems="center"
-          pt="micro"
-        >
+
+        <Box alignItems="center" pt="micro">
           <Icon name="ArrowDown" size={20} />
         </Box>
       </Box>

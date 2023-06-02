@@ -23,7 +23,6 @@ import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../../routes/StackNavigator';
 
-import { useAuth } from '../../../context/AuthContext';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
@@ -31,7 +30,7 @@ import { slugify } from '../../../utils/slugify';
 import testProps from '../../../utils/testProps';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
-import { useProfileQuery } from '../../../base/graphql/generated';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 interface IBreadCrumbs {
   title: string;
@@ -270,16 +269,12 @@ export const Menu = ({ route }: Props) => {
   const indexOpened = route?.params?.indexMenuOpened;
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
-  const { cookie } = useAuth();
   const [cep, setCep] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [screenRegionalizationActive, setScreenRegionalizationActive] = useState(false);
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
 
-  const { data: dataProfile } = useProfileQuery({
-    context: { clientName: 'gateway' },
-    fetchPolicy: 'cache-and-network',
-  });
+  const { profile } = useAuthStore(['profile']);
 
   const [{ loading, data }, setCategoriesData] = useState({
     loading: true,
@@ -422,7 +417,7 @@ export const Menu = ({ route }: Props) => {
               )}
               <FixedMenuItem
                 iconName="Profile"
-                disabled={!!cookie}
+                disabled={!!profile?.email}
                 testID="com.usereserva:id/menu_button_account"
                 title={(
                   <Typography
@@ -431,7 +426,7 @@ export const Menu = ({ route }: Props) => {
                     fontSize={15}
                     fontFamily="nunitoBold"
                   >
-                    {(cookie && dataProfile) ? (
+                    {profile?.email ? (
                       <Typography
                         onPress={() => {
                           navigation.navigate('Profile');
@@ -439,7 +434,7 @@ export const Menu = ({ route }: Props) => {
                       >
                         Olá,
                         {' '}
-                        {dataProfile.profile.firstName || dataProfile.profile.email}
+                        {profile?.firstName || profile?.email}
                       </Typography>
                     ) : (
                       <Typography

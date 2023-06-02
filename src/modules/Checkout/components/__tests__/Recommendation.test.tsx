@@ -37,6 +37,13 @@ const apolloMocks: Array<IApolloMock<ProductRecommendationsQuery>> = [
   },
 ];
 
+jest.mock('../../../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    initialized: true,
+    getFetchPolicyPerKey: () => 0,
+  }),
+}));
+
 describe('Test Component Recommendation', () => {
   beforeEach(async () => {
     jest.clearAllMocks();

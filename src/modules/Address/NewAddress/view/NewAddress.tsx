@@ -11,9 +11,6 @@ import {
   Pressable,
 } from 'react-native';
 
-import { useAuth } from '../../../../context/AuthContext';
-import { useCart } from '../../../../context/CartContext';
-
 import Sentry from '../../../../config/sentryConfig';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
@@ -37,8 +34,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
-
-  const { orderform, identifyCustomer } = useCart();
 
   const [initialValues, setInitialValues] = useState<TAddressProps>({
     postalCode: editAddress?.postalCode || '',
@@ -68,8 +63,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [cities, setCities] = useState<any[]>([]);
   const [isVisibleStatePicker, setIsVisibleStatePicker] = useState(false);
   const [isVisibleCityPicker, setIsVisibleCityPicker] = useState(false);
-
-  const { email } = useAuth();
 
   useEffect(() => {
     Sentry.configureScope((scope) => scope.setTransactionName('NewAddress'));
@@ -106,11 +99,12 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       });
     }
 
-    if (email) {
-      await identifyCustomer(email);
-    }
-
-    orderform();
+    // TODO
+    // if (profile?.email) {
+    //   await identifyCustomer(profile?.email);
+    // }
+    //
+    // orderform();
     setLoadingStatusBar(false);
     navigation.goBack();
   };

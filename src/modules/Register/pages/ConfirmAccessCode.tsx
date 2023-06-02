@@ -1,44 +1,33 @@
 import {
   Box, Button, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
-import AsyncStorage from '@react-native-community/async-storage';
 import Clipboard from '@react-native-community/clipboard';
-import { StackScreenProps } from '@react-navigation/stack';
-import moment from 'moment';
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Platform, SafeAreaView, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
-import { useAuth } from '../../../context/AuthContext';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../Login/components/UnderlineInput';
-import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
 import { useSignUpMutation } from '../../../base/graphql/generated';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import useInitialDito from '../../../hooks/useInitialDito';
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
 
-export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
-  navigation,
-  route,
-}) => {
-  const { email } = route.params;
+export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({ navigation, route }) => {
+  const { email, cookies } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState('');
-  const {
-    cookie, setCookie, setEmail, saveCredentials,
-  } = useAuth();
-  const [passwords, setPasswords] = useState({
-    first: '',
-    confirm: '',
-  });
-  const { setItem } = useAsyncStorageProvider();
+  const [loading, setLoading] = useState(false);
+  const [passwords, setPasswords] = useState({ first: '', confirm: '' });
+  const { onSignIn, onUpdateAuthData } = useAuthStore(['onSignIn', 'onUpdateAuthData']);
 
   const passwordCheckHandler = () => ({
     equal: passwords.first === passwords.confirm,
@@ -51,6 +40,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const [passwordsChecker, setPasswordChecker] = useState(
     passwordCheckHandler(),
   );
+  const { handleDitoRegister } = useInitialDito();
 
   const pasteCode = useCallback(async () => {
     const content = await Clipboard.getString();
@@ -63,70 +53,53 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     && passwordsChecker.lowercase
     && passwordsChecker.number;
 
-  const [signUp, { data, loading, error }] = useSignUpMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  const [signUp, { data, error }] = useSignUpMutation({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
   });
 
   const handleCreatePassword = useCallback(async () => {
-    const variables = {
-      input: {
-        email,
-        code,
-        password: passwords.confirm,
-        cookies: [`${cookie}`],
-      },
-    };
-
-    if (error != null || code.length < 6) {
-      setShowError(true);
-    } else {
-      setShowError(false);
-    }
     try {
+      if (loading) return;
+
+      const variables = {
+        input: {
+          email,
+          code,
+          password: passwords.confirm,
+          cookies,
+        },
+      };
+
+      setShowError(error != null || code.length < 6);
+      setLoading(true);
+
       const { data: dataSignUp } = await signUp({ variables });
 
       if (dataSignUp?.signUp?.token && dataSignUp?.signUp?.authCookie) {
-        const date = new Date();
-        date.setDate(date.getDate() + 1);
-        const expires = date.getTime();
+        try {
+          await onSignIn(email, passwords.confirm, true);
+        } catch (err) {
+          //
+        }
 
-        await setItem('@RNAuth:NextRefreshTime', expires);
-        await AsyncStorage.setItem('@RNAuth:Token', dataSignUp?.signUp?.token);
-        await AsyncStorage.setItem('@RNAuth:cookie', JSON.stringify(dataSignUp?.signUp?.authCookie));
+        await onUpdateAuthData(dataSignUp?.signUp?.token, dataSignUp?.signUp?.authCookie);
 
-        setCookie(dataSignUp?.signUp?.authCookie);
-        await saveCredentials({
-          email,
-          password: passwords?.confirm,
-        });
-
-        EventProvider.appsFlyer.logEvent(
-          'af_login',
-          {},
-          (res) => { },
-          (err) => {
-            EventProvider.captureException(err);
-          },
-        );
-        setEmail(email);
-        AsyncStorage.setItem('@RNAuth:email', email).then(() => { });
-        await AsyncStorage.setItem('@RNAuth:lastLogin', `${moment.now()}`);
-        await AsyncStorage.setItem('@RNAuth:typeLogin', 'classic');
+        handleDitoRegister();
         navigation.navigate('Home');
-        EventProvider.setPushExternalUserId(email);
       }
-    } catch (error) {
-      if (error.message === 'Request failed with status code 400') {
+    } catch (err) {
+      if (err.message === 'Request failed with status code 400') {
         setShowError(true);
       }
+    } finally {
+      setLoading(false);
     }
-  }, [code, cookie, email, passwords.confirm]);
+  }, [
+    loading, email, code, passwords.confirm, cookies, error, signUp, onSignIn, navigation,
+  ]);
 
   useEffect(() => {
-    if (!loading && data?.signUp?.token && cookie) {
-      setShowError(false);
-      navigation.navigate('ForgotNewPassword', { email, code });
-    }
     if (error) {
       setShowError(true);
     }
@@ -232,7 +205,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                     variant="primarioEstreito"
                     title="CRIAR SENHA"
                     onPress={handleCreatePassword}
-                    disabled={!enabledButton()}
+                    disabled={!enabledButton() || loading}
                     inline
                   />
                 </Box>

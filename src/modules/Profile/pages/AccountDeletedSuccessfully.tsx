@@ -1,37 +1,26 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
-import { useAuth } from '../../../context/AuthContext';
-import { useCart } from '../../../context/CartContext';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
-import EventProvider from '../../../utils/EventProvider';
 import useDitoStore from '../../../zustand/useDitoStore';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { getApolloClient } from '../../../utils/getApolloClient';
 
 export const AccountDeletedSuccessfully = () => {
   const navigation = useNavigation();
-  const { setCookie, setEmail, cleanEmailAndCookie } = useAuth();
-  const { setItem } = useAsyncStorageProvider();
-  const { orderform } = useCart();
+  const { onSignOut } = useAuthStore(['onSignOut']);
 
   const logout = useCallback(async () => {
-    // TODO refactor Auth to use zustand
-    await AsyncStorage.removeItem('@RNAuth:cookie');
-    await AsyncStorage.removeItem('@RNAuth:email');
-    await AsyncStorage.removeItem('@RNAuth:typeLogin');
-    await AsyncStorage.removeItem('@RNAuth:lastLogin');
-    await AsyncStorage.removeItem('@Dito:anonymousID');
-    await AsyncStorage.setItem('@RNAuth:Token', '');
-    await setItem('@RNAuth:NextRefreshTime', 0);
-    useDitoStore.persist.clearStorage();
-    EventProvider.removePushExternalUserId();
-    setCookie(null);
-    setEmail(null);
-    cleanEmailAndCookie();
-    orderform();
-  }, [cleanEmailAndCookie, orderform, setCookie, setEmail, setItem]);
+    try {
+      getApolloClient().clearStore();
+      useDitoStore.persist.clearStorage();
+    } catch (err) {
+      //
+    } finally {
+      onSignOut();
+    }
+  }, [onSignOut]);
 
   useEffect(() => {
     logout();
