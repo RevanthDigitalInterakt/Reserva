@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import * as Sentry from '@sentry/react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -9,13 +10,12 @@ import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom
 import useBagStore from '../../../../zustand/useBagStore/useBagStore';
 import {
   getAFContent,
-  getAFContentId, getAFContentType, sumQuantity,
+  getAFContentId,
+  getAFContentType,
+  sumQuantity,
 } from '../../../../utils/checkoutInitiatedEvents';
 import EventProvider from '../../../../utils/EventProvider';
-import SentryConfig from '../../../../config/sentryConfig';
-import {
-  useOrderFormAttachClientByCookieMutation, useOrderFormRefreshDataMutation,
-} from '../../../../base/graphql/generated';
+import { useOrderFormRefreshDataMutation } from '../../../../base/graphql/generated';
 import { useCart } from '../../../../context/CartContext';
 import { getBrands } from '../../../../utils/getBrands';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
@@ -40,10 +40,6 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
   const [navigateToDeliveryDisable, setNavigateToDeliveryDisable] = useState<boolean>(false);
   const { profile } = useAuthStore(['profile']);
 
-  const [attachClient, { loading: loadingAttach }] = useOrderFormAttachClientByCookieMutation({
-    context: { clientName: 'gateway' },
-    fetchPolicy: 'no-cache',
-  });
   const [refreshOrderForm, { loading: loadingRefresh }] = useOrderFormRefreshDataMutation({
     context: { clientName: 'gateway' },
     fetchPolicy: 'no-cache',
@@ -162,14 +158,17 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
             await restoreCart(currentOrderForm.orderFormId);
             setNavigateToDeliveryDisable(false);
             navigation.navigate('DeliveryScreen', {});
+            return;
           }
+
+          throw new Error('Error on orderFormRefreshData [handleNavigateToDelivery]');
         } catch (error) {
-          SentryConfig.addBreadcrumb({
-            message: 'Erro na chamada para tela de entrega',
-            data: {
-              error,
-            },
+          Sentry.withScope((scope) => {
+            scope.setExtra('currentOrderForm', currentOrderForm);
+            scope.addBreadcrumb({ message: 'Error [handleNavigateToDelivery]' });
+            Sentry.captureException(error);
           });
+
           setNavigateToDeliveryDisable(false);
         }
       }
@@ -180,9 +179,10 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
     isProfileComplete,
     currentOrderForm,
     bagInfos,
-    attachClient,
     dispatch,
     restoreCart,
+    validateFieldsProfile,
+    refreshOrderForm,
   ]);
 
   return (
@@ -245,7 +245,6 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
             !!(currentOrderForm && currentOrderForm?.items?.length === 0)
             || topBarLoading
             || navigateToDeliveryDisable
-            || loadingAttach
             || loadingRefresh
         }
         onPress={handleNavigateToDelivery}
