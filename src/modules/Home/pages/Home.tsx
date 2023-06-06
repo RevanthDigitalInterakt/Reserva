@@ -113,7 +113,7 @@ export const HomeScreen: FC<{
     onRefreshToken()
       .catch((err) => {
         if (err instanceof RefreshTokenError) {
-          navigation.navigate('Login', { comeFrom: 'Profile' });
+          navigation.navigate('Login', { comeFrom: 'Profile', invalidSession: true });
         }
       });
   }, [onRefreshToken, navigation]);
