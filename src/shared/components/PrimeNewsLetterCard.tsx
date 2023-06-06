@@ -3,13 +3,14 @@ import {
   Typography,
   TextField,
   Button,
+  Icon,
 } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
 import { Platform } from 'react-native';
 import React, { useCallback } from 'react';
 import * as yup from 'yup';
 import * as Sentry from '@sentry/react-native';
-import { Colors } from '../../Colors/Colors';
+import { COLORS } from '../../base/styles/colors';
 import { platformType } from '../../utils/platformType';
 import { useSendLeadsMutation } from '../../base/graphql/generated';
 import EventProvider from '../../utils/EventProvider';
@@ -124,9 +125,9 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
         <Box marginTop={16}>
           <TextField
             style={{
-              backgroundColor: Colors.INPUT_BACKGROUND,
-              borderColor: Colors.INPUT_BORDER,
-              color: Colors.INPUT_TEXT,
+              backgroundColor: COLORS.INPUT_BACKGROUND,
+              borderColor: COLORS.INPUT_BORDER,
+              color: COLORS.INPUT_TEXT,
               borderWidth: 1,
               height: 40,
             }}
@@ -143,9 +144,9 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
         <Box marginTop={16}>
           <TextField
             style={{
-              backgroundColor: Colors.INPUT_BACKGROUND,
-              borderColor: Colors.INPUT_BORDER,
-              color: Colors.INPUT_TEXT,
+              backgroundColor: COLORS.INPUT_BACKGROUND,
+              borderColor: COLORS.INPUT_BORDER,
+              color: COLORS.INPUT_TEXT,
               borderWidth: 1,
               height: 40,
             }}
@@ -163,9 +164,9 @@ export const PrimeNewsLetterCard: React.FC<PrimeNewsLetterCardProps> = ({
         <Box marginTop={16}>
           <TextField
             style={{
-              backgroundColor: Colors.INPUT_BACKGROUND,
-              borderColor: Colors.INPUT_BORDER,
-              color: Colors.INPUT_TEXT,
+              backgroundColor: COLORS.INPUT_BACKGROUND,
+              borderColor: COLORS.INPUT_BORDER,
+              color: COLORS.INPUT_TEXT,
               borderWidth: 1,
               height: 40,
             }}

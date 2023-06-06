@@ -10,12 +10,12 @@ import { Keyboard, Platform } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import * as yup from 'yup';
 import ConfettiCannon from 'react-native-confetti-cannon';
-import { theme } from '@usereservaapp/reserva-ui/src/themes';
+import type { theme } from '@usereservaapp/reserva-ui/src/themes';
 import useMasterdataProvider, { IResponseSubmit } from '../../../hooks/useMasterdataProvider';
 import { MasterDataSendDataDto } from '../../../types/dtos/masterdata-send-data.dto';
-import { Colors } from '../../../Colors/Colors';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { platformType } from '../../../utils/platformType';
+import { COLORS } from '../../../base/styles/colors';
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -36,9 +36,9 @@ const validationSchema = yup.object().shape({
 });
 
 const inputStyle = {
-  backgroundColor: Colors.INPUT_BACKGROUND,
-  borderColor: Colors.INPUT_BORDER,
-  color: Colors.INPUT_TEXT,
+  backgroundColor: COLORS.INPUT_BACKGROUND,
+  borderColor: COLORS.INPUT_BORDER,
+  color: COLORS.INPUT_TEXT,
   borderWidth: 1,
   height: 40,
 };
