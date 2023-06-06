@@ -7,6 +7,7 @@
 - [APP2022-1197 - Correção de Login Expirado](https://reserva.atlassian.net/browse/APP2022-1197)
 - [APP2022-1186 - Excluir código da PDP antiga](https://reserva.atlassian.net/browse/APP2022-1186)
 - [APP2022-1176 - Ajuste DeepLink em links patrocinados do Google](https://reserva.atlassian.net/browse/APP2022-1176)
+- [SRN-295 - Correção fluxo de recuperação de senha](https://reserva.atlassian.net/browse/SRN-295)
 
 ---
 
