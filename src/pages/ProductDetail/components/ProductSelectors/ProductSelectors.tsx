@@ -8,7 +8,7 @@ import * as Sentry from '@sentry/react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import { SizeGuide, SizeGuideImages } from '../../../../modules/ProductDetail/components/SizeGuide';
+import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import EventProvider from '../../../../utils/EventProvider';
 import ProductAddToCart from '../ProductAddToCart';
 import { defaultBrand } from '../../../../utils/defaultWBrand';

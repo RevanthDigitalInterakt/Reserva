@@ -3,9 +3,9 @@ import { Modal, FlatList } from 'react-native';
 import {
   Box, Button, Icon, Image, Typography,
 } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets/index';
-import configDeviceSizes from '../../../utils/configDeviceSizes';
-import EventProvider from '../../../utils/EventProvider';
+import { images } from '../../../../assets';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import EventProvider from '../../../../utils/EventProvider';
 
 export const SizeGuideImages = Object.freeze({
   camisas: [images.GuideMangaCurta, images.GuideMangaLonga],
@@ -86,7 +86,6 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId })
             images={handleCategoryImage()}
             onClose={() => setIsVisible(false)}
           />
-
         </Box>
       </Modal>
     </Box>

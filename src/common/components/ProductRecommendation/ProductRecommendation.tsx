@@ -5,7 +5,7 @@ import React, { useCallback, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
 import { useProductRecommendationsQuery } from '../../../base/graphql/generated';
-import { ListHorizontalProducts } from '../../../modules/ProductDetail/components/ListHorizontalProducts';
+import { ListHorizontalProducts } from './ListHorizontalProducts';
 import EventProvider from '../../../utils/EventProvider';
 import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';

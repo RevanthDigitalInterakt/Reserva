@@ -3,7 +3,7 @@ import { Box, OutlineInput, Typography } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 import { Keyboard } from 'react-native';
 import * as Sentry from '@sentry/react-native';
-import { Tooltip } from '../../../../modules/ProductDetail/components/Tooltip';
+import Tooltip from './Tooltip';
 import { useSubscribeNewsletterMutation } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';

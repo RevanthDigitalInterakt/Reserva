@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
-import testProps from '../../../utils/testProps';
+import testProps from '../../../../utils/testProps';
 
-interface TooltipProps {
+interface ITooltip {
   tooltipText: string,
   isVisible: boolean,
   setIsVisible: (isVisible: boolean) => void
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsVisible }) => {
+function Tooltip({ tooltipText, isVisible, setIsVisible }: ITooltip) {
   const toastOpacity = useRef(new Animated.Value(0)).current;
 
   const onShow = async () => {
@@ -33,7 +33,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsV
     if (isVisible) {
       onShow();
     }
-  }, [isVisible]);
+  }, [isVisible, onShow]);
 
   return (
     <Animated.View
@@ -47,19 +47,13 @@ export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsV
       }}
     >
       <Box
-        style={
-        {
+        style={{
           shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
+          shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0,
           shadowRadius: 2,
-
           elevation: 5,
-        }
-}
+        }}
         borderRadius="nano"
         backgroundColor="white"
         alignSelf="center"
@@ -69,4 +63,6 @@ export const Tooltip: React.FC<TooltipProps> = ({ tooltipText, isVisible, setIsV
       </Box>
     </Animated.View>
   );
-};
+}
+
+export default Tooltip;

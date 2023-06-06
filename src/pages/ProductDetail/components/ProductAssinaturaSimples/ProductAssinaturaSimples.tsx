@@ -5,7 +5,7 @@ import {
 import { TouchableOpacity } from 'react-native';
 import testProps from '../../../../utils/testProps';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import { ModalTermsAndConditions } from '../../../../modules/ProductDetail/components/ModalTermsAndConditions';
+import { ModalAssinaturaTerms } from './ModalAssinaturaTerms';
 
 function ProductAssinaturaSimples() {
   const { productDetail, assinaturaSimples } = useProductDetailStore(['productDetail', 'assinaturaSimples']);
@@ -29,7 +29,7 @@ function ProductAssinaturaSimples() {
 
   return (
     <>
-      <ModalTermsAndConditions
+      <ModalAssinaturaTerms
         isVisible={showTermsModal}
         setIsVisible={setShowTermsModal}
       />

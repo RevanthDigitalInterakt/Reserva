@@ -2,9 +2,10 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {
   Box, Button, Divider, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
-import { ProductDescription } from '../../../../modules/ProductDetail/components/ExpandProductDescription';
+import ProductDescription from './ProductDescription';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../../../utils/EventProvider';
+import testProps from '../../../../utils/testProps';
 
 function ProductAbout() {
   const { productDetail, selectedSize } = useProductDetailStore(['productDetail', 'selectedSize']);
@@ -27,7 +28,7 @@ function ProductAbout() {
   return (
     <Box>
       <Button
-        testID="com.usereserva:id/about_this_product_button"
+        {...testProps('about_this_product_button')}
         variant="semBorda"
         onPress={() => onToggle(!showSection)}
         flexDirection="row"
@@ -58,7 +59,7 @@ function ProductAbout() {
             <ProductDescription
               title="Detalhes do Produto"
               description={data.description}
-              testID="com.usereserva:id/details_product"
+              {...testProps('details_product')}
             />
           )}
 
@@ -66,7 +67,7 @@ function ProductAbout() {
             <ProductDescription
               title="Composição"
               description={data.composition}
-              testID="com.usereserva:id/composition"
+              {...testProps('composition')}
             />
           )}
 
@@ -74,7 +75,7 @@ function ProductAbout() {
             <ProductDescription
               title="Código do Produto"
               description={`Ref: ${ean}`}
-              testID="com.usereserva:id/code"
+              {...testProps('code')}
             />
           )}
         </>

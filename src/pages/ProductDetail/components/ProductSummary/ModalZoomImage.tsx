@@ -8,9 +8,9 @@ import {
   View,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { images } from '../../../assets/index';
-import configDeviceSizes from '../../../utils/configDeviceSizes';
-import testProps from '../../../utils/testProps';
+import { images } from '../../../../assets';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import testProps from '../../../../utils/testProps';
 
 export interface ModalBagProps {
   isVisible: boolean;

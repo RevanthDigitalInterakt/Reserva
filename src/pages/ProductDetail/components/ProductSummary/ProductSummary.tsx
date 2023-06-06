@@ -7,7 +7,7 @@ import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPlaceName';
 import { slugify } from '../../../../utils/slugify';
-import { ModalZoomImage } from '../../../../modules/ProductDetail/components/ModalZoomImage';
+import { ModalZoomImage } from './ModalZoomImage';
 import { useWishlistProductActions } from '../../../../hooks/useWishlistProductActions';
 import { images } from '../../../../assets';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';

@@ -1,10 +1,5 @@
 import React from 'react';
-
-import {
-  Dimensions,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
 import {
   Box,
@@ -12,6 +7,7 @@ import {
   Icon,
   Typography,
 } from '@usereservaapp/reserva-ui';
+import testProps from '../../../../utils/testProps';
 
 interface Props {
   isVisible: boolean;
@@ -20,7 +16,7 @@ interface Props {
 
 const { width, height } = Dimensions.get('window');
 
-export const ModalTermsAndConditions: React.FC<Props> = ({
+export const ModalAssinaturaTerms: React.FC<Props> = ({
   isVisible,
   setIsVisible,
 }) => (
@@ -28,11 +24,8 @@ export const ModalTermsAndConditions: React.FC<Props> = ({
     isVisible={isVisible}
     animationIn="fadeIn"
     animationInTiming={300}
-    testID="com.usereserva:id/terms_and_conditions"
-    style={{
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
+    {...testProps('terms_and_conditions')}
+    style={{ alignItems: 'center', justifyContent: 'center' }}
   >
     <Box
       backgroundColor="white"
@@ -197,7 +190,7 @@ export const ModalTermsAndConditions: React.FC<Props> = ({
       </ScrollView>
 
       <Button
-        testID="button_understood_modal_terms_and_conditions"
+        {...testProps('button_understood_modal_terms_and_conditions')}
         mt="xxs"
         title="ENTENDI"
         variant="primarioEstreito"

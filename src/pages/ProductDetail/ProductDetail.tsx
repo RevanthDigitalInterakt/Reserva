@@ -21,7 +21,7 @@ import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicySto
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
-function ProductDetailNew({ route, navigation }: IProductDetailNew) {
+function ProductDetail({ route, navigation }: IProductDetailNew) {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { setProduct, resetProduct, productDetail } = useProductDetailStore([
     'setProduct',
@@ -99,4 +99,4 @@ function ProductDetailNew({ route, navigation }: IProductDetailNew) {
   );
 }
 
-export default ProductDetailNew;
+export default ProductDetail;

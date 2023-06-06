@@ -1,6 +1,6 @@
 import { ProductCatalog } from '../../modules/ProductCatalog/pages/productCatalog/ProductCatalog';
-import { ProductDetail } from '../../modules/ProductDetail/pages/ProductDetail';
-import { Flow } from '../types/flow.type';
+import ProductDetail from '../../pages/ProductDetail';
+import type { Flow } from '../types/flow.type';
 
 export const ProductFlow: Flow[] = [
   {

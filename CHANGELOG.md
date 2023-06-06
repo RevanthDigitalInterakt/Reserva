@@ -5,6 +5,8 @@
 - [APP2022-1190 - Refatoração Auth Context](https://reserva.atlassian.net/browse/APP2022-1190)
 - [APP2022-1093 - Landing Page Prime](https://reserva.atlassian.net/browse/APP2022-1093)
 - [APP2022-1197 - Correção de Login Expirado](https://reserva.atlassian.net/browse/APP2022-1197)
+- [APP2022-1186 - Excluir código da PDP antiga](https://reserva.atlassian.net/browse/APP2022-1186)
+- [APP2022-1176 - Ajuste DeepLink em links patrocinados do Google](https://reserva.atlassian.net/browse/APP2022-1176)
 
 ---
 

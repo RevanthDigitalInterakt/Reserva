@@ -2,8 +2,7 @@ import {
   Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography,
 } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/core';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
