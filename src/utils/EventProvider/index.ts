@@ -1,5 +1,7 @@
+import { Platform } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
+import messaging from '@react-native-firebase/messaging';
 import * as Sentry from '@sentry/react-native';
 import OneSignal from 'react-native-onesignal';
 import type { Route } from '@react-navigation/native';
@@ -15,6 +17,7 @@ import type { EventOptionsOneSignalFn } from './EventOnesignal';
 import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush';
 import type { EventsDitoValues, EventOptionsDitoFn } from './EventDito';
 import sendDitoTrackEvent from '../Dito/src/utils/sendDitoTrackEvent';
+import { platformType } from '../platformType';
 
 class EventProvider {
   public static appsFlyer: typeof appsFlyer = appsFlyer;
@@ -59,6 +62,30 @@ class EventProvider {
     }
   }
 
+  private static getOSDeviceToken() {
+    if (Platform.OS === platformType.IOS) {
+      return messaging().getAPNSToken();
+    }
+    return messaging().getToken();
+  }
+
+  private static async uninstallMeasurement() {
+    const token = await this.getOSDeviceToken();
+
+    if (!token) return;
+
+    this.appsFlyer.updateServerUninstallToken(token, (success) => {
+      if (success) return;
+
+      const error = new Error('Error AppsFlyer Uninstall Token');
+      Sentry.withScope((scope) => {
+        scope.setExtra('success', success);
+        scope.setExtra('token', token);
+        Sentry.captureException(error);
+      });
+    });
+  }
+
   public static initializeModules() {
     this.initializePushNotification();
 
@@ -80,6 +107,9 @@ class EventProvider {
     );
     this.analytics
       .logAppOpen()
+      .catch((error) => this.sentry.captureException(error));
+
+    this.uninstallMeasurement()
       .catch((error) => this.sentry.captureException(error));
   }
 
