@@ -112,7 +112,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
 
         <Box mt={6}>
           <UnderlineInput
-            accessibilityLabel="register_input_email"
+            testID="register_input_email"
             onChangeText={setEmail}
             placeholder="abcdefg@gmail.com"
             keyboardType="email-address"

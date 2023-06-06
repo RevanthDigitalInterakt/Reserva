@@ -4,7 +4,7 @@ import { platformType } from './platformType';
 const prefix = 'com.usereserva:id/' as const;
 
 const testProps = (value: string) => {
-  const testID = value.startsWith(prefix) ? value : `${prefix}${value}`;
+  const testID = (value || '').startsWith(prefix) ? value : `${prefix}${value}`;
 
   if (Platform.OS === platformType.IOS) {
     return {

@@ -39,22 +39,25 @@ const authStore = create<IAuthStore>((set, getState) => ({
   profile: undefined,
   onInit: async () => {
     try {
+      const state = getState();
       const token = await getAsyncStorageItem('Auth:Token');
 
       // If toke do not exists, user's not logged in. No need to request a profile
       if (!token) {
-        set({ ...getState(), initialized: true });
+        set({ ...state, initialized: true });
 
         return true;
       }
 
-      const profile = await getState().onGetProfile();
+      const profile = await state.onGetProfile();
 
-      set({ ...getState, profile, initialized: true });
+      set({ ...state, profile, initialized: true });
 
       return true;
     } catch (err) {
       EventProvider.captureException(err);
+
+      set({ ...getState(), initialized: true });
 
       return false;
     }

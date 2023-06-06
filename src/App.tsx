@@ -2,7 +2,7 @@ import { ApolloProvider } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { theme } from '@usereservaapp/reserva-ui';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import 'react-native-gesture-handler';
 import { requestTrackingPermission } from 'react-native-tracking-transparency';
@@ -28,14 +28,13 @@ import ToastProvider from './utils/Toast';
 import { useRemoteConfig } from './hooks/useRemoteConfig';
 import useApolloClientHook from './hooks/useApolloClientHook';
 import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
+import { navigationRef } from './utils/navigationRef';
 
 const DefaultTheme = {
   colors: {
     background: theme.colors.backgroundApp,
   },
 };
-
-const requestUserPermission = async () => { };
 
 const App = () => {
   useApolloFetchPolicyStore(['initialized']);
@@ -63,10 +62,14 @@ const App = () => {
     remoteConfigStore.fetchInitialData(remoteConfig());
   }, []);
 
-  const getTestEnvironment = React.useCallback(async () => {
+  const getTestEnvironment = useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
 
     setIsTesting(res === 'true');
+  }, []);
+
+  const trackScreenViewOnSentry = useCallback(() => {
+    EventProvider.trackScreen(navigationRef?.current?.getCurrentRoute());
   }, []);
 
   const getMaintenanceValue = async () => {
@@ -85,8 +88,6 @@ const App = () => {
       await requestTrackingPermission();
     })();
 
-    requestUserPermission();
-
     EventProvider.initializeModules();
 
     setTimeout(() => {
@@ -102,7 +103,12 @@ const App = () => {
             <NavigationContainer
               linking={linkingConfig}
               theme={DefaultTheme}
-              onReady={RNBootSplash.hide}
+              onReady={() => {
+                trackScreenViewOnSentry();
+                RNBootSplash.hide();
+              }}
+              ref={navigationRef}
+              onStateChange={trackScreenViewOnSentry}
             >
               {isOnMaintenance ? (
                 <Maintenance isVisible />

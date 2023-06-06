@@ -83,8 +83,16 @@ export type RootStackParamList = {
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
-  LoginAlternative: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite', previousPage?: keyof RootStackParamList };
-  Login: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite', previousPage?: keyof RootStackParamList };
+  LoginAlternative: {
+    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite',
+    previousPage?: keyof RootStackParamList;
+    invalidSession?: boolean;
+  };
+  Login: {
+    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite',
+    previousPage?: keyof RootStackParamList;
+    invalidSession?: boolean;
+  };
   ProductCatalog: {
     safeArea: boolean;
     search: boolean;

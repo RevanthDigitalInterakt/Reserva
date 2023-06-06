@@ -2,6 +2,7 @@ import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import * as Sentry from '@sentry/react-native';
 import OneSignal from 'react-native-onesignal';
+import type { Route } from '@react-navigation/native';
 import { env } from '../../config/env';
 import {
   eventsName,
@@ -120,6 +121,27 @@ class EventProvider {
 
   public static captureException(error: any) {
     this.sentry.captureException(error);
+  }
+
+  private static oldRouteName: string = '';
+
+  public static trackScreen(screen?: Route<string> | undefined) {
+    try {
+      if (!screen) return;
+
+      const { name: screenName, params } = screen;
+      if (screenName === this.oldRouteName) return;
+
+      this.oldRouteName = screenName;
+
+      Sentry.addBreadcrumb({
+        message: screenName,
+        category: 'navigation',
+        data: params,
+      });
+    } catch (e) {
+      this.captureException(e);
+    }
   }
 
   public static sendPushTags<Type extends EventOptionsOneSignalFn['type']>(

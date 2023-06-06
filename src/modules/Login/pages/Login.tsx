@@ -3,6 +3,7 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import {
+  Alert,
   BackHandler, Keyboard, SafeAreaView, ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -26,7 +27,7 @@ export const LoginScreen: React.FC<Props> = ({
 }) => {
   const { comeFrom, previousPage } = route.params;
   const [loadingSignIn, setLoadingSignIn] = useState<boolean>(false);
-  const { onSignIn } = useAuthStore(['onSignIn']);
+  const { onSignIn, onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
 
   const [loginCredentials, setLoginCredentials] = useState({
     username: '',
@@ -97,6 +98,13 @@ export const LoginScreen: React.FC<Props> = ({
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (route?.params?.invalidSession) {
+      Alert.alert('Sessão expirada', 'Faça login novamente');
+      onSignOut();
+    }
+  }, [route?.params, onSignOut]);
 
   async function verifyUserEmail() {
     if (loginCredentials.username.trim().toLowerCase()) {
