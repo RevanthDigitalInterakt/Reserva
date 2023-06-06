@@ -1,0 +1,11 @@
+query landingPagePrime {
+    landingPagePrime {
+        productId
+        productSeller
+        installmentQty
+        installmentPrice
+        monthlyCashback
+        discountFrom
+        discountPercentage
+    }
+}

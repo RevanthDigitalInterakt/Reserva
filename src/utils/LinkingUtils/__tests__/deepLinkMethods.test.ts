@@ -58,6 +58,31 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     });
   });
 
+  describe('test urlPrimeCase ', () => {
+    test('with correct params', async () => {
+      const variant1 = await deepLinkHelper('https://usereserva.com/prime/');
+      expect(variant1).toEqual('usereserva://prime');
+
+      const variant2 = await deepLinkHelper('https://usereserva.com/prime');
+      expect(variant2).toEqual('usereserva://prime');
+    });
+
+    test('with wrong domain', async () => {
+      const result = await deepLinkHelper('https://usereserva.io/');
+      expect(result).toEqual(defaultInitialUrl);
+    });
+
+    test('with wrong domain with params', async () => {
+      const result = await deepLinkHelper('https://usereserva.io/prime');
+      expect(result).toEqual('usereserva://ron/prime');
+    });
+
+    test('with correct prefix but another path', async () => {
+      const result = await deepLinkHelper('https://usereserva.com/prime/detalhe');
+      expect(result).toEqual('usereserva://asyncDeepLink/CATALOG?params=|prime|detalhe&initialUrl=usereserva.com/prime/detalhe');
+    });
+  });
+
   describe('test urlProductCase ', () => {
     describe('when Query Params', () => {
       test('should return productUrl, query params skuId', async () => {

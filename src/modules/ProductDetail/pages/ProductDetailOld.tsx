@@ -44,7 +44,6 @@ import { Attachment } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import { TopBarDefaultBackButton } from '../../Menu/components/TopBarDefaultBackButton';
 import { ExpandProductDescription } from '../components/ExpandProductDescription';
-import { ModalBag } from '../components/ModalBag';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
 import { ModalZoomImage } from '../components/ModalZoomImage';
 import { Recommendation } from '../components/Recommendation';
@@ -62,6 +61,7 @@ import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { onShare } from '../../../utils/onShare';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { ModalBag } from '../../../common/components/ModalBag/ModalBag';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -887,9 +887,7 @@ export const ProductDetailOld: React.FC<Props> = ({
 
         <ModalBag
           isVisible={isVisible}
-          onBackdropPress={() => {
-            setIsVisible(false);
-          }}
+          onBackdropPress={() => setIsVisible(false)}
         />
 
         <TopBarDefaultBackButton loading={loading} navigateGoBack />

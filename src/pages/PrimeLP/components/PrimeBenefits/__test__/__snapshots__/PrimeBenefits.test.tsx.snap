@@ -1,0 +1,577 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F7F7F7",
+      "justifyContent": "center",
+      "paddingBottom": 8,
+      "paddingHorizontal": 32,
+    }
+  }
+  testID="com.usereserva:id/PrimeBenefits_wrapper"
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "ReservaSerif-Regular",
+          "fontSize": 28,
+        },
+        Object {
+          "fontSize": 20,
+          "lineHeight": 26,
+          "marginBottom": 24,
+        },
+      ]
+    }
+    variant="tituloSessoes"
+  >
+    Vantagens em ser
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "ReservaSerif-Bold",
+            "fontSize": 15,
+          },
+          Object {
+            "fontSize": 20,
+          },
+        ]
+      }
+      variant="descontoTag2"
+    >
+       Prime
+    </Text>
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Nunito-Regular",
+          "fontSize": 15,
+        },
+        Object {
+          "color": "#848484",
+          "fontSize": 11,
+          "lineHeight": 16,
+          "marginBottom": 32,
+          "textAlign": "center",
+        },
+      ]
+    }
+    variant="tituloSessao"
+  >
+    Ganhe um infinito de comodidades pra aproveitar no site, App, lojas físicas e até fora da Reserva. Além de acesso a pré-lançamentos e produtos exclusivos, você também garante:
+  </Text>
+  <View
+    style={
+      Object {
+        "paddingHorizontal": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "marginBottom": 32,
+        }
+      }
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={41}
+        bbWidth={54}
+        fill="none"
+        focusable={false}
+        height={41}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "marginBottom": 24,
+            },
+            Object {
+              "flex": 0,
+              "height": 41,
+              "width": 54,
+            },
+          ]
+        }
+        vbHeight={41}
+        vbWidth={54}
+        width={54}
+      >
+        <RNSVGGroup
+          fill={null}
+          propList={
+            Array [
+              "fill",
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M43.207 1.008s9.62-.51 9.74 6.498c.12 7.008 0 25.991 0 25.991s.175 6.498-6.494 6.498H1V27s6.494-.165 6.494-6.498S1 14.004 1 14.004V1.008h42.207Z"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4282006074}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="M17.234 7.506v7.38M17.234 16.811v7.38M17.234 26.117v7.38"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4290513165}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="m26.974 30.248 16.233-19.493M28.658 19.308a3.716 3.716 0 0 0 3.715-3.717 3.716 3.716 0 0 0-3.715-3.718 3.716 3.716 0 0 0-3.715 3.718 3.716 3.716 0 0 0 3.715 3.717ZM41.24 28.901a3.716 3.716 0 0 0 3.715-3.717 3.716 3.716 0 1 0-7.43 0 3.716 3.716 0 0 0 3.715 3.717Z"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4282006074}
+            strokeWidth={2}
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "ReservaSerif-Bold",
+              "fontSize": 15,
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 21,
+              "marginBottom": 4,
+              "textAlign": "center",
+            },
+          ]
+        }
+        variant="descontoTag2"
+      >
+        Descontos Especiais
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Nunito-Regular",
+              "fontSize": 15,
+            },
+            Object {
+              "color": "#848484",
+              "fontSize": 12,
+              "lineHeight": 16,
+              "textAlign": "center",
+            },
+          ]
+        }
+        variant="tituloSessao"
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Nunito-Bold",
+                "fontSize": 20,
+              },
+              Object {
+                "color": "#000000",
+                "fontSize": 12,
+                "lineHeight": 16,
+              },
+            ]
+          }
+          variant="precoTotal"
+        >
+          20% OFF* 
+        </Text>
+        em compras a partir de
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Nunito-Bold",
+                "fontSize": 20,
+              },
+              Object {
+                "color": "#000000",
+                "fontSize": 12,
+                "lineHeight": 16,
+              },
+            ]
+          }
+          variant="precoTotal"
+        >
+           R$ 499 
+        </Text>
+        em todas as peças das marcas Reserva.
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "marginBottom": 32,
+        }
+      }
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={58}
+        bbWidth={50}
+        fill="none"
+        focusable={false}
+        height={58}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "marginBottom": 24,
+            },
+            Object {
+              "flex": 0,
+              "height": 58,
+              "width": 50,
+            },
+          ]
+        }
+        vbHeight={58}
+        vbWidth={50}
+        width={50}
+      >
+        <RNSVGGroup
+          fill={null}
+          propList={
+            Array [
+              "fill",
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M1.312 12.347v27.146l23.453 10.93L48.3 39.493V12.347L24.765 2 1.312 12.347Z"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4282006074}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="M1.949 12.681 24.764 24.92 48.693 12.68M24.764 50.423V24.92"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4282006074}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="m1 18.288 23.765 12.48L49 18.289"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4282006074}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="M12.703 9.22 33.61 19.775v12.433l4.116-4.758 3.848 2.199V15.97L20.7 5.706 12.703 9.22Z"
+            fill={4290513165}
+            propList={
+              Array [
+                "fill",
+                "stroke",
+              ]
+            }
+            stroke={4294967295}
+          />
+          <RNSVGPath
+            d="M24.843 57c3.602 0 6.522-3.093 6.522-6.907 0-3.815-2.92-6.908-6.522-6.908-3.601 0-6.521 3.093-6.521 6.907 0 3.815 2.92 6.908 6.521 6.908Z"
+            fill={4290513165}
+            propList={
+              Array [
+                "fill",
+              ]
+            }
+          />
+          <RNSVGPath
+            d="M24.843 56.232c3.178 0 5.755-2.749 5.755-6.14 0-3.39-2.577-6.14-5.755-6.14s-5.754 2.75-5.754 6.14c0 3.391 2.576 6.14 5.754 6.14Z"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4294967295}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="m22.474 49.773 1.784 1.95 2.88-3.736"
+            propList={
+              Array [
+                "stroke",
+              ]
+            }
+            stroke={4294967295}
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "ReservaSerif-Bold",
+              "fontSize": 15,
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 21,
+              "marginBottom": 4,
+              "textAlign": "center",
+            },
+          ]
+        }
+        variant="descontoTag2"
+      >
+        Frete Grátis
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Nunito-Regular",
+              "fontSize": 15,
+            },
+            Object {
+              "color": "#848484",
+              "fontSize": 12,
+              "lineHeight": 16,
+              "textAlign": "center",
+            },
+          ]
+        }
+        variant="tituloSessao"
+      >
+        Em toda compra*, sem valor mínimo e válido em todo o Brasil.
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "marginBottom": 32,
+        }
+      }
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={47}
+        bbWidth={54}
+        fill="none"
+        focusable={false}
+        height={47}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "marginBottom": 24,
+            },
+            Object {
+              "flex": 0,
+              "height": 47,
+              "width": 54,
+            },
+          ]
+        }
+        vbHeight={47}
+        vbWidth={54}
+        width={54}
+      >
+        <RNSVGGroup
+          fill={null}
+          propList={
+            Array [
+              "fill",
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M40 6.325H14L1 19.549l26 26.449 26-26.449L40 6.325Z"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+                "strokeLinecap",
+                "strokeLinejoin",
+              ]
+            }
+            stroke={4282006074}
+            strokeLinecap={1}
+            strokeLinejoin={1}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="M1.392 20.08h50.689"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+              ]
+            }
+            stroke={4282006074}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="M42.033 8.822 27 46 16.6 20.746 11.537 9.087"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+                "strokeLinecap",
+                "strokeLinejoin",
+              ]
+            }
+            stroke={4282006074}
+            strokeLinecap={1}
+            strokeLinejoin={1}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="M16.665 20.08 27 6.748 37.335 20.08"
+            propList={
+              Array [
+                "stroke",
+                "strokeWidth",
+                "strokeLinecap",
+                "strokeLinejoin",
+              ]
+            }
+            stroke={4282006074}
+            strokeLinecap={1}
+            strokeLinejoin={1}
+            strokeWidth={2}
+          />
+          <RNSVGPath
+            d="M1 33.818s7.784 3.828 7.784 7.926c0-4.09 7.88-7.926 7.88-7.926s-7.88-3.746-7.88-8.469C8.784 30.171 1 33.82 1 33.82ZM38.306 6.939s5.458 2.684 5.458 5.556c0-2.867 5.526-5.556 5.526-5.556S43.764 4.315 43.764 1c0 3.38-5.458 5.939-5.458 5.939ZM38.306 29.947s4.226 2.078 4.226 4.303c0-2.22 4.278-4.303 4.278-4.303s-4.279-2.033-4.279-4.598c0 2.618-4.225 4.598-4.225 4.598Z"
+            fill={4290513165}
+            propList={
+              Array [
+                "fill",
+                "stroke",
+                "strokeWidth",
+                "strokeLinecap",
+                "strokeLinejoin",
+              ]
+            }
+            stroke={4294967295}
+            strokeLinecap={1}
+            strokeLinejoin={1}
+            strokeWidth={2}
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "ReservaSerif-Bold",
+              "fontSize": 15,
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 21,
+              "marginBottom": 4,
+              "textAlign": "center",
+            },
+          ]
+        }
+        variant="descontoTag2"
+      >
+        R$ 25 de Cashback Mensal
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Nunito-Regular",
+              "fontSize": 15,
+            },
+            Object {
+              "color": "#848484",
+              "fontSize": 12,
+              "lineHeight": 16,
+              "textAlign": "center",
+            },
+          ]
+        }
+        variant="tituloSessao"
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Nunito-Bold",
+                "fontSize": 20,
+              },
+              Object {
+                "color": "#000000",
+                "fontSize": 12,
+                "lineHeight": 16,
+              },
+            ]
+          }
+          variant="precoTotal"
+        >
+          Acumule mais*
+        </Text>
+        pra comprar o que você quiser, quando preferir.
+      </Text>
+    </View>
+  </View>
+</View>
+`;

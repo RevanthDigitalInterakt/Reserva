@@ -3,6 +3,7 @@
 ### 2.0.1
 
 - [APP2022-1190 - Refatoração Auth Context](https://reserva.atlassian.net/browse/APP2022-1190)
+- [APP2022-1093 - Landing Page Prime](https://reserva.atlassian.net/browse/APP2022-1093)
 
 ---
 

@@ -49,6 +49,7 @@ type EventValues = {
   show: number;
   success: number;
   favorite: number;
+  position: 'top' | 'bottom';
 };
 
 export namespace EventsOptions {
@@ -86,6 +87,12 @@ export namespace EventsOptions {
   | 'currency'
   | 'seller'
   | 'wbrand'
+  >;
+  export type AddToCartPrime = Pick<
+  EventValues,
+  | 'item_id'
+  | 'item_quantity'
+  | 'seller'
   >;
   export type Purchase = Pick<
   EventValues,
@@ -138,6 +145,7 @@ export namespace EventsOptions {
   export type ProductCheckDeliveryTime = Pick<EventValues, | 'product_id'| 'success'>;
   export type ProductSubscribeNewsletter = Pick<EventValues, | 'product_id' | 'success'>;
   export type ProductViewAbout = Pick<EventValues, | 'product_id' | 'show'>;
+  export type PressAddToCartPrimeLP = Pick<EventValues, | 'position'>;
 }
 
 export type EventOptionsFn =
@@ -152,6 +160,10 @@ export type EventOptionsFn =
   | {
     type: 'add_to_cart';
     payload: EventsOptions.AddToCart;
+  }
+  | {
+    type: 'add_to_cart_prime',
+    payload: EventsOptions.AddToCartPrime;
   }
   | {
     type: 'remove_from_cart';
@@ -260,4 +272,8 @@ export type EventOptionsFn =
   | {
     type: 'product_view_about',
     payload: EventsOptions.ProductViewAbout;
+  }
+  | {
+    type: 'prime_press_add_to_cart_lp',
+    payload: EventsOptions.PressAddToCartPrimeLP;
   };

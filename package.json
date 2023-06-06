@@ -185,7 +185,7 @@
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/?!((jest-)?@react-native|react-native|@usereservaapp/reserva-ui|react-native-modal|react-native-progress|react-native-animatable)"
+      "node_modules/?!((jest-)?@react-native|react-native|@usereservaapp/reserva-ui|react-native-modal|react-native-progress|react-native-animatable|lottie-react-native)"
     ],
     "automock": false,
     "moduleFileExtensions": [
@@ -203,6 +203,7 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/assets/index.tsx"
     },
+    "moduleDirectories": ["<rootDir>/../", "node_modules"],
     "coverageThreshold": {
       "global": {
         "branches": 2.63,

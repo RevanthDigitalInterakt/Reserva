@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler/jestSetup';
 import * as RN from 'react-native';
+import mockRNDeviceInfo from 'react-native-device-info/jest/react-native-device-info-mock';
 
 import fetch from 'jest-fetch-mock';
 
@@ -113,3 +114,5 @@ jest.mock('@react-native-cookies/cookies', () => ({
   getInitialURL: jest.fn(),
   get: jest.fn(() => Promise.resolve(null)),
 }));
+
+jest.mock('react-native-device-info', () => mockRNDeviceInfo);

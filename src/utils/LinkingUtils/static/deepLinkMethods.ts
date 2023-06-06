@@ -41,6 +41,18 @@ export const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+export const urlLandingPagePrime = (initialUrl: string): ICustomMethodReturnParams => {
+  try {
+    const url = new URL(initialUrl);
+
+    return url.pathname === '/prime'
+      ? { match: true, strUrl: 'usereserva://prime' }
+      : defaultCustomMethodReturn;
+  } catch (err) {
+    return defaultCustomMethodReturn;
+  }
+};
+
 const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
   const isUrlSiteCase = initialUrl === 'https://www.usereserva.com'
     || initialUrl === 'http://www.usereserva.com'
@@ -201,6 +213,7 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
 const registerMethods = [
   urlSiteCase,
   urlRon,
+  urlLandingPagePrime,
   urlProductCase,
   colectionUseCase,
   accountWishListUseCase,

@@ -1455,6 +1455,11 @@ export type InitialBagStoreQueryVariables = Exact<{
 
 export type InitialBagStoreQuery = { __typename?: 'Query', orderForm: { __typename?: 'OrderformOutput', orderFormId: string, allItemsQuantity: number, messages: Array<string>, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number }, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null } | null } };
 
+export type LandingPagePrimeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, productSeller: string, installmentQty: number, installmentPrice: number, monthlyCashback: number, discountFrom: number, discountPercentage: number } };
+
 export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3201,6 +3206,49 @@ export type InitialBagStoreLazyQueryHookResult = ReturnType<typeof useInitialBag
 export type InitialBagStoreQueryResult = Apollo.QueryResult<InitialBagStoreQuery, InitialBagStoreQueryVariables>;
 export function refetchInitialBagStoreQuery(variables: InitialBagStoreQueryVariables) {
       return { query: InitialBagStoreDocument, variables: variables }
+    }
+export const LandingPagePrimeDocument = gql`
+    query landingPagePrime {
+  landingPagePrime {
+    productId
+    productSeller
+    installmentQty
+    installmentPrice
+    monthlyCashback
+    discountFrom
+    discountPercentage
+  }
+}
+    `;
+
+/**
+ * __useLandingPagePrimeQuery__
+ *
+ * To run a query within a React component, call `useLandingPagePrimeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLandingPagePrimeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLandingPagePrimeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLandingPagePrimeQuery(baseOptions?: Apollo.QueryHookOptions<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>(LandingPagePrimeDocument, options);
+      }
+export function useLandingPagePrimeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>(LandingPagePrimeDocument, options);
+        }
+export type LandingPagePrimeQueryHookResult = ReturnType<typeof useLandingPagePrimeQuery>;
+export type LandingPagePrimeLazyQueryHookResult = ReturnType<typeof useLandingPagePrimeLazyQuery>;
+export type LandingPagePrimeQueryResult = Apollo.QueryResult<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>;
+export function refetchLandingPagePrimeQuery(variables?: LandingPagePrimeQueryVariables) {
+      return { query: LandingPagePrimeDocument, variables: variables }
     }
 export const MktinStatusDocument = gql`
     query mktinStatus {

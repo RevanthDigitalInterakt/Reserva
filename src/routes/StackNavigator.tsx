@@ -63,6 +63,7 @@ import type { IFilters } from '../utils/generateFacets';
 import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
 import { MktFlow } from './flows/mtk.flow';
 import { BagABTest } from '../modules/Checkout/pages/BagABTest';
+import PrimeLP from '../pages/PrimeLP';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -77,6 +78,7 @@ export type RootStackParamList = {
     selectedSize?: string;
     slug?: string;
   };
+  PrimeLP: undefined;
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
   Checkout: undefined;
@@ -106,8 +108,8 @@ export type RootStackParamList = {
   OrderDetail: {
     orderId?: string;
   };
-  ForgotAccessCode: { email: string; cookies: string[]; };
-  ConfirmAccessCode: { email: string; cookies: string[]; };
+  ForgotAccessCode: { email: string };
+  ConfirmAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: any[] };
   AccessCode: {
     email: string;
@@ -328,5 +330,7 @@ export const MainStackScreen = () => (
     <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
     <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
+
+    <MainStack.Screen name="PrimeLP" component={PrimeLP} />
   </MainStack.Navigator>
 );

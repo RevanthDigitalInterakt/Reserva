@@ -1,7 +1,4 @@
-import {
-  Box,
-  theme,
-} from '@usereservaapp/reserva-ui';
+import { Box, theme } from '@usereservaapp/reserva-ui';
 import Modal from 'react-native-modal';
 import React, { useState, useEffect } from 'react';
 

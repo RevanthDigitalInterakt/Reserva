@@ -14,7 +14,6 @@ import wishListQueries from '../../../graphql/wishlist/wishList';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import { ModalBag } from '../../ProductDetail/components/ModalBag';
 import { EmptyWishList } from '../components/EmptyWishList';
 import { slugify } from '../../../utils/slugify';
 import EventProvider from '../../../utils/EventProvider';
@@ -22,6 +21,7 @@ import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { ModalBag } from '../../../common/components/ModalBag/ModalBag';
 
 interface IData {
   loading: boolean;
@@ -206,9 +206,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
     <Box style={{ backgroundColor: 'white' }} flex={1}>
       <ModalBag
         isVisible={isVisible}
-        onBackdropPress={() => {
-          setIsVisible(false);
-        }}
+        onBackdropPress={() => setIsVisible(false)}
       />
 
       <TopBarDefault loading={false} showShadow />

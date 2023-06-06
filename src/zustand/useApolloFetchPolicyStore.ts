@@ -11,9 +11,10 @@ type TCacheKeys = 'banner'
 | 'facets'
 | 'getWishlist'
 | 'home'
+| 'landingPagePrime'
 | 'mktinStatus'
 | 'productDetail'
-|'productFeaturedData'
+| 'productFeaturedData'
 | 'productRecommendations'
 | 'productSearch'
 | 'profile'
@@ -39,6 +40,7 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   getWishlist: ONE_MINUTE / 2,
   facets: ONE_MINUTE,
   home: TWO_MINUTES,
+  landingPagePrime: TEN_MINUTES,
   mktinStatus: TEN_MINUTES,
   productDetail: ONE_MINUTE,
   productFeaturedData: ONE_MINUTE,
@@ -72,6 +74,7 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       getWishlist: 0,
       facets: 0,
       home: 0,
+      landingPagePrime: 0,
       mktinStatus: 0,
       productDetail: 0,
       productFeaturedData: 0,

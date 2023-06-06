@@ -18,6 +18,9 @@ export interface IRemoteConfigKeys {
   show_pdc_thumb_color: boolean;
   show_new_pdp: boolean;
   show_new_pdp_tester: boolean;
+  show_primelp_on_search: boolean;
+  show_primelp_on_search_tester: boolean;
+  primelp_terms_search: string;
   pdp_button_add_bag: string;
   sale_off_tag: boolean;
   cashback_in_store: boolean;
@@ -42,6 +45,9 @@ export const defaults: IRemoteConfigKeys = {
   pdp_button_add_bag: '#11AB6B',
   show_new_pdp: false,
   show_new_pdp_tester: false,
+  show_primelp_on_search: false,
+  show_primelp_on_search_tester: false,
+  primelp_terms_search: 'prime',
   sale_off_tag: false,
   show_pdc_thumb_color: false,
   cashback_in_store: false,
