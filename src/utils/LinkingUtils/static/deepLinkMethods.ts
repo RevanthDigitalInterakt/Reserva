@@ -71,6 +71,19 @@ const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const urlGoogleGclidCase = (initialUrl: string): ICustomMethodReturnParams => {
+  const isHomeSiteWithGclidGoogle = initialUrl.split('/?gclid')[0] === 'https://www.usereserva.com';
+
+  if (isHomeSiteWithGclidGoogle) {
+    return {
+      match: true,
+      strUrl: defaultInitialUrl,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
   const regex = new RegExp(REGEX_PRODUCT_URL.IS_PRODUCT_URL);
 
@@ -212,6 +225,7 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
 
 const registerMethods = [
   urlSiteCase,
+  urlGoogleGclidCase,
   urlRon,
   urlLandingPagePrime,
   urlProductCase,

@@ -16,6 +16,13 @@ jest.mock('react-native/Libraries/Utilities/Platform', () => {
   return Platform;
 });
 
+const gclidMock = 'CjwKCAjwscGjBhAXEiwAswQqNA0NVqJjj06ySZzHJSIPweMbdI3WvOI494VVhr3vequoTkfLDf15TBoCy2AQAvD_BwE';
+
+const URL_HOME = 'https://www.usereserva.com';
+const URL_HOME_VARIANT_1 = 'www.usereserva.com';
+const URL_HOME_VARIANT_2 = 'http://usereserva.com';
+const URL_HOME_VARIANT_3 = 'https://usereserva.io';
+
 describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   test('should return default url', async () => {
     const result = await deepLinkHelper('');
@@ -28,10 +35,10 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   });
 
   test('should return default url HOME when call urlSiteCase', async () => {
-    const expected1 = await deepLinkHelper('https://www.usereserva.com');
-    const expected2 = await deepLinkHelper('https://www.usereserva.com/');
-    const expected3 = await deepLinkHelper('www.usereserva.com');
-    const expected4 = await deepLinkHelper('http://usereserva.com');
+    const expected1 = await deepLinkHelper(URL_HOME);
+    const expected2 = await deepLinkHelper(`${URL_HOME}/`);
+    const expected3 = await deepLinkHelper(URL_HOME_VARIANT_1);
+    const expected4 = await deepLinkHelper(URL_HOME_VARIANT_2);
 
     expect(expected1).toEqual(defaultInitialUrl);
     expect(expected2).toEqual(defaultInitialUrl);
@@ -39,21 +46,26 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     expect(expected4).toEqual(defaultInitialUrl);
   });
 
+  test('should return default url HOME when google gclid', async () => {
+    const expected = await deepLinkHelper(`${URL_HOME}/?gclid=${gclidMock}`);
+    expect(expected).toEqual(defaultInitialUrl);
+  });
+
   describe('test urlRonCase ', () => {
     const code = 'code';
 
     test('with correct params', async () => {
-      const result = await deepLinkHelper(`https://usereserva.io/${code}`);
+      const result = await deepLinkHelper(`${URL_HOME_VARIANT_3}/${code}`);
       expect(result).toEqual(`usereserva://ron/${code}`);
     });
 
     test('without any params on url', async () => {
-      const result = await deepLinkHelper('https://usereserva.io');
+      const result = await deepLinkHelper(`${URL_HOME_VARIANT_3}`);
       expect(result).toEqual(defaultInitialUrl);
     });
 
     test('without any params on url and slash at end', async () => {
-      const result = await deepLinkHelper('https://usereserva.io/');
+      const result = await deepLinkHelper(`${URL_HOME_VARIANT_3}`);
       expect(result).toEqual(defaultInitialUrl);
     });
   });
@@ -88,17 +100,23 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
       test('should return productUrl, query params skuId', async () => {
         const expectedQueryParams = 'skuId=340005';
         const expectedResult = `${productUrl}${expectedQueryParams}`;
+        const expectedResultWithGclid = `usereserva://product?idsku=${expectedQueryParams}&gclid=${gclidMock}`;
 
         const result = await deepLinkHelper(
-          `https://www.usereserva.com/mochila-bold-331-0056263/p?${expectedQueryParams}`,
+          `${URL_HOME}/mochila-bold-331-0056263/p?${expectedQueryParams}`,
+        );
+
+        const result2 = await deepLinkHelper(
+          `${URL_HOME}/tenis-rsv-yankee0078812/p?idsku=${expectedQueryParams}&gclid=${gclidMock}`,
         );
 
         expect(result).toEqual(expectedResult);
+        expect(result2).toEqual(expectedResultWithGclid);
       });
 
       test('should return productUrl, query params skuid lowercase ', async () => {
         const result = await deepLinkHelper(
-          'https://www.usereserva.com/mochila-bold-331-0056263/p?skuid=3232',
+          `${URL_HOME}/mochila-bold-331-0056263/p?skuid=3232`,
         );
 
         expect(result).toEqual(`${productUrl}skuid=3232`);
@@ -109,7 +127,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
         const expectedResult = `${productUrl}${expectedQueryParams}`;
 
         const result = await deepLinkHelper(
-          `https://www.usereserva.com/mochila-bold-331-0056263/p?${expectedQueryParams}`,
+          `${URL_HOME}/mochila-bold-331-0056263/p?${expectedQueryParams}`,
         );
 
         expect(result).toEqual(expectedResult);
@@ -122,7 +140,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
           const expectedResult = `${productUrl}slug=${productSlug}`;
 
           const result = await deepLinkHelper(
-            `https://www.usereserva.com/${productSlug}/p`,
+            `${URL_HOME}/${productSlug}/p`,
           );
 
           expect(result).toEqual(expectedResult);
@@ -133,13 +151,13 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
 
   test('should return default url when call colectionUseCase', async () => {
     const endsWithColection = await deepLinkHelper(
-      'https://www.usereserva.com/colecao-reserva/ofertas',
+      `${URL_HOME}/colecao-reserva/ofertas`,
     );
     expect(endsWithColection).toEqual(`${baseTabUrl}/ofertas`);
   });
 
   describe('test account use cases', () => {
-    const baseUrlAccount = 'https://www.usereserva.com/account#';
+    const baseUrlAccount = `${URL_HOME}/account#`;
 
     test('should return wishlist use case', async () => {
       const urlWishList = `${baseUrlAccount}/wishlist`;
@@ -156,12 +174,12 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     test('should return cart use case', async () => {
       const orderFormId = 'dasdasd-321-312312';
       const successCartUrl = await deepLinkHelper(
-        `https://www.usereserva.com/#/cart?orderFormId=${orderFormId}`,
+        `${URL_HOME}/#/cart?orderFormId=${orderFormId}`,
       );
-      const badCardUrl = await deepLinkHelper('https://www.usereserva.com/#/cart?');
+      const badCardUrl = await deepLinkHelper(`${URL_HOME}/#/cart?`);
 
       expect(successCartUrl).toEqual(`usereserva://bag/${orderFormId}`);
-      expect(badCardUrl).toEqual(`${WEBVIEWOPEN}uri=www.usereserva.com/#/cart?`);
+      expect(badCardUrl).toEqual(`${WEBVIEWOPEN}uri=${URL_HOME_VARIANT_1}/#/cart?`);
     });
 
     test('should return collection catalog use case', async () => {
@@ -183,7 +201,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     describe('when has three paths', () => {
       test('should return web catalog collection use case', async () => {
         const notEndWithColection = await deepLinkHelper(
-          'https://www.usereserva.com/colecao-reserva/ofertas/novo-path',
+          `${URL_HOME}/colecao-reserva/ofertas/novo-path`,
         );
         expect(notEndWithColection).toEqual('usereserva://asyncDeepLink/CATALOG?params=|colecao-reserva|ofertas|novo-path&initialUrl=www.usereserva.com/colecao-reserva/ofertas/novo-path');
       });
