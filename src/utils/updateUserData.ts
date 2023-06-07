@@ -14,15 +14,15 @@ const generatePayloadToUploadUserData = (
   userData: IFormEditProfileSchema,
 ): IUserDataUpload => {
   const splittedBirthDate = userData.birthDate?.split('/');
-  const [firstName, ...rest] = userData.name.trim().split(' ');
+  const [firstName, ...rest] = userData.name?.trim()?.split(' ');
 
   return {
     firstName: firstName!,
-    lastName: rest.join(' '),
-    document: userData.document.replace(/[^\d]+/g, ''),
-    birthDate: splittedBirthDate?.reverse().join('-'),
-    homePhone: userData.cellPhone.replace(/[^\d+]+/g, ''),
-    gender: genderPtToEng[userData.gender!],
+    lastName: rest?.join(' '),
+    document: userData?.document?.replace(/[^\d]+/g, '') || '',
+    birthDate: splittedBirthDate?.reverse()?.join('-'),
+    homePhone: userData?.cellPhone?.replace(/[^\d+]+/g, ''),
+    gender: genderPtToEng[userData?.gender!] || '',
   };
 };
 

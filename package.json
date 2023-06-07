@@ -196,7 +196,7 @@
       "json",
       "node"
     ],
-    "collectCoverage": false,
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.(ts|tsx)"
     ],
@@ -206,10 +206,10 @@
     "moduleDirectories": ["<rootDir>/../", "node_modules"],
     "coverageThreshold": {
       "global": {
-        "branches": 2.63,
-        "functions": 3.2,
-        "lines": 6.07,
-        "statements": 5.96
+        "branches": 10.00,
+        "functions": 11.00,
+        "lines": 15.00,
+        "statements": 15.00
       }
     }
   }

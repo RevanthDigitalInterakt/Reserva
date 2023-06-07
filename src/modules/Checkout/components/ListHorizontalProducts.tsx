@@ -1,21 +1,22 @@
-import {
-  Box, Button, ProductVerticalListCard, ProductVerticalListCardProps, Typography,
-} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {
+  Box, Button, ProductVerticalListCardProps, Typography,
+} from '@usereservaapp/reserva-ui';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { Animated, Dimensions } from 'react-native';
 import { images } from '../../../assets';
+import { ProductVerticalListCard } from '../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../graphql/products/productSearch';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import EventProvider from '../../../utils/EventProvider';
+import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { getItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
-import { getBrandByUrl } from '../../../utils/getBrandByURL';
-import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
-import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 interface ListProductsProps {

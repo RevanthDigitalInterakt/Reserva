@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#A01E21",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+      R$ 
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#A01E21",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+      150,
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#A01E21",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+      00
+    </Text>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#A01E21",
+          "height": 16,
+          "marginHorizontal": 6,
+          "width": 1,
+        }
+      }
+    />
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#A01E21",
+            "fontFamily": "ReservaSans-Medium",
+            "fontSize": 12,
+            "letterSpacing": 0.05,
+          },
+          Object {
+            "fontSize": 12,
+          },
+        ]
+      }
+    >
+      6
+      x
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#A01E21",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+       R$ 200,
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#A01E21",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+      00
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#A01E21",
+        "padding": 2,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontFamily": "ReservaDisplay-Regular",
+          "fontSize": 8,
+        }
+      }
+    >
+      Prime
+    </Text>
+  </View>
+</View>
+`;

@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
+<View
+  style={
+    Object {
+      "flexDirection": "row",
+      "height": 25,
+      "marginBottom": -5,
+      "paddingTop": 10,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 100,
+          "height": 15,
+          "justifyContent": "center",
+          "marginRight": 8,
+          "width": 15,
+        },
+        Object {
+          "backgroundColor": "#fff",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "borderColor": "#ffffff",
+            "borderRadius": 100,
+            "borderWidth": 1.5,
+            "height": 12,
+            "width": 12,
+          },
+          Object {
+            "backgroundColor": "#fff",
+          },
+        ]
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 100,
+          "height": 15,
+          "justifyContent": "center",
+          "marginRight": 8,
+          "width": 15,
+        },
+        Object {
+          "backgroundColor": "#000",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "borderColor": "#ffffff",
+            "borderRadius": 100,
+            "borderWidth": 1.5,
+            "height": 12,
+            "width": 12,
+          },
+          Object {
+            "backgroundColor": "#000",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;

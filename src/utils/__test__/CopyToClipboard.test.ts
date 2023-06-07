@@ -1,11 +1,16 @@
 import Clipboard from '@react-native-community/clipboard';
 import handleCopyTextToClipboard from '../CopyToClipboard';
 
-describe('handleCopyTextToClipboard test', () => {
-  it('should set string on users\' clipboard', () => {
-    handleCopyTextToClipboard('teste');
+jest.mock('@react-native-community/clipboard', () => ({
+  setString: jest.fn(),
+}));
 
-    expect(Clipboard.setString).toHaveBeenCalledWith('teste');
-    expect(Clipboard.setString).toHaveBeenCalledTimes(1);
+describe('handleCopyTextToClipboard', () => {
+  test('should call Clipboard.setString with the given text', () => {
+    const text = 'Hello, world!';
+
+    handleCopyTextToClipboard(text);
+
+    expect(Clipboard.setString).toHaveBeenCalledWith(text);
   });
 });

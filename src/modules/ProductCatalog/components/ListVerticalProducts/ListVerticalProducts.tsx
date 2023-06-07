@@ -1,32 +1,32 @@
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {
   Box,
   Button,
-  ProductVerticalListCard,
-  ProductVerticalListCardProps,
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { FlatList } from 'react-native';
 import { images } from '../../../../assets';
+import { ProductVerticalListCard, ProductVerticalListCardProps } from '../../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import EventProvider from '../../../../utils/EventProvider';
+import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { getItemPrice } from '../../../../utils/getItemPrice';
 import { getPercent } from '../../../../utils/getPercent';
-import useMarketPlaceInStore from '../../../../zustand/useMarketPlaceInStore';
-import EventProvider from '../../../../utils/EventProvider';
 import { slugify } from '../../../../utils/slugify';
-import { getBrandByUrl } from '../../../../utils/getBrandByURL';
-import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
-import { defaultBrand } from '../../../../utils/defaultWBrand';
-import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
-import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import useMarketPlaceInStore from '../../../../zustand/useMarketPlaceInStore';
+import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -66,6 +66,7 @@ export const ListVerticalProducts = ({
   handleScrollToTheTop,
 }: ListProductsProps) => {
   const { getBoolean } = useRemoteConfig();
+  const { isPrime } = usePrimeStore(['isPrime']);
   const navigation = useNavigation();
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -287,9 +288,10 @@ export const ListVerticalProducts = ({
                 <ProductItem
                   item={item}
                   index={index}
-                  sellerId={mktinActive ? getDefaultSeller(item.items[0].sellers) : null}
+                  sellerId={mktinActive ? getDefaultSeller(item?.items[0]?.sellers) : null}
                   sellersMktIn={sellersMktIn}
                   horizontal={horizontal}
+                  isPrime={isPrime}
                   loadingFavorite={
                     !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
                   }
@@ -347,6 +349,7 @@ interface ProductItemInterface extends ProductVerticalListCardProps {
   sellersMktIn: Array<string>;
   showThumbColors: boolean;
   colors: string[];
+  isPrime: boolean;
 }
 
 const ProductItem: React.FC<ProductItemInterface> = ({
@@ -355,6 +358,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   horizontal,
   testID,
   showThumbColors,
+  isPrime,
   ...props
 }) => (
   <Box
@@ -367,6 +371,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
     {!!item?.items[0]?.images[0]?.imageUrl && (
       <ProductVerticalListCard
         {...props}
+        isPrime={isPrime}
         showThumbColors={showThumbColors}
         testID={testID}
         imageSource={item?.items[0]?.images[0]?.imageUrl}

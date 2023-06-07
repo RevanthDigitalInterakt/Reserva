@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductPriceRow should match with the snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#8A8C8E",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+    undefined 
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#8A8C8E",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+    150,
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#8A8C8E",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+    00
+  </Text>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#8A8C8E",
+        "height": 16,
+        "marginHorizontal": 6,
+        "width": 1,
+      }
+    }
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#333333",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        },
+        Object {
+          "fontSize": 12,
+        },
+      ]
+    }
+  >
+    6
+    x
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#333333",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+     undefined 200,
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#333333",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+    00
+  </Text>
+</View>
+`;
