@@ -13,6 +13,7 @@ import convertSha1 from '../utils/Dito/src/sha1';
 import useDitoStore from '../zustand/useDitoStore';
 import useAsyncStorageProvider from './useAsyncStorageProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
+import useDitoUserStore from '../zustand/useDitoUserStore';
 
 interface IHandleRegisterUser {
   userProfileData: ProfileVars;
@@ -28,6 +29,7 @@ export default function useInitialDito() {
   const { setItem } = useAsyncStorageProvider();
   const { isLogged } = useDitoStore((state) => state);
   const { profile } = useAuthStore(['profile']);
+  const { anonymousID, setAnonymousID } = useDitoUserStore(['anonymousID', 'setAnonymousID']);
 
   const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
     EventProvider.sendTrackEvent(
@@ -93,6 +95,7 @@ export default function useInitialDito() {
       const uniqueIdDito = uuid.v4();
       const uniqueIdDitoFormatted = `${uniqueIdDito}@usereserva.com`;
       id = convertSha1(uniqueIdDitoFormatted);
+      console.log('xesquedele', id);
       await sendUserDataToDito({
         id,
         user: {
