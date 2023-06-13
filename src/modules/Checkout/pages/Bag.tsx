@@ -59,6 +59,7 @@ import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -147,6 +148,8 @@ export const BagScreen = ({ route }: Props) => {
     installmentPrice: 0,
     totalPrice: 0,
   });
+
+  const { getItem } = useAsyncStorageProvider();
 
   const [restoreCartLoading, setRestoreCartLoading] = useState(false);
 
@@ -437,6 +440,25 @@ export const BagScreen = ({ route }: Props) => {
   };
 
   const onGoToDelivery = async () => {
+    const payload = await getItem('@Dito:userRef');
+    console.log('valorant', payload);
+    EventProvider.sendTrackEvent(
+      'fez-pedido', {
+        id: payload,
+        action: 'fez-pedido',
+        data: {
+          quantidade_produtos: 10,
+          id_transacao: '123456789-0',
+          metodo_pagamento: '',
+          subtotal: 100,
+          total: 100,
+          total_frete: 0,
+          origem: 'app',
+          dispositivo: Platform.OS,
+          id: payload || '',
+        },
+      },
+    );
     const hasError = await removeUnavailableItems();
 
     if (hasError) {

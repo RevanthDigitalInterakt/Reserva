@@ -172,7 +172,6 @@ const authStore = create<IAuthStore>((set, getState) => ({
     await AsyncStorage.removeItem('@RNAuth:email');
     await AsyncStorage.removeItem('@RNAuth:typeLogin');
     await AsyncStorage.removeItem('@RNAuth:lastLogin');
-    await AsyncStorage.removeItem('@Dito:anonymousID');
     await AsyncStorage.setItem('@RNAuth:Token', '');
 
     EventProvider.removePushExternalUserId();
