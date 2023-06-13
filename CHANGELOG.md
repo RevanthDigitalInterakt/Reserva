@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.0.2
+
+- [SRN-202 - DITO - Segmentação Acessou Categoria](https://reserva.atlassian.net/browse/SRN-202)
+
+---
 ### 2.0.1
 
 - [APP2022-1190 - Refatoração Auth Context](https://reserva.atlassian.net/browse/APP2022-1190)

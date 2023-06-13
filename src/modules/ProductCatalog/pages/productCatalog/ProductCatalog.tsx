@@ -15,6 +15,7 @@ import React, {
   useCallback, useEffect, useState,
 } from 'react';
 import { Linking, Text } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useConfigContext } from '../../../../context/ConfigContext';
 import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
@@ -45,6 +46,9 @@ import EventProvider from '../../../../utils/EventProvider';
 import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
+import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -126,8 +130,29 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [currentPage, setCurrentPage] = useState(DEFAULT_NEXT_PAGINATION);
   const [orderByParamsForPaginationPersist, setOrderByParamsForPaginationPersist] = useState('');
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+  const { getItem } = useAsyncStorageProvider();
+  const { profile } = useAuthStore(['profile']);
 
   const { WithoutInternet } = useCheckConnection({});
+
+  const trackEventAccessedCategoryDito = useCallback(async (selectedCollection:string) => {
+    const id = profile?.email
+      ? await getItem('@Dito:userRef')
+      : await AsyncStorage.getItem('@Dito:anonymousID');
+
+    if (!selectedCollection) return;
+
+    EventProvider.sendTrackEvent(
+      'acessou-categoria', {
+        id,
+        action: 'acessou-categoria',
+        data: {
+          nome_categoria: selectedCollection,
+          origem: 'app',
+        },
+      },
+    );
+  }, [getItem, profile?.email]);
 
   const [getcountdownClock] = useLazyQuery(countdownClockQuery, {
     context: { clientName: 'contentful' },
@@ -340,11 +365,15 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       }))
       : [];
 
+    const collectionFacetsValues = getCollectionFacetsValue(facets);
+
+    trackEventAccessedCategoryDito(collectionFacetsValues);
+
     setPriceRangeFilters(priceFacetValues);
     setCategoryFilters(categoryFacetValues);
     setSizeFilters(sizeFacetValues);
     setColorsFilters(colorFacetValues);
-  }, [getFacets, getFetchPolicyPerKey]);
+  }, [getFacets, getFetchPolicyPerKey, trackEventAccessedCategoryDito]);
 
   const loadApplyFilter = useCallback(async (item: any) => {
     const reference = collectionIdByCategories || collectionIdByContentful || '';

@@ -13,15 +13,25 @@ type Ordered = {
   id: string;
 };
 
+type Department = {
+  nome_departamento: string;
+};
+
+type Category = {
+  nome_categoria: string;
+};
+
 export type EventsDitoValues = {
   id: string | null;
   action: string;
-  data: DataValues | Ordered;
+  data: DataValues | Ordered | Department | Category;
 };
 
 export namespace EventsOptions {
   export type SendAccessedHome = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
   export type OrderedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type SendAccessedDepartment = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
+  export type SendAccessedCategory = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type EventOptionsDitoFn =
@@ -32,4 +42,12 @@ export type EventOptionsDitoFn =
     | {
       type: 'fez-pedido';
       payload: EventsOptions.OrderedEvent;
+    }
+    | {
+      type: 'acessou-departamento';
+      payload: EventsOptions.SendAccessedDepartment;
+    }
+    | {
+      type: 'acessou-categoria';
+      payload: EventsOptions.SendAccessedCategory;
     };
