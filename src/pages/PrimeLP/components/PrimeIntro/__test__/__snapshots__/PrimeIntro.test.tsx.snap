@@ -2,7 +2,7 @@
 
 exports[`PrimeIntro should render properly and match to snapshot 1`] = `
 <View
-  accessible={false}
+  accessibilityLabel="com.usereserva:id/PrimeIntro_wrapper"
   style={
     Object {
       "alignItems": "center",

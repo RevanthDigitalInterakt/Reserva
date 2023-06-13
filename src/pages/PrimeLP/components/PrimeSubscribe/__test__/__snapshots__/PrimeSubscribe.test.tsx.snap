@@ -2,7 +2,7 @@
 
 exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
 <View
-  accessible={false}
+  accessibilityLabel="com.usereserva:id/prime_subscribe_component"
   testID="com.usereserva:id/prime_subscribe_component"
 >
   <View
@@ -2522,7 +2522,8 @@ Tudo isso por
     </Text>
   </View>
   <View
-    accessible={false}
+    accessibilityLabel="com.usereserva:id/prime_lp_bottom_button_add"
+    accessible={true}
     focusable={true}
     onClick={[Function]}
     onResponderGrant={[Function]}

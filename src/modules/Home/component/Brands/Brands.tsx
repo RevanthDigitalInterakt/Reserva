@@ -77,7 +77,7 @@ const BrandsComponent = (): JSX.Element => {
         index,
       }): JSX.Element => (
         <BrandContainer
-          {...testProps('com.usereserva:id/brands_brand_container')}
+          {...testProps(`com.usereserva:id/brands_brand_container-${index}`)}
           deviceWidth={width}
           index={index}
           onPress={() => handleNavigateToBrand(reference)}

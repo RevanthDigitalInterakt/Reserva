@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { TopBar } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
+import testProps from '../../../utils/testProps';
 
 export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
   loading = false,
@@ -12,7 +13,10 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
 
   useEffect(() => {
     if (orderForm?.items) {
-      const quantity = orderForm?.items?.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0);
+      const quantity = orderForm?.items?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.quantity, 0,
+      );
+
       setBagQuantity(quantity);
     }
   }, [orderForm]);
@@ -21,9 +25,9 @@ export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
     <TopBar
       loading={loading}
       paddingX="quarck"
+      {...testProps('com.usereserva:id/entrar_login_button')}
       bg="white"
       leftButton={{
-        testID: 'com.usereserva:id/top_bar_button',
         marginTop: 'nano',
         color: 'preto',
         name: 'Close',

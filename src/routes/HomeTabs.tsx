@@ -25,14 +25,8 @@ export const HomeTabs = () => (
         name="Home"
         component={HomeScreen}
         initialParams={{ label: 'Início' }}
-        options={{
-          tabBarTestID: 'com.usereserva:id/home_tab_button_home',
-        }}
       />
       <Tab.Screen
-        options={{
-          tabBarTestID: 'com.usereserva:id/home_tab_button_offers',
-        }}
         name="Offers"
         component={ProductCatalog}
         initialParams={{
@@ -44,25 +38,18 @@ export const HomeTabs = () => (
         name="WishList"
         component={WishList}
         initialParams={{ label: 'Favoritos' }}
-        options={{
-          tabBarTestID: 'com.usereserva:id/home_tab_button_wishilist',
-        }}
+
       />
       <Tab.Screen
         name="Profile"
         component={MenuProfile}
         initialParams={{ label: 'Perfil' }}
-        options={{
-          tabBarTestID: 'com.usereserva:id/home_tab_button_profile',
-        }}
+
       />
       <Tab.Screen
         name="Call"
         component={CallCenter}
         initialParams={{ label: 'Central' }}
-        options={{
-          tabBarTestID: 'com.usereserva:id/home_tab_button_call',
-        }}
       />
     </Tab.Navigator>
   </SafeAreaView>

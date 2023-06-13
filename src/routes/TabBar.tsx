@@ -3,6 +3,7 @@ import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { BottomBar, BottomBarButton, Box } from '@usereservaapp/reserva-ui';
 import { slugify } from '../utils/slugify';
+import testProps from '../utils/testProps';
 
 type OnPressType = {
   key: string;
@@ -31,7 +32,7 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps<{}>) => {
 
           return (
             <BottomBarButton
-              testID={`com.usereserva:id/bottom-tab-${slugify(params?.label)}`}
+              {...testProps(`com.usereserva:id/bottom-tab-perfil${slugify(params?.label)}`)}
               key={route.key}
               isSlected={isFocused}
               onPress={() => onPress(route, isFocused)}

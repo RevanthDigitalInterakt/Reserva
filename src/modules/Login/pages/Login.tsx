@@ -223,7 +223,10 @@ export const LoginScreen: React.FC<Props> = ({
                     navigation.navigate('ForgotEmail', {});
                   }}
                 >
-                  <Typography style={{ textDecorationLine: 'underline' }}>
+                  <Typography
+                    {...testProps('com.usereserva:id/esqueci-minha-senha')}
+                    style={{ textDecorationLine: 'underline' }}
+                  >
                     Esqueci minha senha
                   </Typography>
                 </TouchableOpacity>
@@ -241,10 +244,9 @@ export const LoginScreen: React.FC<Props> = ({
           </Box>
 
           <Box mt="md" />
-          {/* TODO  add {...testProps(testID)} reserva-ui */}
           <Button
             accessible={false}
-            testID="com.usereserva:id/login_button_sign_in"
+            {...testProps('com.usereserva:id/entrar_login_button')}
             title="ENTRAR"
             inline
             variant="primarioEstreitoOutline"
