@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.3
+
+- [APP2022-1195 - Implementação Clarity](https://reserva.atlassian.net/browse/APP2022-1195)
+
+---
+
 ### 2.0.2
 
 - [SRN-202 - DITO - Segmentação Acessou Categoria](https://reserva.atlassian.net/browse/SRN-202)

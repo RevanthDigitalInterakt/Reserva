@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import {
   theme, Typography, Box, Button, Icon,
 } from '@usereservaapp/reserva-ui';
+import testProps from '../../../utils/testProps';
 
 export interface Address {
   id?: string;
@@ -44,7 +45,11 @@ const AddressSelector = ({
 
   return (
     <>
-      <TouchableOpacity disabled={disabled} onPress={select}>
+      <TouchableOpacity
+        disabled={disabled}
+        onPress={select}
+        {...testProps('delivery_address_selector')}
+      >
         <Box
           bg="white"
           borderWidth="hairline"

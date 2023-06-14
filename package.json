@@ -70,6 +70,7 @@
     "react-native-bootsplash": "^4.5.3",
     "react-native-camera": "^4.2.1",
     "react-native-cardscan": "^1.1.30",
+    "react-native-clarity": "0.0.4",
     "react-native-code-push": "7.0.4",
     "react-native-confetti-cannon": "^1.5.2",
     "react-native-config": "^1.5.0",
@@ -207,13 +208,16 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/assets/index.tsx"
     },
-    "moduleDirectories": ["<rootDir>/../", "node_modules"],
+    "moduleDirectories": [
+      "<rootDir>/../",
+      "node_modules"
+    ],
     "coverageThreshold": {
       "global": {
-        "branches": 10.00,
-        "functions": 11.00,
-        "lines": 15.00,
-        "statements": 15.00
+        "branches": 10,
+        "functions": 11,
+        "lines": 15,
+        "statements": 15
       }
     }
   }
