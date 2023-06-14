@@ -20,7 +20,7 @@ import { RefreshTokenError } from './types/refreshTokenError';
 
 type TProfileData = ProfileQuery['profile'];
 
-interface IAuthStore {
+export interface IAuthStore {
   initialized: boolean;
   onInit: () => Promise<boolean>;
   onRefreshToken: () => Promise<boolean>;

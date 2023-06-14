@@ -48,7 +48,6 @@ export function useWishlistLegacy() {
   const addToWishlist = useCallback(async (productId: string, skuId: string) => {
     try {
       if (!verifyAuthentication()) return false;
-
       const { data } = await onAddWishlist({
         variables: {
           shopperId: profile?.email,
@@ -74,7 +73,6 @@ export function useWishlistLegacy() {
   const checkIfProductIsInWishlist = useCallback(async (productId: string, skuId: string) => {
     try {
       if (!profile?.email || !productId || !skuId) return false;
-
       const { data } = await onCheckProductWishlist({
         variables: {
           shopperId: profile?.email,
@@ -82,7 +80,6 @@ export function useWishlistLegacy() {
         },
         fetchPolicy: getFetchPolicyPerKey('getWishlist'),
       });
-
       return data.checkList?.listIds[0] || null;
     } catch (err) {
       Sentry.withScope((scope) => {
