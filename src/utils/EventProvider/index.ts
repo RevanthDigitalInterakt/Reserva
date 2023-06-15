@@ -5,6 +5,8 @@ import messaging from '@react-native-firebase/messaging';
 import * as Sentry from '@sentry/react-native';
 import OneSignal from 'react-native-onesignal';
 import type { Route } from '@react-navigation/native';
+import { initialize as initializeClarity, setCustomUserId } from 'react-native-clarity';
+import Config from 'react-native-config';
 import { env } from '../../config/env';
 import {
   eventsName,
@@ -86,7 +88,15 @@ class EventProvider {
     });
   }
 
+  private static initializeClarity() {
+    if (!Config.CLARITY_PROJECT_ID || Platform.OS !== platformType.ANDROID || __DEV__) return;
+
+    initializeClarity(Config.CLARITY_PROJECT_ID);
+  }
+
   public static initializeModules() {
+    this.initializeClarity();
+
     this.initializePushNotification();
 
     this.putCustomData();
@@ -197,8 +207,9 @@ class EventProvider {
     sendDitoTrackEvent(id, { action, data });
   }
 
-  public static setPushExternalUserId(externalId: string) {
-    this.OneSignal.setExternalUserId(externalId);
+  public static setPushExternalUserId(email: string) {
+    setCustomUserId(email);
+    this.OneSignal.setExternalUserId(email);
   }
 
   public static getPushTags(callback: (handle: {

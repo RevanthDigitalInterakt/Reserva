@@ -1,7 +1,14 @@
 ## CHANGELOG
 
-### 2.0.1
+### 2.0.3
 
+- [APP2022-1195 - Implementação Clarity](https://reserva.atlassian.net/browse/APP2022-1195)
+
+---
+
+### 2.0.2
+
+- [SRN-202 - DITO - Segmentação Acessou Categoria](https://reserva.atlassian.net/browse/SRN-202)
 - [APP2022-1190 - Refatoração Auth Context](https://reserva.atlassian.net/browse/APP2022-1190)
 - [APP2022-1093 - Landing Page Prime](https://reserva.atlassian.net/browse/APP2022-1093)
 - [APP2022-1197 - Correção de Login Expirado](https://reserva.atlassian.net/browse/APP2022-1197)

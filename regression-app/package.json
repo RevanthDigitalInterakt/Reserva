@@ -1,0 +1,17 @@
+{
+  "name": "regression-app",
+  "version": "1.0.0",
+  "description": "Testes regressivos App",
+  "main": "index.js",
+  "scripts": {
+    "ios": "PLATFORM=iOS APP='' DEVICE='iPhone 13' VERSION=15 AUTOMATION=XCUITest npx codeceptjs run --steps",
+    "android": "PLATFORM=Android DEVICE=RQ8R604ZVXM VERSION=13 AUTOMATION=UiAutomator2 PACKAGE=com.usereserva ACTIVITY=com.usereserva.MainActivity npx codeceptjs run --steps",
+    "test": "npx codeceptjs run --steps"
+  },
+  "author": "qa-frame",
+  "license": "ISC",
+  "dependencies": {
+    "codeceptjs": "^3.4.1",
+    "webdriverio": "^8.6.9"
+  }
+}

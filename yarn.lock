@@ -10466,6 +10466,11 @@ react-native-cardscan@^1.1.30:
   resolved "https://registry.yarnpkg.com/react-native-cardscan/-/react-native-cardscan-1.1.30.tgz#34bff02a93815d07f784ebe86fc2fdc4412ca5ae"
   integrity sha512-Z46SDrHlNg0EAbbAXZb+qnFHUGaavT8sptvO6yMAcElnYPZOFIfBzwHgoDsoyGROeB3GvzFLQqqBlccA6AvGpQ==
 
+react-native-clarity@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-clarity/-/react-native-clarity-0.0.4.tgz#cf5a7a92b9e6b19d6d98a3d9efa19c9b2d8f193e"
+  integrity sha512-aFOpuCNjdnywKm63hq2UhGBa2Q9W96DMi/K/lYU0aEFVd5g8jQQTigxS/qTPHK0WaZxIGyCkeyUPed5BaicEbw==
+
 react-native-code-push@7.0.4:
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-7.0.4.tgz#13a9d3cc12bee24cb317defb6560caddcb937b71"

@@ -26,11 +26,11 @@ interface IHandleRegisterToken {
 
 export default function useInitialDito() {
   const { setItem } = useAsyncStorageProvider();
-  const { isLogged } = useDitoStore((state) => state);
   const { profile } = useAuthStore(['profile']);
   console.log('profile', profile);
 
   const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
+
     EventProvider.sendTrackEvent(
       'acessou-home', {
         id,
@@ -94,23 +94,29 @@ export default function useInitialDito() {
   );
 
   const handleRegisterAnonymous = useCallback(async ({ deviceToken }: Pick<IHandleRegisterToken, 'deviceToken'>) => {
-    let id = await AsyncStorage.getItem('@Dito:anonymousID');
-    if (!id) {
-      const uniqueIdDito = uuid.v4();
-      const uniqueIdDitoFormatted = `${uniqueIdDito}@usereserva.com`;
-      id = convertSha1(uniqueIdDitoFormatted);
-      await sendUserDataToDito({
-        id,
-        user: {
-          email: uniqueIdDitoFormatted,
-          data: {
-            dispositivo: Platform.OS,
+    try {
+      let id = await AsyncStorage.getItem('@Dito:anonymousID');
+
+      if (!id) {
+        const uniqueIdDito = uuid.v4();
+        const uniqueIdDitoFormatted = `${uniqueIdDito}@usereserva.com`;
+        id = convertSha1(uniqueIdDitoFormatted);
+        await sendUserDataToDito({
+          id,
+          user: {
+            email: uniqueIdDitoFormatted,
+            data: {
+              dispositivo: Platform.OS,
+            },
           },
-        },
-      });
-      await handleRegisterTokenDito({ id, deviceToken });
+        });
+        await handleRegisterTokenDito({ id, deviceToken });
+      }
+
+      await trackEventHomeDito({ id });
+    } catch (e) {
+      EventProvider.captureException(e);
     }
-    await trackEventHomeDito({ id });
   }, [handleRegisterTokenDito]);
 
   const handleRegister = useCallback(async () => {
@@ -121,8 +127,7 @@ export default function useInitialDito() {
         }
       }
       const deviceToken = await messaging().getToken();
-
-      if (profile?.email && deviceToken && isLogged) {
+      if (profile?.email && deviceToken) {
         await handleRegisterUser({
           userProfileData: {
             userId: profile.id,
@@ -143,7 +148,7 @@ export default function useInitialDito() {
       // TODO verificar possibilidade de tratar futuramente
       EventProvider.captureException(e);
     }
-  }, [handleRegisterAnonymous, handleRegisterUser, profile, isLogged]);
+  }, [handleRegisterAnonymous, handleRegisterUser, profile]);
 
   return { handleDitoRegister: handleRegister };
 }

@@ -28,13 +28,13 @@ export function useWishlistProductActions({ productId, skuId }: IUseWishlistProd
 
     await addToWishlist(productId, skuId);
     setIsFavorited(true);
-  }, [addToWishlist, isFavorited, productId, removeFromWishlist, skuId]);
+  }, [addToWishlist, isFavorited, productId, removeFromWishlist, skuId, setIsFavorited]);
 
   useEffect(() => {
     if (productId && skuId) {
       checkIfProductIsInWishlist(productId, skuId).then(setIsFavorited);
     }
-  }, [productId, skuId, checkIfProductIsInWishlist]);
+  }, [productId, skuId, checkIfProductIsInWishlist, setIsFavorited]);
 
   return { loading, isFavorited, onToggleFavorite };
 }

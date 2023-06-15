@@ -20,7 +20,7 @@ import { RefreshTokenError } from './types/refreshTokenError';
 
 type TProfileData = ProfileQuery['profile'];
 
-interface IAuthStore {
+export interface IAuthStore {
   initialized: boolean;
   onInit: () => Promise<boolean>;
   onRefreshToken: () => Promise<boolean>;
@@ -111,6 +111,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
       set({ ...getState(), profile: data.profile });
 
+      EventProvider.setPushExternalUserId(data.profile.email);
+
       return data.profile;
     } catch (err) {
       EventProvider.captureException(err);
@@ -175,6 +177,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
     await AsyncStorage.setItem('@RNAuth:Token', '');
 
     EventProvider.removePushExternalUserId();
+    EventProvider.setPushExternalUserId(data.profile.email);
 
     Sentry.setUser(null);
 

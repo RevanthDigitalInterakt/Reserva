@@ -12,6 +12,8 @@ import CodeInput from '../../Login/components/CodeInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
+import testProps from '../../../utils/testProps';
+
 import { useRecoverPasswordResetMutation } from '../../../base/graphql/generated';
 import EventProvider from '../../../utils/EventProvider';
 
@@ -116,7 +118,11 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
               }}
             />
             <Box mx={20} mt={13}>
-              <Typography fontFamily="reservaSerifRegular" fontSize={22}>
+              <Typography
+                fontFamily="reservaSerifRegular"
+                fontSize={22}
+                {...testProps('com.usereserva:id/atualize_sua_senha')}
+              >
                 Atualize sua senha
               </Typography>
               <Box mt={27}>

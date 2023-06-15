@@ -10,6 +10,7 @@ import { images } from '../../../assets';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../Login/components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
+import testProps from '../../../utils/testProps';
 import { useRecoverPasswordVerificationCodeMutation } from '../../../base/graphql/generated';
 import EventProvider from '../../../utils/EventProvider';
 
@@ -77,7 +78,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
               setEmail(text);
               if (!text.length) setHasError(false);
             }}
-            accessibilityLabel="forgot_input_email"
+            {...testProps('com.usereserva:id/forgot_input_email')}
             placeholder="Digite seu e-mail"
           />
         </Box>
@@ -95,6 +96,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
           title="ENVIAR E-MAIL"
           onPress={handleEmailAccess}
           disabled={email.length <= 0}
+          {...testProps('com.usereserva:id/send_email')}
           inline
         />
       </Box>
