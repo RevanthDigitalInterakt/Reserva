@@ -10,7 +10,6 @@ import EventProvider from '../utils/EventProvider';
 import sendUserDataToDito from '../utils/Dito/src/utils/sendUserDataToDito';
 import sendUpdateUserDataToDito from '../utils/Dito/src/utils/sendUpdateUserDataToDito';
 import convertSha1 from '../utils/Dito/src/sha1';
-import useDitoStore from '../zustand/useDitoStore';
 import useAsyncStorageProvider from './useAsyncStorageProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 
@@ -26,11 +25,9 @@ interface IHandleRegisterToken {
 
 export default function useInitialDito() {
   const { setItem } = useAsyncStorageProvider();
-  const { profile } = useAuthStore(['profile']);
-  console.log('profile', profile);
+  const { profile, loggedOut } = useAuthStore(['profile', 'loggedOut']);
 
   const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
-
     EventProvider.sendTrackEvent(
       'acessou-home', {
         id,
@@ -141,14 +138,31 @@ export default function useInitialDito() {
           },
           deviceToken,
         });
-      } else {
+
+        return;
+      }
+
+      if (loggedOut) {
         handleRegisterAnonymous({ deviceToken });
+        return;
       }
     } catch (e) {
       // TODO verificar possibilidade de tratar futuramente
       EventProvider.captureException(e);
     }
-  }, [handleRegisterAnonymous, handleRegisterUser, profile]);
+  }, [
+    handleRegisterAnonymous,
+    handleRegisterUser,
+    loggedOut,
+    profile?.birthDate,
+    profile?.document,
+    profile?.email,
+    profile?.firstName,
+    profile?.gender,
+    profile?.homePhone,
+    profile?.id,
+    profile?.lastName,
+  ]);
 
   return { handleDitoRegister: handleRegister };
 }

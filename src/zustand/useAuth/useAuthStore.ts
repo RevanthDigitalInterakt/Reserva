@@ -22,6 +22,7 @@ type TProfileData = ProfileQuery['profile'];
 
 export interface IAuthStore {
   initialized: boolean;
+  loggedOut: boolean;
   onInit: () => Promise<boolean>;
   onRefreshToken: () => Promise<boolean>;
   //
@@ -37,6 +38,7 @@ export interface IAuthStore {
 const authStore = create<IAuthStore>((set, getState) => ({
   initialized: false,
   profile: undefined,
+  loggedOut: false,
   onInit: async () => {
     try {
       const state = getState();
@@ -174,14 +176,15 @@ const authStore = create<IAuthStore>((set, getState) => ({
     await AsyncStorage.removeItem('@RNAuth:email');
     await AsyncStorage.removeItem('@RNAuth:typeLogin');
     await AsyncStorage.removeItem('@RNAuth:lastLogin');
+    await AsyncStorage.removeItem('@Dito:anonymousID');
     await AsyncStorage.setItem('@RNAuth:Token', '');
 
     EventProvider.removePushExternalUserId();
-    EventProvider.setPushExternalUserId(data.profile.email);
+    // EventProvider.setPushExternalUserId(data.profile.email);
 
     Sentry.setUser(null);
 
-    set({ ...getState(), profile: undefined });
+    set({ ...getState(), profile: undefined, loggedOut: true });
   },
 }));
 
