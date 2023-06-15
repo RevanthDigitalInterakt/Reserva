@@ -149,7 +149,9 @@ const authStore = create<IAuthStore>((set, getState) => ({
       getState().onUpdateAuthData(data.signIn.token, profile.authCookie);
       await identifyCustomer(profile.email);
 
-      set({ ...getState(), initialized: true, profile });
+      set({
+        ...getState(), initialized: true, profile, loggedOut: false,
+      });
     } catch (err) {
       Sentry.withScope((scope) => {
         scope.setExtra('email', email);
@@ -180,7 +182,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
     await AsyncStorage.setItem('@RNAuth:Token', '');
 
     EventProvider.removePushExternalUserId();
-    // EventProvider.setPushExternalUserId(data.profile.email);
+    EventProvider.setPushExternalUserId(data.profile.email);
 
     Sentry.setUser(null);
 
