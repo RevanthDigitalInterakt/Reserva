@@ -2,6 +2,7 @@
 
 ### 2.0.3
 
+- [APP2022-1218 - BUG - Não exibe botão de voltar na bag vazia](https://reserva.atlassian.net/browse/APP2022-1218)
 - [APP2022-1195 - Implementação Clarity](https://reserva.atlassian.net/browse/APP2022-1195)
 
 ---

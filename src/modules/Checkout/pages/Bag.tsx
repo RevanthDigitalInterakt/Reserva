@@ -40,7 +40,6 @@ import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
 import { ProductUtils } from '../../../shared/utils/productUtils';
 import EventProvider from '../../../utils/EventProvider';
 import { slugify } from '../../../utils/slugify';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { CouponBadge } from '../components/CouponBadge';
 import { EmptyBag } from '../components/EmptyBag';
 import { PriceCustom } from '../components/PriceCustom';
@@ -59,6 +58,7 @@ import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -619,17 +619,22 @@ export const BagScreen = ({ route }: Props) => {
       }}
     >
 
-      <TopBarBackButton
-        showShadow
-        loading={loadingGoDelivery || loadingGift || topBarLoading}
-      />
-
       {(!orderForm?.items.length && !loading && !restoreCartLoading) ? (
         <Box flex={1}>
-          <EmptyBag onPress={() => navigation.navigate('Offers')} />
+          <EmptyBag
+            backButtonPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('Offers')}
+            loading={loadingGoDelivery || loadingGift || topBarLoading}
+          />
         </Box>
       ) : (
         <WithAvoidingView>
+          <TopBarBackButton
+            showShadow
+            backButtonPress={() => navigation.goBack()}
+            loading={loadingGoDelivery || loadingGift || topBarLoading}
+          />
+
           {loading ? (
             <Box>
               <Skeleton>
