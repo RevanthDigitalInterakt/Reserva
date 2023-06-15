@@ -59,7 +59,6 @@ import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -148,8 +147,6 @@ export const BagScreen = ({ route }: Props) => {
     installmentPrice: 0,
     totalPrice: 0,
   });
-
-  const { getItem } = useAsyncStorageProvider();
 
   const [restoreCartLoading, setRestoreCartLoading] = useState(false);
 
