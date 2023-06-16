@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Platform } from 'react-native';
-import { TopBar } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../utils/platformType';
+import { TopBar } from '../../../components/TopBar';
 
 export const TopBarCheckoutCompleted: React.FC<{
   showShadow?: Boolean;

@@ -17,12 +17,22 @@ exports.config = {
       },
     },
   },
+  include: {
+    I: './steps_file.js',
+    loginPage: './features/pages/login_page.js',
+    homePage: './features/pages/home_page.js',
+    bagPage: './features/pages/bag_page.js',
+  },
   include,
   mocha: {},
   bootstrap: null,
   timeout: null,
   teardown: null,
   hooks: [],
+  gherkin: {
+    features: './features/specs/*.feature',
+    steps: ['./features/step_definitions/login_steps.js', './features/step_definitions/bag_steps.js'],
+  },
   gherkin,
   plugins: {
     screenshotOnFail: {

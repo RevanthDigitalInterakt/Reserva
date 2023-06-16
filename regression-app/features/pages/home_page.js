@@ -7,9 +7,9 @@ module.exports = {
     btnCentral: ({ android: '#com.usereserva:id/bottom-tab-central', ios: '' }),
     btnPerfil: ({ android: '~com.usereserva:id/bottom-tab-perfilperfil', ios: '' }),
     btnFavoritos: ({ android: '#com.usereserva:id/bottom-tab-favoritos', ios: '' }),
-    btnPromocoes: ({ android: '#com.usereserva:id/bottom-tab-promoces', ios: '' }),
+    btnPromocoes: ({ android: '~com.usereserva:id/bottom-tab-perfilpromoces', ios: '' }),
     btnInicio: ({ android: '#com.usereserva:id/bottom-tab-inicio', ios: '' }),
-    btnBag: ({ android: '#com.usereserva:id/header_button_bag', ios: '' }),
+    btnBag: ({ android: '~com.usereserva:id/button_bag', ios: '' }),
     btnSearch: ({ android: '#com.usereserva:id/header_button_search', ios: '' }),
     btnMenu: ({ android: '#com.usereserva:id/header_button_menu', ios: '' }),
     btnPrimeiraCompra: ({ android: '#com.usereserva:id/discout_code_modal_title', ios: '' }),
@@ -26,9 +26,20 @@ module.exports = {
     I.click(this.buttons.btnPemitir);
   },
 
-  async doLogin() {
-    await I.seeElement(this.buttons.fecharModal)
+  async closeBanner() {
+    await I.seeElement(this.buttons.fecharModal);
     await I.click(this.buttons.fecharModal);
+  },
+
+  async doLogin() {
     await I.click(this.buttons.btnPerfil);
-  }  
+  },
+
+  async clickBag() {
+    await I.click(this.buttons.btnBag);
+  },
+
+  async clickPromocoes() {
+    await I.click(this.buttons.btnPromocoes);
+  },
 };

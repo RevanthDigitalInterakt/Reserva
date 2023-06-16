@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native';
-import { TopBar } from '@usereservaapp/reserva-ui';
 
 import { useCart } from '../../../context/CartContext';
 import { platformType } from '../../../utils/platformType';
+import { TopBar } from '../../../components/TopBar';
 
 export const TopBarDefaultBackButton: React.FC<{
   loading: Boolean;

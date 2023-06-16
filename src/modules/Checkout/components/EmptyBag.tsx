@@ -6,6 +6,7 @@ import {
 
 import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import testProps from '../../../utils/testProps';
 
 interface IEmptyBag {
   onPress?: () => void;
@@ -24,7 +25,7 @@ export const EmptyBag = ({ backButtonPress, onPress, loading }: IEmptyBag) => (
     >
       <Image source={images.bagEmpty} height={200} width={200} autoHeight />
       <Box mx={37} mt="md">
-        <Typography fontFamily="reservaSerifRegular" fontSize={24}>
+        <Typography fontFamily="reservaSerifRegular" fontSize={24} {...testProps('com.usereserva:id/sacola_vazia')}>
           Sua sacola está vazia
         </Typography>
       </Box>
@@ -46,3 +47,4 @@ export const EmptyBag = ({ backButtonPress, onPress, loading }: IEmptyBag) => (
     </Box>
   </>
 );
+

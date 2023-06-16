@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
-import { TopBar } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
 import { platformType } from '../../../utils/platformType';
+import { TopBar } from '../../../components/TopBar';
 
 export const TopBarDefault: React.FC<{
   showShadow?: Boolean;
@@ -49,7 +49,7 @@ export const TopBarDefault: React.FC<{
       }}
       rightButton2={{
         name: 'Handbag',
-        testID: 'com.usereserva:id/header_button_bag',
+        testID: 'com.usereserva:id/button_bag',
         size: 24,
         onPress: () => {
           // Alert.alert('button right 2');

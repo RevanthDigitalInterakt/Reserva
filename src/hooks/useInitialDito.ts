@@ -10,7 +10,6 @@ import EventProvider from '../utils/EventProvider';
 import sendUserDataToDito from '../utils/Dito/src/utils/sendUserDataToDito';
 import sendUpdateUserDataToDito from '../utils/Dito/src/utils/sendUpdateUserDataToDito';
 import convertSha1 from '../utils/Dito/src/sha1';
-import useDitoStore from '../zustand/useDitoStore';
 import useAsyncStorageProvider from './useAsyncStorageProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 
@@ -29,7 +28,6 @@ export default function useInitialDito() {
   const { profile } = useAuthStore(['profile']);
 
   const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
-
     EventProvider.sendTrackEvent(
       'acessou-home', {
         id,

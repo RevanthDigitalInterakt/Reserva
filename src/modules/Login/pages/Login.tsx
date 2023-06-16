@@ -224,8 +224,8 @@ export const LoginScreen: React.FC<Props> = ({
                   }}
                 >
                   <Typography
-                    {...testProps('com.usereserva:id/esqueci-minha-senha')}
                     style={{ textDecorationLine: 'underline' }}
+                    {...testProps('com.usereserva:id/esqueci-minha-senha')}
                   >
                     Esqueci minha senha
                   </Typography>
@@ -236,6 +236,7 @@ export const LoginScreen: React.FC<Props> = ({
                 color="vermelhoAlerta"
                 fontFamily="nunitoRegular"
                 fontSize={13}
+                {...testProps('com.usereserva:id/login-error')}
               >
                 {loginCredentials.showMessageError}
               </Typography>
@@ -281,7 +282,7 @@ export const LoginScreen: React.FC<Props> = ({
           </Box>
 
           <Button
-            testID="com.usereserva:id/login_button_sign_up"
+            {...testProps('com.usereserva:id/cadastre_se_buttton')}
             title="CADASTRE-SE"
             inline
             variant="primarioEstreito"

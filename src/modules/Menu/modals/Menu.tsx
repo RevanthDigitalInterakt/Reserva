@@ -177,7 +177,7 @@ const MenuItem: React.FC<IMenuItem> = ({
             {...testProps('com.usereserva:id/animation_container')}
             animation="fadeIn"
           >
-            {subItemList.items.map((item, index) => (
+            {subItemList?.items?.map((item, index) => (
               <MenuSubItem
                 {...testProps(`com.usereserva:id/menu_sub_item_${index}`)}
                 key={index}

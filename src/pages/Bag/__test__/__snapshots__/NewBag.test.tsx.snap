@@ -88,6 +88,7 @@ exports[`NewBag should match with the snapshot 1`] = `
           }
         >
           <View
+            accessibilityLabel="com.usereserva:id/top_bar_button_go_back"
             accessible={true}
             focusable={true}
             hitSlop={
@@ -2922,6 +2923,7 @@ exports[`NewBag should match with the snapshot 1`] = `
       }
     >
       <Text
+        accessibilityLabel="com.usereserva:id/sacola_vazia"
         fontFamily="reservaSerifRegular"
         fontSize={24}
         style={
@@ -2932,6 +2934,7 @@ exports[`NewBag should match with the snapshot 1`] = `
             },
           ]
         }
+        testID="com.usereserva:id/sacola_vazia"
       >
         Sua sacola está vazia
       </Text>

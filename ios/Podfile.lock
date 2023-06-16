@@ -1095,7 +1095,7 @@ PODS:
     - Sentry/HybridSDK (= 7.31.3)
   - RNSha256 (1.4.9):
     - React-Core
-  - RNShare (6.5.0):
+  - RNShare (8.2.2):
     - React-Core
   - RNStoreReview (0.2.1):
     - React-Core
@@ -1448,7 +1448,7 @@ SPEC CHECKSUMS:
   CodePush: b51b7ac64c07d4eacfc8cc5750a1dd28adbf2528
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: fa8275d5086566e22a26ddc385ab5772e7f9b1bd
-  FBReactNativeSpec: b687f8af0dd94d8acda03e812dc52bd1dc22d4bc
+  FBReactNativeSpec: 1028b35afee883db9c12c27bfc320f89c89e1cda
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1562,7 +1562,7 @@ SPEC CHECKSUMS:
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSentry: 4c09f4dd9740cb9b33e94303de5b6d0dbeb0737d
   RNSha256: a6bc3640a34eb41907e363828b9ec742c274298d
-  RNShare: 047d42214f875d731bde73a2b67418638af85ad9
+  RNShare: d82e10f6b7677f4b0048c23709bd04098d5aee6c
   RNStoreReview: e05edbbf426563070524cec384ac0b8df69be801
   RNSVG: 6adc5c52d2488a476248413064b7f2832e639057
   Sentry: 08884c523575ec0f6690d94ed3ccb0246a1600bf
