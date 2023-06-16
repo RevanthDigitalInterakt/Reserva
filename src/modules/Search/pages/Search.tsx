@@ -10,7 +10,7 @@ import {
 } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import {
-  ScrollView, Dimensions, BackHandler, Keyboard,
+  ScrollView, Dimensions, BackHandler, Keyboard, Platform,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {
@@ -55,6 +55,9 @@ import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { useIsTester } from '../../../hooks/useIsTester';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -89,6 +92,9 @@ export const SearchScreen: React.FC<Props> = () => {
   const [sorterVisible, setSorterVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<string>();
   const [filterRequestList, setFilterRequestList] = useState<[] | undefined | null>([]);
+
+  const { getItem } = useAsyncStorageProvider();
+  const { profile } = useAuthStore(['profile']);
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
@@ -334,6 +340,29 @@ export const SearchScreen: React.FC<Props> = () => {
     navigation,
   ]);
 
+  const trackEventSearchDito = useCallback(async (searchedTerm: string, amountFound: number) => {
+    const id = profile?.email
+      ? await getItem('@Dito:userRef')
+      : await AsyncStorage.getItem('@Dito:anonymousID');
+
+    if (!searchedTerm) {
+      return;
+    }
+
+    EventProvider.sendTrackEvent(
+      'buscou-produto', {
+        id,
+        action: 'buscou-produto',
+        data: {
+          term: searchedTerm,
+          itens_encontrados: amountFound || 0,
+          dispositivo: Platform.OS,
+          origem: 'app',
+        },
+      },
+    );
+  }, [getItem, profile?.email]);
+
   const handleSearch = async (text: string) => {
     setProductData({ data: null, loading: true });
 
@@ -351,6 +380,7 @@ export const SearchScreen: React.FC<Props> = () => {
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
         try {
+          trackEventSearchDito(text, data?.productSearch?.recordsFiltered);
           EventProvider.logEvent('search', {
             search_term: text,
           });
@@ -376,6 +406,7 @@ export const SearchScreen: React.FC<Props> = () => {
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
         try {
+          trackEventSearchDito(text, data?.productSearch?.recordsFiltered);
           EventProvider.logEvent('search', {
             search_term: text,
           });

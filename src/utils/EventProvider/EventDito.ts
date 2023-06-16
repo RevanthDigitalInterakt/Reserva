@@ -21,10 +21,16 @@ type Category = {
   nome_categoria: string;
 };
 
+type Searched = {
+  term: string;
+  itens_encontrados: number;
+  dispositivo: string;
+};
+
 export type EventsDitoValues = {
   id: string | null;
   action: string;
-  data: DataValues | Ordered | Department | Category;
+  data: DataValues | Ordered | Department | Category | Searched;
 };
 
 export namespace EventsOptions {
@@ -32,6 +38,7 @@ export namespace EventsOptions {
   export type OrderedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type SendAccessedDepartment = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
   export type SendAccessedCategory = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
+  export type SearchedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type EventOptionsDitoFn =
@@ -50,4 +57,8 @@ export type EventOptionsDitoFn =
     | {
       type: 'acessou-categoria';
       payload: EventsOptions.SendAccessedCategory;
+    }
+    | {
+      type: 'buscou-produto';
+      payload: EventsOptions.SearchedEvent;
     };
