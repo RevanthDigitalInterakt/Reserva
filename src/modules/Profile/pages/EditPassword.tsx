@@ -105,7 +105,7 @@ export const EditPassword = () => {
           throw new Error('Error on Change Password [changePassword]');
         }
 
-        onUpdateAuthData(data.redefinePassword.token, data.redefinePassword.authCookie);
+        await onUpdateAuthData(data.redefinePassword.token, data.redefinePassword.authCookie);
       }
     } catch (err) {
       Sentry.withScope((scope) => {

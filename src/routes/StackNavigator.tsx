@@ -116,7 +116,7 @@ export type RootStackParamList = {
   OrderDetail: {
     orderId?: string;
   };
-  ForgotAccessCode: { email: string };
+  ForgotAccessCode: { email: string; cookies: string[]; };
   ConfirmAccessCode: { email: string };
   ShowListByCategory: { categoryName: string; products: any[] };
   AccessCode: {
