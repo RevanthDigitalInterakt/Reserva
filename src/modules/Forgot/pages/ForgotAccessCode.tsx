@@ -10,7 +10,7 @@ import { images } from '../../../assets';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import CodeInput from '../../Login/components/CodeInput';
 import HeaderBanner from '../componet/HeaderBanner';
-import UnderlineInput from '../../Login/components/UnderlineInput';
+import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
 import testProps from '../../../utils/testProps';
 

@@ -12,7 +12,7 @@ import { images } from '../../../assets';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
-import UnderlineInput from '../../Login/components/UnderlineInput';
+import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
 import { useSignUpMutation } from '../../../base/graphql/generated';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';

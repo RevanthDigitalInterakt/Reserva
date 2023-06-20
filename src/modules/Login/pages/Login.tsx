@@ -1,94 +1,42 @@
+import React, { useCallback, useEffect, FC } from 'react';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
-import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
-  BackHandler, Keyboard, SafeAreaView, ScrollView,
+  BackHandler, SafeAreaView, ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Yup from 'yup';
 import { images } from '../../../assets';
-import { useCart } from '../../../context/CartContext';
 
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
-import UnderlineInput from '../components/UnderlineInput';
+import UnderlineInput from '../../../components/UnderlineInput';
 import EventProvider from '../../../utils/EventProvider';
 import testProps from '../../../utils/testProps';
+import { useAuthentication } from '../../../hooks/useAuthentication';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import useInitialDito from '../../../hooks/useInitialDito';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
-export const LoginScreen: React.FC<Props> = ({
+export const LoginScreen: FC<Props> = ({
   route,
   navigation,
 }) => {
   const { comeFrom, previousPage } = route.params;
-  const [loadingSignIn, setLoadingSignIn] = useState<boolean>(false);
-  const { onSignIn, onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
 
-  const [loginCredentials, setLoginCredentials] = useState({
-    username: '',
-    password: '',
-    showPasswordError: false,
-    passwordError: '',
-    showUsernameError: false,
-    usernameError: '',
-    hasError: false,
-    showMessageError: '',
-  });
-  const [emailIsValid, setEmailIsValid] = useState(false);
-  const [passwordIsValid, setPasswordIsValid] = useState(false);
-  const [isLoadingEmail, setIsLoadingEmail] = useState(false);
+  const {
+    handleLogin,
+    loadingSignIn,
+    isLoadingEmail,
+    verifyUserEmail,
+    setEmailIsValid,
+    loginCredentials,
+    setPasswordIsValid,
+    setLoginCredentials,
+  } = useAuthentication({ navigation });
 
-  const { handleDitoRegister } = useInitialDito();
-
-  const validateCredentials = () => {
-    setLoginCredentials({
-      ...loginCredentials,
-      showPasswordError: true,
-      showUsernameError: true,
-      hasError: true,
-      showMessageError:
-        'Verifique os campos acima e digite um e-mail ou senha válidos',
-    });
-  };
-
-  const doSignIn = useCallback(async (email: string, password: string) => {
-    try {
-      setLoadingSignIn(true);
-
-      Keyboard.dismiss();
-
-      await onSignIn(email, password);
-      handleDitoRegister();
-
-      navigation.navigate('Home');
-    } catch (err) {
-      EventProvider.captureException(err);
-      validateCredentials();
-    } finally {
-      setLoadingSignIn(false);
-    }
-  }, [handleDitoRegister, navigation, onSignIn, validateCredentials]);
-
-  const { identifyCustomer } = useCart();
-
-  const handleLogin = async () => {
-    if (emailIsValid && passwordIsValid) {
-      setIsLoadingEmail(true);
-      const email = loginCredentials.username.trim().toLowerCase();
-      const { password } = loginCredentials;
-
-      await doSignIn(email, password);
-
-      setIsLoadingEmail(false);
-    } else {
-      validateCredentials();
-    }
-  };
+  const { onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
 
   useEffect(() => {
     if (comeFrom === 'Profile') {
@@ -106,15 +54,6 @@ export const LoginScreen: React.FC<Props> = ({
     }
   }, [route?.params, onSignOut]);
 
-  async function verifyUserEmail() {
-    if (loginCredentials.username.trim().toLowerCase()) {
-      setIsLoadingEmail(true);
-      await identifyCustomer(loginCredentials.username.trim().toLowerCase())
-        .then(() => setIsLoadingEmail(false))
-        .then(() => navigation.navigate('DeliveryScreen', { comeFrom: 'Login' }));
-    }
-  }
-
   const ClientDelivery = useCallback(async () => {
     if (loadingSignIn) {
       return;
@@ -130,7 +69,7 @@ export const LoginScreen: React.FC<Props> = ({
     }
   }, [comeFrom, loadingSignIn, verifyUserEmail]);
 
-  const handleNavigatePreviusPage = useCallback(() => {
+  const handleNavigatePreviousPage = useCallback(() => {
     if (previousPage) {
       navigation.navigate(previousPage);
       return;
@@ -151,7 +90,7 @@ export const LoginScreen: React.FC<Props> = ({
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderBanner
         imageHeader={images.headerLogin}
-        onClickGoBack={handleNavigatePreviusPage}
+        onClickGoBack={handleNavigatePreviousPage}
         loading={isLoadingEmail}
       />
       <ScrollView

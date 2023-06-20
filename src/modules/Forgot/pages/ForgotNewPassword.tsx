@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { images } from '../../../assets';
 import { recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import UnderlineInput from '../../Login/components/UnderlineInput';
+import UnderlineInput from '../../../components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import { platformType } from '../../../utils/platformType';
 

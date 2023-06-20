@@ -19,6 +19,7 @@
 - [APP2022-1176 - Ajuste DeepLink em links patrocinados do Google](https://reserva.atlassian.net/browse/APP2022-1176)
 - [SRN-295 - Correção fluxo de recuperação de senha](https://reserva.atlassian.net/browse/SRN-295)
 - [SRN-280 - BUG - Dados Desinstalação AppsFlyer](https://reserva.atlassian.net/browse/SRN-280)
+- [SRN-141 - DITO - Segmentação Acessou departamento](https://reserva.atlassian.net/browse/SRN-141)
 
 ---
 
