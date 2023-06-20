@@ -45,6 +45,11 @@ const Checkout: React.FC<{}> = () => {
   const [showPromotionModal, setShowPromotionModal] = useState(false);
   const { profile } = useAuthStore(['profile']);
 
+
+  useEffect(() => {
+    EventProvider.logEvent('payment_step', {});
+  }, []);
+
   useEffect(() => {
     EventProvider.getPushTags((receivedTags) => {
       if (receivedTags && receivedTags?.total_orders_value) {
@@ -305,6 +310,8 @@ const Checkout: React.FC<{}> = () => {
       setUrl(`https://www.usereserva.com/checkout/?orderFormId=${orderForm?.orderFormId}#/cart&sc=4`);
     }
   }, [attemps]);
+
+  useEffect(() => {}, []);
 
   return (
     <View flex={1} backgroundColor="white">

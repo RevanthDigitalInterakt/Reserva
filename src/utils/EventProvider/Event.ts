@@ -214,6 +214,10 @@ export type EventOptionsFn =
     payload: EventsOptions.AddPaymentInfo;
   }
   | {
+    type: 'payment_step';
+    payload: {};
+  }
+  | {
     type: 'ron_open';
     payload: EventsOptions.RonOpen;
   }
