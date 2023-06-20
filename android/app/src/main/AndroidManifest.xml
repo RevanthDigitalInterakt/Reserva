@@ -86,7 +86,7 @@
         <data android:scheme="https" android:host="@string/one_link_url_host" android:pathPrefix="/qMMv" />
       </intent-filter>
       <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        <action android:name="com.google.firebase.MESSAGING_EVENT"/>
       </intent-filter>
     </activity>
   </application>

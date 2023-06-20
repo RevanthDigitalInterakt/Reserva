@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native';
 import { Typography, Box, Button } from '@usereservaapp/reserva-ui';
 import { images } from '../../../assets';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import UnderlineInput from '../../Login/components/UnderlineInput';
+import UnderlineInput from '../../../components/UnderlineInput';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { useCart } from '../../../context/CartContext';
 import { validateEmail } from '../../../utils/validateEmail';

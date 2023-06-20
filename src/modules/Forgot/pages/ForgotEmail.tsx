@@ -8,7 +8,7 @@ import {
 import { images } from '../../../assets';
 
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import UnderlineInput from '../../Login/components/UnderlineInput';
+import UnderlineInput from '../../../components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import testProps from '../../../utils/testProps';
 import { useRecoverPasswordVerificationCodeMutation } from '../../../base/graphql/generated';
