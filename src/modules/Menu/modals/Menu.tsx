@@ -29,8 +29,8 @@ import { slugify } from '../../../utils/slugify';
 import testProps from '../../../utils/testProps';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 interface IBreadCrumbs {
   title: string;

@@ -45,7 +45,6 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
             autoCompleteType="off"
             {...testProps(testID)}
             placeholder={placeholder}
-            autoCorrect={!isSecureText}
             onFocus={(e) => onFocus && onFocus(e)}
             secureTextEntry={isSecureText && hidePassword}
             onChangeText={(text) => onChangeText(text.trim())}
@@ -61,6 +60,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
               margin: 0,
               maxWidth: isSecureText ? width - (iconSize + 4) : width,
             }}
+            autoCorrect={false}
           />
         </Box>
         {isSecureText && (
