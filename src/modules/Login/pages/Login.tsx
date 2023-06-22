@@ -63,7 +63,7 @@ export const LoginScreen: React.FC<Props> = ({
       Keyboard.dismiss();
 
       await onSignIn(email, password);
-      handleDitoRegister();
+      // handleDitoRegister();
 
       navigation.navigate('Home');
     } catch (err) {
@@ -72,7 +72,7 @@ export const LoginScreen: React.FC<Props> = ({
     } finally {
       setLoadingSignIn(false);
     }
-  }, [handleDitoRegister, navigation, onSignIn, validateCredentials]);
+  }, [navigation, onSignIn, validateCredentials]);
 
   const { identifyCustomer } = useCart();
 

@@ -47,7 +47,9 @@ const ANDROID_STORE_URL = 'https://play.google.com/store/apps/details?id=com.use
 
 function InitialScreen({ children }: { children: JSX.Element }) {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  const { onInit, initialized } = useAuthStore(['onInit', 'initialized']);
+  const {
+    onInit, initialized, loggedOut, profile,
+  } = useAuthStore(['onInit', 'initialized', 'loggedOut', 'profile']);
   const { barStyle } = useStatusBar();
   const [pushNotification, setPushNotification] = useState<any>();
   const [showNotification, setShowNotification] = useState(false);
@@ -58,17 +60,28 @@ function InitialScreen({ children }: { children: JSX.Element }) {
   });
 
   useInitialMarketPlaceIn();
-  const { handleDitoRegister } = useInitialDito();
+  const { handleDitoRegisterAnony, handleDitoRegister } = useInitialDito();
 
   useEffect(() => {
     onInit();
   }, [onInit]);
 
-  useEffect(() => {
-    if (initialized) {
+  const onAppInit = useCallback(async () => {
+    if (!loggedOut) {
+      const deviceToken = await messaging().getToken();
+      handleDitoRegisterAnony({ deviceToken });
+    }
+
+    if (profile) {
       handleDitoRegister();
     }
-  }, [initialized]);
+  }, [handleDitoRegisterAnony, loggedOut, profile, handleDitoRegister]);
+
+  useEffect(() => {
+    if (initialized) {
+      onAppInit();
+    }
+  }, [initialized, loggedOut, onAppInit]);
 
   const onStatusUpdate: AndroidStatusEventListener = (
     status: StatusUpdateEvent,

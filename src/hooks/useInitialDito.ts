@@ -110,7 +110,7 @@ export default function useInitialDito() {
         await handleRegisterTokenDito({ id, deviceToken });
       }
 
-      await trackEventHomeDito({ id });
+      await trackEventHomeDito({ id: id || '' });
     } catch (e) {
       EventProvider.captureException(e);
     }
@@ -124,36 +124,26 @@ export default function useInitialDito() {
         }
       }
       const deviceToken = await messaging().getToken();
-      if (profile?.email && deviceToken) {
-        await handleRegisterUser({
-          userProfileData: {
-            userId: profile.id,
-            lastName: profile?.lastName || '',
-            email: profile.email,
-            gender: profile?.gender || '',
-            birthDate: profile?.birthDate || '',
-            homePhone: profile?.homePhone || '',
-            firstName: profile?.firstName || '',
-            document: profile?.document || '',
-          },
-          deviceToken,
-        });
 
-        return;
-      }
-
-      if (loggedOut) {
-        handleRegisterAnonymous({ deviceToken });
-        return;
-      }
+      await handleRegisterUser({
+        userProfileData: {
+          userId: profile?.id || '',
+          lastName: profile?.lastName || '',
+          email: profile?.email || '',
+          gender: profile?.gender || '',
+          birthDate: profile?.birthDate || '',
+          homePhone: profile?.homePhone || '',
+          firstName: profile?.firstName || '',
+          document: profile?.document || '',
+        },
+        deviceToken,
+      });
     } catch (e) {
       // TODO verificar possibilidade de tratar futuramente
       EventProvider.captureException(e);
     }
   }, [
-    handleRegisterAnonymous,
     handleRegisterUser,
-    loggedOut,
     profile?.birthDate,
     profile?.document,
     profile?.email,
@@ -164,5 +154,5 @@ export default function useInitialDito() {
     profile?.lastName,
   ]);
 
-  return { handleDitoRegister: handleRegister };
+  return { handleDitoRegister: handleRegister, handleDitoRegisterAnony: handleRegisterAnonymous };
 }
