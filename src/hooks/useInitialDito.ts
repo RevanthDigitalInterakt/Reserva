@@ -119,6 +119,7 @@ export default function useInitialDito() {
         }
       }
       const deviceToken = await messaging().getToken();
+
       if (profile?.email && deviceToken) {
         await handleRegisterUser({
           userProfileData: {

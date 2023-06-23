@@ -10,7 +10,7 @@ Feature: Bag
     Given that the user is in the empty bag
     When clicking "Go Shopping"
     Then you are directed to the Promotions Page
-
+  
   Scenario: Add product to bag
     Given that the user is in PDP
     When click on "Add to bag"

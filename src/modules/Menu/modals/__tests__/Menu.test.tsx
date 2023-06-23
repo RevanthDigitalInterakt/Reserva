@@ -121,6 +121,8 @@ jest.mock('@react-navigation/native', () => ({
 describe('Componente Menu', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
+    const cookie = 'myCookie';
+    const mockAuthContextValue: any = { cookie };
 
     const Component = (
       <ThemeProvider theme={theme}>

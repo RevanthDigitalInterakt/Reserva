@@ -47,4 +47,3 @@ export const EmptyBag = ({ backButtonPress, onPress, loading }: IEmptyBag) => (
     </Box>
   </>
 );
-
